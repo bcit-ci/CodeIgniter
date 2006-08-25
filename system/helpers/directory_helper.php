@@ -1,0 +1,69 @@
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * Code Igniter
+ *
+ * An open source application development framework for PHP 4.3.2 or newer
+ *
+ * @package		CodeIgniter
+ * @author		Rick Ellis
+ * @copyright	Copyright (c) 2006, pMachine, Inc.
+ * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @link		http://www.codeigniter.com
+ * @since		Version 1.0
+ * @filesource
+ */
+ 
+// ------------------------------------------------------------------------
+
+/**
+ * Code Igniter Directory Helpers
+ *
+ * @package		CodeIgniter
+ * @subpackage	Helpers
+ * @category	Helpers
+ * @author		Rick Ellis
+ * @link		http://www.codeigniter.com/user_guide/helpers/directory_helper.html
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * Create a Direcotry Map
+ *
+ * Reads the specified directory and builds an array
+ * representation of it.  Sub-folders contained with the
+ * directory will be mapped as well.
+ *
+ * @access	public
+ * @param	string	path to source
+ * @param	bool	whether to limit the result to the top level only
+ * @return	array
+ */	
+function directory_map($source_dir, $top_level_only = FALSE)
+{
+	if ( ! isset($filedata))
+		$filedata = array();
+	
+	if ($fp = @opendir($source_dir))
+	{ 
+		while (FALSE !== ($file = readdir($fp)))
+		{
+			if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE) 
+			{       
+				$temp_array = array();
+				 
+				$temp_array = directory_map($source_dir.$file."/");   
+				
+				$filedata[$file] = $temp_array;
+			}
+			elseif (substr($file, 0, 1) != ".")
+			{
+				$filedata[] = $file;
+			}
+		}         
+		return $filedata;        
+	} 
+}
+
+
+?>
