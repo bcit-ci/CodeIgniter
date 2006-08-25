@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Code Igniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
+
+<script type="text/javascript" src="scripts/nav.js"></script>
+<script type="text/javascript" src="scripts/prototype.lite.js"></script>
+<script type="text/javascript" src="scripts/moo.fx.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight.hide();
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='Rick Ellis' />
+<meta name='description' content='Code Igniter User Guide' />
+
+</head>
+<body>
+
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('null');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Code Igniter User Guide Version 1.4.0</h1></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Table of Contents
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Table of Contents</h1>
+
+
+<h3>Basic Info</h3> 
+<ul> 
+	<li><a href="./general/requirements.html">Server Requirements</a></li> 
+	<li><a href="license.html">License Agreement</a></li> 
+	<li><a href="./general/changelog.html">Change Log</a></li> 
+	<li><a href="./general/credits.html">Credits</a></li> 
+</ul> 	
+
+<h3>Installation</h3> 
+<ul> 
+	<li><a href="./installation/downloads.html">Downloading Code Igniter </a></li> 
+	<li><a href="./installation/index.html">Installation Instructions</a></li> 
+	<li><a href="./installation/upgrading.html">Upgrading from an Previous Version</a></li> 
+</ul> 
+
+<h3>Introduction</h3> 
+<ul> 
+	<li><a href="./overview/at_a_glance.html">Code Igniter at a Glance</a></li> 
+	<li><a href="./overview/features.html">Supported Features</a></li> 
+	<li><a href="./overview/appflow.html">Application Flow Chart</a></li> 
+	<li><a href="./overview/mvc.html">Model-View-Controller</a></li> 
+	<li><a href="./overview/goals.html">Architectural Goals</a></li> 
+</ul> 	
+
+
+<h3>General Topics</h3> 
+<ul> 
+	<li><a href="./general/index.html">Getting Started</a></li> 
+	<li><a href="./general/urls.html">Code Igniter URLs</a></li> 
+	<li><a href="./general/controllers.html">Controllers</a></li> 
+	<li><a href="./general/views.html">Views</a></li> 
+	<li><a href="./general/models.html">Models</a></li> 
+	<li><a href="./general/helpers.html">Helpers</a></li> 
+	<li><a href="./general/plugins.html">Plugins</a></li> 
+	<li><a href="./general/scripts.html">Scripts</a></li> 
+	<li><a href="./general/libraries.html">Loading Libraries</a></li> 
+	<li><a href="./general/creating_libraries.html">Creating Libraries</a></li> 
+	<li><a href="./general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+	<li><a href="./general/autoloader.html">Auto-loading Resources</a></li> 
+	<li><a href="./general/hooks.html">Hooks</a></li> 
+	<li><a href="./general/scaffolding.html">Scaffolding</a></li> 
+	<li><a href="./general/routing.html">URI Routing</a></li> 
+	<li><a href="./general/errors.html">Error Handling</a></li> 
+	<li><a href="./general/caching.html">Web Page Caching</a></li> 
+	<li><a href="./general/multiple_apps.html">Running Multiple Applications</a></li> 
+	<li><a href="./general/alternative_php.html">Alternative PHP Syntax</a></li> 
+	<li><a href="./general/security.html">Security</a></li> 
+</ul> 
+
+
+		
+<h3>Class Reference</h3> 
+<ul> 
+<li><a href="./libraries/benchmark.html">Benchmarking Class</a></li> 
+<li><a href="./libraries/calendar.html">Calendaring Class</a></li> 
+<li><a href="./libraries/config.html">Config Class</a></li> 
+<li><a href="./libraries/database/index.html">Database Class</a></li> 
+<li><a href="./libraries/email.html">Email Class</a></li> 
+<li><a href="./libraries/encryption.html">Encryption Class</a></li> 
+<li><a href="./libraries/file_uploading.html">File Uploading Class</a></li> 
+<li><a href="./libraries/image_lib.html">Image Manipulation Class</a></li> 	
+<li><a href="./libraries/input.html">Input and Security Class</a></li> 
+<li><a href="./libraries/loader.html">Loader Class</a></li> 
+<li><a href="./libraries/language.html">Language Class</a></li> 
+<li><a href="./libraries/output.html">Output Class</a></li> 
+<li><a href="./libraries/pagination.html">Pagination Class</a></li> 
+<li><a href="./libraries/sessions.html">Session Class</a></li> 
+<li><a href="./libraries/trackback.html">Trackback Class</a></li> 
+<li><a href="./libraries/parser.html">Template Parser Class</a></li> 
+<li><a href="./libraries/unit_testing.html">Unit Testing Class</a></li> 
+<li><a href="./libraries/uri.html">URI Class</a></li> 
+<li><a href="./libraries/validation.html">Validation Class</a></li> 
+<li><a href="./libraries/xmlrpc.html">XML-RPC Class</a></li> 
+</ul> 
+
+
+
+<h3>Helper Reference</h3> 
+<ul> 
+<li><a href="./helpers/array_helper.html">Array Helper</a></li> 
+<li><a href="./helpers/cookie_helper.html">Cookie Helper</a></li> 
+<li><a href="./helpers/date_helper.html">Date Helper</a></li> 
+<li><a href="./helpers/directory_helper.html">Directory Helper</a></li> 
+<li><a href="./helpers/file_helper.html">File Helper</a></li> 
+<li><a href="./helpers/form_helper.html">Form Helper</a></li> 
+<li><a href="./helpers/html_helper.html">HTML Helper</a></li> 
+<li><a href="./helpers/security_helper.html">Security Helper</a></li> 
+<li><a href="./helpers/string_helper.html">String Helper</a></li> 
+<li><a href="./helpers/text_helper.html">Text Helper</a></li> 
+<li><a href="./helpers/typography_helper.html">Typography Helper</a></li> 
+<li><a href="./helpers/url_helper.html">URL Helper</a></li> 
+<li><a href="./helpers/xml_helper.html">XML Helper</a></li> 
+</ul> 	
+
+<h3>Additional Resources</h3> 
+
+<ul> 
+<li><a href="./general/quick_reference.html">Quick Reference Chart</a></li> 
+<li><a href="http://www.codeigniter.com/forums/">Community Forums</a></li> 
+<li><a href="http://www.codeigniter.com/wiki/">Community Wiki</a></li> 
+</ul>
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p><a href="#top">Top of Page</a><p>
+<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
+</div>
+
+
+</body>
+</html>

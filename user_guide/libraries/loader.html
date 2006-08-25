@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Code Igniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../scripts/prototype.lite.js"></script>
+<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight.hide();
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='Rick Ellis' />
+<meta name='description' content='Code Igniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Code Igniter User Guide Version 1.4.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Loader Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Loader Class</h1>
+
+<p>Loader, as the name suggests, is used to load elements.  These elements can be libraries (classes) <a href="../general/views.html">View files</a>, 
+<a href="../general/helpers.html">Helpers</a>, <a href="../general/plugins.html">Plugins</a>, or your own files.</p>
+
+<p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
+
+<p>The following functions are available in this class:</p>
+
+
+
+<h2>$this->load->view('<var>file_name</var>', <samp>$data</samp>, <kbd>true/false</kbd>)</h2>
+
+<p>This function is used to load your View files.  If you haven't read the <a href="../general/views.html">Views</a> section of the
+user guide it is recommended that you do since it shows you how this function is typically used.</p>
+
+<p>The first parameter is required.  It is the name of the view file you would like to load.</p>
+
+<p>The second <strong>optional</strong> parameter can take
+an associative array or an object as input, which it runs through the PHP <a href="http://www.php.net/extract">extract</a> function to 
+convert to variables that can be used in your view files.  Again, read the <a href="../general/views.html">Views</a> page to learn
+how this might be useful.</p>
+
+<p>The third <strong>optional</strong> parameter lets you change the behavior of the function so that it returns data as a string
+rather than sending it to your browser.  This can be useful if you want to process the data in some way.  If you
+set the parameter to <kbd>true</kbd> (boolean) it will return data.  The default behavior is <kbd>false</kbd>, which sends it
+to your browser.  Remember to assign it to a variable if you wan the data returned:</p>
+
+<code>$string = $this->load->view('<var>myfile</var>', '', <kbd>true</kbd>);</code>
+
+
+
+<h2>$this->load->library('<var>class_name</var>')</h2>
+
+<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load. 
+Note: We use the terms "class" and "library" interchangeably.</p>
+
+<p>For example, if you would like to send email with Code Igniter, the first step is to load the email class within your controller:</p>
+
+<code>$this->load->library('email');</code>
+
+<p>Once loaded, the library will be ready for use.  Each library is described in detail in its own page, so please read the
+information regarding each one you would like to use.</p>
+
+
+
+<h2>$this->load->database('<var>options</var>', <kbd>true/false</kbd>)</h2>
+
+<p>This function lets you load the database class.  The two parameters are <strong>optional</strong>.  Please see the 
+<a href="./database/index.html">database</a> section for more info.</p>
+
+
+<h2>$this->load->scaffolding('<var>table_name</var>')</h2>
+
+<p>This function lets you enable scaffolding.  Please see the 
+<a href="../general/scaffolding.html">scaffolding</a> section for more info.</p>
+
+
+
+<h2>$this->load->vars(<samp>$array</samp>)</h2>
+
+<p>This function takes an associative array as input and generates variables using the PHP <a href="http://www.php.net/extract">extract</a> function.
+This function produces the same result as using the second parameter of the <dfn>$this->load->view()</dfn> function above.  The reason you might 
+want to use this function independently is if you would like to set some global variables in the constructor of your controller 
+and have them become available in any view file loaded from any function.  You can have multiple calls to this function.  The data get cached 
+and merged into one array for conversion to variables.
+</p>
+
+
+<h2>$this->load->helper('<var>file_name</var>')</h2>
+<p>This function loads helper files, where <var>file_name</var> is the name of the file, without the <kbd>_helper.php</kbd> extension.</p>
+
+
+<h2>$this->load->plugin('<var>file_name</var>')</h2>
+<p>This function loads plugins files, where <var>file_name</var> is the name of the file, without the <kbd>_plugin.php</kbd> extension.</p>
+
+<h2>$this->load->file('<var>filepath/filename</var>', <kbd>true/false</kbd>)</h2>
+<p>This is a generic file loading function.  Supply the filepath and name in the first parameter and it will open and read the file. 
+By default the data is sent to your browser, just like a View file, but if you set the second parameter to <kbd>true</kbd> (boolean)
+it will instead return the data as a string.</p>
+
+
+<h2>$this->load->lang('<var>file_name</var>')</h2>
+<p>This function is an alias of the <a href="language.html">language loading function</a>: $this->lang->load()</p>
+
+<h2>$this->load->config('<var>file_name</var>')</h2>
+<p>This function is an alias of the <a href="config.html">config file loading function</a>: $this->config->load()</p>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="input.html">Input Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="language.html">Language Class</a>
+<p>
+<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
+</div>
+
+</body>
+</html>

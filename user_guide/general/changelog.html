@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Code Igniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../scripts/prototype.lite.js"></script>
+<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight.hide();
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='Rick Ellis' />
+<meta name='description' content='Code Igniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Code Igniter User Guide Version 1.4.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Change Log
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Change Log</h1>
+
+
+
+<h2>Version 1.4.0</h2>
+<p>Release Date: August 25, 2006</p>
+
+<ul>
+<li>Added <a href="hooks.html">Hooks</a> feature, enabling you to tap into and modify the inner workings of the framework without hacking the core files.</li>
+<li>Added the ability to <a href="base_classes.html">replace core system classes</a> with your own classes.</li>
+<li>Added support for % character in URL.</li>
+<li>Moved the MIME type array out of the Upload class and into its own file in the applications/comfig/ folder.</li>
+<li>Removed a strtolower() call that was changing URL segments to lower case.</li>
+<li>Deprecated the hash() function due to a naming conflict with a native PHP function with the same name.  Please use dohash() instead.</li>
+<li>Fixed a MS SQL issue.</li>
+<li>Fixed an issue when removing GET variables.</li>
+<li>Fixed <a href="http://www.codeigniter.com/forums/viewthread/773/">this</a> router bug.</li>
+<li>Fixed a bug that was preventing multiple discreet database calls.</li>
+<li>Fixed a bug in which loading a language file was producing a "file contains no data" message.</li>
+<li>Fixed a session bug caused by the XSS Filtering feature inadvertently changing the case of certain words.</li>
+<li>Removed backticks from Postgre class since these are not needed.</li>
+</ul>
+
+
+
+<h2>Version 1.3.3</h2>
+<p>Release Date: June 1, 2006</p>
+
+<ul>
+
+<li>Models do <strong>not</strong> connect automatically to the database as of this version. <a href="../general/models.html">More info here</a>.
+<li>Updated the Sessions class to utilize the active record class when running session related queries.  Previously the queries assumed MySQL syntax.</li>
+<li>Updated alternator() function to re-initialize when called with no arguments, allowing multiple calls.</li>
+<li>Fixed a bug in the active record "having" function.</li>
+<li>Fixed a problem in the validation class which was making checkboxes be ignored when required.</li>
+<li>Fixed a bug in the word_limiter() helper function.  It was cutting off the fist word.</li>
+<li>Fixed a bug in the xss_clean function due to a PHP bug that affects some versions of html_entity_decode.</li>
+<li>Fixed a validation bug that was preventing rules from being set twice in one controller.</li>
+<li>Fixed a calendar bug that was not letting it use dynamically loaded languages.</li>
+<li>Fixed a bug in the active record class when using WHERE clauses with LIKE</li>
+<li>Fixed a bug in the hash() security helper.</li>
+<li>Fixed some typos.</li>
+</ul>
+
+
+
+
+<h2>Version 1.3.2</h2>
+<p>Release Date: April 17, 2006</p>
+
+<ul>
+<li>Changed the behavior of the validation class such that if a "required" rule is NOT explicitly stated for a field then all other tests get ignored.</li>
+<li>Fixed a bug in the Controller class that was causing it to look in the local "init" folder instead of the main system one.</li>
+<li>Fixed a bug in the init_pagination file.  The $config item was not being set correctly.</li>
+<li>Fixed a bug in the auto typography helper that was causing inconsistent behavior.</li>
+<li>Fixed a couple bugs in the Model class.</li>
+<li>Fixed some documentation typos and errata.</li>
+</ul>
+
+
+
+<h2>Version 1.3.1</h2>
+<p>Release Date: April 11, 2006</p>
+
+<ul>
+<li>Added a <a href="../libraries/unit_testing.html">Unit Testing Library</a>.</li>
+<li>Added the ability to pass objects to the <strong>insert()</strong> and <strong>update()</strong>  database functions.
+This feature enables you to (among other things) use your  <a href="../general/models.html">Model class</a> variables to run queries with. See the Models page for details.</li>
+<li>Added the ability to pass objects to the <a href="../general/views.html">view loading function</a>: $this->load->view('my_view', <var>$object</var>);</li>
+<li>Added <kbd>getwhere</kbd> function to <a href="../libraries/database/active_record.html">Active Record class</a>.</li>
+<li>Added <kbd>count_all</kbd> function to <a href="../libraries/database/active_record.html">Active Record class</a>.</li>
+<li>Added language file for scaffolding and fixed a scaffolding bug that occurs when there are no rows in the specified table.</li>
+<li>Added <a href="../libraries/database/queries.html">$this->db->last_query()</a>, which allows you to view your last query that was run.</li>
+<li>Added a new mime type to the upload class for better compatibility.</li>
+<li>Changed how cache files are read to prevent PHP errors if the cache file contains an XML tag, which PHP wants to interpret as a short tag.</li>
+<li>Fixed a bug in a couple of the active record functions (where and orderby).</li>
+<li>Fixed a bug in the image library when realpath() returns false.</li>
+<li>Fixed a bug in the Models that was preventing libraries from being used within them.</li>
+<li>Fixed a bug in the "exact_length" function of the validation class.</li>
+<li>Fixed some typos in the user guide</li>
+</ul>
+
+
+<h2>Version 1.3</h2>
+<p>Release Date: April 3, 2006</p>
+
+<ul>
+<li>Added support for <a href="models.html">Models</a>.</li>
+<li>Redesigned the database libraries to support additional RDBMs (Postgre, MySQLi, etc.).</li>
+<li>Redesigned the <a href="../libraries/database/active_record.html">Active Record class</a> to enable more varied types of queries with simpler syntax, and advanced features like JOINs.</li>
+<li>Added a feature to the database class that lets you run <a href="../libraries/database/call_function.html">custom function calls</a>.</li>
+<li>Added support for <a href="controllers.html">private functions</a> in your controllers.  Any controller function name that starts with an underscore will not be served by a URI request.</li>
+<li>Added the ability to pass your own initialization parameters to your <a href="creating_libraries.html">custom core libraries</a> when using $this->load->library()</li>
+<li>Added support for running standard <a href="urls.html">query string URLs</a>.  These can be optionally enabled in your config file.</li>
+<li>Added the ability to  <a href="urls.html">specify a "suffix"</a>, which will be appended to your URLs.  For example, you could add .html to your URLs, making them appear static. This feature is enabled in your config file.</li>
+<li>Added a new error template for use with native PHP errors.</li>
+<li>Added "alternator" function in the <a href="../helpers/string_helper.html">string helpers</a>.</p>
+<li>Removed slashing from the input class. After much debate we decided to kill this feature.</li>
+<li>Change the commenting style in the scripts to the PEAR standard so that IDEs and tools like phpDocumenter can harvest the comments.</li>
+<li>Added better class and function name-spacing to avoid collisions with user developed classes. All Code Igniter classes are now prefixed with <dfn>CI_</dfn> and
+all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller collisions. A list of reserved function names can be <a href="controllers.html">found here</a>.</li>
+<li>Redesigned how the "CI" super object is referenced, depending on whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful way to manage objects that utilizes a bit less resources.</li>
+<li>Deprecated: <var>$this->db->use_table()</var> has been deprecated. Please read the <a href="../libraries/database/active_record.html">Active Record</a> page for information.</li>
+<li>Deprecated: <var>$this->db->smart_escape_str()</var> has been deprecated. Please use this instead: <var>$this->db->escape()</var></li>
+<li>Fixed a bug in the exception handler which was preventing some PHP errors from showing up.</li>
+<li>Fixed a typo in the URI class.  $this->total_segment() should be plural: $this->total_segments()</li>
+<li>Fixed some typos in the default calendar template</li>
+<li>Fixed some typos in the user guide</li>
+</ul>
+
+
+
+
+
+
+
+
+<h2>Version 1.2</h2>
+<p>Release Date: March 21, 2006</p>
+
+<ul>
+<li>Redesigned some internal aspects of the framework to resolve scoping problems that surfaced during the beta tests. The problem was most notable when instantiating classes in your constructors, particularly if those classes in turn did work in their constructors.</li>
+<li>Added a global function named <a href="ancillary_classes.html">get_instance()</a> allowing the main Code Igniter object to be accessible throughout your own classes.</li>
+<li>Added new <a href="../helpers/file_helper.html">File Helper</a>:  delete_files()</li>
+<li>Added new <a href="../helpers/url_helper.html">URL Helpers</a>:  base_url(), index_page()</li>
+<li>Added the ability to create your own <a href="creating_libraries.html">core libraries</a> and store them in your local application directory.</li>
+<li>Added an <kbd>overwrite</kbd> option to the <a href="../libraries/file_uploading.html">Upload class</a>, enabling files to be overwritten rather than having the file name appended.</li>
+<li>Added Javascript Calendar plugin.</li>
+<li>Added search feature to user guide.  Note: This is done using Google, which at the time of this writing has not crawled all the pages of the docs.</li>
+<li>Updated the parser class so that it allows tag pars within other tag pairs.</li>
+<li>Fixed a bug in the DB "where" function.</li>
+<li>Fixed a bug that was preventing custom config files to be auto-loaded.</li>
+<li>Fixed a bug in the mysql class bind feature that prevented question marks in the replacement data.</li>
+<li>Fixed some bugs in the xss_clean function</li>
+</ul>
+
+
+
+
+
+<h2>Version Beta 1.1</h2>
+<p>Release Date: March 10, 2006</p>
+
+<ul>
+<li>Added a <a href="../libraries/calendar.html">Calendaring class</a>.</li>
+<li>Added support for running <a href="multiple_apps.html">multiple applications</a> that share a common Code Igniter backend.</li>
+<li>Moved the "uri protocol" variable from the index.php file into the config.php file</li>
+<li>Fixed a problem that was preventing certain function calls from working within constructors.</li>
+<li>Fixed a problem that was preventing the $this->load->library function from working in constructors.</li>
+<li>Fixed a bug that occurred when the session class was loaded using the auto-load routine.</li>
+<li>Fixed a bug that can happen with PHP versions that do not support the E_STRICT constant</li>
+<li>Fixed a data type error in the form_radio function (form helper)</li>
+<li>Fixed a bug that was preventing the xss_clean function from being called from the validation class.</li>
+<li>Fixed the cookie related config names, which were incorrectly specified as $conf rather than $config</li>
+<li>Fixed a pagination problem in the scaffolding.</li>
+<li>Fixed a bug in the mysql class "where" function.</li>
+<li>Fixed a regex problem in some code that trimmed duplicate slashes.</li>
+<li>Fixed a bug in the br() function in the HTML helper</li>
+<li>Fixed a syntax mistake in the form_dropdown function in the Form Helper.</li>
+<li>Removed the "style" attributes form the form helpers.</li>
+<li>Updated the documentation. Added "next/previous" links to each page and fixed various typos.</li>
+</ul>
+
+<h2>Version Beta 1.0 </h2>
+<p>Release Date: February 28, 2006</p>
+<p>First publicly released version.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="../license.html">License Agreement</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="credits.html">Credits</a>
+<p>
+
+<p><a href="#top">Top of Page</a> &nbsp;&middot;&nbsp; <a href="../index.html">User Guide Home</a><p>
+<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
+</div>
+
+</body>
+</html>
