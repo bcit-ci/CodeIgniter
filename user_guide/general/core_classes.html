@@ -47,7 +47,7 @@ window.onload = function() {
 <td id="breadcrumb">
 <a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Replacing System Classes
+Creating Core System Classes
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -60,11 +60,11 @@ Replacing System Classes
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Replacing System Classes</h1>
+<h1>Creating Core System Classes</h1>
 
 <p>Every time Code Igniter runs there are several base classes that are initialized automatically as part of the core framework.
-It is possible, however, to swap any of the core system files with your own versions.&nbsp;  Most users will never have any need to do this,
-but the option to replace them does exist for those that would like to significantly alter the Code Igniter core.
+It is possible, however, to swap any of the core system classes with your own versions.&nbsp;  <strong>Most users will never have any need to do this,
+but the option to replace them does exist for those that would like to significantly alter the Code Igniter core.</strong>
 </p>
 
 <p class="important"><strong>Note:</strong>&nbsp; Replacing a core system class with your own version has a lot of implications, so make sure you 
@@ -90,9 +90,11 @@ know what you are doing before attempting it.</p>
 
 <h2>Replacing Core Classes</h2>
 
-<p>To use one of your own system classes instead of a default one simply place your version inside your local <dfn>libraries</dfn> directory:</p>
+<p>To use one of your own system classes instead of a default one simply place your version inside your local <dfn>application/libraries</dfn> directory:</p>
 
 <code>application/libraries/<dfn>some-class.php</dfn></code>
+
+<p>If this directory does not exist you can create it.</p>
 
 <p>Any file named identically to one from the list above will be used instead of the one normally used.</p>
 
@@ -103,8 +105,6 @@ class CI_Input {<br /><br />
 
 }
 </code>
-
-
 
 
 

@@ -46,7 +46,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/scripts.html">Scripts</a></li>' +
 			'<li><a href="'+base+'general/libraries.html">Using Code Igniter Libraries</a></li>' +
 			'<li><a href="'+base+'general/creating_libraries.html">Creating Your Own Libraries</a></li>' +
-			'<li><a href="'+base+'general/base_classes.html">Creating Core Classes</a></li>' +
+			'<li><a href="'+base+'general/core_classes.html">Creating Core Classes</a></li>' +
 			'<li><a href="'+base+'general/hooks.html">Hooks - Extending the Core</a></li>' +
 			'<li><a href="'+base+'general/autoloader.html">Auto-loading Resources</a></li>' +
 			'<li><a href="'+base+'general/scaffolding.html">Scaffolding</a></li>' +
