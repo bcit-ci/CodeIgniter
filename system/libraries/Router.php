@@ -132,23 +132,25 @@ class CI_Router {
 
 		// Explode the URI Segments. The individual segments will
 		// be stored in the $this->segments array.	
-		$i = 1;
 		foreach(explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
 		{
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));
 			
 			if ($val != '')
-				$this->segments[$i++] = $val;
+				$this->segments[] = $val;
 		}
 		
-		$this->_compile_segments($this->segments);
+		// Parse any custom routing that may exist
+		$this->_parse_routes();		
 		
-		// Do we have any custom routing to deal with?
-		if (count($this->routes) > 0)
+		// Re-index the segment array so that it starts with 1 rather than 0
+		$i = 1;
+		foreach ($this->segments as $val)
 		{
-			$this->_parse_routes();
+			$this->segments[$i++] = $val;
 		}
+		unset($this->segments['0']);
 	}
 	// END _set_route_mapping()
 	
@@ -175,12 +177,12 @@ class CI_Router {
 			return;
 		}
 						
-		$this->set_class($segments['1']);
+		$this->set_class($segments['0']);
 		
-		if (isset($segments['2']))
+		if (isset($segments['1']))
 		{
 			// A scaffolding request. No funny business with the URL
-			if ($this->routes['scaffolding_trigger'] == $segments['2'] AND $segments['2'] != '_ci_scaffolding')
+			if ($this->routes['scaffolding_trigger'] == $segments['1'] AND $segments['1'] != '_ci_scaffolding')
 			{
 				$this->scaffolding_request = TRUE;
 				unset($this->routes['scaffolding_trigger']);
@@ -188,7 +190,7 @@ class CI_Router {
 			else
 			{
 				// A standard method request
-				$this->set_method($segments['2']);
+				$this->set_method($segments['1']);
 			}
 		}
 	}
@@ -206,37 +208,32 @@ class CI_Router {
 	 */	
 	function _validate_segments($segments)
 	{
-		// Does the requested controller exist?
-		if ( ! file_exists(APPPATH.'controllers/'.$segments['1'].EXT))
+		// Does the requested controller exist in the root folder?
+		if (file_exists(APPPATH.'controllers/'.$segments['0'].EXT))
 		{
-			// Is it a directory?  No?  Smite them!
-			if ( ! is_dir(APPPATH.'controllers/'.$segments['1']))
-			{
-				show_404();
-			}
-			else
-			{
-				$this->set_directory($segments['1']);	
-				$segs = array_slice($segments, 1);
-				
-				if (count($segs) == 0)
-				{
-					$this->set_class($this->default_controller);
-					$this->set_method('index');
-					$this->directory = '';
-					return array();
-				}
-	
-				$i = 1;
-				$segments = array();
-				foreach ($segs as $val)
-				{
-					$segments[$i++] = $val;
-				}
-			}
+			return $segments;
 		}
 		
-		return $segments;
+		// Is the controller in a sub-folder?
+		if (is_dir(APPPATH.'controllers/'.$segments['0']))
+		{
+			// Set the directory and remove it from the segment array
+			$this->set_directory($segments['0']);
+			$segments = array_slice($segments, 1);
+			
+			if (count($segments) == 0)
+			{
+				$this->set_class($this->default_controller);
+				$this->set_method('index');
+				$this->directory = '';
+				return array();
+			}
+				
+			return $segments;
+		}
+	
+		// Can't find the requested controller...
+		show_404();	
 	}
 	// END _validate_segments()
 	
@@ -274,6 +271,13 @@ class CI_Router {
 	 */
 	function _parse_routes()
 	{
+		// Do we even have any custom routing to deal with?
+		if (count($this->routes) == 0)
+		{
+			$this->_compile_segments($this->segments);
+			return;
+		}
+	
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->segments);
 		$num = count($this->segments);
@@ -284,7 +288,7 @@ class CI_Router {
 			$this->_compile_segments(explode('/', $this->routes[$uri]));		
 			return;
 		}
-		
+				
 		// Loop through the route array looking for wildcards
 		foreach (array_slice($this->routes, 1) as $key => $val)
 		{
@@ -306,7 +310,11 @@ class CI_Router {
 				$this->_compile_segments(explode('/', $val));		
 				return;
 			}
-		}	
+		}
+		
+		// If we got this far it means we didn't encounter a 
+		// matching route so we'll set the site default route
+		$this->_compile_segments($this->segments);
 	}
 	// END set_method()
 
