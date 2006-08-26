@@ -85,8 +85,13 @@ To overcome this, Code Igniter allows you to remap the URI handler.</p>
 
 <h2>Setting your own routing rules</h2>
 
-<p>Routing rules are defined in your <var>application/config/routes.php</var> file.  In it you'll see an array called <dfn>$route</dfn>, that
-you can use to specify your own routing criteria. A typical route might look something like this:</p>
+<p>Routing rules are defined in your <var>application/config/routes.php</var> file.  In it you'll see an array called <dfn>$route</dfn> that
+permits you to specify your own routing criteria. Routes can either be specified using <dfn>wildcards</dfn> or <dfn>Regular Expressions</dnf>
+
+
+<h2>Wildcards</h2>
+
+<p>A typical wildcard route might look something like this:</p>
 
 <code>$route['product/:num'] = "catalog/product_lookup";</code>
 
@@ -125,8 +130,21 @@ Higher routes will always take precedence over lower ones.</p>
 
 <p class="important"><strong>Important:</strong> Do not use leading/trailing slashes.</p>
 
+<h2>Regular Expressions</h2>
 
-<h2>Reserved Route</h2>
+<p>If you prefer you can use regular expressions to define your routing rules.  Any valid regular expression is allowed, as are back-references.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; If you use back-references you must use the dollar syntax rather then the double backslash syntax.</p>
+
+<p>A typical RegEx route might look something like this:</p>
+
+<code>$route['products\/([a-z]+)\/(\d+)'] = "$1/id_$2";</code>
+
+<p>In the above example, a URI similar to <dfn>products/shirts/123</dfn> would instead call the <dfn>shirts</dfn> controller class and the <dfn>id_123</dfn> function.</p>
+
+<p>You can also mix and match wildcards with regular expressions.</p>
+
+<h2>Reserved Routes</h2>
 
 <p>There are two reserved routes:</p>
 
@@ -140,6 +158,11 @@ are encouraged to always have a default route otherwise a 404 page will appear b
 
 <p>This route lets you set a secret word, which when present in the URL, triggers the scaffolding feature.
 Please read the <a href="scaffolding.html">Scaffolding</a> page for details.</p>
+
+
+
+
+
 
 
 
