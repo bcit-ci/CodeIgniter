@@ -28,7 +28,7 @@
  */
 class CI_URI {
 
-	var $uri;
+	var $router;
 	var	$keyval	= array();
 
 	/**
@@ -42,7 +42,7 @@ class CI_URI {
 	 */		
 	function CI_URI()
 	{
-		$this->uri =& _load_class('CI_Router');		
+		$this->router =& _load_class('CI_Router');	
 		log_message('debug', "URI Class Initialized");
 	}
 	
@@ -60,7 +60,7 @@ class CI_URI {
 	 */
 	function segment($n, $no_result = FALSE)
 	{
-		return ( ! isset($this->uri->segments[$n])) ? $no_result : $this->uri->segments[$n];
+		return ( ! isset($this->router->segments[$n])) ? $no_result : $this->router->segments[$n];
 	}
 
 	// --------------------------------------------------------------------
@@ -196,7 +196,7 @@ class CI_URI {
 			$leading	= '/';
 			$trailing	= '/';
 		}
-		return ( ! isset($this->uri->segments[$n])) ? '' : $leading.$this->uri->segments[$n].$trailing;
+		return ( ! isset($this->router->segments[$n])) ? '' : $leading.$this->router->segments[$n].$trailing;
 	}
 	
 	// --------------------------------------------------------------------
@@ -209,7 +209,7 @@ class CI_URI {
 	 */
 	function segment_array()
 	{
-		return $this->uri->segments;
+		return $this->router->segments;
 	}
 	
 	// --------------------------------------------------------------------
@@ -222,7 +222,7 @@ class CI_URI {
 	 */
 	function total_segments()
 	{
-		return count($this->uri->segments);
+		return count($this->router->segments);
 	}
 	
 	// --------------------------------------------------------------------
@@ -235,7 +235,7 @@ class CI_URI {
 	 */
 	function uri_string()
 	{
-		return $this->uri->uri_string;
+		return $this->router->uri_string;
 	}
 
 }

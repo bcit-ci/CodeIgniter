@@ -94,7 +94,7 @@ class CI_DB_postgre extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */	
-    function &_prep_query($sql)
+    function _prep_query($sql)
     {
 		return $sql;
     }
@@ -174,7 +174,7 @@ class CI_DB_postgre extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM `".$this->dbprefix.$table."`");
+		$query = $this->query("SELECT COUNT(*) AS numrows FROM ".$this->dbprefix.$table."");
 		
 		if ($query->num_rows() == 0)
 			return '0';
@@ -225,7 +225,7 @@ class CI_DB_postgre extends CI_DB {
 	{
 		if (stristr($table, '.'))
 		{
-			$table = preg_replace("/\./", "`.`", $table);
+			$table = preg_replace("/\./", ".", $table);
 		}
 		
 		return $table;
@@ -432,7 +432,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 			$F->name 		= pg_field_name($this->result_id, $i);
 			$F->type 		= pg_field_type($this->result_id, $i);
 			$F->max_length	= pg_field_size($this->result_id, $i);
-			$F->primary_key = 0;
+			$F->primary_key = $i == 0;
 			$F->default		= '';
 
 			$retval[] = $F;

@@ -90,7 +90,7 @@ function index_page()
  */	
 function anchor($uri = '', $title = '', $attributes = '')
 {
-	$site_url = site_url($uri);
+	$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
 	
 	if ($title == '')
 	{
@@ -128,7 +128,7 @@ function anchor($uri = '', $title = '', $attributes = '')
  */
 function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 {	
-	$site_url = site_url($uri);
+	$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
 	
 	if ($title == '')
 	{

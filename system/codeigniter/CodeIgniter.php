@@ -27,7 +27,7 @@
  * @link		http://www.codeigniter.com/user_guide/
  */
  
-define('APPVER', '1.4');
+define('APPVER', '1.4.0');
 
 /*
  * ------------------------------------------------------
@@ -122,7 +122,7 @@ $LANG	=& _load_class('CI_Language');
  * 
  */
  
-_load_class('CI_Loader'); 
+_load_class('CI_Loader', FALSE); 
   
 if (floor(phpversion()) < 5)
 {
@@ -133,7 +133,7 @@ else
 	require(BASEPATH.'codeigniter/Base5'.EXT);
 }
 
-_load_class('CI_Controller'); 
+_load_class('CI_Controller', FALSE); 
 
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
