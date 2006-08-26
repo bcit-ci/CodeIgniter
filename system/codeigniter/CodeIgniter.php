@@ -101,16 +101,6 @@ else
 
 /*
  * ------------------------------------------------------
- *  Does the requested controller exist?
- * ------------------------------------------------------
- */
-if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_class().EXT))
-{
-	show_404();
-}
-
-/*
- * ------------------------------------------------------
  *  Load the remaining base classes
  * ------------------------------------------------------
  */
@@ -132,7 +122,6 @@ $LANG	=& _load_class('CI_Language');
  * 
  */
  
- 
 _load_class('CI_Loader'); 
   
 if (floor(phpversion()) < 5)
@@ -146,7 +135,7 @@ else
 
 _load_class('CI_Controller'); 
 
-require(APPPATH.'controllers/'.$RTR->fetch_class().EXT);
+require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
 /*
  * ------------------------------------------------------
