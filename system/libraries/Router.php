@@ -300,16 +300,27 @@ class CI_Router {
 		}
 		
 		// Loop through the route array looking for wildcards
-		foreach ($this->routes as $key => $val)
+		foreach (array_slice($this->routes, 1) as $key => $val)
 		{
 			if (count(explode('/', $key)) != $num)
 				continue;
-		
-			if (preg_match("|".str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key))."$|", $uri))
-			{
+						
+			// Convert wildcards to RegEx
+			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
+			
+			// Does the regex match this URI ?
+			if (preg_match('|^'.$key.'$|', $uri))
+			{			
+				// Do we have a replacemnt?
+				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				{
+					$val = preg_replace('|^'.$key.'$|', $val, $uri);
+				}
+			
 				$this->_compile_segments(explode('/', $val), TRUE);		
 				break;
 			}
+		
 		}	
 	}
 	// END set_method()
