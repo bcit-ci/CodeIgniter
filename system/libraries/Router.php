@@ -87,25 +87,31 @@ class CI_Router {
 
 		// Fetch the URI string Depending on the server, 
 		// the URI will be available in one of two globals
-		switch ($this->config->item('uri_protocol'))
+		if ($this->config->item('uri_protocol') == 'auto')
 		{
-			case 'path_info'	: $this->uri_string = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');	
-				break;
-			case 'query_string' : $this->uri_string = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING'); 
-				break;
-			default : 
-						$path_info = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-						
-						if ($path_info != '' AND $path_info != "/".SELF)
-						{
-							$this->uri_string = $path_info;
-						}
-						else
-						{
-							$this->uri_string = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-						}
-				break;
+			$path_info = getenv('PATH_INFO');
+			if ($path_info != '' AND $path_info != "/".SELF)
+			{
+				$this->uri_string = $path_info;
+			}
+			else
+			{
+				$path_info = getenv('ORIG_PATH_INFO');
+				if ($path_info != '' AND $path_info != "/".SELF)
+				{
+					$this->uri_string = $path_info;
+				}
+				else
+				{
+					$this->uri_string = getenv('QUERY_STRING');
+				}
+			}
 		}
+		else
+		{
+			$this->uri_string = getenv(strtoupper($this->config->item('uri_protocol')));		
+		}
+		
 	
 		// Is there a URI string? If not, the default controller specified 
 		// by the admin in the "routes" file will be shown.
@@ -291,10 +297,7 @@ class CI_Router {
 				
 		// Loop through the route array looking for wildcards
 		foreach (array_slice($this->routes, 1) as $key => $val)
-		{
-			if (count(explode('/', $key)) != $num)
-				continue;
-						
+		{						
 			// Convert wildcards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 			

@@ -45,7 +45,8 @@ $route['scaffolding_trigger'] = "scaffolding";
 
 // Define your own routes below -------------------------------------------
 
+$route['products/([a-z]+)/(\d+)'] = "bamo/$1/a$2";
 
-$route['products\/([a-z]+)\/(\d+)'] = "$1/a$2";
+
 
 ?>

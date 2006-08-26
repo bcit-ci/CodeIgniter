@@ -37,6 +37,8 @@ $config['index_page'] = "index.php";
 | 'auto'			Default - auto detects
 | 'path_info'		Uses the PATH_INFO 
 | 'query_string'	Uses the QUERY_STRING
+| 'orig_path_info'	Uses the ORIG_PATH_INFO 
+| 'request_uri'		Uses the REQUEST_URI
 |
 */
 $config['uri_protocol']	= "auto";

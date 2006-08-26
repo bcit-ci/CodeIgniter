@@ -93,7 +93,7 @@ class CI_DB_mssql extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */	
-    function &_prep_query($sql)
+    function _prep_query($sql)
     {
 		return $sql;
     }

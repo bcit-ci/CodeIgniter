@@ -326,7 +326,7 @@ function form_close($extra = '')
  */	
 function form_prep($str = '')
 {
-	if ($str == '')
+	if ($str === '')
 	{
 		return '';
 	}

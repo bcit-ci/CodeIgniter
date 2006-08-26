@@ -69,20 +69,28 @@ Change Log
 
 <ul>
 <li>Added <a href="hooks.html">Hooks</a> feature, enabling you to tap into and modify the inner workings of the framework without hacking the core files.</li>
+<li>Added the ability to organize controller files <a href="controllers.html">into sub-folders</a>.  Kudos to Marco for <a href="http://www.codeigniter.com/forums/viewthread/627/">suggesting</a> this (and the next two) feature.</li>
+<li>Added regular expressions support for <a href="routing.html">routing rules</a>.</li>
 <li>Added the ability to <a href="core_classes.html">replace core system classes</a> with your own classes.</li>
 <li>Added support for % character in URL.</li>
-<li>Added the ability to organize <a href="controllers.html">controller</a> files into sub-folders.
-<li>Updated the <a href="routing.html">Routing feature</a> to accept regular expressions within routing rules.</li>
+<li>Added the ability to supply full URLs using the <dfn>anchor()</dfn> helper function.</li>
 <li>Moved the MIME type array out of the Upload class and into its own file in the applications/comfig/ folder.</li>
+<li>Tweaked the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>
+<li>Removed some references that were interfering with PHP 4.4.1 compatibility.</li>
+<li>Removed backticks from Postgre class since these are not needed.</li>
 <li>Deprecated the hash() function due to a naming conflict with a native PHP function with the same name.  Please use dohash() instead.</li>
-<li>Fixed a MS SQL issue.</li>
 <li>Fixed an issue when removing GET variables.</li>
 <li>Fixed <a href="http://www.codeigniter.com/forums/viewthread/773/">this</a> router bug.</li>
 <li>Fixed a bug that was preventing multiple discreet database calls.</li>
 <li>Fixed a bug in which loading a language file was producing a "file contains no data" message.</li>
 <li>Fixed a session bug caused by the XSS Filtering feature inadvertently changing the case of certain words.</li>
-<li>Removed backticks from Postgre class since these are not needed.</li>
+<li>Fixed some missing prefixes when using the database prefix feature.</li>
+<li>Fixed a bug that was causing the Loader class to incorrectly identify the file extension.</li>
+<li>Fixed a typo in the Calendar class (cal_november).</li> 
+<li>Fixed an evaluation bug in the database initialization function.</li>
+<li>Fixed some MS SQL bugs.</li>
+<li>Fixed some doc typos.</li>
 </ul>
 
 

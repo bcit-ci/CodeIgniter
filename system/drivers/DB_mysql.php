@@ -100,7 +100,7 @@ class CI_DB_mysql extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */	
-    function &_prep_query($sql)
+    function _prep_query($sql)
     {
 		// "DELETE FROM TABLE" returns 0 affected rows This hack modifies 
 		// the query so that it returns the number of affected rows

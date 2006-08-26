@@ -63,10 +63,9 @@ function &_load_class($class, $instantiate = TRUE)
 		}
 		else
 		{
-			$objects[$class] = TRUE;
+			$objects[$class] = FALSE;
 		}
 	}
-	
 	
 	return $objects[$class];
 }

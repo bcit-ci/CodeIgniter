@@ -71,6 +71,7 @@ Controllers
 <li><a href="#functions">Functions</a></li>
 <li><a href="#private">Private Functions</a></li>
 <li><a href="#default">Defining a Default Controller</a></li>
+<li><a href="#subfolders">Organizing Controllers into Sub-folders</a></li>
 <li><a href="#constructors">Class Constructors</a></li>
 <li><a href="#reserved">Reserved Function Names</a></li>
 </ul>
@@ -202,6 +203,25 @@ your <dfn>application/config/routes.php</dfn> file and set this variable:</p>
 
 <p>Where <var>Blog</var> is the name of the controller class you want used. If you now load your main index.php file without
 specifying any URI segments you'll see your Hello World message by default.</p>
+
+
+<a name="subfolders"></a>
+<h2>Organizing Your Controllers into Sub-folders</h2>
+
+<p>If you are building a large application you might find it convenient to organize your controllers into sub-folders.  Code Igniter permits you to do this.</p>
+
+<p>Simply create folders within your <dfn>application/controllers</dfn> directory and place your controller classes within them.</p>
+
+<p><strong>Note:</strong>&nbsp; When using this feature the first segment or your URI must specify the folder.  For example, lets say you have a controller
+located here:</p>
+
+<code>application/controllers/<kbd>products</kbd>/shoes.php</code>
+
+<p>To call the above controller your URI will look something like this:</p>
+
+<code>www.your-site.com/index.php/products/shoes/123</code>
+
+<p>Code Igniter also permits you to remap your URIs using its <a href="routing.html">URI Routing</a> feature.
 
 
 <a name="constructors"></a>

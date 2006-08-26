@@ -557,7 +557,7 @@ You can optionally pass this information directly into the update function as a 
 <p>Generates a delete SQL string and runs the query.</p>
 
 <code>
-$this->db->delete('mytable', array('id', $id));
+$this->db->delete('mytable', array('id' => $id));
 <br /><br />
 // Produces:<br />
 // DELETE FROM mytable <br />

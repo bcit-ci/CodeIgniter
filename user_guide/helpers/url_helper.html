@@ -117,8 +117,10 @@ echo site_url($segments);</code>
 <code>anchor(<var>uri segments</var>, <var>text</var>, <var>attributes</var>)</code>
 
 <p>The first parameter can contain any segments you wish appended to the URL.  As with the <dfn>site_url()</dfn> function above,
-segments can be a string or an array. Note: Do not include the base URL.  It will be built as specified in your config file. Include
-only the URI segments you wish appended to the URL.</p>
+segments can be a string or an array.</p>
+
+<p><strong>Note:</strong>&nbsp; If you are building links that are internal to your application do not include the base URL (http://...).  This
+will be added automatically from the information specified in your config file. Include only the URI segments you wish appended to the URL.</p>
 
 <p>The second segment is the text you would like the link to say.  If you leave it blank, the URL will be used.</p>
 
