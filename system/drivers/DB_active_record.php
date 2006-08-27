@@ -663,7 +663,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if (count($this->ar_where) == 0)
 		{
-            if ($this->debug)
+            if ($this->db_debug)
             {
 				return $this->display_error('db_del_must_use_where');
             }
