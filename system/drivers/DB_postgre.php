@@ -110,10 +110,6 @@ class CI_DB_postgre extends CI_DB {
 	 */
 	function escape_str($str)	
 	{	
-		if (get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str); 
-		}
 		return pg_escape_string($str);
 	}
 	

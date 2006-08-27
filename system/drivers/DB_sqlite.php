@@ -131,10 +131,6 @@ class CI_DB_sqlite extends CI_DB {
 	 */
 	function escape_str($str)	
 	{
-		if (get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str); 
-		}
 		return sqlite_escape_string($str);
 	}
 	

@@ -38,11 +38,16 @@
  * @param	array	a key/value pair hidden data
  * @return	string
  */	
-function form_open($action, $attributes = array(), $hidden = array())
+function form_open($action = '', $attributes = array(), $hidden = array())
 {
 	$obj =& get_instance();
 
-	$form = '<form method="post" action="'.$obj->config->site_url($action).'"';
+	$form = '<form action="'.$obj->config->site_url($action).'"';
+	
+	if ( ! isset($attributes['method']))
+	{
+		$form .= ' method="post"';
+	}
 	
 	if (is_array($attributes) AND count($attributes) > 0)
 	{

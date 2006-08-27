@@ -252,12 +252,12 @@ class CI_Validation {
 				// Strip the parameter (if exists) from the rule
 				// Rules can contain a parameter: max_length[5]
 				$param = FALSE;
-				if (preg_match("/.*?(\[.*?\]).*/", $rule, $match))
+				if (preg_match("/(.*?)\[(.*?)\]/", $rule, $match))
 				{
-					$param = substr(substr($match['1'], 1), 0, -1);
-					$rule  = str_replace($match['1'], '', $rule);
+					$rule	= $match[1];
+					$param	= $match[2];
 				}
-
+				
 				// Call the function that corresponds to the rule
 				if ($callback === TRUE)
 				{
