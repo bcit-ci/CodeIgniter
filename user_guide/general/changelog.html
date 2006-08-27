@@ -74,15 +74,19 @@ Change Log
 <li>Added the ability to <a href="core_classes.html">replace core system classes</a> with your own classes.</li>
 <li>Added support for % character in URL.</li>
 <li>Added the ability to supply full URLs using the <dfn>anchor()</dfn> helper function.</li>
-<li>Moved the MIME type array out of the Upload class and into its own file in the applications/comfig/ folder.</li>
+<li>Moved the list of "allowed URI characters" out of the Router class and into the config file.</li>
+<li>Moved the MIME type array out of the Upload class and into its own file in the applications/config/ folder.</li>
 <li>Updated the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
 <li>Updated the <dfn>form_open()</dfn> helper to allow the GET method to be used.</li>
+<li>Updated the MySQLi <dfn>execute()</dfn> function with some code to help prevent lost connection errors.</li>
+<li>Updated the Models loader function to allow multiple loads of the same model.</li>
+<li>Updated the MS SQL driver so that single quotes are escaped.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>
 <li>Removed some references that were interfering with PHP 4.4.1 compatibility.</li>
 <li>Removed backticks from Postgre class since these are not needed.</li>
-<li>Deprecated the hash() function due to a naming conflict with a native PHP function with the same name.  Please use dohash() instead.</li>
-<li>Fixed an issue when removing GET variables.</li>
-<li>Fixed <a href="http://www.codeigniter.com/forums/viewthread/773/">this</a> router bug.</li>
+<li>Deprecated the hash() function due to a naming conflict with a native PHP function with the same name.  Please use <kbd>dohash()</kbd> instead.</li>
+<li>Fixed an bug that was preventing the input class from unsetting GET variables.</li>
+<li>Fixed a router bug that was making it too greedy when matching end segments.</li>
 <li>Fixed a bug that was preventing multiple discreet database calls.</li>
 <li>Fixed a bug in which loading a language file was producing a "file contains no data" message.</li>
 <li>Fixed a session bug caused by the XSS Filtering feature inadvertently changing the case of certain words.</li>

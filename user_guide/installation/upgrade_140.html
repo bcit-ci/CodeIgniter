@@ -87,7 +87,33 @@ have not upgraded to that version please do so first.</p>
 </ul>
 
 
-<h2>Step 4: Update your user guide</h2>
+<h2>Step 2: Update your config.php file</h2>
+
+<p>Open your <dfn>application/config/config.php</dfn> file and add these new items:</p>
+
+<pre>
+/*
+|--------------------------------------------------------------------------
+| Allowed URL Characters
+|--------------------------------------------------------------------------
+|
+| This lets you specify which characters are permitted within your URLs.
+| When someone tries to submit a URL with disallowed characters they will
+| get a warning message.
+|
+| As a security measure you are STRONGLY encouraged to restrict URLs to
+| as few characters as possible.  By default only these are allowed: a-z 0-9~%.:_-
+|
+| Leave blank to allow all characters -- but only if you are insane.
+| 
+| DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
+|
+*/
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_-';
+</pre>
+
+
+<h2>Step 3: Update your user guide</h2>
 
 <p>Please also replace your local copy of the user guide with the new version.</p>
 
