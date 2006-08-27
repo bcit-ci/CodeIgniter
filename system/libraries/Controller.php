@@ -127,7 +127,12 @@ class Controller extends CI_Base {
 		{
 			$name = $model;
 		}
-	
+		
+		if (in_array($name, $this->_ci_models))
+		{
+			return;
+		}		
+		
 		if (isset($this->$name))
 		{
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
