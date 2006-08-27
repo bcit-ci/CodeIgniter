@@ -88,7 +88,9 @@ class CI_DB_mysqli extends CI_DB {
 	function execute($sql)
 	{
 		$sql = $this->_prep_query($sql);	
-		return @mysqli_query($this->conn_id, $sql);
+		$result = @mysqli_query($this->conn_id, $sql);
+		mysqli_next_result($this->conn_id);
+		return $result;
 	}
 	
 	// --------------------------------------------------------------------

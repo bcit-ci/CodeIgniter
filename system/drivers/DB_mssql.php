@@ -109,8 +109,8 @@ class CI_DB_mssql extends CI_DB {
 	 */
 	function escape_str($str)	
 	{	
-		// MS SQL doesn't require escaping
-		return $str;
+		// Escape single quotes
+		return str_replace("'", "''", $str);
 	}
 	
 	// --------------------------------------------------------------------

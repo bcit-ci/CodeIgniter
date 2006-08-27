@@ -254,12 +254,14 @@ class CI_Router {
 	 */	
 	function _filter_uri($str)
 	{
-		 if ( ! preg_match("/^[a-z0-9~\s\%\.:_-]+$/i", $str))
-		 { 
-			exit('The URI you submitted has disallowed characters: '.$str);
-		 }
-		 
-		 return $str;
+		if ($this->config->item('permitted_uri_chars') != '')
+		{
+			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
+			{ 
+				exit('The URI you submitted has disallowed characters: '.$str);
+			}
+		}	
+			return $str;
 	}
 	// END _filter_uri()
 	

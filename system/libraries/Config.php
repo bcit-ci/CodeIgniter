@@ -53,7 +53,7 @@ class CI_Config {
 	 *
 	 * @access	public
 	 * @param	string	the config file name
-	 * @return	void
+	 * @return	boolean	if the file was loaded correctly
 	 */	
 	function load($file = '')
 	{
@@ -61,7 +61,7 @@ class CI_Config {
 	
 		if (in_array($file, $this->is_loaded))
 		{                
-			return;
+			return TRUE;
 		}
 	
 		include_once(APPPATH.'config/'.$file.EXT);
@@ -77,6 +77,7 @@ class CI_Config {
 		unset($config);
 
 		log_message('debug', 'Config file loaded: config/'.$file.EXT);
+		return TRUE;
 	}
   	// END load()
   	
