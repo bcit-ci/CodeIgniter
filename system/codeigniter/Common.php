@@ -153,8 +153,10 @@ function show_404($page = '')
 * @access	public
 * @return	void
 */
-function log_message($level = 2, $message, $php_error = FALSE)
+function log_message($level = 'error', $message, $php_error = FALSE)
 {
+	static $LOG;
+	
 	$config =& _get_config();
 	if ($config['log_errors'] === FALSE)
 	{
@@ -166,7 +168,7 @@ function log_message($level = 2, $message, $php_error = FALSE)
 		include_once(BASEPATH.'libraries/Log.php');		
 	}
 	
-	if ( ! isset($LOG))
+	if ( ! is_object($LOG))
 	{
 		$LOG = new CI_Log(
 							$config['log_path'], 

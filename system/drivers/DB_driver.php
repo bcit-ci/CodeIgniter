@@ -86,7 +86,7 @@ class CI_DB_driver {
 			{
 				log_message('error', 'Invalid DB Connection String');
 			
-				if ($this->debug)
+				if ($this->db_debug)
 				{
 					return $this->display_error('db_invalid_connection_str');
 				}
@@ -265,7 +265,7 @@ class CI_DB_driver {
 		
 		if ( ! function_exists($function))
 		{ 
-			if ($this->debug)
+			if ($this->db_debug)
 			{
 				return $this->display_error('db_unsupported_function');
 			}
@@ -425,7 +425,7 @@ class CI_DB_driver {
     {
     	if ($table == '')
     	{
-			if ($this->debug)
+			if ($this->db_debug)
 			{
 				return $this->display_error('db_field_param_missing');
 			}
@@ -472,7 +472,7 @@ class CI_DB_driver {
 	{
     	if ($table == '')
     	{
-			if ($this->debug)
+			if ($this->db_debug)
 			{
 				return $this->display_error('db_field_param_missing');
 			}
@@ -535,7 +535,7 @@ class CI_DB_driver {
 			// Just in case the replacement string contains the bind
 			// character we'll temporarily replace it with a marker
 			$val = str_replace($this->bind_marker, '{%bind_marker%}', $val);
-			$sql = preg_replace("#".preg_quote($this->bind_marker)."#", $val, $sql, 1);
+			$sql = preg_replace("#".preg_quote($this->bind_marker, '#')."#", str_replace('$', '\$', $val), $sql, 1);
 		}
 
 		return str_replace('{%bind_marker%}', $this->bind_marker, $sql);		

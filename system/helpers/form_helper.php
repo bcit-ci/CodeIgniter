@@ -247,7 +247,7 @@ function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
 {
 	$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 	
-	if (isset($data['checked']))
+	if (is_array($data) AND array_key_exists('checked', $data))
 	{
 		$checked = $data['checked'];
 		
@@ -256,7 +256,7 @@ function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
 	}
 	
 	if ($checked == TRUE)
-		$defaults['checked'] = ' checked="checked"';
+		$defaults['checked'] = 'checked';
 	else
 		unset($defaults['checked']);
 

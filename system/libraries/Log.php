@@ -40,7 +40,7 @@ class CI_Log {
 	 * @param	string	the error threshold
 	 * @param	string	the date formatting codes
 	 */
-	function CI_Log($path = '', $threshold = '', $date_fmt = '')
+	function CI_Log($path = '', $threshold = 4, $date_fmt = '')
 	{	
 		$this->log_path = ($path != '') ? $path : BASEPATH.'logs/';
 
