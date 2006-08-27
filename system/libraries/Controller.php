@@ -128,7 +128,8 @@ class Controller extends CI_Base {
 			$name = $model;
 		}
 		
-		if (in_array($name, $this->_ci_models))
+		$obj =& get_instance();
+		if (in_array($name, $obj->_ci_models))
 		{
 			return;
 		}		
