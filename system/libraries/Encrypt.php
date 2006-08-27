@@ -322,7 +322,7 @@ class CI_Encrypt {
 	 */		
 	function set_hash($type = 'sha1')
 	{
-		$this->_hash_type = ($type != 'sha1' OR $type != 'md5') ? 'sha1' : $type;
+		$this->_hash_type = ($type != 'sha1' AND $type != 'md5') ? 'sha1' : $type;
 	}
   	// END set_hash()
   	

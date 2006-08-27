@@ -68,7 +68,7 @@ class CI_Language {
 	
 		if ( ! file_exists(BASEPATH.'language/'.$idiom.'/'.$langfile))
 		{
-			show_error('Unable to load the requested language file: language/'.$langfile.EXT);
+			show_error('Unable to load the requested language file: language/'.$langfile);
 		}
 
 		include_once(BASEPATH.'language/'.$idiom.'/'.$langfile);

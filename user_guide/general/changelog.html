@@ -75,7 +75,8 @@ Change Log
 <li>Added support for % character in URL.</li>
 <li>Added the ability to supply full URLs using the <dfn>anchor()</dfn> helper function.</li>
 <li>Moved the MIME type array out of the Upload class and into its own file in the applications/comfig/ folder.</li>
-<li>Tweaked the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
+<li>Updated the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
+<li>Updated the <dfn>form_open()</dfn> helper to allow the GET method to be used.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>
 <li>Removed some references that were interfering with PHP 4.4.1 compatibility.</li>
 <li>Removed backticks from Postgre class since these are not needed.</li>
@@ -89,6 +90,9 @@ Change Log
 <li>Fixed a bug that was causing the Loader class to incorrectly identify the file extension.</li>
 <li>Fixed a typo in the Calendar class (cal_november).</li> 
 <li>Fixed an evaluation bug in the database initialization function.</li>
+<li>Fixed a minor bug in one of the error messages in the language class.</li>
+<li>Fixed a bug in the <dfn>set_hash()</dfn> function which was preventing MD5 from being used.</li>
+<li>Fixed a couple bugs in the Unit Testing class.</li>
 <li>Fixed some MS SQL bugs.</li>
 <li>Fixed some doc typos.</li>
 </ul>

@@ -128,10 +128,6 @@ class CI_DB_mysqli extends CI_DB {
 	 */
 	function escape_str($str)	
 	{	
-		if (get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str); 
-		}
 		return mysqli_real_escape_string($this->conn_id, $str);
 	}
 	
