@@ -79,6 +79,7 @@ Change Log
 <li>Updated the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
 <li>Updated the <dfn>form_open()</dfn> helper to allow the GET method to be used.</li>
 <li>Updated the MySQLi <dfn>execute()</dfn> function with some code to help prevent lost connection errors.</li>
+<li>Updated the SQLite Driver to check for object support before attmpting to return results as objects.  If unsupported it returns an array.</li>
 <li>Updated the Models loader function to allow multiple loads of the same model.</li>
 <li>Updated the MS SQL driver so that single quotes are escaped.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>

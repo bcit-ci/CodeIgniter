@@ -489,7 +489,14 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 */
 	function _fetch_object()
 	{
-		return sqlite_fetch_object($this->result_id);
+		if (function_exists('sqlite_fetch_object'))
+		{
+			return sqlite_fetch_object($this->result_id);
+		}
+		else
+		{
+			return $this->_fetch_assoc();
+		}
 	}
 
 }
