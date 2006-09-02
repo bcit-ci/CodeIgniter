@@ -36,8 +36,12 @@ class CI_Config {
 	 *
 	 * Sets the $config data from the primary config.php file as a class variable
 	 *
-	 * @access	public
-	 */
+     * @access   public
+     * @param   string    the config file name
+     * @param   boolean  if configuration values should be loaded into their own section
+     * @param   boolean  true if errors should just return false, false if an error message should be displayed
+     * @return  boolean  if the file was successfully loaded or not
+     */
 	function CI_Config()
 	{
 		$this->config =& _get_config();
@@ -55,7 +59,7 @@ class CI_Config {
 	 * @param	string	the config file name
 	 * @return	boolean	if the file was loaded correctly
 	 */	
-	function load($file = '')
+	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
 	
@@ -63,15 +67,42 @@ class CI_Config {
 		{                
 			return TRUE;
 		}
+
+		if ( ! file_exists(APPPATH.'config/'.$file.EXT))
+		{
+			if ($fail_gracefully === TRUE)
+			{
+				return FALSE;
+			}
+			show_error('The configuration file '.$file.EXT.' does not exist.');
+		}
 	
 		include_once(APPPATH.'config/'.$file.EXT);
 
 		if ( ! isset($config) OR ! is_array($config))
 		{
+			if ($fail_gracefully === TRUE)
+			{
+				return FALSE;
+			}		
 			show_error('Your '.$file.EXT.' file does not appear to contain a valid configuration array.');
 		}
 		
-		$this->config = array_merge($this->config, $config);
+		if ($use_sections === TRUE)
+		{
+			if (isset($this->config[$file]))
+			{
+				$this->config[$file] = array_merge($this->config[$file], $config);
+			}
+			else
+			{
+				$this->config[$file] = $config;
+			}
+		}
+		else
+		{
+			$this->config = array_merge($this->config, $config);
+		}
 
 		$this->is_loaded[] = $file;
 		unset($config);
@@ -86,6 +117,48 @@ class CI_Config {
 	/**
 	 * Fetch a config file item
 	 *
+	 *
+	 * @access	public
+	 * @param	string	the config item name
+	 * @param	string	the index name
+	 * @param	bool
+	 * @return	string
+	 */		
+	function item($item, $index = '')
+	{			
+		if ($index == '')
+		{	
+			if ( ! isset($this->config[$item])) 
+			{
+				return FALSE;
+			}
+		
+			$pref = $this->config[$item];
+		}
+		else
+		{
+			if ( ! isset($this->config[$index])) 
+			{
+				return FALSE;
+			}
+		
+			if ( ! isset($this->config[$index][$item]))
+			{
+				return FALSE;
+			}
+		
+			$pref = $this->config[$index][$item];
+		}
+
+        return $pref;
+	}
+  	// END item()
+  	
+  	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch a config file item - adds slash after item
+	 *
 	 * The second parameter allows a slash to be added to the end of
 	 * the item, in the case of a path.
 	 *
@@ -94,7 +167,7 @@ class CI_Config {
 	 * @param	bool
 	 * @return	string
 	 */		
-	function item($item, $slash = FALSE)
+	function slash_item($item)
 	{
 		if ( ! isset($this->config[$item])) 
 		{
@@ -103,19 +176,19 @@ class CI_Config {
 		
 		$pref = $this->config[$item];
 		
-		if ($pref == '')
-		{
-			return $pref;
+		if ($pref != '')
+		{			
+			if (ereg("/$", $pref) === FALSE)
+			{
+				$pref .= '/';
+			}
 		}
-			
-        if ($slash !== FALSE AND ereg("/$", $pref) === FALSE)
-        {
-			$pref .= '/';
-        }
         
         return $pref;
 	}
   	// END item()
+  	
+  	
   	
 	// --------------------------------------------------------------------
 
