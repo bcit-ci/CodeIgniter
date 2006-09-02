@@ -478,7 +478,7 @@ class CI_Loader {
 		if ($path == '')
 		{
 			$ext = pathinfo($view, PATHINFO_EXTENSION);
-			$file = ($ext != '') ? $view.EXT : $view;
+			$file = ($ext == '') ? $view.EXT : $view;
 			$path = $this->view_path.$file;
 		}
 		else
