@@ -39,7 +39,7 @@
 |	$autoload['core'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['core'] = array('session');
+$autoload['core'] = array();
 
 
 /*
