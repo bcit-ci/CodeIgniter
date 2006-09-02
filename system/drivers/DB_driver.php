@@ -36,6 +36,7 @@ class CI_DB_driver {
 	var $database;
 	var $dbdriver		= 'mysql';
 	var $dbprefix		= '';
+	var $port			= '';
 	var $pconnect		= FALSE;
 	var $conn_id		= FALSE;
 	var $result_id		= FALSE;
@@ -75,7 +76,7 @@ class CI_DB_driver {
 	{	
 		if (is_array($params))
 		{
-			foreach (array('hostname' => '', 'username' => '', 'password' => '', 'database' => '', 'dbdriver' => 'mysql', 'dbprefix' => '', 'pconnect' => FALSE, 'db_debug' => FALSE) as $key => $val)
+			foreach (array('hostname' => '', 'username' => '', 'password' => '', 'database' => '', 'dbdriver' => 'mysql', 'dbprefix' => '', 'port' => '', 'pconnect' => FALSE, 'db_debug' => FALSE) as $key => $val)
 			{
 				$this->$key = ( ! isset($params[$key])) ? $val : $params[$key];
 			}

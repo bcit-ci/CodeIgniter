@@ -56,7 +56,7 @@ function site_url($uri = '')
 function base_url()
 { 
 	$obj =& get_instance();
-	return $obj->config->item('base_url', 1);
+	return $obj->config->slash_item('base_url');
 }
 	
 // ------------------------------------------------------------------------

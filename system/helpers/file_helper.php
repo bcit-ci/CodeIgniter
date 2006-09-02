@@ -75,9 +75,9 @@ function read_file($file)
  * @param	string	file data
  * @return	bool
  */	
-function write_file($path, $data)
+function write_file($path, $data, $mode = 'wb')
 {
-	if ( ! $fp = @fopen($path, 'wb'))
+	if ( ! $fp = @fopen($path, $mode))
 	{
 		return FALSE;
 	}
