@@ -147,7 +147,7 @@ class CI_Output {
 			return;
 		}
 		
-		$uri =	$obj->config->item('base_url', 1).
+		$uri =	$obj->config->slash_item('base_url').
 				$obj->config->item('index_page').
 				$obj->uri->uri_string();
 		

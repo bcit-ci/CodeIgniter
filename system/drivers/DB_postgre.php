@@ -38,9 +38,11 @@ class CI_DB_postgre extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		return pg_connect("host=".$this->hostname." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		$port = ($this->port == '') ? '' : " port=".$this->port;
+		
+		return pg_connect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -51,7 +53,9 @@ class CI_DB_postgre extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		return pg_pconnect("host=".$this->hostname." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		$port = ($this->port == '') ? '' : " port=".$this->port;
+
+		return pg_pconnect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
 	}
 	
 	// --------------------------------------------------------------------
