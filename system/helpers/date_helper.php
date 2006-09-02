@@ -189,7 +189,7 @@ function timespan($seconds = 1, $time = '')
 	{
 		if ($minutes > 0)
 		{	
-			$str .= $minutes.' '.$obj->lang->line((($minutes	> 1) ? 'date_minutes' : 'date_minutes')).', ';
+			$str .= $minutes.' '.$obj->lang->line((($minutes	> 1) ? 'date_minutes' : 'date_minute')).', ';
 		}
 		
 		$seconds -= $minutes * 60;

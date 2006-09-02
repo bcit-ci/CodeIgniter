@@ -188,6 +188,11 @@ if ($RTR->scaffolding_request === TRUE)
 }
 else
 {
+	if ($method == $class)
+	{
+		$method = 'index';
+	}
+
 	if ( ! method_exists($CI, $method))
 	{
 		show_404();

@@ -211,7 +211,8 @@ class CI_DB_postgre extends CI_DB {
 	 * Escape Table Name
 	 *
 	 * This function adds backticks if the table name has a period
-	 * in it. Some DBs will get cranky unless periods are escaped
+	 * in it. Some DBs will get cranky unless periods are escaped.
+	 * NOT NEEDED FOR POSTGRE
 	 *
 	 * @access	public
 	 * @param	string	the table name
@@ -219,10 +220,12 @@ class CI_DB_postgre extends CI_DB {
 	 */
 	function escape_table($table)
 	{
+		/*
 		if (stristr($table, '.'))
 		{
-			$table = preg_replace("/\./", ".", $table);
+			$table = preg_replace("/\./", "`.`", $table);
 		}
+		*/
 		
 		return $table;
 	}

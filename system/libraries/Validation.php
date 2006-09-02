@@ -208,7 +208,7 @@ class CI_Validation {
 			{			
 				if (in_array('isset', $ex) OR in_array('required', $ex))
 				{
-					if ( ! isset($this->messages['isset'])) 
+					if ( ! isset($this->_error_messages['isset'])) 
 					{
 						if (FALSE === ($line = $this->obj->lang->line('isset')))
 						{
