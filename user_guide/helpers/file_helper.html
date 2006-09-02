@@ -103,6 +103,12 @@ else<br />
 &nbsp;&nbsp;&nbsp;&nbsp; echo 'File written!';<br />
 }</code>
 
+<p>You can optionally set the write mode via the third parameter:
+
+<code>write_file('./path/to/file.php', $data, <var>'r+'</var>);</code>
+
+<p>The default mode is <kbd>wb</kbd>.  Please see the <a href="http://php.net/fopen">PHP user guide</a> for mode options.</p>
+
 <p>Note: In order for this function to write data to a file its file permissions must be set such that it is writable (666, 777, etc.).
 If the file does not already exist, the directory containing it must be writable.</p>
 
