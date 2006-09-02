@@ -97,6 +97,22 @@ so you will only need to load a config file if you have created your own.</p>
 
 <p>Where <var>filename</var> is the name of your config file, without the .php file extension.</p>
 
+<p>If you need to load multiple config files normally they will be merged into one master config array.  Name collisions can occur, however, if
+you have identically named array indexes in different config files.  To avoid collisions you can set the second parameter to <kbd>TRUE</kbd>
+and each config file will be stored in an array index corresponding to the name of the config file. Example:
+
+<code>
+// Stored in an array with this prototype:  $this->config['blog_settings'] = $config<br />
+$this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);</code>
+
+<p>Please see the section entitled <dfn>Fetching Config Items</dfn> below to learn how to retrieve config items set this way.</p>
+
+<p>The third parameter allows you to suppress errors in the event that a config file does not exist:</p>
+
+<code>$this->config->load('<var>blog_settings</var>', <dfn>FALSE</dfn>, <kbd>TRUE</kbd>);</code>
+
+
+
 </li>
 <li><strong>Auto-loading</strong></li>
 
@@ -109,7 +125,7 @@ indicated in the file.</p>
 
 <h2>Fetching Config Items</h2>
 
-<p>To retrive an item from your config file, use the following function:</p>
+<p>To retrieve an item from your config file, use the following function:</p>
 
 <code>$this->config->item('<var>item name</var>');</code>
 
@@ -118,6 +134,20 @@ indicated in the file.</p>
 <code>$lang = $this->config->item('language');</code>
 
 <p>The function returns FALSE (boolean) if the item you are trying to fetch does not exist.</p>
+
+<p>If you are using the second parameter of the <kbd>$this->config->load</kbd> function in order to assign your config items to a specific index
+you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function.  Example:
+
+<code>
+// Loads a config file named blog_settings.php and assigns it to an index named "blog_settings"<br />
+$this->config->load('<var>blog_settings</var>', '<kbd>TRUE</kbd>');<br /><br />
+
+// Retrieve a config item named site_name contained within the blog_settings array<br />
+$site_name = $this->config->item('<dfn>site_name</dfn>', '<var>blog_settings</var>');<br /><br />
+
+// An alternate way to specify the same item:<br />
+$blog_config = $this->config->item('<var>blog_settings</var>');<br />
+$site_name = $blog_config['site_name'];</code>
 
 <h2>Setting a Config Item</h2>
 

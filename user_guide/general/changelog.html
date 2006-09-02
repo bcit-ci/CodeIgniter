@@ -65,7 +65,7 @@ Change Log
 
 
 <h2>Version 1.4.0</h2>
-<p>Release Date: August 25, 2006</p>
+<p>Release Date: Septemer 01, 2006</p>
 
 <ul>
 <li>Added <a href="hooks.html">Hooks</a> feature, enabling you to tap into and modify the inner workings of the framework without hacking the core files.</li>
@@ -76,6 +76,7 @@ Change Log
 <li>Added the ability to supply full URLs using the <dfn>anchor()</dfn> helper function.</li>
 <li>Moved the list of "allowed URI characters" out of the Router class and into the config file.</li>
 <li>Moved the MIME type array out of the Upload class and into its own file in the applications/config/ folder.</li>
+<li>Updated the <a href="../libraries/config.html">Config Library</a> to be able to load config files silently.</li>
 <li>Updated the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
 <li>Updated the <dfn>form_open()</dfn> helper to allow the GET method to be used.</li>
 <li>Updated the MySQLi <dfn>execute()</dfn> function with some code to help prevent lost connection errors.</li>
@@ -96,12 +97,15 @@ Change Log
 <li>Fixed a bug that was causing the Loader class to incorrectly identify the file extension.</li>
 <li>Fixed a typo in the Calendar class (cal_november).</li> 
 <li>Fixed a bug in the <dfn>form_checkbox()</dfn> helper.</li>
+<li>Fixed a bug that was allowing the second segment of the URI to be identical to the class name.</li>
 <li>Fixed an evaluation bug in the database initialization function.</li>
 <li>Fixed a minor bug in one of the error messages in the language class.</li>
+<li>Fixed a bug in the date helper <dfn>timespan</dfn> function.</li>
 <li>Fixed an undefined variable in the DB Driver class.</li>
 <li>Fixed a bug in which dollar signs used as binding replacemnt values in the DB class would be treated as RegEx back-references.</li>
 <li>Fixed a bug in the <dfn>set_hash()</dfn> function which was preventing MD5 from being used.</li>
 <li>Fixed a couple bugs in the Unit Testing class.</li>
+<li>Fixed an incorrectlyl named variable in the Validation class.</li>
 <li>Fixed some MS SQL bugs.</li>
 <li>Fixed some doc typos.</li>
 </ul>
