@@ -404,7 +404,7 @@ class CI_Validation {
 	 */	
 	function min_length($str, $val)
 	{
-		if ( ! ctype_digit($val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
@@ -423,7 +423,7 @@ class CI_Validation {
 	 */	
 	function max_length($str, $val)
 	{
-		if ( ! ctype_digit($val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
@@ -442,7 +442,7 @@ class CI_Validation {
 	 */	
 	function exact_length($str, $val)
 	{
-		if ( ! ctype_digit($val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
@@ -517,7 +517,7 @@ class CI_Validation {
 	 */	
 	function numeric($str)
 	{
-		return ( ! ctype_digit($str)) ? FALSE : TRUE;
+		return ( ! is_numeric($str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------

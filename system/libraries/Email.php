@@ -275,7 +275,7 @@ class CI_Email {
 	 */	
 	function bcc($bcc, $limit = '')
 	{
-		if ($limit != '' && ctype_digit($limit))
+		if ($limit != '' && is_numeric($limit))
 		{
 			$this->bcc_batch_mode = true;
 			$this->bcc_batch_size = $limit;
@@ -475,7 +475,7 @@ class CI_Email {
 	 */	
 	function set_priority($n = 3)
 	{
-		if ( ! ctype_digit($n))
+		if ( ! is_numeric($n))
 		{
 			$this->priority = 3;
 			return;

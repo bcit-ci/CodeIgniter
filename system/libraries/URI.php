@@ -88,7 +88,7 @@ class CI_URI {
 	 */
 	function uri_to_assoc($n = 3, $default = array())
 	{
-		if ( ! ctype_digit($n))
+		if ( ! is_numeric($n))
 		{
 			return $default;
 		}
@@ -110,7 +110,7 @@ class CI_URI {
 			{
 				$retval[$val] = FALSE;
 			}		
-			return $default;
+			return $retval;
 		}
 
 		$segments = array_slice($this->segment_array(), ($n - 1));

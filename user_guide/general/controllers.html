@@ -69,6 +69,7 @@ Controllers
 <li><a href="#what">What is a Controller?</a></li>
 <li><a href="#hello">Hello World</a></li>
 <li><a href="#functions">Functions</a></li>
+<li><a href="#remapping">Remapping Function Calls</a></li>
 <li><a href="#private">Private Functions</a></li>
 <li><a href="#default">Defining a Default Controller</a></li>
 <li><a href="#subfolders">Organizing Controllers into Sub-folders</a></li>
@@ -174,10 +175,43 @@ class Blog extends Controller {
 
 <p>You should see your new message.</p>
 
+
+<a name="remapping"></a>
+<h2>Remapping Function Calls</h2>
+
+<p>As noted above, the second segment of the URI typically determines which function in the controller gets called.
+Code Igniter permits you to override this behavior through the use of the <kbd>_remap()</kbd> function:</p>
+
+<code>function _remap()<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// Some code here...<br />
+}</code>
+
+<p class="important"><strong>Important:</strong>&nbsp; If your controller contains a function named <kbd>_remap()</kbd>, it will <strong>always</strong> 
+get called regardless of what your URI contains.  It overrides the normal behavior in which the URI determines which function is called, 
+allowing you to define your own function routing rules.</p>
+
+<p>The overriden function call (typically the second segment of the URI) will be passed as a parameter the <kbd>_remap()</kbd> function:</p>
+
+<code>function _remap(<var>$method</var>)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if ($method == 'some_method')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->$method();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->default_method();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
+
+
+
+
 <a name="private"></a>
 <h2>Private Functions</h2>
 
-<p>In some cases you may not want certain functions accessible publicly.  To make a function private, simply add an
+<p>In some cases you may want certain functions hidden from public access.  To make a function private, simply add an
 underscore as the name prefix and it will not be served via a URL request. For example, if you were to have a function like this:</p>
 
 <code>

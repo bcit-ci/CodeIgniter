@@ -790,7 +790,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}		
 		}
 		
-		if (ctype_digit($this->ar_limit))
+		if (is_numeric($this->ar_limit))
 		{
 			$sql .= "\n";
 			$sql = $this->_limit($sql, $this->ar_limit, $this->ar_offset);

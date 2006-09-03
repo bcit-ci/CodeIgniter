@@ -43,13 +43,13 @@ class CI_Log {
 	function CI_Log($path = '', $threshold = 4, $date_fmt = '')
 	{	
 		$this->log_path = ($path != '') ? $path : BASEPATH.'logs/';
-
+		
 		if ( ! is_dir($this->log_path) OR ! is_writable($this->log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 		
-		if (ctype_digit($threshold))
+		if (is_numeric($threshold))
 		{
 			$this->_threshold = $threshold;
 		}
@@ -77,7 +77,7 @@ class CI_Log {
 	function write_log($level = 'error', $msg, $php_error = FALSE)
 	{		
 		if ($this->_enabled === FALSE)
-		{
+		{ 
 			return FALSE;
 		}
 	

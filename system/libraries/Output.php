@@ -78,7 +78,7 @@ class CI_Output {
 	 */	
 	function cache($time)
 	{
-		$this->cache_expiration = ( ! ctype_digit($time)) ? 0 : $time;
+		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 	}
 	
 	// --------------------------------------------------------------------

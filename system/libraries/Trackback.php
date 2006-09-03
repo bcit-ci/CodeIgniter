@@ -368,7 +368,7 @@ class CI_Trackback {
 			$tb_array = explode('/', $url);
 			$tb_end   = $tb_array[count($tb_array)-1];
 			
-			if ( ! ctype_digit($tb_end))
+			if ( ! is_numeric($tb_end))
 			{
 				$tb_end  = $tb_array[count($tb_array)-2];
 			}
@@ -386,7 +386,7 @@ class CI_Trackback {
 			$tb_array = explode('/', $url);
 			$tb_id	= $tb_array[count($tb_array)-1];
 			
-			if ( ! ctype_digit($tb_id))
+			if ( ! is_numeric($tb_id))
 			{
 				$tb_id  = $tb_array[count($tb_array)-2];
 			}
