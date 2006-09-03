@@ -29,29 +29,16 @@
 |
 */
 
-$active_group = "test";
+$active_group = "default";
 
 $db['default']['hostname'] = "localhost";
-$db['default']['username'] = "root";
+$db['default']['username'] = "";
 $db['default']['password'] = "";
-$db['default']['database'] = "ellislab";
+$db['default']['database'] = "";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";
 $db['default']['active_r'] = TRUE;
 $db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
-
-
-
-$db['test']['hostname'] = "localhost";
-$db['test']['username'] = "root";
-$db['test']['password'] = "";
-$db['test']['database'] = "tester";
-$db['test']['dbdriver'] = "mysql";
-$db['test']['dbprefix'] = "";
-$db['test']['active_r'] = TRUE;
-$db['test']['pconnect'] = FALSE;
-$db['test']['db_debug'] = TRUE;
-
 
 ?>
