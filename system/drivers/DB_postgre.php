@@ -174,7 +174,7 @@ class CI_DB_postgre extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM ".$this->dbprefix.$table."");
+		$query = $this->query('SELECT COUNT(*) AS numrows FROM "'.$this->dbprefix.$table.'"');
 		
 		if ($query->num_rows() == 0)
 			return '0';
@@ -216,7 +216,6 @@ class CI_DB_postgre extends CI_DB {
 	 *
 	 * This function adds backticks if the table name has a period
 	 * in it. Some DBs will get cranky unless periods are escaped.
-	 * NOT NEEDED FOR POSTGRE
 	 *
 	 * @access	public
 	 * @param	string	the table name
@@ -224,12 +223,10 @@ class CI_DB_postgre extends CI_DB {
 	 */
 	function escape_table($table)
 	{
-		/*
 		if (stristr($table, '.'))
 		{
-			$table = preg_replace("/\./", "`.`", $table);
+			$table = '"'.preg_replace("/\./", '"."', $table).'"';
 		}
-		*/
 		
 		return $table;
 	}
