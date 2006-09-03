@@ -192,13 +192,20 @@ else
 	{
 		$method = 'index';
 	}
-
-	if ( ! method_exists($CI, $method))
-	{
-		show_404();
-	}
 	
-	$CI->$method();
+	if (method_exists($CI, '_remap'))
+	{
+		$CI->_remap($method);
+	}
+	else
+	{
+		if ( ! method_exists($CI, $method))
+		{
+			show_404();
+		}
+	
+		$CI->$method();
+	}
 }
 
 /*

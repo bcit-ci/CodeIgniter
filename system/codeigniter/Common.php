@@ -175,7 +175,7 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 							$config['log_threshold'], 
 							$config['log_date_format']
 						);
-	}
+	}	
 	
 	$LOG->write_log($level, $message, $php_error);
 }

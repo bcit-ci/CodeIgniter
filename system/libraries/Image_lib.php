@@ -291,7 +291,7 @@ class CI_Image_lib {
 		// Set the quality
 		$this->quality = trim(str_replace("%", "", $this->quality));
 		
-		if ($this->quality == '' OR $this->quality == 0 OR ! ctype_digit($this->quality))
+		if ($this->quality == '' OR $this->quality == 0 OR ! is_numeric($this->quality))
 			$this->quality = 90;
 	
 		// Set the x/y coordinates

@@ -352,7 +352,7 @@ class CI_DB_driver {
 	 */	
 	function escape($str)
 	{	
-		if ( ! ctype_digit($str)) // bug fix to ensure that numbers are not treated as strings.
+		if ( ! is_numeric($str)) // bug fix to ensure that numbers are not treated as strings.
 		{
 			switch (gettype($str))
 			{

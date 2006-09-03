@@ -219,15 +219,23 @@ class CI_Router {
 		{
 			return $segments;
 		}
-		
+
 		// Is the controller in a sub-folder?
 		if (is_dir(APPPATH.'controllers/'.$segments['0']))
-		{
+		{		
 			// Set the directory and remove it from the segment array
 			$this->set_directory($segments['0']);
 			$segments = array_slice($segments, 1);
 			
-			if (count($segments) == 0)
+			if (count($segments) > 0)
+			{
+				// Does the requested controller exist in the sub-folder?
+				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments['0'].EXT))
+				{
+					show_404();	
+				}
+			}
+			else
 			{
 				$this->set_class($this->default_controller);
 				$this->set_method('index');

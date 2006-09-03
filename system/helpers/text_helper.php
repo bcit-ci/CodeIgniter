@@ -333,7 +333,7 @@ function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '<
  */	
 function word_wrap($str, $chars = '76')
 {	
-	if ( ! ctype_digit($chars))
+	if ( ! is_numeric($chars))
 		$chars = 76;
 	
 	$str = preg_replace("/(\r\n|\r|\n)/", "\n", $str);

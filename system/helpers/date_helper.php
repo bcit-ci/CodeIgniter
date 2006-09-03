@@ -223,7 +223,7 @@ function days_in_month($month = 0, $year = '')
 		return 0;
 	}
 	
-	if ( ! ctype_digit($year) OR strlen($year) != 4)
+	if ( ! is_numeric($year) OR strlen($year) != 4)
 	{
 		$year = date('Y');
 	}

@@ -128,7 +128,7 @@ class CI_Pagination {
 			$this->cur_page = $obj->uri->segment($this->uri_segment);
 		}
 		
-		if ( ! ctype_digit($this->cur_page))
+		if ( ! is_numeric($this->cur_page))
 		{
 			$this->cur_page = 0;
 		}

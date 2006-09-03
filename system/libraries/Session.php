@@ -99,7 +99,7 @@ class CI_Session {
 		 */
 		$expiration = $this->object->config->item('sess_expiration');
 		
-		if (ctype_digit($expiration))
+		if (is_numeric($expiration))
 		{
 			if ($expiration > 0)
 			{
