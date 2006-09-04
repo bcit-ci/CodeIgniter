@@ -208,12 +208,12 @@ class CI_Config {
 		
 		if ($uri == '')
 		{
-			return $this->item('base_url', 1).$this->item('index_page');
+			return $this->slash_item('base_url').$this->item('index_page');
 		}
 		else
 		{
 			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');		
-			return $this->item('base_url', 1).$this->item('index_page', 1).preg_replace("|^/*(.+?)/*$|", "\\1", $uri).$suffix;
+			return $this->slash_item('base_url').$this->slash_item('index_page').preg_replace("|^/*(.+?)/*$|", "\\1", $uri).$suffix;
 		}
 	}
   	// END site_url()
