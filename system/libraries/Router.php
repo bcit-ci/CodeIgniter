@@ -312,12 +312,12 @@ class CI_Router {
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 			
 			// Does the RegEx match?
-			if (preg_match('|^'.$key.'$|', $uri))
+			if (preg_match('#^'.preg_quote($key).'$#', $uri))
 			{			
 				// Do we have a back-reference?
 				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
 				{
-					$val = preg_replace('|^'.$key.'$|', $val, $uri);
+					$val = preg_replace('#^'.preg_quote($key).'$#', $val, $uri);
 				}
 			
 				$this->_compile_segments(explode('/', $val));		
