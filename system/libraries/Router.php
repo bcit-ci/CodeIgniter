@@ -239,8 +239,14 @@ class CI_Router {
 			{
 				$this->set_class($this->default_controller);
 				$this->set_method('index');
-				$this->directory = '';
-				return array();
+			
+				// Does the default controller exist in the sub-folder?
+				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$this->default_controller.EXT))
+				{
+					$this->directory = '';
+					return array();
+				}
+			
 			}
 				
 			return $segments;
