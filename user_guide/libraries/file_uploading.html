@@ -323,10 +323,16 @@ will NOT need to use the <dfn>$this->upload->initialize</dfn> function if you sa
 
 <h2>$this->upload->do_upload()</h2>
 
-<p>Performs the upload based on the preferences you've set.  Note:  The upload routine expects the file to come from a form field 
+<p>Performs the upload based on the preferences you've set.  Note:  By default the upload routine expects the file to come from a form field 
 called <dfn>userfile</dfn>, and the form must be a "multipart type:</p>
 
 <code>&lt;form method="post" action="some_action" enctype="multipart/form-data" /></code>
+
+<p>If you would like to set your own field name simply pass its value to the <dfn>do_upload</dfn> function:</p>
+
+<code>
+$field_name = "some_field_name";<br />
+$this->upload->do_upload($field_name)</code>
 
 
 <h2>$this->upload->display_errors()</h2>
