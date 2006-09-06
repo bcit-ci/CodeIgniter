@@ -50,7 +50,7 @@ function xss_clean($str, $charset = 'ISO-8859-1')
  * @param	string
  * @return	string
  */		
-function hash($str, $type = 'sha1')
+function dohash($str, $type = 'sha1')
 {
 	if ($type == 'sha1')
 	{
