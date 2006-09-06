@@ -188,6 +188,16 @@ if ($RTR->scaffolding_request === TRUE)
 }
 else
 {
+	/*
+	 * ------------------------------------------------------
+	 *  Is there a "post_controller_constructor" hook?
+	 * ------------------------------------------------------
+	 */
+	if ($EXT->_hook_exists('post_controller_constructor'))
+	{
+		$EXT->_call_hook('post_controller_constructor');
+	}
+
 	if ($method == $class)
 	{
 		$method = 'index';
