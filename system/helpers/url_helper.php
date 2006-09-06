@@ -90,7 +90,14 @@ function index_page()
  */	
 function anchor($uri = '', $title = '', $attributes = '')
 {
-	$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+	if ( ! is_array($uri))
+	{
+		$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+	}
+	else
+	{
+		$site_url = site_url($uri);
+	}
 	
 	if ($title == '')
 	{
