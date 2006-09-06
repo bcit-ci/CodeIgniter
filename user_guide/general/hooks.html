@@ -142,6 +142,9 @@ Called very early during system execution.  Only the benchmark and hooks class h
 <li><strong>pre_controller</strong><br />
 Called immediately prior to any of your controllers being called. All base classes, routing, and security checks have been done.</li>
 
+<li><strong>post_controller_constructor</strong><br />
+Called immediately after the controller is instantiated, but prior to any method calls happen.</li>
+
 <li><strong>post_controller</strong><br />
 Called immediately after the controller is called.</li>
 
