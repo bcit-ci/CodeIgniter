@@ -154,7 +154,35 @@ class CI_DB_postgre extends CI_DB {
 	 */
 	function insert_id()
 	{
-		return pg_last_oid($this->result_id);
+		$v = pg_version($this->conn_id);
+		$v = $v['server'];
+		
+		$table	= func_num_args() > 0 ? func_get_arg(0) : null;
+		$column	= func_num_args() > 1 ? func_get_arg(1) : null;
+		
+		if ($table == null && $v >= '8.1')
+		{
+			$sql='SELECT LASTVAL() as ins_id';
+		}
+		elseif ($table != null && $column != null && $v >= '8.0')
+		{
+			$sql = sprintf("SELECT pg_get_serial_sequence('%s','%s') as seq", $table, $column);
+			$query = $this->query($sql);
+			$row = $query->row();
+			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $row->seq);
+		}
+		elseif ($table != null)
+		{
+			// seq_name passed in table parameter
+			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $table);
+		}
+		else
+		{
+			return pg_last_oid($this->result_id);
+		}
+		$query = $this->query($sql);
+		$row = $query->row();
+		return $row->ins_id;
 	}
 
 	// --------------------------------------------------------------------
