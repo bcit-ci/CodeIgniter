@@ -565,15 +565,7 @@ class CI_Loader {
 		{
 			if (isset($autoload[$type]))
 			{
-				if ( ! is_array($autoload[$type]))
-				{
-					$autoload[$type] = array($autoload[$type]);
-				}
-			
-				foreach ($autoload[$type] as $item)
-				{
-					$this->$type($item);
-				}
+				$this->$type($autoload[$type]);
 			}
 		}
 	}
@@ -592,20 +584,9 @@ class CI_Loader {
 	 */
 	function _ci_object_to_array($object)
 	{
-		if ( ! is_object($object))
-		{
-			return $object;
-		}
-		
-		$array = array();
-		foreach (get_object_vars($object) as $key => $val)
-		{
-			$array[$key] = $val;
-		}
-	
-		return $array;
+		return (is_object($object)) ? get_object_vars($object) : $object;
 	}
+	// END _ci_object_to_array()
 	
 }
-// END Loader Class
 ?>
