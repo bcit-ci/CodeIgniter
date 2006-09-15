@@ -147,7 +147,7 @@ class CI_Output {
 			return;
 		}
 		
-		$uri =	$obj->config->slash_item('base_url').
+		$uri =	$obj->config->item('base_url').
 				$obj->config->item('index_page').
 				$obj->uri->uri_string();
 		
@@ -191,8 +191,10 @@ class CI_Output {
 		}
 		
 		// Build the file path.  The file name is an MD5 hash of the full URI
-		$uri = $CFG->item('base_url', 1).$CFG->item('index_page').$RTR->uri_string;
-		
+		$uri =	$obj->config->item('base_url').
+				$obj->config->item('index_page').
+				$obj->uri->uri_string();
+				
 		$filepath = $cache_path.md5($uri);
 		
 		if ( ! @file_exists($filepath))
