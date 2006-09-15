@@ -66,10 +66,7 @@ $EXT =& _load_class('CI_Hooks');
  *  Is there a "pre_system" hook?
  * ------------------------------------------------------
  */
-if ($EXT->_hook_exists('pre_system'))
-{
-	$EXT->_call_hook('pre_system');
-}
+$EXT->_call_hook('pre_system');
 
 /*
  * ------------------------------------------------------
@@ -87,11 +84,7 @@ $OUT =& _load_class('CI_Output');
  * ------------------------------------------------------
  */
  
-if ($EXT->_hook_exists('cache_override'))
-{
-	$EXT->_call_hook('cache_override');
-}
-else
+if ($EXT->_call_hook('cache_override') === FALSE)
 {
 	if ($OUT->_display_cache() == TRUE)
 	{
@@ -163,10 +156,7 @@ if ( ! class_exists($class)
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
-if ($EXT->_hook_exists('pre_controller'))
-{
-	$EXT->_call_hook('pre_controller');
-}
+$EXT->_call_hook('pre_controller');
 
 /*
  * ------------------------------------------------------
@@ -177,11 +167,7 @@ $CI = new $class();
 
 if ($RTR->scaffolding_request === TRUE)
 {
-	if ($EXT->_hook_exists('scaffolding_override'))
-	{
-		$EXT->_call_hook('scaffolding_override');
-	}
-	else
+	if ($EXT->_call_hook('scaffolding_override') === FALSE)
 	{
 		$CI->_ci_scaffolding();
 	}
@@ -193,10 +179,7 @@ else
 	 *  Is there a "post_controller_constructor" hook?
 	 * ------------------------------------------------------
 	 */
-	if ($EXT->_hook_exists('post_controller_constructor'))
-	{
-		$EXT->_call_hook('post_controller_constructor');
-	}
+	$EXT->_call_hook('post_controller_constructor');
 
 	if ($method == $class)
 	{
@@ -223,10 +206,7 @@ else
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
-if ($EXT->_hook_exists('post_controller'))
-{
-	$EXT->_call_hook('post_controller');
-}
+$EXT->_call_hook('post_controller');
 
 /*
  * ------------------------------------------------------
@@ -234,11 +214,7 @@ if ($EXT->_hook_exists('post_controller'))
  * ------------------------------------------------------
  */
  
-if ($EXT->_hook_exists('display_override'))
-{
-	$EXT->_call_hook('display_override');
-}
-else
+if ($EXT->_call_hook('display_override') === FALSE)
 {
 	$OUT->_display();
 }
@@ -248,10 +224,7 @@ else
  *  Is there a "post_system" hook?
  * ------------------------------------------------------
  */
-if ($EXT->_hook_exists('post_system'))
-{
-	$EXT->_call_hook('post_system');
-}
+$EXT->_call_hook('post_system');
 
 /*
  * ------------------------------------------------------
