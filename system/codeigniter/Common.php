@@ -110,12 +110,7 @@ function &_get_config()
 */
 function show_error($message)
 {
-	if ( ! class_exists('CI_Exceptions'))
-	{
-		include_once(BASEPATH.'libraries/Exceptions.php');
-	}
-	
-	$error = new CI_Exceptions();
+	$error =& _load_class('CI_Exceptions');
 	echo $error->show_error('An Error Was Encountered', $message);
 	exit;
 }
@@ -133,12 +128,7 @@ function show_error($message)
 */
 function show_404($page = '')
 {
-	if ( ! class_exists('CI_Exceptions'))
-	{
-		include_once(BASEPATH.'libraries/Exceptions.php');
-	}
-	
-	$error = new CI_Exceptions();
+	$error =& _load_class('CI_Exceptions');
 	$error->show_404($page);
 	exit;
 }
@@ -163,20 +153,7 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 		return;
 	}
 
-	if ( ! class_exists('CI_Log'))
-	{
-		include_once(BASEPATH.'libraries/Log.php');		
-	}
-	
-	if ( ! is_object($LOG))
-	{
-		$LOG = new CI_Log(
-							$config['log_path'], 
-							$config['log_threshold'], 
-							$config['log_date_format']
-						);
-	}	
-	
+	$LOG =& _load_class('CI_Log');	
 	$LOG->write_log($level, $message, $php_error);
 }
 
@@ -209,12 +186,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 		return;
 	}
 
-	// Send the PHP error to the log file...
-	if ( ! class_exists('CI_Exceptions'))
-	{
-		include_once(BASEPATH.'libraries/Exceptions.php');
-	}
-	$error = new CI_Exceptions();
+	$error =& _load_class('CI_Exceptions');
 
 	// Should we display the error?  
 	// We'll get the current error_reporting level and add its bits
