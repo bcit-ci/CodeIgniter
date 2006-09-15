@@ -69,34 +69,6 @@ class CI_Hooks {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Does a given hook exist?
-	 *
-	 * Returns TRUE/FALSE based on whether a given hook exists
-	 *
-	 * @access	private
-	 * @param	string
-	 * @return	bool
-	 */
-	function _hook_exists($which = '')
-	{
-		if ( ! $this->enabled)
-		{
-			return FALSE;
-		}
-
-		if ( ! isset($this->hooks[$which]))
-		{
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-  	// END hook_exists()
-  	
-  	
-	// --------------------------------------------------------------------
-
-	/**
 	 * Call Hook
 	 *
 	 * Calls a particular hook
@@ -107,6 +79,11 @@ class CI_Hooks {
 	 */
 	function _call_hook($which = '')
 	{
+		if ( ! $this->enabled OR ! isset($this->hooks[$which]))
+		{
+			return FALSE;
+		}
+	
 		if (isset($this->hooks[$which][0]) AND is_array($this->hooks[$which][0]))
 		{
 			foreach ($this->hooks[$which] as $val)
@@ -118,6 +95,8 @@ class CI_Hooks {
 		{
 			$this->_run_hook($this->hooks[$which]);
 		}
+		
+		return TRUE;
 	}
   	// END hook_exists()
 
@@ -144,7 +123,7 @@ class CI_Hooks {
 		// -----------------------------------
 	
 		// If the script being called happens to have the same 
-		// extension call within it a loop can happen
+		// hook call within it a loop can happen
 		
 		if ($this->in_progress == TRUE)
 		{
