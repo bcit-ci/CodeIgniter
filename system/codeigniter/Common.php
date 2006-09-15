@@ -38,7 +38,7 @@
 */
 function &_load_class($class, $instantiate = TRUE)
 {
-	static $objects;
+	static $objects = array();
 	
 	if ( ! isset($objects[$class]))
 	{
@@ -63,7 +63,7 @@ function &_load_class($class, $instantiate = TRUE)
 		}
 		else
 		{
-			$objects[$class] = FALSE;
+			$objects[$class] = TRUE;
 		}
 	}
 	
