@@ -40,23 +40,25 @@ class CI_Log {
 	 * @param	string	the error threshold
 	 * @param	string	the date formatting codes
 	 */
-	function CI_Log($path = '', $threshold = 4, $date_fmt = '')
-	{	
-		$this->log_path = ($path != '') ? $path : BASEPATH.'logs/';
+	function CI_Log()
+	{
+		$config =& _get_config();
+		
+		$this->log_path = ($config['log_path'] != '') ? $config['log_path'] : BASEPATH.'logs/';
 		
 		if ( ! is_dir($this->log_path) OR ! is_writable($this->log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 		
-		if (is_numeric($threshold))
+		if (is_numeric($config['log_threshold']))
 		{
-			$this->_threshold = $threshold;
+			$this->_threshold = $config['log_threshold'];
 		}
 			
-		if ($date_fmt != '')
+		if ($config['log_date_format'] != '')
 		{
-			$this->_date_fmt = $date_fmt;
+			$this->_date_fmt = $config['log_date_format'];
 		}
 	}
 	// END CI_Log()
