@@ -183,7 +183,7 @@ query is performed to match it.  If the session ID does not match, the session i
 be updated, they can only be generated when a new session is created.</p>
 
 <p>In order to store sessions, you must first create a database table for this purpose.  Here is the basic 
-prototype required by the session class:</p>
+prototype (for MySQL) required by the session class:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="8">
 CREATE TABLE IF NOT EXISTS  `ci_sessions` (
@@ -201,6 +201,14 @@ Once you have created your database table you can enable the database option in 
 <code>$config['sess_use_database'] = TRUE;</code>
 
 <p>Once enabled, the Session class will store session data in the DB.</p>
+
+<p>Make sure you've specified the table name in your config file as well:</p>
+
+<code>$config['sess_table_name'] = 'ci_sessions";</code>
+
+<p class="important"><strong>Note:</strong> The Session class has built-in garbage collection which clears out expired sessions so you
+do not need to write your own routine to do it.</p>
+
 
 <h2>Session Preferences</h2>
 
