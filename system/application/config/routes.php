@@ -41,11 +41,9 @@
 
 $route['default_controller'] = "welcome";
 
-$route['scaffolding_trigger'] = "scaffolding";
+$route['scaffolding_trigger'] = "";
 
 // Define your own routes below -------------------------------------------
-
-$route['products/([a-z]+)/(\d+)'] = "bamo/$1/a$2";
 
 
 
