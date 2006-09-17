@@ -451,7 +451,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 			$F->type 		= $field->type;
 			$F->default		= $field->def;
 			$F->max_length	= $field->max_length;
-			$F->primary_key = 0;
+			$F->primary_key = ($field->flags & MYSQLI_PRI_KEY_FLAG) ? 1 : 0;
 			
 			$retval[] = $F;
 		}
