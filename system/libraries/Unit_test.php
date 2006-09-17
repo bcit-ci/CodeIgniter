@@ -223,9 +223,9 @@ class CI_Unit_test {
 	 * @params	string
 	 * @return	void
 	 */	
-	function set_template($tempalte)
+	function set_template($template)
 	{
-		$this->_template = $tempalte;
+		$this->_template = $template;
 	}
 	
 	// --------------------------------------------------------------------
