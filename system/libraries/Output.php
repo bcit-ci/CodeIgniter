@@ -178,7 +178,7 @@ class CI_Output {
 	 * @access	public
 	 * @return	void
 	 */	
-	function _display_cache()
+	function _display_cache(&$CFG, &$RTR)
 	{
 		$CFG =& _load_class('CI_Config');
 		$RTR =& _load_class('CI_Router');
@@ -191,10 +191,9 @@ class CI_Output {
 		}
 		
 		// Build the file path.  The file name is an MD5 hash of the full URI
-		$obj =& get_instance();
-		$uri =	$obj->config->item('base_url').
-				$obj->config->item('index_page').
-				$obj->uri->uri_string();
+		$uri =	$CFG->item('base_url').
+				$CFG->item('index_page').
+				$RTR->uri_string;
 				
 		$filepath = $cache_path.md5($uri);
 		
