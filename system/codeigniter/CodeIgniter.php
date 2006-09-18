@@ -86,7 +86,7 @@ $OUT =& _load_class('CI_Output');
  
 if ($EXT->_call_hook('cache_override') === FALSE)
 {
-	if ($OUT->_display_cache() == TRUE)
+	if ($OUT->_display_cache($CFG, $RTR) == TRUE)
 	{
 		exit;
 	}
