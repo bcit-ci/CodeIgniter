@@ -240,7 +240,6 @@ class CI_Validation {
 			// Cycle through the rules!
 			foreach ($ex As $rule)
 			{
-
 				// Is the rule a callback?			
 				$callback = FALSE;
 				if (substr($rule, 0, 9) == 'callback_')
@@ -267,6 +266,12 @@ class CI_Validation {
 					}
 					
 					$result = $this->obj->$rule($_POST[$field], $param);
+					
+					// If the field isn't requires we'll move on...
+					if ( ! in_array('required', $ex))
+					{
+						continue;
+					}
 				}
 				else
 				{				
