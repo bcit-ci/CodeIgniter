@@ -243,12 +243,21 @@ class CI_Loader {
 		
 			$helper = strtolower(str_replace(EXT, '', str_replace('_helper', '', $helper)).'_helper');
 		
-			if ( ! file_exists(BASEPATH.'helpers/'.$helper.EXT))
+			if (file_exists(APPPATH.'helpers/'.$helper.EXT))
 			{
-				show_error('Unable to load the requested file: helpers/'.$helper.EXT);
+				include_once(APPPATH.'helpers/'.$helper.EXT);
 			}
-			
-			include_once(BASEPATH.'helpers/'.$helper.EXT);
+			else
+			{		
+				if (file_exists(BASEPATH.'helpers/'.$helper.EXT))
+				{
+					include_once(BASEPATH.'helpers/'.$helper.EXT);
+				}
+				else
+				{
+					show_error('Unable to load the requested file: helpers/'.$helper.EXT);
+				}
+			}
 
 			$this->helpers[$helper] = TRUE;
 		}
@@ -300,14 +309,23 @@ class CI_Loader {
 				continue;
 			}
 	
-			$plugin = strtolower(str_replace(EXT, '', str_replace('_plugin.', '', $plugin)).'_pi');
+			$plugin = strtolower(str_replace(EXT, '', str_replace('_plugin.', '', $plugin)).'_pi');		
 		
-			if ( ! file_exists(BASEPATH.'plugins/'.$plugin.EXT))
+			if (file_exists(APPPATH.'plugins/'.$plugin.EXT))
 			{
-				show_error('Unable to load the requested file: plugins/'.$plugin.EXT);
+				include_once(APPPATH.'plugins/'.$plugin.EXT);	
 			}
-			
-			include_once(BASEPATH.'plugins/'.$plugin.EXT);	
+			else
+			{
+				if (file_exists(BASEPATH.'plugins/'.$plugin.EXT))
+				{
+					include_once(BASEPATH.'plugins/'.$plugin.EXT);	
+				}
+				else
+				{
+					show_error('Unable to load the requested file: plugins/'.$plugin.EXT);
+				}
+			}
 			
 			$this->plugins[$plugin] = TRUE;
 		}
