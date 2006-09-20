@@ -67,6 +67,11 @@ Plugins
 provides a single function, whereas a Helper is usually a collection of functions.  Helpers are also considerd a part of
 the core system; plugins are intended to be created and shared by our community.</p>
 
+<p>Plugins should be saved to your <dfn>system/plugins</dfn> directory or you can create a folder called <kbd>plugins</kbd> inside
+your <kbd>application</kbd> folder and store them there.  Code Igniter will look first in your <dfn>system/application/plugins</dfn>
+directory.  If the direcotry does not exist or the specified plugin is not located there CI will instead look in your global 
+<dfn>system/plugins</dfn> folder.</p>
+
 
 <h2>Loading a Plugin</h2>
 
@@ -79,6 +84,8 @@ the core system; plugins are intended to be created and shared by our community.
 <p>For example, to load the <dfn>Captcha</dfn> plugin, which is named <var>captcha_pi.php</var>, you will do this:</p>
 
 <code>$this->load->plugin('<var>captcha</var>');</code>
+
+
 
 <p>A plugin can be loaded anywhere within your <a href="../general/controllers.html">controller</a> functions (or even within your <a href="../general/views.html">View files</a>, although that's not a good practice),
 as long as you load it before you use it.  You can load your plugins in your controller constructor so that they become available
