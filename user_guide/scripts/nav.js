@@ -96,6 +96,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'helpers/file_helper.html">File Helper</a></li>' +
 		'<li><a href="'+base+'helpers/form_helper.html">Form Helper</a></li>' +
 		'<li><a href="'+base+'helpers/html_helper.html">HTML Helper</a></li>' +
+		'<li><a href="'+base+'helpers/inflector_helper.html">Inflector Helper</a></li>' +
 		'<li><a href="'+base+'helpers/security_helper.html">Security Helper</a></li>' +
 		'<li><a href="'+base+'helpers/string_helper.html">String Helper</a></li>' +
 		'<li><a href="'+base+'helpers/text_helper.html">Text Helper</a></li>' +
