@@ -66,12 +66,24 @@ class CI_Language {
 			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
 		}
 	
-		if ( ! file_exists(BASEPATH.'language/'.$idiom.'/'.$langfile))
+		// Determine where the language file is and load it
+	
+		if (file_exists(APPPATH.'language/'.$idiom.'/'.$langfile))
 		{
-			show_error('Unable to load the requested language file: language/'.$langfile);
+			include_once(APPPATH.'language/'.$idiom.'/'.$langfile);
+		}
+		else
+		{		
+			if (file_exists(BASEPATH.'language/'.$idiom.'/'.$langfile))
+			{
+				include_once(BASEPATH.'language/'.$idiom.'/'.$langfile);
+			}
+			else
+			{
+				show_error('Unable to load the requested language file: language/'.$langfile);
+			}
 		}
 
-		include_once(BASEPATH.'language/'.$idiom.'/'.$langfile);
 		            
 		if ( ! isset($lang))
 		{
