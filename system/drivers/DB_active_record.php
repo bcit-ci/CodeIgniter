@@ -257,7 +257,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Like
 	 *
-	 * Called by like() or olike()
+	 * Called by like() or orlike()
 	 *
 	 * @access	private
 	 * @param	mixed
@@ -346,7 +346,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Sets the OR HAVING value
+	 * Sets the HAVING values
 	 *
 	 * Called by having() or orhaving()
 	 *

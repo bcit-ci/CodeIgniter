@@ -449,7 +449,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		$retval = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
 		{
-			$F 				= new CI_DB_field();
+			$F 				= new stdClass();
 			$F->name 		= sqlite_field_name($this->result_id, $i);
 			$F->type 		= 'varchar';
 			$F->max_length	= 0;

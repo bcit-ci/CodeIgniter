@@ -46,6 +46,12 @@ class CI_DB_driver {
 	var $bind_marker	= '?';
 	var $queries		= array();
 	
+    // These are use with Oracle
+    var $stmt_id;
+    var $curs_id;
+    var $limit_used;
+	
+	
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings. 
@@ -151,6 +157,11 @@ class CI_DB_driver {
             }
             return FALSE;        
 		}
+		
+        if ($this->dbdriver == 'oci8')
+        {
+			return $sql;
+		}		
 	
 		$query = $this->query($sql);
 		$row = $query->row();
@@ -173,7 +184,7 @@ class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed		 
 	 */	
-    function query($sql, $binds = FALSE)
+    function query($sql, $binds = FALSE, $return_object = TRUE)
     {    
 		if ( ! $this->conn_id)
 		{
@@ -228,8 +239,16 @@ class CI_DB_driver {
         $this->query_count++;
         
 		// Was the query a "write" type?
-		// If so we'll return simply return true
+		// If so we'll simply return true
 		if ($this->is_write_type($sql) === TRUE)
+		{
+			return TRUE;
+		}
+		
+		// Return TRUE if we don't need to create a result object 
+		// Currently only the Oracle driver uses this when stored
+		// procedures are used
+		if ($return_object !== TRUE)
 		{
 			return TRUE;
 		}
@@ -241,6 +260,13 @@ class CI_DB_driver {
         $RES->conn_id	= $this->conn_id;
         $RES->db_debug	= $this->db_debug;
         $RES->result_id	= $this->result_id;
+        
+        if ($this->dbdriver == 'oci8')
+        {
+			$RES->stmt_id   = $this->stmt_id;
+			$RES->curs_id   = NULL;
+			$RES->limit_used = $this->limit_used;
+        }
 
 		return $RES;
 	}
@@ -352,19 +378,16 @@ class CI_DB_driver {
 	 */	
 	function escape($str)
 	{	
-		if ( ! is_numeric($str)) // bug fix to ensure that numbers are not treated as strings.
+		switch (gettype($str))
 		{
-			switch (gettype($str))
-			{
-				case 'string'	:	$str = "'".$this->escape_str($str)."'";
-					break;
-				case 'boolean'	:	$str = ($str === FALSE) ? 0 : 1;
-					break;
-				default			:	$str = ($str === NULL) ? 'NULL' : $str;
-					break;
-			}		
-		}
-	
+			case 'string'	:	$str = "'".$this->escape_str($str)."'";
+				break;
+			case 'boolean'	:	$str = ($str === FALSE) ? 0 : 1;
+				break;
+			default			:	$str = ($str === NULL) ? 'NULL' : $str;
+				break;
+		}		
+
 		return $str;
 	}
 	
@@ -394,7 +417,14 @@ class CI_DB_driver {
 		{
 			foreach($query->result_array() as $row)
 			{
-				$retval[] = array_shift($row);
+				if (isset($row['TABLE_NAME']))
+				{
+					$retval[] = $row['TABLE_NAME'];
+				}
+				else
+				{
+					$retval[] = array_shift($row);
+				}
 			}
 		}
 
@@ -447,7 +477,7 @@ class CI_DB_driver {
     	$retval = array();
 		foreach($query->result_array() as $row)
 		{
-			if ($this->dbdriver == 'mssql' AND isset($row['COLUMN_NAME']))
+			if (isset($row['COLUMN_NAME']))
 			{
 				$retval[] = $row['COLUMN_NAME'];
 			}
@@ -671,29 +701,6 @@ class CI_DB_driver {
 
     }  
 	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field Data - old version - DEPRECATED
-	 * 
-	 * @deprecated	use $this->db->field_data() instead
-	 */	
-	function fields($table = '')
-	{
-		return $this->field_data($table);
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Smart Escape String - old version - DEPRECATED
-	 * 
-	 * @deprecated	use $this->db->escape() instead
-	 */	
-	function smart_escape_str($str)
-	{
-		return $this->escape($str);
-	}
 }
 
 
@@ -924,26 +931,6 @@ class CI_DB_result {
 		return $result[count($result) -1];
 	}	
 
-}
-
-
-
-/**
- * Database Field Class
- * 
- * This class will contain the field meta-data.  It 
- * is called by one of the field result functions
- *
- * @category	Database
- * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/database/
- */
-class CI_DB_field {
-	var $name;
-	var $type;
-	var $default;
-	var $max_length;
-	var $primary_key;
 }
 
 ?>
