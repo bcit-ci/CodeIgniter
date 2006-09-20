@@ -68,6 +68,16 @@ Language Class
 <p>In your Code Igniter system folder you'll find one called <dfn>language</dfn> containing sets of language files.  You can create
 your own language files as needed in order to display error and other messages in other languages.</p>
 
+<p>Language files are typically stored in your <dfn>system/language</dfn> directory.  Alternately you can create a folder called <kbd>language</kbd> inside
+your <kbd>application</kbd> folder and store them there.  Code Igniter will look first in your <dfn>system/application/language</dfn>
+directory.  If the direcotry does not exist or the specified language is not located there CI will instead look in your global 
+<dfn>system/language</dfn> folder.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; Each language should be stored in its own folder.  For example, the English files are located at:
+<dfn>system/language/english</dfn></p>
+
+
+
 <h2>Creating Language Files</h2>
 
 <p>Language files must be named with <kbd>_lang.php</kbd> as the file extension.  For example, let's say you want to create a file
@@ -78,7 +88,7 @@ containing error messages.  You might name it:  <kbd>error_lang.php</kbd></p>
 <code>$lang['language_key'] = "The actual message to be shown";</code>
 
 <p><strong>Note:</strong> It's a good practice to use a common prefix for all messages in a given file to avoid collisions with 
-similarly named items in other files:</p>
+similarly named items in other files.  For example, if you are creating error messages you might prefix them with <var>error_</var></p>
 
 <code>$lang['<var>error</var>_email_missing'] = "You must submit an email address";<br />
 $lang['<var>error</var>_url_missing'] = "You must submit a URL";<br />
