@@ -246,8 +246,8 @@ class CI_Validation {
 				{
 					$rule = substr($rule, 9);
 					$callback = TRUE;
-				}			
-			
+				}
+				
 				// Strip the parameter (if exists) from the rule
 				// Rules can contain a parameter: max_length[5]
 				$param = FALSE;
@@ -265,13 +265,14 @@ class CI_Validation {
 						continue;
 					}
 					
-					$result = $this->obj->$rule($_POST[$field], $param);
+					$result = $this->obj->$rule($_POST[$field], $param);	
 					
-					// If the field isn't requires we'll move on...
-					if ( ! in_array('required', $ex))
+					// If the field isn't required and we just processed a callback we'll move on...
+					if ( ! in_array('required', $ex) AND $result !== FALSE)
 					{
-						continue;
+						continue 2;
 					}
+					
 				}
 				else
 				{				
@@ -295,7 +296,7 @@ class CI_Validation {
 					
 					$result = $this->$rule($_POST[$field], $param);
 				}
-				
+								
 				// Did the rule test negatively?  If so, grab the error.
 				if ($result === FALSE)
 				{
@@ -323,8 +324,9 @@ class CI_Validation {
 					// Add the error to the error array
 					$this->_error_array[] = $message;				
 					continue 2;
-				}
+				}				
 			}
+			
 		}
 		
 		$total_errors = count($this->_error_array);

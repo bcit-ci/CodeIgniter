@@ -451,7 +451,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		$retval = array();
 		while ($field = mysqli_fetch_field($this->result_id))
 		{	
-			$F 				= new CI_DB_field();
+			$F 				= new stdClass();
 			$F->name 		= $field->name;
 			$F->type 		= $field->type;
 			$F->default		= $field->def;

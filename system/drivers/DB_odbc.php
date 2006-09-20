@@ -420,7 +420,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$retval = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
 		{
-			$F 				= new CI_DB_field();
+			$F 				= new stdClass();
 			$F->name 		= odbc_field_name($this->result_id, $i);
 			$F->type 		= odbc_field_type($this->result_id, $i);
 			$F->max_length	= odbc_field_len($this->result_id, $i);
