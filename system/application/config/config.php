@@ -204,7 +204,6 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 */
 $config['cache_path'] = '';
 
-
 /*
 |--------------------------------------------------------------------------
 | Encryption Key
@@ -215,7 +214,6 @@ $config['cache_path'] = '';
 |
 */
 $config['encryption_key'] = "";
-
 
 /*
 |--------------------------------------------------------------------------
@@ -235,7 +233,6 @@ $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= '';
 $config['sess_match_ip']		= TRUE;
 $config['sess_match_useragent']	= TRUE;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -261,6 +258,25 @@ $config['cookie_path']		= "/";
 |
 */
 $config['global_xss_filtering'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
+| Output Compression
+|--------------------------------------------------------------------------
+|
+| Enables output compression using Gzip for faster page loads.  When enabled,
+| the output class will test whether the server your site is running on 
+| supports Gzip. Even if it does, however, not all browsers support compression
+| so enable only if you are reasonably sure your visitors can handle it.
+|
+| VERY IMPORTANT:  If you are getting a blank page when this is enabled it
+| means you are prematurely outputing something to your browser. It could
+| even be a line of whitespace at the end of one of your scripts.  For 
+| compression to work, nothing can be sent before the output buffer is called
+| by the output class.
+|
+*/
+$config['compress_output'] = TRUE;
 
 
 ?>
