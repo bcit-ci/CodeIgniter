@@ -79,10 +79,15 @@ function &_load_class($class, $instantiate = TRUE)
 */
 function &_get_config()
 {
-	static $conf;
-	
-	if ( ! isset($conf))
+	static $main_conf;
+		
+	if ( ! isset($main_conf))
 	{
+		if ( ! file_exists(APPPATH.'config/config'.EXT))
+		{
+			show_error('The configuration file config'.EXT.' does not exist.');
+		}
+		
 		require(APPPATH.'config/config'.EXT);
 		
 		if ( ! isset($config) OR ! is_array($config))
@@ -90,9 +95,9 @@ function &_get_config()
 			show_error('Your config file does not appear to be formatted correctly.');
 		}
 
-		$conf[0] =& $config;
+		$main_conf[0] =& $config;
 	}
-	return $conf[0];
+	return $main_conf[0];
 }
 
 

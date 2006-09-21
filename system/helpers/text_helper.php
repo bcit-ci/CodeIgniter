@@ -266,7 +266,7 @@ function highlight_code($str)
 	// or B) whether the PHP tags enclose the entire string, we will add our
 	// own PHP tags around the string along with some markers to make replacement easier later
 	
-	$str = '<?php //tempstart'."\n".$str.'//tempend ?>'; // <?
+	$str = '<?php //tempstart'."\n".$str.'//tempend ?>';
 	
 	// All the magic happens here, baby!
 	$str = highlight_string($str, TRUE);

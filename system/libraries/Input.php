@@ -430,7 +430,7 @@ class CI_Input {
 		 * But it doesn't seem to pose a problem.
 		 *
 		 */		
-		$str = str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str); // <?php BBEdit bug fix
+		$str = str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	
 		/*
 		 * Compact any exploded words
