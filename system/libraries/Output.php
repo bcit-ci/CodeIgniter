@@ -86,7 +86,6 @@ class CI_Output {
 	{
 		$this->headers[] = $header;
 	}
-
 	
 	// --------------------------------------------------------------------
 	
@@ -144,6 +143,19 @@ class CI_Output {
 
 		$output = str_replace('{memory_usage}', $memory, $output);		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
+		
+		// Is compression requested?
+		$CFG =& _load_class('CI_Config');
+		if ($CFG->item('compress_output') === TRUE)
+		{
+			if (extension_loaded('zlib'))
+			{
+				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) AND strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
+				{
+					ob_start('ob_gzhandler');
+				}
+			}
+		}
 		
 		// Are there any server headers to send?
 		if (count($this->headers) > 0)
