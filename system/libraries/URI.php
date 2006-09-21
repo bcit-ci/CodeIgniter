@@ -107,6 +107,41 @@ class CI_URI {
 	 */
 	function uri_to_assoc($n = 3, $default = array())
 	{
+	 	return $this->_uri_to_assoc($n, $default, 'segment');
+	}
+	/**
+	 * Identical to above only it uses the re-routed segment array
+	 *
+	 */
+	function ruri_to_assoc($n = 3, $default = array())
+	{
+	 	return $this->_uri_to_assoc($n, $default, 'rsegment');
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Generate a key value pair from the URI string or Re-routed URI string
+	 * 
+	 * @access	private
+	 * @param	integer	the starting segment number
+	 * @param	array	an array of default values
+	 * @param	string	which array we should use
+	 * @return	array
+	 */
+	function _uri_to_assoc($n = 3, $default = array(), $which = 'segment')
+	{
+		if ($which == 'segment')
+		{
+			$total_segments = 'total_segments';
+			$segment_array = 'segment_array';
+		}
+		else
+		{
+			$total_segments = 'total_rsegments';
+			$segment_array = 'rsegment_array';
+		}
+		
 		if ( ! is_numeric($n))
 		{
 			return $default;
@@ -117,7 +152,7 @@ class CI_URI {
 			return $this->keyval[$n];
 		}
 	
-		if ($this->total_segments() < $n)
+		if ($this->$total_segments() < $n)
 		{
 			if (count($default) == 0)
 			{
@@ -132,7 +167,7 @@ class CI_URI {
 			return $retval;
 		}
 
-		$segments = array_slice($this->segment_array(), ($n - 1));
+		$segments = array_slice($this->$segment_array(), ($n - 1));
 
 		$i = 0;
 		$lastval = '';
@@ -322,7 +357,7 @@ class CI_URI {
 	 * @access	public
 	 * @return	string
 	 */
-	function uri_rstring()
+	function ruri_string()
 	{
 		return '/'.implode('/', $this->rsegment_array()).'/';
 	}

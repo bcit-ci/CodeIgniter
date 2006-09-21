@@ -63,7 +63,8 @@ URI Class
 
 <h1>URI Class</h1>
 
-<p>The URI Class provides functions that help you retrieve information from your URI strings.</p>
+<p>The URI Class provides functions that help you retrieve information from your URI strings. If you use URI routing, you can
+also retrieve information about the re-routed segments.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
 
@@ -101,10 +102,15 @@ else<br />
 }<br />
 </code>
 
+<h2>$this->uri->rsegment(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it lets you retrieve a specific segment from your
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
+
 
 <h2>$this->uri->slash_segment(<var>n</var>)</h2>
 
-<p>This function is almost identical to the one above, except it adds a trailing and/or leading slash based on the second
+<p>This function is almost identical to <dfn>$this->uri->segment()</dfn>, except it adds a trailing and/or leading slash based on the second
 parameter.  If the parameter is not used, a trailing slash added.  Examples:</p>
 
 <code>$this->uri->slash_segment(<var>3</var>);<br />
@@ -118,6 +124,13 @@ $this->uri->slash_segment(<var>3</var>, 'both');</code>
 <li>/segment</li>
 <li>/segment/</li>
 </ol>
+
+
+<h2>$this->uri->slash_rsegment(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it lets you add slashes a specific segment from your
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
+
 
 
 <h2>$this->uri->uri_to_assoc(<var>n</var>)</h2>
@@ -157,6 +170,13 @@ $array = $this->uri->uri_to_assoc(3, $default);</code>
 <p>Lastly, if a corresponding value is not found for a given key (if there is an odd number of URI segments) the value will be set to FALSE (boolean).</p>
 
 
+<h2>$this->uri->ruri_to_assoc(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it creates an associative array using the
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
+
+
+
 <h2>$this->uri->assoc_to_uri()</h2>
 
 <p>Takes an associative array as input and generates a URI string from it.  The array keys will be included in the string.  Example:</p>
@@ -180,9 +200,22 @@ $str = $this->uri->assoc_to_str($array);<br />
 <code>news/local/345</code>
 
 
+<h2>$this->uri->ruri_string(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it returns the
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
+
+
+
 <h2>$this->uri->total_segments()</h2>
 
 <p>Returns the total number of segments.</p>
+
+
+<h2>$this->uri->total_rsegments(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it returns the total number of segments in your
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
 
 
 
@@ -198,6 +231,11 @@ foreach ($segs as $segment)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $segment;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo '&lt;br />';<br />
 }</code>
+
+<h2>$this->uri->rsegment_array(<var>n</var>)</h2>
+
+<p>This function is identical to the previous one, except that it returns the array of segments in your
+re-routed URI in the event you are using Code Igniter's <a href="../general/routing.html">URI Routing</a> feature.
 
 
 

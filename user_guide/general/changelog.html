@@ -67,6 +67,8 @@ Change Log
 <p>Release Date: September 25, 2006</p>
 
 <ul>
+<li>Added a new feature that passes URI segments directly to your function calls as parameters. See the <a href="controllers.html">Controllers</a> page for more info.</li>
+<li>Added several new functions in the <a href="../libraries/uri.html">URI Class</a> to let you retrieve and manipulate Re-routed URI segments. Previously, the URI class did not permit you to access any re-routed URI segments when you used the <a href="routing.html">URI Routing</a> feature. Now it does.</li>
 <li>Updated plugins, helpers, and language classes to allow your "application" folder to contain its own plugins, helpers, and language folders.  If your application folder contains any of these resources, when you load them CI will look first in your local application folder.  If not found, it instead looks in the global folders.</li>
 <li>Added <a href="../helpers/inflector_helper.html">Inflector helper</a>.</li>
 <li>Added element() function in the <a href="../helpers/array_helper.html">array helper</a>.</li>
@@ -77,19 +79,17 @@ Change Log
 <li>Added Oracle database driver (still undergoing testing so it might have some bugs).</li>
 <li>Added the ability to combine pseudo-variables and php variables in the template parser class.</li>
 <li>Removed the is_numeric test from the db->escape() function.</li>
-<li>Fixed a MySQLi bug that was causing error messages not to contain proper errror data.</li>
+<li>Fixed a MySQLi bug that was causing error messages not to contain proper error data.</li>
 <li>Fixed a bug in the email class which was causing it to ignore explicitly set alternative headers.</li>
 <li>Fixed a bug that was causing a PHP error when the Exceptions class was called within the _get_config() function.</li>
 <li>Fixed an oversight in the cookie helper in which the config file cookie settings were not being honored.</li>
-<li>Fixed an oversigt in the upload class. An item mentioned in the 1.4 changelog was missing.</li>
+<li>Fixed an oversight in the upload class. An item mentioned in the 1.4 changelog was missing.</li>
 <li>Added some code to allow email attachments to be reset when sending batches of email.</li>
 <li>Deprecated the <dfn>application/scripts</dfn> folder. It will continue to work for legacy users, but it is recommended that you create your own
 <a href="../general/libraries.html">libraries</a> or <a href="../general/models.html">models</a> instead.
 <li>Deprecated the <dfn>$autoload['core']</dfn> item from the <kbd>autoload.php</kbd> file.  Instead, please now use: <kbd>$autoload['libraries']</kbd></li>
 <li>Deprecated the following database functions: $this->db->smart_escape_str() and $this->db->fields().</li>
 </ul>
-
-
 
 
 
