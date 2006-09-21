@@ -31,6 +31,7 @@ class CI_Router {
 	var $config;
 	var $uri_string		= '';
 	var $segments		= array();
+	var $rsegments		= array();
 	var $routes 		= array();
 	var $class			= '';
 	var $method			= 'index';
@@ -78,7 +79,7 @@ class CI_Router {
 		}
 
 		// Load the routes.php file
-		include_once(APPPATH.'config/routes'.EXT);
+		@include_once(APPPATH.'config/routes'.EXT);
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
@@ -151,12 +152,7 @@ class CI_Router {
 		$this->_parse_routes();		
 		
 		// Re-index the segment array so that it starts with 1 rather than 0
-		$i = 1;
-		foreach ($this->segments as $val)
-		{
-			$this->segments[$i++] = $val;
-		}
-		unset($this->segments['0']);
+		$this->_reindex_segments();
 	}
 	// END _set_route_mapping()
 	
@@ -199,6 +195,11 @@ class CI_Router {
 				$this->set_method($segments['1']);
 			}
 		}
+		
+		// Update our "routed" segment array to contain the segments.
+		// Note: If there is no custom routing, this array will be
+		// identical to $this->segments
+		$this->rsegments = $segments;
 	}
 	// END _compile_segments()
 	
@@ -256,6 +257,46 @@ class CI_Router {
 		show_404();	
 	}
 	// END _validate_segments()
+
+	// --------------------------------------------------------------------	
+	/**
+	 * Re-index Segments
+	 *
+	 * This function re-indexes the $this->segment array so that it
+	 * starts at 1 rather then 0.  Doing so makes it simpler to 
+	 * use functions like $this->uri->segment(n) since there is
+	 * a 1:1 relationship between the segment array and the actual segments.
+	 *
+	 * @access	private
+	 * @return	void
+	 */	
+	function _reindex_segments()
+	{
+		// Is the routed segment array different then the main segment array?
+		$diff = (count(array_diff($this->rsegments, $this->segments)) == 0) ? FALSE : TRUE;
+	
+		$i = 1;
+		foreach ($this->segments as $val)
+		{
+			$this->segments[$i++] = $val;
+		}
+		unset($this->segments['0']);
+		
+		if ($diff == FALSE)
+		{
+			$this->rsegments = $this->segments;
+		}
+		else
+		{
+			$i = 1;
+			foreach ($this->rsegments as $val)
+			{
+				$this->rsegments[$i++] = $val;
+			}
+			unset($this->rsegments['0']);
+		}
+	}
+	// END _reindex_segments()
 	
 	// --------------------------------------------------------------------
 	
