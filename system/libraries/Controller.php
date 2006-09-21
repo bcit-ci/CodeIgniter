@@ -232,16 +232,20 @@ class Controller extends CI_Base {
 		}
 		unset($autoload['config']);
 		
-		if ( ! is_array($autoload['core']))
+		// A little tweak to remain backward compatible
+		// The $autoload['core'] item was deprecated
+		if ( ! isset($autoload['libraries']))
 		{
-			$autoload['core'] = array($autoload['core']);
+			$autoload['libraries'] = $autoload['core'];
+		
 		}
 		
-		foreach ($autoload['core'] as $item)
+		foreach ($autoload['libraries'] as $item)
 		{
 			$this->_ci_initialize($item);
 		}
-		
+		unset($autoload['libraries']);
+
 		return $autoload;
 	}
   	// END _ci_autoload()

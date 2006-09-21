@@ -79,6 +79,9 @@ Change Log
 <li>Fixed a bug that was causing a PHP error when the Exceptions class was called within the _get_config() function.</li>
 <li>Fixed an oversight in the cookie helper in which the config file cookie settings were not being honored.</li>
 <li>Added some code to allow email attachments to be reset when sending batches of email.</li>
+<li>Deprecated the <dfn>application/scripts</dfn> folder. It will continue to work for legacy users, but it is recommended that you create your own
+<a href="../general/libraries.html">libraries</a> or <a href="../general/models.html">models</a> instead.
+<li>Deprecated the <dfn>$autoload['core']</dfn> item from the <kbd>autoload.php</kbd> file.  Instead, please now use: <kbd>$autoload['libraries']</kbd></li>
 <li>Deprecated the following database functions: $this->db->smart_escape_str() and $this->db->fields().</li>
 </ul>
 

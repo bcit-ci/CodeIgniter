@@ -10,8 +10,7 @@
 | the database is not connected to automatically since no assumption
 | is made regarding whether you intend to use it.  This file lets
 | you globally define which systems you would like loaded with every
-| request. In addition to core systems you can auto-load plugins,
-| helper files, config files, and your own scripts.
+| request.
 |
 | -------------------------------------------------------------------
 | Instructions
@@ -19,27 +18,27 @@
 |
 | These are the things you can load automatically:
 |
-| 1. Core classes
+| 1. Libraries
 | 2. Helper files
 | 3. Plugins
 | 4. Scripts
 | 5. Custom config files
 |
-| Note: The items will be loaded in the order that they are defined
-|
-| Please read the user guide for more detailed information
 */
 
 /*
 | -------------------------------------------------------------------
-|  Auto-load Core Classes
+|  Auto-load Libraries
 | -------------------------------------------------------------------
+| These are the classes located in the system/libraries folder
+| or in your system/application/libraries folder.
+|
 | Prototype:
 |
-|	$autoload['core'] = array('database', 'session', 'xmlrpc');
+|	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['core'] = array();
+$autoload['libraries'] = array();
 
 
 /*
@@ -96,6 +95,16 @@ $autoload['script'] = array();
 
 $autoload['config'] = array();
 
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Core Libraries
+| -------------------------------------------------------------------
+|
+| DEPRECATED:  Use $autoload $autoload['libraries'] instead.
+|
+*/
+// $autoload['core'] = array();
 
 
 ?>
