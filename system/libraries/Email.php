@@ -130,7 +130,7 @@ class CI_Email {
 	 * @access	public
 	 * @return	void
 	 */	
-	function clear()
+	function clear($clear_attachments = FALSE)
 	{
 		$this->_subject		= "";
 		$this->_body		= "";
@@ -143,6 +143,13 @@ class CI_Email {
 		
 		$this->_set_header('User-Agent', $this->useragent);				
 		$this->_set_header('Date', $this->_set_date());
+		
+        if ($clear_attachments !== FALSE) 
+        {
+            $this->_attach_name = array();
+            $this->_attach_type = array();
+            $this->_attach_disp = array();
+        }   		
 	}
   	// END clear()
   	
@@ -735,6 +742,11 @@ class CI_Email {
 	 */	
 	function _get_alt_message()
 	{
+		if ($this->alt_message != "")
+		{
+			return $this->word_wrap($this->alt_message, '76');
+		}
+	
 		if (eregi( '\<body(.*)\</body\>', $this->_body, $match))
 		{
 			$body = $match['1'];
