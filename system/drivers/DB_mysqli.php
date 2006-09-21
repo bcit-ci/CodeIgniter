@@ -89,12 +89,6 @@ class CI_DB_mysqli extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);	
 		$result = @mysqli_query($this->conn_id, $sql);
-		
-		// We only advance the result pointer if there isn't an error
-		if (mysqli_errno($this->conn_id) == 0)
-		{
-			mysqli_next_result($this->conn_id);
-		}
 		return $result;
 	}
 	
