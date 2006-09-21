@@ -63,6 +63,23 @@ Change Log
 <h1>Change Log</h1>
 
 
+<h2>Version 1.4.1</h2>
+<p>Release Date: September 25, 2006</p>
+
+<ul>
+<li>Updated plugins, helpers, and language classes to allow your "application" folder to contain its own plugins, helpers, and language folders.  If your application folder contains any of these resources, when you load them CI will look first in your local application folder.  If not found, it instead looks in the global folders.</li>
+<li>Added <a href="../helpers/inflector_helper.html">Inflector helper</a>.</li>
+<li>Added element() function in the <a href="../helpers/array_helper.html">array helper</a>.</li>
+<li>Removed the is_numeric test from the db->escape() function.</li>
+<li>Fixed a MySQLi bug that was causing error messages not to contain proper errror data.</li>
+<li>Fixed a bug in the email class which was causing it to ignore explicitly set alternative headers.</li>
+<li>Added some code to allow email attachments to be reset when sending batches of email.</li>
+<li>Deprecated the following database functions: $this->db->smart_escape_str() and $this->db->fields().</li>
+</ul>
+
+
+
+
 
 <h2>Version 1.4.0</h2>
 <p>Release Date: September 17, 2006</p>
