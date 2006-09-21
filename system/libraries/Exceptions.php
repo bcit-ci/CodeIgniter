@@ -53,7 +53,7 @@ class CI_Exceptions {
 	 */	
 	function CI_Exceptions()
 	{
-		log_message('debug', "Output Class Initialized");
+		// Note:  Do not log messages from this constructor.
 	}
   	// END CI_Exceptions()
   	
