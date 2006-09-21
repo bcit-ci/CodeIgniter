@@ -47,7 +47,7 @@ class CI_Parser {
 		$OUT =& _load_class('CI_Output');
 
 		$obj =& get_instance();
-		$template = $obj->load->view($template, '', TRUE);
+		$template = $obj->load->view($template, $data, TRUE);
 		
 		if ($template == '')
 		{
