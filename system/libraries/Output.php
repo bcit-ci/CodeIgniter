@@ -30,6 +30,7 @@ class CI_Output {
 
 	var $final_output;
 	var $cache_expiration = 0;
+	var $headers = array();
 
 	function CI_Output()
 	{
@@ -66,6 +67,26 @@ class CI_Output {
 	{
 		$this->final_output = $output;
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set Header 
+	 *
+	 * Lets you set a server header which will be outputted with the final display.
+	 *
+	 * Note:  If a file is cached, headers will not be sent.  We need to figure out
+	 * how to permit header data to be saved with the cache data...
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */	
+	function set_header($header)
+	{
+		$this->headers[] = $header;
+	}
+
 	
 	// --------------------------------------------------------------------
 	
@@ -110,17 +131,30 @@ class CI_Output {
 			$output =& $this->final_output;
 		}
 		
+		// Do we need to write a cache file?
 		if ($this->cache_expiration > 0)
 		{
 			$this->_write_cache($output);
 		}
 
+		// Parse out the elapsed time and memory usage, and 
+		// swap the pseudo-variables with the data
 		$elapsed = $BM->elapsed_time('code_igniter_start', 'code_igniter_end');		
 		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
 
 		$output = str_replace('{memory_usage}', $memory, $output);		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
+		// Are there any server headers to send?
+		if (count($this->headers) > 0)
+		{
+			foreach ($this->headers as $header)
+			{
+				@header($header);
+			}
+		}
+		
+		// Send it to the browser!
 		echo $output;
 		
 		log_message('debug', "Final output sent to browser");
