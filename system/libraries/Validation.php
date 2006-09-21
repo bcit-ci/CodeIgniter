@@ -524,7 +524,7 @@ class CI_Validation {
 	 */	
 	function numeric($str)
 	{
-		return ( ! is_numeric($str)) ? FALSE : TRUE;
+		return ( ! ereg("^[0-9]+$", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
