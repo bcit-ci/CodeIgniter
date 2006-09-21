@@ -45,6 +45,4 @@ $route['scaffolding_trigger'] = "";
 
 // Define your own routes below -------------------------------------------
 
-
-
 ?>
