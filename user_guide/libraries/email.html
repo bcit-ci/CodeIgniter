@@ -237,10 +237,19 @@ in a loop, permitting the data to be reset between cycles.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->send();<br />
 }</code>
 
+<p>If you set the parameter to TRUE any attachments will be cleared as well:</p>
+
+<code>$this->email->clear(TRUE);</code>
+
 
 <h3>$this->email->send()</h3>
-<p>The Email sending function. Returns boolean TRUE or FALSE based on success for failure, enabling it to be used
-conditionally.</p>
+<p>The Email sending function. Returns boolean TRUE or FALSE based on success or failure, enabling it to be used
+conditionally:</p>
+
+<code>if ( ! $this->email->send())<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// Generate error<br />
+}</code>
 
 
 <h3>$this->email->attach()</h3>
