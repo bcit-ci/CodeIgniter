@@ -55,6 +55,22 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
 		}
 	}
 	
+	// Set the config file options
+	$obj =& get_instance();
+	
+	if ($prefix == '' AND $obj->config->item('cookie_prefix') != '')
+	{
+		$obj->config->item('cookie_prefix');
+	}
+	if ($domain == '' AND $obj->config->item('cookie_domain') != '')
+	{
+		$obj->config->item('cookie_domain');
+	}
+	if ($prefix == '/' AND $obj->config->item('cookie_path') != '/')
+	{
+		$obj->config->item('cookie_path');
+	}
+		
 	if ( ! is_numeric($expire))
 	{
 		$expire = time() - 86500;
@@ -73,5 +89,38 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
 	
 	setcookie($prefix.$name, $value, $expire, $path, $domain, 0);
 }
+	
+// --------------------------------------------------------------------
+
+/**
+ * Fetch an item from the COOKIE array
+ *
+ * @access	public
+ * @param	string
+ * @param	bool
+ * @return	mixed
+ */
+function get_cookie($index = '', $xss_clean = FALSE)
+{
+	$obj =& get_instance();
+	return $obj->input->cookie($index, $xss_clean);
+}
+
+// --------------------------------------------------------------------
+
+/**
+ * Delete a COOKIE
+ *
+ * @param	mixed
+ * @param	string	the cookie domain.  Usually:  .yourdomain.com
+ * @param	string	the cookie path
+ * @param	string	the cookie prefix
+ * @return	void
+ */
+function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+{
+	set_cookie($name, '', '', $domain, $path, $prefix);
+}
+
 
 ?>
