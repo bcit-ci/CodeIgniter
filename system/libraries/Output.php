@@ -123,8 +123,8 @@ class CI_Output {
 	 */		
 	function _display($output = '')
 	{	
-		$BM =& _load_class('CI_Benchmark');
-		
+		$obj =& get_instance();
+			
 		if ($output == '')
 		{
 			$output =& $this->final_output;
@@ -138,15 +138,14 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage, and 
 		// swap the pseudo-variables with the data
-		$elapsed = $BM->elapsed_time('code_igniter_start', 'code_igniter_end');		
+		$elapsed = $obj->benchmark->elapsed_time('code_igniter_start', 'code_igniter_end');		
 		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
 
 		$output = str_replace('{memory_usage}', $memory, $output);		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
 		// Is compression requested?
-		$CFG =& _load_class('CI_Config');
-		if ($CFG->item('compress_output') === TRUE)
+		if ($obj->config->item('compress_output') === TRUE)
 		{
 			if (extension_loaded('zlib'))
 			{
@@ -166,8 +165,17 @@ class CI_Output {
 			}
 		}
 		
-		// Send it to the browser!
-		echo $output;
+		// Send the finalized output either directly
+		// to the browser or to the user's _output() 
+		// function if it exists
+		if (method_exists($obj, '_output'))
+		{
+			$obj->_output($output);
+		}
+		else
+		{		
+			echo $output;  // Send it to the browser!
+		}
 		
 		log_message('debug', "Final output sent to browser");
 		log_message('debug', "Total execution time: ".$elapsed);		

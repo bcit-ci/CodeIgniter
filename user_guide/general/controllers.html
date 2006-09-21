@@ -70,9 +70,10 @@ Controllers
 <li><a href="#hello">Hello World</a></li>
 <li><a href="#functions">Functions</a></li>
 <li><a href="#passinguri">Passing URI Segments to Your Functions</a></li>
-<li><a href="#remapping">Remapping Function Calls</a></li>
-<li><a href="#private">Private Functions</a></li>
 <li><a href="#default">Defining a Default Controller</a></li>
+<li><a href="#remapping">Remapping Function Calls</a></li>
+<li><a href="#output">Controlling Output Data</a></li>
+<li><a href="#private">Private Functions</a></li>
 <li><a href="#subfolders">Organizing Controllers into Sub-folders</a></li>
 <li><a href="#constructors">Class Constructors</a></li>
 <li><a href="#reserved">Reserved Function Names</a></li>
@@ -204,6 +205,19 @@ class Products extends Controller {<br />
 passed to your function will be the re-routed ones.</p>
 
 
+<a name="default"></a>
+<h2>Defining a Default Controller</h2>
+
+<p>Code Igniter can be told to load a default controller when a URI is not present, 
+as will be the case when only your site root URL is requested.  To specify a default controller, open 
+your <dfn>application/config/routes.php</dfn> file and set this variable:</p>
+
+<code>$route['default_controller'] = '<var>Blog</var>';</code>
+
+<p>Where <var>Blog</var> is the name of the controller class you want used. If you now load your main index.php file without
+specifying any URI segments you'll see your Hello World message by default.</p>
+
+
 
 <a name="remapping"></a>
 <h2>Remapping Function Calls</h2>
@@ -237,8 +251,32 @@ allowing you to define your own function routing rules.</p>
 
 
 
+
+<a name="output"></a>
+<h2>Processing Output</h2>
+
+<p>Code Igniter has an output class that takes care of sending your final rendered data to the web browser automatically.  More information on this can be found in the
+<a href="views.html">Views</a> and <a href="../libraries/output.html">Output class</a> pages.  In some cases, however, you might want to control
+how the output gets sent to the browser, or you might want to post process the finalized data in some way.  Code Igniter permits you to 
+add a function named <dfn>_output()</dfn> to your controller that will receive the finalized output data.
+
+<p class="important"><strong>Important:</strong>&nbsp; If your controller contains a function named <kbd>_output()</kbd>, it will <strong>always</strong> 
+be called by the output class instead of echoing the finalized data directly. The first parameter of the function will contain the finalized output.</p>
+
+<p>Here is an example:</p>
+
+<code>
+function _output($output)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;echo $output;<br />
+}</code>
+
+<p>Please note that your <dfn>_output()</dfn> function will receive the data in its finalized form - including rendered benchmark and memory usage data, 
+so if you are using this feature the page execution timer might not be perfectly accurate.</p>
+
 <a name="private"></a>
 <h2>Private Functions</h2>
+
 
 <p>In some cases you may want certain functions hidden from public access.  To make a function private, simply add an
 underscore as the name prefix and it will not be served via a URL request. For example, if you were to have a function like this:</p>
@@ -253,19 +291,6 @@ function _utility()<br />
 
 <code>www.your-site.com/index.php/<var>blog</var>/<samp>_utility</samp>/</code>
 
-
-
-<a name="default"></a>
-<h2>Defining a Default Controller</h2>
-
-<p>Code Igniter can be told to load a default controller when a URI is not present, 
-as will be the case when only your site root URL is requested.  To specify a default controller, open 
-your <dfn>application/config/routes.php</dfn> file and set this variable:</p>
-
-<code>$route['default_controller'] = '<var>Blog</var>';</code>
-
-<p>Where <var>Blog</var> is the name of the controller class you want used. If you now load your main index.php file without
-specifying any URI segments you'll see your Hello World message by default.</p>
 
 
 <a name="subfolders"></a>

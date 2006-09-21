@@ -64,18 +64,18 @@ Change Log
 
 
 <h2>Version 1.4.1</h2>
-<p>Release Date: September 25, 2006</p>
+<p>Release Date: September 21, 2006</p>
 
 <ul>
 <li>Added a new feature that passes URI segments directly to your function calls as parameters. See the <a href="controllers.html">Controllers</a> page for more info.</li>
-<li>Added several new functions in the <a href="../libraries/uri.html">URI Class</a> to let you retrieve and manipulate Re-routed URI segments. Previously, the URI class did not permit you to access any re-routed URI segments when you used the <a href="routing.html">URI Routing</a> feature. Now it does.</li>
-<li>Updated plugins, helpers, and language classes to allow your "application" folder to contain its own plugins, helpers, and language folders.  If your application folder contains any of these resources, when you load them CI will look first in your local application folder.  If not found, it instead looks in the global folders.</li>
-<li>Added <a href="../helpers/inflector_helper.html">Inflector helper</a>.</li>
-<li>Added element() function in the <a href="../helpers/array_helper.html">array helper</a>.</li>
+<li>Added support for a function named <dfn>_output()</dfn>, which when used in your controllers will received the final rendered output from the output class.  More info in the <a href="controllers.html">Controllers</a> page.</li>
+<li>Added several new functions in the <a href="../libraries/uri.html">URI Class</a> to let you retrieve and manipulate URI segments that have been re-routed using the <a href="routing.html">URI Routing</a> feature. Previously, the URI class did not permit you to access any re-routed URI segments, but now it does.</li>
 <li>Added <a href="../libraries/output.html">$this->output->set_header()</a> function, which allows you to set server headers.</li>
-<li>Added RAND() to active record orderby() function.</li>
+<li>Updated plugins, helpers, and language classes to allow your <dfn>application</dfn> folder to contain its own plugins, helpers, and language folders.  Previously they were always treated as global for your entire installation.  If your application folder contains any of these resources they will be used <em>instead</em> the global ones.</li>
+<li>Added <a href="../helpers/inflector_helper.html">Inflector helper</a>.</li>
+<li>Added <dfn>element()</dfn> function in the <a href="../helpers/array_helper.html">array helper</a>.</li>
+<li>Added <dfn>RAND()</dfn> to active record <dfn>orderby()</dfn> function.</li>
 <li>Added <dfn>delete_cookie()</dfn> and <dfn>get_cookie()</dfn> to <a href="../helpers/cookie_helper.html">Cookie helper</a>, even though the input class has a cookie fetching function.</li>
-<li>Added German language pack.</li>
 <li>Added Oracle database driver (still undergoing testing so it might have some bugs).</li>
 <li>Added the ability to combine pseudo-variables and php variables in the template parser class.</li>
 <li>Removed the is_numeric test from the db->escape() function.</li>

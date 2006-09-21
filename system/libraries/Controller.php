@@ -380,7 +380,7 @@ class Controller extends CI_Base {
 				eval('class CI_DB extends CI_DB_driver { }');
 			}
 		}
-		
+				
 		require_once(BASEPATH.'drivers/DB_'.$params['dbdriver'].EXT);
 
 		// Instantiate the DB adapter

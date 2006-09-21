@@ -280,7 +280,7 @@ class CI_URI {
 			$leading	= '/';
 			$trailing	= '/';
 		}
-		return ( ! isset($this->router->$which[$n])) ? '' : $leading.$this->router->$which[$n].$trailing;
+		return $leading.$this->$which($n).$trailing;
 	}
 	
 	// --------------------------------------------------------------------
