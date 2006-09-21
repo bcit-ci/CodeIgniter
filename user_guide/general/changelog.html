@@ -73,11 +73,15 @@ Change Log
 <li>Added <a href="../libraries/output.html">$this->output->set_header()</a> function, which allows you to set server headers.</li>
 <li>Added RAND() to active record orderby() function.</li>
 <li>Added <dfn>delete_cookie()</dfn> and <dfn>get_cookie()</dfn> to <a href="../helpers/cookie_helper.html">Cookie helper</a>, even though the input class has a cookie fetching function.</li>
+<li>Added German language pack.</li>
+<li>Added Oracle database driver (still undergoing testing so it might have some bugs).</li>
+<li>Added the ability to combine pseudo-variables and php variables in the template parser class.</li>
 <li>Removed the is_numeric test from the db->escape() function.</li>
 <li>Fixed a MySQLi bug that was causing error messages not to contain proper errror data.</li>
 <li>Fixed a bug in the email class which was causing it to ignore explicitly set alternative headers.</li>
 <li>Fixed a bug that was causing a PHP error when the Exceptions class was called within the _get_config() function.</li>
 <li>Fixed an oversight in the cookie helper in which the config file cookie settings were not being honored.</li>
+<li>Fixed an oversigt in the upload class. An item mentioned in the 1.4 changelog was missing.</li>
 <li>Added some code to allow email attachments to be reset when sending batches of email.</li>
 <li>Deprecated the <dfn>application/scripts</dfn> folder. It will continue to work for legacy users, but it is recommended that you create your own
 <a href="../general/libraries.html">libraries</a> or <a href="../general/models.html">models</a> instead.
