@@ -92,6 +92,18 @@ For example, if you build a page in one of your controller functions, don't set 
 Code Igniter functions like <var>$this->load->view()</var>.</p>
 
 
+<h2>$this->output->set_header();</h2>
+
+<p>Permits you to manually set server headers, which the output class will send for you when outputting the final rendered display.  Example:<p>
+
+<code>
+$this->output->set_header("HTTP/1.0 200 OK");<br />
+$this->output->set_header("HTTP/1.1 200 OK");<br />
+$this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', $last_update).' GMT');<br />
+$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");<br />
+$this->output->set_header("Cache-Control: post-check=0, pre-check=0", false);<br />
+$this->output->set_header("Pragma: no-cache");	</code>
+
 
 </div>
 <!-- END CONTENT -->
