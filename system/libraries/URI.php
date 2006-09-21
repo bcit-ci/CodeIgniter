@@ -66,6 +66,25 @@ class CI_URI {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Fetch a URI "routed" Segment
+	 *
+	 * This function returns the re-routed URI segment (assuming routing rules are used)
+	 * based on the number provided.  If there is no routing this function returns the
+	 * same result as $this->segment()
+	 *
+	 * @access	public
+	 * @param	integer
+	 * @param	bool
+	 * @return	string
+	 */
+	function rsegment($n, $no_result = FALSE)
+	{
+		return ( ! isset($this->router->rsegments[$n])) ? $no_result : $this->router->rsegments[$n];
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Generate a key value pair from the URI string
 	 *
 	 * This function generates and associative array of URI data starting 
@@ -168,7 +187,6 @@ class CI_URI {
 		return implode('/', $temp);
 	}
 
-	
 	// --------------------------------------------------------------------
 	
 	/**
@@ -180,6 +198,37 @@ class CI_URI {
 	 * @return	string
 	 */
 	function slash_segment($n, $where = 'trailing')
+	{
+		return $this->_slash_segment($n, $where, 'segment');
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch a URI Segment and add a trailing slash
+	 *
+	 * @access	public
+	 * @param	integer
+	 * @param	string
+	 * @return	string
+	 */
+	function slash_rsegment($n, $where = 'trailing')
+	{
+		return $this->_slash_segment($n, $where, 'rsegment');
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch a URI Segment and add a trailing slash - helper function
+	 *
+	 * @access	private
+	 * @param	integer
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _slash_segment($n, $where = 'trailing', $which = 'segment')
 	{	
 		if ($where == 'trailing')
 		{
@@ -196,7 +245,7 @@ class CI_URI {
 			$leading	= '/';
 			$trailing	= '/';
 		}
-		return ( ! isset($this->router->segments[$n])) ? '' : $leading.$this->router->segments[$n].$trailing;
+		return ( ! isset($this->router->$which[$n])) ? '' : $leading.$this->router->$which[$n].$trailing;
 	}
 	
 	// --------------------------------------------------------------------
@@ -211,6 +260,19 @@ class CI_URI {
 	{
 		return $this->router->segments;
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Routed Segment Array
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function rsegment_array()
+	{
+		return $this->router->rsegments;
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -224,6 +286,19 @@ class CI_URI {
 	{
 		return count($this->router->segments);
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Total number of routed segments
+	 *
+	 * @access	public
+	 * @return	integer
+	 */
+	function total_rsegments()
+	{
+		return count($this->router->rsegments);
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -236,6 +311,20 @@ class CI_URI {
 	function uri_string()
 	{
 		return $this->router->uri_string;
+	}
+
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch the entire Re-routed URI string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function uri_rstring()
+	{
+		return '/'.implode('/', $this->rsegment_array()).'/';
 	}
 
 }
