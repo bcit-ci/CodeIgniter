@@ -273,10 +273,10 @@ $config['global_xss_filtering'] = FALSE;
 | means you are prematurely outputing something to your browser. It could
 | even be a line of whitespace at the end of one of your scripts.  For 
 | compression to work, nothing can be sent before the output buffer is called
-| by the output class.
+| by the output class.  Do not "echo" any values with compression enabled.
 |
 */
-$config['compress_output'] = TRUE;
+$config['compress_output'] = FALSE;
 
 
 ?>
