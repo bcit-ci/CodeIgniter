@@ -76,6 +76,7 @@ define('EXT', '.'.pathinfo(__FILE__, PATHINFO_EXTENSION));
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 define('BASEPATH', $system_folder.'/');
 define('APPPATH', BASEPATH.'application/'.$application_folder);
+define('FCPATH', __FILE__);
 
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
 ?>
