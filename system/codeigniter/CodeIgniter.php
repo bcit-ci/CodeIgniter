@@ -27,7 +27,7 @@
  * @link		http://www.codeigniter.com/user_guide/
  */
  
-define('APPVER', '1.4.0');
+define('APPVER', '1.4.1');
 
 /*
  * ------------------------------------------------------
