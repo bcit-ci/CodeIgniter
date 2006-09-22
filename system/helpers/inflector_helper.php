@@ -31,7 +31,7 @@
 /**
  * Singular
  *
- * Takes a plural word and makes it singular
+ * Takes a singular word and makes it plural
  *
  * @access	public
  * @param	string
@@ -64,7 +64,7 @@ function singular($str)
 /**
  * Plural
  *
- * Takes a singular word and makes it plural
+ * Takes a plural word and makes it singular
  *
  * @access	public
  * @param	string

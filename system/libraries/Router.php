@@ -77,45 +77,18 @@ class CI_Router {
 			
 			return;
 		}
-
-		// Load the routes.php file
+		
+		// Load the routes.php file and set the default controller
 		@include_once(APPPATH.'config/routes'.EXT);
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
-		// Set the default controller	
-		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);
-
-		// Fetch the URI string Depending on the server, 
-		// the URI will be available in one of two globals
-		if ($this->config->item('uri_protocol') == 'auto')
-		{
-			$path_info = getenv('PATH_INFO');
-			if ($path_info != '' AND $path_info != "/".SELF)
-			{
-				$this->uri_string = $path_info;
-			}
-			else
-			{
-				$path_info = getenv('ORIG_PATH_INFO');
-				if ($path_info != '' AND $path_info != "/".SELF)
-				{
-					$this->uri_string = $path_info;
-				}
-				else
-				{
-					$this->uri_string = getenv('QUERY_STRING');
-				}
-			}
-		}
-		else
-		{
-			$this->uri_string = getenv(strtoupper($this->config->item('uri_protocol')));		
-		}
-		
+		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);		
 	
-		// Is there a URI string? If not, the default controller specified 
-		// by the admin in the "routes" file will be shown.
+		// Get the URI string
+		$this->uri_string = $this->_get_uri_string();
+		
+		// Is there a URI string? If not, the default controller specified in the "routes" file will be shown.
 		if ($this->uri_string == '')
 		{
 			if ($this->default_controller === FALSE)
@@ -298,6 +271,103 @@ class CI_Router {
 	}
 	// END _reindex_segments()
 	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Get the URI String
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _get_uri_string()
+	{
+		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
+		{
+			$path_info = getenv('PATH_INFO');
+			if ($path_info != '' AND $path_info != "/".SELF)
+			{
+				return $path_info;
+			}
+			else
+			{
+				$req_uri = $this->_parse_request_uri();
+				
+				if ($req_uri != "")
+				{
+					return $req_uri;
+				}
+				else
+				{
+					$path_info = getenv('ORIG_PATH_INFO');
+					if ($path_info != '' AND $path_info != "/".SELF)
+					{
+						return $path_info;
+					}
+					else
+					{
+						return getenv('QUERY_STRING');
+					}
+				}			
+			}
+		}
+		else
+		{
+			$uri = strtoupper($this->config->item('uri_protocol'));
+			
+			if ($uri == 'REQUEST_URI')
+			{
+				return $this->_parse_request_uri();
+			}
+			
+			return getenv($uri);
+		}
+	}
+	// END _get_uri_string()
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Parse the REQUEST_URI
+	 *
+	 * Due to the way REQUEST_URI works it usually contains path info
+	 * that makes it unusable as URI data.  We'll trim off the unnecessary 
+	 * data, hopefully arriving at a valid URI that we can use.
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _parse_request_uri()
+	{
+		$request_uri = getenv('REQUEST_URI');
+		$fc_path = FCPATH;
+		
+		if (strpos($request_uri, '?') !== FALSE)
+		{
+			$fc_path .= '?';
+		}
+		
+		$parsed_uri = explode("/", preg_replace("|/(.*)|", "\\1", str_replace("\\", "/", $request_uri)));
+		
+		$i = 0;
+		foreach(explode("/", $fc_path) as $segment)
+		{
+			if ($segment == $parsed_uri[$i])
+			{
+				$i++;
+			}
+		}
+		
+		$parsed_uri = implode("/", array_slice($parsed_uri, $i));
+		
+		if ($parsed_uri != '')
+		{
+			$parsed_uri = '/'.$parsed_uri;
+		}
+
+		return $parsed_uri;
+	}
+	// END _parse_request_uri()
+
 	// --------------------------------------------------------------------
 	
 	/**
