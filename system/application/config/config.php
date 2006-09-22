@@ -264,13 +264,13 @@ $config['global_xss_filtering'] = FALSE;
 | Output Compression
 |--------------------------------------------------------------------------
 |
-| Enables output compression using Gzip for faster page loads.  When enabled,
-| the output class will test whether the server your site is running on 
-| supports Gzip. Even if it does, however, not all browsers support compression
+| Enables Gzip output compression for faster page loads.  When enabled,
+| the output class will test whether your server supports Gzip. 
+| Even if it does, however, not all browsers support compression
 | so enable only if you are reasonably sure your visitors can handle it.
 |
-| VERY IMPORTANT:  If you are getting a blank page when this is enabled it
-| means you are prematurely outputing something to your browser. It could
+| VERY IMPORTANT:  If you are getting a blank page when compression is enabled it
+| means you are prematurely outputting something to your browser. It could
 | even be a line of whitespace at the end of one of your scripts.  For 
 | compression to work, nothing can be sent before the output buffer is called
 | by the output class.  Do not "echo" any values with compression enabled.
