@@ -101,7 +101,7 @@ $autoload['config'] = array();
 |  Auto-load Core Libraries
 | -------------------------------------------------------------------
 |
-| DEPRECATED:  Use $autoload $autoload['libraries'] instead.
+| DEPRECATED:  Use $autoload['libraries'] above instead.
 |
 */
 // $autoload['core'] = array();
