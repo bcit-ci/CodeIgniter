@@ -85,11 +85,8 @@ class CI_Router {
 
 		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);		
 	
-		// Get the URI string
-		$this->uri_string = $this->_get_uri_string();
-		
 		// Is there a URI string? If not, the default controller specified in the "routes" file will be shown.
-		if ($this->uri_string == '')
+		if (($this->uri_string = $this->_get_uri_string()) == '')
 		{
 			if ($this->default_controller === FALSE)
 			{
@@ -338,7 +335,11 @@ class CI_Router {
 	 */	
 	function _parse_request_uri()
 	{
-		$request_uri = getenv('REQUEST_URI');
+		if (($request_uri = getenv('REQUEST_URI')) == '')
+		{
+			return '';
+		}
+		
 		$fc_path = FCPATH;
 		
 		if (strpos($request_uri, '?') !== FALSE)
