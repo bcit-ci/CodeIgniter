@@ -454,9 +454,7 @@ class CI_Loader {
 	 * @return	void
 	 */
 	function _ci_load($data)
-	{	
-		$OUT =& _load_class('CI_Output');
-
+	{
 		// This allows anything loaded using $this->load (viwes, files, etc.)
 		// to become accessible from within the Controller and Model functions.
 		$obj =& get_instance();
@@ -477,15 +475,11 @@ class CI_Loader {
 		/*
 		 * Extract and cached variables
 		 *
-		 * You can either set variables using the dedicated
-		 * $this->load_vars() function or via the second
-		 * parameter of this function. We'll
-		 * merge the two types and cache them so that
-		 * views that are embedded within other views
-		 * can have access to these variables.
-		 *
+		 * You can either set variables using the dedicated $this->load_vars() 
+		 * function or via the second parameter of this function. We'll merge 
+		 * the two types and cache them so that views that are embedded within 
+		 * other views can have access to these variables.
 		 */	
-		
 		if (is_array($vars))
 		{
 			$this->cached_vars = array_merge($this->cached_vars, $vars);
@@ -515,10 +509,8 @@ class CI_Loader {
 		 * need post processing?  For one thing, in order to 
 		 * show the elapsed page load time.  Unless we
 		 * can intercept the content right before it's sent to
-		 * the browser and then stop the timer, it won't be acurate.
-		 *
+		 * the browser and then stop the timer it won't be acurate.
 		 */
-
 		if ( ! file_exists($path))
 		{
 			show_error('Unable to load the requested file: '.$file);
@@ -541,7 +533,7 @@ class CI_Loader {
 		/*
 		 * Flush the buffer... or buff the flusher?
 		 *
-		 * In order to permit templates (views) to be nested within
+		 * In order to permit views to be nested within
 		 * other views, we need to flush the content back out whenever 
 		 * we are beyond the first level of output buffering so that 
 		 * it can be seen and included  properly by the first included 
@@ -554,7 +546,7 @@ class CI_Loader {
 		}
 		else
 		{
-			$OUT->set_output(ob_get_contents());
+			$obj->output->set_output(ob_get_contents());
 			ob_end_clean();
 		}
 	}
