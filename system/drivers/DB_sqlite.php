@@ -98,7 +98,7 @@ class CI_DB_sqlite extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */	
-	function execute($sql)
+	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
 		return @sqlite_query($this->conn_id, $sql);
@@ -119,6 +119,81 @@ class CI_DB_sqlite extends CI_DB {
     {
 		return $sql;
     }
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Begin Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_begin()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+		
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$this->simple_query('BEGIN TRANSACTION');
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_commit()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$this->simple_query('COMMIT');
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_rollback()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$this->simple_query('ROLLBACK');
+		return TRUE;
+	}
 	
 	// --------------------------------------------------------------------
 

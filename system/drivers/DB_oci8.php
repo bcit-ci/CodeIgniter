@@ -43,6 +43,9 @@
 
 class CI_DB_oci8 extends CI_DB {
 
+	// Set "auto commit" by default
+    var $_commit = OCI_COMMIT_ON_SUCCESS;
+
     // need to track statement id and cursor id
     var $stmt_id;
     var $curs_id;
@@ -50,7 +53,7 @@ class CI_DB_oci8 extends CI_DB {
     // if we use a limit, we will add a field that will
     // throw off num_fields later
     var $limit_used;
-
+    
     /**
      * Non-persistent database connection
      *
@@ -97,7 +100,7 @@ class CI_DB_oci8 extends CI_DB {
      * @param   string  an SQL query
      * @return  resource
      */
-    function execute($sql)
+    function _execute($sql)
     {
         // oracle must parse the query before it
         // is run, all of the actions with
@@ -105,7 +108,7 @@ class CI_DB_oci8 extends CI_DB {
         // returned by ociparse        
         $this->_set_stmt_id($sql);
         ocisetprefetch($this->stmt_id, 1000);
-        return @ociexecute($this->stmt_id);
+        return @ociexecute($this->stmt_id, $this->_commit);
     }
     
     /**
@@ -232,6 +235,83 @@ class CI_DB_oci8 extends CI_DB {
  
 			ocibindbyname($this->stmt_id, $param['name'], $param['value'], $param['length'], $param['type']);
         }
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Begin Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_begin()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+		
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+		
+		$this->_commit = OCI_DEFAULT;
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_commit()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$ret = OCIcommit($this->conn_id);
+		$this->_commit = OCI_COMMIT_ON_SUCCESS;
+		return $ret;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_rollback()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$ret = OCIrollback($this->conn_id);
+		$this->_commit = OCI_COMMIT_ON_SUCCESS;
+		return $ret;
 	}
 
     // --------------------------------------------------------------------
