@@ -198,8 +198,16 @@ else
 		}
 		
 		// Call the requested method.  Any URI segments present (besides the class/function)
-		// will be passed to the method for convenience
-		call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, 2));
+		// will be passed to the method for convenience, either as an array or discreet params
+
+		if (isset($CI->_uri_as_array) AND $CI->_uri_as_array === TRUE)
+		{
+			$CI->$method(array_slice($RTR->rsegments, 2));
+		}
+		else
+		{	
+			call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, 2));
+		}
 	}
 }
 
