@@ -54,11 +54,11 @@ class CI_Parser {
 		
 		foreach ($data as $key => $val)
 		{
-			if ( ! is_array($val))
+			if (is_string($val))
 			{
 				$template = $this->_parse_single($key, $val, $template);
 			}
-			else
+			elseif (is_array($val))
 			{
 				$template = $this->_parse_pair($key, $val, $template);		
 			}
