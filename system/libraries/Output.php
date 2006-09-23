@@ -123,7 +123,10 @@ class CI_Output {
 	 */		
 	function _display($output = '')
 	{	
-		$obj =& get_instance();
+		// Note:  We can't use $obj =& _get_instance() since this function 
+		// is sometimes called by the caching mechanism, which happens before 
+		// it's available.  Instead we'll use globals...
+		global $BM, $CFG;
 			
 		if ($output == '')
 		{
@@ -138,14 +141,14 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage, and 
 		// swap the pseudo-variables with the data
-		$elapsed = $obj->benchmark->elapsed_time('code_igniter_start', 'code_igniter_end');		
+		$elapsed = $BM->elapsed_time('code_igniter_start', 'code_igniter_end');		
 		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
 
 		$output = str_replace('{memory_usage}', $memory, $output);		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
 		// Is compression requested?
-		if ($obj->config->item('compress_output') === TRUE)
+		if ($CFG->item('compress_output') === TRUE)
 		{
 			if (extension_loaded('zlib'))
 			{
@@ -168,7 +171,7 @@ class CI_Output {
 		// Send the finalized output either directly
 		// to the browser or to the user's _output() 
 		// function if it exists
-		if (method_exists($obj, '_output'))
+		if (function_exists('_get_instance') AND method_exists($obj, '_output'))
 		{
 			$obj->_output($output);
 		}
