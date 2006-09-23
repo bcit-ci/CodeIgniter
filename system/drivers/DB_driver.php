@@ -45,12 +45,15 @@ class CI_DB_driver {
 	var $query_count	= 0;
 	var $bind_marker	= '?';
 	var $queries		= array();
-	
+	var $trans_enabled	= TRUE;
+	var $_trans_depth	= 0;
+	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
+
     // These are use with Oracle
     var $stmt_id;
     var $curs_id;
     var $limit_used;
-	
+
 	
 	/**
 	 * Constructor.  Accepts one parameter containing the database
@@ -186,11 +189,6 @@ class CI_DB_driver {
 	 */	
     function query($sql, $binds = FALSE, $return_object = TRUE)
     {    
-		if ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
-
 		if ($sql == '')
 		{
             if ($this->db_debug)
@@ -207,15 +205,18 @@ class CI_DB_driver {
 			$sql = $this->compile_binds($sql, $binds);
 		}
 
-		// Start the Query Timer
-        $time_start = list($sm, $ss) = explode(' ', microtime());
-        
         // Save the  query for debugging
         $this->queries[] = $sql;
-        
+
+		// Start the Query Timer
+        $time_start = list($sm, $ss) = explode(' ', microtime());
+      
 		// Run the Query
-        if (FALSE === ($this->result_id = $this->execute($sql, $this->conn_id)))
+        if (FALSE === ($this->result_id = $this->simple_query($sql)))
         { 
+        	// This will trigger a rollback if transactions are being used
+        	$this->_trans_failure = TRUE;
+        	
             if ($this->db_debug)
             {
 				log_message('error', 'Query error: '.$this->error_message());
@@ -271,6 +272,107 @@ class CI_DB_driver {
 		return $RES;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Simple Query  
+	 * This is a simiplified version of the query() function.  Internally
+	 * we only use it when running transaction commands since they do
+	 * not require all the features of the main query() function.
+	 * 
+	 * @access	public
+	 * @param	string	the sql query
+	 * @return	mixed		 
+	 */	
+	function simple_query($sql)
+	{
+		if ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+
+		return $this->_execute($sql, $this->conn_id);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Disable Transactions
+	 * This permits transactions to be disabled at run-time.
+	 * 
+	 * @access	public
+	 * @return	void		 
+	 */	
+	function trans_off()
+	{
+		$this->trans_enabled = FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Start Transaction
+	 * 
+	 * @access	public
+	 * @return	void		 
+	 */	
+	function trans_start()
+	{	
+		if ( ! $this->trans_enabled)
+		{
+			return FALSE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			$this->_trans_depth += 1;
+			return;
+		}
+		
+		// Reset the transaction failure flag
+		$this->_trans_failure = FALSE;		
+		$this->trans_begin();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Complete Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_complete()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return FALSE;
+		}
+	
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 1)
+		{
+			$this->_trans_depth -= 1;
+			return TRUE;
+		}
+	
+		// The query() function will set this flag to TRUE in the event that a query failed
+		if ($this->_trans_failure === TRUE)
+		{
+			$this->trans_rollback();
+			
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_transaction_failure');
+			}
+			return FALSE;			
+		}
+		
+		$this->trans_commit();
+		return TRUE;	
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
