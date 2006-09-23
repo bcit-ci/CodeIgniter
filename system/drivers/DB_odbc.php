@@ -77,7 +77,7 @@ class CI_DB_odbc extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */	
-	function execute($sql)
+	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
 		return @odbc_exec($this->conn_id, $sql);
@@ -98,7 +98,83 @@ class CI_DB_odbc extends CI_DB {
     {
 		return $sql;
     }
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Begin Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_begin()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+		
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		return odbc_autocommit($this->conn_id, FALSE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_commit()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$ret = odbc_commit($this->conn_id);
+		odbc_autocommit($this->conn_id, TRUE);
+		return $ret;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_rollback()
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		$ret = odbc_rollback($this->conn_id);
+		odbc_autocommit($this->conn_id, TRUE);
+		return $ret;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

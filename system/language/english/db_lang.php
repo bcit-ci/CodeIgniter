@@ -11,5 +11,7 @@ $lang['db_must_use_where'] = 'Updates are not allowed unless they contain a "whe
 $lang['db_del_must_use_where'] = 'Deletes are not allowed unless they contain a "where" clause.';
 $lang['db_field_param_missing'] = 'To fetch fields requires the name of the table as a parameter.';
 $lang['db_unsupported_function'] = 'This feature is not available for the database you are using.';
+$lang['db_transaction_failure'] = 'Transaction failure: Rollback performed';
+
 
 ?>

@@ -223,7 +223,7 @@ class CI_XML_RPC_Server extends CI_XML_RPC
 	//  Executes the Method
 	//------------------------------------- 
 	
-	function execute($m)
+	function _execute($m)
 	{
 		$methName = $m->method_name;
 		
