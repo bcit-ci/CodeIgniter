@@ -190,11 +190,11 @@ class CI_DB_driver {
         	
             if ($this->db_debug)
             {
-				log_message('error', 'Query error: '.$this->error_message());
+				log_message('error', 'Query error: '.$this->_error_message());
 				return $this->display_error(
 										array(
-												'Error Number: '.$this->error_number(), 
-												$this->error_message(),
+												'Error Number: '.$this->_error_number(), 
+												$this->_error_message(),
 												$sql
 											)
 										);
@@ -481,7 +481,81 @@ class CI_DB_driver {
 		}		
 
 		return $str;
-	}	
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Generate an insert string
+	 * 
+	 * @access	public
+	 * @param	string	the table upon which the query will be performed
+	 * @param	array	an associative array data of key/values
+	 * @return	string		 
+	 */	
+	function insert_string($table, $data)
+	{
+		$fields = array();      
+		$values = array();
+		
+		foreach($data as $key => $val) 
+		{
+			$fields[] = $key;
+			$values[] = $this->escape($val);
+		}
+
+		return $this->_insert($this->dbprefix.$table, $fields, $values);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Generate an update string
+	 * 
+	 * @access	public
+	 * @param	string	the table upon which the query will be performed
+	 * @param	array	an associative array data of key/values
+	 * @param	mixed	the "where" statement
+	 * @return	string		 
+	 */	
+	function update_string($table, $data, $where)
+	{
+		if ($where == '')
+			return false;
+					
+		$fields = array();
+		foreach($data as $key => $val) 
+		{
+			$fields[$key] = $this->escape($val);
+		}
+
+		if ( ! is_array($where))
+		{
+			$dest = array($where);
+		}
+		else
+		{
+			$dest = array();
+			foreach ($where as $key => $val)
+			{
+				$prefix = (count($dest) == 0) ? '' : ' AND ';
+	
+				if ($val != '')
+				{
+					if ( ! $this->_has_operator($key))
+					{
+						$key .= ' =';
+					}
+				
+					$val = ' '.$this->escape($val);
+				}
+							
+				$dest[] = $prefix.$key.$val;
+			}
+		}		
+
+		return $this->_update($this->dbprefix.$table, $fields, $dest);
+	}    
 
 	// --------------------------------------------------------------------
 

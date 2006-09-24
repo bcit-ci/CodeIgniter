@@ -251,10 +251,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	string
 	 */
-	function error_message()
+	function _error_message()
 	{
 		// Are errros even supported in MS SQL?
 		return '';
@@ -265,10 +265,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	integer
 	 */
-	function error_number()
+	function _error_number()
 	{
 		// Are error numbers supported?
 		return '';
@@ -282,11 +282,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * This function adds backticks if the table name has a period
 	 * in it. Some DBs will get cranky unless periods are escaped
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	function escape_table($table)
+	function _escape_table($table)
 	{
 		if (stristr($table, '.'))
 		{
@@ -294,25 +294,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 		
 		return $table;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	function _field_data($table)
-	{
-		$sql = "SELECT TOP 1 FROM ".$this->escape_table($table);
-		$query = $this->query($sql);
-		return $query->field_data();
-	}
+	}	
 	
 	// --------------------------------------------------------------------
 
@@ -329,7 +311,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{	
-		return "INSERT INTO ".$this->escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 	
 	// --------------------------------------------------------------------
@@ -352,7 +334,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			$valstr[] = $key." = ".$val;
 		}
 	
-		return "UPDATE ".$this->escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
 	}
 	
 	// --------------------------------------------------------------------
@@ -369,9 +351,43 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */	
 	function _delete($table, $where)
 	{
-		return "DELETE FROM ".$this->escape_table($table)." WHERE ".implode(" ", $where);
+		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Limit string
+	 *
+	 * Generates a platform-specific LIMIT clause
+	 *
+	 * @access	public
+	 * @param	string	the sql query string
+	 * @param	integer	the number of rows to limit the query to
+	 * @param	integer	the offset value
+	 * @return	string
+	 */
+	function _limit($sql, $limit, $offset)
+	{
+		$i = $limit + $offset;
 	
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Close DB Connection
+	 *
+	 * @access	public
+	 * @param	resource
+	 * @return	void
+	 */
+	function _close($conn_id)
+	{
+		mssql_close($conn_id);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -413,42 +429,27 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _show_columns($table = '')
 	{
-		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->escape_table($table)."'";	
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @access	public
-	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
-	 * @return	string
-	 */
-	function _limit($sql, $limit, $offset)
-	{
-		$i = $limit + $offset;
-	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";	
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Close DB Connection
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @access	public
-	 * @param	resource
-	 * @return	void
+	 * @param	string	the table name
+	 * @return	object
 	 */
-	function _close($conn_id)
+	function _field_data($table)
 	{
-		mssql_close($conn_id);
+		$sql = "SELECT TOP 1 FROM ".$this->_escape_table($table);
+		$query = $this->query($sql);
+		return $query->field_data();
 	}
+	
 	
 
 }

@@ -271,10 +271,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	string
 	 */
-	function error_message()
+	function _error_message()
 	{
 		return sqlite_error_string(sqlite_last_error($this->conn_id));
 	}
@@ -284,27 +284,14 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	integer
 	 */
-	function error_number()
+	function _error_number()
 	{
 		return sqlite_last_error($this->conn_id);
 	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function version()
-	{
-		return sqlite_libversion();
-	}
-	
+		
 	// --------------------------------------------------------------------
 
 	/**
@@ -313,11 +300,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * This function adds backticks if the table name has a period
 	 * in it. Some DBs will get cranky unless periods are escaped
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	function escape_table($table)
+	function _escape_table($table)
 	{
 		if (stristr($table, '.'))
 		{
@@ -326,25 +313,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 		
 		return $table;
 	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	function _field_data($table)
-	{
-		$sql = "SELECT * FROM ".$this->escape_table($table)." LIMIT 1";
-		$query = $this->query($sql);
-		return $query->field_data();
-	}
-	
+		
 	// --------------------------------------------------------------------
 
 	/**
@@ -360,7 +329,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{	
-		return "INSERT INTO ".$this->escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 	
 	// --------------------------------------------------------------------
@@ -383,7 +352,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 			$valstr[] = $key." = ".$val;
 		}
 	
-		return "UPDATE ".$this->escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
 	}
 	
 	// --------------------------------------------------------------------
@@ -400,41 +369,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */	
 	function _delete($table, $where)
 	{
-		return "DELETE FROM ".$this->escape_table($table)." WHERE ".implode(" ", $where);
+		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where);
 	}
-	
-	// --------------------------------------------------------------------
 
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function _show_tables()
-	{
-		return "SELECT name from sqlite_master WHERE type='table'";
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show columnn query
-	 *
-	 * Generates a platform-specific query string so that the column names can be fetched
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	function _show_columns($table = '')
-	{
-		// Not supported
-		return FALSE;
-	}
-	
 	// --------------------------------------------------------------------
 
 	/**
@@ -475,6 +412,70 @@ class CI_DB_sqlite_driver extends CI_DB {
 	{
 		sqlite_close($conn_id);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _version()
+	{
+		return sqlite_libversion();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _show_tables()
+	{
+		return "SELECT name from sqlite_master WHERE type='table'";
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _show_columns($table = '')
+	{
+		// Not supported
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		$sql = "SELECT * FROM ".$this->_escape_table($table)." LIMIT 1";
+		$query = $this->query($sql);
+		return $query->field_data();
+	}
+
 
 }
 

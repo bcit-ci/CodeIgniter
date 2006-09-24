@@ -202,79 +202,42 @@ class CI_DB_utility {
 		return current($fields);
 	}
 
-	// --------------------------------------------------------------------
 
-	/**
-	 * Generate an insert string
-	 * 
-	 * @access	public
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
-	 * @return	string		 
-	 */	
-	function insert_string($table, $data)
+
+
+	
+	function create_database()
 	{
-		$fields = array();      
-		$values = array();
-		
-		foreach($data as $key => $val) 
-		{
-			$fields[] = $key;
-			$values[] = $this->escape($val);
-		}
-
-		return $this->_insert($this->dbprefix.$table, $fields, $values);
 	}
 	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Generate an update string
-	 * 
-	 * @access	public
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
-	 * @param	mixed	the "where" statement
-	 * @return	string		 
-	 */	
-	function update_string($table, $data, $where)
+	function drop_database()
 	{
-		if ($where == '')
-			return false;
-					
-		$fields = array();
-		foreach($data as $key => $val) 
-		{
-			$fields[$key] = $this->escape($val);
-		}
-
-		if ( ! is_array($where))
-		{
-			$dest = array($where);
-		}
-		else
-		{
-			$dest = array();
-			foreach ($where as $key => $val)
-			{
-				$prefix = (count($dest) == 0) ? '' : ' AND ';
+	}
 	
-				if ($val != '')
-				{
-					if ( ! $this->_has_operator($key))
-					{
-						$key .= ' =';
-					}
-				
-					$val = ' '.$this->escape($val);
-				}
-							
-				$dest[] = $prefix.$key.$val;
-			}
-		}		
+	function show_databases()
+	{
+	}
+	
+	function create_table()
+	{
+	}
+	
+	function alter_table()
+	{
+	}
+	
+	function create_index()
+	{
+	}
+	
+	function drop_index()
+	{
+	}
+	
+	function optimize()
+	{
+	}
 
-		return $this->_update($this->dbprefix.$table, $fields, $dest);
-	}    
 
 
 }
