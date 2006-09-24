@@ -67,21 +67,6 @@ Query Helpers
 <h1>Query Helper Functions</h1>
 
 
-<h2>$query->num_rows()</h2>
-<p>The number of rows returned by the query. Note: In this example, <dfn>$query</dfn> is the variable that the query result object is assigned to:</p>
-
-<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
-echo $query->num_rows();
-</code>
-
-<h2>$query->num_fields()</h2>
-<p>The number of FIELDS returned by the query.  Make sure to call the function using your query result object:</p>
-
-<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
-echo $query->num_fields();
-</code>
-
-
 <h2>$this->db->insert_id()</h2>
 <p>The insert ID number when performing database inserts.</p>
 

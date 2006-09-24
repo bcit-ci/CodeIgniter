@@ -362,11 +362,11 @@ class Controller extends CI_Base {
 			$params['active_r'] = TRUE;
 		}
 		
-		require_once(BASEPATH.'drivers/DB_driver'.EXT);
+		require_once(BASEPATH.'database/DB_driver'.EXT);
 
 		if ( ! isset($params['active_r']) OR $params['active_r'] == TRUE) 
 		{
-			require_once(BASEPATH.'drivers/DB_active_record'.EXT);
+			require_once(BASEPATH.'database/DB_active_record'.EXT);
 			
 			if ( ! class_exists('CI_DB'))
 			{
@@ -381,7 +381,7 @@ class Controller extends CI_Base {
 			}
 		}
 				
-		require_once(BASEPATH.'drivers/DB_'.$params['dbdriver'].EXT);
+		require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].EXT);
 
 		// Instantiate the DB adapter
 		$driver = 'CI_DB_'. $params['dbdriver'];

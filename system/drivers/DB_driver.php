@@ -26,7 +26,7 @@
  * @subpackage	Drivers
  * @category	Database
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/database/
+ * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_driver {
 
@@ -625,7 +625,7 @@ class CI_DB_driver {
     	}
     	
     	return $this->_field_data($this->dbprefix.$table);
-	}
+	}	
 	
 	// --------------------------------------------------------------------
 
@@ -806,7 +806,7 @@ class CI_DB_driver {
 
 		if ( ! class_exists('CI_Exceptions'))
 		{
-			include_once(BASEPATH.'libraries/Exceptions.php');
+			include_once(BASEPATH.'libraries/Exceptions'.EXT);
 		}
 		
 		$error = new CI_Exceptions();
@@ -827,7 +827,7 @@ class CI_DB_driver {
  *
  * @category	Database
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/database/
+ * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_result {
 

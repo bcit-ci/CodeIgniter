@@ -100,7 +100,7 @@ Query Results
 	&nbsp;&nbsp;&nbsp;}<br />
 	}
 	</code>
-
+	
 	<h2>result_array()</h2>
 	
 	<p>This function returns the query result as a pure array, or FALSE on failure.  Typically you'll use this in a foreach loop, like this:</p>
@@ -114,6 +114,10 @@ Query Results
 	&nbsp;&nbsp;&nbsp;echo $row['body'];<br />
 	}</code>
 	
+	<h2>result('array')</h2>
+
+	<p>Identical to <dfn>$this->db->result_array()</dfn>.</p>
+
 
 	<h2>row()</h2>
 	
@@ -180,6 +184,25 @@ Query Results
 
 
 
+<h1><br />Result Helper Functions</h1>
+
+
+<h2>$query->num_rows()</h2>
+<p>The number of rows returned by the query. Note: In this example, <dfn>$query</dfn> is the variable that the query result object is assigned to:</p>
+
+<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
+echo $query->num_rows();
+</code>
+
+<h2>$query->num_fields()</h2>
+<p>The number of FIELDS (columns) returned by the query.  Make sure to call the function using your query result object:</p>
+
+<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
+echo $query->num_fields();
+</code>
+
+
+
 	
 
 </div>
@@ -192,7 +215,7 @@ Previous Topic:&nbsp;&nbsp;<a href="queries.html">Queries</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="active_record.html">Active Record Pattern</a>
+Next Topic:&nbsp;&nbsp;<a href="helpers.html">Query Helper Functions</a>
 <p>
 <p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
 </div>

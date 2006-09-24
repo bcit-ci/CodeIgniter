@@ -65,7 +65,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/benchmark.html">Benchmarking Class</a></li>' +
 		'<li><a href="'+base+'libraries/calendar.html">Calendaring Class</a></li>' +
 		'<li><a href="'+base+'libraries/config.html">Config Class</a></li>' +
-		'<li><a href="'+base+'libraries/database/index.html">Database Class</a></li>' +
+		'<li><a href="'+base+'database/index.html">Database Class</a></li>' +
 		'<li><a href="'+base+'libraries/email.html">Email Class</a></li>' +
 		'<li><a href="'+base+'libraries/encryption.html">Encryption Class</a></li>' +
 		'<li><a href="'+base+'libraries/file_uploading.html">File Uploading Class</a></li>' +
