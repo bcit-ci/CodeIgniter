@@ -123,7 +123,7 @@ class CI_DB_mysql extends CI_DB {
 	 * @access	public
 	 * @return	bool		 
 	 */	
-	function trans_begin()
+	function trans_begin($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -136,6 +136,11 @@ class CI_DB_mysql extends CI_DB {
 			return TRUE;
 		}
 
+		// Reset the transaction failure flag.
+		// If the $test_mode flag is set to TRUE transactions will be rolled back 
+		// even if the queries produce a successful result. 
+		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		
 		$this->simple_query('SET AUTOCOMMIT=0');
 		$this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
 		return TRUE;

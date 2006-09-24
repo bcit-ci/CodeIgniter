@@ -316,7 +316,7 @@ class CI_DB_driver {
 	 * @access	public
 	 * @return	void		 
 	 */	
-	function trans_start()
+	function trans_start($test_mode = FALSE)
 	{	
 		if ( ! $this->trans_enabled)
 		{
@@ -330,9 +330,7 @@ class CI_DB_driver {
 			return;
 		}
 		
-		// Reset the transaction failure flag
-		$this->_trans_failure = FALSE;		
-		$this->trans_begin();
+		$this->trans_begin($test_mode);
 	}
 
 	// --------------------------------------------------------------------
@@ -372,6 +370,20 @@ class CI_DB_driver {
 		$this->trans_commit();
 		return TRUE;	
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Lets you retrieve the transaction flag to determine if it has failed
+	 * 
+	 * @access	public
+	 * @return	bool		 
+	 */	
+	function trans_status()
+	{
+		return $this->_trans_failure;
+	}
+
 
 	// --------------------------------------------------------------------
 

@@ -107,7 +107,7 @@ class CI_DB_odbc extends CI_DB {
 	 * @access	public
 	 * @return	bool		 
 	 */	
-	function trans_begin()
+	function trans_begin($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -119,6 +119,11 @@ class CI_DB_odbc extends CI_DB {
 		{
 			return TRUE;
 		}
+
+		// Reset the transaction failure flag.
+		// If the $test_mode flag is set to TRUE transactions will be rolled back 
+		// even if the queries produce a successful result. 
+		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
 		return odbc_autocommit($this->conn_id, FALSE);
 	}
