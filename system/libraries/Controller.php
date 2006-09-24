@@ -381,10 +381,10 @@ class Controller extends CI_Base {
 			}
 		}
 				
-		require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].EXT);
+		require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver'.EXT);
 
 		// Instantiate the DB adapter
-		$driver = 'CI_DB_'. $params['dbdriver'];
+		$driver = 'CI_DB_'. $params['dbdriver'].'_driver';
 		$DB = new $driver($params);
 		
 		if ($return === TRUE)
