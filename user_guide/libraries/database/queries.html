@@ -66,17 +66,26 @@ Queries
 
 <h1>Queries</h1>
 
+<h2>$this->db->query();</h2>
+
 <p>To submit a query, use the following function:</p>
 
 <code>$this->db->query('YOUR QUERY HERE');</code>
 
-<p>The <dfn>query()</dfn> function returns a database result <strong>object</strong> 
-which you can use to <a href="results.html">show your results</a>. You will typically assign the query to your own variable, like this:</p>
+<p>The <dfn>query()</dfn> function returns a database result <strong>object</strong> when "read" type queries are run,
+which you can use to <a href="results.html">show your results</a>.  When "write" type queries are run it simply returns TRUE or FALSE
+depending on success or failure.  When retrieving data you will typically assign the query to your own variable, like this:</p>
 
 <code><var>$query</var> = $this->db->query('YOUR QUERY HERE');</code>
 
+<h2>$this->db->simple_query();</h2>
 
-<h2>Escaping Queries</h2>
+<p>This is a simplified version of the <dfn>$this->db->query()</dfn> function.  It ONLY returns TRUE/FALSE on success or failure.
+It DOES NOT return a database result set, nor does it set the query timer, or compile bind data, or store your query for debugging.  
+It simply lets you submit a query. Most users will rarely use this function.</p>
+
+
+<h1><br />Escaping Queries</h1>
 
 <p>It's a very good security practice to escape your data before sumbiting it into your database. 
 Code Igniter has two functions that help you do this:</p>
@@ -94,10 +103,8 @@ Most of the time you'll use the above function rather then this one. Use the fun
 
 <code>$sql = "INSERT INTO table (title) VALUES('".$this->db->escape_str($title)."')";</code>
 
-
 </li>
 </ol>
-
 
 
 <h1><br />Query Bindings</h1>
@@ -114,51 +121,6 @@ $this->db->query($sql, array(3, 'live', 'Rick'));
 <p>The question marks in the query are automatically replaced with the values in the array in the second parameter of the query function.</p>
 <p class="important">The secondary benefit of using binds is that the values are automatically escaped, producing safer queries.  You don't have to remember to manually escape data; the engine does it automatically for you.</p>
 
-
-
-<h1><br />Query Helper Functions</h1>
-
-
-<h2>$this->db->last_query();</h2>
-
-<p>Returns the last query that was run (the query string, not the result).  Example:</p>
-
-<code>$str = $this->db->last_query();<br />
-<br />
-// Produces:  SELECT * FROM sometable....
-</code>
-
-
-<p>The following two functions help simplify the process of writing database INSERTs and UPDATEs.</p>
-
-
-<h2>$this->db->insert_string(); </h2>
-<p>This function simplifies the process of writing database inserts. It returns a correctly formatted SQL insert string. Example:</p>
-
-<code>$data = array('name' => $name, 'email' => $email, 'url' => $url);<br />
-<br />
-$str = $this->db->insert_string('table_name', $data);
-</code>
-
-<p>The first parameter is the table name, the second is an associative array with the data to be inserted.  The above example produces:</p>
-<code>INSERT INTO table_name (name, email, url) VALUES ('Rick', 'rick@your-site.com', 'www.your-site.com')</code>
-
-
-
-<h2>$this->db->update_string(); </h2>
-<p>This function simplifies the process of writing database updates. It returns a correctly formatted SQL update string. Example:</p>
-
-<code>$data = array('name' => $name, 'email' => $email, 'url' => $url);<br />
-<br />
-$where = "author_id = 1 AND status = 'active'";
-<br /><br />
-$str = $this->db->update_string('table_name', $data, $where);
-</code>
-
-<p>The first parameter is the table name, the second is an associative array with the data to be inserted, and the third parameter is the "where" clause. The above example produces:</p>
-<code> UPDATE exp_weblog SET name = 'Rick', email = 'rick@your-site.com', url = 'www.your-site.com' WHERE author_id = 1 AND status = 'active'</code>
-
-	
 	
 
 </div>

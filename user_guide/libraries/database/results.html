@@ -64,7 +64,7 @@ Query Results
 
 
 
-<h1>Query Results</h1>
+<h1>Generating Query Results</h1>
 
 
 <p>There are several ways to generate query results:</p>
@@ -177,40 +177,6 @@ Query Results
 	<strong>$row = $query->next_row('array')</strong><br />
 	<strong>$row = $query->previous_row('array')</strong>
 </p>
-
-
-<h1><br />Query Result Helpers</h1>
-
-<p>The following functions provide useful information when dealing with query results.</p>
-
-<h2>$query->num_rows()</h2>
-<p>The number of rows returned by the query. Note:  <dfn>$query</dfn> is the variable that the query was assigned to:</p>
-
-<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
-echo $query->num_rows();
-</code>
-
-<h2>$query->num_fields()</h2>
-<p>The number of FIELDS returned by the query.  Make sure to call the function using your query result object:</p>
-
-<code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
-echo $query->num_fields();
-</code>
-
-
-<h2>$this->db->insert_id()</h2>
-<p>The insert ID number when performing database inserts.</p>
-
-<h2>$this->db->affected_rows()</h2>
-<p>Displays the number of affected rows, when doing "write" type queries (insert, update, etc.).</p>
-</p>Note:  In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the
-correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
-
-
-<h2>$this->db->version()</h2>
-<p>Outputs the database version you are running:</p>
-
-<code>echo $this->db->version();</code>
 
 
 
