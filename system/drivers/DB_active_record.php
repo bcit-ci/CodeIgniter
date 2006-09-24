@@ -24,7 +24,7 @@
  * @subpackage	Drivers
  * @category	Database
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/database/
+ * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_active_record extends CI_DB_driver {
 
