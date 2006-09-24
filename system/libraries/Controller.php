@@ -366,7 +366,7 @@ class Controller extends CI_Base {
 
 		if ( ! isset($params['active_r']) OR $params['active_r'] == TRUE) 
 		{
-			require_once(BASEPATH.'database/DB_active_record'.EXT);
+			require_once(BASEPATH.'database/DB_active_rec'.EXT);
 			
 			if ( ! class_exists('CI_DB'))
 			{
