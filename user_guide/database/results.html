@@ -203,6 +203,27 @@ echo $query->num_fields();
 
 
 
+<h2>$query->free_result()</h2>
+<p>It frees the memory associated with the result and deletes the result resource ID.  Normally PHP frees its memory automatically at the end of script
+execution.  However, if you are running a lot of queries in a particular script you might want to free the result after each query result has been
+generated in order to cut down on memory consumptions.  Example:
+</p>
+
+<code>$query = $this->db->query('SELECT title FROM my_table');<br /><br />
+foreach ($query->result() as $row)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;echo $row->title;<br />
+}<br />
+$query->free_result();  // The $query result object will no longer be available<br />
+<br />
+$query2 = $this->db->query('SELECT name FROM some_table');<br /><br />
+$row = $query2->row();<br />
+echo $row->name;<br />
+$query2->free_result();  // The $query2 result object will no longer be available
+</code>
+
+
+
 	
 
 </div>
