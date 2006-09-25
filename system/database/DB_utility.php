@@ -33,182 +33,6 @@ class CI_DB_utility {
 		$this->db =& $obj->db;
 	}
 
-
-	/**
-	 * Database Version Number.  Returns a string containing the 
-	 * version of the database being used
-	 *
-	 * @access	public
-	 * @return	string	
-	 */	
-	function version()
-	{
-		if (FALSE === ($sql = $this->_version()))
-		{
-            if ($this->db->db_debug)
-            {
-				return $this->db->display_error('db_unsupported_function');
-            }
-            return FALSE;        
-		}
-		
-        if ($this->db->dbdriver == 'oci8')
-        {
-			return $sql;
-		}
-	
-		$query = $this->db->query($sql);
-		$row = $query->row();
-		return $row->ver;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Primary
-	 *
-	 * Retrieves the primary key.  It assumes that the row in the first
-	 * position is the primary key
-	 * 
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string		 
-	 */	
-	function primary($table = '')
-	{	
-		$fields = $this->field_names($table);
-		
-		if ( ! is_array($fields))
-		{
-			return FALSE;
-		}
-
-		return current($fields);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Returns an array of table names
-	 * 
-	 * @access	public
-	 * @return	array		 
-	 */	
-	function tables()
-	{
-		if (FALSE === ($sql = $this->_show_tables()))
-		{
-            if ($this->db->db_debug)
-            {
-				return $this->db->display_error('db_unsupported_function');
-            }
-            return FALSE;        
-		}
-
-		$retval = array();
-		$query = $this->db->query($sql);
-		
-		if ($query->num_rows() > 0)
-		{
-			foreach($query->result_array() as $row)
-			{
-				if (isset($row['TABLE_NAME']))
-				{
-					$retval[] = $row['TABLE_NAME'];
-				}
-				else
-				{
-					$retval[] = array_shift($row);
-				}
-			}
-		}
-
-		return $retval;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Determine if a particular table exists
-	 * @access	public
-	 * @return	boolean
-	 */
-	function table_exists($table_name)
-	{
-		return ( ! in_array($this->db->dbprefix.$table_name, $this->tables())) ? FALSE : TRUE;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch MySQL Field Names
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	array		 
-	 */
-    function field_names($table = '')
-    {
-    	if ($table == '')
-    	{
-			if ($this->db->db_debug)
-			{
-				return $this->db->display_error('db_field_param_missing');
-			}
-			return FALSE;			
-    	}
-    	
-		if (FALSE === ($sql = $this->_show_columns($this->db->dbprefix.$table)))
-		{
-            if ($this->db->db_debug)
-            {
-				return $this->db->display_error('db_unsupported_function');
-            }
-            return FALSE;        
-		}
-    	
-    	$query = $this->db->query($sql);
-    	
-    	$retval = array();
-		foreach($query->result_array() as $row)
-		{
-			if (isset($row['COLUMN_NAME']))
-			{
-				$retval[] = $row['COLUMN_NAME'];
-			}
-			else
-			{
-				$retval[] = current($row);
-			}    	
-		}
-    	
-    	return $retval;
-    }
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Returns an object with field data
-	 * 
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	object		 
-	 */	
-	function field_data($table = '')
-	{
-    	if ($table == '')
-    	{
-			if ($this->db->db_debug)
-			{
-				return $this->db->display_error('db_field_param_missing');
-			}
-			return FALSE;			
-    	}
-    	
-		$query = $this->db->query($this->_field_data($this->db->dbprefix.$table));
-		return $query->field_data();
-	}	
-	
 	// --------------------------------------------------------------------
 
 	/**
@@ -272,6 +96,58 @@ class CI_DB_utility {
 		}
 			
 		return $dbs;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns an array of table names
+	 * 
+	 * @access	public
+	 * @return	array		 
+	 */	
+	function list_tables()
+	{
+		if (FALSE === ($sql = $this->_list_tables()))
+		{
+            if ($this->db->db_debug)
+            {
+				return $this->db->display_error('db_unsupported_function');
+            }
+            return FALSE;        
+		}
+
+		$retval = array();
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0)
+		{
+			foreach($query->result_array() as $row)
+			{
+				if (isset($row['TABLE_NAME']))
+				{
+					$retval[] = $row['TABLE_NAME'];
+				}
+				else
+				{
+					$retval[] = array_shift($row);
+				}
+			}
+		}
+
+		return $retval;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determine if a particular table exists
+	 * @access	public
+	 * @return	boolean
+	 */
+	function table_exists($table_name)
+	{
+		return ( ! in_array($this->db->dbprefix.$table_name, $this->list_tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------

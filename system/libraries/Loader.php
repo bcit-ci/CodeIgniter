@@ -136,7 +136,7 @@ class CI_Loader {
 	 * @param	bool	whether to return the DB object
 	 * @return	object
 	 */	
-	function dbutils($db = '', $return = FALSE)
+	function dbutil($db = '', $return = FALSE)
 	{
 		$obj =& get_instance();
 		
@@ -145,7 +145,7 @@ class CI_Loader {
 			$return = FALSE;
 		}
 	
-		return $obj->_ci_init_dbutils($db, $return);
+		return $obj->_ci_init_dbutil($db, $return);
 	}
 	// END dbutils()
 	

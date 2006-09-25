@@ -91,6 +91,19 @@ class CI_DB_oci8_driver extends CI_DB {
         return TRUE;
     }
 
+	// --------------------------------------------------------------------
+
+    /**
+     * Version number query string
+     *
+     * @access  public
+     * @return  string
+     */
+    function _version()
+    {
+        return ociserverversion($this->conn_id);
+    }
+
     // --------------------------------------------------------------------
 
     /**
@@ -102,10 +115,8 @@ class CI_DB_oci8_driver extends CI_DB {
      */
     function _execute($sql)
     {
-        // oracle must parse the query before it
-        // is run, all of the actions with
-        // the query are based off the statement id
-        // returned by ociparse        
+        // oracle must parse the query before it is run. All of the actions with
+        // the query are based on the statement id returned by ociparse        
         $this->_set_stmt_id($sql);
         ocisetprefetch($this->stmt_id, 1000);
         return @ociexecute($this->stmt_id, $this->_commit);
@@ -388,6 +399,38 @@ class CI_DB_oci8_driver extends CI_DB {
         return $row->NUMROWS;
     }
 
+    // --------------------------------------------------------------------
+
+    /**
+     * Show columnn query
+     *
+     * Generates a platform-specific query string so that the column names can be fetched
+     *
+     * @access  public
+     * @param   string  the table name
+     * @return  string
+     */
+    function _list_columns($table = '')
+    {
+        return "SELECT COLUMN_NAME FROM all_tab_columns WHERE table_name = '$table'";
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Field data query
+     *
+     * Generates a platform-specific query so that the column data can be retrieved
+     *
+     * @access  public
+     * @param   string  the table name
+     * @return  object
+     */
+    function _field_data($table)
+    {
+		return "SELECT * FROM ".$this->_escape_table($table)." where rownum = 1";
+    }
+    
     // --------------------------------------------------------------------
 
     /**

@@ -66,6 +66,19 @@ class CI_DB_mssql_driver extends CI_DB {
 	{
 		return @mssql_select_db($this->database, $this->conn_id);
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Version number query string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _version()
+	{
+		return "SELECT version() AS ver";
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -246,6 +259,38 @@ class CI_DB_mssql_driver extends CI_DB {
 		return $row->numrows;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * List columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_columns($table = '')
+	{
+		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";	
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		return "SELECT TOP 1 FROM ".$this->_escape_table($table);	
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

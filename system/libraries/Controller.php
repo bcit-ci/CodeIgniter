@@ -409,7 +409,7 @@ class Controller extends CI_Base {
 	 * @param	bool	whether to return the object
 	 * @return	void
 	 */
-	function _ci_init_dbutils($db = '', $return = FALSE)
+	function _ci_init_dbutil($db = '', $return = FALSE)
 	{
 		if ($this->_ci_is_loaded('dbutils') == TRUE AND $return == FALSE)
 		{

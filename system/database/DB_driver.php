@@ -145,6 +145,49 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * The name of the platform in use (mysql, mssql, etc...)
+	 *
+	 * @access	public
+	 * @return	string		 
+	 */	
+	function platform()
+	{
+		return $this->dbdriver;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Version Number.  Returns a string containing the 
+	 * version of the database being used
+	 *
+	 * @access	public
+	 * @return	string	
+	 */	
+	function version()
+	{
+		if (FALSE === ($sql = $this->_version()))
+		{
+            if ($this->db_debug)
+            {
+				return $this->display_error('db_unsupported_function');
+            }
+            return FALSE;        
+		}
+		
+        if ($this->dbdriver == 'oci8')
+        {
+			return $sql;
+		}
+	
+		$query = $this->query($sql);
+		$row = $query->row();
+		return $row->ver;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Execute the query
 	 *
 	 * Accepts an SQL string as input and returns a result object upon 
@@ -482,6 +525,103 @@ class CI_DB_driver {
 
 		return $str;
 	}
+
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Primary
+	 *
+	 * Retrieves the primary key.  It assumes that the row in the first
+	 * position is the primary key
+	 * 
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string		 
+	 */	
+	function primary($table = '')
+	{	
+		$fields = $this->field_names($table);
+		
+		if ( ! is_array($fields))
+		{
+			return FALSE;
+		}
+
+		return current($fields);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch MySQL Field Names
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	array		 
+	 */
+    function field_names($table = '')
+    {
+    	if ($table == '')
+    	{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_field_param_missing');
+			}
+			return FALSE;			
+    	}
+    	
+		if (FALSE === ($sql = $this->_list_columns($this->dbprefix.$table)))
+		{
+            if ($this->db_debug)
+            {
+				return $this->display_error('db_unsupported_function');
+            }
+            return FALSE;        
+		}
+    	
+    	$query = $this->query($sql);
+    	
+    	$retval = array();
+		foreach($query->result_array() as $row)
+		{
+			if (isset($row['COLUMN_NAME']))
+			{
+				$retval[] = $row['COLUMN_NAME'];
+			}
+			else
+			{
+				$retval[] = current($row);
+			}    	
+		}
+    	
+    	return $retval;
+    }
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns an object with field data
+	 * 
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object		 
+	 */	
+	function field_data($table = '')
+	{
+    	if ($table == '')
+    	{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_field_param_missing');
+			}
+			return FALSE;			
+    	}
+    	
+		$query = $this->query($this->_field_data($this->dbprefix.$table));
+		return $query->field_data();
+	}	
 
 	// --------------------------------------------------------------------
 	
