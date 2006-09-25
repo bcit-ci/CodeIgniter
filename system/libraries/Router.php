@@ -149,12 +149,12 @@ class CI_Router {
 			return;
 		}
 						
-		$this->set_class($segments['0']);
+		$this->set_class($segments[0]);
 		
-		if (isset($segments['1']))
+		if (isset($segments[1]))
 		{
 			// A scaffolding request. No funny business with the URL
-			if ($this->routes['scaffolding_trigger'] == $segments['1'] AND $segments['1'] != '_ci_scaffolding')
+			if ($this->routes['scaffolding_trigger'] == $segments[1] AND $segments[1] != '_ci_scaffolding')
 			{
 				$this->scaffolding_request = TRUE;
 				unset($this->routes['scaffolding_trigger']);
@@ -162,7 +162,7 @@ class CI_Router {
 			else
 			{
 				// A standard method request
-				$this->set_method($segments['1']);
+				$this->set_method($segments[1]);
 			}
 		}
 		
@@ -186,22 +186,22 @@ class CI_Router {
 	function _validate_segments($segments)
 	{
 		// Does the requested controller exist in the root folder?
-		if (file_exists(APPPATH.'controllers/'.$segments['0'].EXT))
+		if (file_exists(APPPATH.'controllers/'.$segments[0].EXT))
 		{
 			return $segments;
 		}
 
 		// Is the controller in a sub-folder?
-		if (is_dir(APPPATH.'controllers/'.$segments['0']))
+		if (is_dir(APPPATH.'controllers/'.$segments[0]))
 		{		
 			// Set the directory and remove it from the segment array
-			$this->set_directory($segments['0']);
+			$this->set_directory($segments[0]);
 			$segments = array_slice($segments, 1);
 			
 			if (count($segments) > 0)
 			{
 				// Does the requested controller exist in the sub-folder?
-				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments['0'].EXT))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
 				{
 					show_404();	
 				}
@@ -250,7 +250,7 @@ class CI_Router {
 		{
 			$this->segments[$i++] = $val;
 		}
-		unset($this->segments['0']);
+		unset($this->segments[0]);
 		
 		if ($diff == FALSE)
 		{
@@ -263,7 +263,7 @@ class CI_Router {
 			{
 				$this->rsegments[$i++] = $val;
 			}
-			unset($this->rsegments['0']);
+			unset($this->rsegments[0]);
 		}
 	}
 	// END _reindex_segments()

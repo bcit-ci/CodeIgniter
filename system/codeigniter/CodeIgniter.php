@@ -197,8 +197,8 @@ else
 			show_404();
 		}
 
-		// Call the requested method.  Any URI segments present (besides the class/function)
-		// will be passed to the method for convenience		
+		// Call the requested method.  
+		// Any URI segments present (besides the class/function) will be passed to the method for convenience		
 		call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, (($RTR->fetch_directory() == '') ? 2 : 3)));		
 	}
 }

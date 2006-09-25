@@ -232,14 +232,70 @@ class CI_DB_utility {
 
 	// --------------------------------------------------------------------
 
-
-
-
-
-
-	function create_table()
+	/**
+	 * Drop database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function drop_database($name)
 	{
+		$sql = $this->_drop_database($name);
+		
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+	
+		return $this->db->query($sql);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{	
+		$query = $this->db->query($this->_list_database());
+		$dbs = array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$dbs[] = current($row);
+			}
+		}
+			
+		return $dbs;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop Table
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	bool
+	 */
+	function drop_table($name)
+	{
+		$sql = $this->_drop_table($name);
+		
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+	
+		return $this->db->query($sql);
+	}
+
+
 	
 	function alter_table()
 	{

@@ -363,7 +363,10 @@ class CI_Loader {
 	 * Load Script
 	 *
 	 * This function loads the specified include file from the
-	 * application/scripts/ folder
+	 * application/scripts/ folder.
+	 *
+	 * NOTE:  This feature has been deprecated but it will remain available
+	 * for legacy users.
 	 *
 	 * @access	public
 	 * @param	array
@@ -496,7 +499,7 @@ class CI_Loader {
 		}
 		
 		/*
-		 * Extract and cached variables
+		 * Extract and cache variables
 		 *
 		 * You can either set variables using the dedicated $this->load_vars() 
 		 * function or via the second parameter of this function. We'll merge 

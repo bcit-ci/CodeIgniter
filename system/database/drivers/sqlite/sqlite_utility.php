@@ -43,11 +43,11 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Drop database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function drop_database($name)
+	function _drop_database($name)
 	{
 		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
 		{
@@ -65,10 +65,10 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function list_databases()
+	function _list_databases()
 	{
 		if ($this->db_debug)
 		{
@@ -82,10 +82,10 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Drop Table
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function drop_table($table)
+	function _drop_table($table)
 	{
 		if ($this->db_debug)
 		{
