@@ -80,6 +80,23 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Drop Table
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function drop_table($table)
+	{
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return array();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Version number query string
 	 *
 	 * @access	public

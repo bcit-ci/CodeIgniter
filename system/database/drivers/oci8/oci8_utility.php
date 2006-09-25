@@ -63,6 +63,18 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * Drop Table
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function drop_table($table)
+	{
+	}
+
+	// --------------------------------------------------------------------
+
     /**
      * Version number query string
      *
