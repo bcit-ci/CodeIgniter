@@ -36,6 +36,10 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	{
 		// ODBC has no "create database" command since it's 
 		// designed to connect to an existing database
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
 		return FALSE;
 	}
 
@@ -51,7 +55,29 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	function drop_database($name)
 	{
 		// ODBC has no "drop database" command since it's 
-		// designed to connect to an existing database
+		// designed to connect to an existing database		
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{
+		// Not sure if ODBC lets you list all databases...	
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
 		return FALSE;
 	}
 

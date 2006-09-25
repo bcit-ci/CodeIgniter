@@ -53,6 +53,29 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{
+		$query = $this->db->query("SHOW DATABASES");
+		$dbs = array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$dbs[] = current($row);
+			}
+		}
+			
+		return $dbs;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Version number query string
 	 *
 	 * @access	public

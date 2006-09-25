@@ -63,6 +63,23 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return array();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Version number query string
 	 *
 	 * @access	public

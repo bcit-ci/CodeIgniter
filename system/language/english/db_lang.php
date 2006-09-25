@@ -13,6 +13,7 @@ $lang['db_field_param_missing'] = 'To fetch fields requires the name of the tabl
 $lang['db_unsupported_function'] = 'This feature is not available for the database you are using.';
 $lang['db_transaction_failure'] = 'Transaction failure: Rollback performed';
 $lang['db_unable_to_drop'] = 'Unable to drop the specified database.';
+$lang['db_unsuported_feature'] = 'Unsupported feature of the database platform you are using.';
 
 
 ?>
