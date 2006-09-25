@@ -243,44 +243,6 @@ class CI_DB_result {
 		return $result[$this->current_row];
 	}
 
-	/**
-	 * Number of rows in the result set
-	 *
-	 * @access	public
-	 * @return	integer
-	 */
-	function num_rows()
-	{
-		// Result supplied by the result adaptor class
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Number of fields in the result set
-	 *
-	 * @access	public
-	 * @return	integer
-	 */
-	function num_fields()
-	{
-		// Result supplied by the result adaptor class
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data
-	 *
-	 * Generates an array of objects containing field meta-data
-	 *
-	 * @access	public
-	 * @return	array
-	 */
-	function field_data()
-	{
-		// Result supplied by the result adaptor class
-	}
 }
 
 ?>

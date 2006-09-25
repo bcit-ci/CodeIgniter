@@ -24,9 +24,15 @@
  */
 class CI_DB_utility {
 
+	var $db;
 
-	
-	// --------------------------------------------------------------------
+	function CI_DB_utility()
+	{
+		// Assign the main database object to $this->db
+		$obj =& get_instance();
+		$this->db =& $obj->db;
+	}
+
 
 	/**
 	 * Database Version Number.  Returns a string containing the 
@@ -39,19 +45,19 @@ class CI_DB_utility {
 	{
 		if (FALSE === ($sql = $this->_version()))
 		{
-            if ($this->db_debug)
+            if ($this->db->db_debug)
             {
-				return $this->display_error('db_unsupported_function');
+				return $this->db->display_error('db_unsupported_function');
             }
             return FALSE;        
 		}
 		
-        if ($this->dbdriver == 'oci8')
+        if ($this->db->dbdriver == 'oci8')
         {
 			return $sql;
-		}		
+		}
 	
-		$query = $this->query($sql);
+		$query = $this->db->query($sql);
 		$row = $query->row();
 		return $row->ver;
 	}
@@ -65,18 +71,18 @@ class CI_DB_utility {
 	 * @return	array		 
 	 */	
 	function tables()
-	{      
+	{
 		if (FALSE === ($sql = $this->_show_tables()))
 		{
-            if ($this->db_debug)
+            if ($this->db->db_debug)
             {
-				return $this->display_error('db_unsupported_function');
+				return $this->db->display_error('db_unsupported_function');
             }
             return FALSE;        
 		}
 
 		$retval = array();
-		$query = $this->query($sql);
+		$query = $this->db->query($sql);
 		
 		if ($query->num_rows() > 0)
 		{
@@ -104,8 +110,8 @@ class CI_DB_utility {
 	 * @return	boolean
 	 */
 	function table_exists($table_name)
-	{		
-		return ( ! in_array($this->dbprefix.$table_name, $this->tables())) ? FALSE : TRUE;
+	{
+		return ( ! in_array($this->db->dbprefix.$table_name, $this->tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -121,23 +127,23 @@ class CI_DB_utility {
     {
     	if ($table == '')
     	{
-			if ($this->db_debug)
+			if ($this->db->db_debug)
 			{
-				return $this->display_error('db_field_param_missing');
+				return $this->db->display_error('db_field_param_missing');
 			}
 			return FALSE;			
     	}
     	
-		if (FALSE === ($sql = $this->_show_columns($this->dbprefix.$table)))
+		if (FALSE === ($sql = $this->_show_columns($this->db->dbprefix.$table)))
 		{
-            if ($this->db_debug)
+            if ($this->db->db_debug)
             {
-				return $this->display_error('db_unsupported_function');
+				return $this->db->display_error('db_unsupported_function');
             }
             return FALSE;        
 		}
     	
-    	$query = $this->query($sql);
+    	$query = $this->db->query($sql);
     	
     	$retval = array();
 		foreach($query->result_array() as $row)
@@ -168,14 +174,14 @@ class CI_DB_utility {
 	{
     	if ($table == '')
     	{
-			if ($this->db_debug)
+			if ($this->db->db_debug)
 			{
-				return $this->display_error('db_field_param_missing');
+				return $this->db->display_error('db_field_param_missing');
 			}
 			return FALSE;			
     	}
     	
-    	return $this->_field_data($this->dbprefix.$table);
+    	return $this->_field_data($this->db->dbprefix.$table);
 	}	
 	
 	// --------------------------------------------------------------------
