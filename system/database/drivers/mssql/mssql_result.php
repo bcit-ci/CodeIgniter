@@ -49,7 +49,28 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		return @mssql_num_fields($this->result_id);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Field Names
+	 *
+	 * Generates an array of column names
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_names()
+	{
+		$field_names = array();
+		while ($field = mssql_fetch_field($this->result_id))
+		{
+			$field_names[] = $field->name;       
+		}
+		
+		return $field_names;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

@@ -136,6 +136,39 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 		return "SELECT * FROM ".$this->db->_escape_table($table)." LIMIT 1";
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Optimize table query
+	 *
+	 * Generates a platform-specific query so that a table can be optimized
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _optimize_table($table)
+	{
+		return "OPTIMIZE TABLE ".$this->db->_escape_table($table);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Repair table query
+	 *
+	 * Generates a platform-specific query so that a table can be repaired
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _repair_table($table)
+	{
+		return "REPAIR TABLE ".$this->db->_escape_table($table);
+	}
+
+
 
 
 }

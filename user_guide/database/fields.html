@@ -66,10 +66,13 @@ Field Names
 
 
 <h2>Retrieving Field Names</h2>
-<p>Sometimes it's helpful to gather the field names.</p>
+<p>Sometimes it's helpful to gather the field names for a particular table or with a paritcular query result.</p>
 
 <h2>$this->db->field_names();</h2>
-<p>Returns an array containing the field names.  You must supply the table name to the function:</p>
+<p>Returns an array containing the field names. This query can be called two ways:</p>
+
+
+<p>1. You can supply the table name and call it from the <dfn>$this->db-></dfn> object:</p>
 
 <code>
 $fields = $this->db->field_names('table_name');<br /><br />
@@ -79,6 +82,21 @@ foreach ($fields as $field)<br />
 &nbsp;&nbsp;&nbsp;echo $field;<br />
 }
 </code>
+
+<p>2. You can gather the feild names associated with any query you run by calling the function 
+from your query result object:</p>
+
+<code>
+$query = $this->db->query('SELECT * FROM some_table');
+<br /><br />
+
+foreach ($query->field_names() as $field)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;echo $field;<br />
+}
+</code>
+
+
 
 
 

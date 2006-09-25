@@ -74,6 +74,27 @@ class CI_DB_oci8_result extends CI_DB_result {
         return $count;
     }
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Field Names
+	 *
+	 * Generates an array of column names
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_names()
+	{
+		$field_names = array();
+        $fieldCount = $this->num_fields();
+        for ($c = 1; $c <= $fieldCount; $c++)
+        {
+            $field_names[] = ocicolumnname($this->stmt_id, $c);
+        }
+		return $field_names;
+	}
+
     // --------------------------------------------------------------------
 
     /**

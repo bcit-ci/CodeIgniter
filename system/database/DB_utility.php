@@ -65,6 +65,30 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Primary
+	 *
+	 * Retrieves the primary key.  It assumes that the row in the first
+	 * position is the primary key
+	 * 
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string		 
+	 */	
+	function primary($table = '')
+	{	
+		$fields = $this->field_names($table);
+		
+		if ( ! is_array($fields))
+		{
+			return FALSE;
+		}
+
+		return current($fields);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Returns an array of table names
 	 * 
 	 * @access	public
@@ -188,39 +212,15 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Primary
-	 *
-	 * Retrieves the primary key.  It assumes that the row in the first
-	 * position is the primary key
-	 * 
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string		 
-	 */	
-	function primary($table = '')
-	{	
-		$fields = $this->field_names($table);
-		
-		if ( ! is_array($fields))
-		{
-			return FALSE;
-		}
-
-		return current($fields);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Create database
 	 *
 	 * @access	public
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function create_database($name)
+	function create_database($db_name)
 	{
-		$sql = $this->_create_database($name);
+		$sql = $this->_create_database($db_name);
 		
 		if (is_bool($sql))
 		{
@@ -239,9 +239,9 @@ class CI_DB_utility {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function drop_database($name)
+	function drop_database($db_name)
 	{
-		$sql = $this->_drop_database($name);
+		$sql = $this->_drop_database($db_name);
 		
 		if (is_bool($sql))
 		{
@@ -273,6 +273,51 @@ class CI_DB_utility {
 			
 		return $dbs;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Optimize Table
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	bool
+	 */
+	function optimize_table($table_name)
+	{
+		$sql = $this->_optimize_table($table_name);
+		
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+	
+		$query = $this->db->query($sql);
+		return current($query->result_array());
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Optimize Table
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	bool
+	 */
+
+	function repair_table($table_name)
+	{
+		$sql = $this->_repair_table($table_name);
+		
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+	
+		$query = $this->db->query($sql);
+		return current($query->result_array());
+	}
 
 	// --------------------------------------------------------------------
 
@@ -283,9 +328,9 @@ class CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	bool
 	 */
-	function drop_table($name)
+	function drop_table($table_name)
 	{
-		$sql = $this->_drop_table($name);
+		$sql = $this->_drop_table($table_name);
 		
 		if (is_bool($sql))
 		{
@@ -295,23 +340,6 @@ class CI_DB_utility {
 		return $this->db->query($sql);
 	}
 
-
-	
-	function alter_table()
-	{
-	}
-	
-	function create_index()
-	{
-	}
-	
-	function drop_index()
-	{
-	}
-	
-	function optimize()
-	{
-	}
 
 
 

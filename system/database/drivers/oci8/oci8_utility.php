@@ -138,6 +138,38 @@ class CI_DB_oci8_utility extends CI_DB_utility {
     }
 
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Optimize table query
+	 *
+	 * Generates a platform-specific query so that a table can be optimized
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _optimize_table($table)
+	{
+		return FALSE; // Is this supported in Oracle?
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Repair table query
+	 *
+	 * Generates a platform-specific query so that a table can be repaired
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _repair_table($table)
+	{
+		return return FALSE; // Is this supported in Oracle?
+	}
+
 }
 
 ?>

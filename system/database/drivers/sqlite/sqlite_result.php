@@ -49,7 +49,28 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	{
 		return @sqlite_num_fields($this->result_id);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Field Names
+	 *
+	 * Generates an array of column names
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_names()
+	{
+		$field_names = array();
+		for ($i = 0; $i < $this->num_fields(); $i++)
+		{
+			$Ffield_names[] = sqlite_field_name($this->result_id, $i);
+		}
+		
+		return $field_names;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
