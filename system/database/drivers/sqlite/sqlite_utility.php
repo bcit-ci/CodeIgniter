@@ -22,19 +22,70 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/database/
  */
-class CI_DB_sqlite_utility {
-	
+class CI_DB_sqlite_utility extends CI_DB_utility {
+
 	/**
-	 * Some function
+	 * Version number query string
 	 *
 	 * @access	public
-	 * @return	integer
+	 * @return	string
 	 */
-	function something()
+	function _version()
 	{
+		return sqlite_libversion();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _show_tables()
+	{
+		return "SELECT name from sqlite_master WHERE type='table'";
 	}
 	
 	// --------------------------------------------------------------------
+
+	/**
+	 * Show columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _show_columns($table = '')
+	{
+		// Not supported
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		$sql = "SELECT * FROM ".$this->db->_escape_table($table)." LIMIT 1";
+		$query = $this->db->query($sql);
+		return $query->field_data();
+	}
+
+
 
 }
 

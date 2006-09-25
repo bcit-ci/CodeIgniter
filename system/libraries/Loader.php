@@ -108,7 +108,7 @@ class CI_Loader {
 	 * @param	string	the DB credentials
 	 * @param	bool	whether to return the DB object
 	 * @param	bool	whether to enable active record (this allows us to override the config setting)
-	 * @return	mixed
+	 * @return	object
 	 */	
 	function database($db = '', $return = FALSE, $active_record = FALSE)
 	{
@@ -125,6 +125,29 @@ class CI_Loader {
 		}
 	}
 	// END database()
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Utilities Loader
+	 *
+	 * @access	public
+	 * @param	string	the DB platform
+	 * @param	bool	whether to return the DB object
+	 * @return	object
+	 */	
+	function dbutils($db = '', $return = FALSE)
+	{
+		$obj =& get_instance();
+		
+		if ( ! is_bool($return))
+		{
+			$return = FALSE;
+		}
+	
+		return $obj->_ci_init_dbutils($db, $return);
+	}
+	// END dbutils()
 	
 	// --------------------------------------------------------------------
 	

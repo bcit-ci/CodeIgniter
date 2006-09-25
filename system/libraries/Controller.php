@@ -384,7 +384,7 @@ class Controller extends CI_Base {
 		require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver'.EXT);
 
 		// Instantiate the DB adapter
-		$driver = 'CI_DB_'. $params['dbdriver'].'_driver';
+		$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 		$DB = new $driver($params);
 		
 		if ($return === TRUE)
@@ -397,7 +397,49 @@ class Controller extends CI_Base {
 		$obj->db =& $DB;
 	}
   	// END _ci_init_database()
-  	
+  
+  
+	// --------------------------------------------------------------------
+
+	/**
+	 * Initialize Database Utilities Class
+	 *
+	 * @access	private
+	 * @param	mixed	database platform
+	 * @param	bool	whether to return the object
+	 * @return	void
+	 */
+	function _ci_init_dbutils($db = '', $return = FALSE)
+	{
+		if ($this->_ci_is_loaded('dbutils') == TRUE AND $return == FALSE)
+		{
+			return;
+		}
+
+		if ($this->_ci_is_loaded('db') == FALSE)
+		{
+			$this->_ci_init_database();
+		}
+	
+		require_once(BASEPATH.'database/DB_utility'.EXT);
+		require_once(BASEPATH.'database/drivers/'.$this->db->dbdriver.'/'.$this->db->dbdriver.'_utility'.EXT);
+		
+
+		// Instantiate the DB adapter
+		$driver = 'CI_DB_'.$this->db->dbdriver.'_utility';
+		$DB = new $driver();
+		
+		if ($return === TRUE)
+		{
+			return $DB;
+		}
+		
+		$obj =& get_instance();
+		$obj->ci_is_loaded[] = 'dbutils';
+		$obj->dbutil =& $DB;
+	}
+  	// END _ci_init_database()
+  
 	// --------------------------------------------------------------------
 
 	/**
