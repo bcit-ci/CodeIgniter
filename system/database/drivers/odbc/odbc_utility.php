@@ -48,11 +48,11 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	/**
 	 * Drop database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function drop_database($name)
+	function _drop_database($name)
 	{
 		// ODBC has no "drop database" command since it's 
 		// designed to connect to an existing database		
@@ -68,10 +68,10 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function list_databases()
+	function _list_databases()
 	{
 		// Not sure if ODBC lets you list all databases...	
 		if ($this->db_debug)
@@ -86,10 +86,10 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	/**
 	 * Drop Table
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function drop_table($table)
+	function _drop_table($table)
 	{
 		// Not a supported ODBC feature	
 		if ($this->db_debug)

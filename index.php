@@ -53,7 +53,7 @@ if (function_exists('realpath') AND @realpath(dirname(__FILE__)) !== FALSE)
 	$system_folder = str_replace("\\", "/", realpath(dirname(__FILE__))).'/'.$system_folder;
 }
 
-// Is the aplication variable blank?  If so, we'll assume it's called "application"
+// Is the $aplication variable blank?  If so, we'll assume the folder is called "application"
 if ($application_folder == '')
 {
 	$application_folder = 'application';

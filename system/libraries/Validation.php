@@ -519,12 +519,26 @@ class CI_Validation {
 	 * Numeric
 	 *
 	 * @access	public
-	 * @param	string
+	 * @param	int
 	 * @return	bool
 	 */	
 	function numeric($str)
 	{
 		return ( ! ereg("^[0-9\.]+$", $str)) ? FALSE : TRUE;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Is Numeric
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */	
+	function is_numeric($str)
+	{
+		return ( ! is_numeric($str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------

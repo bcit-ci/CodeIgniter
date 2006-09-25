@@ -34,6 +34,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	function _create_database($name)
 	{
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -41,12 +42,13 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * Drop database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function drop_database($name)
+	function _drop_database($name)
 	{
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -54,11 +56,12 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function list_databases()
+	function _list_databases()
 	{
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -66,11 +69,12 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * Drop Table
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function drop_table($table)
+	function _drop_table($table)
 	{
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

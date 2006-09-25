@@ -41,13 +41,13 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	/**
 	 * Drop database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function drop_database($name)
+	function _drop_database($name)
 	{
-		return $this->db->query("DROP DATABASE ".$name);
+		return "DROP DATABASE ".$name;
 	}
 
 	// --------------------------------------------------------------------
@@ -55,22 +55,12 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function list_databases()
+	function _list_databases()
 	{
-		$query = $this->db->query("SHOW DATABASES");
-		$dbs = array();
-		if ($query->num_rows() > 0)
-		{
-			foreach ($query->result_array() as $row)
-			{
-				$dbs[] = current($row);
-			}
-		}
-			
-		return $dbs;
+		return "SHOW DATABASES";
 	}
 
 	// --------------------------------------------------------------------
@@ -78,12 +68,12 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	/**
 	 * Drop Table
 	 *
-	 * @access	public
+	 * @access	private
 	 * @return	bool
 	 */
-	function drop_table($table)
+	function _drop_table($table)
 	{
-		return $this->db->query("DROP TABLE IF EXISTS ".$this->db->_escape_table($name));
+		return "DROP TABLE IF EXISTS ".$this->db->_escape_table($name);
 	}
 
 	// --------------------------------------------------------------------
