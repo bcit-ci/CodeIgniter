@@ -211,13 +211,6 @@ class CI_DB_utility {
 
 
 
-	
-	
-	
-	function show_databases()
-	{
-	}
-	
 	function create_table()
 	{
 	}

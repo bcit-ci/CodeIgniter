@@ -34,7 +34,6 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	function create_database($name)
 	{
-
 	}
 
 	// --------------------------------------------------------------------
@@ -48,7 +47,18 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	function drop_database($name)
 	{
+	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{
 	}
 
 	// --------------------------------------------------------------------

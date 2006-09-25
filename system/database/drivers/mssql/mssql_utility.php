@@ -52,6 +52,29 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{
+		$query = $this->db->query("EXEC sp_helpdb");  // Can also be: EXEC sp_databases 
+		$dbs = array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$dbs[] = current($row);
+			}
+		}
+			
+		return $dbs;
+	}
+
+	// --------------------------------------------------------------------
 	
 	/**
 	 * Version number query string
