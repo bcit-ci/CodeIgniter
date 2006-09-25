@@ -84,6 +84,21 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Show table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _list_tables()
+	{
+		return "SHOW TABLES FROM `".$this->db->database."`";		
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Drop Table
 	 *
 	 * @access	private
@@ -97,66 +112,6 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 			return $this->display_error('db_unsuported_feature');
 		}
 		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function _version()
-	{
-		return "SELECT version() AS ver";
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function _show_tables()
-	{
-		return "SHOW TABLES FROM `".$this->db->database."`";		
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show columnn query
-	 *
-	 * Generates a platform-specific query string so that the column names can be fetched
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	function _show_columns($table = '')
-	{
-		return "SHOW COLUMNS FROM ".$this->db->_escape_table($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	function _field_data($table)
-	{
-		return "SELECT TOP 1 FROM ".$this->db->_escape_table($table);
 	}
 
 	// --------------------------------------------------------------------

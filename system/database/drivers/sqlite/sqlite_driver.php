@@ -88,6 +88,19 @@ class CI_DB_sqlite_driver extends CI_DB {
 	{
 		return TRUE;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _version()
+	{
+		return sqlite_libversion();
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -266,6 +279,39 @@ class CI_DB_sqlite_driver extends CI_DB {
 		return $row->numrows;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_columns($table = '')
+	{
+		// Not supported
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		return "SELECT * FROM ".$this->_escape_table($table)." LIMIT 1";
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

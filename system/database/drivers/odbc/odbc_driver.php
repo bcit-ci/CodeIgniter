@@ -67,7 +67,20 @@ class CI_DB_odbc_driver extends CI_DB {
 		// Not needed for ODBC
 		return TRUE;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _version()
+	{
+		return "SELECT version() AS ver";
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -247,6 +260,38 @@ class CI_DB_odbc_driver extends CI_DB {
 		return $row->numrows;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_columns($table = '')
+	{
+		return "SHOW COLUMNS FROM ".$this->_escape_table($table);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		return "SELECT TOP 1 FROM ".$this->_escape_table($table);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

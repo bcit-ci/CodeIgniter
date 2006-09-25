@@ -71,7 +71,20 @@ class CI_DB_postgre_driver extends CI_DB {
 		// Not needed for Postgre so we'll return TRUE
 		return TRUE;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _version()
+	{
+		return "SELECT version() AS ver";
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -274,6 +287,38 @@ class CI_DB_postgre_driver extends CI_DB {
 		return $row->numrows;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show columnn query
+	 *
+	 * Generates a platform-specific query string so that the column names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_columns($table = '')
+	{
+		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$this->_escape_table($table)."'"; 	
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function _field_data($table)
+	{
+		return "SELECT * FROM ".$this->_escape_table($table)." LIMIT 1";
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
