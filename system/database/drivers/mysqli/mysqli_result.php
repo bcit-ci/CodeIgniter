@@ -49,7 +49,28 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		return @mysqli_num_fields($this->result_id);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Field Names
+	 *
+	 * Generates an array of column names
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_names()
+	{
+		$field_names = array();
+		while ($field = mysql_fetch_field($this->result_id))
+		{
+			$field_names[] = $field->name;       
+		}
+		
+		return $field_names;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
