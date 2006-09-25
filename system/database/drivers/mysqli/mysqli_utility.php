@@ -33,7 +33,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function create_database($name)
 	{
-		return $this->db->query("CREATE DATABASE ".$this->db->_escape_table($name));
+		return $this->db->query("CREATE DATABASE ".$name);
 	}
 
 	// --------------------------------------------------------------------
@@ -47,7 +47,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	function drop_database($name)
 	{
-		return $this->db->query("DROP DATABASE ".$this->db->_escape_table($name));
+		return $this->db->query("DROP DATABASE ".$name);
 	}
 
 	// --------------------------------------------------------------------
@@ -71,6 +71,19 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 		}
 			
 		return $dbs;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop Table
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function drop_table($table)
+	{
+		"DROP TABLE IF EXISTS ".$this->db->_escape_table($name);
 	}
 
 	// --------------------------------------------------------------------

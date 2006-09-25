@@ -84,6 +84,24 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Drop Table
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function drop_table($table)
+	{
+		// Not a supported ODBC feature	
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Version number query string
 	 *
 	 * @access	public

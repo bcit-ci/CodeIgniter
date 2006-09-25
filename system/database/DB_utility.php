@@ -210,7 +210,6 @@ class CI_DB_utility {
 
 
 
-
 	function create_table()
 	{
 	}
