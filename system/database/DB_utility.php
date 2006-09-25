@@ -181,7 +181,8 @@ class CI_DB_utility {
 			return FALSE;			
     	}
     	
-    	return $this->_field_data($this->db->dbprefix.$table);
+		$query = $this->db->query($this->_field_data($this->db->dbprefix.$table));
+		return $query->field_data();
 	}	
 	
 	// --------------------------------------------------------------------
@@ -207,6 +208,32 @@ class CI_DB_utility {
 
 		return current($fields);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function create_database($name)
+	{
+		$sql = $this->_create_database($name);
+		
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+	
+		return $this->db->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+
+
 
 
 

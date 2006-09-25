@@ -32,7 +32,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function create_database($name)
+	function _create_database($name)
 	{
 	}
 
@@ -130,9 +130,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
      */
     function _field_data($table)
     {
-        $sql = "SELECT * FROM ".$this->db->_escape_table($table)." where rownum = 1";
-        $query = $this->db->query($sql);
-        return $query->field_data();
+		return "SELECT * FROM ".$this->db->_escape_table($table)." where rownum = 1";
     }
 
 
