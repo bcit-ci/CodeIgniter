@@ -79,9 +79,11 @@ have a basic understanding of transactions.  For most sites, however, transactio
 <p>Code Igniter utilizes an approach to transactions that is very similar to the process used by the popular database class ADODB.  We've chosen that approach
 because it greatly simplifies the process of running transactions.  In most cases all that is required are two lines of code.</p>
 
-<p>Traditionally transactions have required a fair amount of work to implement since they demand that you to keep track of your queries
-and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. In contrast,
-we've implemented a smart transaction system that does all this for you automatically (you can also manage your transactions manually if you choose to).</p>
+<p>Traditionally, transactions have required a fair amount of work to implement since they demand that you to keep track of your queries
+and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. This is particularly cumbersome with 
+nested queries. In contrast,
+we've implemented a smart transaction system that does all this for you automatically (you can also manage your transactions manually if you choose to,
+but there's really no benefit).</p>
 
 <h2>Running Transactions</h2>
 
@@ -95,7 +97,8 @@ $this->db->query('AND YET ANOTHER QUERY...');<br />
 <kbd>$this->db->trans_complete();</kbd>
 </code>
 
-<p>You can run as many queries as you want between the start/complete functions and they will all be committed or rolled back based on success or failure.</p>
+<p>You can run as many queries as you want between the start/complete functions and they will all be committed or rolled back based on success or failure
+of any given query.</p>
 
 
 <h2>Managing Errors</h2>
@@ -111,7 +114,7 @@ $this->db->trans_complete();<br />
 <br />
 if (<kbd>$this->db->trans_status()</kbd> === FALSE)<br />
 {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;// generate an error....<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// generate an error... or use the log_message() function to log your error<br />
 }
 </code>
 
@@ -183,11 +186,11 @@ else<br />
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="index.html">Database Class</a>
+Previous Topic:&nbsp;&nbsp;<a href="active_record.html">Active Record</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="configuration.html">Database Configuration</a>
+Next Topic:&nbsp;&nbsp;<a href="fields.html">Field Metadata</a>
 <p>
 <p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
 </div>

@@ -76,13 +76,18 @@ Query Helpers
 correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
 
 
+<h2>$this->db->platform()</h2>
+<p>Outputs the database platform you are running (MySQL, MS SQL, Postgre, etc...):</p>
+<code>echo $this->db->platform();</code>
+
+
 <h2>$this->db->version()</h2>
 <p>Outputs the database version you are running:</p>
-
 <code>echo $this->db->version();</code>
 
-<h2>$this->db->last_query();</h2>
 
+
+<h2>$this->db->last_query();</h2>
 <p>Returns the last query that was run (the query string, not the result).  Example:</p>
 
 <code>$str = $this->db->last_query();<br />
