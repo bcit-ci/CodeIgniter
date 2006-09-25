@@ -28,11 +28,11 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	/**
 	 * Create database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function create_database($name)
+	function _create_database()
 	{
 		// ODBC has no "create database" command since it's 
 		// designed to connect to an existing database
@@ -156,9 +156,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _field_data($table)
 	{
-		$sql = "SELECT TOP 1 FROM ".$this->db->_escape_table($table);
-		$query = $this->db->query($sql);
-		return $query->field_data();
+		return "SELECT TOP 1 FROM ".$this->db->_escape_table($table);
 	}
 
 

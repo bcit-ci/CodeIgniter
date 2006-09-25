@@ -28,13 +28,13 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	/**
 	 * Create database
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function create_database($name)
+	function _create_database($name)
 	{
-		return $this->db->query("CREATE DATABASE ".$name);
+		return "CREATE DATABASE ".$name;
 	}
 
 	// --------------------------------------------------------------------
@@ -84,7 +84,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 */
 	function drop_table($table)
 	{
-		"DROP TABLE ".$this->db->_escape_table($name);
+		return $this->db->query("DROP TABLE ".$this->db->_escape_table($name));
 	}
 
 	// --------------------------------------------------------------------
@@ -144,9 +144,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 */
 	function _field_data($table)
 	{
-		$sql = "SELECT TOP 1 FROM ".$this->db->_escape_table($table);
-		$query = $this->db->query($sql);
-		return $query->field_data();
+		return "SELECT TOP 1 FROM ".$this->db->_escape_table($table);	
 	}
 	
 
