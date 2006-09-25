@@ -35,6 +35,7 @@ class CI_DB_result {
 	var $result_object	= array();
 	var $current_row 	= 0;
 
+
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 * 
@@ -46,7 +47,7 @@ class CI_DB_result {
 	{
 		return ($type == 'object') ? $this->result_object() : $this->result_array();
 	}
-		
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -242,6 +243,75 @@ class CI_DB_result {
 		}
 		return $result[$this->current_row];
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Number of rows in the result set
+	 *
+	 * @access	public
+	 * @return	integer
+	 */
+	function num_rows()
+	{
+		// Implemented in the platform-specific result adapter
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Number of fields in the result set
+	 *
+	 * @access	public
+	 * @return	integer
+	 */
+	function num_fields()
+	{
+		// Implemented in the platform-specific result adapter
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Field Names
+	 *
+	 * Generates an array of column names
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_names()
+	{
+		// Implemented in the platform-specific result adapter
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data
+	 *
+	 * Generates an array of objects containing field meta-data
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function field_data()
+	{
+		// Implemented in the platform-specific result adapter
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Free the result
+	 *
+	 * @return	null
+	 */		
+	function free_result()
+	{
+		// Implemented in the platform-specific result adapter
+	}
+
 
 }
 
