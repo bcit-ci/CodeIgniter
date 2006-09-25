@@ -25,6 +25,33 @@
 class CI_DB_oci8_utility extends CI_DB_utility {
 
 
+	/**
+	 * Create database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function create_database($name)
+	{
+
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function drop_database($name)
+	{
+
+	}
+
+	// --------------------------------------------------------------------
 
     /**
      * Version number query string

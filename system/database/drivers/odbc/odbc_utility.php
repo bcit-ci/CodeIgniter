@@ -24,6 +24,39 @@
  */
 class CI_DB_odbc_utility extends CI_DB_utility {
 
+
+	/**
+	 * Create database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function create_database($name)
+	{
+		// ODBC has no "create database" command since it's 
+		// designed to connect to an existing database
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function drop_database($name)
+	{
+		// ODBC has no "drop database" command since it's 
+		// designed to connect to an existing database
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Version number query string
 	 *
