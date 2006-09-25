@@ -212,13 +212,7 @@ class CI_DB_utility {
 
 
 	
-	function create_database()
-	{
-	}
 	
-	function drop_database()
-	{
-	}
 	
 	function show_databases()
 	{

@@ -24,6 +24,44 @@
  */
 class CI_DB_sqlite_utility extends CI_DB_utility {
 
+
+	/**
+	 * Create database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function create_database()
+	{
+		// In SQLite, a database is created when you connect to the database
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop database
+	 *
+	 * @access	public
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function drop_database($name)
+	{
+		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_unable_to_drop');
+			}
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Version number query string
 	 *
