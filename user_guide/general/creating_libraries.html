@@ -68,93 +68,131 @@ your <dfn>application</dfn> directory in order to maintain separation between yo
 
 <h2>Storage</h2>
 
-<p>In order for your libraries to be stored in your <kbd>application</kbd> folder you will need to create two directories in which to store them:</p>
-
-<ul>
-<li>application/<dfn>init</dfn></li>
-<li>application/<dfn>libraries</dfn></li>
-</ul>
-
-
-<h2>Anatomy of a Library</h2>
-
-<p>A class library consists of two components:</p>
-
-<ol>
-<li>An <kbd>init</kbd> file.</li>
-<li>A <kbd>class</kbd> file.</li>
-</ol>
-
-<h2>The Init File</h2>
-
-<p>An <kbd>init</kbd> file a small initialization file corresponding to each of your classes.  The purpose of this file is to 
-instantiate a particular class. Each init file must be named identically to your class file name, adding the "init_" prefix.  For example, if your
-class is named <dfn>myclass.php</dfn> your init file will be named:</p>
-
-<code>init_myclass.php</code>
-
-<p>Within your init file you will place your initialization code.  Here's an example of such code, using an imaginary class named <kbd>Myclass</kbd>:</p>
-
-
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
-<br />
-if ( ! class_exists('<kbd>Myclass</kbd>'))<br />
-{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require_once(APPPATH.'libraries/<kbd>Myclass</kbd>'.EXT);<br />
-}<br />
-<br />
-$obj =& get_instance();<br />
-$obj-><kbd>myclass</kbd> = new <kbd>Myclass();</kbd><br />
-<br />
-?&gt;</code>
-
-<h2>The Class File</h2>
-
-<p>Your class file itself will be placed inside your <dfn>libraries</dfn> directory:</p>
-
-<code>application/libraries/<dfn>myclass.php</dfn></code>
-
-<p>The class will have this basic prototype:</p>
-
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
-<br />
-class Myclass {<br />
-<br />
-}<br />
-?&gt;</code>
+<p>Your library classes should be placed within your <dfn>application/libraries</dfn> folder, as this is where Code Igniter will look for them when 
+they are initialized. If your class is named identically to a native class from the <dfn>system/libraries</dfn> folder, your version
+will be used instead.</p>
 
 
 <h2>Naming Conventions</h2>
 
 <ul>
-<li>All file names must be in lowercase:  myclass.php and init_myclass.php</li>
-<li>Class names must be capitalize:  class Myclass</li>
+<li>File names must be capitalized. For example:&nbsp; <dfn>Myclass.php</dfn></li>
+<li>Class declarations must be capitalized. For example:&nbsp;  <kbd>class Myclass</kbd></li>
+<li>Class names and file names must match.</li>
 </ul>
+
+
+<h2>The Class File</h2>
+
+<p>Classes should have this basic prototype (Note:  We are using the name <kbd>Myclass</kbd> purely as an example):</p>
+
+<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<br />
+// Initialize the class<br />
+$obj =& get_instance();<br />
+$obj->init_class('Myclass');
+<br /><br />
+class Myclass {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function some_function()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}<br /><br />
+?&gt;</code>
+
+
+<p>You'll notice in the above example that the class is instantiated directly from the file itself using these two lines of code:</p>
+
+<code>$obj =& get_instance();<br />
+$obj->init_class(<kbd>'Myclass'</kbd>);</code>
+
+<p class="important">Make sure and submit your class name in the first parameter of the <kbd>$obj->init_class()</kbd> function. In the
+above example it is <kbd>Myclass</kbd></p>
 
 
 <h2>Using Your Class</h2>
 
-<p>From within any of your <a href="controllers.html">Controller</a> classes you can initialize your class using the standard:</p>
+<p>From within any of your <a href="controllers.html">Controller</a> functions you can initialize your class using the standard:</p>
 
-<code>$this->load->library('<kbd>myclass</kbd>');</code>
+<code>$this->load->library('<kbd>Mclass</kbd>');</code>
+
+<p>Where <em>Myclass</em> is the file name, without the ".php" file extension. You can submit the file name capitalized or lower case. 
+Code Igniter doesn't care.</p>
 
 <p>Once loaded you can access your class using:</p>
 
-<code>$this-><kbd>myclass</kbd>->function();</code>
+<code>$this-><kbd>myclass</kbd>->some_function();&nbsp; // Object instances will always be lower case
+</code>
 
-<p>Note: In your init file you can define the object variable name.</p>
+<h2>Setting a Different Class Variable Name</h2>
 
 
-<h2>Passing Parameters Your Class</h2>
+<p>If you would like the object variable ($this->myclass) set to a different name you can specify it when initializing your class.  For
+example, let's initialize it as <kbd>foobar</kbd>:</p>
 
-<p>In the library loading function you can pass data via the second parameter and it will be available to your initialization file:</p>
+<code>$obj =& get_instance();<br />
+$obj->init_class('Myclass', <kbd>'foobar'</kbd>);</code>
+
+<p>In the above example you would still load your class like this:</p>
+
+<code>$this->load->library('<kbd>Mclass</kbd>');</code>
+
+<p>But you would use it like this:<p>
+
+<code>$this-><kbd>foobar</kbd>->function();</code>
+
+
+<h2>Passing Parameters When Initializing Your Class</h2>
+
+<p>In the library loading function you can dynamically pass data via the second parameter and it will be passed to your class 
+constructor:</p>
 
 <code>
 $params = array('type' => 'large', 'color' => 'red');<br />
 <br />
-$this->load->library('myclass', <kbd>$params</kbd>);</code>
+$this->load->library('Myclass', <kbd>$params</kbd>);</code>
 
-<p>Parameters will be accessible using a variable called <kbd>$params</kbd>.  By default this variable is set to FALSE.</p>
+<p>If you use this feature you must set up your class constructor to expect data:</p>
+
+<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<br />
+// Initialize the class<br />
+$obj =& get_instance();<br />
+$obj->init_class('Myclass');
+<br /><br />
+class Myclass {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function Myclass($params)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}<br /><br />
+?&gt;</code>
+
+<p>You can also pass parameters via the third parameter of the <dfn>$obj->init_class()</dfn> function:</p>
+
+<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<br />
+
+$params = array('type' => 'large', 'color' => 'red');<br /><br />
+
+// Initialize the class<br />
+$obj =& get_instance();<br />
+$obj->init_class('Myclass', 'myclass', $params);
+<br /><br />
+class Myclass {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function Myclass($params)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}<br /><br />
+?&gt;</code>
+
+
+
+
+
 
 
 <h2>Utilizing Code Igniter Resources within Your Library</h2>
@@ -163,7 +201,7 @@ $this->load->library('myclass', <kbd>$params</kbd>);</code>
 <p>To access Code Igniter's native resources within your library use the <kbd>get_instance()</kbd> function.
 This function returns the Code Igniter super object.</p>
 
-<p>Normally, to call any of the available Code Igniter functions requires you to use the <kbd>$this</kbd> construct:</p>
+<p>Normally from within your controller functions you will call any of the available Code Igniter functions using the <kbd>$this</kbd> construct:</p>
 
 <code>
 <strong>$this</strong>->load->helper('url');<br />
