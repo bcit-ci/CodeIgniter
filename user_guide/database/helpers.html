@@ -76,6 +76,14 @@ Query Helpers
 correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
 
 
+<h2>$this->db->count_all();</h2>
+<p>Permits you to determine the number of rows in a particular table.  Submit the table name in the first parameter. Example:</p>
+<code>echo $this->db->count_all('<var>my_table</var>');<br />
+<br />
+// Produces an integer, like 25
+</code>
+
+
 <h2>$this->db->platform()</h2>
 <p>Outputs the database platform you are running (MySQL, MS SQL, Postgre, etc...):</p>
 <code>echo $this->db->platform();</code>
@@ -84,7 +92,6 @@ correct number of affected rows.  By default this hack is enabled but it can be 
 <h2>$this->db->version()</h2>
 <p>Outputs the database version you are running:</p>
 <code>echo $this->db->version();</code>
-
 
 
 <h2>$this->db->last_query();</h2>
