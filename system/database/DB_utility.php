@@ -188,6 +188,39 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Optimize Database
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	bool
+	 */
+	function optimize_database()
+	{
+		$result = array();
+		foreach ($this->list_tables() as $table_name)
+		{
+			$sql = $this->_optimize_table($table_name);
+			
+			if (is_bool($sql))
+			{
+				return $sql;
+			}
+			
+			$query = $this->db->query($sql);
+			$res = current($query->result_array());
+			$key = str_replace($this->db->database.'.', '', current($res));
+			$keys = array_keys($res);
+			unset($res[$keys[0]]);
+			
+			$result[$key] = $res;
+		}
+
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Optimize Table
 	 *
 	 * @access	public
