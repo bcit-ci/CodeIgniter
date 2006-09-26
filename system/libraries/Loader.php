@@ -136,15 +136,9 @@ class CI_Loader {
 	 * @param	bool	whether to return the DB object
 	 * @return	object
 	 */	
-	function dbutil($db = '', $return = FALSE)
+	function dbutil()
 	{
 		$obj =& get_instance();
-		
-		if ( ! is_bool($return))
-		{
-			$return = FALSE;
-		}
-	
 		return $obj->_ci_init_dbutil($db, $return);
 	}
 	// END dbutils()
@@ -484,14 +478,14 @@ class CI_Loader {
 		// This allows anything loaded using $this->load (viwes, files, etc.)
 		// to become accessible from within the Controller and Model functions.
 		$obj =& get_instance();
-		foreach ($obj->ci_is_loaded as $val)
+		foreach (get_object_vars($obj) as $key => $var)
 		{
-			if ( ! isset($this->$val))
+			if (is_object($var))
 			{
-				$this->$val =& $obj->$val;
-			}	
-		}		
-		
+				$this->$key =& $obj->$key;
+			}
+		}
+				
 		// Set the default data variables
 		foreach (array('view', 'vars', 'path', 'return') as $val)
 		{

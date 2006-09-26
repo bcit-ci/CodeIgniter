@@ -13,6 +13,17 @@
  * @filesource
  */
  
+// INITIALIZE THE CLASS ---------------------------------------------------
+
+$config = array();
+if (file_exists(APPPATH.'config/pagination'.EXT))
+{
+	include_once(APPPATH.'config/pagination'.EXT);
+}
+
+$obj =& get_instance();
+$obj->pagination =& new CI_Pagination($config);
+
 // ------------------------------------------------------------------------
 
 /**

@@ -50,20 +50,21 @@ class Model {
 	function _assign_libraries($use_reference = TRUE)
 	{
 		$obj =& get_instance();
-		foreach ($obj->ci_is_loaded as $val)
+		foreach (get_object_vars($obj) as $key => $var)
 		{
-			if ( ! isset($this->$val))
+			if (is_object($var) AND ! isset($this->$key))
 			{
 				if ($use_reference === TRUE)
 				{
-					$this->$val =& $obj->$val;
+					$this->$key =& $obj->$key;						
 				}
 				else
 				{
-					$this->$val = $obj->$val;
+					$this->$key = $obj->$key;
 				}
 			}
 		}
+
 	}
 	// END _assign_libraries()
 

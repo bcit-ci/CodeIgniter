@@ -12,7 +12,38 @@
  * @since		Version 1.0
  * @filesource
  */
- 
+
+
+// INITIALIZE THE CLASS ---------------------------------------------------
+
+$config = array();
+if (file_exists(APPPATH.'config/xmlrpcs'.EXT))
+{
+	include_once(APPPATH.'config/xmlrpcs'.EXT);
+}
+
+if ( ! class_exists('CI_XML_RPC'))
+{	
+	if ( ! file_exists(BASEPATH.'libraries/Xmlrpc'.EXT))
+	{
+		if ( ! file_exists(APPPATH.'libraries/Xmlrpc'.EXT))
+		{
+			show_error('Unable to locate the Xmlrpc class');
+		}
+		else
+		{
+			require_once(APPPATH.'libraries/Xmlrpc'.EXT);		
+		}
+	}
+	else
+	{
+		require_once(BASEPATH.'libraries/Xmlrpc'.EXT);		
+	}	
+}
+
+$obj =& get_instance();
+$obj->xmlrpcs = new CI_XML_RPC_Server($config);
+
 // ------------------------------------------------------------------------
 
 /**
