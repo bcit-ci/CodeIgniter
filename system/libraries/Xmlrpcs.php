@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		Rick Ellis
+ * @author		Rick Ellis, Paul Burdick
  * @copyright	Copyright (c) 2006, pMachine, Inc.
  * @license		http://www.codeignitor.com/user_guide/license.html 
  * @link		http://www.codeigniter.com
@@ -13,36 +13,18 @@
  * @filesource
  */
 
+if ( ! function_exists('xml_parser_create'))
+{	
+    show_error('Your PHP installation does not support XML');
+}
+
 
 // INITIALIZE THE CLASS ---------------------------------------------------
 
-$config = array();
-if (file_exists(APPPATH.'config/xmlrpcs'.EXT))
-{
-	include_once(APPPATH.'config/xmlrpcs'.EXT);
-}
+require_once(BASEPATH.'libraries/Xmlrpc'.EXT);		
 
-if ( ! class_exists('CI_XML_RPC'))
-{	
-	if ( ! file_exists(BASEPATH.'libraries/Xmlrpc'.EXT))
-	{
-		if ( ! file_exists(APPPATH.'libraries/Xmlrpc'.EXT))
-		{
-			show_error('Unable to locate the Xmlrpc class');
-		}
-		else
-		{
-			require_once(APPPATH.'libraries/Xmlrpc'.EXT);		
-		}
-	}
-	else
-	{
-		require_once(BASEPATH.'libraries/Xmlrpc'.EXT);		
-	}	
-}
-
-$obj =& get_instance();
-$obj->xmlrpcs = new CI_XML_RPC_Server($config);
+// The initialization code is at the bottom of this file.  It seems to
+// cause an error to have it at the top
 
 // ------------------------------------------------------------------------
 
@@ -55,7 +37,7 @@ $obj->xmlrpcs = new CI_XML_RPC_Server($config);
  * @author		Paul Burdick
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
-class CI_XML_RPC_Server extends CI_XML_RPC
+class CI_Xmlrpcs extends CI_Xmlrpc
 {
 	var $methods		= array(); 	//array of methods mapped to function names and signatures
 	var $debug_msg		= '';		// Debug Message
@@ -67,9 +49,9 @@ class CI_XML_RPC_Server extends CI_XML_RPC
 	//  Constructor, more or less
 	//-------------------------------------  
 
-	function CI_XML_RPC_Server($config=array())
+	function CI_Xmlrpcs($config=array())
 	{	
-		parent::CI_XML_RPC();
+		parent::CI_Xmlrpc();
 		$this->set_system_methods();
 	
 		if (isset($config['functions']) && is_array($config['functions']))
@@ -235,7 +217,7 @@ class CI_XML_RPC_Server extends CI_XML_RPC
 				echo "</pre>";
 			}
 			
-			$r = $this->execute($m);
+			$r = $this->_execute($m);
 		}
 		
 		//-------------------------------------
@@ -508,7 +490,7 @@ class CI_XML_RPC_Server extends CI_XML_RPC
 			$msg->params[] = $params->me['array'][$i];
 		}
 
-		$result = $this->execute($msg);
+		$result = $this->_execute($msg);
 
 		if ($result->faultCode() != 0)
 		{
@@ -520,4 +502,15 @@ class CI_XML_RPC_Server extends CI_XML_RPC
 	
 }
 // END XML_RPC_Server class
+
+
+// INITIALIZE THE CLASS ---------------------------------------------------
+
+$obj =& get_instance();
+$obj->init_class('CI_Xmlrpc');
+$obj->init_class('CI_Xmlrpcs');
+
+// ------------------------------------------------------------------------
+
+
 ?>

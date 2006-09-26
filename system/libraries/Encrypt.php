@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->encrypt =& new CI_Encrypt();
+$obj->init_class('CI_Encrypt');
 
 // ------------------------------------------------------------------------
 

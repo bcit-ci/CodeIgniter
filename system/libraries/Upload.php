@@ -22,7 +22,7 @@ if (file_exists(APPPATH.'config/upload'.EXT))
 }
 
 $obj =& get_instance();
-$obj->upload = new CI_Upload($config);
+$obj->init_class('CI_Upload', '', $config);
 
 // ------------------------------------------------------------------------
 

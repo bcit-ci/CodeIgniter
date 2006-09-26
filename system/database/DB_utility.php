@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->dbutility =& new CI_DB_utility();
+$obj->init_class('CI_DB_utility', 'dbutility');
 
 // ------------------------------------------------------------------------
 

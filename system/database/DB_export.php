@@ -18,7 +18,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->dbexport =& new CI_DB_export();
+$obj->init_class('CI_DB_export', 'dbexport');
 
 // ------------------------------------------------------------------------
 

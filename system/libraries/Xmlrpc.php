@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		Rick Ellis
+ * @author		Rick Ellis, Paul Burdick
  * @copyright	Copyright (c) 2006, pMachine, Inc.
  * @license		http://www.codeignitor.com/user_guide/license.html 
  * @link		http://www.codeigniter.com
@@ -20,14 +20,8 @@ if ( ! function_exists('xml_parser_create'))
 
 // INITIALIZE THE CLASS ---------------------------------------------------
 
-$config = array();
-if (file_exists(APPPATH.'config/xmlrpc'.EXT))
-{
-	include_once(APPPATH.'config/xmlrpc'.EXT);
-}
-
 $obj =& get_instance();
-$obj->xmlrpc = new CI_XML_RPC($config);
+$obj->init_class('CI_Xmlrpc');
 
 // ------------------------------------------------------------------------
 
@@ -40,7 +34,7 @@ $obj->xmlrpc = new CI_XML_RPC($config);
  * @author		Paul Burdick
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
-class CI_XML_RPC {
+class CI_Xmlrpc {
 
 	var $debug			= FALSE; 	// Debugging on or off	
 	var $xmlrpcI4		= 'i4'; 
@@ -78,7 +72,7 @@ class CI_XML_RPC {
     //  VALUES THAT MULTIPLE CLASSES NEED
     //-------------------------------------   
 
-	function CI_XML_RPC ($config = array()) 
+	function CI_Xmlrpc ($config = array()) 
 	{
 		
 		$this->xmlrpcName 		= $this->xmlrpcName;
@@ -351,7 +345,7 @@ class CI_XML_RPC {
  * @author		Paul Burdick
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
-class XML_RPC_Client extends CI_XML_RPC
+class XML_RPC_Client extends CI_Xmlrpc
 {
 	var $path			= '';
 	var $server			= '';
@@ -363,7 +357,7 @@ class XML_RPC_Client extends CI_XML_RPC
 
 	function XML_RPC_Client($path, $server, $port=80)
 	{
-		parent::CI_XML_RPC();
+		parent::CI_Xmlrpc();
 		
 		$this->port = $port; 
 		$this->server = $server; 
@@ -609,7 +603,7 @@ class XML_RPC_Response
  * @author		Paul Burdick
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
-class XML_RPC_Message extends CI_XML_RPC
+class XML_RPC_Message extends CI_Xmlrpc
 {
 	var $payload;
 	var $method_name;
@@ -618,7 +612,7 @@ class XML_RPC_Message extends CI_XML_RPC
 
 	function XML_RPC_Message($method, $pars=0)
 	{
-		parent::CI_XML_RPC();
+		parent::CI_Xmlrpc();
 		
 		$this->method_name = $method;
 		if (is_array($pars) && sizeof($pars) > 0)
@@ -1206,14 +1200,14 @@ class XML_RPC_Message extends CI_XML_RPC
  * @author		Paul Burdick
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
-class XML_RPC_Values extends CI_XML_RPC
+class XML_RPC_Values extends CI_Xmlrpc
 {
 	var $me 	= array();
 	var $mytype	= 0;
 
 	function XML_RPC_Values($val=-1, $type='')
 	{	
-		parent::CI_XML_RPC();
+		parent::CI_Xmlrpc();
 		
 		if ($val != -1 || $type != '')
 		{
