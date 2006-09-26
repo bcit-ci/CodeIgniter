@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->unit =& new CI_Unit_test();
+$obj->init_class('CI_Unit_test');
 
 // ------------------------------------------------------------------------
 

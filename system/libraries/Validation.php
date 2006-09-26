@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->validation =& new CI_Validation();
+$obj->init_class('CI_Validation');
 
 // ------------------------------------------------------------------------
 

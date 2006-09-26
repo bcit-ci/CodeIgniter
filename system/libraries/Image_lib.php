@@ -22,7 +22,7 @@ if (file_exists(APPPATH.'config/image_lib'.EXT))
 }
 
 $obj =& get_instance();
-$obj->image_lib =& new CI_Image_lib($config);
+$obj->init_class('CI_Image_lib', '', $config);
 
 // ------------------------------------------------------------------------
 

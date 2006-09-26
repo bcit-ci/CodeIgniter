@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->session =& new CI_Session();
+$obj->init_class('CI_Session');
 
 // ------------------------------------------------------------------------
 

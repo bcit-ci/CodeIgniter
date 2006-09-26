@@ -22,7 +22,7 @@ if (file_exists(APPPATH.'config/pagination'.EXT))
 }
 
 $obj =& get_instance();
-$obj->pagination =& new CI_Pagination($config);
+$obj->init_class('CI_Pagination', '', $config);
 
 // ------------------------------------------------------------------------
 

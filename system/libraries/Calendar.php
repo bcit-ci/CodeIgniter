@@ -16,7 +16,7 @@
 // INITIALIZE THE CLASS ---------------------------------------------------
 
 $obj =& get_instance();
-$obj->calendar =& new CI_Calendar();
+$obj->init_class('CI_Calendar');
 
 // ------------------------------------------------------------------------
 

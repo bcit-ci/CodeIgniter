@@ -66,13 +66,13 @@ class CI_Loader {
 	 * @param	mixed	any initialization parameters
 	 * @return	void
 	 */	
-	function library($class, $param = FALSE)
+	function library($class, $param = NULL)
 	{		
 		if ($class == '')
 			return;
 	
 		$obj =& get_instance();
-		$obj->_ci_initialize($class, $param);
+		$obj->_ci_init_class($class, $param);
 		$obj->_ci_assign_to_models();
 	}
 	// END library()
@@ -95,7 +95,7 @@ class CI_Loader {
 			return;
 	
 		$obj =& get_instance();
-		$obj->_ci_load_model($model, $name, $db_conn);
+		$obj->_ci_init_model($model, $name, $db_conn);
 	}
 	// END library()
 	
@@ -125,23 +125,6 @@ class CI_Loader {
 		}
 	}
 	// END database()
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Database Utilities Loader
-	 *
-	 * @access	public
-	 * @param	string	the DB platform
-	 * @param	bool	whether to return the DB object
-	 * @return	object
-	 */	
-	function dbutil()
-	{
-		$obj =& get_instance();
-		return $obj->_ci_init_dbutil($db, $return);
-	}
-	// END dbutils()
 	
 	// --------------------------------------------------------------------
 	
