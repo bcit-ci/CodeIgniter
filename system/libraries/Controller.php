@@ -82,8 +82,7 @@ class Controller extends CI_Base {
 	 */
 	function init_class($class, $varname = '', $params = NULL)
 	{
-		// First figure out what variable we're going to 
-		// use to instantiate the class to
+		// First figure out what variable we're going to assign the class to
 		if ($varname == '')
 		{
 			$varname = ( ! is_null($this->_ci_last_handle)) ? $this->_ci_last_handle : strtolower(str_replace('CI_', '', $class));
@@ -156,7 +155,6 @@ class Controller extends CI_Base {
 		// $obj->init_class() so that the class can get instantiated.
 		// For backward compatibility we'll test for filenames that are
 		// both uppercase and lower.
-		
 		foreach (array(ucfirst($class), $class) as $filename)
 		{
 			for ($i = 1; $i < 3; $i++)

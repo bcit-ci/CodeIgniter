@@ -34,14 +34,14 @@ $config['index_page'] = "index.php";
 | URI string.  The default setting of "auto" works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 | 
-| 'auto'			Default - auto detects
-| 'path_info'		Uses the PATH_INFO 
-| 'query_string'	Uses the QUERY_STRING
-| 'orig_path_info'	Uses the ORIG_PATH_INFO 
-| 'request_uri'		Uses the REQUEST_URI
+| 'AUTO'			Default - auto detects
+| 'PATH_INFO'		Uses the PATH_INFO 
+| 'QUERY_STRING'	Uses the QUERY_STRING
+| 'REQUEST_URI'		Uses the REQUEST_URI
+| 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO 
 |
 */
-$config['uri_protocol']	= "auto";
+$config['uri_protocol']	= "AUTO";
 
 /*
 |--------------------------------------------------------------------------
