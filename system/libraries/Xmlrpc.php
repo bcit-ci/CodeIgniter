@@ -18,6 +18,19 @@ if ( ! function_exists('xml_parser_create'))
     show_error('Your PHP installation does not support XML');
 }
 
+// INITIALIZE THE CLASS ---------------------------------------------------
+
+$config = array();
+if (file_exists(APPPATH.'config/xmlrpc'.EXT))
+{
+	include_once(APPPATH.'config/xmlrpc'.EXT);
+}
+
+$obj =& get_instance();
+$obj->xmlrpc = new CI_XML_RPC($config);
+
+// ------------------------------------------------------------------------
+
 /**
  * XML-RPC request handler class
  * 

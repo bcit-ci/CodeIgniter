@@ -18,10 +18,16 @@ if ( ! class_exists('CI_XML_RPC_Server'))
 	require_once(BASEPATH.'libraries/Xmlrpcs'.EXT);
 }
 
+
+
+// INITIALIZE THE CLASS ---------------------------------------------------
+
 $obj =& get_instance();
 $obj->xmlrpc  = new CI_XML_RPC();
 $obj->xmlrpcs = new CI_XML_RPC_Server($config);
 $obj->ci_is_loaded[] = 'xmlrpc';
 $obj->ci_is_loaded[] = 'xmlrpcs';
+
+// ------------------------------------------------------------------------
 
 ?>

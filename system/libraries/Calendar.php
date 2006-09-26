@@ -13,6 +13,11 @@
  * @filesource
  */
  
+// INITIALIZE THE CLASS ---------------------------------------------------
+
+$obj =& get_instance();
+$obj->calendar =& new CI_Calendar();
+
 // ------------------------------------------------------------------------
 
 /**
@@ -25,7 +30,7 @@
  * @category	Libraries
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/libraries/calendar.html
- */
+ */ 
 class CI_Calendar {
 
 	var $lang;

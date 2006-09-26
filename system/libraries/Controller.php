@@ -29,7 +29,6 @@
  */
 class Controller extends CI_Base {
 
-	var $ci_is_loaded		= array();
 	var $_ci_models			= array();
 	var $_ci_scaffolding	= FALSE;
 	var $_ci_scaff_table	= FALSE;
@@ -54,15 +53,18 @@ class Controller extends CI_Base {
 
 		// This allows anything loaded using $this->load (viwes, files, etc.)
 		// to become accessible from within the Controller class functions.
-		foreach ($this->ci_is_loaded as $val)
+		foreach (get_object_vars($this) as $key => $var)
 		{
-			$this->load->$val =& $this->$val;
+			if (is_object($var))
+			{
+				$this->load->$key =& $this->$key;
+			}
 		}
-			
+		
 		log_message('debug', "Controller Class Initialized");
 	}
   	// END Controller()
-  	
+   	
 	// --------------------------------------------------------------------
 
 	/**
@@ -75,27 +77,28 @@ class Controller extends CI_Base {
 	 * @param	mixed	any additional parameters
 	 * @return 	void
 	 */
-	function _ci_initialize($what, $params = FALSE)
+	function _ci_initialize($class, $params = FALSE)
 	{		
-		$method = '_ci_init_'.strtolower(str_replace(EXT, '', $what));
+		$class = strtolower(str_replace(EXT, '', $class));
+		$method = '_ci_init_'.$class;
 
 		if ( ! method_exists($this, $method))
-		{
-			$method = substr($method, 4);
+		{		
+			$class = ucfirst($class);
 		
-			if ( ! file_exists(APPPATH.'init/'.$method.EXT))
+			if ( ! file_exists(APPPATH.'libraries/'.$class.EXT))
 			{
-				if ( ! file_exists(BASEPATH.'init/'.$method.EXT))
+				if ( ! file_exists(BASEPATH.'libraries/'.$class.EXT))
 				{
-					log_message('error', "Unable to load the requested class: ".$what);
-					show_error("Unable to load the class: ".$what);
+					log_message('error', "Unable to load the requested class: ".$class);
+					show_error("Unable to load the class: ".$class);
 				}
 				
-				include(BASEPATH.'init/'.$method.EXT);
+				include_once(BASEPATH.'libraries/'.$class.EXT);
 			}
 			else
 			{
-				include(APPPATH.'init/'.$method.EXT);
+				include_once(APPPATH.'libraries/'.$class.EXT);
 			}
 		}
 		else
@@ -268,11 +271,9 @@ class Controller extends CI_Base {
 		{
 			$class = strtolower($val);
 			$this->$class =& _load_class('CI_'.$val);
-			$this->ci_is_loaded[] = $class;
 		}
 		
 		$this->lang	=& _load_class('CI_Language');
-		$this->ci_is_loaded[] = 'lang';
 	
 		// In PHP 4 the Controller class is a child of CI_Loader.
 		// In PHP 5 we run it as its own class.
@@ -280,8 +281,6 @@ class Controller extends CI_Base {
 		{
 			$this->load = new CI_Loader();
 		}
-		
-		$this->ci_is_loaded[] = 'load';
 	}
   	// END _ci_assign_core()
   	
@@ -393,7 +392,6 @@ class Controller extends CI_Base {
 		}
 		
 		$obj =& get_instance();
-		$obj->ci_is_loaded[] = 'db';
 		$obj->db =& $DB;
 	}
   	// END _ci_init_database()
@@ -409,10 +407,10 @@ class Controller extends CI_Base {
 	 */
 	function _ci_is_loaded($class)
 	{
-		return ( ! in_array($class, $this->ci_is_loaded)) ? FALSE : TRUE;
+		return ( ! isset($this->$class) OR ! is_object($this->$class)) ? FALSE : TRUE;
 	}
   	// END _ci_is_loaded()
-  	
+  	  	
 	// --------------------------------------------------------------------
 
 	/**

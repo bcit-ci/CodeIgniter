@@ -12,7 +12,6 @@ if ( ! class_exists('CI_Calendar'))
 }
 
 $obj =& get_instance();
-
 $obj->calendar = new CI_Calendar();
 $obj->ci_is_loaded[] = 'calendar';
 
