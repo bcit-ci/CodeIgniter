@@ -34,9 +34,12 @@ class Scaffolding {
 	function Scaffolding($db_table)
 	{
 		$obj =& get_instance();
-		foreach ($obj->ci_is_loaded as $val)
+		foreach (get_object_vars($obj) as $key => $var)
 		{
-			$this->$val =& $obj->$val;
+			if (is_object($var))
+			{
+				$this->$key =& $obj->$key;
+			}
 		}
 				
 		/**
