@@ -31,6 +31,9 @@ $obj->init_class('CI_DB_export', 'dbexport');
 class CI_DB_export {
 
 
+	/**
+	 * Constructor.  Simply calls the log function 
+	 */	
 	function CI_DB_export()
 	{
 		log_message('debug', "Database Export Class Initialized");
