@@ -51,7 +51,6 @@ class CI_Loader {
 				
 		log_message('debug', "Loader Class Initialized");
 	}
-	// END CI_Loader()
 	
 	// --------------------------------------------------------------------
 	
@@ -75,7 +74,6 @@ class CI_Loader {
 		$obj->_ci_init_class($class, $param);
 		$obj->_ci_assign_to_models();
 	}
-	// END library()
 
 	// --------------------------------------------------------------------
 	
@@ -97,7 +95,6 @@ class CI_Loader {
 		$obj =& get_instance();
 		$obj->_ci_init_model($model, $name, $db_conn);
 	}
-	// END library()
 	
 	// --------------------------------------------------------------------
 	
@@ -124,8 +121,35 @@ class CI_Loader {
 			$obj->_ci_assign_to_models();			
 		}
 	}
-	// END database()
 	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Database Utiliy Loader
+	 *
+	 * @access	public
+	 * @return	object
+	 */	
+	function dbutil()
+	{
+		$obj =& get_instance();
+		$obj->_ci_init_dbextra('dbutil');
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Database Export Loader
+	 *
+	 * @access	public
+	 * @return	object
+	 */	
+	function dbexport()
+	{
+		$obj =& get_instance();
+		$obj->_ci_init_dbextra('dbexport');
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -145,7 +169,6 @@ class CI_Loader {
 		$obj =& get_instance();
 		$obj->_ci_init_scaffolding($table);
 	}
-	// END scaffolding()
 	
 	// --------------------------------------------------------------------
 	
@@ -170,7 +193,6 @@ class CI_Loader {
 	{
 		return $this->_ci_load(array('view' => $view, 'vars' => $this->_ci_object_to_array($vars), 'return' => $return));
 	}
-	// END view()
 	
 	// --------------------------------------------------------------------
 	
@@ -188,7 +210,6 @@ class CI_Loader {
 	{
 		return $this->_ci_load(array('path' => $path, 'return' => $return));
 	}
-	// END file()
 	
 	// --------------------------------------------------------------------
 	
@@ -214,7 +235,6 @@ class CI_Loader {
 			}
 		}
 	}
-	// END vars()
 	
 	// --------------------------------------------------------------------
 	
@@ -264,7 +284,6 @@ class CI_Loader {
 		
 		log_message('debug', 'Helpers loaded: '.implode(', ', $helpers));
 	}
-	// END helper()
 	
 	// --------------------------------------------------------------------
 	
@@ -282,7 +301,6 @@ class CI_Loader {
 	{
 		$this->helper($helpers);
 	}
-	// END helpers()
 	
 	// --------------------------------------------------------------------
 	
@@ -332,7 +350,6 @@ class CI_Loader {
 		
 		log_message('debug', 'Plugins loaded: '.implode(', ', $plugins));
 	}
-	// END plugin()
 	
 	// --------------------------------------------------------------------
 	
@@ -377,7 +394,6 @@ class CI_Loader {
 		
 		log_message('debug', 'Scripts loaded: '.implode(', ', $scripts));
 	}
-	// END script()
 	
 	// --------------------------------------------------------------------
 	
@@ -395,7 +411,6 @@ class CI_Loader {
 	{
 		$this->plugin($plugins);
 	}
-	// END plugins()
 	
 	// --------------------------------------------------------------------
 	
@@ -411,7 +426,6 @@ class CI_Loader {
 		$obj =& get_instance();
 		return $obj->lang->load($file, $lang, $return);
 	}
-	// END language()
 	
 	// --------------------------------------------------------------------
 	
@@ -427,7 +441,6 @@ class CI_Loader {
 		$obj =& get_instance();
 		$obj->config->load($file);
 	}
-	// END config()
 	
 	// --------------------------------------------------------------------
 	
@@ -442,7 +455,6 @@ class CI_Loader {
 	{
 		$this->view_path = $path;
 	}
-	// END _ci_set_view_path()
 	
 	// --------------------------------------------------------------------
 	
@@ -553,7 +565,6 @@ class CI_Loader {
 			ob_end_clean();
 		}
 	}
-	// END _load()
 	
 	// --------------------------------------------------------------------
 	
@@ -582,7 +593,6 @@ class CI_Loader {
 			}
 		}
 	}
-	// END _ci_autoloader()
 
 	// --------------------------------------------------------------------
 
@@ -599,7 +609,6 @@ class CI_Loader {
 	{
 		return (is_object($object)) ? get_object_vars($object) : $object;
 	}
-	// END _ci_object_to_array()
 	
 }
 ?>

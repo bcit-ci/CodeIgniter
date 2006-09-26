@@ -301,9 +301,18 @@ class Controller extends CI_Base {
 		
 		}
 		
+		$exceptions = array('dbutil', 'dbexport');
+		
 		foreach ($autoload['libraries'] as $item)
 		{
-			$this->_ci_init_class($item);
+			if ( ! in_array($item, $exceptions))
+			{
+				$this->_ci_init_class($item);
+			}
+			else
+			{
+				$this->_ci_init_dbextra($item);
+			}
 		}
 		unset($autoload['libraries']);
 
@@ -448,6 +457,23 @@ class Controller extends CI_Base {
 		
 		$obj =& get_instance();
 		$obj->db =& $DB;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Initialize Database Ancillary Classes
+	 *
+	 * @access	private
+	 * @param	str		class name
+	 * @return	void
+	 */
+	function _ci_init_dbextra($class)
+	{
+		$map = array('dbutil' => 'DB_utility', 'dbexport' => 'DB_export');
+		require_once(BASEPATH.'database/'.$map[$class].EXT);
+		
+		$this->init_class('CI_'.$map[$class], $class);
 	}
 
 	// --------------------------------------------------------------------
