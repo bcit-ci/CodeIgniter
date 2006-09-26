@@ -23,18 +23,50 @@
  * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_export {
-	
+
+
+	function CI_DB_export()
+	{
+		log_message('debug', "Database Export Class Initialized");
+	}
+
 	/**
-	 * Some function
+	 * Generate CVS
 	 *
 	 * @access	public
 	 * @return	integer
 	 */
-	function something()
+	function generate_cvs($query, $delim = "\t", $newline = "\n")
 	{
+		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		{
+			show_error('You must submit a valid result object');
+		}	
+	
+		$out = '';
+		foreach ($query->field_names() as $name)
+		{
+			$out .= $name.$delim;
+		}
+
+		$out .= $newline;
+		
+		foreach ($query->result_array() as $row)
+		{
+			foreach ($row as $item)
+			{
+				$out .= $item.$delim;			
+			}
+			
+			$out .= $newline;
+		}
+		
+
+		return $out;
 	}
 	
 	// --------------------------------------------------------------------
+
 
 }
 

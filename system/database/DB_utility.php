@@ -31,6 +31,8 @@ class CI_DB_utility {
 		// Assign the main database object to $this->db
 		$obj =& get_instance();
 		$this->db =& $obj->db;
+		
+		log_message('debug', "Database Utility Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
