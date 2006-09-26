@@ -12,7 +12,6 @@
  * @since		Version 1.0
  * @filesource
  */
- 
 
  
 // INITIALIZE THE CLASS ---------------------------------------------------
@@ -38,10 +37,13 @@ class CI_DB_export {
 	}
 
 	/**
-	 * Generate CVS
+	 * Generate CVS from a query result object
 	 *
 	 * @access	public
-	 * @return	integer
+	 * @param	object	The query result object
+	 * @param	string	The delimiter - tab by default
+	 * @param	string	The newline character - \n by default
+	 * @return	string
 	 */
 	function generate_cvs($query, $delim = "\t", $newline = "\n")
 	{
@@ -51,13 +53,15 @@ class CI_DB_export {
 		}	
 	
 		$out = '';
+		
+		// First generate the headings from the table column names
 		foreach ($query->field_names() as $name)
 		{
 			$out .= $name.$delim;
 		}
-
 		$out .= $newline;
 		
+		// Next blast through the result array and build out the rows
 		foreach ($query->result_array() as $row)
 		{
 			foreach ($row as $item)
@@ -67,7 +71,6 @@ class CI_DB_export {
 			
 			$out .= $newline;
 		}
-		
 
 		return $out;
 	}
