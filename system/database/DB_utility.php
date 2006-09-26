@@ -31,6 +31,12 @@ class CI_DB_utility {
 
 	var $db;
 
+	/**
+	 * Constructor
+	 *
+	 * Grabs the CI super object instance so we can access it.
+	 *
+	 */	
 	function CI_DB_utility()
 	{
 		// Assign the main database object to $this->db
