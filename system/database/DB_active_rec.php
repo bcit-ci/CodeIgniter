@@ -135,7 +135,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 		}
 	
-		$this->ar_join[] = $type.'JOIN '.$table.' ON '.$cond;
+		$this->ar_join[] = $type.'JOIN '.$this->dbprefix.$table.' ON '.$cond;
 		return $this;
 	}
 	

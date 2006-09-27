@@ -27,7 +27,7 @@ class CI_DB_cache {
 
 
 	/**
-	 * Generate CVS from a query result object
+	 * Cache it!
 	 *
 	 * @access	public
 	 * @return	string
