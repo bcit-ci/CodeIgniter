@@ -191,8 +191,7 @@ class CI_DB_utility {
 	 * Optimize Database
 	 *
 	 * @access	public
-	 * @param	string	the table name
-	 * @return	bool
+	 * @return	array
 	 */
 	function optimize_database()
 	{
@@ -207,6 +206,8 @@ class CI_DB_utility {
 			}
 			
 			$query = $this->db->query($sql);
+			
+			// Build the result array...
 			$res = current($query->result_array());
 			$key = str_replace($this->db->database.'.', '', current($res));
 			$keys = array_keys($res);

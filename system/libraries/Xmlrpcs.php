@@ -18,13 +18,15 @@ if ( ! function_exists('xml_parser_create'))
     show_error('Your PHP installation does not support XML');
 }
 
+if ( ! class_exists('CI_Xmlrpc'))
+{
+    show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
+}
 
 // INITIALIZE THE CLASS ---------------------------------------------------
 
-require_once(BASEPATH.'libraries/Xmlrpc'.EXT);		
-
-// The initialization code is at the bottom of this file.  It seems to
-// cause an error to have it at the top
+$obj =& get_instance();
+$obj->init_class('CI_Xmlrpcs');
 
 // ------------------------------------------------------------------------
 
@@ -502,15 +504,5 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 }
 // END XML_RPC_Server class
-
-
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$obj =& get_instance();
-$obj->init_class('CI_Xmlrpc');
-$obj->init_class('CI_Xmlrpcs');
-
-// ------------------------------------------------------------------------
-
 
 ?>
