@@ -112,8 +112,11 @@ class CI_DB_export {
 		// Create variables for convenience
 		extract($params);
 			
+		// Load the xml helper
+		$obj =& get_instance();
+		$obj->load->helper('xml');
+
 		// Generate the result
-		
 		$xml = "<{$root}/>".$newline;
 		foreach ($query->result_array() as $row)
 		{
@@ -121,7 +124,7 @@ class CI_DB_export {
 			
 			foreach ($row as $key => $val)
 			{
-				$xml .= $tab.$tab."<{$key}>".$this->_xml_convert($val)."</{$key}>".$newline;
+				$xml .= $tab.$tab."<{$key}>".xml_convert($val)."</{$key}>".$newline;
 			}
 			$xml .= $tab."</{$element}>".$newline;
 		}
@@ -129,33 +132,6 @@ class CI_DB_export {
 		
 		return $xml;
 	}
-
-	
-	// ------------------------------------------------------------------------
-	
-	/**
-	 * Convert Reserved XML characters to Entities
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
-	 */	
-	function _xml_convert($str)
-	{
-		$temp = '__TEMP_AMPERSANDS';
-		
-		$str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
-		$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
-		
-		$str = str_replace(array("&","<",">","\"", "'", "-"),
-						   array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),
-						   $str);
-			
-		$str = preg_replace("/$temp(\d+);/","&#\\1;",$str);
-		$str = preg_replace("/$temp(\w+);/","&\\1;", $str);
-			
-		return $str;
-	}    
 
 }
 
