@@ -39,6 +39,8 @@ class CI_DB_export {
 		log_message('debug', "Database Export Class Initialized");
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Generate CVS from a query result object
 	 *
@@ -48,7 +50,7 @@ class CI_DB_export {
 	 * @param	string	The newline character - \n by default
 	 * @return	string
 	 */
-	function generate_cvs($query, $delim = "\t", $newline = "\n")
+	function cvs_from_result($query, $delim = "\t", $newline = "\n")
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
 		{
@@ -62,6 +64,8 @@ class CI_DB_export {
 		{
 			$out .= $name.$delim;
 		}
+		
+		$out = rtrim($out);
 		$out .= $newline;
 		
 		// Next blast through the result array and build out the rows
@@ -71,7 +75,7 @@ class CI_DB_export {
 			{
 				$out .= $item.$delim;			
 			}
-			
+			$out = rtrim($out);
 			$out .= $newline;
 		}
 
@@ -80,6 +84,78 @@ class CI_DB_export {
 	
 	// --------------------------------------------------------------------
 
+
+	/**
+	 * Generate XML data from a query result object
+	 *
+	 * @access	public
+	 * @param	object	The query result object
+	 * @param	array	Any preferences
+	 * @return	string
+	 */
+	function xml_from_result($query, $params = array())
+	{
+		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		{
+			show_error('You must submit a valid result object');
+		}
+		
+		// Set our default values
+		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
+		{
+			if ( ! isset($params[$key]))
+			{
+				$params[$key] = $val;
+			}
+		}
+		
+		// Create variables for convenience
+		extract($params);
+			
+		// Generate the result
+		
+		$xml = "<{$root}/>".$newline;
+		foreach ($query->result_array() as $row)
+		{
+			$xml .= $tab."<{$element}/>".$newline;
+			
+			foreach ($row as $key => $val)
+			{
+				$xml .= $tab.$tab."<{$key}>".$this->_xml_convert($val)."</{$key}>".$newline;
+			}
+			$xml .= $tab."</{$element}>".$newline;
+		}
+		$xml .= "</$root>".$newline;  
+		
+		return $xml;
+	}
+
+	
+	// ------------------------------------------------------------------------
+	
+	/**
+	 * Convert Reserved XML characters to Entities
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */	
+	function _xml_convert($str)
+	{
+		$temp = '__TEMP_AMPERSANDS';
+		
+		$str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
+		$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
+		
+		$str = str_replace(array("&","<",">","\"", "'", "-"),
+						   array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),
+						   $str);
+			
+		$str = preg_replace("/$temp(\d+);/","&#\\1;",$str);
+		$str = preg_replace("/$temp(\w+);/","&\\1;", $str);
+			
+		return $str;
+	}    
 
 }
 
