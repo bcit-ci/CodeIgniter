@@ -21,7 +21,6 @@
 | 1. Libraries
 | 2. Helper files
 | 3. Plugins
-| 4. Scripts
 | 5. Custom config files
 |
 */
@@ -63,21 +62,6 @@ $autoload['helper'] = array();
 */
 
 $autoload['plugin'] = array();
-
-
-/*
-| -------------------------------------------------------------------
-|  Auto-load Scripts
-| -------------------------------------------------------------------
-| The term "scripts" refers to you own PHP scripts that you've 
-| placed in the application/scripts/ folder
-|
-| Prototype:
-|
-|	$autoload['script'] = array('my_script1', 'my_script2');
-*/
-
-$autoload['script'] = array();
 
 
 /*
