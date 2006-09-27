@@ -93,8 +93,13 @@ Once processed, the server will then send back a response message.</p>
 <p>Once loaded, the xml-rpc library object will be available using: <dfn>$this->xmlrpc</dfn></p>
 
 <p>To load the XML-RPC Server class you will use:
-<code>$this->load->library('xmlrpcs');</code>
+<code>
+$this->load->library('xmlrpc');<br />
+$this->load->library('xmlrpcs');
+</code>
 <p>Once loaded, the xml-rpcs library object will be available using: <dfn>$this->xmlrpcs</dfn></p>
+
+<p class="important"><strong>Note:</strong>&nbsp; When using the XML-RPC Sever class you must load BOTH the XML-RPC class and the XML-RPC Server class.</p>
 
 
 
@@ -177,7 +182,9 @@ class and method for processing.</p>
 
 <p>Here is an example to illustrate:</p>
 
-<code>$this->load->library('xmlrpcs');<br />
+<code>
+$this->load->library('xmlrpcs');<br />
+$this->load->library('xmlrpcs');<br />
 <br />
 $config['functions']['<var>new_post</var>'];&nbsp;&nbsp;= array('function' => '<dfn>My_blog.new_entry</dfn>');<br />
 $config['functions']['<var>update_post</var>'] = array('function' => '<dfn>My_blog.update_entry</dfn>');<br />
@@ -359,6 +366,8 @@ class Xmlrpc_server extends Controller {
 
 	function index()
 	{
+	
+		$this->load->library('xmlrpc');
 		$this->load->library('xmlrpcs');
 		
 		$config['functions']['Greetings'] = array('function' => 'Xmlrpc_server.process');

@@ -176,6 +176,20 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 
 
 
+<h2>$this->dbutil->optimize_database();</h2>
+
+<p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the returned status messages or FALSE on failure.</p>
+
+<code>
+$result = $this->dbutil->optimize_databas();<br />
+<br />
+if ($result !== FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp; print_r($result);<br />
+}
+</code>
+
+<p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
 
@@ -190,7 +204,7 @@ Previous Topic:&nbsp;&nbsp;<a href="call_function.html">Custom Function Calls</a
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="../libraries/email.html">Email Class</a>
+Next Topic:&nbsp;&nbsp;<a href="export.html">Database Export Class</a>
 <p>
 <p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
 </div>

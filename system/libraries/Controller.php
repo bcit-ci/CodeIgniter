@@ -468,10 +468,22 @@ class Controller extends CI_Base {
 	 */
 	function _ci_init_dbextra($class)
 	{
-		$map = array('dbutil' => 'DB_utility', 'dbexport' => 'DB_export');
-		require_once(BASEPATH.'database/'.$map[$class].EXT);
-		
-		$this->init_class('CI_'.$map[$class], $class);
+		if ( ! $this->_ci_is_loaded('db'))
+		{
+			$this->_init_database();
+		}
+			
+		if ($class == 'dbutil')
+		{
+			require_once(BASEPATH.'database/DB_utility'.EXT);
+			require_once(BASEPATH.'database/drivers/'.$this->db->dbdriver.'/'.$this->db->dbdriver.'_utility'.EXT);
+			$this->init_class('CI_DB_'.$this->db->dbdriver.'_utility', 'dbutil');
+		}
+		elseif ($class == 'dbexport')
+		{
+			require_once(BASEPATH.'database/DB_export'.EXT);
+			$this->init_class('CI_DB_export', 'dbexport');
+		}
 	}
 
 	// --------------------------------------------------------------------
