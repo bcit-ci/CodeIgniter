@@ -7,9 +7,9 @@
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
 
-<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../nav/nav.js"></script>
 <script type="text/javascript" src="../scripts/prototype.lite.js"></script>
-<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	myHeight = new fx.Height('nav', {duration: 400}); 
@@ -74,15 +74,15 @@ application folder like this:
 system/application/<var>foo</var>/config/<br />
 system/application/<var>foo</var>/controllers/<br />
 system/application/<var>foo</var>/errors/<br />
+system/application/<var>foo</var>/libraries/<br />
 system/application/<var>foo</var>/models/<br />
-system/application/<var>foo</var>/scripts/<br />
 system/application/<var>foo</var>/views/<br />
 system/application/<samp>bar</samp>/<br />
 system/application/<samp>bar</samp>/config/<br />
 system/application/<samp>bar</samp>/controllers/<br />
 system/application/<samp>bar</samp>/errors/<br />
+system/application/<samp>bar</samp>/libraries/<br />
 system/application/<samp>bar</samp>/models/<br />
-system/application/<samp>bar</samp>/scripts/<br />
 system/application/<samp>bar</samp>/views/</code>
 
 
@@ -91,7 +91,7 @@ variable.  For example, to select the "foo" application for use you would do thi
 
 <code>$application_folder = "foo";</code>
 
-
+<p>Note: Each of your applications will need its own <dfn>index.php</dfn> file (the index.php file can be named anything you want).</p>
 
 
 

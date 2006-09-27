@@ -7,9 +7,9 @@
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
 
-<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../nav/nav.js"></script>
 <script type="text/javascript" src="../scripts/prototype.lite.js"></script>
-<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	myHeight = new fx.Height('nav', {duration: 400}); 
@@ -143,10 +143,10 @@ Called very early during system execution.  Only the benchmark and hooks class h
 Called immediately prior to any of your controllers being called. All base classes, routing, and security checks have been done.</li>
 
 <li><strong>post_controller_constructor</strong><br />
-Called immediately after the controller is instantiated, but prior to any method calls happen.</li>
+Called immediately after your controller is instantiated, but prior to any method calls happening.</li>
 
 <li><strong>post_controller</strong><br />
-Called immediately after the controller is called.</li>
+Called immediately after your controller is fully executed.</li>
 
 <li><strong>display_override</strong><br />
 Overrides the <dfn>_display()</dfn> function, used to send the finalized page to the web browser at the end of system execution.  This permits you to 

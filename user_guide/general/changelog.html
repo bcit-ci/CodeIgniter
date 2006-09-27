@@ -7,9 +7,9 @@
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
 
-<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../nav/nav.js"></script>
 <script type="text/javascript" src="../scripts/prototype.lite.js"></script>
-<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	myHeight = new fx.Height('nav', {duration: 400}); 
@@ -117,6 +117,7 @@ Change Log
 <li>Updated the SQLite Driver to check for object support before attempting to return results as objects.  If unsupported it returns an array.</li>
 <li>Updated the Models loader function to allow multiple loads of the same model.</li>
 <li>Updated the MS SQL driver so that single quotes are escaped.</li>
+<li>Updated the Postgre and ODBC drivers for better compatibility.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>
 <li>Removed some references that were interfering with PHP 4.4.1 compatibility.</li>
 <li>Removed backticks from Postgre class since these are not needed.</li>

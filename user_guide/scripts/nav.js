@@ -21,6 +21,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'installation/downloads.html">Downloading Code Igniter</a></li>' +
 			'<li><a href="'+base+'installation/index.html">Installation Instructions</a></li>' +
 			'<li><a href="'+base+'installation/upgrading.html">Upgrading from a Previous Version</a></li>' +
+			'<li><a href="'+base+'installation/troubleshooting.html">Troubleshooting</a></li>' +
 		'</ul>' +
 		
 		'<h3>Introduction</h3>' +

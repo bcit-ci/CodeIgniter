@@ -222,7 +222,19 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function escape_str($str)	
 	{	
-		return mysql_real_escape_string($str);
+		if (get_magic_quotes_gpc())
+		{
+			return $str;
+		}
+
+    	if (function_exists('mysql_escape_string'))
+    	{
+			return mysql_real_escape_string($str);
+		}
+		else
+		{
+        	return addslashes($str);
+    	}
 	}
 		
 	// --------------------------------------------------------------------

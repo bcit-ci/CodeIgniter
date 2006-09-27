@@ -65,7 +65,9 @@ class CI_Router {
 	 */
 	function _set_route_mapping()
 	{		
-		// Are query strings enabled? If so we're done...
+		
+		// Are query strings enabled in the config file?
+		// If so, we're done since segment based URIs are not used with query strings.
 		if ($this->config->item('enable_query_strings') === TRUE AND isset($_GET[$this->config->item('controller_trigger')]))
 		{
 			$this->set_class($_GET[$this->config->item('controller_trigger')]);
@@ -78,15 +80,26 @@ class CI_Router {
 			return;
 		}
 		
-		// Load the routes.php file and set the default controller
+		// Load the routes.php file.
 		@include_once(APPPATH.'config/routes'.EXT);
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
+		// Set the default controller so we can display it in the event
+		// the URI doesn't correlated to a valid controller.
 		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);		
 	
+		// Fetch the complete URI string
+		$this->uri_string = $this->_get_uri_string();
+		
+		// If the URI contains only a slash we'll kill it
+		if ($this->uri_string == '/')
+		{ 
+			$this->uri_string = '';
+		}
+	
 		// Is there a URI string? If not, the default controller specified in the "routes" file will be shown.
-		if (($this->uri_string = $this->_get_uri_string()) == '')
+		if ($this->uri_string == '')
 		{
 			if ($this->default_controller === FALSE)
 			{
@@ -106,6 +119,7 @@ class CI_Router {
 		{
 			$this->uri_string = preg_replace("|".preg_quote($this->config->item('url_suffix'))."$|", "", $this->uri_string);
 		}
+
 
 		// Explode the URI Segments. The individual segments will
 		// be stored in the $this->segments array.	
