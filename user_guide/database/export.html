@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Code Igniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../scripts/nav.js"></script>
+<script type="text/javascript" src="../scripts/prototype.lite.js"></script>
+<script type="text/javascript" src="../scripts/moo.fx.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight.hide();
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='Rick Ellis' />
+<meta name='description' content='Code Igniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Code Igniter User Guide Version 1.5.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
+Database Export Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Database Export Class</h1>
+
+<p>The Database Utilities Class contains functions that help you export your data.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; This class must be initialized independently since it is a separate class from the main Database class. 
+More info below...</p>
+
+
+<h2>Initializing the Export Class</h2>
+
+<p>To initialize this class please use the following code:</p>
+
+<code>$this->load->dbexport()</code>
+
+<p>You can also autoload this class from within your <dfn>config/autoload.php</dfn> file by specifying <kbd>dbexport</kbd> in the <samp>$autoload['libraries']</samp> array.</p>
+
+<p>Once initialized you will access the functions using the <dfn>$this->dbexport</dfn> object:</p>
+
+<code>$this->dbexport->some_function()</code>
+
+
+
+<h2>$this->dbexport->cvs_from_result($db_result)</h2>
+
+<p>Permits you to generate a CVS file from a query result. The first parameter of the function must contain the result object from your query. 
+Example:</p>
+
+<code>
+$this->load->dbexport();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+echo $this->dbexport->cvs_from_result($query);
+</code>
+
+<p>The second and third parameters allows you to 
+set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:
+
+<code>
+$delimiter = ",";<br />
+$newline = "\r\n";<br />
+<br />
+echo $this->dbexport->cvs_from_result($query, $delimiter, $newline);
+</code>
+
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+
+<h2>$this->dbexport->xml_from_result($db_result)</h2>
+
+<p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second 
+may contain an optional array of config parameters.  Example:</p>
+
+<code>
+$this->load->dbexport();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+$config = array (<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'root'&nbsp;&nbsp;&nbsp; => 'root',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'element' => 'element', <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline' => "\n", <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo $this->dbexport->cvs_from_result($query, $config);
+</code>
+
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="utilities.html">Database Utility Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="../libraries/email.html">Email Class</a>
+<p>
+<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
+</div>
+
+</body>
+</html>
