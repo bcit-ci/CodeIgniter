@@ -219,6 +219,20 @@ class Controller extends CI_Base {
 	 */
 	function _ci_init_model($model, $name = '', $db_conn = FALSE)
 	{
+		// Is the model in a sub-folder?
+		// If so, parse out the filename and path.
+		if (strpos($model, '/') === FALSE)
+		{
+			$path = '';
+		}
+		else
+		{
+			$x = explode('/', $model);
+			$model = end($x);			
+			unset($x[count($x)-1]);
+			$path = implode('/', $x).'/';
+		}
+	
 		if ($name == '')
 		{
 			$name = $model;
@@ -237,11 +251,11 @@ class Controller extends CI_Base {
 	
 		$model = strtolower($model);
 		
-		if ( ! file_exists(APPPATH.'models/'.$model.EXT))
+		if ( ! file_exists(APPPATH.'models/'.$path.$model.EXT))
 		{
 			show_error('Unable to locate the model you have specified: '.$model);
 		}
-		
+				
 		if ($db_conn !== FALSE)
 		{
 			if ($db_conn === TRUE)
@@ -255,7 +269,7 @@ class Controller extends CI_Base {
 			require_once(BASEPATH.'libraries/Model'.EXT);
 		}
 
-		require_once(APPPATH.'models/'.$model.EXT);
+		require_once(APPPATH.'models/'.$path.$model.EXT);
 
 		$model = ucfirst($model);
 		$this->$name = new $model();
