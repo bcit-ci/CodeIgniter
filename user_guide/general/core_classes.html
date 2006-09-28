@@ -63,11 +63,13 @@ Creating Core System Classes
 <h1>Creating Core System Classes</h1>
 
 <p>Every time Code Igniter runs there are several base classes that are initialized automatically as part of the core framework.
-It is possible, however, to swap any of the core system classes with your own versions.&nbsp;  <strong>Most users will never have any need to do this,
-but the option to replace them does exist for those who would like to significantly alter the Code Igniter core.</strong>
+It is possible, however, to swap any of the core system classes with your own versions or even extend the core versions.</p>
+
+<p><strong>Most users will never have any need to do this,
+but the option to replace or extend them does exist for those who would like to significantly alter the Code Igniter core.</strong>
 </p>
 
-<p class="important"><strong>Note:</strong>&nbsp; Replacing a core system class with your own version has a lot of implications, so make sure you 
+<p class="important"><strong>Note:</strong>&nbsp; Messing with a core system class has a lot of implications, so make sure you 
 know what you are doing before attempting it.</p>
 
 
@@ -105,6 +107,38 @@ class CI_Input {<br /><br />
 
 }
 </code>
+
+
+
+<h2>Extending Core Class</h2>
+
+<p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
+it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.</p>
+
+<p>Extending a class is identical to replacing a class with one exception:  The class declaration must extend the parent class
+and your new class must be prefixed with <kbd>MY_</kbd>.  For example, to extend the native <kbd>Input</kbd> class
+you'll create a file named <dfn>application/libraries/Input.php</dfn>, and declare your class with:</p>
+
+<code>
+class MY_Input extends CI_Input {<br /><br />
+
+}</code>
+
+<p>Note: If you need to use a constructor in your class make sure you extend the parent constructor:</p>
+
+<code>
+class MY_Input extends CI_Input {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function My_Input()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Input();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
+
+<p>Any functions in your class that are named identically to the functions in the parent class will be used instead of the native ones.
+This allows you to substantially alter the Code Igniter core.</p>
+
+
 
 
 
