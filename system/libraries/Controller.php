@@ -239,7 +239,7 @@ class Controller extends CI_Base {
 		}
 		
 		$obj =& get_instance();
-		if (in_array($name, $obj->_ci_models))
+		if (in_array($name, $obj->_ci_models, TRUE))
 		{
 			return;
 		}		
@@ -350,7 +350,7 @@ class Controller extends CI_Base {
 		
 		foreach ($autoload['libraries'] as $item)
 		{
-			if ( ! in_array($item, $exceptions))
+			if ( ! in_array($item, $exceptions, TRUE))
 			{
 				$this->_ci_load_class($item);
 			}
@@ -566,7 +566,7 @@ class Controller extends CI_Base {
 		
 		if (class_exists('Scaffolding')) return;
 			
-		if ( ! in_array($this->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete')))
+		if ( ! in_array($this->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE))
 		{
 			$method = 'view';
 		}

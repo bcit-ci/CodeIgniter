@@ -63,7 +63,7 @@ class CI_Config {
 	{
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
 	
-		if (in_array($file, $this->is_loaded))
+		if (in_array($file, $this->is_loaded, TRUE))
 		{                
 			return TRUE;
 		}

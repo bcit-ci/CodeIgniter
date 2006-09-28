@@ -145,7 +145,7 @@ $method = $RTR->fetch_method();
 if ( ! class_exists($class)
 	OR $method == 'controller'
 	OR substr($method, 0, 1) == '_' 
-	OR in_array($method, get_class_methods('Controller'))
+	OR in_array($method, get_class_methods('Controller'), TRUE)
 	)
 {
 	show_404();

@@ -54,7 +54,7 @@ class CI_Language {
 	{	
 		$langfile = str_replace(EXT, '', str_replace('_lang.', '', $langfile)).'_lang'.EXT;
 		
-		if (in_array($langfile, $this->is_loaded))
+		if (in_array($langfile, $this->is_loaded, TRUE))
 		{
 			return;
 		}

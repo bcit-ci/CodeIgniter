@@ -48,7 +48,7 @@ class CI_Calendar {
 	function CI_Calendar()
 	{		
 		$this->obj =& get_instance();
-		if ( ! in_array('calendar_lang'.EXT, $this->obj->lang->is_loaded))
+		if ( ! in_array('calendar_lang'.EXT, $this->obj->lang->is_loaded, TRUE))
 		{
 			$this->obj->lang->load('calendar');
 		}
@@ -458,7 +458,7 @@ class CI_Calendar {
 			}
 			else
 			{
-				if (in_array($val, $today))
+				if (in_array($val, $today, TRUE))
 				{
 					$this->temp[$val] = $this->temp[str_replace('_today', '', $val)];
 				}

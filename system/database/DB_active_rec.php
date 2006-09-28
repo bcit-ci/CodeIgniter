@@ -125,7 +125,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$type = strtoupper(trim($type));
 
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER')))
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
 			{
 				$type = '';
 			}
@@ -390,7 +390,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (trim($direction) != '')
 		{
-			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC', 'RAND()'))) ? ' '.$direction : ' ASC';
+			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC', 'RAND()'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 		
 		$this->ar_orderby[] = $orderby.$direction;

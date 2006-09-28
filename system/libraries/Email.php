@@ -467,7 +467,7 @@ class CI_Email {
 	 */	
 	function set_protocol($protocol = 'mail')
 	{ 
-		$this->protocol = ( ! in_array($protocol, $this->_protocols)) ? 'mail' : strtolower($protocol);
+		$this->protocol = ( ! in_array($protocol, $this->_protocols, TRUE)) ? 'mail' : strtolower($protocol);
 	}
   	// END set_protocol()
   	
@@ -564,7 +564,7 @@ class CI_Email {
 	function _get_protocol($return = true)
 	{
 		$this->protocol = strtolower($this->protocol);
-		$this->protocol = ( ! in_array($this->protocol, $this->_protocols)) ? 'mail' : $this->protocol;
+		$this->protocol = ( ! in_array($this->protocol, $this->_protocols, TRUE)) ? 'mail' : $this->protocol;
 		
 		if ($return == true) 
 			return $this->protocol;
@@ -584,7 +584,7 @@ class CI_Email {
 	{		
 		$this->_encoding = ( ! in_array($this->_encoding, $this->_bit_depths)) ? '7bit' : $this->_encoding;
 		
-		if ( ! in_array($this->charset, $this->_base_charsets)) 
+		if ( ! in_array($this->charset, $this->_base_charsets, TRUE)) 
 			$this->_encoding = "8bit";
 			
 		if ($return == true) 
