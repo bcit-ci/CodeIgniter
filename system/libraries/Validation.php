@@ -187,7 +187,7 @@ class CI_Validation {
 			$ex = explode('|', $rules);
 
 			// Is the field required?  If not, if the field is blank  we'll move on to the next text
-			if ( ! in_array('required', $ex) AND strpos($rules, 'callback_') === FALSE)
+			if ( ! in_array('required', $ex, TRUE) AND strpos($rules, 'callback_') === FALSE)
 			{
 				if ( ! isset($_POST[$field]) OR $_POST[$field] == '')
 				{
@@ -206,7 +206,7 @@ class CI_Validation {
 			 */
 			if ( ! isset($_POST[$field]))
 			{			
-				if (in_array('isset', $ex) OR in_array('required', $ex))
+				if (in_array('isset', $ex, TRUE) OR in_array('required', $ex))
 				{
 					if ( ! isset($this->_error_messages['isset'])) 
 					{
@@ -268,7 +268,7 @@ class CI_Validation {
 					$result = $this->obj->$rule($_POST[$field], $param);	
 					
 					// If the field isn't required and we just processed a callback we'll move on...
-					if ( ! in_array('required', $ex) AND $result !== FALSE)
+					if ( ! in_array('required', $ex, TRUE) AND $result !== FALSE)
 					{
 						continue 2;
 					}

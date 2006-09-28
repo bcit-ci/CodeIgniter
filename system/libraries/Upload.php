@@ -454,7 +454,7 @@ class CI_Upload {
                            );
     
 
-		return (in_array($this->file_type, $img_mimes)) ? TRUE : FALSE;
+		return (in_array($this->file_type, $img_mimes, TRUE)) ? TRUE : FALSE;
     }
 	
 	// --------------------------------------------------------------------
@@ -479,7 +479,7 @@ class CI_Upload {
     	
     		if (is_array($mime))
     		{
-    			if (in_array($this->file_type, $mime))
+    			if (in_array($this->file_type, $mime, TRUE))
     			{
     				return TRUE;
     			}

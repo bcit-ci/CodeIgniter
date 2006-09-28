@@ -854,7 +854,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		else
 		{
 			// not top level element: see if parent is OK
-			if (!in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name]))
+			if (!in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], TRUE))
 			{
 				$this->xh[$the_parser]['isf'] = 2;
 				$this->xh[$the_parser]['isf_reason'] = "XML-RPC element $name cannot be child of ".$this->xh[$the_parser]['stack'][0];
