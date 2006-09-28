@@ -12,17 +12,6 @@
  * @since		Version 1.0
  * @filesource
  */
- 
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$config = array();
-if (file_exists(APPPATH.'config/upload'.EXT))
-{
-	include_once(APPPATH.'config/upload'.EXT);
-}
-
-$obj =& get_instance();
-$obj->init_class('CI_Upload', '', $config);
 
 // ------------------------------------------------------------------------
 

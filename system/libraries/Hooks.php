@@ -41,7 +41,7 @@ class CI_Hooks {
 	{
 		log_message('debug', "Hooks Class Initialized");
 	
-		$CFG =& _load_class('CI_Config');
+		$CFG =& _load_class('Config');
 		
 		// If hooks are not enabled in the config file
 		// there is nothing else to do

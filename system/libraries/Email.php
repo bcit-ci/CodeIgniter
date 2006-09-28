@@ -13,17 +13,6 @@
  * @filesource
  */
  
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$config = array();
-if (file_exists(APPPATH.'config/email'.EXT))
-{
-	include_once(APPPATH.'config/email'.EXT);
-}
-
-$obj =& get_instance();
-$obj->init_class('CI_Email', 'email', $config);
-
 // ------------------------------------------------------------------------
 
 /**

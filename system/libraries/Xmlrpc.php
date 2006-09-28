@@ -18,10 +18,6 @@ if ( ! function_exists('xml_parser_create'))
     show_error('Your PHP installation does not support XML');
 }
 
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$obj =& get_instance();
-$obj->init_class('CI_Xmlrpc');
 
 // ------------------------------------------------------------------------
 

@@ -13,17 +13,6 @@
  * @filesource
  */
  
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$config = array();
-if (file_exists(APPPATH.'config/image_lib'.EXT))
-{
-	include_once(APPPATH.'config/image_lib'.EXT);
-}
-
-$obj =& get_instance();
-$obj->init_class('CI_Image_lib', '', $config);
-
 // ------------------------------------------------------------------------
 
 /**

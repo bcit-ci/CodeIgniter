@@ -32,42 +32,81 @@
 /**
 * Class registry
 *
-*
+* This function acts as a singleton.  If the requested class does not
+* exist it is instantiated and set to a static variable.  If it has
+* previously been instantiated the variable is returned.
+* 
 * @access	public
 * @return	object
 */
 function &_load_class($class, $instantiate = TRUE)
 {
 	static $objects = array();
-	
-	if ( ! isset($objects[$class]))
+
+	// Does the class exist?  If so, we're done...
+	if (isset($objects[$class]))
 	{
-		if (FALSE !== strpos($class, 'CI_'))
-		{
-			if (file_exists(APPPATH.'libraries/'.str_replace('CI_', '', $class).EXT))
-			{
-				require(APPPATH.'libraries/'.str_replace('CI_', '', $class).EXT);	
-			}
-			else
-			{
-				require(BASEPATH.'libraries/'.str_replace('CI_', '', $class).EXT);	
-			}
-		}
+		return $objects[$class];
+	}
 	
-		if ($instantiate == TRUE)
+	// This is a special case.  It's a class in the Base5.php file
+	// which we don't need to load.  We only instantiate it.
+	if ($class == 'Instance')
+	{
+		return $objects[$class] =& new $class();	
+	}
+		
+	// If the requested class does not exist in the application/libraries
+	// folder we'll load the native class from the system/libraries folder.
+
+	$is_subclass = FALSE;	
+	if ( ! file_exists(APPPATH.'libraries/'.$class.EXT))
+	{
+		require(BASEPATH.'libraries/'.$class.EXT);		
+	}
+	else
+	{
+		// A core class can either be extended or replaced by putting an
+		// identially named file in the application/libraries folder.  
+		// We need to need to determine if the class being requested is 
+		// a sub-class or an independent instance so we'll open the file,
+		// read the top portion of it. If the class extends the base class
+		// we need to load it's parent. If it doesn't extend the base we'll
+		// only load the requested class.
+		
+		// Note: I'm not thrilled with this approach since it requires us to
+		// read the file, but I can't think of any other way to allow classes
+		// to be extended on-the-fly.  I did benchmark the difference with and
+		// without the file reading and I'm not seeing a perceptable difference.
+		
+		$fp	= fopen(APPPATH.'libraries/'.$class.EXT, "rb");
+		if (preg_match("/MY_".$class."\s+extends\s+CI_".$class."/", fread($fp, '8000')))
 		{
-			if ($class == 'CI_Controller')
-				$class = 'Controller';
-				
-			$objects[$class] =& new $class();
+			require(BASEPATH.'libraries/'.$class.EXT);	
+			require(APPPATH.'libraries/'.$class.EXT);
+			$is_subclass = TRUE;
 		}
 		else
 		{
-			$objects[$class] = TRUE;
+			require(APPPATH.'libraries/'.$class.EXT);
 		}
+		fclose($fp);	
 	}
+
+	if ($instantiate == FALSE)
+	{
+		return $objects[$class] = TRUE;
+	}
+		
+	if ($is_subclass == TRUE)
+	{
+		$name = 'MY_'.$class;
+		return $objects[$class] =& new $name();
+	}
+
+	$name = ($class != 'Controller') ? 'CI_'.$class : $class;
 	
-	return $objects[$class];
+	return $objects[$class] =& new $name();	
 }
 
 /**
@@ -115,7 +154,7 @@ function &_get_config()
 */
 function show_error($message)
 {
-	$error =& _load_class('CI_Exceptions');
+	$error =& _load_class('Exceptions');
 	echo $error->show_error('An Error Was Encountered', $message);
 	exit;
 }
@@ -133,7 +172,7 @@ function show_error($message)
 */
 function show_404($page = '')
 {
-	$error =& _load_class('CI_Exceptions');
+	$error =& _load_class('Exceptions');
 	$error->show_404($page);
 	exit;
 }
@@ -158,7 +197,7 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 		return;
 	}
 
-	$LOG =& _load_class('CI_Log');	
+	$LOG =& _load_class('Log');	
 	$LOG->write_log($level, $message, $php_error);
 }
 
@@ -191,7 +230,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 		return;
 	}
 
-	$error =& _load_class('CI_Exceptions');
+	$error =& _load_class('Exceptions');
 
 	// Should we display the error?  
 	// We'll get the current error_reporting level and add its bits
