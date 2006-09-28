@@ -42,7 +42,7 @@ class CI_Input {
 	 */	
 	function CI_Input()
 	{	
-		$CFG =& _load_class('CI_Config');
+		$CFG =& _load_class('Config');
 		$this->use_xss_clean	= ($CFG->item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
 		$this->allow_get_array	= ($CFG->item('enable_query_strings') === TRUE) ? TRUE : FALSE;
 		

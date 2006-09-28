@@ -31,15 +31,6 @@ class CI_Benchmark {
 
 	var $marker = array();
 
-	/**
-	 * Constructor
-	 *
-	 * @access	public
-	 */
-    function CI_Benchmark()
-    {
-    }
-    // END CI_Benchmark()
     
 	// --------------------------------------------------------------------
 

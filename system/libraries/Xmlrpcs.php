@@ -23,11 +23,6 @@ if ( ! class_exists('CI_Xmlrpc'))
     show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
 
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$obj =& get_instance();
-$obj->init_class('CI_Xmlrpcs');
-
 // ------------------------------------------------------------------------
 
 /**

@@ -71,7 +71,7 @@ class CI_Loader {
 			return;
 	
 		$obj =& get_instance();
-		$obj->_ci_init_class($class, $param);
+		$obj->_ci_load_class($class, $param);
 		$obj->_ci_assign_to_models();
 	}
 

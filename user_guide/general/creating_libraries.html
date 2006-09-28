@@ -63,14 +63,27 @@ Creating Libraries
 <h1>Creating Libraries</h1>
 
 <p>When we use the term "Libraries" we are normally referring to the classes that are located in the <kbd>libraries</kbd>
-directory and described in the Class Reference of this user guide.  In this case, however, we will instead describe how you can create your own libraries within 
-your <dfn>application</dfn> directory in order to maintain separation between your local resources and the global framework resources.</p>
+directory and described in the Class Reference of this user guide.  In this case, however, we will instead describe how you can create 
+your own libraries within your <dfn>application/libraries</dfn> directory in order to maintain separation between your local resources 
+and the global framework resources.</p>
+
+<p>As an added bonus, Code Igniter permits your libraries to <kbd>extend</kbd> native classes if you simply need to add some functionality 
+to an existing library. Or you can even replace native libraries just by placing identically named versions in your <dfn>application/libraries</dfn> folder.
+
+<p>In summary:</p>
+
+<ul>
+<li>You can create entirely new libraries.</li>
+<li>You can extend native libraries.</li>
+<li>You can replace native libraries.</li>
+</ul>
+
+
 
 <h2>Storage</h2>
 
 <p>Your library classes should be placed within your <dfn>application/libraries</dfn> folder, as this is where Code Igniter will look for them when 
-they are initialized. If your class is named identically to a native class from the <dfn>system/libraries</dfn> folder, your version
-will be used instead.</p>
+they are initialized.</p>
 
 
 <h2>Naming Conventions</h2>
@@ -87,10 +100,6 @@ will be used instead.</p>
 <p>Classes should have this basic prototype (Note:  We are using the name <kbd>Myclass</kbd> purely as an example):</p>
 
 <code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
-<br />
-// Initialize the class<br />
-$obj =& get_instance();<br />
-$obj->init_class('Myclass');
 <br /><br />
 class Myclass {<br />
 <br />
@@ -99,15 +108,6 @@ class Myclass {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br /><br />
 ?&gt;</code>
-
-
-<p>You'll notice in the above example that the class is instantiated directly from the file itself using these two lines of code:</p>
-
-<code>$obj =& get_instance();<br />
-$obj->init_class(<kbd>'Myclass'</kbd>);</code>
-
-<p class="important">Make sure and submit your class name in the first parameter of the <kbd>$obj->init_class()</kbd> function. In the
-above example it is <kbd>Myclass</kbd></p>
 
 
 <h2>Using Your Class</h2>
@@ -124,22 +124,6 @@ Code Igniter doesn't care.</p>
 <code>$this-><kbd>myclass</kbd>->some_function();&nbsp; // Object instances will always be lower case
 </code>
 
-<h2>Setting a Different Class Variable Name</h2>
-
-
-<p>If you would like the object variable ($this->myclass) set to a different name you can specify it when initializing your class.  For
-example, let's initialize it as <kbd>foobar</kbd>:</p>
-
-<code>$obj =& get_instance();<br />
-$obj->init_class('Myclass', <kbd>'foobar'</kbd>);</code>
-
-<p>In the above example you would still load your class like this:</p>
-
-<code>$this->load->library('<kbd>Mclass</kbd>');</code>
-
-<p>But you would use it like this:<p>
-
-<code>$this-><kbd>foobar</kbd>->function();</code>
 
 
 <h2>Passing Parameters When Initializing Your Class</h2>
@@ -169,25 +153,7 @@ class Myclass {<br />
 }<br /><br />
 ?&gt;</code>
 
-<p>You can also pass parameters via the third parameter of the <dfn>$obj->init_class()</dfn> function:</p>
-
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
-<br />
-
-$params = array('type' => 'large', 'color' => 'red');<br /><br />
-
-// Initialize the class<br />
-$obj =& get_instance();<br />
-$obj->init_class('Myclass', 'myclass', $params);
-<br /><br />
-class Myclass {<br />
-<br />
-&nbsp;&nbsp;&nbsp;&nbsp;function Myclass($params)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
-&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-}<br /><br />
-?&gt;</code>
+<p>You can also pass parameters stored in a config file.  Simply create a config file named identically to the class filename.</p>
 
 
 

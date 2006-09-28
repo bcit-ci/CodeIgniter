@@ -12,11 +12,6 @@
  * @since		Version 1.0
  * @filesource
  */
- 
-// INITIALIZE THE CLASS ---------------------------------------------------
-
-$obj =& get_instance();
-$obj->init_class('CI_Validation');
 
 // ------------------------------------------------------------------------
 

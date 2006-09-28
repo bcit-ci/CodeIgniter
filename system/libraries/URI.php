@@ -42,7 +42,7 @@ class CI_URI {
 	 */		
 	function CI_URI()
 	{
-		$this->router =& _load_class('CI_Router');	
+		$this->router =& _load_class('Router');	
 		log_message('debug', "URI Class Initialized");
 	}
 	

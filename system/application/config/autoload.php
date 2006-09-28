@@ -37,7 +37,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'calendar', 'dbutil', 'dbexport');
+$autoload['libraries'] = array('database', 'calendar');
 
 
 /*

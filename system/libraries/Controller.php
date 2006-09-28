@@ -32,8 +32,6 @@ class Controller extends CI_Base {
 	var $_ci_models			= array();
 	var $_ci_scaffolding	= FALSE;
 	var $_ci_scaff_table	= FALSE;
-	var $_ci_last_handle	= NULL;
-	var $_ci_last_params	= NULL;
 	
 	/**
 	 * Constructor
@@ -71,48 +69,6 @@ class Controller extends CI_Base {
 	/**
 	 * Initialization Handler
 	 *
-	 * Designed to be called from the class files themselves.
-	 * See: http://www.codeigniter.com/user_guide/general/creating_libraries.html
-	 *
-	 * @access	public
-	 * @param 	string	class name
-	 * @param 	string	variable name
-	 * @param	mixed	any additional parameters
-	 * @return 	void
-	 */
-	function init_class($class, $varname = '', $params = NULL)
-	{
-		// First figure out what variable we're going to assign the class to
-		if ($varname == '')
-		{
-			$varname = ( ! is_null($this->_ci_last_handle)) ? $this->_ci_last_handle : strtolower(str_replace('CI_', '', $class));
-		}
-		
-		// Are there any parameters?
-		if ($params === NULL AND $this->_ci_last_params !== NULL)
-		{
-			$params = $this->_ci_last_params;
-		}
-		
-		// Instantiate the class
-		if ( ! is_null($params))
-		{
-			$this->$varname = new $class($params);
-		}
-		else
-		{
-			$this->$varname = new $class;
-		}	
-		
-		$this->_ci_last_params = NULL;
-		$this->_ci_last_handle = NULL;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Initialization Handler
-	 *
 	 * This function loads the requested class.
 	 *
 	 * @access	private
@@ -120,15 +76,21 @@ class Controller extends CI_Base {
 	 * @param	mixed	any additional parameters
 	 * @return 	void
 	 */
-	function _ci_init_class($class, $params = NULL)
+	function _ci_load_class($class, $params = NULL)
 	{	
 		// Prep the class name
 		$class = strtolower(str_replace(EXT, '', $class));
-		
-		// These are used by $this->init_class() above.
-		// They lets us dynamically set the object name and pass parameters
-		$this->_ci_last_handle = $class;		
-		$this->_ci_last_params = $params;
+
+		// Is this a class extension request?	
+		if (substr($class, 0, 3) == 'my_')
+		{
+			$class = preg_replace("/my_(.+)/", "\\1", $class);
+			$extend = TRUE;
+		}
+		else
+		{
+			$extend = FALSE;
+		}
 		
 		// Does THIS file (Controller.php) contain an initialization
 		// function that maps to the requested class?
@@ -150,29 +112,100 @@ class Controller extends CI_Base {
 			return TRUE;
 		}
 		
-		// Lets search for the requested library file and load it.
-		// We'll assume that the file we load contains a call to
-		// $obj->init_class() so that the class can get instantiated.
-		// For backward compatibility we'll test for filenames that are
-		// both uppercase and lower.
-		foreach (array(ucfirst($class), $class) as $filename)
+		// Are we extending one of the base classes?
+		if ($extend == TRUE)
 		{
-			for ($i = 1; $i < 3; $i++)
+			// Load the requested library from the main system/libraries folder
+			if (file_exists(BASEPATH.'libraries/'.ucfirst($class).EXT))
 			{
-				$path = ($i % 2) ? APPPATH : BASEPATH;
+				include_once(BASEPATH.'libraries/'.ucfirst($class).EXT);
+			}
 			
-				if (file_exists($path.'libraries/'.$filename.EXT))
+			// Now look for a matching library
+			foreach (array(ucfirst($class), $class) as $filename)
+			{
+				if (file_exists(APPPATH.'libraries/'.$filename.EXT))
 				{
-					include_once($path.'libraries/'.$filename.EXT);
-					return TRUE;	
+					include_once(APPPATH.'libraries/'.$filename.EXT);	
 				}
 			}
-		
+			
+			return $this->_ci_init_class($filename, 'MY_', $params);
+		}
+		else
+		{		
+			// Lets search for the requested library file and load it.
+			// For backward compatibility we'll test for filenames that are
+			// both uppercase and lower.
+			foreach (array(ucfirst($class), $class) as $filename)
+			{
+				for ($i = 1; $i < 3; $i++)
+				{
+					$path = ($i % 2) ? APPPATH : BASEPATH;
+				
+					if (file_exists($path.'libraries/'.$filename.EXT))
+					{
+						include_once($path.'libraries/'.$filename.EXT);
+						return $this->_ci_init_class($filename, '', $params);
+					}
+				}
+			}
 		}
 		
 		// If we got this far we were unable to find the requested class
 		log_message('error', "Unable to load the requested class: ".$class);
 		show_error("Unable to load the class: ".$class);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Instantiates a class
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 * @return	null
+	 */
+	function _ci_init_class($class, $prefix = '', $config = NULL)
+	{
+		// Is there an associated config file for this class?
+		
+		if ($config == NULL)
+		{
+			if (file_exists(APPPATH.'config/'.$class.EXT))
+			{
+				include_once(APPPATH.'config/'.$class.EXT);
+			}
+		}
+		
+		if ($prefix == '')
+		{
+			$name = ( ! class_exists($class)) ? 'CI_'.$class : $class;
+		}
+		else
+		{
+			$name = $prefix.ucfirst($class);
+		}
+		
+		$remap = array(
+						'DB_export'		=> 'dbexport',
+						'DB_utility'	=> 'dbutility',
+						'Encryption'	=> 'encrypt',
+						'Unit_test' 	=> 'unit'
+						);
+						
+		$varname = ( ! isset($remap[$class])) ? $class : $remap[$class];
+		
+		// Instantiate the class
+		if ($config !== NULL)
+		{
+			$this->$varname = new $name($config);
+		}
+		else
+		{
+			$this->$varname = new $name;
+		}	
 	}
   	
 	// --------------------------------------------------------------------
@@ -305,7 +338,7 @@ class Controller extends CI_Base {
 		{
 			if ( ! in_array($item, $exceptions))
 			{
-				$this->_ci_init_class($item);
+				$this->_ci_load_class($item);
 			}
 			else
 			{
@@ -334,10 +367,10 @@ class Controller extends CI_Base {
 		foreach (array('Config', 'Input', 'Benchmark', 'URI', 'Output') as $val)
 		{
 			$class = strtolower($val);
-			$this->$class =& _load_class('CI_'.$val);
+			$this->$class =& _load_class($val);
 		}
 		
-		$this->lang	=& _load_class('CI_Language');
+		$this->lang	=& _load_class('Language');
 	
 		// In PHP 4 the Controller class is a child of CI_Loader.
 		// In PHP 5 we run it as its own class.
@@ -529,7 +562,7 @@ class Controller extends CI_Base {
 		}
 		
 		$this->_ci_init_database("", FALSE, TRUE);
-		$this->_ci_init_class('pagination');
+		$this->_ci_load_class('pagination');
 		require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
 		$this->scaff = new Scaffolding($this->_ci_scaff_table);
 		$this->scaff->$method();

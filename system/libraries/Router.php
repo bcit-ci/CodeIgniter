@@ -33,6 +33,7 @@ class CI_Router {
 	var $segments		= array();
 	var $rsegments		= array();
 	var $routes 		= array();
+	var $error_routes	= array();
 	var $class			= '';
 	var $method			= 'index';
 	var $directory		= '';
@@ -47,7 +48,7 @@ class CI_Router {
 	 */
 	function CI_Router()
 	{
-		$this->config =& _load_class('CI_Config');
+		$this->config =& _load_class('Config');
 		$this->_set_route_mapping();
 		log_message('debug', "Router Class Initialized");
 	}
@@ -87,8 +88,8 @@ class CI_Router {
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlated to a valid controller.
-		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);		
-	
+		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);	
+		
 		// Fetch the complete URI string
 		$this->uri_string = $this->_get_uri_string();
 		
@@ -138,7 +139,6 @@ class CI_Router {
 		// Re-index the segment array so that it starts with 1 rather than 0
 		$this->_reindex_segments();
 	}
-	// END _set_route_mapping()
 	
 	// --------------------------------------------------------------------
 	
@@ -185,7 +185,6 @@ class CI_Router {
 		// identical to $this->segments
 		$this->rsegments = $segments;
 	}
-	// END _compile_segments()
 	
 	// --------------------------------------------------------------------
 	
@@ -240,7 +239,6 @@ class CI_Router {
 		// Can't find the requested controller...
 		show_404();	
 	}
-	// END _validate_segments()
 
 	// --------------------------------------------------------------------	
 	/**
@@ -280,7 +278,6 @@ class CI_Router {
 			unset($this->rsegments[0]);
 		}
 	}
-	// END _reindex_segments()
 	
 	// --------------------------------------------------------------------
 	
@@ -333,7 +330,6 @@ class CI_Router {
 			return getenv($uri);
 		}
 	}
-	// END _get_uri_string()
 
 	// --------------------------------------------------------------------
 	
@@ -381,7 +377,6 @@ class CI_Router {
 
 		return $parsed_uri;
 	}
-	// END _parse_request_uri()
 
 	// --------------------------------------------------------------------
 	
@@ -403,7 +398,6 @@ class CI_Router {
 		}	
 			return $str;
 	}
-	// END _filter_uri()
 	
 	// --------------------------------------------------------------------
 	
@@ -461,7 +455,6 @@ class CI_Router {
 		// matching route so we'll set the site default route
 		$this->_compile_segments($this->segments);
 	}
-	// END set_method()
 
 	// --------------------------------------------------------------------
 	
@@ -476,7 +469,6 @@ class CI_Router {
 	{
 		$this->class = $class;
 	}
-	// END set_class()
 	
 	// --------------------------------------------------------------------
 	
@@ -490,7 +482,6 @@ class CI_Router {
 	{
 		return $this->class;
 	}
-	// END fetch_class()
 	
 	// --------------------------------------------------------------------
 	
@@ -505,7 +496,6 @@ class CI_Router {
 	{
 		$this->method = $method;
 	}
-	// END set_method()
 
 	// --------------------------------------------------------------------
 	
@@ -519,7 +509,6 @@ class CI_Router {
 	{
 		return $this->method;
 	}
-	// END fetch_method()
 
 	// --------------------------------------------------------------------
 	
@@ -534,7 +523,6 @@ class CI_Router {
 	{
 		$this->directory = $dir.'/';
 	}
-	// END set_directory()
 
 	// --------------------------------------------------------------------
 	
@@ -548,7 +536,6 @@ class CI_Router {
 	{
 		return $this->directory;
 	}
-	// END fetch_directory()
 
 }
 // END Router Class
