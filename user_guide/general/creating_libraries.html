@@ -78,7 +78,7 @@ to an existing library. Or you can even replace native libraries just by placing
 <li>You can replace native libraries.</li>
 </ul>
 
-
+<p>The page below explains these three concepts in detail.</p>
 
 <h2>Storage</h2>
 
@@ -97,11 +97,11 @@ they are initialized.</p>
 
 <h2>The Class File</h2>
 
-<p>Classes should have this basic prototype (Note:  We are using the name <kbd>Myclass</kbd> purely as an example):</p>
+<p>Classes should have this basic prototype (Note:  We are using the name <kbd>Someclass</kbd> purely as an example):</p>
 
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 <br /><br />
-class Myclass {<br />
+class Someclass {<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;function some_function()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
@@ -114,14 +114,14 @@ class Myclass {<br />
 
 <p>From within any of your <a href="controllers.html">Controller</a> functions you can initialize your class using the standard:</p>
 
-<code>$this->load->library('<kbd>Mclass</kbd>');</code>
+<code>$this->load->library('<kbd>someclass</kbd>');</code>
 
-<p>Where <em>Myclass</em> is the file name, without the ".php" file extension. You can submit the file name capitalized or lower case. 
+<p>Where <em>someclass</em> is the file name, without the ".php" file extension. You can submit the file name capitalized or lower case. 
 Code Igniter doesn't care.</p>
 
-<p>Once loaded you can access your class using:</p>
+<p>Once loaded you can access your class using the <kbd>lower case</kbd> version:</p>
 
-<code>$this-><kbd>myclass</kbd>->some_function();&nbsp; // Object instances will always be lower case
+<code>$this-><kbd>someclass</kbd>->some_function();&nbsp; // Object instances will always be lower case
 </code>
 
 
@@ -134,26 +134,24 @@ constructor:</p>
 <code>
 $params = array('type' => 'large', 'color' => 'red');<br />
 <br />
-$this->load->library('Myclass', <kbd>$params</kbd>);</code>
+$this->load->library('Someclass', <kbd>$params</kbd>);</code>
 
 <p>If you use this feature you must set up your class constructor to expect data:</p>
 
 <code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
 <br />
-// Initialize the class<br />
-$obj =& get_instance();<br />
-$obj->init_class('Myclass');
-<br /><br />
-class Myclass {<br />
+class Someclass {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function Myclass($params)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function Someclass($params)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br /><br />
 ?&gt;</code>
 
-<p>You can also pass parameters stored in a config file.  Simply create a config file named identically to the class filename.</p>
+<p class="important">You can also pass parameters stored in a config file.  Simply create a config file named identically to the class <kbd>file name</kbd>
+and store it in your <dfn>application/config/</dfn> folder.  Note that if you dynamically pass parameters as described above,
+the config file option will not be available.</p>
 
 
 
@@ -201,8 +199,53 @@ etc.
 <kbd>This is very important.</kbd> Assigning by reference allows you to use the original Code Igniter object rather than creating a copy of it.</p>
 
 
+<h2>Replacing Native Libraries with Your Versions</h2>
+
+<p>Simply by naming your class files identically to a native library will cause Code Igniter to use it instead of the native one. To use this
+feature you must name the file and the class declaration exactly the same as the native library.  For example, to replace the native <kbd>Email</kbd> library
+you'll create a file named <dfn>application/libraries/email.php</dfn>, and declare your class with:</p>
+
+<code>
+class CI_Email {<br /><br />
+
+}</code>
+
+<p>Note that most native classes are prefixed with <kbd>CI_</kbd>.</p>
+
+<p>To load your library you'll see the standard loading function:</p>
+
+<code>$this->load->library('<kbd>email</kbd>');</code>
 
 
+
+<h2>Extending Native Libraries</h2>
+
+<p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
+it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.</p>
+
+<p>Extending a class is identical to replacing a class with one exception:  The class declaration must extend the parent class
+and your new class must be prefixed with <kbd>MY_</kbd>.  For example, to extend the native <kbd>Email</kbd> class
+you'll create a file named <dfn>application/libraries/email.php</dfn>, and declare your class with:</p>
+
+<code>
+class MY_Email extends CI_Email {<br /><br />
+
+}</code>
+
+<p>Note: If you need to use a constructor in your class make sure you extend the parent constructor:</p>
+
+<code>
+class MY_Email extends CI_Email {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function My_Email()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Email();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
+
+<p class="important"><strong>Important:</strong> To tell Code Igniter to load your sub-class you MUST include <kbd>my_</kbd> in the loading function:</p>
+
+<code>$this->load->library('<kbd>my_</kbd>email');</code>
 
 
 
