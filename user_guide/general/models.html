@@ -62,8 +62,7 @@ Models
 
 <h1>Models</h1>
 
-<p>Models are <strong>optionally</strong> available for those who want to use a more
-traditional MVC approach.</p>
+<p>Models are <strong>optionally</strong> available for those who want to use a more traditional MVC approach.</p>
 
 
 
@@ -128,7 +127,10 @@ class&nbsp;Blogmodel&nbsp;extends&nbsp;Model&nbsp;{<br />
 <a name="anatomy"></a>
 <h2>Anatomy of a Model</h2>
 
-<p>Model classes are stored in your <dfn>application/models/</dfn> folder.  The basic prototype for a model is this:</p>
+<p>Model classes are stored in your <dfn>application/models/</dfn> folder.  They can be nested within sub-folders if you 
+want this type of organization.</p>
+
+<p>The basic prototype for a model class is this:</p>
 
 
 <code>
@@ -166,6 +168,12 @@ class&nbsp;<var>User_model</var>&nbsp;extends&nbsp;Model&nbsp;{<br />
 To load a model you will use the following function:</p>
 
 <code>$this->load->model('<var>Model_name</var>');</code>
+
+<p>If you model is located in a sub-folder, include the relative path from your models folder.  For example, if
+you have a model located at <dfn>application/models/blog/queries.php</dfn> you'll load it using:</p>
+
+<code>$this->load->model('blog/queries');</code>
+
 
 <p>Once loaded, you will access your model functions using an object with the same name as your class:</p>
 
