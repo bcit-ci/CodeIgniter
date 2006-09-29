@@ -97,7 +97,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is table optimization supported in Postgre?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -105,7 +105,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return FALSE; // Is this supported in Postgre?
+		return FALSE; 
 	}
 
 	// --------------------------------------------------------------------
@@ -113,7 +113,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Are table repairs supported in Postgre?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -121,7 +121,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return return FALSE; // Is this supported in Postgre?
+		return return FALSE;
 	}
 
 

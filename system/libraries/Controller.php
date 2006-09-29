@@ -191,7 +191,6 @@ class Controller extends CI_Base {
 		$remap = array(
 						'DB_export'		=> 'dbexport',
 						'DB_utility'	=> 'dbutility',
-						'Encryption'	=> 'encrypt',
 						'Unit_test' 	=> 'unit'
 						);
 						

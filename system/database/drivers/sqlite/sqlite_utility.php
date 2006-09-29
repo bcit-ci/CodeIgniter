@@ -34,7 +34,8 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 */
 	function _create_database()
 	{
-		// In SQLite, a database is created when you connect to the database
+		// In SQLite, a database is created when you connect to the database.
+		// We'll return TRUE so that an error isn't generated
 		return TRUE;
 	}
 
@@ -65,11 +66,17 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
+	 * I don't believe you can do a database listing with SQLite
+	 * since each database is its own file.  I suppose we could
+	 * try reading a directory looking for SQLite files, but 
+	 * that doesn't seem like a terribly good idea
+	 *
 	 * @access	private
 	 * @return	bool
 	 */
 	function _list_databases()
 	{
+	
 		if ($this->db_debug)
 		{
 			return $this->display_error('db_unsuported_feature');
@@ -97,6 +104,8 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Drop Table
 	 *
+	 *  Unsupported feature in SQLite
+	 *
 	 * @access	private
 	 * @return	bool
 	 */
@@ -114,7 +123,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is optimization even supported in SQLite?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -122,7 +131,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		return FALSE; // Is this supported SQLite?
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -130,7 +139,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Are table repairs even supported in SQLite?
 	 *
 	 * @access	private
 	 * @param	string	the table name
@@ -138,7 +147,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return return FALSE; // Is this supported in SQLite?
+		return return FALSE;
 	}
 
 
