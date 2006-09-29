@@ -76,7 +76,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
      */
     function _list_tables()
     {
-        return "select TABLE_NAME FROM ALL_TABLES";
+        return "SELECT TABLE_NAME FROM ALL_TABLES";
     }
 
 	// --------------------------------------------------------------------

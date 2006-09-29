@@ -37,6 +37,8 @@
 * previously been instantiated the variable is returned.
 * 
 * @access	public
+* @param	string	the class name being requested
+* @param	bool	optional flag that lets classes get loaded but not instantiated
 * @return	object
 */
 function &_load_class($class, $instantiate = TRUE)
@@ -58,7 +60,7 @@ function &_load_class($class, $instantiate = TRUE)
 		
 	// If the requested class does not exist in the application/libraries
 	// folder we'll load the native class from the system/libraries folder.
-
+	
 	$is_subclass = FALSE;	
 	if ( ! file_exists(APPPATH.'libraries/'.$class.EXT))
 	{
@@ -67,20 +69,27 @@ function &_load_class($class, $instantiate = TRUE)
 	else
 	{
 		// A core class can either be extended or replaced by putting an
-		// identially named file in the application/libraries folder.  
-		// We need to need to determine if the class being requested is 
-		// a sub-class or an independent instance so we'll open the file,
-		// read the top portion of it. If the class extends the base class
-		// we need to load it's parent. If it doesn't extend the base we'll
-		// only load the requested class.
+		// identically named file in the application/libraries folder. 
+		// We need to determine, however, if the class being requested is
+		// a sub-class of an existing library or an independent instance
+		// since each needs to be handled slightly differently. 
+		// To do this we'll open the requested class and read the top portion
+		// of it. If the class extends a base class we will load the base first.
+		// If it doesn't extend the base we'll only load the requested class.
 		
 		// Note: I'm not thrilled with this approach since it requires us to
-		// read the file, but I can't think of any other way to allow classes
-		// to be extended on-the-fly.  I did benchmark the difference with and
-		// without the file reading and I'm not seeing a perceptable difference.
+		// read the top part of the file (I set a character limit of 5000 bytes,
+		// which correlates to roughly the first 100 lines of code), but
+		// I can't think of a better way to allow classes to be extended or
+		// replaced on-the-fly with nothing required for the user to do
+		// except write the declaration.  Fortunately PHP is ridiculously fast
+		// at file reading operations so I'm not able to discern a performance
+		// hit based on my benchmarks, assuming a reasonable number of core
+		// files are being extended, which will usually be the case.
 		
 		$fp	= fopen(APPPATH.'libraries/'.$class.EXT, "rb");
-		if (preg_match("/MY_".$class."\s+extends\s+CI_".$class."/", fread($fp, '8000')))
+		
+		if (preg_match("/MY_".$class."\s+extends\s+CI_".$class."/", fread($fp, '6000')))
 		{
 			require(BASEPATH.'libraries/'.$class.EXT);	
 			require(APPPATH.'libraries/'.$class.EXT);
