@@ -25,6 +25,7 @@
 class CI_DB_utility {
 
 	var $db;
+	var $cache = array();
 
 	/**
 	 * Constructor
@@ -93,6 +94,12 @@ class CI_DB_utility {
 	 */
 	function list_databases()
 	{	
+		// Is there a cached result?
+		if (isset($this->cache['db_names']))
+		{
+			return $this->cache['db_names'];
+		}
+	
 		$query = $this->db->query($this->_list_database());
 		$dbs = array();
 		if ($query->num_rows() > 0)
@@ -103,7 +110,7 @@ class CI_DB_utility {
 			}
 		}
 			
-		return $dbs;
+		return $this->cache['db_names'] =& $dbs;
 	}
 
 	// --------------------------------------------------------------------
@@ -116,6 +123,12 @@ class CI_DB_utility {
 	 */	
 	function list_tables()
 	{
+		// Is there a cached result?
+		if (isset($this->cache['table_names']))
+		{
+			return $this->cache['table_names'];
+		}
+	
 		if (FALSE === ($sql = $this->_list_tables()))
 		{
             if ($this->db->db_debug)
@@ -143,7 +156,7 @@ class CI_DB_utility {
 			}
 		}
 
-		return $retval;
+		return $this->cache['table_names'] =& $retval;
 	}
 	
 	// --------------------------------------------------------------------
@@ -258,7 +271,111 @@ class CI_DB_utility {
 		return $this->db->query($sql);
 	}
 
+	// --------------------------------------------------------------------
 
+	/**
+	 * Generate CVS from a query result object
+	 *
+	 * @access	public
+	 * @param	object	The query result object
+	 * @param	string	The delimiter - tab by default
+	 * @param	string	The newline character - \n by default
+	 * @return	string
+	 */
+	function cvs_from_result($query, $delim = "\t", $newline = "\n")
+	{
+		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		{
+			show_error('You must submit a valid result object');
+		}	
+	
+		$out = '';
+		
+		// First generate the headings from the table column names
+		foreach ($query->field_names() as $name)
+		{
+			$out .= $name.$delim;
+		}
+		
+		$out = rtrim($out);
+		$out .= $newline;
+		
+		// Next blast through the result array and build out the rows
+		foreach ($query->result_array() as $row)
+		{
+			foreach ($row as $item)
+			{
+				$out .= $item.$delim;			
+			}
+			$out = rtrim($out);
+			$out .= $newline;
+		}
+
+		return $out;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Generate XML data from a query result object
+	 *
+	 * @access	public
+	 * @param	object	The query result object
+	 * @param	array	Any preferences
+	 * @return	string
+	 */
+	function xml_from_result($query, $params = array())
+	{
+		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		{
+			show_error('You must submit a valid result object');
+		}
+		
+		// Set our default values
+		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
+		{
+			if ( ! isset($params[$key]))
+			{
+				$params[$key] = $val;
+			}
+		}
+		
+		// Create variables for convenience
+		extract($params);
+			
+		// Load the xml helper
+		$obj =& get_instance();
+		$obj->load->helper('xml');
+
+		// Generate the result
+		$xml = "<{$root}/>".$newline;
+		foreach ($query->result_array() as $row)
+		{
+			$xml .= $tab."<{$element}/>".$newline;
+			
+			foreach ($row as $key => $val)
+			{
+				$xml .= $tab.$tab."<{$key}>".xml_convert($val)."</{$key}>".$newline;
+			}
+			$xml .= $tab."</{$element}>".$newline;
+		}
+		$xml .= "</$root>".$newline;  
+		
+		return $xml;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Backup
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	function export()
+	{
+		// The individual driver overloads this method
+	}
 
 
 }

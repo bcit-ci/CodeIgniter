@@ -128,19 +128,18 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	/**
 	 * MySQL Export
 	 *
-	 * @access	public
-	 * @param	object	The query result object
+	 * @access	private
 	 * @param	array	Any preferences
-	 * @return	string
+	 * @return	mixed
 	 */
-	function export($params = array())
+	function _export($params = array())
 	{
 		// Set up our default preferences
 		$prefs = array(
 							'tables'		=> array(),
 							'ignore'		=> array(),
 							'format'		=> 'gzip',
-							'download'		=> TRUE,
+							'action'		=> 'download', // download, archive, echo, return
 							'filename'		=> date('Y-m-d-H:i', time()),
 							'filepath'		=> '',
 							'add_drop'		=> TRUE,
@@ -169,8 +168,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			$tables = $this->list_tables();
 		}
 	
-	
-	
 		// Start buffering the output
 		ob_start();
 	
@@ -193,7 +190,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
         	}
         	
         	// Write out the table schema
-      
             echo $newline.$newline.'#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
                 
  			if ($add_drop == TRUE)
@@ -211,13 +207,13 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			    }
 			}
 			
-			// Build the insert statements
-			
+			// If inserts are not needed we're done...
 			if ($add_insert == FALSE)
 			{
 				continue;
 			}
-			
+
+			// Grab all the data from the current table
 			$query = $this->db->query("SELECT * FROM $table");
 			
 			if ($query->num_rows() == 0)
@@ -225,37 +221,39 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				continue;
 			}
 		
-			// Grab the field names and determine if the field is an
+			// Fetch the field names and determine if the field is an
 			// integer type.  We use this info to decide whether to 
 			// surround the data with quotes or not
 			
 			$i = 0;
-			$fields = '';
+			$field_str = '';
 			$is_int = array();
 			while ($field = mysql_fetch_field($query->result_id))
 			{
 				$is_int[$i] = (in_array(
-										mysql_field_type($query->result_id, $i), 
+										strtolower(mysql_field_type($query->result_id, $i)), 
 										array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'timestamp'), 
 										TRUE)
 										) ? TRUE : FALSE;
 										
 				// Create a string of field names
-				$fields .= $field->name.', ';     
+				$field_str .= $field->name.', ';     
 				$i++;
 			}
-					
-			$fields = preg_replace( "/, $/" , "" , $fields);
+			
+			// Trim off the end comma
+			$field_str = preg_replace( "/, $/" , "" , $field_str);
 			
 			
-			// Build the inserts
+			// Build the insert string
 			foreach ($query->result_array() as $row)
 			{
-				$values = '';
+				$val_str = '';
 			
 				$i = 0;
 				foreach ($row as $v)
 				{
+					// Do a little formatting...
 					$v = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $v);   
 					$v = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $v);   
 					$v = str_replace('\\', '\\\\',	$v);
@@ -265,21 +263,21 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					$v = str_replace('\\\t', '\t',	$v);
 				
 					// Escape the data if it's not an integer type
-					$values .= ($is_int[$i] == FALSE) ? $this->db->escape($v) : $v;
-					$values .= ', ';
+					$val_str .= ($is_int[$i] == FALSE) ? $this->db->escape($v) : $v;
+					$val_str .= ', ';
 					
 					$i++;
 				}
 				
-				$values = preg_replace( "/, $/" , "" , $values);
+				$val_str = preg_replace( "/, $/" , "" , $val_str);
 				
-				if ($download == FALSE)
+				if ($action == 'echo')
 				{
-					$values = htmlspecialchars($values);
+					$val_str = htmlspecialchars($val_str);
 				}
 				
 				// Build the INSERT string
-				echo 'INSERT INTO '.$table.' ('.$fields.') VALUES ('.$values.');'.$newline;
+				echo 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 	
 			}
 			

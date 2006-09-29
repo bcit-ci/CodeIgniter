@@ -45,6 +45,7 @@ class CI_DB_driver {
 	var $query_count	= 0;
 	var $bind_marker	= '?';
 	var $queries		= array();
+	var $cache			= array();
 	var $trans_enabled	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
@@ -563,6 +564,12 @@ class CI_DB_driver {
 	 */
     function field_names($table = '')
     {
+		// Is there a cached result?
+		if (isset($this->cache['field_names'][$table]))
+		{
+			return $this->cache['field_names'][$table];
+		}
+    
     	if ($table == '')
     	{
 			if ($this->db_debug)
@@ -596,7 +603,7 @@ class CI_DB_driver {
 			}    	
 		}
     	
-    	return $retval;
+		return $this->cache['field_names'][$table] =& $retval;
     }
 	
 	// --------------------------------------------------------------------

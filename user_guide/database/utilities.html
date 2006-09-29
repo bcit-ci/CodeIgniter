@@ -193,6 +193,61 @@ if ($result !== FALSE)<br />
 
 
 
+<h2>$this->dbutil->cvs_from_result($db_result)</h2>
+
+<p>Permits you to generate a CVS file from a query result. The first parameter of the function must contain the result object from your query. 
+Example:</p>
+
+<code>
+$this->load->dbutil();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+echo $this->dbutil->cvs_from_result($query);
+</code>
+
+<p>The second and third parameters allows you to 
+set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:
+
+<code>
+$delimiter = ",";<br />
+$newline = "\r\n";<br />
+<br />
+echo $this->dbutil->cvs_from_result($query, $delimiter, $newline);
+</code>
+
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+
+<h2>$this->dbutil->xml_from_result($db_result)</h2>
+
+<p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second 
+may contain an optional array of config parameters.  Example:</p>
+
+<code>
+$this->load->dbutil();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+$config = array (<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'root'&nbsp;&nbsp;&nbsp; => 'root',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'element' => 'element', <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline' => "\n", <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo $this->dbutil->cvs_from_result($query, $config);
+</code>
+
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+
+
+
 
 </div>
 <!-- END CONTENT -->
@@ -204,7 +259,7 @@ Previous Topic:&nbsp;&nbsp;<a href="call_function.html">Custom Function Calls</a
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="export.html">Database Export Class</a>
+Next Topic:&nbsp;&nbsp;<a href="caching.html">Database Caching Class</a>
 <p>
 <p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
 </div>

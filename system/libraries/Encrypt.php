@@ -27,6 +27,7 @@
  * @link		http://www.codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Encrypt {
+	var $encryption_key	= '';
 	var $_hash_type	= 'sha1';
 	var $_mcrypt_exists = FALSE;
 	var $_mcrypt_cipher;
@@ -43,7 +44,6 @@ class CI_Encrypt {
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
 		log_message('debug', "Encrypt Class Initialized");
 	}
-  	// END CI_Encrypt()
   	
 	// --------------------------------------------------------------------
 
@@ -61,6 +61,11 @@ class CI_Encrypt {
 	{
 		if ($key == '')
 		{	
+			if ($this->encryption_key != '')
+			{
+				return $this->encryption_key;
+			}
+		
 			$obj =& get_instance();
 			$key = $obj->config->item('encryption_key');
 
@@ -72,7 +77,20 @@ class CI_Encrypt {
 		
 		return md5($key);
 	}
-  	// END get_key()
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the encryption key
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */
+	function set_key($key = '')
+	{
+		$this->encryption_key = $key;
+	}
   	
 	// --------------------------------------------------------------------
 
@@ -103,7 +121,6 @@ class CI_Encrypt {
 		}
 		return base64_encode($enc);		
 	}
-  	// END encode()
   	
 	// --------------------------------------------------------------------
 
@@ -134,7 +151,6 @@ class CI_Encrypt {
 		
 		return $this->_xor_decode($dec, $key);
 	}
-  	// END decode()
   	
 	// --------------------------------------------------------------------
 
@@ -167,7 +183,6 @@ class CI_Encrypt {
 				
 		return $this->_xor_merge($enc, $key);
 	}
-  	// END _xor_encode()
   	
 	// --------------------------------------------------------------------
 
@@ -194,7 +209,6 @@ class CI_Encrypt {
 	
 		return $dec;
 	}
-  	// END _xor_decode()
   	
 	// --------------------------------------------------------------------
 
@@ -219,7 +233,6 @@ class CI_Encrypt {
 		
 		return $str;
 	}
-  	// END _xor_merge()
   	
 	// --------------------------------------------------------------------
 
@@ -238,7 +251,6 @@ class CI_Encrypt {
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		return mcrypt_encrypt($this->_mcrypt_cipher, $key, $data, $this->_mcrypt_mode, $init_vect);
 	}
-  	// END mcrypt_encode()
   	
 	// --------------------------------------------------------------------
 
@@ -257,7 +269,6 @@ class CI_Encrypt {
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		return rtrim(mcrypt_decrypt($this->_mcrypt_cipher, $key, $data, $this->_mcrypt_mode, $init_vect), "\0");
 	}
-  	// END mcrypt_decode()
   	
 	// --------------------------------------------------------------------
 
@@ -272,7 +283,6 @@ class CI_Encrypt {
 	{
 		$this->_mcrypt_cipher = $cypher;
 	}
-  	// END set_cypher()
   	
 	// --------------------------------------------------------------------
 
@@ -287,7 +297,6 @@ class CI_Encrypt {
 	{
 		$this->_mcrypt_mode = $mode;
 	}
-  	// END set_mode()
   	
 	// --------------------------------------------------------------------
 
@@ -309,7 +318,6 @@ class CI_Encrypt {
 			$this->_mcrypt_mode = MCRYPT_MODE_ECB;
 		}
 	}
-  	// END _get_mcrypt()
   	
 	// --------------------------------------------------------------------
 
@@ -324,7 +332,6 @@ class CI_Encrypt {
 	{
 		$this->_hash_type = ($type != 'sha1' AND $type != 'md5') ? 'sha1' : $type;
 	}
-  	// END set_hash()
   	
 	// --------------------------------------------------------------------
 
@@ -339,7 +346,6 @@ class CI_Encrypt {
 	{
 		return ($this->_hash_type == 'sha1') ? $this->sha1($str) : md5($str);
 	}
-  	// END hash()
   	
 	// --------------------------------------------------------------------
 
@@ -370,7 +376,6 @@ class CI_Encrypt {
 			return sha1($str);
 		}	
 	}  
-	// END sha1()
 	
 }
 
