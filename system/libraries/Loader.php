@@ -135,20 +135,6 @@ class CI_Loader {
 		$obj =& get_instance();
 		$obj->_ci_init_dbextra('dbutil');
 	}
-	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Database Export Loader
-	 *
-	 * @access	public
-	 * @return	object
-	 */	
-	function dbexport()
-	{
-		$obj =& get_instance();
-		$obj->_ci_init_dbextra('dbexport');
-	}
 
 	// --------------------------------------------------------------------
 	

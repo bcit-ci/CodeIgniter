@@ -189,8 +189,6 @@ class Controller extends CI_Base {
 		}
 		
 		$remap = array(
-						'DB_export'		=> 'dbexport',
-						'DB_utility'	=> 'dbutility',
 						'Unit_test' 	=> 'unit'
 						);
 						
@@ -516,19 +514,15 @@ class Controller extends CI_Base {
 	{
 		if ( ! $this->_ci_is_loaded('db'))
 		{
-			$this->_init_database();
+			$this->_ci_init_database();
 		}
 			
 		if ($class == 'dbutil')
 		{
 			require_once(BASEPATH.'database/DB_utility'.EXT);
 			require_once(BASEPATH.'database/drivers/'.$this->db->dbdriver.'/'.$this->db->dbdriver.'_utility'.EXT);
-			$this->init_class('CI_DB_'.$this->db->dbdriver.'_utility', 'dbutil');
-		}
-		elseif ($class == 'dbexport')
-		{
-			require_once(BASEPATH.'database/DB_export'.EXT);
-			$this->init_class('CI_DB_export', 'dbexport');
+			$class = 'CI_DB_'.$this->db->dbdriver.'_utility';
+			$this->dbutil = new $class();
 		}
 	}
 
