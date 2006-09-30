@@ -66,11 +66,27 @@ Database Utilities Class
 
 <p>The Database Utilities Class contains functions that help you manage your database.</p>
 
+<h3>Table of Contents</h3>
+
+<ul>
+<li><a href="#init">Initializing the Utilities Class</a></li>
+<li><a href="#create">Creating a Database</a></li>
+<li><a href="#drop">Dropping a Database</a></li>
+<li><a href="#list">Listing your Databases</a></li>
+<li><a href="#opttb">Optimizing your Tables</a></li>
+<li><a href="#repair">Repairing your Databases</a></li>
+<li><a href="#optdb">Optimizing your Database</a></li>
+<li><a href="#cvs">CVS Files from a Database Result</a></li>
+<li><a href="#xml">XML Files from a Database Result</a></li>
+<li><a href="#backup">Backing up your Database</a></li>
+</ul>
+
+
+<a name="init"></a>
+<h2>Initializing the Utilities Class</h2>
+
 <p class="important"><strong>Important:</strong>&nbsp; This class must be initialized independently since it is a separate class from the main Database class. 
 More info below...</p>
-
-
-<h2>Initializing the Utilities Class</h2>
 
 <p>To initialize this class please use the following code:</p>
 
@@ -84,6 +100,7 @@ More info below...</p>
 
 
 
+<a name="create"></a>
 <h2>$this->dbutil->create_database('db_name')</h2>
 
 <p>Permits you to create a database using the name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
@@ -94,6 +111,8 @@ More info below...</p>
 }</code>
 
 
+
+<a name="drop"></a>
 <h2>$this->dbutil->drop_database('table_name')</h2>
 
 <p>Permits you to drop a database using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
@@ -104,8 +123,8 @@ More info below...</p>
 }</code>
 
 
+<a name="list"></a>
 <h2>$this->dbutil->list_databases()</h2>
-
 <p>Returns an array of database names:</p>
 
 
@@ -118,7 +137,7 @@ foreach($dbs as $db)<br />
 }</code>
 
 
-
+<a name="opttb"></a>
 <h2>$this->dbutil->optimize_table('table_name');</h2>
 
 <p>Permits you to optimize a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
@@ -133,6 +152,7 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
+<a name="repair"></a>
 <h2>$this->dbutil->repair_table('table_name');</h2>
 
 <p>Permits you to repair a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
@@ -147,13 +167,13 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <p><strong>Note:</strong> Not all database platforms support table repairs.</p>
 
 
-
+<a name="optdb"></a>
 <h2>$this->dbutil->optimize_database();</h2>
 
 <p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the returned status messages or FALSE on failure.</p>
 
 <code>
-$result = $this->dbutil->optimize_databas();<br />
+$result = $this->dbutil->optimize_databass();<br />
 <br />
 if ($result !== FALSE)<br />
 {<br />
@@ -164,7 +184,7 @@ if ($result !== FALSE)<br />
 <p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
-
+<a name="cvs"></a>
 <h2>$this->dbutil->cvs_from_result($db_result)</h2>
 
 <p>Permits you to generate a CVS file from a query result. The first parameter of the function must contain the result object from your query. 
@@ -192,7 +212,7 @@ echo $this->dbutil->cvs_from_result($query, $delimiter, $newline);
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
-
+<a name="xml"></a>
 <h2>$this->dbutil->xml_from_result($db_result)</h2>
 
 <p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second 
@@ -217,12 +237,70 @@ echo $this->dbutil->cvs_from_result($query, $config);
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
-<h2>$this->dbutil->export()</h2>
+<a name="backup"></a>
+<h2>$this->dbutil->backup()</h2>
 
-<p>Permits you to export your database or any desired tables.  Export data can be downloaded to your desktop, archived to your
-server, or simply displayed.  Archived files can be compressed.
+<p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format,
+and it can be downloaded to your desktop, archived to your
+server, returned as a string, or simply displayed. Example:</p>
 
+<code>$this->dbutil->backup();<br /><br />
+// When no parameters are passed the full database is backed up and downloaded to your desktop as a Gzip file.
+</code>
 
+<h3>Setting Backup Preferences</h3>
+
+<p>Preferences are set by submitting an array of values to the first parameter of the backup function. Example:</p>
+
+<code>$prefs = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tables'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> array('table1', 'table2'),&nbsp;&nbsp;// Array of tables to backup.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ignore'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> array(),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// List of tables to omit from the backup<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'format'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'txt',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// gzip, zip, txt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'action'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'archive',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// download, archive, echo, return<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'filename'&nbsp;&nbsp;&nbsp;&nbsp;=> 'sql_archive',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// File name - no file extension!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'filepath'&nbsp;&nbsp;&nbsp;&nbsp;=> '/path/to/folder/',&nbsp;&nbsp;// Path needed only when archiving to your server<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'add_drop'&nbsp;&nbsp;&nbsp;&nbsp;=> TRUE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Whether to add DROP TABLE statements to backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'add_insert'&nbsp;&nbsp;=> TRUE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Whether to add INSERT data to backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> "\n"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Newline character used in backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->dbutil->backup($prefs);
+</code>
+
+<h3>Description of Backup Preferences</h3>
+
+<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+<tr>
+<th>Preference</th>
+<th>Default&nbsp;Value</th>
+<th>Options</th>
+<th>Description</th>
+</tr><tr>
+<td class="td"><strong>tables</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you would liked backed up.  If left blank all tables will be exported.</td>
+</tr><tr>
+<td class="td"><strong>ignore</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you would liked the backup routine to ignore.</td>
+</tr><tr>
+<td class="td"><strong>format</strong></td><td class="td">gzip</td><td class="td">gzip, zip, txt</td><td class="td">The file format of the export file.</td>
+</tr><tr>
+<td class="td"><strong>action</strong></td><td class="td">download</td><td class="td">download, archive, echo, return</td><td class="td">What action you would like applied to the data.  "download" sends it to your desktop, "archive" writes the file to your server, "return" returns the backup as a string, and "echo" simply echos it out for viewing.</td>
+</tr><tr>
+<td class="td"><strong>filename</strong></td><td class="td">the current date/time</td><td class="td">None</td><td class="td">The name of the export file.  DO NOT include the file extension.</td>
+</tr><tr>
+<td class="td"><strong>filepath</strong></td><td class="td">empty string</td><td class="td">None</td><td class="td">The path to the directory where you would like the archived file written to.  Used ONLY when the "archive" action is set.</td>
+</tr><tr>
+<td class="td"><strong>add_drop</strong></td><td class="td">TRUE</td><td class="td">TRUE/FALSE</td><td class="td">Whether to include DROP TABLE statements in your SQL export file.</td>
+</tr><tr>
+<td class="td"><strong>add_insert/strong></td><td class="td">TRUE</td><td class="td">TRUE/FALSE</td><td class="td">Whether to include INSERT statements in your SQL export file.</td>
+</tr><tr>
+<td class="td"><strong>newline/strong></td><td class="td">"\n"</td><td class="td">"\n", "\r", "\r\n"</td><td class="td">Type of newline to use in your SQL export file.</td>
+
+</tr>
+</table>
+
+<p class="important"><strong>VERY IMPORTANT:</strong> If you are using the <dfn>download</dfn> action to send the file to your desktop,
+DO NOT display any data in the controller in which you are triggering the backup.  Since Code Igniter buffers all output, any data
+sent to the browser will be included in your export file.  This issue ONLY applies to downloads.  If you are using any other action
+you can display data in your controller.</p>
 
 
 </div>
