@@ -21,7 +21,8 @@
  * This class is based on a library aquired at Zend:
  * http://www.zend.com/codex.php?id=696&single=1
  *
- * I'm not sure this library is all that reliable, but it's the only
+ * I'm not sure this library is all that reliable, and the 
+ * directory feature doesn't seem to work right, but it's the only
  * zip compressor I'm aware of -- Rick Ellis
  * 
  * @package		CodeIgniter
