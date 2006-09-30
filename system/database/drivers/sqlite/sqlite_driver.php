@@ -278,7 +278,44 @@ class CI_DB_sqlite_driver extends CI_DB {
 		$row = $query->row();
 		return $row->numrows;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * I don't believe you can do a database listing with SQLite
+	 * since each database is its own file.  I suppose we could
+	 * try reading a directory looking for SQLite files, but 
+	 * that doesn't seem like a terribly good idea
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return array();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _list_tables()
+	{
+		return "SELECT name from sqlite_master WHERE type='table'";
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

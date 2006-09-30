@@ -53,34 +53,6 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return "SHOW DATABASES";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _list_tables()
-	{
-		return "SHOW TABLES FROM `".$this->db->database."`";		
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Drop Table
 	 *
 	 * @access	private

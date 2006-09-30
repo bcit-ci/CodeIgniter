@@ -555,6 +555,95 @@ class CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{	
+		// Is there a cached result?
+		if (isset($this->cache['db_names']))
+		{
+			return $this->cache['db_names'];
+		}
+	
+		$query = $this->query($this->_list_database());
+		$dbs = array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$dbs[] = current($row);
+			}
+		}
+			
+		return $this->cache['db_names'] =& $dbs;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns an array of table names
+	 * 
+	 * @access	public
+	 * @return	array		 
+	 */	
+	function list_tables()
+	{
+		// Is there a cached result?
+		if (isset($this->cache['table_names']))
+		{
+			return $this->cache['table_names'];
+		}
+	
+		if (FALSE === ($sql = $this->_list_tables()))
+		{
+            if ($this->db_debug)
+            {
+				return $this->display_error('db_unsupported_function');
+            }
+            return FALSE;        
+		}
+
+		$retval = array();
+		$query = $this->query($sql);
+		
+		if ($query->num_rows() > 0)
+		{
+			foreach($query->result_array() as $row)
+			{
+				if (isset($row['TABLE_NAME']))
+				{
+					$retval[] = $row['TABLE_NAME'];
+				}
+				else
+				{
+					$retval[] = array_shift($row);
+				}
+			}
+		}
+
+		return $this->cache['table_names'] =& $retval;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determine if a particular table exists
+	 * @access	public
+	 * @return	boolean
+	 */
+	function table_exists($table_name)
+	{
+		return ( ! in_array($this->dbprefix.$table_name, $this->list_tables())) ? FALSE : TRUE;
+	}
+	
+	// --------------------------------------------------------------------
+
 	/**
 	 * Fetch MySQL Field Names
 	 *
@@ -562,7 +651,7 @@ class CI_DB_driver {
 	 * @param	string	the table name
 	 * @return	array		 
 	 */
-    function field_names($table = '')
+    function list_fields($table = '')
     {
 		// Is there a cached result?
 		if (isset($this->cache['field_names'][$table]))
@@ -604,6 +693,16 @@ class CI_DB_driver {
 		}
     	
 		return $this->cache['field_names'][$table] =& $retval;
+    }
+    
+	// --------------------------------------------------------------------
+
+	/**
+	 * DEPRECATED - use list_fields()
+	 */
+    function field_names($table = '') 
+    {
+    	return $this->list_fields($table);
     }
 	
 	// --------------------------------------------------------------------

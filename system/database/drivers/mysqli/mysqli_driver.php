@@ -284,7 +284,35 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$row = $query->row();
 		return $row->numrows;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		return "SHOW DATABASES";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _list_tables()
+	{
+		return "SHOW TABLES FROM `".$this->database."`";		
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
