@@ -87,93 +87,6 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * List databases
-	 *
-	 * @access	public
-	 * @return	bool
-	 */
-	function list_databases()
-	{	
-		// Is there a cached result?
-		if (isset($this->cache['db_names']))
-		{
-			return $this->cache['db_names'];
-		}
-	
-		$query = $this->db->query($this->_list_database());
-		$dbs = array();
-		if ($query->num_rows() > 0)
-		{
-			foreach ($query->result_array() as $row)
-			{
-				$dbs[] = current($row);
-			}
-		}
-			
-		return $this->cache['db_names'] =& $dbs;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Returns an array of table names
-	 * 
-	 * @access	public
-	 * @return	array		 
-	 */	
-	function list_tables()
-	{
-		// Is there a cached result?
-		if (isset($this->cache['table_names']))
-		{
-			return $this->cache['table_names'];
-		}
-	
-		if (FALSE === ($sql = $this->_list_tables()))
-		{
-            if ($this->db->db_debug)
-            {
-				return $this->db->display_error('db_unsupported_function');
-            }
-            return FALSE;        
-		}
-
-		$retval = array();
-		$query = $this->db->query($sql);
-		
-		if ($query->num_rows() > 0)
-		{
-			foreach($query->result_array() as $row)
-			{
-				if (isset($row['TABLE_NAME']))
-				{
-					$retval[] = $row['TABLE_NAME'];
-				}
-				else
-				{
-					$retval[] = array_shift($row);
-				}
-			}
-		}
-
-		return $this->cache['table_names'] =& $retval;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Determine if a particular table exists
-	 * @access	public
-	 * @return	boolean
-	 */
-	function table_exists($table_name)
-	{
-		return ( ! in_array($this->db->dbprefix.$table_name, $this->list_tables())) ? FALSE : TRUE;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
 	 * Optimize Table
 	 *
 	 * @access	public
@@ -372,10 +285,229 @@ class CI_DB_utility {
 	 * @access	public
 	 * @return	void
 	 */
-	function export()
+	function backup($params = array())
 	{
-		// The individual driver overloads this method
+		// If the parameters have not been submitted as an
+		// array then we know that it is simply the table
+		// name, which is a valid short cut.
+		if (is_string($params))
+		{
+			$params = array('tables' => $params);
+		}
+		
+		// ------------------------------------------------------
+	
+		// Set up our default preferences
+		$prefs = array(
+							'tables'		=> array(),
+							'ignore'		=> array(),
+							'format'		=> 'gzip', // gzip, zip, txt
+							'action'		=> 'download', // download, archive, echo, return
+							'filename'		=> '',
+							'filepath'		=> '',
+							'add_drop'		=> TRUE,
+							'add_insert'	=> TRUE,
+							'newline'		=> "\n"
+						);
+
+		// Did the user submit any preferences? If so set them....
+		if (count($params) > 0)
+		{
+			foreach ($prefs as $key => $val)
+			{
+				if (isset($params[$key]))
+				{
+					$prefs[$key] = $params[$key];
+				}
+			}
+		}
+
+		// ------------------------------------------------------
+
+		// Are we backing up a complete database or individual tables?	
+		// If no table names were submitted we'll fetch the entire table list
+		if (count($prefs['tables']) == 0)
+		{
+			$prefs['tables'] = $this->list_tables();
+		}
+		
+		// ------------------------------------------------------
+
+		// Validate the format
+		if ( ! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
+		{
+			$prefs['format'] = 'txt';
+		}
+
+		// ------------------------------------------------------
+
+		// Is the encoder supported?  If not, we'll either issue an
+		// error or use plain text depending on the debug settings
+		if (($prefs['format'] == 'gzip' AND ! @function_exists('gzencode')) 
+		 OR ($prefs['format'] == 'zip'  AND ! @function_exists('gzcompress'))) 
+		{
+            if ($this->db->db_debug)
+            {
+				return $this->db->display_error('db_unsuported_compression');
+            }
+		
+			$prefs['format'] = 'txt';
+		}
+
+		// ------------------------------------------------------
+
+		// Set the filename if not provided
+		if ($prefs['filename'] == '')
+		{
+			$prefs['filename'] = (count($prefs['tables']) == 1) ? $prefs['tables'] : $this->db->database;
+			$prefs['filename'] .= '_'.date('Y-m-d_H-i', time());
+		}
+
+		// ------------------------------------------------------
+
+		// If we are archiving the export, does this filepath exist
+		// and resolve to a writable directory
+		if ($prefs['action'] == 'archive')
+		{
+			if ($prefs['filepath'] == '' OR ! is_writable($prefs['filepath']))
+			{
+				if ($this->db->db_debug)
+				{
+					return $this->db->display_error('db_filepath_error');
+				}
+			
+				$prefs['action'] = 'download';
+			}
+		}
+
+		// ------------------------------------------------------
+		
+		// Are we returning the backup data?  If so, we're done...
+		if ($prefs['action'] == 'return')
+		{
+			return $this->_backup($prefs);
+		}
+
+		// ------------------------------------------------------
+		
+		// Are we echoing the backup?  If so, format the data and spit it at the screen...
+		if ($prefs['action'] == 'echo')
+		{
+			echo '<pre>';
+			echo htmlspecialchars($this->_backup($prefs));
+			echo '</pre>';
+			
+			return TRUE;
+		}
+	
+		// ------------------------------------------------------
+
+		// Are we archiving the data to the server?
+		if ($prefs['action'] == 'archive')
+		{
+			// Make sure the filepath has a trailing slash
+			if (ereg("/$", $prefs['filepath']) === FALSE)
+			{
+				$prefs['filepath'] .= '/';
+			}
+
+			// Assemble the path and tack on the file extension
+			$ext = array('gzip' => 'gz', 'zip' => 'zip', 'txt' => 'sql');
+			$path = $prefs['filepath'].$prefs['filename'].$ext[$prefs['format']];
+			
+			// Load the file helper
+			$obj =& get_instance();
+			$obj->load->helper('file');
+			
+			// Write the file based on type
+			switch ($prefs['format'])
+			{
+				case 'gzip' : 	
+								write_file($path, gzencode($this->_backup($prefs)));
+								return TRUE;
+					break;
+				case 'txt'	: 	
+								write_file($path, $this->_backup($prefs));
+								return TRUE;
+					break;
+				default		:
+								require BASEPATH.'libraries/Zip.php';
+								$zip = new Zip;
+								$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
+								write_file($path, $zip->output_zipfile());
+								return TRUE;
+					break;			
+			}
+	
+		}
+
+		// ------------------------------------------------------
+				
+		// Set the mime type used in the server header
+		switch ($prefs['format'])
+		{
+			case 'zip'  : $mime = 'application/x-zip';	
+				break;
+			case 'gzip' : $mime = 'application/x-gzip';
+				break;
+			default     :						
+						if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") || strstr($_SERVER['HTTP_USER_AGENT'], "OPERA")) 
+						{
+							$mime = 'application/octetstream';
+						}
+						else
+						{
+							$mime = 'application/octet-stream';
+						}
+				break;
+		}	
+		
+		// Grab the super object
+		$obj =& get_instance();
+		
+		// Remap the file extensions
+		$ext = array('gzip' => 'gz', 'zip' => 'zip', 'txt' => 'sql');	
+	
+		// Send headers
+		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+		{
+			$obj->output->set_header('Content-Type: '.$mime);
+			$obj->output->set_header('Content-Disposition: inline; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
+			$obj->output->set_header('Expires: 0');
+			$obj->output->set_header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			$obj->output->set_header('Pragma: public');
+		} 
+		else 
+		{
+			$obj->output->set_header('Content-Type: '.$mime);
+			$obj->output->set_header('Content-Disposition: attachment; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
+			$obj->output->set_header('Expires: 0');
+			$obj->output->set_header('Pragma: no-cache');
+		}
+	
+	
+			// Write the file based on type
+			switch ($prefs['format'])
+			{
+				case 'gzip' : 	$obj->output->set_output(gzencode($this->_backup($prefs)));
+					break;
+				case 'txt'	: 	$obj->output->set_output($this->_backup($prefs));
+					break;
+				default		:
+								require BASEPATH.'libraries/Zip.php';
+							
+								$zip = new Zip;
+								$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
+								$obj->output->set_output($zip->output_zipfile());
+					break;			
+			}
+
+		return TRUE;
 	}
+
+
+
+
 
 
 }

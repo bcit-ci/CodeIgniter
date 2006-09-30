@@ -53,34 +53,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return "SHOW DATABASES";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _list_tables()
-	{
-		return "SHOW TABLES FROM `".$this->db->database."`";		
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Drop Table
 	 *
 	 * @access	private
@@ -132,50 +104,22 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * @param	array	Any preferences
 	 * @return	mixed
 	 */
-	function _export($params = array())
+	function _backup($params = array())
 	{
-		// Set up our default preferences
-		$prefs = array(
-							'tables'		=> array(),
-							'ignore'		=> array(),
-							'format'		=> 'gzip',
-							'action'		=> 'download', // download, archive, echo, return
-							'filename'		=> date('Y-m-d-H:i', time()),
-							'filepath'		=> '',
-							'add_drop'		=> TRUE,
-							'add_insert'	=> TRUE,
-							'newline'		=> "\n"
-						);
-
-		// Did the user submit any preference overrides? If so set them....
-		if (count($params) > 0)
+		if (count($params) == 0)
 		{
-			foreach ($prefs as $key => $val)
-			{
-				if (isset($params[$key]))
-				{
-					$prefs[$key] = $params[$key];
-				}
-			}
+			return FALSE;
 		}
 
 		// Extract the prefs for simplicity
-		extract($prefs);
-	
-		// Are we backing up a complete database or individual tables?	
-		if (count($tables) == 0)
-		{
-			$tables = $this->list_tables();
-		}
-	
-		// Start buffering the output
-		ob_start();
+		extract($params);
 	
 		// Build the output
-        foreach ($tables as $table)
+		$output = '';
+        foreach ((array)$tables as $table)
         { 
         	// Is the table in the "ignore" list?
-			if (in_array($table, $ignore))
+			if (in_array($table, (array)$ignore, TRUE))
 			{
         		continue;
         	}
@@ -190,11 +134,11 @@ class CI_DB_mysql_utility extends CI_DB_utility {
         	}
         	
         	// Write out the table schema
-            echo $newline.$newline.'#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
+            $output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
                 
  			if ($add_drop == TRUE)
  			{
-            	echo 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+            	$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
 			}
 			
 			$i = 0;
@@ -203,7 +147,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			{
 			    if ($i++ % 2)
 			    { 			    	
-			    	echo $val.';'.$newline.$newline;
+			    	$output .= $val.';'.$newline.$newline;
 			    }
 			}
 			
@@ -270,27 +214,16 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				}
 				
 				$val_str = preg_replace( "/, $/" , "" , $val_str);
-				
-				if ($action == 'echo')
-				{
-					$val_str = htmlspecialchars($val_str);
-				}
-				
+								
 				// Build the INSERT string
-				echo 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
+				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 	
 			}
 			
-			
-			
-			$buffer = ob_get_contents();
-			@ob_end_clean(); 
-			
-			echo $buffer;
-			
+			$output .= $newline.$newline;
 		}
 
-	
+		return $output;
 	}
 
 

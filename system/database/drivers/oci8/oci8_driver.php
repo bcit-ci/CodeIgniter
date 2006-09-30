@@ -399,6 +399,34 @@ class CI_DB_oci8_driver extends CI_DB {
         return $row->NUMROWS;
     }
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		return FALSE;
+	}
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Show table query
+     *
+     * Generates a platform-specific query string so that the table names can be fetched
+     *
+     * @access  private
+     * @return  string
+     */
+    function _list_tables()
+    {
+        return "SELECT TABLE_NAME FROM ALL_TABLES";
+    }
+
     // --------------------------------------------------------------------
 
     /**

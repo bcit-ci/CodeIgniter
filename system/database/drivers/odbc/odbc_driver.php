@@ -259,6 +259,39 @@ class CI_DB_odbc_driver extends CI_DB {
 		$row = $query->row();
 		return $row->numrows;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		// Not sure if ODBC lets you list all databases...	
+		if ($this->db_debug)
+		{
+			return $this->display_error('db_unsuported_feature');
+		}
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	function _list_tables()
+	{
+		return "SHOW TABLES FROM `".$this->database."`";		
+	}
 	
 	// --------------------------------------------------------------------
 

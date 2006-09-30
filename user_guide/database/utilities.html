@@ -119,34 +119,6 @@ foreach($dbs as $db)<br />
 
 
 
-<h2>$this->dbutil->list_tables();</h2>
-
-<p>Returns an array containing the names of all the tables in the database you are currently connected to.  Example:</p>
-
-<code>$tables = $this->dbutil->list_tables()<br />
-<br />
-foreach ($tables as $table)<br />
-{<br />
-&nbsp;&nbsp;&nbsp; echo $table;<br />
-}
-</code>
-
-
-<h2>$this->dbutil->table_exists();</h2>
-
-<p>Sometimes it's helpful to know whether a particular table exists before running an operation on it.
-Returns a boolean TRUE/FALSE.  Usage example:</p>
-
-<code>
-if ($this->dbutil->table_exists('table_name'))<br />
-{<br />
-&nbsp;&nbsp;&nbsp; // some code...<br />
-}
-</code>
-
-<p>Note:  Replace <em>table_name</em> with the name of the table you are looking for.</p>
-
-
 <h2>$this->dbutil->optimize_table('table_name');</h2>
 
 <p>Permits you to optimize a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
@@ -245,6 +217,10 @@ echo $this->dbutil->cvs_from_result($query, $config);
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
+<h2>$this->dbutil->export()</h2>
+
+<p>Permits you to export your database or any desired tables.  Export data can be downloaded to your desktop, archived to your
+server, or simply displayed.  Archived files can be compressed.
 
 
 

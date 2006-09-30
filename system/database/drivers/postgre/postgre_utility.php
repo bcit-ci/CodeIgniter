@@ -54,34 +54,6 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return "SELECT datname FROM pg_database";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _list_tables()
-	{	  
-		return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";	
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Drop Table
 	 *
 	 * @access	private

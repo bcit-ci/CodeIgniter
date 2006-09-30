@@ -36,9 +36,9 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	{
 		// ODBC has no "create database" command since it's 
 		// designed to connect to an existing database
-		if ($this->db_debug)
+		if ($this->db->db_debug)
 		{
-			return $this->display_error('db_unsuported_feature');
+			return $this->db->display_error('db_unsuported_feature');
 		}
 		return FALSE;
 	}
@@ -56,44 +56,11 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	{
 		// ODBC has no "drop database" command since it's 
 		// designed to connect to an existing database		
-		if ($this->db_debug)
+		if ($this->db->db_debug)
 		{
-			return $this->display_error('db_unsuported_feature');
+			return $this->db->display_error('db_unsuported_feature');
 		}
 		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		// Not sure if ODBC lets you list all databases...	
-		if ($this->db_debug)
-		{
-			return $this->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _list_tables()
-	{
-		return "SHOW TABLES FROM `".$this->db->database."`";		
 	}
 
 	// --------------------------------------------------------------------
@@ -107,9 +74,9 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	function _drop_table($table)
 	{
 		// Not a supported ODBC feature	
-		if ($this->db_debug)
+		if ($this->db->db_debug)
 		{
-			return $this->display_error('db_unsuported_feature');
+			return $this->db->display_error('db_unsuported_feature');
 		}
 		return FALSE;
 	}
@@ -128,9 +95,9 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	function _optimize_table($table)
 	{
 		// Not a supported ODBC feature	
-		if ($this->db_debug)
+		if ($this->db->db_debug)
 		{
-			return $this->display_error('db_unsuported_feature');
+			return $this->db->display_error('db_unsuported_feature');
 		}
 		return FALSE;
 	}
@@ -149,9 +116,9 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	function _repair_table($table)
 	{
 		// Not a supported ODBC feature	
-		if ($this->db_debug)
+		if ($this->db->db_debug)
 		{
-			return $this->display_error('db_unsuported_feature');
+			return $this->db->display_error('db_unsuported_feature');
 		}
 		return FALSE;
 	}

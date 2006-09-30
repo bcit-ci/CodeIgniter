@@ -54,34 +54,6 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases 
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * List table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _list_tables()
-	{
-		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";		
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Drop Table
 	 *
 	 * @access	private
