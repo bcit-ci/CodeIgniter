@@ -261,8 +261,13 @@ class CI_Zip  {
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */		
-	function download($filename)
+	function download($filename = 'backup.zip')
 	{
+		if ( ! preg_match("|.+?\.zip$|", $filename))
+		{
+			$filename .= '.zip';
+		}
+	
 		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 		{
 			header('Content-Type: application/x-zip');
