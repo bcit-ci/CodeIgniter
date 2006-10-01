@@ -72,7 +72,7 @@ function &_load_class($class, $instantiate = TRUE)
 		// identically named file in the application/libraries folder. 
 		// We need to determine, however, if the class being requested is
 		// a sub-class of an existing library or an independent instance
-		// since each needs to be handled slightly differently. 
+		// since each needs to be handled slightly different. 
 		// To do this we'll open the requested class and read the top portion
 		// of it. If the class extends a base class we will load the base first.
 		// If it doesn't extend the base we'll only load the requested class.
@@ -84,12 +84,12 @@ function &_load_class($class, $instantiate = TRUE)
 		// replaced on-the-fly with nothing required for the user to do
 		// except write the declaration.  Fortunately PHP is ridiculously fast
 		// at file reading operations so I'm not able to discern a performance
-		// hit based on my benchmarks, assuming a reasonable number of core
+		// hit based on my benchmarks, assuming only a small number of core
 		// files are being extended, which will usually be the case.
 		
 		$fp	= fopen(APPPATH.'libraries/'.$class.EXT, "rb");
 		
-		if (preg_match("/MY_".$class."\s+extends\s+CI_".$class."/", fread($fp, '6000')))
+		if (preg_match("/MY_".$class."\s+extends\s+CI_".$class."/i", fread($fp, '6000')))
 		{
 			require(BASEPATH.'libraries/'.$class.EXT);	
 			require(APPPATH.'libraries/'.$class.EXT);

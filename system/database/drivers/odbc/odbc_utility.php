@@ -66,6 +66,24 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		// Not sure if ODBC lets you list all databases...	
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Drop Table
 	 *
 	 * @access	private

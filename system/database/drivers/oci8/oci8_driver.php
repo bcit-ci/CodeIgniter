@@ -399,19 +399,6 @@ class CI_DB_oci8_driver extends CI_DB {
         return $row->NUMROWS;
     }
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return FALSE;
-	}
-
     // --------------------------------------------------------------------
 
     /**

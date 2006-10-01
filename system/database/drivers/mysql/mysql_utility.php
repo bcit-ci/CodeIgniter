@@ -53,6 +53,19 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		return "SHOW DATABASES";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Drop Table
 	 *
 	 * @access	private
@@ -101,7 +114,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * MySQL Export
 	 *
 	 * @access	private
-	 * @param	array	Any preferences
+	 * @param	array	Preferences
 	 * @return	mixed
 	 */
 	function _backup($params = array())
@@ -217,7 +230,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 								
 				// Build the INSERT string
 				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
-	
 			}
 			
 			$output .= $newline.$newline;
