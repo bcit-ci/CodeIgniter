@@ -71,7 +71,7 @@ Zip Encoding Class
 <code>$this->load->library('zip');</code>
 <p>Once loaded, the Parser library object will be available using: <dfn>$this->zip</dfn></p>
 
-<h2>Usage Example</h2>
+<h2>Usage Examples</h2>
 
 <p>Simple example demonstrating how to compress a file and download it to your desktop.</p>
 
@@ -104,9 +104,19 @@ $this->zip->add_data($name, $data);<br />
 $this->zip->download('my_backup.zip'); // Parameter contains name of the downloaded file
 </code>
 
+<p>You can also pass your file data as an array:</p>
 
 
-
+<code>
+$data = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'myfolder/mydata1.txt' => 'A Data String!',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'myfolder/mydata2.txt' => 'Another Data String!'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->zip->add_data($data);<br />
+<br />
+$this->zip->download('my_backup.zip'); // Parameter contains name of the downloaded file
+</code>
 
 
 
