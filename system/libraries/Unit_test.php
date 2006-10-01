@@ -26,7 +26,7 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/libraries/uri.html
  */
-class CI_Unit_test {
+class CI_Unit {
 
 	var $active			= TRUE;
 	var $results 		= array();
@@ -34,7 +34,7 @@ class CI_Unit_test {
 	var $_template 		= NULL;
 	var $_template_rows	= NULL;
 
-	function CI_Unit_test()
+	function CI_Unit()
 	{
 		log_message('debug', "Unit Testing Class Initialized");
 	}	
