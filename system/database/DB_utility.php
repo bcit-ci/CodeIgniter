@@ -216,7 +216,7 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Generate CVS from a query result object
+	 * Generate CSV from a query result object
 	 *
 	 * @access	public
 	 * @param	object	The query result object
@@ -224,7 +224,7 @@ class CI_DB_utility {
 	 * @param	string	The newline character - \n by default
 	 * @return	string
 	 */
-	function cvs_from_result($query, $delim = "\t", $newline = "\n")
+	function csv_from_result($query, $delim = "\t", $newline = "\n")
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
 		{
@@ -502,6 +502,7 @@ class CI_DB_utility {
 		{
 			$obj->output->set_header('Content-Type: '.$mime);
 			$obj->output->set_header('Content-Disposition: inline; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
+			$obj->output->set_header('Content-Transfer-Encoding: binary');
 			$obj->output->set_header('Expires: 0');
 			$obj->output->set_header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			$obj->output->set_header('Pragma: public');
@@ -510,26 +511,27 @@ class CI_DB_utility {
 		{
 			$obj->output->set_header('Content-Type: '.$mime);
 			$obj->output->set_header('Content-Disposition: attachment; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
+			$obj->output->set_header('Content-Transfer-Encoding: binary');
 			$obj->output->set_header('Expires: 0');
 			$obj->output->set_header('Pragma: no-cache');
 		}
-	
-	
-			// Write the file based on type
-			switch ($prefs['format'])
-			{
-				case 'gzip' : 	$obj->output->set_output(gzencode($this->_backup($prefs)));
-					break;
-				case 'txt'	: 	$obj->output->set_output($this->_backup($prefs));
-					break;
-				default		:
-								require BASEPATH.'libraries/Zip.php';
-							
-								$zip = new Zip;
-								$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
-								$obj->output->set_output($zip->output_zipfile());
-					break;			
-			}
+
+
+		// Write the file based on type
+		switch ($prefs['format'])
+		{
+			case 'gzip' : 	$obj->output->set_output(gzencode($this->_backup($prefs)));
+				break;
+			case 'txt'	: 	$obj->output->set_output($this->_backup($prefs));
+				break;
+			default		:
+							require BASEPATH.'libraries/Zip.php';
+						
+							$zip = new Zip;
+							$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
+							$obj->output->set_output($zip->output_zipfile());
+				break;			
+		}
 
 		return TRUE;
 	}
