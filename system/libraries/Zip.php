@@ -21,9 +21,6 @@
  * This class is based on a library aquired at Zend:
  * http://www.zend.com/codex.php?id=696&single=1
  *
- * I'm not sure this library is all that reliable, and the 
- * directory feature doesn't seem to work right, but it's the only
- * zip compressor I'm aware of -- Rick Ellis
  * 
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -31,125 +28,224 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/general/encryption.html
  */
-class Zip {
-
-    var $zdata  = array();
-    var $cdir   = array();
-    var $offset = 0;
+class Zip  {  
+	
+	var $zipdata	= array();
+	var $directory	= array();
+	var $offset		= 0;
+	var $zipfile	= '';
 
 	/**
-	 * Add a Directory
+	 * Add Directory
+	 *
+	 * Lets you add a virtual directory into which you can place files.
 	 *
 	 * @access	public
-	 * @param	string
+	 * @param	string	the directory name
 	 * @return	void
-	 */	
-    function add_dir($name)
-    {
-        $name =str_replace ("\\", "/", $name);
-        
-        $fd = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"    
-              .pack("V", 0)
-              .pack("V", 0)
-              .pack("V", 0)
-              .pack("v", strlen($name))
-              .pack("v", 0)
-              .$name;
-        
-        $this->cdata[] = $fd;
-                
-        $cd = "\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-              .pack("V", 0)
-              .pack("V", 0)
-              .pack("V", 0)
-              .pack("v", strlen ($name))
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("V", 16)
-              .pack("V", $this->offset)
-              .$name;
-        
-        $this->offset = strlen(implode('', $this->cdata));
-        
-        $this->cdir[] = $cd;
-    }
+	 */
+	function add_dir($dir) 
+	{
+		$this->zipfile = '';
+	
+		$dir = str_replace("\\", "/", $dir);  
+		
+		$this->zipdata[] = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+							.pack('V', 0)
+							.pack('V', 0)
+							.pack('V', 0)
+							.pack('v', strlen($dir))
+							.pack('v', 0)
+							.$dir
+							.pack('V', 0)
+							.pack('V', 0)
+							.pack('V', 0); 
+		
+		$newoffset = strlen(implode('', $this->zipdata));
+		
+		$record = "\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+					.pack('V',0)
+					.pack('V',0)
+					.pack('V',0)
+					.pack('v', strlen($dir))
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('V', 16)
+					.pack('V', $this->offset)
+					.$dir;
+		
+		$this->offset = $newoffset;
+		$this->directory[] = $record;  
+	}	 
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Add a File
+	 * Add File
+	 *
+	 * Lets you add files to the archive. If the path is included
+	 * in the filename it will be placed within a directory.  Make
+	 * sure you use add_dir() first to create the folder.
 	 *
 	 * @access	public
-	 * @param	string
+	 * @param	string	the file name
+	 * @param	string	the data to be encoded
 	 * @return	void
 	 */	
-    function add_file($data, $name)
-    {
-        $name = str_replace("\\", "/", $name);
-        
-        $u_len = strlen($data);
-        $crc   = crc32($data);
-        $data  = gzcompress($data);
-        $data  = substr(substr($data, 0,strlen ($data) - 4), 2);
-        $c_len = strlen($data);
-        
-        $fd = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
-              .pack("V", $crc)
-              .pack("V", $c_len)
-              .pack("V", $u_len)
-              .pack("v", strlen($name))
-              .pack("v", 0)
-              .$name
-              .$data
-              .pack("V", $crc)
-              .pack("V", $c_len)
-              .pack("V", $u_len);
-        
-        $this->zdata[] = $fd;
-                
-        $cd = "\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
-              .pack("V", $crc)
-              .pack("V", $c_len)
-              .pack("V", $u_len)
-              .pack("v", strlen ($name))
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("v", 0)
-              .pack("V", 32 )
-              .pack("V", $this->offset)
-              .$name;
-  
-        $this->offset = strlen(implode('', $this->zdata));
-        
-        $this->cdir[] = $cd;
-    }
+	function add_file($filename, $data)
+	{
+		$this->zipfile = '';
+	
+		$filename = str_replace("\\", "/", $filename);  
+			
+		$oldlen	= strlen($data);  
+		$crc32	= crc32($data);  
+		
+		$gzdata = gzcompress($data);
+		$gzdata = substr(substr($gzdata, 0, strlen($gzdata) - 4), 2); 	
+		$newlen = strlen($gzdata);  
+	
+		$this->zipdata[] = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
+							.pack('V', $crc32)
+							.pack('V', $newlen)
+							.pack('V', $oldlen)
+							.pack('v', strlen($filename))
+							.pack('v', 0)
+							.$filename
+							.$gzdata
+							.pack('V', $crc32)
+							.pack('V', $newlen)
+							.pack('V', $oldlen); 
+			
+		$newoffset = strlen(implode("", $this->zipdata));
+		
+		$record = "\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
+					.pack('V', $crc32)
+					.pack('V', $newlen)
+					.pack('V', $oldlen)
+					.pack('v', strlen($filename))
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('v', 0)
+					.pack('V', 32)
+					.pack('V', $this->offset); 
+		
+		$this->offset = $newoffset;
+		$this->directory[] = $record.$filename;  
+	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Output the zip file
+	 * Read the content of a file
 	 *
 	 * @access	public
+	 * @param	string	the file path
 	 * @return	string
 	 */	
-    function output_zipfile()
-    {
-        $data = implode("", $this->zdata);
-        $cdir = implode("", $this->cdir);
+	function read_file($filepath)
+	{
+		if ( ! file_exists($filepath))
+		{
+			return FALSE;
+		}
+	
+		return file_get_contents($filepath);
+	}
+	
+	// --------------------------------------------------------------------
 
-        return   $data
-                .$cdir
-                ."\x50\x4b\x05\x06\x00\x00\x00\x00"
-                .pack("v", sizeof($this->cdir))
-                .pack("v", sizeof($this->cdir))
-                .pack("V", strlen($cdir))
-                .pack("V", strlen($data))
-                ."\x00\x00";
-    }
+	/**
+	 * Get the Zip file
+	 *
+	 * @access	public
+	 * @return	binary string
+	 */	
+	function get_zip()
+	{ 
+		if ($this->zipfile != '')
+		{
+			return $this->zipfile;
+		}
+	
+		$data	= implode('', $this->zipdata);  
+		$dir	= implode('', $this->directory);  
+				
+		$this->zipfile = $data.$dir."\x50\x4b\x05\x06\x00\x00\x00\x00"
+						.pack('v', sizeof($this->directory))
+						.pack('v', sizeof($this->directory))
+						.pack('V', strlen($dir))
+						.pack('V', strlen($data))
+						."\x00\x00";
+						
+		return $this->zipfile;
+	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Write File
+	 *
+	 * Lets you write a file
+	 *
+	 * @access	public
+	 * @param	string	the file name
+	 * @param	string	the data to be encoded
+	 * @return	bool
+	 */	
+	function write_file($filename, $data)
+	{
+		if ( ! ($fp = fopen($filename, "wb")))
+		{
+			return FALSE;
+		}
+		
+		flock($fp, LOCK_EX);	
+		fwrite($fp, $data);
+		flock($fp, LOCK_UN);
+		fclose($fp);
+
+		return TRUE;	
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Download
+	 *
+	 *
+	 * @access	public
+	 * @param	string	the file name
+	 * @param	string	the data to be encoded
+	 * @return	bool
+	 */		
+	function download($filename, $data)
+	{
+		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+		{
+			header('Content-Type: application/x-zip');
+			header('Content-Disposition: inline; filename="'.$filename.'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header("Content-Transfer-Encoding: binary");
+			header('Pragma: public');
+			header("Content-Length: ".strlen($data));
+		} 
+		else 
+		{
+			header('Content-Type: application/x-zip');
+			header('Content-Disposition: attachment; filename="'.$filename.'"');
+			header("Content-Transfer-Encoding: binary");
+			header('Expires: 0');
+			header('Pragma: no-cache');
+			header("Content-Length: ".strlen($data));
+		}
+	
+		echo $data;
+	}
+	
 }
-// END CLASS
 ?>
