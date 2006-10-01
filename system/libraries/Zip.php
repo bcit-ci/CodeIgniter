@@ -227,7 +227,7 @@ class CI_Zip  {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Write File
+	 * Write File to the specified direcotry
 	 *
 	 * Lets you write a file
 	 *
@@ -236,9 +236,9 @@ class CI_Zip  {
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */	
-	function write_zip($filepath)
+	function archive($filepath)
 	{
-		if ( ! ($fp = fopen($filepath, "wb")))
+		if ( ! ($fp = @fopen($filepath, "wb")))
 		{
 			return FALSE;
 		}

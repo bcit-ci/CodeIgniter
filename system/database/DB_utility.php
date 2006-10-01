@@ -460,10 +460,9 @@ class CI_DB_utility {
 								return TRUE;
 					break;
 				default		:
-								require BASEPATH.'libraries/Zip.php';
-								$zip = new Zip;
-								$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
-								write_file($path, $zip->output_zipfile());
+								$obj->load->library('zip');
+								$obj->zip->add_data($prefs['filename'].'.sql', $this->_backup($prefs));
+								$obj->zip->archive($path);
 								return TRUE;
 					break;			
 			}
@@ -472,65 +471,59 @@ class CI_DB_utility {
 
 		// ------------------------------------------------------
 				
-		// Set the mime type used in the server header
-		switch ($prefs['format'])
-		{
-			case 'zip'  : $mime = 'application/x-zip';	
-				break;
-			case 'gzip' : $mime = 'application/x-gzip';
-				break;
-			default     :						
-						if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") || strstr($_SERVER['HTTP_USER_AGENT'], "OPERA")) 
-						{
-							$mime = 'application/octetstream';
-						}
-						else
-						{
-							$mime = 'application/octet-stream';
-						}
-				break;
-		}	
 		
 		// Grab the super object
 		$obj =& get_instance();
 		
 		// Remap the file extensions
 		$ext = array('gzip' => 'gz', 'zip' => 'zip', 'txt' => 'sql');	
+				
+		// Is a Zip file requested?	
+		if ($prefs['format'] == 'zip')
+		{
+			$obj->load->library('zip');
+			$obj->zip->add_data($prefs['filename'].'.sql', $this->_backup($prefs));
+			$obj->zip->download($prefs['filename'].'.'.$ext[$prefs['format']]);
+			return TRUE;
+		}
+		
+		
+		// Set the mime type
+		switch ($prefs['format'])
+		{
+			case 'gzip' : $mime = 'application/x-gzip';
+				break;
+			default     : $mime = (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") || strstr($_SERVER['HTTP_USER_AGENT'], "OPERA")) ? 'application/octetstream' : 'application/octet-stream';
+				break;
+		}	
 	
-		// Send headers
+		$filename = $prefs['filename'].'.sql.'.$ext[$prefs['format']];
+	
 		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 		{
-			$obj->output->set_header('Content-Type: '.$mime);
-			$obj->output->set_header('Content-Disposition: inline; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
-			$obj->output->set_header('Content-Transfer-Encoding: binary');
-			$obj->output->set_header('Expires: 0');
-			$obj->output->set_header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			$obj->output->set_header('Pragma: public');
+			header('Content-Type: '.$mime);
+			header('Content-Disposition: inline; filename="'.$filename.'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header("Content-Transfer-Encoding: binary");
+			header('Pragma: public');
 		} 
 		else 
 		{
-			$obj->output->set_header('Content-Type: '.$mime);
-			$obj->output->set_header('Content-Disposition: attachment; filename="'.$prefs['filename'].'.'.$ext[$prefs['format']].'"');
-			$obj->output->set_header('Content-Transfer-Encoding: binary');
-			$obj->output->set_header('Expires: 0');
-			$obj->output->set_header('Pragma: no-cache');
+			header('Content-Type: '.$mime);
+			header('Content-Disposition: attachment; filename="'.$filename.'"');
+			header("Content-Transfer-Encoding: binary");
+			header('Expires: 0');
+			header('Pragma: no-cache');
 		}
-
 
 		// Write the file based on type
 		switch ($prefs['format'])
 		{
-			case 'gzip' : 	$obj->output->set_output(gzencode($this->_backup($prefs)));
+			case 'gzip' : 	echo gzencode($this->_backup($prefs));
 				break;
-			case 'txt'	: 	$obj->output->set_output($this->_backup($prefs));
+			case 'txt'	: 	echo $this->_backup($prefs);
 				break;
-			default		:
-							require BASEPATH.'libraries/Zip.php';
-						
-							$zip = new Zip;
-							$zip->add_file($this->_backup($prefs), $prefs['filename'].'.sql');
-							$obj->output->set_output($zip->output_zipfile());
-				break;			
 		}
 
 		return TRUE;
