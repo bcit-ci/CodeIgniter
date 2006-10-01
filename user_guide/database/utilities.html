@@ -242,7 +242,13 @@ If you need to write the file use the <a href="../helpers/file_helper.html">File
 
 <p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format,
 and it can be downloaded to your desktop, archived to your
-server, returned as a string, or simply displayed. Example:</p>
+server, returned as a string, or simply displayed.</p>
+
+<p>Note: Due to the limited execution time and memory available to PHP, backing up very large
+databases may not be possible.  If your database is very large you might need to backup directly from your SQL server 
+via the command line, or have your server admin do it for you if you do not have root privileges.</p>
+
+<p>Usage example:</p>
 
 <code>$this->dbutil->backup();<br /><br />
 // When no parameters are passed the full database is backed up and downloaded to your desktop as a Gzip file.
@@ -266,6 +272,13 @@ server, returned as a string, or simply displayed. Example:</p>
 <br />
 $this->dbutil->backup($prefs);
 </code>
+
+
+<p class="important"><strong>VERY IMPORTANT:</strong> If you are using the <dfn>download</dfn> action to send the file to your desktop,
+DO NOT display any data in the controller in which you are triggering the backup.  Since Code Igniter buffers all output, any data
+sent to the browser will be included in your export file.  This issue ONLY applies to downloads.  If you are using any other action
+you can display data in your controller.</p>
+
 
 <h3>Description of Backup Preferences</h3>
 
@@ -296,11 +309,6 @@ $this->dbutil->backup($prefs);
 
 </tr>
 </table>
-
-<p class="important"><strong>VERY IMPORTANT:</strong> If you are using the <dfn>download</dfn> action to send the file to your desktop,
-DO NOT display any data in the controller in which you are triggering the backup.  Since Code Igniter buffers all output, any data
-sent to the browser will be included in your export file.  This issue ONLY applies to downloads.  If you are using any other action
-you can display data in your controller.</p>
 
 
 </div>
