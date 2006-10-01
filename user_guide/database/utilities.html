@@ -48,7 +48,7 @@ window.onload = function() {
 <a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 <a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
-Database Utilities Class
+Database Utility Class
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -62,28 +62,28 @@ Database Utilities Class
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Database Utilities Class</h1>
+<h1>Database Utility Class</h1>
 
-<p>The Database Utilities Class contains functions that help you manage your database.</p>
+<p>The Database Utility Class contains functions that help you manage your database.</p>
 
 <h3>Table of Contents</h3>
 
 <ul>
-<li><a href="#init">Initializing the Utilities Class</a></li>
+<li><a href="#init">Initializing the Utility Class</a></li>
 <li><a href="#create">Creating a Database</a></li>
 <li><a href="#drop">Dropping a Database</a></li>
 <li><a href="#list">Listing your Databases</a></li>
 <li><a href="#opttb">Optimizing your Tables</a></li>
 <li><a href="#repair">Repairing your Databases</a></li>
 <li><a href="#optdb">Optimizing your Database</a></li>
-<li><a href="#cvs">CVS Files from a Database Result</a></li>
+<li><a href="#csv">CSV Files from a Database Result</a></li>
 <li><a href="#xml">XML Files from a Database Result</a></li>
 <li><a href="#backup">Backing up your Database</a></li>
 </ul>
 
 
 <a name="init"></a>
-<h2>Initializing the Utilities Class</h2>
+<h2>Initializing the Utility Class</h2>
 
 <p class="important"><strong>Important:</strong>&nbsp; This class must be initialized independently since it is a separate class from the main Database class. 
 More info below...</p>
@@ -184,10 +184,10 @@ if ($result !== FALSE)<br />
 <p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
-<a name="cvs"></a>
-<h2>$this->dbutil->cvs_from_result($db_result)</h2>
+<a name="csv"></a>
+<h2>$this->dbutil->csv_from_result($db_result)</h2>
 
-<p>Permits you to generate a CVS file from a query result. The first parameter of the function must contain the result object from your query. 
+<p>Permits you to generate a CSV file from a query result. The first parameter of the function must contain the result object from your query. 
 Example:</p>
 
 <code>
@@ -195,7 +195,7 @@ $this->load->dbutil();<br />
 <br />
 $query = $this->db->query("SELECT * FROM mytable");<br />
 <br />
-echo $this->dbutil->cvs_from_result($query);
+echo $this->dbutil->csv_from_result($query);
 </code>
 
 <p>The second and third parameters allows you to 
@@ -205,10 +205,10 @@ set the delimiter and newline character.  By default tabs are used as the delimi
 $delimiter = ",";<br />
 $newline = "\r\n";<br />
 <br />
-echo $this->dbutil->cvs_from_result($query, $delimiter, $newline);
+echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
 </code>
 
-<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
@@ -230,10 +230,10 @@ $config = array (<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
-echo $this->dbutil->cvs_from_result($query, $config);
+echo $this->dbutil->xml_from_result($query, $config);
 </code>
 
-<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CVS file for you.  It simply creates the CVS layout.
+<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you.  It simply creates the XML layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 

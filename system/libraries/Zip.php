@@ -18,9 +18,11 @@
 /**
  * Zip Compression Class
  *
- * This class is based on a library aquired at Zend:
+ * This class is based on a library I found at Zend:
  * http://www.zend.com/codex.php?id=696&single=1
  *
+ * The original library is a little rough around the edges so I 
+ * refactored it and added several additional methods -- Rick Ellis
  * 
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -28,12 +30,18 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/general/encryption.html
  */
-class Zip  {  
-	
+class CI_Zip  {  
+
+	var $zipfile	= '';	
 	var $zipdata	= array();
 	var $directory	= array();
 	var $offset		= 0;
-	var $zipfile	= '';
+
+	function CI_Zip()
+	{
+		log_message('debug', "Zip Compression Class Initialized");
+	}
+	
 
 	/**
 	 * Add Directory
@@ -41,13 +49,33 @@ class Zip  {
 	 * Lets you add a virtual directory into which you can place files.
 	 *
 	 * @access	public
+	 * @param	mixed	the directory name. Can be string or array
+	 * @return	void
+	 */
+	function add_dir($directory) 
+	{
+		foreach ((array)$directory as $dir)
+		{
+			if ( ! preg_match("|.+/$|", $dir))
+			{
+				$dir .= '/';
+			}
+		
+			$this->_add_dir($dir);
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add Directory
+	 *
+	 * @access	private
 	 * @param	string	the directory name
 	 * @return	void
 	 */
-	function add_dir($dir) 
+	function _add_dir($dir) 
 	{
-		$this->zipfile = '';
-	
 		$dir = str_replace("\\", "/", $dir);  
 		
 		$this->zipdata[] = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -78,27 +106,50 @@ class Zip  {
 		
 		$this->offset = $newoffset;
 		$this->directory[] = $record;  
-	}	 
-
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
-	 * Add File
+	 * Add Data to Zip
 	 *
 	 * Lets you add files to the archive. If the path is included
 	 * in the filename it will be placed within a directory.  Make
 	 * sure you use add_dir() first to create the folder.
 	 *
 	 * @access	public
-	 * @param	string	the file name
+	 * @param	mixed
+	 * @param	string
+	 * @return	void
+	 */	
+	function add_data($filepath, $data = NULL)
+	{
+		if (is_array($filepath))
+		{
+			foreach ($filepath as $path => $data)
+			{
+				$this->_add_data($path, $data);
+			}
+		}
+		else
+		{
+			$this->_add_data($filepath, $data);
+		}
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add Data to Zip
+	 *
+	 * @access	private
+	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
 	 * @return	void
 	 */	
-	function add_file($filename, $data)
-	{
-		$this->zipfile = '';
-	
-		$filename = str_replace("\\", "/", $filename);  
+	function _add_data($filepath, $data)
+	{	
+		$filepath = str_replace("\\", "/", $filepath);  
 			
 		$oldlen	= strlen($data);  
 		$crc32	= crc32($data);  
@@ -111,9 +162,9 @@ class Zip  {
 							.pack('V', $crc32)
 							.pack('V', $newlen)
 							.pack('V', $oldlen)
-							.pack('v', strlen($filename))
+							.pack('v', strlen($filepath))
 							.pack('v', 0)
-							.$filename
+							.$filepath
 							.$gzdata
 							.pack('V', $crc32)
 							.pack('V', $newlen)
@@ -125,7 +176,7 @@ class Zip  {
 					.pack('V', $crc32)
 					.pack('V', $newlen)
 					.pack('V', $oldlen)
-					.pack('v', strlen($filename))
+					.pack('v', strlen($filepath))
 					.pack('v', 0)
 					.pack('v', 0)
 					.pack('v', 0)
@@ -134,26 +185,7 @@ class Zip  {
 					.pack('V', $this->offset); 
 		
 		$this->offset = $newoffset;
-		$this->directory[] = $record.$filename;  
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Read the content of a file
-	 *
-	 * @access	public
-	 * @param	string	the file path
-	 * @return	string
-	 */	
-	function read_file($filepath)
-	{
-		if ( ! file_exists($filepath))
-		{
-			return FALSE;
-		}
-	
-		return file_get_contents($filepath);
+		$this->directory[] = $record.$filepath;  
 	}
 	
 	// --------------------------------------------------------------------
@@ -166,9 +198,17 @@ class Zip  {
 	 */	
 	function get_zip()
 	{ 
+		// We cache the zip data so multiple calls
+		// do not require recompiling
 		if ($this->zipfile != '')
 		{
 			return $this->zipfile;
+		}
+	
+		// Is there any data to return?
+		if (count($this->zipdata) == 0)
+		{
+			return FALSE;
 		}
 	
 		$data	= implode('', $this->zipdata);  
@@ -180,7 +220,7 @@ class Zip  {
 						.pack('V', strlen($dir))
 						.pack('V', strlen($data))
 						."\x00\x00";
-						
+		
 		return $this->zipfile;
 	}
 	
@@ -196,15 +236,15 @@ class Zip  {
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */	
-	function write_file($filename, $data)
+	function write_zip($filepath)
 	{
-		if ( ! ($fp = fopen($filename, "wb")))
+		if ( ! ($fp = fopen($filepath, "wb")))
 		{
 			return FALSE;
 		}
 		
 		flock($fp, LOCK_EX);	
-		fwrite($fp, $data);
+		fwrite($fp, $this->get_zip());
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
@@ -216,13 +256,12 @@ class Zip  {
 	/**
 	 * Download
 	 *
-	 *
 	 * @access	public
 	 * @param	string	the file name
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */		
-	function download($filename, $data)
+	function download($filename)
 	{
 		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 		{
@@ -232,7 +271,7 @@ class Zip  {
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header("Content-Transfer-Encoding: binary");
 			header('Pragma: public');
-			header("Content-Length: ".strlen($data));
+			header("Content-Length: ".strlen($this->get_zip()));
 		} 
 		else 
 		{
@@ -241,10 +280,29 @@ class Zip  {
 			header("Content-Transfer-Encoding: binary");
 			header('Expires: 0');
 			header('Pragma: no-cache');
-			header("Content-Length: ".strlen($data));
+			header("Content-Length: ".strlen($this->get_zip()));
 		}
 	
-		echo $data;
+		echo $this->get_zip();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Initialize Data
+	 *
+	 * Lets you clear current zip data.  Useful if you need to create 
+	 * multiple zips with different data.
+	 *
+	 * @access	public
+	 * @return	void
+	 */		
+	function clear_data()
+	{
+		$this->zipfile		= '';
+		$this->zipdata 		= array();
+		$this->directory	= array();
+		$this->offset		= array();
 	}
 	
 }

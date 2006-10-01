@@ -80,6 +80,13 @@ class Controller extends CI_Base {
 	{	
 		// Prep the class name
 		$class = strtolower(str_replace(EXT, '', $class));
+		
+		// Bug fix for backward compat.  
+		// Kill this at some point in the future
+		if ($class == 'unit_test')
+		{
+			$class = 'unit';
+		}
 
 		// Is this a class extension request?	
 		if (substr($class, 0, 3) == 'my_')
@@ -168,9 +175,8 @@ class Controller extends CI_Base {
 	 * @return	null
 	 */
 	function _ci_init_class($class, $prefix = '', $config = NULL)
-	{
+	{	
 		// Is there an associated config file for this class?
-		
 		if ($config == NULL)
 		{
 			if (file_exists(APPPATH.'config/'.$class.EXT))
@@ -185,22 +191,19 @@ class Controller extends CI_Base {
 		}
 		else
 		{
-			$name = $prefix.ucfirst($class);
+			$name = $prefix.$class;
 		}
-		
-		$remap = array(
-						'Unit_test' 	=> 'unit'
-						);
 						
 		$varname = ( ! isset($remap[$class])) ? $class : $remap[$class];
-		
+		$varname = strtolower($varname);
+				
 		// Instantiate the class
 		if ($config !== NULL)
 		{
 			$this->$varname = new $name($config);
 		}
 		else
-		{
+		{		
 			$this->$varname = new $name;
 		}	
 	}

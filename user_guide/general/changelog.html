@@ -63,6 +63,33 @@ Change Log
 <h1>Change Log</h1>
 
 
+<h2>Version 1.5.0</h2>
+<p>Release Date: Ocotber 15, 2006</p>
+
+<ul>
+<li>Added <a href="../database/utilities.html">DB utility class</a>, permitting DB backups, generating CVS or XML files, and various other functions.</li>
+<li>Added <a href="../database/caching.html">DB Caching class</a> permitting queries to be cached.</li>
+<li>Added <a href="../database/transactions.html">transaction support</a> to the database classes.</li>
+<li>Added relationship capability to the database active record class</li>
+<li>Added the ability to <a href="creating_libraries.html">extend libraries</a> and <a href="core_classes.html">extend core classes</a>, in addition to being able to replace them.</li>
+<li>Added support for storing <a href="models.html">models within sub-folders</a>.</li>
+<li>Added simple_query() function to the database classes</li>
+<li>Added $query->free_result();</li>
+<li>Added $query->field_names() function</li>
+<li>Added $this->db->platform() function</li>
+<li>Added "is_numeric" to validation</li>
+
+<li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
+<li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
+<li><strong>Deprecated</strong> $this->load->library('unit_test').  USE $this->load->library('unit')</li>
+
+
+
+</ul>
+
+
+
+
 <h2>Version 1.4.1</h2>
 <p>Release Date: September 21, 2006</p>
 
