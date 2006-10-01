@@ -62,6 +62,19 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	{
 		return "DROP TABLE IF EXISTS ".$this->db->_escape_table($name);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List databases
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _list_databases()
+	{
+		return "SHOW DATABASES";
+	}
 	
 	// --------------------------------------------------------------------
 

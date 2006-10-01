@@ -258,19 +258,6 @@ class CI_DB_mssql_driver extends CI_DB {
 		$row = $query->row();
 		return $row->numrows;
 	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * List databases
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _list_databases()
-	{
-		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases 
-	}
 
 	// --------------------------------------------------------------------
 

@@ -112,6 +112,28 @@ foreach ($query->result_array() as $row)<br />
 <p>The above <dfn>result_array()</dfn> function returns an array of standard array indexes.  Example:  $row['title']</p>
 
 
+<h2>Testing for Results</h2>
+
+<p>If you run queries that might <strong>not</strong> produce a result, you are encouraged to test for a result first
+using the <dfn>num_rows()</dfn> function:</p>
+
+<code>
+$query = $this->db->query("YOUR QUERY");<br />
+<br />
+if ($query->num_rows() > 0)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;foreach ($query->result() as $row)<br />
+&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $row->title;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $row->name;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $row->body;<br />
+&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+
+
+
+
 <h2>Standard Query With Single Result</h2>
 
 <code>$query = $this->db->query('SELECT name FROM my_table LIMIT 1');<br />
@@ -119,6 +141,19 @@ foreach ($query->result_array() as $row)<br />
 $row = $query->row();<br />
 echo $row->name;<br />
 </code>
+
+<p>The above <dfn>row()</dfn> function returns an <strong>object</strong>.  Example:  $row->name</p>
+
+
+<h2>Standard Query With Single Result (Array version)</h2>
+
+<code>$query = $this->db->query('SELECT name FROM my_table LIMIT 1');<br />
+<br />
+$row = $query->row_array();<br />
+echo $row->['name'];<br />
+</code>
+
+<p>The above <dfn>row_array()</dfn> function returns an <strong>array</strong>.  Example:  $row->['name']</p>
 
 
 <h2>Standard Insert</h2>
@@ -146,7 +181,11 @@ foreach ($query->result() as $row)<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $row->title;<br />
 }</code>
-	
+
+<p>The above <dfn>get()</dfn> function retrieves all the results from the supplied table. 
+The <a href="active_record.html">Active Record</a> class contains a full compliment of functions
+for working with data.</p>
+
 
 <h2>Active Record Insert</h2>
 

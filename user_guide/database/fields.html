@@ -94,6 +94,23 @@ foreach ($query->list_fields() as $field)<br />
 </code>
 
 
+<h2>$this->db->field_exists();</h2>
+
+<p>Sometimes it's helpful to know whether a particular field exists befor performing an action.
+Returns a boolean TRUE/FALSE.  Usage example:</p>
+
+<code>
+if ($this->db->field_exists('field_name', 'table_name'))<br />
+{<br />
+&nbsp;&nbsp; // some code...<br />
+}
+</code>
+
+<p>Note:  Replace <em>field_name</em> with the name of the column you are looking for, and replace 
+<em>table_name</em> with the name of the table you are looking for.</p>
+
+
+
 
 <h2>$this->db->field_data();</h2>
 <p>Returns an array of objects containing field information.</p>

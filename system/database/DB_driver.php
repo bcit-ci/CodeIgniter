@@ -555,37 +555,6 @@ class CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * List databases
-	 *
-	 * @access	public
-	 * @return	bool
-	 */
-	function list_databases()
-	{	
-		// Is there a cached result?
-		if (isset($this->cache['db_names']))
-		{
-			return $this->cache['db_names'];
-		}
-	
-		$query = $this->query($this->_list_database());
-		$dbs = array();
-		if ($query->num_rows() > 0)
-		{
-			foreach ($query->result_array() as $row)
-			{
-				$dbs[] = current($row);
-			}
-		}
-			
-		return $this->cache['db_names'] =& $dbs;
-	}
-
-	// --------------------------------------------------------------------
-
 	/**
 	 * Returns an array of table names
 	 * 
@@ -694,6 +663,20 @@ class CI_DB_driver {
     	
 		return $this->cache['field_names'][$table] =& $retval;
     }
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determine if a particular field exists
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	boolean
+	 */
+	function field_exists($field_name, $table_name)
+	{	
+		return ( ! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
+	}
     
 	// --------------------------------------------------------------------
 

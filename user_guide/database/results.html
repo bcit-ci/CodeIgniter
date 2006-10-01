@@ -84,6 +84,8 @@ Query Results
 	&nbsp;&nbsp;&nbsp;echo $row->name;<br />
 	&nbsp;&nbsp;&nbsp;echo $row->body;<br />
 	}</code>
+	
+	<p>The above <dfn>function</dfn> is an alias of <dfn>result_object()</dfn>.</p>
 
 	<p>If you run queries that might <strong>not</strong> produce a result, you are encouraged to test the result first:</p>
 	
@@ -113,10 +115,6 @@ Query Results
 	&nbsp;&nbsp;&nbsp;echo $row['name'];<br />
 	&nbsp;&nbsp;&nbsp;echo $row['body'];<br />
 	}</code>
-	
-	<h2>result('array')</h2>
-
-	<p>Identical to <dfn>$this->db->result_array()</dfn>.</p>
 
 
 	<h2>row()</h2>

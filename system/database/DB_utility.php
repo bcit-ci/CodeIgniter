@@ -87,6 +87,35 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function list_databases()
+	{	
+		// Is there a cached result?
+		if (isset($this->cache['db_names']))
+		{
+			return $this->cache['db_names'];
+		}
+	
+		$query = $this->db->query($this->_list_database());
+		$dbs = array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$dbs[] = current($row);
+			}
+		}
+			
+		return $this->cache['db_names'] =& $dbs;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Optimize Table
 	 *
 	 * @access	public
