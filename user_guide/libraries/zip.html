@@ -62,10 +62,50 @@ Zip Encoding Class
 
 
 <h1>Zip Encoding Class</h1>
+<p>Code Igniter's Zip Encoding Class classes permit you to create Zip archives.</p>
 
 
-<p>Code Igniter's Zip Encoding Class classes permit you to create requests to another server, or set up 
-your own XML-RPC server to receive requests.</p>
+<h2>Initializing the Class</h2>
+<p>Like most other classes in Code Igniter, the Zip class is initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
+
+<code>$this->load->library('zip');</code>
+<p>Once loaded, the Parser library object will be available using: <dfn>$this->zip</dfn></p>
+
+<h2>Usage Example</h2>
+
+<p>Simple example demonstrating how to compress a file and download it to your desktop.</p>
+
+<code>
+$name = 'mydata1.txt';<br />
+$data = 'A Data String!';<br />
+$this->zip->add_data($name, $data);<br />
+<br />
+$name = 'mydata2.txt';<br />
+$data = 'Another Data String!';<br />
+$this->zip->add_data($name, $data);<br />
+<br />
+
+$this->zip->download('my_backup.zip'); // Parameter contains name of the downloaded file
+</code>
+
+<p>If you would like to place your data into a folder just include the directory as part of the filename:</p>
+
+
+<code>
+$name = 'myfolder/mydata1.txt';<br />
+$data = 'A Data String!';<br />
+$this->zip->add_data($name, $data);<br />
+<br />
+$name = 'myfolder/mydata2.txt';<br />
+$data = 'Another Data String!';<br />
+$this->zip->add_data($name, $data);<br />
+<br />
+
+$this->zip->download('my_backup.zip'); // Parameter contains name of the downloaded file
+</code>
+
+
+
 
 
 
