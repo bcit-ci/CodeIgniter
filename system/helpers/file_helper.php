@@ -42,6 +42,11 @@ function read_file($file)
 	{
 		return FALSE;
 	}
+	
+	if (function_exists('file_get_contents'))
+	{
+		return file_get_contents($file);		
+	}
 
 	if ( ! $fp = @fopen($file, 'rb'))
 	{
@@ -53,7 +58,7 @@ function read_file($file)
 	$data = '';
 	if (filesize($file) > 0) 
 	{
-		$data = fread($fp, filesize($file)); 
+		$data =& fread($fp, filesize($file)); 
 	}
 
 	flock($fp, LOCK_UN);
