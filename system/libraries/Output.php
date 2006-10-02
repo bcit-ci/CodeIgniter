@@ -31,6 +31,7 @@ class CI_Output {
 	var $final_output;
 	var $cache_expiration = 0;
 	var $headers = array();
+	var $enable_profiler = FALSE;
 
 	function CI_Output()
 	{
@@ -90,6 +91,20 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Enable/disable Profiler 
+	 *
+	 * @access	public
+	 * @param	bool
+	 * @return	void
+	 */	
+	function enable_profiler($val = TRUE)
+	{
+		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Set Cache 
 	 *
 	 * @access	public
@@ -123,7 +138,7 @@ class CI_Output {
 	 */		
 	function _display($output = '')
 	{	
-		// Note:  We can't use $obj =& _get_instance() since this function 
+		// Note:  We can't use $obj =& get_instance() since this function 
 		// is sometimes called by the caching mechanism, which happens before 
 		// it's available.  Instead we'll use globals...
 		global $BM, $CFG;
@@ -141,7 +156,7 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage, and 
 		// swap the pseudo-variables with the data
-		$elapsed = $BM->elapsed_time('code_igniter_start', 'code_igniter_end');		
+		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
 		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
 
 		$output = str_replace('{memory_usage}', $memory, $output);		
@@ -166,14 +181,28 @@ class CI_Output {
 			{
 				@header($header);
 			}
-		}
+		}		
 		
 		// Send the finalized output either directly
 		// to the browser or to the user's _output() 
 		// function if it exists
-		if (function_exists('_get_instance') AND method_exists($obj, '_output'))
+		if (function_exists('get_instance'))
 		{
-			$obj->_output($output);
+			$obj =& get_instance();
+		
+			if ($this->enable_profiler == TRUE)
+			{
+				$output .= $this->_run_profiler();
+			}
+		
+			if (method_exists($obj, '_output'))
+			{
+				$obj->_output($output);
+			}
+			else
+			{
+				echo $output;  // Send it to the browser!
+			}
 		}
 		else
 		{		
@@ -293,6 +322,37 @@ class CI_Output {
 		$this->_display(str_replace($match['0'], '', $cache));
 		log_message('debug', "Cache file is current. Sending it to browser.");		
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Run the Auto-profiler
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _run_profiler()
+	{
+		$obj =& get_instance();
+		
+		$profile = $obj->benchmark->auto_profiler();
+		
+		$output = '';
+		if (count($profile) > 0)
+		{
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0'>\n";
+			
+			foreach ($profile as $key => $val)
+			{
+				$key = ucwords(str_replace(array('_', '-'), ' ', $key));
+				$output .= "<tr><td><strong>".$key."</strong></td><td>".$val."</td></tr>\n";
+			}
+			
+			$output .= "</table>\n";
+		}
+		
+		return $output;
 	}
 
 }

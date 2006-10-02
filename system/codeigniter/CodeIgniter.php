@@ -51,7 +51,7 @@ set_magic_quotes_runtime(0); // Kill magic quotes
  */
 
 $BM =& _load_class('Benchmark');
-$BM->mark('code_igniter_start');
+$BM->mark('total_execution_time_start');
 
 /*
  * ------------------------------------------------------
