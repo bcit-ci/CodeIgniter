@@ -109,6 +109,22 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 		return return FALSE; // Is this supported in MS SQL?
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * MSSQL Export
+	 *
+	 * @access	private
+	 * @param	array	Preferences
+	 * @return	mixed
+	 */
+	function _backup($params = array())
+	{
+		// Currently unsupported
+		return $this->db->display_error('db_unsuported_feature');
+	}
+
+
 }
 
 ?>

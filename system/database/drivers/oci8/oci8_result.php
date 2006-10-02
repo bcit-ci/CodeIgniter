@@ -46,9 +46,9 @@ class CI_DB_oci8_result extends CI_DB_result {
         $rowcount = count($this->result_array);
         @ociexecute($this->stmt_id);
         if ($this->curs_id)
-            {
-            @ociexecute($this->curs_id);
-            }
+		{
+			@ociexecute($this->curs_id);
+		}
         return $rowcount;
     }
 

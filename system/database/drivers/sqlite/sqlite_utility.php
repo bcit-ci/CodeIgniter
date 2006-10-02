@@ -134,6 +134,20 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 		return return FALSE;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * SQLite Export
+	 *
+	 * @access	private
+	 * @param	array	Preferences
+	 * @return	mixed
+	 */
+	function _backup($params = array())
+	{
+		// Currently unsupported
+		return $this->db->display_error('db_unsuported_feature');
+	}
 
 }
 
