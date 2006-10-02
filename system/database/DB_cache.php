@@ -39,6 +39,38 @@ class CI_DB_cache {
 	// --------------------------------------------------------------------
 
 
+
+	function cache_exists($sql)
+	{
+	
+	
+	}
+	
+	
+	function get_cache($sql)
+	{
+	
+	
+	}
+
+
+	function delete_cache()
+	{
+	
+	}
+
+
+	function delete_all_caches()
+	{
+	
+	
+	}
+
+
+
+
+
+
 }
 
 ?>

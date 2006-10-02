@@ -25,7 +25,7 @@
 class CI_DB_utility {
 
 	var $db;
-	var $cache = array();
+	var $data_cache = array();
 
 	/**
 	 * Constructor
@@ -95,9 +95,9 @@ class CI_DB_utility {
 	function list_databases()
 	{	
 		// Is there a cached result?
-		if (isset($this->cache['db_names']))
+		if (isset($this->data_cache['db_names']))
 		{
-			return $this->cache['db_names'];
+			return $this->data_cache['db_names'];
 		}
 	
 		$query = $this->db->query($this->_list_database());
@@ -110,7 +110,7 @@ class CI_DB_utility {
 			}
 		}
 			
-		return $this->cache['db_names'] =& $dbs;
+		return $this->data_cache['db_names'] =& $dbs;
 	}
 
 	// --------------------------------------------------------------------

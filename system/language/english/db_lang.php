@@ -16,6 +16,8 @@ $lang['db_unable_to_drop'] = 'Unable to drop the specified database.';
 $lang['db_unsuported_feature'] = 'Unsupported feature of the database platform you are using.';
 $lang['db_unsuported_compression'] = 'The file compression format you chose is not supported by your server.';
 $lang['db_filepath_error'] = 'Unable to write data to the file path you have submitted.';
+$lang['db_invalid_cache_path'] = 'The cache path you submitted is not valid or writable.';
+
 
 
 
