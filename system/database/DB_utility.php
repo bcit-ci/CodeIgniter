@@ -330,10 +330,8 @@ class CI_DB_utility {
 		$prefs = array(
 							'tables'		=> array(),
 							'ignore'		=> array(),
-							'format'		=> 'gzip', // gzip, zip, txt
-							'action'		=> 'download', // download, archive, echo, return
 							'filename'		=> '',
-							'filepath'		=> '',
+							'format'		=> 'gzip', // gzip, zip, txt
 							'add_drop'		=> TRUE,
 							'add_insert'	=> TRUE,
 							'newline'		=> "\n"
@@ -385,148 +383,55 @@ class CI_DB_utility {
 
 		// ------------------------------------------------------
 
-		// Set the filename if not provided
-		if ($prefs['filename'] == '')
+		// Set the filename if not provided - Only needed with Zip files
+		if ($prefs['filename'] == '' AND $prefs['format'] == 'zip')
 		{
 			$prefs['filename'] = (count($prefs['tables']) == 1) ? $prefs['tables'] : $this->db->database;
 			$prefs['filename'] .= '_'.date('Y-m-d_H-i', time());
 		}
 
 		// ------------------------------------------------------
-
-		// If we are archiving the export, does this filepath exist
-		// and resolve to a writable directory
-		if ($prefs['action'] == 'archive')
+		
+		// Grab the super object
+		$obj =& get_instance();
+		
+		// Was a Gzip file requested?
+		if ($prefs['format'] == 'gzip')
 		{
-			if ($prefs['filepath'] == '' OR ! is_writable($prefs['filepath']))
-			{
-				if ($this->db->db_debug)
-				{
-					return $this->db->display_error('db_filepath_error');
-				}
-			
-				$prefs['action'] = 'download';
-			}
+			return gzencode($this->_backup($prefs));
 		}
 
 		// ------------------------------------------------------
 		
-		// Are we returning the backup data?  If so, we're done...
-		if ($prefs['action'] == 'return')
+		// Was a text file requested?
+		if ($prefs['format'] == 'txt')
 		{
 			return $this->_backup($prefs);
 		}
 
 		// ------------------------------------------------------
-		
-		// Are we echoing the backup?  If so, format the data and spit it at the screen...
-		if ($prefs['action'] == 'echo')
-		{
-			echo '<pre>';
-			echo htmlspecialchars($this->_backup($prefs));
-			echo '</pre>';
-			
-			return TRUE;
-		}
-	
-		// ------------------------------------------------------
 
-		// Are we archiving the data to the server?
-		if ($prefs['action'] == 'archive')
-		{
-			// Make sure the filepath has a trailing slash
-			if (ereg("/$", $prefs['filepath']) === FALSE)
-			{
-				$prefs['filepath'] .= '/';
-			}
-
-			// Assemble the path and tack on the file extension
-			$ext = array('gzip' => 'gz', 'zip' => 'zip', 'txt' => 'sql');
-			$path = $prefs['filepath'].$prefs['filename'].$ext[$prefs['format']];
-			
-			// Load the file helper
-			$obj =& get_instance();
-			$obj->load->helper('file');
-			
-			// Write the file based on type
-			switch ($prefs['format'])
-			{
-				case 'gzip' : 	
-								write_file($path, gzencode($this->_backup($prefs)));
-								return TRUE;
-					break;
-				case 'txt'	: 	
-								write_file($path, $this->_backup($prefs));
-								return TRUE;
-					break;
-				default		:
-								$obj->load->library('zip');
-								$obj->zip->add_data($prefs['filename'].'.sql', $this->_backup($prefs));
-								$obj->zip->archive($path);
-								return TRUE;
-					break;			
-			}
-	
-		}
-
-		// ------------------------------------------------------
-				
-		
-		// Grab the super object
-		$obj =& get_instance();
-		
-		// Remap the file extensions
-		$ext = array('gzip' => 'gz', 'zip' => 'zip', 'txt' => 'sql');	
-				
-		// Is a Zip file requested?	
+		// Was a Zip file requested?		
 		if ($prefs['format'] == 'zip')
 		{
+			// If they included the .zip file extension we'll remove it
+			if (preg_match("|.+?\.zip$|", $prefs['filename']))
+			{
+				$prefs['filename'] = str_replace('.zip', '', $prefs['filename']);
+			}
+			
+			// Tack on the ".sql" file extension if needed
+			if ( ! preg_match("|.+?\.sql$|", $prefs['filename']))
+			{
+				$prefs['filename'] .= '.sql';
+			}
+
+			// Load the Zip class and output it
 			$obj->load->library('zip');
-			$obj->zip->add_data($prefs['filename'].'.sql', $this->_backup($prefs));
-			$obj->zip->download($prefs['filename'].'.'.$ext[$prefs['format']]);
-			return TRUE;
+			$obj->zip->add_data($prefs['filename'], $this->_backup($prefs));							
+			return $obj->zip->get_zip();
 		}
 		
-		
-		// Set the mime type
-		switch ($prefs['format'])
-		{
-			case 'gzip' : $mime = 'application/x-gzip';
-				break;
-			default     : $mime = (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") || strstr($_SERVER['HTTP_USER_AGENT'], "OPERA")) ? 'application/octetstream' : 'application/octet-stream';
-				break;
-		}	
-	
-		$filename = $prefs['filename'].'.sql.'.$ext[$prefs['format']];
-	
-		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
-		{
-			header('Content-Type: '.$mime);
-			header('Content-Disposition: inline; filename="'.$filename.'"');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header("Content-Transfer-Encoding: binary");
-			header('Pragma: public');
-		} 
-		else 
-		{
-			header('Content-Type: '.$mime);
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
-			header("Content-Transfer-Encoding: binary");
-			header('Expires: 0');
-			header('Pragma: no-cache');
-		}
-
-		// Write the file based on type
-		switch ($prefs['format'])
-		{
-			case 'gzip' : 	echo gzencode($this->_backup($prefs));
-				break;
-			case 'txt'	: 	echo $this->_backup($prefs);
-				break;
-		}
-
-		return TRUE;
 	}
 
 
