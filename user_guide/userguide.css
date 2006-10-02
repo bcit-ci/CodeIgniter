@@ -151,10 +151,11 @@ padding: 0 0 6px 0;
 
 #content h1 {
 color: #333;
+background-color: #efefef;
 font-weight: normal;
 font-size: 22px;
 margin: 0 0 15px 0;
-padding: 0;
+padding: 3px 2px 3px 10px;
 }
 
 #content h2 {
