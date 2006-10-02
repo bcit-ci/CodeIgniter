@@ -41,11 +41,13 @@ class CI_DB_driver {
 	var $conn_id		= FALSE;
 	var $result_id		= FALSE;
 	var $db_debug		= FALSE;
+	var $query_caching	= FALSE;
+	var $cache_dir		= '';
 	var $benchmark		= 0;
 	var $query_count	= 0;
 	var $bind_marker	= '?';
 	var $queries		= array();
-	var $cache			= array();
+	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
@@ -54,6 +56,7 @@ class CI_DB_driver {
     var $stmt_id;
     var $curs_id;
     var $limit_used;
+
 
 	
 	/**
@@ -214,6 +217,21 @@ class CI_DB_driver {
             return FALSE;        
 		}
 		
+		// Is query caching enabled?  If the query is a "read type" we'll
+		// grab the previously cached query if it exists and return it.
+		if ($this->query_caching == TRUE)
+		{
+			if (stristr($sql, 'SELECT'))
+			{
+				$CACHE =& _load_cache_class();			
+			
+				if (FALSE !== ($CACHE->cache_exists($sql)))
+				{
+					return $CACHE->get_cache($sql);
+				}
+			}
+		}
+		
 		// Compile binds if needed
 		if ($binds !== FALSE)
 		{
@@ -257,7 +275,7 @@ class CI_DB_driver {
 		// Was the query a "write" type?
 		// If so we'll simply return true
 		if ($this->is_write_type($sql) === TRUE)
-		{
+		{		
 			return TRUE;
 		}
 		
@@ -564,9 +582,9 @@ class CI_DB_driver {
 	function list_tables()
 	{
 		// Is there a cached result?
-		if (isset($this->cache['table_names']))
+		if (isset($this->data_cache['table_names']))
 		{
-			return $this->cache['table_names'];
+			return $this->data_cache['table_names'];
 		}
 	
 		if (FALSE === ($sql = $this->_list_tables()))
@@ -596,7 +614,7 @@ class CI_DB_driver {
 			}
 		}
 
-		return $this->cache['table_names'] =& $retval;
+		return $this->data_cache['table_names'] =& $retval;
 	}
 	
 	// --------------------------------------------------------------------
@@ -623,9 +641,9 @@ class CI_DB_driver {
     function list_fields($table = '')
     {
 		// Is there a cached result?
-		if (isset($this->cache['field_names'][$table]))
+		if (isset($this->data_cache['field_names'][$table]))
 		{
-			return $this->cache['field_names'][$table];
+			return $this->data_cache['field_names'][$table];
 		}
     
     	if ($table == '')
@@ -661,7 +679,7 @@ class CI_DB_driver {
 			}    	
 		}
     	
-		return $this->cache['field_names'][$table] =& $retval;
+		return $this->data_cache['field_names'][$table] =& $retval;
     }
 
 	// --------------------------------------------------------------------
@@ -819,6 +837,79 @@ class CI_DB_driver {
 
 			return call_user_func_array($function, $args); 
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Path
+	 *
+	 * @access	public
+	 * @param	string	the path to the cache directory
+	 * @return	void
+	 */		
+	function set_cache_path($path = '')
+	{
+		if ( ! is_dir($path) OR ! is_writable($path))
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_invalid_cache_path');
+			}
+			
+			$this->enable_caching(FALSE);
+			return FALSE;
+		}
+	
+		$this->cache_dir = $path;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Enable Query Caching
+	 *
+	 * @access	public
+	 * @return	void
+	 */		
+	function cache_on()
+	{
+		$this->query_caching = TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Disable Query Caching
+	 *
+	 * @access	public
+	 * @return	void
+	 */	
+	function cache_off()
+	{
+		$this->query_caching = FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Load Caching Class
+	 * 
+	 * @access	private
+	 * @return	object		 
+	 */	
+	function _load_cache_class()
+	{
+		static $CACHE = NULL;
+		
+		if (is_object($CACHE))
+		{
+			return $CACHE;
+		}
+	
+		require_once BASEPATH.'database/DB_cache'.EXT;
+		$CACHE = new DB_cache();		
+		return $CACHE;
 	}
 	
 	// --------------------------------------------------------------------
