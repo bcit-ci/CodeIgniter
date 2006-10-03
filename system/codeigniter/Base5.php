@@ -32,31 +32,23 @@
 
 class CI_Base {
 
-	public function CI_Base()
-	{
-		$instance =& _load_class('Instance');
-		$instance->set_instance($this);
-	}
-}
+    public static $instance;
 
-class Instance {
-	public static $instance;
-
-	public function set_instance(&$object)
-	{
-		self::$instance =& $object;
-	}
-	
-	public function &get_instance()
-	{
-		return self::$instance;
-	}
+    public function CI_Base()
+    {
+        self::$instance =& $this;
+    }
+    
+    public static function &get_instance()
+    {
+        return self::$instance;
+    }
 }
 
 function &get_instance()
 {
-	$instance =& _load_class('Instance');
-	return $instance->get_instance();	
+    return CI_Base::get_instance();    
 }
+
 
 ?>

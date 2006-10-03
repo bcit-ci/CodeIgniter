@@ -174,7 +174,9 @@ class CI_Profiler {
 	 */	
 	function run($output = '')
 	{	
-		$output = '<br style="margin:0;padding:0;clear:both;" />';
+		$obj =& get_instance();
+		
+		$output = '<br clear="all" />';
 	
 		$output .= $this->_compile_benchmarks();
 		$output .= $this->_compile_post();
