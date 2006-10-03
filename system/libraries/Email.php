@@ -1548,7 +1548,7 @@ class CI_Email {
 	 */		
 	function _get_hostname()
 	{	
-		return ($this->smtp_host != '') ? $this->smtp_host : $this->_get_ip();		
+		return (isset($_SERVER['SERVER_NAME'])) ? $_SERVER['SERVER_NAME'] : 'localhost.localdomain';	
 	}
   	// END _get_hostname()
   	
