@@ -78,6 +78,7 @@ Change Log
 <li>Added <a href="../helpers/download_helper.html">Download Helper</a>.</li>
 <li>Added <a href="../database/queries.html">simple_query()</a> function to the database classes</li>
 <li>Added <a href="../helpers/date_helper.html">standard_date()</a> function to the Date Helper.</li>
+<li>Updated the DB Result class to return an empty array when $query->result() doesn't produce a result.</li>
 
 <li>Added $query->free_result();</li>
 <li>Added $query->field_names() function</li>
@@ -89,7 +90,7 @@ Change Log
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> $this->load->library('unit_test').  USE $this->load->library('unit')</li>
 
-
+<li>Fixed a bug in the Email class related to SMTP Helo data.</li>
 
 </ul>
 
