@@ -32,7 +32,7 @@
 
 class CI_Base {
 
-    public static $instance;
+    private static $instance;
 
     public function CI_Base()
     {
