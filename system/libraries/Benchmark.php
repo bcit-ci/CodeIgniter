@@ -48,7 +48,6 @@ class CI_Benchmark {
     {
         $this->marker[$name] = microtime();
     }
-  	// END mark()
   	
 	// --------------------------------------------------------------------
 
@@ -81,39 +80,6 @@ class CI_Benchmark {
                         
         return number_format(($em + $es) - ($sm + $ss), $decimals);
     }
- 	// END elapsed_time()
- 	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Auto Profiler
-	 *
-	 * This function cycles through the entire array of mark points and
-	 * matches any two points that are named identially (ending in "_start"
-	 * and "_end" respectively).  It then compiles the execution times for
-	 * all points and returns it as an array
-	 *
-	 * @access	public
-	 * @return	array
-	 */
- 	function auto_profiler()
- 	{  		
- 		$marker_keys = array_reverse(array_keys($this->marker));
- 
-  		$times = array();
- 		foreach ($marker_keys as $val)
- 		{
- 			if (preg_match("/(.+?)_start/i", $val, $match))
- 			{ 			
- 				if (isset($this->marker[$match[1].'_end']))
- 				{
- 					$times[$match[1]] = $this->elapsed_time($val, $match[1].'_end');
- 				}
- 			}
- 		}
- 	
- 		return $times;
- 	}
  	
 	// --------------------------------------------------------------------
 
@@ -132,7 +98,6 @@ class CI_Benchmark {
 	{
 		return '{memory_usage}';
 	}
-	// END memory_usage()
 
 }
 

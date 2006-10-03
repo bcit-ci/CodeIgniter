@@ -52,7 +52,8 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/scaffolding.html">Scaffolding</a></li>' +
 			'<li><a href="'+base+'general/routing.html">URI Routing</a></li>' +
 			'<li><a href="'+base+'general/errors.html">Error Handling</a></li>' +
-			'<li><a href="'+base+'general/caching.html">Web Page Caching</a></li>' +
+			'<li><a href="'+base+'general/caching.html">Caching</a></li>' +
+			'<li><a href="'+base+'general/profiling.html">Profiling Your Application</a></li>' +
 			'<li><a href="'+base+'general/multiple_apps.html">Running Multiple Applications</a></li>' +
 			'<li><a href="'+base+'general/alternative_php.html">Alternative PHP Syntax</a></li>' +
 			'<li><a href="'+base+'general/security.html">Security</a></li>' +

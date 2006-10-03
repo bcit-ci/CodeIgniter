@@ -78,9 +78,9 @@ timing of the entire system execution to be shown.</p>
 
 <ul>
 <li><a href="#using">Using the Benchmark Class</a></li>
+<li><a href="#profiler">Profiling Your Benchmark Points</a></li>
 <li><a href="#execution">Displaying Total Execution Time</a></li>
 <li><a href="#memory">Displaying Memory Consumption</a></li>
-<li><a href="#profiler">Auto Profiler</a></li>
 </ul>
 
 
@@ -98,15 +98,15 @@ timing of the entire system execution to be shown.</p>
 
 <p>Here's an example using real code:</p>
 
-<code>$this->benchmark->mark('start');<br />
+<code>$this->benchmark->mark('code_start');<br />
 <br />
 // Some code happens here<br />
 <br />
-$this->benchmark->mark('end');<br />
+$this->benchmark->mark('code_end');<br />
 <br />
-echo $this->benchmark->elapsed_time('start', 'end');</code>
+echo $this->benchmark->elapsed_time('code_start', 'code_end');</code>
 
-<p><strong>Note:</strong> The words "start" and "end" are arbitrary.  They are simply words used to set two markers.  You can
+<p><strong>Note:</strong> The words "code_start" and "code_end" are arbitrary.  They are simply words used to set two markers.  You can
 use any words you want, and you can set multiple sets of markers. Consider this example:</p>
 
 <code>$this->benchmark->mark('dog');<br />
@@ -122,6 +122,32 @@ $this->benchmark->mark('bird');<br />
 echo $this->benchmark->elapsed_time('dog', 'cat');<br />
 echo $this->benchmark->elapsed_time('cat', 'bird');<br />
 echo $this->benchmark->elapsed_time('dog', 'bird');</code>
+
+
+<a name="profiler"></a>
+<h2>Profiling Your Benchmark Points</h2>
+
+<p>If you want your benchmark data to be available to the 
+<a href="../general/profiling.html">Profiler</a> all of your marked points must be set up in pairs, and 
+each mark point name must end with <kbd>_start</kbd> and <kbd>_end</kbd>. 
+Each pair of points must otherwise be named identically. Example:</p>
+
+<code>
+$this->benchmark->mark('my_mark<kbd>_start</kbd>');<br />
+<br />
+// Some code happens here...<br />
+<br />
+$this->benchmark->mark('my_mark<kbd>_end</kbd>');
+<br /><br />
+
+$this->benchmark->mark('another_mark<kbd>_start</kbd>');<br />
+<br />
+// Some more code happens here...<br />
+<br />
+$this->benchmark->mark('another_mark<kbd>_end</kbd>');
+
+<p>Please read the <a href="../general/profiling.html">Profiler page</a> for more information.</p>
+
 
 
 <a name="execution"></a>
@@ -153,42 +179,6 @@ system using the following code in one of your view file:</p>
 
 <p>An alternate way to show your memory usage in your view files is to use this pseudo-variable, if you prefer not to use the pure PHP:</p>
 <code>{memory_usage}</code>
-
-
-<a name="profiler"></a>
-<h2>Auto Profiler</h2>
-
-<p>When the "auto profiler" is enabled, you'll see a report printed at the bottom of your pages containing a list of 
-execution times for all benchmarks you have set throughout your application. This information can help you optimize your program.</p>
-
-<p class="important"><strong>Note:</strong> Even though this is a feature of the Benchmark class you will enable it from the Output class as indicated below.</p>
-
-<p>To enable the profiler place the the following function anywhere within your Controllers:</p>
-<code>$this->output->enable_profiler(TRUE);</code>
-
-<p>When enabled you'll see a table of execution times at the bottom of your pages.</p>
-
-<p>To disable the profiler you will use:</p>
-<code>$this->output->enable_profiler(FALSE);</code>
-
-<p>Important: In order to use this feature all of your marked points must end with <kbd>_start</kbd> and <kbd>_end</kbd>, and
-each pair of points must otherwise be named identically. Example:</p>
-
-<code>
-$this->benchmark->mark('my_mark<kbd>_start</kbd>');<br />
-<br />
-// Some code happens here...<br />
-<br />
-$this->benchmark->mark('my_mark<kbd>_end</kbd>');
-<br /><br />
-
-$this->benchmark->mark('another_mark<kbd>_start</kbd>');<br />
-<br />
-// Some more code happens here...<br />
-<br />
-$this->benchmark->mark('another_mark<kbd>_end</kbd>');
-
-</code>
 
 
 

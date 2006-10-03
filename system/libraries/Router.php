@@ -530,6 +530,11 @@ class CI_Router {
 	 */	
 	function fetch_method()
 	{
+		if ($this->method == $this->fetch_class())
+		{
+			return 'index';
+		}
+
 		return $this->method;
 	}
 
