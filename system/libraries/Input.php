@@ -230,10 +230,23 @@ class CI_Input {
 			return FALSE;
 		}
 		else
-		{
+		{		
 			if ($xss_clean === TRUE)
 			{
-				return $this->xss_clean($_COOKIE[$index]);
+				if (is_array($_COOKIE[$index]))
+				{
+					$cookie = array();
+					foreach($_COOKIE[$index] as $key => $val)
+					{
+						$cookie[$key] = $this->xss_clean($val);
+					}
+			
+					return $cookie;
+				}
+				else
+				{
+					return $this->xss_clean($_COOKIE[$index]);
+				}
 			}
 			else
 			{
