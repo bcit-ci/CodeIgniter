@@ -52,6 +52,7 @@ set_magic_quotes_runtime(0); // Kill magic quotes
 
 $BM =& _load_class('Benchmark');
 $BM->mark('total_execution_time_start');
+$BM->mark('loading_time_base_clases_start');
 
 /*
  * ------------------------------------------------------
@@ -130,6 +131,9 @@ _load_class('Controller', FALSE);
 
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
+$BM->mark('loading_time_base_clases_end');
+
+
 /*
  * ------------------------------------------------------
  *  Security check
@@ -141,6 +145,7 @@ require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
  */
 $class  = $RTR->fetch_class();
 $method = $RTR->fetch_method();
+
 
 if ( ! class_exists($class)
 	OR $method == 'controller'
@@ -163,6 +168,10 @@ $EXT->_call_hook('pre_controller');
  *  Instantiate the controller and call requested method
  * ------------------------------------------------------
  */
+
+// Mark a start point so we can benchmark the controller
+$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
+
 $CI = new $class();
 
 if ($RTR->scaffolding_request === TRUE)
@@ -180,11 +189,6 @@ else
 	 * ------------------------------------------------------
 	 */
 	$EXT->_call_hook('post_controller_constructor');
-
-	if ($method == $class)
-	{
-		$method = 'index';
-	}
 	
 	if (method_exists($CI, '_remap'))
 	{
@@ -202,6 +206,9 @@ else
 		call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, (($RTR->fetch_directory() == '') ? 2 : 3)));		
 	}
 }
+
+// Mark a benchmark end point
+$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
 
 /*
  * ------------------------------------------------------
