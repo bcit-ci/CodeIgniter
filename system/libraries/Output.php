@@ -29,9 +29,10 @@
 class CI_Output {
 
 	var $final_output;
-	var $cache_expiration = 0;
-	var $headers = array();
-	var $enable_profiler = FALSE;
+	var $cache_expiration	= 0;
+	var $headers 			= array();
+	var $enable_profiler 	= FALSE;
+
 
 	function CI_Output()
 	{
@@ -121,46 +122,52 @@ class CI_Output {
 	/**
 	 * Display Output
 	 *
-	 * All "view" data is automatically put into this variable 
-	 * by the controller class:
+	 * All "view" data is automatically put into this variable by the controller class:
 	 *
 	 * $this->final_output
 	 *
-	 * This function simply echos the variable out.  It also does the following:
-	 * 
-	 * Stops the benchmark timer so the page rendering speed can be shown.
-	 *
-	 * Determines if the "memory_get_usage' function is available so that 
-	 * the memory usage can be shown.
+	 * This function sends the finalized output data to the browser along
+	 * with any server headers and profile data.  It also stops the
+	 * benchmark timer so the page rendering speed and memory usage can be shown.
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	mixed
 	 */		
 	function _display($output = '')
 	{	
-		// Note:  We can't use $obj =& get_instance() since this function 
-		// is sometimes called by the caching mechanism, which happens before 
-		// it's available.  Instead we'll use globals...
+		// Note:  We use globals because we can't use $obj =& get_instance() 
+		// since this function is sometimes called by the caching mechanism, 
+		// which happens before the CI super object is available.
 		global $BM, $CFG;
-			
+		
+		// --------------------------------------------------------------------
+		
+		// Set the output data
 		if ($output == '')
 		{
 			$output =& $this->final_output;
 		}
+		
+		// --------------------------------------------------------------------
 		
 		// Do we need to write a cache file?
 		if ($this->cache_expiration > 0)
 		{
 			$this->_write_cache($output);
 		}
+		
+		// --------------------------------------------------------------------
 
-		// Parse out the elapsed time and memory usage, and 
-		// swap the pseudo-variables with the data
+		// Parse out the elapsed time and memory usage, 
+		// then swap the pseudo-variables with the data
+				
 		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
-		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
-
-		$output = str_replace('{memory_usage}', $memory, $output);		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
+		
+		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+		$output = str_replace('{memory_usage}', $memory, $output);		
+
+		// --------------------------------------------------------------------
 		
 		// Is compression requested?
 		if ($CFG->item('compress_output') === TRUE)
@@ -173,6 +180,8 @@ class CI_Output {
 				}
 			}
 		}
+
+		// --------------------------------------------------------------------
 		
 		// Are there any server headers to send?
 		if (count($this->headers) > 0)
@@ -182,30 +191,54 @@ class CI_Output {
 				@header($header);
 			}
 		}		
+
+		// --------------------------------------------------------------------
 		
-		// Send the finalized output either directly
-		// to the browser or to the user's _output() 
-		// function if it exists
-		if (function_exists('get_instance'))
+		// Does the get_instance() function exist?
+		// If not we know we are dealing with a cache file so we'll
+		// simply echo out the data and exit.
+		if ( ! function_exists('get_instance'))
 		{
-			$obj =& get_instance();
+			echo $output;
+			log_message('debug', "Final output sent to browser");
+			log_message('debug', "Total execution time: ".$elapsed);		
+		}
+	
+		// --------------------------------------------------------------------
+
+		// Grab the super object.  We'll need it in a moment...
+		$obj =& get_instance();
 		
-			if ($this->enable_profiler == TRUE)
+		// Do we need to generate profile data?
+		// If so, load the Profile class and run it.
+		if ($this->enable_profiler == TRUE)
+		{
+			$obj->load->library('profiler');				
+										
+			// If the output data contains closing </body> and </html> tags
+			// we will remove them and add them back after we insert the profile data
+			if (preg_match("|</body>.*?</html>|is", $output))
 			{
-				$output .= $this->_run_profiler();
-			}
-		
-			if (method_exists($obj, '_output'))
-			{
-				$obj->_output($output);
+				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
+				$output .= $obj->profiler->run();
+				$output .= '</body></html>';
 			}
 			else
 			{
-				echo $output;  // Send it to the browser!
+				$output .= $obj->profiler->run();
 			}
 		}
+		
+		// --------------------------------------------------------------------
+
+		// Does the controller contain a function named _output()?
+		// If so send the output there.  Otherwise, echo it.
+		if (method_exists($obj, '_output'))
+		{
+			$obj->_output($output);
+		}
 		else
-		{		
+		{
 			echo $output;  // Send it to the browser!
 		}
 		
@@ -324,36 +357,6 @@ class CI_Output {
 		return TRUE;
 	}
 
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Run the Auto-profiler
-	 *
-	 * @access	private
-	 * @return	string
-	 */	
-	function _run_profiler()
-	{
-		$obj =& get_instance();
-		
-		$profile = $obj->benchmark->auto_profiler();
-		
-		$output = '';
-		if (count($profile) > 0)
-		{
-			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0'>\n";
-			
-			foreach ($profile as $key => $val)
-			{
-				$key = ucwords(str_replace(array('_', '-'), ' ', $key));
-				$output .= "<tr><td><strong>".$key."</strong></td><td>".$val."</td></tr>\n";
-			}
-			
-			$output .= "</table>\n";
-		}
-		
-		return $output;
-	}
 
 }
 // END Output Class
