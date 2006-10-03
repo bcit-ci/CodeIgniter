@@ -79,6 +79,7 @@ Change Log
 <li>Added <a href="../database/queries.html">simple_query()</a> function to the database classes</li>
 <li>Added <a href="../helpers/date_helper.html">standard_date()</a> function to the Date Helper.</li>
 <li>Updated the DB Result class to return an empty array when $query->result() doesn't produce a result.</li>
+<li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="../libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
 
 <li>Added $query->free_result();</li>
 <li>Added $query->field_names() function</li>

@@ -42,14 +42,13 @@ class CI_Input {
 	 */	
 	function CI_Input()
 	{	
+		log_message('debug', "Input Class Initialized");
+	
 		$CFG =& _load_class('Config');
 		$this->use_xss_clean	= ($CFG->item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
-		$this->allow_get_array	= ($CFG->item('enable_query_strings') === TRUE) ? TRUE : FALSE;
-		
-		log_message('debug', "Input Class Initialized");
+		$this->allow_get_array	= ($CFG->item('enable_query_strings') === TRUE) ? TRUE : FALSE;		
 		$this->_sanitize_globals();
 	}
-	// END CI_Input()
 	
 	// --------------------------------------------------------------------
 	
@@ -81,11 +80,11 @@ class CI_Input {
 				foreach ($global as $key => $val)
 				{
 					unset($$key);
-				}    
+				}	
 			}
 		}
 
-		// Is $_GET data allowed?
+		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
 		if ($this->allow_get_array == FALSE)
 		{
 			$_GET = array();
@@ -95,33 +94,22 @@ class CI_Input {
 		if (is_array($_POST) AND count($_POST) > 0)
 		{
 			foreach($_POST as $key => $val)
-			{                
-				if (is_array($val))
-				{ 	
-					foreach($val as $k => $v)
-					{                    
-						$_POST[$this->_clean_input_keys($key)][$this->_clean_input_keys($k)] = $this->_clean_input_data($v);
-					}
-				}
-				else
-				{
-					$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-				}
-			}            
+			{				
+				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
+			}			
 		}
 	
 		// Clean $_COOKIE Data
 		if (is_array($_COOKIE) AND count($_COOKIE) > 0)
 		{
 			foreach($_COOKIE as $key => $val)
-			{              
+			{			  
 				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}    
+			}	
 		}
 		
 		log_message('debug', "Global POST and COOKIE data sanitized");
 	}	
-	// END _sanitize_globals()
 	
 	// --------------------------------------------------------------------
 	
@@ -142,7 +130,7 @@ class CI_Input {
 			$new_array = array();
 			foreach ($str as $key => $val)
 			{
-				$new_array[$key] = $this->_clean_input_data($val);
+				$new_array[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}
 			return $new_array;
 		}
@@ -152,9 +140,9 @@ class CI_Input {
 			$str = $this->xss_clean($str);
 		}
 		
+		// Standardize newlines
 		return preg_replace("/\015\012|\015|\012/", "\n", $str);
 	}
-	// END _clean_input_data()
 	
 	// --------------------------------------------------------------------
 	
@@ -170,7 +158,7 @@ class CI_Input {
 	 * @return	string
 	 */
 	function _clean_input_keys($str)
-	{    
+	{	
 		 if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
 		 { 
 			exit('Disallowed Key Characters: '.$str);
@@ -183,7 +171,6 @@ class CI_Input {
 		
 		return $str;
 	}
-	// END _clean_input_keys()
 	
 	// --------------------------------------------------------------------
 	
@@ -200,19 +187,24 @@ class CI_Input {
 		{
 			return FALSE;
 		}
-		else
+
+		if ($xss_clean === TRUE)
 		{
-			if ($xss_clean === TRUE)
+			if (is_array($_POST[$index]))
 			{
-				return $this->xss_clean($_POST[$index]);
+				foreach($_POST[$index] as $key => $val)
+				{					
+					$_POST[$index][$key] = $this->xss_clean($val);
+				}
 			}
 			else
 			{
-				return $_POST[$index];
+				return $this->xss_clean($_POST[$index]);
 			}
 		}
+
+		return $_POST[$index];
 	}
-	// END post()
 	
 	// --------------------------------------------------------------------
 	
@@ -229,32 +221,29 @@ class CI_Input {
 		{
 			return FALSE;
 		}
-		else
-		{		
-			if ($xss_clean === TRUE)
+
+		if ($xss_clean === TRUE)
+		{
+			if (is_array($_COOKIE[$index]))
 			{
-				if (is_array($_COOKIE[$index]))
+				$cookie = array();
+				foreach($_COOKIE[$index] as $key => $val)
 				{
-					$cookie = array();
-					foreach($_COOKIE[$index] as $key => $val)
-					{
-						$cookie[$key] = $this->xss_clean($val);
-					}
-			
-					return $cookie;
+					$cookie[$key] = $this->xss_clean($val);
 				}
-				else
-				{
-					return $this->xss_clean($_COOKIE[$index]);
-				}
+		
+				return $cookie;
 			}
 			else
 			{
-				return $_COOKIE[$index];
+				return $this->xss_clean($_COOKIE[$index]);
 			}
 		}
+		else
+		{
+			return $_COOKIE[$index];
+		}
 	}
-	// END cookie()
 	
 	// --------------------------------------------------------------------
 	
@@ -297,7 +286,6 @@ class CI_Input {
 		
 		return $this->ip_address;
 	}
-	// END ip_address()
 	
 	// --------------------------------------------------------------------
 	
@@ -312,7 +300,6 @@ class CI_Input {
 	{
 		return ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip)) ? FALSE : TRUE;
 	}
-	// END valid_ip()
 	
 	// --------------------------------------------------------------------
 	
@@ -333,7 +320,6 @@ class CI_Input {
 		
 		return $this->user_agent;
 	}
-	// END user_agent()
 	
 	// --------------------------------------------------------------------
 	
@@ -403,8 +389,8 @@ class CI_Input {
 		 *
 		 */	
 		$str = preg_replace("/%u0([a-z0-9]{3})/i", "&#x\\1;", $str);
-		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str);        
-        		
+		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str);		
+				
 		/*
 		 * Convert character entities to ASCII 
 		 *
@@ -414,8 +400,8 @@ class CI_Input {
 		 *
 		 */
 		 
-        if (preg_match_all("/<(.+?)>/si", $str, $matches))
-        {        
+		if (preg_match_all("/<(.+?)>/si", $str, $matches))
+		{		
 			for ($i = 0; $i < count($matches['0']); $i++)
 			{
 				$str = str_replace($matches['1'][$i], 
@@ -532,12 +518,12 @@ class CI_Input {
 			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
 		
-                        
+						
 		log_message('debug', "XSS Filtering completed");
 		return $str;
 	}
-	// END xss_clean()
 
+	// --------------------------------------------------------------------
 
 	/**
 	 * HTML Entities Decode
@@ -555,14 +541,14 @@ class CI_Input {
 	 * @return	string
 	 */
 	/* -------------------------------------------------
-    /*  Replacement for html_entity_decode()
-    /* -------------------------------------------------*/
-    
-    /*
-    NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the 
-    character set, and the PHP developers said they were not back porting the
-    fix to versions other than PHP 5.x.
-    */
+	/*  Replacement for html_entity_decode()
+	/* -------------------------------------------------*/
+	
+	/*
+	NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the 
+	character set, and the PHP developers said they were not back porting the
+	fix to versions other than PHP 5.x.
+	*/
 	function _html_entity_decode($str, $charset='ISO-8859-1') 
 	{
 		if (stristr($str, '&') === FALSE) return $str;
