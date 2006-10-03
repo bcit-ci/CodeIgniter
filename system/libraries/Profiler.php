@@ -74,20 +74,20 @@ class CI_Profiler {
 		// be modified.  We also might want to make this data available to be logged
 	
 		$output  = "\n\n";
-		$output .= '<fieldset style="border:1px solid #990000;padding:6px 0 10px 10px;margin:0 0 20px 0;background-color:#efefef">';
+		$output .= '<fieldset style="border:1px solid #990000;padding:6px 10px 10px 10px;margin:0 0 20px 0;background-color:#eee">';
 		$output .= "\n";
 		$output .= '<legend style="color:#990000;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_benchmarks').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";			
-		$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0'>\n";
+		$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
 		
 		foreach ($profile as $key => $val)
 		{
 			$key = ucwords(str_replace(array('_', '-'), ' ', $key));
-			$output .= "<tr><td style='color:#0000;font-weight:bold;'>".$key."&nbsp;&nbsp;</td><td style='color:#990000;font-weight:normal;'>".$val."</td></tr>\n";
+			$output .= "<tr><td width='50%' style='color:#0000;font-weight:bold;background-color:#ddd;'>".$key."&nbsp;&nbsp;</td><td width='50%' style='color:#990000;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
 		}
 		
 		$output .= "</table>\n";
-		$output .= "</fieldset>\n\n";
+		$output .= "</fieldset>";
  		
  		return $output;
  	}
@@ -98,7 +98,7 @@ class CI_Profiler {
 	function _compile_queries()
 	{
 		$output  = "\n\n";
-		$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#efefef">';
+		$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
 		$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";		
@@ -117,14 +117,14 @@ class CI_Profiler {
 			{
 				foreach ($this->obj->db->queries as $val)
 				{
-					$output .= '<div style="padding:0;margin:12px 0 12px 0;background-color:#efefef;color:#000">';
+					$output .= '<div style="padding:3px;margin:12px 0 12px 0;background-color:#ddd;color:#000">';
 					$output .= $val;
 					$output .= "</div>\n";
 				}	
 			}
 		}
 		
-		$output .= "</fieldset>\n\n";		
+		$output .= "</fieldset>";		
 		
 		return $output;
 	}
@@ -132,9 +132,9 @@ class CI_Profiler {
 	// --------------------------------------------------------------------
 	
 	function _compile_post()
-	{
+	{	
 		$output  = "\n\n";
-		$output .= '<fieldset style="border:1px solid #009900;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#efefef">';
+		$output .= '<fieldset style="border:1px solid #009900;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
 		$output .= '<legend style="color:#009900;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_post_data').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
@@ -145,7 +145,7 @@ class CI_Profiler {
 		}
 		else
 		{
-			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0'>\n";
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
 		
 			foreach ($_POST as $key => $val)
 			{
@@ -154,12 +154,12 @@ class CI_Profiler {
 					$key = "'".$key."'";
 				}
 			
-				$output .= "<tr><td style='color:#0000;'>&#36;_POST[".$key."]&nbsp;&nbsp;</td><td style='color:#009900;font-weight:normal;'>".htmlspecialchars(stripslashes($val))."</td></tr>\n";
+				$output .= "<tr><td width='50%' style='color:#0000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp;</td><td width='50%' style='color:#009900;font-weight:normal;background-color:#ddd;'>".htmlspecialchars(stripslashes($val))."</td></tr>\n";
 			}
 			
 			$output .= "</table>\n";
 		}
-		$output .= "</fieldset>\n\n";
+		$output .= "</fieldset>";
 
 		return $output;	
 	}
@@ -177,10 +177,13 @@ class CI_Profiler {
 		$obj =& get_instance();
 		
 		$output = '<br clear="all" />';
+		$output .= "<div style='background-color:#fff;padding:10px;'>";
 	
 		$output .= $this->_compile_benchmarks();
 		$output .= $this->_compile_post();
 		$output .= $this->_compile_queries();
+		
+		$output .= '</div>';
 		
 		return $output;
 	}
