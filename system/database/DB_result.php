@@ -70,7 +70,7 @@ class CI_DB_result {
 		
 		if (count($this->result_object) == 0)
 		{
-			return FALSE;
+			return array();
 		}		
 		
 		return $this->result_object;
@@ -98,7 +98,7 @@ class CI_DB_result {
 		
 		if (count($this->result_array) == 0)
 		{
-			return FALSE;
+			return array();
 		}
 		
 		return $this->result_array;
