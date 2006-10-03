@@ -19,7 +19,10 @@
  * Code Igniter Profiler Class
  *
  * This class enables you to display benchmark, query, and other data
- * in order to help with debugging and optimization
+ * in order to help with debugging and optimization.
+ *
+ * Note: At some point it would be good to move all the HTML in this class
+ * into a set of template files in order to allow customization.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -164,7 +167,7 @@ class CI_Profiler {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Run the Auto-profiler
+	 * Run the Profiler
 	 *
 	 * @access	private
 	 * @return	string
