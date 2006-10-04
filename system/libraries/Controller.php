@@ -504,7 +504,7 @@ class Controller extends CI_Base {
 		$obj =& get_instance();
 		$obj->db =& $DB;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**

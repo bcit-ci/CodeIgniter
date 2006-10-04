@@ -41,7 +41,7 @@
 * @param	bool	optional flag that lets classes get loaded but not instantiated
 * @return	object
 */
-function &_load_class($class, $instantiate = TRUE)
+function _load_class($class, $instantiate = TRUE)
 {
 	static $objects = array();
 
@@ -120,7 +120,6 @@ function &_load_class($class, $instantiate = TRUE)
 
 /**
 * Loads the main config.php file
-*
 *
 * @access	private
 * @return	array
