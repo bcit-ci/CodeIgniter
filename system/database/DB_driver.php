@@ -41,8 +41,6 @@ class CI_DB_driver {
 	var $conn_id		= FALSE;
 	var $result_id		= FALSE;
 	var $db_debug		= FALSE;
-	var $query_caching	= FALSE;
-	var $cache_dir		= '';
 	var $benchmark		= 0;
 	var $query_count	= 0;
 	var $bind_marker	= '?';
@@ -51,11 +49,14 @@ class CI_DB_driver {
 	var $trans_enabled	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
+	var $cache_on		= FALSE;
+	var $cachedir		= '';
 
-    // These are use with Oracle
-    var $stmt_id;
-    var $curs_id;
-    var $limit_used;
+
+	// These are use with Oracle
+	var $stmt_id;
+	var $curs_id;
+	var $limit_used;
 
 
 	
@@ -86,10 +87,24 @@ class CI_DB_driver {
 	 * @return	void
 	 */	
 	function initialize($params = '')
-	{	
+	{
 		if (is_array($params))
 		{
-			foreach (array('hostname' => '', 'username' => '', 'password' => '', 'database' => '', 'dbdriver' => 'mysql', 'dbprefix' => '', 'port' => '', 'pconnect' => FALSE, 'db_debug' => FALSE) as $key => $val)
+			$defaults = array(
+								'hostname'	=> '', 
+								'username'	=> '', 
+								'password'	=> '', 
+								'database'	=> '', 
+								'dbdriver'	=> 'mysql', 
+								'dbprefix'	=> '', 
+								'port'		=> '', 
+								'pconnect'	=> FALSE, 
+								'db_debug'	=> FALSE, 
+								'cachedir'	=> '', 
+								'cache_on'	=> FALSE
+							);
+		
+			foreach ($defaults as $key => $val)
 			{
 				$this->$key = ( ! isset($params[$key])) ? $val : $params[$key];
 			}
@@ -112,25 +127,19 @@ class CI_DB_driver {
 			$this->password = ( ! isset($dsn['pass'])) ? '' : rawurldecode($dsn['pass']);
 			$this->database = ( ! isset($dsn['path'])) ? '' : rawurldecode(substr($dsn['path'], 1));
 		}
-	
-		if ($this->pconnect == FALSE)
-		{
-			$this->conn_id = $this->db_connect();
-		}
-		else
-		{
-			$this->conn_id = $this->db_pconnect();
-		}	
-       
-        if ( ! $this->conn_id)
-        { 
+		
+		// Connect to the database
+		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+	   
+		if ( ! $this->conn_id)
+		{ 
 			log_message('error', 'Unable to connect to the database');
 			
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				$this->display_error('db_unable_to_connect');
-            }
-        }
+			}
+		}
 		else
 		{
 			if ( ! $this->db_select())
@@ -142,7 +151,13 @@ class CI_DB_driver {
 					$this->display_error('db_unable_to_select', $this->database);
 				}
 			}	
-		}	
+		}
+		
+		// Is there a cache direcotry specified in the config file?
+		if ($this->cachedir != '')
+		{
+			$this->cache_set_dir($this->cachedir);
+		}
 	}
 	
 	
@@ -172,15 +187,15 @@ class CI_DB_driver {
 	{
 		if (FALSE === ($sql = $this->_version()))
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_unsupported_function');
-            }
-            return FALSE;        
+			}
+			return FALSE;		
 		}
 		
-        if ($this->dbdriver == 'oci8')
-        {
+		if ($this->dbdriver == 'oci8')
+		{
 			return $sql;
 		}
 	
@@ -205,30 +220,25 @@ class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed		 
 	 */	
-    function query($sql, $binds = FALSE, $return_object = TRUE)
-    {    
+	function query($sql, $binds = FALSE, $return_object = TRUE)
+	{	
 		if ($sql == '')
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				log_message('error', 'Invalid query: '.$sql);
 				return $this->display_error('db_invalid_query');
-            }
-            return FALSE;        
+			}
+			return FALSE;		
 		}
 		
-		// Is query caching enabled?  If the query is a "read type" we'll
+		// Is query caching enabled?  If the query is a "read type" we will
 		// grab the previously cached query if it exists and return it.
-		if ($this->query_caching == TRUE)
-		{
-			if (stristr($sql, 'SELECT'))
+		if ($this->cache_on == TRUE AND stristr($sql, 'SELECT'))
+		{		
+			if (FALSE !== ($cache = $this->cache_read($sql)))
 			{
-				$CACHE =& _load_cache_class();			
-			
-				if (FALSE !== ($CACHE->cache_exists($sql)))
-				{
-					return $CACHE->get_cache($sql);
-				}
+				return $cache;
 			}
 		}
 		
@@ -238,20 +248,20 @@ class CI_DB_driver {
 			$sql = $this->compile_binds($sql, $binds);
 		}
 
-        // Save the  query for debugging
-        $this->queries[] = $sql;
+		// Save the  query for debugging
+		$this->queries[] = $sql;
 
 		// Start the Query Timer
-        $time_start = list($sm, $ss) = explode(' ', microtime());
-      
+		$time_start = list($sm, $ss) = explode(' ', microtime());
+	  
 		// Run the Query
-        if (FALSE === ($this->result_id = $this->simple_query($sql)))
-        { 
-        	// This will trigger a rollback if transactions are being used
-        	$this->_trans_failure = TRUE;
-        	
-            if ($this->db_debug)
-            {
+		if (FALSE === ($this->result_id = $this->simple_query($sql)))
+		{ 
+			// This will trigger a rollback if transactions are being used
+			$this->_trans_failure = TRUE;
+			
+			if ($this->db_debug)
+			{
 				log_message('error', 'Query error: '.$this->_error_message());
 				return $this->display_error(
 										array(
@@ -260,18 +270,18 @@ class CI_DB_driver {
 												$sql
 											)
 										);
-            }
-          
-          return FALSE;
-        }
-        
+			}
+		  
+		  return FALSE;
+		}
+		
 		// Stop and aggregate the query time results
 		$time_end = list($em, $es) = explode(' ', microtime());
 		$this->benchmark += ($em + $es) - ($sm + $ss);
 
 		// Increment the query counter
-        $this->query_count++;
-        
+		$this->query_count++;
+		
 		// Was the query a "write" type?
 		// If so we'll simply return true
 		if ($this->is_write_type($sql) === TRUE)
@@ -298,17 +308,17 @@ class CI_DB_driver {
 		}
 
 		// Instantiate the result object	
-        $RES = new $result();
-        $RES->conn_id	= $this->conn_id;
-        $RES->db_debug	= $this->db_debug;
-        $RES->result_id	= $this->result_id;
-        
-        if ($this->dbdriver == 'oci8')
-        {
+		$RES = new $result();
+		$RES->conn_id	= $this->conn_id;
+		$RES->db_debug	= $this->db_debug;
+		$RES->result_id	= $this->result_id;
+		
+		if ($this->dbdriver == 'oci8')
+		{
 			$RES->stmt_id   = $this->stmt_id;
 			$RES->curs_id   = NULL;
 			$RES->limit_used = $this->limit_used;
-        }
+		}
 
 		return $RES;
 	}
@@ -589,11 +599,11 @@ class CI_DB_driver {
 	
 		if (FALSE === ($sql = $this->_list_tables()))
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_unsupported_function');
-            }
-            return FALSE;        
+			}
+			return FALSE;		
 		}
 
 		$retval = array();
@@ -638,35 +648,35 @@ class CI_DB_driver {
 	 * @param	string	the table name
 	 * @return	array		 
 	 */
-    function list_fields($table = '')
-    {
+	function list_fields($table = '')
+	{
 		// Is there a cached result?
 		if (isset($this->data_cache['field_names'][$table]))
 		{
 			return $this->data_cache['field_names'][$table];
 		}
-    
-    	if ($table == '')
-    	{
+	
+		if ($table == '')
+		{
 			if ($this->db_debug)
 			{
 				return $this->display_error('db_field_param_missing');
 			}
 			return FALSE;			
-    	}
-    	
+		}
+		
 		if (FALSE === ($sql = $this->_list_columns($this->dbprefix.$table)))
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_unsupported_function');
-            }
-            return FALSE;        
+			}
+			return FALSE;		
 		}
-    	
-    	$query = $this->query($sql);
-    	
-    	$retval = array();
+		
+		$query = $this->query($sql);
+		
+		$retval = array();
 		foreach($query->result_array() as $row)
 		{
 			if (isset($row['COLUMN_NAME']))
@@ -676,11 +686,11 @@ class CI_DB_driver {
 			else
 			{
 				$retval[] = current($row);
-			}    	
+			}		
 		}
-    	
+		
 		return $this->data_cache['field_names'][$table] =& $retval;
-    }
+	}
 
 	// --------------------------------------------------------------------
 
@@ -695,16 +705,16 @@ class CI_DB_driver {
 	{	
 		return ( ! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
 	}
-    
+	
 	// --------------------------------------------------------------------
 
 	/**
 	 * DEPRECATED - use list_fields()
 	 */
-    function field_names($table = '') 
-    {
-    	return $this->list_fields($table);
-    }
+	function field_names($table = '') 
+	{
+		return $this->list_fields($table);
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -717,15 +727,15 @@ class CI_DB_driver {
 	 */	
 	function field_data($table = '')
 	{
-    	if ($table == '')
-    	{
+		if ($table == '')
+		{
 			if ($this->db_debug)
 			{
 				return $this->display_error('db_field_param_missing');
 			}
 			return FALSE;			
-    	}
-    	
+		}
+		
 		$query = $this->query($this->_field_data($this->dbprefix.$table));
 		return $query->field_data();
 	}	
@@ -742,7 +752,7 @@ class CI_DB_driver {
 	 */	
 	function insert_string($table, $data)
 	{
-		$fields = array();      
+		$fields = array();	  
 		$values = array();
 		
 		foreach($data as $key => $val) 
@@ -802,7 +812,7 @@ class CI_DB_driver {
 		}		
 
 		return $this->_update($this->dbprefix.$table, $fields, $dest);
-	}    
+	}	
 
 	// --------------------------------------------------------------------
 
@@ -838,31 +848,6 @@ class CI_DB_driver {
 			return call_user_func_array($function, $args); 
 		}
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set Cache Path
-	 *
-	 * @access	public
-	 * @param	string	the path to the cache directory
-	 * @return	void
-	 */		
-	function set_cache_path($path = '')
-	{
-		if ( ! is_dir($path) OR ! is_writable($path))
-		{
-			if ($this->db_debug)
-			{
-				return $this->display_error('db_invalid_cache_path');
-			}
-			
-			$this->enable_caching(FALSE);
-			return FALSE;
-		}
-	
-		$this->cache_dir = $path;
-	}
 	
 	// --------------------------------------------------------------------
 
@@ -889,29 +874,146 @@ class CI_DB_driver {
 	{
 		$this->query_caching = FALSE;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Directory Path
+	 *
+	 * @access	public
+	 * @param	string	the path to the cache directory
+	 * @return	void
+	 */		
+	function cache_set_dir($path = '')
+	{
+		// Add a trailing slash to the path if needed
+		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
+	
+		if ( ! is_dir($path) OR ! is_writable($path))
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_invalid_cache_path');
+			}
+			
+			$this->enable_caching(FALSE);
+			return FALSE;
+		}
+		
+		$this->cache_dir = $path;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Path
+	 *
+	 * @access	public
+	 * @param	string	the path to the cache directory
+	 * @return	void
+	 */	
+	function cache_set_path($sql)
+	{
+		$obj =& get_instance();		
+				
+		// The URI being requested will become the name of the cache sub-folder
+		
+		$uri = ($obj->uri->uri_string() == '') ? 'index' : $obj->uri->uri_string();
+		
+		// Convert the SQL query into a hash.  This will become the cache file name.
+	
+		return md5($uri).'/'.md5($sql);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Retreive a cached query
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function cache_read($sql)
+	{	
+		if ( ! @is_dir($this->cache_dir))
+		{
+			return $this->cache_on = FALSE;
+		}
+	
+		$filepath = $this->cache_set_path($sql);
+	
+		if ( ! @file_exists($this->cache_dir.$filepath))
+		{
+			return FALSE;
+		}
+		
+		if ( ! $fp = @fopen($this->cache_dir.$filepath, 'rb'))
+		{
+			return FALSE;
+		}
+
+		$cachedata = file_get_contents($this->cache_dir.$filepath);
+		
+		if ( ! is_string($cachedata))
+		{	
+			return FALSE;
+		}
+		
+		return unserialize($cachedata);			
+	}	
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Load Caching Class
-	 * 
-	 * @access	private
-	 * @return	object		 
-	 */	
-	function _load_cache_class()
+	 * Write a query to a cache file
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	function cache_write($sql, $object)
 	{
-		static $CACHE = NULL;
-		
-		if (is_object($CACHE))
+		if ( ! @is_dir($this->cache_dir))
 		{
-			return $CACHE;
+			return $this->cache_on = FALSE;
 		}
 	
-		require_once BASEPATH.'database/DB_cache'.EXT;
-		$CACHE = new DB_cache();		
-		return $CACHE;
-	}
+		$filepath = $this->cache_set_path($sql);
 	
+	
+	
+		
+	
+	
+		$dirs = array(PATH_CACHE.'db_cache', substr($this->cache_dir, 0, -1));
+		
+		foreach ($dirs as $dir)
+		{	   
+			if ( ! @is_dir($dir))
+			{
+				if ( ! @mkdir($dir, 0777))
+				{
+					return;
+				}
+				
+				@chmod($dir, 0777);			
+			}
+		}
+		  
+		if ( ! $fp = @fopen($this->cache_dir.$this->cache_file, 'wb'))
+		{
+			return FALSE;
+		}
+		
+		flock($fp, LOCK_EX);
+		fwrite($fp, $object);
+		flock($fp, LOCK_UN);
+		fclose($fp);
+		
+		@chmod($this->cache_dir.$this->cache_file, 0777);			
+
+		return TRUE;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -920,14 +1022,14 @@ class CI_DB_driver {
 	 * @access	public
 	 * @return	void		 
 	 */	
-    function close()
-    {
-        if (is_resource($this->conn_id))
-        {
-            $this->_close($this->conn_id);
+	function close()
+	{
+		if (is_resource($this->conn_id))
+		{
+			$this->_close($this->conn_id);
 		}   
 		$this->conn_id = FALSE;
-    }
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -940,8 +1042,8 @@ class CI_DB_driver {
 	 * @param	boolean	whether to localize the message
 	 * @return	string	sends the application/errror_db.php template		 
 	 */	
-    function display_error($error = '', $swap = '', $native = FALSE) 
-    {
+	function display_error($error = '', $swap = '', $native = FALSE) 
+	{
 		$LANG = new CI_Language();
 		$LANG->load('db');
 
@@ -965,7 +1067,7 @@ class CI_DB_driver {
 		echo $error->show_error('An Error Was Encountered', $message, 'error_db');
 		exit;
 
-    }  
+	}  
 	
 }
 
