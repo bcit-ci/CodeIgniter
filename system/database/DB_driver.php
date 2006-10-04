@@ -902,6 +902,20 @@ class CI_DB_driver {
 	{
 		return $this->query_caching = FALSE;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Directory Path
+	 *
+	 * @access	public
+	 * @param	string	the path to the cache directory
+	 * @return	void
+	 */		
+	function cache_set_path($path = '')
+	{
+		$this->cachedir = $path;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -913,17 +927,14 @@ class CI_DB_driver {
 	 */	
 	function _cache_init()
 	{
-		if (is_object($this->cache))
+		if (is_object($this->cache) AND class_exists('CI_DB_Cache'))
 		{
 			return TRUE;
 		}
 	
-		if ( ! class_exists('CI_DB_Cache'))
+		if ( ! @include_once(BASEPATH.'database/DB_cache'.EXT))
 		{
-			if ( ! @include_once(BASEPATH.'database/DB_cache'.EXT))
-			{
-				return $this->cache_off();
-			}
+			return $this->cache_off();
 		}
 		
 		$this->cache = new CI_DB_Cache;
