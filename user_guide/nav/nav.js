@@ -105,6 +105,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'helpers/text_helper.html">Text Helper</a></li>' +
 		'<li><a href="'+base+'helpers/typography_helper.html">Typography Helper</a></li>' +
 		'<li><a href="'+base+'helpers/url_helper.html">URL Helper</a></li>' +
+		'<li><a href="'+base+'helpers/user_agent_helper.html">User Agent Helper</a></li>' +
 		'<li><a href="'+base+'helpers/xml_helper.html">XML Helper</a></li>' +
 		'</ul>' +	
 
