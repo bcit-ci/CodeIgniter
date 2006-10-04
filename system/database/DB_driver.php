@@ -51,6 +51,7 @@ class CI_DB_driver {
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
+	var $cache; // The cache class object
 
 
 	// These are use with Oracle
@@ -152,12 +153,6 @@ class CI_DB_driver {
 				}
 			}	
 		}
-		
-		// Is there a cache direcotry specified in the config file?
-		if ($this->cachedir != '')
-		{
-			$this->cache_set_path($this->cachedir);
-		}
 	}
 	
 	
@@ -232,13 +227,17 @@ class CI_DB_driver {
 			return FALSE;		
 		}
 		
-		// Is query caching enabled?  If the query is a "read type" we will
-		// grab the previously cached query if it exists and return it.
+		// Is query caching enabled?  If the query is a "read type" 
+		// we will load the caching class and return the previously 
+		// cached query if it exists
 		if ($this->cache_on == TRUE AND stristr($sql, 'SELECT'))
-		{				
-			if (FALSE !== ($cache = $this->cache_read($sql)))
+		{
+			if ($this->_cache_init())
 			{
-				return $cache;
+				if (FALSE !== ($cache = $this->cache->read($sql)))
+				{
+					return $cache;
+				}
 			}
 		}
 		
@@ -289,9 +288,9 @@ class CI_DB_driver {
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
 			
-			if ($this->cache_on == TRUE)
+			if ($this->cache_on == TRUE AND $this->_cache_init())
 			{
-				$this->cache_delete();
+				$this->cache->delete();
 			}
 		
 			return TRUE;
@@ -323,9 +322,9 @@ class CI_DB_driver {
 		
 		// Is query caching enabled?  If so, we'll serialize the 
 		// result object and save it to a cache file
-		if ($this->cache_on == TRUE)
+		if ($this->cache_on == TRUE AND $this->_cache_init())
 		{				
-			$this->cache_write($sql, $RES);
+			$this->cache->write($sql, $RES);
 		}
 		
 		return $RES;
@@ -903,153 +902,34 @@ class CI_DB_driver {
 	{
 		return $this->query_caching = FALSE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set Cache Directory Path
+	 * Initialize the Cache Class
 	 *
-	 * @access	public
-	 * @param	string	the path to the cache directory
-	 * @return	bool
-	 */		
-	function cache_set_path($path = '')
+	 * @access	private
+	 * @return	void
+	 */	
+	function _cache_init()
 	{
-		if ($path == '')
+		if (is_object($this->cache))
 		{
-			return $this->cache_off();
+			return TRUE;
 		}
 	
-		// Add a trailing slash to the path if needed
-		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
-	
-		if ( ! is_dir($path) OR ! is_writable($path))
+		if ( ! class_exists('CI_DB_Cache'))
 		{
-			if ($this->db_debug)
+			if ( ! @include_once(BASEPATH.'database/DB_cache'.EXT))
 			{
-				return $this->display_error('db_invalid_cache_path');
+				return $this->cache_off();
 			}
-			
-			// If the path is wrong we'll turn off caching
-			return $this->cache_off();
 		}
 		
-		$this->cache_dir = $path;
-		return TRUE;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Retreive a cached query
-	 *
-	 * The URI being requested will become the name of the cache sub-folder.
-	 * An MD5 hash of the SQL statement will become the cache file name
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function cache_read($sql)
-	{
-		if ( ! $this->cache_set_path($this->cache_dir))
-		{
-			return $this->cache_off();
-		}
-	
-		$obj =& get_instance();	
-		$uri  = ($obj->uri->segment(1) == FALSE) ? 'base'  : $obj->uri->segment(2);
-		$uri .= ($obj->uri->segment(2) == FALSE) ? 'index' : $obj->uri->segment(2);
-		
-		$filepath = md5($uri).'/'.md5($sql);
-		
-		$obj->load->helper('file');	
-		if (FALSE === ($cachedata = read_file($this->cache_dir.$filepath)))
-		{	
-			return FALSE;
-		}
-		
-		return unserialize($cachedata);			
-	}	
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Write a query to a cache file
-	 *
-	 * @access	public
-	 * @return	bool
-	 */
-	function cache_write($sql, $object)
-	{
-		if ( ! $this->cache_set_path($this->cache_dir))
-		{
-			return $this->cache_off();
-		}
-
-		$obj =& get_instance();	
-		$uri  = ($obj->uri->segment(1) == FALSE) ? 'base'  : $obj->uri->segment(2);
-		$uri .= ($obj->uri->segment(2) == FALSE) ? 'index' : $obj->uri->segment(2);
-		
-		$dir_path = $this->cache_dir.md5($uri).'/';
-		
-		$filename = md5($sql);
-	
-		if ( ! @is_dir($dir_path))
-		{
-			if ( ! @mkdir($dir_path, 0777))
-			{
-				return FALSE;
-			}
-			
-			@chmod($dir_path, 0777);			
-		}
-		
-		$obj->load->helper('file');	
-		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
-		{
-			return FALSE;
-		}
-		
-		@chmod($dir_path.$filename, 0777);
+		$this->cache = new CI_DB_Cache;
 		return TRUE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete cache files within a particular directory
-	 *
-	 * @access	public
-	 * @return	bool
-	 */
-	function cache_delete()
-	{
-		$obj =& get_instance();	
-		$uri  = ($obj->uri->segment(1) == FALSE) ? 'base'  : $obj->uri->segment(2);
-		$uri .= ($obj->uri->segment(2) == FALSE) ? 'index' : $obj->uri->segment(2);
-		
-		$dir_path = $this->cache_dir.md5($uri).'/';
-		
-		$obj->load->helper('file');	
-		delete_files($dir_path, TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete all existing cache files
-	 *
-	 * @access	public
-	 * @return	bool
-	 */
-	// --------------------------------------------------------------------
-
-	function cache_delete_all()
-	{
-		$obj =& get_instance();	
-		$obj->load->helper('file');
-		delete_files($this->cache_dir, TRUE);
-	}
 
 	// --------------------------------------------------------------------
 
