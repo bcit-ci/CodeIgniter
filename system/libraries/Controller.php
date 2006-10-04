@@ -430,6 +430,7 @@ class Controller extends CI_Base {
 	 * @access	private
 	 * @param	mixed	database connection values
 	 * @param	bool	whether to return the object for multiple connections
+	 * @param	bool	whether to load the active record class
 	 * @return	void
 	 */
 	function _ci_init_database($params = '', $return = FALSE, $active_record = FALSE)
@@ -439,7 +440,7 @@ class Controller extends CI_Base {
 			return;
 		}
 	
-		// Load the DB config file if needed
+		// Load the DB config file if needed.  We'll test for a DSN string
 		if (is_string($params) AND strpos($params, '://') === FALSE)
 		{
 			include(APPPATH.'config/database'.EXT);

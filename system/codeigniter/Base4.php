@@ -20,9 +20,9 @@
  * 
  * This file is used only when Code Igniter is being run under PHP 4.  
  * Since PHP 4 has such poor object handling we had to come up with 
- * a hack to resolve some scoping problems.  PHP 5 doesn't suffer from 
- * this problem so we load one of two files based on the version of 
- * PHP being run.
+ * a hack (and a really ugly one at that...) to resolve some scoping 
+ * problems.  PHP 5 doesn't suffer from this problem so we load one of 
+ * two files based on the version of PHP being run.
  * 
  * @package		CodeIgniter
  * @subpackage	codeigniter
@@ -45,14 +45,7 @@ function &get_instance()
 {
 	global $OBJ, $CI;
 	
-	if (is_object($CI))
-	{
-		return $CI;
-	}
-	else
-	{
-		return $OBJ->load;
-	}
+	return (is_object($CI)) ? $CI : $OBJ->load;
 }
 
 ?>
