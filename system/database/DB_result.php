@@ -253,6 +253,11 @@ class CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
+	 *
 	 * @access	public
 	 * @return	integer
 	 */
@@ -265,6 +270,11 @@ class CI_DB_result {
 
 	/**
 	 * Number of fields in the result set
+	 *
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	public
 	 * @return	integer
@@ -279,7 +289,10 @@ class CI_DB_result {
 	/**
 	 * Fetch Field Names
 	 *
-	 * Generates an array of column names
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	public
 	 * @return	array
@@ -294,7 +307,10 @@ class CI_DB_result {
 	/**
 	 * Field data
 	 *
-	 * Generates an array of objects containing field meta-data
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	public
 	 * @return	array
@@ -316,6 +332,11 @@ class CI_DB_result {
 	/**
 	 * Free the result
 	 *
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
+	 *
 	 * @return	null
 	 */		
 	function free_result()
@@ -328,14 +349,15 @@ class CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	private
 	 * @return	array
 	 */
-	function _data_seek($n = 0)
+	function _data_seek()
 	{
 		return TRUE;
 	}
@@ -345,7 +367,10 @@ class CI_DB_result {
 	/**
 	 * Result - associative array
 	 *
-	 * Returns the result set as an array
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	private
 	 * @return	array
@@ -360,7 +385,10 @@ class CI_DB_result {
 	/**
 	 * Result - object
 	 *
-	 * Returns the result set as an object
+	 * Note: This function is normally overloaded by the identically named 
+	 * method in the platform-specific driver -- except when query caching
+	 * is used.  When caching is enabled we do not load the other driver,
+	 * so this function is here primarily to prevent undefined function errors. 
 	 *
 	 * @access	private
 	 * @return	object
@@ -371,5 +399,5 @@ class CI_DB_result {
 	}
 
 }
-
+// END DB_result class
 ?>
