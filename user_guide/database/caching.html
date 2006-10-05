@@ -78,9 +78,9 @@ rather then accessing your database. In other words, the first time a page is lo
 The next time the page is loaded the cached file will be used.</p>
 
 <p>When a "write" type query (INSERT, UPDATE, etc.) is run , any cache files associated with the particular page being viewed
-will be deleted automatically.  In some cases you may need to update some data with every page load (user stats, for example).
-In these cases you'll proabably want to manually disable caching just before running your "write" query, then re-enable it just
-after. Otherwise, your site will be caught ina cycle of writing/deleting caches, creating more load then if you were not using
+will be deleted automatically.  If you need to update some data with every page load (user stats, for example) you will 
+need to manually disable caching just before running your "write" query, then re-enable it just
+after. Otherwise, your site will be caught in a cycle of writing/deleting caches with every page view, creating more load then if you were not using
 caching. More information on this will be found below.</p>
 
 
@@ -104,6 +104,48 @@ single answer to the question of whether you should cache your database.  It rea
 <li>Setting the path to your cache folder in your <dfn>application/config/database.php</dfn> file.</li>
 <li>Enalbling the caching preference either in your database config file or manually in your controllers.</li>
 </ul>
+
+
+<h2>Caching Example</h2>
+
+<p>Here is an example showing how you can selectively cache some queries and not others.  Notice that the "write" type queries
+are not.
+
+<code>
+<kbd>$this->db->cache_on();</kbd> // Turns on caching.  We assume that you've set up a valid cache foler...
+
+$query = $this->db->query("SELECT * FROM blog LIMIT 10);
+
+foreach ($query->result() as $row)
+{
+	echo '<h3>'.$row->title.'</h3>';
+	echo '<p>'>.$row->content.'</p>';
+}
+
+
+
+
+
+
+
+
+
+</code>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
