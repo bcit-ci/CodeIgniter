@@ -51,7 +51,7 @@ class CI_DB_driver {
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
-	var $cache; // The cache class object
+	var $CACHE; // The cache class object
 
 
 	// These are use with Oracle
@@ -234,7 +234,7 @@ class CI_DB_driver {
 		{
 			if ($this->_cache_init())
 			{
-				if (FALSE !== ($cache = $this->cache->read($sql)))
+				if (FALSE !== ($cache = $this->CACHE->read($sql)))
 				{
 					return $cache;
 				}
@@ -287,10 +287,9 @@ class CI_DB_driver {
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
-			
 			if ($this->cache_on == TRUE AND $this->_cache_init())
 			{
-				$this->cache->delete();
+				$this->CACHE->delete();
 			}
 		
 			return TRUE;
@@ -305,26 +304,35 @@ class CI_DB_driver {
 		}
 	
 		// Load and instantiate the result driver	
-
-		$driver = $this->load_rdriver();
 		
-		$RES = new $driver();
+		$driver 		= $this->load_rdriver();
+		$RES 			= new $driver();
 		$RES->conn_id	= $this->conn_id;
-		$RES->db_debug	= $this->db_debug;
 		$RES->result_id	= $this->result_id;
 		
 		if ($this->dbdriver == 'oci8')
 		{
-			$RES->stmt_id   = $this->stmt_id;
-			$RES->curs_id   = NULL;
-			$RES->limit_used = $this->limit_used;
+			$RES->stmt_id		= $this->stmt_id;
+			$RES->curs_id		= NULL;
+			$RES->limit_used	= $this->limit_used;
 		}
 		
 		// Is query caching enabled?  If so, we'll serialize the 
-		// result object and save it to a cache file
+		// result object and save it to a cache file.
 		if ($this->cache_on == TRUE AND $this->_cache_init())
-		{				
-			$this->cache->write($sql, $RES);
+		{
+			// We'll create a new instance of the result object
+			// only without the platform specific driver since
+			// we can't use it with cached data (the query result
+			// resource ID won't be any good once we've cached the
+			// result object, so we'll have to compile the data
+			// and save it)
+			$CR = new CI_DB_result();
+			$CR->num_rows 		= $RES->num_rows();
+			$CR->result_object	= $RES->result_object();
+			$CR->result_array	= $RES->result_array();
+
+			$this->CACHE->write($sql, $CR);
 		}
 		
 		return $RES;
@@ -887,7 +895,7 @@ class CI_DB_driver {
 	 */		
 	function cache_on()
 	{
-		return $this->query_caching = TRUE;
+		return $this->cache_on = TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -900,7 +908,7 @@ class CI_DB_driver {
 	 */	
 	function cache_off()
 	{
-		return $this->query_caching = FALSE;
+		return $this->cache_on = FALSE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -927,7 +935,7 @@ class CI_DB_driver {
 	 */	
 	function _cache_init()
 	{
-		if (is_object($this->cache) AND class_exists('CI_DB_Cache'))
+		if (is_object($this->CACHE) AND class_exists('CI_DB_Cache'))
 		{
 			return TRUE;
 		}
@@ -937,7 +945,7 @@ class CI_DB_driver {
 			return $this->cache_off();
 		}
 		
-		$this->cache = new CI_DB_Cache;
+		$this->CACHE = new CI_DB_Cache;
 		return TRUE;
 	}
 
