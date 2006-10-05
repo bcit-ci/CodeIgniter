@@ -28,8 +28,8 @@
  */
 class CI_DB_result {
 
-	var $conn_id		= FALSE;
-	var $result_id		= FALSE;
+	var $conn_id		= NULL;
+	var $result_id		= NULL;
 	var $result_array	= array();
 	var $result_object	= array();
 	var $current_row 	= 0;
@@ -251,152 +251,23 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Number of rows in the result set
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
+	 * The following functions are normally overloaded by the identically named 
+	 * methods in the platform-specific driver -- except when query caching
 	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	public
-	 * @return	integer
+	 * These functions are primarily here to prevent undefined function errors
+	 * when a cached result object is in use.  They are not otherwise fully 
+	 * operational due to the unavailability of database resource IDs with
+	 * cached results.
 	 */
-	function num_rows()
-	{
-		return $this->num_rows;
-	}
-	
-	// --------------------------------------------------------------------
+	function num_rows() { return $this->num_rows; }
+	function num_fields() { return 0; }
+	function field_names() { return array(); }
+	function field_data() { return array(); }	
+	function free_result() { return TRUE; }
+	function _data_seek() { return TRUE; }
+	function _fetch_assoc() { return array(); }	
+	function _fetch_object() { return array(); }
 
-	/**
-	 * Number of fields in the result set
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	public
-	 * @return	integer
-	 */
-	function num_fields()
-	{
-		return 0;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch Field Names
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	public
-	 * @return	array
-	 */
-	function field_names()
-	{		
-		return array();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	public
-	 * @return	array
-	 */
-	function field_data()
-	{
-		$F				= new stdClass();
-		$F->name 		= NULL;
-		$F->type 		= NULL;
-		$F->default		= NULL;
-		$F->max_length	= NULL;
-		$F->primary_key = NULL;
-			
-		return $retval[] = $F;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Free the result
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @return	null
-	 */		
-	function free_result()
-	{
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _data_seek()
-	{
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Result - associative array
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _fetch_assoc()
-	{
-		return array();
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Result - object
-	 *
-	 * Note: This function is normally overloaded by the identically named 
-	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
-	 * This function will only be called when a cached result object is in use.
-	 *
-	 * @access	private
-	 * @return	object
-	 */
-	function _fetch_object()
-	{
-		return array();
-	}
 
 }
 // END DB_result class
