@@ -112,23 +112,32 @@ single answer to the question of whether you should cache your database.  It rea
 are not.
 
 <code>
-<kbd>$this->db->cache_on();</kbd> // Turns on caching.  We assume that you've set up a valid cache foler...
+// Turn OFF caching for this one query since we don't<br />
+// want it to affect any existing cache files<br />
+<kbd>$this->db->cache_off();</kbd><br />
+<br />
+$this->db->query("UPDATE web_stats SET page_views = page_views + 1");<br />
+<br /><br />
 
-$query = $this->db->query("SELECT * FROM blog LIMIT 10);
-
-foreach ($query->result() as $row)
-{
-	echo '<h3>'.$row->title.'</h3>';
-	echo '<p>'>.$row->content.'</p>';
-}
-
-
-
-
-
-
-
-
+// Re-enable caching<br />
+<kbd>$this->db->cache_on();</kbd> <br />
+<br />
+$query = $this->db->query("SELECT * FROM blog LIMIT 10");<br />
+<br />
+foreach ($query->result() as $row)<br />
+{<br />
+	echo '&lt;h3>'.$row->title.'&lt;/h3>';<br />
+	echo '&lt;p>'>.$row->content.'&lt;/p>';<br />
+}<br />
+<br />
+$query = $this->db->query("SELECT page_views FROM web_stats");<br />
+$row = $query->row();<br />
+<br />
+echo '&lt;p>'.$row->page_views.'&lt;/p>';<br />
+<br />
+// Update the web stats, so we turn off caching so that the cache<br />
+// file for the above query doesn't get deleted<br />
+<br />
 
 </code>
 
