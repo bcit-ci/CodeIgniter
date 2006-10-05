@@ -255,8 +255,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	public
 	 * @return	integer
@@ -273,8 +273,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	public
 	 * @return	integer
@@ -291,8 +291,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	public
 	 * @return	array
@@ -309,8 +309,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	public
 	 * @return	array
@@ -334,8 +334,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @return	null
 	 */		
@@ -351,8 +351,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	private
 	 * @return	array
@@ -369,8 +369,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	private
 	 * @return	array
@@ -387,8 +387,8 @@ class CI_DB_result {
 	 *
 	 * Note: This function is normally overloaded by the identically named 
 	 * method in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver,
-	 * so this function is here primarily to prevent undefined function errors. 
+	 * is used.  When caching is enabled we do not load the other driver.
+	 * This function will only be called when a cached result object is in use.
 	 *
 	 * @access	private
 	 * @return	object
