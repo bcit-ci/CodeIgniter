@@ -118,6 +118,23 @@ class CI_DB_mysql_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Data Seek
+	 *
+	 * Moves the internal pointer to the desired offset.  We call
+	 * this internally before fetching results to make sure the
+	 * result set starts at zero
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	function _data_seek($n = 0)
+	{
+		mysql_data_seek($this->result_id, $n);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
@@ -141,7 +158,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 * @return	object
 	 */
 	function _fetch_object()
-	{	
+	{
 		return mysql_fetch_object($this->result_id);
 	}
 	
