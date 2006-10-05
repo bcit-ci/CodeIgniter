@@ -30,10 +30,10 @@ class CI_DB_result {
 
 	var $conn_id		= FALSE;
 	var $result_id		= FALSE;
-	var $db_debug		= FALSE;
 	var $result_array	= array();
 	var $result_object	= array();
 	var $current_row 	= 0;
+	var $num_rows		= 0;
 
 
 	/**
@@ -44,7 +44,7 @@ class CI_DB_result {
 	 * @return	mixed	either a result object or array	 
 	 */	
 	function result($type = 'object')
-	{
+	{	
 		return ($type == 'object') ? $this->result_object() : $this->result_array();
 	}
 
@@ -62,20 +62,16 @@ class CI_DB_result {
 		{
 			return $this->result_object;
 		}
-
+		
+		$this->_data_seek(0);
 		while ($row = $this->_fetch_object())
-		{
+		{ 
 			$this->result_object[] = $row;
 		}
 		
-		if (count($this->result_object) == 0)
-		{
-			return array();
-		}		
-		
 		return $this->result_object;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -90,15 +86,11 @@ class CI_DB_result {
 		{
 			return $this->result_array;
 		}
-			
+
+		$this->_data_seek(0);			
 		while ($row = $this->_fetch_assoc())
 		{
 			$this->result_array[] = $row;
-		}
-		
-		if (count($this->result_array) == 0)
-		{
-			return array();
 		}
 		
 		return $this->result_array;
@@ -128,16 +120,18 @@ class CI_DB_result {
 	 */	
 	function row_object($n = 0)
 	{
-		if (FALSE ===  ($result = $this->result_object()))
+		$result = $this->result_object();
+		
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
-			
+
 		if ($n != $this->current_row AND isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
-		
+
 		return $result[$this->current_row];
 	}
 
@@ -151,9 +145,11 @@ class CI_DB_result {
 	 */	
 	function row_array($n = 0)
 	{
-		if (FALSE ===  ($result = $this->result_array()))
+		$result = $this->result_array();
+
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
 			
 		if ($n != $this->current_row AND isset($result[$n]))
@@ -175,9 +171,11 @@ class CI_DB_result {
 	 */	
 	function first_row($type = 'object')
 	{
-		if (FALSE ===  ($result = $this->result($type)))
+		$result = $this->result($type);
+
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
 		return $result[0];
 	}
@@ -192,9 +190,11 @@ class CI_DB_result {
 	 */	
 	function last_row($type = 'object')
 	{
-		if (FALSE ===  ($result = $this->result($type)))
+		$result = $this->result($type);
+
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
 		return $result[count($result) -1];
 	}	
@@ -209,9 +209,11 @@ class CI_DB_result {
 	 */	
 	function next_row($type = 'object')
 	{
-		if (FALSE ===  ($result = $this->result($type)))
+		$result = $this->result($type);
+
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
 
 		if (isset($result[$this->current_row + 1]))
@@ -232,9 +234,11 @@ class CI_DB_result {
 	 */	
 	function previous_row($type = 'object')
 	{
-		if (FALSE ===  ($result = $this->result($type)))
+		$result = $this->result($type);
+
+		if (count($result) == 0)
 		{
-			return FALSE;
+			return $result;
 		}
 
 		if (isset($result[$this->current_row - 1]))
@@ -254,7 +258,7 @@ class CI_DB_result {
 	 */
 	function num_rows()
 	{
-		// Implemented in the platform-specific result adapter
+		return $this->num_rows;
 	}
 	
 	// --------------------------------------------------------------------
@@ -267,9 +271,9 @@ class CI_DB_result {
 	 */
 	function num_fields()
 	{
-		// Implemented in the platform-specific result adapter
+		return 0;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -281,8 +285,8 @@ class CI_DB_result {
 	 * @return	array
 	 */
 	function field_names()
-	{
-		// Implemented in the platform-specific result adapter
+	{		
+		return array();
 	}
 
 	// --------------------------------------------------------------------
@@ -297,9 +301,16 @@ class CI_DB_result {
 	 */
 	function field_data()
 	{
-		// Implemented in the platform-specific result adapter
+		$F				= new stdClass();
+		$F->name 		= NULL;
+		$F->type 		= NULL;
+		$F->default		= NULL;
+		$F->max_length	= NULL;
+		$F->primary_key = NULL;
+			
+		return $retval[] = $F;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -309,9 +320,55 @@ class CI_DB_result {
 	 */		
 	function free_result()
 	{
-		// Implemented in the platform-specific result adapter
+		return TRUE;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Data Seek
+	 *
+	 * Moves the internal pointer to the desired offset.  We call
+	 * this internally before fetching results to make sure the
+	 * result set starts at zero
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	function _data_seek($n = 0)
+	{
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Result - associative array
+	 *
+	 * Returns the result set as an array
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	function _fetch_assoc()
+	{
+		return array();
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Result - object
+	 *
+	 * Returns the result set as an object
+	 *
+	 * @access	private
+	 * @return	object
+	 */
+	function _fetch_object()
+	{
+		return array();
+	}
 
 }
 
