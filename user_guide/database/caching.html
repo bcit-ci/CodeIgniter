@@ -66,21 +66,30 @@ Database Caching Class
 
 <p>The Database Caching Class contains functions that permit you to cache your queries.</p>
 
-<p class="important"><strong>Important:</strong>&nbsp; This class must be initialized independently since it is a separate class from the main Database class. 
+<p class="important"><strong>Important:</strong>&nbsp; This class is initialized automatically by the database driver
+when caching is enabled, so you do NOT need to load this class manually.
 More info below...</p>
 
+<h2>How Does Caching Work?</h2>
 
-<h2>Initializing the Caching Class</h2>
+<p>When caching is enabled, anytime you run a "read" type query (SELECT) the result object will
+be serialized and stored in a text file.  Subsequent calls to that query will use the result from the cache file 
+rather then accessing your database.</p>
 
-<p>To initialize this class please use the following code:</p>
+<p>Code Igniter places your cached queries into sub-folders that are named based on the URI request.  This allows
+identical queries
 
-<code>$this->load->dbcache()</code>
 
-<p>You can also autoload this class from within your <dfn>config/autoload.php</dfn> file by specifying <kbd>dbcache</kbd> in the <samp>$autoload['libraries']</samp> array.</p>
+<p>If you run a "write" type query (INSERT, UPDATE, etc.)
 
-<p>Once initialized you will access the functions using the <dfn>$this->dbutil</dfn> object:</p>
+<p>Although caching queries reduces your database load, cached queries do require more 
+file-system operations, as cache files are created and read. Instead of accessing your database for information 
+text files are used.  
 
-<code>$this->dbcache->some_function()</code>
+Whether you see a performance gain as a result of caching is dependant on many factors. 
+For example, if you have a highly optimized database under very little load, you probably won't see a performance boost.
+If your database is under heavy use you probably will see an improved response, assuming your filesystem is not 
+overly taxed.</p>
 
 
 
