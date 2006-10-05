@@ -97,10 +97,10 @@ class CI_DB_Cache {
 			return $this->obj->db->cache_off();
 		}
 	
-		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'base'  : $this->obj->uri->segment(2);
-		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index' : $this->obj->uri->segment(2);
+		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'default_'	: $this->obj->uri->segment(1).'_';
+		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index'	: $this->obj->uri->segment(2);
 		
-		$filepath = md5($uri).'/'.md5($sql);
+		$filepath = $uri.'/'.md5($sql);
 		
 		if (FALSE === ($cachedata = read_file($this->obj->db->cachedir.$filepath)))
 		{	
@@ -125,10 +125,10 @@ class CI_DB_Cache {
 			return $this->obj->db->cache_off();
 		}
 
-		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'base'  : $this->obj->uri->segment(2);
-		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index' : $this->obj->uri->segment(2);
+		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'default_'	: $this->obj->uri->segment(1).'_';
+		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index'	: $this->obj->uri->segment(2);
 		
-		$dir_path = $this->obj->db->cachedir.md5($uri).'/';
+		$dir_path = $this->obj->db->cachedir.$uri.'/';
 		
 		$filename = md5($sql);
 	
