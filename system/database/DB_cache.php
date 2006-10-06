@@ -159,12 +159,19 @@ class CI_DB_Cache {
 	 * @access	public
 	 * @return	bool
 	 */
-	function delete()
-	{
-		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'base'  : $this->obj->uri->segment(2);
-		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index' : $this->obj->uri->segment(2);
+	function delete($segment_one = '', $segment_two = '')
+	{	
+		if ($segment_one == '')
+		{
+			$segment_one  = ($this->obj->uri->segment(1) == FALSE) ? 'default' : $this->obj->uri->segment(2);
+		}
 		
-		$dir_path = $this->obj->db->cachedir.md5($uri).'/';
+		if ($segment_two == '')
+		{
+			$segment_two = ($this->obj->uri->segment(2) == FALSE) ? 'index' : $this->obj->uri->segment(2);
+		}
+		
+		$dir_path = $this->obj->db->cachedir.md5($segment_one.'_'.$segment_two).'/';
 		
 		delete_files($dir_path, TRUE);
 	}
