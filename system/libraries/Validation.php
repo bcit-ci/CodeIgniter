@@ -65,18 +65,25 @@ class CI_Validation {
 	function set_fields($data = '', $field = '')
 	{	
 		if ($data == '')
-			return;
-	
-		if ( ! is_array($data))
 		{
-			if ($field == '')
-				return;
-			
-			$data = array($data => $field);
+			if (count($this->_fields) == 0)
+			{
+				return FALSE;
+			}
 		}
-	
-		$this->_fields = $data;
-	
+		else
+		{
+			if ( ! is_array($data))
+			{
+				$data = array($data => $field);
+			}
+			
+			if (count($data) > 0)
+			{
+				$this->_fields = $data;
+			}
+		}		
+			
 		foreach($this->_fields as $key => $val)
 		{		
 			$this->$key = ( ! isset($_POST[$key]) OR is_array($_POST[$key])) ? '' : $this->prep_for_form($_POST[$key]);
