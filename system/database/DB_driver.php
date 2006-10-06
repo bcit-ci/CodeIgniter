@@ -51,6 +51,7 @@ class CI_DB_driver {
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
+	var $cache_autodel	= TRUE;
 	var $CACHE; // The cache class object
 
 
@@ -287,7 +288,7 @@ class CI_DB_driver {
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
-			if ($this->cache_on == TRUE AND $this->_cache_init())
+			if ($this->cache_on == TRUE AND $this->cache_autodel == TRUE AND $this->_cache_init())
 			{
 				$this->CACHE->delete();
 			}
@@ -331,6 +332,10 @@ class CI_DB_driver {
 			$CR->num_rows 		= $RES->num_rows();
 			$CR->result_object	= $RES->result_object();
 			$CR->result_array	= $RES->result_array();
+			
+			// Reset these since cached objects can not utilize resource IDs.
+			$CR->conn_id		= NULL;
+			$CR->result_id		= NULL;
 
 			$this->CACHE->write($sql, $CR);
 		}
@@ -909,6 +914,19 @@ class CI_DB_driver {
 	function cache_off()
 	{
 		return $this->cache_on = FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the cache "auto-delete" value
+	 *
+	 * @access	public
+	 * @return	void
+	 */		
+	function cache_autodelete($val = TRUE)
+	{
+		$this->cache_autodel = ( ! is_bool($val)) ? TRUE : $val;
 	}
 	
 	// --------------------------------------------------------------------
