@@ -85,14 +85,12 @@ Database Utility Class
 <a name="init"></a>
 <h2>Initializing the Utility Class</h2>
 
-<p class="important"><strong>Important:</strong>&nbsp; This class must be initialized independently since it is a separate class from the main Database class. 
-More info below...</p>
+<p class="important"><strong>Important:</strong>&nbsp; In order to initialize the Utility class, your database driver must
+already be running, since the utilities class is loaded from within the main DB class.</p>
 
-<p>To initialize this class please use the following code:</p>
+<p>Load the Utility Class as follows:</p>
 
-<code>$this->load->dbutil()</code>
-
-<p>You can also autoload this class from within your <dfn>config/autoload.php</dfn> file by specifying <kbd>dbutil</kbd> in the <samp>$autoload['libraries']</samp> array.</p>
+<code>$this->db->load_utilities()</code>
 
 <p>Once initialized you will access the functions using the <dfn>$this->dbutil</dfn> object:</p>
 
