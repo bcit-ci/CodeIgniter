@@ -110,7 +110,9 @@ class CI_Loader {
 	function database($db = '', $return = FALSE, $active_record = FALSE)
 	{
 		$obj =& get_instance();
-	
+
+		return DB($params, $return, $active_record);
+
 		if ($return === TRUE)
 		{
 			return $obj->_ci_init_database($db, TRUE, $active_record);
@@ -122,20 +124,6 @@ class CI_Loader {
 		}
 	}
 	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Database Utiliy Loader
-	 *
-	 * @access	public
-	 * @return	object
-	 */	
-	function dbutil()
-	{
-		$obj =& get_instance();
-		$obj->_ci_init_dbextra('dbutil');
-	}
-
 	// --------------------------------------------------------------------
 	
 	/**
@@ -336,7 +324,24 @@ class CI_Loader {
 		
 		log_message('debug', 'Plugins loaded: '.implode(', ', $plugins));
 	}
+
+	// --------------------------------------------------------------------
 	
+	/**
+	 * Load Plugins
+	 *
+	 * This is simply an alias to the above function in case the
+	 * user has written the plural form of this function.
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	void
+	 */
+	function plugins($plugins = array())
+	{
+		$this->plugin($plugins);
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -380,24 +385,7 @@ class CI_Loader {
 		
 		log_message('debug', 'Scripts loaded: '.implode(', ', $scripts));
 	}
-	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Load Plugins
-	 *
-	 * This is simply an alias to the above function in case the
-	 * user has written the plural form of this function.
-	 *
-	 * @access	public
-	 * @param	array
-	 * @return	void
-	 */
-	function plugins($plugins = array())
-	{
-		$this->plugin($plugins);
-	}
-	
+		
 	// --------------------------------------------------------------------
 	
 	/**
