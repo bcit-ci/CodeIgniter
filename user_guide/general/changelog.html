@@ -80,13 +80,14 @@ Change Log
 <li>Added <a href="../database/queries.html">simple_query()</a> function to the database classes</li>
 <li>Added <a href="../helpers/date_helper.html">standard_date()</a> function to the Date Helper.</li>
 <li>Added <a href="../database/results.html">$query->free_result()</a> to database class.</li>
-<li>Added <a href="../database/fields">$query->field_names()</a> function to database class</li>
-<li>Added <a href="../database/helpers">$this->db->platform()</a> function</li>
+<li>Added <a href="../database/fields.html">$query->field_names()</a> function to database class</li>
+<li>Added <a href="../database/helpers.html">$this->db->platform()</a> function</li>
 <li>Added two more protocols to the URI handler to make it more reliable when the $config['uri_protocol'] item is set to AUTO.</li>
 <li>Added "is_numeric" to validation, which uses the native PHP is_numeric function.</li>
 <li>Updated the DB Result class to return an empty array when $query->result() doesn't produce a result.</li>
 <li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="../libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
 <li>Fixed a bug in the Email class related to SMTP Helo data.</li>
+<li>Fixed a bug in the validation class.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> $this->load->library('unit_test').  USE $this->load->library('unit')</li>

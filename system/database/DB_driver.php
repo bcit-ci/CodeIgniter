@@ -51,7 +51,7 @@ class CI_DB_driver {
 	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
-	var $cache_autodel	= TRUE;
+	var $cache_autodel	= FALSE;
 	var $CACHE; // The cache class object
 
 
@@ -889,7 +889,21 @@ class CI_DB_driver {
 			return call_user_func_array($function, $args); 
 		}
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Directory Path
+	 *
+	 * @access	public
+	 * @param	string	the path to the cache directory
+	 * @return	void
+	 */		
+	function cache_set_path($path = '')
+	{
+		$this->cachedir = $path;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -915,32 +929,41 @@ class CI_DB_driver {
 	{
 		return $this->cache_on = FALSE;
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set the cache "auto-delete" value
-	 *
-	 * @access	public
-	 * @return	void
-	 */		
-	function cache_autodelete($val = TRUE)
-	{
-		$this->cache_autodel = ( ! is_bool($val)) ? TRUE : $val;
-	}
 	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set Cache Directory Path
+	 * Delete the cache files associated with a particular URI
 	 *
 	 * @access	public
-	 * @param	string	the path to the cache directory
 	 * @return	void
 	 */		
-	function cache_set_path($path = '')
+	function cache_delete()
 	{
-		$this->cachedir = $path;
+		if ( ! $this->_cache_init())
+		{
+			return FALSE;
+		}
+		return $this->CACHE->delete();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Delete All cache files
+	 *
+	 * @access	public
+	 * @return	void
+	 */		
+	function cache_delete_all()
+	{
+		if ( ! $this->_cache_init())
+		{
+			return FALSE;
+		}
+
+		return $this->CACHE->delete_all();
 	}
 
 	// --------------------------------------------------------------------

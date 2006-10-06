@@ -227,7 +227,7 @@ $config = array (<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'root'&nbsp;&nbsp;&nbsp; => 'root',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'element' => 'element', <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline' => "\n", <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
 echo $this->dbutil->xml_from_result($query, $config);
@@ -252,7 +252,7 @@ via the command line, or have your server admin do it for you if you do not have
 <dfn>// Load the DB utility class</dfn><br />
 $this->load->dbutil();<br /><br />
 
-<dfn>// Backup your entire database</dfn><br />
+<dfn>// Backup your entire database and assign it to a variable</dfn><br />
 $backup =& $this->dbutil->backup();
 
 <br /><br />
