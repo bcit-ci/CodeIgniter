@@ -64,86 +64,73 @@ Database Caching Class
 
 <h1>Database Caching Class</h1>
 
-<p>The Database Caching Class contains functions that permit you to cache your queries.</p>
+<p>The Database Caching Class permits you to cache your queries as text files for reduced database load.</p>
 
 <p class="important"><strong>Important:</strong>&nbsp; This class is initialized automatically by the database driver
-when caching is enabled.  Do NOT load this class manually.
-More info below...</p>
+when caching is enabled.  Do NOT load this class manually.<br /><br />
 
-<h2>How Does Caching Work?</h2>
-
-<p>When caching is enabled, anytime a "read" type query (SELECT) is run, the result object will
-be serialized and stored in a text file on your server.  Subsequent calls to that query will use the result from the cache file 
-rather then accessing your database. In other words, the first time a page is loaded a cache file will be written.
-The next time the page is loaded the cached file will be used.</p>
-
-<p>When a "write" type query (INSERT, UPDATE, etc.) is run , any cache files associated with the particular page being viewed
-will be deleted automatically.  If you need to update some data with every page load (user stats, for example) you will 
-need to manually disable caching just before running your "write" query, then re-enable it just
-after. Otherwise, your site will be caught in a cycle of writing/deleting caches with every page view, creating more load then if you were not using
-caching. More information on this will be found below.</p>
-
-
-<p>Although caching will reduce your database load, dealing with cache files does generate more 
-up-front processing and file-system operations, as cache files are created and read. Instead of accessing your database for information 
-text files are used.</p>
-
-<p>Whether you see a performance gain as a result of caching is dependant on many factors. 
-For example, if you have a highly optimized database under very little load, you probably won't see a performance boost.
-If your database is under heavy use you probably will see an improved response, assuming your filesystem is not 
-overly taxed. In some clustered server environments caching may be detrimental since filesystem operations are so intense.
-On single servers (particularly in shared enironments) caching will probably be beneficial. Unfortunately there is no
-single answer to the question of whether you should cache your database.  It really depends on your situation.</p>
+<strong>Also note:</strong>&nbsp; Not all query result functions are available when you use caching. Please read this page carefully.</p>
 
 <h2>Enabling Caching</h2>
 
-<p>Enabling caching requires three steps:</p>
+<p>Caching is enabled in three steps:</p>
 
 <ul>
-<li>Creating a directory on your server where the cache files will be written.</li>
-<li>Setting the path to your cache folder in your <dfn>application/config/database.php</dfn> file.</li>
-<li>Enalbling the caching preference either in your database config file or manually in your controllers.</li>
+<li>Create a writable directory on your server where the cache files can be stored.</li>
+<li>Set the path to your cache folder in your <dfn>application/config/database.php</dfn> file.</li>
+<li>Enable the caching feature, either globally by setting the preference in your <dfn>application/config/database.php</dfn> file, or manually as described below.</li>
 </ul>
 
 
-<h2>Caching Example</h2>
+<h2>How Does Caching Work?</h2>
 
-<p>Here is an example showing how you can selectively cache some queries and not others.  Notice that the "write" type queries
-are not.
+<p>Code Igniter's query caching system happens dynamically when your pages are viewed. 
+When caching is enabled, the first time a webpage is loaded, the query result object will
+be serialized and stored in a text file on your server. The next time the page is loaded the cache file will be used instead of
+accessing your database.  Your database usage can effectively be reduced to zero for any pages that have been cached.</p>
 
-<code>
-// Turn OFF caching for this one query since we don't<br />
-// want it to affect any existing cache files<br />
-<kbd>$this->db->cache_off();</kbd><br />
-<br />
-$this->db->query("UPDATE web_stats SET page_views = page_views + 1");<br />
-<br /><br />
+<p>Only <dfn>read-type</dfn> (SELECT) queries can be cached, since these are the only type of queries that produce a result.  
+<dfn>Write-type</dfn> (INSERT, UPDATE, etc.) queries, since they don't generate a result, will not be cached by the system.</p>
 
-// Re-enable caching<br />
-<kbd>$this->db->cache_on();</kbd> <br />
-<br />
-$query = $this->db->query("SELECT * FROM blog LIMIT 10");<br />
-<br />
-foreach ($query->result() as $row)<br />
-{<br />
-	echo '&lt;h3>'.$row->title.'&lt;/h3>';<br />
-	echo '&lt;p>'>.$row->content.'&lt;/p>';<br />
-}<br />
-<br />
-$query = $this->db->query("SELECT page_views FROM web_stats");<br />
-$row = $query->row();<br />
-<br />
-echo '&lt;p>'.$row->page_views.'&lt;/p>';<br />
-<br />
-// Update the web stats, so we turn off caching so that the cache<br />
-// file for the above query doesn't get deleted<br />
-<br />
+<p>Cache files do NOT expire.  Any queries that have been cached will remain cached until you delete them.  The caching system does
+have an "auto-delete"feature, as described below.  It also lets you manually clear caches associated with individulal pages, or
+you can delete the entire collection of cache files.</p>
 
-</code>
+<h2>Will Caching Improve Your Site's Performance?</h2>
+
+<p>Maybe. Whether you see a performance gain as a result of caching depends on many factors. 
+For example, if you have a highly optimized database under very little load, you probably won't see a performance boost.
+If your database is under heavy use you probably will see an improved response, assuming your filesystem is not 
+overly taxed. Remember that caching simply changes how your information is retrieved, shifting it from being a database
+operation to a filesystem one.</p>
+
+<p>In some clustered server environments caching may be detrimental since filesystem operations are so intense.
+On single servers (particularly in shared enironments) caching will probably be beneficial. Unfortunately there is no
+single answer to the question of whether you should cache your database.  It really depends on your situation.</p>
+
+<h2>How are Cache Files Stored?</h2>
+
+<p>Code Igniter places the result of EACH query into its own cache file.  Sets of cache files are further organized into 
+sub-folders corrsponding to your controller functions.</p>
+
+<p>For example, let's say you have a controller called <dfn>blog</dfn> with a function called <dfn>comments</dfn> that
+contains three queries.  The caching system will create a cache folder 
+called <kbd>blog_comments</kbd>, into which it will write three cache files.</p>
+
+<p>If your have dynamic queries that change based on inormation in your URI (when using pagination, for example), each instance of
+the query will produce its own cache file.  It's possible, therefore, to end up with many times more cache files than you have 
+queries.</p>
 
 
+<h2>Managing your Cache Files</h2>
+
+<p>Since cache files do not expire, you'll need to build deletion routines into your application.  For example, let's say you have a blog
+that allows user commenting.  Whenever a new comment is submitted you'll want to delete the cache files associated with the 
+controller function that serves up your comments.  You'll find two delete functions described below that help you 
+clear data.</p>
 
 
+<h1>Function Reference</h1>
 
 
 
