@@ -32,12 +32,12 @@
  */
 class CI_Profiler {
 
-	var $obj;
+	var $CI;
  	
  	function CI_Profiler()
  	{
- 		$this->obj =& get_instance();
- 		$this->obj->load->language('profiler');
+ 		$this->CI =& get_instance();
+ 		$this->CI->load->language('profiler');
  	}
  	
 	// --------------------------------------------------------------------
@@ -56,15 +56,15 @@ class CI_Profiler {
  	function _compile_benchmarks()
  	{
   		$profile = array();
- 		foreach ($this->obj->benchmark->marker as $key => $val)
+ 		foreach ($this->CI->benchmark->marker as $key => $val)
  		{
  			// We match the "end" marker so that the list ends
  			// up in the order that it was defined
  			if (preg_match("/(.+?)_end/i", $key, $match))
  			{ 			
- 				if (isset($this->obj->benchmark->marker[$match[1].'_end']) AND isset($this->obj->benchmark->marker[$match[1].'_start']))
+ 				if (isset($this->CI->benchmark->marker[$match[1].'_end']) AND isset($this->CI->benchmark->marker[$match[1].'_start']))
  				{
- 					$profile[$match[1]] = $this->obj->benchmark->elapsed_time($match[1].'_start', $key);
+ 					$profile[$match[1]] = $this->CI->benchmark->elapsed_time($match[1].'_start', $key);
  				}
  			}
  		}
@@ -76,7 +76,7 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #990000;padding:6px 10px 10px 10px;margin:0 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#990000;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_benchmarks').'&nbsp;&nbsp;</legend>';
+		$output .= '<legend style="color:#990000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_benchmarks').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";			
 		$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
 		
@@ -100,22 +100,22 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
+		$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";		
 		
 		if ( ! class_exists('CI_DB_driver'))
 		{
-			$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 0 0;'>".$this->obj->lang->line('profiler_no_db')."</div>";
+			$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 0 0;'>".$this->CI->lang->line('profiler_no_db')."</div>";
 		}
 		else
 		{
-			if (count($this->obj->db->queries) == 0)
+			if (count($this->CI->db->queries) == 0)
 			{
-				$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 4px 0;'>".$this->obj->lang->line('profiler_no_queries')."</div>";
+				$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 4px 0;'>".$this->CI->lang->line('profiler_no_queries')."</div>";
 			}
 			else
 			{
-				foreach ($this->obj->db->queries as $val)
+				foreach ($this->CI->db->queries as $val)
 				{
 					$output .= '<div style="padding:3px;margin:12px 0 12px 0;background-color:#ddd;color:#000">';
 					$output .= $val;
@@ -136,12 +136,12 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #009900;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#009900;">&nbsp;&nbsp;'.$this->obj->lang->line('profiler_post_data').'&nbsp;&nbsp;</legend>';
+		$output .= '<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
 				
 		if (count($_POST) == 0)
 		{
-			$output .= "<div style='color:#009900;font-weight:normal;padding:4px 0 4px 0'>".$this->obj->lang->line('profiler_no_post')."</div>";
+			$output .= "<div style='color:#009900;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_post')."</div>";
 		}
 		else
 		{

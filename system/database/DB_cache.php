@@ -24,7 +24,7 @@
  */
 class CI_DB_Cache {
 
-	var $obj;
+	var $CI;
 
 	/**
 	 * Constructor
@@ -34,10 +34,10 @@ class CI_DB_Cache {
 	 */	
 	function CI_DB_Cache()
 	{
-		// Assign the main CI object to $this->obj
+		// Assign the main CI object to $this->CI
 		// and load the file helper since we use it a lot
-		$this->obj =& get_instance();
-		$this->obj->load->helper('file');	
+		$this->CI =& get_instance();
+		$this->CI->load->helper('file');	
 	}
 
 	// --------------------------------------------------------------------
@@ -53,12 +53,12 @@ class CI_DB_Cache {
 	{
 		if ($path == '')
 		{
-			if ($this->obj->db->cachedir == '')
+			if ($this->CI->db->cachedir == '')
 			{
-				return $this->obj->db->cache_off();
+				return $this->CI->db->cache_off();
 			}
 		
-			$path = $this->obj->db->cachedir;
+			$path = $this->CI->db->cachedir;
 		}
 	
 		// Add a trailing slash to the path if needed
@@ -66,16 +66,16 @@ class CI_DB_Cache {
 	
 		if ( ! is_dir($path) OR ! is_writable($path))
 		{
-			if ($this->obj->db->db_debug)
+			if ($this->CI->db->db_debug)
 			{
-				return $this->obj->db->display_error('db_invalid_cache_path');
+				return $this->CI->db->display_error('db_invalid_cache_path');
 			}
 			
 			// If the path is wrong we'll turn off caching
-			return $this->obj->db->cache_off();
+			return $this->CI->db->cache_off();
 		}
 		
-		$this->obj->db->cachedir = $path;
+		$this->CI->db->cachedir = $path;
 		return TRUE;
 	}
 	
@@ -94,15 +94,15 @@ class CI_DB_Cache {
 	{
 		if ( ! $this->check_path())
 		{
-			return $this->obj->db->cache_off();
+			return $this->CI->db->cache_off();
 		}
 	
-		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'default.'	: $this->obj->uri->segment(1).'.';
-		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index'	: $this->obj->uri->segment(2);
+		$uri  = ($this->CI->uri->segment(1) == FALSE) ? 'default.'	: $this->CI->uri->segment(1).'.';
+		$uri .= ($this->CI->uri->segment(2) == FALSE) ? 'index'		: $this->CI->uri->segment(2);
 		
 		$filepath = $uri.'/'.md5($sql);
 		
-		if (FALSE === ($cachedata = read_file($this->obj->db->cachedir.$filepath)))
+		if (FALSE === ($cachedata = read_file($this->CI->db->cachedir.$filepath)))
 		{	
 			return FALSE;
 		}
@@ -122,13 +122,13 @@ class CI_DB_Cache {
 	{
 		if ( ! $this->check_path())
 		{
-			return $this->obj->db->cache_off();
+			return $this->CI->db->cache_off();
 		}
 
-		$uri  = ($this->obj->uri->segment(1) == FALSE) ? 'default.'	: $this->obj->uri->segment(1).'.';
-		$uri .= ($this->obj->uri->segment(2) == FALSE) ? 'index'	: $this->obj->uri->segment(2);
+		$uri  = ($this->CI->uri->segment(1) == FALSE) ? 'default.'	: $this->CI->uri->segment(1).'.';
+		$uri .= ($this->CI->uri->segment(2) == FALSE) ? 'index'		: $this->CI->uri->segment(2);
 		
-		$dir_path = $this->obj->db->cachedir.$uri.'/';
+		$dir_path = $this->CI->db->cachedir.$uri.'/';
 		
 		$filename = md5($sql);
 	
@@ -163,15 +163,15 @@ class CI_DB_Cache {
 	{	
 		if ($segment_one == '')
 		{
-			$segment_one  = ($this->obj->uri->segment(1) == FALSE) ? 'default' : $this->obj->uri->segment(2);
+			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(2);
 		}
 		
 		if ($segment_two == '')
 		{
-			$segment_two = ($this->obj->uri->segment(2) == FALSE) ? 'index' : $this->obj->uri->segment(2);
+			$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		}
 		
-		$dir_path = $this->obj->db->cachedir.md5($segment_one.'.'.$segment_two).'/';
+		$dir_path = $this->CI->db->cachedir.md5($segment_one.'.'.$segment_two).'/';
 		
 		delete_files($dir_path, TRUE);
 	}
@@ -186,7 +186,7 @@ class CI_DB_Cache {
 	 */
 	function delete_all()
 	{
-		delete_files($this->obj->db->cachedir, TRUE);
+		delete_files($this->CI->db->cachedir, TRUE);
 	}
 
 }

@@ -40,9 +40,7 @@ class Controller extends CI_Base {
 	function Controller()
 	{	
 		parent::CI_Base();
-		
 		$this->_ci_initialize();
-		
 		log_message('debug', "Controller Class Initialized");
 	}
   
@@ -62,22 +60,28 @@ class Controller extends CI_Base {
 		// Assign all the class objects that were instantiated by the
 		// front controller to local class variables so that CI can be 
 		// run as one big super object.
-		foreach (array('Config', 'Input', 'Benchmark', 'URI', 'Output') as $val)
+		$classes = array(
+							'config'	=> 'Config', 
+							'input'		=> 'Input', 
+							'benchmark'	=> 'Benchmark', 
+							'uri'		=> 'URI', 
+							'output'	=> 'Output',
+							'lang'		=> 'Language'
+							);
+		
+		foreach ($classes as $var => $class)
 		{
-			$class = strtolower($val);
-			$this->$class =& _load_class($val);
+			$this->$var =& _load_class($class);
 		}
 		
-		$this->lang	=& _load_class('Language');
-	
-		// In PHP 4 the Controller class is a child of CI_Loader.
-		// In PHP 5 we run it as its own class.
+		
+		// In PHP 5 the Controller class is run as a discreet 
+		// class.  In PHP 4 it extends the Controller
 		if (floor(phpversion()) >= 5)
 		{
 			$this->load = new CI_Loader();
 		}
 
-		
 		// Load everything specified in the autoload.php file
 		$this->load->_ci_autoloader();
 
@@ -91,6 +95,28 @@ class Controller extends CI_Base {
 			}
 		}	
 	}
+    
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Run Scaffolding
+	 *
+	 * @access	private
+	 * @return	voikd
+	 */	
+    function _ci_scaffolding()
+    {
+		if ($this->_ci_scaffolding === FALSE OR $this->_ci_scaff_table === FALSE)
+		{
+			show_404('Scaffolding unavailable');
+		}
+		
+		$method = ( ! in_array($this->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE)) ? 'view' : $this->uri->segment(3);
+		
+		require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
+		$scaff = new Scaffolding($this->_ci_scaff_table);
+		$scaff->$method();
+    }
     
 
 }

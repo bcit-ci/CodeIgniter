@@ -27,25 +27,25 @@
  */
 class Scaffolding {
 
+	var $CI;
 	var $current_table;
 	var $base_url = '';
 	var $lang = array();
 
 	function Scaffolding($db_table)
 	{
-		$obj =& get_instance();
-		foreach (get_object_vars($obj) as $key => $var)
-		{
-			if (is_object($var))
-			{
-				$this->$key =& $obj->$key;
-			}
-		}
+		$this->CI =& get_instance();
+		
+		$this->CI->load->database("", FALSE, TRUE);			
+		$this->CI->load->library('pagination');
+		
+		// Turn off caching
+		$this->CI->db->cache_off();
 				
 		/**
 		 * Set the current table name
 		 * This is done when initializing scaffolding:
-		 * $this->_ci_init_scaffolding('table_name')
+		 * $this->load->scaffolding('table_name')
 		 *
 		 */
 		$this->current_table = $db_table;
@@ -55,28 +55,29 @@ class Scaffolding {
 		 * We'll manually override the "view" path so that
 		 * the load->view function knows where to look.
 		 */
-		$this->load->_ci_set_view_path(BASEPATH.'scaffolding/views/');
+		 
+		$this->CI->load->view_path = BASEPATH.'scaffolding/views/';
 
 		// Set the base URL
-		$this->base_url = $this->config->site_url().'/'.$this->uri->segment(1).$this->uri->slash_segment(2, 'both');
-		$this->base_uri = $this->uri->segment(1).$this->uri->slash_segment(2, 'leading');
+		$this->base_url = $this->CI->config->site_url().'/'.$this->CI->uri->segment(1).$this->CI->uri->slash_segment(2, 'both');
+		$this->base_uri = $this->CI->uri->segment(1).$this->CI->uri->slash_segment(2, 'leading');
 
 		// Set a few globals
 		$data = array(
-						'image_url'	=> $this->config->system_url().'scaffolding/images/',
+						'image_url'	=> $this->CI->config->system_url().'scaffolding/images/',
 						'base_uri'  => $this->base_uri,
 						'base_url'	=> $this->base_url,
 						'title'		=> $this->current_table
 					);
 		
-		$this->load->vars($data);
+		$this->CI->load->vars($data);
 		
 		// Load the language file and create variables
-		$this->lang = $this->load->language('scaffolding', '', TRUE);		
-		$this->load->vars($this->lang);
+		$this->lang = $this->CI->load->language('scaffolding', '', TRUE);		
+		$this->CI->load->vars($this->lang);
 				
 		//  Load the helper files we plan to use
-		$this->load->helper(array('url', 'form'));
+		$this->CI->load->helper(array('url', 'form'));
 		
 				
 		log_message('debug', 'Scaffolding Class Initialized');
@@ -97,11 +98,11 @@ class Scaffolding {
 	{	
 		$data = array(
 						'title'	=>  ( ! isset($this->lang['scaff_add'])) ? 'Add Data' : $this->lang['scaff_add'],
-						'fields' => $this->db->field_data($this->current_table),
+						'fields' => $this->CI->db->field_data($this->current_table),
 						'action' => $this->base_uri.'/insert'
 					);
 	
-		$this->load->view('add', $data);
+		$this->CI->load->view('add', $data);
 	}
 	
 	// --------------------------------------------------------------------
@@ -114,7 +115,7 @@ class Scaffolding {
 	 */
 	function insert()
 	{		
-		if ($this->db->insert($this->current_table, $_POST) === FALSE)
+		if ($this->CI->db->insert($this->current_table, $_POST) === FALSE)
 		{
 			$this->add();
 		}
@@ -138,28 +139,28 @@ class Scaffolding {
 	function view()
 	{
 		// Fetch the total number of DB rows
-		$total_rows = $this->db->count_all($this->current_table);
+		$total_rows = $this->CI->db->count_all($this->current_table);
 		
 		if ($total_rows < 1)
 		{
-			return $this->load->view('no_data');
+			return $this->CI->load->view('no_data');
 		}
 		
 		// Set the query limit/offset
 		$per_page = 20;
-		$offset = $this->uri->segment(4, 0);
+		$offset = $this->CI->uri->segment(4, 0);
 		
 		// Run the query
-		$query = $this->db->get($this->current_table, $per_page, $offset);
+		$query = $this->CI->db->get($this->current_table, $per_page, $offset);
 
 		// Now let's get the field names				
-		$fields = $this->db->field_names($this->current_table);
+		$fields = $this->CI->db->field_names($this->current_table);
 		
 		// We assume that the column in the first position is the primary field.
 		$primary = current($fields);
 
 		// Pagination!
-		$this->pagination->initialize(
+		$this->CI->pagination->initialize(
 							array(
 									'base_url'		 => $this->base_url.'/view',
 									'total_rows'	 => $total_rows,
@@ -175,10 +176,10 @@ class Scaffolding {
 						'query'		=> $query,
 						'fields'	=> $fields,
 						'primary'	=> $primary,
-						'paginate'	=> $this->pagination->create_links()
+						'paginate'	=> $this->CI->pagination->create_links()
 					);
 						
-		$this->load->view('view', $data);
+		$this->CI->load->view('view', $data);
 	}
 	
 	// --------------------------------------------------------------------
@@ -194,25 +195,25 @@ class Scaffolding {
 	 */
 	function edit()
 	{
-		if (FALSE === ($id = $this->uri->segment(4)))
+		if (FALSE === ($id = $this->CI->uri->segment(4)))
 		{
 			return $this->view();
 		}
 
 		// Fetch the primary field name
-		$primary = $this->db->primary($this->current_table);				
+		$primary = $this->CI->db->primary($this->current_table);				
 
 		// Run the query
-		$query = $this->db->getwhere($this->current_table, array($primary => $id));
+		$query = $this->CI->db->getwhere($this->current_table, array($primary => $id));
 
 		$data = array(
 						'title'	=>  ( ! isset($this->lang['scaff_edit'])) ? 'Edit Data' : $this->lang['scaff_edit'],
 						'fields'	=> $query->field_data(),
 						'query'		=> $query->row(),
-						'action'	=> $this->base_uri.'/update/'.$this->uri->segment(4)
+						'action'	=> $this->base_uri.'/update/'.$this->CI->uri->segment(4)
 					);
 	
-		$this->load->view('edit', $data);
+		$this->CI->load->view('edit', $data);
 	}
 	
 	// --------------------------------------------------------------------
@@ -226,10 +227,10 @@ class Scaffolding {
 	function update()
 	{	
 		// Fetch the primary key
-		$primary = $this->db->primary($this->current_table);				
+		$primary = $this->CI->db->primary($this->current_table);				
 
 		// Now do the query
-		$this->db->update($this->current_table, $_POST, array($primary => $this->uri->segment(4)));
+		$this->CI->db->update($this->current_table, $_POST, array($primary => $this->CI->uri->segment(4)));
 		
 		redirect($this->base_uri.'/view/');
 	}
@@ -246,21 +247,21 @@ class Scaffolding {
 	{
 		if ( ! isset($this->lang['scaff_del_confirm']))
 		{
-			$message = 'Are you sure you want to delete the following row: '.$this->uri->segment(4);
+			$message = 'Are you sure you want to delete the following row: '.$this->CI->uri->segment(4);
 		}
 		else
 		{
-			$message = $this->lang['scaff_del_confirm'].' '.$this->uri->segment(4);
+			$message = $this->lang['scaff_del_confirm'].' '.$this->CI->uri->segment(4);
 		}
 		
 		$data = array(
 						'title'		=> ( ! isset($this->lang['scaff_delete'])) ? 'Delete Data' : $this->lang['scaff_delete'],
 						'message'	=> $message,
 						'no'		=> anchor(array($this->base_uri, 'view'), ( ! isset($this->lang['scaff_no'])) ? 'No' : $this->lang['scaff_no']),
-						'yes'		=> anchor(array($this->base_uri, 'do_delete', $this->uri->segment(4)), ( ! isset($this->lang['scaff_yes'])) ? 'Yes' : $this->lang['scaff_yes'])
+						'yes'		=> anchor(array($this->base_uri, 'do_delete', $this->CI->uri->segment(4)), ( ! isset($this->lang['scaff_yes'])) ? 'Yes' : $this->lang['scaff_yes'])
 					);
 	
-		$this->load->view('delete', $data);
+		$this->CI->load->view('delete', $data);
 	}
 	
 	// --------------------------------------------------------------------
@@ -274,11 +275,11 @@ class Scaffolding {
 	function do_delete()
 	{		
 		// Fetch the primary key
-		$primary = $this->db->primary($this->current_table);				
+		$primary = $this->CI->db->primary($this->current_table);				
 
 		// Now do the query
-		$this->db->where($primary, $this->uri->segment(4));
-		$this->db->delete($this->current_table);
+		$this->CI->db->where($primary, $this->CI->uri->segment(4));
+		$this->CI->db->delete($this->current_table);
 
 		header("Refresh:0;url=".site_url(array($this->base_uri, 'view')));
 		exit;

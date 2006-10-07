@@ -26,6 +26,7 @@
  */
 class CI_Session {
 
+    var $CI;
 	var $now;
 	var $encryption		= TRUE;
 	var $use_database	= FALSE;
@@ -34,7 +35,7 @@ class CI_Session {
     var $sess_cookie	= 'ci_session';
 	var $userdata		= array();
     var $gc_probability	= 5;
-    var $object;
+
     
 
 	/**
@@ -45,7 +46,7 @@ class CI_Session {
 	 */		
 	function CI_Session()
 	{
-		$this->object =& get_instance();
+		$this->CI =& get_instance();
 
 		log_message('debug', "Session Class Initialized");
 		$this->sess_run();
@@ -73,7 +74,7 @@ class CI_Session {
 		 * "last_visit" times based on each user's locale.
 		 *
 		 */
-		if (strtolower($this->object->config->item('time_reference')) == 'gmt')
+		if (strtolower($this->CI->config->item('time_reference')) == 'gmt')
 		{
 			$now = time();
 			$this->now = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));   
@@ -97,13 +98,13 @@ class CI_Session {
 		 * two years from now.
 		 *
 		 */
-		$expiration = $this->object->config->item('sess_expiration');
+		$expiration = $this->CI->config->item('sess_expiration');
 		
 		if (is_numeric($expiration))
 		{
 			if ($expiration > 0)
 			{
-				$this->sess_length = $this->object->config->item('sess_expiration');
+				$this->sess_length = $this->CI->config->item('sess_expiration');
 			}
 			else
 			{
@@ -112,25 +113,25 @@ class CI_Session {
 		}
 		
 		// Do we need encryption?
-		$this->encryption = $this->object->config->item('sess_encrypt_cookie');
+		$this->encryption = $this->CI->config->item('sess_encrypt_cookie');
 		
 		if ($this->encryption == TRUE)	
 		{
-			$this->object->load->library('encrypt');
+			$this->CI->load->library('encrypt');
 		}		
 
 		// Are we using a database?
-		if ($this->object->config->item('sess_use_database') === TRUE AND $this->object->config->item('sess_table_name') != '')
+		if ($this->CI->config->item('sess_use_database') === TRUE AND $this->CI->config->item('sess_table_name') != '')
 		{
 			$this->use_database = TRUE;
-			$this->session_table = $this->object->config->item('sess_table_name');
-			$this->object->load->database();
+			$this->session_table = $this->CI->config->item('sess_table_name');
+			$this->CI->load->database();
 		}
 		
 		// Set the cookie name
-		if ($this->object->config->item('sess_cookie_name') != FALSE)
+		if ($this->CI->config->item('sess_cookie_name') != FALSE)
 		{
-			$this->sess_cookie = $this->object->config->item('cookie_prefix').$this->object->config->item('sess_cookie_name');
+			$this->sess_cookie = $this->CI->config->item('cookie_prefix').$this->CI->config->item('sess_cookie_name');
 		}
 	
 		/*
@@ -172,7 +173,7 @@ class CI_Session {
 	function sess_read()
 	{	
 		// Fetch the cookie
-		$session = $this->object->input->cookie($this->sess_cookie);
+		$session = $this->CI->input->cookie($this->sess_cookie);
 		
 		if ($session === FALSE)
 		{
@@ -183,7 +184,7 @@ class CI_Session {
 		// Decrypt and unserialize the data
 		if ($this->encryption == TRUE)
 		{
-			$session = $this->object->encrypt->decode($session);
+			$session = $this->CI->encrypt->decode($session);
 		}
 
 		$session = @unserialize($this->strip_slashes($session));
@@ -202,14 +203,14 @@ class CI_Session {
 		}
 
 		// Does the IP Match?
-		if ($this->object->config->item('sess_match_ip') == TRUE AND $session['ip_address'] != $this->object->input->ip_address())
+		if ($this->CI->config->item('sess_match_ip') == TRUE AND $session['ip_address'] != $this->CI->input->ip_address())
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 		
 		// Does the User Agent Match?
-		if ($this->object->config->item('sess_match_useragent') == TRUE AND $session['user_agent'] != substr($this->object->input->user_agent(), 0, 50))
+		if ($this->CI->config->item('sess_match_useragent') == TRUE AND $session['user_agent'] != substr($this->CI->input->user_agent(), 0, 50))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -218,19 +219,19 @@ class CI_Session {
 		// Is there a corresponding session in the DB?
 		if ($this->use_database === TRUE)
 		{
-			$this->object->db->where('session_id', $session['session_id']);
+			$this->CI->db->where('session_id', $session['session_id']);
 					
-			if ($this->object->config->item('sess_match_ip') == TRUE)
+			if ($this->CI->config->item('sess_match_ip') == TRUE)
 			{
-				$this->object->db->where('ip_address', $session['ip_address']);
+				$this->CI->db->where('ip_address', $session['ip_address']);
 			}
 
-			if ($this->object->config->item('sess_match_useragent') == TRUE)
+			if ($this->CI->config->item('sess_match_useragent') == TRUE)
 			{
-				$this->object->db->where('user_agent', $session['user_agent']);
+				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 			
-			$query = $this->object->db->get($this->session_table);
+			$query = $this->CI->db->get($this->session_table);
 
 			if ($query->num_rows() == 0)
 			{
@@ -242,8 +243,8 @@ class CI_Session {
 				$row = $query->row();
 				if (($row->last_activity + $this->sess_length) < $this->now) 
 				{
-					$this->object->db->where('session_id', $session['session_id']);
-					$this->object->db->delete($this->session_table);
+					$this->CI->db->where('session_id', $session['session_id']);
+					$this->CI->db->delete($this->session_table);
 					$this->sess_destroy();
 					return FALSE;
 				}
@@ -272,15 +273,15 @@ class CI_Session {
 		
 		if ($this->encryption == TRUE)
 		{
-			$cookie_data = $this->object->encrypt->encode($cookie_data);
+			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
 
 		setcookie(
 					$this->sess_cookie, 
 					$cookie_data, 
 					$this->sess_length + $this->now, 
-					$this->object->config->item('cookie_path'), 
-					$this->object->config->item('cookie_domain'), 
+					$this->CI->config->item('cookie_path'), 
+					$this->CI->config->item('cookie_domain'), 
 					0
 				);
 	}
@@ -304,8 +305,8 @@ class CI_Session {
 	
 		$this->userdata = array(
 							'session_id' 	=> md5(uniqid($sessid, TRUE)),
-							'ip_address' 	=> $this->object->input->ip_address(),
-							'user_agent' 	=> substr($this->object->input->user_agent(), 0, 50),
+							'ip_address' 	=> $this->CI->input->ip_address(),
+							'user_agent' 	=> substr($this->CI->input->user_agent(), 0, 50),
 							'last_activity'	=> $this->now
 							);
 		
@@ -313,7 +314,7 @@ class CI_Session {
 		// Save the session in the DB if needed
 		if ($this->use_database === TRUE)
 		{
-			$this->object->db->query($this->object->db->insert_string($this->session_table, $this->userdata));
+			$this->CI->db->query($this->CI->db->insert_string($this->session_table, $this->userdata));
 		}
 			
 		// Write the cookie
@@ -342,7 +343,7 @@ class CI_Session {
 		// Update the session in the DB if needed
 		if ($this->use_database === TRUE)
 		{		
-			$this->object->db->query($this->object->db->update_string($this->session_table, array('last_activity' => $this->now), array('session_id' => $this->userdata['session_id'])));
+			$this->CI->db->query($this->CI->db->update_string($this->session_table, array('last_activity' => $this->now), array('session_id' => $this->userdata['session_id'])));
 		}
 		
 		// Write the cookie
@@ -364,8 +365,8 @@ class CI_Session {
 					$this->sess_cookie, 
 					addslashes(serialize(array())), 
 					($this->now - 31500000), 
-					$this->object->config->item('cookie_path'), 
-					$this->object->config->item('cookie_domain'), 
+					$this->CI->config->item('cookie_path'), 
+					$this->CI->config->item('cookie_domain'), 
 					0
 				);
 	}
@@ -389,8 +390,8 @@ class CI_Session {
 		{  
 			$expire = $this->now - $this->sess_length;
 			
-			$this->object->db->where("last_activity < {$expire}");
-			$this->object->db->delete($this->session_table);
+			$this->CI->db->where("last_activity < {$expire}");
+			$this->CI->db->delete($this->session_table);
 
 			log_message('debug', 'Session garbage collection performed.');
 		}    
