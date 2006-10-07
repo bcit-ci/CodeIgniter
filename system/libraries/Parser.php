@@ -44,8 +44,8 @@ class CI_Parser {
 	 */
 	function parse($template, $data, $return = FALSE)
 	{
-		$obj =& get_instance();
-		$template = $obj->load->view($template, $data, TRUE);
+		$CI =& get_instance();
+		$template = $CI->load->view($template, $data, TRUE);
 		
 		if ($template == '')
 		{
@@ -66,7 +66,7 @@ class CI_Parser {
 		
 		if ($return == FALSE)
 		{
-			$obj->output->final_output = $template;
+			$CI->output->final_output = $template;
 		}
 		
 		return $template;

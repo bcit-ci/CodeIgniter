@@ -1503,22 +1503,22 @@ class CI_Image_lib {
 	 */	
 	function set_error($msg)
 	{
-		$obj =& get_instance();
-		$obj->lang->load('imglib');
+		$CI =& get_instance();
+		$CI->lang->load('imglib');
 		
 		if (is_array($msg))
 		{
 			foreach ($msg as $val)
 			{
 				
-				$msg = ($obj->lang->line($val) == FALSE) ? $val : $obj->lang->line($val);
+				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}		
 		}
 		else
 		{
-			$msg = ($obj->lang->line($msg) == FALSE) ? $msg : $obj->lang->line($msg);
+			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}

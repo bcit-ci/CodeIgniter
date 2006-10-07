@@ -135,7 +135,7 @@ class CI_Output {
 	 */		
 	function _display($output = '')
 	{	
-		// Note:  We use globals because we can't use $obj =& get_instance() 
+		// Note:  We use globals because we can't use $CI =& get_instance() 
 		// since this function is sometimes called by the caching mechanism, 
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
@@ -207,25 +207,25 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Grab the super object.  We'll need it in a moment...
-		$obj =& get_instance();
+		$CI =& get_instance();
 		
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler == TRUE)
 		{
-			$obj->load->library('profiler');				
+			$CI->load->library('profiler');				
 										
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
 			if (preg_match("|</body>.*?</html>|is", $output))
 			{
 				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
-				$output .= $obj->profiler->run();
+				$output .= $CI->profiler->run();
 				$output .= '</body></html>';
 			}
 			else
 			{
-				$output .= $obj->profiler->run();
+				$output .= $CI->profiler->run();
 			}
 		}
 		
@@ -233,9 +233,9 @@ class CI_Output {
 
 		// Does the controller contain a function named _output()?
 		// If so send the output there.  Otherwise, echo it.
-		if (method_exists($obj, '_output'))
+		if (method_exists($CI, '_output'))
 		{
-			$obj->_output($output);
+			$CI->_output($output);
 		}
 		else
 		{
@@ -256,8 +256,8 @@ class CI_Output {
 	 */	
 	function _write_cache($output)
 	{
-		$obj =& get_instance();	
-		$path = $obj->config->item('cache_path');
+		$CI =& get_instance();	
+		$path = $CI->config->item('cache_path');
 	
 		$cache_path = ($path == '') ? BASEPATH.'cache/' : $path;
 		
@@ -266,9 +266,9 @@ class CI_Output {
 			return;
 		}
 		
-		$uri =	$obj->config->item('base_url').
-				$obj->config->item('index_page').
-				$obj->uri->uri_string();
+		$uri =	$CI->config->item('base_url').
+				$CI->config->item('index_page').
+				$CI->uri->uri_string();
 		
 		$cache_path .= md5($uri);
 

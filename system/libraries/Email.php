@@ -1629,10 +1629,10 @@ class CI_Email {
 	 */	
 	function _set_error_message($msg, $val = '')
 	{
-		$obj =& get_instance();
-		$obj->lang->load('email');
+		$CI =& get_instance();
+		$CI->lang->load('email');
 	
-		if (FALSE === ($line = $obj->lang->line($msg)))
+		if (FALSE === ($line = $CI->lang->line($msg)))
 		{	
 			$this->_debug_msg[] = str_replace('%s', $val, $msg)."<br />";
 		}	

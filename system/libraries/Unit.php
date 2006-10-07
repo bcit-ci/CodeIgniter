@@ -171,8 +171,8 @@ class CI_Unit {
 	 */
 	function result($results = array())
 	{	
-		$obj =& get_instance();
-		$obj->load->language('unit_test');
+		$CI =& get_instance();
+		$CI->load->language('unit_test');
 		
 		if (count($results) == 0)
 		{
@@ -189,20 +189,20 @@ class CI_Unit {
 				{
 					foreach ($val as $k => $v)
 					{
-						if (FALSE !== ($line = $obj->lang->line(strtolower('ut_'.$v))))
+						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
 						{
 							$v = $line;
 						}				
-						$temp[$obj->lang->line('ut_'.$k)] = $v;					
+						$temp[$CI->lang->line('ut_'.$k)] = $v;					
 					}
 				}
 				else
 				{
-					if (FALSE !== ($line = $obj->lang->line(strtolower('ut_'.$val))))
+					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
 					{
 						$val = $line;
 					}				
-					$temp[$obj->lang->line('ut_'.$key)] = $val;
+					$temp[$CI->lang->line('ut_'.$key)] = $val;
 				}
 			}
 			

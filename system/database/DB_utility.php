@@ -36,8 +36,8 @@ class CI_DB_utility {
 	function CI_DB_utility()
 	{
 		// Assign the main database object to $this->db
-		$obj =& get_instance();
-		$this->db =& $obj->db;
+		$CI =& get_instance();
+		$this->CI =& $obj->db;
 		
 		log_message('debug', "Database Utility Class Initialized");
 	}
@@ -286,8 +286,8 @@ class CI_DB_utility {
 		extract($params);
 			
 		// Load the xml helper
-		$obj =& get_instance();
-		$obj->load->helper('xml');
+		$CI =& get_instance();
+		$CI->load->helper('xml');
 
 		// Generate the result
 		$xml = "<{$root}/>".$newline;
@@ -391,10 +391,7 @@ class CI_DB_utility {
 		}
 
 		// ------------------------------------------------------
-		
-		// Grab the super object
-		$obj =& get_instance();
-		
+				
 		// Was a Gzip file requested?
 		if ($prefs['format'] == 'gzip')
 		{
@@ -427,9 +424,11 @@ class CI_DB_utility {
 			}
 
 			// Load the Zip class and output it
-			$obj->load->library('zip');
-			$obj->zip->add_data($prefs['filename'], $this->_backup($prefs));							
-			return $obj->zip->get_zip();
+			
+			$CI =& get_instance();
+			$CI->load->library('zip');
+			$CI->zip->add_data($prefs['filename'], $this->_backup($prefs));							
+			return $CI->zip->get_zip();
 		}
 		
 	}
