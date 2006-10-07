@@ -27,7 +27,7 @@ function DB($params = '', $return = FALSE, $active_record = FALSE)
 	$obj =& get_instance();
 
 	// Do we even need to load the database class?
-	if ($obj->_ci_is_loaded('db') == TRUE AND $return == FALSE AND $active_record == FALSE)
+	if (class_exists('CI_DB') AND $return == FALSE AND $active_record == FALSE)
 	{
 		return FALSE;
 	}

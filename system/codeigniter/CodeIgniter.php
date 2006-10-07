@@ -38,7 +38,7 @@ require(BASEPATH.'codeigniter/Common'.EXT);
 
 /*
  * ------------------------------------------------------
- *  Define a custom error handler so we can log errors
+ *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
 set_error_handler('_exception_handler');
@@ -131,6 +131,7 @@ _load_class('Controller', FALSE);
 
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
+// Set a mark point for benchmarking
 $BM->mark('loading_time_base_clases_end');
 
 
@@ -178,7 +179,26 @@ if ($RTR->scaffolding_request === TRUE)
 {
 	if ($EXT->_call_hook('scaffolding_override') === FALSE)
 	{
-		$CI->_ci_scaffolding();
+		if ($CI->_ci_scaffolding === FALSE OR $CI->_ci_scaff_table === FALSE)
+		{
+			show_404('Scaffolding unavailable');
+		}
+		
+		if ( ! class_exists('Scaffolding'))
+		{			
+			if ( ! in_array($CI->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE))
+			{
+				$method = 'view';
+			}
+			else
+			{
+				$method = $CI->uri->segment(3);
+			}
+			
+			require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
+			$scaff = new Scaffolding($CI->_ci_scaff_table);
+			$scaff->$method();
+		}
 	}
 }
 else
@@ -240,7 +260,7 @@ $EXT->_call_hook('post_system');
  *  Close the DB connection of one exists
  * ------------------------------------------------------
  */
-if ($CI->_ci_is_loaded('db'))
+if (class_exists('CI_DB'))
 {
 	$CI->db->close();
 }

@@ -5,7 +5,7 @@
 | PHP ERROR REPORTING LEVEL
 |---------------------------------------------------------------
 |
-| By default CI runs with all error reporting on.  For security
+| By default CI runs with error reporting set to ALL.  For security
 | reasons you are encouraged to change this when your site goes live.
 |
 */
