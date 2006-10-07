@@ -56,19 +56,19 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
 	}
 	
 	// Set the config file options
-	$obj =& get_instance();
+	$CI =& get_instance();
 	
-	if ($prefix == '' AND $obj->config->item('cookie_prefix') != '')
+	if ($prefix == '' AND $CI->config->item('cookie_prefix') != '')
 	{
-		$obj->config->item('cookie_prefix');
+		$CI->config->item('cookie_prefix');
 	}
-	if ($domain == '' AND $obj->config->item('cookie_domain') != '')
+	if ($domain == '' AND $CI->config->item('cookie_domain') != '')
 	{
-		$obj->config->item('cookie_domain');
+		$CI->config->item('cookie_domain');
 	}
-	if ($prefix == '/' AND $obj->config->item('cookie_path') != '/')
+	if ($prefix == '/' AND $CI->config->item('cookie_path') != '/')
 	{
-		$obj->config->item('cookie_path');
+		$CI->config->item('cookie_path');
 	}
 		
 	if ( ! is_numeric($expire))
@@ -102,8 +102,8 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
  */
 function get_cookie($index = '', $xss_clean = FALSE)
 {
-	$obj =& get_instance();
-	return $obj->input->cookie($index, $xss_clean);
+	$CI =& get_instance();
+	return $CI->input->cookie($index, $xss_clean);
 }
 
 // --------------------------------------------------------------------
