@@ -318,8 +318,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			}
 			else
 			{
-				$obj =& get_instance();
-				return $obj->$method_parts['1']($m);
+				$CI =& get_instance();
+				return $CI->$method_parts['1']($m);
 				//$class = new $method_parts['0'];
 				//return $class->$method_parts['1']($m);
 				//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);

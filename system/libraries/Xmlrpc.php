@@ -493,7 +493,7 @@ class XML_RPC_Response
 	
 	function decode($array=FALSE)
 	{
-		$obj =& get_instance();	
+		$CI =& get_instance();	
 
 		if ($array !== FALSE && is_array($array))
 		{
@@ -505,7 +505,7 @@ class XML_RPC_Response
 				}
 				else
 				{
-					$array[$key] = $obj->input->xss_clean($array[$key]);
+					$array[$key] = $CI->input->xss_clean($array[$key]);
 				}
 			}
 			
@@ -521,7 +521,7 @@ class XML_RPC_Response
 			}
 			else
 			{
-				$result = $obj->input->xss_clean($result);
+				$result = $CI->input->xss_clean($result);
 			}
 		}
 		
@@ -1107,7 +1107,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	
 	function output_parameters($array=FALSE)
 	{
-		$obj =& get_instance();	
+		$CI =& get_instance();	
 
 		if ($array !== FALSE && is_array($array))
 		{
@@ -1119,7 +1119,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				}
 				else
 				{
-					$array[$key] = $obj->input->xss_clean($array[$key]);
+					$array[$key] = $CI->input->xss_clean($array[$key]);
 				}
 			}
 			
@@ -1139,7 +1139,7 @@ class XML_RPC_Message extends CI_Xmlrpc
     			}
     			else
     			{
-    				$parameters[] = $obj->input->xss_clean($a_param);
+    				$parameters[] = $CI->input->xss_clean($a_param);
     			}
     		}	
     	}

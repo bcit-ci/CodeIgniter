@@ -165,13 +165,13 @@ class CI_DB_driver {
 	 * @return	string		 
 	 */		
 	function load_utilities()
-	{
-		$obj =& get_instance();
-			
+	{			
 		require_once(BASEPATH.'database/DB_utility'.EXT);
 		require_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_utility'.EXT);
 		$class = 'CI_DB_'.$this->dbdriver.'_utility';
-		$obj->dbutil = new $class();
+		
+		$CI =& get_instance();
+		$CI->dbutil = new $class();
 	}
 	
 	// --------------------------------------------------------------------

@@ -102,7 +102,7 @@ class Controller extends CI_Base {
 	 * Run Scaffolding
 	 *
 	 * @access	private
-	 * @return	voikd
+	 * @return	void
 	 */	
     function _ci_scaffolding()
     {

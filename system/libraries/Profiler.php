@@ -173,9 +173,7 @@ class CI_Profiler {
 	 * @return	string
 	 */	
 	function run($output = '')
-	{	
-		$obj =& get_instance();
-		
+	{		
 		$output = '<br clear="all" />';
 		$output .= "<div style='background-color:#fff;padding:10px;'>";
 	

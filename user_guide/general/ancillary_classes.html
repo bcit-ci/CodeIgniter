@@ -86,21 +86,21 @@ If you would like to use Code Igniter's classes from within your own custom clas
 
 <p>First, assign the Code Igniter object to a variable:</p>
 
-<code>$obj =& get_instance();</code>
+<code>$CI =& get_instance();</code>
 
 <p>Once you've assigned the object to a variable, you'll use that variable <em>instead</em> of <kbd>$this</kbd>:</p>
 
 <code>
-$obj =& get_instance();<br /><br />
-$obj->load->helper('url');<br />
-$obj->load->library('session');<br />
-$obj->config->item('base_url');<br />
+$CI =& get_instance();<br /><br />
+$CI->load->helper('url');<br />
+$CI->load->library('session');<br />
+$CI->config->item('base_url');<br />
 etc.
 </code>
 
 <p class="important"><strong>Note:</strong> You'll notice that the above get_instance() function is being passed by reference:
 <br /><br />
-<var>$obj =& get_instance();</var>
+<var>$CI =& get_instance();</var>
 <br /><br />
 This is very important. Assigning by reference allows you to use the original Code Igniter object rather than creating a copy of it.</p>
 </div>

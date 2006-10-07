@@ -122,10 +122,10 @@ class CI_Pagination {
         }
         
 		// Determine the current page number.		
-		$obj =& get_instance();	
-		if ($obj->uri->segment($this->uri_segment) != 0)
+		$CI =& get_instance();	
+		if ($CI->uri->segment($this->uri_segment) != 0)
 		{
-			$this->cur_page = $obj->uri->segment($this->uri_segment);
+			$this->cur_page = $CI->uri->segment($this->uri_segment);
 		}
 		
 		if ( ! is_numeric($this->cur_page))
