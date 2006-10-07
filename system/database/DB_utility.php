@@ -290,10 +290,10 @@ class CI_DB_utility {
 		$CI->load->helper('xml');
 
 		// Generate the result
-		$xml = "<{$root}/>".$newline;
+		$xml = "<{$root}>".$newline;
 		foreach ($query->result_array() as $row)
 		{
-			$xml .= $tab."<{$element}/>".$newline;
+			$xml .= $tab."<{$element}>".$newline;
 			
 			foreach ($row as $key => $val)
 			{
