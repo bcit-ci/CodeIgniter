@@ -40,9 +40,9 @@
  */	
 function form_open($action = '', $attributes = array(), $hidden = array())
 {
-	$obj =& get_instance();
+	$CI =& get_instance();
 
-	$form = '<form action="'.$obj->config->site_url($action).'"';
+	$form = '<form action="'.$CI->config->site_url($action).'"';
 	
 	if ( ! isset($attributes['method']))
 	{

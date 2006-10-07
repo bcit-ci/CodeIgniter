@@ -37,8 +37,8 @@
  */	
 function xss_clean($str, $charset = 'ISO-8859-1')
 {
-	$obj =& get_instance();
-	return $obj->input->xss_clean($str, $charset);
+	$CI =& get_instance();
+	return $CI->input->xss_clean($str, $charset);
 }
 
 // --------------------------------------------------------------------
