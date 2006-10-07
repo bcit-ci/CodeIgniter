@@ -26,6 +26,7 @@
  */
 class CI_Validation {
 	
+	var $CI;
 	var $error_string		= '';
 	var $_error_array		= array();
 	var $_rules				= array();
@@ -35,7 +36,7 @@ class CI_Validation {
 	var $_safe_form_data 	= FALSE;
 	var $_error_prefix		= '<p>';
 	var $_error_suffix		= '</p>';
-	var $obj;
+
 	
 
 	/**
@@ -44,7 +45,7 @@ class CI_Validation {
 	 */	
 	function CI_Validation()
 	{	
-		$this->obj =& get_instance();
+		$this->CI =& get_instance();
 		log_message('debug', "Validation Class Initialized");
 	}
 	
@@ -185,7 +186,7 @@ class CI_Validation {
 		}
 	
 		// Load the language file containing error messages
-		$this->obj->lang->load('validation');
+		$this->CI->lang->load('validation');
 							
 		// Cycle through the rules and test for errors
 		foreach ($this->_rules as $field => $rules)
@@ -217,7 +218,7 @@ class CI_Validation {
 				{
 					if ( ! isset($this->_error_messages['isset'])) 
 					{
-						if (FALSE === ($line = $this->obj->lang->line('isset')))
+						if (FALSE === ($line = $this->CI->lang->line('isset')))
 						{
 							$line = 'The field was not set';
 						}							
@@ -267,12 +268,12 @@ class CI_Validation {
 				// Call the function that corresponds to the rule
 				if ($callback === TRUE)
 				{
-					if ( ! method_exists($this->obj, $rule))
+					if ( ! method_exists($this->CI, $rule))
 					{ 		
 						continue;
 					}
 					
-					$result = $this->obj->$rule($_POST[$field], $param);	
+					$result = $this->CI->$rule($_POST[$field], $param);	
 					
 					// If the field isn't required and we just processed a callback we'll move on...
 					if ( ! in_array('required', $ex, TRUE) AND $result !== FALSE)
@@ -309,7 +310,7 @@ class CI_Validation {
 				{
 					if ( ! isset($this->_error_messages[$rule])) 
 					{
-						if (FALSE === ($line = $this->obj->lang->line($rule)))
+						if (FALSE === ($line = $this->CI->lang->line($rule)))
 						{
 							$line = 'Unable to access an error message corresponding to your field name.';
 						}						
@@ -698,7 +699,7 @@ class CI_Validation {
 	 */	
 	function xss_clean($str)
 	{
-		$_POST[$this->_current_field] = $this->obj->input->xss_clean($str);
+		$_POST[$this->_current_field] = $this->CI->input->xss_clean($str);
 	}
 	
 	// --------------------------------------------------------------------

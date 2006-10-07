@@ -173,32 +173,15 @@ $EXT->_call_hook('pre_controller');
 // Mark a start point so we can benchmark the controller
 $BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
+// Instantiate the Controller
 $CI = new $class();
 
+// Is this a scaffolding request?
 if ($RTR->scaffolding_request === TRUE)
 {
 	if ($EXT->_call_hook('scaffolding_override') === FALSE)
 	{
-		if ($CI->_ci_scaffolding === FALSE OR $CI->_ci_scaff_table === FALSE)
-		{
-			show_404('Scaffolding unavailable');
-		}
-		
-		if ( ! class_exists('Scaffolding'))
-		{			
-			if ( ! in_array($CI->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE))
-			{
-				$method = 'view';
-			}
-			else
-			{
-				$method = $CI->uri->segment(3);
-			}
-			
-			require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
-			$scaff = new Scaffolding($CI->_ci_scaff_table);
-			$scaff->$method();
-		}
+		$CI->_ci_scaffolding();
 	}
 }
 else
@@ -210,6 +193,7 @@ else
 	 */
 	$EXT->_call_hook('post_controller_constructor');
 	
+	// Is there a "remap" function?
 	if (method_exists($CI, '_remap'))
 	{
 		$CI->_remap($method);

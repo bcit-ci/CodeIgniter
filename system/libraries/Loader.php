@@ -31,12 +31,11 @@ class CI_Loader {
 	var $CI;
 	var $ob_level;
 	var $cached_vars	= array();
+	var $models			= array();
 	var $helpers		= array();
 	var $plugins		= array();
 	var $scripts		= array();
-	var $languages		= array();
 	var $view_path		= '';
-	var $models			= array();
 
 	/**
 	 * Constructor

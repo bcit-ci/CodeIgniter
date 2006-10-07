@@ -28,8 +28,8 @@
  */ 
 class CI_Calendar {
 
+	var $CI;
 	var $lang;
-	var $obj;
 	var $local_time;
 	var $template		= '';
 	var $start_day		= 'sunday';
@@ -47,10 +47,10 @@ class CI_Calendar {
 	 */
 	function CI_Calendar()
 	{		
-		$this->obj =& get_instance();
-		if ( ! in_array('calendar_lang'.EXT, $this->obj->lang->is_loaded, TRUE))
+		$this->CI =& get_instance();
+		if ( ! in_array('calendar_lang'.EXT, $this->CI->lang->is_loaded, TRUE))
 		{
-			$this->obj->lang->load('calendar');
+			$this->CI->lang->load('calendar');
 		}
 
 		$this->local_time = time();
@@ -268,12 +268,12 @@ class CI_Calendar {
 		
 		$month = $month_names[$month];
 		
-		if ($this->obj->lang->line($month) === FALSE)
+		if ($this->CI->lang->line($month) === FALSE)
 		{
 			return ucfirst(str_replace('cal_', '', $month));
 		}
 
-		return $this->obj->lang->line($month);
+		return $this->CI->lang->line($month);
 	}
 	// END get_month_name()
 	
@@ -310,7 +310,7 @@ class CI_Calendar {
 		$days = array();
 		foreach ($day_names as $val)
 		{			
-			$days[] = ($this->obj->lang->line('cal_'.$val) === FALSE) ? ucfirst($val) : $this->obj->lang->line('cal_'.$val);
+			$days[] = ($this->CI->lang->line('cal_'.$val) === FALSE) ? ucfirst($val) : $this->CI->lang->line('cal_'.$val);
 		}
 	
 		return $days;
