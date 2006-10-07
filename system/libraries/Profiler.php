@@ -62,7 +62,7 @@ class CI_Profiler {
  			// up in the order that it was defined
  			if (preg_match("/(.+?)_end/i", $key, $match))
  			{ 			
- 				if (isset($this->obj->benchmark->marker[$match[1].'_end']))
+ 				if (isset($this->obj->benchmark->marker[$match[1].'_end']) AND isset($this->obj->benchmark->marker[$match[1].'_start']))
  				{
  					$profile[$match[1]] = $this->obj->benchmark->elapsed_time($match[1].'_start', $key);
  				}
