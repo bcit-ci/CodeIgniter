@@ -66,7 +66,6 @@ class CI_Router {
 	 */
 	function _set_route_mapping()
 	{		
-		
 		// Are query strings enabled in the config file?
 		// If so, we're done since segment based URIs are not used with query strings.
 		if ($this->config->item('enable_query_strings') === TRUE AND isset($_GET[$this->config->item('controller_trigger')]))
@@ -120,8 +119,7 @@ class CI_Router {
 		{
 			$this->uri_string = preg_replace("|".preg_quote($this->config->item('url_suffix'))."$|", "", $this->uri_string);
 		}
-
-
+		
 		// Explode the URI Segments. The individual segments will
 		// be stored in the $this->segments array.	
 		foreach(explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)

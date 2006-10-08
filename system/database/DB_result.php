@@ -256,7 +256,7 @@ class CI_DB_result {
 	 * is used.  When caching is enabled we do not load the other driver.
 	 * These functions are primarily here to prevent undefined function errors
 	 * when a cached result object is in use.  They are not otherwise fully 
-	 * operational due to the unavailability of database resource IDs with
+	 * operational due to the unavailability of the database resource IDs with
 	 * cached results.
 	 */
 	function num_rows() { return $this->num_rows; }

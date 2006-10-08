@@ -27,6 +27,7 @@
  * @link		http://www.codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Encrypt {
+
 	var $encryption_key	= '';
 	var $_hash_type	= 'sha1';
 	var $_mcrypt_exists = FALSE;
@@ -246,10 +247,9 @@ class CI_Encrypt {
 	 */
 	function mcrypt_encode($data, $key) 
 	{	
-		$this->_get_mcrypt();
-		$init_size = mcrypt_get_iv_size($this->_mcrypt_cipher, $this->_mcrypt_mode);
+		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return mcrypt_encrypt($this->_mcrypt_cipher, $key, $data, $this->_mcrypt_mode, $init_vect);
+		return mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
 	}
   	
 	// --------------------------------------------------------------------
@@ -264,10 +264,9 @@ class CI_Encrypt {
 	 */	
 	function mcrypt_decode($data, $key) 
 	{
-		$this->_get_mcrypt();
-		$init_size = mcrypt_get_iv_size($this->_mcrypt_cipher, $this->_mcrypt_mode);
+		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return rtrim(mcrypt_decrypt($this->_mcrypt_cipher, $key, $data, $this->_mcrypt_mode, $init_vect), "\0");
+		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
 	}
   	
 	// --------------------------------------------------------------------
@@ -301,22 +300,37 @@ class CI_Encrypt {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get Mcrypt value
+	 * Get Mcrypt Cypher Value
 	 *
 	 * @access	private
-	 * @param	string
 	 * @return	string
 	 */	
-	function _get_mcrypt()
+	function _get_cypher()
 	{
 		if ($this->_mcrypt_cipher == '') 
 		{
 			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
+
+		return $this->_mcrypt_cipher;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Mcrypt MOde Value
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _get_mode()
+	{
 		if ($this->_mcrypt_mode == '') 
 		{
 			$this->_mcrypt_mode = MCRYPT_MODE_ECB;
 		}
+		
+		return $this->_mcrypt_mode;
 	}
   	
 	// --------------------------------------------------------------------

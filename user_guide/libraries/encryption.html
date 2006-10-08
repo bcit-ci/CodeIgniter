@@ -33,7 +33,7 @@ window.onload = function() {
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>Code Igniter User Guide Version 1.5.0</h1></td>
+<td><h1>Code Igniter User Guide Version 1.5.0b1</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
 </tr>
 </table>
@@ -47,7 +47,7 @@ window.onload = function() {
 <td id="breadcrumb">
 <a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Encrypt Class
+Encryption Class
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -61,9 +61,9 @@ Encrypt Class
 <div id="content">
 
 
-<h1>Encrypt Class</h1>
+<h1>Encryption Class</h1>
 
-<p>The Encrypt Class provides two-way data encryption.  It uses a scheme that pre-compiles
+<p>The Encryption Class provides two-way data encryption.  It uses a scheme that pre-compiles
 the message using a randomly hashed bitwise XOR encoding scheme, which is then encrypted using
 the Mcrypt library.  If Mcrypt is not available on your server the encoded message will
 still provide a reasonable degree of security for encrypted sessions or other such "light" purposes. 
@@ -105,7 +105,7 @@ for example, can only hold 4K of information.</p>
 
 <h2>Initializing the Class</h2>
 
-<p>Like most other classes in Code Igniter, the Encrypt class is initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
+<p>Like most other classes in Code Igniter, the Encryption class is initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
 
 <code>$this->load->library('encrypt');</code>
 <p>Once loaded, the Encrypt library object will be available using: <dfn>$this->encrypt</dfn></p>

@@ -40,9 +40,7 @@
 */
 
 $route['default_controller'] = "welcome";
-$route['scaffolding_trigger'] = "";
-
-// Define your own routes below -------------------------------------------
+$route['scaffolding_trigger'] = "scaffolding";
 
 
 

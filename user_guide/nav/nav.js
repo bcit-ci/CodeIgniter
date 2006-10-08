@@ -82,6 +82,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/parser.html">Template Parser Class</a></li>' +
 		'<li><a href="'+base+'libraries/unit_testing.html">Unit Testing Class</a></li>' +
 		'<li><a href="'+base+'libraries/uri.html">URI Class</a></li>' +
+		'<li><a href="'+base+'libraries/user_agent.html">User Agent Class</a></li>' +
 		'<li><a href="'+base+'libraries/validation.html">Validation Class</a></li>' +
 		'<li><a href="'+base+'libraries/xmlrpc.html">XML-RPC Class</a></li>' +
 		'<li><a href="'+base+'libraries/zip.html">Zip Encoding Class</a></li>' +
@@ -105,7 +106,6 @@ function create_menu(basepath)
 		'<li><a href="'+base+'helpers/text_helper.html">Text Helper</a></li>' +
 		'<li><a href="'+base+'helpers/typography_helper.html">Typography Helper</a></li>' +
 		'<li><a href="'+base+'helpers/url_helper.html">URL Helper</a></li>' +
-		'<li><a href="'+base+'helpers/user_agent_helper.html">User Agent Helper</a></li>' +
 		'<li><a href="'+base+'helpers/xml_helper.html">XML Helper</a></li>' +
 		'</ul>' +	
 

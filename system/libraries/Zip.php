@@ -41,7 +41,8 @@ class CI_Zip  {
 	{
 		log_message('debug', "Zip Compression Class Initialized");
 	}
-	
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Add Directory

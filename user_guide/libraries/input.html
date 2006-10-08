@@ -33,7 +33,7 @@ window.onload = function() {
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>Code Igniter User Guide Version 1.5.0</h1></td>
+<td><h1>Code Igniter User Guide Version 1.5.0b1</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
 </tr>
 </table>
@@ -117,9 +117,9 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 
 
-<h2>Using POST or COOKIE Data</h2>
+<h2>Using POST, COOKIE, or SERVER Data</h2>
 
-<p>Code Igniter comes with two helper functions that let you fetch POST or COOKIE items.  The main advantage of using the provided
+<p>Code Igniter comes with three helper functions that let you fetch POST, COOKIE or SERVER items.  The main advantage of using the provided
 functions rather then fetching an item directly ($_POST['something']) is that the functions will check to see if the item is set and
 return false (boolean) if not.  This lets you conveniently use data without having to test whether an item exists first. 
 In other words, normally you might do something like this:
@@ -138,7 +138,13 @@ else<br />
 
 <code>$something = $this->input->post('something');</code>
 
-<p>The two functions are:</p>
+<p>The three functions are:</p>
+
+<ul>
+<li>$this->input->post()</li>
+<li>$this->input->cookie()</li>
+<li>$this->input->server()</li>
+</ul>
 
 <h2>$this->input->post()</h2>
 
@@ -157,6 +163,12 @@ else<br />
 <p>This function is identical to the post function, only it fetches cookie data:</p>
 
 <code>$this->input->cookie('some_data', TRUE);</code>
+
+<h2>$this->input->server()</h2>
+
+<p>This function is identical to the above functions, only it fetches server data:</p>
+
+<code>$this->input->server('some_data');</code>
 
 
 
