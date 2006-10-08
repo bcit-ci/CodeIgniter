@@ -61,7 +61,6 @@ class CI_Log {
 			$this->_date_fmt = $config['log_date_format'];
 		}
 	}
-	// END CI_Log()
 	
 	// --------------------------------------------------------------------
 	
@@ -113,7 +112,7 @@ class CI_Log {
 		@chmod($filepath, 0666); 		
 		return TRUE;
 	}
-	// END write_log()
+
 }
 // END Log Class
 ?>

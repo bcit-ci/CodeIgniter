@@ -148,6 +148,7 @@ class CI_Image_lib {
 			$this->set_error('imglib_source_image_required');
 			return FALSE;       	
 		}
+		
 		/*
 		 * Is getimagesize() Available?
 		 *

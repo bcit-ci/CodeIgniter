@@ -48,6 +48,7 @@ class CI_Calendar {
 	function CI_Calendar()
 	{		
 		$this->CI =& get_instance();
+		
 		if ( ! in_array('calendar_lang'.EXT, $this->CI->lang->is_loaded, TRUE))
 		{
 			$this->CI->lang->load('calendar');
@@ -56,7 +57,6 @@ class CI_Calendar {
 		$this->local_time = time();
 		log_message('debug', "Calendar Class Initialized");
 	}
-	// END CI_Calendar()
 	
 	// --------------------------------------------------------------------
 	
@@ -79,7 +79,6 @@ class CI_Calendar {
 			}
 		}
 	} 
-	// END initialize()
 	
 	// --------------------------------------------------------------------
 
@@ -241,7 +240,6 @@ class CI_Calendar {
 
 		return $out;
     }
-	// END generate()
 	
 	// --------------------------------------------------------------------
 
@@ -275,7 +273,6 @@ class CI_Calendar {
 
 		return $this->CI->lang->line($month);
 	}
-	// END get_month_name()
 	
 	// --------------------------------------------------------------------
  
@@ -315,7 +312,6 @@ class CI_Calendar {
 	
 		return $days;
 	}
- 	// END get_day_names()
  	
 	// --------------------------------------------------------------------
 
@@ -357,7 +353,6 @@ class CI_Calendar {
         
         return $date;
     }
- 	// END adjust_date()
  	
 	// --------------------------------------------------------------------
 
@@ -378,6 +373,7 @@ class CI_Calendar {
             return 0;
         }
         
+        // Is the year a leap year?
         if ($month == 2)
         {        
 			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
@@ -388,7 +384,6 @@ class CI_Calendar {
     
         return $days_in_month[$month - 1];
     }
-	// END get_total_days()
 	
 	// --------------------------------------------------------------------
 
@@ -426,7 +421,6 @@ class CI_Calendar {
 						'table_close' => '</table>'
 					);	
 	}
-	// END default_template()
 	
 	// --------------------------------------------------------------------
 
@@ -465,7 +459,6 @@ class CI_Calendar {
 			}
 		} 	
  	}
-	// END parse_template()
 
 }
 

@@ -611,16 +611,7 @@ class CI_Loader {
 		if (substr($class, 0, 3) == 'my_')
 		{
 			$class = preg_replace("/my_(.+)/", "\\1", $class);
-			$extend = TRUE;
-		}
-		else
-		{
-			$extend = FALSE;
-		}
-				
-		// Are we extending one of the base classes?
-		if ($extend == TRUE)
-		{
+
 			// Load the requested library from the main system/libraries folder
 			if (file_exists(BASEPATH.'libraries/'.ucfirst($class).EXT))
 			{
@@ -638,22 +629,20 @@ class CI_Loader {
 			
 			return $this->_ci_init_class($filename, 'MY_', $params);
 		}
-		else
-		{		
-			// Lets search for the requested library file and load it.
-			// For backward compatibility we'll test for filenames that are
-			// both uppercase and lower.
-			foreach (array(ucfirst($class), $class) as $filename)
+
+		// Lets search for the requested library file and load it.
+		// For backward compatibility we'll test for filenames that are
+		// both uppercase and lower.
+		foreach (array(ucfirst($class), $class) as $filename)
+		{
+			for ($i = 1; $i < 3; $i++)
 			{
-				for ($i = 1; $i < 3; $i++)
+				$path = ($i % 2) ? APPPATH : BASEPATH;
+			
+				if (file_exists($path.'libraries/'.$filename.EXT))
 				{
-					$path = ($i % 2) ? APPPATH : BASEPATH;
-				
-					if (file_exists($path.'libraries/'.$filename.EXT))
-					{
-						include_once($path.'libraries/'.$filename.EXT);
-						return $this->_ci_init_class($filename, '', $params);
-					}
+					include_once($path.'libraries/'.$filename.EXT);
+					return $this->_ci_init_class($filename, '', $params);
 				}
 			}
 		}
@@ -686,7 +675,7 @@ class CI_Loader {
 		
 		if ($prefix == '')
 		{
-			$name = ( ! class_exists($class)) ? 'CI_'.$class : $class;
+			$name = (class_exists('CI_'.$class)) ? 'CI_'.$class : $class;
 		}
 		else
 		{
@@ -756,24 +745,28 @@ class CI_Loader {
 		// Load libraries
 		if (isset($autoload['libraries']) AND count($autoload['libraries']) > 0)
 		{
+			// Load the database driver.  
 			if (in_array('database', $autoload['libraries']))
 			{
 				$this->database();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
 
+			// Load the model class.  
 			if (in_array('model', $autoload['libraries']))
 			{
 				$this->model();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('model'));
 			}
-	
+
+			// Load scaffolding
 			if (in_array('scaffolding', $autoload['libraries']))
 			{
 				$this->scaffolding();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('scaffolding'));
 			}
 		
+			// Load all other libraries
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);

@@ -179,6 +179,7 @@ class CI_Input {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	function post($index = '', $xss_clean = FALSE)
@@ -213,6 +214,7 @@ class CI_Input {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	function cookie($index = '', $xss_clean = FALSE)
@@ -244,6 +246,31 @@ class CI_Input {
 			return $_COOKIE[$index];
 		}
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch an item from the SERVER array
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
+	function server($index = '', $xss_clean = FALSE)
+	{		
+		if ( ! isset($_SERVER[$index]))
+		{
+			return FALSE;
+		}
+
+		if ($xss_clean === TRUE)
+		{
+			return $this->xss_clean($_SERVER[$index]);
+		}
+		
+		return $_SERVER[$index];
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -259,15 +286,28 @@ class CI_Input {
 		{
 			return $this->ip_address;
 		}
-	
-		$cip = (isset($_SERVER['HTTP_CLIENT_IP']) AND $_SERVER['HTTP_CLIENT_IP'] != "") ? $_SERVER['HTTP_CLIENT_IP'] : FALSE;
-		$rip = (isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] != "") ? $_SERVER['REMOTE_ADDR'] : FALSE;
-		$fip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) AND $_SERVER['HTTP_X_FORWARDED_FOR'] != "") ? $_SERVER['HTTP_X_FORWARDED_FOR'] : FALSE;
-					
-		if ($cip && $rip)	$this->ip_address = $cip;	
-		elseif ($rip)		$this->ip_address = $rip;
-		elseif ($cip)		$this->ip_address = $cip;
-		elseif ($fip)		$this->ip_address = $fip;
+		
+		if ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
+		{
+			 $this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
+		}
+		elseif ($this->server('REMOTE_ADDR'))
+		{
+			 $this->ip_address = $_SERVER['REMOTE_ADDR'];
+		}
+		elseif ($this->server('HTTP_CLIENT_IP'))
+		{
+			 $this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
+		}
+		elseif ($this->server('HTTP_X_FORWARDED_FOR'))
+		{
+			 $this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		
+		if ($this->ip_address === FALSE)
+		{
+			return $this->ip_address = '0.0.0.0';
+		}
 		
 		if (strstr($this->ip_address, ','))
 		{
@@ -279,11 +319,7 @@ class CI_Input {
 		{
 			$this->ip_address = '0.0.0.0';
 		}
-		
-		unset($cip);
-		unset($rip);
-		unset($fip);
-		
+				
 		return $this->ip_address;
 	}
 	

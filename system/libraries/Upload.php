@@ -248,20 +248,20 @@ class CI_Upload {
 	function data()
 	{
 		return array (
-					'file_name'			=> $this->file_name,
-					'file_type'			=> $this->file_type,
-					'file_path'			=> $this->file_path,
-					'full_path'			=> $this->file_path.$this->file_name,
-					'raw_name'			=> str_replace($this->file_ext, '', $this->file_name),
-					'orig_name'			=> $this->orig_name,
-					'file_ext'			=> $this->file_ext,
-					'file_size'			=> $this->file_size,
-					'is_image'			=> $this->is_image(),
-					'image_width'		=> $this->image_width,
-					'image_height'		=> $this->image_height,
-					'image_type'		=> $this->image_type,
-					'image_size_str'	=> $this->image_size_str,
-				);
+						'file_name'			=> $this->file_name,
+						'file_type'			=> $this->file_type,
+						'file_path'			=> $this->file_path,
+						'full_path'			=> $this->file_path.$this->file_name,
+						'raw_name'			=> str_replace($this->file_ext, '', $this->file_name),
+						'orig_name'			=> $this->orig_name,
+						'file_ext'			=> $this->file_ext,
+						'file_size'			=> $this->file_size,
+						'is_image'			=> $this->is_image(),
+						'image_width'		=> $this->image_width,
+						'image_height'		=> $this->image_height,
+						'image_type'		=> $this->image_type,
+						'image_size_str'	=> $this->image_size_str,
+					);
 	}
 	
 	// --------------------------------------------------------------------
@@ -554,7 +554,7 @@ class CI_Upload {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * VAlidate Upload Path 
+	 * Validate Upload Path 
 	 *
 	 * Verifies that it is a valid upload path with proper permissions.
 	 *

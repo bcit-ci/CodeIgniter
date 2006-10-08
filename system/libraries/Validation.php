@@ -478,7 +478,21 @@ class CI_Validation {
 	{
 		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
 	}
+
+	// --------------------------------------------------------------------
 	
+	/**
+	 * Validate IP Address
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function valid_ip($ip)
+	{
+		return ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip)) ? FALSE : TRUE;
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**

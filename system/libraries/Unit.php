@@ -55,7 +55,7 @@ class CI_Unit {
 	function run($test, $expected = TRUE, $test_name = 'undefined')
 	{
 		if ($this->active == FALSE)
-			return;
+			return FALSE;
 			
 		if (in_array($expected, array('is_string', 'is_bool', 'is_true', 'is_false', 'is_int', 'is_numeric', 'is_float', 'is_double', 'is_array', 'is_null'), TRUE))
 		{
