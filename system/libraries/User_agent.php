@@ -33,13 +33,15 @@ class CI_User_agent {
 	var $is_browser	= FALSE;
 	var $is_robot	= FALSE;
 	var $is_mobile	= FALSE;
+
+	var $languages	= array();
+	var $charsets	= array();
 	
 	var $platform	= '';
 	var $browser	= '';
 	var $version	= '';
 	var $moble		= '';
 	var $robot		= '';
-
 
 	var $platforms = array (
 							'windows nt 6.0'	=> 'Windows Longhorn',
@@ -55,12 +57,13 @@ class CI_User_agent {
 							'windows 95'		=> 'Windows 95',
 							'win95'				=> 'Windows 95',
 							'windows'			=> 'Unknown Windows OS',
-							'mac os x'			=> 'Mac OS X',
+							'os x'				=> 'Mac OS X',
+							'ppc mac'			=> 'Power PC Mac',
 							'freebsd'			=> 'FreeBSD',
 							'ppc'				=> 'Macintosh',
-							'sunos'				=> 'Sun Solaris',
 							'linux'				=> 'Linux',
 							'debian'			=> 'Debian',
+							'sunos'				=> 'Sun Solaris',
 							'beos'				=> 'BeOS',
 							'apachebench'		=> 'ApacheBench',
 							'aix'				=> 'AIX',
@@ -80,12 +83,21 @@ class CI_User_agent {
 							'Internet Explorer'	=> 'Internet Explorer',
 							'Shiira'			=> 'Shiira',
 							'Firefox'			=> 'Firefox',
+							'Chimera'			=> 'Chimera',
+							'Phoenix'			=> 'Phoenix',
+							'Firebird'			=> 'Firebird',
 							'Camino'			=> 'Camino',
+							'Netscape'			=> 'Netscape',
+							'OmniWeb'			=> 'OmniWeb',
 							'Mozilla'			=> 'Mozilla',
 							'Safari'			=> 'Safari',
 							'Konqueror'			=> 'Konqueror',
+							'icab'				=> 'iCab',
 							'Lynx'				=> 'Lynx',
-							'ANTFresco'			=> 'Fresco'
+							'Links'				=> 'Links',
+							'hotjava'			=> 'HotJava',
+							'amaya'				=> 'Amaya',
+							'IBrowse'			=> 'IBrowse'
 						);
 
 	var $mobiles = array(
@@ -488,7 +500,7 @@ class CI_User_agent {
 		
 		return FALSE;
 	}
-		
+			
 	// --------------------------------------------------------------------
 	
 	/**
@@ -535,6 +547,51 @@ class CI_User_agent {
 		return FALSE;
 	}
 	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set the accepted languages
+	 *
+	 * @access	private
+	 * @return	void
+	 */			
+	function _set_languages()
+	{
+		if ((count($this->languages) == 0) AND isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) AND $_SERVER['HTTP_ACCEPT_LANGUAGE'] != '')
+		{
+			$languages = preg_replace('/(;q=.+)/i', '', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			
+			$this->languages = explode(',', $languages);
+		}
+		
+		if (count($this->languages) == 0)
+		{
+			$this->languages = array('Undefined');
+		}	
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set the accepted character sets
+	 *
+	 * @access	private
+	 * @return	void
+	 */			
+	function _set_charsets()
+	{	
+		if ((count($this->charsets) == 0) AND isset($_SERVER['HTTP_ACCEPT_CHARSET']) AND $_SERVER['HTTP_ACCEPT_CHARSET'] != '')
+		{
+			$charsets = preg_replace('/(;q=.+)/i', '', $_SERVER['HTTP_ACCEPT_CHARSET']);
+			
+			$this->charsets = explode(',', $charsets);
+		}
+		
+		if (count($this->charsets) == 0)
+		{
+			$this->charsets = array('Undefined');
+		}	
+	}
 
 	// --------------------------------------------------------------------
 	
@@ -578,12 +635,38 @@ class CI_User_agent {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Is this a referral from another site?
+	 *
+	 * @access	public
+	 * @return	bool
+	 */			
+	function is_referral()
+	{
+		return ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? FALSE : TRUE;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Agent String
+	 *
+	 * @access	public
+	 * @return	string
+	 */			
+	function agent()
+	{
+		return $this->agent;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Get Platform
 	 *
 	 * @access	public
 	 * @return	string
 	 */			
-	function get_platform()
+	function platform()
 	{
 		return $this->platform;
 	}
@@ -596,7 +679,7 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	string
 	 */			
-	function get_browser()
+	function browser()
 	{
 		return $this->browser;
 	}
@@ -609,7 +692,7 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	string
 	 */			
-	function get_version()
+	function version()
 	{
 		return $this->version;
 	}
@@ -622,7 +705,7 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	string
 	 */				
-	function get_robot()
+	function robot()
 	{
 		return $this->robot;
 	}
@@ -634,9 +717,84 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	string
 	 */			
-	function get_mobile()
+	function mobile()
 	{
 		return $this->mobile;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Get the referrer
+	 *
+	 * @access	public
+	 * @return	bool
+	 */			
+	function referrer()
+	{
+		return ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? '' : $_SERVER['HTTP_REFERER'];
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Get the accepted languages
+	 *
+	 * @access	public
+	 * @return	array
+	 */			
+	function languages()
+	{
+		if (count($this->languages) == 0)
+		{
+			$this->_set_languages();
+		}
+	
+		return $this->languages;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Get the accepted Character Sets
+	 *
+	 * @access	public
+	 * @return	array
+	 */			
+	function charsets()
+	{
+		if (count($this->charsets) == 0)
+		{
+			$this->_set_charsets();
+		}
+	
+		return $this->charsets;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Test for a particular language
+	 *
+	 * @access	public
+	 * @return	bool
+	 */			
+	function accept_lang($lang = 'en')
+	{
+		return (in_array(strtolower($lang), $this->languages(), TRUE)) ? TRUE : FALSE;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Test for a particular character set
+	 *
+	 * @access	public
+	 * @return	bool
+	 */			
+	function accept_charset($charset = 'utf-8')
+	{
+		return (in_array(strtolower($charset), $this->charsets(), TRUE)) ? TRUE : FALSE;
 	}
 	
 	
