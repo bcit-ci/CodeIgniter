@@ -113,8 +113,7 @@ class CI_User_agent {
 			unset($robots);
 			$return = TRUE;
 		}
-		
-		
+
 		return $return;
 	}
 	
