@@ -40,7 +40,7 @@ $db['default']['dbprefix'] = "";
 $db['default']['active_r'] = TRUE;
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = TRUE;
+$db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = APPPATH.'db_cache/';
 
 

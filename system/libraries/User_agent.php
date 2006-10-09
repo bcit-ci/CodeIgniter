@@ -37,12 +37,16 @@ class CI_User_agent {
 	var $languages	= array();
 	var $charsets	= array();
 	
+	var $platforms	= array();
+	var $browsers	= array();
+	var $mobiles	= array();
+	var $robots		= array();
+	
 	var $platform	= '';
 	var $browser	= '';
 	var $version	= '';
 	var $moble		= '';
 	var $robot		= '';
-
 	
 	/**
 	 * Constructor
@@ -66,8 +70,9 @@ class CI_User_agent {
 				$this->_compile_data();
 			}
 		}
+		
+		log_message('debug', "Table Class Initialized");
 	}
-
 	
 	// --------------------------------------------------------------------
 	
@@ -79,7 +84,7 @@ class CI_User_agent {
 	 */		
 	function _load_agent_file()
 	{
-		if ( ! @include(APPPATH.'config/user_agent'.EXT))
+		if ( ! @include(APPPATH.'config/user_agents'.EXT))
 		{
 			return FALSE;
 		}
@@ -102,7 +107,7 @@ class CI_User_agent {
 
 		if (isset($mobiles))
 		{
-			$this->browsers = $mobiles;
+			$this->mobiles = $mobiles;
 			unset($mobiles);
 			$return = TRUE;
 		}
@@ -344,7 +349,7 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	string
 	 */			
-	function agent()
+	function agent_string()
 	{
 		return $this->agent;
 	}
