@@ -30,12 +30,13 @@ class CI_Loader {
 
 	var $CI;
 	var $ob_level;
+	var $view_path		= '';
 	var $cached_vars	= array();
 	var $models			= array();
 	var $helpers		= array();
 	var $plugins		= array();
 	var $scripts		= array();
-	var $view_path		= '';
+	var $varmap			= array('unit_test' => 'unit', 'user_agent' => 'agent');
 
 	/**
 	 * Constructor
@@ -665,6 +666,7 @@ class CI_Loader {
 	function _ci_init_class($class, $prefix = '', $varname = NULL)
 	{	
 		// Is there an associated config file for this class?
+		$config = NULL;
 		if (file_exists(APPPATH.'config/'.$class.EXT))
 		{
 			include_once(APPPATH.'config/'.$class.EXT);
@@ -678,9 +680,17 @@ class CI_Loader {
 		{
 			$name = $prefix.$class;
 		}
-						
-		$classvar = ( ! is_null($varname)) ? $varname : strtolower($class);
 		
+		// Set the variable name we will assign the class to
+		if ( ! is_null($varname)) 
+		{
+			$classvar = $varname;
+		}
+		else
+		{
+			$class = strtolower($class);			
+			$classvar = ( ! isset($this->varmap[$class])) ? $class : $this->varmap[$class];
+		}
 		
 		// Instantiate the class
 		if ($config !== NULL)
