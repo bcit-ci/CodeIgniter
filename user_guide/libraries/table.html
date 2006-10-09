@@ -70,9 +70,143 @@ HTML Table Class
 <p>Like most other classes in Code Igniter, the Table class is initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
 
 <code>$this->load->library('table');</code>
-<p>Once loaded, the Trackback library object will be available using: <dfn>$this->table</dfn></p>
+<p>Once loaded, the Table library object will be available using: <dfn>$this->table</dfn></p>
 
 
+<h2>Examples</h2>
+
+<p>Here is an example showing how you can create a table from a multi-dimensional array. 
+Note that the first array index will become the table heading.</p>
+
+<code>
+$this->load->library('table');<br />
+<br />
+$data = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('Name', 'Color', 'Size'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('Fred', 'Blue', 'Small'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('Mary', 'Red', 'Large'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('John', 'Green', 'Medium')	<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo $this->table->generate($data);		
+</code>
+
+<p>Here is an example of a table created from a database query result. The table class will automatically generate the 
+headings based on the table names. Or you can set your own headings using the <dfn>set_heading()</dfn> function described
+in the function reference below.</p>
+
+<code>
+$this->load->library('table');<br />
+<br />
+$query = $this->db->query("SELECT * FROM my_table");<br />
+<br />
+echo $this->table->generate($query);		
+</code>
+
+
+<p>Here is an example showing how you might create a table using discreet parameters:</p>
+
+<code>
+$this->load->library('table');<br />
+<br />
+$this->table->set_heading('Name', 'Color', 'Size');<br />
+<br />
+$this->table->add_row('Fred', 'Blue', 'Small');<br />
+$this->table->add_row('Mary', 'Red', 'Large');<br />
+$this->table->add_row('John', 'Green', 'Medium');<br />
+<br />
+echo $this->table->generate();		
+</code>
+
+<p>Here is the same example, except instead of individual parameters, arrays are used:
+
+<code>
+$this->load->library('table');<br />
+<br />
+$this->table->set_heading(array('Name', 'Color', 'Size'));<br />
+<br />
+$this->table->add_row(array('Fred', 'Blue', 'Small'));<br />
+$this->table->add_row(array('Mary', 'Red', 'Large'));<br />
+$this->table->add_row(array('John', 'Green', 'Medium'));<br />
+<br />
+echo $this->table->generate();		
+</code>
+
+
+<h2>Changing the Look of Your Table</h2>
+
+<p>The Table Class permits you to set a table template with which you can specify the design of your layout.  Here is the template
+prototype:</p>
+
+<code>
+$tmpl =  array (<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'table_open'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;table border="0" cellpadding="4" cellspacing="0">',<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'heading_row_start'&nbsp;&nbsp;&nbsp;=> '&lt;tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'heading_row_end'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'heading_cell_start'&nbsp;&nbsp;=> '&lt;th>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'heading_cell_end'&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/th>',<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'row_start'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'row_end'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'cell_start'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;td>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'cell_end'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/td>',<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'row_alt_start'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'row_alt_end'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/tr>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'cell_alt_start'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;td>',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'cell_alt_end'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/td>',<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'table_close'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;/table>'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+
+<br />
+$this->table->set_template($tmpl);
+</code>
+
+<p class="important">You'll notice there are two sets of "row" blocks in the template.  These permit you to create alternating row colors or design elements that alternate with each 
+iteration of the row data.</p>
+
+<p>You are NOT required to submit a complete template.  If you only need to change parts of the layout you can simply submit those elements.
+In this example, only the table opening tag is being changed:</p>
+
+<code>
+$tmpl =  array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
+
+<br />
+$this->table->set_template($tmpl);
+</code>
+
+<br />
+<h1>Function Reference</h1>
+
+<h2>$this->table->generate()</h2>
+<p>Returns a string containing the generated table.  Accepts an optional parameter which can be an array or a database result object.</p>
+
+<h2>$this->table->set_heading()</h2>
+
+<p>Permits you to set the table heading.  You can submit an array or discreet params:</p>
+
+<code>$this->table->set_heading('Name', 'Color', 'Size');</code>
+<code>$this->table->set_heading(array('Name', 'Color', 'Size'));</code>
+
+<h2>$this->table->add_row()</h2>
+
+<p>Permits you to add a row to your table.  You can submit an array or discreet params:</p>
+
+<code>$this->table->add_row('Blue', 'Red', 'Green');</code>
+<code>$this->table->add_row(array('Blue', 'Red', 'Green'));</code>
+
+<h2>$this->table->set_template()</h2>
+
+<p>Permits you to set your template. You can submit a full or partial template.</p>
+
+<code>
+$tmpl =  array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
+
+<br />
+$this->table->set_template($tmpl);
+</code>
 
 
 </div>

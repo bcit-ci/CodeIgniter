@@ -61,7 +61,7 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Add a table heading
+	 * Set the table heading
 	 *
 	 * Can be passed as an array or discreet params
 	 *
@@ -69,7 +69,7 @@ class CI_Table {
 	 * @param	mixed
 	 * @return	void
 	 */
-	function add_heading()
+	function set_heading()
 	{
 		$args = func_get_args();
 		$this->heading = (is_array($args[0])) ? $args[0] : $args;
@@ -313,12 +313,7 @@ class CI_Table {
 						'table_close' 			=> '</table>'
 					);	
 	}
-
-
-
- 	
- 	
- 	
+	
 
 }
 
