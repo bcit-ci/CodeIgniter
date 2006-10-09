@@ -601,13 +601,6 @@ class CI_Loader {
 		// Prep the class name
 		$class = strtolower(str_replace(EXT, '', $class));
 		
-		// Bug fix for backward compat.  
-		// Kill this at some point in the future
-		if ($class == 'unit_test')
-		{
-			$class = 'unit';
-		}
-
 		// Is this a class extension request?	
 		if (substr($class, 0, 3) == 'my_')
 		{
