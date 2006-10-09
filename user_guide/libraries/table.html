@@ -76,7 +76,8 @@ HTML Table Class
 <h2>Examples</h2>
 
 <p>Here is an example showing how you can create a table from a multi-dimensional array. 
-Note that the first array index will become the table heading.</p>
+Note that the first array index will become the table heading (or you can set your own headings using the 
+<dfn>set_heading()</dfn> function described in the function reference below).</p>
 
 <code>
 $this->load->library('table');<br />
@@ -92,8 +93,8 @@ echo $this->table->generate($data);
 </code>
 
 <p>Here is an example of a table created from a database query result. The table class will automatically generate the 
-headings based on the table names. Or you can set your own headings using the <dfn>set_heading()</dfn> function described
-in the function reference below.</p>
+headings based on the table names (or you can set your own headings using the <dfn>set_heading()</dfn> function described
+in the function reference below).</p>
 
 <code>
 $this->load->library('table');<br />
@@ -164,7 +165,7 @@ $tmpl =  array (<br />
 $this->table->set_template($tmpl);
 </code>
 
-<p class="important">You'll notice there are two sets of "row" blocks in the template.  These permit you to create alternating row colors or design elements that alternate with each 
+<p class="important"><strong>Note:</strong>&nbsp; You'll notice there are two sets of "row" blocks in the template.  These permit you to create alternating row colors or design elements that alternate with each 
 iteration of the row data.</p>
 
 <p>You are NOT required to submit a complete template.  If you only need to change parts of the layout you can simply submit those elements.

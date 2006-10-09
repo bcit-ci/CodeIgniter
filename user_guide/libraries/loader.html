@@ -72,6 +72,29 @@ Loader Class
 
 
 
+<h2>$this->load->library('<var>class_name</var>')</h2>
+
+<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load. 
+Note: We use the terms "class" and "library" interchangeably.</p>
+
+<p>For example, if you would like to send email with Code Igniter, the first step is to load the email class within your controller:</p>
+
+<code>$this->load->library('email');</code>
+
+<p>Once loaded, the library will be ready for use, using <kbd>$this->email-></kbd><samp><em>some_function</em>()</samp>.
+
+Each library is described in detail in its own page, so please read theinformation regarding each one you would like to use.</p>
+
+<p>If you would like your libraries assigned to a different variable name then the default you can specify the name in the second paramter:</p>
+
+<code>
+$this->load->library('email', 'E'); // Assigns the email object to "E"<br />
+<br />
+<kbd>$this->E-></kbd><samp><em>some_function</em>()</samp>
+</code>
+
+
+
 <h2>$this->load->view('<var>file_name</var>', <samp>$data</samp>, <kbd>true/false</kbd>)</h2>
 
 <p>This function is used to load your View files.  If you haven't read the <a href="../general/views.html">Views</a> section of the
@@ -90,21 +113,6 @@ set the parameter to <kbd>true</kbd> (boolean) it will return data.  The default
 to your browser.  Remember to assign it to a variable if you wan the data returned:</p>
 
 <code>$string = $this->load->view('<var>myfile</var>', '', <kbd>true</kbd>);</code>
-
-
-
-<h2>$this->load->library('<var>class_name</var>')</h2>
-
-<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load. 
-Note: We use the terms "class" and "library" interchangeably.</p>
-
-<p>For example, if you would like to send email with Code Igniter, the first step is to load the email class within your controller:</p>
-
-<code>$this->load->library('email');</code>
-
-<p>Once loaded, the library will be ready for use.  Each library is described in detail in its own page, so please read the
-information regarding each one you would like to use.</p>
-
 
 
 <h2>$this->load->database('<var>options</var>', <kbd>true/false</kbd>)</h2>
