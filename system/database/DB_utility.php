@@ -110,7 +110,8 @@ class CI_DB_utility {
 			}
 		}
 			
-		return $this->data_cache['db_names'] =& $dbs;
+		$this->data_cache['db_names'] = $dbs;
+		return $this->data_cache['db_names'];
 	}
 
 	// --------------------------------------------------------------------

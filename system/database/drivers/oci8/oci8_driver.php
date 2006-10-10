@@ -163,7 +163,8 @@ class CI_DB_oci8_driver extends CI_DB {
      */
     function get_cursor()
     {
-		return $this->curs_id = ocinewcursor($this->conn_id);
+		$this->curs_id = ocinewcursor($this->conn_id);
+		return $this->curs_id;
     }
 
     // --------------------------------------------------------------------

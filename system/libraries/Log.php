@@ -42,7 +42,7 @@ class CI_Log {
 	 */
 	function CI_Log()
 	{
-		$config =& _get_config();
+		$config = get_config();
 		
 		$this->log_path = ($config['log_path'] != '') ? $config['log_path'] : BASEPATH.'logs/';
 		

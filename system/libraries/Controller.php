@@ -73,7 +73,7 @@ class Controller extends CI_Base {
 		
 		foreach ($classes as $var => $class)
 		{
-			$this->$var =& _load_class($class);
+			$this->$var =& load_class($class);
 		}
 		
 		

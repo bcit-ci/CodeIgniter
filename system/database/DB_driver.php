@@ -682,7 +682,8 @@ class CI_DB_driver {
 			}
 		}
 
-		return $this->data_cache['table_names'] =& $retval;
+		$this->data_cache['table_names'] = $retval;
+		return $this->data_cache['table_names'];
 	}
 	
 	// --------------------------------------------------------------------
@@ -747,7 +748,8 @@ class CI_DB_driver {
 			}		
 		}
 		
-		return $this->data_cache['field_names'][$table] =& $retval;
+		$this->data_cache['field_names'][$table] = $retval;
+		return $this->data_cache['field_names'][$table];
 	}
 
 	// --------------------------------------------------------------------
@@ -931,7 +933,8 @@ class CI_DB_driver {
 	 */		
 	function cache_on()
 	{
-		return $this->cache_on = TRUE;
+		$this->cache_on = TRUE;
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -944,7 +947,8 @@ class CI_DB_driver {
 	 */	
 	function cache_off()
 	{
-		return $this->cache_on = FALSE;
+		$this->cache_on = FALSE;
+		return FALSE;
 	}
 	
 
