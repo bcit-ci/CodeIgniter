@@ -56,7 +56,6 @@ function &get_instance()
 	
 	if (is_object($CI)) 
 	{
-		$CI->_ci_use_instance = TRUE;
 		return $CI;
 	}
 	

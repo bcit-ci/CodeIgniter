@@ -32,6 +32,8 @@ class Controller extends CI_Base {
 	var $_ci_scaffolding	= FALSE;
 	var $_ci_scaff_table	= FALSE;
 	
+
+	
 	/**
 	 * Constructor
 	 *
@@ -80,7 +82,6 @@ class Controller extends CI_Base {
 		if (floor(phpversion()) >= 5)
 		{
 			$this->load = new CI_Loader();
-			$this->load->_ci_use_instance = TRUE;
 			$this->load->_ci_autoloader();
 		}
 		else

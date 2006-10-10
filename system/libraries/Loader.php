@@ -28,8 +28,11 @@
  */
 class CI_Loader {
 
+	// All these are set automatically. Don't mess with them.
 	var $_ci_ob_level;
 	var $_ci_view_path		= '';
+	var $_ci_is_php5		= FALSE;
+	var $_ci_use_instance 	= FALSE; // Whether we should use $this or $CI =& get_instance()
 	var $_ci_cached_vars	= array();
 	var $_ci_models			= array();
 	var $_ci_helpers		= array();
@@ -37,20 +40,17 @@ class CI_Loader {
 	var $_ci_scripts		= array();
 	var $_ci_varmap			= array('unit_test' => 'unit', 'user_agent' => 'agent');
 	
-	var $_ci_use_instance 	= FALSE; 	// This variable determines whether we should 
-										// use $this or $CI =& get_instance()  
-										// throughout this class. Don't mess with it. 
 
 	/**
 	 * Constructor
 	 *
-	 * Sets the path to the view files and gets the initial output
-	 * buffering level
+	 * Sets the path to the view files and gets the initial output buffering level
 	 *
 	 * @access	public
 	 */
 	function CI_Loader()
 	{	
+		$this->_ci_is_php5 = (floor(phpversion()) >= 5) ? TRUE : FALSE;
 		$this->_ci_view_path = APPPATH.'views/';
 		$this->_ci_ob_level  = ob_get_level();
 				
@@ -119,7 +119,7 @@ class CI_Loader {
 			return;
 		}
 		
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			if (isset($CI->$name))
@@ -147,7 +147,7 @@ class CI_Loader {
 			if ($db_conn === TRUE)
 				$db_conn = '';
 		
-			if ($this->_ci_use_instance)
+			if ($this->_ci_use_instance())
 			{
 				$CI->load->database($db_conn, FALSE, TRUE);
 			}
@@ -165,19 +165,33 @@ class CI_Loader {
 		require_once(APPPATH.'models/'.$path.$model.EXT);
 
 		$model = ucfirst($model);
-		
-		if ($this->_ci_use_instance)
+				
+		if ($this->_ci_use_instance())
 		{
-			$CI->$name = new $model();
+			$CI->$name = new $model();	
+			foreach (get_object_vars($CI) as $key => $var)
+			{		
+				if ( ! isset($CI->$name->$key))
+				{
+					$CI->$name->$key =& $CI->$key;						
+				}				
+			}			
 		}
 		else
 		{
 			$this->$name = new $model();
-		}
+			foreach (get_object_vars($this) as $key => $var)
+			{			
+				if ( ! isset($this->$name->$key))
+				{
+					$this->$name->$key =& $CI->$key;						
+				}				
+			}			
+		}		
 		
 		$this->_ci_models[] = $name;
-		$this->_ci_assign_to_models();
 	}
+	
 	
 	// --------------------------------------------------------------------
 	
@@ -458,7 +472,7 @@ class CI_Loader {
 	 */
 	function language($file = '', $lang = '', $return = FALSE)
 	{
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			return $CI->lang->load($file, $lang, $return);
@@ -480,7 +494,7 @@ class CI_Loader {
 	 */
 	function config($file = '')
 	{		
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			$CI->config->load($file);
@@ -515,7 +529,7 @@ class CI_Loader {
 			show_error('You must include the name of the table you would like access when you initialize scaffolding');
 		}
 		
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			$CI->_ci_scaffolding = TRUE;
@@ -545,7 +559,7 @@ class CI_Loader {
 		// to become accessible from within the Controller and Model functions.
 		// Only needed when running PHP 5
 		
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			foreach (get_object_vars($CI) as $key => $var)
@@ -627,7 +641,7 @@ class CI_Loader {
 		 * In order to permit views to be nested within
 		 * other views, we need to flush the content back out whenever 
 		 * we are beyond the first level of output buffering so that 
-		 * it can be seen and included  properly by the first included 
+		 * it can be seen and included properly by the first included 
 		 * template and any subsequent ones. Oy!
 		 *
 		 */	
@@ -637,6 +651,7 @@ class CI_Loader {
 		}
 		else
 		{
+			// PHP 4 requires that we use a global
 			global $OUT;
 			$OUT->set_output(ob_get_contents());
 			ob_end_clean();
@@ -745,7 +760,7 @@ class CI_Loader {
 		}
 		
 		// Instantiate the class		
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			if ($config !== NULL)
@@ -794,7 +809,7 @@ class CI_Loader {
 		// Load any custome config file
 		if (count($autoload['config']) > 0)
 		{			
-			if ($this->_ci_use_instance)
+			if ($this->_ci_use_instance())
 			{
 				$CI =& get_instance();
 				foreach ($autoload['config'] as $key => $val)
@@ -867,7 +882,7 @@ class CI_Loader {
 	 * Makes sure that anything loaded by the loader class (libraries, plugins, etc.)
 	 * will be available to modles, if any exist.
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	object
 	 * @return	array
 	 */
@@ -878,7 +893,7 @@ class CI_Loader {
 			return;
 		}
 
-		if ($this->_ci_use_instance)
+		if ($this->_ci_use_instance())
 		{
 			$CI =& get_instance();
 			foreach ($this->_ci_models as $model)
@@ -902,7 +917,7 @@ class CI_Loader {
 	 *
 	 * Takes an object as input and convers the class variables to array key/vals
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	object
 	 * @return	array
 	 */
@@ -911,6 +926,24 @@ class CI_Loader {
 		return (is_object($object)) ? get_object_vars($object) : $object;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determines whether we should use the CI instance or $this
+	 *
+	 * @access	private
+	 * @return	bool
+	 */
+	function _ci_use_instance()
+	{
+		if ($this->_ci_is_php5 == TRUE)
+		{
+			return TRUE;
+		}
+	
+		global $CI;
+		return (is_object($CI)) ? TRUE : FALSE;
+	}
 	
 }
 ?>
