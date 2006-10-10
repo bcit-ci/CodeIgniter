@@ -138,12 +138,15 @@ foreach($dbs as $db)<br />
 <a name="opttb"></a>
 <h2>$this->dbutil->optimize_table('table_name');</h2>
 
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
+
 <p>Permits you to optimize a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
 <code>
 if ($this->dbutil->optimize_table('table_name'))<br />
 {<br />
-&nbsp;&nbsp;&nbsp; echo 'Success!'<br />
+&nbsp;&nbsp;&nbsp; echo 'Success!';<br />
 }
 </code>
 
@@ -153,12 +156,15 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <a name="repair"></a>
 <h2>$this->dbutil->repair_table('table_name');</h2>
 
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
+
 <p>Permits you to repair a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
 <code>
 if ($this->dbutil->optimize_table('table_name'))<br />
 {<br />
-&nbsp;&nbsp;&nbsp; echo 'Success!'<br />
+&nbsp;&nbsp;&nbsp; echo 'Success!';<br />
 }
 </code>
 
@@ -168,10 +174,12 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <a name="optdb"></a>
 <h2>$this->dbutil->optimize_database();</h2>
 
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
 <p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the returned status messages or FALSE on failure.</p>
 
 <code>
-$result = $this->dbutil->optimize_databass();<br />
+$result = $this->dbutil->optimize_database();<br />
 <br />
 if ($result !== FALSE)<br />
 {<br />
@@ -206,7 +214,7 @@ $newline = "\r\n";<br />
 echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
 </code>
 
-<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
+<p><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
@@ -231,7 +239,7 @@ $config = array (<br />
 echo $this->dbutil->xml_from_result($query, $config);
 </code>
 
-<p class="important"><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you.  It simply creates the XML layout.
+<p><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you.  It simply creates the XML layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
@@ -239,6 +247,8 @@ If you need to write the file use the <a href="../helpers/file_helper.html">File
 <h2>$this->dbutil->backup()</h2>
 
 <p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
 <p>Note: Due to the limited execution time and memory available to PHP, backing up very large
 databases may not be possible.  If your database is very large you might need to backup directly from your SQL server 
