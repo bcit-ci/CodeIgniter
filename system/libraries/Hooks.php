@@ -53,7 +53,7 @@ class CI_Hooks {
 	 */  	
   	function _initialize()
   	{
-		$CFG =& _load_class('Config');
+		$CFG =& load_class('Config');
 		
 		// If hooks are not enabled in the config file
 		// there is nothing else to do

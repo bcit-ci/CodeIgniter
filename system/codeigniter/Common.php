@@ -41,7 +41,7 @@
 * @param	bool	optional flag that lets classes get loaded but not instantiated
 * @return	object
 */
-function _load_class($class, $instantiate = TRUE)
+function &load_class($class, $instantiate = TRUE)
 {
 	static $objects = array();
 
@@ -55,7 +55,8 @@ function _load_class($class, $instantiate = TRUE)
 	// which we don't need to load.  We only instantiate it.
 	if ($class == 'Instance')
 	{
-		return $objects[$class] =& new $class();	
+		$objects[$class] =& new $class();
+		return $objects[$class];
 	}
 		
 	// If the requested class does not exist in the application/libraries
@@ -104,18 +105,21 @@ function _load_class($class, $instantiate = TRUE)
 
 	if ($instantiate == FALSE)
 	{
-		return $objects[$class] = TRUE;
+		$objects[$class] = TRUE;
+		return $objects[$class];
 	}
 		
 	if ($is_subclass == TRUE)
 	{
 		$name = 'MY_'.$class;
-		return $objects[$class] =& new $name();
+		$objects[$class] =& new $name();
+		return $objects[$class];
 	}
 
 	$name = ($class != 'Controller') ? 'CI_'.$class : $class;
 	
-	return $objects[$class] =& new $name();	
+	$objects[$class] =& new $name();
+	return $objects[$class];
 }
 
 /**
@@ -124,7 +128,7 @@ function _load_class($class, $instantiate = TRUE)
 * @access	private
 * @return	array
 */
-function &_get_config()
+function &get_config()
 {
 	static $main_conf;
 		
@@ -162,7 +166,7 @@ function &_get_config()
 */
 function show_error($message)
 {
-	$error =& _load_class('Exceptions');
+	$error =& load_class('Exceptions');
 	echo $error->show_error('An Error Was Encountered', $message);
 	exit;
 }
@@ -180,7 +184,7 @@ function show_error($message)
 */
 function show_404($page = '')
 {
-	$error =& _load_class('Exceptions');
+	$error =& load_class('Exceptions');
 	$error->show_404($page);
 	exit;
 }
@@ -199,13 +203,13 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 {
 	static $LOG;
 	
-	$config =& _get_config();
+	$config = get_config();
 	if ($config['log_errors'] === FALSE)
 	{
 		return;
 	}
 
-	$LOG =& _load_class('Log');	
+	$LOG =& load_class('Log');	
 	$LOG->write_log($level, $message, $php_error);
 }
 
@@ -238,7 +242,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 		return;
 	}
 
-	$error =& _load_class('Exceptions');
+	$error =& load_class('Exceptions');
 
 	// Should we display the error?  
 	// We'll get the current error_reporting level and add its bits
@@ -250,7 +254,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 	}
 	
 	// Should we log the error?  No?  We're done...
-	$config =& _get_config();
+	$config = get_config();
 	if ($config['log_errors'] === FALSE)
 	{
 		return;

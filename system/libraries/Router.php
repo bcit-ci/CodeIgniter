@@ -48,7 +48,7 @@ class CI_Router {
 	 */
 	function CI_Router()
 	{
-		$this->config =& _load_class('Config');
+		$this->config =& load_class('Config');
 		$this->_set_route_mapping();
 		log_message('debug', "Router Class Initialized");
 	}

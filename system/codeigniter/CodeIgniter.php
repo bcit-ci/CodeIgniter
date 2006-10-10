@@ -50,7 +50,7 @@ set_magic_quotes_runtime(0); // Kill magic quotes
  * ------------------------------------------------------
  */
 
-$BM =& _load_class('Benchmark');
+$BM =& load_class('Benchmark');
 $BM->mark('total_execution_time_start');
 $BM->mark('loading_time_base_clases_start');
 
@@ -60,7 +60,7 @@ $BM->mark('loading_time_base_clases_start');
  * ------------------------------------------------------
  */
 
-$EXT =& _load_class('Hooks');
+$EXT =& load_class('Hooks');
 
 /*
  * ------------------------------------------------------
@@ -75,9 +75,9 @@ $EXT->_call_hook('pre_system');
  * ------------------------------------------------------
  */
 
-$CFG =& _load_class('Config');
-$RTR =& _load_class('Router');
-$OUT =& _load_class('Output');
+$CFG =& load_class('Config');
+$RTR =& load_class('Router');
+$OUT =& load_class('Output');
 
 /*
  * ------------------------------------------------------
@@ -99,9 +99,9 @@ if ($EXT->_call_hook('cache_override') === FALSE)
  * ------------------------------------------------------
  */
 
-$IN		=& _load_class('Input');
-$URI	=& _load_class('URI');
-$LANG	=& _load_class('Language');
+$IN		=& load_class('Input');
+$URI	=& load_class('URI');
+$LANG	=& load_class('Language');
 
 /*
  * ------------------------------------------------------
@@ -116,7 +116,7 @@ $LANG	=& _load_class('Language');
  * 
  */
  
-_load_class('Loader', FALSE); 
+load_class('Loader', FALSE); 
   
 if (floor(phpversion()) < 5)
 {
@@ -127,7 +127,7 @@ else
 	require(BASEPATH.'codeigniter/Base5'.EXT);
 }
 
-_load_class('Controller', FALSE); 
+load_class('Controller', FALSE); 
 
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 

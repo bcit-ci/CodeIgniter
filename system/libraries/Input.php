@@ -44,7 +44,7 @@ class CI_Input {
 	{	
 		log_message('debug', "Input Class Initialized");
 	
-		$CFG =& _load_class('Config');
+		$CFG =& load_class('Config');
 		$this->use_xss_clean	= ($CFG->item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
 		$this->allow_get_array	= ($CFG->item('enable_query_strings') === TRUE) ? TRUE : FALSE;		
 		$this->_sanitize_globals();
@@ -306,7 +306,8 @@ class CI_Input {
 		
 		if ($this->ip_address === FALSE)
 		{
-			return $this->ip_address = '0.0.0.0';
+			$this->ip_address = '0.0.0.0';
+			return $this->ip_address;
 		}
 		
 		if (strstr($this->ip_address, ','))

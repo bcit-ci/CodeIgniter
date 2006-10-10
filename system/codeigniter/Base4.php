@@ -21,8 +21,8 @@
  * This file is used only when Code Igniter is being run under PHP 4.
  * 
  * In order to allow CI to work under PHP 4 we had to make the Loader class 
- * the parent class of the Controller Base class.  It's the only way we 
- * could enable functions like $this->load->library('email') to instantiate 
+ * the parent of the Controller Base class.  It's the only way we enabled
+ * enable functions like $this->load->library('email') to instantiate 
  * classes that can then be used within controllers as $this->email->send()
  *
  * PHP 4 also has trouble referencing the CI super object within application 
