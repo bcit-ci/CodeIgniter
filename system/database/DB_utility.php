@@ -37,7 +37,7 @@ class CI_DB_utility {
 	{
 		// Assign the main database object to $this->db
 		$CI =& get_instance();
-		$this->CI =& $obj->db;
+		$this->db =& $CI->db;
 		
 		log_message('debug', "Database Utility Class Initialized");
 	}
@@ -100,7 +100,7 @@ class CI_DB_utility {
 			return $this->data_cache['db_names'];
 		}
 	
-		$query = $this->db->query($this->_list_database());
+		$query = $this->db->query($this->_list_databases());
 		$dbs = array();
 		if ($query->num_rows() > 0)
 		{
@@ -147,7 +147,7 @@ class CI_DB_utility {
 	function optimize_database()
 	{
 		$result = array();
-		foreach ($this->list_tables() as $table_name)
+		foreach ($this->db->list_tables() as $table_name)
 		{
 			$sql = $this->_optimize_table($table_name);
 			
@@ -356,7 +356,7 @@ class CI_DB_utility {
 		// If no table names were submitted we'll fetch the entire table list
 		if (count($prefs['tables']) == 0)
 		{
-			$prefs['tables'] = $this->list_tables();
+			$prefs['tables'] = $this->db->list_tables();
 		}
 		
 		// ------------------------------------------------------

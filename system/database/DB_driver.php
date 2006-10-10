@@ -960,13 +960,13 @@ class CI_DB_driver {
 	 * @access	public
 	 * @return	void
 	 */		
-	function cache_delete()
+	function cache_delete($segment_one = '', $segment_two = '')
 	{
 		if ( ! $this->_cache_init())
 		{
 			return FALSE;
 		}
-		return $this->CACHE->delete();
+		return $this->CACHE->delete($segment_one, $segment_two);
 	}
 
 	// --------------------------------------------------------------------
