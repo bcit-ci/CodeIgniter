@@ -81,7 +81,7 @@ when caching is enabled.  Do NOT load this class manually.<br /><br />
 <li>Enable the caching feature, either globally by setting the preference in your <dfn>application/config/database.php</dfn> file, or manually as described below.</li>
 </ul>
 
-<p>Once enabled, caching will happen automatically whenever a web pages that contains database queries is loaded.</p>
+<p>Once enabled, caching will happen automatically whenever a page is loaded that contains database queries.</p>
 
 
 <h2>How Does Caching Work?</h2>
@@ -103,11 +103,11 @@ events take place, like when you've added new information to your database.</p>
 
 <p>Getting a performance gain as a result of caching depends on many factors. 
 If you have a highly optimized database under very little load, you probably won't see a performance boost.
-If your database is under heavy use you probably will see an improved response, assuming your filesystem is not 
+If your database is under heavy use you probably will see an improved response, assuming your file-system is not 
 overly taxed.  Remember that caching simply changes how your information is retrieved, shifting it from being a database
-operation to a filesystem one.</p>
+operation to a file-system one.</p>
 
-<p>In some clustered server environments, for example, caching may be detrimental since filesystem operations are so intense.
+<p>In some clustered server environments, for example, caching may be detrimental since file-system operations are so intense.
 On single servers in shared environments, caching will probably be beneficial. Unfortunately there is no
 single answer to the question of whether you should cache your database.  It really depends on your situation.</p>
 
@@ -119,7 +119,7 @@ first two segments of your URI (the controller class name and function name).</p
 
 <p>For example, let's say you have a controller called <dfn>blog</dfn> with a function called <dfn>comments</dfn> that
 contains three queries.  The caching system will create a cache folder 
-called <kbd>blog_comments</kbd>, into which it will write three cache files.</p>
+called <kbd>blog+comments</kbd>, into which it will write three cache files.</p>
 
 <p>If you use dynamic queries that change based on information in your URI (when using pagination, for example), each instance of
 the query will produce its own cache file.  It's possible, therefore, to end up with many times more cache files than you have 
@@ -158,8 +158,44 @@ pertain to run-time operations.</p>
 
 
 
+<h2>$this->db->cache_on()&nbsp; / &nbsp; $this->db->cache_off()</h2>
+
+<p>Manually enables/disables caching.  This can be useful if you want to
+keep certain queries from being cached.  Example:</p>
+
+<code>
+// Turn caching on<br />
+$this->db->cache_on();<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+// Turn caching off for this one query<br />
+$this->db->cache_off();<br />
+$query = $this->db->query("SELECT * FROM members WHERE member_id = '$current_user'");<br />
+<br />
+// Turn caching back on<br />
+$this->db->cache_on();<br />
+$query = $this->db->query("SELECT * FROM another_table");
+</code>
 
 
+<h2>$this->db->cache_delete()</h2>
+
+<p>Deletes the cache files associated with a particular page. This is useful if you need to clear caching after you update your database.</p>
+
+<p>The caching system saves your cache files to folders that correspond to the URI of the page you are viewing.  For example, if you are viewing
+a page at <dfn>www.your-site.com/index.php/blog/comments</dfn>, the caching system will put all cache files associated with it in a folder
+called <dfn>blog+comments</dfn>.  To delete those particular cache files you will use:</p>
+
+<code>$this->db->cache_delete('blog', 'comments');</code>
+
+<p>If you do not use any parameters the current URI will be used when determining what should be cleared.</p>
+
+
+<h2>$this->db->cache_delete_all()</h2>
+
+<p>Clears all existing cache files.  Example:</p>
+
+<code>$this->db->cache_delete_all();</code>
 
 
 
