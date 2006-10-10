@@ -300,7 +300,7 @@ class CI_Output {
 	function _display_cache(&$CFG, &$RTR)
 	{
 		$CFG =& load_class('Config');
-		$RTR =& load_class(('Router');
+		$RTR =& load_class('Router');
 	
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
 			
