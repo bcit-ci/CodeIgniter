@@ -41,23 +41,7 @@ $db['default']['active_r'] = TRUE;
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = APPPATH.'db_cache/';
-
-
-
-$db['test']['hostname'] = "localhost";
-$db['test']['username'] = "root";
-$db['test']['password'] = "";
-$db['test']['database'] = "exp4";
-$db['test']['dbdriver'] = "mysql";
-$db['test']['dbprefix'] = "";
-$db['test']['active_r'] = TRUE;
-$db['test']['pconnect'] = FALSE;
-$db['test']['db_debug'] = TRUE;
-
-
-
-
+$db['default']['cachedir'] = '';
 
 
 ?>
