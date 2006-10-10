@@ -56,7 +56,7 @@ class Scaffolding {
 		 * the load->view function knows where to look.
 		 */
 		 
-		$this->CI->load->view_path = BASEPATH.'scaffolding/views/';
+		$this->CI->load->_ci_view_path = BASEPATH.'scaffolding/views/';
 
 		// Set the base URL
 		$this->base_url = $this->CI->config->site_url().'/'.$this->CI->uri->segment(1).$this->CI->uri->slash_segment(2, 'both');

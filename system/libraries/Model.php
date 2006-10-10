@@ -51,8 +51,8 @@ class Model {
 	{
 		$CI =& get_instance();
 		foreach (get_object_vars($CI) as $key => $var)
-		{
-			if (is_object($var) AND ! isset($this->$key))
+		{		
+			if ( ! isset($this->$key))
 			{
 				if ($use_reference === TRUE)
 				{

@@ -80,20 +80,13 @@ class Controller extends CI_Base {
 		if (floor(phpversion()) >= 5)
 		{
 			$this->load = new CI_Loader();
+			$this->load->_ci_use_instance = TRUE;
+			$this->load->_ci_autoloader();
 		}
-
-		// Load everything specified in the autoload.php file
-		$this->load->_ci_autoloader();
-
-		// This allows anything loaded using $this->load (viwes, files, etc.)
-		// to become accessible from within the Controller class functions.
-		foreach (get_object_vars($this) as $key => $var)
+		else
 		{
-			if (is_object($var))
-			{
-				$this->load->$key =& $this->$key;
-			}
-		}	
+			$this->_ci_autoloader();
+		}
 	}
     
 	// --------------------------------------------------------------------

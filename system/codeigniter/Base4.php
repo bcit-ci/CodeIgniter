@@ -18,10 +18,18 @@
 /**
  * CI_BASE - For PHP 4
  * 
- * This file is used only when Code Igniter is being run under PHP 4.  
- * Since PHP 4 has such poor object handling we had to come up with 
- * a hack (and a really ugly one at that...) to resolve some scoping 
- * problems.  PHP 5 doesn't suffer from this problem so we load one of 
+ * This file is used only when Code Igniter is being run under PHP 4.
+ * 
+ * In order to allow CI to work under PHP 4 we had to make the Loader class 
+ * the parent class of the Controller Base class.  It's the only way we 
+ * could enable functions like $this->load->library('email') to instantiate 
+ * classes that can then be used within controllers as $this->email->send()
+ *
+ * PHP 4 also has trouble referencing the CI super object within application 
+ * constructors since objects do not exist until the class is fully
+ * instantiated.  Basically PHP 4 sucks...
+ *
+ * Since PHP 5 doesn't suffer from this problem so we load one of 
  * two files based on the version of PHP being run.
  * 
  * @package		CodeIgniter
@@ -34,18 +42,25 @@
 
 	function CI_Base()
 	{
-		global $OBJ; 
 		parent::CI_Loader();
 		$this->load =& $this;
+		
+		global $OBJ;
 		$OBJ = $this->load;
 	}
 }
 
 function &get_instance()
 {
-	global $OBJ, $CI;
+	global $CI, $OBJ;
 	
-	return (is_object($CI)) ? $CI : $OBJ->load;
+	if (is_object($CI)) 
+	{
+		$CI->_ci_use_instance = TRUE;
+		return $CI;
+	}
+	
+	return $OBJ->load;
 }
 
 ?>
