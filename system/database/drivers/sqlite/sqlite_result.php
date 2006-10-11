@@ -60,7 +60,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function field_names()
+	function list_fields()
 	{
 		$field_names = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
@@ -69,6 +69,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		}
 		
 		return $field_names;
+	}
+
+	// Deprecated
+	function field_names()
+	{
+		return $this->list_fields();
 	}
 
 	// --------------------------------------------------------------------

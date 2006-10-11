@@ -171,10 +171,7 @@ class CI_Loader {
 			$CI->$name = new $model();	
 			foreach (get_object_vars($CI) as $key => $var)
 			{		
-				if ( ! isset($CI->$name->$key))
-				{
-					$CI->$name->$key =& $CI->$key;						
-				}				
+				$CI->$name->$key =& $CI->$key;						
 			}			
 		}
 		else
@@ -182,14 +179,12 @@ class CI_Loader {
 			$this->$name = new $model();
 			foreach (get_object_vars($this) as $key => $var)
 			{			
-				if ( ! isset($this->$name->$key))
-				{
-					$this->$name->$key =& $CI->$key;						
-				}				
+				$this->$name->$key =& $this->$key;						
 			}			
 		}		
 		
 		$this->_ci_models[] = $name;
+		$this->_ci_assign_to_models();
 	}
 	
 	

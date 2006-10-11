@@ -202,12 +202,12 @@ class CI_Table {
 		// First generate the headings from the table column names
 		if (count($this->heading) == 0)
 		{
-			if ( ! method_exists($query, 'field_names'))
+			if ( ! method_exists($query, 'list_fields'))
 			{
 				return FALSE;
 			}
 			
-			$this->heading = $query->field_names();
+			$this->heading = $query->list_fields();
 		}
 				
 		// Next blast through the result array and build out the rows

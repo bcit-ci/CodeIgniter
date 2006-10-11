@@ -172,6 +172,7 @@ class CI_DB_driver {
 		
 		$CI =& get_instance();
 		$CI->dbutil = new $class();
+		$CI->_ci_assign_to_models();
 	}
 	
 	// --------------------------------------------------------------------
@@ -629,7 +630,7 @@ class CI_DB_driver {
 	 */	
 	function primary($table = '')
 	{	
-		$fields = $this->field_names($table);
+		$fields = $this->list_fields($table);
 		
 		if ( ! is_array($fields))
 		{
