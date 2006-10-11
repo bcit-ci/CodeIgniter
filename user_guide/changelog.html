@@ -4,12 +4,12 @@
 
 <title>Code Igniter User Guide</title>
 
-<style type='text/css' media='all'>@import url('../userguide.css');</style>
-<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+<style type='text/css' media='all'>@import url('userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
 
-<script type="text/javascript" src="../nav/nav.js"></script>
-<script type="text/javascript" src="../nav/prototype.lite.js"></script>
-<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="./nav/nav.js"></script>
+<script type="text/javascript" src="./nav/prototype.lite.js"></script>
+<script type="text/javascript" src="./nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	myHeight = new fx.Height('nav', {duration: 400}); 
@@ -28,13 +28,13 @@ window.onload = function() {
 <body>
 
 <!-- START NAVIGATION -->
-<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
-<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('./');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="./images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
 <td><h1>Code Igniter User Guide Version 1.5.0b1</h1></td>
-<td id="breadcrumb_right"><a href="../toc.html">Full Table of Contents</a></td>
+<td id="breadcrumb_right"><a href="./toc.html">Linear Table of Contents</a></td>
 </tr>
 </table>
 </div>
@@ -46,7 +46,7 @@ window.onload = function() {
 <tr>
 <td id="breadcrumb">
 <a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
-<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 Change Log
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="www.codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
@@ -67,26 +67,26 @@ Change Log
 <p>Release Date: October 11, 2006</p>
 
 <ul>
-<li>Added <a href="../database/utilities.html">DB utility class</a>, permitting DB backups, CVS or XML files from DB results, and various other functions.</li>
-<li>Added <a href="../database/caching.html">Database Caching Class</a>.</li>
-<li>Added <a href="../database/transactions.html">transaction support</a> to the database classes.</li>
-<li>Added <a href="../general/profiling.html">Profiler Class</a> which generates a report of Benchmark execution times, queries, and POST data at the bottom of your pages.</li>
-<li>Added <a href="../libraries/user_agent.html">User Agent Library</a> which allows browsers, robots, and mobile devises to be identified.</li>
-<li>Added <a href="../libraries/table.html">HTML Table Class</a> , enabling tables to be generated from arrays or database results.</li>
-<li>Added <a href="../libraries/Zip.html">Zip Encoding Library</a>.</li>
+<li>Added <a href="./database/utilities.html">DB utility class</a>, permitting DB backups, CVS or XML files from DB results, and various other functions.</li>
+<li>Added <a href="./database/caching.html">Database Caching Class</a>.</li>
+<li>Added <a href="./database/transactions.html">transaction support</a> to the database classes.</li>
+<li>Added <a href="./general/profiling.html">Profiler Class</a> which generates a report of Benchmark execution times, queries, and POST data at the bottom of your pages.</li>
+<li>Added <a href="./libraries/user_agent.html">User Agent Library</a> which allows browsers, robots, and mobile devises to be identified.</li>
+<li>Added <a href="./libraries/table.html">HTML Table Class</a> , enabling tables to be generated from arrays or database results.</li>
+<li>Added <a href="./libraries/Zip.html">Zip Encoding Library</a>.</li>
 <li>Added the ability to <a href="creating_libraries.html">extend libraries</a> and <a href="core_classes.html">extend core classes</a>, in addition to being able to replace them.</li>
 <li>Added support for storing <a href="models.html">models within sub-folders</a>.</li>
-<li>Added <a href="../helpers/download_helper.html">Download Helper</a>.</li>
-<li>Added <a href="../database/queries.html">simple_query()</a> function to the database classes</li>
-<li>Added <a href="../helpers/date_helper.html">standard_date()</a> function to the Date Helper.</li>
-<li>Added <a href="../database/results.html">$query->free_result()</a> to database class.</li>
-<li>Added <a href="../database/fields.html">$query->list_fields()</a> function to database class</li>
-<li>Added <a href="../database/helpers.html">$this->db->platform()</a> function</li>
+<li>Added <a href="./helpers/download_helper.html">Download Helper</a>.</li>
+<li>Added <a href="./database/queries.html">simple_query()</a> function to the database classes</li>
+<li>Added <a href="./helpers/date_helper.html">standard_date()</a> function to the Date Helper.</li>
+<li>Added <a href="./database/results.html">$query->free_result()</a> to database class.</li>
+<li>Added <a href="./database/fields.html">$query->list_fields()</a> function to database class</li>
+<li>Added <a href="./database/helpers.html">$this->db->platform()</a> function</li>
 <li>Added "is_numeric" to validation, which uses the native PHP is_numeric function.</li>
 <li>Improved the URI handler to make it more reliable when the $config['uri_protocol'] item is set to AUTO.</li>
 <li>Moved most of the functions in the Controller class into the Loader class, allowing fewer reserved function names for controllers when running under PHP 5.</li>
 <li>Updated the DB Result class to return an empty array when $query->result() doesn't produce a result.</li>
-<li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="../libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
+<li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="./libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
 <li>Fixed a bug in the Email class related to SMTP Helo data.</li>
 <li>Fixed a bug in the validation class.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
@@ -103,13 +103,13 @@ Change Log
 <ul>
 <li>Added a new feature that passes URI segments directly to your function calls as parameters. See the <a href="controllers.html">Controllers</a> page for more info.</li>
 <li>Added support for a function named <dfn>_output()</dfn>, which when used in your controllers will received the final rendered output from the output class.  More info in the <a href="controllers.html">Controllers</a> page.</li>
-<li>Added several new functions in the <a href="../libraries/uri.html">URI Class</a> to let you retrieve and manipulate URI segments that have been re-routed using the <a href="routing.html">URI Routing</a> feature. Previously, the URI class did not permit you to access any re-routed URI segments, but now it does.</li>
-<li>Added <a href="../libraries/output.html">$this->output->set_header()</a> function, which allows you to set server headers.</li>
+<li>Added several new functions in the <a href="./libraries/uri.html">URI Class</a> to let you retrieve and manipulate URI segments that have been re-routed using the <a href="routing.html">URI Routing</a> feature. Previously, the URI class did not permit you to access any re-routed URI segments, but now it does.</li>
+<li>Added <a href="./libraries/output.html">$this->output->set_header()</a> function, which allows you to set server headers.</li>
 <li>Updated plugins, helpers, and language classes to allow your <dfn>application</dfn> folder to contain its own plugins, helpers, and language folders.  Previously they were always treated as global for your entire installation.  If your application folder contains any of these resources they will be used <em>instead</em> the global ones.</li>
-<li>Added <a href="../helpers/inflector_helper.html">Inflector helper</a>.</li>
-<li>Added <dfn>element()</dfn> function in the <a href="../helpers/array_helper.html">array helper</a>.</li>
+<li>Added <a href="./helpers/inflector_helper.html">Inflector helper</a>.</li>
+<li>Added <dfn>element()</dfn> function in the <a href="./helpers/array_helper.html">array helper</a>.</li>
 <li>Added <dfn>RAND()</dfn> to active record <dfn>orderby()</dfn> function.</li>
-<li>Added <dfn>delete_cookie()</dfn> and <dfn>get_cookie()</dfn> to <a href="../helpers/cookie_helper.html">Cookie helper</a>, even though the input class has a cookie fetching function.</li>
+<li>Added <dfn>delete_cookie()</dfn> and <dfn>get_cookie()</dfn> to <a href="./helpers/cookie_helper.html">Cookie helper</a>, even though the input class has a cookie fetching function.</li>
 <li>Added Oracle database driver (still undergoing testing so it might have some bugs).</li>
 <li>Added the ability to combine pseudo-variables and php variables in the template parser class.</li>
 <li>Added output compression option to the config file.</li>
@@ -121,7 +121,7 @@ Change Log
 <li>Fixed an oversight in the upload class. An item mentioned in the 1.4 changelog was missing.</li>
 <li>Added some code to allow email attachments to be reset when sending batches of email.</li>
 <li>Deprecated the <dfn>application/scripts</dfn> folder. It will continue to work for legacy users, but it is recommended that you create your own
-<a href="../general/libraries.html">libraries</a> or <a href="../general/models.html">models</a> instead.  It was originally added before CI had user libraries or models, but it's not needed anymore.</li>
+<a href="./general/libraries.html">libraries</a> or <a href="./general/models.html">models</a> instead.  It was originally added before CI had user libraries or models, but it's not needed anymore.</li>
 <li>Deprecated the <dfn>$autoload['core']</dfn> item from the <kbd>autoload.php</kbd> file.  Instead, please now use: <kbd>$autoload['libraries']</kbd></li>
 <li>Deprecated the following database functions: $this->db->smart_escape_str() and $this->db->fields().</li>
 </ul>
@@ -138,13 +138,13 @@ Change Log
 <li>Added the ability to <a href="controllers.html">remap function calls</a> within your controllers.</li>
 <li>Added the ability to <a href="core_classes.html">replace core system classes</a> with your own classes.</li>
 <li>Added support for % character in URL.</li>
-<li>Added the ability to supply full URLs using the <a href="../helpers/url_helper.html">anchor()</a> helper function.</li>
-<li>Added mode parameter to <a href="../helpers/file_helper.html">file_write()</a> helper.</li>
-<li>Added support for changing the port number in the <a href="../database/configuration.html">Postgre driver</a>.</li>
+<li>Added the ability to supply full URLs using the <a href="./helpers/url_helper.html">anchor()</a> helper function.</li>
+<li>Added mode parameter to <a href="./helpers/file_helper.html">file_write()</a> helper.</li>
+<li>Added support for changing the port number in the <a href="./database/configuration.html">Postgre driver</a>.</li>
 <li>Moved the list of "allowed URI characters" out of the Router class and into the config file.</li>
 <li>Moved the MIME type array out of the Upload class and into its own file in the applications/config/ folder.</li>
-<li>Updated the Upload class to allow the upload field name to be set when calling <a href="../libraries/file_uploading.html".>do_upload()</a>.</li>
-<li>Updated the <a href="../libraries/config.html">Config Library</a> to be able to load config files silently, and to be able to assign config files to their own index (to avoid collisions if you use multiple config files).</li>
+<li>Updated the Upload class to allow the upload field name to be set when calling <a href="./libraries/file_uploading.html".>do_upload()</a>.</li>
+<li>Updated the <a href="./libraries/config.html">Config Library</a> to be able to load config files silently, and to be able to assign config files to their own index (to avoid collisions if you use multiple config files).</li>
 <li>Updated the URI Protocol code to allow more options so that URLs will work more reliably in different environments.</li>
 <li>Updated the <dfn>form_open()</dfn> helper to allow the GET method to be used.</li>
 <li>Updated the MySQLi <dfn>execute()</dfn> function with some code to help prevent lost connection errors.</li>
@@ -189,7 +189,7 @@ Change Log
 
 <ul>
 
-<li>Models do <strong>not</strong> connect automatically to the database as of this version. <a href="../general/models.html">More info here</a>.
+<li>Models do <strong>not</strong> connect automatically to the database as of this version. <a href="./general/models.html">More info here</a>.
 <li>Updated the Sessions class to utilize the active record class when running session related queries.  Previously the queries assumed MySQL syntax.</li>
 <li>Updated alternator() function to re-initialize when called with no arguments, allowing multiple calls.</li>
 <li>Fixed a bug in the active record "having" function.</li>
@@ -224,14 +224,14 @@ Change Log
 <p>Release Date: April 11, 2006</p>
 
 <ul>
-<li>Added a <a href="../libraries/unit_testing.html">Unit Testing Library</a>.</li>
+<li>Added a <a href="./libraries/unit_testing.html">Unit Testing Library</a>.</li>
 <li>Added the ability to pass objects to the <strong>insert()</strong> and <strong>update()</strong>  database functions.
-This feature enables you to (among other things) use your  <a href="../general/models.html">Model class</a> variables to run queries with. See the Models page for details.</li>
-<li>Added the ability to pass objects to the <a href="../general/views.html">view loading function</a>: $this->load->view('my_view', <var>$object</var>);</li>
-<li>Added <kbd>getwhere</kbd> function to <a href="../database/active_record.html">Active Record class</a>.</li>
-<li>Added <kbd>count_all</kbd> function to <a href="../database/active_record.html">Active Record class</a>.</li>
+This feature enables you to (among other things) use your  <a href="./general/models.html">Model class</a> variables to run queries with. See the Models page for details.</li>
+<li>Added the ability to pass objects to the <a href="./general/views.html">view loading function</a>: $this->load->view('my_view', <var>$object</var>);</li>
+<li>Added <kbd>getwhere</kbd> function to <a href="./database/active_record.html">Active Record class</a>.</li>
+<li>Added <kbd>count_all</kbd> function to <a href="./database/active_record.html">Active Record class</a>.</li>
 <li>Added language file for scaffolding and fixed a scaffolding bug that occurs when there are no rows in the specified table.</li>
-<li>Added <a href="../database/queries.html">$this->db->last_query()</a>, which allows you to view your last query that was run.</li>
+<li>Added <a href="./database/queries.html">$this->db->last_query()</a>, which allows you to view your last query that was run.</li>
 <li>Added a new mime type to the upload class for better compatibility.</li>
 <li>Changed how cache files are read to prevent PHP errors if the cache file contains an XML tag, which PHP wants to interpret as a short tag.</li>
 <li>Fixed a bug in a couple of the active record functions (where and orderby).</li>
@@ -248,20 +248,20 @@ This feature enables you to (among other things) use your  <a href="../general/m
 <ul>
 <li>Added support for <a href="models.html">Models</a>.</li>
 <li>Redesigned the database libraries to support additional RDBMs (Postgre, MySQLi, etc.).</li>
-<li>Redesigned the <a href="../database/active_record.html">Active Record class</a> to enable more varied types of queries with simpler syntax, and advanced features like JOINs.</li>
-<li>Added a feature to the database class that lets you run <a href="../database/call_function.html">custom function calls</a>.</li>
+<li>Redesigned the <a href="./database/active_record.html">Active Record class</a> to enable more varied types of queries with simpler syntax, and advanced features like JOINs.</li>
+<li>Added a feature to the database class that lets you run <a href="./database/call_function.html">custom function calls</a>.</li>
 <li>Added support for <a href="controllers.html">private functions</a> in your controllers.  Any controller function name that starts with an underscore will not be served by a URI request.</li>
 <li>Added the ability to pass your own initialization parameters to your <a href="creating_libraries.html">custom core libraries</a> when using $this->load->library()</li>
 <li>Added support for running standard <a href="urls.html">query string URLs</a>.  These can be optionally enabled in your config file.</li>
 <li>Added the ability to  <a href="urls.html">specify a "suffix"</a>, which will be appended to your URLs.  For example, you could add .html to your URLs, making them appear static. This feature is enabled in your config file.</li>
 <li>Added a new error template for use with native PHP errors.</li>
-<li>Added "alternator" function in the <a href="../helpers/string_helper.html">string helpers</a>.</p>
+<li>Added "alternator" function in the <a href="./helpers/string_helper.html">string helpers</a>.</p>
 <li>Removed slashing from the input class. After much debate we decided to kill this feature.</li>
 <li>Change the commenting style in the scripts to the PEAR standard so that IDEs and tools like phpDocumenter can harvest the comments.</li>
 <li>Added better class and function name-spacing to avoid collisions with user developed classes. All Code Igniter classes are now prefixed with <dfn>CI_</dfn> and
 all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller collisions. A list of reserved function names can be <a href="controllers.html">found here</a>.</li>
 <li>Redesigned how the "CI" super object is referenced, depending on whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful way to manage objects that utilizes a bit less resources.</li>
-<li>Deprecated: <var>$this->db->use_table()</var> has been deprecated. Please read the <a href="../database/active_record.html">Active Record</a> page for information.</li>
+<li>Deprecated: <var>$this->db->use_table()</var> has been deprecated. Please read the <a href="./database/active_record.html">Active Record</a> page for information.</li>
 <li>Deprecated: <var>$this->db->smart_escape_str()</var> has been deprecated. Please use this instead: <var>$this->db->escape()</var></li>
 <li>Fixed a bug in the exception handler which was preventing some PHP errors from showing up.</li>
 <li>Fixed a typo in the URI class.  $this->total_segment() should be plural: $this->total_segments()</li>
@@ -282,10 +282,10 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 <ul>
 <li>Redesigned some internal aspects of the framework to resolve scoping problems that surfaced during the beta tests. The problem was most notable when instantiating classes in your constructors, particularly if those classes in turn did work in their constructors.</li>
 <li>Added a global function named <a href="ancillary_classes.html">get_instance()</a> allowing the main Code Igniter object to be accessible throughout your own classes.</li>
-<li>Added new <a href="../helpers/file_helper.html">File Helper</a>:  delete_files()</li>
-<li>Added new <a href="../helpers/url_helper.html">URL Helpers</a>:  base_url(), index_page()</li>
+<li>Added new <a href="./helpers/file_helper.html">File Helper</a>:  delete_files()</li>
+<li>Added new <a href="./helpers/url_helper.html">URL Helpers</a>:  base_url(), index_page()</li>
 <li>Added the ability to create your own <a href="creating_libraries.html">core libraries</a> and store them in your local application directory.</li>
-<li>Added an <kbd>overwrite</kbd> option to the <a href="../libraries/file_uploading.html">Upload class</a>, enabling files to be overwritten rather than having the file name appended.</li>
+<li>Added an <kbd>overwrite</kbd> option to the <a href="./libraries/file_uploading.html">Upload class</a>, enabling files to be overwritten rather than having the file name appended.</li>
 <li>Added Javascript Calendar plugin.</li>
 <li>Added search feature to user guide.  Note: This is done using Google, which at the time of this writing has not crawled all the pages of the docs.</li>
 <li>Updated the parser class so that it allows tag pars within other tag pairs.</li>
@@ -303,7 +303,7 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 <p>Release Date: March 10, 2006</p>
 
 <ul>
-<li>Added a <a href="../libraries/calendar.html">Calendaring class</a>.</li>
+<li>Added a <a href="./libraries/calendar.html">Calendaring class</a>.</li>
 <li>Added support for running <a href="multiple_apps.html">multiple applications</a> that share a common Code Igniter backend.</li>
 <li>Moved the "uri protocol" variable from the index.php file into the config.php file</li>
 <li>Fixed a problem that was preventing certain function calls from working within constructors.</li>
@@ -332,14 +332,13 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="../license.html">License Agreement</a>
+Previous Topic:&nbsp;&nbsp;<a href="license.html">License Agreement</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="credits.html">Credits</a>
+<a href="index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="./general/credits.html">Credits</a>
 <p>
 
-<p><a href="#top">Top of Page</a> &nbsp;&middot;&nbsp; <a href="../index.html">User Guide Home</a><p>
 <p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://www.pmachine.com">pMachine, Inc.</a></p>
 </div>
 
