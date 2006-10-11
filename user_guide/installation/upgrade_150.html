@@ -97,8 +97,14 @@ $db['default']['cachedir'] = '';
 </pre>
 
 
+<h2>Step 3: Update your main index.php file</h2>
 
-<h2>Step 3: Update your user guide</h2>
+<p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.  If you are running one with 
+internal modifications, open it and add this line of code near the bottom:</p>
+
+<code>define('FCPATH', __FILE__);</code>
+
+<h2>Step 4: Update your user guide</h2>
 
 <p>Please also replace your local copy of the user guide with the new version.</p>
 
