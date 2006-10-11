@@ -366,24 +366,30 @@ class CI_Router {
 	 */	
 	function _parse_request_uri()
 	{
-		if (($request_uri = getenv('REQUEST_URI')) == '')
+		if ( ! isset($_SERVER['REQUEST_URI']) OR $_SERVER['REQUEST_URI'] == '')
 		{
 			return '';
 		}
 		
-		$fc_path = FCPATH;
+		$request_uri = preg_replace("|/(.*)|", "\\1", str_replace("\\", "/", $_SERVER['REQUEST_URI']));
+
+		if ($request_uri == '')
+		{
+			return '';
+		}
 		
+		$fc_path = FCPATH;		
 		if (strpos($request_uri, '?') !== FALSE)
 		{
 			$fc_path .= '?';
 		}
 		
-		$parsed_uri = explode("/", preg_replace("|/(.*)|", "\\1", str_replace("\\", "/", $request_uri)));
-		
+		$parsed_uri = explode("/", $request_uri);
+				
 		$i = 0;
 		foreach(explode("/", $fc_path) as $segment)
 		{
-			if ($segment == $parsed_uri[$i])
+			if (isset($parsed_uri[$i]) AND $segment == $parsed_uri[$i])
 			{
 				$i++;
 			}
