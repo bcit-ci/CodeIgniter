@@ -50,7 +50,7 @@ class CI_Table {
 	 */
 	function set_template($template)
 	{
-		if ( ! is_array())
+		if ( ! is_array($template))
 		{
 			return FALSE;
 		}
