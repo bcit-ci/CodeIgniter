@@ -241,7 +241,7 @@ $EXT->_call_hook('post_system');
 
 /*
  * ------------------------------------------------------
- *  Close the DB connection of one exists
+ *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
 if (class_exists('CI_DB'))

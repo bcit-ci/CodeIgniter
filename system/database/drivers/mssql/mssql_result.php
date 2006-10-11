@@ -60,7 +60,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function field_names()
+	function list_fields()
 	{
 		$field_names = array();
 		while ($field = mssql_fetch_field($this->result_id))
@@ -69,6 +69,12 @@ class CI_DB_mssql_result extends CI_DB_result {
 		}
 		
 		return $field_names;
+	}
+	
+	// Deprecated
+	function field_names()
+	{
+		return $this->list_fields();
 	}
 
 	// --------------------------------------------------------------------

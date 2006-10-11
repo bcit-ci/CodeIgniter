@@ -84,7 +84,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function field_names()
+	function list_fields()
 	{
 		$field_names = array();
         $fieldCount = $this->num_fields();
@@ -93,6 +93,12 @@ class CI_DB_oci8_result extends CI_DB_result {
             $field_names[] = ocicolumnname($this->stmt_id, $c);
         }
 		return $field_names;
+	}
+
+	// Deprecated
+	function field_names()
+	{
+		return $this->list_fields();
 	}
 
     // --------------------------------------------------------------------
