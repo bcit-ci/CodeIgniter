@@ -400,7 +400,7 @@ class CI_DB_driver {
 			$this->initialize();
 		}
 
-		return $this->_execute($sql, $this->conn_id);
+		return $this->_execute($sql);
 	}
 	
 	// --------------------------------------------------------------------

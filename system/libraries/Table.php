@@ -211,9 +211,13 @@ class CI_Table {
 		}
 				
 		// Next blast through the result array and build out the rows
-		foreach ($query->result_array() as $row)
+		
+		if ($query->num_rows() > 0)
 		{
-			$this->rows[] = $row;
+			foreach ($query->result_array() as $row)
+			{
+				$this->rows[] = $row;
+			}
 		}
 	}
 

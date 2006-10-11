@@ -75,8 +75,7 @@ class Controller extends CI_Base {
 		{
 			$this->$var =& load_class($class);
 		}
-		
-		
+
 		// In PHP 5 the Controller class is run as a discreet 
 		// class.  In PHP 4 it extends the Controller
 		if (floor(phpversion()) >= 5)

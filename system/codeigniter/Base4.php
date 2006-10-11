@@ -21,7 +21,7 @@
  * This file is used only when Code Igniter is being run under PHP 4.
  * 
  * In order to allow CI to work under PHP 4 we had to make the Loader class 
- * the parent of the Controller Base class.  It's the only way we enabled
+ * the parent of the Controller Base class.  It's the only way we can
  * enable functions like $this->load->library('email') to instantiate 
  * classes that can then be used within controllers as $this->email->send()
  *
@@ -42,11 +42,13 @@
 
 	function CI_Base()
 	{
+		// This allows syntax like $this->load->foo() to work
 		parent::CI_Loader();
 		$this->load =& $this;
 		
+		// This allows resources used within controller constructors to work
 		global $OBJ;
-		$OBJ = $this->load;
+		$OBJ = $this->load; // Do NOT use a reference.
 	}
 }
 
