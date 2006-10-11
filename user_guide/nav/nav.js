@@ -12,7 +12,7 @@ function create_menu(basepath)
 		'<ul>' +
 			'<li><a href="'+base+'general/requirements.html">Server Requirements</a></li>' +
 			'<li><a href="'+base+'license.html">License Agreement</a></li>' +
-			'<li><a href="'+base+'general/changelog.html">Change Log</a></li>' +
+			'<li><a href="'+base+'changelog.html">Change Log</a></li>' +
 			'<li><a href="'+base+'general/credits.html">Credits</a></li>' +
 		'</ul>' +	
 		
