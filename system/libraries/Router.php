@@ -373,7 +373,7 @@ class CI_Router {
 		
 		$request_uri = preg_replace("|/(.*)|", "\\1", str_replace("\\", "/", $_SERVER['REQUEST_URI']));
 
-		if ($request_uri == '')
+		if ($request_uri == '' OR $request_uri == SELF)
 		{
 			return '';
 		}
