@@ -22,14 +22,8 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/database/
  */
-function DB($params = '', $return = FALSE, $active_record = FALSE)
+function DB($params = '', $active_record = FALSE)
 {
-	// Do we even need to load the database class?
-	if (class_exists('CI_DB') AND $return == FALSE AND $active_record == FALSE)
-	{
-		return FALSE;
-	}
-
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
@@ -84,15 +78,8 @@ function DB($params = '', $return = FALSE, $active_record = FALSE)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB = new $driver($params);
-	
-	if ($return === TRUE)
-	{
-		return $DB;
-	}
-
-	$CI =& get_instance();	
-	$CI->db =& $DB;
+	$DB = new $driver($params);	
+	return $DB;
 }	
 
 

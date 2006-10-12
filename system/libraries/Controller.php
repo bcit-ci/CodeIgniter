@@ -88,7 +88,7 @@ class Controller extends CI_Base {
 			$this->_ci_autoloader();
 		}
 	}
-    
+	
 	// --------------------------------------------------------------------
 	
 	/**
