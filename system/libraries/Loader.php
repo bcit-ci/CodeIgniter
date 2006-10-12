@@ -70,7 +70,7 @@ class CI_Loader {
 	 * @param	mixed	the optional parameters
 	 * @return	void
 	 */	
-	function library($class, $params = FALSE)
+	function library($class, $params = NULL)
 	{		
 		if ($class == '')
 			return;
@@ -640,7 +640,7 @@ class CI_Loader {
 	 * @param	mixed	any additional parameters
 	 * @return 	void
 	 */
-	function _ci_load_class($class, $params = FALSE)
+	function _ci_load_class($class, $params = NULL)
 	{	
 		// Prep the class name
 		$class = strtolower(str_replace(EXT, '', $class));
@@ -700,12 +700,12 @@ class CI_Loader {
 	 * @param	string
 	 * @return	null
 	 */
-	function _ci_init_class($class, $prefix = '', $config = FALSE)
+	function _ci_init_class($class, $prefix = '', $config = NULL)
 	{	
 		// Is there an associated config file for this class?
-		if ($config !== FALSE)
+		if ($config !== NULL)
 		{
-			$config = FALSE;
+			$config = NULL;
 			if (file_exists(APPPATH.'config/'.$class.EXT))
 			{
 				include_once(APPPATH.'config/'.$class.EXT);
