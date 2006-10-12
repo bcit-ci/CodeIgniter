@@ -67,15 +67,15 @@ class CI_Loader {
 	 *
 	 * @access	public
 	 * @param	string	the name of the class
-	 * @param	sring	the optional class variable name to assign the library to
+	 * @param	mixed	the optional parameters
 	 * @return	void
 	 */	
-	function library($class, $varname = NULL)
+	function library($class, $params = FALSE)
 	{		
 		if ($class == '')
 			return;
 	
-		$this->_ci_load_class($class, $varname);
+		$this->_ci_load_class($class, $params);
 		$this->_ci_assign_to_models();
 	}
 
@@ -640,7 +640,7 @@ class CI_Loader {
 	 * @param	mixed	any additional parameters
 	 * @return 	void
 	 */
-	function _ci_load_class($class, $varname = NULL)
+	function _ci_load_class($class, $params = FALSE)
 	{	
 		// Prep the class name
 		$class = strtolower(str_replace(EXT, '', $class));
@@ -665,7 +665,7 @@ class CI_Loader {
 				}
 			}
 			
-			return $this->_ci_init_class($filename, 'MY_', $varname);
+			return $this->_ci_init_class($filename, 'MY_', $params);
 		}
 
 		// Lets search for the requested library file and load it.
@@ -680,7 +680,7 @@ class CI_Loader {
 				if (file_exists($path.'libraries/'.$filename.EXT))
 				{
 					include_once($path.'libraries/'.$filename.EXT);
-					return $this->_ci_init_class($filename, '', $varname);
+					return $this->_ci_init_class($filename, '', $params);
 				}
 			}
 		}
@@ -700,13 +700,16 @@ class CI_Loader {
 	 * @param	string
 	 * @return	null
 	 */
-	function _ci_init_class($class, $prefix = '', $varname = NULL)
+	function _ci_init_class($class, $prefix = '', $config = FALSE)
 	{	
 		// Is there an associated config file for this class?
-		$config = NULL;
-		if (file_exists(APPPATH.'config/'.$class.EXT))
+		if ($config !== FALSE)
 		{
-			include_once(APPPATH.'config/'.$class.EXT);
+			$config = FALSE;
+			if (file_exists(APPPATH.'config/'.$class.EXT))
+			{
+				include_once(APPPATH.'config/'.$class.EXT);
+			}
 		}
 		
 		if ($prefix == '')
@@ -719,16 +722,9 @@ class CI_Loader {
 		}
 		
 		// Set the variable name we will assign the class to
-		if ( ! is_null($varname)) 
-		{
-			$classvar = $varname;
-		}
-		else
-		{
-			$class = strtolower($class);			
-			$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
-		}
-		
+		$class = strtolower($class);			
+		$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
+				
 		// Instantiate the class		
 		$CI =& get_instance();
 		if ($config !== NULL)
