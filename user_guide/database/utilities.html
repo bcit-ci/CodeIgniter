@@ -86,11 +86,11 @@ Database Utility Class
 <h2>Initializing the Utility Class</h2>
 
 <p class="important"><strong>Important:</strong>&nbsp; In order to initialize the Utility class, your database driver must
-already be running, since the utilities class is loaded from within the main DB class.</p>
+already be running, since the utilities class relies on it.</p>
 
 <p>Load the Utility Class as follows:</p>
 
-<code>$this->db->load_utilities()</code>
+<code>$this->load->dbutil()</code>
 
 <p>Once initialized you will access the functions using the <dfn>$this->dbutil</dfn> object:</p>
 
