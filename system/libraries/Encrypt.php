@@ -272,15 +272,15 @@ class CI_Encrypt {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set the Mcrypt Cypher
+	 * Set the Mcrypt Cipher
 	 *
 	 * @access	public
 	 * @param	constant
 	 * @return	string
 	 */
-	function set_cypher($cypher)
+	function set_cipher($cipher)
 	{
-		$this->_mcrypt_cipher = $cypher;
+		$this->_mcrypt_cipher = $cipher;
 	}
   	
 	// --------------------------------------------------------------------
@@ -300,12 +300,12 @@ class CI_Encrypt {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get Mcrypt Cypher Value
+	 * Get Mcrypt cipher Value
 	 *
 	 * @access	private
 	 * @return	string
 	 */	
-	function _get_cypher()
+	function _get_cipher()
 	{
 		if ($this->_mcrypt_cipher == '') 
 		{

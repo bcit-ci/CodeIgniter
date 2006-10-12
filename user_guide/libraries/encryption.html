@@ -138,11 +138,11 @@ $encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';<br />
 $plaintext_string = $this->encrypt->decode($encrypted_string);</code>
 
 
-<h2>$this->encrypt->set_cypher();</h2>
+<h2>$this->encrypt->set_cipher();</h2>
 
-<p>Permits you to set an Mcrypt cypher.  By default it uses <samp>MCRYPT_RIJNDAEL_256</samp>.  Example:
-<code>$this->encrypt->set_cypher('MCRYPT_BLOWFISH');</code>
-<p>Please visit php.net for a list of  <a href="http://php.net/mcrypt">available cyphers</a>.</p>
+<p>Permits you to set an Mcrypt cipher.  By default it uses <samp>MCRYPT_RIJNDAEL_256</samp>.  Example:
+<code>$this->encrypt->set_cipher('MCRYPT_BLOWFISH');</code>
+<p>Please visit php.net for a list of  <a href="http://php.net/mcrypt">available ciphers</a>.</p>
 
 <p>If you'd like to manually test whether your server supports Mcrypt you can use:</p>
 <code>echo ( ! function_exists('mcrypt_encrypt')) ? 'Nope' : 'Yup';</code>
