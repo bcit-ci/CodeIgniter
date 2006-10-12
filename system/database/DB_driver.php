@@ -155,26 +155,7 @@ class CI_DB_driver {
 			}	
 		}
 	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Load the Utilities Class
-	 *
-	 * @access	public
-	 * @return	string		 
-	 */		
-	function load_utilities()
-	{			
-		require_once(BASEPATH.'database/DB_utility'.EXT);
-		require_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_utility'.EXT);
-		$class = 'CI_DB_'.$this->dbdriver.'_utility';
 		
-		$CI =& get_instance();
-		$CI->dbutil = new $class();
-		$CI->_ci_assign_to_models();
-	}
-	
 	// --------------------------------------------------------------------
 
 	/**

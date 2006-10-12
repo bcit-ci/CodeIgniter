@@ -119,20 +119,10 @@ class CI_Loader {
 			return;
 		}
 		
-		if ($this->_ci_is_instance())
+		$CI =& get_instance();
+		if (isset($CI->$name))
 		{
-			$CI =& get_instance();
-			if (isset($CI->$name))
-			{
-				show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
-			}
-		}
-		else
-		{
-			if (isset($this->$name))
-			{
-				show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
-			}
+			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
 	
 		$model = strtolower($model);
@@ -147,14 +137,7 @@ class CI_Loader {
 			if ($db_conn === TRUE)
 				$db_conn = '';
 		
-			if ($this->_ci_is_instance())
-			{
-				$CI->load->database($db_conn, FALSE, TRUE);
-			}
-			else
-			{
-				$this->database($db_conn, FALSE, TRUE);
-			}
+			$CI->load->database($db_conn, FALSE, TRUE);
 		}
 	
 		if ( ! class_exists('Model'))
@@ -166,28 +149,12 @@ class CI_Loader {
 
 		$model = ucfirst($model);
 				
-		if ($this->_ci_is_instance())
-		{
-			$CI->$name = new $model();	
-			foreach (get_object_vars($CI) as $key => $var)
-			{		
-				$CI->$name->$key =& $CI->$key;						
-			}			
-		}
-		else
-		{
-			$this->$name = new $model();
-			foreach (get_object_vars($this) as $key => $var)
-			{			
-				$this->$name->$key =& $this->$key;						
-			}			
-		}		
+		$CI->$name = new $model();
+		$CI->$name->_assign_libraries();
 		
-		$this->_ci_models[] = $name;
-		$this->_ci_assign_to_models();
+		$this->_ci_models[] = $name;	
 	}
-	
-	
+		
 	// --------------------------------------------------------------------
 	
 	/**
@@ -201,19 +168,49 @@ class CI_Loader {
 	 */	
 	function database($params = '', $return = FALSE, $active_record = FALSE)
 	{
+		// Do we even need to load the database class?
+		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == FALSE)
+		{
+			return FALSE;
+		}	
+	
 		require_once(BASEPATH.'database/DB'.EXT);
 
 		if ($return === TRUE)
 		{
-			return DB($params, $return, $active_record);
+			return DB($params, $active_record);
 		}
-		else
-		{
-			DB($params, $return, $active_record);			
-			$this->_ci_assign_to_models();			
-		}
+
+		$CI =& get_instance();
+		$CI->db =& DB($params, $active_record);			
+		$this->_ci_assign_to_models();
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Load the Utilities Class
+	 *
+	 * @access	public
+	 * @return	string		 
+	 */		
+	function dbutil()
+	{
+		if ( ! class_exists('CI_DB'))
+		{
+			$this->database();
+		}
 		
+		$CI =& get_instance();
+	
+		require_once(BASEPATH.'database/DB_utility'.EXT);
+		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility'.EXT);
+		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
+
+		$CI->dbutil = new $class();
+		$CI->load->_ci_assign_to_models();
+	}
+	
 	// --------------------------------------------------------------------
 	
 	/**
@@ -467,15 +464,8 @@ class CI_Loader {
 	 */
 	function language($file = '', $lang = '', $return = FALSE)
 	{
-		if ($this->_ci_is_instance())
-		{
-			$CI =& get_instance();
-			return $CI->lang->load($file, $lang, $return);
-		}
-		else
-		{
-			return $this->lang->load($file, $lang, $return);
-		}
+		$CI =& get_instance();
+		return $CI->lang->load($file, $lang, $return);
 	}
 	
 	// --------------------------------------------------------------------
@@ -489,15 +479,8 @@ class CI_Loader {
 	 */
 	function config($file = '')
 	{		
-		if ($this->_ci_is_instance())
-		{
-			$CI =& get_instance();
-			$CI->config->load($file);
-		}
-		else
-		{
-			$this->config->load($file);
-		}
+		$CI =& get_instance();
+		$CI->config->load($file);
 	}
 
 	// --------------------------------------------------------------------
@@ -524,17 +507,9 @@ class CI_Loader {
 			show_error('You must include the name of the table you would like access when you initialize scaffolding');
 		}
 		
-		if ($this->_ci_is_instance())
-		{
-			$CI =& get_instance();
-			$CI->_ci_scaffolding = TRUE;
-			$CI->_ci_scaff_table = $table;
-		}
-		else
-		{
-			$this->_ci_scaffolding = TRUE;
-			$this->_ci_scaff_table = $table;
-		}
+		$CI =& get_instance();
+		$CI->_ci_scaffolding = TRUE;
+		$CI->_ci_scaff_table = $table;
 	}
 
 	// --------------------------------------------------------------------
@@ -755,29 +730,15 @@ class CI_Loader {
 		}
 		
 		// Instantiate the class		
-		if ($this->_ci_is_instance())
+		$CI =& get_instance();
+		if ($config !== NULL)
 		{
-			$CI =& get_instance();
-			if ($config !== NULL)
-			{
-				$CI->$classvar = new $name($config);
-			}
-			else
-			{		
-				$CI->$classvar = new $name;
-			}	
+			$CI->$classvar = new $name($config);
 		}
 		else
-		{
-			if ($config !== NULL)
-			{
-				$this->$classvar = new $name($config);
-			}
-			else
-			{		
-				$this->$classvar = new $name;
-			}	
-		}
+		{		
+			$CI->$classvar = new $name;
+		}	
 	} 	
 	
 	// --------------------------------------------------------------------
@@ -804,20 +765,10 @@ class CI_Loader {
 		// Load any custome config file
 		if (count($autoload['config']) > 0)
 		{			
-			if ($this->_ci_is_instance())
+			$CI =& get_instance();
+			foreach ($autoload['config'] as $key => $val)
 			{
-				$CI =& get_instance();
-				foreach ($autoload['config'] as $key => $val)
-				{
-					$CI->config->load($val);
-				}
-			}
-			else
-			{
-				foreach ($autoload['config'] as $key => $val)
-				{
-					$this->config->load($val);
-				}			
+				$CI->config->load($val);
 			}
 		}		
 
@@ -893,14 +844,14 @@ class CI_Loader {
 			$CI =& get_instance();
 			foreach ($this->_ci_models as $model)
 			{			
-				$CI->$model->_assign_libraries();			
+				$CI->$model->_assign_libraries();
 			}
 		}
 		else
-		{
+		{		
 			foreach ($this->_ci_models as $model)
 			{			
-				$this->$model->_assign_libraries();			
+				$this->$model->_assign_libraries();
 			}
 		}
 	}  	

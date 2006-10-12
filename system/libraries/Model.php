@@ -33,10 +33,9 @@ class Model {
 	 */
 	function Model()
 	{
-		$this->_assign_libraries(FALSE);
+		$this->_assign_libraries();
 		log_message('debug', "Model Class Initialized");
 	}
-	// END Model()
 
 	/**
 	 * Assign Libraries
@@ -47,26 +46,15 @@ class Model {
 	 *
 	 * @access private
 	 */	
-	function _assign_libraries($use_reference = TRUE)
+	function _assign_libraries()
 	{
-		$CI =& get_instance();
-		foreach (get_object_vars($CI) as $key => $var)
-		{		
-			if ( ! isset($this->$key))
-			{
-				if ($use_reference === TRUE)
-				{
-					$this->$key =& $CI->$key;						
-				}
-				else
-				{
-					$this->$key = $CI->$key;
-				}
-			}
-		}
-
+		$CI =& get_instance();	
+		
+		foreach (array_keys(get_object_vars($CI)) as $key)
+		{
+			$this->$key =& $CI->$key;						
+		}		
 	}
-	// END _assign_libraries()
 
 }
 // END Model Class
