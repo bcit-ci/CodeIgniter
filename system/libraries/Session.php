@@ -112,10 +112,8 @@ class CI_Session {
 			}
 		}
 		
-		// Do we need encryption?
-		$this->encryption = $this->CI->config->item('sess_encrypt_cookie');
-		
-		if ($this->encryption == TRUE)	
+		// Do we need encryption?		
+		if ($this->CI->config->item('sess_encrypt_cookie') == TRUE)	
 		{
 			$this->CI->load->library('encrypt');
 		}		
@@ -160,7 +158,6 @@ class CI_Session {
 			$this->sess_gc();
 		}	
 	}
-	// END sess_run()
 	
 	// --------------------------------------------------------------------
 	
@@ -257,7 +254,6 @@ class CI_Session {
 		
 		return TRUE;
 	}
-	// END sess_read()
 	
 	// --------------------------------------------------------------------
 	
@@ -285,7 +281,6 @@ class CI_Session {
 					0
 				);
 	}
-	// END sess_read()
 	
 	// --------------------------------------------------------------------
 	
@@ -321,7 +316,6 @@ class CI_Session {
 		$this->userdata['last_visit'] = 0;		
 		$this->sess_write();
 	}
-	// END sess_read()
 	
 	// --------------------------------------------------------------------
 	
@@ -349,7 +343,6 @@ class CI_Session {
 		// Write the cookie
 		$this->sess_write();
 	}
-	// END sess_update()
 	
 	// --------------------------------------------------------------------
 	
@@ -370,7 +363,6 @@ class CI_Session {
 					0
 				);
 	}
-	// END sess_destroy()
 	
 	// --------------------------------------------------------------------
 	
@@ -396,7 +388,6 @@ class CI_Session {
 			log_message('debug', 'Session garbage collection performed.');
 		}    
     }
-	// END sess_destroy()
 	
 	// --------------------------------------------------------------------
 	
@@ -411,7 +402,6 @@ class CI_Session {
 	{
     	return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 	}
-	// END sess_destroy()
 	
 	// --------------------------------------------------------------------
 	
@@ -440,7 +430,6 @@ class CI_Session {
 	
     	$this->sess_write();
 	}
-	// END set_userdata()
 	
 	// --------------------------------------------------------------------
 	
@@ -467,7 +456,6 @@ class CI_Session {
 	
     	$this->sess_write();
 	}
-	// END set_userdata()
 	
 	// --------------------------------------------------------------------
 	
@@ -494,7 +482,7 @@ class CI_Session {
      	
      	return $vals;
 	}
-	// END strip_slashes()
+
 }
 // END Session Class
 ?>

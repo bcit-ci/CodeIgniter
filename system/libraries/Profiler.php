@@ -94,7 +94,12 @@ class CI_Profiler {
  	
 	// --------------------------------------------------------------------
 
-
+	/**
+	 * Compile Queries
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
 	function _compile_queries()
 	{
 		$output  = "\n\n";
@@ -130,7 +135,13 @@ class CI_Profiler {
 	}
 	
 	// --------------------------------------------------------------------
-	
+
+	/**
+	 * Compile $_POST Data
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
 	function _compile_post()
 	{	
 		$output  = "\n\n";
