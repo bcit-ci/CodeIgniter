@@ -204,7 +204,7 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 	static $LOG;
 	
 	$config = get_config();
-	if ($config['log_errors'] === FALSE)
+	if ($config['log_threshold'] == 0)
 	{
 		return;
 	}
@@ -255,7 +255,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 	
 	// Should we log the error?  No?  We're done...
 	$config = get_config();
-	if ($config['log_errors'] === FALSE)
+	if ($config['log_threshold'] == 0)
 	{
 		return;
 	}
