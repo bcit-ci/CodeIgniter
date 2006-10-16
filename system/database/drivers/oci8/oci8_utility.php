@@ -106,7 +106,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return return FALSE; // Is this supported in Oracle?
+		return FALSE; // Is this supported in Oracle?
 	}
 
 	// --------------------------------------------------------------------

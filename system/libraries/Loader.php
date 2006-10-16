@@ -703,9 +703,8 @@ class CI_Loader {
 	function _ci_init_class($class, $prefix = '', $config = NULL)
 	{	
 		// Is there an associated config file for this class?
-		if ($config !== NULL)
-		{
-			$config = NULL;
+		if ($config === NULL)
+		{ 
 			if (file_exists(APPPATH.'config/'.$class.EXT))
 			{
 				include_once(APPPATH.'config/'.$class.EXT);

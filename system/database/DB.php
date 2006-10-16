@@ -22,7 +22,7 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/database/
  */
-function DB($params = '', $active_record = FALSE)
+function &DB($params = '', $active_record = FALSE)
 {
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE)
@@ -78,7 +78,7 @@ function DB($params = '', $active_record = FALSE)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB = new $driver($params);	
+	$DB =& new $driver($params);	
 	return $DB;
 }	
 

@@ -131,7 +131,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		return return FALSE;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
