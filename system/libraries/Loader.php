@@ -599,7 +599,6 @@ class CI_Loader {
 		if (ini_get("short_open_tag") == 0)
 		{
 			$file = file_get_contents($path);
-		
 			$file = str_replace('<?=', '<?php echo', $file);
 			$file = preg_replace("/;*\s*\?>/", " ;?>", $file);
 		
