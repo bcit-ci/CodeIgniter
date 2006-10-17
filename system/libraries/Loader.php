@@ -592,8 +592,24 @@ class CI_Loader {
 		}
 
 		ob_start();
+				
+		// If the PHP installation does not support short tags we'll
+		// do a little string replacement, changing the short tags
+		// to standard PHP echo statements.
+		if (ini_get("short_open_tag") == 0)
+		{
+			$file = file_get_contents($path);
 		
-		include($path);
+			$file = str_replace('<?=', '<?php echo', $file);
+			$file = preg_replace("/;*\s*\?>/", " ;?>", $file);
+		
+			echo eval('?>'.$file.'<?php ');
+		}
+		else
+		{
+			include($path);
+		}
+		
 		log_message('debug', 'File loaded: '.$path);
 		
 		// Return the file data if requested to
@@ -700,11 +716,12 @@ class CI_Loader {
 	 * @param	string
 	 * @return	null
 	 */
-	function _ci_init_class($class, $prefix = '', $config = NULL)
+	function _ci_init_class($class, $prefix = '', $config = FALSE)
 	{	
 		// Is there an associated config file for this class?
-		if ($config === NULL)
+		if ($config !== NULL)
 		{ 
+			$cong = NULL;
 			if (file_exists(APPPATH.'config/'.$class.EXT))
 			{
 				include_once(APPPATH.'config/'.$class.EXT);
