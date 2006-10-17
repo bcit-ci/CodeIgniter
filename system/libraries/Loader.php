@@ -596,13 +596,10 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if (ini_get("short_open_tag") == 0)
-		{
-			$file = file_get_contents($path);
-			$file = str_replace('<?=', '<?php echo ', $file);
-			$file = preg_replace("/;*\s*\?>/", ' ;?>', $file);
 		
-			echo eval('?>'.$file.'<?php ');
+		if ((bool) @ini_get('short_open_tag') === FALSE)
+		{
+			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($path))).'<?php ');
 		}
 		else
 		{
