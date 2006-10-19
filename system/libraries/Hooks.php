@@ -39,8 +39,8 @@ class CI_Hooks {
 	 */
 	function CI_Hooks()
 	{
-		log_message('debug', "Hooks Class Initialized");
 		$this->_initialize();	
+		log_message('debug', "Hooks Class Initialized");
 	}
   	
 	// --------------------------------------------------------------------
