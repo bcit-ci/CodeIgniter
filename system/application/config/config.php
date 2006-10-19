@@ -142,24 +142,13 @@ $config['time_reference'] = 'local';
 
 /*
 |--------------------------------------------------------------------------
-| Enable/Disable Error Logging
-|--------------------------------------------------------------------------
-|
-| If you would like errors or debug messages logged set this variable to 
-| TRUE (boolean).  Note: You must set the file permissions on the "logs" folder
-| such that it is writable.
-|
-*/
-$config['log_errors'] = FALSE;
-
-/*
-|--------------------------------------------------------------------------
 | Error Logging Threshold
 |--------------------------------------------------------------------------
 |
-| If you have enabled error logging, you can set an error threshold to 
-| determine what gets logged. Threshold options are:
+| You can enable error logging by setting a threshold over zero. The 
+| threshold determines what gets logged. Threshold options are:
 | 	
+| 	0 = Error logging TURNED OFF
 |	1 = Error Messages (including PHP errors)
 |	2 = Debug Messages
 |	3 = Informational Messages
