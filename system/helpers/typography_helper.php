@@ -223,7 +223,9 @@ class Auto_typography {
 			$str .= $this->format_newlines($chunk);
 		}
 
-
+		// FINAL CLEAN UP
+		// IMPORTANT:  DO NOT ALTER THE ORDER OF THE ITEMS BELOW!
+		
 		/*
 		 * Clean up paragraph tags before/after "block" elements
 		 *
@@ -239,10 +241,14 @@ class Auto_typography {
 		// Convert Quotes and other characters
 		$str = $this->format_characters($str);
 		
-		// Final clean up
+		// Fix an artifact that happens during the paragraph replacement
 		$str = preg_replace('#(<p>\n*</p>)#', '', $str);
+
+		// If the user submitted their own paragraph tags with class data 
+		// in them we will retain them instead of using our tags.
 		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);
 
+		// Final clean up
 		$str = str_replace(
 							array(
 									'</p></p>',
