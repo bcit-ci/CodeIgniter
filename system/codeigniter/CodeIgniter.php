@@ -52,11 +52,11 @@ set_magic_quotes_runtime(0); // Kill magic quotes
 
 $BM =& load_class('Benchmark');
 $BM->mark('total_execution_time_start');
-$BM->mark('loading_time_base_clases_start');
+$BM->mark('loading_time_base_classes_start');
 
 /*
  * ------------------------------------------------------
- *  Instantiate the hooks classe
+ *  Instantiate the hooks class
  * ------------------------------------------------------
  */
 
@@ -109,7 +109,7 @@ $LANG	=& load_class('Language');
  * ------------------------------------------------------
  * 
  *  Note: Due to the poor object handling in PHP 4 we'll
- *  contditionally load different versions of the base
+ *  conditionally load different versions of the base
  *  class.  Retaining PHP 4 compatibility requires a bit of a hack.
  *
  *  Note: The Loader class needs to be included first
@@ -132,7 +132,7 @@ load_class('Controller', FALSE);
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
 // Set a mark point for benchmarking
-$BM->mark('loading_time_base_clases_end');
+$BM->mark('loading_time_base_classes_end');
 
 
 /*
