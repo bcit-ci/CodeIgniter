@@ -655,51 +655,37 @@ class CI_Loader {
 	function _ci_load_class($class, $params = NULL)
 	{	
 		// Prep the class name
-		$class = strtolower(str_replace(EXT, '', $class));
-		
-		// Is this a class extension request?	
-		if (substr($class, 0, 3) == 'my_')
-		{
-			$class = preg_replace("/my_(.+)/", "\\1", $class);
+		$class = ucfirst(strtolower(str_replace(EXT, '', $class)));
 
-			// Load the requested library from the main system/libraries folder
-			if (file_exists(BASEPATH.'libraries/'.ucfirst($class).EXT))
+		// Is this a class extension request?
+		if (file_exists(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT))
+		{
+			if ( ! file_exists(BASEPATH.'libraries/'.$class.EXT))
 			{
-				include_once(BASEPATH.'libraries/'.ucfirst($class).EXT);
+				log_message('error', "Unable to load the requested class: ".$class);
+				show_error("Unable to load the requested class: ".$class);
 			}
-			
-			// Now look for a matching library
-			foreach (array(ucfirst($class), $class) as $filename)
-			{
-				if (file_exists(APPPATH.'libraries/'.$filename.EXT))
-				{
-					include_once(APPPATH.'libraries/'.$filename.EXT);	
-				}
-			}
-			
-			return $this->_ci_init_class($filename, 'MY_', $params);
+
+			include_once(BASEPATH.'libraries/'.ucfirst($class).EXT);
+			include_once(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT);
+
+			return $this->_ci_init_class($filename, config_item('subclass_prefix'), $params);			
 		}
 
 		// Lets search for the requested library file and load it.
-		// For backward compatibility we'll test for filenames that are
-		// both uppercase and lower.
-		foreach (array(ucfirst($class), $class) as $filename)
+		for ($i = 1; $i < 3; $i++)
 		{
-			for ($i = 1; $i < 3; $i++)
+			$path = ($i % 2) ? APPPATH : BASEPATH;		
+			if (file_exists($path.'libraries/'.$filename.EXT))
 			{
-				$path = ($i % 2) ? APPPATH : BASEPATH;
-			
-				if (file_exists($path.'libraries/'.$filename.EXT))
-				{
-					include_once($path.'libraries/'.$filename.EXT);
-					return $this->_ci_init_class($filename, '', $params);
-				}
+				include_once($path.'libraries/'.$filename.EXT);
+				return $this->_ci_init_class($filename, '', $params);
 			}
 		}
 		
 		// If we got this far we were unable to find the requested class
 		log_message('error', "Unable to load the requested class: ".$class);
-		show_error("Unable to load the class: ".$class);
+		show_error("Unable to load the requested class: ".$class);
 	}
 	
 	// --------------------------------------------------------------------
