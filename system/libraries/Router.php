@@ -292,7 +292,7 @@ class CI_Router {
 			// If the URL has a question mark then it's simplest to just
 			// build the URI string from the zero index of the $_GET array.
 			// This avoids having to deal with $_SERVER variables, which
-			// can be unreliable on some servers
+			// can be unreliable in some environments
 			if (is_array($_GET) AND count($_GET) == 1)
 			{
 				return current(array_keys($_GET));
@@ -300,44 +300,38 @@ class CI_Router {
 		
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways		
-			$path_info = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');	
+			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');	
+			if ($path != '' AND $path != "/".SELF)
+			{
+				return $path;
+			}
+					
+			// No PATH_INFO?... What about QUERY_STRING?
+			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');	
+			if ($path != '')
+			{
+				return $path;
+			}
 			
-			if ($path_info != '' AND $path_info != "/".SELF)
+			// No QUERY_STRING?... Maybe the ORIG_PATH_INFO variable exists?
+			$path = (isset($_SERVER['ORIG_PATH_INFO'])) ? $_SERVER['ORIG_PATH_INFO'] : @getenv('ORIG_PATH_INFO');	
+			if ($path != '' AND $path != "/".SELF)
 			{
-				return $path_info;
+				return $path;
 			}
-			else
+			
+			// OK, how about REQUEST_URI?  
+			// Note: REQUEST_URI is not supplied in a consistent manner with all platforms so it's
+			// a diffucult variable to use.  We'll try to parse it out correctly.  Hopfully one 
+			// of the other variables above was available.
+			$path = $this->_parse_request_uri();
+			if ($path != "")
 			{
-				// OK, how about REQUEST_URI?
-				$req_uri = $this->_parse_request_uri();
-				
-				if ($req_uri != "")
-				{
-					return $req_uri;
-				}
-				else
-				{
-					// Hm... maybe the ORIG_PATH_INFO variable exists?
-					$path_info = (isset($_SERVER['ORIG_PATH_INFO'])) ? $_SERVER['ORIG_PATH_INFO'] : @getenv('ORIG_PATH_INFO');	
-					if ($path_info != '' AND $path_info != "/".SELF)
-					{
-						return $path_info;
-					}
-					else
-					{
-						// At this point we've exhauseted all our options.
-						// Hopefully QUERY_STRING exists.  If not, there's nothing else we can try.
-						$query_string =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');	
-						
-						if ($query_string != '')
-						{
-							return $query_string;
-						}
-						
-						return '';
-					}
-				}			
+				return $path;
 			}
+
+			// We've exhausted all our options...
+			return '';
 		}
 		else
 		{
@@ -373,7 +367,7 @@ class CI_Router {
 		
 		$request_uri = preg_replace("|/(.*)|", "\\1", str_replace("\\", "/", $_SERVER['REQUEST_URI']));
 
-		if ($request_uri == '' OR $request_uri == $this->config->item('index_page'))
+		if ($request_uri == '' OR $request_uri == SELF)
 		{
 			return '';
 		}
