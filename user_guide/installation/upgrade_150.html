@@ -97,14 +97,59 @@ $db['default']['cachedir'] = '';
 </pre>
 
 
-<h2>Step 3: Update your main index.php file</h2>
+
+<h2>Step 2: Update your config.php file</h2>
+
+<p>Open your <dfn>application/config/config.php</dfn> file and <kbd>ADD</kbd>  this new item:</p>
+
+<pre>
+/*
+|--------------------------------------------------------------------------
+| Class Extension Prefix
+|--------------------------------------------------------------------------
+|
+| This item allows you to set the filename/classname prefix when extending
+| native libraries.  For more information please see the user guide:
+| 
+| http://www.codeigniter.com/user_guide/general/core_classes.html
+| http://www.codeigniter.com/user_guide/general/creating_libraries.html
+|
+*/
+$config['subclass_prefix'] = 'MY_';
+</pre>
+
+<p>In that same file <kbd>REMOVE</kbd> this item:</p>
+
+
+<pre>
+/*
+|--------------------------------------------------------------------------
+| Enable/Disable Error Logging
+|--------------------------------------------------------------------------
+|
+| If you would like errors or debug messages logged set this variable to 
+| TRUE (boolean).  Note: You must set the file permissions on the "logs" folder
+| such that it is writable.
+|
+*/
+$config['log_errors'] = FALSE;
+</pre>
+
+<p>Error logging is now disabled simply by setting the threshold to zero.</p>
+
+
+
+<h2>Step 4: Update your main index.php file</h2>
 
 <p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.  If you are running one with 
 internal modifications, open it and add this line of code near the bottom:</p>
 
 <code>define('FCPATH', __FILE__);</code>
 
-<h2>Step 4: Update your user guide</h2>
+
+
+
+<h2>Step 5: Update your user guide</h2>
 
 <p>Please also replace your local copy of the user guide with the new version.</p>
 
