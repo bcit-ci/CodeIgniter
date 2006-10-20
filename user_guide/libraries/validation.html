@@ -664,6 +664,45 @@ like <kbd>trim</kbd>, <kbd>htmlspecialchars</kbd>, <kbd>urldecode</kbd>, etc.</p
 <p>Where <var>rule</var> corresponds to the name of a particular rule, and <var>Error Message</var> is the text you would like displayed.</p>
 
 
+<h2>Dealing with Select Menus, Radio Buttons, and Checkboxes</h2>
+
+<p>If you use select menues, radio buttons or checkboxes, you will want the state of 
+these items to be retained in the event of an error.  The Validation class has three functions taht help you do this:</p>
+
+<h2>set_select()</h2>
+
+<p>Permits you to display the menu item that was selected.  The first parameter
+must contain the name of the select menu, the second parameter must contain the value of
+each item. Example:</p>
+
+<code>
+&lt;select name="myselect"><br />
+&lt;option value="one" <dfn>&lt;?= $this->validation->set_select('myselect', 'one'); ?></dfn> >One&lt;/option><br />
+&lt;option value="two" <dfn>&lt;?= $this->validation->set_select('myselect', 'two'); ?></dfn> >Three&lt;/option><br />
+&lt;option value="three" <dfn>&lt;?= $this->validation->set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
+&lt;/select>
+</code>
+
+
+<h2>set_checkbox()</h2>
+
+<p>Permits you to display a checkbox in the state it was submitted.  The first parameter
+must contain the name of the checkbox, the second parameter must contain its value. Example:</p>
+
+<code>&lt;input type="checkbox" name="mycheck" value="1" <dfn>&lt;?= $this->validation->set_checkbox('mycheck', 1); ?></dfn> /></code>
+
+
+<h2>set_radio()</h2>
+
+<p>Permits you to display radio buttons in the state they were submitted.  The first parameter
+must contain the name of the radio button, the second parameter must contain its value. Example:</p>
+
+<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?= $this->validation->set_radio('myradio', 1); ?></dfn> /></code>
+
+
+
+
+
 </div>
 <!-- END CONTENT -->
 

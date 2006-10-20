@@ -90,6 +90,7 @@ a suggestion offered by coolfactor in our forums.  Please check the documentatio
 <li>Moved most of the functions in the Controller class into the Loader class, allowing fewer reserved function names for controllers when running under PHP 5.</li>
 <li>Updated the DB Result class to return an empty array when $query->result() doesn't produce a result.</li>
 <li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="./libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
+<li>Documented three functions from the <a href="./libraries/validation.html">Validation class</a> that were missing from the user guide:  set_select(), set_radio(), and set_checkbox().</li>
 <li>Fixed a bug in the Email class related to SMTP Helo data.</li>
 <li>Fixed a bug in the validation class.</li>
 <li>Fixed a bug in the typography helper that was incorrectly wrapping block level elements in paragraph tags.</li>
