@@ -117,7 +117,11 @@ class CI_Exceptions {
 	function show_error($heading, $message, $template = 'error_general')
 	{
 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
-				
+
+		if (ob_get_level() > 1)
+		{
+			ob_end_flush();	
+		}
 		ob_start();
 		include_once(APPPATH.'errors/'.$template.EXT);
 		$buffer = ob_get_contents();
@@ -151,7 +155,11 @@ class CI_Exceptions {
 			$x = explode('/', $filepath);
 			$filepath = $x[count($x)-2].'/'.end($x);
 		}
-	
+		
+		if (ob_get_level() > 1)
+		{
+			ob_end_flush();	
+		}
 		ob_start();
 		include_once(APPPATH.'errors/error_php'.EXT);
 		$buffer = ob_get_contents();
