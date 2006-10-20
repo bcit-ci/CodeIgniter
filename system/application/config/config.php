@@ -83,6 +83,21 @@ $config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
+| Class Extension Prefix
+|--------------------------------------------------------------------------
+|
+| This item allows you to set the filename/classname prefix when extending
+| native libraries.  For more information please see the user guide:
+| 
+| http://www.codeigniter.com/user_guide/general/core_classes.html
+| http://www.codeigniter.com/user_guide/general/creating_libraries.html
+|
+*/
+$config['subclass_prefix'] = 'MY_';
+
+
+/*
+|--------------------------------------------------------------------------
 | Allowed URL Characters
 |--------------------------------------------------------------------------
 |
@@ -129,20 +144,7 @@ $config['function_trigger'] = 'm';
 
 /*
 |--------------------------------------------------------------------------
-| Master Time Reference
-|--------------------------------------------------------------------------
-|
-| Options are "local" or "gmt".  This pref tells the system whether to use 
-| your server's local time as the master "now" reference, or convert it to 
-| GMT.  See the "date helper" page of the user guide for information 
-| regarding date handling.
-|
-*/
-$config['time_reference'] = 'local';
-
-/*
-|--------------------------------------------------------------------------
-| Error Logging Threshold
+| Error Logging
 |--------------------------------------------------------------------------
 |
 | You can enable error logging by setting a threshold over zero. The 
@@ -266,6 +268,19 @@ $config['global_xss_filtering'] = FALSE;
 |
 */
 $config['compress_output'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
+| Master Time Reference
+|--------------------------------------------------------------------------
+|
+| Options are "local" or "gmt".  This pref tells the system whether to use 
+| your server's local time as the master "now" reference, or convert it to 
+| GMT.  See the "date helper" page of the user guide for information 
+| regarding date handling.
+|
+*/
+$config['time_reference'] = 'local';
 
 
 ?>

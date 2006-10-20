@@ -113,11 +113,15 @@ class CI_Input {<br /><br />
 <h2>Extending Core Class</h2>
 
 <p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
-it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.</p>
+it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.
+Extending a class is nearly identical to replacing a class with a couple exceptions:</p>
 
-<p>Extending a class is identical to replacing a class with one exception:  The class declaration must extend the parent class
-and your new class must be prefixed with <kbd>MY_</kbd>.  For example, to extend the native <kbd>Input</kbd> class
-you'll create a file named <dfn>application/libraries/Input.php</dfn>, and declare your class with:</p>
+<ul>
+<li>The class declaration must extend the parent class.</li>
+<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li> 
+</ul>
+
+<p>For example, to extend the native <kbd>Input</kbd> class you'll create a file named <dfn>application/libraries/</dfn><kbd>MY_Input.php</kbd>, and declare your class with:</p>
 
 <code>
 class MY_Input extends CI_Input {<br /><br />
@@ -135,7 +139,8 @@ class MY_Input extends CI_Input {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
-<p>Any functions in your class that are named identically to the functions in the parent class will be used instead of the native ones.
+<p class="important"><strong>Tip:</strong>&nbsp; Any functions in your class that are named identically to the functions in the parent class will be used instead of the native ones
+(this is known as "method overloading").
 This allows you to substantially alter the Code Igniter core.</p>
 
 

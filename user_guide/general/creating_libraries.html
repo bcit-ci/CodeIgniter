@@ -226,16 +226,23 @@ class CI_Email {<br /><br />
 <h2>Extending Native Libraries</h2>
 
 <p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
-it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.</p>
+it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.
+Extending a class is nearly identical to replacing a class with a couple exceptions:</p>
 
-<p>Extending a class is identical to replacing a class with one exception:  The class declaration must extend the parent class
-and your new class must be prefixed with <kbd>MY_</kbd>.  For example, to extend the native <kbd>Email</kbd> class
-you'll create a file named <dfn>application/libraries/Email.php</dfn>, and declare your class with:</p>
+<ul>
+<li>The class declaration must extend the parent class.</li>
+<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li> 
+</ul>
+
+<p>For example, to extend the native <kbd>Email</kbd> class you'll create a file named <dfn>application/libraries/</dfn><kbd>MY_Email.php</kbd>, and declare your class with:</p>
 
 <code>
 class MY_Email extends CI_Email {<br /><br />
 
 }</code>
+
+<p>Note: If you need to use a constructor in your class make sure you extend the parent constructor:</p>
+
 
 <code>
 class MY_Email extends CI_Email {<br />
@@ -246,15 +253,30 @@ class MY_Email extends CI_Email {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
-<p class="important"><strong>Important:</strong> To tell Code Igniter to load your sub-class you MUST include <kbd>my_</kbd> in the loading function:</p>
 
-<code>$this->load->library('<kbd>my_</kbd>email');</code>
+<h3>Loading Your Sub-class</h3>
+
+<p>To load your sub-class you'll use the standard syntax normally used.  DO NOT include your prefix.  For example,
+to load the example above, which extends the Email class, you will use:</p>
+
+<code>$this->load->library('<kbd>email</kbd>');</code>
 
 <p>Once loaded you will use the class variable as you normally would for the class you are extending.  In the case of 
 the email class all calls will use:
 
 
 <code>$this-><kbd>email</kbd>->some_function();</code>
+
+
+<h3>Setting Your Own Prefix</h3>
+
+<p>To set your own sub-class prefix, open your <dfn>application/config/config.php</dfn> file and look for this item:</p>
+
+<code>$config['subclass_prefix'] = 'MY_';</code>
+
+<p>Please note that all native Code Igniter libraries are prefixed with <kbd>CI_</kbd> so DO NOT use that as your prefix.</p>
+
+
 
 </div>
 <!-- END CONTENT -->
