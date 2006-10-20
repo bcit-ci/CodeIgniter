@@ -669,17 +669,17 @@ class CI_Loader {
 			include_once(BASEPATH.'libraries/'.ucfirst($class).EXT);
 			include_once(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT);
 
-			return $this->_ci_init_class($filename, config_item('subclass_prefix'), $params);			
+			return $this->_ci_init_class($class, config_item('subclass_prefix'), $params);			
 		}
 
 		// Lets search for the requested library file and load it.
 		for ($i = 1; $i < 3; $i++)
 		{
 			$path = ($i % 2) ? APPPATH : BASEPATH;		
-			if (file_exists($path.'libraries/'.$filename.EXT))
+			if (file_exists($path.'libraries/'.$class.EXT))
 			{
-				include_once($path.'libraries/'.$filename.EXT);
-				return $this->_ci_init_class($filename, '', $params);
+				include_once($path.'libraries/'.$class.EXT);
+				return $this->_ci_init_class($class, '', $params);
 			}
 		}
 		
