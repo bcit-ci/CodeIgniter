@@ -129,7 +129,7 @@ class Auto_typography {
 		 *
 		 * We don't want quotes converted within 
 		 * tags so we'll temporarily convert them to 
-		 * {{{DQ}}} and {{{SQ}}}
+		 * {@DQ} and {@SQ}
 		 *
 		 */			
 		if (preg_match_all("#\<.+?>#si", $str, $matches))
@@ -137,11 +137,24 @@ class Auto_typography {
 			for ($i = 0; $i < count($matches['0']); $i++)
 			{
 				$str = str_replace($matches['0'][$i], 
-									str_replace(array("'",'"'), array('{{{SQ}}}', '{{{DQ}}}'), $matches['0'][$i]),
+									str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches['0'][$i]),
 									$str);
 			}
 		}
-		
+	
+
+		/*
+		 * Add closing/opening paragraph tags before/after "block" elements
+		 *
+		 * Since block elements (like <blockquotes>, <pre>, etc.) do not get
+		 * wrapped in paragraph tags we will add a closing </p> tag just before
+		 * each block element starts and an opening <p> tag right after the block element
+		 * ends.  Later on we'll do some further clean up.
+		 *
+		 */
+		$str = preg_replace("#(<.*?)(".$this->block_elements.")(.*?>)#", "</p>\\1\\2\\3", $str);
+		$str = preg_replace("#(</.*?)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3<p>", $str);
+	
 		/*
 		 * Convert "ignore" tags to tempoarary marker
 		 *
@@ -149,10 +162,10 @@ class Auto_typography {
 		 * it encounters.  Certain inline tags, like image 
 		 * tags, links, span tags, etc. will be adversely
 		 * affected if they are split out so we'll convert
-		 * the opening < temporarily to: {{{tag}}}
+		 * the opening < temporarily to: {@TAG}
 		 *
-		 */			
-		$str = preg_replace("#<(/*)(".$this->ignore_elements.")#i", "{{{tag}}}\\1\\2", $str);	
+		 */		
+		$str = preg_replace("#<(/*)(".$this->ignore_elements.")#i", "{@TAG}\\1\\2", $str);	
 		
 		/*
 		 * Split the string at every tag
@@ -188,7 +201,7 @@ class Auto_typography {
 			 * Well also set the "process" flag which allows us
 			 * to skip <pre> tags and a few other things.
 			 *
-			 */			
+			 */
 			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match)) 
 			{
 				if (preg_match("#".$this->skip_elements."#", $match['2']))
@@ -210,20 +223,51 @@ class Auto_typography {
 			$str .= $this->format_newlines($chunk);
 		}
 
+
+		/*
+		 * Clean up paragraph tags before/after "block" elements
+		 *
+		 * Earlier we added <p></p> tags before/after block level elements.
+		 * Then, we added paragraph tags around double line breaks.  This
+		 * potentially created incorrectly formatted paragraphs so we'll
+		 * clean it up here.
+		 *
+		 */
+		$str = preg_replace("#<p>({@TAG}.*?)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3", $str);
+		$str = preg_replace("#({@TAG}/.*?)(".$this->block_elements.")(.*?>)</p>#", "\\1\\2\\3", $str);
+
 		// Convert Quotes and other characters
 		$str = $this->format_characters($str);
-
-		//  We'll swap our temporary markers back and do some clean up.
+		
+		// Final clean up
 		$str = preg_replace('#(<p>\n*</p>)#', '', $str);
 		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);
-		
+
 		$str = str_replace(
-							array('</p></p>', '</p><p>', '{{{tag}}}', '{{{DQ}}}', '{{{SQ}}}'), 
-							array('</p>', '<p>', '<', '"', "'"), 
+							array(
+									'</p></p>',
+									'</p><p>',
+									'<p> ',
+									' </p>',
+									'{@TAG}',
+									'{@DQ}',
+									'{@SQ}',
+									'<p></p>'
+								),
+							array(
+									'</p>',
+									'<p>',
+									'<p>',
+									'</p>',
+									'<',
+									'"',
+									"'",
+									''
+								),
 							$str
-							);
+						);
 		
-		return trim($str);
+		return $str;
 	}
 	
 	// --------------------------------------------------------------------
