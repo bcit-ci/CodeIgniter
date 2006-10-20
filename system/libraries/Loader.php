@@ -221,7 +221,7 @@ class CI_Loader {
 	 * 1. The name of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
 	 * 3. TRUE/FALSE - whether to return the data or load it.  In
-	 * some cases it's advantageous to be able to retun data so that
+	 * some cases it's advantageous to be able to return data so that
 	 * a developer can process it in some way.
 	 *
 	 * @access	public
@@ -257,7 +257,7 @@ class CI_Loader {
 	/**
 	 * Set Variables
 	 *
-	 * Once variables are set they become availabe within
+	 * Once variables are set they become available within
 	 * the controller class and its "view" files.
 	 *
 	 * @access	public
@@ -525,7 +525,7 @@ class CI_Loader {
 	 */
 	function _ci_load($data)
 	{
-		// This allows anything loaded using $this->load (viwes, files, etc.)
+		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
 		// Only needed when running PHP 5
 		
@@ -584,7 +584,7 @@ class CI_Loader {
 		 * need post processing?  For one thing, in order to 
 		 * show the elapsed page load time.  Unless we
 		 * can intercept the content right before it's sent to
-		 * the browser and then stop the timer it won't be acurate.
+		 * the browser and then stop the timer it won't be accurate.
 		 */
 		if ( ! file_exists($path))
 		{
