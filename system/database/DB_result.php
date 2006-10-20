@@ -63,6 +63,11 @@ class CI_DB_result {
 			return $this->result_object;
 		}
 		
+		if ($this->num_rows == 0)
+		{
+			return array();
+		}
+		
 		$this->_data_seek(0);
 		while ($row = $this->_fetch_object())
 		{ 
@@ -85,6 +90,11 @@ class CI_DB_result {
 		if (count($this->result_array) > 0)
 		{
 			return $this->result_array;
+		}
+
+		if ($this->num_rows == 0)
+		{
+			return array();
 		}
 
 		$this->_data_seek(0);			
