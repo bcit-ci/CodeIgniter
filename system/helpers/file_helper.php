@@ -110,7 +110,7 @@ function write_file($path, $data, $mode = 'wb')
  * @param	bool	whether to delete any directories found in the path
  * @return	bool
  */	
-function delete_files($path, $del_dir = FALSE)
+function delete_files($path, $del_dir = FALSE, $level = 0)
 {	
 	// Trim the trailing slash
 	$path = preg_replace("|^(.+?)/*$|", "\\1", $path);
@@ -124,7 +124,8 @@ function delete_files($path, $del_dir = FALSE)
 		{
 			if (is_dir($path.'/'.$filename))
 			{
-				delete_files($path.'/'.$filename, $del_dir);
+				$level++;
+				delete_files($path.'/'.$filename, $del_dir, $level);
 			}
 			else
 			{
@@ -134,7 +135,7 @@ function delete_files($path, $del_dir = FALSE)
 	}
 	@closedir($current_dir);
 	
-	if ($del_dir == TRUE)
+	if ($del_dir == TRUE AND $level > 0)
 	{
 		@rmdir($path);
 	}
