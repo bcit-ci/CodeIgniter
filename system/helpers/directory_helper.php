@@ -28,7 +28,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * Create a Direcotry Map
+ * Create a Directory Map
  *
  * Reads the specified directory and builds an array
  * representation of it.  Sub-folders contained with the
