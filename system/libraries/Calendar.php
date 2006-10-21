@@ -250,7 +250,7 @@ class CI_Calendar {
 	 * month provided.
 	 *
 	 * @access	public
-	 * @parm	integer	the month
+	 * @param	integer	the month
 	 * @return	string
 	 */
 	function get_month_name($month)

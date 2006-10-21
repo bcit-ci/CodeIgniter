@@ -418,7 +418,7 @@ class CI_DB_oci8_driver extends CI_DB {
     // --------------------------------------------------------------------
 
     /**
-     * Show columnn query
+     * Show column query
      *
      * Generates a platform-specific query string so that the column names can be fetched
      *

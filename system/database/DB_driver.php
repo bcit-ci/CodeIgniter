@@ -368,7 +368,7 @@ class CI_DB_driver {
 
 	/**
 	 * Simple Query  
-	 * This is a simiplified version of the query() function.  Internally
+	 * This is a simplified version of the query() function.  Internally
 	 * we only use it when running transaction commands since they do
 	 * not require all the features of the main query() function.
 	 * 
@@ -535,7 +535,7 @@ class CI_DB_driver {
 	 * Calculate the aggregate query elapsed time 
 	 * 
 	 * @access	public
-	 * @param	intiger	The number of decimal places
+	 * @param	integer	The number of decimal places
 	 * @return	integer		 
 	 */	
 	function elapsed_time($decimals = 6)
@@ -1021,7 +1021,7 @@ class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	boolean	whether to localize the message
-	 * @return	string	sends the application/errror_db.php template		 
+	 * @return	string	sends the application/error_db.php template		 
 	 */	
 	function display_error($error = '', $swap = '', $native = FALSE) 
 	{

@@ -73,7 +73,7 @@ function read_file($file)
  * Write File
  *
  * Writes data to the file specified in the path. 
- * Creats a new file if non-existant.
+ * Creates a new file if non-existent.
  *
  * @access	public
  * @param	string	path to file
@@ -102,7 +102,7 @@ function write_file($path, $data, $mode = 'wb')
  *
  * Deletes all files contained in the supplied directory path.
  * Files must be writable or owned by the system in order to be deleted.
- * If the second parameter is set to TRUE, any direcotries contained
+ * If the second parameter is set to TRUE, any directories contained
  * within the supplied base directory will be nuked as well.
  *
  * @access	public

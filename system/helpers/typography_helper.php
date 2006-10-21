@@ -65,7 +65,7 @@ function nl2br_except_pre($str)
  * 
  *
  * @access	public
- * @parm	string
+ * @param	string
  * @return	string
  */
 function auto_typography($str)
@@ -125,7 +125,7 @@ class Auto_typography {
 		$str = preg_replace("/\n\n+/", "\n\n", $str);
 
 		/*
-		 * Convert quotes within tags to tempoarary marker
+		 * Convert quotes within tags to temporary marker
 		 *
 		 * We don't want quotes converted within 
 		 * tags so we'll temporarily convert them to 
@@ -156,7 +156,7 @@ class Auto_typography {
 		$str = preg_replace("#(</.*?)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3<p>", $str);
 	
 		/*
-		 * Convert "ignore" tags to tempoarary marker
+		 * Convert "ignore" tags to temporary marker
 		 *
 		 * The parser splits out the string at every tag
 		 * it encounters.  Certain inline tags, like image 

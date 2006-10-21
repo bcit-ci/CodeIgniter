@@ -204,7 +204,7 @@ function form_textarea($data = '', $value = '', $extra = '')
 // ------------------------------------------------------------------------
 
 /**
- * Dropdown Menu
+ * Drop-down Menu
  *
  * @access	public
  * @param	string
@@ -348,7 +348,7 @@ function form_prep($str = '')
  *
  * @access	private
  * @param	array
- * @parm	array
+ * @param	array
  * @return	string
  */	
 function parse_form_attributes($attributes, $default)

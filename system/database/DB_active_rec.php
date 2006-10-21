@@ -804,7 +804,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Object to Array
 	 *
-	 * Takes an object as input and convers the class variables to array key/vals
+	 * Takes an object as input and converts the class variables to array key/vals
 	 *
 	 * @access	public
 	 * @param	object
