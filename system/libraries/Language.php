@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Language Class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Language
@@ -30,7 +30,7 @@ class CI_Language {
 	var $is_loaded	= array();
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 *
 	 * @access	public
 	 */	
@@ -83,7 +83,7 @@ class CI_Language {
 			}
 		}
 
-		            
+		
 		if ( ! isset($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);

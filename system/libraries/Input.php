@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Input Class
- * 
+ *
  * Pre-processes global input data for security
  *
  * @package		CodeIgniter
@@ -103,7 +103,7 @@ class CI_Input {
 		if (is_array($_COOKIE) AND count($_COOKIE) > 0)
 		{
 			foreach($_COOKIE as $key => $val)
-			{			  
+			{			
 				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}	
 		}
@@ -116,7 +116,7 @@ class CI_Input {
 	/**
 	 * Clean Input Data
 	 *
-	 * This is a helper function. It escapes data and 
+	 * This is a helper function. It escapes data and
 	 * standardizes newline characters to \n
 	 *
 	 * @access	private
@@ -149,8 +149,8 @@ class CI_Input {
 	/**
 	 * Clean Keys
 	 *
-	 * This is a helper function. To prevent malicious users 
-	 * from trying to exploit keys we make sure that keys are 
+	 * This is a helper function. To prevent malicious users
+	 * from trying to exploit keys we make sure that keys are
 	 * only named with alpha-numeric text and a few other items.
 	 *
 	 * @access	private
@@ -160,7 +160,7 @@ class CI_Input {
 	function _clean_input_keys($str)
 	{	
 		 if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
-		 { 
+		 {
 			exit('Disallowed Key Characters: '.$str);
 		 }
 	
@@ -378,7 +378,7 @@ class CI_Input {
 	 * got from Bitflux: http://blog.bitflux.ch/wiki/XSS_Prevention
 	 *
 	 * To help develop this script I used this great list of
-	 * vulnerabilities along with a few other hacks I've 
+	 * vulnerabilities along with a few other hacks I've
 	 * harvested from examining vulnerabilities in other programs:
 	 * http://ha.ckers.org/xss.html
 	 *
@@ -408,7 +408,7 @@ class CI_Input {
 		$str = preg_replace('#(&\#*\w+)[\x00-\x20]+;#u',"\\1;",$str);
 		
 		/*
-		 * Validate UTF16 two byte encoding (x00) 
+		 * Validate UTF16 two byte encoding (x00)
 		 *
 		 * Just as above, adds a semicolon if missing.
 		 *
@@ -429,20 +429,20 @@ class CI_Input {
 		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str);		
 				
 		/*
-		 * Convert character entities to ASCII 
+		 * Convert character entities to ASCII
 		 *
 		 * This permits our tests below to work reliably.
 		 * We only convert entities that are within tags since
 		 * these are the ones that will pose security problems.
 		 *
 		 */
-		 
+		
 		if (preg_match_all("/<(.+?)>/si", $str, $matches))
 		{		
 			for ($i = 0; $i < count($matches['0']); $i++)
 			{
-				$str = str_replace($matches['1'][$i], 
-									$this->_html_entity_decode($matches['1'][$i], $charset), 
+				$str = str_replace($matches['1'][$i],
+									$this->_html_entity_decode($matches['1'][$i], $charset),
 									$str);
 			}
 		}
@@ -500,7 +500,7 @@ class CI_Input {
 		 * Remove JavaScript Event Handlers
 		 *
 		 * Note: This code is a little blunt.  It removes
-		 * the event handler and anything up to the closing >, 
+		 * the event handler and anything up to the closing >,
 		 * but it's unlikely to be a problem.
 		 *
 		 */		
@@ -509,7 +509,7 @@ class CI_Input {
 		/*
 		 * Sanitize naughty HTML elements
 		 *
-		 * If a tag containing any of the words in the list 
+		 * If a tag containing any of the words in the list
 		 * below is found, the tag gets converted to entities.
 		 *
 		 * So this: <blink>
@@ -552,7 +552,7 @@ class CI_Input {
 	
 		foreach ($bad as $key => $val)
 		{
-			$str = preg_replace("#".$key."#i", $val, $str);   
+			$str = preg_replace("#".$key."#i", $val, $str);
 		}
 		
 						
@@ -582,11 +582,11 @@ class CI_Input {
 	/* -------------------------------------------------*/
 	
 	/*
-	NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the 
+	NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the
 	character set, and the PHP developers said they were not back porting the
 	fix to versions other than PHP 5.x.
 	*/
-	function _html_entity_decode($str, $charset='ISO-8859-1') 
+	function _html_entity_decode($str, $charset='ISO-8859-1')
 	{
 		if (stristr($str, '&') === FALSE) return $str;
 	

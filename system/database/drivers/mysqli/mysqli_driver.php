@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -32,10 +32,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	/**
 	 * Whether to use the MySQL "delete hack" which allows the number
-	 * of affected rows to be shown. Uses a preg_replace when enabled, 
+	 * of affected rows to be shown. Uses a preg_replace when enabled,
 	 * adding a bit more processing to all queries.
 	 */	
-	var $delete_hack = TRUE; 
+	var $delete_hack = TRUE;
 
 	// --------------------------------------------------------------------
 
@@ -116,28 +116,28 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */	
-    function _prep_query($sql)
-    {
-		// "DELETE FROM TABLE" returns 0 affected rows This hack modifies 
+	function _prep_query($sql)
+	{
+		// "DELETE FROM TABLE" returns 0 affected rows This hack modifies
 		// the query so that it returns the number of affected rows
 		if ($this->delete_hack === TRUE)
 		{
-			if (preg_match('/^\s*DELETE\s+FROM\s+(\S+)\s*$/i', $sql)) 
+			if (preg_match('/^\s*DELETE\s+FROM\s+(\S+)\s*$/i', $sql))
 			{
 				$sql = preg_replace("/^\s*DELETE\s+FROM\s+(\S+)\s*$/", "DELETE FROM \\1 WHERE 1=1", $sql);
 			}
 		}
 		
 		return $sql;
-    }
+	}
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * Begin Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_begin($test_mode = FALSE)
 	{
@@ -153,8 +153,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 
 		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back 
-		// even if the queries produce a successful result. 
+		// If the $test_mode flag is set to TRUE transactions will be rolled back
+		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
 		$this->simple_query('SET AUTOCOMMIT=0');
@@ -166,9 +166,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	/**
 	 * Commit Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_commit()
 	{
@@ -192,9 +192,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	/**
 	 * Rollback Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_rollback()
 	{

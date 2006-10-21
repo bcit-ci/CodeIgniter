@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -67,7 +67,7 @@ function trim_slashes($str)
  */	
 function reduce_double_slashes($str)
 {
-	return preg_replace("#([^:])//+#", "\\1/", $str);  
+	return preg_replace("#([^:])//+#", "\\1/", $str);
 }
 	
 // ------------------------------------------------------------------------
@@ -101,15 +101,15 @@ function random_string($type = 'alnum', $len = 8)
 				}
 
 				$str = '';
-				for ($i=0; $i < $len; $i++) 
-				{    
-					$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1); 
+				for ($i=0; $i < $len; $i++)
+				{
+					$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
 				}
-				return $str;      
+				return $str;
 		  break;
-		case 'unique' : return md5(uniqid(mt_rand())); 
-		  break; 
-	}        
+		case 'unique' : return md5(uniqid(mt_rand()));
+		  break;
+	}
 }
 // ------------------------------------------------------------------------
 

@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -132,7 +132,7 @@ class CI_Hooks {
 		// Safety - Prevents run-away loops
 		// -----------------------------------
 	
-		// If the script being called happens to have the same 
+		// If the script being called happens to have the same
 		// hook call within it a loop can happen
 		
 		if ($this->in_progress == TRUE)
@@ -164,17 +164,17 @@ class CI_Hooks {
 		$function	= FALSE;
 		$params		= '';
 		
-		if (isset($data['class']) AND $data['class'] != '') 
+		if (isset($data['class']) AND $data['class'] != '')
 		{
 			$class = $data['class'];
 		}
 
-		if (isset($data['function'])) 
+		if (isset($data['function']))
 		{
 			$function = $data['function'];
 		}
 
-		if (isset($data['params'])) 
+		if (isset($data['params']))
 		{
 			$params = $data['params'];
 		}

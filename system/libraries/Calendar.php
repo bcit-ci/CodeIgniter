@@ -7,25 +7,25 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Code Igniter Calendar Class
  *
- * This class enables the creation of calendars 
+ * This class enables the creation of calendars
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/libraries/calendar.html
- */ 
+ */
 class CI_Calendar {
 
 	var $CI;
@@ -78,7 +78,7 @@ class CI_Calendar {
 				$this->$key = $val;
 			}
 		}
-	} 
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -91,13 +91,13 @@ class CI_Calendar {
 	 * @param	array	the data to be shown in the calendar cells
 	 * @return	string
 	 */
-    function generate($year = '', $month = '', $data = array())
-    {
+	function generate($year = '', $month = '', $data = array())
+	{
 		// Set and validate the supplied month/year
-    	if ($year == '')
-    		$year  = date("Y", $this->local_time);
-    		
-    	if ($month == '')
+		if ($year == '')
+			$year  = date("Y", $this->local_time);
+			
+		if ($month == '')
 			$month = date("m", $this->local_time);
 			
  		if (strlen($year) == 1)
@@ -112,10 +112,10 @@ class CI_Calendar {
 		$adjusted_date = $this->adjust_date($month, $year);
 		
 		$month	= $adjusted_date['month'];
-		$year	= $adjusted_date['year'];  
+		$year	= $adjusted_date['year'];
 		
 		// Determine the total days in the month
-		$total_days = $this->get_total_days($month, $year); 
+		$total_days = $this->get_total_days($month, $year);
 						
 		// Set the starting day of the week
 		$start_days	= array('sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6);
@@ -194,7 +194,7 @@ class CI_Calendar {
 		$out .= $this->temp['week_row_end'];
 		$out .= "\n";
 
-		// Build the main body of the calendar        
+		// Build the main body of the calendar
 		while ($day <= $total_days)
 		{
 			$out .= "\n";
@@ -202,7 +202,7 @@ class CI_Calendar {
 			$out .= "\n";
 
 			for ($i = 0; $i < 7; $i++)
-			{ 
+			{
 				$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
 			
 				if ($day > 0 AND $day <= $total_days)
@@ -226,27 +226,27 @@ class CI_Calendar {
 					$out .= $this->temp['cal_cell_blank'];
 				}
 				
-				$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];				      	        
-        	    $day++;
+				$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];					  	
+				$day++;
 			}
 			
-			$out .= "\n";    	    
+			$out .= "\n";		
 			$out .= $this->temp['cal_row_end'];
-			$out .= "\n";    	    
+			$out .= "\n";		
 		}
 
-		$out .= "\n";    	
+		$out .= "\n";		
 		$out .= $this->temp['table_close'];
 
 		return $out;
-    }
+	}
 	
 	// --------------------------------------------------------------------
 
 	/**
 	 * Get Month Name
 	 *
-	 * Generates a textual month name based on the numeric 
+	 * Generates a textual month name based on the numeric
 	 * month provided.
 	 *
 	 * @access	public
@@ -275,12 +275,12 @@ class CI_Calendar {
 	}
 	
 	// --------------------------------------------------------------------
- 
+
 	/**
 	 * Get Day Names
 	 *
 	 * Returns an array of day names (Sunday, Monday, etc.) based
-	 * on the type.  Options: long, short, abrev 
+	 * on the type.  Options: long, short, abrev
 	 *
 	 * @access	public
 	 * @param	string
@@ -327,32 +327,32 @@ class CI_Calendar {
 	 * @param	integer	the year
 	 * @return	array
 	 */
-    function adjust_date($month, $year)
-    {
-        $date = array(); 
-                
-        $date['month']	= $month;
-        $date['year']	= $year;
-        
-        while ($date['month'] > 12)
-        {
-            $date['month'] -= 12;
-            $date['year']++;
-        }
-        
-        while ($date['month'] <= 0)
-        {
-            $date['month'] += 12;
-            $date['year']--;
-        }
-        
-        if (strlen($date['month']) == 1)
-        {
-        	$date['month'] = '0'.$date['month'];
-        }
-        
-        return $date;
-    }
+	function adjust_date($month, $year)
+	{
+		$date = array();
+
+		$date['month']	= $month;
+		$date['year']	= $year;
+
+		while ($date['month'] > 12)
+		{
+			$date['month'] -= 12;
+			$date['year']++;
+		}
+
+		while ($date['month'] <= 0)
+		{
+			$date['month'] += 12;
+			$date['year']--;
+		}
+
+		if (strlen($date['month']) == 1)
+		{
+			$date['month'] = '0'.$date['month'];
+		}
+
+		return $date;
+	}
  	
 	// --------------------------------------------------------------------
 
@@ -364,26 +364,26 @@ class CI_Calendar {
 	 * @param	integer	the year
 	 * @return	integer
 	 */
-    function get_total_days($month, $year)
-    {
-    	$days_in_month	= array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-    
-        if ($month < 1 OR $month > 12)
-        {
-            return 0;
-        }
-        
-        // Is the year a leap year?
-        if ($month == 2)
-        {        
+	function get_total_days($month, $year)
+	{
+		$days_in_month	= array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+
+		if ($month < 1 OR $month > 12)
+		{
+			return 0;
+		}
+
+		// Is the year a leap year?
+		if ($month == 2)
+		{
 			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
 			{
 				return 29;
 			}
-        }
-    
-        return $days_in_month[$month - 1];
-    }
+		}
+
+		return $days_in_month[$month - 1];
+	}
 	
 	// --------------------------------------------------------------------
 

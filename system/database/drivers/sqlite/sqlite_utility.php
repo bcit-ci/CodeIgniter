@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -68,7 +68,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 *
 	 * I don't believe you can do a database listing with SQLite
 	 * since each database is its own file.  I suppose we could
-	 * try reading a directory looking for SQLite files, but 
+	 * try reading a directory looking for SQLite files, but
 	 * that doesn't seem like a terribly good idea
 	 *
 	 * @access	private

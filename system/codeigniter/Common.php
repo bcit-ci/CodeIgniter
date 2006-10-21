@@ -7,26 +7,26 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Common Functions
  *
- * Loads the base classes and executes the request. 
- * 
+ * Loads the base classes and executes the request.
+ *
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	Common Functions
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -35,7 +35,7 @@
 * This function acts as a singleton.  If the requested class does not
 * exist it is instantiated and set to a static variable.  If it has
 * previously been instantiated the variable is returned.
-* 
+*
 * @access	public
 * @param	string	the class name being requested
 * @param	bool	optional flag that lets classes get loaded but not instantiated
@@ -150,9 +150,9 @@ function &config_item($item)
 * Error Handler
 *
 * This function lets us invoke the exception class and
-* display errors using the standard error template located 
+* display errors using the standard error template located
 * in application/errors/errors.php
-* This function will send the error page directly to the 
+* This function will send the error page directly to the
 * browser and exit.
 *
 * @access	public
@@ -185,7 +185,7 @@ function show_404($page = '')
 
 
 /**
-* Error Logging Interface 
+* Error Logging Interface
 *
 * We use this as a simple mechanism to access the logging
 * class and send messages to be logged.
@@ -212,8 +212,8 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 * Exception Handler
 *
 * This is the custom exception handler we defined at the
-* top of this file. The main reason we use this is permit 
-* PHP errors to be logged in our own log files since we may 
+* top of this file. The main reason we use this is permit
+* PHP errors to be logged in our own log files since we may
 * not have access to server logs. Since this function
 * effectively intercepts PHP errors, however, we also need
 * to display errors based on the current error_reporting level.
@@ -230,7 +230,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 	 // use version 4 style class functions (without prefixes
 	 // like "public", "private", etc.) you'll get notices telling
 	 // you that these have been deprecated.
-	 
+	
 	if ($severity == E_STRICT)
 	{
 		return;
@@ -238,7 +238,7 @@ function _exception_handler($severity, $message, $filepath, $line)
 
 	$error =& load_class('Exceptions');
 
-	// Should we display the error?  
+	// Should we display the error?
 	// We'll get the current error_reporting level and add its bits
 	// with the severity bits to find out.
 	

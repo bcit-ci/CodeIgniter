@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -74,7 +74,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases 
+		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases
 	}
 
 	// --------------------------------------------------------------------

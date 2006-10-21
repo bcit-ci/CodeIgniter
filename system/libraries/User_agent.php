@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * User Agent Class
- * 
+ *
  * Identifies the platform, browser, robot, or mobile devise of the browsing agent
  *
  * @package		CodeIgniter
@@ -155,9 +155,9 @@ class CI_User_agent {
 	{
 		if (is_array($this->platforms) AND count($this->platforms) > 0)
 		{
-			foreach ($this->platforms as $key => $val) 
+			foreach ($this->platforms as $key => $val)
 			{
-				if (preg_match("|".preg_quote($key)."|i", $this->agent)) 
+				if (preg_match("|".preg_quote($key)."|i", $this->agent))
 				{
 					$this->platform = $val;
 					return TRUE;
@@ -179,9 +179,9 @@ class CI_User_agent {
 	{
 		if (is_array($this->browsers) AND count($this->browsers) > 0)
 		{
-			foreach ($this->browsers as $key => $val) 
+			foreach ($this->browsers as $key => $val)
 			{		
-				if (preg_match("|".preg_quote($key).".*?([0-9\.]+)|i", $this->agent, $match)) 
+				if (preg_match("|".preg_quote($key).".*?([0-9\.]+)|i", $this->agent, $match))
 				{
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
@@ -205,9 +205,9 @@ class CI_User_agent {
 	{
 		if (is_array($this->robots) AND count($this->robots) > 0)
 		{		
-			foreach ($this->robots as $key => $val) 
+			foreach ($this->robots as $key => $val)
 			{
-				if (preg_match("|".preg_quote($key)."|i", $this->agent)) 
+				if (preg_match("|".preg_quote($key)."|i", $this->agent))
 				{
 					$this->is_robot = TRUE;
 					$this->robot = $val;
@@ -230,7 +230,7 @@ class CI_User_agent {
 	{
 		if (is_array($this->mobiles) AND count($this->mobiles) > 0)
 		{		
-			foreach ($this->mobiles as $key => $val) 
+			foreach ($this->mobiles as $key => $val)
 			{
 				if (FALSE !== (strpos(strtolower($this->agent), $key)))
 				{

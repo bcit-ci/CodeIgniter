@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -129,39 +129,39 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	
 		// Build the output
 		$output = '';
-        foreach ((array)$tables as $table)
-        { 
-        	// Is the table in the "ignore" list?
+		foreach ((array)$tables as $table)
+		{
+			// Is the table in the "ignore" list?
 			if (in_array($table, (array)$ignore, TRUE))
 			{
-        		continue;
-        	}
+				continue;
+			}
 
-        	// Get the table schema
+			// Get the table schema
 			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.'.$table);
 			
 			// No result means the table name was invalid
-        	if ($query === FALSE)
-        	{
-        		continue;
-        	}
-        	
-        	// Write out the table schema
-            $output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
-                
+			if ($query === FALSE)
+			{
+				continue;
+			}
+			
+			// Write out the table schema
+			$output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
+
  			if ($add_drop == TRUE)
  			{
-            	$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+				$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
 			}
 			
 			$i = 0;
 			$result = $query->result_array();
 			foreach ($result[0] as $val)
 			{
-			    if ($i++ % 2)
-			    { 			    	
-			    	$output .= $val.';'.$newline.$newline;
-			    }
+				if ($i++ % 2)
+				{ 					
+					$output .= $val.';'.$newline.$newline;
+				}
 			}
 			
 			// If inserts are not needed we're done...
@@ -179,7 +179,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 			}
 		
 			// Fetch the field names and determine if the field is an
-			// integer type.  We use this info to decide whether to 
+			// integer type.  We use this info to decide whether to
 			// surround the data with quotes or not
 			
 			$i = 0;
@@ -188,13 +188,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 			while ($field = mysqli_fetch_field($query->result_id))
 			{
 				$is_int[$i] = (in_array(
-										strtolower(mysql_field_type($query->result_id, $i)), 
-										array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'timestamp'), 
+										strtolower(mysql_field_type($query->result_id, $i)),
+										array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'timestamp'),
 										TRUE)
 										) ? TRUE : FALSE;
 										
 				// Create a string of field names
-				$field_str .= $field->name.', ';     
+				$field_str .= $field->name.', ';
 				$i++;
 			}
 			
@@ -211,8 +211,8 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 				foreach ($row as $v)
 				{
 					// Do a little formatting...
-					$v = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $v);   
-					$v = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $v);   
+					$v = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $v);
+					$v = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $v);
 					$v = str_replace('\\', '\\\\',	$v);
 					$v = str_replace('\'', '\\\'',	$v);
 					$v = str_replace('\\\n', '\n',	$v);

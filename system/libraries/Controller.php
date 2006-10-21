@@ -7,18 +7,18 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Code Igniter Application Controller Class
  *
- * This class object is the super class the every library in 
+ * This class object is the super class the every library in
  * Code Igniter will be assigned to.
  *
  * @package		CodeIgniter
@@ -45,7 +45,7 @@ class Controller extends CI_Base {
 		$this->_ci_initialize();
 		log_message('debug', "Controller Class Initialized");
 	}
-  
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -56,17 +56,17 @@ class Controller extends CI_Base {
 	 *
 	 * @access	private
 	 * @return	void
-	 */  
+	 */
 	function _ci_initialize()
 	{
 		// Assign all the class objects that were instantiated by the
-		// front controller to local class variables so that CI can be 
+		// front controller to local class variables so that CI can be
 		// run as one big super object.
 		$classes = array(
-							'config'	=> 'Config', 
-							'input'		=> 'Input', 
-							'benchmark'	=> 'Benchmark', 
-							'uri'		=> 'URI', 
+							'config'	=> 'Config',
+							'input'		=> 'Input',
+							'benchmark'	=> 'Benchmark',
+							'uri'		=> 'URI',
 							'output'	=> 'Output',
 							'lang'		=> 'Language'
 							);
@@ -76,7 +76,7 @@ class Controller extends CI_Base {
 			$this->$var =& load_class($class);
 		}
 
-		// In PHP 5 the Controller class is run as a discreet 
+		// In PHP 5 the Controller class is run as a discreet
 		// class.  In PHP 4 it extends the Controller
 		if (floor(phpversion()) >= 5)
 		{
@@ -97,8 +97,8 @@ class Controller extends CI_Base {
 	 * @access	private
 	 * @return	void
 	 */	
-    function _ci_scaffolding()
-    {
+	function _ci_scaffolding()
+	{
 		if ($this->_ci_scaffolding === FALSE OR $this->_ci_scaff_table === FALSE)
 		{
 			show_404('Scaffolding unavailable');
@@ -109,8 +109,8 @@ class Controller extends CI_Base {
 		require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
 		$scaff = new Scaffolding($this->_ci_scaff_table);
 		$scaff->$method();
-    }
-    
+	}
+
 
 }
 // END _Controller class

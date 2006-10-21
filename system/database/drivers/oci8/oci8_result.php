@@ -4,12 +4,12 @@
  *
  * An open source application development framework for PHP 4.3.2 or newer
  *
- * @package     CodeIgniter
- * @author      Rick Ellis
+ * @package	 CodeIgniter
+ * @author	  Rick Ellis
  * @copyright   Copyright (c) 2006, pMachine, Inc.
- * @license     http://www.codeignitor.com/user_guide/license.html 
- * @link        http://www.codeigniter.com
- * @since       Version 1.0
+ * @license	 http://www.codeignitor.com/user_guide/license.html
+ * @link		http://www.codeigniter.com
+ * @since	   Version 1.0
  * @filesource
  */
 
@@ -20,59 +20,59 @@
  *
  * This class extends the parent result class: CI_DB_result
  *
- * @category    Database
- * @author      Rick Ellis
- * @link        http://www.codeigniter.com/user_guide/database/
+ * @category	Database
+ * @author	  Rick Ellis
+ * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
-    var $stmt_id;
-    var $curs_id;
-    var $limit_used;
+	var $stmt_id;
+	var $curs_id;
+	var $limit_used;
 
-    /**
-     * Number of rows in the result set
-     *
-     * @access  public
-     * @return  integer
-     */
-    function num_rows()
-    {
-        // get the results, count them,
-        // rerun query - otherwise we
-        // won't have data after calling 
-        // num_rows()
-        $this->result_array();
-        $rowcount = count($this->result_array);
-        @ociexecute($this->stmt_id);
-        if ($this->curs_id)
+	/**
+	 * Number of rows in the result set
+	 *
+	 * @access  public
+	 * @return  integer
+	 */
+	function num_rows()
+	{
+		// get the results, count them,
+		// rerun query - otherwise we
+		// won't have data after calling
+		// num_rows()
+		$this->result_array();
+		$rowcount = count($this->result_array);
+		@ociexecute($this->stmt_id);
+		if ($this->curs_id)
 		{
 			@ociexecute($this->curs_id);
 		}
-        return $rowcount;
-    }
+		return $rowcount;
+	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
-    /**
-     * Number of fields in the result set
-     *
-     * @access  public
-     * @return  integer
-     */
-    function num_fields()
-    {
-        $count = @ocinumcols($this->stmt_id);
+	/**
+	 * Number of fields in the result set
+	 *
+	 * @access  public
+	 * @return  integer
+	 */
+	function num_fields()
+	{
+		$count = @ocinumcols($this->stmt_id);
 
-        // if we used a limit, we added a field,
-        // subtract it out
-        if ($this->limit_used)
-        {
-            $count = $count - 1;
-        }
+		// if we used a limit, we added a field,
+		// subtract it out
+		if ($this->limit_used)
+		{
+			$count = $count - 1;
+		}
 
-        return $count;
-    }
+		return $count;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -87,11 +87,11 @@ class CI_DB_oci8_result extends CI_DB_result {
 	function list_fields()
 	{
 		$field_names = array();
-        $fieldCount = $this->num_fields();
-        for ($c = 1; $c <= $fieldCount; $c++)
-        {
-            $field_names[] = ocicolumnname($this->stmt_id, $c);
-        }
+		$fieldCount = $this->num_fields();
+		for ($c = 1; $c <= $fieldCount; $c++)
+		{
+			$field_names[] = ocicolumnname($this->stmt_id, $c);
+		}
 		return $field_names;
 	}
 
@@ -101,32 +101,32 @@ class CI_DB_oci8_result extends CI_DB_result {
 		return $this->list_fields();
 	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
-    /**
-     * Field data
-     *
-     * Generates an array of objects containing field meta-data
-     *
-     * @access  public
-     * @return  array
-     */
-    function field_data()
-    {
-        $retval = array();
-        $fieldCount = $this->num_fields();
-        for ($c = 1; $c <= $fieldCount; $c++)
-        {
-            $F              = new stdClass();
-            $F->name        = ocicolumnname($this->stmt_id, $c);
-            $F->type        = ocicolumntype($this->stmt_id, $c);
-            $F->max_length  = ocicolumnsize($this->stmt_id, $c);
+	/**
+	 * Field data
+	 *
+	 * Generates an array of objects containing field meta-data
+	 *
+	 * @access  public
+	 * @return  array
+	 */
+	function field_data()
+	{
+		$retval = array();
+		$fieldCount = $this->num_fields();
+		for ($c = 1; $c <= $fieldCount; $c++)
+		{
+			$F			  = new stdClass();
+			$F->name		= ocicolumnname($this->stmt_id, $c);
+			$F->type		= ocicolumntype($this->stmt_id, $c);
+			$F->max_length  = ocicolumnsize($this->stmt_id, $c);
 
-            $retval[] = $F;
-        }
+			$retval[] = $F;
+		}
 
-        return $retval;
-    }
+		return $retval;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -139,25 +139,25 @@ class CI_DB_oci8_result extends CI_DB_result {
 	{
 		if (is_resource($this->result_id))
 		{
-        	OCIFreeStatement($this->result_id);
-        	$this->result_id = FALSE;
+			OCIFreeStatement($this->result_id);
+			$this->result_id = FALSE;
 		}
 	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
-    /**
-     * Result - associative array
-     *
-     * Returns the result set as an array
-     *
-     * @access  private
-     * @return  array
-     */
-    function _fetch_assoc(&$row)
-    {
-        // if pulling from a cursor, use curs_id
-        if ($this->curs_id)
+	/**
+	 * Result - associative array
+	 *
+	 * Returns the result set as an array
+	 *
+	 * @access  private
+	 * @return  array
+	 */
+	function _fetch_assoc(&$row)
+	{
+		// if pulling from a cursor, use curs_id
+		if ($this->curs_id)
 		{
 			return ocifetchinto($this->curs_id, $row, OCI_ASSOC + OCI_RETURN_NULLS);
 		}
@@ -165,7 +165,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		{
 			return ocifetchinto($this->stmt_id, $row, OCI_ASSOC + OCI_RETURN_NULLS);
 		}
-    }
+	}
 
 	// --------------------------------------------------------------------
 
@@ -184,25 +184,25 @@ class CI_DB_oci8_result extends CI_DB_result {
 		return FALSE;
 	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
-    /**
-     * Result - object
-     *
-     * Returns the result set as an object
-     *
-     * @access  private
-     * @return  object
-     */
-    function _fetch_object()
-    {
-        // the PHP 4 version of the oracle functions do not
-        // have a fetch method so we call the array version
-        // and build an object from that
+	/**
+	 * Result - object
+	 *
+	 * Returns the result set as an object
+	 *
+	 * @access  private
+	 * @return  object
+	 */
+	function _fetch_object()
+	{
+		// the PHP 4 version of the oracle functions do not
+		// have a fetch method so we call the array version
+		// and build an object from that
 
-        $row = array();
-        $res = $this->_fetch_assoc($row);
-        if ($res != FALSE)
+		$row = array();
+		$res = $this->_fetch_assoc($row);
+		if ($res != FALSE)
 		{
 			$obj = new stdClass();
 			foreach ($row as $key => $value)
@@ -212,41 +212,41 @@ class CI_DB_oci8_result extends CI_DB_result {
 			
 			$res = $obj;
 		}
-        return $res;
-    }
+		return $res;
+	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
-    /**
-     * Query result.  "array" version.
-     *
-     * @access  public
-     * @return  array
-     */
-    function result_array()
-    {
-        if (count($this->result_array) > 0)
-        {
-            return $this->result_array;
-        }
+	/**
+	 * Query result.  "array" version.
+	 *
+	 * @access  public
+	 * @return  array
+	 */
+	function result_array()
+	{
+		if (count($this->result_array) > 0)
+		{
+			return $this->result_array;
+		}
 
-        // oracle's fetch functions do not
-        // return arrays, the information
-        // is returned in reference parameters
-        //
-        $row = NULL;
-        while ($this->_fetch_assoc($row))
-        {
-            $this->result_array[] = $row;
-        }
+		// oracle's fetch functions do not
+		// return arrays, the information
+		// is returned in reference parameters
+		//
+		$row = NULL;
+		while ($this->_fetch_assoc($row))
+		{
+			$this->result_array[] = $row;
+		}
 
-        if (count($this->result_array) == 0)
-        {
-            return FALSE;
-        }
+		if (count($this->result_array) == 0)
+		{
+			return FALSE;
+		}
 
-        return $this->result_array;
-    }
+		return $this->result_array;
+	}
 
 }
 

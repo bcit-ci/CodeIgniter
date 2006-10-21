@@ -7,19 +7,19 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /*
 Instructions:
 
 Load the plugin using:
- 
+
  	$this->load->plugin('captcha');
 
 Once loaded you can generate a captcha like this:
@@ -42,9 +42,9 @@ NOTES:
 	
 	The captcha function requires the GD image library.
 	
-	Only the img_path and img_url are required.  
+	Only the img_path and img_url are required.
 	
-	If a "word" is not supplied, the function will generate a random 
+	If a "word" is not supplied, the function will generate a random
 	ASCII string.  You might put together your own word library that
 	you can draw randomly from.
 	
@@ -56,11 +56,11 @@ NOTES:
 	The "expiration" (in seconds) signifies how long an image will
 	remain in the captcha folder before it will be deleted.  The default
 	is two hours.
-   
+
 RETURNED DATA
 
 The create_captcha() function returns an associative array with this data:
-  
+
   [array]
   (
 	'image' => IMAGE TAG
@@ -68,10 +68,10 @@ The create_captcha() function returns an associative array with this data:
 	'word'	=> CAPTCHA WORD
   )
 
-The "image" is the actual image tag: 
+The "image" is the actual image tag:
 <img src="http://your-site.com/captcha/12345.jpg" width="140" height="50" />
 
-The "time" is the micro timestamp used as the image name without the file 
+The "time" is the micro timestamp used as the image name without the file
 extension.  It will be a number like this:  1139612155.3422
 
 The "word" is the word that appears in the captcha image, which if not
@@ -81,12 +81,12 @@ supplied to the function, will be a random string.
 ADDING A DATABASE
 
 In order for the captcha function to prevent someone from posting, you will need
-to add the information returned from create_captcha() function to your database.  
-Then, when the data from the form is submitted by the user you will need to verify 
+to add the information returned from create_captcha() function to your database.
+Then, when the data from the form is submitted by the user you will need to verify
 that the data exists in the database and has not expired.
 
 Here is a table prototype:
-   
+
 	CREATE TABLE captcha (
 	 captcha_id bigint(13) unsigned NOT NULL auto_increment,
 	 captcha_time int(10) unsigned NOT NULL,
@@ -98,7 +98,7 @@ Here is a table prototype:
 
 
 Here is an example of usage with a DB.
- 
+
 On the page where the captcha will be shown you'll have something like this:
 
 	$this->load->plugin('captcha');
@@ -110,10 +110,10 @@ On the page where the captcha will be shown you'll have something like this:
 	$cap = create_captcha($vals);
 
 	$data = array(
-					'captcha_id'	=> '', 
-					'captcha_time'	=> $cap['time'], 
+					'captcha_id'	=> '',
+					'captcha_time'	=> $cap['time'],
 					'ip_address'	=> $this->input->ip_address(),
-					'word'			=> $cap['word'] 
+					'word'			=> $cap['word']
 				);
 
 	$query = $this->db->insert_string('captcha', $data);
@@ -127,7 +127,7 @@ On the page where the captcha will be shown you'll have something like this:
 Then, on the page that accepts the submission you'll have something like this:
 
 	// First, delete old captchas
-	$expiration = time()-7200; // Two hour limit 
+	$expiration = time()-7200; // Two hour limit
 	$DB->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);		
 
 	// Then see if a captcha exists:
@@ -175,7 +175,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 		return FALSE;
 	}
 
-	if ( ! @is_dir($img_path)) 
+	if ( ! @is_dir($img_path))
 	{
 		return FALSE;
 	}
@@ -200,7 +200,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	$current_dir = @opendir($img_path);
 	
 	while($filename = @readdir($current_dir))
-	{        
+	{
 		if ($filename != "." and $filename != ".." and $filename != "index.html")
 		{
 			$name = str_replace(".jpg", "", $filename);
@@ -223,13 +223,13 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		$str = '';
-		for ($i = 0; $i < 8; $i++) 
-		{    
-			$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1); 
+		for ($i = 0; $i < 8; $i++)
+		{
+			$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
 		}
 		
 		$word = $str;
-   } 
+   }
 	
 	// -----------------------------------
 	// Determine angle and position	
@@ -267,12 +267,12 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	// -----------------------------------
 	
 	$theta		= 1;
-	$thetac		= 7;  
-	$radius		= 16;  
-	$circles	= 20;  
+	$thetac		= 7;
+	$radius		= 16;
+	$circles	= 20;
 	$points		= 32;
 
-	for ($i = 0; $i < ($circles * $points) - 1; $i++) 
+	for ($i = 0; $i < ($circles * $points) - 1; $i++)
 	{
 		$theta = $theta + $thetac;
 		$rad = $radius * ($i / $points );

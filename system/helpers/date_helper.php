@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -39,10 +39,10 @@ function now()
 {
 	$CI =& get_instance();
 	
-	if (strtolower($CI->config->item('time_reference')) == 'gmt') 
+	if (strtolower($CI->config->item('time_reference')) == 'gmt')
 	{
-		$now = time(); 
-		$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));   
+		$now = time();
+		$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
 	
 		if (strlen($system_time) < 10)
 		{
@@ -130,7 +130,7 @@ function standard_date($fmt = 'DATE_RFC822', $time = '')
 /**
  * Timespan
  *
- * Returns a span of seconds in this format: 
+ * Returns a span of seconds in this format:
  *	10 days 14 hours 36 minutes 47 seconds
  *
  * @access	public
@@ -244,7 +244,7 @@ function timespan($seconds = 1, $time = '')
 /**
  * Number of days in a month
  *
- * Takes a month/year as input and returns the number of days 
+ * Takes a month/year as input and returns the number of days
  * for the given month/year. Takes leap years into consideration.
  *
  * @access	public
@@ -265,7 +265,7 @@ function days_in_month($month = 0, $year = '')
 	}
 	
 	if ($month == 2)
-	{        
+	{
 		if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
 		{
 			return 29;
@@ -290,7 +290,7 @@ function local_to_gmt($time = '')
 	if ($time == '')
 		$time = time();
 	
-	return mktime( gmdate("H", $time), gmdate("i", $time), gmdate("s", $time), gmdate("m", $time), gmdate("d", $time), gmdate("Y", $time));   
+	return mktime( gmdate("H", $time), gmdate("i", $time), gmdate("s", $time), gmdate("m", $time), gmdate("d", $time), gmdate("Y", $time));
 }
 	
 // ------------------------------------------------------------------------
@@ -335,7 +335,7 @@ function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
  * @return	integer
  */	
 function mysql_to_unix($time = '')
-{    
+{
 	// We'll remove certain characters for backward compatibility
 	// since the formatting changed with MySQL 4.1
 	// YYYY-MM-DD HH:MM:SS
@@ -345,7 +345,7 @@ function mysql_to_unix($time = '')
 	$time = str_replace(' ', '', $time);
 	
 	// YYYYMMDDHHMMSS
-	return  mktime( 
+	return  mktime(
 					substr($time, 8, 2),
 					substr($time, 10, 2),
 					substr($time, 12, 2),
@@ -422,13 +422,13 @@ function human_to_unix($datestr = '')
 
 	$split = preg_split("/\040/", $datestr);
 
-	$ex = explode("-", $split['0']);            
+	$ex = explode("-", $split['0']);
 	
 	$year  = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
 	$month = (strlen($ex['1']) == 1) ? '0'.$ex['1']  : $ex['1'];
 	$day   = (strlen($ex['2']) == 1) ? '0'.$ex['2']  : $ex['2'];
 
-	$ex = explode(":", $split['1']); 
+	$ex = explode(":", $split['1']);
 	
 	$hour = (strlen($ex['0']) == 1) ? '0'.$ex['0'] : $ex['0'];
 	$min  = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
@@ -515,10 +515,10 @@ function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
  */	
 function timezones($tz = '')
 {
-	// Note: Don't change the order of these even though 
+	// Note: Don't change the order of these even though
 	// some items appear to be in the wrong order
 		
-	$zones = array( 
+	$zones = array(
 					'UM12' => -12,
 					'UM11' => -11,
 					'UM10' => -10,
@@ -548,7 +548,7 @@ function timezones($tz = '')
 					'UP85' => +8.5,
 					'UP10' => +10,
 					'UP11' => +11,
-					'UP12' => +12                    
+					'UP12' => +12
 				);
 				
 	if ($tz == '')

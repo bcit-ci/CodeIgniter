@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -21,16 +21,16 @@
  * This class is based on a library I found at Zend:
  * http://www.zend.com/codex.php?id=696&single=1
  *
- * The original library is a little rough around the edges so I 
+ * The original library is a little rough around the edges so I
  * refactored it and added several additional methods -- Rick Ellis
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Encryption
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/general/encryption.html
  */
-class CI_Zip  {  
+class CI_Zip  {
 
 	var $zipfile	= '';	
 	var $zipdata	= array();
@@ -53,7 +53,7 @@ class CI_Zip  {
 	 * @param	mixed	the directory name. Can be string or array
 	 * @return	void
 	 */
-	function add_dir($directory) 
+	function add_dir($directory)
 	{
 		foreach ((array)$directory as $dir)
 		{
@@ -75,9 +75,9 @@ class CI_Zip  {
 	 * @param	string	the directory name
 	 * @return	void
 	 */
-	function _add_dir($dir) 
+	function _add_dir($dir)
 	{
-		$dir = str_replace("\\", "/", $dir);  
+		$dir = str_replace("\\", "/", $dir);
 		
 		$this->zipdata[] = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 							.pack('V', 0)
@@ -88,7 +88,7 @@ class CI_Zip  {
 							.$dir
 							.pack('V', 0)
 							.pack('V', 0)
-							.pack('V', 0); 
+							.pack('V', 0);
 		
 		$newoffset = strlen(implode('', $this->zipdata));
 		
@@ -106,7 +106,7 @@ class CI_Zip  {
 					.$dir;
 		
 		$this->offset = $newoffset;
-		$this->directory[] = $record;  
+		$this->directory[] = $record;
 	}
 	
 	// --------------------------------------------------------------------
@@ -150,14 +150,14 @@ class CI_Zip  {
 	 */	
 	function _add_data($filepath, $data)
 	{	
-		$filepath = str_replace("\\", "/", $filepath);  
+		$filepath = str_replace("\\", "/", $filepath);
 			
-		$oldlen	= strlen($data);  
-		$crc32	= crc32($data);  
+		$oldlen	= strlen($data);
+		$crc32	= crc32($data);
 		
 		$gzdata = gzcompress($data);
 		$gzdata = substr(substr($gzdata, 0, strlen($gzdata) - 4), 2); 	
-		$newlen = strlen($gzdata);  
+		$newlen = strlen($gzdata);
 	
 		$this->zipdata[] = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
 							.pack('V', $crc32)
@@ -169,7 +169,7 @@ class CI_Zip  {
 							.$gzdata
 							.pack('V', $crc32)
 							.pack('V', $newlen)
-							.pack('V', $oldlen); 
+							.pack('V', $oldlen);
 			
 		$newoffset = strlen(implode("", $this->zipdata));
 		
@@ -183,10 +183,10 @@ class CI_Zip  {
 					.pack('v', 0)
 					.pack('v', 0)
 					.pack('V', 32)
-					.pack('V', $this->offset); 
+					.pack('V', $this->offset);
 		
 		$this->offset = $newoffset;
-		$this->directory[] = $record.$filepath;  
+		$this->directory[] = $record.$filepath;
 	}
 	
 	// --------------------------------------------------------------------
@@ -198,7 +198,7 @@ class CI_Zip  {
 	 * @return	binary string
 	 */	
 	function get_zip()
-	{ 
+	{
 		// We cache the zip data so multiple calls
 		// do not require recompiling
 		if ($this->zipfile != '')
@@ -212,8 +212,8 @@ class CI_Zip  {
 			return FALSE;
 		}
 	
-		$data	= implode('', $this->zipdata);  
-		$dir	= implode('', $this->directory);  
+		$data	= implode('', $this->zipdata);
+		$dir	= implode('', $this->directory);
 				
 		$this->zipfile = $data.$dir."\x50\x4b\x05\x06\x00\x00\x00\x00"
 						.pack('v', sizeof($this->directory))
@@ -278,8 +278,8 @@ class CI_Zip  {
 			header("Content-Transfer-Encoding: binary");
 			header('Pragma: public');
 			header("Content-Length: ".strlen($this->get_zip()));
-		} 
-		else 
+		}
+		else
 		{
 			header('Content-Type: application/x-zip');
 			header('Content-Disposition: attachment; filename="'.$filename.'"');
@@ -297,7 +297,7 @@ class CI_Zip  {
 	/**
 	 * Initialize Data
 	 *
-	 * Lets you clear current zip data.  Useful if you need to create 
+	 * Lets you clear current zip data.  Useful if you need to create
 	 * multiple zips with different data.
 	 *
 	 * @access	public

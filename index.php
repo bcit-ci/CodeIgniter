@@ -17,7 +17,7 @@ error_reporting(E_ALL);
 |---------------------------------------------------------------
 |
 | This variable must contain the name of your "system" folder.
-| Include the path if the folder is not in the same  directory 
+| Include the path if the folder is not in the same  directory
 | as this file.
 |
 | NO TRAILING SLASH!
@@ -31,7 +31,7 @@ error_reporting(E_ALL);
 | APPLICATION FOLDER NAME
 |---------------------------------------------------------------
 |
-| If you want this front controller to use a different "application" 
+| If you want this front controller to use a different "application"
 | folder then the default one you can set its name here.
 |
 | NO TRAILING SLASH!
@@ -59,7 +59,7 @@ if ($application_folder == '')
 	$application_folder = 'application';
 }
 
-// Some versions of PHP don't support the E_STRICT constant so we'll 
+// Some versions of PHP don't support the E_STRICT constant so we'll
 // explicitly define it so that it will be available to the Exception class
 if ( ! defined('E_STRICT'))
 {
@@ -69,7 +69,7 @@ if ( ! defined('E_STRICT'))
 // Define a few constants that we use througout the framework.
 // EXT		- contains the file extension.  Typically ".php"
 // FCPATH	- contains the full server path to THIS file.
-// SELF		- contains the name of THIS file.  
+// SELF		- contains the name of THIS file.
 // BASEPATH	- contains the full server path to the "system" folder
 // APPPATH	- contains the full server path to the "application" folder
 

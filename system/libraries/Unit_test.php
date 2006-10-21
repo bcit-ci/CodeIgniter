@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.3.1
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Unit Testing Class
- * 
+ *
  * Simple testing class
  *
  * @package		CodeIgniter
@@ -148,7 +148,7 @@ class CI_Unit_test {
 	/**
 	 * Make Unit testing active
 	 *
-	 * Enables/disables unit testing  
+	 * Enables/disables unit testing
 	 *
 	 * @access	public
 	 * @param	bool
@@ -233,14 +233,14 @@ class CI_Unit_test {
 	/**
 	 * Generate a backtrace
 	 *
-	 * This lets us show file names and line numbers 
+	 * This lets us show file names and line numbers
 	 *
 	 * @access	private
 	 * @return	array
 	 */
-	function _backtrace() 
+	function _backtrace()
 	{
-		if (function_exists('debug_backtrace')) 
+		if (function_exists('debug_backtrace'))
 		{
 			$back = debug_backtrace();
 			
@@ -314,7 +314,7 @@ class CI_Unit_test {
 
 /**
  * Helper functions to test boolean true/false
- * 
+ *
  *
  * @access	private
  * @return	bool

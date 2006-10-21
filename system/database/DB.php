@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -46,7 +46,7 @@ function &DB($params = '', $active_record = FALSE)
 	}
 
 	// Load the DB classes.  Note: Since the active record class is optional
-	// we need to dynamically create a class that extends proper parent class 
+	// we need to dynamically create a class that extends proper parent class
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
 	
@@ -57,7 +57,7 @@ function &DB($params = '', $active_record = FALSE)
 	
 	require_once(BASEPATH.'database/DB_driver'.EXT);
 
-	if ( ! isset($params['active_r']) OR $params['active_r'] == TRUE) 
+	if ( ! isset($params['active_r']) OR $params['active_r'] == TRUE)
 	{
 		require_once(BASEPATH.'database/DB_active_rec'.EXT);
 		

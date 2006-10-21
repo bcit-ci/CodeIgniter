@@ -4,9 +4,9 @@
 <title>404 Page Not Found</title>
 <style type="text/css">
 
-body { 
-background-color:	#fff; 
-margin:				40px; 
+body {
+background-color:	#fff;
+margin:				40px;
 font-family:		Lucida Grande, Verdana, Sans-serif;
 font-size:			12px;
 color:				#000;

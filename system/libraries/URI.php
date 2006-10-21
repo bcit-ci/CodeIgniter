@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * URI Class
- * 
+ *
  * Parses URIs and determines routing
  *
  * @package		CodeIgniter
@@ -36,7 +36,7 @@ class CI_URI {
 	 *
 	 * Simply globalizes the $RTR object.  The front
 	 * loads the Router class early on so it's not available
-	 * normally as other classes are. 
+	 * normally as other classes are.
 	 *
 	 * @access	public
 	 */		
@@ -51,7 +51,7 @@ class CI_URI {
 	/**
 	 * Fetch a URI Segment
 	 *
-	 * This function returns the URI segment based on the number provided.  
+	 * This function returns the URI segment based on the number provided.
 	 *
 	 * @access	public
 	 * @param	integer
@@ -87,7 +87,7 @@ class CI_URI {
 	/**
 	 * Generate a key value pair from the URI string
 	 *
-	 * This function generates and associative array of URI data starting 
+	 * This function generates and associative array of URI data starting
 	 * at the supplied segment. For example, if this is your URI:
 	 *
 	 *	www.your-site.com/user/search/name/joe/location/UK/gender/male
@@ -99,7 +99,7 @@ class CI_URI {
 	 *			location => UK
 	 *			gender => male
 	 *		 )
-	 * 
+	 *
 	 * @access	public
 	 * @param	integer	the starting segment number
 	 * @param	array	an array of default values
@@ -122,7 +122,7 @@ class CI_URI {
 	
 	/**
 	 * Generate a key value pair from the URI string or Re-routed URI string
-	 * 
+	 *
 	 * @access	private
 	 * @param	integer	the starting segment number
 	 * @param	array	an array of default values
@@ -206,7 +206,7 @@ class CI_URI {
 	/**
 	 * Generate a URI string from an associative array
 	 *
-	 * 
+	 *
 	 * @access	public
 	 * @param	array	an associative array of key/values
 	 * @return	array

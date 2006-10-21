@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -17,7 +17,7 @@
 
 /**
  * Session Class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
@@ -26,16 +26,16 @@
  */
 class CI_Session {
 
-    var $CI;
+	var $CI;
 	var $now;
 	var $encryption		= TRUE;
 	var $use_database	= FALSE;
 	var $session_table	= FALSE;
-    var $sess_length	= 7200;
-    var $sess_cookie	= 'ci_session';
+	var $sess_length	= 7200;
+	var $sess_cookie	= 'ci_session';
 	var $userdata		= array();
-    var $gc_probability	= 5;
- 
+	var $gc_probability	= 5;
+
 
 	/**
 	 * Session Constructor
@@ -66,7 +66,7 @@ class CI_Session {
 		 *
 		 * It can either set to GMT or time(). The pref
 		 * is set in the config file.  If the developer
-		 * is doing any sort of time localization they 
+		 * is doing any sort of time localization they
 		 * might want to set the session time to GMT so
 		 * they can offset the "last_activity" and
 		 * "last_visit" times based on each user's locale.
@@ -75,7 +75,7 @@ class CI_Session {
 		if (strtolower($this->CI->config->item('time_reference')) == 'gmt')
 		{
 			$now = time();
-			$this->now = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));   
+			$this->now = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
 	
 			if (strlen($this->now) < 10)
 			{
@@ -92,7 +92,7 @@ class CI_Session {
 		 *  Set the session length
 		 *
 		 * If the session expiration is set to zero in
-		 * the config file we'll set the expiration 
+		 * the config file we'll set the expiration
 		 * two years from now.
 		 *
 		 */
@@ -191,7 +191,7 @@ class CI_Session {
 		}
 		
 		// Is the session current?
-		if (($session['last_activity'] + $this->sess_length) < $this->now) 
+		if (($session['last_activity'] + $this->sess_length) < $this->now)
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -236,7 +236,7 @@ class CI_Session {
 			else
 			{
 				$row = $query->row();
-				if (($row->last_activity + $this->sess_length) < $this->now) 
+				if (($row->last_activity + $this->sess_length) < $this->now)
 				{
 					$this->CI->db->where('session_id', $session['session_id']);
 					$this->CI->db->delete($this->session_table);
@@ -271,11 +271,11 @@ class CI_Session {
 		}
 
 		setcookie(
-					$this->sess_cookie, 
-					$cookie_data, 
-					$this->sess_length + $this->now, 
-					$this->CI->config->item('cookie_path'), 
-					$this->CI->config->item('cookie_domain'), 
+					$this->sess_cookie,
+					$cookie_data,
+					$this->sess_length + $this->now,
+					$this->CI->config->item('cookie_path'),
+					$this->CI->config->item('cookie_domain'),
 					0
 				);
 	}
@@ -291,8 +291,8 @@ class CI_Session {
 	function sess_create()
 	{	
 		$sessid = '';
-		while (strlen($sessid) < 32) 
-		{    
+		while (strlen($sessid) < 32)
+		{
 			$sessid .= mt_rand(0, mt_getrandmax());
 		}
 	
@@ -325,10 +325,10 @@ class CI_Session {
 	 */
 	function sess_update()
 	{	
-        if (($this->userdata['last_activity'] + $this->sess_length) < $this->now) 
-        {
+		if (($this->userdata['last_activity'] + $this->sess_length) < $this->now)
+		{
 			$this->userdata['last_visit'] = $this->userdata['last_activity'];
-        }
+		}
 	
 		$this->userdata['last_activity'] = $this->now;
 		
@@ -353,11 +353,11 @@ class CI_Session {
 	function sess_destroy()
 	{
 		setcookie(
-					$this->sess_cookie, 
-					addslashes(serialize(array())), 
-					($this->now - 31500000), 
-					$this->CI->config->item('cookie_path'), 
-					$this->CI->config->item('cookie_domain'), 
+					$this->sess_cookie,
+					addslashes(serialize(array())),
+					($this->now - 31500000),
+					$this->CI->config->item('cookie_path'),
+					$this->CI->config->item('cookie_domain'),
 					0
 				);
 	}
@@ -373,19 +373,19 @@ class CI_Session {
 	 * @access	public
 	 * @return	void
 	 */
-    function sess_gc()
-    {  
+	function sess_gc()
+	{
 		srand(time());
-		if ((rand() % 100) < $this->gc_probability) 
-		{  
+		if ((rand() % 100) < $this->gc_probability)
+		{
 			$expire = $this->now - $this->sess_length;
 			
 			$this->CI->db->where("last_activity < {$expire}");
 			$this->CI->db->delete($this->session_table);
 
 			log_message('debug', 'Session garbage collection performed.');
-		}    
-    }
+		}
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -398,7 +398,7 @@ class CI_Session {
 	 */		
 	function userdata($item)
 	{
-    	return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 	}
 	
 	// --------------------------------------------------------------------
@@ -426,7 +426,7 @@ class CI_Session {
 			}
 		}
 	
-    	$this->sess_write();
+		$this->sess_write();
 	}
 	
 	// --------------------------------------------------------------------
@@ -452,7 +452,7 @@ class CI_Session {
 			}
 		}
 	
-    	$this->sess_write();
+		$this->sess_write();
 	}
 	
 	// --------------------------------------------------------------------
@@ -464,21 +464,21 @@ class CI_Session {
 	 * @param	mixed
 	 * @return	mixed
 	 */
-     function strip_slashes($vals)
-     {
-     	if (is_array($vals))
-     	{	
-     		foreach ($vals as $key=>$val)
-     		{
-     			$vals[$key] = $this->strip_slashes($val);
-     		}
-     	}
-     	else
-     	{
-     		$vals = stripslashes($vals);
-     	}
-     	
-     	return $vals;
+	 function strip_slashes($vals)
+	 {
+	 	if (is_array($vals))
+	 	{	
+	 		foreach ($vals as $key=>$val)
+	 		{
+	 			$vals[$key] = $this->strip_slashes($val);
+	 		}
+	 	}
+	 	else
+	 	{
+	 		$vals = stripslashes($vals);
+	 	}
+	 	
+	 	return $vals;
 	}
 
 }

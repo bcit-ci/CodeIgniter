@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -19,7 +19,7 @@
  * Trackback Class
  *
  * Trackback Sending/Receiving Class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Trackbacks
@@ -57,7 +57,7 @@ class CI_Trackback {
 	function send($tb_data)
 	{		
 		if ( ! is_array($tb_data))
-		{ 
+		{
 			$this->set_error('The send() method must be passed an array');
 			return FALSE;
 		}
@@ -66,7 +66,7 @@ class CI_Trackback {
 		foreach (array('url', 'title', 'excerpt', 'blog_name', 'ping_url') as $item)
 		{
 			if ( ! isset($tb_data[$item]))
-			{ 
+			{
 				$this->set_error('Required item missing: '.$item);
 				return FALSE;
 			}
@@ -104,7 +104,7 @@ class CI_Trackback {
 		// Build the Trackback data string
 		$charset = ( ! isset($tb_data['charset'])) ? $this->charset : $tb_data['charset'];
 		
-		$data = "url=".rawurlencode($url)."&title=".rawurlencode($title)."&blog_name=".rawurlencode($blog_name)."&excerpt=".rawurlencode($excerpt)."&charset=".rawurlencode($charset); 
+		$data = "url=".rawurlencode($url)."&title=".rawurlencode($title)."&blog_name=".rawurlencode($blog_name)."&excerpt=".rawurlencode($excerpt)."&charset=".rawurlencode($charset);
 				
 		// Send Trackback(s)
 		$return = TRUE;
@@ -170,7 +170,7 @@ class CI_Trackback {
 	/**
 	 * Send Trackback Error Message
 	 *
-	 * Allows custom errors to be set.  By default it 
+	 * Allows custom errors to be set.  By default it
 	 * sends the "incomplete information" error, as that's
 	 * the most common one.
 	 *
@@ -220,7 +220,7 @@ class CI_Trackback {
 	/**
 	 * Process Trackback
 	 *
-	 * Opens a socket connection and passes the data to 
+	 * Opens a socket connection and passes the data to
 	 * the server.  Returns true on success, false on failure
 	 *
 	 * @access	public
@@ -249,22 +249,22 @@ class CI_Trackback {
 		{
 			$data = "tb_id=".$id."&".$data;
 		}
- 
+
 		// Transfer the data
-		fputs ($fp, "POST " . $path . " HTTP/1.0\r\n" ); 
-		fputs ($fp, "Host: " . $target['host'] . "\r\n" ); 
-		fputs ($fp, "Content-type: application/x-www-form-urlencoded\r\n" ); 
-		fputs ($fp, "Content-length: " . strlen($data) . "\r\n" ); 
-		fputs ($fp, "Connection: close\r\n\r\n" ); 
+		fputs ($fp, "POST " . $path . " HTTP/1.0\r\n" );
+		fputs ($fp, "Host: " . $target['host'] . "\r\n" );
+		fputs ($fp, "Content-type: application/x-www-form-urlencoded\r\n" );
+		fputs ($fp, "Content-length: " . strlen($data) . "\r\n" );
+		fputs ($fp, "Connection: close\r\n\r\n" );
 		fputs ($fp, $data);
-   
+
 		// Was it successful?
 		$this->response = "";
 		
 		while(!feof($fp))
 		{
 			$this->response .= fgets($fp, 128);
-		}  
+		}
 		@fclose($fp);
 		
 		if ( ! eregi("<error>0</error>", $this->response))
@@ -297,7 +297,7 @@ class CI_Trackback {
 	 * @return	string
 	 */	
 	function extract_urls($urls)
-	{		   
+	{		
 		// Remove the pesky white space and replace with a comma.
 		$urls = preg_replace("/\s*(\S+)\s*/", "\\1,", $urls);
 		
@@ -316,7 +316,7 @@ class CI_Trackback {
 		// Removes duplicates
 		$urls = array_unique($urls);
 		
-		array_walk($urls, array($this, 'validate_url')); 
+		array_walk($urls, array($this, 'validate_url'));
 		
 		return $urls;
 	}
@@ -384,7 +384,7 @@ class CI_Trackback {
 			}
 		}	
 				
-		if ( ! preg_match ("/^([0-9]+)$/", $tb_id)) 
+		if ( ! preg_match ("/^([0-9]+)$/", $tb_id))
 		{
 			return false;
 		}
@@ -435,7 +435,7 @@ class CI_Trackback {
 	 */
 	function limit_characters($str, $n = 500, $end_char = '&#8230;')
 	{
-		if (strlen($str) < $n) 
+		if (strlen($str) < $n)
 		{
 			return $str;
 		}
@@ -453,7 +453,7 @@ class CI_Trackback {
 			$out .= $val.' ';			
 			if (strlen($out) >= $n)
 			{
-				return trim($out).$end_char; 
+				return trim($out).$end_char;
 			}		
 		}
 	}
@@ -475,11 +475,11 @@ class CI_Trackback {
 	   $count	= 1;
 	   $out	= '';
 	   $temp	= array();
-		   
+		
 	   for ($i = 0, $s = strlen($str); $i < $s; $i++)
 	   {
 		   $ordinal = ord($str[$i]);
-		   
+		
 		   if ($ordinal < 128)
 		   {
 			   $out .= $str[$i];			
@@ -490,9 +490,9 @@ class CI_Trackback {
 			   {
 				   $count = ($ordinal < 224) ? 2 : 3;
 			   }
-			   
+			
 			   $temp[] = $ordinal;
-			   
+			
 			   if (count($temp) == $count)
 			   {
 				   $number = ($count == 3) ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] % 64) : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
@@ -500,10 +500,10 @@ class CI_Trackback {
 				   $out .= '&#'.$number.';';
 				   $count = 1;
 				   $temp = array();
-			   }   
-		   }   
+			   }
+		   }
 	   }
-	   
+	
 	   return $out;
 	}
 	

@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -17,7 +17,7 @@
 
 /**
  * Validation Class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Validation
@@ -40,7 +40,7 @@ class CI_Validation {
 	
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 *
 	 */	
 	function CI_Validation()
@@ -102,7 +102,7 @@ class CI_Validation {
 	/**
 	 * Set Rules
 	 *
-	 * This function takes an array of field names and validation 
+	 * This function takes an array of field names and validation
 	 * rules as input ad simply stores is for use later.
 	 *
 	 * @access	public
@@ -131,7 +131,7 @@ class CI_Validation {
 	/**
 	 * Set Error Message
 	 *
-	 * Lets users set their own error messages on the fly.  Note:  The key 
+	 * Lets users set their own error messages on the fly.  Note:  The key
 	 * name has to match the  function name that it corresponds to.
 	 *
 	 * @access	public
@@ -216,7 +216,7 @@ class CI_Validation {
 			{			
 				if (in_array('isset', $ex, TRUE) OR in_array('required', $ex))
 				{
-					if ( ! isset($this->_error_messages['isset'])) 
+					if ( ! isset($this->_error_messages['isset']))
 					{
 						if (FALSE === ($line = $this->CI->lang->line('isset')))
 						{
@@ -308,7 +308,7 @@ class CI_Validation {
 				// Did the rule test negatively?  If so, grab the error.
 				if ($result === FALSE)
 				{
-					if ( ! isset($this->_error_messages[$rule])) 
+					if ( ! isset($this->_error_messages[$rule]))
 					{
 						if (FALSE === ($line = $this->CI->lang->line($rule)))
 						{
@@ -352,7 +352,7 @@ class CI_Validation {
 		}
 		
 		$this->set_fields();
- 
+
 		// Did we end up with any errors?
 		if ($total_errors == 0)
 		{
@@ -653,15 +653,15 @@ class CI_Validation {
 	 * @param	string
 	 * @return	string
 	 */
-    function prep_for_form($str = '')
-    {
-    	if ($this->_safe_form_data == FALSE OR $str == '')
-    	{
-    		return $str;
-    	}
-            
+	function prep_for_form($str = '')
+	{
+		if ($this->_safe_form_data == FALSE OR $str == '')
+		{
+			return $str;
+		}
+
 		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($str));
-    }
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -672,8 +672,8 @@ class CI_Validation {
 	 * @param	string
 	 * @return	string
 	 */	
-    function prep_url($str = '')
-    {
+	function prep_url($str = '')
+	{
 		if ($str == 'http://' OR $str == '')
 		{
 			$_POST[$this->_current_field] = '';
@@ -686,7 +686,7 @@ class CI_Validation {
 		}
 		
 		$_POST[$this->_current_field] = $str;
-    }
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -697,10 +697,10 @@ class CI_Validation {
 	 * @param	string
 	 * @return	string
 	 */	
-    function strip_image_tags($str)
-    {                    
-        $_POST[$this->_current_field] = $this->input->strip_image_tags($str);
-    }
+	function strip_image_tags($str)
+	{
+		$_POST[$this->_current_field] = $this->input->strip_image_tags($str);
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -725,9 +725,9 @@ class CI_Validation {
 	 * @param	string
 	 * @return	string
 	 */	
-    function encode_php_tags($str)
-    { 
-    	$_POST[$this->_current_field] = str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+	function encode_php_tags($str)
+	{
+		$_POST[$this->_current_field] = str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
 
 }
