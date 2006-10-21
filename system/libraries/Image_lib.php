@@ -92,7 +92,6 @@ class CI_Image_lib {
 		
 		log_message('debug', "Image Lib Class Initialized");
 	}
-	// END CI_Image_lib()
 	
 	// --------------------------------------------------------------------
 	
@@ -113,7 +112,6 @@ class CI_Image_lib {
 			$this->$val = '';
 		}  		
 	}
-	// END clear()
 	
 	// --------------------------------------------------------------------
 	
@@ -186,7 +184,7 @@ class CI_Image_lib {
 		$this->source_image = end($x);
 		$this->source_folder = str_replace($this->source_image, '', $full_source_path);
 								
-		// Set the Image Propterties
+		// Set the Image Properties
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
 			return FALSE;       	
@@ -333,7 +331,6 @@ class CI_Image_lib {
 
 		return TRUE;
 	} 
-	// END initialize()
 	
 	// --------------------------------------------------------------------
 	
@@ -357,7 +354,6 @@ class CI_Image_lib {
 		
 		return $this->$protocol('resize');
 	}
-	// END resize()
 	
 	// --------------------------------------------------------------------
 	
@@ -381,7 +377,6 @@ class CI_Image_lib {
 		
 		return $this->$protocol('crop');
 	}
-	// END crop()
 	
 	// --------------------------------------------------------------------
 	
@@ -435,7 +430,6 @@ class CI_Image_lib {
 			return $this->image_rotate_gd();
 		}
 	}
-	// END rotate()
 	
 	// --------------------------------------------------------------------
 	
@@ -540,7 +534,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END image_process_gd()
 	
 	// --------------------------------------------------------------------
 	
@@ -611,7 +604,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END image_process_imagemagick()
 	
 	// --------------------------------------------------------------------
 	
@@ -698,7 +690,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END image_process_netpbm()
 	
 	// --------------------------------------------------------------------
 	
@@ -758,7 +749,6 @@ class CI_Image_lib {
 		
 		return true;
 	}
-	// END image_rotate_gd()
 	
 	// --------------------------------------------------------------------
 	
@@ -843,7 +833,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END image_mirror_gd()
 	
 	// --------------------------------------------------------------------
 	
@@ -868,7 +857,6 @@ class CI_Image_lib {
 			return $this->text_watermark();
 		}
 	}
-	// END image_mirror_gd()
 	
 	// --------------------------------------------------------------------
 	
@@ -969,7 +957,6 @@ class CI_Image_lib {
 				
 		return TRUE;
 	}
-	// END overlay_watermark()
 	
 	// --------------------------------------------------------------------
 	
@@ -1110,7 +1097,6 @@ class CI_Image_lib {
 	
 		return TRUE;
 	}
-	// END text_watermark()
 	
 	// --------------------------------------------------------------------
 	
@@ -1168,12 +1154,11 @@ class CI_Image_lib {
 		$this->set_error(array('imglib_unsupported_imagecreate'));
 		return FALSE;
 	}
-	// END image_create_gd()
 	
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Write imge file to disk - GD
+	 * Write image file to disk - GD
 	 *
 	 * Takes an image resource as input and writes the file 
 	 * to the specified destination
@@ -1226,12 +1211,11 @@ class CI_Image_lib {
 	
 		return TRUE;
 	}	
-	// END image_save_gd()
 	
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Dynamically ouputs an image
+	 * Dynamically outputs an image
 	 *
 	 * @access	public
 	 * @param	resource
@@ -1256,18 +1240,17 @@ class CI_Image_lib {
 				break;		
 		}			
 	}
-	// END image_display_gd()
 	
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Reproportion Image Width/Height
+	 * Re-proportion Image Width/Height
 	 *
 	 * When creating thumbs, the desired width/height
 	 * can end up warping the image due to an incorrect 
 	 * ratio between the full-sized image and the thumb. 
 	 * 
-	 * This function lets us reproportion the width/height
+	 * This function lets us re-proportion the width/height
 	 * if users choose to maintain the aspect ratio when resizing.
 	 *
 	 * @access	public
@@ -1303,7 +1286,6 @@ class CI_Image_lib {
 			}
 		}
 	}	
-	// END image_reproportion()
 	
 	// --------------------------------------------------------------------
 	
@@ -1355,7 +1337,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END get_image_properties()
 	
 	// --------------------------------------------------------------------
 	
@@ -1406,7 +1387,6 @@ class CI_Image_lib {
 	
 		return $vals;
 	}
-	// END size_calculator()
 	
 	// --------------------------------------------------------------------
 	
@@ -1447,7 +1427,6 @@ class CI_Image_lib {
 		
 		return $ret;
 	}	
-	// END explode_name()
 	
 	// --------------------------------------------------------------------
 	
@@ -1469,7 +1448,6 @@ class CI_Image_lib {
 		
 		return TRUE;
 	}
-	// END gd_loaded()
 	
 	// --------------------------------------------------------------------
 	
@@ -1491,7 +1469,6 @@ class CI_Image_lib {
 		
 		return FALSE;
 	}
-	// END gd_version()
 	
 	// --------------------------------------------------------------------
 	
@@ -1524,7 +1501,6 @@ class CI_Image_lib {
 			log_message('error', $msg);
 		}
 	}
-	// END set_error()
 	
 	// --------------------------------------------------------------------
 	
@@ -1545,7 +1521,7 @@ class CI_Image_lib {
 	
 		return $str;
 	}
-	// END display_errors()
+
 }
 // END Image_lib Class
 ?>

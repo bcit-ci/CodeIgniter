@@ -109,7 +109,6 @@ class CI_Hooks {
 		
 		return TRUE;
 	}
-  	// END hook_exists()
 
 	// --------------------------------------------------------------------
 
@@ -218,8 +217,6 @@ class CI_Hooks {
 		$this->in_progress = FALSE;
 		return TRUE;
 	}
-  	// END _run_hook()
-
 
 }
 

@@ -123,7 +123,7 @@ class CI_Table {
 			return 'Undefined table data';
 		}
 	
-		// Compile and validate the templata date
+		// Compile and validate the template date
 		$this->_compile_template();
 	
 	

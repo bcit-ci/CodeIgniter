@@ -199,7 +199,7 @@ class CI_Pagination {
         }
     
 		// Kill double slashes.  Note: Sometimes we can end up with a double slash 
-		// in the penultimate link so we'll kill all double shashes.
+		// in the penultimate link so we'll kill all double slashes.
 		$output = preg_replace("#([^:])//+#", "\\1/", $output);  
 
 		// Add the wrapper HTML if exists

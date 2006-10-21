@@ -55,7 +55,6 @@ class CI_Exceptions {
 	{
 		// Note:  Do not log messages from this constructor.
 	}
-  	// END CI_Exceptions()
   	
 	// --------------------------------------------------------------------
 
@@ -77,7 +76,6 @@ class CI_Exceptions {
 		
 		log_message('error', 'Severity: '.$severity.' '.$severity.' --> '.$message. ' '.$filepath.' '.$line, TRUE);
 	}
-	// END log_exception()
   
 	// --------------------------------------------------------------------
 
@@ -97,7 +95,6 @@ class CI_Exceptions {
 		echo $this->show_error($heading, $message, 'error_404');
 		exit;
 	}
-  	// END show_404()
   	
 	// --------------------------------------------------------------------
 
@@ -105,7 +102,7 @@ class CI_Exceptions {
 	 * General Error Page
 	 *
 	 * This function takes an error message as input
-	 * (either as a string or an array) and displayes
+	 * (either as a string or an array) and displays
 	 * it using the specified template.
 	 *
 	 * @access	private
@@ -128,8 +125,6 @@ class CI_Exceptions {
 		ob_end_clean();
 		return $buffer;
 	}
-	// END show_error()
-
   
 	// --------------------------------------------------------------------
 
@@ -166,8 +161,8 @@ class CI_Exceptions {
 		ob_end_clean();
 		echo $buffer;
 	}
-  	// END show_php_error()
 
-// END Exceptions Class
+
 }
+// END Exceptions Class
 ?>

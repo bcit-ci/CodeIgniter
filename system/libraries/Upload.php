@@ -284,8 +284,8 @@ class CI_Upload {
 	 * Set the file name 
 	 *
 	 * This function takes a filename/path as input and looks for the 
-	 * existnace of a file with the same name. If found, it will append a 
-	 * number to the end of the filename to avoid overwritting a pre-existing file.
+	 * existence of a file with the same name. If found, it will append a 
+	 * number to the end of the filename to avoid overwriting a pre-existing file.
 	 *
 	 * @access	public
 	 * @param	string

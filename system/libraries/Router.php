@@ -58,7 +58,7 @@ class CI_Router {
 	/**
 	 * Set the route mapping
 	 *
-	 * This function determies what should be served based on the URI request,
+	 * This function determines what should be served based on the URI request,
 	 * as well as any "routes" that have been set in the routing config file.
 	 *
 	 * @access	private
@@ -322,7 +322,7 @@ class CI_Router {
 			
 			// OK, how about REQUEST_URI?  
 			// Note: REQUEST_URI is not supplied in a consistent manner with all platforms so it's
-			// a diffucult variable to use.  We'll try to parse it out correctly.  Hopfully one 
+			// a difficult variable to use.  We'll try to parse it out correctly.  Hopefully one 
 			// of the other variables above was available.
 			$path = $this->_parse_request_uri();
 			if ($path != "")
@@ -452,10 +452,10 @@ class CI_Router {
 			return;
 		}
 				
-		// Loop through the route array looking for wildcards
+		// Loop through the route array looking for wild-cards
 		foreach (array_slice($this->routes, 1) as $key => $val)
 		{						
-			// Convert wildcards to RegEx
+			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 			
 			// Does the RegEx match?

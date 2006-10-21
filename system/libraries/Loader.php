@@ -820,7 +820,7 @@ class CI_Loader {
 	 * Assign to Models
 	 *
 	 * Makes sure that anything loaded by the loader class (libraries, plugins, etc.)
-	 * will be available to modles, if any exist.
+	 * will be available to models, if any exist.
 	 *
 	 * @access	private
 	 * @param	object
@@ -855,7 +855,7 @@ class CI_Loader {
 	/**
 	 * Object to Array
 	 *
-	 * Takes an object as input and convers the class variables to array key/vals
+	 * Takes an object as input and converts the class variables to array key/vals
 	 *
 	 * @access	private
 	 * @param	object
