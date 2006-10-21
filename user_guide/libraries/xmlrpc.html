@@ -82,7 +82,7 @@ being sent for publication, or it could be a request for an existing entry for e
 When the XML-RPC Server receives this request it will examine it to determine which class/method should be called to process the request.
 Once processed, the server will then send back a response message.</p>
 
-<p>For detailed spcifications, you can visit the <a href="http://www.xmlrpc.com/">XML-RPC</a> site.</p>
+<p>For detailed specifications, you can visit the <a href="http://www.xmlrpc.com/">XML-RPC</a> site.</p>
 
 <h2>Initializing the Class</h2>
 
@@ -145,7 +145,7 @@ sent back from the XML-RPC Server.</p>
 is referred to as a <dfn>request parameter</dfn>.  The above example has two parameters: 
 The URL and title of your site. When the XML-RPC server receives your request, it will look for parameters it requires.</p>
 
-<p>Request parameters must be placed into an array for transportation, and each parameter can can be one
+<p>Request parameters must be placed into an array for transportation, and each parameter can be one
 of seven data types (strings, numbers, dates, etc.). If your parameters are something other than strings 
 you will have to include the data type in the request array.</p>
 
@@ -447,7 +447,7 @@ is the error message.</p>
 <code>return $this->xmlrpc->send_error_message('123', 'Requested data not available');</code>
 
 <h2>$this->xmlrpc->send_response()</h2>
-<p>Lets you send the response from your server to the client. An array of of valid data values must be sent with this method.</p>
+<p>Lets you send the response from your server to the client. An array of valid data values must be sent with this method.</p>
 <code>$response = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'flerror' => array(FALSE, 'boolean'),<br />

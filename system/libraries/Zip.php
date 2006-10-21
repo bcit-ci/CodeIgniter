@@ -228,7 +228,7 @@ class CI_Zip  {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Write File to the specified direcotry
+	 * Write File to the specified directory
 	 *
 	 * Lets you write a file
 	 *

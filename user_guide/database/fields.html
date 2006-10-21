@@ -80,7 +80,7 @@ foreach ($fields as $field)<br />
 }
 </code>
 
-<p>2. You can gather the feild names associated with any query you run by calling the function 
+<p>2. You can gather the field names associated with any query you run by calling the function 
 from your query result object:</p>
 
 <code>
@@ -96,7 +96,7 @@ foreach ($query->list_fields() as $field)<br />
 
 <h2>$this->db->field_exists()</h2>
 
-<p>Sometimes it's helpful to know whether a particular field exists befor performing an action.
+<p>Sometimes it's helpful to know whether a particular field exists before performing an action.
 Returns a boolean TRUE/FALSE.  Usage example:</p>
 
 <code>
@@ -133,7 +133,7 @@ foreach ($fields as $field)<br />
 }
 </code>
 
-<p>If you have run a query already you can use the result oject instead of supplying the table name:</p>
+<p>If you have run a query already you can use the result object instead of supplying the table name:</p>
 
 <code>
 $query = $this->db->query("YOUR QUERY")<br />

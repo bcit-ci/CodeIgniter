@@ -18,7 +18,7 @@
 /**
  * Code Igniter Application Controller Class
  *
- * This class object is the the super class the every library in 
+ * This class object is the super class the every library in 
  * Code Igniter will be assigned to.
  *
  * @package		CodeIgniter

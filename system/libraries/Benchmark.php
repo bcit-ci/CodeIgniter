@@ -54,7 +54,7 @@ class CI_Benchmark {
 	 * Calculates the time difference between two marked points.
 	 *
 	 * If the first parameter is empty this function instead returns the 
-	 * {elapsed_time} pseudo-variable. This permits the the full system 
+	 * {elapsed_time} pseudo-variable. This permits the full system 
 	 * execution time to be shown in a template. The output class will
 	 * swap the real value for this variable.
 	 *

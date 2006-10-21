@@ -31,7 +31,7 @@
  * Element
  *
  * Lets you determine whether an array index is set and whether it has a value.
- * If the element is empty it returns FALSE (or whater you specify as the default value.)
+ * If the element is empty it returns FALSE (or whatever you specify as the default value.)
  *
  * @access	public
  * @param	string
