@@ -220,7 +220,7 @@ class CI_Unit_test {
 	 * This lets us set the template to be used to display results
 	 *
 	 * @access	public
-	 * @params	string
+	 * @param	string
 	 * @return	void
 	 */	
 	function set_template($template)

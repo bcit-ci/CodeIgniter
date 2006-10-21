@@ -46,9 +46,7 @@ class CI_Config {
 	{
 		$this->config = get_config();
 		log_message('debug', "Config Class Initialized");
-	}
-  	// END CI_Config()
-  	
+	}  	
   	
 	// --------------------------------------------------------------------
 
@@ -110,7 +108,6 @@ class CI_Config {
 		log_message('debug', 'Config file loaded: config/'.$file.EXT);
 		return TRUE;
 	}
-  	// END load()
   	
 	// --------------------------------------------------------------------
 
@@ -152,7 +149,6 @@ class CI_Config {
 
         return $pref;
 	}
-  	// END item()
   	
   	// --------------------------------------------------------------------
 
@@ -186,9 +182,6 @@ class CI_Config {
         
         return $pref;
 	}
-  	// END item()
-  	
-  	
   	
 	// --------------------------------------------------------------------
 
@@ -216,8 +209,7 @@ class CI_Config {
 			return $this->slash_item('base_url').$this->slash_item('index_page').preg_replace("|^/*(.+?)/*$|", "\\1", $uri).$suffix;
 		}
 	}
-  	// END site_url()
-  	
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -231,7 +223,6 @@ class CI_Config {
 		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", BASEPATH));
 		return $this->slash_item('base_url').end($x).'/';
 	}
-  	// END system_url()
   	
 	// --------------------------------------------------------------------
 
@@ -247,7 +238,6 @@ class CI_Config {
 	{
 		$this->config[$item] = $value;
 	}
-	// END set_item()
 
 }
 

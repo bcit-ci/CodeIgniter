@@ -35,8 +35,7 @@ class CI_Session {
     var $sess_cookie	= 'ci_session';
 	var $userdata		= array();
     var $gc_probability	= 5;
-
-    
+ 
 
 	/**
 	 * Session Constructor
@@ -51,7 +50,6 @@ class CI_Session {
 		log_message('debug', "Session Class Initialized");
 		$this->sess_run();
 	}
-	// END display_errors()
 	
 	// --------------------------------------------------------------------
 	

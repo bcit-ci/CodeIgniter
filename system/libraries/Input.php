@@ -55,7 +55,7 @@ class CI_Input {
 	/**
 	 * Sanitize Globals
 	 *
-	 * This function does the folowing:
+	 * This function does the following:
 	 *
 	 * Unsets $_GET data (if query strings are not enabled)
 	 *
@@ -114,7 +114,7 @@ class CI_Input {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Clean Intput Data
+	 * Clean Input Data
 	 *
 	 * This is a helper function. It escapes data and 
 	 * standardizes newline characters to \n
@@ -399,7 +399,7 @@ class CI_Input {
 		$str = preg_replace('/(\\\\0)+/', '', $str);
 
 		/*
-		 * Validate standard character entites
+		 * Validate standard character entities
 		 *
 		 * Add a semicolon if missing.  We do this to enable
 		 * the conversion of entities to ASCII later.
@@ -408,7 +408,7 @@ class CI_Input {
 		$str = preg_replace('#(&\#*\w+)[\x00-\x20]+;#u',"\\1;",$str);
 		
 		/*
-		 * Validate UTF16 two byte encodeing (x00) 
+		 * Validate UTF16 two byte encoding (x00) 
 		 *
 		 * Just as above, adds a semicolon if missing.
 		 *
@@ -501,7 +501,7 @@ class CI_Input {
 		 *
 		 * Note: This code is a little blunt.  It removes
 		 * the event handler and anything up to the closing >, 
-		 * but it's unlkely to be a problem.
+		 * but it's unlikely to be a problem.
 		 *
 		 */		
 		 $str = preg_replace('#(<[^>]+.*?)(onblur|onchange|onclick|onfocus|onload|onmouseover|onmouseup|onmousedown|onselect|onsubmit|onunload|onkeypress|onkeydown|onkeyup|onresize)[^>]*>#iU',"\\1>",$str);
@@ -525,7 +525,7 @@ class CI_Input {
 		 * tags it looks for PHP and JavaScript commands
 		 * that are disallowed.  Rather than removing the
 		 * code, it simply converts the parenthesis to entities
-		 * rendering the code unexecutable.
+		 * rendering the code un-executable.
 		 *
 		 * For example:	eval('some code')
 		 * Becomes:		eval&#40;'some code'&#41;

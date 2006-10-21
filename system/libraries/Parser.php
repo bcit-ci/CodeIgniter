@@ -71,7 +71,6 @@ class CI_Parser {
 		
 		return $template;
 	}
-	// END set_method()
 	
 	// --------------------------------------------------------------------
 	
@@ -88,7 +87,6 @@ class CI_Parser {
 		$this->l_delim = $l;
 		$this->r_delim = $r;
 	}
-	// END set_method()
 	
 	// --------------------------------------------------------------------
 	
@@ -105,7 +103,6 @@ class CI_Parser {
 	{
 		return str_replace($this->l_delim.$key.$this->r_delim, $val, $string);
 	}
-	// END set_method()
 	
 	// --------------------------------------------------------------------
 	
@@ -148,7 +145,6 @@ class CI_Parser {
 		
 		return str_replace($match['0'], $str, $string);
 	}
-	// END set_method()
 	
 	// --------------------------------------------------------------------
 	
@@ -169,7 +165,6 @@ class CI_Parser {
 		
 		return $match;
 	}
-	// END _match_pair()
 
 }
 // END Parser Class

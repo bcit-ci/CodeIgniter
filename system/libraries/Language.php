@@ -38,7 +38,6 @@ class CI_Language {
 	{
 		log_message('debug', "Language Class Initialized");
 	}
-	// END CI_Language()
 	
 	// --------------------------------------------------------------------
 	
@@ -103,7 +102,6 @@ class CI_Language {
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
 	}
-	// END load()
 	
 	// --------------------------------------------------------------------
 	
@@ -118,7 +116,6 @@ class CI_Language {
 	{
 		return ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 	}
-	// END line()
 
 }
 // END Language Class

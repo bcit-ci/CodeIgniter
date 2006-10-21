@@ -120,8 +120,7 @@ class CI_Trackback {
 		}
 
 		return $return;
-	}	
-	// END send()
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -165,14 +164,13 @@ class CI_Trackback {
 
 		return TRUE;
 	}	
-	// END receive()
 	
 	// --------------------------------------------------------------------
 	
 	/**
 	 * Send Trackback Error Message
 	 *
-	 * Allows custom errros to be set.  By default it 
+	 * Allows custom errors to be set.  By default it 
 	 * sends the "incomplete information" error, as that's
 	 * the most common one.
 	 *
@@ -185,7 +183,6 @@ class CI_Trackback {
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
 		exit;
 	}
-	// END send_error()
 	
 	// --------------------------------------------------------------------
 	
@@ -203,7 +200,6 @@ class CI_Trackback {
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>0</error>\n</response>";
 		exit;
 	}
-	// END send_success()
 	
 	// --------------------------------------------------------------------
 	
@@ -218,7 +214,6 @@ class CI_Trackback {
 	{
 		return ( ! isset($this->data[$item])) ? '' : $this->data[$item];
 	}
-	// END data()
 
 	// --------------------------------------------------------------------
 	
@@ -287,7 +282,6 @@ class CI_Trackback {
 
 		return TRUE;
 	}
-	// END process()
 	
 	// --------------------------------------------------------------------
 	
@@ -326,7 +320,6 @@ class CI_Trackback {
 		
 		return $urls;
 	}
-	// END extract_urls()
 	
 	// --------------------------------------------------------------------
 	
@@ -348,7 +341,6 @@ class CI_Trackback {
 			$url = "http://".$url;
 		}
 	}
-	// END validate_url()
 	
 	// --------------------------------------------------------------------
 	
@@ -401,7 +393,6 @@ class CI_Trackback {
 			return $tb_id;
 		}		
 	}
-	// END get_id()
 	
 	// --------------------------------------------------------------------
 	
@@ -428,7 +419,6 @@ class CI_Trackback {
 			
 		return $str;
 	}	
-	// END get_id()
 	
 	// --------------------------------------------------------------------
 	
@@ -467,7 +457,6 @@ class CI_Trackback {
 			}		
 		}
 	}
-	// END get_id()
 	
 	// --------------------------------------------------------------------
 	
@@ -517,7 +506,6 @@ class CI_Trackback {
 	   
 	   return $out;
 	}
-	// END convert_ascii()
 	
 	// --------------------------------------------------------------------
 	
@@ -533,7 +521,6 @@ class CI_Trackback {
 		log_message('error', $msg);
 		$this->error_msg[] = $msg;
 	}
-	// END convert_ascii()
 	
 	// --------------------------------------------------------------------
 	
@@ -555,7 +542,7 @@ class CI_Trackback {
 	
 		return $str;
 	}
-	// END display_errors()
+
 }
 // END Trackback Class
 ?>
