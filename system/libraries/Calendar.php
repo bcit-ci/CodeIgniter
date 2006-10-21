@@ -246,7 +246,7 @@ class CI_Calendar {
 	/**
 	 * Get Month Name
 	 *
-	 * Generates a texual month name based on the numeric 
+	 * Generates a textual month name based on the numeric 
 	 * month provided.
 	 *
 	 * @access	public
