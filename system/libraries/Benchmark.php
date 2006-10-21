@@ -59,8 +59,8 @@ class CI_Benchmark {
 	 * swap the real value for this variable.
 	 *
 	 * @access	public
-	 * @param	string	a paricular marked point
-	 * @param	string	a paricular marked point
+	 * @param	string	a particular marked point
+	 * @param	string	a particular marked point
 	 * @param	integer	the number of decimal places
 	 * @return	mixed
 	 */
