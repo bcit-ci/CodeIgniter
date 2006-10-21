@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -36,12 +36,12 @@ class CI_Config {
 	 *
 	 * Sets the $config data from the primary config.php file as a class variable
 	 *
-     * @access   public
-     * @param   string    the config file name
-     * @param   boolean  if configuration values should be loaded into their own section
-     * @param   boolean  true if errors should just return false, false if an error message should be displayed
-     * @return  boolean  if the file was successfully loaded or not
-     */
+	 * @access   public
+	 * @param   string	the config file name
+	 * @param   boolean  if configuration values should be loaded into their own section
+	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
+	 * @return  boolean  if the file was successfully loaded or not
+	 */
 	function CI_Config()
 	{
 		$this->config = get_config();
@@ -62,7 +62,7 @@ class CI_Config {
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
 	
 		if (in_array($file, $this->is_loaded, TRUE))
-		{                
+		{
 			return TRUE;
 		}
 
@@ -125,7 +125,7 @@ class CI_Config {
 	{			
 		if ($index == '')
 		{	
-			if ( ! isset($this->config[$item])) 
+			if ( ! isset($this->config[$item]))
 			{
 				return FALSE;
 			}
@@ -134,7 +134,7 @@ class CI_Config {
 		}
 		else
 		{
-			if ( ! isset($this->config[$index])) 
+			if ( ! isset($this->config[$index]))
 			{
 				return FALSE;
 			}
@@ -147,7 +147,7 @@ class CI_Config {
 			$pref = $this->config[$index][$item];
 		}
 
-        return $pref;
+		return $pref;
 	}
   	
   	// --------------------------------------------------------------------
@@ -165,7 +165,7 @@ class CI_Config {
 	 */		
 	function slash_item($item)
 	{
-		if ( ! isset($this->config[$item])) 
+		if ( ! isset($this->config[$item]))
 		{
 			return FALSE;
 		}
@@ -179,8 +179,8 @@ class CI_Config {
 				$pref .= '/';
 			}
 		}
-        
-        return $pref;
+
+		return $pref;
 	}
   	
 	// --------------------------------------------------------------------
@@ -195,7 +195,7 @@ class CI_Config {
 	function site_url($uri = '')
 	{
 		if (is_array($uri))
-		{ 
+		{
 			$uri = implode('/', $uri);
 		}
 		

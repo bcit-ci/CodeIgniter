@@ -7,26 +7,26 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * System Front Controller
  *
- * Loads the base classes and executes the request. 
- * 
+ * Loads the base classes and executes the request.
+ *
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	Front-controller
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/
  */
- 
+
 define('APPVER', '1.5.0');
 
 /*
@@ -84,7 +84,7 @@ $OUT =& load_class('Output');
  *	Is there a valid cache file?  If so, we're done...
  * ------------------------------------------------------
  */
- 
+
 if ($EXT->_call_hook('cache_override') === FALSE)
 {
 	if ($OUT->_display_cache($CFG, $RTR) == TRUE)
@@ -107,17 +107,17 @@ $LANG	=& load_class('Language');
  * ------------------------------------------------------
  *  Load the app controller and local controller
  * ------------------------------------------------------
- * 
+ *
  *  Note: Due to the poor object handling in PHP 4 we'll
  *  conditionally load different versions of the base
  *  class.  Retaining PHP 4 compatibility requires a bit of a hack.
  *
  *  Note: The Loader class needs to be included first
- * 
+ *
  */
- 
-load_class('Loader', FALSE); 
-  
+
+load_class('Loader', FALSE);
+
 if (floor(phpversion()) < 5)
 {
 	require(BASEPATH.'codeigniter/Base4'.EXT);
@@ -127,7 +127,7 @@ else
 	require(BASEPATH.'codeigniter/Base5'.EXT);
 }
 
-load_class('Controller', FALSE); 
+load_class('Controller', FALSE);
 
 require(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
 
@@ -139,9 +139,9 @@ $BM->mark('loading_time_base_classes_end');
  * ------------------------------------------------------
  *  Security check
  * ------------------------------------------------------
- * 
+ *
  *  None of the functions in the app controller or the
- *  loader class can be called via the URI, nor can 
+ *  loader class can be called via the URI, nor can
  *  controller functions that begin with an underscore
  */
 $class  = $RTR->fetch_class();
@@ -150,7 +150,7 @@ $method = $RTR->fetch_method();
 
 if ( ! class_exists($class)
 	OR $method == 'controller'
-	OR substr($method, 0, 1) == '_' 
+	OR substr($method, 0, 1) == '_'
 	OR in_array($method, get_class_methods('Controller'), TRUE)
 	)
 {
@@ -205,7 +205,7 @@ else
 			show_404();
 		}
 
-		// Call the requested method.  
+		// Call the requested method.
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience		
 		call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, (($RTR->fetch_directory() == '') ? 2 : 3)));		
 	}
@@ -226,7 +226,7 @@ $EXT->_call_hook('post_controller');
  *  Send the final rendered output to the browser
  * ------------------------------------------------------
  */
- 
+
 if ($EXT->_call_hook('display_override') === FALSE)
 {
 	$OUT->_display();

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -75,8 +75,8 @@ Form Validation
 
 <ol>
 <li>Check for required data.</li>
-<li>Verify that the data is of the correct type, and meets the correct criteria. (For example, if a username is submitted 
-it must be validated to contain only permitted characters.  It must be of a minimum length, 
+<li>Verify that the data is of the correct type, and meets the correct criteria. (For example, if a username is submitted
+it must be validated to contain only permitted characters.  It must be of a minimum length,
 and not exceed a maximum length. The username can't be someone else's existing username, or perhaps even a reserved word. Etc.)
 <li>Sanitize the data for security.</li>
 <li>Pre-format the data if needed (Does the data need to be trimmed?  HTML encoded?  Etc.)</li>
@@ -195,7 +195,7 @@ class Form extends Controller {
 
 <code>www.your-site.com/index.php/<var>form</var>/</code>
 
-<p><strong>If you submit the form you should simply see the form reload.  That's because you haven't set up any validation 
+<p><strong>If you submit the form you should simply see the form reload.  That's because you haven't set up any validation
 rules yet, which we'll get to in a moment.</strong></p>
 
 
@@ -219,8 +219,8 @@ and flexible in the event your URLs change.</li>
 </ol>
 
 <p>The <dfn>controller</dfn> (form.php) has one function: <dfn>index()</dfn>. This function initializes the validation class and
-loads the <var>form helper</var> and <var>URL helper</var> used by your view files. It also <samp>runs</samp> 
-the validation routine. Based on 
+loads the <var>form helper</var> and <var>URL helper</var> used by your view files. It also <samp>runs</samp>
+the validation routine. Based on
 whether the validation was successful it either presents the form or the success page.</p>
 
 <p><strong>Since you haven't told the validation class to validate anything yet, it returns "false" (boolean false) by default.  The <samp>run()</samp>
@@ -313,7 +313,7 @@ $rules['email']		= "required|valid_email";</code>
 
 <h2>Prepping Data</h2>
 
-<p>In addition to the validation functions like the ones we used above, you can also prep your data in various ways.  
+<p>In addition to the validation functions like the ones we used above, you can also prep your data in various ways.
 For example, you can set up rules like this:
 
 <code>$rules['username']	= "<kbd>trim</kbd>|required|min_length[5]|max_length[12]|<kbd>xss_clean</kbd>";<br />
@@ -391,17 +391,17 @@ callback function for you to process.</p>
 
 <p><strong>To invoke a callback just put the function name in a rule, with "callback_" as the rule prefix.</strong></p>
 
-<p>The error message was set using the <dfn>$this->validation->set_message</dfn> function. 
+<p>The error message was set using the <dfn>$this->validation->set_message</dfn> function.
 Just remember that the message key (the first parameter) must match your function name.</p>
 
-<p class="important"><strong>Note:</strong> You can apply your own custom error messages to any rule, just by setting the 
+<p class="important"><strong>Note:</strong> You can apply your own custom error messages to any rule, just by setting the
 message similarly. For example, to change the message for the "required" rule you will do this:</p>
 
 <code>$this->validation->set_message('required', 'Your custom message here');</code>
 
 <h2>Re-populating the form</h2>
 
-<p>Thus far we have only been dealing with errors.  It's time to repopulate the form field with the submitted data. 
+<p>Thus far we have only been dealing with errors.  It's time to repopulate the form field with the submitted data.
 This is done similarly to your rules.  Add the following code to your controller, just below your rules:</p>
 
 <code>$fields['username'] = 'Username';<br />
@@ -411,7 +411,7 @@ $fields['email'] = 'Email Address';<br />
 <br />
 $this->validation->set_fields($fields);</code>
 
-<p>The array keys are the actual names of the form fields, the value represents the full name that you want shown in the 
+<p>The array keys are the actual names of the form fields, the value represents the full name that you want shown in the
 error message.</p>
 
 <p>The index function of your controller should now look like this:</p>
@@ -512,7 +512,7 @@ and the error messages will contain a more relevant field name.</p>
 have set (&lt;p> tags by default).</p>
 
 <p class="important"><strong>Note: </strong>To display errors this way you must remember to set your fields using the <kbd>$this->validation->set_fields</kbd>
-function described earlier. The errors will be turned into variables that have "_error" after your field name. 
+function described earlier. The errors will be turned into variables that have "_error" after your field name.
 For example, your "username" error will be available at:<br /><dfn>$this->validation->username_error</dfn>.</p>
 
 
@@ -666,7 +666,7 @@ like <kbd>trim</kbd>, <kbd>htmlspecialchars</kbd>, <kbd>urldecode</kbd>, etc.</p
 
 <h2>Dealing with Select Menus, Radio Buttons, and Checkboxes</h2>
 
-<p>If you use select menus, radio buttons or checkboxes, you will want the state of 
+<p>If you use select menus, radio buttons or checkboxes, you will want the state of
 these items to be retained in the event of an error.  The Validation class has three functions that help you do this:</p>
 
 <h2>set_select()</h2>

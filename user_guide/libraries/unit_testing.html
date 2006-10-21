@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -66,8 +66,8 @@ Unit Testing Class
 <p>Unit testing is an approach to software development in which tests are written for each function in your application.
 If you are not familiar with the concept you might do a little googling on the subject.</p>
 
-<p>Code Igniter's Unit Test class is quite simple, consisting of an evaluation function and two result functions. 
-It's not intended to be a full-blown test suite but rather a simple mechanism to evaluate your code 
+<p>Code Igniter's Unit Test class is quite simple, consisting of an evaluation function and two result functions.
+It's not intended to be a full-blown test suite but rather a simple mechanism to evaluate your code
 to determine if it is producing the correct data type and result.
 </p>
 
@@ -86,7 +86,7 @@ to determine if it is producing the correct data type and result.
 
 <h2>$this->unit->run( <var>test</var>, <var>expected result</var>, '<var>test name</var>' );</h2>
 
-<p>Where <var>test</var> is the result of the code you wish to test, 
+<p>Where <var>test</var> is the result of the code you wish to test,
 <var>expected result</var> is the data type you expect, and <var>test name</var> is an optional name you can give your test. Example:</p>
 
 <code>$test = 1 + 1;<br />
@@ -105,7 +105,7 @@ $this->unit->run($test, $expected_result, $test_name);</code>
 
 <code>$this->unit->run('Foo', 'is_string');</code>
 
-<p>Notice the use of "is_string" in the second parameter?  This tells the function to evaluate whether your test is producing a string 
+<p>Notice the use of "is_string" in the second parameter?  This tells the function to evaluate whether your test is producing a string
 as the result.  Here is a list of allowed comparison types:</p>
 
 <ul>
@@ -124,7 +124,7 @@ as the result.  Here is a list of allowed comparison types:</p>
 
 <h2>Generating Reports</h2>
 
-<p>You can either display results after each test, or your can run several tests and generate a report at the end. 
+<p>You can either display results after each test, or your can run several tests and generate a report at the end.
 To show a report directly simply echo or return the <var>run</var> function:</p>
 
 <code>echo $this->unit->run($test, $expected_result);</code>

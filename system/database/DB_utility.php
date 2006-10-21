@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -302,7 +302,7 @@ class CI_DB_utility {
 			}
 			$xml .= $tab."</{$element}>".$newline;
 		}
-		$xml .= "</$root>".$newline;  
+		$xml .= "</$root>".$newline;
 		
 		return $xml;
 	}
@@ -371,13 +371,13 @@ class CI_DB_utility {
 
 		// Is the encoder supported?  If not, we'll either issue an
 		// error or use plain text depending on the debug settings
-		if (($prefs['format'] == 'gzip' AND ! @function_exists('gzencode')) 
-		 OR ($prefs['format'] == 'zip'  AND ! @function_exists('gzcompress'))) 
+		if (($prefs['format'] == 'gzip' AND ! @function_exists('gzencode'))
+		 OR ($prefs['format'] == 'zip'  AND ! @function_exists('gzcompress')))
 		{
-            if ($this->db->db_debug)
-            {
+			if ($this->db->db_debug)
+			{
 				return $this->db->display_error('db_unsuported_compression');
-            }
+			}
 		
 			$prefs['format'] = 'txt';
 		}

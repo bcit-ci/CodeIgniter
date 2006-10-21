@@ -7,19 +7,19 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Output Class
  *
  * Responsible for sending final output to browser
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Output
@@ -42,7 +42,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Get Output 
+	 * Get Output
 	 *
 	 * Returns the current output string
 	 *
@@ -57,7 +57,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Set Output 
+	 * Set Output
 	 *
 	 * Sets the output string
 	 *
@@ -73,7 +73,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Set Header 
+	 * Set Header
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
 	 *
@@ -92,7 +92,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Enable/disable Profiler 
+	 * Enable/disable Profiler
 	 *
 	 * @access	public
 	 * @param	bool
@@ -106,7 +106,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Set Cache 
+	 * Set Cache
 	 *
 	 * @access	public
 	 * @param	integer
@@ -135,8 +135,8 @@ class CI_Output {
 	 */		
 	function _display($output = '')
 	{	
-		// Note:  We use globals because we can't use $CI =& get_instance() 
-		// since this function is sometimes called by the caching mechanism, 
+		// Note:  We use globals because we can't use $CI =& get_instance()
+		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
 		
@@ -158,7 +158,7 @@ class CI_Output {
 		
 		// --------------------------------------------------------------------
 
-		// Parse out the elapsed time and memory usage, 
+		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
 				
 		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
@@ -249,7 +249,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Write a Cache File 
+	 * Write a Cache File
 	 *
 	 * @access	public
 	 * @return	void
@@ -272,19 +272,19 @@ class CI_Output {
 		
 		$cache_path .= md5($uri);
 
-        if ( ! $fp = @fopen($cache_path, 'wb'))
-        {
+		if ( ! $fp = @fopen($cache_path, 'wb'))
+		{
 			log_message('error', "Unable to write ache file: ".$cache_path);
-            return;
+			return;
 		}
 		
 		$expire = time() + ($this->cache_expiration * 60);
 		
-        flock($fp, LOCK_EX);
-        fwrite($fp, $expire.'TS--->'.$output);
-        flock($fp, LOCK_UN);
-        fclose($fp);
-		@chmod($cache_path, 0777); 
+		flock($fp, LOCK_EX);
+		fwrite($fp, $expire.'TS--->'.$output);
+		flock($fp, LOCK_UN);
+		fclose($fp);
+		@chmod($cache_path, 0777);
 
 		log_message('debug', "Cache file written: ".$cache_path);
 	}
@@ -292,7 +292,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Update/serve a cached file 
+	 * Update/serve a cached file
 	 *
 	 * @access	public
 	 * @return	void
@@ -329,13 +329,13 @@ class CI_Output {
 		flock($fp, LOCK_SH);
 		
 		$cache = '';
-		if (filesize($filepath) > 0) 
+		if (filesize($filepath) > 0)
 		{
-			$cache = fread($fp, filesize($filepath)); 
+			$cache = fread($fp, filesize($filepath));
 		}
 	
 		flock($fp, LOCK_UN);
-		fclose($fp); 
+		fclose($fp);
 					
 		// Strip out the embedded timestamp		
 		if ( ! preg_match("/(\d+TS--->)/", $cache, $match))

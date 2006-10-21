@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -99,7 +99,7 @@ set_cookie($cookie);
 <p>Only the name and value are required.</p>
 
 <p>The expiration is set in <strong>seconds</strong>, which will be added to the current time.  Do not include the time, but rather only the
-number of seconds from <em>now</em> that you wish the cookie to be valid.  If the expiration is set to 
+number of seconds from <em>now</em> that you wish the cookie to be valid.  If the expiration is set to
 zero the cookie will only last as long as the browser is open.</p>
 <p>To delete a cookie set it with the expiration blank.</p>
 <p>For site-wide cookies regardless of how your site is requested, add your URL to the <strong>domain</strong> starting with a period, like this:  .your-domain.com</p>
@@ -132,7 +132,7 @@ zero the cookie will only last as long as the browser is open.</p>
 
 <code>delete_cookie("name");</code>
 
-<p>This function is otherwise identical to <dfn>set_cookie()</dfn>, except that it does not have the value and expiration parameters.  You can submit an array 
+<p>This function is otherwise identical to <dfn>set_cookie()</dfn>, except that it does not have the value and expiration parameters.  You can submit an array
 of values in the first parameter or you can set discreet parameters.</p>
 
 <code>delete_cookie($name, $domain, $path, $prefix)</code>

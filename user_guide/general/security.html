@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -84,7 +84,7 @@ minimize the possibility that malicious data can be passed to your application. 
 <h2>GET, POST, and COOKIE Data</h2>
 
 <p>GET data is simply disallowed by Code Igniter since the system utilizes URI segments rather than traditional URL query strings (unless
-you have the query string option enabled in your config file).  The global GET 
+you have the query string option enabled in your config file).  The global GET
 array is <strong>unset</strong> by the Input class during system initialization.</p>
 
 <h2>Register_globals</h2>
@@ -100,7 +100,7 @@ retrieving data from your database.</p>
 
 <h1>Best Practices</h1>
 
-<p>Before accepting any data into your application, whether it be POST data from a form submission, COOKIE data, URI data, 
+<p>Before accepting any data into your application, whether it be POST data from a form submission, COOKIE data, URI data,
 XML-RPC data, or even data from the SERVER array, you are encouraged to practice this three step approach:</p>
 
 <ol>
@@ -116,15 +116,15 @@ Code Igniter provides the following functions to assist in this process:</p>
 
 <li><h2>XSS Filtering</h2>
 
-<p>Code Igniter comes with a Cross Site Scripting filter.  This filter looks for commonly 
+<p>Code Igniter comes with a Cross Site Scripting filter.  This filter looks for commonly
 used techniques to embed malicious Javascript into your data, or other types of code that attempt to hijack cookies
-or do other malicious things. The XSS Filter is described <a href="../libraries/input.html">here</a>.  
+or do other malicious things. The XSS Filter is described <a href="../libraries/input.html">here</a>.
 </p>
 </li>
 
 <li><h2>Validate the data</h2>
 
-<p>Code Igniter has a <a href="../libraries/validation.html">Validation Class</a> that assists you in validating, filtering, and prepping 
+<p>Code Igniter has a <a href="../libraries/validation.html">Validation Class</a> that assists you in validating, filtering, and prepping
 your data.</p>
 </li>
 

@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis, Paul Burdick
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -15,19 +15,19 @@
 
 if ( ! function_exists('xml_parser_create'))
 {	
-    show_error('Your PHP installation does not support XML');
+	show_error('Your PHP installation does not support XML');
 }
 
 if ( ! class_exists('CI_Xmlrpc'))
 {
-    show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
+	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
 
 // ------------------------------------------------------------------------
 
 /**
  * XML-RPC server class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	XML-RPC
@@ -44,7 +44,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Constructor, more or less
-	//-------------------------------------  
+	//-------------------------------------
 
 	function CI_Xmlrpcs($config=array())
 	{	
@@ -61,7 +61,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Initialize Prefs and Serve
-	//-------------------------------------  
+	//-------------------------------------
 	
 	function initialize($config=array())
 	{	
@@ -78,7 +78,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Setting of System Methods
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function set_system_methods ()
 	{
@@ -105,7 +105,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Main Server Function
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function serve()
 	{
@@ -121,7 +121,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Add Method to Class
-	//-------------------------------------  
+	//-------------------------------------
 	
 	function add_to_map($methodname,$function,$sig,$doc)
 	{
@@ -135,7 +135,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Parse Server Request
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function parseRequest($data='')
 	{
@@ -143,7 +143,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		
 		//-------------------------------------
 		//  Get Data
-		//-------------------------------------  
+		//-------------------------------------
 
 		if ($data == '')
 		{
@@ -153,7 +153,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 		//-------------------------------------
 		//  Set up XML Parser
-		//------------------------------------- 
+		//-------------------------------------
 		
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
 		$parser_object = new XML_RPC_Message("filler");
@@ -221,7 +221,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  SET DEBUGGING MESSAGE
 		//-------------------------------------  	
 		
-		if ($this->debug === TRUE) 
+		if ($this->debug === TRUE)
 		{
 			$this->debug_msg = "<!-- DEBUG INFO:\n\n".$plist."\n END DEBUG-->\n";
 		}
@@ -231,7 +231,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Executes the Method
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function _execute($m)
 	{
@@ -244,7 +244,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		
 		//-------------------------------------
 		//  Check for Function
-		//------------------------------------- 
+		//-------------------------------------
 		
 		if (!isset($methods[$methName]['function']))
 		{
@@ -275,7 +275,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 		//-------------------------------------
 		//  Checking Methods Signature
-		//------------------------------------- 
+		//-------------------------------------
 		
 		if (isset($methods[$methName]['signature']))
 		{
@@ -298,7 +298,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 							
 							return new XML_RPC_Response(0,
 								$this->xmlrpcerr['incorrect_params'],
-								$this->xmlrpcstr['incorrect_params'] . 
+								$this->xmlrpcstr['incorrect_params'] .
 								": Wanted {$wanted}, got {$pt} at param {$pno})");
 						}
 					}
@@ -308,7 +308,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 		//-------------------------------------
 		//  Calls the Function
-		//------------------------------------- 
+		//-------------------------------------
 
 		if ($objectCall)
 		{
@@ -334,7 +334,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Server Function:  List Methods
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function listMethods($m)
 	{
@@ -356,7 +356,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Server Function:  Return Signature for Method
-	//------------------------------------- 
+	//-------------------------------------
 		
 	function methodSignature($m)
 	{
@@ -398,7 +398,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Server Function:  Doc String for Method
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function methodHelp($m)
 	{
@@ -421,7 +421,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 	//-------------------------------------
 	//  Server Function:  Multi-call
-	//------------------------------------- 
+	//-------------------------------------
 
 	function multicall($m)
 	{
@@ -441,7 +441,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Multi-call Function:  Error Handling
-	//------------------------------------- 
+	//-------------------------------------
 
 	function multicall_error($err)
 	{
@@ -457,7 +457,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	
 	//-------------------------------------
 	//  Multi-call Function:  Processes method
-	//------------------------------------- 
+	//-------------------------------------
 	
 	function do_multicall($call)
 	{
@@ -469,7 +469,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		list($scalar_type,$scalar_value)=each($methName->me);
 		$scalar_type = $scalar_type == $this->xmlrpcI4 ? $this->xmlrpcInt : $scalar_type;
 			
-		if ($methName->kindOf() != 'scalar' || $scalar_type != 'string') 
+		if ($methName->kindOf() != 'scalar' || $scalar_type != 'string')
 			return $this->multicall_error('notstring');
 		elseif ($scalar_value == 'system.multicall')
 			return $this->multicall_error('recursion');

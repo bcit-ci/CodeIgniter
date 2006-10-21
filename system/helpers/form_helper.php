@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -53,7 +53,7 @@ function form_open($action = '', $attributes = array(), $hidden = array())
 	{
 		foreach ($attributes as $key => $val)
 		{
-			$form .= ' '.$key.'="'.$val.'"';  
+			$form .= ' '.$key.'="'.$val.'"';
 		}
 	}
 	
@@ -100,7 +100,7 @@ function form_open_multipart($action, $attributes = array(), $hidden = array())
  * @return	string
  */	
 function form_hidden($name, $value = '')
-{        
+{
 	if ( ! is_array($name))
 	{
 		return '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
@@ -251,7 +251,7 @@ function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
 	{
 		$checked = $data['checked'];
 		
-		if ($checked == FALSE) 
+		if ($checked == FALSE)
 			unset($data['checked']);
 	}
 	

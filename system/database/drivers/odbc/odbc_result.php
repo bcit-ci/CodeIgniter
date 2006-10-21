@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -116,8 +116,8 @@ class CI_DB_odbc_result extends CI_DB_result {
 	{
 		if (is_resource($this->result_id))
 		{
-        	odbc_free_result($this->result_id);
-        	$this->result_id = FALSE;
+			odbc_free_result($this->result_id);
+			$this->result_id = FALSE;
 		}
 	}
 

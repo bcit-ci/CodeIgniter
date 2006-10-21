@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -56,13 +56,13 @@ function read_file($file)
 	flock($fp, LOCK_SH);
 	
 	$data = '';
-	if (filesize($file) > 0) 
+	if (filesize($file) > 0)
 	{
-		$data =& fread($fp, filesize($file)); 
+		$data =& fread($fp, filesize($file));
 	}
 
 	flock($fp, LOCK_UN);
-	fclose($fp); 
+	fclose($fp);
 
 	return $data;
 }
@@ -72,7 +72,7 @@ function read_file($file)
 /**
  * Write File
  *
- * Writes data to the file specified in the path. 
+ * Writes data to the file specified in the path.
  * Creates a new file if non-existent.
  *
  * @access	public
@@ -119,7 +119,7 @@ function delete_files($path, $del_dir = FALSE, $level = 0)
 		return;
 	
 	while(FALSE !== ($filename = @readdir($current_dir)))
-	{ 
+	{
 		if ($filename != "." and $filename != "..")
 		{
 			if (is_dir($path.'/'.$filename))

@@ -24,7 +24,7 @@ fx.Text.prototype = Object.extend(new fx.Base(), {
 fx.Resize = Class.create();
 fx.Resize.prototype = {
 	initialize: function(el, options) {
-		this.h = new fx.Height(el, options); 
+		this.h = new fx.Height(el, options);
 		if (options) options.onComplete = null;
 		this.w = new fx.Width(el, options);
 		this.el = $(el);
@@ -93,8 +93,8 @@ Multi.prototype = {
 
 	getElementsFromArray: function(array) {
 		var elements = new Array();
-		for (i=0;i<array.length;i++) { 
-			elements.push($(array[i])); 
+		for (i=0;i<array.length;i++) {
+			elements.push($(array[i]));
 		}
 		return elements;
 	}

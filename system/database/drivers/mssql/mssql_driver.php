@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -106,18 +106,18 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */	
-    function _prep_query($sql)
-    {
+	function _prep_query($sql)
+	{
 		return $sql;
-    }
+	}
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * Begin Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_begin($test_mode = FALSE)
 	{
@@ -133,8 +133,8 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 
 		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back 
-		// even if the queries produce a successful result. 
+		// If the $test_mode flag is set to TRUE transactions will be rolled back
+		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
 		$this->simple_query('BEGIN TRAN');
@@ -145,9 +145,9 @@ class CI_DB_mssql_driver extends CI_DB {
 
 	/**
 	 * Commit Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_commit()
 	{
@@ -170,9 +170,9 @@ class CI_DB_mssql_driver extends CI_DB {
 
 	/**
 	 * Rollback Transaction
-	 * 
+	 *
 	 * @access	public
-	 * @return	bool		 
+	 * @return	bool		
 	 */	
 	function trans_rollback()
 	{

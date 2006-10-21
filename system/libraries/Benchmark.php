@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -43,18 +43,18 @@ class CI_Benchmark {
 	 * @param	string	$name	name of the marker
 	 * @return	void
 	 */
-    function mark($name)
-    {
-        $this->marker[$name] = microtime();
-    }
+	function mark($name)
+	{
+		$this->marker[$name] = microtime();
+	}
   	
 	// --------------------------------------------------------------------
 
 	/**
 	 * Calculates the time difference between two marked points.
 	 *
-	 * If the first parameter is empty this function instead returns the 
-	 * {elapsed_time} pseudo-variable. This permits the full system 
+	 * If the first parameter is empty this function instead returns the
+	 * {elapsed_time} pseudo-variable. This permits the full system
 	 * execution time to be shown in a template. The output class will
 	 * swap the real value for this variable.
 	 *
@@ -64,28 +64,28 @@ class CI_Benchmark {
 	 * @param	integer	the number of decimal places
 	 * @return	mixed
 	 */
-    function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
-    {
-    	if ($point1 == '')
-    	{
+	function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
+	{
+		if ($point1 == '')
+		{
 			return '{elapsed_time}';
-    	}
-    	
-    	if ( ! isset($this->marker[$point1]))
-    	{
-    		return '';
-    	}
-    	    
-    	if ( ! isset($this->marker[$point2]))
-    	{
-        	$this->marker[$point2] = microtime();
-        }
-        	    
-        list($sm, $ss) = explode(' ', $this->marker[$point1]);
-        list($em, $es) = explode(' ', $this->marker[$point2]);
-                        
-        return number_format(($em + $es) - ($sm + $ss), $decimals);
-    }
+		}
+		
+		if ( ! isset($this->marker[$point1]))
+		{
+			return '';
+		}
+		
+		if ( ! isset($this->marker[$point2]))
+		{
+			$this->marker[$point2] = microtime();
+		}
+			
+		list($sm, $ss) = explode(' ', $this->marker[$point1]);
+		list($em, $es) = explode(' ', $this->marker[$point2]);
+
+		return number_format(($em + $es) - ($sm + $ss), $decimals);
+	}
  	
 	// --------------------------------------------------------------------
 
@@ -93,8 +93,8 @@ class CI_Benchmark {
 	 * Memory Usage
 	 *
 	 * This function returns the {memory_usage} pseudo-variable.
-	 * This permits it to be put it anywhere in a template 
-	 * without the memory being calculated until the end. 
+	 * This permits it to be put it anywhere in a template
+	 * without the memory being calculated until the end.
 	 * The output class will swap the real value for this variable.
 	 *
 	 * @access	public

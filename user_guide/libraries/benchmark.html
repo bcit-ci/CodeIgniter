@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -127,9 +127,9 @@ echo $this->benchmark->elapsed_time('dog', 'bird');</code>
 <a name="profiler"></a>
 <h2>Profiling Your Benchmark Points</h2>
 
-<p>If you want your benchmark data to be available to the 
-<a href="../general/profiling.html">Profiler</a> all of your marked points must be set up in pairs, and 
-each mark point name must end with <kbd>_start</kbd> and <kbd>_end</kbd>. 
+<p>If you want your benchmark data to be available to the
+<a href="../general/profiling.html">Profiler</a> all of your marked points must be set up in pairs, and
+each mark point name must end with <kbd>_start</kbd> and <kbd>_end</kbd>.
 Each pair of points must otherwise be named identically. Example:</p>
 
 <code>
@@ -158,14 +158,14 @@ is sent to the browser, simply place this in one of your view templates:</p>
 
 <code>&lt;?=$this->benchmark->elapsed_time();?&gt;</code>
 
-<p>You'll notice that it's the same function used in the examples above to calculate the time between two point, except you are 
+<p>You'll notice that it's the same function used in the examples above to calculate the time between two point, except you are
 <strong>not</strong> using any parameters.  When the parameters are absent, Code Igniter does not stop the benchmark until right before the final
 output is sent to the browser.  It doesn't matter where you use the function call, the timer will continue to run until the very end.</p>
 
 <p>An alternate way to show your elapsed time in your view files is to use this pseudo-variable, if you prefer not to use the pure PHP:</p>
 <code>{elapsed_time}</code>
 
-<p class="important"><strong>Note:</strong> If you want to benchmark anything within your controller 
+<p class="important"><strong>Note:</strong> If you want to benchmark anything within your controller
 functions you must set your own start/end points.</p>
 
 <a name="memory"></a>

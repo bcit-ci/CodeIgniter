@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -66,15 +66,15 @@ Custom Function Calls
 
 <h2>$this->db->call_function();</h2>
 
-<p>This function enables you to call PHP database functions that are not natively included in Code Igniter, in a platform independent manner. 
-For example, lets say you want to call the <dfn>mysql_get_client_info()</dfn> function, which is <strong>not</strong> natively supported 
+<p>This function enables you to call PHP database functions that are not natively included in Code Igniter, in a platform independent manner.
+For example, lets say you want to call the <dfn>mysql_get_client_info()</dfn> function, which is <strong>not</strong> natively supported
 by Code Igniter.  You could do so like this:
 </p>
 
 <code>$this->db->call_function('<var>get_client_info</var>');</code>
 
 <p>You must supply the name of the function, <strong>without</strong> the <var>mysql_</var> prefix, in the first parameter.  The prefix is added
-automatically based on which database driver is currently being used.  This permits you to run the same function on different database platforms.  
+automatically based on which database driver is currently being used.  This permits you to run the same function on different database platforms.
 Obviously not all function calls are identical between platforms, so there are limits to how useful this function can be in terms of portability.</p>
 
 <p>Any parameters needed by the function you are calling will be added to the second parameter.</p>

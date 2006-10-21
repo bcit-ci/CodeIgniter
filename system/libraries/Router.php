@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Router Class
- * 
+ *
  * Parses URIs and determines routing
  *
  * @package		CodeIgniter
@@ -44,7 +44,7 @@ class CI_Router {
 	/**
 	 * Constructor
 	 *
-	 * Runs the route mapping function. 
+	 * Runs the route mapping function.
 	 */
 	function CI_Router()
 	{
@@ -94,7 +94,7 @@ class CI_Router {
 		
 		// If the URI contains only a slash we'll kill it
 		if ($this->uri_string == '/')
-		{ 
+		{
 			$this->uri_string = '';
 		}
 	
@@ -243,7 +243,7 @@ class CI_Router {
 	 * Re-index Segments
 	 *
 	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather then 0.  Doing so makes it simpler to 
+	 * starts at 1 rather then 0.  Doing so makes it simpler to
 	 * use functions like $this->uri->segment(n) since there is
 	 * a 1:1 relationship between the segment array and the actual segments.
 	 *
@@ -320,9 +320,9 @@ class CI_Router {
 				return $path;
 			}
 			
-			// OK, how about REQUEST_URI?  
+			// OK, how about REQUEST_URI?
 			// Note: REQUEST_URI is not supplied in a consistent manner with all platforms so it's
-			// a difficult variable to use.  We'll try to parse it out correctly.  Hopefully one 
+			// a difficult variable to use.  We'll try to parse it out correctly.  Hopefully one
 			// of the other variables above was available.
 			$path = $this->_parse_request_uri();
 			if ($path != "")
@@ -352,7 +352,7 @@ class CI_Router {
 	 * Parse the REQUEST_URI
 	 *
 	 * Due to the way REQUEST_URI works it usually contains path info
-	 * that makes it unusable as URI data.  We'll trim off the unnecessary 
+	 * that makes it unusable as URI data.  We'll trim off the unnecessary
 	 * data, hopefully arriving at a valid URI that we can use.
 	 *
 	 * @access	private
@@ -413,7 +413,7 @@ class CI_Router {
 		if ($this->config->item('permitted_uri_chars') != '')
 		{
 			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
-			{ 
+			{
 				exit('The URI you submitted has disallowed characters: '.$str);
 			}
 		}	
@@ -426,7 +426,7 @@ class CI_Router {
 	 *  Parse Routes
 	 *
 	 * This function matches any routes that may exist in
-	 * the config/routes.php file against the URI to 
+	 * the config/routes.php file against the URI to
 	 * determine if the class/method need to be remapped.
 	 *
 	 * @access	private
@@ -472,7 +472,7 @@ class CI_Router {
 			}
 		}
 		
-		// If we got this far it means we didn't encounter a 
+		// If we got this far it means we didn't encounter a
 		// matching route so we'll set the site default route
 		$this->_compile_segments($this->segments);
 	}

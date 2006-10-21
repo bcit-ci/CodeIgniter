@@ -7,31 +7,31 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.3
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * CI_BASE - For PHP 4
- * 
+ *
  * This file is used only when Code Igniter is being run under PHP 4.
- * 
- * In order to allow CI to work under PHP 4 we had to make the Loader class 
+ *
+ * In order to allow CI to work under PHP 4 we had to make the Loader class
  * the parent of the Controller Base class.  It's the only way we can
- * enable functions like $this->load->library('email') to instantiate 
+ * enable functions like $this->load->library('email') to instantiate
  * classes that can then be used within controllers as $this->email->send()
  *
- * PHP 4 also has trouble referencing the CI super object within application 
+ * PHP 4 also has trouble referencing the CI super object within application
  * constructors since objects do not exist until the class is fully
  * instantiated.  Basically PHP 4 sucks...
  *
- * Since PHP 5 doesn't suffer from this problem so we load one of 
+ * Since PHP 5 doesn't suffer from this problem so we load one of
  * two files based on the version of PHP being run.
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	front-controller
@@ -56,7 +56,7 @@ function &get_instance()
 {
 	global $CI, $OBJ;
 	
-	if (is_object($CI)) 
+	if (is_object($CI))
 	{
 		return $CI;
 	}

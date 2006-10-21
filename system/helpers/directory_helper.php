@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -45,14 +45,14 @@ function directory_map($source_dir, $top_level_only = FALSE)
 		$filedata = array();
 	
 	if ($fp = @opendir($source_dir))
-	{ 
+	{
 		while (FALSE !== ($file = readdir($fp)))
 		{
-			if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE) 
-			{       
+			if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE)
+			{
 				$temp_array = array();
-				 
-				$temp_array = directory_map($source_dir.$file."/");   
+				
+				$temp_array = directory_map($source_dir.$file."/");
 				
 				$filedata[$file] = $temp_array;
 			}
@@ -60,9 +60,9 @@ function directory_map($source_dir, $top_level_only = FALSE)
 			{
 				$filedata[] = $file;
 			}
-		}         
-		return $filedata;        
-	} 
+		}
+		return $filedata;
+	}
 }
 
 

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -123,7 +123,7 @@ else<br />
 <p>Receiving Trackbacks is a little more complex than sending them, only because you will need a database table in which to store them,
 and you will need to validate the incoming trackback data.  You are encouraged to implement a thorough validation process to
 guard against spam and duplicate data.  You may also want to limit the number of Trackbacks you allow from a particular IP within
-a given span of time to further curtail spam.  The process of receiving a Trackback is quite simple; 
+a given span of time to further curtail spam.  The process of receiving a Trackback is quite simple;
 the validation is what takes most of the effort.</p>
 
 <h2>Your Ping URL</h2>
@@ -132,7 +132,7 @@ the validation is what takes most of the effort.</p>
 that people will use to send you Trackbacks (we will refer to this as your "Ping URL").</p>
 
 <p>Your Ping URL must point to a controller function where your Trackback receiving code is located, and the URL
-must contain the ID number for each particular entry, so that when the Trackback is received you'll be 
+must contain the ID number for each particular entry, so that when the Trackback is received you'll be
 able to associate it with a particular entry.</p>
 
 <p>For example, if your controller class is called <dfn>Trackback</dfn>, and the receiving function is called <dfn>receive</dfn>, your

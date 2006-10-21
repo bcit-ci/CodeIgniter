@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -66,14 +66,14 @@ Encryption Class
 <p>The Encryption Class provides two-way data encryption.  It uses a scheme that pre-compiles
 the message using a randomly hashed bitwise XOR encoding scheme, which is then encrypted using
 the Mcrypt library.  If Mcrypt is not available on your server the encoded message will
-still provide a reasonable degree of security for encrypted sessions or other such "light" purposes. 
+still provide a reasonable degree of security for encrypted sessions or other such "light" purposes.
 If Mcrypt is available, you'll effectively end up with a double-encrypted message string, which should
 provide a very high degree of security.</p>
 
 
 <h2>Setting your Key</h2>
 
-<p>A <em>key</em> is a piece of information that controls the cryptographic process and permits an encrypted string to be decoded. 
+<p>A <em>key</em> is a piece of information that controls the cryptographic process and permits an encrypted string to be decoded.
 In fact, the key you chose will provide the <strong>only</strong> means to decode data that was encrypted with that key,
 so not only must you chose the key carefully, you must never change it if you intend use it for persistent data.</p>
 
@@ -82,12 +82,12 @@ Should someone gain access to your key, the data will be easily decoded.  If you
 it's impossible to ensure key security so you may want to think carefully before using it for anything
 that requires high security, like storing credit card numbers.</p>
 
-<p>To take maximum advantage of the encryption algorithm, your key should be 32 characters in length (128 bits).  
-The key should be as random a string as you can concoct, with numbers and uppercase and lowercase letters.  
-Your key should <strong>not</strong> be a simple text string. In order to be cryptographically secure it 
+<p>To take maximum advantage of the encryption algorithm, your key should be 32 characters in length (128 bits).
+The key should be as random a string as you can concoct, with numbers and uppercase and lowercase letters.
+Your key should <strong>not</strong> be a simple text string. In order to be cryptographically secure it
 needs to be as random as possible.</p>
 
-<p>Your key can be either stored in your <dfn>application/config/config.php</dfn>, or you can design your own 
+<p>Your key can be either stored in your <dfn>application/config/config.php</dfn>, or you can design your own
 storage mechanism and pass the key dynamically when encoding/decoding.</p>
 
 <p>To save your key to your <dfn>application/config/config.php</dfn>, open the file and set:</p>
@@ -96,7 +96,7 @@ storage mechanism and pass the key dynamically when encoding/decoding.</p>
 
 <h2>Message Length</h2>
 
-<p>It's important for you to know that the encoded messages the encryption function generates will be approximately 2.6 times longer than the original 
+<p>It's important for you to know that the encoded messages the encryption function generates will be approximately 2.6 times longer than the original
 message.  For example, if you encrypt the string "my super secret data", which is 21 characters in length, you'll end up
 with an encoded string that is roughly 55 characters (we say "roughly" because the encoded string length increments in
 64 bit clusters, so it's not exactly linear).  Keep this information in mind when selecting your data storage mechanism.  Cookies,

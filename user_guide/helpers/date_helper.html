@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -86,7 +86,7 @@ run a site that lets each user set their own timezone settings) there is no bene
 
 <h2>mdate()</h2>
 
-<p>This function is identical to PHPs <a href="http://www.php.net/date">date()</a> function, except that it lets you 
+<p>This function is identical to PHPs <a href="http://www.php.net/date">date()</a> function, except that it lets you
 use MySQL style date codes, where each code letter is preceded with a percent sign:  %Y %m %d etc.</p>
 
 <p>The benefit of doing dates this way is that you don't have to worry about escaping any characters that
@@ -142,7 +142,7 @@ $gmt = local_to_gmt($now);</code>
 
 <h2>gmt_to_local()</h2>
 
-<p>Takes a Unix timestamp (referenced to GMT) as input, and converts it to a localized timestamp based on the 
+<p>Takes a Unix timestamp (referenced to GMT) as input, and converts it to a localized timestamp based on the
 timezone and Daylight Saving time submitted.  Example:</p>
 
 <code>
@@ -171,7 +171,7 @@ $unix = mysql_to_unix($mysql);</code>
 
 <p>This can be useful if you need to display a date in a form field for submission.</p>
 
-<p>The time can be formatted with or without seconds, and it can be set to European or US format.  If only 
+<p>The time can be formatted with or without seconds, and it can be set to European or US format.  If only
 the timestamp is submitted it will return the time without seconds formatted for the U.S. Examples:
 
 <code>$now = time();<br />
@@ -185,8 +185,8 @@ echo unix_to_human($now, TRUE, 'eu'); // Euro time with seconds</code>
 
 <h2>human_to_unix()</h2>
 
-<p>The opposite of the above function.  Takes a "human" time as input and returns it as Unix.  This function is 
-useful if you accept "human" formatted dates submitted via a form.  Returns FALSE (boolean) if 
+<p>The opposite of the above function.  Takes a "human" time as input and returns it as Unix.  This function is
+useful if you accept "human" formatted dates submitted via a form.  Returns FALSE (boolean) if
 the date string passed to it is not formatted as indicated above.  Example:</p>
 
 <code>$now = time();<br />

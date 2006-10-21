@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -35,12 +35,12 @@
  * @access	public
  * @param	string
  * @param	integer
- * @param	string	the end character. Usually an ellipsis 
+ * @param	string	the end character. Usually an ellipsis
  * @return	string
  */	
 function word_limiter($str, $n = 100, $end_char = '&#8230;')
 {
-	if (strlen($str) < $n) 
+	if (strlen($str) < $n)
 	{
 		return $str;
 	}
@@ -53,12 +53,12 @@ function word_limiter($str, $n = 100, $end_char = '&#8230;')
 	}
 			
 	$str = '';
-	for ($i = 0; $i < $n; $i++) 
+	for ($i = 0; $i < $n; $i++)
 	{
 		$str .= $words[$i].' ';
 	}
 
-	return trim($str).$end_char; 
+	return trim($str).$end_char;
 }
 	
 // ------------------------------------------------------------------------
@@ -72,12 +72,12 @@ function word_limiter($str, $n = 100, $end_char = '&#8230;')
  * @access	public
  * @param	string
  * @param	integer
- * @param	string	the end character. Usually an ellipsis 
+ * @param	string	the end character. Usually an ellipsis
  * @return	string
  */	
 function character_limiter($str, $n = 500, $end_char = '&#8230;')
 {
-	if (strlen($str) < $n) 
+	if (strlen($str) < $n)
 	{
 		return $str;
 	}
@@ -95,7 +95,7 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
 		$out .= $val.' ';			
 		if (strlen($out) >= $n)
 		{
-			return trim($out).$end_char; 
+			return trim($out).$end_char;
 		}		
 	}
 }
@@ -116,14 +116,14 @@ function ascii_to_entities($str)
    $count	= 1;
    $out	= '';
    $temp	= array();
-	   
+	
    for ($i = 0, $s = strlen($str); $i < $s; $i++)
    {
 	   $ordinal = ord($str[$i]);
-	   
+	
 	   if ($ordinal < 128)
 	   {
-		   $out .= $str[$i];            
+		   $out .= $str[$i];
 	   }
 	   else
 	   {
@@ -131,9 +131,9 @@ function ascii_to_entities($str)
 		   {
 			   $count = ($ordinal < 224) ? 2 : 3;
 		   }
-		   
+		
 		   $temp[] = $ordinal;
-		   
+		
 		   if (count($temp) == $count)
 		   {
 			   $number = ($count == 3) ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] % 64) : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
@@ -141,10 +141,10 @@ function ascii_to_entities($str)
 			   $out .= '&#'.$number.';';
 			   $count = 1;
 			   $temp = array();
-		   }   
-	   }   
+		   }
+	   }
    }
-   
+
    return $out;
 }
 	
@@ -169,35 +169,35 @@ function entities_to_ascii($str, $all = TRUE)
 		   $digits = $matches['1'][$i];
 
 		   $out = '';
-   
+
 		   if ($digits < 128)
 		   {
 			   $out .= chr($digits);
-		   
-		   } 
+		
+		   }
 		   elseif ($digits < 2048)
 		   {
 			   $out .= chr(192 + (($digits - ($digits % 64)) / 64));
 			   $out .= chr(128 + ($digits % 64));
-		   } 
+		   }
 		   else
 		   {
 			   $out .= chr(224 + (($digits - ($digits % 4096)) / 4096));
 			   $out .= chr(128 + ((($digits % 4096) - ($digits % 64)) / 64));
 			   $out .= chr(128 + ($digits % 64));
 		   }
-   
+
 		   $str = str_replace($matches['0'][$i], $out, $str);				
 	   }
    }
-   
+
    if ($all)
    {
 	   $str = str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
 						  array("&","<",">","\"", "'", "-"),
 						  $str);
    }
-   
+
    return $str;
 }
 	
@@ -252,8 +252,8 @@ function word_censor($str, $censored, $replacement = '')
  */	
 function highlight_code($str)
 {		
-	// The highlight string function encodes and highlights 
-	// brackets so we need them to start raw 
+	// The highlight string function encodes and highlights
+	// brackets so we need them to start raw
 	$str = str_replace(array('&lt;', '&gt;'), array('<', '>'), $str);
 	
 	// Replace any existing PHP tags to temporary markers so they don't accidentally
@@ -340,15 +340,15 @@ function word_wrap($str, $chars = '76')
 	$lines = split("\n", $str);
 	
 	$output = "";
-	while (list(, $thisline) = each($lines)) 
+	while (list(, $thisline) = each($lines))
 	{
 		if (strlen($thisline) > $chars)
 		{
 			$line = "";
 			$words = split(" ", $thisline);
-			while(list(, $thisword) = each($words)) 
+			while(list(, $thisword) = each($words))
 			{
-				while((strlen($thisword)) > $chars) 
+				while((strlen($thisword)) > $chars)
 				{
 					$cur_pos = 0;
 					for($i=0; $i < $chars - 1; $i++)
@@ -361,20 +361,20 @@ function word_wrap($str, $chars = '76')
 					$thisword = substr($thisword, $cur_pos, (strlen($thisword) - $cur_pos));
 				}
 				
-				if ((strlen($line) + strlen($thisword)) > $chars) 
+				if ((strlen($line) + strlen($thisword)) > $chars)
 				{
 					$output .= $line."\n";
 					$line = $thisword." ";
-				} 
-				else 
+				}
+				else
 				{
 					$line .= $thisword." ";
 				}
 			}
 
 			$output .= $line."\n";
-		} 
-		else 
+		}
+		else
 		{
 			$output .= $thisline."\n";
 		}

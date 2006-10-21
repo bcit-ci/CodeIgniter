@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -46,12 +46,12 @@ function nl2br_except_pre($str)
 		{
 			$newstr .= nl2br($ex[$i]);
 		}
-		else 
+		else
 		{
 			$newstr .= $ex[$i];
 		}
 		
-		if ($ct - 1 != $i) 
+		if ($ct - 1 != $i)
 			$newstr .= "pre>";
 	}
 	
@@ -62,7 +62,7 @@ function nl2br_except_pre($str)
 
 /**
  * Auto Typography Wrapper Function
- * 
+ *
  *
  * @access	public
  * @param	string
@@ -78,7 +78,7 @@ function auto_typography($str)
 
 /**
  * Auto Typography Class
- * 
+ *
  *
  * @access		private
  * @category	Helpers
@@ -117,7 +117,7 @@ class Auto_typography {
 		/*
 		 * Reduce line breaks
 		 *
-		 * If there are more than two consecutive line 
+		 * If there are more than two consecutive line
 		 * breaks we'll compress them down to a maximum
 		 * of two since there's no benefit to more.
 		 *
@@ -127,8 +127,8 @@ class Auto_typography {
 		/*
 		 * Convert quotes within tags to temporary marker
 		 *
-		 * We don't want quotes converted within 
-		 * tags so we'll temporarily convert them to 
+		 * We don't want quotes converted within
+		 * tags so we'll temporarily convert them to
 		 * {@DQ} and {@SQ}
 		 *
 		 */			
@@ -136,7 +136,7 @@ class Auto_typography {
 		{
 			for ($i = 0; $i < count($matches['0']); $i++)
 			{
-				$str = str_replace($matches['0'][$i], 
+				$str = str_replace($matches['0'][$i],
 									str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches['0'][$i]),
 									$str);
 			}
@@ -159,7 +159,7 @@ class Auto_typography {
 		 * Convert "ignore" tags to temporary marker
 		 *
 		 * The parser splits out the string at every tag
-		 * it encounters.  Certain inline tags, like image 
+		 * it encounters.  Certain inline tags, like image
 		 * tags, links, span tags, etc. will be adversely
 		 * affected if they are split out so we'll convert
 		 * the opening < temporarily to: {@TAG}
@@ -202,7 +202,7 @@ class Auto_typography {
 			 * to skip <pre> tags and a few other things.
 			 *
 			 */
-			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match)) 
+			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match['2']))
 				{
@@ -244,7 +244,7 @@ class Auto_typography {
 		// Fix an artifact that happens during the paragraph replacement
 		$str = preg_replace('#(<p>\n*</p>)#', '', $str);
 
-		// If the user submitted their own paragraph tags with class data 
+		// If the user submitted their own paragraph tags with class data
 		// in them we will retain them instead of using our tags.
 		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);
 
@@ -444,8 +444,8 @@ class Auto_typography {
 		}
 		
 		// Ellipsis
-		$str = preg_replace("#(\w)\.\.\.(\s|<br />|</p>)#", "\\1&#8230;\\2", $str); 
-		$str = preg_replace("#(\s|<br />|</p>)\.\.\.(\w)#", "\\1&#8230;\\2", $str); 
+		$str = preg_replace("#(\w)\.\.\.(\s|<br />|</p>)#", "\\1&#8230;\\2", $str);
+		$str = preg_replace("#(\s|<br />|</p>)\.\.\.(\w)#", "\\1&#8230;\\2", $str);
 		
 		// Run the translation array we defined above		
 		$str = str_replace(array_keys($table), array_values($table), $str);
@@ -536,5 +536,5 @@ class Auto_typography {
 	}	
 }
 
- 
+
 ?>

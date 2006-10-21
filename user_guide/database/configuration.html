@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -65,7 +65,7 @@ Configuration
 
 <h1>Database Configuration</h1>
 
-<p>Code Igniter has a config file that lets you store your database connection values (username, password, database name, etc.).  
+<p>Code Igniter has a config file that lets you store your database connection values (username, password, database name, etc.).
 The config file is located at:
 
 <p><kbd>application/config/database.php</kbd></p>
@@ -82,8 +82,8 @@ $db['default']['pconnect'] = TRUE;<br />
 $db['default']['db_debug'] = FALSE;<br />
 $db['default']['active_r'] = TRUE;</code>
 
-<p>The reason we use a multi-dimensional array rather than a more simple one is to permit you to optionally store 
-multiple sets of connection values.  If, for example,  you run multiple environments (development, production, test, etc.) 
+<p>The reason we use a multi-dimensional array rather than a more simple one is to permit you to optionally store
+multiple sets of connection values.  If, for example,  you run multiple environments (development, production, test, etc.)
 under a single installation, you can set up a connection group for each, then switch between groups as needed.
 For example, to set up a "test" environment you would do this:</p>
 
@@ -97,7 +97,7 @@ $db['test']['pconnect'] = TRUE;<br />
 $db['test']['db_debug'] = FALSE;<br />
 $db['test']['active_r'] = TRUE;</code>
 
- 
+
 <p>Then, to globally tell the system to use that group you would set this variable located in the config file:</p>
 
 <code>$active_group = "test";</code>
@@ -108,15 +108,15 @@ for the primary connection, but it too can be renamed to something more relevant
 <h3>Explanation of Values:</h3>
 
 <ul>
-<li><strong>hostname</strong> - The hostname of your database server. Often this is "localhost".</li> 
-<li><strong>username</strong> - The username used to connect to the database.</li> 
-<li><strong>password</strong> - The password used to connect to the database.</li> 
-<li><strong>database</strong> - The name of the database you want to connect to.</li> 
-<li><strong>dbdriver</strong> - The database type. ie: mysql, postgre, obdc, etc. Must be specified in lower case.</li> 
-<li><strong>dbprefix</strong> - An optional table prefix which will added to the table name when running <a href="active_record.html">Active Record</a> queries.  This permits multiple Code Igniter installations to share one database.</li> 
-<li><strong>pconnect</strong> - TRUE/FALSE (boolean) - Whether to use a persistent connection.</li> 
-<li><strong>db_debug</strong> - TRUE/FALSE (boolean) - Whether database errors should be displayed.</li> 
-<li><strong>active_r</strong> - TRUE/FALSE (boolean) - Whether to load the <a href="active_record.html">Active Record Class</a>. If you are not using the active record class you can have it omitted when the database classes are initialized in order to utilize less resources.</li> 
+<li><strong>hostname</strong> - The hostname of your database server. Often this is "localhost".</li>
+<li><strong>username</strong> - The username used to connect to the database.</li>
+<li><strong>password</strong> - The password used to connect to the database.</li>
+<li><strong>database</strong> - The name of the database you want to connect to.</li>
+<li><strong>dbdriver</strong> - The database type. ie: mysql, postgre, obdc, etc. Must be specified in lower case.</li>
+<li><strong>dbprefix</strong> - An optional table prefix which will added to the table name when running <a href="active_record.html">Active Record</a> queries.  This permits multiple Code Igniter installations to share one database.</li>
+<li><strong>pconnect</strong> - TRUE/FALSE (boolean) - Whether to use a persistent connection.</li>
+<li><strong>db_debug</strong> - TRUE/FALSE (boolean) - Whether database errors should be displayed.</li>
+<li><strong>active_r</strong> - TRUE/FALSE (boolean) - Whether to load the <a href="active_record.html">Active Record Class</a>. If you are not using the active record class you can have it omitted when the database classes are initialized in order to utilize less resources.</li>
 <li><strong>port</strong> - The database port number.  Currently only used with the Postgre driver.</li>
 </ul>
 

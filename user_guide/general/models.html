@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -78,7 +78,7 @@ Models
 <a name="what"></a>
 <h2>What is a Model?</h2>
 
-<p>Models are PHP classes that are designed to work with information in your database.  For example, let's say 
+<p>Models are PHP classes that are designed to work with information in your database.  For example, let's say
 you use Code Igniter to manage a blog.  You might have a model class that contains functions to insert, update, and
 retrieve your blog data. Here is an example of what such a model class might look like:</p>
 
@@ -127,7 +127,7 @@ class&nbsp;Blogmodel&nbsp;extends&nbsp;Model&nbsp;{<br />
 <a name="anatomy"></a>
 <h2>Anatomy of a Model</h2>
 
-<p>Model classes are stored in your <dfn>application/models/</dfn> folder.  They can be nested within sub-folders if you 
+<p>Model classes are stored in your <dfn>application/models/</dfn> folder.  They can be nested within sub-folders if you
 want this type of organization.</p>
 
 <p>The basic prototype for a model class is this:</p>
@@ -142,7 +142,7 @@ class&nbsp;<var>Model_name</var>&nbsp;extends&nbsp;Model&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
-<p>Where <var>Model_name</var> is the name of your class.  Class names <strong>must</strong> be capitalized. 
+<p>Where <var>Model_name</var> is the name of your class.  Class names <strong>must</strong> be capitalized.
 Make sure your class extends the base Model class.</p>
 
 <p>The file name will be a lower case version of your class name.  For example, if your class is this:</p>
@@ -217,13 +217,13 @@ class&nbsp;Blog_controller&nbsp;extends&nbsp;Controller&nbsp;{<br />
 <ul>
 <li>You can connect using the standard database methods <a href="../database/connecting.html">described here</a>, either from within your Controller class or your Model class.</li>
 <li>You can tell the model loading function to auto-connect by passing <kbd>TRUE</kbd> (boolean) via the third parameter,
-and connectivity settings, as defined in your database config file will be used: 
+and connectivity settings, as defined in your database config file will be used:
 
 	<code>$this->load->model('<var>Model_name</var>', '', <kbd>TRUE</kbd>);</code>	
 	</li>
 
 
-<li>You can manually pass database connectivity settings via the third parameter: 
+<li>You can manually pass database connectivity settings via the third parameter:
 
 
 		<code>$config['hostname'] = "localhost";<br />

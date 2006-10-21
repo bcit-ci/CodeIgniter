@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Image Manipulation class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Image_lib
@@ -77,7 +77,7 @@ class CI_Image_lib {
 	var $wm_use_truetype	= FALSE;		
 	
 	/**
-	 * Constructor 
+	 * Constructor
 	 *
 	 * @access	public
 	 * @param	string
@@ -123,7 +123,7 @@ class CI_Image_lib {
 	 * @return	void
 	 */	
 	function initialize($props = array())
-	{  
+	{
 		/*
 		 * Convert array elements into class variables
 		 */
@@ -144,7 +144,7 @@ class CI_Image_lib {
 		if ($this->source_image == '')
 		{
 			$this->set_error('imglib_source_image_required');
-			return FALSE;       	
+			return FALSE;	   	
 		}
 		
 		/*
@@ -155,7 +155,7 @@ class CI_Image_lib {
 		 * properties using ImageMagick and NetPBM
 		 *
 		 */		
-		if ( ! function_exists('getimagesize')) 
+		if ( ! function_exists('getimagesize'))
 		{
 			$this->set_error('imglib_gd_required_for_props');
 			return FALSE;		
@@ -173,7 +173,7 @@ class CI_Image_lib {
 		 */	
 		if (function_exists('realpath') AND @realpath($this->source_image) !== FALSE)
 		{
-			$full_source_path = str_replace("\\", "/", realpath($this->source_image)); 
+			$full_source_path = str_replace("\\", "/", realpath($this->source_image));
 		}
 		else
 		{
@@ -187,7 +187,7 @@ class CI_Image_lib {
 		// Set the Image Properties
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
-			return FALSE;       	
+			return FALSE;	   	
 		}				
 
 		/*
@@ -215,11 +215,11 @@ class CI_Image_lib {
 			{
 				if (function_exists('realpath') AND @realpath($this->new_image) !== FALSE)
 				{
-					$full_dest_path = str_replace("\\", "/", realpath($this->new_image)); 
+					$full_dest_path = str_replace("\\", "/", realpath($this->new_image));
 				}
 				else
 				{
-					$full_dest_path = $this->new_image; 
+					$full_dest_path = $this->new_image;
 				}
 				
 				// Is there a file name?
@@ -257,7 +257,7 @@ class CI_Image_lib {
 		$filename = $xp['name'];
 		$file_ext = $xp['ext'];
 				
-		$this->full_src_path = $this->source_folder.$this->source_image;    	
+		$this->full_src_path = $this->source_folder.$this->source_image;		
 		$this->full_dst_path = $this->dest_folder.$filename.$this->thumb_marker.$file_ext;
 
 		/*
@@ -316,7 +316,7 @@ class CI_Image_lib {
 	
 		if ($this->wm_overlay_path != '')
 		{
-			$this->wm_overlay_path = str_replace("\\", "/", realpath($this->wm_overlay_path)); 
+			$this->wm_overlay_path = str_replace("\\", "/", realpath($this->wm_overlay_path));
 		}
 	
 		if ($this->wm_shadow_color != '')
@@ -330,7 +330,7 @@ class CI_Image_lib {
 		}
 
 		return TRUE;
-	} 
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -397,7 +397,7 @@ class CI_Image_lib {
 		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs, TRUE))
 		{
 			$this->set_error('imglib_rotation_angle_required');
-			return FALSE;       	
+			return FALSE;	   	
 		}
 	
 		// Reassign the width and height
@@ -454,7 +454,7 @@ class CI_Image_lib {
 				// We'll return true so the user thinks the process succeeded.
 				// It'll be our little secret...
 	
-				return TRUE; 
+				return TRUE;
 			}
 			
 			//  Reassign the source width/height if cropping
@@ -478,7 +478,7 @@ class CI_Image_lib {
 				if ( ! @copy($this->full_src_path, $this->full_dst_path))
 				{
 					$this->set_error('imglib_copy_failed');
-					return FALSE; 
+					return FALSE;
 				}
 			
 				@chmod($this->full_dst_path, 0777);
@@ -508,12 +508,12 @@ class CI_Image_lib {
 			$copy	= 'imagecopyresized';
 		}
 			
-		$dst_img = $create($this->width, $this->height); 
-		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height); 
+		$dst_img = $create($this->width, $this->height);
+		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
 		//  Show the image	
 		if ($this->dynamic_output == TRUE)
-		{ 
+		{
 			$this->image_display_gd($dst_img);
 		}
 		else
@@ -526,11 +526,11 @@ class CI_Image_lib {
 		}
 
 		//  Kill the file handles
-		imagedestroy($dst_img); 
+		imagedestroy($dst_img);
 		imagedestroy($src_img);
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);            
+		@chmod($this->full_dst_path, 0777);
 		
 		return TRUE;
 	}
@@ -555,7 +555,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 				
-		if ( ! eregi("convert$", $this->library_path)) 
+		if ( ! eregi("convert$", $this->library_path))
 		{
 			if ( ! eregi("/$", $this->library_path)) $this->library_path .= "/";
 		
@@ -593,14 +593,14 @@ class CI_Image_lib {
 		@exec($cmd, $output, $retval);
 
 		//	Did it work?	
-		if ($retval > 0) 
+		if ($retval > 0)
 		{
 			$this->set_error('imglib_image_process_failed');
 			return FALSE;
 		}
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);            
+		@chmod($this->full_dst_path, 0777);
 		
 		return TRUE;
 	}
@@ -675,7 +675,7 @@ class CI_Image_lib {
 		@exec($cmd, $output, $retval);
 		
 		//  Did it work?
-		if ($retval > 0) 
+		if ($retval > 0)
 		{
 			$this->set_error('imglib_image_process_failed');
 			return FALSE;
@@ -686,7 +686,7 @@ class CI_Image_lib {
 		// we have to rename the temp file.
 		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink ($this->dest_folder.'netpbm.tmp');
-		@chmod($dst_image, 0777);            
+		@chmod($dst_image, 0777);
 		
 		return TRUE;
 	}
@@ -704,7 +704,7 @@ class CI_Image_lib {
 		// Is Image Rotation Supported?
 		// this function is only supported as of PHP 4.3
 		if ( ! function_exists('imagerotate'))
-		{ 
+		{
 			$this->set_error('imglib_rotate_unsupported');
 			return FALSE;
 		}
@@ -727,7 +727,7 @@ class CI_Image_lib {
 	
 		//  Save the Image
 		if ($this->dynamic_output == TRUE)
-		{ 
+		{
 			$this->image_display_gd($dst_img);
 		}
 		else
@@ -740,12 +740,12 @@ class CI_Image_lib {
 		}
 
 		//  Kill the file handles
-		imagedestroy($dst_img); 
+		imagedestroy($dst_img);
 		imagedestroy($src_img);
 		
 		// Set the file to 777
 		
-		@chmod($this->full_dst_path, 0777);            
+		@chmod($this->full_dst_path, 0777);
 		
 		return true;
 	}
@@ -773,47 +773,47 @@ class CI_Image_lib {
 		if ($this->rotation_angle == 'hor')
 		{
 			for ($i = 0; $i < $height; $i++)
-			{         
-				$left  = 0; 
-				$right = $width-1; 
+			{
+				$left  = 0;
+				$right = $width-1;
 	
 				while ($left < $right)
-				{ 
-					$cl = imagecolorat($src_img, $left, $i); 
+				{
+					$cl = imagecolorat($src_img, $left, $i);
 					$cr = imagecolorat($src_img, $right, $i);
 					
-					imagesetpixel($src_img, $left, $i, $cr); 
-					imagesetpixel($src_img, $right, $i, $cl); 
+					imagesetpixel($src_img, $left, $i, $cr);
+					imagesetpixel($src_img, $right, $i, $cl);
 					
-					$left++; 
-					$right--; 
-				} 
+					$left++;
+					$right--;
+				}
 			}
 		}
 		else
 		{
 			for ($i = 0; $i < $width; $i++)
-			{         
-				$top = 0; 
-				$bot = $height-1; 
+			{
+				$top = 0;
+				$bot = $height-1;
 	
 				while ($top < $bot)
-				{ 
+				{
 					$ct = imagecolorat($src_img, $i, $top);
 					$cb = imagecolorat($src_img, $i, $bot);
 					
-					imagesetpixel($src_img, $i, $top, $cb); 
-					imagesetpixel($src_img, $i, $bot, $ct); 
+					imagesetpixel($src_img, $i, $top, $cb);
+					imagesetpixel($src_img, $i, $bot, $ct);
 					
-					$top++; 
-					$bot--; 
-				} 
+					$top++;
+					$bot--;
+				}
 			}		
 		}		
 
 		//  Show the image
 		if ($this->dynamic_output == TRUE)
-		{ 
+		{
 			$this->image_display_gd($src_img);
 		}
 		else
@@ -829,7 +829,7 @@ class CI_Image_lib {
 		imagedestroy($src_img);
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);            
+		@chmod($this->full_dst_path, 0777);
 		
 		return TRUE;
 	}
@@ -930,8 +930,8 @@ class CI_Image_lib {
 		}
 	
 		//  Build the finalized image			
-		if ($wm_img_type == 3 AND function_exists('imagealphablending')) 
-		{ 
+		if ($wm_img_type == 3 AND function_exists('imagealphablending'))
+		{
 			@imagealphablending($src_img, TRUE);
 		} 		
 
@@ -941,7 +941,7 @@ class CI_Image_lib {
 				
 		//  Output the image
 		if ($this->dynamic_output == TRUE)
-		{ 
+		{
 			$this->image_display_gd($src_img);
 		}
 		else
@@ -966,7 +966,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */			
-	function text_watermark() 
+	function text_watermark()
 	{
 		if ( ! ($src_img = $this->image_create_gd()))
 		{		
@@ -1039,7 +1039,7 @@ class CI_Image_lib {
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
 	
-		switch ($this->wm_vrt_alignment) 
+		switch ($this->wm_vrt_alignment)
 		{
 			case	 "T" :
 				break;
@@ -1053,7 +1053,7 @@ class CI_Image_lib {
 		$y_shad = $y_axis + $this->wm_shadow_distance;
 		
 		// Set horizontal alignment
-		switch ($this->wm_hor_alignment) 
+		switch ($this->wm_hor_alignment)
 		{
 			case "L":
 				break;
@@ -1085,7 +1085,7 @@ class CI_Image_lib {
 	
 		//  Output the final image
 		if ($this->dynamic_output == TRUE)
-		{ 
+		{
 			$this->image_display_gd($src_img);
 		}
 		else
@@ -1160,7 +1160,7 @@ class CI_Image_lib {
 	/**
 	 * Write image file to disk - GD
 	 *
-	 * Takes an image resource as input and writes the file 
+	 * Takes an image resource as input and writes the file
 	 * to the specified destination
 	 *
 	 * @access	public
@@ -1226,7 +1226,7 @@ class CI_Image_lib {
 		header("Content-Disposition: filename={$this->source_image};");
 		header("Content-Type: {$this->mime_type}");
 		header('Content-Transfer-Encoding: binary');
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT'); 
+		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
 	
 		switch ($this->image_type)
 		{
@@ -1247,9 +1247,9 @@ class CI_Image_lib {
 	 * Re-proportion Image Width/Height
 	 *
 	 * When creating thumbs, the desired width/height
-	 * can end up warping the image due to an incorrect 
-	 * ratio between the full-sized image and the thumb. 
-	 * 
+	 * can end up warping the image due to an incorrect
+	 * ratio between the full-sized image and the thumb.
+	 *
 	 * This function lets us re-proportion the width/height
 	 * if users choose to maintain the aspect ratio when resizing.
 	 *
@@ -1323,7 +1323,7 @@ class CI_Image_lib {
 			$v['width']			= $vals['0'];
 			$v['height']		= $vals['1'];
 			$v['image_type']	= $vals['2'];
-			$v['size_str']		= $vals['3']; 
+			$v['size_str']		= $vals['3'];
 			$v['mime_type']		= $mime;
 			
 			return $v;
@@ -1332,8 +1332,8 @@ class CI_Image_lib {
 		$this->orig_width	= $vals['0'];
 		$this->orig_height	= $vals['1'];
 		$this->image_type	= $vals['2'];
-		$this->size_str		= $vals['3']; 
-		$this->mime_type	= $mime; 
+		$this->size_str		= $vals['3'];
+		$this->mime_type	= $mime;
 		
 		return TRUE;
 	}
@@ -1352,7 +1352,7 @@ class CI_Image_lib {
 	 *					'height' 		=> $height,
 	 *					'new_width'		=> 40,
 	 *					'new_height'	=> ''
-	 *				  );    
+	 *				  );
 	 *
 	 * @access	public
 	 * @param	array

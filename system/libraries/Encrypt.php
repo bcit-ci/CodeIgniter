@@ -7,7 +7,7 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -98,12 +98,12 @@ class CI_Encrypt {
 	/**
 	 * Encode
 	 *
-	 * Encodes the message string using bitwise XOR encoding.  
-	 * The key is combined with a random hash, and then it 
-	 * too gets converted using XOR. The whole thing is then run 
-	 * through mcrypt (if supported) using the randomized key.  
-	 * The end result is a double-encrypted message string 
-	 * that is randomized with each call to this function, 
+	 * Encodes the message string using bitwise XOR encoding.
+	 * The key is combined with a random hash, and then it
+	 * too gets converted using XOR. The whole thing is then run
+	 * through mcrypt (if supported) using the randomized key.
+	 * The end result is a double-encrypted message string
+	 * that is randomized with each call to this function,
 	 * even if the supplied message and key are the same.
 	 *
 	 * @access	public
@@ -169,8 +169,8 @@ class CI_Encrypt {
 	function _xor_encode($string, $key)
 	{
 		$rand = '';
-		while (strlen($rand) < 32) 
-		{    
+		while (strlen($rand) < 32)
+		{
 			$rand .= mt_rand(0, mt_getrandmax());
 		}
 	
@@ -190,7 +190,7 @@ class CI_Encrypt {
 	/**
 	 * XOR Decode
 	 *
-	 * Takes an encoded string and key as input and generates the 
+	 * Takes an encoded string and key as input and generates the
 	 * plain-text original message
 	 *
 	 * @access	private
@@ -245,7 +245,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function mcrypt_encode($data, $key) 
+	function mcrypt_encode($data, $key)
 	{	
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
@@ -262,7 +262,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */	
-	function mcrypt_decode($data, $key) 
+	function mcrypt_decode($data, $key)
 	{
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
@@ -307,7 +307,7 @@ class CI_Encrypt {
 	 */	
 	function _get_cipher()
 	{
-		if ($this->_mcrypt_cipher == '') 
+		if ($this->_mcrypt_cipher == '')
 		{
 			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
@@ -325,7 +325,7 @@ class CI_Encrypt {
 	 */	
 	function _get_mode()
 	{
-		if ($this->_mcrypt_mode == '') 
+		if ($this->_mcrypt_mode == '')
 		{
 			$this->_mcrypt_mode = MCRYPT_MODE_ECB;
 		}
@@ -378,7 +378,7 @@ class CI_Encrypt {
 			{	
 				require_once(BASEPATH.'libraries/Sha1'.EXT);
 				$SH = new CI_SHA;
-				return $SH->generate($str);            
+				return $SH->generate($str);
 			}
 			else
 			{
@@ -389,7 +389,7 @@ class CI_Encrypt {
 		{
 			return sha1($str);
 		}	
-	}  
+	}
 	
 }
 

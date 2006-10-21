@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -86,24 +86,24 @@ when caching is enabled.  Do NOT load this class manually.<br /><br />
 
 <h2>How Does Caching Work?</h2>
 
-<p>Code Igniter's query caching system happens dynamically when your pages are viewed. 
+<p>Code Igniter's query caching system happens dynamically when your pages are viewed.
 When caching is enabled, the first time a web page is loaded, the query result object will
 be serialized and stored in a text file on your server. The next time the page is loaded the cache file will be used instead of
 accessing your database.  Your database usage can effectively be reduced to zero for any pages that have been cached.</p>
 
-<p>Only <dfn>read-type</dfn> (SELECT) queries can be cached, since these are the only type of queries that produce a result.  
+<p>Only <dfn>read-type</dfn> (SELECT) queries can be cached, since these are the only type of queries that produce a result.
 <dfn>Write-type</dfn> (INSERT, UPDATE, etc.) queries, since they don't generate a result, will not be cached by the system.</p>
 
-<p>Cache files DO NOT expire.  Any queries that have been cached will remain cached until you delete them.  The caching system 
-permits you clear caches associated with individual pages, or you can delete the entire collection of cache files. 
+<p>Cache files DO NOT expire.  Any queries that have been cached will remain cached until you delete them.  The caching system
+permits you clear caches associated with individual pages, or you can delete the entire collection of cache files.
 Typically you'll to use the housekeeping functions described below to delete cache files after certain
 events take place, like when you've added new information to your database.</p>
 
 <h2>Will Caching Improve Your Site's Performance?</h2>
 
-<p>Getting a performance gain as a result of caching depends on many factors. 
+<p>Getting a performance gain as a result of caching depends on many factors.
 If you have a highly optimized database under very little load, you probably won't see a performance boost.
-If your database is under heavy use you probably will see an improved response, assuming your file-system is not 
+If your database is under heavy use you probably will see an improved response, assuming your file-system is not
 overly taxed.  Remember that caching simply changes how your information is retrieved, shifting it from being a database
 operation to a file-system one.</p>
 
@@ -113,24 +113,24 @@ single answer to the question of whether you should cache your database.  It rea
 
 <h2>How are Cache Files Stored?</h2>
 
-<p>Code Igniter places the result of EACH query into its own cache file.  Sets of cache files are further organized into 
+<p>Code Igniter places the result of EACH query into its own cache file.  Sets of cache files are further organized into
 sub-folders corresponding to your controller functions.  To be precise, the sub-folders are named identically to the
 first two segments of your URI (the controller class name and function name).</p>
 
 <p>For example, let's say you have a controller called <dfn>blog</dfn> with a function called <dfn>comments</dfn> that
-contains three queries.  The caching system will create a cache folder 
+contains three queries.  The caching system will create a cache folder
 called <kbd>blog+comments</kbd>, into which it will write three cache files.</p>
 
 <p>If you use dynamic queries that change based on information in your URI (when using pagination, for example), each instance of
-the query will produce its own cache file.  It's possible, therefore, to end up with many times more cache files than you have 
+the query will produce its own cache file.  It's possible, therefore, to end up with many times more cache files than you have
 queries.</p>
 
 
 <h2>Managing your Cache Files</h2>
 
 <p>Since cache files do not expire, you'll need to build deletion routines into your application.  For example, let's say you have a blog
-that allows user commenting.  Whenever a new comment is submitted you'll want to delete the cache files associated with the 
-controller function that serves up your comments.  You'll find two delete functions described below that help you 
+that allows user commenting.  Whenever a new comment is submitted you'll want to delete the cache files associated with the
+controller function that serves up your comments.  You'll find two delete functions described below that help you
 clear data.</p>
 
 

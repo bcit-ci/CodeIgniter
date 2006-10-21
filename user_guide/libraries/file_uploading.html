@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -63,7 +63,7 @@ File Uploading Class
 
 <h1>File Uploading Class</h1>
 
-<p>Code Igniter's File Uploading Class permits files to be uploaded.  You can set various 
+<p>Code Igniter's File Uploading Class permits files to be uploaded.  You can set various
 preferences, restricting the type and size of the files.</p>
 
 
@@ -110,7 +110,7 @@ folder:</p>
 </body>
 </html></textarea>
 
-<p>You'll notice we are using a form helper to create the opening form tag.  File uploads require a multipart form, so the helper 
+<p>You'll notice we are using a form helper to create the opening form tag.  File uploads require a multipart form, so the helper
 creates the proper syntax for you.  You'll also notice we have an $error variable.  This is so we can show error messages in the event
 the user does something wrong.</p>
 
@@ -165,7 +165,7 @@ class Upload extends Controller {
 	{
 		$this->load->library('upload');
 	
-		$config['upload_path'] = './uploads/'; 
+		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '100';
 		$config['max_width']  = '1024';
@@ -202,7 +202,7 @@ class Upload extends Controller {
 
 <code>www.your-site.com/index.php/<var>upload</var>/</code>
 
-<p>You should see an upload form. Try uploading an image file (either a jpg, gif, or png). If the path in your 
+<p>You should see an upload form. Try uploading an image file (either a jpg, gif, or png). If the path in your
 controller is correct it should work.</p>
 
 
@@ -221,7 +221,7 @@ controller is correct it should work.</p>
 
 <h2>Setting Preferences</h2>
 
-<p>Similar to other libraries, you'll control what is allowed to be upload based on your preferences.  In the controller you 
+<p>Similar to other libraries, you'll control what is allowed to be upload based on your preferences.  In the controller you
 built above you set the following preferences:</p>
 
 <code>$config['upload_path'] = './uploads/';<br />
@@ -323,7 +323,7 @@ will NOT need to use the <dfn>$this->upload->initialize</dfn> function if you sa
 
 <h2>$this->upload->do_upload()</h2>
 
-<p>Performs the upload based on the preferences you've set.  Note:  By default the upload routine expects the file to come from a form field 
+<p>Performs the upload based on the preferences you've set.  Note:  By default the upload routine expects the file to come from a form field
 called <dfn>userfile</dfn>, and the form must be a "multipart type:</p>
 
 <code>&lt;form method="post" action="some_action" enctype="multipart/form-data" /></code>
@@ -347,7 +347,7 @@ returns the data so you can assign it however you need.</p>
 
 <h2>$this->upload->data()</h2>
 
-<p>This is a helper function that returns an array containing all of the data related to the file you uploaded. 
+<p>This is a helper function that returns an array containing all of the data related to the file you uploaded.
 Here is the array prototype:</p>
 
 <code>Array<br />

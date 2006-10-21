@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Scaffolding Class
- * 
+ *
  * Provides the Scaffolding framework
  *
  * @package		CodeIgniter
@@ -55,7 +55,7 @@ class Scaffolding {
 		 * We'll manually override the "view" path so that
 		 * the load->view function knows where to look.
 		 */
-		 
+		
 		$this->CI->load->_ci_view_path = BASEPATH.'scaffolding/views/';
 
 		// Set the base URL

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -63,11 +63,11 @@ Views
 <h1>Views</h1>
 
 <p>A <dfn>view</dfn> is simply a web page, or a page fragment, like a header, footer, sidebar, etc.
-In fact, views can flexibly be embedded within other views (within other views, etc., etc.) if you need this type 
+In fact, views can flexibly be embedded within other views (within other views, etc., etc.) if you need this type
 of hierarchy.</p>
 
 <p>Views are never called directly, they must be loaded by a <a href="controllers.html">controller</a>.  Remember that in an MVC framework, the Controller acts as the
-traffic cop, so it is responsible for fetching a particular view. If you have not read the <a href="controllers.html">Controllers</a> page 
+traffic cop, so it is responsible for fetching a particular view. If you have not read the <a href="controllers.html">Controllers</a> page
 you should do so before continuing.</p>
 
 <p>Using the example controller you created in the <a href="controllers.html">controller</a> page, let's add a view to it.</p>
@@ -120,7 +120,7 @@ class Blog extends Controller {
 
 <h2>Adding Dynamic Data to the View</h2>
 
-<p>Data is passed from the controller to the view by way of an <strong>array</strong> or an <strong>object</strong> in the second 
+<p>Data is passed from the controller to the view by way of an <strong>array</strong> or an <strong>object</strong> in the second
 parameter of the view loading function. Here is an example using an array:</p>
 
 <code>$data = array(<br />

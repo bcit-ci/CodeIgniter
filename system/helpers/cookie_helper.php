@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Code Igniter Cookie Helpers
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
@@ -30,7 +30,7 @@
 /**
  * Set cookie
  *
- * Accepts six parameter, or you can submit an associative 
+ * Accepts six parameter, or you can submit an associative
  * array in the first parameter containing all the values.
  *
  * @access	public
@@ -43,7 +43,7 @@
  * @return	void
  */
 function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
-{ 
+{
 	if (is_array($name))
 	{		
 		foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'name') as $item)

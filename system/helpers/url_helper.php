@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -30,7 +30,7 @@
 /**
  * Site URL
  *
- * Create a local URL based on your basepath. Segments can be passed via the 
+ * Create a local URL based on your basepath. Segments can be passed via the
  * first parameter either as a string or an array.
  *
  * @access	public
@@ -38,7 +38,7 @@
  * @return	string
  */	
 function site_url($uri = '')
-{ 
+{
 	$CI =& get_instance();
 	return $CI->config->site_url($uri);
 }
@@ -54,7 +54,7 @@ function site_url($uri = '')
  * @return	string
  */	
 function base_url()
-{ 
+{
 	$CI =& get_instance();
 	return $CI->config->slash_item('base_url');
 }
@@ -70,7 +70,7 @@ function base_url()
  * @return	string
  */	
 function index_page()
-{ 
+{
 	$CI =& get_instance();
 	return $CI->config->item('index_page');
 }
@@ -173,7 +173,7 @@ function anchor_popup($uri = '', $title = '', $attributes = FALSE)
  */
 function mailto($email, $title = '', $attributes = '')
 {
-	if ($title == "") 
+	if ($title == "")
 	{
 		$title = $email;
 	}
@@ -201,7 +201,7 @@ function mailto($email, $title = '', $attributes = '')
  */
 function safe_mailto($email, $title = '', $attributes = '')
 {
-	if ($title == "") 
+	if ($title == "")
 	{
 		$title = $email;
 	}
@@ -216,7 +216,7 @@ function safe_mailto($email, $title = '', $attributes = '')
 		$x[] = "|".ord(substr($email, $i, 1));
 	}
 
-	$x[] = '"'; 
+	$x[] = '"';
 
 	if ($attributes != '')
 	{
@@ -250,7 +250,7 @@ function safe_mailto($email, $title = '', $attributes = '')
 	
 		if ($ordinal < 128)
 		{
-			$x[] = "|".$ordinal;            
+			$x[] = "|".$ordinal;
 		}
 		else
 		{
@@ -266,7 +266,7 @@ function safe_mailto($email, $title = '', $attributes = '')
 				$x[] = "|".$number;
 				$count = 1;
 				$temp = array();
-			}   
+			}
 		}
 	}
 	
@@ -282,15 +282,15 @@ var l=new Array();
 $i = 0;
 foreach ($x as $val){ ?>l[<?php echo $i++; ?>]='<?php echo $val; ?>';<?php } ?>
 
-for (var i = l.length-1; i >= 0; i=i-1){ 
-if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";"); 
+for (var i = l.length-1; i >= 0; i=i-1){
+if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";");
 else document.write(unescape(l[i]));}
 //]]>
 </script><?php
 
 	$buffer = ob_get_contents();
-	ob_end_clean(); 
-	return $buffer;        
+	ob_end_clean();
+	return $buffer;
 }
 	
 // ------------------------------------------------------------------------
@@ -305,7 +305,7 @@ else document.write(unescape(l[i]));}
  *
  * @access	public
  * @param	string	the string
- * @param	string	the type: email, url, or both 
+ * @param	string	the type: email, url, or both
  * @param	bool 	whether to create pop-up links
  * @return	string
  */
@@ -427,7 +427,7 @@ function url_title($str, $separator = 'dash')
 	foreach ($trans as $key => $val)
 	{
 		$str = preg_replace("#".$key."#", $val, $str);
-	} 
+	}
 	
 	return trim(stripslashes($str));
 }
@@ -445,12 +445,12 @@ function url_title($str, $separator = 'dash')
  * @return	string
  */
 function redirect($uri = '', $method = 'location')
-{  
+{
 	switch($method)
 	{
 		case 'refresh' : header("Refresh:0;url=".site_url($uri));
 			break;
-		default        : header("location:".site_url($uri));
+		default		: header("location:".site_url($uri));
 			break;
 	}
 	exit;

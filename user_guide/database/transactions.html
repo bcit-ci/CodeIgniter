@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -69,8 +69,8 @@ Transactions
 <p>Code Igniter's database abstraction allows you to use <dfn>transactions</dfn> with databases that support transaction-safe table types.  In MySQL, you'll need
 to be running InnoDB or BDB table types rather then the more common MyISAM.  Most other database platforms support transactions natively.</p>
 
-<p>If you are not familiar with 
-transactions we recommend you find a good online resource to learn about them for your particular database.  The information below assumes you 
+<p>If you are not familiar with
+transactions we recommend you find a good online resource to learn about them for your particular database.  The information below assumes you
 have a basic understanding of transactions.
 </p>
 
@@ -80,7 +80,7 @@ have a basic understanding of transactions.
 because it greatly simplifies the process of running transactions.  In most cases all that is required are two lines of code.</p>
 
 <p>Traditionally, transactions have required a fair amount of work to implement since they demand that you to keep track of your queries
-and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. This is particularly cumbersome with 
+and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. This is particularly cumbersome with
 nested queries. In contrast,
 we've implemented a smart transaction system that does all this for you automatically (you can also manage your transactions manually if you choose to,
 but there's really no benefit).</p>

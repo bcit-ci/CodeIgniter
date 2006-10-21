@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Exceptions Class
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Exceptions
@@ -48,7 +48,7 @@ class CI_Exceptions {
 
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 *
 	 */	
 	function CI_Exceptions()
@@ -76,7 +76,7 @@ class CI_Exceptions {
 		
 		log_message('error', 'Severity: '.$severity.' '.$severity.' --> '.$message. ' '.$filepath.' '.$line, TRUE);
 	}
-  
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -89,7 +89,7 @@ class CI_Exceptions {
 	function show_404($page = '')
 	{	
 		$heading = "404 Page Not Found";
-		$message = "The page you requested was not found."; 
+		$message = "The page you requested was not found.";
 
 		log_message('error', '404 Page Not Found --> '.$page);
 		echo $this->show_error($heading, $message, 'error_404');
@@ -125,7 +125,7 @@ class CI_Exceptions {
 		ob_end_clean();
 		return $buffer;
 	}
-  
+
 	// --------------------------------------------------------------------
 
 	/**

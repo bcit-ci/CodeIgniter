@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -64,18 +64,18 @@ XML-RPC and XML-RPC Server Classes
 <h1>XML-RPC and XML-RPC Server Classes</h1>
 
 
-<p>Code Igniter's XML-RPC classes permit you to send requests to another server, or set up 
+<p>Code Igniter's XML-RPC classes permit you to send requests to another server, or set up
 your own XML-RPC server to receive requests.</p>
 
 
 <h2>What is XML-RPC?</h2>
 
-<p>Quite simply it is a way for two computers to communicate over the internet using XML.  
-One computer, which we will call the <dfn>client</dfn>, sends an XML-RPC <strong>request</strong> to 
+<p>Quite simply it is a way for two computers to communicate over the internet using XML.
+One computer, which we will call the <dfn>client</dfn>, sends an XML-RPC <strong>request</strong> to
 another computer, which we will call the <dfn>server</dfn>.  Once the server receives and processes the request it
 will send back a <strong>response</strong> to the client.</p>
 
-<p>For example, using the MetaWeblog API, an XML-RPC Client (usually a desktop publishing tool) will 
+<p>For example, using the MetaWeblog API, an XML-RPC Client (usually a desktop publishing tool) will
 send a request to an XML-RPC Server running on your site.  This request might be a new weblog entry
 being sent for publication, or it could be a request for an existing entry for editing.
 
@@ -141,12 +141,12 @@ sent back from the XML-RPC Server.</p>
 
 <h2>Anatomy of a Request</h2>
 
-<p>An XML-RPC <dfn>request</dfn> is simply the data you are sending to the XML-RPC server.  Each piece of data in a request 
-is referred to as a <dfn>request parameter</dfn>.  The above example has two parameters: 
+<p>An XML-RPC <dfn>request</dfn> is simply the data you are sending to the XML-RPC server.  Each piece of data in a request
+is referred to as a <dfn>request parameter</dfn>.  The above example has two parameters:
 The URL and title of your site. When the XML-RPC server receives your request, it will look for parameters it requires.</p>
 
 <p>Request parameters must be placed into an array for transportation, and each parameter can be one
-of seven data types (strings, numbers, dates, etc.). If your parameters are something other than strings 
+of seven data types (strings, numbers, dates, etc.). If your parameters are something other than strings
 you will have to include the data type in the request array.</p>
 
 <p>Here is an example of a simple array with three parameters:</p>
@@ -173,10 +173,10 @@ The  <a href="#datatypes">Data Types</a>  section below has a full list of data 
 
 <h2>Creating an XML-RPC Server</h2>
 
-<p>An XML-RPC Server acts as a traffic cop of sorts, waiting for incoming requests and redirecting them to the 
+<p>An XML-RPC Server acts as a traffic cop of sorts, waiting for incoming requests and redirecting them to the
 appropriate functions for processing.</p>
 
-<p>To create your own XML-RPC server involves initializing the XML-RPC Server class in your controller where you expect the incoming 
+<p>To create your own XML-RPC server involves initializing the XML-RPC Server class in your controller where you expect the incoming
 request to appear, then setting up an array with mapping instructions so that incoming requests can be sent to the appropriate
 class and method for processing.</p>
 
@@ -192,15 +192,15 @@ $config['functions']['<var>update_post</var>'] = array('function' => '<dfn>My_bl
 $this->xmlrpcs->initialize($config);<br />
 $this->xmlrpcs->serve();</code>
 
-<p>The above example contains an array specifying two method requests that the Server allows.  
+<p>The above example contains an array specifying two method requests that the Server allows.
 The allowed methods are on the left side of the array. When either of those are received, they will be mapped to the class and method on the right.
 
-<p>In other words, if an XML-RPC Client sends a request for the <var>new_post</var> method, your 
+<p>In other words, if an XML-RPC Client sends a request for the <var>new_post</var> method, your
 server will load the <dfn>My_blog</dfn> class and call the <dfn>new_entry</dfn> function.
-If the request is for the <var>update_post</var> method, your 
+If the request is for the <var>update_post</var> method, your
 server will load the <dfn>My_blog</dfn> class and call the <dfn>update_entry</dfn> function.</p>
 
-<p>The function names in the above example are arbitrary.  You'll decide what they should be called on your server, 
+<p>The function names in the above example are arbitrary.  You'll decide what they should be called on your server,
 or if you are using standardized APIs, like the Blogger or MetaWeblog API, you'll use their function names.</p>
 
 
@@ -225,7 +225,7 @@ to exist with this prototype:</p>
 Using this object you will have access to the <em>request parameters</em> enabling you to process the request.  When
 you are done you will send a <dfn>Response</dfn> back to the Client.<p>
 
-<p>Below is a real-world example, using the Blogger API.  One of the methods in the Blogger API is <dfn>getUserInfo()</dfn>.  
+<p>Below is a real-world example, using the Blogger API.  One of the methods in the Blogger API is <dfn>getUserInfo()</dfn>.
 Using this method, an XML-RPC Client can send the Server a username and password, in return the Server sends
 back information about that particular user (nickname, user ID, email address, etc.).  Here is how the processing
 function might look:</p>
@@ -279,7 +279,7 @@ can be only one primary array index.  In other words, the basic prototype is thi
 
 <code>$request = array('Response data',  'array');</code>
 
-<p>Responses, however, usually contain multiple pieces of information. In order to accomplish this we must put the response into its own 
+<p>Responses, however, usually contain multiple pieces of information. In order to accomplish this we must put the response into its own
 array so that the primary array continues to contain a single piece of data.  Here's an example showing how this might be accomplished:</p>
 
 <code>
@@ -314,12 +314,12 @@ $request = array (<br />
 
 <h2>Creating Your Own Client and Server</h2>
 
-<p>To help you understand everything we've covered thus far, let's create a couple controllers that act as 
+<p>To help you understand everything we've covered thus far, let's create a couple controllers that act as
 XML-RPC Client and Server.  You'll use the Client to send a request to the Server and receive a response.</p>
 
 <h3>The Client</h3>
 
-<p>Using a text editor, create a controller called <dfn>xmlrpc_client.php</dfn>.  
+<p>Using a text editor, create a controller called <dfn>xmlrpc_client.php</dfn>.
 In it, place this code and save it to your <samp>applications/controllers/</samp> folder:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="32"><?php
@@ -357,7 +357,7 @@ class Xmlrpc_client extends Controller {
 
 <h3>The Server</h3>
 
-<p>Using a text editor, create a controller called <dfn>xmlrpc_server.php</dfn>.  
+<p>Using a text editor, create a controller called <dfn>xmlrpc_server.php</dfn>.
 In it, place this code and save it to your <samp>applications/controllers/</samp> folder:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="30"><?php
@@ -386,7 +386,7 @@ class Xmlrpc_server extends Controller {
 									'you_said'  => $parameters['0'],
 									'i_respond' => 'Not bad at all.'),
 							'struct');
-						 
+						
 		return $this->xmlrpc->send_response($response);
 	}
 }
@@ -442,7 +442,7 @@ $this->xmlrpc->request($request);</code>
 <code>$this->xmlrpc->display_response();</code>
 
 <h2>$this->xmlrpc->send_error_message()</h2>
-<p>This function lets you send an error message from your server to the client. First parameter is the error number while the second parameter 
+<p>This function lets you send an error message from your server to the client. First parameter is the error number while the second parameter
 is the error message.</p>
 <code>return $this->xmlrpc->send_error_message('123', 'Requested data not available');</code>
 

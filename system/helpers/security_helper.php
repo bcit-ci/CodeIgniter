@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -60,7 +60,7 @@ function dohash($str, $type = 'sha1')
 			{	
 				require_once(BASEPATH.'libraries/Sha1'.EXT);
 				$SH = new CI_SHA;
-				return $SH->generate($str);            
+				return $SH->generate($str);
 			}
 			else
 			{
@@ -88,7 +88,7 @@ function dohash($str, $type = 'sha1')
  * @return	string
  */	
 function strip_image_tags($str)
-{    
+{
 	$str = preg_replace("#<img\s+.*?src\s*=\s*[\"'](.+?)[\"'].*?\>#", "\\1", $str);
 	$str = preg_replace("#<img\s+.*?src\s*=\s*(.+?).*?\>#", "\\1", $str);
 			

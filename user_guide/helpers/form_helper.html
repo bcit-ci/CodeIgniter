@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -175,7 +175,7 @@ echo form_input($data);<br />
 // Would produce:<br /><br />
 &lt;input type="text" name="username" id="username" value="johndoe" maxlength="100" size="50" style="width:50%" /></code>
 
-<p>If you would like your form to contain some additional data, like JavaScript, you can pass it as a string in the 
+<p>If you would like your form to contain some additional data, like JavaScript, you can pass it as a string in the
 third parameter:
 
 <code>$js = 'onClick="some_function()"';<br />
@@ -184,17 +184,17 @@ echo form_input('username', 'johndoe', $js);</code>
 
 <h2>form_password()</h2>
 
-<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above 
+<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
 except that is sets it as a "password" type.</p>
 
 <h2>form_upload()</h2>
 
-<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above 
+<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
 except that is sets it as a "file" type, allowing it to be used to upload files.</p>
 
 <h2>form_textarea()</h2>
 
-<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above 
+<p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
 except that it generates a "textarea" type. Note: Instead of the "maxlength" and "size" attributes in the above
 example, you will instead specify "rows" and "cols".</p>
 
@@ -224,7 +224,7 @@ echo form_dropdown('shirts', $options, 'large');<br />
 &lt;/select></code>
 
 
-<p>If you would like the opening &lt;select> to contain  additional data, like JavaScript, you can pass it as a string in the 
+<p>If you would like the opening &lt;select> to contain  additional data, like JavaScript, you can pass it as a string in the
 fourth parameter:
 
 <code>$js = 'onChange="some_function()"';<br />
@@ -260,7 +260,7 @@ echo form_checkbox($data);<br />
 // Would produce:<br /><br />
 &lt;input type="checkbox" name="newsletter" id="newsletter" value="accept" checked="checked" style="margin:10px" /></code>
 
-<p>As with other functions, if you would like the tag to contain  additional data, like JavaScript, you can pass it as a string in the 
+<p>As with other functions, if you would like the tag to contain  additional data, like JavaScript, you can pass it as a string in the
 fourth parameter:
 
 <code>$js = 'onClick="some_function()"';<br />

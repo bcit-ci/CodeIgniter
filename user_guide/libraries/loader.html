@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -63,7 +63,7 @@ Loader Class
 
 <h1>Loader Class</h1>
 
-<p>Loader, as the name suggests, is used to load elements.  These elements can be libraries (classes) <a href="../general/views.html">View files</a>, 
+<p>Loader, as the name suggests, is used to load elements.  These elements can be libraries (classes) <a href="../general/views.html">View files</a>,
 <a href="../general/helpers.html">Helpers</a>, <a href="../general/plugins.html">Plugins</a>, or your own files.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
@@ -74,7 +74,7 @@ Loader Class
 
 <h2>$this->load->library('<var>class_name</var>')</h2>
 
-<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load. 
+<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load.
 Note: We use the terms "class" and "library" interchangeably.</p>
 
 <p>For example, if you would like to send email with Code Igniter, the first step is to load the email class within your controller:</p>
@@ -85,7 +85,7 @@ Note: We use the terms "class" and "library" interchangeably.</p>
 
 Each library is described in detail in its own page, so please read the information regarding each one you would like to use.</p>
 
-<p>Parameters can be passed to the library via an array in the second parameter. 
+<p>Parameters can be passed to the library via an array in the second parameter.
 
 
 
@@ -107,7 +107,7 @@ user guide it is recommended that you do since it shows you how this function is
 <p>The first parameter is required.  It is the name of the view file you would like to load.</p>
 
 <p>The second <strong>optional</strong> parameter can take
-an associative array or an object as input, which it runs through the PHP <a href="http://www.php.net/extract">extract</a> function to 
+an associative array or an object as input, which it runs through the PHP <a href="http://www.php.net/extract">extract</a> function to
 convert to variables that can be used in your view files.  Again, read the <a href="../general/views.html">Views</a> page to learn
 how this might be useful.</p>
 
@@ -121,13 +121,13 @@ to your browser.  Remember to assign it to a variable if you wan the data return
 
 <h2>$this->load->database('<var>options</var>', <kbd>true/false</kbd>)</h2>
 
-<p>This function lets you load the database class.  The two parameters are <strong>optional</strong>.  Please see the 
+<p>This function lets you load the database class.  The two parameters are <strong>optional</strong>.  Please see the
 <a href="./database/index.html">database</a> section for more info.</p>
 
 
 <h2>$this->load->scaffolding('<var>table_name</var>')</h2>
 
-<p>This function lets you enable scaffolding.  Please see the 
+<p>This function lets you enable scaffolding.  Please see the
 <a href="../general/scaffolding.html">scaffolding</a> section for more info.</p>
 
 
@@ -135,9 +135,9 @@ to your browser.  Remember to assign it to a variable if you wan the data return
 <h2>$this->load->vars(<samp>$array</samp>)</h2>
 
 <p>This function takes an associative array as input and generates variables using the PHP <a href="http://www.php.net/extract">extract</a> function.
-This function produces the same result as using the second parameter of the <dfn>$this->load->view()</dfn> function above.  The reason you might 
-want to use this function independently is if you would like to set some global variables in the constructor of your controller 
-and have them become available in any view file loaded from any function.  You can have multiple calls to this function.  The data get cached 
+This function produces the same result as using the second parameter of the <dfn>$this->load->view()</dfn> function above.  The reason you might
+want to use this function independently is if you would like to set some global variables in the constructor of your controller
+and have them become available in any view file loaded from any function.  You can have multiple calls to this function.  The data get cached
 and merged into one array for conversion to variables.
 </p>
 
@@ -150,7 +150,7 @@ and merged into one array for conversion to variables.
 <p>This function loads plugins files, where <var>file_name</var> is the name of the file, without the <kbd>_plugin.php</kbd> extension.</p>
 
 <h2>$this->load->file('<var>filepath/filename</var>', <kbd>true/false</kbd>)</h2>
-<p>This is a generic file loading function.  Supply the filepath and name in the first parameter and it will open and read the file. 
+<p>This is a generic file loading function.  Supply the filepath and name in the first parameter and it will open and read the file.
 By default the data is sent to your browser, just like a View file, but if you set the second parameter to <kbd>true</kbd> (boolean)
 it will instead return the data as a string.</p>
 

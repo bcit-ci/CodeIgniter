@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -62,7 +62,7 @@ Upgrading from 1.4.1 to 1.5.0
 
 <h1>Upgrading from 1.4.1 to 1.5.0</h1>
 
-<p class="important"><strong>Note:</strong> The instructions on this page assume you are running version 1.4.1.  If you 
+<p class="important"><strong>Note:</strong> The instructions on this page assume you are running version 1.4.1.  If you
 have not upgraded to that version please do so first.</p>
 
 <p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
@@ -110,7 +110,7 @@ $db['default']['cachedir'] = '';
 |
 | This item allows you to set the filename/classname prefix when extending
 | native libraries.  For more information please see the user guide:
-| 
+|
 | http://www.codeigniter.com/user_guide/general/core_classes.html
 | http://www.codeigniter.com/user_guide/general/creating_libraries.html
 |
@@ -127,7 +127,7 @@ $config['subclass_prefix'] = 'MY_';
 | Enable/Disable Error Logging
 |--------------------------------------------------------------------------
 |
-| If you would like errors or debug messages logged set this variable to 
+| If you would like errors or debug messages logged set this variable to
 | TRUE (boolean).  Note: You must set the file permissions on the "logs" folder
 | such that it is writable.
 |
@@ -141,7 +141,7 @@ $config['log_errors'] = FALSE;
 
 <h2>Step 4: Update your main index.php file</h2>
 
-<p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.  If you are running one with 
+<p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.  If you are running one with
 internal modifications, open it and add this line of code near the bottom:</p>
 
 <code>define('FCPATH', __FILE__);</code>

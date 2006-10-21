@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -193,7 +193,7 @@ if ($result !== FALSE)<br />
 <a name="csv"></a>
 <h2>$this->dbutil->csv_from_result($db_result)</h2>
 
-<p>Permits you to generate a CSV file from a query result. The first parameter of the function must contain the result object from your query. 
+<p>Permits you to generate a CSV file from a query result. The first parameter of the function must contain the result object from your query.
 Example:</p>
 
 <code>
@@ -204,7 +204,7 @@ $query = $this->db->query("SELECT * FROM mytable");<br />
 echo $this->dbutil->csv_from_result($query);
 </code>
 
-<p>The second and third parameters allows you to 
+<p>The second and third parameters allows you to
 set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:
 
 <code>
@@ -221,7 +221,7 @@ If you need to write the file use the <a href="../helpers/file_helper.html">File
 <a name="xml"></a>
 <h2>$this->dbutil->xml_from_result($db_result)</h2>
 
-<p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second 
+<p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second
 may contain an optional array of config parameters.  Example:</p>
 
 <code>
@@ -251,7 +251,7 @@ If you need to write the file use the <a href="../helpers/file_helper.html">File
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
 <p>Note: Due to the limited execution time and memory available to PHP, backing up very large
-databases may not be possible.  If your database is very large you might need to backup directly from your SQL server 
+databases may not be possible.  If your database is very large you might need to backup directly from your SQL server
 via the command line, or have your server admin do it for you if you do not have root privileges.</p>
 
 <h3>Usage Example</h3>

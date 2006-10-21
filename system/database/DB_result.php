@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Database Result Class
- * 
+ *
  * This is the platform-independent result class.
  * This class will not be called directly. Rather, the adapter
  * class for the specific database will extend and instantiate it.
@@ -38,10 +38,10 @@ class CI_DB_result {
 
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array	 
+	 * @return	mixed	either a result object or array	
 	 */	
 	function result($type = 'object')
 	{	
@@ -52,9 +52,9 @@ class CI_DB_result {
 
 	/**
 	 * Query result.  "object" version.
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function result_object()
 	{
@@ -70,7 +70,7 @@ class CI_DB_result {
 		
 		$this->_data_seek(0);
 		while ($row = $this->_fetch_object())
-		{ 
+		{
 			$this->result_object[] = $row;
 		}
 		
@@ -81,9 +81,9 @@ class CI_DB_result {
 
 	/**
 	 * Query result.  "array" version.
-	 * 
+	 *
 	 * @access	public
-	 * @return	array 
+	 * @return	array
 	 */	
 	function result_array()
 	{
@@ -110,10 +110,10 @@ class CI_DB_result {
 
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array	 
+	 * @return	mixed	either a result object or array	
 	 */	
 	function row($n = 0, $type = 'object')
 	{
@@ -124,9 +124,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns a single result row - object version
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function row_object($n = 0)
 	{
@@ -149,9 +149,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns a single result row - array version
-	 * 
+	 *
 	 * @access	public
-	 * @return	array 
+	 * @return	array
 	 */	
 	function row_array($n = 0)
 	{
@@ -175,9 +175,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns the "first" row
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function first_row($type = 'object')
 	{
@@ -194,9 +194,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns the "last" row
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function last_row($type = 'object')
 	{
@@ -213,9 +213,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns the "next" row
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function next_row($type = 'object')
 	{
@@ -238,9 +238,9 @@ class CI_DB_result {
 
 	/**
 	 * Returns the "previous" row
-	 * 
+	 *
 	 * @access	public
-	 * @return	object 
+	 * @return	object
 	 */	
 	function previous_row($type = 'object')
 	{
@@ -261,11 +261,11 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The following functions are normally overloaded by the identically named 
+	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
 	 * is used.  When caching is enabled we do not load the other driver.
 	 * These functions are primarily here to prevent undefined function errors
-	 * when a cached result object is in use.  They are not otherwise fully 
+	 * when a cached result object is in use.  They are not otherwise fully
 	 * operational due to the unavailability of the database resource IDs with
 	 * cached results.
 	 */

@@ -7,19 +7,19 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /*
 Instructions:
 
 Load the plugin using:
- 
+
  	$this->load->plugin('js_calendar');
 
 Once loaded you'll add the calendar script to the <head> of your page like this:
@@ -123,13 +123,13 @@ Lastly, you'll need some CSS for your calendar:
 
 
 */
- 
+
 function js_calendar_script($form_name = 'entryform')
-{    	
+{		
 
 ob_start();
 ?>
-<script type="text/javascript"> 
+<script type="text/javascript">
 <!--
 var form_name	= "<?php echo $form_name; ?>";
 var format		= 'us'; // eu or us
@@ -167,7 +167,7 @@ function calendar(id, d, highlight, adjusted)
 	}
 	else
 	{
-		this.selected_date = this.year + '' + this.month + '' + this.date; 
+		this.selected_date = this.year + '' + this.month + '' + this.date;
 	}
 			
 	//	Set the "selected date"
@@ -253,7 +253,7 @@ function total_days()
 			if ((  this.date_obj.getFullYear() % 4 == 0
 				&& this.date_obj.getFullYear() % 100 != 0)
 				|| this.date_obj.getFullYear() % 400 == 0)
-				return 29; 
+				return 29;
 			else
 				return 28;
 		case 3:
@@ -361,7 +361,7 @@ function update_calendar(id, dateValue)
 	if (dateParts.length < 3) return;
 	var newYear  = dateParts[0];
 	var newMonth = dateParts[1];
-	var newDay   = dateParts[2]; 
+	var newDay   = dateParts[2];
 	
 	if (isNaN(newDay)  || newDay < 1 || (newDay.length != 1 && newDay.length != 2)) return;
 	if (isNaN(newYear) || newYear < 1 || newYear.length != 4) return;
@@ -376,7 +376,7 @@ function update_calendar(id, dateValue)
 			case 1: // Check for leap year
 				if ((newYear % 4 == 0 && newYear % 100 != 0) || newYear % 400 == 0)
 				{
-					if (newDay > 29) newDay = 29; 
+					if (newDay > 29) newDay = 29;
 				}
 				else
 				{
@@ -500,7 +500,7 @@ function change_month(mo, cal)
 	var newMonth = cal.date_obj.getMonth() + mo;
 	var newDate  = cal.date_obj.getDate();
 	
-	if (newMonth == 12) 
+	if (newMonth == 12)
 	{
 		cal.date_obj.setYear(cal.date_obj.getFullYear() + 1)
 		newMonth = 0;
@@ -520,7 +520,7 @@ function change_month(mo, cal)
 			case 1: // Check for leap year
 				if ((newYear % 4 == 0 && newYear % 100 != 0) || newYear % 400 == 0)
 				{
-					if (newDate > 29) newDate = 29; 
+					if (newDate > 29) newDate = 29;
 				}
 				else
 				{
@@ -584,7 +584,7 @@ function date_str(time)
 <?php
 
 $r = ob_get_contents();
-ob_end_clean(); 
+ob_end_clean();
 return $r;
 }
 

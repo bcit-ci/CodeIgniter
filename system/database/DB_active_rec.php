@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Active Record Class
- * 
+ *
  * This is the platform-independent base Active Record implementation class.
  *
  * @package		CodeIgniter
@@ -547,11 +547,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	
 		if (count($this->ar_set) == 0)
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_must_use_set');
-            }
-            return FALSE;        
+			}
+			return FALSE;
 		}
 
 		if ($table == '')
@@ -596,11 +596,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	
 		if (count($this->ar_set) == 0)
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_must_use_set');
-            }
-            return FALSE;        
+			}
+			return FALSE;
 		}
 
 		if ($table == '')
@@ -663,11 +663,11 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if (count($this->ar_where) == 0)
 		{
-            if ($this->db_debug)
-            {
+			if ($this->db_debug)
+			{
 				return $this->display_error('db_del_must_use_where');
-            }
-            return FALSE;        
+			}
+			return FALSE;
 		}		
 		
 		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where);
@@ -679,7 +679,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Use Table - DEPRECATED 
+	 * Use Table - DEPRECATED
 	 *
 	 * @deprecated	use $this->db->from instead
 	 */
@@ -726,7 +726,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Compile the SELECT statement
 	 *
-	 * Generates a query string based on which functions were used. 
+	 * Generates a query string based on which functions were used.
 	 * Should not be called directly.  The get() function calls it.
 	 *
 	 * @access	private

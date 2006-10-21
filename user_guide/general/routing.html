@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -62,12 +62,12 @@ URI Routing
 
 <h1>URI Routing</h1>
 
-<p>Typically there is a one-to-one relationship between a URL string and its corresponding controller class/method. 
+<p>Typically there is a one-to-one relationship between a URL string and its corresponding controller class/method.
 The segments in a URI normally follow this pattern:</p>
 
 <code>www.your-site.com/<dfn>class</dfn>/<samp>function</samp>/<var>id</var>/</code>
 
-<p>In some instances, however, you may want to remap this relationship so that a different class/function can be called 
+<p>In some instances, however, you may want to remap this relationship so that a different class/function can be called
 instead of the one corresponding to the URL.</p>
 
 <p>For example, lets say you want your URLs to have this prototype:</p>
@@ -79,7 +79,7 @@ www.your-site.com/product/3/<br />
 www.your-site.com/product/4/
 </p>
 
-<p>Normally the second segment of the URL is reserved for the function name, but in the example above it instead has a product ID.  
+<p>Normally the second segment of the URL is reserved for the function name, but in the example above it instead has a product ID.
 To overcome this, Code Igniter allows you to remap the URI handler.</p>
 
 
@@ -95,8 +95,8 @@ permits you to specify your own routing criteria. Routes can either be specified
 
 <code>$route['product/:num'] = "catalog/product_lookup";</code>
 
-<p>In a route, the array key contains the URI to be matched, while the array value  contains the destination it should be re-routed to. 
-In the above example, if the literal word "product" is found in the first segment of the URL, and a number is found in the second segment, 
+<p>In a route, the array key contains the URI to be matched, while the array value  contains the destination it should be re-routed to.
+In the above example, if the literal word "product" is found in the first segment of the URL, and a number is found in the second segment,
 the "catalog" class and the "product_lookup" method are instead used.</p>
 
 <p>You can match literal values or you can use two wildcard types:</p>
@@ -110,7 +110,7 @@ the "catalog" class and the "product_lookup" method are instead used.</p>
 <strong>:any</strong> will match a segment containing any character.
 </p>
 
-<p class="important"><strong>Note:</strong> Routes will run in the order they are defined. 
+<p class="important"><strong>Note:</strong> Routes will run in the order they are defined.
 Higher routes will always take precedence over lower ones.</p>
 
 

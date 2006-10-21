@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -81,24 +81,24 @@ depending on success or failure.  When retrieving data you will typically assign
 <h2>$this->db->simple_query();</h2>
 
 <p>This is a simplified version of the <dfn>$this->db->query()</dfn> function.  It ONLY returns TRUE/FALSE on success or failure.
-It DOES NOT return a database result set, nor does it set the query timer, or compile bind data, or store your query for debugging.  
+It DOES NOT return a database result set, nor does it set the query timer, or compile bind data, or store your query for debugging.
 It simply lets you submit a query. Most users will rarely use this function.</p>
 
 
 <h1>Escaping Queries</h1>
 
-<p>It's a very good security practice to escape your data before submitting it into your database. 
+<p>It's a very good security practice to escape your data before submitting it into your database.
 Code Igniter has two functions that help you do this:</p>
 
 <ol>
 </li>
-<li><strong>$this->db->escape()</strong> This function determines the data type so that it 
+<li><strong>$this->db->escape()</strong> This function determines the data type so that it
 can escape only string data.  It also automatically adds single quotes around the data so you don't have to:
 
 <code>$sql = "INSERT INTO table (title) VALUES(".$this->db->escape($title).")";</code>
 
 
-<li><strong>$this->db->escape_str()</strong>  This function escapes the data passed to it, regardless of type.  
+<li><strong>$this->db->escape_str()</strong>  This function escapes the data passed to it, regardless of type.
 Most of the time you'll use the above function rather then this one. Use the function like this:
 
 <code>$sql = "INSERT INTO table (title) VALUES('".$this->db->escape_str($title)."')";</code>

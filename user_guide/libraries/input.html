@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -107,7 +107,7 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 <code>$data = $this->input->xss_clean($data);</code>
 
-<p>If you want the filter to run automatically every time it encounters POST or COOKIE data you can enable it by opening your 
+<p>If you want the filter to run automatically every time it encounters POST or COOKIE data you can enable it by opening your
 <kbd>application/config/config.php</kbd> file and setting this:
 
 <code>$config['global_xss_filtering'] = TRUE;</code>
@@ -121,7 +121,7 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 <p>Code Igniter comes with three helper functions that let you fetch POST, COOKIE or SERVER items.  The main advantage of using the provided
 functions rather then fetching an item directly ($_POST['something']) is that the functions will check to see if the item is set and
-return false (boolean) if not.  This lets you conveniently use data without having to test whether an item exists first. 
+return false (boolean) if not.  This lets you conveniently use data without having to test whether an item exists first.
 In other words, normally you might do something like this:
 
 <code>

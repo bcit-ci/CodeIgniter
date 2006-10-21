@@ -12,15 +12,15 @@
 
 var Class = {
   create: function() {
-    return function() { 
-      this.initialize.apply(this, arguments);
-    }
+	return function() {
+	  this.initialize.apply(this, arguments);
+	}
   }
 }
 
 Object.extend = function(destination, source) {
   for (property in source) {
-    destination[property] = source[property];
+	destination[property] = source[property];
   }
   return destination;
 }
@@ -28,7 +28,7 @@ Object.extend = function(destination, source) {
 Function.prototype.bind = function(object) {
   var __method = this;
   return function() {
-    return __method.apply(object, arguments);
+	return __method.apply(object, arguments);
   }
 }
 
@@ -36,14 +36,14 @@ function $() {
   var elements = new Array();
 
   for (var i = 0; i < arguments.length; i++) {
-    var element = arguments[i];
-    if (typeof element == 'string')
-      element = document.getElementById(element);
+	var element = arguments[i];
+	if (typeof element == 'string')
+	  element = document.getElementById(element);
 
-    if (arguments.length == 1) 
-      return element;
+	if (arguments.length == 1)
+	  return element;
 
-    elements.push(element);
+	elements.push(element);
   }
 
   return elements;
@@ -54,18 +54,18 @@ function $() {
 document.getElementsByClassName = function(className) {
   var children = document.getElementsByTagName('*') || document.all;
   var elements = new Array();
-  
+
   for (var i = 0; i < children.length; i++) {
-    var child = children[i];
-    var classNames = child.className.split(' ');
-    for (var j = 0; j < classNames.length; j++) {
-      if (classNames[j] == className) {
-        elements.push(child);
-        break;
-      }
-    }
+	var child = children[i];
+	var classNames = child.className.split(' ');
+	for (var j = 0; j < classNames.length; j++) {
+	  if (classNames[j] == className) {
+		elements.push(child);
+		break;
+	  }
+	}
   }
-  
+
   return elements;
 }
 
@@ -77,51 +77,51 @@ if (!window.Element) {
 
 Object.extend(Element, {
   remove: function(element) {
-    element = $(element);
-    element.parentNode.removeChild(element);
+	element = $(element);
+	element.parentNode.removeChild(element);
   },
 
   hasClassName: function(element, className) {
-    element = $(element);
-    if (!element)
-      return;
-    var a = element.className.split(' ');
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] == className)
-        return true;
-    }
-    return false;
+	element = $(element);
+	if (!element)
+	  return;
+	var a = element.className.split(' ');
+	for (var i = 0; i < a.length; i++) {
+	  if (a[i] == className)
+		return true;
+	}
+	return false;
   },
 
   addClassName: function(element, className) {
-    element = $(element);
-    Element.removeClassName(element, className);
-    element.className += ' ' + className;
+	element = $(element);
+	Element.removeClassName(element, className);
+	element.className += ' ' + className;
   },
-  
+
   removeClassName: function(element, className) {
-    element = $(element);
-    if (!element)
-      return;
-    var newClassName = '';
-    var a = element.className.split(' ');
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != className) {
-        if (i > 0)
-          newClassName += ' ';
-        newClassName += a[i];
-      }
-    }
-    element.className = newClassName;
+	element = $(element);
+	if (!element)
+	  return;
+	var newClassName = '';
+	var a = element.className.split(' ');
+	for (var i = 0; i < a.length; i++) {
+	  if (a[i] != className) {
+		if (i > 0)
+		  newClassName += ' ';
+		newClassName += a[i];
+	  }
+	}
+	element.className = newClassName;
   },
-  
+
   // removes whitespace-only text node children
   cleanWhitespace: function(element) {
-    element = $(element);
-    for (var i = 0; i < element.childNodes.length; i++) {
-      var node = element.childNodes[i];
-      if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) 
-        Element.remove(node);
-    }
+	element = $(element);
+	for (var i = 0; i < element.childNodes.length; i++) {
+	  var node = element.childNodes[i];
+	  if (node.nodeType == 3 && !/\S/.test(node.nodeValue))
+		Element.remove(node);
+	}
   }
 });

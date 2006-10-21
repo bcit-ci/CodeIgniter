@@ -7,12 +7,12 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -34,7 +34,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _create_database()
 	{
-		// ODBC has no "create database" command since it's 
+		// ODBC has no "create database" command since it's
 		// designed to connect to an existing database
 		if ($this->db->db_debug)
 		{
@@ -54,7 +54,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _drop_database($name)
 	{
-		// ODBC has no "drop database" command since it's 
+		// ODBC has no "drop database" command since it's
 		// designed to connect to an existing database		
 		if ($this->db->db_debug)
 		{

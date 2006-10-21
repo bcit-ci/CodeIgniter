@@ -7,17 +7,17 @@
  * @package		CodeIgniter
  * @author		Rick Ellis
  * @copyright	Copyright (c) 2006, pMachine, Inc.
- * @license		http://www.codeignitor.com/user_guide/license.html 
+ * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
- 
+
 // ------------------------------------------------------------------------
 
 /**
  * Loader Class
- * 
+ *
  * Loads views and files
  *
  * @package		CodeIgniter
@@ -192,7 +192,7 @@ class CI_Loader {
 	 * Load the Utilities Class
 	 *
 	 * @access	public
-	 * @return	string		 
+	 * @return	string		
 	 */		
 	function dbutil()
 	{
@@ -550,9 +550,9 @@ class CI_Loader {
 		/*
 		 * Extract and cache variables
 		 *
-		 * You can either set variables using the dedicated $this->load_vars() 
-		 * function or via the second parameter of this function. We'll merge 
-		 * the two types and cache them so that views that are embedded within 
+		 * You can either set variables using the dedicated $this->load_vars()
+		 * function or via the second parameter of this function. We'll merge
+		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
 		 */	
 		if (is_array($vars))
@@ -579,9 +579,9 @@ class CI_Loader {
 		 *
 		 * We buffer the output for two reasons:
 		 * 1. Speed. You get a significant speed boost.
-		 * 2. So that the final rendered template can be 
+		 * 2. So that the final rendered template can be
 		 * post-processed by the output class.  Why do we
-		 * need post processing?  For one thing, in order to 
+		 * need post processing?  For one thing, in order to
 		 * show the elapsed page load time.  Unless we
 		 * can intercept the content right before it's sent to
 		 * the browser and then stop the timer it won't be accurate.
@@ -612,7 +612,7 @@ class CI_Loader {
 		if ($return === TRUE)
 		{		
 			$buffer = ob_get_contents();
-			ob_end_clean(); 
+			ob_end_clean();
 			
 			return $buffer;
 		}
@@ -621,9 +621,9 @@ class CI_Loader {
 		 * Flush the buffer... or buff the flusher?
 		 *
 		 * In order to permit views to be nested within
-		 * other views, we need to flush the content back out whenever 
-		 * we are beyond the first level of output buffering so that 
-		 * it can be seen and included properly by the first included 
+		 * other views, we need to flush the content back out whenever
+		 * we are beyond the first level of output buffering so that
+		 * it can be seen and included properly by the first included
 		 * template and any subsequent ones. Oy!
 		 *
 		 */	
@@ -702,7 +702,7 @@ class CI_Loader {
 	{	
 		// Is there an associated config file for this class?
 		if ($config !== NULL)
-		{ 
+		{
 			$cong = NULL;
 			if (file_exists(APPPATH.'config/'.$class.EXT))
 			{
@@ -740,7 +740,7 @@ class CI_Loader {
 	/**
 	 * Autoloader
 	 *
-	 * The config/autoload.php file contains an array that permits sub-systems, 
+	 * The config/autoload.php file contains an array that permits sub-systems,
 	 * libraries, plugins, and helpers to be loaded automatically.
 	 *
 	 * @access	private
@@ -785,14 +785,14 @@ class CI_Loader {
 		// Load libraries
 		if (isset($autoload['libraries']) AND count($autoload['libraries']) > 0)
 		{
-			// Load the database driver.  
+			// Load the database driver.
 			if (in_array('database', $autoload['libraries']))
 			{
 				$this->database();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
 
-			// Load the model class.  
+			// Load the model class.
 			if (in_array('model', $autoload['libraries']))
 			{
 				$this->model();

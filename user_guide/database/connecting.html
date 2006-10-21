@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -69,20 +69,20 @@ Connecting
 
 <h2>Automatically Connecting</h2>
 
-<p>The "auto connect" feature will load and instantiate the database class with every page load. 
+<p>The "auto connect" feature will load and instantiate the database class with every page load.
 To enable "auto connecting", add the word <var>database</var> to the core array, as indicated in the following file:</p>
 
 <p><kbd>application/config/autoload.php</kbd></p>
 
 <h2>Manually Connecting</h2>
 
-<p>If only some of your pages require database connectivity you can manually connect to your database by adding this 
-line of code in any function where it is needed, or in your class constructor to make the database 
+<p>If only some of your pages require database connectivity you can manually connect to your database by adding this
+line of code in any function where it is needed, or in your class constructor to make the database
 available globally in that class.</p>
 
 <code>$this->load->database();</code>
 
-<p class="important">If the above function does <strong>not</strong> contain any information in the first parameter it will connect 
+<p class="important">If the above function does <strong>not</strong> contain any information in the first parameter it will connect
 to the group specified in your database config file. For most people, this is the preferred method of use.</p>
 
 
@@ -133,7 +133,7 @@ $this->load->database('<samp>$dsn</samp>');</code>
 $DB2 = $this->load->database('group_two', TRUE);
 </code>
 
-<p>Note: Change the words "group_one" and "group_two" to the specific group names you are connecting to (or 
+<p>Note: Change the words "group_one" and "group_two" to the specific group names you are connecting to (or
 you can pass the connection values as indicated above).</p>
 
 <p>By setting the second parameter to TRUE (boolean) the function will return the database object.</p>

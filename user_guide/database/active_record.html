@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -66,9 +66,9 @@ Active Record
 <h1>Active Record Class</h1>
 
 
-<p>Code Igniter uses a modified version of the Active Record Database Pattern.  
-This pattern allows information to be retrieved, inserted, and updated in your database with minimal scripting. 
-In some cases only one or two lines of code are necessary to perform a database action.  
+<p>Code Igniter uses a modified version of the Active Record Database Pattern.
+This pattern allows information to be retrieved, inserted, and updated in your database with minimal scripting.
+In some cases only one or two lines of code are necessary to perform a database action.
 Code Igniter does not require that each database table be its own class file.  It instead provides a more simplified interface.</p>
 
 <p>Beyond simplicity, a major benefit to using the Active Record features is that it allows you to create database independent applications, since the query syntax
@@ -182,7 +182,7 @@ $query = $this->db->get();<br />
 
 <p>Multiple function calls can be made if you need several joins in one query.</p>
 
-<p>If you need something other than a natural JOIN you can specify it via the third parameter of the function.  
+<p>If you need something other than a natural JOIN you can specify it via the third parameter of the function.
 Options are: left, right, outer, inner, left outer, and right outer.</p>
 
 <code>
@@ -353,7 +353,7 @@ $this->db->orlike('body', $match);
 	
 	
 <h2>$this->db->orderby();</h2>
-<p>Lets you set an ORDER BY clause. The first parameter contains the name of the column you would like to order by. 
+<p>Lets you set an ORDER BY clause. The first parameter contains the name of the column you would like to order by.
 The second parameter lets you set the direction of the result.  Options are <kbd>asc</kbd> or <kbd>desc</kbd> or <kbd>RAND()</kbd></p>
 	
 <code>$this->db->orderby("title", "desc");
@@ -563,7 +563,7 @@ $this->db->delete('mytable', array('id' => $id));
 // DELETE FROM mytable <br />
 // WHERE id = $id</code>
 
-<p>The first parameter is the table name, the second is the where clause. You can also use the <dfn>where()</dfn> or <dfn>orwhere()</dfn> functions instead of passing 
+<p>The first parameter is the table name, the second is the where clause. You can also use the <dfn>where()</dfn> or <dfn>orwhere()</dfn> functions instead of passing
 the data to the second parameter of the function:
 
 <code>

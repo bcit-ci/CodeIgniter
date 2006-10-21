@@ -240,7 +240,7 @@ padding: 3px 2px 3px 10px;
  font-weight: bold;
  font-style: normal;
 }
-#content kbd { 
+#content kbd {
  font-family: Lucida Grande, Verdana, Geneva, Sans-serif;
  color: #A70000;
  font-weight: bold;
@@ -299,12 +299,12 @@ padding: 3px 2px 3px 10px;
  margin: 6px 0 8px 0;
  padding: 0;
 }
- 
+
 #content .important .leftpad {
  margin: 6px 0 8px 0;
  padding-left: 20px;
 }
- 
+
 #content .critical {
  background: #FBE6F2;
  border: 1px solid #E68F8F;
@@ -312,7 +312,7 @@ padding: 3px 2px 3px 10px;
  margin: 10px 0 5px 0;
  padding: 10px;
 }
- 
+
 #content .critical p {
  margin: 5px 0 6px 0;
  padding: 0;
@@ -368,7 +368,7 @@ form {
  height: 1.5em;
  padding: 0;
  margin: 0;
-} 
+}
 
 .textarea {
  font-family: Lucida Grande, Verdana, Geneva, Sans-serif;

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -78,7 +78,7 @@ URL Helper
 <p>Returns your site URL, as specified in your config file.  The index.php file (or whatever you have set as your
 site <dfn>index_page</dfn> in your config file) will be added to the URL, as will any URI segments you pass to the function.</p>
 
-<p>You are encouraged to use this function any time you need to generate a local URL so that your pages become more portable 
+<p>You are encouraged to use this function any time you need to generate a local URL so that your pages become more portable
 in the event your URL changes.</p>
 
 <p>Segments can be optionally passed to the function as a string or an array.  Here is a string example:</p>
@@ -139,9 +139,9 @@ will be added automatically from the information specified in your config file. 
 
 <h2>anchor_popup()</h2>
 
-<p>Nearly identical to the <dfn>anchor()</dfn> function except that it opens the URL in a new window.  
+<p>Nearly identical to the <dfn>anchor()</dfn> function except that it opens the URL in a new window.
 
-You can specify JavaScript window attributes in the third parameter to control how the window is opened. If 
+You can specify JavaScript window attributes in the third parameter to control how the window is opened. If
 the third parameter is not set it will simply open a new window with your own browser settings.  Here is an example
 with attributes:</p>
 
@@ -236,7 +236,7 @@ $url = prep_url($url);</code>
 to redirect to a local URL within your site.  You will <strong>not</strong> specify the full site URL, but rather simply the URI segments
 to the controller you want to direct to. The function will build the URL based on your config file values.</p>
 
-<p>The second parameter allows you to choose between the "location" 
+<p>The second parameter allows you to choose between the "location"
 method or the "refresh" method.  Location is faster, but on Windows servers it can sometimes be a problem.  Example:</p>
 
 <code>if ($logged_in == FALSE)<br />

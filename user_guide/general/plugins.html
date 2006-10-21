@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -63,13 +63,13 @@ Plugins
 
 <h1>Plugins</h1>
 
-<p>Plugins work almost identically to <a href="helpers.html">Helpers</a>.  The main difference is that a plugin usually 
+<p>Plugins work almost identically to <a href="helpers.html">Helpers</a>.  The main difference is that a plugin usually
 provides a single function, whereas a Helper is usually a collection of functions.  Helpers are also considered a part of
 the core system; plugins are intended to be created and shared by our community.</p>
 
 <p>Plugins should be saved to your <dfn>system/plugins</dfn> directory or you can create a folder called <kbd>plugins</kbd> inside
 your <kbd>application</kbd> folder and store them there.  Code Igniter will look first in your <dfn>system/application/plugins</dfn>
-directory.  If the directory does not exist or the specified plugin is not located there CI will instead look in your global 
+directory.  If the directory does not exist or the specified plugin is not located there CI will instead look in your global
 <dfn>system/plugins</dfn> folder.</p>
 
 
@@ -102,7 +102,7 @@ automatically in any function, or you can load a plugin in a specific function t
 
 <h2>Auto-loading Plugins</h2>
 
-<p>If you find that you need a particular plugin globally throughout your application, you can tell Code Igniter to auto-load it 
+<p>If you find that you need a particular plugin globally throughout your application, you can tell Code Igniter to auto-load it
 during system initialization. This is done by opening the <var>application/config/autoload.php</var> file and adding the plugin to the autoload array.</p>
 
 

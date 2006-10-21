@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -62,15 +62,15 @@ Error Handling
 
 <h1>Error Handling</h1>
 
-<p>Code Igniter lets you build error reporting into your applications using the functions described below.  
+<p>Code Igniter lets you build error reporting into your applications using the functions described below.
 In addition, it has an error logging class that permits error and debugging messages to be saved as text files.</p>
 
-<p class="important"><strong>Note:</strong> By default, Code Igniter displays all PHP errors.  You might 
+<p class="important"><strong>Note:</strong> By default, Code Igniter displays all PHP errors.  You might
 wish to change this behavior once your development is complete.  You'll find the <dfn>error_reporting()</dfn>
 function located at the top of your main index.php file. Disabling error reporting will NOT prevent log files
 from being written if there are errors.</p>
 
-<p>Unlike most systems in Code Igniter, the error functions are simple procedural interfaces that are available 
+<p>Unlike most systems in Code Igniter, the error functions are simple procedural interfaces that are available
 globally throughout the application.  This approach permits error messages to get triggered without having to worry
 about class/function scoping.</p>
 
@@ -90,7 +90,7 @@ Note that Code Igniter automatically shows 404 messages if controllers are not f
 
 <h2>log_message('<var>level</var>', '<samp>message</samp>')</h2>
 
-<p>This function lets you write messages to your log files.  You must supply one of three "levels" 
+<p>This function lets you write messages to your log files.  You must supply one of three "levels"
 in the first parameter, indicating what type of message it is (debug, error, info), with the message
 itself in the second parameter.  Example:</p>
 
@@ -116,8 +116,8 @@ log_message('info', 'The purpose of some variable is to provide some value.');<b
 </ol>
 
 
-<p class="important"><strong>Note:</strong> In order for the log file to actually be written, the 
- "logs" folder must be writable.  In addition, you must set the "threshold" for logging.  
+<p class="important"><strong>Note:</strong> In order for the log file to actually be written, the
+ "logs" folder must be writable.  In addition, you must set the "threshold" for logging.
 You might, for example, only want error messages to be logged, and not the other two types.
 If you set it to zero logging will be disabled.</p>
 

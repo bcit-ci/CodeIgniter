@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	myHeight = new fx.Height('nav', {duration: 400}); 
+	myHeight = new fx.Height('nav', {duration: 400});
 	myHeight.hide();
 }
 </script>
@@ -63,11 +63,11 @@ Creating Libraries
 <h1>Creating Libraries</h1>
 
 <p>When we use the term "Libraries" we are normally referring to the classes that are located in the <kbd>libraries</kbd>
-directory and described in the Class Reference of this user guide.  In this case, however, we will instead describe how you can create 
-your own libraries within your <dfn>application/libraries</dfn> directory in order to maintain separation between your local resources 
+directory and described in the Class Reference of this user guide.  In this case, however, we will instead describe how you can create
+your own libraries within your <dfn>application/libraries</dfn> directory in order to maintain separation between your local resources
 and the global framework resources.</p>
 
-<p>As an added bonus, Code Igniter permits your libraries to <kbd>extend</kbd> native classes if you simply need to add some functionality 
+<p>As an added bonus, Code Igniter permits your libraries to <kbd>extend</kbd> native classes if you simply need to add some functionality
 to an existing library. Or you can even replace native libraries just by placing identically named versions in your <dfn>application/libraries</dfn> folder.
 
 <p>In summary:</p>
@@ -86,7 +86,7 @@ nor can the main Controller class.  All other classes are able to be replaced/ex
 
 <h2>Storage</h2>
 
-<p>Your library classes should be placed within your <dfn>application/libraries</dfn> folder, as this is where Code Igniter will look for them when 
+<p>Your library classes should be placed within your <dfn>application/libraries</dfn> folder, as this is where Code Igniter will look for them when
 they are initialized.</p>
 
 
@@ -120,7 +120,7 @@ class Someclass {<br />
 
 <code>$this->load->library('<kbd>someclass</kbd>');</code>
 
-<p>Where <em>someclass</em> is the file name, without the ".php" file extension. You can submit the file name capitalized or lower case. 
+<p>Where <em>someclass</em> is the file name, without the ".php" file extension. You can submit the file name capitalized or lower case.
 Code Igniter doesn't care.</p>
 
 <p>Once loaded you can access your class using the <kbd>lower case</kbd> version:</p>
@@ -132,7 +132,7 @@ Code Igniter doesn't care.</p>
 
 <h2>Passing Parameters When Initializing Your Class</h2>
 
-<p>In the library loading function you can dynamically pass data via the second parameter and it will be passed to your class 
+<p>In the library loading function you can dynamically pass data via the second parameter and it will be passed to your class
 constructor:</p>
 
 <code>
@@ -178,7 +178,7 @@ This function returns the Code Igniter super object.</p>
 etc.
 </code>
 
-<p><kbd>$this</kbd>, however, only works directly within your controllers, your models, or your views.  
+<p><kbd>$this</kbd>, however, only works directly within your controllers, your models, or your views.
 If you would like to use Code Igniter's classes from within your own custom classes you can do so as follows:</p>
 
 
@@ -231,7 +231,7 @@ Extending a class is nearly identical to replacing a class with a couple excepti
 
 <ul>
 <li>The class declaration must extend the parent class.</li>
-<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li> 
+<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li>
 </ul>
 
 <p>For example, to extend the native <kbd>Email</kbd> class you'll create a file named <dfn>application/libraries/</dfn><kbd>MY_Email.php</kbd>, and declare your class with:</p>
@@ -261,7 +261,7 @@ to load the example above, which extends the Email class, you will use:</p>
 
 <code>$this->load->library('<kbd>email</kbd>');</code>
 
-<p>Once loaded you will use the class variable as you normally would for the class you are extending.  In the case of 
+<p>Once loaded you will use the class variable as you normally would for the class you are extending.  In the case of
 the email class all calls will use:
 
 
