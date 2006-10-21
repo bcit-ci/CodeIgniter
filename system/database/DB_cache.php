@@ -171,7 +171,7 @@ class CI_DB_Cache {
 			$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		}
 		
-		$dir_path = $this->CI->db->cachedir.md5($segment_one.'+'.$segment_two).'/';
+		$dir_path = $this->CI->db->cachedir.$segment_one.'+'.$segment_two.'/';
 		
 		delete_files($dir_path, TRUE);
 	}
