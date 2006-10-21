@@ -507,7 +507,7 @@ function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
  * Timezones
  *
  * Returns an array of timezones.  This is a helper function
- * for varios other ones in this library
+ * for various other ones in this library
  *
  * @access	public
  * @param	string	timezone

@@ -63,7 +63,7 @@ class CI_DB_result {
 			return $this->result_object;
 		}
 		
-		if ($this->num_rows == 0)
+		if ($this->numerous == 0)
 		{
 			return array();
 		}

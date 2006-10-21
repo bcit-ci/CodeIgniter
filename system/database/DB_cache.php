@@ -82,7 +82,7 @@ class CI_DB_Cache {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Retreive a cached query
+	 * Retrieve a cached query
 	 *
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name

@@ -31,8 +31,8 @@
  * XSS Filtering
  *
  * @access	public
- * @parm	string
- * @parm	string	the character set of your data
+ * @param	string
+ * @param	string	the character set of your data
  * @return	string
  */	
 function xss_clean($str, $charset = 'ISO-8859-1')
@@ -84,7 +84,7 @@ function dohash($str, $type = 'sha1')
  * Strip Image Tags
  *
  * @access	public
- * @parm	string
+ * @param	string
  * @return	string
  */	
 function strip_image_tags($str)
@@ -101,7 +101,7 @@ function strip_image_tags($str)
  * Convert PHP tags to entities
  *
  * @access	public
- * @parm	string
+ * @param	string
  * @return	string
  */	
 function encode_php_tags($str)
