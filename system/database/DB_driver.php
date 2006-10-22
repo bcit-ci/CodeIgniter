@@ -234,9 +234,9 @@ class CI_DB_driver {
 		{
 			if ($this->_cache_init())
 			{
+				$this->load_rdriver();
 				if (FALSE !== ($cache = $this->CACHE->read($sql)))
 				{
-					$this->load_rdriver();
 					return $cache;
 				}
 			}
