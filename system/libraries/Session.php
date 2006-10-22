@@ -110,8 +110,10 @@ class CI_Session {
 			}
 		}
 		
-		// Do we need encryption?		
-		if ($this->CI->config->item('sess_encrypt_cookie') == TRUE)	
+		// Do we need encryption?
+		$this->encryption = $this->CI->config->item('sess_encrypt_cookie');
+	
+		if ($this->encryption == TRUE)	
 		{
 			$this->CI->load->library('encrypt');
 		}		
