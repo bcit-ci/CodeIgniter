@@ -95,7 +95,7 @@ $this->zip->download('my_backup.zip');
 <h2>$this->zip->add_data()</h2>
 
 <p>Permits you to add data to the Zip archive. The first parameter must contain the name you would like
-given to the file, the second parameter must contain the file data:</p>
+given to the file, the second parameter must contain the file data as a string:</p>
 
 <code>
 $name = 'my_bio.txt';<br />
@@ -104,19 +104,7 @@ $data = 'I was born in an elevator...';<br />
 $this->zip->add_data($name, $data);
 </code>
 
-
-<p>If you would like to compress a file that exists somewhere on your server you will need to read the data before
-passing it to the function:</p>
-
-<code>
-$name = 'photo.jpg';<br /><br />
-$data = file_get_contents("/path/to/photo.jpg"); // Read the file's contents<br />
-<br />
-$this->zip->add_data($name, $data);
-</code>
-
-
-<p>You are allowed to have multiple calls to this function in order to
+<p>You are allowed multiple calls to this function in order to
 add several files to your archive.  Example:</p>
 
 <code>
@@ -134,8 +122,7 @@ $this->zip->add_data($name, $data);<br />
 <code>
 $data = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'mydata1.txt' => 'A Data String!',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'mydata2.txt' => 'Another Data String!',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'photo.jpg' => file_get_contents("/path/to/photo.jpg")<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'mydata2.txt' => 'Another Data String!'<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
 $this->zip->add_data($data);<br />
@@ -161,6 +148,53 @@ $this->zip->add_data($name, $data);
 using <dfn>$this->zip->add_data()</dfn>, but if you would like to create an empty folder you can do so.  Example:</p>
 
 <code>$this->zip->add_dir('myfolder'); // Creates a folder called "myfolder"</code>
+
+
+
+<h2>$this->zip->read_file()</h2>
+
+<p>Permits you to compress a file that already exists somewhere on your server.  Supply a file path and the zip class will
+read it and add it to the archive:</p>
+
+<code>
+$path = '/path/to/photo.jpg';<br /><br />
+$this->zip->read_file($path);
+<br /><br />
+ // Download the file to your desktop.  Name it "my_backup.zip"<br />
+$this->zip->download('my_backup.zip');
+</code>
+
+<p>If you would like the Zip archive to maintain the directory structure the file is in, pass <kbd>TRUE</kbd> (boolean) in the
+second parameter.  Example:
+
+
+<code>
+$path = '/path/to/photo.jpg';<br /><br />
+$this->zip->read_file($path, <kbd>TRUE</kbd>);
+<br /><br />
+ // Download the file to your desktop.  Name it "my_backup.zip"<br />
+$this->zip->download('my_backup.zip');
+</code>
+
+<p>In the above example, <dfn>photo.jpg</dfn> will be placed inside two folders:  <kbd>path/to/</kbd></p>
+
+
+
+<h2>$this->zip->read_dir()</h2>
+
+<p>Permits you to compress a folder (and its contents) that already exists somewhere on your server.  Supply a file path to the 
+directory and the zip class will recursively read it and recreate it as a Zip archive.  All files contained within the
+supplied path will be encodes, as will any sub-folders contained within it.  Example:</p>
+
+<code>
+$path = '/path/to/your/directory/';<br /><br />
+$this->zip->read_dir($path);
+<br /><br />
+ // Download the file to your desktop.  Name it "my_backup.zip"<br />
+$this->zip->download('my_backup.zip');
+</code>
+
+
 
 
 <h2>$this->zip->archive()</h2>
@@ -213,8 +247,7 @@ $zip_file = $this->zip->get_zip();<br />
 <br /><br />
 
 $name = 'photo.jpg';<br />
-$data = file_get_contents("/path/to/photo.jpg"); // Read the file's contents<br />
-$this->zip->add_data($name, $data);
+$this->zip->read_file("/path/to/photo.jpg"); // Read the file's contents<br />
 <br /><br />
 $this->zip->download('myphotos.zip');
 </code>
