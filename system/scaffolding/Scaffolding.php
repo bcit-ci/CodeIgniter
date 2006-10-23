@@ -154,7 +154,7 @@ class Scaffolding {
 		$query = $this->CI->db->get($this->current_table, $per_page, $offset);
 
 		// Now let's get the field names				
-		$fields = $this->CI->db->field_names($this->current_table);
+		$fields = $this->CI->db->list_fields($this->current_table);
 		
 		// We assume that the column in the first position is the primary field.
 		$primary = current($fields);
