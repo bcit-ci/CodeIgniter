@@ -295,7 +295,10 @@ class CI_Router {
 			// can be unreliable in some environments
 			if (is_array($_GET) AND count($_GET) == 1)
 			{
-				return current(array_keys($_GET));
+				// Note: Due to a bug in current() that affects some versions
+				// of PHP we can not pass function call directly into it
+				$keys = array_keys($_GET);
+				return current($keys);
 			}
 		
 			// Is there a PATH_INFO variable?

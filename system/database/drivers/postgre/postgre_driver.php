@@ -40,7 +40,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		$port = ($this->port == '') ? '' : " port=".$this->port;
 		
-		return pg_connect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		return @pg_connect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
 	}
 
 	// --------------------------------------------------------------------
@@ -55,7 +55,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		$port = ($this->port == '') ? '' : " port=".$this->port;
 
-		return pg_pconnect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		return @pg_pconnect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
 	}
 	
 	// --------------------------------------------------------------------
