@@ -45,7 +45,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		return mysql_connect($this->hostname, $this->username, $this->password, TRUE);
+		return @mysql_connect($this->hostname, $this->username, $this->password, TRUE);
 	}
 	
 	// --------------------------------------------------------------------
@@ -58,7 +58,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		return mysql_pconnect($this->hostname, $this->username, $this->password);
+		return @mysql_pconnect($this->hostname, $this->username, $this->password);
 	}
 	
 	// --------------------------------------------------------------------

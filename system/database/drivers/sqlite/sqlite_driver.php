@@ -40,14 +40,16 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		if ( ! $conn_id = sqlite_open($this->database, 0666, $error))
+		if ( ! $conn_id = @sqlite_open($this->database, 0666, $error))
 		{
 			log_message('error', $error);
 			
 			if ($this->db_debug)
 			{
 				$this->display_error($error, '', TRUE);
-			}		
+			}
+			
+			return FALSE;
 		}
 		
 		return $conn_id;
@@ -63,14 +65,16 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		if ( ! $conn_id = sqlite_popen($this->database, 0666, $error))
+		if ( ! $conn_id = @sqlite_popen($this->database, 0666, $error))
 		{
 			log_message('error', $error);
 			
 			if ($this->db_debug)
 			{
 				$this->display_error($error, '', TRUE);
-			}		
+			}
+			
+			return FALSE;
 		}
 		
 		return $conn_id;

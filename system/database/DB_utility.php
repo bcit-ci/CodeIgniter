@@ -133,7 +133,11 @@ class CI_DB_utility {
 		}
 	
 		$query = $this->db->query($sql);
-		return current($query->result_array());
+		$res = $query->result_array();
+		
+		// Note: Due to a bug in current() that affects some versions
+		// of PHP we can not pass function call directly into it
+		return current($res);
 	}
 
 	// --------------------------------------------------------------------
@@ -159,7 +163,10 @@ class CI_DB_utility {
 			$query = $this->db->query($sql);
 			
 			// Build the result array...
-			$res = current($query->result_array());
+			// Note: Due to a bug in current() that affects some versions
+			// of PHP we can not pass function call directly into it
+			$res = $query->result_array();
+			$res = current($res);
 			$key = str_replace($this->db->database.'.', '', current($res));
 			$keys = array_keys($res);
 			unset($res[$keys[0]]);
@@ -190,7 +197,11 @@ class CI_DB_utility {
 		}
 	
 		$query = $this->db->query($sql);
-		return current($query->result_array());
+		
+		// Note: Due to a bug in current() that affects some versions
+		// of PHP we can not pass function call directly into it
+		$res = $query->result_array();
+		return current($res);
 	}
 
 	// --------------------------------------------------------------------

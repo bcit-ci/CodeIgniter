@@ -62,7 +62,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		return ocilogon($this->username, $this->password, $this->hostname);
+		return @ocilogon($this->username, $this->password, $this->hostname);
 	}
 
 	// --------------------------------------------------------------------
@@ -75,7 +75,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		return ociplogon($this->username, $this->password, $this->hostname);
+		return @ociplogon($this->username, $this->password, $this->hostname);
 	}
 
 	// --------------------------------------------------------------------
