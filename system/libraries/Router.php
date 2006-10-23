@@ -319,16 +319,6 @@ class CI_Router {
 			{
 				return $path;
 			}
-			
-			// OK, how about REQUEST_URI?
-			// Note: REQUEST_URI is not supplied in a consistent manner with all platforms so it's
-			// a difficult variable to use.  We'll try to parse it out correctly.  Hopefully one
-			// of the other variables above was available.
-			$path = $this->_parse_request_uri();
-			if ($path != "")
-			{
-				return $path;
-			}
 
 			// We've exhausted all our options...
 			return '';

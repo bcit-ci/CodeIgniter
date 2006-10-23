@@ -235,7 +235,7 @@ class CI_DB_utility {
 		$out = '';
 		
 		// First generate the headings from the table column names
-		foreach ($query->field_names() as $name)
+		foreach ($query->list_fields() as $name)
 		{
 			$out .= $name.$delim;
 		}
