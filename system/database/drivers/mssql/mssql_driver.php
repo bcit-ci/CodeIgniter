@@ -38,7 +38,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		return mssql_connect($this->hostname, $this->username, $this->password);
+		return @mssql_connect($this->hostname, $this->username, $this->password);
 	}
 	
 	// --------------------------------------------------------------------
@@ -51,7 +51,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		return mssql_pconnect($this->hostname, $this->username, $this->password);
+		return @mssql_pconnect($this->hostname, $this->username, $this->password);
 	}
 	
 	// --------------------------------------------------------------------
@@ -250,7 +250,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM `".$this->dbprefix.$table."`");
+		$query = $this->query("SELECT COUNT(*) AS numrows FROM ".$this->dbprefix.$table);
 		
 		if ($query->num_rows() == 0)
 			return '0';
@@ -303,7 +303,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 FROM ".$this->_escape_table($table);	
+		return "SELECT TOP 1 * FROM ".$this->_escape_table($table);	
 	}
 
 	// --------------------------------------------------------------------
@@ -348,10 +348,14 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
+		// I don't believe this is necessary with MS SQL.  Not sure, though. - Rick
+	
+		/*
 		if (stristr($table, '.'))
 		{
 			$table = preg_replace("/\./", "`.`", $table);
 		}
+		*/
 		
 		return $table;
 	}	
