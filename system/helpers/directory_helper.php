@@ -40,12 +40,10 @@
  * @return	array
  */	
 function directory_map($source_dir, $top_level_only = FALSE)
-{
-	if ( ! isset($filedata))
-		$filedata = array();
-	
+{	
 	if ($fp = @opendir($source_dir))
 	{
+		$filedata = array();
 		while (FALSE !== ($file = readdir($fp)))
 		{
 			if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE)
