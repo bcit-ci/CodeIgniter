@@ -275,7 +275,7 @@ class CI_Session {
 		setcookie(
 					$this->sess_cookie,
 					$cookie_data,
-					$this->sess_length + $this->now,
+					$this->sess_length + time(),
 					$this->CI->config->item('cookie_path'),
 					$this->CI->config->item('cookie_domain'),
 					0
