@@ -192,6 +192,71 @@ class CI_Zip  {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Read the contents of a file and add it to the zip
+	 *
+	 * @access	public
+	 * @return	bool
+	 */	
+	function read_file($path, $preserve_filepath = FALSE)
+	{
+		if ( ! file_exists($path))
+		{
+			return FALSE;
+		}
+	
+		if (FALSE !== ($data = file_get_contents($path)))
+		{
+			$name = str_replace("\\", "/", $path);
+			
+			if ($preserve_filepath === FALSE)
+			{
+				$name = preg_replace("|.*/(.+)|", "\\1", $name);
+			}
+			
+			$this->add_data($name, $data);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+	
+	/**
+	 * Read a directory and add it to the zip.
+	 *
+	 * This function recursively reads a folder and everything it contains (including
+	 * sub-folders) and creates a zip based on it.  Whatever directory structure
+	 * is in the original file path will be recreated in the zip file.
+	 *
+	 * @access	public
+	 * @param	string	path to source
+	 * @return	bool
+	 */	
+	function read_dir($path)
+	{	
+		if ($fp = @opendir($path))
+		{
+			while (FALSE !== ($file = readdir($fp)))
+			{
+				if (@is_dir($path.$file) && substr($file, 0, 1) != '.')
+				{					
+					$this->read_dir($path.$file."/");
+				}
+				elseif (substr($file, 0, 1) != ".")
+				{
+					if (FALSE !== ($data = file_get_contents($path.$file)))
+					{						
+						$this->add_data(str_replace("\\", "/", $path).$file, $data);
+					}
+				}
+			}
+			return TRUE;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get the Zip file
 	 *
 	 * @access	public
