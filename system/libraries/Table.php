@@ -28,10 +28,11 @@
  */
 class CI_Table {
 
-	var $rows		= array();
-	var $heading	= array();
-	var $template 	= NULL;
-	var $newline	= "\n";
+	var $rows			= array();
+	var $heading		= array();
+	var $template 		= NULL;
+	var $newline		= "\n";
+	var $empty_cells	= "";
 	
 	
 	function CI_Table()
@@ -75,6 +76,22 @@ class CI_Table {
 		$this->heading = (is_array($args[0])) ? $args[0] : $args;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set "empty" cells
+	 *
+	 * Can be passed as an array or discreet params
+	 *
+	 * @access	public
+	 * @param	mixed
+	 * @return	void
+	 */
+	function set_empty($value)
+	{
+		$this->empty_cells = $value;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -166,10 +183,19 @@ class CI_Table {
 				$out .= $this->template['row_'.$alt.'start'];
 				$out .= $this->newline;		
 	
-				foreach($row as $cells)
+				foreach($row as $cell)
 				{
 					$out .= $this->template['cell_'.$alt.'start'];
-					$out .= $cells;
+					
+					if ($cell == "")
+					{
+						$out .= $this->empty_cells;
+					}
+					else
+					{
+						$out .= $cell;
+					}
+					
 					$out .= $this->template['cell_'.$alt.'end'];
 				}
 	
