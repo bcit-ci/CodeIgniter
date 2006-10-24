@@ -97,6 +97,7 @@ class CI_DB_driver {
 								'username'	=> '',
 								'password'	=> '',
 								'database'	=> '',
+								'conn_id'	=> FALSE,
 								'dbdriver'	=> 'mysql',
 								'dbprefix'	=> '',
 								'port'		=> '',
@@ -130,9 +131,17 @@ class CI_DB_driver {
 			$this->database = ( ! isset($dsn['path'])) ? '' : rawurldecode(substr($dsn['path'], 1));
 		}
 		
+		// If an existing DB connection resource is supplied
+		// there is no need to connect and select the database
+		if (is_resource($this->conn_id))
+		{
+			return TRUE;
+		}
+
 		// Connect to the database
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
-	
+
+		// No connection?  Throw an error
 		if ( ! $this->conn_id)
 		{
 			log_message('error', 'Unable to connect to the database');
@@ -141,19 +150,22 @@ class CI_DB_driver {
 			{
 				$this->display_error('db_unable_to_connect');
 			}
+			return FALSE;
 		}
-		else
+
+		// Select the database
+		if ( ! $this->db_select())
 		{
-			if ( ! $this->db_select())
+			log_message('error', 'Unable to select database: '.$this->database);
+		
+			if ($this->db_debug)
 			{
-				log_message('error', 'Unable to select database: '.$this->database);
-			
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_select', $this->database);
-				}
-			}	
-		}
+				$this->display_error('db_unable_to_select', $this->database);
+			}
+			return FALSE;
+		}	
+
+		return TRUE;
 	}
 		
 	// --------------------------------------------------------------------
