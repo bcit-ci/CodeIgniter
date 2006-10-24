@@ -181,8 +181,17 @@ class CI_Loader {
 			return DB($params, $active_record);
 		}
 
+		// Grab the super object
 		$CI =& get_instance();
-		$CI->db =& DB($params, $active_record);			
+		
+		// Initialize the db variable.  Needed to prevent   
+		// reference errors with some configurations
+		$CI->db = '';
+		
+		// Load the DB class
+		$CI->db =& DB($params, $active_record);	
+		
+		// Assign the DB object to any existing models
 		$this->_ci_assign_to_models();
 	}
 	
@@ -828,11 +837,6 @@ class CI_Loader {
 	 */
 	function _ci_assign_to_models()
 	{
-		if (count($this->_ci_models) == 0)
-		{
-			return;
-		}
-
 		if ($this->_ci_is_instance())
 		{
 			$CI =& get_instance();
