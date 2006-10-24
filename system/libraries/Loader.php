@@ -837,6 +837,11 @@ class CI_Loader {
 	 */
 	function _ci_assign_to_models()
 	{
+		if (count($this->_ci_models) == 0)
+		{
+			return;
+		}
+	
 		if ($this->_ci_is_instance())
 		{
 			$CI =& get_instance();
