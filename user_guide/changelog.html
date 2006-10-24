@@ -66,6 +66,9 @@ Change Log
 <h2>Version 1.5.0 Beta 3</h2>
 <p>Release Date: October 25, 2006</p>
 
+<p class="important"><strong>Important:</strong>&nbsp; In Beta 3, the way native libraries are extended has changed slightly thanks to
+a suggestion offered by coolfactor in our forums.  Please check the documentation below if you are extending classes.</p>
+
 <ul>
 <li>Added <a href="./database/utilities.html">DB utility class</a>, permitting DB backups, CVS or XML files from DB results, and various other functions.</li>
 <li>Added <a href="./database/caching.html">Database Caching Class</a>.</li>
@@ -94,6 +97,7 @@ Change Log
 <li>Fixed a bug in the typography helper that was incorrectly wrapping block level elements in paragraph tags.</li>
 <li>Fixed a problem in the form_prep() function that was double encoding entities.</li>
 <li>Fixed a bug that affects some versions of PHP when output buffering is nested.</li>
+<li>Fixed a bug that caused CI to stop working when the PHP magic __get() function was used within models or controllers.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> the <dfn>$config['log_errors']</dfn> item from the config.php file.  Instead, <dfn>$config['log_threshold']</dfn> can be set to "0" to turn it off.</li>
