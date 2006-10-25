@@ -135,7 +135,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function _data_seek($n = 0)
 	{
-		mssql_data_seek($this->result_id, $n);
+		return mssql_data_seek($this->result_id, $n);
 	}
 	
 	// --------------------------------------------------------------------

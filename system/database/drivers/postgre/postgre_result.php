@@ -135,7 +135,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 */
 	function _data_seek($n = 0)
 	{
-		pg_result_seek($this->result_id, $n);
+		return pg_result_seek($this->result_id, $n);
 	}
 
 	// --------------------------------------------------------------------

@@ -207,7 +207,6 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 	$LOG->write_log($level, $message, $php_error);
 }
 
-
 /**
 * Exception Handler
 *
