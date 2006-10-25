@@ -61,7 +61,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_table($name);
+		return "DROP TABLE ".$this->db->_escape_table($table);
 	}
 
 	// --------------------------------------------------------------------

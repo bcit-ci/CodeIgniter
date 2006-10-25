@@ -74,7 +74,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_table($name)." CASCADE";
+		return "DROP TABLE ".$this->db->_escape_table($table)." CASCADE";
 	}
 
 	// --------------------------------------------------------------------

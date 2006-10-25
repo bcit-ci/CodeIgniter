@@ -66,11 +66,11 @@ class CI_DB_result {
 		// In the event that query caching is on the result_id variable 
 		// will return FALSE since there isn't a valid SQL resource so 
 		// we'll simply return an empty array.
-		if ($this->result_id === FALSE)
+		if ($this->result_id === FALSE OR $this->num_rows() == 0)
 		{
 			return array();
 		}
-				
+
 		$this->_data_seek(0);
 		while ($row = $this->_fetch_object())
 		{
@@ -98,7 +98,7 @@ class CI_DB_result {
 		// In the event that query caching is on the result_id variable 
 		// will return FALSE since there isn't a valid SQL resource so 
 		// we'll simply return an empty array.
-		if ($this->result_id === FALSE)
+		if ($this->result_id === FALSE OR $this->num_rows() == 0)
 		{
 			return array();
 		}

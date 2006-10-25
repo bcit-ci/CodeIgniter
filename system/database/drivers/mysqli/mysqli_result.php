@@ -135,7 +135,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	function _data_seek($n = 0)
 	{
-		mysqli_data_seek($this->result_id, $n);
+		return mysqli_data_seek($this->result_id, $n);
 	}
 
 	// --------------------------------------------------------------------
