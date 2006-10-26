@@ -474,7 +474,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _close($conn_id)
 	{
-		mysqli_close($conn_id);
+		@mysqli_close($conn_id);
 	}
 
 
