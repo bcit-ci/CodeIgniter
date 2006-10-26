@@ -9,10 +9,4 @@ $lang['ftp_unable_to_upload']		= "Unable to upload the specified file.  Please c
 $lang['ftp_no_source_file']			= "Unable to locate the source file.  Please check your path.";
 
 
-
-
-
-
-
-
 ?>
