@@ -449,7 +449,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _close($conn_id)
 	{
-		mssql_close($conn_id);
+		@mssql_close($conn_id);
 	}	
 
 }

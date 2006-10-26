@@ -475,7 +475,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _close($conn_id)
 	{
-		sqlite_close($conn_id);
+		@sqlite_close($conn_id);
 	}
 
 

@@ -595,7 +595,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function _close($conn_id)
 	{
-		ocilogoff($conn_id);
+		@ocilogoff($conn_id);
 	}
 
 
