@@ -36,9 +36,6 @@ class CI_FTP {
 	var $conn_id;
 
 
-	var $CI;
-
-
 	/**
 	 * Constructor - Sets Preferences
 	 *
@@ -73,7 +70,8 @@ class CI_FTP {
 			}
 		}
 		
-		$this->hostname = str_replace(array('ftp://', 'sftp://'), '', $this->hostname);
+		// Prep the hostname
+		$this->hostname = preg_replace('|.+?://|', '', $this->hostname);
 	}
 
 	// --------------------------------------------------------------------
@@ -106,7 +104,7 @@ class CI_FTP {
 			return FALSE;
 		}
 		
-
+		// Set passive mode if needed
 		if ($this->passive == TRUE)
 		{
 			ftp_pasv($this->conn_id, TRUE);
@@ -135,22 +133,21 @@ class CI_FTP {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool	lets us momentarily turn off debugging.
 	 * @return	array
 	 */	
-	function changedir($path = '')
+	function changedir($path = '', $supress_debug = FALSE)
 	{
 		if ($path == '')
 		{
 			return FALSE;
 		}
 		
-		//$path = preg_replace("|(.+)/$|", "\\1", $path);
-		
 		$result = @ftp_chdir($this->conn_id, $path);
 		
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug == TRUE AND $supress_debug != TRUE)
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}		
@@ -158,7 +155,6 @@ class CI_FTP {
 		}
 		
 		return TRUE;
-
 	}
 	
 	// --------------------------------------------------------------------
@@ -202,7 +198,7 @@ class CI_FTP {
 	 * @param	string
 	 * @return	array
 	 */	
-	function upload($locpath, $rempath, $mode = 'ascii', $permissions = NULL)
+	function upload($locpath, $rempath, $mode = 'auto', $permissions = NULL)
 	{
 		if ( ! file_exists($locpath))
 		{
@@ -211,8 +207,16 @@ class CI_FTP {
 			return FALSE;
 		}
 	
-	
+		// Set the mode if not specified
+		if ($mode == 'auto')
+		{
+			// Get the file extension so we can se the upload type
+			$ext = $this->_getext($locpath);
+			$mode = $this->_settype($ext);
+		}
+		
 		$mode = ($mode == 'ascii') ? FTP_ASCII : FTP_BINARY;
+		
 		$result = @ftp_put($this->conn_id, $rempath, $locpath, $mode);
 		
 		if ($result === FALSE)
@@ -224,7 +228,7 @@ class CI_FTP {
 			return FALSE;		
 		}
 		
-		
+		// Set file permissions if needed
 		if ( ! is_null($permissions))
 		{
 			$this->chmod($rempath, (int)$permissions);
@@ -275,7 +279,7 @@ class CI_FTP {
 	// ------------------------------------------------------------------------
 	
 	/**
-	 * Read a directory and recreates it remotely
+	 * Read a directory and recreate it remotely
 	 *
 	 * This function recursively reads a folder and everything it contains (including
 	 * sub-folders) and creates a mirror via FTP based on it.  Whatever directory structure
@@ -292,7 +296,7 @@ class CI_FTP {
 		if ($fp = @opendir($locpath))
 		{
 			// Attempt to open the remote file path.
-			if ( ! $this->changedir($rempath))
+			if ( ! $this->changedir($rempath, TRUE))
 			{
 				// If it doesn't exist we'll attempt to create the direcotory
 				if ( ! $this->mkdir($rempath) OR ! $this->changedir($rempath))
@@ -310,7 +314,10 @@ class CI_FTP {
 				}
 				elseif (substr($file, 0, 1) != ".")
 				{
-					$mode = 'ascii';
+					// Get the file extension so we can se the upload type
+					$ext = $this->_getext($file);
+					$mode = $this->_settype($ext);
+					
 					$this->upload($locpath.$file, $rempath.$file, $mode);
 				}
 			}
@@ -318,6 +325,59 @@ class CI_FTP {
 		}
 		
 		return FALSE;
+	}
+
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Extract the file extension
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */	
+	function _getext($filename)
+	{
+		if (FALSE === strpos($filename, '.'))
+		{
+			return 'txt';
+		}
+	
+		$x = explode('.', $filename);
+		return end($x);
+	}	
+
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set the upload type
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */	
+	function _settype($ext)
+	{
+		$text_types = array(
+							'txt',
+							'text',
+							'php',
+							'phps',
+							'php4',
+							'js',
+							'css',
+							'htm',
+							'html',
+							'phtml',
+							'shtml',
+							'log',
+							'xml'
+							);
+	
+	
+		return (in_array($ext, $text_types)) ? 'ascii' : 'binary';
 	}
 
 	// ------------------------------------------------------------------------
@@ -353,5 +413,5 @@ class CI_FTP {
 
 
 }
-
+// END FTP Class
 ?>
