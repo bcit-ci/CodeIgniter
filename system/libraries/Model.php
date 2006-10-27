@@ -36,7 +36,7 @@ class Model {
 	function Model()
 	{
 		// If the magic __get() or __set() methods are used in a Model references can't be used.
-		$this->_assign_libraries( (method_exists($this, '__get') OR method_exists('__set')) ? FALSE : TRUE );
+		$this->_assign_libraries( (method_exists($this, '__get') OR method_exists($this, '__set')) ? FALSE : TRUE );
 		
 		// We don't want to assign the model object to itself when using the
 		// assign_libraries function below so we'll grab the name of the model parent
