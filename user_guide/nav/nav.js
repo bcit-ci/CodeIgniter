@@ -71,6 +71,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/email.html">Email Class</a></li>' +
 		'<li><a href="'+base+'libraries/encryption.html">Encryption Class</a></li>' +
 		'<li><a href="'+base+'libraries/file_uploading.html">File Uploading Class</a></li>' +
+		'<li><a href="'+base+'libraries/ftp.html">FTP Class</a></li>' +
 		'<li><a href="'+base+'libraries/table.html">HTML Table Class</a></li>' +
 		'<li><a href="'+base+'libraries/image_lib.html">Image Manipulation Class</a></li>' +		
 		'<li><a href="'+base+'libraries/input.html">Input and Security Class</a></li>' +

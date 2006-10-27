@@ -321,14 +321,7 @@ class CI_Email {
 	 */	
 	function message($body)
 	{
-		$body = rtrim(str_replace("\r", "", $body));
-	
-		if ($this->wordwrap === TRUE  AND  $this->mailtype != 'html')
-			$this->_body = $this->word_wrap($body);
-		else
-			$this->_body = $body;	
-			
-		$this->_body = stripslashes($this->_body);
+		$this->_body = stripslashes(rtrim(str_replace("\r", "", $body)));	
 	}	
  	
 	// --------------------------------------------------------------------
@@ -758,59 +751,53 @@ class CI_Email {
 	function word_wrap($str, $chars = '')
 	{	
 		if ($chars == '')
-			$chars = ($this->wrapchars == "") ? "76" : $this->wrapchars;
-		
-		$lines = split("\n", $str);
-		
-		$output = "";
-
-		while (list(, $thisline) = each($lines))
 		{
-			if (strlen($thisline) > $chars)
+			$chars = ($this->wrapchars == "") ? "76" : $this->wrapchars;
+		}
+		
+		$str = preg_replace("| +|", " ", $str);
+
+		$str = preg_replace("|(\[url.+\])|", "{unwrap}\\1{/unwrap}", $str); 		
+				
+		$output = "";
+		foreach (split("\n", $str) as $current_line) 
+		{
+			if (strlen($current_line) > $chars)
 			{
 				$line = "";
-				
-				$words = split(" ", $thisline);
-				
-				while(list(, $thisword) = each($words))
+								
+				foreach (split(" ", $current_line) as $words) 
 				{
-					while((strlen($thisword)) > $chars)
+					while((strlen($words)) > $chars) 
 					{
-						if (stristr($thisword, '{unwrap}') !== FALSE OR stristr($thisword, '{/unwrap}') !== FALSE)
+						if (stristr($words, '{unwrap}') !== FALSE OR stristr($words, '{/unwrap}') !== FALSE)
 						{
 							break;
 						}
-					
-						$cur_pos = 0;
-						
-						for($i=0; $i < $chars - 1; $i++)
-						{
-							$output .= $thisword[$i];
-							$cur_pos++;
-						}
-						
-						$output .= "\n";
-						
-						$thisword = substr($thisword, $cur_pos, (strlen($thisword) - $cur_pos));
+												
+						$output .= substr($words, 0, $chars-1);	
+						$words = substr($words, $chars-1);
+
+						$output .= $this->newline;
 					}
 					
-					if ((strlen($line) + strlen($thisword)) > $chars)
+					if ((strlen($line) + strlen($words)) > $chars) 
 					{
-						$output .= $line."\n";
+						$output .= $line.$this->newline;
 						
-						$line = $thisword." ";
-					}
-					else
+						$line = $words." ";
+					} 
+					else 
 					{
-						$line .= $thisword." ";
+						$line .= $words." ";
 					}
 				}
 	
-				$output .= $line."\n";
-			}
-			else
+				$output .= $line.$this->newline;
+			} 
+			else 
 			{
-				$output .= $thisline."\n";
+				$output .= $current_line.$this->newline;
 			}
 		}
 
@@ -878,6 +865,11 @@ class CI_Email {
 	 */	
 	function _build_message()
 	{
+		if ($this->wordwrap === TRUE  AND  $this->mailtype != 'html')
+		{
+			$this->_body = $this->word_wrap($this->_body);
+		}
+	
 		$this->_set_boundaries();
 		$this->_write_headers();
 		

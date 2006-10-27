@@ -38,18 +38,14 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		// get the results, count them,
-		// rerun query - otherwise we
-		// won't have data after calling
-		// num_rows()
-		$this->result_array();
-		$rowcount = count($this->result_array);
-		@ociexecute($this->stmt_id);
-		if ($this->curs_id)
+		if (function_exists('oci_num_rows'))
 		{
-			@ociexecute($this->curs_id);
+			return @oci_num_rows($this->stmt_id);
 		}
-		return $rowcount;
+		else
+		{
+			return @ocirowcount($this->stmt_id)
+		}
 	}
 
 	// --------------------------------------------------------------------
