@@ -63,7 +63,185 @@ FTP Class
 
 <h1>FTP Class</h1>
 
-<p>Code Igniter's FTP Class permits files to be uploaded via FTP to your server.</p>
+<p>Code Igniter's FTP Class permits files to be uploaded via FTP to your server.  It also includes a "mirroring" function
+that permits an local directory to be recreated remotely via FTP.</p>
+
+<h2>Initializing the Class</h2>
+
+<p>Like most other classes in Code Igniter, the FTP class is initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
+
+<code>$this->load->library('ftp');</code>
+<p>Once loaded, the FTP object will be available using: <dfn>$this->ftp</dfn></p>
+
+
+<h2>Usage Examples</h2>
+
+<p>In this example a connection is opened to the FTP server, and a local file is read and uploaded in ASCII mode. The
+file permissions are set to 755.  Note: Setting permissions requires PHP 5.</p>
+
+<code>
+$this->load->library('ftp');<br />
+<br />
+$config['hostname'] = 'ftp.your-site.com';<br />
+$config['username'] = 'your-username';<br />
+$config['password'] = 'your-password';<br />
+$config['debug'] 	= TRUE;<br />
+<br />
+$this->ftp->connect($config);<br />
+<br />
+$this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);<br />
+<br />
+$this->ftp->close();
+
+</code>
+
+
+<p>In this example a list of files is retrieved from the server.</p>
+
+<code>
+$this->load->library('ftp');<br />
+<br />
+$config['hostname'] = 'ftp.your-site.com';<br />
+$config['username'] = 'your-username';<br />
+$config['password'] = 'your-password';<br />
+$config['debug'] 	= TRUE;<br />
+<br />
+$this->ftp->connect($config);<br />
+<br />
+$list = $this->ftp->list_files('/public_html/');<br />
+<br />
+print_r($list);<br />
+<br />
+$this->ftp->close();
+</code>
+
+<p>In this example a local directory is mirrored on the server.</p>
+
+
+<code>
+$this->load->library('ftp');<br />
+<br />
+$config['hostname'] = 'ftp.your-site.com';<br />
+$config['username'] = 'your-username';<br />
+$config['password'] = 'your-password';<br />
+$config['debug'] 	= TRUE;<br />
+<br />
+$this->ftp->connect($config);<br />
+<br />
+$this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');<br />
+<br />
+$this->ftp->close();
+</code>
+
+
+<h1>Function Reference</h1>
+
+<h2>$this->ftp->connect()</h2>
+
+<p>Connects and logs into to the FTP server. Connection preferences are set by passing an array
+to the function, or you can store them in a config file.</p>
+
+
+<p>Here is an example showing how you set preferences manually:</p>
+
+<code>
+$this->load->library('ftp');<br />
+<br />
+$config['hostname'] = 'ftp.your-site.com';<br />
+$config['username'] = 'your-username';<br />
+$config['password'] = 'your-password';<br />
+$config['port']&nbsp;&nbsp;&nbsp;&nbsp; = 21;<br />
+$config['passive']&nbsp;&nbsp;= FALSE;<br />
+$config['debug']&nbsp;&nbsp;&nbsp;&nbsp;= TRUE;<br />
+<br />
+$this->ftp->connect($config);<br />
+</code>
+
+<h3>Setting FTP Preferences in a Config File</h3>
+
+<p>If you prefer you can store your FTP preferences in a config file.
+Simply create a new file called the <var>ftp.php</var>,  add the <var>$config</var>
+array in that file. Then save the file at <var>config/ftp.php</var> and it will be used automatically.</p>
+
+<h3>Available connection options:</h3>
+
+
+<ul>
+<li><strong>hostname</strong> - the FTP hostname.  Usually something like:&nbsp; <dfn>ftp.some-site.com</dfn></li>
+<li><strong>username</strong> - the FTP username.</li>
+<li><strong>password</strong> - the FTP password.</li>
+<li><strong>port</strong> - The port number. Set to <dfn>21</dfn> by default.</li>
+<li><strong>debug</strong> - <kbd>TRUE/FALSE</kbd> (boolean). Whether to enable debugging to display error messages.</li>
+<li><strong>passive</strong> - <kbd>TRUE/FALSE</kbd> (boolean). Whether to use passive mode.  Passive is set automatically by default.</li>
+</ul>
+
+
+<h2>$this->ftp->sconnect()</h2>
+
+<p>Secure FTP connect.  This function is identical to the function above, except that it initiates a secure connection.</p>
+
+
+<h2>$this->ftp->upload()</h2>
+
+<p>Uploads a file to your server.  You must supply the local path and the remote path (with trailing slash), and you can optionally set the mode and permissions.
+Example:</p>
+
+
+<code>$this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);</code>
+
+<p><strong>Mode options are:</strong>&nbsp; <kbd>ascii</kbd>, <kbd>binary</kbd>, and <kbd>auto</kbd> (the default). If
+<kbd>auto</kbd> is used it will base the mode on the file extension of the source file.</p>
+
+<p>Permissions are available if you are running PHP 5 and can be passed as an <kbd>octal</kbd> value in the fourth parameter.</p>
+
+
+<h2>$this->ftp->mkdir()</h2>
+
+<p>Lets you create a directory on your server.  Supply the path ending in the folder name you wish to create, with a trailing slash:</p>
+
+<code>
+// Creates a folder named "bar"<br />
+$this->ftp->mkdir('/public_html/foo/bar/');
+</code>
+
+
+<h2>$this->ftp->chmod()</h2>
+
+<p>Permits you to set file permissions.  Supply the path to the file or folder you wish to alter permissions on:</p>
+
+<code>
+// Chmod "bar" to 777<br />
+$this->ftp->chmod('/public_html/foo/bar/', 0777);
+</code>
+
+
+<h2>$this->ftp->list_files()</h2>
+<p>Permits you to retrieve a list of files on your server returned as an <dfn>array</dfn>.  You must supply 
+the path to the desired directory.</p>
+
+<code>
+$list = $this->ftp->list_files('/public_html/');<br />
+<br />
+print_r($list);
+</code>
+
+
+<h2>$this->ftp->mirror()</h2>
+
+<p>Recursively reads a folder and everything it contains (including sub-folders) and creates a 
+mirror via FTP based on it.  Whatever the directory structure of the original file path will be recreated on the server.
+You must supply a source path and a destination path:</p>
+
+<code>
+$this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
+</code>
+
+
+
+<h2>$this->ftp->close();</h2>
+<p>Closes the connection to your server.  It's recommended that you use this when you are finished uploading.</p>
+
+
 
 
 
