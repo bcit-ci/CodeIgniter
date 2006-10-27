@@ -31,7 +31,6 @@ class CI_FTP {
 	var $password	= '';
 	var $port		= 21;
 	var $passive	= TRUE;
-	var $secure		= FALSE;
 	var $debug		= FALSE;
 	var $conn_id;
 
@@ -80,11 +79,18 @@ class CI_FTP {
 	 * FTP Connect
 	 *
 	 * @access	public
+	 * @param	array	 the connection values
+	 * @param	bool	whether to use a secure or standard connection
 	 * @return	bool
 	 */	
-	function connect()
-	{	
-		$method = ($this->secure == FALSE) ? 'ftp_connect' : 'ftp_ssl_connect';
+	function connect($config = array(), $secure = FALSE)
+	{		
+		if (count($config) > 0)
+		{
+			$this->initialize($config);
+		}	
+	
+		$method = ($secure == FALSE) ? 'ftp_connect' : 'ftp_ssl_connect';
 	
 		if (FALSE === ($this->conn_id = @$method($this->hostname, $this->port)))
 		{
@@ -111,6 +117,20 @@ class CI_FTP {
 		}
 		
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Secure FTP Connect
+	 *
+	 * @access	public
+	 * @param	array	 the connection values
+	 * @return	bool
+	 */		
+	function sconnect($config = array())
+	{
+		return $this->connect($config, TRUE);
 	}
 		
 	// --------------------------------------------------------------------
@@ -297,8 +317,8 @@ class CI_FTP {
 	 * Read a directory and recreate it remotely
 	 *
 	 * This function recursively reads a folder and everything it contains (including
-	 * sub-folders) and creates a mirror via FTP based on it.  Whatever directory structure
-	 * is in the original file path will be recreated in the zip file.
+	 * sub-folders) and creates a mirror via FTP based on it.  Whatever the directory structure
+	 * of the original file path will be recreated on the server.
 	 *
 	 * @access	public
 	 * @param	string	path to source with trailing slash
