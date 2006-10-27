@@ -36,7 +36,7 @@ class CI_Upload {
 	var $file_type		= "";
 	var $file_size		= "";
 	var $file_ext		= "";
-	var $file_path		= "";
+	var $upload_path	= "";
 	var $overwrite		= FALSE;
 	var $encrypt_name	= FALSE;
 	var $is_image		= FALSE;
@@ -76,17 +76,51 @@ class CI_Upload {
 	 */	
 	function initialize($config = array())
 	{
-		foreach ($config as $key => $val)
+		$defaults = array(
+							'max_size'			=> 0,
+							'max_width'			=> 0,
+							'max_height'		=> 0,
+							'allowed_types'		=> "",
+							'file_temp'			=> "",
+							'file_name'			=> "",
+							'orig_name'			=> "",
+							'file_type'			=> "",
+							'file_size'			=> "",
+							'file_ext'			=> "",
+							'upload_path'		=> "",
+							'overwrite'			=> FALSE,
+							'encrypt_name'		=> FALSE,
+							'is_image'			=> FALSE,
+							'image_width'		=> '',
+							'image_height'		=> '',
+							'image_type'		=> '',
+							'image_size_str'	=> '',
+							'error_msg'			=> array(),
+							'mimes'				=> array(),
+							'remove_spaces'		=> TRUE,
+							'xss_clean'			=> FALSE,
+							'temp_prefix'		=> "temp_file_"
+						);	
+	
+	
+		foreach ($defaults as $key => $val)
 		{
-			$method = 'set_'.$key;
-			if (method_exists($this, $method))
+			if (isset($config[$key]))
 			{
-				$this->$method($val);
+				$method = 'set_'.$key;
+				if (method_exists($this, $method))
+				{
+					$this->$method($config[$key]);
+				}
+				else
+				{
+					$this->$key = $config[$key];
+				}			
 			}
 			else
 			{
 				$this->$key = $val;
-			}			
+			}
 		}
 	}
 	
@@ -188,7 +222,7 @@ class CI_Upload {
 
 		if ($this->overwrite == FALSE)
 		{
-			$this->file_name = $this->set_filename($this->file_path, $this->file_name);
+			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
 			
 			if ($this->file_name === FALSE)
 			{
@@ -203,9 +237,9 @@ class CI_Upload {
 		 * we'll use move_uploaded_file().  One of the two should
 		 * reliably work in most environments
 		 */
-		if ( ! @copy($this->file_temp, $this->file_path.$this->file_name))
+		if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
 		{
-			if ( ! @move_uploaded_file($this->file_temp, $this->file_path.$this->file_name))
+			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
 			{
 				 $this->set_error('upload_destination_error');
 				 return FALSE;
@@ -229,7 +263,7 @@ class CI_Upload {
 		 * file was an image).  We use this information
 		 * in the "data" function.
 		 */
-		$this->set_image_properties($this->file_path.$this->file_name);
+		$this->set_image_properties($this->upload_path.$this->file_name);
 
 		return TRUE;
 	}
@@ -250,8 +284,8 @@ class CI_Upload {
 		return array (
 						'file_name'			=> $this->file_name,
 						'file_type'			=> $this->file_type,
-						'file_path'			=> $this->file_path,
-						'full_path'			=> $this->file_path.$this->file_name,
+						'file_path'			=> $this->upload_path,
+						'full_path'			=> $this->upload_path.$this->file_name,
 						'raw_name'			=> str_replace($this->file_ext, '', $this->file_name),
 						'orig_name'			=> $this->orig_name,
 						'file_ext'			=> $this->file_ext,
@@ -275,7 +309,7 @@ class CI_Upload {
 	 */	
 	function set_upload_path($path)
 	{
-		$this->file_path = $path;
+		$this->upload_path = $path;
 	}
 	
 	// --------------------------------------------------------------------
@@ -564,30 +598,30 @@ class CI_Upload {
 	 */	
 	function validate_upload_path()
 	{
-		if ($this->file_path == '')
+		if ($this->upload_path == '')
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 		
-		if (function_exists('realpath') AND @realpath($this->file_path) !== FALSE)
+		if (function_exists('realpath') AND @realpath($this->upload_path) !== FALSE)
 		{
-			$this->file_path = str_replace("\\", "/", realpath($this->file_path));
+			$this->upload_path = str_replace("\\", "/", realpath($this->upload_path));
 		}
 
-		if ( ! @is_dir($this->file_path))
+		if ( ! @is_dir($this->upload_path))
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 
-		if ( ! is_writable($this->file_path))
+		if ( ! is_writable($this->upload_path))
 		{
 			$this->set_error('upload_not_writable');
 			return FALSE;
 		}
 
-		$this->file_path = preg_replace("/(.+?)\/*$/", "\\1/",  $this->file_path);
+		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/",  $this->upload_path);
 		return TRUE;
 	}
 	
@@ -668,7 +702,7 @@ class CI_Upload {
 	 */	
 	function do_xss_clean()
 	{		
-		$file = $this->file_path.$this->file_name;
+		$file = $this->upload_path.$this->file_name;
 		
 		if (filesize($file) == 0)
 		{
