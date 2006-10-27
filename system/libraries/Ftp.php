@@ -129,11 +129,17 @@ class CI_FTP {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Change direcotries
+	 * Change direcotry
+	 *
+	 * The second parameter lets us momentarily turn off debugging so that
+	 * this function can be used to test for the existance of a folder
+	 * without throwing an error.  There's no FTP equivalent to is_dir()
+	 * so we do it by trying to change to a particular directory.  
+	 * Internally, this paramter is only used by the "mirror" function below.
 	 *
 	 * @access	public
 	 * @param	string
-	 * @param	bool	lets us momentarily turn off debugging.
+	 * @param	bool
 	 * @return	array
 	 */	
 	function changedir($path = '', $supress_debug = FALSE)
@@ -203,7 +209,6 @@ class CI_FTP {
 		if ( ! file_exists($locpath))
 		{
 			$this->_error('ftp_no_source_file');
-			
 			return FALSE;
 		}
 	
@@ -248,7 +253,17 @@ class CI_FTP {
 	 * @return	array
 	 */		
 	function chmod($path, $perm)
-	{		
+	{
+		// Permissions can only be set when running PHP 5
+		if ( ! function_exists('ftp_chmod'))
+		{
+			if ($this->debug == TRUE)
+			{
+				$this->_error('ftp_unable_to_chmod');
+			}		
+			return FALSE;		
+		}
+	
 		$result = @ftp_chmod($this->conn_id, $perm, $path);
 		
 		if ($result === FALSE)
@@ -271,7 +286,7 @@ class CI_FTP {
 	 * @access	public
 	 * @return	array
 	 */	
-	function filelist($path = '.')
+	function list_files($path = '.')
 	{		
 		return ftp_nlist($this->conn_id, $path);
 	}
@@ -286,8 +301,8 @@ class CI_FTP {
 	 * is in the original file path will be recreated in the zip file.
 	 *
 	 * @access	public
-	 * @param	string	path to source
-	 * @param	string	path to destination
+	 * @param	string	path to source with trailing slash
+	 * @param	string	path to destination - include the base folder with trailing slash
 	 * @return	bool
 	 */	
 	function mirror($locpath, $rempath)
