@@ -44,7 +44,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		}
 		else
 		{
-			return @ocirowcount($this->stmt_id)
+			return @ocirowcount($this->stmt_id);
 		}
 	}
 
@@ -60,8 +60,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	{
 		$count = @ocinumcols($this->stmt_id);
 
-		// if we used a limit, we added a field,
-		// subtract it out
+		// if we used a limit we subtract it
 		if ($this->limit_used)
 		{
 			$count = $count - 1;
@@ -135,7 +134,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	{
 		if (is_resource($this->result_id))
 		{
-			OCIFreeStatement($this->result_id);
+			ocifreestatement($this->result_id);			
 			$this->result_id = FALSE;
 		}
 	}
@@ -152,32 +151,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	function _fetch_assoc(&$row)
 	{
-		// if pulling from a cursor, use curs_id
-		if ($this->curs_id)
-		{
-			return ocifetchinto($this->curs_id, $row, OCI_ASSOC + OCI_RETURN_NULLS);
-		}
-		else
-		{
-			return ocifetchinto($this->stmt_id, $row, OCI_ASSOC + OCI_RETURN_NULLS);
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _data_seek($n = 0)
-	{
-		return FALSE;
+		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
+	
+		return ocifetchinto($id, $row, OCI_ASSOC + OCI_RETURN_NULLS);	
 	}
 
 	// --------------------------------------------------------------------
@@ -191,24 +167,42 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @return  object
 	 */
 	function _fetch_object()
-	{
-		// the PHP 4 version of the oracle functions do not
-		// have a fetch method so we call the array version
-		// and build an object from that
+	{	
+		$result = array();
 
-		$row = array();
-		$res = $this->_fetch_assoc($row);
-		if ($res != FALSE)
+		// If PHP 5 is being used we can fetch an result object
+		if (function_exists('oci_fetch_object'))
+		{
+			$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
+			
+			while ($row = oci_fetch_object($id))
+			{
+				$result[] = $row;
+			}
+						
+			return $result;
+		}
+		
+		// If PHP 4 is being used we have to build our own result
+		foreach ($this->result_array() as $key => $val)
 		{
 			$obj = new stdClass();
-			foreach ($row as $key => $value)
+			if (is_array($val))
 			{
-				$obj->{$key} = $value;
+				foreach ($val as $k => $v)
+				{
+					$obj->$k = $v;
+				}
+			}
+			else
+			{
+				$obj->$key = $val;
 			}
 			
-			$res = $obj;
+			$result[] = $obj;
 		}
-		return $res;
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -226,22 +220,32 @@ class CI_DB_oci8_result extends CI_DB_result {
 			return $this->result_array;
 		}
 
-		// oracle's fetch functions do not
-		// return arrays, the information
-		// is returned in reference parameters
-		//
+		// oracle's fetch functions do not return arrays.
+		// The information is returned in reference parameters
 		$row = NULL;
 		while ($this->_fetch_assoc($row))
 		{
 			$this->result_array[] = $row;
 		}
 
-		if (count($this->result_array) == 0)
-		{
-			return FALSE;
-		}
-
 		return $this->result_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Data Seek
+	 *
+	 * Moves the internal pointer to the desired offset.  We call
+	 * this internally before fetching results to make sure the
+	 * result set starts at zero
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	function _data_seek($n = 0)
+	{
+		return FALSE; // Not needed
 	}
 
 }
