@@ -63,8 +63,10 @@ FTP Class
 
 <h1>FTP Class</h1>
 
-<p>Code Igniter's FTP Class permits files to be uploaded via FTP to your server.  It also includes a "mirroring" function
-that permits an local directory to be recreated remotely via FTP.</p>
+<p>Code Igniter's FTP Class permits files to be uploaded, moved, renamed, and deleted on your server.  It also includes a "mirroring" function
+that permits a local directory to be recreated remotely via FTP.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; SFTP and SSL FTP protocols are not supported, only standard FTP.</p>
 
 <h2>Initializing the Class</h2>
 
@@ -176,10 +178,6 @@ array in that file. Then save the file at <var>config/ftp.php</var> and it will 
 </ul>
 
 
-<h2>$this->ftp->sconnect()</h2>
-
-<p>Secure FTP connect.  This function is identical to the function above, except that it initiates a secure connection.</p>
-
 
 <h2>$this->ftp->upload()</h2>
 
@@ -195,24 +193,44 @@ Example:</p>
 <p>Permissions are available if you are running PHP 5 and can be passed as an <kbd>octal</kbd> value in the fourth parameter.</p>
 
 
-<h2>$this->ftp->mkdir()</h2>
-
-<p>Lets you create a directory on your server.  Supply the path ending in the folder name you wish to create, with a trailing slash:</p>
+<h2>$this->ftp->rename()</h2>
+<p>Permits you to rename a file.  Supply the source file name/path and the new file name/path.</p>
 
 <code>
-// Creates a folder named "bar"<br />
-$this->ftp->mkdir('/public_html/foo/bar/');
+// Renames green.html to blue.html<br />
+$this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
+</code>
+
+<h2>$this->ftp->move()</h2>
+<p>Lets you move a file.  Supply the source and destination paths:</p>
+
+<code>
+// Moves blog.html from "joe" to "fred"<br />
+$this->ftp->move('/public_html/joe/blog.html', '/public_html/fred/blog.html');
+</code>
+
+<p>Note: if the destination file name is different the file will be renamed.</p>
+
+
+<h2>$this->ftp->delete_file()</h2>
+<p>Lets you delete a file.  Supply the source path with the file name.</p>
+
+<code>
+$this->ftp->delete_file('/public_html/joe/blog.html');
 </code>
 
 
-<h2>$this->ftp->chmod()</h2>
+<h2>$this->ftp->delete_dir()</h2>
+<p>Lets you delete a directory and everything it contains.  Supply the source path to the directory with a trailing slash.</p>
 
-<p>Permits you to set file permissions.  Supply the path to the file or folder you wish to alter permissions on:</p>
+<p class="important"><strong>Important</strong>&nbsp; Be VERY careful with this function.  It will recursively delete 
+<b>everything</b> within the supplied path, including sub-folders and all files.  Make absolutely sure your path is correct.
+Try using the <kbd>list_files()</kbd> function first to verify that your path is correct.</p>
 
 <code>
-// Chmod "bar" to 777<br />
-$this->ftp->chmod('/public_html/foo/bar/', 0777);
+$this->ftp->delete_dir('/public_html/path/to/folder/');
 </code>
+
 
 
 <h2>$this->ftp->list_files()</h2>
@@ -228,13 +246,36 @@ print_r($list);
 
 <h2>$this->ftp->mirror()</h2>
 
-<p>Recursively reads a folder and everything it contains (including sub-folders) and creates a 
+<p>Recursively reads a local folder and everything it contains (including sub-folders) and creates a 
 mirror via FTP based on it.  Whatever the directory structure of the original file path will be recreated on the server.
 You must supply a source path and a destination path:</p>
 
 <code>
 $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
 </code>
+
+
+
+<h2>$this->ftp->mkdir()</h2>
+
+<p>Lets you create a directory on your server.  Supply the path ending in the folder name you wish to create, with a trailing slash.
+Permissions can be set by passed an <kbd>octal</kbd> value in the second parameter (if you are running PHP 5).</p>
+
+<code>
+// Creates a folder named "bar"<br />
+$this->ftp->mkdir('/public_html/foo/bar/', 0777);
+</code>
+
+
+<h2>$this->ftp->chmod()</h2>
+
+<p>Permits you to set file permissions.  Supply the path to the file or folder you wish to alter permissions on:</p>
+
+<code>
+// Chmod "bar" to 777<br />
+$this->ftp->chmod('/public_html/foo/bar/', 0777);
+</code>
+
 
 
 
