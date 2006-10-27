@@ -109,17 +109,6 @@ class CI_Pagination {
 		// Calculate the total number of pages
 		$num_pages = ceil($this->total_rows / $this->per_page);
 
-		/*
-			// Calculate the total number of pages
-			$num_pages = intval($this->total_rows / $this->per_page);
-			
-			// Use modulus to see if our division has a remainder. If so, add one to our page number.
-			if ($this->total_rows % $this->per_page)
-			{
-				$num_pages++;
-			}
-		*/
-
 		// Is there only one page? Hm... nothing more to do here then.
 		if ($num_pages == 1)
 		{
@@ -136,6 +125,13 @@ class CI_Pagination {
 		if ( ! is_numeric($this->cur_page))
 		{
 			$this->cur_page = 0;
+		}
+		
+		// Is the page number beyond the result range?
+		// If so we show the last page
+		if ($this->cur_page > $this->total_rows)
+		{
+			$this->cur_page = ($num_pages - 1) * $this->per_page;
 		}
 		
 		$uri_page_number = $this->cur_page;
