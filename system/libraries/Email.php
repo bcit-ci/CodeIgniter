@@ -748,56 +748,83 @@ class CI_Email {
 	 * @param	integer
 	 * @return	string
 	 */	
-	function word_wrap($str, $chars = '')
-	{	
-		if ($chars == '')
+	function word_wrap($str, $charlim = '')
+	{
+		// Se the character limit
+		if ($charlim == '')
 		{
-			$chars = ($this->wrapchars == "") ? "76" : $this->wrapchars;
+			$charlim = ($this->wrapchars == "") ? "76" : $this->wrapchars;
 		}
 		
+		// Reduce multiple spaces
 		$str = preg_replace("| +|", " ", $str);
-
-		$str = preg_replace("|(\[url.+\])|", "{unwrap}\\1{/unwrap}", $str); 		
-				
-		$output = "";
-		foreach (split("\n", $str) as $current_line) 
+		
+		// Standardize newlines
+		$str = preg_replace("/\r\n|\r/", "\n", $str);
+		
+		// If the current word is surrounded by {unwrap} tags we'll 
+		// strip the entire chunk and replace it with a marker.
+		$unwrap = array();
+		if (preg_match_all("|(\{unwrap\}.+?\{/unwrap\})|s", $str, $matches))
 		{
-			if (strlen($current_line) > $chars)
+			for ($i = 0; $i < count($matches['0']); $i++)
 			{
-				$line = "";
-								
-				foreach (split(" ", $current_line) as $words) 
+				$unwrap[] = $matches['1'][$i];				
+				$str = str_replace($matches['1'][$i], "{{unwrapped".$i."}}", $str);
+			}
+		}
+		
+		// Use PHP's native function to do the initial wordwrap.  
+		// We set the cut flag to FALSE so that any individual words that are 
+		// too long get left alone.  In the next step we'll deal with them.
+		$str = wordwrap($str, $charlim, "\n", FALSE);
+		
+		// Split the string into individual lines of text and cycle through them
+		$output = "";
+		foreach (explode("\n", $str) as $line) 
+		{
+			// Is the line within the allowed character count?
+			// If so we'll join it to the output and continue
+			if (strlen($line) <= $charlim)
+			{
+				$output .= $line.$this->newline;			
+				continue;
+			}
+				
+			$temp = '';
+			while((strlen($line)) > $charlim) 
+			{
+				// If the over-length word is a URL we won't wrap it
+				if (preg_match("!\[url.+\]|://|wwww.!", $line))
 				{
-					while((strlen($words)) > $chars) 
-					{
-						if (stristr($words, '{unwrap}') !== FALSE OR stristr($words, '{/unwrap}') !== FALSE)
-						{
-							break;
-						}
-												
-						$output .= substr($words, 0, $chars-1);	
-						$words = substr($words, $chars-1);
-
-						$output .= $this->newline;
-					}
-					
-					if ((strlen($line) + strlen($words)) > $chars) 
-					{
-						$output .= $line.$this->newline;
-						
-						$line = $words." ";
-					} 
-					else 
-					{
-						$line .= $words." ";
-					}
+					break;
 				}
-	
-				$output .= $line.$this->newline;
-			} 
-			else 
+
+				// Trim the word down
+				$temp .= substr($line, 0, $charlim-1);
+				$line = substr($line, $charlim-1);
+			}
+			
+			// If $temp contains data it means we had to split up an over-length 
+			// word into smaller chunks so we'll add it back to our current line
+			if ($temp != '')
 			{
-				$output .= $current_line.$this->newline;
+				$output .= $temp.$this->newline.$line;
+			}
+			else
+			{
+				$output .= $line;
+			}
+
+			$output .= $this->newline;
+		}
+
+		// Put our markers back
+		if (count($unwrap) > 0)
+		{	
+			foreach ($unwrap as $key => $val)
+			{
+				$output = str_replace("{{unwrapped".$key."}}", $val, $output);
 			}
 		}
 

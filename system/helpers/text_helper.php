@@ -325,62 +325,97 @@ function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '<
  * Word Wrap
  *
  * Wraps text at the specified character.  Maintains the integrity of words.
+ * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
+ * will URLs.
  *
  * @access	public
  * @param	string	the text string
  * @param	integer	the number of characters to wrap at
  * @return	string
  */	
-function word_wrap($str, $chars = '76')
-{	
-	if ( ! is_numeric($chars))
-		$chars = 76;
+function word_wrap($str, $charlim = '76')
+{
+	// Se the character limit
+	if ( ! is_numeric($charlim))
+		$charlim = 76;
 	
-	$str = preg_replace("/(\r\n|\r|\n)/", "\n", $str);
-	$lines = split("\n", $str);
+	// Reduce multiple spaces
+	$str = preg_replace("| +|", " ", $str);
 	
-	$output = "";
-	while (list(, $thisline) = each($lines))
+	// Standardize newlines
+	$str = preg_replace("/\r\n|\r/", "\n", $str);
+	
+	// If the current word is surrounded by {unwrap} tags we'll 
+	// strip the entire chunk and replace it with a marker.
+	$unwrap = array();
+	if (preg_match_all("|(\{unwrap\}.+?\{/unwrap\})|s", $str, $matches))
 	{
-		if (strlen($thisline) > $chars)
+		for ($i = 0; $i < count($matches['0']); $i++)
 		{
-			$line = "";
-			$words = split(" ", $thisline);
-			while(list(, $thisword) = each($words))
+			$unwrap[] = $matches['1'][$i];				
+			$str = str_replace($matches['1'][$i], "{{unwrapped".$i."}}", $str);
+		}
+	}
+	
+	// Use PHP's native function to do the initial wordwrap.  
+	// We set the cut flag to FALSE so that any individual words that are 
+	// too long get left alone.  In the next step we'll deal with them.
+	$str = wordwrap($str, $charlim, "\n", FALSE);
+	
+	// Split the string into individual lines of text and cycle through them
+	$output = "";
+	foreach (explode("\n", $str) as $line) 
+	{
+		// Is the line within the allowed character count?
+		// If so we'll join it to the output and continue
+		if (strlen($line) <= $charlim)
+		{
+			$output .= $line.$this->newline;			
+			continue;
+		}
+			
+		$temp = '';
+		while((strlen($line)) > $charlim) 
+		{
+			// If the over-length word is a URL we won't wrap it
+			if (preg_match("!\[url.+\]|://|wwww.!", $line))
 			{
-				while((strlen($thisword)) > $chars)
-				{
-					$cur_pos = 0;
-					for($i=0; $i < $chars - 1; $i++)
-					{
-						$output .= $thisword[$i];
-						$cur_pos++;
-					}
-					
-					$output .= "\n";
-					$thisword = substr($thisword, $cur_pos, (strlen($thisword) - $cur_pos));
-				}
-				
-				if ((strlen($line) + strlen($thisword)) > $chars)
-				{
-					$output .= $line."\n";
-					$line = $thisword." ";
-				}
-				else
-				{
-					$line .= $thisword." ";
-				}
+				break;
 			}
 
-			$output .= $line."\n";
+			// Trim the word down
+			$temp .= substr($line, 0, $charlim-1);
+			$line = substr($line, $charlim-1);
+		}
+		
+		// If $temp contains data it means we had to split up an over-length 
+		// word into smaller chunks so we'll add it back to our current line
+		if ($temp != '')
+		{
+			$output .= $temp.$this->newline.$line;
 		}
 		else
 		{
-			$output .= $thisline."\n";
+			$output .= $line;
+		}
+
+		$output .= $this->newline;
+	}
+
+	// Put our markers back
+	if (count($unwrap) > 0)
+	{	
+		foreach ($unwrap as $key => $val)
+		{
+			$output = str_replace("{{unwrapped".$key."}}", $val, $output);
 		}
 	}
 
+	// Remove the unwrap tags
+	$output = str_replace(array('{unwrap}', '{/unwrap}'), '', $output);
+
 	return $output;	
 }
+ 
 
 ?>
