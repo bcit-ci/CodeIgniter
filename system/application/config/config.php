@@ -147,9 +147,28 @@ $config['function_trigger'] = 'm';
 | Error Logging
 |--------------------------------------------------------------------------
 |
+<<<<<<< .mine
+| Options are "local" or "gmt".  This pref tells the system whether to use 
+| your server's local time as the master "now" reference, or convert it to 
+| GMT.  See the "date helper" page of the user guide for information 
+| regarding date handling.
+|
+*/
+$config['time_reference'] = 'local';
+
+/*
+|--------------------------------------------------------------------------
+| Error Logging Threshold
+|--------------------------------------------------------------------------
+|
+| If you have enabled error logging, you can set an error threshold to 
+| determine what gets logged. Threshold options are:
+=======
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
-| 	
+>>>>>>> .r388
+|
+|	0 = Disables logging
 | 	0 = Error logging TURNED OFF
 |	1 = Error Messages (including PHP errors)
 |	2 = Debug Messages
@@ -220,8 +239,8 @@ $config['encryption_key'] = "";
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= '';
+$config['sess_use_database']	= TRUE;
+$config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= TRUE;
 $config['sess_match_useragent']	= TRUE;
 
