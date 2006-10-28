@@ -22,7 +22,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/helpers/download_helper.html
+ * @link		http://www.codeigniter.com/user_guide/helpers/smiley_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -61,12 +61,15 @@ EOF;
  * @param	string	the URL to the folder containing the smiley images
  * @return	array
  */	
-function get_clickable_smileys($image_url = '')
+function get_clickable_smileys($image_url = '', $smileys = NULL)
 {
-	if (FALSE === ($smileys = _get_smiley_array()))
+	if ( ! is_array($smileys))
 	{
-		return array();
-	}  
+		if (FALSE === ($smileys = _get_smiley_array()))
+		{
+			return $str;
+		}        
+	}
 
 	// Add a trailing slash to the file path if needed
 	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
@@ -78,14 +81,14 @@ function get_clickable_smileys($image_url = '')
 		// mapping array contains multiple identical replacements.  For example:
 		// :-) and :) might be replaced with the same image so both smileys
 		// will be in the array.
-		if (isset($used[$smileys[$key]['0']]))
+		if (isset($used[$smileys[$key][0]]))
 		{
 			continue;
 		}
 	
-		$link[] = "<a href=\"javascript:void(0);\" onClick=\"insert_smiley('".$key."')\"><img src=\"".$image_url.$smileys[$key]['0']."\" width=\"".$smileys[$key]['1']."\" height=\"".$smileys[$key]['2']."\" alt=\"".$smileys[$key]['3']."\" style=\"border:0;\" /></a>";	
+		$link[] = "<a href=\"javascript:void(0);\" onClick=\"insert_smiley('".$key."')\"><img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" /></a>";	
 	
-		$used[$smileys[$key]['0']] = TRUE;
+		$used[$smileys[$key][0]] = TRUE;
 	}
 	
 	return $link;
@@ -103,19 +106,27 @@ function get_clickable_smileys($image_url = '')
  * @param	string	the URL to the folder containing the smiley images
  * @return	string
  */	
-function parse_smileys($str, $image_url)
+function parse_smileys($str = '', $image_url = '', $smileys = NULL)
 {
-	if (FALSE === ($smileys = _get_smiley_array()))
+	if ($image_url == '')
 	{
 		return $str;
-	}        
+	}
 
+	if ( ! is_array($smileys))
+	{
+		if (FALSE === ($smileys = _get_smiley_array()))
+		{
+			return $str;
+		}        
+	}
+	
 	// Add a trailing slash to the file path if needed
 	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
 
 	foreach ($smileys as $key => $val)
 	{        
-		$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key]['0']."\" width=\"".$smileys[$key]['1']."\" height=\"".$smileys[$key]['2']."\" alt=\"".$smileys[$key]['3']."\" style=\"border:0;\" />", $str);
+		$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
 	}
 	
 	return $str;
