@@ -1,5 +1,6 @@
 <?php
 
+$lang['ftp_no_connection']			= "Unable to locate a valid connection ID.  Please make sure you are connected before peforming any file routines.";
 $lang['ftp_unable_to_connect']		= "Unable to connect to your FTP server using the supplied hostname.";
 $lang['ftp_unable_to_login']		= "Unable to login to your FTP server.  Please check your username and password.";
 $lang['ftp_unable_to_makdir']		= "Unable to create the directory you have specified.";
