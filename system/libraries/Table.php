@@ -263,6 +263,21 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Clears the table arrays.  Useful if multiple tables are beting generated
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	function clear_data()
+	{
+		$this->rows				= array();
+		$this->heading			= array();
+		$this->auto_heading		= TRUE;	
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set table data from a database result object
 	 *
 	 * @access	public
