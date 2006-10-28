@@ -101,7 +101,7 @@ already be running, since the utilities class relies on it.</p>
 <a name="create"></a>
 <h2>$this->dbutil->create_database('db_name')</h2>
 
-<p>Permits you to create a database using the name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
+<p>Permits you to create the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
 <code>if ($this->dbutil->create_database('my_db'))<br />
 {<br />
@@ -111,9 +111,9 @@ already be running, since the utilities class relies on it.</p>
 
 
 <a name="drop"></a>
-<h2>$this->dbutil->drop_database('table_name')</h2>
+<h2>$this->dbutil->drop_database('db_name')</h2>
 
-<p>Permits you to drop a database using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
+<p>Permits you to drop the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
 <code>if ($this->dbutil->drop_database('my_db'))<br />
 {<br />
@@ -162,7 +162,7 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <p>Permits you to repair a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
 <code>
-if ($this->dbutil->optimize_table('table_name'))<br />
+if ($this->dbutil->repair_table('table_name'))<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo 'Success!';<br />
 }
@@ -176,7 +176,7 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
-<p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the returned status messages or FALSE on failure.</p>
+<p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the DB status messages or FALSE on failure.</p>
 
 <code>
 $result = $this->dbutil->optimize_database();<br />
