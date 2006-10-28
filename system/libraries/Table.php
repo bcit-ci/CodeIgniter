@@ -28,11 +28,12 @@
  */
 class CI_Table {
 
-	var $rows			= array();
-	var $heading		= array();
-	var $template 		= NULL;
-	var $newline		= "\n";
-	var $empty_cells	= "";
+	var $rows				= array();
+	var $heading			= array();
+	var $auto_heading		= TRUE;	
+	var $template 			= NULL;
+	var $newline			= "\n";
+	var $empty_cells		= "";
 	
 	
 	function CI_Table()
@@ -74,6 +75,55 @@ class CI_Table {
 	{
 		$args = func_get_args();
 		$this->heading = (is_array($args[0])) ? $args[0] : $args;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set columns.  Takes a one-dimensional array as input and creates
+	 * a multi-dimensional array with a depth equal to the number of
+	 * columns.  This allows a single array with many elements to  be
+	 * displayed in a table that has a fixed column count.
+	 *
+	 * @access	public
+	 * @param	array
+	 * @param	int
+	 * @return	void
+	 */
+	function make_columns($array = array(), $col_limit = 0)
+	{
+		if ( ! is_array($array) OR count($array) == 0)
+		{
+			return FALSE;
+		}
+		
+		// Turn off the auto-heading feature since it's doubtful we 
+		// will want headings from a one-dimensional array
+		$this->auto_heading = FALSE;
+		
+		if ($col_limit == 0)
+		{
+			return $array;
+		}
+	
+		$new = array();
+		while(count($array) > 0)
+		{	
+			$temp = array_slice($array, 0, $col_limit);	
+			$array = array_diff($array, $temp);	
+			
+			if (count($temp) < $col_limit)
+			{
+				for ($i = count($temp); $i < $col_limit; $i++)
+				{
+					$temp[] = '&nbsp;';
+				}
+			}
+			
+			$new[] = $temp;
+		}
+		
+		return $new;
 	}
 
 	// --------------------------------------------------------------------
@@ -130,7 +180,8 @@ class CI_Table {
 			}
 			elseif (is_array($table_data))
 			{
-				$this->_set_from_array($table_data);
+				$set_heading = (count($this->heading) == 0 AND $this->auto_heading == FALSE) ? FALSE : TRUE;
+				$this->_set_from_array($table_data, $set_heading);
 			}
 		}
 	
@@ -178,14 +229,14 @@ class CI_Table {
 				}
 			
 				// We use modulus to alternate the row colors
-				$alt = (fmod($i++, 2)) ? '' : 'alt_';
+				$name = (fmod($i++, 2)) ? '' : 'alt_';
 			
-				$out .= $this->template['row_'.$alt.'start'];
+				$out .= $this->template['row_'.$name.'start'];
 				$out .= $this->newline;		
 	
 				foreach($row as $cell)
 				{
-					$out .= $this->template['cell_'.$alt.'start'];
+					$out .= $this->template['cell_'.$name.'start'];
 					
 					if ($cell == "")
 					{
@@ -196,10 +247,10 @@ class CI_Table {
 						$out .= $cell;
 					}
 					
-					$out .= $this->template['cell_'.$alt.'end'];
+					$out .= $this->template['cell_'.$name.'end'];
 				}
 	
-				$out .= $this->template['row_'.$alt.'end'];
+				$out .= $this->template['row_'.$name.'end'];
 				$out .= $this->newline;	
 			}
 		}
@@ -208,7 +259,7 @@ class CI_Table {
 	
 		return $out;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -256,7 +307,7 @@ class CI_Table {
 	 * @param	array
 	 * @return	void
 	 */
-	function _set_from_array($data)
+	function _set_from_array($data, $set_heading = TRUE)
 	{
 		if ( ! is_array($data) OR count($data) == 0)
 		{
@@ -273,7 +324,7 @@ class CI_Table {
 			}
 						
 			// If a heading hasn't already been set we'll use the first row of the array as the heading
-			if ($i == 0 AND count($data) > 1 AND count($this->heading) == 0)
+			if ($i == 0 AND count($data) > 1 AND count($this->heading) == 0 AND $set_heading == TRUE)
 			{
 				$this->heading = $row;
 			}

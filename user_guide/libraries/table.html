@@ -198,6 +198,36 @@ $this->table->set_template($tmpl);
 <code>$this->table->add_row('Blue', 'Red', 'Green');</code>
 <code>$this->table->add_row(array('Blue', 'Red', 'Green'));</code>
 
+
+<h2>$this->table->make_columns()</h2>
+
+<p>This function takes a one-dimensional array as input and creates
+a multi-dimensional array with a depth equal to the number of
+columns desired.  This allows a single array with many elements to  be
+displayed in a table that has a fixed column count.  Consider this example:</p>
+
+<code>
+$list = array('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve');<br />
+<br />
+$new_list = $this->table->make_columns($list, 3);<br />
+<br />
+$this->table->generate($new_list)<br />
+<br />
+// Generates a table with this prototype<br />
+<br />
+&lt;table border="0" cellpadding="4" cellspacing="0"&gt;<br />
+&lt;tr&gt;<br />
+&lt;td&gt;one&lt;/td&gt;&lt;td&gt;two&lt;/td&gt;&lt;td&gt;three&lt;/td&gt;<br />
+&lt;/tr&gt;&lt;tr&gt;<br />
+&lt;td&gt;four&lt;/td&gt;&lt;td&gt;five&lt;/td&gt;&lt;td&gt;six&lt;/td&gt;<br />
+&lt;/tr&gt;&lt;tr&gt;<br />
+&lt;td&gt;seven&lt;/td&gt;&lt;td&gt;eight&lt;/td&gt;&lt;td&gt;nine&lt;/td&gt;<br />
+&lt;/tr&gt;&lt;tr&gt;<br />
+&lt;td&gt;ten&lt;/td&gt;&lt;td&gt;eleven&lt;/td&gt;&lt;td&gt;twelve&lt;/td&gt;&lt;/tr&gt;<br />
+&lt;/table&gt;</code>
+
+
+
 <h2>$this->table->set_template()</h2>
 
 <p>Permits you to set your template. You can submit a full or partial template.</p>
