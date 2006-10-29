@@ -66,16 +66,15 @@ class CI_Language {
 		}
 	
 		// Determine where the language file is and load it
-	
 		if (file_exists(APPPATH.'language/'.$idiom.'/'.$langfile))
 		{
-			include_once(APPPATH.'language/'.$idiom.'/'.$langfile);
+			include(APPPATH.'language/'.$idiom.'/'.$langfile);
 		}
 		else
 		{		
 			if (file_exists(BASEPATH.'language/'.$idiom.'/'.$langfile))
 			{
-				include_once(BASEPATH.'language/'.$idiom.'/'.$langfile);
+				include(BASEPATH.'language/'.$idiom.'/'.$langfile);
 			}
 			else
 			{

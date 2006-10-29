@@ -81,7 +81,7 @@ class CI_Router {
 		}
 		
 		// Load the routes.php file.
-		@include_once(APPPATH.'config/routes'.EXT);
+		@include(APPPATH.'config/routes'.EXT);
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
