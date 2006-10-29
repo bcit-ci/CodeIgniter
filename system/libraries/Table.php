@@ -268,7 +268,7 @@ class CI_Table {
 	 * @access	public
 	 * @return	void
 	 */
-	function clear_data()
+	function clear()
 	{
 		$this->rows				= array();
 		$this->heading			= array();

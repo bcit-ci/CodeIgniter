@@ -110,10 +110,7 @@ function anchor($uri = '', $title = '', $attributes = '')
 	}
 	else
 	{
-		if (is_array($attributes))
-		{
-			$attributes = parse_url_attributes($attributes);
-		}
+		$attributes = _parse_attributes($attributes);
 	}
 
 	return '<a href="'.$site_url.'"'.$attributes.'>'.$title.'</a>';
@@ -157,7 +154,7 @@ function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 		$atts[$key] = ( ! isset($attributes[$key])) ? $val : $attributes[$key];
 	}
 
-	return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '".parse_url_attributes($atts, TRUE)."');\">".$title."</a>";
+	return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\">".$title."</a>";
 }
 	
 // ------------------------------------------------------------------------
@@ -178,10 +175,7 @@ function mailto($email, $title = '', $attributes = '')
 		$title = $email;
 	}
 	
-	if (is_array($attributes))
-	{
-		$attributes = parse_url_attributes($attributes);
-	}
+	$attributes = _parse_attributes($attributes);
 	
 	return '<a href="mailto:'.$email.'"'.$attributes.'>'.$title.'</a>';
 }
@@ -468,8 +462,13 @@ function redirect($uri = '', $method = 'location')
  * @param	bool
  * @return	string
  */
-function parse_url_attributes($attributes, $javascript = FALSE)
+function _parse_attributes($attributes, $javascript = FALSE)
 {
+	if (is_string($attributes))
+	{
+		return ($attributes != '') ? ' '.$attributes : '';
+	}
+
 	$att = '';
 	foreach ($attributes as $key => $val)
 	{
@@ -483,7 +482,7 @@ function parse_url_attributes($attributes, $javascript = FALSE)
 		}
 	}
 	
-	if ($javascript == TRUE)
+	if ($javascript == TRUE AND $att != '')
 	{
 		$att = substr($att, 0, -1);
 	}

@@ -372,8 +372,8 @@ class CI_DB_driver {
 
 		if ( ! class_exists($driver))
 		{
-			include_once(BASEPATH.'database/DB_result'.EXT);
-			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
+			include(BASEPATH.'database/DB_result'.EXT);
+			include(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
 		}
 		
 		return $driver;
@@ -998,7 +998,7 @@ class CI_DB_driver {
 			return TRUE;
 		}
 	
-		if ( ! @include_once(BASEPATH.'database/DB_cache'.EXT))
+		if ( ! @include(BASEPATH.'database/DB_cache'.EXT))
 		{
 			return $this->cache_off();
 		}
@@ -1054,13 +1054,12 @@ class CI_DB_driver {
 
 		if ( ! class_exists('CI_Exceptions'))
 		{
-			include_once(BASEPATH.'libraries/Exceptions'.EXT);
+			include(BASEPATH.'libraries/Exceptions'.EXT);
 		}
 		
 		$error = new CI_Exceptions();
 		echo $error->show_error('An Error Was Encountered', $message, 'error_db');
 		exit;
-
 	}
 	
 }

@@ -149,7 +149,7 @@ function _get_smiley_array()
 		return FALSE;
 	}
 
-	include_once(APPPATH.'config/smileys'.EXT);
+	include(APPPATH.'config/smileys'.EXT);
 	
 	if ( ! isset($smileys) OR ! is_array($smileys))
 	{

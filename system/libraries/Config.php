@@ -75,7 +75,7 @@ class CI_Config {
 			show_error('The configuration file '.$file.EXT.' does not exist.');
 		}
 	
-		include_once(APPPATH.'config/'.$file.EXT);
+		include(APPPATH.'config/'.$file.EXT);
 
 		if ( ! isset($config) OR ! is_array($config))
 		{

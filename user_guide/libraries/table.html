@@ -248,11 +248,30 @@ $this->table->set_template($tmpl);
 $this->table->set_empty("&amp;nbsp;");
 </code>
 
-<h2>$this->table->clear_data()</h2>
+<h2>$this->table->clear()</h2>
 
 <p>Lets you clear the table heading and row data.  If you need to show multiple tables with different data you should
-to call this function after each table has been generated to empty the previous table information.</p>
+to call this function after each table has been generated to empty the previous table information. Example:</p>
 
+<code>
+$this->load->library('table');<br />
+<br />
+$this->table->set_heading('Name', 'Color', 'Size');<br />
+$this->table->add_row('Fred', 'Blue', 'Small');<br />
+$this->table->add_row('Mary', 'Red', 'Large');<br />
+$this->table->add_row('John', 'Green', 'Medium');<br />
+<br />
+echo $this->table->generate();<br />
+<br />
+<kbd>$this->table->clear();</kbd><br />
+<br />
+$this->table->set_heading('Name', 'Day', 'Delivery');<br />
+$this->table->add_row('Fred', 'Wednesday', 'Express');<br />
+$this->table->add_row('Mary', 'Monday', 'Air');<br />
+$this->table->add_row('John', 'Saturday', 'Overnight');<br />
+<br />
+echo $this->table->generate();
+</code>
 
 </div>
 <!-- END CONTENT -->
