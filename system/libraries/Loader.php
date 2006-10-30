@@ -606,7 +606,7 @@ class CI_Loader {
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
 		
-		if ((bool) @ini_get('short_open_tag') === FALSE)
+		if ((bool) @ini_get('short_open_tag') === FALSE AND config_item('rewrite_short_tags') == TRUE)
 		{
 			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($path))).'<?php ');
 		}
@@ -617,7 +617,7 @@ class CI_Loader {
 		
 		log_message('debug', 'File loaded: '.$path);
 		
-		// Return the file data if requested to
+		// Return the file data if requested
 		if ($return === TRUE)
 		{		
 			$buffer = ob_get_contents();

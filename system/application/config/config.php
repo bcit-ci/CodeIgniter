@@ -144,29 +144,13 @@ $config['function_trigger'] = 'm';
 
 /*
 |--------------------------------------------------------------------------
-| Error Logging
-|--------------------------------------------------------------------------
-|
-<<<<<<< .mine
-| Options are "local" or "gmt".  This pref tells the system whether to use 
-| your server's local time as the master "now" reference, or convert it to 
-| GMT.  See the "date helper" page of the user guide for information 
-| regarding date handling.
-|
-*/
-$config['time_reference'] = 'local';
-
-/*
-|--------------------------------------------------------------------------
 | Error Logging Threshold
 |--------------------------------------------------------------------------
 |
 | If you have enabled error logging, you can set an error threshold to 
 | determine what gets logged. Threshold options are:
-=======
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
->>>>>>> .r388
 |
 |	0 = Disables logging
 | 	0 = Error logging TURNED OFF
@@ -300,6 +284,19 @@ $config['compress_output'] = FALSE;
 |
 */
 $config['time_reference'] = 'local';
+
+
+/*
+|--------------------------------------------------------------------------
+| Rewrite PHP Short Tags
+|--------------------------------------------------------------------------
+|
+| If your PHP installation does not have short tag support enabled CI
+| can rewrite the tags on-the-fly, enabling you to utilize that syntax
+| in your view files.  Options are TRUE or FALSE (boolean)
+|
+*/
+$config['rewrite_short_tags'] = FALSE;
 
 
 ?>
