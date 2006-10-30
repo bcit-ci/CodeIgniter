@@ -154,17 +154,9 @@ $config['log_errors'] = FALSE;
 
 <h2>Step 4: Update your main index.php file</h2>
 
-<p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.  If you are running one with
-internal modifications, open it and make these two changes:</p>
+<p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.</p>
 
-<p>Find the $application_folder variable and make sure it contains the name of your "application" directory:</p>
-
-<code>$application_folder = "application";</code>
-
-<p>Next, at add this line of code near the bottom of the page:</p>
-
-<code>define('FCPATH', __FILE__);</code>
-
+<p>If your <dfn>index.php</dfn> file has internal modifications, please add your modifications to the new file and use it.</p>
 
 
 
