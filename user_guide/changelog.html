@@ -86,6 +86,8 @@ Change Log
 <li>Added new <a href="./helpers/file_helper.html">File Helper</a>:  get_filenames()</li>
 <li>Added new helper:  <a href="./helpers/smiley_helper.html">Smiley Helper</a></li>
 <li>Added support for &lt;ul> and &lt;ol> lists in the  <a href="./helpers/html_helper.html">HTML Helper</a></li>
+<li>Added the ability to rewrite <a href="./general/alternative_php.html">short tags</a> on-the-fly, converting them to standard PHP statements, for those servers that do not support short tags.  This allows the cleaner syntax to be used regardless of whether it's supported by the server.</li>
+<li>Added the ability to <a href="./general/managing_apps.html">rename or relocate the "application" folder</a>.</dfn>
 <li>Added more thorough initialization in the upload class so that all class variables are reset.</li>
 <li>Added "is_numeric" to validation, which uses the native PHP is_numeric function.</li>
 <li>Improved the URI handler to make it more reliable when the $config['uri_protocol'] item is set to AUTO.</li>
@@ -94,12 +96,12 @@ Change Log
 <li>Updated the <dfn>input->cookie()</dfn> and <dfn>input->post()</dfn> functions in <a href="./libraries/input.html">Input Class</a> to permit arrays contained cookies that are arrays to be run through the XSS filter.</li>
 <li>Documented three functions from the <a href="./libraries/validation.html">Validation class</a> that were missing from the user guide:  set_select(), set_radio(), and set_checkbox().</li>
 <li>Fixed a bug in the Email class related to SMTP Helo data.</li>
-<li>Fixed a bugin the word wrapping heper and function in the email class.</li>
+<li>Fixed a bug in the word wrapping helper and function in the email class.</li>
 <li>Fixed a bug in the validation class.</li>
 <li>Fixed a bug in the typography helper that was incorrectly wrapping block level elements in paragraph tags.</li>
 <li>Fixed a problem in the form_prep() function that was double encoding entities.</li>
 <li>Fixed a bug that affects some versions of PHP when output buffering is nested.</li>
-<li>Fixed a bug that caused CI to stop working when the PHP magic __get() function was used within models or controllers.</li>
+<li>Fixed a bug that caused CI to stop working when the PHP magic __get() or __set() functions were used within models or controllers.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> the <dfn>$config['log_errors']</dfn> item from the config.php file.  Instead, <dfn>$config['log_threshold']</dfn> can be set to "0" to turn it off.</li>
@@ -315,7 +317,7 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 
 <ul>
 <li>Added a <a href="./libraries/calendar.html">Calendaring class</a>.</li>
-<li>Added support for running <a href="multiple_apps.html">multiple applications</a> that share a common Code Igniter backend.</li>
+<li>Added support for running <a href="managing_apps.html">multiple applications</a> that share a common Code Igniter backend.</li>
 <li>Moved the "uri protocol" variable from the index.php file into the config.php file</li>
 <li>Fixed a problem that was preventing certain function calls from working within constructors.</li>
 <li>Fixed a problem that was preventing the $this->load->library function from working in constructors.</li>

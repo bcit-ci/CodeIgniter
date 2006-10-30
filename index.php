@@ -32,7 +32,11 @@ error_reporting(E_ALL);
 |---------------------------------------------------------------
 |
 | If you want this front controller to use a different "application"
-| folder then the default one you can set its name here.
+| folder then the default one you can set its name here. 
+| The folder can also be relocated anywhere on your server.  For 
+| more info please see the user guide:
+| http://www.codeigniter.com/user_guide/general/managing_apps.html
+|
 |
 | NO TRAILING SLASH!
 |
@@ -77,7 +81,15 @@ define('EXT', '.'.pathinfo(__FILE__, PATHINFO_EXTENSION));
 define('FCPATH', __FILE__);
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 define('BASEPATH', $system_folder.'/');
-define('APPPATH', BASEPATH.$application_folder.'/');
+
+if ( ! is_dir($application_folder))
+{
+	define($application_folder.'/');
+}
+else
+{
+	define('APPPATH', BASEPATH.$application_folder.'/');
+}
 
 // Load the front controller and away we go!....
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
