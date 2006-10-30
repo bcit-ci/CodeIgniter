@@ -44,7 +44,7 @@ class CI_Config {
 	 */
 	function CI_Config()
 	{
-		$this->config = get_config();
+		$this->config =& get_config();
 		log_message('debug', "Config Class Initialized");
 	}  	
   	
