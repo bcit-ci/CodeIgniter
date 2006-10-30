@@ -6,7 +6,10 @@ function create_menu(basepath)
 		'<table cellpadding="0" cellspaceing="0" border="0" style="width:98%"><tr>' +
 		'<td class="td" valign="top">' +
 
-		'<p><a href="'+base+'index.html">User Guide Home</a></p>' +	
+		'<ul>' +
+		'<li><a href="'+base+'index.html">User Guide Home</a></li>' +	
+		'<li><a href="'+base+'toc.html">Table of Contents Page</a></li>' +
+		'</ul>' +	
 
 		'<h3>Basic Info</h3>' +
 		'<ul>' +
