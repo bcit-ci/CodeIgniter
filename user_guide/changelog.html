@@ -62,6 +62,16 @@ Change Log
 
 <h1>Change Log</h1>
 
+<h2>Version 1.5.0.1</h2>
+<p>Release Date: October 31, 2006</p>
+<ul>
+<li>Fixed a problem in which duplicate attempts to load helpers and classes were not being stopped.</li>
+<li>Fixed a bug in the word_wrap() helper function.</li>
+<li>Fixed an invalid color Hex number in the Profiler class.</li>
+<li>Fixed a corrupted image in the user guide.</li>
+</ul>
+
+
 
 <h2>Version 1.5.0</h2>
 <p>Release Date: October 30, 2006</p>
@@ -104,6 +114,7 @@ Change Log
 <li>Fixed a bug that caused CI to stop working when the PHP magic __get() or __set() functions were used within models or controllers.</li>
 <li>Fixed a pagination bug that was permitting negative values in the URL.</li>
 <li>Fixed an oversight in which the Loader class was not allowed to be exteneded.</li>
+<li>Changed <dfn>_get_config()</dfn> to <dfn>get_config()</dfn> since the function is not a private one.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> the <dfn>$config['log_errors']</dfn> item from the config.php file.  Instead, <dfn>$config['log_threshold']</dfn> can be set to "0" to turn it off.</li>

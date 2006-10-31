@@ -103,7 +103,7 @@ $config['maintain_ratio'] = TRUE;<br />
 $config['width']		= 75;<br />
 $config['height']	= 50;<br />
 <br />
-$this->image_lib->initialize($config);
+$this->load->library('image_lib', $config);
 <br />
 <br />
 $this->image_lib->resize();</code>
