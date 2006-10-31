@@ -102,6 +102,8 @@ Change Log
 <li>Fixed a problem in the form_prep() function that was double encoding entities.</li>
 <li>Fixed a bug that affects some versions of PHP when output buffering is nested.</li>
 <li>Fixed a bug that caused CI to stop working when the PHP magic __get() or __set() functions were used within models or controllers.</li>
+<li>Fixed a pagination bug that was permitting negative values in the URL.</li>
+<li>Fixed an oversight in which the Loader class was not allowed to be exteneded.</li>
 <li><strong>Deprecated "init" folder</strong>.  Initialization happens automatically now.  <a href="creating_libraries.html">Please see documentation</a>.</li>
 <li><strong>Deprecated</strong> $this->db->field_names()  USE  $this->db->list_fields()</li>
 <li><strong>Deprecated</strong> the <dfn>$config['log_errors']</dfn> item from the config.php file.  Instead, <dfn>$config['log_threshold']</dfn> can be set to "0" to turn it off.</li>
