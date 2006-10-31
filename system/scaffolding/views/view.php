@@ -7,7 +7,7 @@
 	<?php foreach($fields as $field): ?>
 	<th><?php echo $field; ?></th>
 	<?php endforeach; ?>
-</tr><tr>
+</tr>
 
 <?php foreach($query->result() as $row): ?>
  <tr>
