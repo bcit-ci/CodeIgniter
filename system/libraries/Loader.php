@@ -34,6 +34,7 @@ class CI_Loader {
 	var $_ci_is_php5		= FALSE;
 	var $_ci_is_instance 	= FALSE; // Whether we should use $this or $CI =& get_instance()
 	var $_ci_cached_vars	= array();
+	var $_ci_classes		= array();
 	var $_ci_models			= array();
 	var $_ci_helpers		= array();
 	var $_ci_plugins		= array();
@@ -305,17 +306,17 @@ class CI_Loader {
 		}
 	
 		foreach ($helpers as $helper)
-		{
+		{		
+			$helper = strtolower(str_replace(EXT, '', str_replace('_helper', '', $helper)).'_helper');
+		
 			if (isset($this->_ci_helpers[$helper]))
 			{
 				continue;
 			}
-		
-			$helper = strtolower(str_replace(EXT, '', str_replace('_helper', '', $helper)).'_helper');
-		
+
 			if (file_exists(APPPATH.'helpers/'.$helper.EXT))
-			{
-				include(APPPATH.'helpers/'.$helper.EXT);
+			{ 
+				include_once(APPPATH.'helpers/'.$helper.EXT);
 			}
 			else
 			{		
@@ -330,6 +331,7 @@ class CI_Loader {
 			}
 
 			$this->_ci_helpers[$helper] = TRUE;
+			
 		}
 		
 		log_message('debug', 'Helpers loaded: '.implode(', ', $helpers));
@@ -371,14 +373,14 @@ class CI_Loader {
 		}
 	
 		foreach ($plugins as $plugin)
-		{
+		{	
+			$plugin = strtolower(str_replace(EXT, '', str_replace('_plugin.', '', $plugin)).'_pi');		
+
 			if (isset($this->_ci_plugins[$plugin]))
 			{
 				continue;
 			}
-	
-			$plugin = strtolower(str_replace(EXT, '', str_replace('_plugin.', '', $plugin)).'_pi');		
-		
+
 			if (file_exists(APPPATH.'plugins/'.$plugin.EXT))
 			{
 				include(APPPATH.'plugins/'.$plugin.EXT);	
@@ -441,13 +443,13 @@ class CI_Loader {
 		}
 	
 		foreach ($scripts as $script)
-		{
+		{	
+			$script = strtolower(str_replace(EXT, '', $script));
+
 			if (isset($this->_ci_scripts[$script]))
 			{
 				continue;
 			}
-	
-			$script = strtolower(str_replace(EXT, '', $script));
 		
 			if ( ! file_exists(APPPATH.'scripts/'.$script.EXT))
 			{
@@ -455,8 +457,6 @@ class CI_Loader {
 			}
 			
 			include(APPPATH.'scripts/'.$script.EXT);
-			
-			$this->_ci_scripts[$script] = TRUE;
 		}
 		
 		log_message('debug', 'Scripts loaded: '.implode(', ', $scripts));
@@ -534,6 +534,30 @@ class CI_Loader {
 	 */
 	function _ci_load($data)
 	{
+		// Set the default data variables
+		foreach (array('view', 'vars', 'path', 'return') as $val)
+		{
+			$$val = ( ! isset($data[$val])) ? FALSE : $data[$val];
+		}
+
+		// Set the path to the requested file
+		if ($path == '')
+		{
+			$ext = pathinfo($view, PATHINFO_EXTENSION);
+			$file = ($ext == '') ? $view.EXT : $view;
+			$path = $this->_ci_view_path.$file;
+		}
+		else
+		{
+			$x = explode('/', $path);
+			$file = end($x);
+		}
+		
+		if ( ! file_exists($path))
+		{
+			show_error('Unable to load the requested file: '.$file);
+		}
+	
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
 		// Only needed when running PHP 5
@@ -550,12 +574,6 @@ class CI_Loader {
 			}
 		}
 		
-		// Set the default data variables
-		foreach (array('view', 'vars', 'path', 'return') as $val)
-		{
-			$$val = ( ! isset($data[$val])) ? FALSE : $data[$val];
-		}
-		
 		/*
 		 * Extract and cache variables
 		 *
@@ -570,19 +588,6 @@ class CI_Loader {
 		}
 		extract($this->_ci_cached_vars);
 				
-		// Set the path to the requested file
-		if ($path == '')
-		{
-			$ext = pathinfo($view, PATHINFO_EXTENSION);
-			$file = ($ext == '') ? $view.EXT : $view;
-			$path = $this->_ci_view_path.$file;
-		}
-		else
-		{
-			$x = explode('/', $path);
-			$file = end($x);
-		}
-
 		/*
 		 * Buffer the output
 		 *
@@ -595,11 +600,6 @@ class CI_Loader {
 		 * can intercept the content right before it's sent to
 		 * the browser and then stop the timer it won't be accurate.
 		 */
-		if ( ! file_exists($path))
-		{
-			show_error('Unable to load the requested file: '.$file);
-		}
-
 		ob_start();
 				
 		// If the PHP installation does not support short tags we'll
@@ -682,19 +682,32 @@ class CI_Loader {
 		}
 
 		// Lets search for the requested library file and load it.
+		$is_duplicate = FALSE;		
 		for ($i = 1; $i < 3; $i++)
 		{
-			$path = ($i % 2) ? APPPATH : BASEPATH;		
-			if (file_exists($path.'libraries/'.$class.EXT))
+			$path = ($i % 2) ? APPPATH : BASEPATH;	
+			
+			$fp = $path.'libraries/'.$class.EXT;
+			
+			// Safety:  Was the class already loaded by a previous call?
+			if (in_array($fp, $this->_ci_classes) OR ! file_exists($fp))
 			{
-				include($path.'libraries/'.$class.EXT);
-				return $this->_ci_init_class($class, '', $params);
+				$is_duplicate = TRUE;
+				continue;
 			}
+			
+			include($fp);
+			$this->_ci_classes[] = $fp;
+			return $this->_ci_init_class($class, '', $params);
 		}
-		
-		// If we got this far we were unable to find the requested class
-		log_message('error', "Unable to load the requested class: ".$class);
-		show_error("Unable to load the requested class: ".$class);
+
+		// If we got this far we were unable to find the requested class.
+		// We do not issue errors if the load call failed due to a duplicate request
+		if ($is_duplicate == FALSE)
+		{
+			log_message('error', "Unable to load the requested class: ".$class);
+			show_error("Unable to load the requested class: ".$class);
+		}
 	}
 	
 	// --------------------------------------------------------------------
