@@ -40,12 +40,7 @@ class Model {
 		
 		// We don't want to assign the model object to itself when using the
 		// assign_libraries function below so we'll grab the name of the model parent
-		$methods = get_class_methods($this);
-						
-		if (isset($methods[0]))
-		{
-			$this->_parent_name = $methods[0];
-		}
+		$this->_parent_name = ucfirst(get_class($this));
 		
 		log_message('debug', "Model Class Initialized");
 	}
@@ -65,7 +60,7 @@ class Model {
 		foreach (array_keys(get_object_vars($CI)) as $key)
 		{
 			if ( ! isset($this->$key) AND $key != $this->_parent_name)
-			{
+			{			
 				// In some cases using references can cause
 				// problems so we'll conditionally use them
 				if ($use_reference == TRUE)

@@ -178,7 +178,7 @@ class CI_FTP {
 		
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE AND $supress_debug != TRUE)
+			if ($this->debug == TRUE AND $supress_debug == FALSE)
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}		
@@ -251,7 +251,7 @@ class CI_FTP {
 		// Set the mode if not specified
 		if ($mode == 'auto')
 		{
-			// Get the file extension so we can se the upload type
+			// Get the file extension so we can set the upload type
 			$ext = $this->_getext($locpath);
 			$mode = $this->_settype($ext);
 		}
