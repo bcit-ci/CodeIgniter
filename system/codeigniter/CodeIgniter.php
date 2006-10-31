@@ -27,7 +27,8 @@
  * @link		http://www.codeigniter.com/user_guide/
  */
 
-define('APPVER', '1.5.0');
+// CI Version
+define('APPVER',	'1.5.0.1');
 
 /*
  * ------------------------------------------------------
