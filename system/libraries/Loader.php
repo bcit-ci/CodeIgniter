@@ -686,11 +686,16 @@ class CI_Loader {
 		for ($i = 1; $i < 3; $i++)
 		{
 			$path = ($i % 2) ? APPPATH : BASEPATH;	
-			
 			$fp = $path.'libraries/'.$class.EXT;
 			
+			// Does the file exist?  No?  Bummer...
+			if ( ! file_exists($fp))
+			{
+				continue;
+			}
+			
 			// Safety:  Was the class already loaded by a previous call?
-			if (in_array($fp, $this->_ci_classes) OR ! file_exists($fp))
+			if (in_array($fp, $this->_ci_classes))
 			{
 				$is_duplicate = TRUE;
 				continue;
