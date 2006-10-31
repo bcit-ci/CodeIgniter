@@ -370,7 +370,7 @@ function word_wrap($str, $charlim = '76')
 		// If so we'll join it to the output and continue
 		if (strlen($line) <= $charlim)
 		{
-			$output .= $line.$this->newline;			
+			$output .= $line."\n";			
 			continue;
 		}
 			
@@ -399,7 +399,7 @@ function word_wrap($str, $charlim = '76')
 			$output .= $line;
 		}
 
-		$output .= $this->newline;
+		$output .= "\n";
 	}
 
 	// Put our markers back
