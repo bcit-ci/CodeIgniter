@@ -171,7 +171,7 @@ class Upload extends Controller {
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 		
-		$this->upload->initialize($config);
+		$this->load->library('upload', $config);
 	
 		if ( ! $this->upload->do_upload())
 		{
@@ -230,6 +230,9 @@ $config['max_size']	= '100';<br />
 $config['max_width']  = '1024';<br />
 $config['max_height']  = '768';<br />
 <br />
+$this->load->library('ftp', $config);<br /><br />
+
+// Alternately you can set preferences by calling the initialize function.  Useful if you auto-load the class:<br />
 $this->upload->initialize($config);</code>
 
 <p>The above preferences should be fairly self-explanatory.  Below is a table describing all available preferences.</p>
