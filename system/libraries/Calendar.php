@@ -45,7 +45,7 @@ class CI_Calendar {
 	 *
 	 * @access	public
 	 */
-	function CI_Calendar()
+	function CI_Calendar($config = array())
 	{		
 		$this->CI =& get_instance();
 		
@@ -55,6 +55,12 @@ class CI_Calendar {
 		}
 
 		$this->local_time = time();
+		
+		if (count($config) > 0)
+		{
+			$this->initialize($config);
+		}
+		
 		log_message('debug', "Calendar Class Initialized");
 	}
 	
@@ -153,6 +159,9 @@ class CI_Calendar {
 		// "previous" month link
 		if ($this->show_next_prev == TRUE)
 		{
+			// Add a trailing slash to the  URL if needed
+			$this->next_prev_url = preg_replace("/(.+?)\/*$/", "\\1/",  $this->next_prev_url);
+		
 			$adjusted_date = $this->adjust_date($month - 1, $year);
 			$out .= str_replace('{previous_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_previous_cell']);
 			$out .= "\n";
