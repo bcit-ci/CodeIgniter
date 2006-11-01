@@ -436,7 +436,6 @@ class CI_Input {
 		 * these are the ones that will pose security problems.
 		 *
 		 */
-		
 		if (preg_match_all("/<(.+?)>/si", $str, $matches))
 		{		
 			for ($i = 0; $i < count($matches['0']); $i++)
