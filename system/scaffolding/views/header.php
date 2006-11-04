@@ -8,8 +8,6 @@
 <?php $this->file(BASEPATH.'scaffolding/views/stylesheet.css'); ?>
 </style>
 
-<script src="../../nav.js" type="text/javascript"></script>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv='expires' content='-1' />
 <meta http-equiv= 'pragma' content='no-cache' />

@@ -178,6 +178,27 @@ function nbs($num = 1)
 	return str_repeat("&nbsp;", $num);
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Generates meta tags from an array of key/values
+ *
+ * @access	public
+ * @param	array
+ * @return	string
+ */	
+function meta($meta = array(), $newline = "\n")
+{
+	$str = '';
+	foreach ($meta as $key => $val)
+	{
+		$str .= '<meta http-equiv="'.$key.'" content="'.$val.'" />'.$newline;
+	}
+
+	return $str;
+}
+
+
 
 
 ?>
