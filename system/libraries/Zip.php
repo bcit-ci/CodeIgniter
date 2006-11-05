@@ -28,7 +28,7 @@
  * @subpackage	Libraries
  * @category	Encryption
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/general/encryption.html
+ * @link		http://www.codeigniter.com/user_guide/libraries/zip.html
  */
 class CI_Zip  {
 

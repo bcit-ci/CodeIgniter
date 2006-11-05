@@ -24,7 +24,7 @@
  * @subpackage	Libraries
  * @category	User Agent
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/uri.html
+ * @link		http://www.codeigniter.com/user_guide/libraries/user_agent.html
  */
 class CI_User_agent {
 

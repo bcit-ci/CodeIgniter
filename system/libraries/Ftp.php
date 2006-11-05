@@ -22,7 +22,7 @@
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/encryption.html
+ * @link		http://www.codeigniter.com/user_guide/libraries/ftp.html
  */ 
 class CI_FTP {
 
