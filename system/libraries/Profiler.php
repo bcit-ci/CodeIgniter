@@ -28,7 +28,7 @@
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Rick Ellis
- * @link		http://www.codeigniter.com/user_guide/libraries/benchmark.html
+ * @link		http://www.codeigniter.com/user_guide/general/profiling.html
  */
 class CI_Profiler {
 
