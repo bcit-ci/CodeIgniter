@@ -73,13 +73,15 @@ class CI_Input {
 		{
 			if ( ! is_array($global))
 			{
-				unset($$global);
+				global $global;
+				$$global = NULL;
 			}
 			else
 			{
 				foreach ($global as $key => $val)
 				{
-					unset($$key);
+					global $$key;
+					$$key = NULL;
 				}	
 			}
 		}

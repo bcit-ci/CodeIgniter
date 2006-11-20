@@ -31,21 +31,24 @@ class CI_DB_oci8_result extends CI_DB_result {
 	var $limit_used;
 
 	/**
-	 * Number of rows in the result set
+	 * Number of rows in the result set.
+	 *
+	 * Oracle doesn't have a graceful way to retun the number of rows
+	 * so we have to use what amounts to a hack.
+	 * 
 	 *
 	 * @access  public
 	 * @return  integer
 	 */
 	function num_rows()
 	{
-		if (function_exists('oci_num_rows'))
+        $rowcount = count($this->result_array());
+        @ociexecute($this->stmt_id);
+        if ($this->curs_id)
 		{
-			return @oci_num_rows($this->stmt_id);
+			@ociexecute($this->curs_id);
 		}
-		else
-		{
-			return @ocirowcount($this->stmt_id);
-		}
+        return $rowcount;
 	}
 
 	// --------------------------------------------------------------------
@@ -175,12 +178,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		{
 			$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
 			
-			while ($row = oci_fetch_object($id))
-			{
-				$result[] = $row;
-			}
-						
-			return $result;
+			return @oci_fetch_object($id);
 		}
 		
 		// If PHP 4 is being used we have to build our own result
