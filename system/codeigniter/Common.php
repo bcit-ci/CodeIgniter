@@ -106,14 +106,14 @@ function &get_config()
 	{
 		if ( ! file_exists(APPPATH.'config/config'.EXT))
 		{
-			show_error('The configuration file config'.EXT.' does not exist.');
+			exit('The configuration file config'.EXT.' does not exist.');
 		}
 		
 		require(APPPATH.'config/config'.EXT);
 		
 		if ( ! isset($config) OR ! is_array($config))
 		{
-			show_error('Your config file does not appear to be formatted correctly.');
+			exit('Your config file does not appear to be formatted correctly.');
 		}
 
 		$main_conf[0] =& $config;
@@ -210,8 +210,8 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 /**
 * Exception Handler
 *
-* This is the custom exception handler we defined at the
-* top of this file. The main reason we use this is permit
+* This is the custom exception handler that is declaired at the top
+* of Codeigniter.php.  The main reason we use this is permit
 * PHP errors to be logged in our own log files since we may
 * not have access to server logs. Since this function
 * effectively intercepts PHP errors, however, we also need

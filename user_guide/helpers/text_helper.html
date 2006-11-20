@@ -79,7 +79,7 @@ Text Helper
 <p>Truncates a string to the number of <strong>words</strong> specified.  Example:</p>
 
 <code>
-$str = "Here is a nice text string consisting of eleven words.";<br />
+$string = "Here is a nice text string consisting of eleven words.";<br />
 <br />
 $string = word_limiter($string, 4);<br /><br />
 
@@ -95,9 +95,9 @@ $string = word_limiter($string, 4);<br /><br />
 of words so the character count may be slightly more or less then what you specify. Example:</p>
 
 <code>
-$str = "Here is a nice text string consisting of eleven words.";<br />
+$string = "Here is a nice text string consisting of eleven words.";<br />
 <br />
-$string = char_limiter($string, 20);<br /><br />
+$string = character_limiter($string, 20);<br /><br />
 
 // Returns:  Here is a nice text string&#8230;
 </code>
@@ -149,7 +149,7 @@ contain the phrase you wish to highlight.  The third and fourth parameters will 
 you would like the phrase wrapped in.  Example:</p>
 
 <code>
-$str = "Here is a nice text string about nothing in particular.";<br />
+$string = "Here is a nice text string about nothing in particular.";<br />
 <br />
 $string = highlight_phrase($string, "nice text", '&lt;span style="color:#990000">', '&lt;/span>');
 </code>

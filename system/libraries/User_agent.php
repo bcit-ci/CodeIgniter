@@ -186,6 +186,7 @@ class CI_User_agent {
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
 					$this->browser = $val;
+					$this->_set_mobile();
 					return TRUE;
 				}
 			}

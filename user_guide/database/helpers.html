@@ -117,6 +117,8 @@ $str = $this->db->insert_string('table_name', $data);
 <p>The first parameter is the table name, the second is an associative array with the data to be inserted.  The above example produces:</p>
 <code>INSERT INTO table_name (name, email, url) VALUES ('Rick', 'rick@your-site.com', 'www.your-site.com')</code>
 
+<p class="important">Note: Values are automatically escaped, producing safer queries.</p>
+
 
 
 <h2>$this->db->update_string(); </h2>
@@ -132,7 +134,7 @@ $str = $this->db->update_string('table_name', $data, $where);
 <p>The first parameter is the table name, the second is an associative array with the data to be inserted, and the third parameter is the "where" clause. The above example produces:</p>
 <code> UPDATE exp_weblog SET name = 'Rick', email = 'rick@your-site.com', url = 'www.your-site.com' WHERE author_id = 1 AND status = 'active'</code>
 
-
+<p class="important">Note: Values are automatically escaped, producing safer queries.</p>
 
 
 </div>

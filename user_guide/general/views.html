@@ -97,6 +97,7 @@ you should do so before continuing.</p>
 
 <p>Where <var>name</var> is the name of your view file.  Note: The .php file extension does not need to be specified unless you use something other then <kbd>.php</kbd>.</p>
 
+
 <p>Now, open the controller file you made earlier called <dfn>blog.php</dfn>, and replace the echo statement with the view loading function:</p>
 
 
@@ -116,6 +117,13 @@ class Blog extends Controller {
 <p>If you visit the your site using the URL you did earlier you should see your new view.  The URL was similar to this:</p>
 
 <code>www.your-site.com/index.php/<var>blog</var>/</code>
+
+<h2>Storing Views within Sub-folders</h2>
+
+<p>Your view files can also be stored within sub-folders if you prefer that type of organization.  When doing so you will need
+to include the folder name loading the view.  Example:</p>
+
+<code>$this->load->view('<kbd>folder_name</kbd>/<var>file_name</var>');</code>
 
 
 <h2>Adding Dynamic Data to the View</h2>
