@@ -63,13 +63,15 @@ Change Log
 <h1>Change Log</h1>
 
 <h2>Version 1.5.0.2</h2>
-<p>Release Date: November 4, 2006</p>
+<p>Release Date: November 20, 2006</p>
 <ul>
 <li>Added support for submitting arrays of libraries in the $this->load->library function.</li>
 <li>Added support for naming custom library files in lower or uppercase.</li>
+<li>Fixed a bug related to output buffering.</li>
 <li>Fixed a bug in the active record class that was not resetting query data after a completed query.</li>
-<li>Fixed a bug that was supressing errors in controllers.</li>
+<li>Fixed a bug that was suppressing errors in controllers.</li>
 <li>Fixed a problem that can cause a loop to occur when the config file is missing.</li>
+<li>Fixed an oversight that was not unsetting globals properly in the input sanitize function.</li>
 <li>Fixed some bugs in the Oracle DB driver.</li>
 <li>Fixed some doc typos.</li>
 </ul>
