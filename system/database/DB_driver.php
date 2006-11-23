@@ -372,8 +372,8 @@ class CI_DB_driver {
 
 		if ( ! class_exists($driver))
 		{
-			include(BASEPATH.'database/DB_result'.EXT);
-			include(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
+			include_once(BASEPATH.'database/DB_result'.EXT);
+			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
 		}
 		
 		return $driver;
