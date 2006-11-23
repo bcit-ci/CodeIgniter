@@ -63,7 +63,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	function list_fields()
 	{
 		$field_names = array();
-		while ($field = mysql_fetch_field($this->result_id))
+		while ($field = mysqli_fetch_field($this->result_id))
 		{
 			$field_names[] = $field->name;
 		}
