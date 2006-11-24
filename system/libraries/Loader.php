@@ -146,7 +146,7 @@ class CI_Loader {
 			show_error('Unable to locate the model you have specified: '.$model);
 		}
 				
-		if ($db_conn !== FALSE)
+		if ($db_conn !== FALSE AND ! class_exists('CI_DB'))
 		{
 			if ($db_conn === TRUE)
 				$db_conn = '';
