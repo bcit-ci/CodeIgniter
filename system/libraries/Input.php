@@ -366,14 +366,14 @@ class CI_Input {
 	 * XSS Clean
 	 *
 	 * Sanitizes data so that Cross Site Scripting Hacks can be
-	 * prevented.Ê This function does a fair amount of work but
+	 * prevented.Â  This function does a fair amount of work but
 	 * it is extremely thorough, designed to prevent even the
-	 * most obscure XSS attempts.Ê Nothing is ever 100% foolproof,
+	 * most obscure XSS attempts.Â  Nothing is ever 100% foolproof,
 	 * of course, but I haven't been able to get anything passed
 	 * the filter.
 	 *
 	 * Note: This function should only be used to deal with data
-	 * upon submission.Ê It's not something that should
+	 * upon submission.Â  It's not something that should
 	 * be used for general runtime processing.
 	 *
 	 * This function was based in part on some code and ideas I
@@ -446,6 +446,24 @@ class CI_Input {
 									$this->_html_entity_decode($matches['1'][$i], $charset),
 									$str);
 			}
+		}
+		
+		/*
+		 * Not Allowed Under Any Conditions
+		 */	
+		$bad = array(
+						'document.cookie'	=> '[removed]',
+						'document.write'	=> '[removed]',
+						'window.location'	=> '[removed]',
+						"javascript\s*:"	=> '[removed]',
+						"Redirect\s+302"	=> '[removed]',
+						'<!--'				=> '&lt;!--',
+						'-->'				=> '--&gt;'
+					);
+	
+		foreach ($bad as $key => $val)
+		{
+			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
 	
 		/*
@@ -542,11 +560,11 @@ class CI_Input {
 		 *
 		 */	
 		$bad = array(
-						'document.cookie'	=> '',
-						'document.write'	=> '',
-						'window.location'	=> '',
-						"javascript\s*:"	=> '',
-						"Redirect\s+302"	=> '',
+						'document.cookie'	=> '[removed]',
+						'document.write'	=> '[removed]',
+						'window.location'	=> '[removed]',
+						"javascript\s*:"	=> '[removed]',
+						"Redirect\s+302"	=> '[removed]',
 						'<!--'				=> '&lt;!--',
 						'-->'				=> '--&gt;'
 					);
