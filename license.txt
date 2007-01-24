@@ -1,4 +1,4 @@
-Copyright (c) 2006, pMachine, Inc.
+Copyright (c) 2006-2007, pMachine, Inc.
 All rights reserved.
 
 This license is a legal agreement between you and pMachine Inc. for the use
