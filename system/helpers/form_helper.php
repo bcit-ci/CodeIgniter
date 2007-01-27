@@ -197,6 +197,8 @@ function form_textarea($data = '', $value = '', $extra = '')
 	$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
 	
 	$val = (( ! is_array($data) OR ! isset($data['value'])) ? $value : $data['value']);
+
+	unset ($data['value']); // textareas don't use the value attribute
 		
 	return "<textarea ".parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>\n";
 }
