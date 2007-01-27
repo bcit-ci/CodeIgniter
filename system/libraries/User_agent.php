@@ -45,7 +45,7 @@ class CI_User_agent {
 	var $platform	= '';
 	var $browser	= '';
 	var $version	= '';
-	var $moble		= '';
+	var $mobile		= '';
 	var $robot		= '';
 	
 	/**
