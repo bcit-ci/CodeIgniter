@@ -31,6 +31,7 @@ class CI_Table {
 	var $rows				= array();
 	var $heading			= array();
 	var $auto_heading		= TRUE;	
+	var $caption			= NULL;	
 	var $template 			= NULL;
 	var $newline			= "\n";
 	var $empty_cells		= "";
@@ -158,7 +159,21 @@ class CI_Table {
 		$args = func_get_args();
 		$this->rows[] = (is_array($args[0])) ? $args[0] : $args;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add a table caption
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */
+	function set_caption($caption)
+	{
+		$this->caption = $caption;
+	}	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -199,6 +214,14 @@ class CI_Table {
 		
 		$out = $this->template['table_open'];
 		$out .= $this->newline;		
+
+		// Add any caption here
+		if ($this->caption)
+		{
+			$out .= $this->newline;
+			$out .= '<caption>' . $this->caption . '</caption>';
+			$out .= $this->newline;
+		}
 
 		// Is there a table heading to display?
 		if (count($this->heading) > 0)
