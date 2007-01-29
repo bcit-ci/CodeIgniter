@@ -119,7 +119,7 @@ $this->email->initialize($config);</code>
 
 <p><strong>Note:</strong> Most of the preferences have default values that will be used if you do not set them.</p
 
-<h3>Setting Email Preferences in a Config File</h3>
+><h3>Setting Email Preferences in a Config File</h3>
 
 <p>If you prefer not to set preferences using the above method, you can instead put them into a config file.
 Simply create a new file called the <var>email.php</var>,  add the <var>$config</var>
@@ -196,7 +196,7 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 <code>$this->email->to('<var>one@some-site.com</var>, <var>two@some-site.com</var>, <var>three@some-site.com</var>');</code>
 
 <code>$list = array('<var>one@some-site.com</var>, <var>two@some-site.com</var>, <var>three@some-site.com</var>');<br /><br />
-$this->email->to('<var>$list</var>');</code>
+$this->email->to(<var>$list</var>);</code>
 
 <h3>$this->email->cc()</h3>
 <p>Sets the CC email address(s). Just like the "to", can be a single email, a comma-delimited list or an array.</p>
