@@ -163,7 +163,7 @@ class CI_Input {
 	{	
 		 if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
 		 {
-			exit('Disallowed Key Characters: '.$str);
+			exit('Disallowed Key Characters.');
 		 }
 	
 		if ( ! get_magic_quotes_gpc())
