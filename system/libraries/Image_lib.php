@@ -449,7 +449,7 @@ class CI_Image_lib {
 		if ($action == 'crop')
 		{
 			// If the target width/height match the source then it's pointless to crop, right?
-			if ($this->width >= $this->orig_width AND $this->height >= $this->orig_width)
+			if ($this->width >= $this->orig_width AND $this->height >= $this->orig_height)
 			{
 				// We'll return true so the user thinks the process succeeded.
 				// It'll be our little secret...
