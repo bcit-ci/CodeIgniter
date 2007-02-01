@@ -525,8 +525,9 @@ $this->db->update('mytable', $data);
 $object = new Myclass;<br />
 <br />
 $this->db->where('id', $id);<br />
-$this->db->update('mytable', $object, $where);
-<br /><br />
+$this->db->update('mytable', $object);
+<br />
+<br />
 // Produces:<br />
 // UPDATE mytable <br />
 // SET title = '{$title}', name = '{$name}', date = '{$date}'<br />
