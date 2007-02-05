@@ -134,7 +134,17 @@ class CI_DB_active_record extends CI_DB_driver {
 				$type .= ' ';
 			}
 		}
-	
+		
+		// If a DB prefix is used we might need to add it to the column names
+		if ($this->dbprefix)
+		{
+			// First we remove any existing prefixes in the condition to avoid duplicates
+			$cond = preg_replace('|('.$this->dbprefix.')([\w\.]+)([\W\s]+)|', "$2$3", $cond);
+			
+			// Next we add the prefixes to the condition
+			$cond = preg_replace('|([\w\.]+)([\W\s]+)(.+)|', $this->dbprefix . "$1$2" . $this->dbprefix . "$3", $cond);
+		}
+		
 		$this->ar_join[] = $type.'JOIN '.$this->dbprefix.$table.' ON '.$cond;
 		return $this;
 	}
