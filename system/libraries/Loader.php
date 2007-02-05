@@ -499,10 +499,10 @@ class CI_Loader {
 	 * @param	string
 	 * @return	void
 	 */
-	function config($file = '')
-	{		
+	function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
+	{			
 		$CI =& get_instance();
-		$CI->config->load($file);
+		$CI->config->load($file, $use_sections, $fail_gracefully);
 	}
 
 	// --------------------------------------------------------------------
