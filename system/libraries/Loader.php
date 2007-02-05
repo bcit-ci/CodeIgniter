@@ -697,7 +697,6 @@ class CI_Loader {
 			}
 		
 			// Lets search for the requested library file and load it.
-			$is_duplicate = FALSE;		
 			for ($i = 1; $i < 3; $i++)
 			{
 				$path = ($i % 2) ? APPPATH : BASEPATH;	
@@ -712,8 +711,8 @@ class CI_Loader {
 				// Safety:  Was the class already loaded by a previous call?
 				if (in_array($fp, $this->_ci_classes))
 				{
-					$is_duplicate = TRUE;
-					continue;
+					log_message('debug', $class." class already loaded.Ê Second attempt ignored.");
+					return;
 				}
 				
 				include($fp);
