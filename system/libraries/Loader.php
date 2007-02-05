@@ -711,7 +711,7 @@ class CI_Loader {
 				// Safety:  Was the class already loaded by a previous call?
 				if (in_array($fp, $this->_ci_classes))
 				{
-					log_message('debug', $class." class already loaded.Ê Second attempt ignored.");
+					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
 				}
 				
