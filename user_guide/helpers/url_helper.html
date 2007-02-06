@@ -128,11 +128,11 @@ will be added automatically from the information specified in your config file. 
 
 <p>Here are some examples:</p>
 
-<code>echo anchor(<var>news/local/123</var>, <var>My News</var>);</code>
+<code>echo anchor('news/local/123', 'My News');</code>
 
 <p>Would produce: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="My News">My News&lt;/a></p>
 
-<code>echo anchor(<var>news/local/123</var>, <var>My News</var>, <var>array('title' => 'The best news!')</var>);</code>
+<code>echo anchor('news/local/123', 'My News', array('title' => 'The best news!'));</code>
 
 <p>Would produce: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="The best news!">My News&lt;/a></p>
 
@@ -162,7 +162,7 @@ echo anchor_popup(news/local/123, 'Click Me!', $atts);</code>
 <p>Note: The above attributes are the function defaults so you only need to set the ones that are different from what you need.
 If you want the function to use all of its defaults simply pass an empty array in the third parameter:</p>
 
-<code>echo anchor_popup(news/local/123, 'Click Me!', array());</code>
+<code>echo anchor_popup('news/local/123', 'Click Me!', array());</code>
 
 
 <h2>mailto()</h2>
