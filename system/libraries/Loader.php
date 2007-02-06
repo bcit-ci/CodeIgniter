@@ -526,7 +526,7 @@ class CI_Loader {
 	{		
 		if ($table === FALSE)
 		{
-			show_error('You must include the name of the table you would like access when you initialize scaffolding');
+			show_error('You must include the name of the table you would like to access when you initialize scaffolding');
 		}
 		
 		$CI =& get_instance();
