@@ -72,7 +72,7 @@ function force_download($filename = '', $data = '')
 	if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 	{
 		header('Content-Type: "'.$mime.'"');
-		header('Content-Disposition: inline; filename="'.$filename.'"');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-Transfer-Encoding: binary");
