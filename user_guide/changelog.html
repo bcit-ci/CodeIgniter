@@ -68,6 +68,8 @@ Change Log
     <li>Added support for captions in the <a href="./libraries/table.html">Table Library</a> </li>
 	<li>Fixed a bug in the <a href="./helpers/download_helper.html">download_helper</a> that was causing Internet Explorer to load rather then download </li>
     <li>Fixed a bug in the Active Record Join function that was not taking table prefixes into consideration.</li>
+    <li>Removed unescaped variables in error messages of Input and Router classes</li>
+    <li>Fixed a bug in the Loader that was causing errors on Libraries loaded twice. A debug message is now silently made in the log.  </li>
     <li>Fixed a bug in the <a href="./helpers/form_helper.html">form helper</a> that gave textarea a value attribute </li>
     <li>Fixed a bug in the <a href="./libraries/image_lib.php">Image Library</a> that was ignoring resizing the same size image </li>
     <li>Fixed some doc typos.</li>
