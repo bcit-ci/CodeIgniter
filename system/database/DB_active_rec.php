@@ -134,6 +134,11 @@ class CI_DB_active_record extends CI_DB_driver {
 				$type .= ' ';
 			}
 		}
+
+		if ($this->dbprefix)
+		{
+			$cond = preg_replace('|([\w\.]+)([\W\s]+)(.+)|', $this->dbprefix . "$1$2" . $this->dbprefix . "$3", $cond);
+		}
 		
 		// If a DB prefix is used we might need to add it to the column names
 		if ($this->dbprefix)
