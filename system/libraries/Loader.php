@@ -154,7 +154,10 @@ class CI_Loader {
 			$CI->load->database($db_conn, FALSE, TRUE);
 		}
 	
-		load_class('Model', false);
+		if ( ! class_exists('Model'))
+		{
+			require_once(BASEPATH.'libraries/Model'.EXT);
+		}
 
 		require_once(APPPATH.'models/'.$path.$model.EXT);
 
