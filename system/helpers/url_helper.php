@@ -444,7 +444,7 @@ function redirect($uri = '', $method = 'location')
 	{
 		case 'refresh'	: header("Refresh:0;url=".site_url($uri));
 			break;
-		default			: header("location:".site_url($uri));
+		default			: header("Location: ".site_url($uri));
 			break;
 	}
 	exit;
