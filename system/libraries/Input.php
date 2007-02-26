@@ -91,6 +91,16 @@ class CI_Input {
 		{
 			$_GET = array();
 		}
+		else
+		{
+			if (is_array($_GET) AND count($_GET) > 0)
+			{
+				foreach($_GET as $key => $val)
+				{
+					$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
+				}
+			}
+		}
 		
 		// Clean $_POST Data
 		if (is_array($_POST) AND count($_POST) > 0)
@@ -172,6 +182,41 @@ class CI_Input {
 		}
 		
 		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch an item from the GET array
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
+	function post($index = '', $xss_clean = FALSE)
+	{		
+		if ( ! isset($_GET[$index]))
+		{
+			return FALSE;
+		}
+
+		if ($xss_clean === TRUE)
+		{
+			if (is_array($_GET[$index]))
+			{
+				foreach($_GET[$index] as $key => $val)
+				{					
+					$_GET[$index][$key] = $this->xss_clean($val);
+				}
+			}
+			else
+			{
+				return $this->xss_clean($_GET[$index]);
+			}
+		}
+
+		return $_GET[$index];
 	}
 	
 	// --------------------------------------------------------------------
@@ -337,7 +382,34 @@ class CI_Input {
 	 */
 	function valid_ip($ip)
 	{
-		return ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip)) ? FALSE : TRUE;
+		if ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip))
+		{
+			return FALSE;
+		}
+		
+		$octets = explode('.', $ip);
+		
+		for ($i = 1; $i <= 4; $i++)
+		{
+			$octet = intval($octets[($i-1)]);
+			if ($i === 1)
+			{
+				if ($octet > 223 OR $octet < 1)
+					return FALSE;
+			}
+			elseif ($i === 4)
+			{
+				if ($octet < 1)
+					return FALSE;
+			}
+			else
+			{
+				if ($octet > 254)
+					return FALSE;
+			}
+		}
+		
+		return TRUE;
 	}
 	
 	// --------------------------------------------------------------------
