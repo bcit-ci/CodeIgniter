@@ -194,7 +194,7 @@ class CI_Input {
 	 * @param	bool
 	 * @return	string
 	 */
-	function post($index = '', $xss_clean = FALSE)
+	function get($index = '', $xss_clean = FALSE)
 	{		
 		if ( ! isset($_GET[$index]))
 		{
