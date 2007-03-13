@@ -111,7 +111,6 @@ function standard_date($fmt = 'DATE_RFC822', $time = '')
 					'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%m:%i UTC',
 					'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
 					'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
-					'DATE_RFC2822'	=>	'%D, %d %M %Y %H:%i:%s %O',
 					'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',
 					'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%Q'
 					);
