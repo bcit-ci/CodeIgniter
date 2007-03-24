@@ -38,7 +38,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		return @odbc_connect($this->database, $this->username, $this->password);
+		return @odbc_connect($this->hostname, $this->username, $this->password);
 	}
 	
 	// --------------------------------------------------------------------
@@ -51,7 +51,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		return @odbc_pconnect($this->database, $this->username, $this->password);
+		return @odbc_pconnect($this->hostname, $this->username, $this->password);
 	}
 	
 	// --------------------------------------------------------------------
