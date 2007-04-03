@@ -130,7 +130,7 @@ foreach ($query->result() as $row)<br />
 <p>Identical to the above function except that it permits you to add a "where" clause in the second parameter,
 instead of using the db->where() function:</p>
 
-<code>$query = $this->db->getwhere('mytable', array(id => $id), $limit, $offset);</code>
+<code>$query = $this->db->getwhere('mytable', array('id' => $id), $limit, $offset);</code>
 
 <p>Please read the about the where function below for more information.</p>
 
