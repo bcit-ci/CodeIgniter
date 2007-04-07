@@ -147,8 +147,8 @@ function alternator()
  */	
 function repeater($data, $num = 1)
 {
-	return str_repeat($data, $num);
-}
+	return (($num > 0) ? str_repeat($data, $num) : '');
+} 
 
 
 ?>
