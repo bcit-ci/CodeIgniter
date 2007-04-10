@@ -286,7 +286,7 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Clears the table arrays.  Useful if multiple tables are beting generated
+	 * Clears the table arrays.  Useful if multiple tables are being generated
 	 *
 	 * @access	public
 	 * @return	void
