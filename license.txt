@@ -1,8 +1,8 @@
-Copyright (c) 2006, pMachine, Inc.
+Copyright (c) 2006, EllisLab, Inc.
 All rights reserved.
 
-This license is a legal agreement between you and pMachine Inc. for the use
-of Code Igniter Software (the "Software").  By obtaining the Software you
+This license is a legal agreement between you and EllisLab Inc. for the use
+of CodeIgniter Software (the "Software").  By obtaining the Software you
 agree to comply with the terms and conditions of this license.
 
 PERMITTED USE
@@ -22,12 +22,12 @@ the following conditions are met:
    of the change and the names of those who changed them.
 
 5. Products derived from the Software must include an acknowledgment that
-   they are derived from Code Igniter in their documentation and/or other
+   they are derived from CodeIgniter in their documentation and/or other
    materials provided with the distribution.
 
-6. Products derived from the Software may not be called "Code Igniter",
-   nor may "Code Igniter" appear in their name, without prior written
-   permission from pMachine, Inc.
+6. Products derived from the Software may not be called "CodeIgniter",
+   nor may "CodeIgniter" appear in their name, without prior written
+   permission from EllisLab, Inc.
 
 
 INDEMNITY

@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Code Igniter User Guide</title>
+<title>CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='userguide.css' />
@@ -22,7 +22,7 @@ window.onload = function() {
 <meta http-equiv= 'pragma' content='no-cache' />
 <meta name='robots' content='all' />
 <meta name='author' content='Rick Ellis' />
-<meta name='description' content='Code Igniter User Guide' />
+<meta name='description' content='CodeIgniter User Guide' />
 
 </head>
 <body>
@@ -33,7 +33,7 @@ window.onload = function() {
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>Code Igniter User Guide Version 1.5.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.5.3</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -45,7 +45,7 @@ window.onload = function() {
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
 <td id="breadcrumb">
-<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="http://www.codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 Change Log
 </td>
@@ -63,10 +63,17 @@ Change Log
 <h1>Change Log</h1>
 
 <h2>Version 1.5.3</h2>
-<p>Release Date: </p>
+<p>Release Date: April 15, 2007 </p>
 <ul>
+    <li>Added Array to string into the profiler </li>
+    <li>Added CodeIgniter references updated to CodeIgniter </li>
+    <li>Added EllisLab references updated to EllisLab </li>
+    <li>Fixed a bug in the repeater function of <a href="./helpers/string_helper.html">string helper</a>. </li>
+    <li>Fixed a bug in ODBC driver </li>
+    <li>Fixed a bug in result_array() that was returning an empty array when no result is produced.</li>
+    <li>Fixed a bug in the redirect function of the <a href="./helpers/url_helper.html">url helper</a>. </li>
+    <li>Fixed an undefined variable in Loader </li>
     <li>Fixed a version but in the Postgre driver </li>
-    <li>Array to string now supported in profiler </li>
     <li>Fixed a bug in the textarea function of the form helper for use with strings</li>
     <li>Fixed doc typos. </li>
 </ul>
@@ -322,7 +329,7 @@ This feature enables you to (among other things) use your  <a href="./general/mo
 <li>Added "alternator" function in the <a href="./helpers/string_helper.html">string helpers</a>.</p>
 <li>Removed slashing from the input class. After much debate we decided to kill this feature.</li>
 <li>Change the commenting style in the scripts to the PEAR standard so that IDEs and tools like phpDocumenter can harvest the comments.</li>
-<li>Added better class and function name-spacing to avoid collisions with user developed classes. All Code Igniter classes are now prefixed with <dfn>CI_</dfn> and
+<li>Added better class and function name-spacing to avoid collisions with user developed classes. All CodeIgniter classes are now prefixed with <dfn>CI_</dfn> and
 all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller collisions. A list of reserved function names can be <a href="controllers.html">found here</a>.</li>
 <li>Redesigned how the "CI" super object is referenced, depending on whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful way to manage objects that utilizes a bit less resources.</li>
 <li>Deprecated: <var>$this->db->use_table()</var> has been deprecated. Please read the <a href="./database/active_record.html">Active Record</a> page for information.</li>
@@ -345,7 +352,7 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 
 <ul>
 <li>Redesigned some internal aspects of the framework to resolve scoping problems that surfaced during the beta tests. The problem was most notable when instantiating classes in your constructors, particularly if those classes in turn did work in their constructors.</li>
-<li>Added a global function named <a href="ancillary_classes.html">get_instance()</a> allowing the main Code Igniter object to be accessible throughout your own classes.</li>
+<li>Added a global function named <a href="ancillary_classes.html">get_instance()</a> allowing the main CodeIgniter object to be accessible throughout your own classes.</li>
 <li>Added new <a href="./helpers/file_helper.html">File Helper</a>:  delete_files()</li>
 <li>Added new <a href="./helpers/url_helper.html">URL Helpers</a>:  base_url(), index_page()</li>
 <li>Added the ability to create your own <a href="creating_libraries.html">core libraries</a> and store them in your local application directory.</li>
@@ -368,7 +375,7 @@ all controller methods are prefixed with <dfn>_ci</dfn> to avoid controller coll
 
 <ul>
 <li>Added a <a href="./libraries/calendar.html">Calendaring class</a>.</li>
-<li>Added support for running <a href="managing_apps.html">multiple applications</a> that share a common Code Igniter backend.</li>
+<li>Added support for running <a href="managing_apps.html">multiple applications</a> that share a common CodeIgniter backend.</li>
 <li>Moved the "uri protocol" variable from the index.php file into the config.php file</li>
 <li>Fixed a problem that was preventing certain function calls from working within constructors.</li>
 <li>Fixed a problem that was preventing the $this->load->library function from working in constructors.</li>
@@ -403,7 +410,7 @@ Previous Topic:&nbsp;&nbsp;<a href="license.html">License Agreement</a>
 Next Topic:&nbsp;&nbsp;<a href="./general/credits.html">Credits</a>
 <p>
 
-<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+<p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 
 </body>

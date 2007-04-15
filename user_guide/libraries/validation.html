@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Code Igniter User Guide</title>
+<title>CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -22,7 +22,7 @@ window.onload = function() {
 <meta http-equiv= 'pragma' content='no-cache' />
 <meta name='robots' content='all' />
 <meta name='author' content='Rick Ellis' />
-<meta name='description' content='Code Igniter User Guide' />
+<meta name='description' content='CodeIgniter User Guide' />
 
 </head>
 <body>
@@ -33,7 +33,7 @@ window.onload = function() {
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>Code Igniter User Guide Version 1.5.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.5.3</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -45,7 +45,7 @@ window.onload = function() {
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
 <td id="breadcrumb">
-<a href="http://www.codeigniter.com/">Code Igniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="http://www.codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 Form Validation
 </td>
@@ -62,7 +62,7 @@ Form Validation
 
 <h1>Form Validation</h1>
 
-<p>Before explaining Code Igniter's approach to data validation, let's describe the ideal scenario:</p>
+<p>Before explaining CodeIgniter's approach to data validation, let's describe the ideal scenario:</p>
 
 <ol>
 <li>A form is displayed.</li>
@@ -88,12 +88,12 @@ and not exceed a maximum length. The username can't be someone else's existing u
 amount of code, and to display error messages, various control structures are usually placed within the form HTML.
 Form validation, while simple to create, is generally very messy and tedious to implement.</p>
 
-<dfn>Code Igniter provides a comprehensive validation framework that truly minimizes the amount of code you'll write.
+<dfn>CodeIgniter provides a comprehensive validation framework that truly minimizes the amount of code you'll write.
 It also removes all control structures from your form HTML, permitting it to be clean and free of code.</dfn>
 
 <h2>Overview</h2>
 
-<p>In order to implement Code Igniter's form validation you'll need three things:</p>
+<p>In order to implement CodeIgniter's form validation you'll need three things:</p>
 
 <ol>
 <li>A <a href="../general/views.html">View</a> file containing the form.</li>
@@ -229,7 +229,7 @@ function only returns "true" if it has successfully applied your rules without a
 
 <h2>Setting Validation Rules</h2>
 
-<p>Code Igniter lets you set as many validation rules as you need for a given field, cascading them in order, and it even lets you prep and pre-process the field data
+<p>CodeIgniter lets you set as many validation rules as you need for a given field, cascading them in order, and it even lets you prep and pre-process the field data
 at the same time. Let's see it in action, we'll explain it afterwards.</p>
 
 <p>In your <dfn>controller</dfn> (form.php), add this code just below the validation initialization function:</p>
@@ -290,7 +290,7 @@ this code, placed in your controller:</p>
 
 <h2>Cascading Rules</h2>
 
-<p>Code Igniter lets you pipe multiple rules together.  Let's try it. Change your rules array like this:</p>
+<p>CodeIgniter lets you pipe multiple rules together.  Let's try it. Change your rules array like this:</p>
 
 
 <code>$rules['username']	= "required|min_length[5]|max_length[12]";<br />
@@ -715,7 +715,7 @@ Previous Topic:&nbsp;&nbsp;<a href="user_agent.html">User Agent Class</a>
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="xmlrpc.html">XML-RPC Class</a>
 <p>
-<p><a href="http://www.codeigniter.com">Code Igniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+<p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 
 </body>

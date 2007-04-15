@@ -1,12 +1,12 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Code Igniter
+ * CodeIgniter
  *
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
  * @author		Rick Ellis
- * @copyright	Copyright (c) 2006, pMachine, Inc.
+ * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.3
@@ -18,7 +18,7 @@
 /**
  * CI_BASE - For PHP 4
  *
- * This file is used only when Code Igniter is being run under PHP 4.
+ * This file is used only when CodeIgniter is being run under PHP 4.
  *
  * In order to allow CI to work under PHP 4 we had to make the Loader class
  * the parent of the Controller Base class.  It's the only way we can
