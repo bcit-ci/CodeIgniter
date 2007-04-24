@@ -428,12 +428,13 @@ class CI_Router {
 	function _parse_routes()
 	{
 		// Do we even have any custom routing to deal with?
-		if (count($this->routes) == 0)
+		// There is a default scaffolding trigger, so we'll look just for 1
+		if (count($this->routes) == 1)
 		{
 			$this->_compile_segments($this->segments);
 			return;
 		}
-	
+
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->segments);
 		$num = count($this->segments);
