@@ -194,7 +194,7 @@ class CI_Validation {
 			//Explode out the rules!
 			$ex = explode('|', $rules);
 
-			// Is the field required?  If not, if the field is blank  we'll move on to the next text
+			// Is the field required?  If not, if the field is blank  we'll move on to the next test
 			if ( ! in_array('required', $ex, TRUE) AND strpos($rules, 'callback_') === FALSE)
 			{
 				if ( ! isset($_POST[$field]) OR $_POST[$field] == '')
