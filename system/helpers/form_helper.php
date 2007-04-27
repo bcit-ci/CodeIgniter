@@ -260,7 +260,13 @@ function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
 		$checked = $data['checked'];
 		
 		if ($checked == FALSE)
+		{
 			unset($data['checked']);
+		}
+		else
+		{
+			$data['checked'] = 'checked';
+		}
 	}
 	
 	if ($checked == TRUE)
