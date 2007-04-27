@@ -156,7 +156,7 @@ class CI_Zip  {
 		$crc32	= crc32($data);
 		
 		$gzdata = gzcompress($data);
-		$gzdata = substr(substr($gzdata, 0, strlen($gzdata) - 4), 2); 	
+		$gzdata = substr($gzdata, 2, -4);
 		$newlen = strlen($gzdata);
 	
 		$this->zipdata[] = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
@@ -166,10 +166,7 @@ class CI_Zip  {
 							.pack('v', strlen($filepath))
 							.pack('v', 0)
 							.$filepath
-							.$gzdata
-							.pack('V', $crc32)
-							.pack('V', $newlen)
-							.pack('V', $oldlen);
+							.$gzdata;
 			
 		$newoffset = strlen(implode("", $this->zipdata));
 		
