@@ -191,7 +191,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		{
 			return new XML_RPC_Response(0,
 										$this->xmlrpcerr['invalid_return'],
-										$this->xmlrpcstr['invalid_retrun']);
+										$this->xmlrpcstr['invalid_return']);
 		}
 		else
 		{
