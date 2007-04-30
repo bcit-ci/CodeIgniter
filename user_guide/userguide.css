@@ -4,7 +4,7 @@ body {
  font-family: Lucida Grande, Verdana, Geneva, Sans-serif;
  font-size: 14px;
  color: #4F5155;
- background: #fff url(images/background.jpg) repeat-x left top;
+ background-color: #fff;
 }
 
 a {
