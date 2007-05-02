@@ -146,8 +146,8 @@ class CI_Pagination {
 		$end   = (($this->cur_page + $this->num_links) < $num_pages) ? $this->cur_page + $this->num_links : $num_pages;
 
 		// Add a trailing slash to the base URL if needed
-		$this->base_url = preg_replace("/(.+?)\/*$/", "\\1/",  $this->base_url);
-		
+		$this->base_url = rtrim($this->base_url, '/') .'/';
+
   		// And here we go...
 		$output = '';
 
