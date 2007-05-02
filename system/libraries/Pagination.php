@@ -122,7 +122,7 @@ class CI_Pagination {
 			$this->cur_page = $CI->uri->segment($this->uri_segment);
 			
 			// Prep the current page - no funny business!
-			$this->cur_page = preg_replace("/[a-z\-]/", "", $this->cur_page);
+			$this->cur_page = (int) $this->cur_page;
 		}
 				
 		if ( ! is_numeric($this->cur_page))
