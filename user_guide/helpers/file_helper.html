@@ -120,11 +120,11 @@ CodeIgniter uses a front controller so paths are always relative to the main sit
 <h2>delete_files('<var>path</var>')</h2>
 
 <p>Deletes ALL files contained in the supplied path.  Example:</p>
-<code>delete_files('/path/to/directory/');</code>
+<code>delete_files('./path/to/directory/');</code>
 
 <p>If the second parameter is set to <kbd>true</kbd>, any directories contained within the supplied root path will be deleted as well. Example:</p>
 
-<code>delete_files('/path/to/directory/', TRUE);</code>
+<code>delete_files('./path/to/directory/', TRUE);</code>
 
 <p class="important"><strong>Note:</strong> The files must be writable or owned by the system in order to be deleted.</p>
 
