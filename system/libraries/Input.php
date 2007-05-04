@@ -499,8 +499,10 @@ class CI_Input {
 		 * Note: Normally urldecode() would be easier but it removes plus signs
 		 *
 		 */	
+		$str = preg_replace("/(%20)+/", '9u3iovBnRThju941s89rKozm', $str);
 		$str = preg_replace("/%u0([a-z0-9]{3})/i", "&#x\\1;", $str);
-		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str);		
+		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str); 
+		$str = str_replace('9u3iovBnRThju941s89rKozm', "%20", $str);	
 				
 		/*
 		 * Convert character entities to ASCII
@@ -575,17 +577,17 @@ class CI_Input {
 				$temp .= substr($word, $i, 1)."\s*";
 			}
 			
-			$temp = substr($temp, 0, -3);
-			$str = preg_replace('#'.$temp.'#s', $word, $str);
-			$str = preg_replace('#'.ucfirst($temp).'#s', ucfirst($word), $str);
+			// We only want to do this when it is followed by a non-word character
+			// That way valid stuff like "dealer to" does not become "dealerto"
+			$str = preg_replace('#('.substr($temp, 0, -3).')(\W)#ise', "preg_replace('/\s+/s', '', '\\1').'\\2'", $str);
 		}
 	
 		/*
 		 * Remove disallowed Javascript in links or img tags
 		 */		
-		 $str = preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>.*?</a>#si", "", $str);
-		 $str = preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>#si", "", $str);
-		 $str = preg_replace("#<(script|xss).*?\>#si", "", $str);
+		$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
+		$str = preg_replace_callback("#<img.*?>#si", array($this, '_js_img_removal'), $str);
+	 	$str = preg_replace("#<(script|xss).*?\>#si", "", $str);
 
 		/*
 		 * Remove JavaScript Event Handlers
@@ -595,7 +597,8 @@ class CI_Input {
 		 * but it's unlikely to be a problem.
 		 *
 		 */		
-		 $str = preg_replace('#(<[^>]+.*?)(onblur|onchange|onclick|onfocus|onload|onmouseover|onmouseup|onmousedown|onselect|onsubmit|onunload|onkeypress|onkeydown|onkeyup|onresize)[^>]*>#iU',"\\1>",$str);
+		$event_handlers = array('onblur','onchange','onclick','onfocus','onload','onmouseover','onmouseup','onmousedown','onselect','onsubmit','onunload','onkeypress','onkeydown','onkeyup','onresize', 'xmlns');
+		$str = preg_replace("#<([^>]+)(".implode('|', $event_handlers).")([^>]*)>#iU", "&lt;\\1\\2\\3&gt;", $str);
 	
 		/*
 		 * Sanitize naughty HTML elements
@@ -652,7 +655,43 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * JS Link Removal
+	 *
+	 * Callback function for xss_clean() to sanitize links
+	 * This limits the PCRE backtracks, making it more performance friendly
+	 * and prevents PREG_BACKTRACK_LIMIT_ERROR from being triggered in
+	 * PHP 5.2+ on link-heavy strings
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */
+	function _js_link_removal($match)
+	{
+		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>.*?</a>#si", "", $match[0]);
+	}
+	
+	/**
+	 * JS Image Removal
+	 *
+	 * Callback function for xss_clean() to sanitize image tags
+	 * This limits the PCRE backtracks, making it more performance friendly
+	 * and prevents PREG_BACKTRACK_LIMIT_ERROR from being triggered in
+	 * PHP 5.2+ on image tag heavy strings
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */
+	function _js_img_removal($match)
+	{
+		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>#si", "", $match[0]);
+	}
 
+	// --------------------------------------------------------------------
+	
 	/**
 	 * HTML Entities Decode
 	 *
