@@ -21,7 +21,7 @@
 | 1. Libraries
 | 2. Helper files
 | 3. Plugins
-| 5. Custom config files
+| 4. Custom config files
 |
 */
 
