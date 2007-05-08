@@ -152,8 +152,7 @@ $config['function_trigger'] = 'm';
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|	0 = Disables logging
-| 	0 = Error logging TURNED OFF
+|	0 = Disables logging, Error logging TURNED OFF
 |	1 = Error Messages (including PHP errors)
 |	2 = Debug Messages
 |	3 = Informational Messages
