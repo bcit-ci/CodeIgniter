@@ -275,7 +275,7 @@ class CI_Output {
 
 		if ( ! $fp = @fopen($cache_path, 'wb'))
 		{
-			log_message('error', "Unable to write ache file: ".$cache_path);
+			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
 		}
 		
