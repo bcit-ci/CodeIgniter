@@ -63,8 +63,10 @@ Change Log
 <h1>Change Log</h1>
 
 <h2>Version 1.5.4</h2>
-<p>Release Date: -- </p>
+<p>Release Date: -- Still under development</p>
 <ul>
+	<li>Fixed a bug in the escape_str() function in the MySQL driver.</li>
+	<li>Added stripslashes() to the _clean_input_data() function in the Input class when magic quotes is on so that data will always be un-slashed within the framework.</li>
     <li>Fixed a typo in the <a href="./libraries/calendar.html">Calendar library </a> </li>
     <li>Fixed a typo in rpcs.php library</li>
     <li>Fixed a bug in the <a href="./libraries/zip.html">Zip library</a>, providing PC Zip file compatibility with Mac OS X</li>
