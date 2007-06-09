@@ -68,7 +68,8 @@ class CI_Input {
 	 */
 	function _sanitize_globals()
 	{
-		// Unset globals. This is effectively the same as register_globals = off
+		// Unset globals for securiy. 
+		// This is effectively the same as register_globals = off
 		foreach (array($_GET, $_POST, $_COOKIE) as $global)
 		{
 			if ( ! is_array($global))
@@ -147,6 +148,13 @@ class CI_Input {
 			return $new_array;
 		}
 		
+		// We strip slashes if magic quotes is on to keep things consistent
+		if (get_magic_quotes_gpc())
+		{
+			$str = stripslashes($str);
+		}
+		
+		// Should we filter the input data?
 		if ($this->use_xss_clean === TRUE)
 		{
 			$str = $this->xss_clean($str);
@@ -175,12 +183,7 @@ class CI_Input {
 		 {
 			exit('Disallowed Key Characters.');
 		 }
-	
-		if ( ! get_magic_quotes_gpc())
-		{
-		   return addslashes($str);
-		}
-		
+
 		return $str;
 	}
 
