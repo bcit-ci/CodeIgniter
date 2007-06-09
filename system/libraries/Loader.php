@@ -681,17 +681,30 @@ class CI_Loader {
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			// Is this a class extension request?
-			if (file_exists(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT))
+			$subclass = APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT;
+
+			// Is this a class extension request?			
+			if (file_exists($subclass))
 			{
-				if ( ! file_exists(BASEPATH.'libraries/'.ucfirst($class).EXT))
+				$baseclass = BASEPATH.'libraries/'.ucfirst($class).EXT;
+				
+				if ( ! file_exists($baseclass))
 				{
 					log_message('error', "Unable to load the requested class: ".$class);
 					show_error("Unable to load the requested class: ".$class);
 				}
+
+				// Safety:  Was the class already loaded by a previous call?
+				if (in_array($subclass, $this->_ci_classes))
+				{
+					$is_duplicate = TRUE;
+					log_message('debug', $class." class already loaded. Second attempt ignored.");
+					return;
+				}
 	
-				include(BASEPATH.'libraries/'.ucfirst($class).EXT);
-				include(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT);
+				include($baseclass);				
+				include($subclass);
+				$this->_ci_classes[] = $subclass;
 	
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params);			
 			}
@@ -701,24 +714,24 @@ class CI_Loader {
 			for ($i = 1; $i < 3; $i++)
 			{
 				$path = ($i % 2) ? APPPATH : BASEPATH;	
-				$fp = $path.'libraries/'.$class.EXT;
+				$filepath = $path.'libraries/'.$class.EXT;
 				
 				// Does the file exist?  No?  Bummer...
-				if ( ! file_exists($fp))
+				if ( ! file_exists($filepath))
 				{
 					continue;
 				}
 				
 				// Safety:  Was the class already loaded by a previous call?
-				if (in_array($fp, $this->_ci_classes))
+				if (in_array($filepath, $this->_ci_classes))
 				{
 					$is_duplicate = TRUE;
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
 				}
 				
-				include($fp);
-				$this->_ci_classes[] = $fp;
+				include($filepath);
+				$this->_ci_classes[] = $filepath;
 				return $this->_ci_init_class($class, '', $params);
 			}
 		} // END FOREACH
