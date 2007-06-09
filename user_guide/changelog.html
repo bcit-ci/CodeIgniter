@@ -65,6 +65,7 @@ Change Log
 <h2>Version 1.5.4</h2>
 <p>Release Date: -- Still under development</p>
 <ul>
+	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
 	<li>Fixed a bug in the bootstrap file that was incorrectly attempting to discern the full server path even when it was explicity set by the user.</li>
 	<li>Fixed a bug in the escape_str() function in the MySQL driver.</li>
 	<li>Added stripslashes() to the _clean_input_data() function in the Input class when magic quotes is on so that data will always be un-slashed within the framework.</li>
