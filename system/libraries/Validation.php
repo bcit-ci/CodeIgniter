@@ -504,7 +504,7 @@ class CI_Validation {
 	 */		
 	function alpha($str)
 	{
-		return ( ! preg_match("/^([-a-z])+$/i", $str)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
