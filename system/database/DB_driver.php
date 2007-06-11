@@ -48,7 +48,7 @@ class CI_DB_driver {
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
 	var $_trans_depth	= 0;
-	var $_trans_failure	= FALSE; // Used with transactions to determine if a rollback should occur
+	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
 	var $cache_autodel	= FALSE;
@@ -273,7 +273,7 @@ class CI_DB_driver {
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
 		{
 			// This will trigger a rollback if transactions are being used
-			$this->_trans_failure = TRUE;
+			$this->_trans_status = FALSE;
 			
 			if ($this->db_debug)
 			{
@@ -463,7 +463,7 @@ class CI_DB_driver {
 		}
 	
 		// The query() function will set this flag to TRUE in the event that a query failed
-		if ($this->_trans_failure === TRUE)
+		if ($this->_trans_status === FALSE)
 		{
 			$this->trans_rollback();
 			
@@ -488,7 +488,7 @@ class CI_DB_driver {
 	 */	
 	function trans_status()
 	{
-		return $this->_trans_failure;
+		return $this->_trans_status;
 	}
 
 	// --------------------------------------------------------------------
