@@ -708,19 +708,21 @@ class CI_Upload {
 		{
 			return FALSE;
 		}
-	
+		
+		if ( ! $data = file_get_contents($file))
+		{
+			return FALSE;
+		}
+		
 		if ( ! $fp = @fopen($file, 'r+b'))
 		{
 			return FALSE;
 		}
-			
-		flock($fp, LOCK_EX);
 
-		$data = fread($fp, filesize($file));
-		
 		$CI =& get_instance();	
 		$data = $CI->input->xss_clean($data);
-
+		
+		flock($fp, LOCK_EX);
 		fwrite($fp, $data);
 		flock($fp, LOCK_UN);
 		fclose($fp);
