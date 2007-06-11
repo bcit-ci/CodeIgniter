@@ -379,36 +379,34 @@ class CI_Input {
 	/**
 	 * Validate IP Address
 	 *
+	 * Updated version suggested by Geert De Deckere
+	 * 
 	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
 	function valid_ip($ip)
 	{
-		if ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip))
+		$ip_segments = explode('.', $ip);
+		
+		// Always 4 segments needed
+		if (count($ip_segments) != 4)
 		{
 			return FALSE;
 		}
-		
-		$octets = explode('.', $ip);
-		
-		for ($i = 1; $i <= 4; $i++)
+		// IP cannot start with 0
+		if (substr($ip_segments[0], 0, 1) == 0)
 		{
-			$octet = intval($octets[($i-1)]);
-			if ($i === 1)
+			return FALSE;
+		}
+		// Check each segment
+		foreach ($ip_segments as $segment)
+		{
+			// IP segments must be digits and can not be 
+			// longer than 3 digits or greater then 255
+			if ( ! ctype_digit($segment) OR $segment > 255 OR strlen($segment) > 3)
 			{
-				if ($octet > 223 OR $octet < 1)
-					return FALSE;
-			}
-			elseif ($i === 4)
-			{
-				if ($octet < 1)
-					return FALSE;
-			}
-			else
-			{
-				if ($octet > 254)
-					return FALSE;
+				return FALSE;
 			}
 		}
 		
