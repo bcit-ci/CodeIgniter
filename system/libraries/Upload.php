@@ -709,7 +709,7 @@ class CI_Upload {
 			return FALSE;
 		}
 	
-		if ( ! $fp = @fopen($file, 'rb'))
+		if ( ! $fp = @fopen($file, 'r+b'))
 		{
 			return FALSE;
 		}
