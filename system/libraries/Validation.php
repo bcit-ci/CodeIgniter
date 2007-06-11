@@ -518,7 +518,7 @@ class CI_Validation {
 	 */	
 	function alpha_numeric($str)
 	{
-		return ( ! preg_match("/^([-a-z0-9])+$/i", $str)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([a-z0-9])+$/i", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
