@@ -484,7 +484,7 @@ class CI_Email {
 	 */	
 	function set_newline($newline = "\n")
 	{
-		if ($newline != "\n" OR $newline != "\r\n" OR $newline != "\r")
+		if ($newline != "\n" AND $newline != "\r\n" AND $newline != "\r")
 		{
 			$this->newline	= "\n";	
 			return;
