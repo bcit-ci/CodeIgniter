@@ -490,7 +490,7 @@ class CI_Validation {
 	 */
 	function valid_ip($ip)
 	{
-		return ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $ip)) ? FALSE : TRUE;
+		return $this->CI->valid_ip($ip);
 	}
 
 	// --------------------------------------------------------------------
