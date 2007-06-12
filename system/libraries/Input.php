@@ -394,7 +394,7 @@ class CI_Input {
 		{
 			return FALSE;
 		}
-		// IP cannot start with 0
+		// IP can not start with 0
 		if (substr($ip_segments[0], 0, 1) == '0')
 		{
 			return FALSE;
