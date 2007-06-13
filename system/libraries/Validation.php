@@ -419,7 +419,7 @@ class CI_Validation {
 	 */	
 	function min_length($str, $val)
 	{
-		if ( ! is_numeric($val))
+		if (preg_match("/[^0-9]/", $val))
 		{
 			return FALSE;
 		}
@@ -438,7 +438,7 @@ class CI_Validation {
 	 */	
 	function max_length($str, $val)
 	{
-		if ( ! is_numeric($val))
+		if (preg_match("/[^0-9]/", $val))
 		{
 			return FALSE;
 		}
@@ -457,7 +457,7 @@ class CI_Validation {
 	 */	
 	function exact_length($str, $val)
 	{
-		if ( ! is_numeric($val))
+		if (preg_match("/[^0-9]/", $val))
 		{
 			return FALSE;
 		}
