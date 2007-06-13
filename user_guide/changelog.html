@@ -65,22 +65,25 @@ Change Log
 <h2>Version 1.5.4</h2>
 <p>Release Date: -- Still under development</p>
 <ul>
+	<li>Added stripslashes() to the _clean_input_data() function in the Input class when magic quotes is on so that data will always be un-slashed within the framework.</li>
 	<li>Fixed MSSQL insert_id().</li>
 	<li>Fixed a logic error in the DB trans_status() function.  It was incorrectly returning TRUE on failure and FALSE on success.</li>
 	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
 	<li>Fixed a bug in the bootstrap file that was incorrectly attempting to discern the full server path even when it was explicity set by the user.</li>
 	<li>Fixed a bug in the escape_str() function in the MySQL driver.</li>
-	<li>Added stripslashes() to the _clean_input_data() function in the Input class when magic quotes is on so that data will always be un-slashed within the framework.</li>
     <li>Fixed a typo in the <a href="./libraries/calendar.html">Calendar library </a> </li>
     <li>Fixed a typo in rpcs.php library</li>
     <li>Fixed a bug in the <a href="./libraries/zip.html">Zip library</a>, providing PC Zip file compatibility with Mac OS X</li>
-    <li>APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
     <li>Added array to string into the profiler </li>
 	<li>Added some additional mime types in application/config/mimes.php</li>
 	<li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
     <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
-    <li>Fixed doc typos. </li>
+	<li>Deprecated the use if <kbd>is_numeric()</kbd> in various places since it allows periods.  Due to compatibility problems with <kbd>ctype_digit()</kbd>, making it unreliable in some installations, the following regular expression was used instead:  <kbd>preg_match("/[^0-9]/", $n)</kbd></li>
+    <li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
+    <li>Fixed various doc typos. </li>
+    
+    
 </ul>
 <h2>Version 1.5.3</h2>
 <p>Release Date: April 15, 2007 </p>
