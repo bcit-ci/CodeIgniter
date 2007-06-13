@@ -193,9 +193,9 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 <p>Sets the email address(s) of the recipient(s).  Can be a single email, a comma-delimited list or an array:</p>
 
 <code>$this->email->to('<var>someone@some-site.com</var>');</code>
-<code>$this->email->to('<var>one@some-site.com</var>, <var>two@some-site.com</var>, <var>three@some-site.com</var>');</code>
+<code>$this->email->to('<var>one@some-site.com</var>', '<var>two@some-site.com</var>', '<var>three@some-site.com</var>');</code>
 
-<code>$list = array('<var>one@some-site.com</var>, <var>two@some-site.com</var>, <var>three@some-site.com</var>');<br /><br />
+<code>$list = array('<var>one@some-site.com</var>', '<var>two@some-site.com</var>', '<var>three@some-site.com</var>');<br /><br />
 $this->email->to(<var>$list</var>);</code>
 
 <h3>$this->email->cc()</h3>
