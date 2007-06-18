@@ -318,7 +318,7 @@ class CI_Encrypt {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get Mcrypt MOde Value
+	 * Get Mcrypt Mode Value
 	 *
 	 * @access	private
 	 * @return	string
