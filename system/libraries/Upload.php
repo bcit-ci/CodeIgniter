@@ -709,7 +709,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (($data = @file_get_contents($file)) !== FALSE)
+		if (($data = @file_get_contents($file)) === FALSE)
 		{
 			return FALSE;
 		}
