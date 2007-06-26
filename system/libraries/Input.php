@@ -528,9 +528,12 @@ class CI_Input {
 		 */	
 		$bad = array(
 						'document.cookie'	=> '[removed]',
+						'.parentNode'		=> '[removed]',
+						'.innerHTML'		=> '[removed]',
 						'document.write'	=> '[removed]',
 						'window.location'	=> '[removed]',
 						"javascript\s*:"	=> '[removed]',
+						"expression\s*\("	=> '[removed]', // CSS and IE
 						"Redirect\s+302"	=> '[removed]',
 						'<!--'				=> '&lt;!--',
 						'-->'				=> '--&gt;'
@@ -626,7 +629,7 @@ class CI_Input {
 		 * Becomes:		eval&#40;'some code'&#41;
 		 *
 		 */
-		$str = preg_replace('#(alert|cmd|passthru|eval|exec|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si', "\\1\\2&#40;\\3&#41;", $str);
+		$str = preg_replace('#(alert|cmd|passthru|eval|exec|expression|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si', "\\1\\2&#40;\\3&#41;", $str);
 						
 		/*
 		 * Final clean up
@@ -637,9 +640,12 @@ class CI_Input {
 		 */	
 		$bad = array(
 						'document.cookie'	=> '[removed]',
+						'.parentNode'		=> '[removed]',
+						'.innerHTML'		=> '[removed]',
 						'document.write'	=> '[removed]',
 						'window.location'	=> '[removed]',
 						"javascript\s*:"	=> '[removed]',
+						"expression\s*\("	=> '[removed]', // CSS and IE
 						"Redirect\s+302"	=> '[removed]',
 						'<!--'				=> '&lt;!--',
 						'-->'				=> '--&gt;'
