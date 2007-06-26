@@ -572,7 +572,7 @@ class CI_Input {
 		 * These words are compacted back to their correct state.
 		 *
 		 */		
-		$words = array('javascript', 'vbscript', 'script', 'applet', 'alert', 'document', 'write', 'cookie', 'window');
+		$words = array('javascript', 'expression', 'vbscript', 'script', 'applet', 'alert', 'document', 'write', 'cookie', 'window');
 		foreach ($words as $word)
 		{
 			$temp = '';
