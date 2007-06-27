@@ -68,21 +68,30 @@ class CI_Input {
 	 */
 	function _sanitize_globals()
 	{
+		// Would kind of be "wrong" to unset any of these GLOBALS.
+		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', '_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA');
+		
 		// Unset globals for securiy. 
 		// This is effectively the same as register_globals = off
 		foreach (array($_GET, $_POST, $_COOKIE) as $global)
 		{
 			if ( ! is_array($global))
 			{
-				global $global;
-				$$global = NULL;
+				if ( ! in_array($global, $protected))
+				{
+					global $global;
+					$$global = NULL;
+				}
 			}
 			else
 			{
 				foreach ($global as $key => $val)
 				{
-					global $$key;
-					$$key = NULL;
+					if ( ! in_array($key, $protected))
+					{
+						global $$key;
+						$$key = NULL;
+					}
 				}	
 			}
 		}
