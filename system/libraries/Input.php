@@ -445,6 +445,56 @@ class CI_Input {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Filename Security
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function filename_security($str)
+	{
+		$bad = array(
+						"../",
+						"./",
+						"<!--",
+						"-->",
+						"<",
+						">",
+						"'",
+						'"',
+						'&',
+						'$',
+						'#',
+						'{',
+						'}',
+						'[',
+						']',
+						'=',
+						';',
+						'?',
+						'/',
+						"%20",
+						"%22",
+						"%3c",		// <
+						"%253c", 	// <
+						"%3e", 		// >
+						"%0e", 		// >
+						"%28", 		// (  
+						"%29", 		// ) 
+						"%2528", 	// (
+						"%26", 		// &
+						"%24", 		// $
+						"%3f", 		// ?
+						"%3b", 		// ;
+						"%3d"		// =
+        			);
+        			
+        return stripslashes(str_replace($bad, '', $str));   
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
 	 * XSS Clean
 	 *
 	 * Sanitizes data so that Cross Site Scripting Hacks can be
