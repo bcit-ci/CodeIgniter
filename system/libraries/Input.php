@@ -588,10 +588,18 @@ class CI_Input {
 	
 		/*
 		 * Remove disallowed Javascript in links or img tags
-		 */		
-		$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
-		$str = preg_replace_callback("#<img.*?>#si", array($this, '_js_img_removal'), $str);
-	 	$str = preg_replace("#<(script|xss).*?\>#si", "", $str);
+		 */
+		do
+		{
+			$original = $str;
+		
+			$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
+			$str = preg_replace_callback("#<img.*?>#si", array($this, '_js_img_removal'), $str);
+			$str = preg_replace("#</*(script|xss).*?\>#si", "", $str);
+		}
+		while($original != $str);
+		
+		unset($original);
 
 		/*
 		 * Remove JavaScript Event Handlers
