@@ -49,6 +49,7 @@ class CI_Router {
 	function CI_Router()
 	{
 		$this->config =& load_class('Config');
+		$this->input =& load_class('Input');
 		$this->_set_route_mapping();
 		log_message('debug', "Router Class Initialized");
 	}
@@ -482,7 +483,7 @@ class CI_Router {
 	 */	
 	function set_class($class)
 	{
-		$this->class = $class;
+		$this->class = $this->input->filename_security($class);
 	}
 	
 	// --------------------------------------------------------------------
@@ -509,7 +510,7 @@ class CI_Router {
 	 */	
 	function set_method($method)
 	{
-		$this->method = $method;
+		$this->method = $this->input->filename_security($method);
 	}
 
 	// --------------------------------------------------------------------
@@ -541,7 +542,7 @@ class CI_Router {
 	 */	
 	function set_directory($dir)
 	{
-		$this->directory = $dir.'/';
+		$this->directory = $this->input->filename_security($dir).'/';
 	}
 
 	// --------------------------------------------------------------------
