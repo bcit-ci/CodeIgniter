@@ -49,7 +49,6 @@ class CI_Router {
 	function CI_Router()
 	{
 		$this->config =& load_class('Config');
-		$this->input =& load_class('Input');
 		$this->_set_route_mapping();
 		log_message('debug', "Router Class Initialized");
 	}
@@ -71,11 +70,11 @@ class CI_Router {
 		// If so, we're done since segment based URIs are not used with query strings.
 		if ($this->config->item('enable_query_strings') === TRUE AND isset($_GET[$this->config->item('controller_trigger')]))
 		{
-			$this->set_class($_GET[$this->config->item('controller_trigger')]);
+			$this->set_class(trim($this->_filter_uri($_GET[$this->config->item('controller_trigger')])));
 
 			if (isset($_GET[$this->config->item('function_trigger')]))
 			{
-				$this->set_method($_GET[$this->config->item('function_trigger')]);
+				$this->set_method(trim($this->_filter_uri($_GET[$this->config->item('function_trigger')])));
 			}
 			
 			return;
@@ -483,7 +482,7 @@ class CI_Router {
 	 */	
 	function set_class($class)
 	{
-		$this->class = $this->input->filename_security($class);
+		$this->class = $class;
 	}
 	
 	// --------------------------------------------------------------------
@@ -510,7 +509,7 @@ class CI_Router {
 	 */	
 	function set_method($method)
 	{
-		$this->method = $this->input->filename_security($method);
+		$this->method = $method;
 	}
 
 	// --------------------------------------------------------------------
@@ -542,7 +541,7 @@ class CI_Router {
 	 */	
 	function set_directory($dir)
 	{
-		$this->directory = $this->input->filename_security($dir).'/';
+		$this->directory = $dir.'/';
 	}
 
 	// --------------------------------------------------------------------
