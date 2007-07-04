@@ -99,7 +99,7 @@ so you will only need to load a config file if you have created your own.</p>
 
 <p>If you need to load multiple config files normally they will be merged into one master config array.  Name collisions can occur, however, if
 you have identically named array indexes in different config files.  To avoid collisions you can set the second parameter to <kbd>TRUE</kbd>
-and each config file will be stored in an array index corresponding to the name of the config file. Example:
+and each config file will be stored in an array index corresponding to the name of the config file. Example:</p>
 
 <code>
 // Stored in an array with this prototype:  $this->config['blog_settings'] = $config<br />
@@ -111,10 +111,8 @@ $this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);</code>
 
 <code>$this->config->load('<var>blog_settings</var>', <dfn>FALSE</dfn>, <kbd>TRUE</kbd>);</code>
 
-
-
 </li>
-<li><strong>Auto-loading</strong></li>
+<li><strong>Auto-loading</strong>
 
 <p>If you find that you need a particular config file globally, you can have it loaded automatically by the system.  To do this,
 open the <strong>autoload.php</strong> file, located at <samp>application/config/autoload.php</samp>, and add your config file as
@@ -136,7 +134,7 @@ indicated in the file.</p>
 <p>The function returns FALSE (boolean) if the item you are trying to fetch does not exist.</p>
 
 <p>If you are using the second parameter of the <kbd>$this->config->load</kbd> function in order to assign your config items to a specific index
-you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function.  Example:
+you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function.  Example:</p>
 
 <code>
 // Loads a config file named blog_settings.php and assigns it to an index named "blog_settings"<br />
@@ -180,7 +178,7 @@ Previous Topic:&nbsp;&nbsp;<a href="calendar.html">Calendaring Class</a>
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="../database/index.html">Database Class</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

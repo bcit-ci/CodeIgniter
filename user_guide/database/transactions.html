@@ -122,7 +122,7 @@ if (<kbd>$this->db->trans_status()</kbd> === FALSE)<br />
 <h2>Enabling Transactions</h2>
 
 <p>Transactions are enabled automatically the moment you use <dfn>$this->db->trans_start()</dfn>.  If you would like to disable transactions you
-can do so using <dfn>$this->db->trans_off()</dfn>:
+can do so using <dfn>$this->db->trans_off()</dfn>:</p>
 
 <code>
 <kbd>$this->db->trans_off()</kbd><br /><br />
@@ -138,7 +138,7 @@ $this->db->trans_complete();
 <h2>Test Mode</h2>
 
 <p>You can optionally put the transaction system into "test mode", which will cause your queries to be rolled back -- even if the queries produce a valid result.
-To use test mode simply set the first parameter in the <dfn>$this->db->trans_start()</dfn> function to <samp>TRUE</samp>:
+To use test mode simply set the first parameter in the <dfn>$this->db->trans_start()</dfn> function to <samp>TRUE</samp>:</p>
 
 <code>
 $this->db->trans_start(<samp>TRUE</samp>); // Query will be rolled back<br />
@@ -190,7 +190,7 @@ Previous Topic:&nbsp;&nbsp; <a href="fields.html">Field MetaData</a>&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="table_data.html">Table Metadata</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

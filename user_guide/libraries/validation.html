@@ -77,7 +77,7 @@ Form Validation
 <li>Check for required data.</li>
 <li>Verify that the data is of the correct type, and meets the correct criteria. (For example, if a username is submitted
 it must be validated to contain only permitted characters.  It must be of a minimum length,
-and not exceed a maximum length. The username can't be someone else's existing username, or perhaps even a reserved word. Etc.)
+and not exceed a maximum length. The username can't be someone else's existing username, or perhaps even a reserved word. Etc.)</li>
 <li>Sanitize the data for security.</li>
 <li>Pre-format the data if needed (Does the data need to be trimmed?  HTML encoded?  Etc.)</li>
 <li>Prep the data for insertion in the database.</li>
@@ -109,34 +109,35 @@ It also removes all control structures from your form HTML, permitting it to be 
 folder:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="30"><html>
-<head>
-<title>My Form</title>
-</head>
-<body>
+<textarea class="textarea" style="width:100%" cols="50" rows="30">&lt;html>
+&lt;head>
+&lt;title>My Form&lt;/title>
+&lt;/head>
+&lt;body>
 
-<?=$this->validation->error_string; ?>
+&lt;?=$this->validation->error_string; ?>
 
-<?=form_open('form'); ?>
+&lt;?=form_open('form'); ?>
 
-<h5>Username</h5>
-<input type="text" name="username" value="" size="50" />
+&lt;h5>Username&lt;/h5>
+&lt;input type="text" name="username" value="" size="50" />
 
-<h5>Password</h5>
-<input type="text" name="password" value="" size="50" />
+&lt;h5>Password&lt;/h5>
+&lt;input type="text" name="password" value="" size="50" />
 
-<h5>Password Confirm</h5>
-<input type="text" name="passconf" value="" size="50" />
+&lt;h5>Password Confirm&lt;/h5>
+&lt;input type="text" name="passconf" value="" size="50" />
 
-<h5>Email Address</h5>
-<input type="text" name="email" value="" size="50" />
+&lt;h5>Email Address&lt;/h5>
+&lt;input type="text" name="email" value="" size="50" />
 
-<div><input type="submit" value="Submit" /></div>
+&lt;div>&lt;input type="submit" value="Submit" />&lt;/div>
 
-</form>
+&lt;/form>
 
-</body>
-</html></textarea>
+&lt;/body>
+&lt;/html>
+</textarea>
 
 
 <h2>The Success Page</h2>
@@ -146,18 +147,20 @@ folder:</p>
 folder:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="14"><html>
-<head>
-<title>My Form</title>
-</head>
-<body>
+<textarea class="textarea" style="width:100%" cols="50" rows="14">
+&lt;html>
+&lt;head>
+&lt;title>My Form&lt;/title>
+&lt;/head>
+&lt;body>
 
-<h3>Your form was successfully submitted!</h3>
+&lt;h3>Your form was successfully submitted!&lt;/h3>
 
-<p><?=anchor('form', 'Try it again!'); ?></p>
+&lt;p>&lt;?=anchor('form', 'Try it again!'); ?>&lt;/p>
 
-</body>
-</html></textarea>
+&lt;/body>
+&lt;/html>
+</textarea>
 
 
 <h2>The Controller</h2>
@@ -166,7 +169,7 @@ folder:</p>
 folder:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="21"><?php
+<textarea class="textarea" style="width:100%" cols="50" rows="21">&lt;?php
 
 class Form extends Controller {
 	
@@ -314,7 +317,7 @@ $rules['email']		= "required|valid_email";</code>
 <h2>Prepping Data</h2>
 
 <p>In addition to the validation functions like the ones we used above, you can also prep your data in various ways.
-For example, you can set up rules like this:
+For example, you can set up rules like this:</p>
 
 <code>$rules['username']	= "<kbd>trim</kbd>|required|min_length[5]|max_length[12]|<kbd>xss_clean</kbd>";<br />
 $rules['password']	= "<kbd>trim</kbd>|required|matches[passconf]|<kbd>md5</kbd>";<br />
@@ -451,34 +454,36 @@ error message.</p>
 <p>Now open your <dfn>myform.php</dfn> view file and update the value in each field so that it has an object corresponding to its name:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="30"><html>
-<head>
-<title>My Form</title>
-</head>
-<body>
+<textarea class="textarea" style="width:100%" cols="50" rows="30">
+&lt;html>
+&lt;head>
+&lt;title>My Form&lt;/title>
+&lt;/head>
+&lt;body>
 
-<?=$this->validation->error_string; ?>
+&lt;?=$this->validation->error_string; ?>
 
-<?=form_open('form'); ?>
+&lt;?=form_open('form'); ?>
 
-<h5>Username</h5>
-<input type="text" name="username" value="<?=$this->validation->username;?>" size="50" />
+&lt;h5>Username&lt;/h5>
+&lt;input type="text" name="username" value="&lt;?=$this->validation->username;?>" size="50" />
 
-<h5>Password</h5>
-<input type="text" name="password" value="<?=$this->validation->password;?>" size="50" />
+&lt;h5>Password&lt;/h5>
+&lt;input type="text" name="password" value="&lt;?=$this->validation->password;?>" size="50" />
 
-<h5>Password Confirm</h5>
-<input type="text" name="passconf" value="<?=$this->validation->passconf;?>" size="50" />
+&lt;h5>Password Confirm&lt;/h5>
+&lt;input type="text" name="passconf" value="&lt;?=$this->validation->passconf;?>" size="50" />
 
-<h5>Email Address</h5>
-<input type="text" name="email" value="<?=$this->validation->email;?>" size="50" />
+&lt;h5>Email Address&lt;/h5>
+&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" />
 
-<div><input type="submit" value="Submit" /></div>
+&lt;div>&lt;input type="submit" value="Submit" />&lt;/div>
 
-</form>
+&lt;/form>
 
-</body>
-</html></textarea>
+&lt;/body>
+&lt;/html>
+</textarea>
 
 
 <p>Now reload your page and submit the form so that it triggers an error.  Your form fields should be populated
@@ -491,22 +496,22 @@ and the error messages will contain a more relevant field name.</p>
 <p>If you prefer to show an error message next to each form field, rather than as a list, you can change your form so that it looks like this:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="20">
-<h5>Username</h5>
-<?=$this->validation->username_error; ?>
-<input type="text" name="username" value="<?=$this->validation->username;?>" size="50" />
+&lt;textarea class="textarea" style="width:100%" cols="50" rows="20">
+&lt;h5>Username&lt;/h5>
+&lt;?=$this->validation->username_error; ?>
+&lt;input type="text" name="username" value="&lt;?=$this->validation->username;?>" size="50" />
 
-<h5>Password</h5>
-<?=$this->validation->password_error; ?>
-<input type="text" name="password" value="<?=$this->validation->password;?>" size="50" />
+&lt;h5>Password&lt;/h5>
+&lt;?=$this->validation->password_error; ?>
+&lt;input type="text" name="password" value="&lt;?=$this->validation->password;?>" size="50" />
 
-<h5>Password Confirm</h5>
-<?=$this->validation->passconf_error; ?>
-<input type="text" name="passconf" value="<?=$this->validation->passconf;?>" size="50" />
+&lt;h5>Password Confirm&lt;/h5>
+&lt;?=$this->validation->passconf_error; ?>
+&lt;input type="text" name="passconf" value="&lt;?=$this->validation->passconf;?>" size="50" />
 
-<h5>Email Address</h5>
-<?=$this->validation->email_error; ?>
-<input type="text" name="email" value="<?=$this->validation->email;?>" size="50" /></textarea>
+&lt;h5>Email Address&lt;/h5>
+&lt;?=$this->validation->email_error; ?>
+&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" />&lt;/textarea>
 
 <p>If there are no errors, nothing will be shown.  If there is an error, the message will appear, wrapped in the delimiters you
 have set (&lt;p> tags by default).</p>
@@ -589,15 +594,12 @@ For example, your "username" error will be available at:<br /><dfn>$this->valida
 <td class="td">Returns FALSE if the form element does not contain a valid email address.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
+<tr>
 <td class="td"><strong>valid_ip</strong></td>
 <td class="td">No</td>
 <td class="td">Returns FALSE if the supplied IP is not valid.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
-
-
 
 </table>
 
@@ -714,7 +716,7 @@ Previous Topic:&nbsp;&nbsp;<a href="user_agent.html">User Agent Class</a>
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="xmlrpc.html">XML-RPC Class</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

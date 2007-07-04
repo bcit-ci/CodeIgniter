@@ -89,26 +89,27 @@ preferences, restricting the type and size of the files.</p>
 folder:</p>
 
 
-<textarea class="textarea" style="width:100%" cols="50" rows="23"><html>
-<head>
-<title>Upload Form</title>
-</head>
-<body>
+<textarea class="textarea" style="width:100%" cols="50" rows="23">
+&lt;html>
+&lt;head>
+&lt;title>Upload Form&lt;/title>
+&lt;/head>
+&lt;body>
 
-<?=$error;?>
+&lt;?=$error;?>
 
-<?=form_open_multipart('upload/do_upload'); ?>
+&lt;?=form_open_multipart('upload/do_upload'); ?>
 
-<input type="file" name="userfile" size="20" />
+&lt;input type="file" name="userfile" size="20" />
 
-<br /><br />
+&lt;br />&lt;br />
 
-<input type="submit" value="upload" />
+&lt;input type="submit" value="upload" />
 
-</form>
+&lt;/form>
 
-</body>
-</html></textarea>
+&lt;/body>
+&lt;/html></textarea>
 
 <p>You'll notice we are using a form helper to create the opening form tag.  File uploads require a multipart form, so the helper
 creates the proper syntax for you.  You'll also notice we have an $error variable.  This is so we can show error messages in the event
@@ -120,24 +121,24 @@ the user does something wrong.</p>
 <p>Using a text editor, create a form called <dfn>upload_success.php</dfn>.
 In it, place this code and save it to your <samp>applications/views/</samp> folder:</p>
 
-<textarea class="textarea" style="width:100%" cols="50" rows="20"><html>
-<head>
-<title>Upload Form</title>
-</head>
-<body>
+<textarea class="textarea" style="width:100%" cols="50" rows="20">&lt;html>
+&lt;head>
+&lt;title>Upload Form&lt;/title>
+&lt;/head>
+&lt;body>
 
-<h3>Your file was successfully uploaded!</h3>
+&lt;h3>Your file was successfully uploaded!&lt;/h3>
 
-<ul>
-<?php foreach($upload_data as $item => $value):?>
-<li><?=$item;?>: <?=$value;?></li>
-<?php endforeach; ?>
-</ul>
+&lt;ul>
+&lt;?php foreach($upload_data as $item => $value):?>
+&lt;li>&lt;?=$item;?>: &lt;?=$value;?>&lt;/li>
+&lt;?php endforeach; ?>
+&lt;/ul>
 
-<p><?=anchor('upload', 'Upload Another File!'); ?></p>
+&lt;p>&lt;?=anchor('upload', 'Upload Another File!'); ?>&lt;/p>
 
-</body>
-</html></textarea>
+&lt;/body>
+&lt;/html></textarea>
 
 
 <h2>The Controller</h2>
@@ -428,7 +429,7 @@ Previous Topic:&nbsp;&nbsp;<a href="download_helper.html">Download Helper</a>
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="ftp.html">FTP Class</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

@@ -77,14 +77,14 @@ you should do so before continuing.</p>
 <p>Using your text editor, create a file called <dfn>blogview.php</dfn>, and put this in it:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="10">
-<html>
-<head>
-<title>My Blog</title>
-</head>
-<body>
-	<h1>Welcome to my Blog!</h1>
-</body>
-</html>
+&lt;html>
+&lt;head>
+&lt;title>My Blog&lt;/title>
+&lt;/head>
+&lt;body>
+	&lt;h1>Welcome to my Blog!&lt;/h1>
+&lt;/body>
+&lt;/html>
 </textarea>
 
 <p>Then save the file in your <dfn>application/views/</dfn> folder.</p>
@@ -169,14 +169,14 @@ class Blog extends Controller {
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="10">
-<html>
-<head>
-<title><?=$title;?></title>
-</head>
-<body>
-	<h1><?=$heading;?></h1>
-</body>
-</html>
+&lt;html>
+&lt;head>
+&lt;title>&lt;?php echo $title;?>&lt;/title>
+&lt;/head>
+&lt;body>
+	&lt;h1>&lt;?php echo $heading;?>&lt;/h1>
+&lt;/body>
+&lt;/html>
 </textarea>
 
 <p>Then load the page at the URL you've been using and you should see the variables replaced.</p>
@@ -214,26 +214,26 @@ class Blog extends Controller {
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="24">
-<html>
-<head>
-<title><?=$title;?></title>
-</head>
-<body>
-<h1><?=$heading;?></h1>
+&lt;html>
+&lt;head>
+&lt;title>&lt;?=$title;?>&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;h1>&lt;?=$heading;?>&lt;/h1>
 	
-<h3>My Todo List</h3>	
+&lt;h3>My Todo List&lt;/h3>	
 
-<ul>
-<?php foreach($todo_list as $item):?>
+&lt;ul>
+&lt;?php foreach($todo_list as $item):?>
 
-<li><?=$item;?></li>
+&lt;li>&lt;?=$item;?>&lt;/li>
 
-<?php endforeach;?>
-</ul>
+&lt;?php endforeach;?>
+&lt;/ul>
 
 	
-</body>
-</html>
+&lt;/body>
+&lt;/html>
 </textarea>
 
 
@@ -249,7 +249,7 @@ Previous Topic:&nbsp;&nbsp;<a href="controllers.html">Controllers</a>
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="models.html">Models</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

@@ -88,11 +88,11 @@ Once processed, the server will then send back a response message.</p>
 
 <p>Like most other classes in CodeIgniter, the XML-RPC and XML-RPCS classes are initialized in your controller using the <dfn>$this->load->library</dfn> function:</p>
 
-<p>To load the XML-RPC class you will use:
+<p>To load the XML-RPC class you will use:</p>
 <code>$this->load->library('xmlrpc');</code>
 <p>Once loaded, the xml-rpc library object will be available using: <dfn>$this->xmlrpc</dfn></p>
 
-<p>To load the XML-RPC Server class you will use:
+<p>To load the XML-RPC Server class you will use:</p>
 <code>
 $this->load->library('xmlrpc');<br />
 $this->load->library('xmlrpcs');
@@ -193,7 +193,7 @@ $this->xmlrpcs->initialize($config);<br />
 $this->xmlrpcs->serve();</code>
 
 <p>The above example contains an array specifying two method requests that the Server allows.
-The allowed methods are on the left side of the array. When either of those are received, they will be mapped to the class and method on the right.
+The allowed methods are on the left side of the array. When either of those are received, they will be mapped to the class and method on the right.</p>
 
 <p>In other words, if an XML-RPC Client sends a request for the <var>new_post</var> method, your
 server will load the <dfn>My_blog</dfn> class and call the <dfn>new_entry</dfn> function.
@@ -223,7 +223,7 @@ to exist with this prototype:</p>
 
 <p>The <var>$request</var> variable is an object compiled by the Server, which contains the data sent by the XML-RPC Client.
 Using this object you will have access to the <em>request parameters</em> enabling you to process the request.  When
-you are done you will send a <dfn>Response</dfn> back to the Client.<p>
+you are done you will send a <dfn>Response</dfn> back to the Client.</p>
 
 <p>Below is a real-world example, using the Blogger API.  One of the methods in the Blogger API is <dfn>getUserInfo()</dfn>.
 Using this method, an XML-RPC Client can send the Server a username and password, in return the Server sends
@@ -486,7 +486,7 @@ Previous Topic:&nbsp;&nbsp;<a href="validation.html">Validation Class</a>
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="zip.html">Zip Encoding Class</a>
-<p>
+</p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 
