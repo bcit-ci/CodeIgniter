@@ -80,6 +80,7 @@ Change Log
     <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
 	<li>Fixed various doc typos. </li>
+	<li>Docs now validate to XHTML 1 transitional </li>
 	<li>Fixed a bug where one could unset certain PHP superglobals by setting them via GET or POST data</li>
     <li>Updated the XSS Filtering to take into account the IE expression() ability and improved certain deletions to prevent possible exploits</li>
     <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
@@ -87,8 +88,6 @@ Change Log
     <li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
 	<li>Deprecated the use if <kbd>is_numeric()</kbd> in various places since it allows periods.  Due to compatibility problems with <kbd>ctype_digit()</kbd>, making it unreliable in some installations, the following regular expression was used instead:  <kbd>preg_match("/[^0-9]/", $n)</kbd></li>
     <li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
-    
-    
 </ul>
 <h2>Version 1.5.3</h2>
 <p>Release Date: April 15, 2007 </p>
