@@ -69,6 +69,7 @@ Change Log
 	<li>Added array to string into the profiler </li>
 	<li>Added some additional mime types in application/config/mimes.php</li>
 	<li>Added filename_security() method to Input library</li>
+	<li>Added some additional arguements to the <a href="./helpers/inflector_helper.html">Inflection helper</a> singular() to compensate for words ending in "s".  Also added a force parameter to pluralize()</li>
 	<li>Fixed MSSQL insert_id().</li>
 	<li>Fixed a logic error in the DB trans_status() function.  It was incorrectly returning TRUE on failure and FALSE on success.</li>
 	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
@@ -80,7 +81,7 @@ Change Log
     <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
 	<li>Fixed various doc typos. </li>
-	<li>Docs now validate to XHTML 1 transitional </li>
+	<li>Docs now validate to XHTML 1 transitional</li>
 	<li>Fixed a bug where one could unset certain PHP superglobals by setting them via GET or POST data</li>
     <li>Updated the XSS Filtering to take into account the IE expression() ability and improved certain deletions to prevent possible exploits</li>
     <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
