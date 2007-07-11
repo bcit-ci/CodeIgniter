@@ -229,6 +229,9 @@ function form_dropdown($name = '', $options = array(), $selected = '', $extra = 
 	
 	foreach ($options as $key => $val)
 	{
+		$key = (string) $key;
+		$val = (string) $val;
+		
 		$sel = ($selected != $key) ? '' : ' selected="selected"';
 		
 		$form .= '<option value="'.$key.'"'.$sel.'>'.$val."</option>\n";
