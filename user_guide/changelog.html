@@ -89,6 +89,7 @@ Change Log
     <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
     <li>Modified the is_image() method in the Upload library to take into account Windows IE 6/7 eccentricities when dealing with MIMEs</li>
     <li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
+	<li>Modified the URL Helper to type cast the $title as a string in case a numeric value is supplied</li>
 	<li>Deprecated the use if <kbd>is_numeric()</kbd> in various places since it allows periods.  Due to compatibility problems with <kbd>ctype_digit()</kbd>, making it unreliable in some installations, the following regular expression was used instead:  <kbd>preg_match("/[^0-9]/", $n)</kbd></li>
     <li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
 </ul>
