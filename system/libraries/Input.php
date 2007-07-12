@@ -519,7 +519,7 @@ class CI_Input {
 	 * @param	string
 	 * @return	string
 	 */
-	function xss_clean($str, $charset = 'ISO-8859-1')
+	function xss_clean($str)
 	{	
 		/*
 		 * Remove Null Characters
@@ -564,23 +564,46 @@ class CI_Input {
 		$str = str_replace('9u3iovBnRThju941s89rKozm', "%20", $str);	
 				
 		/*
-		 * Convert character entities to ASCII
+		 * Convert character entities to ASCII 
 		 *
 		 * This permits our tests below to work reliably.
 		 * We only convert entities that are within tags since
 		 * these are the ones that will pose security problems.
 		 *
 		 */
-		if (preg_match_all("/<(.+?)>/si", $str, $matches))
-		{		
-			for ($i = 0; $i < count($matches['0']); $i++)
+		
+		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_attribute_conversion'), $str);
+		 
+		$str = preg_replace_callback("/<([\w]+)[^>]*>/si", array($this, '_html_entity_decode_callback'), $str);
+
+		/*
+		
+		Old Code that when modified to use preg_replace()'s above became more efficient memory-wise
+		
+		if (preg_match_all("/[a-z]+=([\'\"]).*?\\1/si", $str, $matches))
+		{        
+			for ($i = 0; $i < count($matches[0]); $i++)
 			{
-				$str = str_replace($matches['1'][$i],
-									$this->_html_entity_decode($matches['1'][$i], $charset),
+				if (stristr($matches[0][$i], '>'))
+				{
+					$str = str_replace(	$matches['0'][$i], 
+										str_replace('>', '&lt;', $matches[0][$i]),  
+										$str);
+				}
+			}
+		}
+		 
+        if (preg_match_all("/<([\w]+)[^>]*>/si", $str, $matches))
+        {        
+			for ($i = 0; $i < count($matches[0]); $i++)
+			{
+				$str = str_replace($matches[0][$i], 
+									$this->_html_entity_decode($matches[0][$i], $charset), 
 									$str);
 			}
 		}
-
+		*/
+		
 		/*
 		 * Convert all tabs to spaces
 		 *
@@ -801,7 +824,42 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
-		
+	
+	/**
+	 * Attribute Conversion
+	 *
+	 * Used as a callback for XSS Clean
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	string
+	 */
+	function _attribute_conversion($match)
+	{
+		return str_replace('>', '&lt;', $match[0]);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * HTML Entity Decode Callback
+	 *
+	 * Used as a callback for XSS Clean
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	string
+	 */
+	function _html_entity_decode_callback($match)
+	{
+		$CI =& get_instance();
+		$charset = $CI->config->item('charset');
+
+		return $this->_html_entity_decode($match[0], strtoupper($charset));
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * HTML Entities Decode
 	 *
@@ -826,10 +884,10 @@ class CI_Input {
 	character set, and the PHP developers said they were not back porting the
 	fix to versions other than PHP 5.x.
 	*/
-	function _html_entity_decode($str, $charset='ISO-8859-1')
+	function _html_entity_decode($str, $charset='UTF-8')
 	{
 		if (stristr($str, '&') === FALSE) return $str;
-	
+			
 		// The reason we are not using html_entity_decode() by itself is because
 		// while it is not technically correct to leave out the semicolon
 		// at the end of an entity most browsers will still interpret the entity
