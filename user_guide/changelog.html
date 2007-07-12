@@ -71,6 +71,7 @@ Change Log
 	<li>Added some additional mime types in application/config/mimes.php.</li>
 	<li>Added filename_security() method to <a href="./libraries/input.html">Input library</a>.</li>
 	<li>Added some additional arguments to the <a href="./helpers/inflector_helper.html">Inflection helper</a> singular() to compensate for words ending in "s".  Also added a force parameter to pluralize().</li>
+	<li>Added $config['charset'] to the config file.  Default value is 'UTF-8', used in some string handling functions.</li>
 	<li>Fixed MSSQL insert_id().</li>
 	<li>Fixed a logic error in the DB trans_status() function.  It was incorrectly returning TRUE on failure and FALSE on success.</li>
 	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
