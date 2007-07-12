@@ -45,6 +45,11 @@ class CI_Email {
 	var	$validate		= FALSE;	// true/false.  Enables email validation
 	var	$priority		= "3";		// Default priority (1 - 5)
 	var	$newline		= "\n";		// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
+
+	var $crlf			= "\n";		// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
+									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
+									// distasteful, is the only thing that seems to work for all environments.
+
 	var	$bcc_batch_mode	= FALSE;	// true/false  Turns on/off Bcc batch feature
 	var	$bcc_batch_size	= 200;		// If bcc_batch_mode = true, sets max number of Bccs in each batch
 	var	$_subject		= "";
@@ -924,7 +929,7 @@ class CI_Email {
 			
 			break;
 			case 'html' :
-							
+								
 				$hdr .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline;
 				$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
 				$hdr .= "--" . $this->_alt_boundary . $this->newline;
@@ -934,7 +939,9 @@ class CI_Email {
 				$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
 			
 				$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: quoted/printable";
+				$hdr .= "Content-Transfer-Encoding: quoted-printable";
+				
+				$this->_body = $this->_prep_quoted_printable($this->_body);
 				
 				if ($this->_get_protocol() == 'mail')
 				{
@@ -985,7 +992,9 @@ class CI_Email {
 				$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
 	
 				$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: quoted/printable";
+				$hdr .= "Content-Transfer-Encoding: quoted-printable";
+				
+				$this->_body = $this->_prep_quoted_printable($this->_body);
 				
 				if ($this->_get_protocol() == 'mail')
 				{
@@ -1050,7 +1059,94 @@ class CI_Email {
 	}
   	
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Prep Quoted Printable
+	 *
+	 * Prepares string for Quoted-Printable Content-Transfer-Encoding
+	 * Refer to RFC 2045 http://www.ietf.org/rfc/rfc2045.txt
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	integer
+	 * @return	string
+	 */
+	function _prep_quoted_printable($str, $charlim = '')
+	{
+		// Set the character limit
+		// Don't allow over 76, as that will make servers and MUAs barf
+		// all over quoted-printable data
+		if ($charlim == '' OR $charlim > '76')
+		{
+			$charlim = '76';
+		}
 
+		// Reduce multiple spaces
+		$str = preg_replace("| +|", " ", $str);
+
+		// Standardize newlines
+		$str = preg_replace("/\r\n|\r/", "\n", $str);
+
+		// We are intentionally wrapping so mail servers will encode characters
+		// properly and MUAs will behave, so {unwrap} must go!
+		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
+		
+		// Break into an array of lines
+		$lines = preg_split("/\n/", $str);
+
+	    $escape = '=';
+	    $output = '';
+
+		foreach ($lines as $line)
+		{
+			$length = strlen($line);
+			$temp = '';
+
+			// Loop through each character in the line to add soft-wrap
+			// characters at the end of a line " =\r\n" and add the newly
+			// processed line(s) to the output (see comment on $crlf class property)
+			for ($i = 0; $i < $length; $i++)
+			{
+				// Grab the next character
+				$char = substr($line, $i, 1);
+				$ascii = ord($char);
+
+				// Convert spaces and tabs but only if it's the end of the line
+				if ($i == ($length - 1))
+				{
+					$char = ($ascii == '32' OR $ascii == '9') ? $escape.sprintf('%02s', dechex($char)) : $char;
+				}
+
+				// encode = signs
+				if ($ascii == '61')
+				{
+					$char = $escape.strtoupper(sprintf('%02s', dechex($ascii)));  // =3D
+				}
+
+				// If we're at the character limit, add the line to the output,
+				// reset our temp variable, and keep on chuggin'
+				if ((strlen($temp) + strlen($char)) >= $charlim)
+				{
+					$output .= $temp.$escape.$this->crlf;
+					$temp = '';
+				}
+
+				// Add the character to our temporary line
+				$temp .= $char;
+			}
+
+			// Add our completed line to the output
+			$output .= $temp.$this->crlf;
+		}
+
+		// get rid of extra CRLF tacked onto the end
+		$output = substr($output, 0, strlen($this->crlf) * -1);
+
+		return $output;
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Send Email
 	 *
@@ -1583,7 +1679,7 @@ class CI_Email {
 			}
 		}
 		
-		$msg .= "<pre>".$this->_header_str."\n".$this->_subject."\n".$this->_finalbody.'</pre>';	
+		$msg .= "<pre>".$this->_header_str."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';	
 		return $msg;
 	}	
   	
