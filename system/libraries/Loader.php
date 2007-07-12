@@ -481,13 +481,24 @@ class CI_Loader {
 	 * Loads a language file
 	 *
 	 * @access	public
+	 * @param	array
 	 * @param	string
+	 * @param	bool
 	 * @return	void
 	 */
-	function language($file = '', $lang = '', $return = FALSE)
+	function language($file = array(), $lang = '')
 	{
 		$CI =& get_instance();
-		return $CI->lang->load($file, $lang, $return);
+
+		if ( ! is_array($file))
+		{
+			$file = array($file);
+		}
+
+		foreach ($file as $langfile)
+		{	
+			$CI->lang->load($langfile, $lang);
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -813,7 +824,7 @@ class CI_Loader {
 			return FALSE;
 		}
 		
-		// Load any custome config file
+		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{			
 			$CI =& get_instance();
@@ -823,15 +834,15 @@ class CI_Loader {
 			}
 		}		
 
-		// Load plugins, helpers, and scripts
-		foreach (array('helper', 'plugin', 'script') as $type)
-		{
+		// Autoload plugins, helpers, scripts and languages
+		foreach (array('helper', 'plugin', 'script', 'language') as $type)
+		{			
 			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
 			{
 				$this->$type($autoload[$type]);
 			}		
 		}
-		
+
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
 		if ( ! isset($autoload['libraries']))

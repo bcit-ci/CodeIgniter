@@ -65,11 +65,12 @@ Change Log
 <h2>Version 1.5.4</h2>
 <p>Release Date: -- Still under development</p>
 <ul>
-	<li>Added stripslashes() to the _clean_input_data() function in the Input class when magic quotes is on so that data will always be un-slashed within the framework.</li>
-	<li>Added array to string into the profiler </li>
-	<li>Added some additional mime types in application/config/mimes.php</li>
-	<li>Added filename_security() method to Input library</li>
-	<li>Added some additional arguments to the <a href="./helpers/inflector_helper.html">Inflection helper</a> singular() to compensate for words ending in "s".  Also added a force parameter to pluralize()</li>
+	<li>Added <a href="./libraries/language.html">custom Language files</a> to the <a href="./general/autoloader.html">autoload</a> options. </li>
+	<li>Added stripslashes() to the _clean_input_data() function in the <a href="./libraries/input.html">Input class</a> when magic quotes is on so that data will always be un-slashed within the framework.</li>
+	<li>Added array to string into the <a href="general/profiling.html">profiler</a>.</li>
+	<li>Added some additional mime types in application/config/mimes.php.</li>
+	<li>Added filename_security() method to <a href="./libraries/input.html">Input library</a>.</li>
+	<li>Added some additional arguments to the <a href="./helpers/inflector_helper.html">Inflection helper</a> singular() to compensate for words ending in "s".  Also added a force parameter to pluralize().</li>
 	<li>Fixed MSSQL insert_id().</li>
 	<li>Fixed a logic error in the DB trans_status() function.  It was incorrectly returning TRUE on failure and FALSE on success.</li>
 	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
@@ -80,7 +81,7 @@ Change Log
     <li>Fixed a bug in the <a href="./libraries/zip.html">Zip library</a>, providing PC Zip file compatibility with Mac OS X</li>
     <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
-	<li>Fixed a bug in display of POST keys in the Profiler output</li>
+	<li>Fixed a bug in display of POST keys in the <a href="./general/profiling.html">Profiler</a> output</li>
 	<li>Fixed a bug in display of queries with characters that would be interpreted as HTML in the Profiler output</li>
 	<li>Fixed a bug in display of Email class print debugger with characters that would be interpreted as HTML in the debugging output</li>
 	<li>Fixed a bug in the Content-Transfer-Encoding of HTML emails with the quoted-printable MIME type</li>
@@ -91,7 +92,7 @@ Change Log
     <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
     <li>Modified the is_image() method in the Upload library to take into account Windows IE 6/7 eccentricities when dealing with MIMEs</li>
     <li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
-	<li>Modified the URL Helper to type cast the $title as a string in case a numeric value is supplied</li>
+	<li>Modified the <a href="./helpers/url_helper.html">URL Helper</a> to type cast the $title as a string in case a numeric value is supplied</li>
 	<li>Modified Form Helper form_dropdown() to type cast the keys and values of the options array as strings, allowing numeric values to be properly set as 'selected'</li>
 	<li>Deprecated the use if <kbd>is_numeric()</kbd> in various places since it allows periods.  Due to compatibility problems with <kbd>ctype_digit()</kbd>, making it unreliable in some installations, the following regular expression was used instead:  <kbd>preg_match("/[^0-9]/", $n)</kbd></li>
     <li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
