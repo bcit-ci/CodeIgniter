@@ -22,6 +22,7 @@
 | 2. Helper files
 | 3. Plugins
 | 4. Custom config files
+| 5. Language files
 |
 */
 
