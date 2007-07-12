@@ -1,12 +1,12 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * CodeIgniter
+ * Code Igniter
  *
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
  * @author		Rick Ellis
- * @copyright	Copyright (c) 2006, EllisLab, Inc.
+ * @copyright	Copyright (c) 2006, pMachine, Inc.
  * @license		http://www.codeignitor.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
@@ -236,51 +236,35 @@ class CI_DB_utility {
 	 * @param	string	The newline character - \n by default
 	 * @return	string
 	 */
-	function csv_from_result($query, $delim = ',', $newline = '', $enclosure = '"')
+	function csv_from_result($query, $delim = "\t", $newline = "\n")
 	{
-		if (!is_a($query, 'CI_DB_result')) {
-			show_error('CI_DB_utility::csv_from_result - You must submit a valid result object');
-		}    
-		
-		if ($delim === '') {
-			show_error('CI_DB_utility::csv_from_result - Empty delimiters are not permitted');
-		}
-		
-		if ($newline === '') {
-			$newline = (stripos(getenv('HTTP_USER_AGENT'), 'win') !== false) ? "\r\n" : "\n";
-		}
+		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		{
+			show_error('You must submit a valid result object');
+		}	
 	
-		if ((strpos($enclosure, $newline) !== false) or (($enclosure !== '') and (strpos($newline, $enclosure) !== false))) {
-			show_error('CI_DB_utility::csv_from_result - Field enclosure must not be contained within delimiter (or vice versa)');
-		}
-			
 		$out = '';
 		
 		// First generate the headings from the table column names
-		foreach ($query->list_fields() as $name) {
-			// there's no point enclosing strings that do not require it
-			if (strpos($name, $delim) !== false) {
-				$out .= $enclosure . $name . $enclosure  . $delim;
-			} else {
-				$out .= $name . $delim;
-			}
+		foreach ($query->list_fields() as $name)
+		{
+			$out .= $name.$delim;
 		}
 		
-		$out = rtrim($out, $delim) . $newline;
-				
+		$out = rtrim($out);
+		$out .= $newline;
+		
 		// Next blast through the result array and build out the rows
-		foreach ($query->result_array() as $row) {
-			foreach ($row as $item)    {
-				// there's no point enclosing strings that do not require it
-				if (strpos($item, $delim) !== false) {
-					$out .= $enclosure . $item . $enclosure . $delim;
-				} else {
-					$out .= $item . $delim;
-				}
+		foreach ($query->result_array() as $row)
+		{
+			foreach ($row as $item)
+			{
+				$out .= $item.$delim;			
 			}
-			$out = rtrim($out, $delim) . $newline;
+			$out = rtrim($out);
+			$out .= $newline;
 		}
-	
+
 		return $out;
 	}
 	
