@@ -83,13 +83,14 @@ Change Log
     <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
 	<li>Fixed a bug in display of POST keys in the <a href="./general/profiling.html">Profiler</a> output</li>
-	<li>Fixed a bug in display of queries with characters that would be interpreted as HTML in the Profiler output</li>
+	<li>Fixed a bug in display of queries with characters that would be interpreted as HTML in the <a href="./general/profiling.html">Profiler</a> output</li>
 	<li>Fixed a bug in display of Email class print debugger with characters that would be interpreted as HTML in the debugging output</li>
 	<li>Fixed a bug in the Content-Transfer-Encoding of HTML emails with the quoted-printable MIME type</li>
+	<li>Fixed a bug where one could unset certain PHP superglobals by setting them via GET or POST data</li>
+	<li>Fixed an undefined function error in the insert_id() function of the PostgreSQL driver</li>
 	<li>Fixed various doc typos. </li>
 	<li>Documented two functions from the <a href="./helpers/string_helper.html">String helper </a> that were missing from the user guide:  trim_slashes() and reduce_double_slashes().</li>
 	<li>Docs now validate to XHTML 1 transitional</li>
-	<li>Fixed a bug where one could unset certain PHP superglobals by setting them via GET or POST data</li>
     <li>Updated the XSS Filtering to take into account the IE expression() ability and improved certain deletions to prevent possible exploits</li>
     <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
     <li>Modified the is_image() method in the Upload library to take into account Windows IE 6/7 eccentricities when dealing with MIMEs</li>
