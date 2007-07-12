@@ -121,10 +121,15 @@ Returns a fixed length 33 character string.</li>
 echo repeater($string, 30);</code>
 
 <p>The above would generate 30 newlines.</p>
-
-
-
-
+<h2>reduce_double_slashes()</h2>
+<p>onverts double slashes in a string to a single slash, except those found in http://. Example: </p>
+<code>$string = &quot;http://www.some-site.com//index.php&quot;;<br />
+echo reduce_double_slashes($string); // results in &quot;http://www.some-site.com/index.php&quot;</code>
+<h2>trim_slashes()</h2>
+<p>Removes any leading/traling slashes from a string. Example:<br />
+    <br />
+    <code>$string = &quot;/this/that/theother/&quot;;<br />
+echo trim_slashes($string); // results in this/that/theother</code></p>
 </div>
 <!-- END CONTENT -->
 
