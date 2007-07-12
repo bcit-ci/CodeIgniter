@@ -89,11 +89,6 @@ class CI_Language {
 			return;
 		}
 		
-		if ($return == TRUE)
-		{
-			return $lang;
-		}
-		
 		$this->is_loaded[] = $langfile;
 		$this->language = array_merge($this->language, $lang);
 		unset($lang);
