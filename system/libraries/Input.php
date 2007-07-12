@@ -538,15 +538,15 @@ class CI_Input {
 		 * the conversion of entities to ASCII later.
 		 *
 		 */
-		$str = preg_replace('#(&\#*\w+)[\x00-\x20]+;#u',"\\1;",$str);
+		$str = preg_replace('#(&\#?[0-9a-z]+)[\x00-\x20]*;?#i', "\\1;", $str);
 		
 		/*
-		 * Validate UTF16 two byte encoding (x00)
+		 * Validate UTF16 two byte encoding (x00) 
 		 *
 		 * Just as above, adds a semicolon if missing.
 		 *
 		 */
-		$str = preg_replace('#(&\#x*)([0-9A-F]+);*#iu',"\\1\\2;",$str);
+		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i',"\\1\\2;",$str);
 
 		/*
 		 * URL Decode
@@ -580,36 +580,49 @@ class CI_Input {
 									$str);
 			}
 		}
-		
+
+		/*
+		 * Convert all tabs to spaces
+		 *
+		 * This prevents strings like this: ja	vascript
+		 * NOTE: we deal with spaces between characters later.
+		 * NOTE: preg_replace was found to be amazingly slow here on large blocks of data,
+		 * so we use str_replace.
+		 *
+		 */
+		 
+		$str = str_replace("\t", " ", $str);
+
 		/*
 		 * Not Allowed Under Any Conditions
 		 */	
 		$bad = array(
 						'document.cookie'	=> '[removed]',
+						'document.write'	=> '[removed]',
 						'.parentNode'		=> '[removed]',
 						'.innerHTML'		=> '[removed]',
-						'document.write'	=> '[removed]',
 						'window.location'	=> '[removed]',
+						'-moz-binding'		=> '[removed]',
+						'<!--'				=> '&lt;!--',
+						'-->'				=> '--&gt;',
+						'<!CDATA['			=> '&lt;![CDATA['
+					);
+
+		foreach ($bad as $key => $val)
+		{
+			$str = str_replace($key, $val, $str);   
+		}
+
+		$bad = array(
 						"javascript\s*:"	=> '[removed]',
 						"expression\s*\("	=> '[removed]', // CSS and IE
-						"Redirect\s+302"	=> '[removed]',
-						'<!--'				=> '&lt;!--',
-						'-->'				=> '--&gt;'
+						"Redirect\s+302"	=> '[removed]'
 					);
-	
+					
 		foreach ($bad as $key => $val)
 		{
 			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
-	
-		/*
-		 * Convert all tabs to spaces
-		 *
-		 * This prevents strings like this: ja	vascript
-		 * Note: we deal with spaces between characters later.
-		 *
-		 */		
-		$str = preg_replace("#\t+#", " ", $str);
 	
 		/*
 		 * Makes PHP tags safe
@@ -621,7 +634,7 @@ class CI_Input {
 		 * But it doesn't seem to pose a problem.
 		 *
 		 */		
-		$str = str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		$str = str_replace(array('<?php', '<?PHP', '<?', '?'.'>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	
 		/*
 		 * Compact any exploded words
@@ -650,10 +663,24 @@ class CI_Input {
 		do
 		{
 			$original = $str;
-		
-			$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
-			$str = preg_replace_callback("#<img.*?>#si", array($this, '_js_img_removal'), $str);
-			$str = preg_replace("#</*(script|xss).*?\>#si", "", $str);
+			
+			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && stripos($str, '</a>') !== FALSE) OR 
+				 preg_match("/<\/a>/i", $str))
+			{
+				$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
+			}
+			
+			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && stripos($str, '<img') !== FALSE) OR 
+				 preg_match("/img/i", $str))
+			{
+				$str = preg_replace_callback("#<img.*?".">#si", array($this, '_js_img_removal'), $str);
+			}
+			
+			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && (stripos($str, 'script') !== FALSE OR stripos($str, 'xss') !== FALSE)) OR
+				 preg_match("/(script|xss)/i", $str))
+			{
+				$str = preg_replace("#</*(script|xss).*?\>#si", "", $str);
+			}
 		}
 		while($original != $str);
 		
@@ -706,20 +733,30 @@ class CI_Input {
 		 */	
 		$bad = array(
 						'document.cookie'	=> '[removed]',
+						'document.write'	=> '[removed]',
 						'.parentNode'		=> '[removed]',
 						'.innerHTML'		=> '[removed]',
-						'document.write'	=> '[removed]',
 						'window.location'	=> '[removed]',
-						"javascript\s*:"	=> '[removed]',
-						"expression\s*\("	=> '[removed]', // CSS and IE
-						"Redirect\s+302"	=> '[removed]',
+						'-moz-binding'		=> '[removed]',
 						'<!--'				=> '&lt;!--',
-						'-->'				=> '--&gt;'
+						'-->'				=> '--&gt;',
+						'<!CDATA['			=> '&lt;![CDATA['
 					);
-	
+
 		foreach ($bad as $key => $val)
 		{
-			$str = preg_replace("#".$key."#i", $val, $str);
+			$str = str_replace($key, $val, $str);   
+		}
+
+		$bad = array(
+						"javascript\s*:"	=> '[removed]',
+						"expression\s*\("	=> '[removed]', // CSS and IE
+						"Redirect\s+302"	=> '[removed]'
+					);
+					
+		foreach ($bad as $key => $val)
+		{
+			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
 		
 						
@@ -764,7 +801,7 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
-	
+		
 	/**
 	 * HTML Entities Decode
 	 *
