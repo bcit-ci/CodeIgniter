@@ -325,7 +325,8 @@ class CI_DB_driver {
 		$RES 			= new $driver();
 		$RES->conn_id	= $this->conn_id;
 		$RES->result_id	= $this->result_id;
-		
+		$RES->num_rows	= $RES->num_rows();
+
 		if ($this->dbdriver == 'oci8')
 		{
 			$RES->stmt_id		= $this->stmt_id;
