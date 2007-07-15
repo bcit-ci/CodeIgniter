@@ -483,7 +483,6 @@ class CI_Loader {
 	 * @access	public
 	 * @param	array
 	 * @param	string
-	 * @param	bool
 	 * @return	void
 	 */
 	function language($file = array(), $lang = '')
@@ -502,11 +501,11 @@ class CI_Loader {
 	}
 
 	/**
-	 * Loads a language file
+	 * Loads language files for scaffolding
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	void
+	 * @return	arra
 	 */
 	function scaffold_language($file = '', $lang = '', $return = FALSE)
 	{
