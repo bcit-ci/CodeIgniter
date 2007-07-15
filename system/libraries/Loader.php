@@ -500,6 +500,19 @@ class CI_Loader {
 			$CI->lang->load($langfile, $lang);
 		}
 	}
+
+	/**
+	 * Loads a language file
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */
+	function scaffold_language($file = '', $lang = '', $return = FALSE)
+	{
+		$CI =& get_instance();
+		return $CI->lang->load($file, $lang, $return);
+	}
 	
 	// --------------------------------------------------------------------
 	
