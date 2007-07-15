@@ -73,7 +73,7 @@ class Scaffolding {
 		$this->CI->load->vars($data);
 		
 		// Load the language file and create variables
-		$this->lang = $this->CI->load->language('scaffolding', '', TRUE);		
+		$this->lang = $this->CI->load->scaffold_language('scaffolding', '', TRUE);
 		$this->CI->load->vars($this->lang);
 				
 		//  Load the helper files we plan to use
