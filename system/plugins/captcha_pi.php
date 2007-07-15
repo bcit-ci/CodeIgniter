@@ -250,9 +250,9 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	//  Assign colors
 	// -----------------------------------
 	
-	$bg_color		= ImageColorAllocate($im, 255, 255, 255);
-	$border_color	= ImageColorAllocate($im, 153, 102, 102);
-	$text_color		= ImageColorAllocate($im, 204, 153, 153);
+	$bg_color		= imagecolorallocate ($im, 255, 255, 255);
+	$border_color	= imagecolorallocate ($im, 153, 102, 102);
+	$text_color		= imagecolorallocate ($im, 204, 153, 153);
 	$grid_color		= imagecolorallocate($im, 255, 182, 182);
 	$shadow_color	= imagecolorallocate($im, 255, 240, 240);
 
