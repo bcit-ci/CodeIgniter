@@ -49,7 +49,7 @@ class CI_Language {
 	 * @param	string	the language (english, etc.)
 	 * @return	void
 	 */
-	function load($langfile = '', $idiom = '')
+	function load($langfile = '', $idiom = '', $return = FALSE)
 	{	
 		$langfile = str_replace(EXT, '', str_replace('_lang.', '', $langfile)).'_lang'.EXT;
 		
@@ -82,10 +82,16 @@ class CI_Language {
 			}
 		}
 
+		
 		if ( ! isset($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;
+		}
+		
+		if ($return == TRUE)
+		{
+			return $lang;
 		}
 		
 		$this->is_loaded[] = $langfile;
