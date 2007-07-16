@@ -852,8 +852,8 @@ class CI_Input {
 	 */
 	function _html_entity_decode_callback($match)
 	{
-		$CI =& get_instance();
-		$charset = $CI->config->item('charset');
+		global $CFG;
+		$charset = $CFG->item('charset');
 
 		return $this->_html_entity_decode($match[0], strtoupper($charset));
 	}
