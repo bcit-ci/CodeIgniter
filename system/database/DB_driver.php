@@ -44,6 +44,7 @@ class CI_DB_driver {
 	var $benchmark		= 0;
 	var $query_count	= 0;
 	var $bind_marker	= '?';
+	var $save_queries	= TRUE;
 	var $queries		= array();
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
@@ -264,7 +265,10 @@ class CI_DB_driver {
 		}
 
 		// Save the  query for debugging
-		$this->queries[] = $sql;
+		if ($this->save_queries == TRUE)
+		{
+			$this->queries[] = $sql;
+		}
 
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
