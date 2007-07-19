@@ -60,15 +60,15 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
 	
 	if ($prefix == '' AND $CI->config->item('cookie_prefix') != '')
 	{
-		$CI->config->item('cookie_prefix');
+		$prefix = $CI->config->item('cookie_prefix');
 	}
 	if ($domain == '' AND $CI->config->item('cookie_domain') != '')
 	{
-		$CI->config->item('cookie_domain');
+		$domain = $CI->config->item('cookie_domain');
 	}
-	if ($prefix == '/' AND $CI->config->item('cookie_path') != '/')
+	if ($path == '/' AND $CI->config->item('cookie_path') != '/')
 	{
-		$CI->config->item('cookie_path');
+		$path = $CI->config->item('cookie_path');
 	}
 		
 	if ( ! is_numeric($expire))
