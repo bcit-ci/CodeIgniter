@@ -496,7 +496,7 @@ and the error messages will contain a more relevant field name.</p>
 <p>If you prefer to show an error message next to each form field, rather than as a list, you can change your form so that it looks like this:</p>
 
 
-&lt;textarea class="textarea" style="width:100%" cols="50" rows="20">
+<textarea class="textarea" style="width:100%" cols="50" rows="20">
 &lt;h5>Username&lt;/h5>
 &lt;?=$this->validation->username_error; ?>
 &lt;input type="text" name="username" value="&lt;?=$this->validation->username;?>" size="50" />
@@ -511,7 +511,7 @@ and the error messages will contain a more relevant field name.</p>
 
 &lt;h5>Email Address&lt;/h5>
 &lt;?=$this->validation->email_error; ?>
-&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" />&lt;/textarea>
+&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" /></textarea>
 
 <p>If there are no errors, nothing will be shown.  If there is an error, the message will appear, wrapped in the delimiters you
 have set (&lt;p> tags by default).</p>
