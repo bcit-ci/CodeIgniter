@@ -70,7 +70,6 @@ class CI_Xmlrpc {
 
 	function CI_Xmlrpc ($config = array())
 	{
-		
 		$this->xmlrpcName 		= $this->xmlrpcName;
 		$this->xmlrpc_backslash = chr(92).chr(92);
 		

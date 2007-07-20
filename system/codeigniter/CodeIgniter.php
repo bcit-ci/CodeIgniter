@@ -77,6 +77,7 @@ $EXT->_call_hook('pre_system');
  */
 
 $CFG =& load_class('Config');
+$URI =& load_class('URI');
 $RTR =& load_class('Router');
 $OUT =& load_class('Output');
 
@@ -101,7 +102,6 @@ if ($EXT->_call_hook('cache_override') === FALSE)
  */
 
 $IN		=& load_class('Input');
-$URI	=& load_class('URI');
 $LANG	=& load_class('Language');
 
 /*
@@ -213,7 +213,7 @@ else
 
 		// Call the requested method.
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience		
-		call_user_func_array(array(&$CI, $method), array_slice($RTR->rsegments, (($RTR->fetch_directory() == '') ? 2 : 3)));		
+		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, (($RTR->fetch_directory() == '') ? 2 : 3)));		
 	}
 }
 
