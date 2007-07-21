@@ -58,7 +58,7 @@ class CI_URI {
 	 * @return	string
 	 */	
 	function _fetch_uri_string()
-	{
+	{	
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
 			// If the URL has a question mark then it's simplest to just
@@ -71,6 +71,7 @@ class CI_URI {
 				// of PHP we can not pass function call directly into it
 				$keys = array_keys($_GET);
 				$this->uri_string = current($keys);
+				return;
 			}
 		
 			// Is there a PATH_INFO variable?
@@ -79,6 +80,7 @@ class CI_URI {
 			if ($path != '' AND $path != "/".SELF)
 			{
 				$this->uri_string = $path;
+				return;
 			}
 					
 			// No PATH_INFO?... What about QUERY_STRING?
@@ -86,6 +88,7 @@ class CI_URI {
 			if ($path != '')
 			{
 				$this->uri_string = $path;
+				return;
 			}
 			
 			// No QUERY_STRING?... Maybe the ORIG_PATH_INFO variable exists?
@@ -93,6 +96,7 @@ class CI_URI {
 			if ($path != '' AND $path != "/".SELF)
 			{
 				$this->uri_string = $path;
+				return;
 			}
 
 			// We've exhausted all our options...
@@ -105,6 +109,7 @@ class CI_URI {
 			if ($uri == 'REQUEST_URI')
 			{
 				$this->uri_string = $this->_parse_request_uri();
+				return;
 			}
 			
 			$this->uri_string = (isset($_SERVER[$uri])) ? $_SERVER[$uri] : @getenv($uri);
@@ -116,7 +121,7 @@ class CI_URI {
 			$this->uri_string = '';
 		}		
 	}
-
+	
 	// --------------------------------------------------------------------
 	
 	/**
