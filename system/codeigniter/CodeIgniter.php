@@ -186,6 +186,8 @@ $assign_to_controller = ( ! isset($assign_to_controller)) ? NULL : $assign_to_co
 
 $CI = new $class($assign_to_controller);
 
+unset($assign_to_controller);
+
 // Is this a scaffolding request?
 if ($RTR->scaffolding_request === TRUE)
 {
