@@ -66,6 +66,7 @@ Change Log
 <p>Release Date: -- still in development </p>
 <ul>
 	<li>Added $this->DB->save_queries variable to DB driver, enabling queries to get saved or no. Previously they were always saved.</li>
+	<li>Added <dfn>$assign_to_controller</dfn> variable in the main <kbd>index.php</kbd> file.  Anything that this variable contains will be passed automatically to a controller constructor when initialized.</li>
 	<li>Reorganized the URI and Routes classes for better clarity.</li>
     <li>Fixed a bug in database driver where num_rows property wasn't getting updated </li>
     <li>Fixed a bug in captcha calling an invalid PHP function</li>
