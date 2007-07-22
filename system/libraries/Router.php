@@ -252,7 +252,7 @@ class CI_Router {
 		}
 				
 		// Loop through the route array looking for wild-cards
-		foreach (array_slice($this->routes, 1) as $key => $val)
+		foreach ($this->routes as $key => $val)
 		{						
 			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
