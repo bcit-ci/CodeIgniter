@@ -45,6 +45,19 @@
 
 
 /*
+|---------------------------------------------------------------
+| Dynamic Global Data Assignment
+|---------------------------------------------------------------
+|
+| If you need any data passed by default to your controllers you
+| can use this variable.  When a controller class is instantiated
+| this data will be passed to the constructor.
+|
+*/
+	$global_data = NULL;
+
+
+/*
 |===============================================================
 | END OF USER CONFIGURABLE SETTINGS
 |===============================================================
