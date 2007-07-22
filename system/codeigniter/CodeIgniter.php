@@ -182,9 +182,9 @@ $EXT->_call_hook('pre_controller');
 $BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
 // Instantiate the Controller and pass any global data that might exist
-$global_data = ( ! isset($global_data)) ? NULL : $global_data;
+$assign_to_controller = ( ! isset($assign_to_controller)) ? NULL : $assign_to_controller;
 
-$CI = new $class($global_data);
+$CI = new $class($assign_to_controller);
 
 // Is this a scaffolding request?
 if ($RTR->scaffolding_request === TRUE)
