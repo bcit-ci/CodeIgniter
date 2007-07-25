@@ -69,8 +69,9 @@ class CI_URI {
 			{
 				// Note: Due to a bug in current() that affects some versions
 				// of PHP we can not pass function call directly into it
-				$keys = array_keys($_GET);
-				$this->uri_string = current($keys);
+				$key = array_keys($_GET);
+				$index = current($key);
+				$this->uri_string = $_GET[$index];				
 				return;
 			}
 		
