@@ -30,10 +30,10 @@ The above function will be passed the name of your form.
 
 Then to show the actual calendar you'll do this:
 
-<?php echo js_calendar_write('entry_date', time(), true); ?>
+<?php echo js_calendar_write('entry_date', time(), true);?>
 <form name="my_form">
 <input type="text" name="entry_date" value="" onblur="update_calendar(this.name, this.value);" />
-<p><a href="javascript:void(0);" onClick="set_to_time('entry_date', '<?php echo time(); ?>')" >Today</a></p>
+<p><a href="javascript:void(0);" onClick="set_to_time('entry_date', '<?php echo time();?>')" >Today</a></p>
 </form>
 
 
@@ -126,15 +126,37 @@ Lastly, you'll need some CSS for your calendar:
 
 function js_calendar_script($form_name = 'entryform')
 {		
-
+$CI =& get_instance();
+$CI->load->language('calendar');
 ob_start();
 ?>
 <script type="text/javascript">
 <!--
 var form_name	= "<?php echo $form_name; ?>";
 var format		= 'us'; // eu or us
-var days		= new Array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa');
-var months		= new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+var days		= new Array(
+					'<?php echo $CI->lang->line('cal_su');?>', // Sunday, short name
+					'<?php echo $CI->lang->line('cal_mo');?>', // Monday, short name
+					'<?php echo $CI->lang->line('cal_tu');?>', // Tuesday, short name
+					'<?php echo $CI->lang->line('cal_wed');?>', // Wednesday, short name
+					'<?php echo $CI->lang->line('cal_thu');?>', // Thursday, short name
+					'<?php echo $CI->lang->line('cal_fri');?>', // Friday, short name
+					'<?php echo $CI->lang->line('cal_sat');?>' // Saturday, short name
+				);
+var months		= new Array(
+					'<?php echo $CI->lang->line('cal_january');?>',
+					'<?php echo $CI->lang->line('cal_february');?>',
+					'<?php echo $CI->lang->line('cal_march');?>',
+					'<?php echo $CI->lang->line('cal_april');?>',
+					'<?php echo $CI->lang->line('cal_mayl');?>',
+					'<?php echo $CI->lang->line('cal_june');?>',
+					'<?php echo $CI->lang->line('cal_july');?>',
+					'<?php echo $CI->lang->line('cal_august');?>',
+					'<?php echo $CI->lang->line('cal_september');?>',
+					'<?php echo $CI->lang->line('cal_october');?>',
+					'<?php echo $CI->lang->line('cal_november');?>',
+					'<?php echo $CI->lang->line('cal_december');?>'
+				);
 var last_click	= new Array();
 var current_month  = '';
 var current_year   = '';
@@ -419,6 +441,7 @@ function update_calendar(id, dateValue)
 //	Set the date
 function set_date(td, cal)
 {					
+
 	cal = eval(cal);
 	
 	// If the user is clicking a cell that is already
@@ -456,7 +479,7 @@ function set_date(td, cal)
 	// Insert the date into the form
 	insert_date(cal);
 }
-
+/*
 //	Insert the date into the form field
 function insert_date(cal)
 {
@@ -474,7 +497,7 @@ function insert_date(cal)
 		fval.value = new_date;
 	}	
 }
-		
+*/		
 //	Remove the date from the form field
 function remove_date(cal)
 {
