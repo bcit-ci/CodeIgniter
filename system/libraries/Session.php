@@ -436,7 +436,8 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
-	 * @access	array
+	 * @access	public
+	 * @param	array
 	 * @return	void
 	 */		
 	function unset_userdata($newdata = array())
