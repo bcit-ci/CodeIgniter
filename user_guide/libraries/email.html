@@ -89,9 +89,9 @@ Email Class
 <code>$this->load->library('email');<br />
 <br />
 $this->email->from('your@your-site.com', 'Your Name');<br />	
-$this->email->to('someone@some-site.com'); <br />
-$this->email->cc('another@another-site.com'); <br />
-$this->email->bcc('them@their-site.com'); <br />
+$this->email->to('someone@example.com'); <br />
+$this->email->cc('another@another-example.com'); <br />
+$this->email->bcc('them@their-example.com'); <br />
 <br />
 $this->email->subject('Email Test');<br />
 $this->email->message('Testing the email class.');	<br />
@@ -192,10 +192,11 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 <h3>$this->email->to()</h3>
 <p>Sets the email address(s) of the recipient(s).  Can be a single email, a comma-delimited list or an array:</p>
 
-<code>$this->email->to('<var>someone@some-site.com</var>');</code>
-<code>$this->email->to('<var>one@some-site.com</var>', '<var>two@some-site.com</var>', '<var>three@some-site.com</var>');</code>
+<code>$this->email->to('<var>someone@example.com</var>');</code>
+<code>$this->email->to('<var>one@example.com</var>, <var>two@example.com</var>, <var>three@example.com</var>');</code>
 
-<code>$list = array('<var>one@some-site.com</var>', '<var>two@some-site.com</var>', '<var>three@some-site.com</var>');<br /><br />
+<code>$list = array('<var>one@example.com</var>', '<var>two@example.com</var>', '<var>three@example.com</var>');<br />
+<br />
 $this->email->to(<var>$list</var>);</code>
 
 <h3>$this->email->cc()</h3>
@@ -276,7 +277,7 @@ word wrapping within part of your message like this:</p>
 <code>The text of your email that<br />
 gets wrapped normally.<br />
 <br />
-<var>{unwrap}</var>http://www.some-site.com/a_long_link_that_should_not_be_wrapped.html<var>{/unwrap}</var><br />
+<var>{unwrap}</var>http://www.example.com/a_long_link_that_should_not_be_wrapped.html<var>{/unwrap}</var><br />
 <br />
 More text that will be<br />
 wrapped normally.</code>
