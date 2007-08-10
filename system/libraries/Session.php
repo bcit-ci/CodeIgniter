@@ -36,7 +36,7 @@ class CI_Session {
 	var $userdata		= array();
 	var $gc_probability	= 5;
 	var $flashdata_key 	= 'flash';
-	var $time_to_update	= 300; // 5 mintues, not accessible from config settings
+	var $time_to_update	= 300;
 
 	/**
 	 * Session Constructor
