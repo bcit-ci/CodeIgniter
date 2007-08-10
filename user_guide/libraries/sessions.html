@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>CodeIgniter User Guide : Session Class</title>
+<title>CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -33,7 +33,7 @@ window.onload = function() {
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.5.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.5.3</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -93,7 +93,7 @@ will cause it to read, create, and update sessions.</p>
 
 <p>When a page is loaded, the session class will check to see if valid session data exists in the user's session cookie.
 If sessions data does <strong>not</strong> exist (or if it has expired) a new session will be created and saved in the cookie.
-If a session does exist, its information will be updated and the cookie will be updated.</p>
+If a session does exist, its information will be updated and the cookie will be updated. With each update, the session_id will be regenerated.</p>
 
 <p>It's important for you to understand that once initialized, the Session class runs automatically.  There is nothing
 you need to do to cause the above behavior to happen.  You can, as you'll see below, work with session data or
@@ -105,7 +105,7 @@ even add your own data to a user's session, but the process of reading, writing,
 <p>A <em>session</em>, as far as CodeIgniter is concerned, is simply an array containing the following information:</p>
 
 <ul>
-<li>The user's unique Session ID (this is a statistically random string with very strong entropy, hashed with MD5 for portability)</li>
+<li>The user's unique Session ID (this is a statistically random string with very strong entropy, hashed with MD5 for portability, and regenerated (by default) every five minutes)</li>
 <li>The user's IP Address</li>
 <li>The user's User Agent data (the first 50 characters of the browser data string)</li>
 <li>The "last activity" and "last visit" time stamps.</li>
@@ -127,9 +127,9 @@ making the data highly secure and impervious to being read or altered by someone
 can be <a href="encryption.html">found here</a>, although the Session class will take care of initializing
 and encrypting the data automatically.</p>
 
-<p>Note: Session cookies are only updated every five minutes to reduce processor load.  If you repeatedly reload a page
+<p>Note: Session cookies are only updated every five minutes by default to reduce processor load.  If you repeatedly reload a page
 you'll notice that the "last activity" time only updates if five minutes or more has passed since the last time
-the cookie was written.</p>
+the cookie was written. This time is configurable my changing the $config['time_to_update'] line in your system/config/config.php file.</p>
 
 <h2>Retrieving Session Data</h2>
 
@@ -163,7 +163,7 @@ having to run a database query when you need it.</p>
 
 <p><code>$newdata = array(<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'username'&nbsp; => 'johndoe',<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'email'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'johndoe@example.com',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'email'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'johndoe@some-site.com',<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'logged_in' => TRUE<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
     <br />
@@ -173,8 +173,17 @@ having to run a database query when you need it.</p>
 <p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity.  The
 encryption process in particular produces a longer data string than the original so keep careful track of how much data you are storing.</p>
 
+<h2>Flashdata</h2>
+<p>CodeIgniter supports &quot;flashdata&quot;, or session data that will only ba available for the next server request, and are then automatically cleared. These can be very useful, and are typically used for informational or status messages (for example: &quot;record 2 deleted&quot;).</p>
+<p>Note: Flash variables are prefaced with &quot;flash_&quot; so avoid this prefix in your own session names.</p>
+<p>To add flashdata:</p>
+<p><code>$this-&gt;session-&gt;set_flashdata('item', 'value');</code></p>
+<p>You can also pass an array to set_flashdata(), in the same manner as set_userdata(). </p>
+<p>To read a flashdata variable:</p>
+<p><code>$this-&gt;session-&gt;flashdata('item');</code></p>
+<p>If you find that you need to preserve a flashdata variable through an additional request, you can do so using the keep_flashdata() function.</p>
+<p><code>$this-&gt;session-&gt;keep_flashdata('item');</code></p>
 <h2>Saving Session Data to a Database</h2>
-
 <p>While the session data array stored in the user's cookie contains a Session ID,
 unless you store session data in a database there is no way to validate it.  For some applications that require little or no
 security, session ID validation may not be needed, but if your application requires security, validation is mandatory.</p>
@@ -211,10 +220,7 @@ Once you have created your database table you can enable the database option in 
 do not need to write your own routine to do it.</p>
 
 
-<h2>Removing  Session Data </h2>
-<p>To remove a single item from the session</p>
-<p><code>$this-&gt;session-&gt;unset_userdata('item');</code></p>
-<h2>Destroying a Session</h2>
+<h2>Destroying a Session </h2>
 <p>To clear the current session: </p>
 <code>$this-&gt;session-&gt;sess_destroy();</code>
 <h2>Session Preferences</h2>
