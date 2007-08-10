@@ -405,7 +405,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (trim($direction) != '')
 		{
-			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC', 'RAND()'), TRUE)) ? ' '.$direction : ' ASC';
+			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 		
 		$this->ar_orderby[] = $orderby.$direction;
