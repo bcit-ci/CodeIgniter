@@ -223,11 +223,11 @@ echo timespan($post_date, $now);</code>
 <code>echo days_in_month(06, 2005);</code>
 
 <p>If the second parameter is empty, the current year will be used.</p>
-
-
-
+<h2>timezones()</h2>
+<p> Takes a timezone reference (for a list of valid timezones, see the &quot;Timezone Reference&quot; below) and returns the number of hours offset from UTC.</p>
+<p><code>echo timezones('UM5');</code></p>
+<p>This function is useful when used with timezone_menu(). </p>
 <h2>timezone_menu()</h2>
-
 <p>Generates a pull-down menu of timezones, like this one:</p>
 
 <form>
