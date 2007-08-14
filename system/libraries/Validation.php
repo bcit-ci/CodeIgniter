@@ -317,7 +317,7 @@ class CI_Validation {
 					}
 					else
 					{
-						$line = $this->_error_messages[$rule];;
+						$line = $this->_error_messages[$rule];
 					}				
 
 					// Build the error message
