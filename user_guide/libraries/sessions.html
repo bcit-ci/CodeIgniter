@@ -173,6 +173,13 @@ having to run a database query when you need it.</p>
 <p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity.  The
 encryption process in particular produces a longer data string than the original so keep careful track of how much data you are storing.</p>
 
+<h2>Removing Session Data</h2>
+<p>Just as set_userdata() can be used to add information into a session, unset_userdata() can be used to remove it, by passing the session key. For example, if you wanted to remove 'some_name' from your session information: </p>
+<p><code>$this-&gt;session-&gt;unset_userdata('some_name');</code></p>
+<p>This function can also be passed an array of items to unset.</p>
+<p><code>$array_items = array('username', 'email');<br />
+<br />
+$this-&gt;session-&gt;set_userdata(<samp>$array_items</samp>);</code></p>
 <h2>Flashdata</h2>
 <p>CodeIgniter supports &quot;flashdata&quot;, or session data that will only ba available for the next server request, and are then automatically cleared. These can be very useful, and are typically used for informational or status messages (for example: &quot;record 2 deleted&quot;).</p>
 <p>Note: Flash variables are prefaced with &quot;flash_&quot; so avoid this prefix in your own session names.</p>
