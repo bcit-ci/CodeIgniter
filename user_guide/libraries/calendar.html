@@ -171,14 +171,14 @@ regarding preferences below.</p>
 code similar to this example:</p>
 
 
-<code>$this->load->library('calendar');<br />
-<br />
-$prefs = array (<br />
+<code>$prefs = array (<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'show_next_prev'&nbsp;&nbsp;=> TRUE,<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'next_prev_url'&nbsp;&nbsp; => 'http://www.your-site.com/index.php/calendar/show/'<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
-echo $this->calendar->generate(<var>$this->uri->segment(3)</var>, <var>$this->uri->segment(4)</var>, $prefs);</code>
+$this-&gt;load-&gt;library('calendar', $prefs);<br />
+<br />
+echo $this->calendar->generate(<var>$this->uri->segment(3)</var>, <var>$this->uri->segment(4)</var>);</code>
 
 <p>You'll notice a few things about the above example:</p>
 
