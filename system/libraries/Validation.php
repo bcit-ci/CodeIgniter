@@ -490,7 +490,7 @@ class CI_Validation {
 	 */
 	function valid_ip($ip)
 	{
-		return $this->CI->valid_ip($ip);
+		return $this->CI->input->valid_ip($ip);
 	}
 
 	// --------------------------------------------------------------------
