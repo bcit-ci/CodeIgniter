@@ -220,7 +220,7 @@ class CI_Session {
 		}
 		
 		// Does the User Agent Match?
-		if ($this->CI->config->item('sess_match_useragent') == TRUE AND $session['user_agent'] != substr($this->CI->input->user_agent(), 0, 50))
+		if ($this->CI->config->item('sess_match_useragent') == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			$this->sess_destroy();
 			return FALSE;
