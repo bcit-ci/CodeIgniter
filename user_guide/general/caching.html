@@ -89,6 +89,7 @@ and sent to the requesting user's browser.  If it has expired, it will be delete
 <p>The above tag can go anywhere within a function. It is not affected by the order that it appears, so place it wherever it seems
 most logical to you. Once the tag is in place, your pages will begin being cached.</p>
 
+<p class="important"><strong>Warning:</strong> Because of the way CodeIgniter stores content for output, caching will only work if you are generating display for your controller with a <a href="./views.html">view</a>.</p>
 <p class="important"><strong>Note:</strong> Before the cache files can be written you must set the file permissions on your
 <dfn>system/cache</dfn> folder such that it is writable (666 is usually appropriate).</p>
 
