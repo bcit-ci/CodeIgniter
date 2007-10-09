@@ -70,13 +70,13 @@ Models
 <li><a href="#what">What is a Model?</a></li>
 <li><a href="#anatomy">Anatomy of a Model</a></li>
 <li><a href="#loading">Loading a Model</a></li>
+<li><a href="#auto_load_model">Auto-Loading a Model</a> </li>
 <li><a href="#conn">Connecting to your Database</a></li>
-
 </ul>
 
 
-<a name="what"></a>
-<h2>What is a Model?</h2>
+
+<h2><a name="what"></a>What is a Model?</h2>
 
 <p>Models are PHP classes that are designed to work with information in your database.  For example, let's say
 you use CodeIgniter to manage a blog.  You might have a model class that contains functions to insert, update, and
@@ -124,8 +124,8 @@ class&nbsp;Blogmodel&nbsp;extends&nbsp;Model&nbsp;{<br />
 <p>Note: The functions in the above example use the <a href="../database/active_record.html">Active Record</a> database functions.</p>
 
 
-<a name="anatomy"></a>
-<h2>Anatomy of a Model</h2>
+
+<h2><a name="anatomy"></a>Anatomy of a Model</h2>
 
 <p>Model classes are stored in your <dfn>application/models/</dfn> folder.  They can be nested within sub-folders if you
 want this type of organization.</p>
@@ -161,8 +161,8 @@ class&nbsp;<var>User_model</var>&nbsp;extends&nbsp;Model&nbsp;{<br />
 <code>application/models/<var>user_model.php</var></code>
 
 
-<a name="loading"></a>
-<h2>Loading a Model</h2>
+
+<h2><a name="loading"></a>Loading a Model</h2>
 
 <p>Your models will typically be loaded and called from within your <a href="controllers.html">controller</a> functions.
 To load a model you will use the following function:</p>
@@ -207,10 +207,11 @@ class&nbsp;Blog_controller&nbsp;extends&nbsp;Controller&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
+<h2><a name="auto_load_model" id="auto_load_model"></a>Auto-loading Models</h2>
+<p>If you find that you need a particular model globally throughout your  application, you can tell CodeIgniter to auto-load it during system  initialization.  This is done by opening the application/config/autoload.php file and adding the mdoel to the autoload array.</p>
 
 
-<a name="conn"></a>
-<h2>Connecting to your Database</h2>
+<h2><a name="conn"></a>Connecting to your Database</h2>
 
 <p>When a model is loaded it does <strong>NOT</strong> connect automatically to your database.  The following options for connecting are available to you:</p>
 

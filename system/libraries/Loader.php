@@ -107,8 +107,19 @@ class CI_Loader {
 	 */	
 	function model($model, $name = '', $db_conn = FALSE)
 	{		
-		if ($model == '')
+		if (is_array($model))
+		{
+			foreach($model as $babe)
+			{
+				$this->model($babe);	
+			}
 			return;
+		}
+
+		if ($model == '')
+		{
+			return;
+		}
 	
 		// Is the model in a sub-folder? If so, parse out the filename and path.
 		if (strpos($model, '/') === FALSE)
@@ -855,6 +866,12 @@ class CI_Loader {
 			}		
 		}
 
+		// Autoload models
+		if (isset($autoload['model']))
+		{
+			$this->model($autoload['model']);
+		}
+
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
 		if ( ! isset($autoload['libraries']))
@@ -875,6 +892,7 @@ class CI_Loader {
 			// Load the model class.
 			if (in_array('model', $autoload['libraries']))
 			{
+				die('made it in!');
 				$this->model();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('model'));
 			}
