@@ -23,6 +23,7 @@
 | 3. Plugins
 | 4. Custom config files
 | 5. Language files
+| 6. Models
 |
 */
 
@@ -95,6 +96,20 @@ $autoload['config'] = array();
 */
 
 $autoload['language'] = array();
+
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Models
+| -------------------------------------------------------------------
+| Prototype:
+|
+|	$autoload['model'] = array('model1', 'model2');
+|
+*/
+
+$autoload['model'] = array();
+
 
 /*
 | -------------------------------------------------------------------
