@@ -202,7 +202,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			
 			for($i=0; $i < sizeof($parser_object->xh[$parser]['params']); $i++)
 			{
-				$plist .= "$i - " .  print_r(get_object_vars($parser_object->xh[$parser]['params'][$i]), TRUE). ";\n";
+				if ($this->debug === TRUE)
+				{
+					$plist .= "$i - " .  print_r(get_object_vars($parser_object->xh[$parser]['params'][$i]), TRUE). ";\n";
+				}
 				
 				$m->addParam($parser_object->xh[$parser]['params'][$i]);
 			}
