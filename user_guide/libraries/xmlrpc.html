@@ -151,7 +151,7 @@ you will have to include the data type in the request array.</p>
 
 <p>Here is an example of a simple array with three parameters:</p>
 
-<code>$request = array('John', 'Doe', 'www.example.com');<br />
+<code>$request = array('John', 'Doe', 'www.some-site.com');<br />
 $this->xmlrpc->request($request);</code>
 
 <p>If you use data types other than strings, or if you have several different data types, you will place
@@ -257,7 +257,7 @@ function might look:</p>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'struct');<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->xmlrpc->send_response($response);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $this->xmlrpc->send_response($response);<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }
 </code>
@@ -277,13 +277,13 @@ In the above example, the output parameters will be the username and password.</
 <strong>that contains a single item</strong>.  This item can be an array with several additional arrays, but there
 can be only one primary array index.  In other words, the basic prototype is this:</p>
 
-<code>$request = array('Response data',  'array');</code>
+<code>$response = array('Response data',  'array');</code>
 
 <p>Responses, however, usually contain multiple pieces of information. In order to accomplish this we must put the response into its own
 array so that the primary array continues to contain a single piece of data.  Here's an example showing how this might be accomplished:</p>
 
 <code>
-$request = array (<br />
+$response = array (<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'first_name' => array('John', 'string'),<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'last_name' => array('Doe', 'string'),<br />
@@ -366,7 +366,6 @@ class Xmlrpc_server extends Controller {
 
 	function index()
 	{
-	
 		$this->load->library('xmlrpc');
 		$this->load->library('xmlrpcs');
 		
