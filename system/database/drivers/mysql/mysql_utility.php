@@ -218,14 +218,31 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					$v = str_replace('\\\n', '\n',	$v);
 					$v = str_replace('\\\r', '\r',	$v);
 					$v = str_replace('\\\t', '\t',	$v);
-				
-					// Escape the data if it's not an integer type
-					$val_str .= ($is_int[$i] == FALSE) ? $this->db->escape($v) : $v;
-					$val_str .= ', ';
+
+					// Is the value NULL?
+					if ($v == NULL)
+					{
+						$val_str .= 'NULL';
+					}
+					else
+					{
+						// Escape the data if it's not an integer
+						if ($is_int[$i] == FALSE)
+						{
+							$val_str .= $this->db->escape($v);
+						}
+						else
+						{
+							$val_str .= $v;
+						}					
+					}					
 					
+					// Append a comma
+					$val_str .= ', ';
 					$i++;
 				}
 				
+				// Remove the comma at the end of the string
 				$val_str = preg_replace( "/, $/" , "" , $val_str);
 								
 				// Build the INSERT string
