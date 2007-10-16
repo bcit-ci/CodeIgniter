@@ -195,7 +195,7 @@ class CI_Validation {
 			$ex = explode('|', $rules);
 
 			// Is the field required?  If not, if the field is blank  we'll move on to the next test
-			if ( ! in_array('required', $ex, TRUE) AND strpos($rules, 'callback_') === FALSE)
+			if ( ! in_array('required', $ex, TRUE))
 			{
 				if ( ! isset($_POST[$field]) OR $_POST[$field] == '')
 				{
@@ -546,7 +546,7 @@ class CI_Validation {
 	 */	
 	function numeric($str)
 	{
-		return ( ! ereg("^[0-9\.]+$", $str)) ? FALSE : TRUE;
+		return ! preg_match('/[^0-9]/', $str);
 	}
 
 	// --------------------------------------------------------------------
