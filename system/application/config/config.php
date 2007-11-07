@@ -139,7 +139,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_-';
 |
 | Options are: TRUE or FALSE (boolean)
 |
-| The two other items let you set the query string "words" that will
+| The other items let you set the query string "words" that will
 | invoke your controllers and its functions:
 | www.your-site.com/index.php?c=controller&m=function
 |
@@ -149,6 +149,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_-';
 |
 */
 $config['enable_query_strings'] = FALSE;
+$config['directory_trigger'] = 'd';
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 
