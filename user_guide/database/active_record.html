@@ -360,7 +360,13 @@ The second parameter lets you set the direction of the result.  Options are <kbd
 <code>$this->db->orderby('title desc, name asc');
 <br /><br />// Produces: ORDER BY title DESC, name ASC
 </code>
-	
+
+<p>Or multiple function calls can be made if you need multiple fields.</p>
+
+<code>$this->db->orderby("title", "desc");<br />
+$this->db->orderby("name", "asc");
+<br /><br />// Produces: ORDER BY title DESC, name ASC
+</code>	
 
 
 <h2>$this->db->limit();</h2>
