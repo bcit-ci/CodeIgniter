@@ -778,18 +778,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * ORDER BY - DEPRECATED
-	 *
-	 * @deprecated	use $this->db->orderby() instead
-	 */
-	function order_by($orderby, $direction = '')
-	{
-		return $this->orderby($orderby, $direction);
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
 	 * Tests whether the string has an SQL operator
 	 *
 	 * @access	private
