@@ -204,7 +204,7 @@ class Scaffolding {
 		$primary = $this->CI->db->primary($this->current_table);				
 
 		// Run the query
-		$query = $this->CI->db->getwhere($this->current_table, array($primary => $id));
+		$query = $this->CI->db->get_where($this->current_table, array($primary => $id));
 
 		$data = array(
 						'title'	=>  ( ! isset($this->lang['scaff_edit'])) ? 'Edit Data' : $this->lang['scaff_edit'],
