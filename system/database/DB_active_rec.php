@@ -185,9 +185,21 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	object
 	 */
-	function orwhere($key, $value = NULL)
+	function or_where($key, $value = NULL)
 	{
 		return $this->_where($key, $value, 'OR ');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * orwhere() is an alias of or_where()
+	 * this function is here for backwards compatibility, as
+	 * orwhere() has been deprecated
+	 */
+	function orwhere($key, $value = NULL)
+	{
+		return $this->or_where($key, $value);
 	}
 	
 	// --------------------------------------------------------------------
@@ -244,9 +256,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	object
 	 */
-	function like($field, $match = '')
+	function like($field, $match = '', $side = 'both')
 	{
-		return $this->_like($field, $match, 'AND ');
+		return $this->_like($field, $match, 'AND ', $side);
 	}
 	
 	// --------------------------------------------------------------------
@@ -262,9 +274,21 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	object
 	 */
-	function orlike($field, $match = '')
+	function or_like($field, $match = '', $side = 'both')
 	{
-		return $this->_like($field, $match, 'OR ');
+		return $this->_like($field, $match, 'OR ', $side);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * orlike() is an alias of or_like()
+	 * this function is here for backwards compatibility, as
+	 * orlike() has been deprecated
+	 */
+	function orlike($field, $match = '', $side = 'both')
+	{
+		return $this->orlike($field, $match, $side);
 	}
 	
 	// --------------------------------------------------------------------
@@ -280,7 +304,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function _like($field, $match = '', $type = 'AND ')
+	function _like($field, $match = '', $type = 'AND ', $side = 'both')
 	{
 		if ( ! is_array($field))
 		{
@@ -292,8 +316,19 @@ class CI_DB_active_record extends CI_DB_driver {
 			$prefix = (count($this->ar_like) == 0) ? '' : $type;
 			
 			$v = $this->escape_str($v);
-									
-			$this->ar_like[] = $prefix." $k LIKE '%{$v}%'";
+			
+			if ($side == 'before')
+			{
+				$this->ar_like[] = $prefix." $k LIKE '%{$v}'";
+			}
+			elseif ($side == 'after')
+			{
+				$this->ar_like[] = $prefix." $k LIKE '{$v}%'";
+			}
+			else
+			{
+				$this->ar_like[] = $prefix." $k LIKE '%{$v}%'";
+			}
 		}
 		return $this;
 	}
@@ -307,7 +342,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function groupby($by)
+	function group_by($by)
 	{
 		if (is_string($by))
 		{
@@ -323,7 +358,19 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		return $this;
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * groupby() is an alias of group_by()
+	 * this function is here for backwards compatibility, as
+	 * groupby() has been deprecated
+	 */
+	function groupby($by)
+	{
+		return $this->group_by($by);
+	}	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -401,7 +448,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	direction: asc or desc
 	 * @return	object
 	 */
-	function orderby($orderby, $direction = '')
+	function order_by($orderby, $direction = '')
 	{
 		if (trim($direction) != '')
 		{
@@ -411,7 +458,17 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_orderby[] = $orderby.$direction;
 		return $this;
 	}
-	
+	// --------------------------------------------------------------------
+
+	/**
+	 * orderby() is an alias of order_by()
+	 * this function is here for backwards compatibility, as
+	 * orderby() has been deprecated
+	 */
+	function orderby($orderby, $direction = '')
+	{
+		return $this->order_by($orderby, $direction);
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -509,7 +566,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * GetWhere
+	 * Get_Where
 	 *
 	 * Allows the where clause, limit and offset to be added directly
 	 *
@@ -519,7 +576,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	function getwhere($table = '', $where = null, $limit = null, $offset = null)
+	function get_where($table = '', $where = null, $limit = null, $offset = null)
 	{
 		if ($table != '')
 		{
@@ -541,6 +598,18 @@ class CI_DB_active_record extends CI_DB_driver {
 		$result = $this->query($sql);
 		$this->_reset_select();
 		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * getwhere() is an alias of get_where()
+	 * this function is here for backwards compatibility, as
+	 * getwhere() has been deprecated
+	 */
+	function getwhere($table = '', $where = null, $limit = null, $offset = null)
+	{
+		return $this->get_where($table, $where, $limit, $offset);
 	}
 	
 	// --------------------------------------------------------------------
