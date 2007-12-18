@@ -392,6 +392,18 @@ $this->db->limit(10, 20);<br />
 // Produces: LIMIT 20, 10 (in MySQL.  Other databases have slightly different syntax)</code>
 
 
+<h2>$this->db->count_all_results();</h2>
+
+<p>Permits you to determine the number of rows in a particular Active Record query. Queries will accept Active Record restrictors such as where(),  or_where(), like(), or_like(), etc. Example:</p>
+<code>echo $this->db->count_all_results('<var>my_table</var>');<br />
+
+// Produces an integer, like 25<br />
+<br />
+$this-&gt;db-&gt;like('title', 'match');<br />
+$this-&gt;db-&gt;from('<var>my_table</var>');<br />
+echo $this-&gt;db-&gt;count_all_results();<br />
+// Produces an integer, like 17 </code>
+
 <h2>$this->db->count_all();</h2>
 
 <p>Permits you to determine the number of rows in a particular table.  Submit the table name in the first parameter. Example:</p>
@@ -399,7 +411,6 @@ $this->db->limit(10, 20);<br />
 <code>echo $this->db->count_all('<var>my_table</var>');<br />
 <br />
 // Produces an integer, like 25</code>
-
 
 
 	

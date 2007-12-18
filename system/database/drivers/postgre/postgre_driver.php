@@ -31,6 +31,13 @@
 class CI_DB_postgre_driver extends CI_DB {
 
 	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	var $count_string = "SELECT COUNT(*) AS numrows ";
+
+	/**
 	 * Non-persistent database connection
 	 *
 	 * @access	private called by the base class
@@ -277,9 +284,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		if ($table == '')
 			return '0';
-	
-		$query = $this->query('SELECT COUNT(*) AS numrows FROM "'.$this->dbprefix.$table.'"');
-		
+
+		$query = $this->query($this->count_string .'FROM "'.$this->dbprefix.$table.'"');
+//		original query before count_string was used.  Kept for reference
+//		$query = $this->query('SELECT COUNT(*) AS numrows FROM "'.$this->dbprefix.$table.'"');
+				
 		if ($query->num_rows() == 0)
 			return '0';
 
@@ -315,7 +324,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$this->_escape_table($table)."'"; 	
+		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$this->_escape_table($table)."'";
 	}
 
 	// --------------------------------------------------------------------

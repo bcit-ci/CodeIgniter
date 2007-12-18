@@ -43,6 +43,13 @@
 
 class CI_DB_oci8_driver extends CI_DB {
 
+	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	var $count_string = "SELECT COUNT(1) AS numrows ";
+
 	// Set "auto commit" by default
 	var $_commit = OCI_COMMIT_ON_SUCCESS;
 
@@ -389,7 +396,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 
-		$query = $this->query("SELECT COUNT(1) AS numrows FROM ".$table);
+		$query = $this->query($this->count_string . "FROM ".$table);
 
 		if ($query == FALSE)
 			{
