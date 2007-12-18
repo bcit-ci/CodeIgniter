@@ -31,18 +31,19 @@
 class CI_DB_mysql_driver extends CI_DB {
 
 	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	var $count_string = "SELECT COUNT(*) AS numrows ";
-
-	/**
 	 * Whether to use the MySQL "delete hack" which allows the number
 	 * of affected rows to be shown. Uses a preg_replace when enabled,
 	 * adding a bit more processing to all queries.
 	 */	
 	var $delete_hack = TRUE;
+	
+	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	var $_count_string = "SELECT COUNT(*) AS numrows ";
+	var $_random_keyword = ' RAND()'; // database specific random keyword
 
 	/**
 	 * Non-persistent database connection
@@ -296,7 +297,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query($this->count_string . "FROM `".$this->dbprefix.$table."`");
+		$query = $this->query($this->_count_string . "FROM `".$this->dbprefix.$table."`");
 		
 		if ($query->num_rows() == 0)
 			return '0';

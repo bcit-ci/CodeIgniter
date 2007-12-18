@@ -450,7 +450,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function order_by($orderby, $direction = '')
 	{
-		if (trim($direction) != '')
+		if (strtolower($direction) == 'random')
+		{
+			$orderby = ''; // Random results want or don't need a field name
+			$direction = $this->_random_keyword;
+		}
+		elseif (trim($direction) != '')
 		{
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
@@ -458,6 +463,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_orderby[] = $orderby.$direction;
 		return $this;
 	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -469,6 +475,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		return $this->order_by($orderby, $direction);
 	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -583,7 +590,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 		
-		$sql = $this->_compile_select($this->count_string);
+		$sql = $this->_compile_select($this->_count_string);
 
 		$query = $this->query($sql);
 		$this->_reset_select();

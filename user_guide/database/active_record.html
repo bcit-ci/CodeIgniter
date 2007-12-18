@@ -353,7 +353,7 @@ $this->db->or_like('body', $match);
 	
 <h2>$this->db->order_by();</h2>
 <p>Lets you set an ORDER BY clause. The first parameter contains the name of the column you would like to order by.
-The second parameter lets you set the direction of the result.  Options are <kbd>asc</kbd> or <kbd>desc</kbd></p>
+The second parameter lets you set the direction of the result.  Options are <kbd>asc</kbd> or <kbd>desc</kbd>, or <kbd>random</kbd>. </p>
 	
 <code>$this->db->order_by("title", "desc");
 <br />
@@ -375,6 +375,7 @@ The second parameter lets you set the direction of the result.  Options are <kbd
     // Produces: ORDER BY title DESC, name ASC
     </code></p>
 <p class="important">Note: order_by() was formerly known as orderby(), which has been deprecated.</p>
+<p class="important">Note: random ordering is not currently supported in Orcacle or MSSQL drivers. </p>
 <h2>$this->db->limit();</h2>
 <p>Lets you limit the number of rows you would like returned by the query:</p>
 

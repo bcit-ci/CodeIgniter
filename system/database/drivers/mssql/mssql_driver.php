@@ -35,7 +35,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $count_string = "SELECT COUNT(*) AS numrows ";
+	var $_count_string = "SELECT COUNT(*) AS numrows ";
 	
 	/**
 	 * Non-persistent database connection
@@ -280,7 +280,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query($this->count_string . "FROM ".$this->dbprefix.$table);
+		$query = $this->query($this->_count_string . "FROM ".$this->dbprefix.$table);
 		
 		if ($query->num_rows() == 0)
 			return '0';

@@ -66,10 +66,11 @@ Change Log
 	<li>Added <dfn>$assign_to_controller</dfn> variable in the main <kbd>index.php</kbd> file.  Anything that this variable contains will be passed automatically to a controller constructor when initialized.</li>
 	<li>Reorganized the URI and Routes classes for better clarity.</li>
     <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
-    <li>Removed &quot;rand()&quot; as a listed option from orderby in the <a href="./database/active_record.html">Active Record</a>, as it was MySQL only. </li>
+    <li>Removed &quot;rand()&quot; as a listed option from orderby in the <a href="./database/active_record.html">Active Record</a>, as it was MySQL only.</li>
+    <li>Added 'random' as an <kbd>order_by()</kbd> option in <a href="./database/active_record.html">Active Record</a>.</li>
     <li>Added titles to all user manual pages.</li>
     <li>Added a check for NULL fields in the MySQL database backup utility.</li>
-    <li>Documented the timezones() function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
+    <li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
     <li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
     <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
     <li>Added a few additional mime type variations for CSV.</li>
@@ -79,16 +80,16 @@ Change Log
     <li>Added <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
     <li>Added <kbd>count_all_results()</kbd> function to <a href="./database/active_record.html">Active Record</a>.</li>
     <li>Added a language entry for valid_ip validation error.</li>
-    <li>Added a third parameter to Active Record's like() clause to control where the wildcard goes. </li>
+    <li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
     <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
     <li>Fixed a bug in <kbd>highlight_pharse()</kbd> that caused an error with slashes.</li>
     <li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
     <li>Fixed a bug in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
-    <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where valid_ip() wasn't called properly.</li>
+    <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
     <li>Fixed a bug in the Session library where user agent matching would fail on user agents ending with a space. </li>
     <li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
     <li>Fixed a bug in captcha calling an invalid PHP function.</li>
-    <li>Fixed a bug in _html_entity_decode_callback() when 'global_xss_filtering' is enabled.</li>
+    <li>Fixed a bug in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
 	<li>Fixed a bug in the cookie helper "set_cookie" function.  It was not honoring the config settings.</li>
     <li>Fixed a bug that was making validation callbacks required even when not set as such.</li>
     <li>Fixed an example of comma-separated emails in the email library documentation.</li>
@@ -103,7 +104,7 @@ Change Log
     <li>Fixed a typo in the DocBlock comment for unset_userdata() in Session.</li>
     <li>Fixed a typo in the table library docs. </li>
     <li>Moved part of the userguide menu javascript to an external file. </li>
-    <li>Deprecated from Active Record; getwhere() for get_where(); groupby() for group_by(); orderby() for order_by; orwhere() for or_where(); and orlike() for or_like().</li>
+    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
 </ul>
 
 
