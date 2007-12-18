@@ -263,11 +263,31 @@ $this->db->where('name !=', $name);<br />
 $this->db->or_where('id >', $id);
 <br />
 <br />// Produces: WHERE name != 'Joe' OR id > 50</code>
-	
-	
-	
 
 <p class="important">Note: or_where() was formerly known as orwhere(), which has been deprecated.</p>
+
+
+<h2>$this->db->where_in();</h2>
+<p>This function is used to write WHERE clauses that contain the IN keyword.</p>
+
+<p><code>
+    $names = array('frank', 'Todd', 'James');<br />
+    $this->db->where_in('username', $names);<br />
+    // Produces: AND WHERE username IN ('frank', 'Todd', 'James')</code></p>
+<p>An optional third parameter can be used to specify if the WHERE statement should be separated with &quot;OR&quot; or &quot;AND&quot; in the event of multiple WHERE calls. The default is &quot;AND&quot;.</p>
+<p><code>$names = array('frank', 'Todd', 'James');<br />
+        <br />
+        $this-&gt;db-&gt;where('usergroup',  '5')<br />
+$this-&gt;db-&gt;where_in('username', $names);<br />
+// Produces: WHERE usergroup = '5' AND WHERE username IN ('frank', 'Todd', 'James')<br />
+<br />
+$this-&gt;db-&gt;where('usergroup',  '5')<br />
+$this-&gt;db-&gt;where_in('username', $names, 'and');<br />
+// Produces: WHERE usergroup = '5' AND WHERE username IN ('frank', 'Todd', 'James')<br />
+<br />
+$this-&gt;db-&gt;where('usergroup',  '5')<br />
+$this-&gt;db-&gt;where_in('username', $names, 'or');<br />
+// Produces: WHERE usergroup = '5' OR WHERE username IN ('frank', 'Todd', 'James')</code></p>
 <h2>$this->db->like();</h2>
 <p>This function enables you to generate <strong>LIKE</strong> clauses, useful for doing searches.</p>
 
