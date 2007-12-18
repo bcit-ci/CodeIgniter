@@ -41,6 +41,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_order		= FALSE;
 	var $ar_orderby		= array();
 	var $ar_set			= array();	
+	var $ar_wherein		= array();
+
 
 
 	/**
@@ -240,9 +242,41 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		return $this;
 	}
-	
-	
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where_in
+	 *
+	 * Generates a WHERE field IN ('item', 'item') SQL query
+	 *
+	 * @access	public
+	 * @param	string	The field to search
+	 * @param	array	The values searched on
+	 * @param	string	
+	 * @return	object
+	 */
+	function where_in($key = NULL, $values = NULL, $type = 'and')
+	{	 	
+		if ($key === NULL || !is_array($values))
+		{
+			return;
+		}
+
+		$type = (strtolower($type) == 'or') ? ' OR ' : ' AND ';
+
+		foreach ($values as $value)
+		{
+			$this->ar_wherein[] = $this->escape($value);
+		}
+
+		$prefix = (count($this->ar_where) == 0) ? '' : $type;
+ 	 			
+		$this->ar_where[] = $prefix.$key. " IN (" . implode(", ", $this->ar_wherein) . ") ";
+
+		return $this;
+	}
+		
 	// --------------------------------------------------------------------
 
 	/**
