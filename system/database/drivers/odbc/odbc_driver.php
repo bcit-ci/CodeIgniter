@@ -31,6 +31,13 @@
 class CI_DB_odbc_driver extends CI_DB {
 
 	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	var $count_string = "SELECT COUNT(*) AS numrows ";
+
+	/**
 	 * Non-persistent database connection
 	 *
 	 * @access	private called by the base class
@@ -251,7 +258,7 @@ class CI_DB_odbc_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM `".$this->dbprefix.$table."`");
+		$query = $this->query($this->count_string . "FROM `".$this->dbprefix.$table."`");
 		
 		if ($query->num_rows() == 0)
 			return '0';

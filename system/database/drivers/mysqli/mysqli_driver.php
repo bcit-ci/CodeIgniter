@@ -31,6 +31,13 @@
 class CI_DB_mysqli_driver extends CI_DB {
 
 	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	var $count_string = "SELECT COUNT(*) AS numrows ";
+	
+	/**
 	 * Whether to use the MySQL "delete hack" which allows the number
 	 * of affected rows to be shown. Uses a preg_replace when enabled,
 	 * adding a bit more processing to all queries.
@@ -224,8 +231,19 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @return	string
 	 */
 	function escape_str($str)	
-	{	
-		return mysqli_real_escape_string($this->conn_id, $str);
+	{
+		if (function_exists('mysqli_real_escape_string') AND is_resource($this->conn_id))
+		{
+			return mysqli_real_escape_string($this->conn_id, $str);
+		}
+		elseif (function_exists('mysql_escape_string'))
+		{
+			return mysql_escape_string($str);
+		}
+		else
+		{
+			return addslashes($str);
+		}
 	}
 		
 	// --------------------------------------------------------------------
@@ -271,7 +289,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM `".$this->dbprefix.$table."`");
+		$query = $this->query($this->count_string . "FROM `".$this->dbprefix.$table."`");
 		
 		if ($query->num_rows() == 0)
 			return '0';
@@ -290,9 +308,16 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private
 	 * @return	string
 	 */
-	function _list_tables()
+	function _list_tables($prefix_limit = FALSE)
 	{
-		return "SHOW TABLES FROM `".$this->database."`";		
+		$sql = "SHOW TABLES FROM `".$this->database."`";	
+		
+		if ($prefix_limit !== FALSE AND $this->_stdprefix != '')
+		{
+			$sql .= " LIKE '".$this->_stdprefix."%'";
+		}
+		
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------

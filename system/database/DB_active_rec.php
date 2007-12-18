@@ -540,6 +540,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * and runs the query
 	 *
 	 * @access	public
+	 * @param	string	the table
 	 * @param	string	the limit clause
 	 * @param	string	the offset clause
 	 * @return	object
@@ -561,6 +562,39 @@ class CI_DB_active_record extends CI_DB_driver {
 		$result = $this->query($sql);
 		$this->_reset_select();
 		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * "Count All Results" query
+	 *
+	 * Generates a platform-specific query string that counts all records 
+	 * returned by an Active Record query.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function count_all_results($table = '')
+	{
+		if ($table != '')
+		{
+			$this->from($table);
+		}
+		
+		$sql = $this->_compile_select($this->count_string);
+
+		$query = $this->query($sql);
+		$this->_reset_select();
+	
+		if ($query->num_rows() == 0)
+		{
+			return '0';
+		}
+
+		$row = $query->row();
+		return $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -806,11 +840,16 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	private
 	 * @return	string
 	 */
-	function _compile_select()
+	function _compile_select($select_override = FALSE)
 	{
 		$sql = ( ! $this->ar_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
 	
 		$sql .= (count($this->ar_select) == 0) ? '*' : implode(', ', $this->ar_select);
+
+		if ($select_override !== FALSE)
+		{
+			$sql = $select_override;
+		}
 
 		if (count($this->ar_from) > 0)
 		{
