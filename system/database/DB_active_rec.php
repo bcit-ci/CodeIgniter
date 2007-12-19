@@ -826,7 +826,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed	the where clause
 	 * @return	object
 	 */
-	function update($table = '', $set = NULL, $where = null)
+	function update($table = '', $set = NULL, $where = null, $limit = NULL)
 	{
 		if ( ! is_null($set))
 		{
@@ -860,8 +860,13 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$this->where($where);
 		}
+
+		if ($limit != null)
+		{
+			$this->limit($limit);
+		}
 		
-		$sql = $this->_update($this->dbprefix.$table, $this->ar_set, $this->ar_where);
+		$sql = $this->_update($this->dbprefix.$table, $this->ar_set, $this->ar_where, $this->ar_limit);
 		
 		$this->_reset_write();
 		return $this->query($sql);
@@ -1101,6 +1106,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_set		= array();
 		$this->ar_from		= array();
 		$this->ar_where		= array();
+		$this->ar_limit		= FALSE;
 	}
 	
 }

@@ -439,14 +439,16 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	array	the where clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where)
+	function _update($table, $values, $where, $limit = FALSE)
 	{
 		foreach($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
 		}
+		
+		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
 	
-		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$limit;
 	}
 	
 	// --------------------------------------------------------------------
