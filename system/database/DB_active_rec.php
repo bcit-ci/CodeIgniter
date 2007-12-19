@@ -856,12 +856,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$table = $this->ar_from[0];
 		}
 		
-		if ($where != null)
+		if ($where != NULL)
 		{
 			$this->where($where);
 		}
 
-		if ($limit != null)
+		if ($limit != NULL)
 		{
 			$this->limit($limit);
 		}
@@ -884,7 +884,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed	the where clause
 	 * @return	object
 	 */
-	function delete($table = '', $where = '')
+	function delete($table = '', $where = '', $limit = NULL)
 	{
 		if ($table == '')
 		{
@@ -905,6 +905,11 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->where($where);
 		}
 
+		if ($limit != NULL)
+		{
+			$this->limit($limit);
+		}
+
 		if (count($this->ar_where) == 0)
 		{
 			if ($this->db_debug)
@@ -914,7 +919,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}		
 		
-		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where);
+		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where, $this->ar_limit);
 
 		$this->_reset_write();
 		return $this->query($sql);
@@ -1096,7 +1101,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Resets the active record "write" values.
 	 *
-	 * Called by the insert() or update() functions
+	 * Called by the insert() update() and delete() functions
 	 *
 	 * @access	private
 	 * @return	void

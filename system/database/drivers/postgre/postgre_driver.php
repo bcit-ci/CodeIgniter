@@ -447,9 +447,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	array	the where clause
 	 * @return	string
 	 */	
-	function _delete($table, $where)
+	function _delete($table, $where, $limit = FALSE)
 	{
-		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where);
+		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
+	
+		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where).$limit;
 	}
 
 	// --------------------------------------------------------------------
