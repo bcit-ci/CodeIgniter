@@ -268,26 +268,33 @@ $this->db->or_where('id >', $id);
 
 
 <h2>$this->db->where_in();</h2>
-<p>This function is used to write WHERE clauses that contain the IN keyword.</p>
-
+<p>Generates a WHERE field IN ('item', 'item') SQL query joined with  AND if appropriate</p>
 <p><code>
-    $names = array('frank', 'Todd', 'James');<br />
+    $names = array('Frank', 'Todd', 'James');<br />
     $this->db->where_in('username', $names);<br />
-    // Produces: AND WHERE username IN ('frank', 'Todd', 'James')</code></p>
-<p>An optional third parameter can be used to specify if the WHERE statement should be separated with &quot;OR&quot; or &quot;AND&quot; in the event of multiple WHERE calls. The default is &quot;AND&quot;. They are called with 'and', 'or'.</p>
-<p><code>$names = array('frank', 'Todd', 'James');<br />
-        <br />
-        $this-&gt;db-&gt;where('usergroup',  '5')<br />
-$this-&gt;db-&gt;where_in('username', $names);<br />
-// Produces: WHERE usergroup = '5' AND WHERE username IN ('frank', 'Todd', 'James')<br />
-<br />
-$this-&gt;db-&gt;where('usergroup',  '5')<br />
-$this-&gt;db-&gt;where_in('username', $names, 'and');<br />
-// Produces: WHERE usergroup = '5' AND WHERE username IN ('frank', 'Todd', 'James')<br />
-<br />
-$this-&gt;db-&gt;where('usergroup',  '5')<br />
-$this-&gt;db-&gt;where_in('username', $names, 'or');<br />
-// Produces: WHERE usergroup = '5' OR WHERE username IN ('frank', 'Todd', 'James')</code></p>
+    // Produces: AND WHERE username IN ('Frank', 'Todd', 'James')</code></p>
+
+<h2>$this->db->where_in_or();</h2>
+<p>Generates a WHERE field IN ('item', 'item') SQL query joined with OR if appropriate</p>
+<p><code>
+    $names = array('Frank', 'Todd', 'James');<br />
+    $this->db->where_in_or('username', $names);<br />
+    // Produces: OR WHERE username IN ('Frank', 'Todd', 'James')</code></p>
+    
+<h2>$this->db->where_not_in();</h2>
+<p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with AND if appropriate</p>
+<p><code>
+    $names = array('Frank', 'Todd', 'James');<br />
+    $this->db->where_not_in('username', $names);<br />
+    // Produces: AND WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
+
+<h2>$this->db->where_not_in_or();</h2>
+<p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with OR if appropriate</p>
+<p><code>
+    $names = array('Frank', 'Todd', 'James');<br />
+    $this->db->where_in('username', $names);<br />
+    // Produces: OR WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
+
 <h2>$this->db->like();</h2>
 <p>This function enables you to generate <strong>LIKE</strong> clauses, useful for doing searches.</p>
 

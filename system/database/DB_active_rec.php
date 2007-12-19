@@ -248,21 +248,99 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Where_in
 	 *
-	 * Generates a WHERE field IN ('item', 'item') SQL query
+	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
+	 * AND if appropriate
 	 *
 	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
+
+	 * @return	object
+	 */
+	function where_in($key = NULL, $values = NULL)
+	{	 	
+		return $this->_where_in($key, $values);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where_in_or
+	 *
+	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
+	 * OR if appropriate
+	 *
+	 * @access	public
+	 * @param	string	The field to search
+	 * @param	array	The values searched on
+
+	 * @return	object
+	 */
+	function where_in_or($key = NULL, $values = NULL)
+	{	 	
+		return $this->_where_in($key, $values, FALSE, 'or');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where_not_in
+	 *
+	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
+	 * with AND if appropriate
+	 *
+	 * @access	public
+	 * @param	string	The field to search
+	 * @param	array	The values searched on
+
+	 * @return	object
+	 */
+	function where_not_in($key = NULL, $values = NULL)
+	{	 	
+		return $this->_where_in($key, $values, TRUE);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where_not_in_or
+	 *
+	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
+	 * with OR if appropriate
+	 *
+	 * @access	public
+	 * @param	string	The field to search
+	 * @param	array	The values searched on
+
+	 * @return	object
+	 */
+	function where_not_in_or($key = NULL, $values = NULL)
+	{	 	
+		return $this->_where_in($key, $values, FALSE, 'or');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where_in
+	 *
+	 * Called by where_in, where_in_or, where_not_in, where_not_in_or
+	 *
+	 * @access	public
+	 * @param	string	The field to search
+	 * @param	array	The values searched on
+	 * @param	boolean	If the statement whould be IN or NOT IN
 	 * @param	string	
 	 * @return	object
 	 */
-	function where_in($key = NULL, $values = NULL, $type = 'and')
+	function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'and')
 	{	 	
 		if ($key === NULL || !is_array($values))
 		{
 			return;
 		}
 
+		$not = ($not) ? ' NOT ' : '';
 		$type = (strtolower($type) == 'or') ? ' OR ' : ' AND ';
 
 		foreach ($values as $value)
@@ -272,7 +350,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$prefix = (count($this->ar_where) == 0) ? '' : $type;
  	 			
-		$this->ar_where[] = $prefix.$key. " IN (" . implode(", ", $this->ar_wherein) . ") ";
+		$this->ar_where[] = $prefix.$key.$not . " IN (" . implode(", ", $this->ar_wherein) . ") ";
 
 		return $this;
 	}
@@ -1005,6 +1083,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_offset	= FALSE;
 		$this->ar_order		= FALSE;
 		$this->ar_orderby	= array();
+		$this->ar_wherein	= array();
 	}
 	
 	// --------------------------------------------------------------------
