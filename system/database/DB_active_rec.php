@@ -276,7 +276,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	 * @return	object
 	 */
-	function where_in_or($key = NULL, $values = NULL)
+	function or_where_in($key = NULL, $values = NULL)
 	{	 	
 		return $this->_where_in($key, $values, FALSE, 'or');
 	}
@@ -314,7 +314,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	 * @return	object
 	 */
-	function where_not_in_or($key = NULL, $values = NULL)
+	function or_where_not_in($key = NULL, $values = NULL)
 	{	 	
 		return $this->_where_in($key, $values, FALSE, 'or');
 	}
@@ -372,7 +372,25 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		return $this->_like($field, $match, 'AND ', $side);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Not Like
+	 *
+	 * Generates a NOT LIKE portion of the query. Separates
+	 * multiple calls with AND
+	 *
+	 * @access	public
+	 * @param	mixed
+	 * @param	mixed
+	 * @return	object
+	 */
+	function not_like($field, $match = '', $side = 'both')
+	{
+		return $this->_like($field, $match, 'AND ', $side, ' NOT');
+	}
+		
 	// --------------------------------------------------------------------
 
 	/**
@@ -391,6 +409,24 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $this->_like($field, $match, 'OR ', $side);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * OR Not Like
+	 *
+	 * Generates a NOT LIKE portion of the query. Separates
+	 * multiple calls with OR
+	 *
+	 * @access	public
+	 * @param	mixed
+	 * @param	mixed
+	 * @return	object
+	 */
+	function or_not_like($field, $match = '', $side = 'both')
+	{
+		return $this->_like($field, $match, 'OR ', $side, 'NOT ');
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -416,7 +452,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function _like($field, $match = '', $type = 'AND ', $side = 'both')
+	function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
 	{
 		if ( ! is_array($field))
 		{
@@ -424,22 +460,23 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
  	
 		foreach ($field as $k => $v)
-		{
+		{		
+
 			$prefix = (count($this->ar_like) == 0) ? '' : $type;
-			
+
 			$v = $this->escape_str($v);
-			
+
 			if ($side == 'before')
 			{
-				$this->ar_like[] = $prefix." $k LIKE '%{$v}'";
+				$this->ar_like[] = $prefix." $k $not LIKE '%{$v}'";
 			}
 			elseif ($side == 'after')
 			{
-				$this->ar_like[] = $prefix." $k LIKE '{$v}%'";
+				$this->ar_like[] = $prefix." $k $not LIKE '{$v}%'";
 			}
 			else
 			{
-				$this->ar_like[] = $prefix." $k LIKE '%{$v}%'";
+				$this->ar_like[] = $prefix." $k $not LIKE '%{$v}%'";
 			}
 		}
 		return $this;

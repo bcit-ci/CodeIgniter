@@ -18,7 +18,6 @@
 <meta name='robots' content='all' />
 <meta name='author' content='Rick Ellis' />
 <meta name='description' content='CodeIgniter User Guide' />
-
 </head>
 <body>
 
@@ -274,7 +273,7 @@ $this->db->or_where('id >', $id);
     $this->db->where_in('username', $names);<br />
     // Produces: AND WHERE username IN ('Frank', 'Todd', 'James')</code></p>
 
-<h2>$this->db->where_in_or();</h2>
+<h2>$this->db->or_where_in();</h2>
 <p>Generates a WHERE field IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
@@ -288,7 +287,7 @@ $this->db->or_where('id >', $id);
     $this->db->where_not_in('username', $names);<br />
     // Produces: AND WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
 
-<h2>$this->db->where_not_in_or();</h2>
+<h2>$this->db->or_where_not_in();</h2>
 <p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
@@ -338,7 +337,7 @@ $this->db->or_where('id >', $id);
 <p>This function is identical to the one above, except that multiple instances are joined by OR:</p>
 
 <code>
-$this->db->like('title', $match);<br />
+$this->db->like('title', 'match');<br />
 $this->db->or_like('body', $match);
 <br />
 <br />// WHERE title LIKE '%match%' OR  body LIKE '%match%'</code>
@@ -347,6 +346,17 @@ $this->db->or_like('body', $match);
 
 	
 <p class="important">Note: or_like() was formerly known as orlike(), which has been deprecated.</p>
+<h2>$this-&gt;db-&gt;not_like();</h2>
+<p>This function is identical to <strong>like()</strong>, except that it generates NOT LIKE statements:</p>
+<code> $this-&gt;db-&gt;not_like('title', 'match');<br />
+<br />
+// WHERE title NOT LIKE '%match%</code>
+<h2>$this-&gt;db-&gt;or_not_like();</h2>
+<p>This function is identical to <strong>not_like()</strong>, except that multiple instances are joined by OR:</p>
+<code> $this-&gt;db-&gt;like('title', 'match');<br />
+$this-&gt;db-&gt;or_not_like('body', 'match'); <br />
+<br />
+// WHERE title  LIKE '%match% OR body NOT LIKE 'match'</code>
 <h2>$this->db->group_by();</h2>
 <p>Permits you to write the GROUP BY portion of your query:</p>
 	
