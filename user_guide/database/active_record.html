@@ -274,7 +274,7 @@ $this->db->or_where('id >', $id);
     $names = array('frank', 'Todd', 'James');<br />
     $this->db->where_in('username', $names);<br />
     // Produces: AND WHERE username IN ('frank', 'Todd', 'James')</code></p>
-<p>An optional third parameter can be used to specify if the WHERE statement should be separated with &quot;OR&quot; or &quot;AND&quot; in the event of multiple WHERE calls. The default is &quot;AND&quot;.</p>
+<p>An optional third parameter can be used to specify if the WHERE statement should be separated with &quot;OR&quot; or &quot;AND&quot; in the event of multiple WHERE calls. The default is &quot;AND&quot;. They are called with 'and', 'or'.</p>
 <p><code>$names = array('frank', 'Todd', 'James');<br />
         <br />
         $this-&gt;db-&gt;where('usergroup',  '5')<br />
