@@ -623,14 +623,16 @@ $this->db->delete('mytable', array('id' => $id));
 <p>The first parameter is the table name, the second is the where clause. You can also use the <dfn>where()</dfn> or <dfn>or_where()</dfn> functions instead of passing
 the data to the second parameter of the function:</p>
 
-<code>
-$this->db->where('id', $id);<br />
-$this->db->delete('mytable');
-<br /><br />
-// Produces:<br />
-// DELETE FROM mytable <br />
-// WHERE id = $id</code>
-
+<p><code> $this->db->where('id', $id);<br />
+    $this->db->delete('mytable'); <br />
+    <br />
+    // Produces:<br />
+    // DELETE FROM mytable <br />
+    // WHERE id = $id</code></p>
+<p>An array of table names can be passed into delete() if you would like to delete data from more then 1 table.</p>
+<p><code>$tables = array('table1', 'table2', 'table3');<br />
+$this-&gt;db-&gt;where('id', '5');<br />
+$this-&gt;db-&gt;delete($tables);</code></p>
 <p class="important"><strong>Note:</strong> All values are escaped automatically producing safer queries.</p>
 
 
