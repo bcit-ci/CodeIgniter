@@ -84,6 +84,7 @@ Change Log
     <li>Added a language entry for valid_ip validation error.</li>
     <li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
     <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
+    <li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
     <li>Fixed a bug in <kbd>highlight_pharse()</kbd> that caused an error with slashes.</li>
     <li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
     <li>Fixed a bug in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>

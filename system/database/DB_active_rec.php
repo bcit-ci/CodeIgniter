@@ -226,16 +226,25 @@ class CI_DB_active_record extends CI_DB_driver {
  	 	
 		foreach ($key as $k => $v)
 		{
+
 			$prefix = (count($this->ar_where) == 0) ? '' : $type;
+
+			if (is_null($key[$k]))
+			{
+				// value appears not to have been set, assign the test to IS NULL
+				$k .= ' IS NULL';
+			}
 			
 			if ( ! is_null($v))
 			{
+			
 				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' =';
 				}
-			
+
 				$v = ' '.$this->escape($v);
+
 			}
 						
 			$this->ar_where[] = $prefix.$k.$v;
@@ -278,7 +287,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function or_where_in($key = NULL, $values = NULL)
 	{	 	
-		return $this->_where_in($key, $values, FALSE, 'or');
+		return $this->_where_in($key, $values, FALSE, 'OR ');
 	}
 
 	// --------------------------------------------------------------------
@@ -316,7 +325,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function or_where_not_in($key = NULL, $values = NULL)
 	{	 	
-		return $this->_where_in($key, $values, FALSE, 'or');
+		return $this->_where_in($key, $values, FALSE, 'OR ');
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +342,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	
 	 * @return	object
 	 */
-	function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'and')
+	function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ')
 	{	 	
 		if ($key === NULL || !is_array($values))
 		{
@@ -341,7 +350,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		$not = ($not) ? ' NOT ' : '';
-		$type = (strtolower($type) == 'or') ? ' OR ' : ' AND ';
 
 		foreach ($values as $value)
 		{
@@ -955,13 +963,13 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			return FALSE;
 		}		
-		
+	
 		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where, $this->ar_limit);
 
 		$this->_reset_write();
 		return $this->query($sql);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1020,7 +1028,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if (count($this->ar_from) > 0)
 		{
 			$sql .= "\nFROM ";
-			$sql .= implode(', ', $this->ar_from);
+			$sql .= '(' . implode(', ', $this->ar_from) . ')';
 		}
 
 		if (count($this->ar_join) > 0)
