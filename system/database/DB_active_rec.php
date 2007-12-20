@@ -925,11 +925,13 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Compiles a delete string and runs the query
 	 *
 	 * @access	public
-	 * @param	string	the table to retrieve the results from
+	 * @param	mixed	the table(s) to delete from. String or array
 	 * @param	mixed	the where clause
+	 * @param	mixed	the limit clause
+	 * @param	boolean
 	 * @return	object
 	 */
-	function delete($table = '', $where = '', $limit = NULL)
+	function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
 		if ($table == '')
 		{
@@ -943,6 +945,16 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			
 			$table = $this->ar_from[0];
+		}
+
+		if (is_array($table))
+		{
+			foreach($table as $single_table)
+			{
+				$this->delete($this->dbprefix.$single_table, $where, $limit, FALSE);
+			}
+			$this->_reset_write();
+			return;
 		}
 
 		if ($where != '')
@@ -963,10 +975,13 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			return FALSE;
 		}		
-	
+
 		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where, $this->ar_limit);
 
-		$this->_reset_write();
+		if ($reset_data)
+		{
+			$this->_reset_write();
+		}
 		return $this->query($sql);
 	}
 
