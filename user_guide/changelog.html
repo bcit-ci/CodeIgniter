@@ -86,6 +86,7 @@ Change Log
     <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
     <li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
     <li>Fixed a bug in <kbd>highlight_pharse()</kbd> that caused an error with slashes.</li>
+    <li>Fixed a bug: $field_names[] vs $Ffield_names[] in postgre and sqlite drivers</li>
     <li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
     <li>Fixed a bug in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
     <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>

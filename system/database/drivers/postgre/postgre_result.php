@@ -65,7 +65,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 		$field_names = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
 		{
-			$Ffield_names[] = pg_field_name($this->result_id, $i);
+			$field_names[] = pg_field_name($this->result_id, $i);
 		}
 		
 		return $field_names;
