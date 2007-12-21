@@ -83,7 +83,7 @@ $mobiles = array(
 					'palmscape'			=> 'Palmscape',
 					'nokia'				=> 'Nokia',
 					'ericsson'			=> 'Ericsson',
-					'blackBerry'		=> 'BlackBerry',
+					'blackberry'		=> 'BlackBerry',
 					'motorola'			=> 'Motorola'
 				);	
 
