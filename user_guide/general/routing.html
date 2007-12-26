@@ -114,14 +114,14 @@ Higher routes will always take precedence over lower ones.</p>
 <p>Here are a few routing examples:</p>
 
 <code>$route['journals'] = "blogs";</code>
-<p>Any URL containing the word "journals" in the first segment will be remapped to the "blogs" class.</p>
+<p>A URL containing the word "journals" in the first segment will be remapped to the "blogs" class.</p>
 
 <code>$route['blog/joe'] = "blogs/users/34";</code>
-<p>Any URL containing the segments blog/joe will be remapped to the "blogs" class and the "users" method.  The ID will be set to "34".</p>
+<p>A URL containing the segments blog/joe will be remapped to the "blogs" class and the "users" method.  The ID will be set to "34".</p>
 
 
 <code>$route['product/:any'] = "catalog/product_lookup";</code>
-<p>Any URL with "product" as the first segment, and anything in the second will be remapped to the "catalog" class and the  "product_lookup" method.</p>
+<p>A URL with "product" as the first segment, and anything in the second will be remapped to the "catalog" class and the  "product_lookup" method.</p>
 
 <p class="important"><strong>Important:</strong> Do not use leading/trailing slashes.</p>
 
