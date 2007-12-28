@@ -42,7 +42,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_orderby		= array();
 	var $ar_set			= array();	
 	var $ar_wherein		= array();
-
+	var $ar_aliased_tables		= array();
 
 
 	/**
@@ -103,8 +103,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		foreach ((array)$from as $val)
 		{
+			$this->_track_aliases($val);
 			$this->ar_from[] = $this->dbprefix.$val;
 		}
+
 		return $this;
 	}
 	
@@ -137,11 +139,6 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 		}
 
-		if ($this->dbprefix)
-		{
-			$cond = preg_replace('|([\w\.]+)([\W\s]+)(.+)|', $this->dbprefix . "$1$2" . $this->dbprefix . "$3", $cond);
-		}
-		
 		// If a DB prefix is used we might need to add it to the column names
 		if ($this->dbprefix)
 		{
@@ -150,8 +147,11 @@ class CI_DB_active_record extends CI_DB_driver {
 			
 			// Next we add the prefixes to the condition
 			$cond = preg_replace('|([\w\.]+)([\W\s]+)(.+)|', $this->dbprefix . "$1$2" . $this->dbprefix . "$3", $cond);
-		}
-		
+
+			$this->_track_aliases($table);
+
+		}	
+
 		$this->ar_join[] = $type.'JOIN '.$this->dbprefix.$table.' ON '.$cond;
 		return $this;
 	}
@@ -511,7 +511,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$val = trim($val);
 		
 			if ($val != '')
-				$this->ar_groupby[] = $val;
+				$this->ar_groupby[] = $this->dbprefix.$val;
 		}
 		return $this;
 	}
@@ -713,6 +713,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table != '')
 		{
+			$this->_track_aliases($table);
 			$this->from($table);
 		}
 		
@@ -744,6 +745,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table != '')
 		{
+			$this->_track_aliases($table);
 			$this->from($table);
 		}
 		
@@ -778,6 +780,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table != '')
 		{
+			$this->_track_aliases($table);
 			$this->from($table);
 		}
 
@@ -871,7 +874,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed	the where clause
 	 * @return	object
 	 */
-	function update($table = '', $set = NULL, $where = null, $limit = NULL)
+	function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
 	{
 		if ( ! is_null($set))
 		{
@@ -1021,6 +1024,63 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Track Aliases
+	 *
+	 * Used to track SQL statements written with aliased tables.
+	 *
+	 * @access	private
+	 * @param	string	The table to inspect
+	 * @return	string
+	 */	
+	function _track_aliases($table)
+	{
+		// if a table alias is used we can recognize it by a space
+		if (strpos($table, " ") !== FALSE)
+		{
+			// if the alias is written with the AS keyowrd, get it out
+			$table = preg_replace('/AS/i', '', $table); 
+
+			$this->ar_aliased_tables[] = trim(strrchr($table, " ") . '.');
+		}
+
+		return $this->dbprefix.$table;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Filter Table Aliases
+	 *
+	 * Intelligently removes database prefixes from aliased tables
+	 *
+	 * @access	private
+	 * @param	array	An array of compiled SQL
+	 * @return	array	Cleaned up statement with aliases accounted for
+	 */	
+	function _filter_table_aliases($statements)
+	{
+		$filter_tables_with_aliases = array();
+
+		foreach ($statements as $statement)
+		{
+			$tables_with_dbprefix = array();			
+
+			foreach ($this->ar_aliased_tables as $k => $v)
+			{
+				$tables_with_dbprefix[$k] = '/'.$this->dbprefix.str_replace('.', '', $v).'\./';
+			}
+
+			$statement = preg_replace($tables_with_dbprefix, $this->ar_aliased_tables, $statement);
+			
+			$filter_tables_with_aliases[] = $statement;
+		}
+
+		return $filter_tables_with_aliases;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Compile the SELECT statement
 	 *
 	 * Generates a query string based on which functions were used.
@@ -1047,9 +1107,19 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		if (count($this->ar_join) > 0)
-		{		
+		{
 			$sql .= "\n";
-			$sql .= implode("\n", $this->ar_join);
+
+			// special consideration for table aliases
+			if (count($this->ar_aliased_tables) > 0 && $this->dbprefix)
+			{
+				$sql .= implode("\n", $this->_filter_table_aliases($this->ar_join));
+			}
+			else
+			{
+				$sql .= implode("\n", $this->ar_join);
+			}
+
 		}
 
 		if (count($this->ar_where) > 0 OR count($this->ar_like) > 0)
@@ -1071,8 +1141,18 @@ class CI_DB_active_record extends CI_DB_driver {
 		
 		if (count($this->ar_groupby) > 0)
 		{
+
 			$sql .= "\nGROUP BY ";
-			$sql .= implode(', ', $this->ar_groupby);
+			
+			// special consideration for table aliases
+			if (count($this->ar_aliased_tables) > 0 && $this->dbprefix)
+			{
+				$sql .= implode(", ", $this->_filter_table_aliases($this->ar_groupby));
+			}
+			else
+			{
+				$sql .= implode(', ', $this->ar_groupby);
+			}
 		}
 		
 		if (count($this->ar_having) > 0)
@@ -1154,6 +1234,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_order		= FALSE;
 		$this->ar_orderby	= array();
 		$this->ar_wherein	= array();
+		$this->ar_aliased_tables = array();
 	}
 	
 	// --------------------------------------------------------------------
