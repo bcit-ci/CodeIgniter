@@ -228,8 +228,14 @@ class CI_Validation {
 						$line = $this->_error_messages['isset'];
 					}
 					
-					$field = ( ! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
-					$this->_error_array[] = sprintf($line, $field);	
+					// Build the error message
+					$mfield = ( ! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
+					$message = sprintf($line, $mfield);
+
+					// Set the error variable.  Example: $this->username_error
+					$error = $field.'_error';
+					$this->$error = $this->_error_prefix.$message.$this->_error_suffix;
+					$this->_error_array[] = $message;
 				}
 						
 				continue;
