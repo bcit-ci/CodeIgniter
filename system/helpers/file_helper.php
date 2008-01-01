@@ -156,7 +156,7 @@ function delete_files($path, $del_dir = FALSE, $level = 0)
  */	
 function get_filenames($source_dir, $include_path = FALSE)
 {
-	static $_filedata = array();
+	$_filedata = array();
 	
 	if ($fp = @opendir($source_dir))
 	{
