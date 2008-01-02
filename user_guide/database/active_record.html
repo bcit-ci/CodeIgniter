@@ -370,8 +370,15 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 <br />
 <br />// Produces: GROUP BY title, date</code>
 	
-		
 <p class="important">Note: group_by() was formerly known as groupby(), which has been deprecated. </p>
+
+<h2> $this-&gt;db-&gt;distinct();<br />
+</h2>
+<p>Adds the &quot;DISTINCT&quot; keyword to to a query</p>
+<p><code>$this-&gt;db-&gt;distinct();<br />
+    $this-&gt;db-&gt;get('table');<br />
+        <br />
+    // Produces: SELECT DISTINCT * FROM table</code></p>
 <h2>$this->db->having();</h2>
 <p>Permits you to write the HAVING portion of your query:</p>
 	
