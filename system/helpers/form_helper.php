@@ -221,18 +221,24 @@ function form_textarea($data = '', $value = '', $extra = '')
  * @param	string
  * @return	string
  */	
-function form_dropdown($name = '', $options = array(), $selected = '', $extra = '')
+function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 {
+	if ( ! is_array($selected))
+	{
+		$selected = array($selected);
+	}
+
 	if ($extra != '') $extra = ' '.$extra;
-		
-	$form = '<select name="'.$name.'"'.$extra.">\n";
+	$multiple = (count($selected > 1))?' multiple="multiple"':'';
+
+	$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
 	
 	foreach ($options as $key => $val)
 	{
 		$key = (string) $key;
 		$val = (string) $val;
 		
-		$sel = ($selected != $key) ? '' : ' selected="selected"';
+		$sel = (in_array($key, $selected))?' selected="selected"':'';
 		
 		$form .= '<option value="'.$key.'"'.$sel.'>'.$val."</option>\n";
 	}
