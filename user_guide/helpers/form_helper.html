@@ -198,7 +198,7 @@ example, you will instead specify "rows" and "cols".</p>
 
 <p>Lets you create a standard drop-down field.  The first parameter will contain the name of the field,
 the second parameter will contain an associative array of options, and the third parameter will contain the
-value you wish to be selected.  Example:</p>
+value you wish to be selected.  You can also pass an array through the third parameter, and CodeIgniter will create a multiple select for you. Example:</p>
 
 <code>$options = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'small'&nbsp;&nbsp;=> 'Small Shirt',<br />
@@ -207,16 +207,29 @@ value you wish to be selected.  Example:</p>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'xlarge' => 'Extra Large Shirt',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
+$shirts_on_sale = array('small', 'large');<br />
+<br />
 echo form_dropdown('shirts', $options, 'large');<br />
 <br />
-// Would produce:<br /><br />
-
-&lt;select name="shirts"><br />
-&lt;option value="small">Small Shirt&lt;/option><br />
-&lt;option value="med">Medium  Shirt&lt;/option><br />
-&lt;option value="large" selected>Large Shirt&lt;/option><br />
-&lt;option value="xlarge">Extra Large Shirt&lt;/option><br />
-&lt;/select></code>
+// Would produce:<br />
+<br />
+&lt;select name=&quot;shirts&quot;&gt;<br />
+&lt;option value=&quot;small&quot;&gt;Small Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;<br />
+&lt;/select&gt;<br />
+<br />
+echo form_dropdown('shirts', $options, $shirts_on_sale);<br />
+<br />
+// Would produce:<br />
+<br />
+&lt;select name=&quot;shirts&quot; multiple=&quot;multiple&quot;&gt;<br />
+&lt;option value=&quot;small&quot; selected=&quot;selected&quot;&gt;Small Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;<br />
+&lt;/select&gt;</code>
 
 
 <p>If you would like the opening &lt;select> to contain  additional data, like JavaScript, you can pass it as a string in the
