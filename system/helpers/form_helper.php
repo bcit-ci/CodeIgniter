@@ -229,7 +229,7 @@ function form_dropdown($name = '', $options = array(), $selected = array(), $ext
 	}
 
 	if ($extra != '') $extra = ' '.$extra;
-	$multiple = (count($selected > 1))?' multiple="multiple"':'';
+	$multiple = (count($selected) > 1)?' multiple="multiple"':'';
 
 	$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
 	
