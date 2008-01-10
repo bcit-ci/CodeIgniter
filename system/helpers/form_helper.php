@@ -42,7 +42,9 @@ function form_open($action = '', $attributes = array(), $hidden = array())
 {
 	$CI =& get_instance();
 
-	$form = '<form action="'.$CI->config->site_url($action).'"';
+	$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
+
+	$form = '<form action="'.$action.'"';
 	
 	if ( ! isset($attributes['method']))
 	{
@@ -229,7 +231,7 @@ function form_dropdown($name = '', $options = array(), $selected = array(), $ext
 	}
 
 	if ($extra != '') $extra = ' '.$extra;
-	$multiple = (count($selected) > 1)?' multiple="multiple"':'';
+	$multiple = (count($selected > 1))?' multiple="multiple"':'';
 
 	$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
 	
