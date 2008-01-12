@@ -207,6 +207,44 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Raw Where
+	 *
+	 * Generates an unfiltered WHERE portion of the query.
+	 * Separates multiple calls with AND
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function raw_where($statement)
+	{
+		$prefix = (count($this->ar_where) == 0) ? '' : ' AND ';
+		$this->ar_where[] = $prefix.$statement;
+		return $statement;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Raw OR Where
+	 *
+	 * Generates an unfiltered WHERE portion of the query.
+	 * Separates multiple calls with OR
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function raw_or_where($statement)
+	{
+		$prefix = (count($this->ar_where) == 0) ? '' : ' OR ';
+		$this->ar_where[] = $prefix.$statement;
+		return $statement;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Where
 	 *
 	 * Called by where() or orwhere()
