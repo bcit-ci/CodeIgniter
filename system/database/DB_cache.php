@@ -163,7 +163,7 @@ class CI_DB_Cache {
 	{	
 		if ($segment_one == '')
 		{
-			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(2);
+			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
 		
 		if ($segment_two == '')
