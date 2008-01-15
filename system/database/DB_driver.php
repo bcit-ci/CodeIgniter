@@ -329,7 +329,6 @@ class CI_DB_driver {
 		$RES 			= new $driver();
 		$RES->conn_id	= $this->conn_id;
 		$RES->result_id	= $this->result_id;
-		$RES->num_rows	= $RES->num_rows();
 
 		if ($this->dbdriver == 'oci8')
 		{
@@ -337,7 +336,9 @@ class CI_DB_driver {
 			$RES->curs_id		= NULL;
 			$RES->limit_used	= $this->limit_used;
 		}
-		
+
+		$RES->num_rows	= $RES->num_rows();
+				
 		// Is query caching enabled?  If so, we'll serialize the
 		// result object and save it to a cache file.
 		if ($this->cache_on == TRUE AND $this->_cache_init())
