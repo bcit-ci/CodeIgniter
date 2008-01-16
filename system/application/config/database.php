@@ -25,6 +25,8 @@
 |	['active_r'] TRUE/FALSE - Whether to load the active record class
 |	['cache_on'] TRUE/FALSE - Enables/disables query caching
 |	['cachedir'] The path to the folder where cache files should be stored
+|	['char_set'] The character set used in communicating with the database
+|	['dbcollat'] The character collation used in communicating with the database
 |
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the "default" group).
