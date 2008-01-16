@@ -90,6 +90,7 @@ Change Log
     <li>Added support for external urls in <kbd>form_open()</kbd>.</li>
     <li>Added a language entry for valid_ip validation error.</li>
     <li>Added titles to all user manual pages.</li>
+	<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>
     <li>Added <a href="http://codeigniter.com/user_guide/libraries/zip.html">Zip Encoding Class</a> to the table of contents of the userguide.</li>
     <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
     <li>Moved part of the userguide menu javascript to an external file.</li>
@@ -118,6 +119,7 @@ Change Log
     <li>Fixed a bug in the <a href="./libraries/parser.html">parser class</a> where numeric data was ignored.</li>
     <li>Fixed a bug when loading plugin files as _plugin. and not _pi.</li>
     <li>Fixed a bug in the SQLite driver for PHP 4.</li>
+	<li>Fixed a bug in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
     <li>Fixed an example of comma-separated emails in the email library documentation.</li>
     <li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
     <li>Fixed a typo in the database language file.</li>
