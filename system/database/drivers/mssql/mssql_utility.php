@@ -24,48 +24,6 @@
  */
 class CI_DB_mssql_utility extends CI_DB_utility {
 
-
-	/**
-	 * Create database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _create_database($name)
-	{
-		return "CREATE DATABASE ".$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _drop_database($name)
-	{
-		return "DROP DATABASE ".$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop Table
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _drop_table($table)
-	{
-		return "DROP TABLE ".$this->db->_escape_table($table);
-	}
-
-	// --------------------------------------------------------------------
-
 	/**
 	 * List databases
 	 *
@@ -94,7 +52,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	}
 
 	// --------------------------------------------------------------------
-
+	
 	/**
 	 * Repair table query
 	 *
@@ -124,6 +82,39 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 		return $this->db->display_error('db_unsuported_feature');
 	}
 
+	/**
+	 *
+	 * The functions below have been deprecated as of 1.6, and are only here for backwards
+	 * compatibility.  They now reside in dbforge().  The use of dbutils for database manipulation
+	 * is STRONGLY discouraged in favour if using dbforge.
+	 *
+	 */
+
+	/**
+	 * Create database
+	 *
+	 * @access	private
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function _create_database($name)
+	{
+		return "CREATE DATABASE ".$name;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop database
+	 *
+	 * @access	private
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	function _drop_database($name)
+	{
+		return "DROP DATABASE ".$name;
+	}
 
 }
 

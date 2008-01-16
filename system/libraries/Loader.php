@@ -236,13 +236,42 @@ class CI_Loader {
 		}
 		
 		$CI =& get_instance();
+
+		// for backwards compatibility, load dbforge so we can extend dbutils off it
+		// this use is deprecated and strongly discouraged
+		$CI->load->dbforge();
 	
 		require_once(BASEPATH.'database/DB_utility'.EXT);
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility'.EXT);
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
-		$CI->dbutil = new $class();
+		$CI->dbutil =& new $class();
+
 		$CI->load->_ci_assign_to_models();
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Load the Database Forge Class
+	 *
+	 * @access	public
+	 * @return	string		
+	 */		
+	function dbforge()
+	{
+		if ( ! class_exists('CI_DB'))
+		{
+			$this->database();
+		}
+		
+		$CI =& get_instance();
+	
+		require_once(BASEPATH.'database/DB_forge'.EXT);
+		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge'.EXT);
+		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+
+		$CI->dbforge = new $class();
 	}
 	
 	// --------------------------------------------------------------------

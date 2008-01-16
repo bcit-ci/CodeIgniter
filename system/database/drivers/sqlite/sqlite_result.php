@@ -167,7 +167,14 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		}
 		else
 		{
-			return $this->_fetch_assoc();
+			$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
+			if (is_array($arr))
+			{
+				$obj = (object) $arr;
+				return $obj;
+			} else {
+				return NULL;
+			} 
 		}
 	}
 

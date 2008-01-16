@@ -192,7 +192,6 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * @access	private
 	 * @return	object
 	 */
-
 	function _odbc_fetch_object(& $odbc_result) {
 		$rs = array();
 		$rs_obj = false;
@@ -215,7 +214,6 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * @access	private
 	 * @return	array
 	 */
-
 	function _odbc_fetch_array(& $odbc_result) {
 		$rs = array();
 		$rs_assoc = false;

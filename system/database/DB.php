@@ -29,14 +29,22 @@ function &DB($params = '', $active_record = FALSE)
 	{
 		include(APPPATH.'config/database'.EXT);
 		
-		$group = ($params == '') ? $active_group : $params;
-		
-		if ( ! isset($db[$group]))
+		if ( ! isset($db) OR count($db) == 0)
 		{
-			show_error('You have specified an invalid database connection group: '.$group);
+			show_error('No database connection settings were found in the database config file.');
 		}
 		
-		$params = $db[$group];
+		if ($params != '')
+		{
+			$active_group = $params;
+		}
+		
+		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		{
+			show_error('You have specified an invalid database connection group.');
+		}
+		
+		$params = $db[$active_group];			
 	}
 	
 	// No DB specified yet?  Beat them senseless...
@@ -78,7 +86,13 @@ function &DB($params = '', $active_record = FALSE)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB =& new $driver($params);	
+	$DB =& new $driver($params);
+	
+	if ($DB->autoinit == TRUE)
+	{
+		$DB->initialize();
+	}
+	
 	return $DB;
 }	
 

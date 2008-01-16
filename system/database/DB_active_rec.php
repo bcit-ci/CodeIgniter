@@ -44,7 +44,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_wherein		= array();
 	var $ar_aliased_tables		= array();
 
-
 	/**
 	 * Select
 	 *
@@ -54,7 +53,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function select($select = '*')
+	function select($select = '*', $protect_identifiers = TRUE)
 	{
 		if (is_string($select))
 		{
@@ -64,13 +63,134 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach ($select as $val)
 		{
 			$val = trim($val);
+
+			if ($val != '*' && $protect_identifiers !== FALSE)
+			{
+				$val = $this->_protect_identifiers($val);
+			}
 		
 			if ($val != '')
+			{
 				$this->ar_select[] = $val;
+			}
 		}
 		return $this;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Select Max
+	 *
+	 * Generates a SELECT MAX(field) portion of a query
+	 *
+	 * @access	public
+	 * @param	string	the field
+	 * @param	string	an alias
+	 * @return	object
+	 */
+	function select_max($select = '', $alias='')
+	{
+		if (!is_string($select) || $select == '')
+		{
+			$this->display_error('db_invalid_query');
+		}
 	
+		$alias = ($alias != '') ? $alias : $select;
+	
+		$sql = 'MAX('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
+
+		$this->ar_select[] = $sql;
+		
+		return $this;
+		
+		return $this;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Select Min
+	 *
+	 * Generates a SELECT MIN(field) portion of a query
+	 *
+	 * @access	public
+	 * @param	string	the field
+	 * @param	string	an alias
+	 * @return	object
+	 */
+	function select_min($select = '', $alias='')
+	{
+		if (!is_string($select) || $select == '')
+		{
+			$this->display_error('db_invalid_query');
+		}
+	
+		$alias = ($alias != '') ? $alias : $select;
+	
+		$sql = 'MIN('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
+
+		$this->ar_select[] = $sql;
+		
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Select Average
+	 *
+	 * Generates a SELECT AVG(field) portion of a query
+	 *
+	 * @access	public
+	 * @param	string	the field
+	 * @param	string	an alias
+	 * @return	object
+	 */
+	function select_avg($select = '', $alias='')
+	{
+		if (!is_string($select) || $select == '')
+		{
+			$this->display_error('db_invalid_query');
+		}
+
+		$alias = ($alias != '') ? $alias : $select;
+	
+		$sql = 'AVG('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
+
+		$this->ar_select[] = $sql;
+		
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Select Sum
+	 *
+	 * Generates a SELECT SUM(field) portion of a query
+	 *
+	 * @access	public
+	 * @param	string	the field
+	 * @param	string	an alias
+	 * @return	object
+	 */
+	function select_sum($select = '', $alias='')
+	{
+		if (!is_string($select) || $select == '')
+		{
+			$this->display_error('db_invalid_query');
+		}
+
+		$alias = ($alias != '') ? $alias : $select;
+	
+		$sql = 'SUM('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
+
+		$this->ar_select[] = $sql;
+		
+		return $this;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -103,8 +223,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		foreach ((array)$from as $val)
 		{
-			$this->_track_aliases($val);
-			$this->ar_from[] = $this->dbprefix.$val;
+			$this->ar_from[] = $this->_protect_identifiers($this->_track_aliases($val));
 		}
 
 		return $this;
@@ -142,17 +261,16 @@ class CI_DB_active_record extends CI_DB_driver {
 		// If a DB prefix is used we might need to add it to the column names
 		if ($this->dbprefix)
 		{
+			$this->_track_aliases($table);
+
 			// First we remove any existing prefixes in the condition to avoid duplicates
 			$cond = preg_replace('|('.$this->dbprefix.')([\w\.]+)([\W\s]+)|', "$2$3", $cond);
 			
 			// Next we add the prefixes to the condition
 			$cond = preg_replace('|([\w\.]+)([\W\s]+)(.+)|', $this->dbprefix . "$1$2" . $this->dbprefix . "$3", $cond);
-
-			$this->_track_aliases($table);
-
 		}	
 
-		$this->ar_join[] = $type.'JOIN '.$this->dbprefix.$table.' ON '.$cond;
+		$this->ar_join[] = $type.'JOIN '.$this->_protect_identifiers($this->dbprefix.$table, TRUE).' ON '.$cond;
 		return $this;
 	}
 	
@@ -169,9 +287,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	object
 	 */
-	function where($key, $value = NULL)
+	function where($key, $value = NULL, $escape = TRUE)
 	{
-		return $this->_where($key, $value, 'AND ');
+		return $this->_where($key, $value, 'AND ', $escape);
 	}
 	
 	// --------------------------------------------------------------------
@@ -187,9 +305,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	object
 	 */
-	function or_where($key, $value = NULL)
+	function or_where($key, $value = NULL, $escape = TRUE)
 	{
-		return $this->_where($key, $value, 'OR ');
+		return $this->_where($key, $value, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -199,9 +317,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * this function is here for backwards compatibility, as
 	 * orwhere() has been deprecated
 	 */
-	function orwhere($key, $value = NULL)
+	function orwhere($key, $value = NULL, $escape = TRUE)
 	{
-		return $this->or_where($key, $value);
+		return $this->or_where($key, $value, $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -217,7 +335,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function _where($key, $value = NULL, $type = 'AND ')
+	function _where($key, $value = NULL, $type = 'AND ', $escape = TRUE)
 	{
 		if ( ! is_array($key))
 		{
@@ -226,10 +344,9 @@ class CI_DB_active_record extends CI_DB_driver {
  	 	
 		foreach ($key as $k => $v)
 		{
-
 			$prefix = (count($this->ar_where) == 0) ? '' : $type;
 
-			if (is_null($key[$k]))
+			if ( ! $this->_has_operator($k) && is_null($key[$k]))
 			{
 				// value appears not to have been set, assign the test to IS NULL
 				$k .= ' IS NULL';
@@ -237,12 +354,25 @@ class CI_DB_active_record extends CI_DB_driver {
 			
 			if ( ! is_null($v))
 			{
-			
+
+				if ($escape === TRUE)
+				{
+					// exception for "field<=" keys
+					if ($this->_has_operator($k))
+					{
+						$k =  preg_replace("/([A-Za-z_0-9]+)/", $this->_protect_identifiers('$1'), $k);
+					}
+					else
+					{
+						$k = $this->_protect_identifiers($k);
+					}
+				}
+
 				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' =';
 				}
-
+			
 				$v = ' '.$this->escape($v);
 
 			}
@@ -358,7 +488,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$prefix = (count($this->ar_where) == 0) ? '' : $type;
  	 			
-		$this->ar_where[] = $prefix.$key.$not . " IN (" . implode(", ", $this->ar_wherein) . ") ";
+		$this->ar_where[] = $prefix . $this->_protect_identifiers($key) . $not . " IN (" . implode(", ", $this->ar_wherein) . ") ";
 
 		return $this;
 	}
@@ -470,6 +600,8 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach ($field as $k => $v)
 		{		
 
+			$k = $this->_protect_identifiers($k);
+
 			$prefix = (count($this->ar_like) == 0) ? '' : $type;
 
 			$v = $this->escape_str($v);
@@ -511,7 +643,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$val = trim($val);
 		
 			if ($val != '')
-				$this->ar_groupby[] = $this->dbprefix.$val;
+				$this->ar_groupby[] = $this->_protect_identifiers($val);
 		}
 		return $this;
 	}
@@ -617,7 +749,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 		
-		$this->ar_orderby[] = $orderby.$direction;
+		$this->ar_orderby[] = $this->_protect_identifiers($orderby).$direction;
 		return $this;
 	}
 	
@@ -676,9 +808,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @param	mixed
 	 * @param	string
+	 * @param	boolean
 	 * @return	object
 	 */
-	function set($key, $value = '')
+	function set($key, $value = '', $escape = TRUE)
 	{
 		$key = $this->_object_to_array($key);
 	
@@ -689,7 +822,15 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$this->ar_set[$k] = $this->escape($v);
+			if ($escape === FALSE)
+			{
+				$this->ar_set[$this->_protect_identifiers($k)] = $v;
+			}
+			else
+			{
+				$this->ar_set[$this->_protect_identifiers($k)] = $this->escape($v);
+			}
+
 		}
 		
 		return $this;
@@ -729,8 +870,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $result;
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * "Count All Results" query
 	 *
@@ -749,7 +888,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 		
-		$sql = $this->_compile_select($this->_count_string);
+		$sql = $this->_compile_select($this->_count_string . $this->_protect_identifiers('numrows'));
 
 		$query = $this->query($sql);
 		$this->_reset_select();
@@ -854,8 +993,8 @@ class CI_DB_active_record extends CI_DB_driver {
 			
 			$table = $this->ar_from[0];
 		}
-					
-		$sql = $this->_insert($this->dbprefix.$table, array_keys($this->ar_set), array_values($this->ar_set));
+
+		$sql = $this->_insert($this->_protect_identifiers($this->dbprefix.$table), array_keys($this->ar_set), array_values($this->ar_set));
 		
 		$this->_reset_write();
 		return $this->query($sql);		
@@ -914,9 +1053,89 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->limit($limit);
 		}
 		
-		$sql = $this->_update($this->dbprefix.$table, $this->ar_set, $this->ar_where, $this->ar_limit);
+		$sql = $this->_update($this->_protect_identifiers($this->dbprefix.$table), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit);
 		
 		$this->_reset_write();
+		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Empty Table
+	 *
+	 * Compiles a delete string and runs "DELETE FROM table"
+	 *
+	 * @access	public
+	 * @param	string	the table to empty
+	 * @return	object
+	 */
+	function empty_table($table = '')
+	{
+		if ($table == '')
+		{
+			if ( ! isset($this->ar_from[0]))
+			{
+				if ($this->db_debug)
+				{
+					return $this->display_error('db_must_set_table');
+				}
+				return FALSE;
+			}
+
+			$table = $this->ar_from[0];
+		}
+		else
+		{
+			$table = $this->_protect_identifiers($this->dbprefix.$table);
+		}
+
+
+		$sql = $this->_delete($table);
+
+		$this->_reset_write();
+		
+		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Truncate
+	 *
+	 * Compiles a truncate string and runs the query
+	 * If the database does not support the truncate() command
+	 * This function maps to "DELETE FROM table"
+	 *
+	 * @access	public
+	 * @param	string	the table to truncate
+	 * @return	object
+	 */
+	function truncate($table = '')
+	{
+		if ($table == '')
+		{
+			if ( ! isset($this->ar_from[0]))
+			{
+				if ($this->db_debug)
+				{
+					return $this->display_error('db_must_set_table');
+				}
+				return FALSE;
+			}
+
+			$table = $this->ar_from[0];
+		}
+		else
+		{
+			$table = $this->_protect_identifiers($this->dbprefix.$table);
+		}
+
+
+		$sql = $this->_truncate($table);
+
+		$this->_reset_write();
+		
 		return $this->query($sql);
 	}
 	
@@ -946,18 +1165,22 @@ class CI_DB_active_record extends CI_DB_driver {
 				}
 				return FALSE;
 			}
-			
+
 			$table = $this->ar_from[0];
 		}
-
-		if (is_array($table))
+		elseif (is_array($table))
 		{
 			foreach($table as $single_table)
 			{
-				$this->delete($this->dbprefix.$single_table, $where, $limit, FALSE);
+				$this->delete($single_table, $where, $limit, FALSE);
 			}
+
 			$this->_reset_write();
 			return;
+		}
+		else
+		{
+			$table = $this->_protect_identifiers($this->dbprefix.$table);
 		}
 
 		if ($where != '')
@@ -970,21 +1193,23 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		if (count($this->ar_where) == 0)
+		if (count($this->ar_where) == 0 && count($this->ar_like) == 0)
 		{
 			if ($this->db_debug)
 			{
 				return $this->display_error('db_del_must_use_where');
 			}
+
 			return FALSE;
 		}		
 
-		$sql = $this->_delete($this->dbprefix.$table, $this->ar_where, $this->ar_limit);
+		$sql = $this->_delete($table, $this->ar_where, $this->ar_like, $this->ar_limit);
 
 		if ($reset_data)
 		{
 			$this->_reset_write();
 		}
+		
 		return $this->query($sql);
 	}
 
@@ -1038,9 +1263,9 @@ class CI_DB_active_record extends CI_DB_driver {
 		if (strpos($table, " ") !== FALSE)
 		{
 			// if the alias is written with the AS keyowrd, get it out
-			$table = preg_replace('/AS/i', '', $table); 
+			$table = preg_replace('/ AS /i', ' ', $table); 
 
-			$this->ar_aliased_tables[] = trim(strrchr($table, " ") . '.');
+			$this->ar_aliased_tables[] = trim(strrchr($table, " "));
 		}
 
 		return $this->dbprefix.$table;
@@ -1059,23 +1284,20 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */	
 	function _filter_table_aliases($statements)
 	{
-		$filter_tables_with_aliases = array();
+		$statements_without_aliases = array();
 
-		foreach ($statements as $statement)
+		foreach ($statements as $k => $v)
 		{
-			$tables_with_dbprefix = array();			
-
-			foreach ($this->ar_aliased_tables as $k => $v)
+			foreach ($this->ar_aliased_tables as $table)
 			{
-				$tables_with_dbprefix[$k] = '/'.$this->dbprefix.str_replace('.', '', $v).'\./';
+				$statement = preg_replace('/(\w+\.\w+)/', $this->_protect_identifiers('$0'), $v); // makes `table.field`
+				$statement = str_replace(array($this->dbprefix.$table, '.'), array($table, $this->_protect_identifiers('.')), $statement);
 			}
 
-			$statement = preg_replace($tables_with_dbprefix, $this->ar_aliased_tables, $statement);
-			
-			$filter_tables_with_aliases[] = $statement;
+			$statements[$k] = $statement;
 		}
 
-		return $filter_tables_with_aliases;
+		return $statements;
 	}
 
 	// --------------------------------------------------------------------
@@ -1254,7 +1476,10 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_set		= array();
 		$this->ar_from		= array();
 		$this->ar_where		= array();
+		$this->ar_like		= array();
 		$this->ar_limit		= FALSE;
+		$this->ar_order		= FALSE;
+		$this->ar_orderby	= array();
 	}
 	
 }

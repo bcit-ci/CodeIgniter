@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		Rick Ellis
- * @copyright	Copyright (c) 2006, pMachine, Inc.
+ * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://www.codeigniter.com/user_guide/license.html
  * @link		http://www.codeigniter.com
  * @since		Version 1.0
@@ -22,10 +22,10 @@
  * @author		Rick Ellis
  * @link		http://www.codeigniter.com/user_guide/database/
  */
-class CI_DB_utility {
+class CI_DB_utility extends CI_DB_forge {
 
 	var $db;
-	var $data_cache = array();
+	var $data_cache 	= array();
 
 	/**
 	 * Constructor
@@ -40,48 +40,6 @@ class CI_DB_utility {
 		$this->db =& $CI->db;
 		
 		log_message('debug', "Database Utility Class Initialized");
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Create database
-	 *
-	 * @access	public
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function create_database($db_name)
-	{
-		$sql = $this->_create_database($db_name);
-		
-		if (is_bool($sql))
-		{
-			return $sql;
-		}
-	
-		return $this->db->query($sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @access	public
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function drop_database($db_name)
-	{
-		$sql = $this->_drop_database($db_name);
-		
-		if (is_bool($sql))
-		{
-			return $sql;
-		}
-	
-		return $this->db->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -129,7 +87,7 @@ class CI_DB_utility {
 		
 		if (is_bool($sql))
 		{
-			return $sql;
+				show_error('db_must_use_set');
 		}
 	
 		$query = $this->db->query($sql);
@@ -180,13 +138,12 @@ class CI_DB_utility {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Optimize Table
+	 * Repair Table
 	 *
 	 * @access	public
 	 * @param	string	the table name
 	 * @return	bool
 	 */
-
 	function repair_table($table_name)
 	{
 		$sql = $this->_repair_table($table_name);
@@ -203,28 +160,7 @@ class CI_DB_utility {
 		$res = $query->result_array();
 		return current($res);
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop Table
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	function drop_table($table_name)
-	{
-		$sql = $this->_drop_table($table_name);
-		
-		if (is_bool($sql))
-		{
-			return $sql;
-		}
 	
-		return $this->db->query($sql);
-	}
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -444,11 +380,6 @@ class CI_DB_utility {
 		}
 		
 	}
-
-
-
-
-
 
 }
 
