@@ -455,12 +455,9 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (ctype_alnum($item) === FALSE)
 		{
 			// This function may get "field >= 1", and need it to return "`field` >= 1"
-			if ($first_word_only === TRUE)
-			{
-				return '`'.preg_replace('/ /', '` ', $item, 1);
-			}
+			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
 
-			$item = preg_replace('/(^|\s|\()([\w\d\-\_]+?)(\s|\)|$)/iS', '$1`$2`$3', $item);
+			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1`$2`$3', $item);
 		}
 		else
 		{
