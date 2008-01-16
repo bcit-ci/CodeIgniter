@@ -452,7 +452,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		// This function may get "item1 item2" as a string, and so
 		// we may need "`item1` `item2`" and not "`item1 item2`"
-		if (strpos($item, ' ') !== FALSE)
+		if (ctype_alnum($item) !== FALSE)
 		{
 			// This function may get "field >= 1", and need it to return "`field` >= 1"
 			if ($first_word_only === TRUE)
@@ -461,6 +461,10 @@ class CI_DB_mysql_driver extends CI_DB {
 			}
 
 			$item = preg_replace('/(^|\s|\()([\w\d\-\_]+?)(\s|\)|$)/iS', '$1`$2`$3', $item);
+		}
+		else
+		{
+			return "`{$item}`";
 		}
 
 		$exceptions = array('AS', '/', '-', '%', '+', '*');
