@@ -444,27 +444,28 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		// This function may get "item1 item2" as a string, and so
 		// we may need ""item1" "item2"" and not ""item1 item2""
-		if (strpos($item, ' ') !== FALSE)
+		if (ctype_alnum($item) === FALSE)
 		{
 			// This function may get "field >= 1", and need it to return ""field" >= 1"
-			if ($first_word_only === TRUE)
-			{
-				return '"'.preg_replace('/ /', '" ', $item, 1);
-			}
+			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
 
-			$item = preg_replace('/(^|\s|\()([\w\d\-\_]+?)(\s|\)|$)/iS', '$1"$2"$3', $item);
+			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1"$2"$3', $item);
+		}
+		else
+		{
+			return ""{$item}"";
 		}
 
 		$exceptions = array('AS', '/', '-', '%', '+', '*');
 		
 		foreach ($exceptions as $exception)
 		{
+		
 			if (stristr($item, " "{$exception}" ") !== FALSE)
 			{
 				$item = preg_replace('/ "('.preg_quote($exception).')" /i', ' $1 ', $item);
 			}
 		}
-		
 		return $item;
 	}
 			
