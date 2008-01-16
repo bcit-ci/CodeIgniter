@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.5.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.6.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -80,8 +80,10 @@ It DOES NOT return a database result set, nor does it set the query timer, or co
 It simply lets you submit a query. Most users will rarely use this function.</p>
 
 
+<h1>Protecting identifiers</h1>
+<p>In many databases it is advisable to protect table and field names - for example with backticks in MySQL. Active Record queries are automatically protected, however if you need to manually protect an identifier you can use:</p>
+<p><code>$this-&gt;db-&gt;protect_identifier('table_name');</code></p>
 <h1>Escaping Queries</h1>
-
 <p>It's a very good security practice to escape your data before submitting it into your database.
 CodeIgniter has two functions that help you do this:</p>
 

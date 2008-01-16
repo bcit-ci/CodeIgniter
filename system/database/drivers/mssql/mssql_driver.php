@@ -35,7 +35,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(*) AS numrows ";
+	var $_count_string = "SELECT COUNT(*) AS ";
+	var $_random_keyword = ' ASC'; // not currently supported
 	
 	/**
 	 * Non-persistent database connection
@@ -72,6 +73,22 @@ class CI_DB_mssql_driver extends CI_DB {
 	function db_select()
 	{
 		return @mssql_select_db($this->database, $this->conn_id);
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set client character set
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	resource
+	 */
+	function db_set_charset($charset, $collation)
+	{
+		// TODO - add support if needed
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -297,11 +314,21 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
 	 * @access	private
+	 * @param	boolean
 	 * @return	string
 	 */
-	function _list_tables()
+	function _list_tables($prefix_limit = FALSE)
 	{
-		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";		
+		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
+		
+		// for future compatibility
+		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		{
+			//$sql .= " LIKE '".$this->dbprefix."%'";
+			return FALSE; // not currently supported
+		}
+		
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -393,6 +420,25 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Protect Identifiers
+	 *
+	 * This function adds backticks if appropriate based on db type
+	 *
+	 * @access	private
+	 * @param	mixed	the item(s)
+	 * @param	boolean	should spaces be backticked
+	 * @param	boolean	only affect the first word
+	 * @return	mixed	the item with backticks
+	 */	
+	function _protect_identifiers($item, $affect_spaces = TRUE, $first_word_only = FALSE)
+	{
+		// MSSQL doesn't use backticks
+		return $item;
+	}
+			
+	// --------------------------------------------------------------------
+
+	/**
 	 * Insert statement
 	 *
 	 * Generates a platform-specific insert string from the supplied data
@@ -419,9 +465,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $limit = FALSE)
+	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach($values as $key => $val)
 		{
@@ -429,8 +477,29 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 		
 		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
+		
+		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 	
-		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$limit;
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$orderby.$limit;
+	}
+
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Truncate statement
+	 *
+	 * Generates a platform-specific truncate string from the supplied data
+	 * If the database does not support the truncate() command
+	 * This function maps to "DELETE FROM table"
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */	
+	function _truncate($table)
+	{
+		return "TRUNCATE ".$this->_escape_table($table);
 	}
 	
 	// --------------------------------------------------------------------
@@ -443,13 +512,28 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	string	the limit clause
 	 * @return	string
 	 */	
-	function _delete($table, $where, $limit = FALSE)
+	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
+		$conditions = '';
+
+		if (count($where) > 0 || count($like) > 0)
+		{
+			$conditions = "\nWHERE ";
+			$conditions .= implode("\n", $this->ar_where);
+
+			if (count($where) > 0 && count($like) > 0)
+			{
+				$conditions .= " AND ";
+			}
+			$conditions .= implode("\n", $like);
+		}
+
 		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
 	
-		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where).$limit;
+		return "DELETE FROM ".$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------

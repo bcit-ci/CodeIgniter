@@ -36,6 +36,8 @@ class CI_DB_driver {
 	var $database;
 	var $dbdriver		= 'mysql';
 	var $dbprefix		= '';
+	var $autoinit		= TRUE; // Whether to automatically initialize the DB
+	var $swap_pre		= '';
 	var $port			= '';
 	var $pconnect		= FALSE;
 	var $conn_id		= FALSE;
@@ -76,41 +78,11 @@ class CI_DB_driver {
 	 */	
 	function CI_DB_driver($params)
 	{
-		$this->initialize($params);
-		log_message('debug', 'Database Driver Class Initialized');
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Initialize Database Settings
-	 *
-	 * @access	private Called by the constructor
-	 * @param	mixed
-	 * @return	void
-	 */	
-	function initialize($params = '')
-	{
 		if (is_array($params))
 		{
-			$defaults = array(
-								'hostname'	=> '',
-								'username'	=> '',
-								'password'	=> '',
-								'database'	=> '',
-								'conn_id'	=> FALSE,
-								'dbdriver'	=> 'mysql',
-								'dbprefix'	=> '',
-								'port'		=> '',
-								'pconnect'	=> FALSE,
-								'db_debug'	=> FALSE,
-								'cachedir'	=> '',
-								'cache_on'	=> FALSE
-							);
-		
-			foreach ($defaults as $key => $val)
+			foreach ($params as $key => $val)
 			{
-				$this->$key = ( ! isset($params[$key])) ? $val : $params[$key];
+				$this->$key = $val;
 			}
 		}
 		elseif (strpos($params, '://'))
@@ -131,7 +103,21 @@ class CI_DB_driver {
 			$this->password = ( ! isset($dsn['pass'])) ? '' : rawurldecode($dsn['pass']);
 			$this->database = ( ! isset($dsn['path'])) ? '' : rawurldecode(substr($dsn['path'], 1));
 		}
-		
+
+		log_message('debug', 'Database Driver Class Initialized');
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Initialize Database Settings
+	 *
+	 * @access	private Called by the constructor
+	 * @param	mixed
+	 * @return	void
+	 */	
+	function initialize($create_db = FALSE)
+	{
 		// If an existing DB connection resource is supplied
 		// there is no need to connect and select the database
 		if (is_resource($this->conn_id))
@@ -159,12 +145,64 @@ class CI_DB_driver {
 		{
 			if ( ! $this->db_select())
 			{
+				// Should we attempt to create the database?
+				if ($create_db == TRUE)
+				{ 
+					// Load the DB utility class
+					$CI =& get_instance();
+					$CI->load->dbutil();
+					
+					// Create the DB
+					if ( ! $CI->dbutil->create_database($this->database))
+					{
+						log_message('error', 'Unable to create database: '.$this->database);
+					
+						if ($this->db_debug)
+						{
+							$this->display_error('db_unable_to_create', $this->database);
+						}
+						return FALSE;				
+					}
+					else
+					{
+						// In the event the DB was created we need to select it
+						if ($this->db_select())
+						{
+							if (! $this->db_set_charset($this->char_set, $this->dbcollat))
+							{
+								log_message('error', 'Unable to set database connection charset: '.$this->char_set);
+
+								if ($this->db_debug)
+								{
+									$this->display_error('db_unable_to_set_charset', $this->char_set);
+								}
+
+								return FALSE;
+							}
+							
+							return TRUE;
+						}
+					}
+				}
+			
 				log_message('error', 'Unable to select database: '.$this->database);
 			
 				if ($this->db_debug)
 				{
 					$this->display_error('db_unable_to_select', $this->database);
 				}
+				return FALSE;
+			}
+			
+			if (! $this->db_set_charset($this->char_set, $this->dbcollat))
+			{
+				log_message('error', 'Unable to set database connection charset: '.$this->char_set);
+			
+				if ($this->db_debug)
+				{
+					$this->display_error('db_unable_to_set_charset', $this->char_set);
+				}
+				
 				return FALSE;
 			}
 		}
@@ -211,8 +249,7 @@ class CI_DB_driver {
 		}
 	
 		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->ver;
+		return $query->row('ver');
 	}
 	
 	// --------------------------------------------------------------------
@@ -242,6 +279,12 @@ class CI_DB_driver {
 			}
 			return FALSE;		
 		}
+
+		// Verify table prefix and replace if necessary
+		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
+		{			
+			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
+		}
 		
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
@@ -269,7 +312,7 @@ class CI_DB_driver {
 		{
 			$this->queries[] = $sql;
 		}
-
+		
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 	
@@ -291,7 +334,7 @@ class CI_DB_driver {
 										);
 			}
 		
-		  return FALSE;
+			return FALSE;
 		}
 		
 		// Stop and aggregate the query time results
@@ -329,6 +372,7 @@ class CI_DB_driver {
 		$RES 			= new $driver();
 		$RES->conn_id	= $this->conn_id;
 		$RES->result_id	= $this->result_id;
+		$RES->num_rows	= $RES->num_rows();
 
 		if ($this->dbdriver == 'oci8')
 		{
@@ -336,9 +380,7 @@ class CI_DB_driver {
 			$RES->curs_id		= NULL;
 			$RES->limit_used	= $this->limit_used;
 		}
-
-		$RES->num_rows	= $RES->num_rows();
-				
+		
 		// Is query caching enabled?  If so, we'll serialize the
 		// result object and save it to a cache file.
 		if ($this->cache_on == TRUE AND $this->_cache_init())
@@ -593,6 +635,23 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Protect Identifiers
+	 *
+	 * This function adds backticks if appropriate based on db type
+	 *
+	 * @access	private
+	 * @param	mixed	the item to escape
+	 * @param	boolean	only affect the first word
+	 * @return	mixed	the item with backticks
+	 */
+	function protect_identifiers($item, $first_word_only = FALSE)
+	{
+		return $this->_protect_identifiers($item, $first_word_only = FALSE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * "Smart" Escape String
 	 *
 	 * Escapes data based on type
@@ -649,7 +708,7 @@ class CI_DB_driver {
 	 * @access	public
 	 * @return	array		
 	 */	
-	function list_tables()
+	function list_tables($constrain_by_prefix = FALSE)
 	{
 		// Is there a cached result?
 		if (isset($this->data_cache['table_names']))
@@ -657,7 +716,7 @@ class CI_DB_driver {
 			return $this->data_cache['table_names'];
 		}
 	
-		if (FALSE === ($sql = $this->_list_tables()))
+		if (FALSE === ($sql = $this->_list_tables($constrain_by_prefix)))
 		{
 			if ($this->db_debug)
 			{
@@ -697,7 +756,7 @@ class CI_DB_driver {
 	 */
 	function table_exists($table_name)
 	{
-		return ( ! in_array($this->dbprefix.$table_name, $this->list_tables())) ? FALSE : TRUE;
+		return ( ! in_array($this->prep_tablename($table_name), $this->list_tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -726,7 +785,7 @@ class CI_DB_driver {
 			return FALSE;			
 		}
 		
-		if (FALSE === ($sql = $this->_list_columns($this->dbprefix.$table)))
+		if (FALSE === ($sql = $this->_list_columns($this->prep_tablename($table))))
 		{
 			if ($this->db_debug)
 			{
@@ -798,7 +857,7 @@ class CI_DB_driver {
 			return FALSE;			
 		}
 		
-		$query = $this->query($this->_field_data($this->dbprefix.$table));
+		$query = $this->query($this->_field_data($this->prep_tablename($table)));
 		return $query->field_data();
 	}	
 
@@ -822,9 +881,10 @@ class CI_DB_driver {
 			$fields[] = $key;
 			$values[] = $this->escape($val);
 		}
-
-		return $this->_insert($this->dbprefix.$table, $fields, $values);
-	}
+				
+		
+		return $this->_insert($this->prep_tablename($table), $fields, $values);
+	}	
 	
 	// --------------------------------------------------------------------
 
@@ -859,7 +919,7 @@ class CI_DB_driver {
 			{
 				$prefix = (count($dest) == 0) ? '' : ' AND ';
 	
-				if ($val != '')
+				if ($val !== '')
 				{
 					if ( ! $this->_has_operator($key))
 					{
@@ -873,8 +933,31 @@ class CI_DB_driver {
 			}
 		}		
 
-		return $this->_update($this->dbprefix.$table, $fields, $dest);
+		return $this->_update($this->prep_tablename($table), $fields, $dest);
 	}	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Prep the table name - simply adds the table prefix if needed
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string		
+	 */	
+	function prep_tablename($table = '')
+	{
+		// Do we need to add the table prefix?
+		if ($this->dbprefix != '')
+		{
+			if (substr($table, 0, strlen($this->dbprefix)) != $this->dbprefix)
+			{
+				$table = $this->dbprefix.$table;
+			}
+		}
+
+		return $table;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -1013,7 +1096,6 @@ class CI_DB_driver {
 		return TRUE;
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -1044,6 +1126,7 @@ class CI_DB_driver {
 	 */	
 	function display_error($error = '', $swap = '', $native = FALSE)
 	{
+//		$LANG = new CI_Lang();
 		$LANG = new CI_Language();
 		$LANG->load('db');
 
@@ -1060,6 +1143,7 @@ class CI_DB_driver {
 
 		if ( ! class_exists('CI_Exceptions'))
 		{
+//			include(BASEPATH.'core/Exceptions'.EXT);
 			include(BASEPATH.'libraries/Exceptions'.EXT);
 		}
 		

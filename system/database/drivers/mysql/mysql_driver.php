@@ -42,7 +42,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(*) AS numrows ";
+	var $_count_string = 'SELECT COUNT(*) AS ';
 	var $_random_keyword = ' RAND()'; // database specific random keyword
 
 	/**
@@ -84,6 +84,21 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * Set client character set
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	resource
+	 */
+	function db_set_charset($charset, $collation)
+	{
+		return @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Version number query string
 	 *
@@ -314,17 +329,18 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
 	 * @access	private
+	 * @param	boolean
 	 * @return	string
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
 		$sql = "SHOW TABLES FROM `".$this->database."`";	
-		
-		if ($prefix_limit !== FALSE AND $this->_stdprefix != '')
+
+		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
 		{
-			$sql .= " LIKE '".$this->_stdprefix."%'";
+			$sql .= " LIKE '".$this->dbprefix."%'";
 		}
-		
+
 		return $sql;
 	}
 	
@@ -400,14 +416,66 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		if (stristr($table, '.'))
+		if (strpos($table, '.') !== FALSE)
 		{
-			$table = preg_replace("/\./", "`.`", $table);
+			$table = str_replace('.', '`.`', $table);
 		}
 		
 		return $table;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Protect Identifiers
+	 *
+	 * This function adds backticks if appropriate based on db type
+	 *
+	 * @access	private
+	 * @param	mixed	the item to escape
+	 * @param	boolean	only affect the first word
+	 * @return	mixed	the item with backticks
+	 */
+	function _protect_identifiers($item, $first_word_only = FALSE)
+	{
+		if (is_array($item))
+		{
+			$escaped_array = array();
+
+			foreach($item as $k=>$v)
+			{
+				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v, $first_word_only);
+			}
+
+			return $escaped_array;
+		}	
+
+		// This function may get "item1 item2" as a string, and so
+		// we may need "`item1` `item2`" and not "`item1 item2`"
+		if (strpos($item, ' ') !== FALSE)
+		{
+			// This function may get "field >= 1", and need it to return "`field` >= 1"
+			if ($first_word_only === TRUE)
+			{
+				return '`'.preg_replace('/ /', '` ', $item, 1);
+			}
+
+			$item = preg_replace('/(^|\s|\()([\w\d\-\_]+?)(\s|\)|$)/iS', '$1`$2`$3', $item);
+		}
+
+		$exceptions = array('AS', '/', '-', '%', '+', '*');
 		
+		foreach ($exceptions as $exception)
+		{
+		
+			if (stristr($item, " `{$exception}` ") !== FALSE)
+			{
+				$item = preg_replace('/ `('.preg_quote($exception).')` /i', ' $1 ', $item);
+			}
+		}
+		return $item;
+	}
+			
 	// --------------------------------------------------------------------
 
 	/**
@@ -437,9 +505,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $limit = FALSE)
+	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach($values as $key => $val)
 		{
@@ -447,8 +517,28 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 		
 		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
+		
+		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 	
-		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$limit;
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$orderby.$limit;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Truncate statement
+	 *
+	 * Generates a platform-specific truncate string from the supplied data
+	 * If the database does not support the truncate() command
+	 * This function maps to "DELETE FROM table"
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */	
+	function _truncate($table)
+	{
+		return "TRUNCATE ".$this->_escape_table($table);
 	}
 	
 	// --------------------------------------------------------------------
@@ -461,13 +551,28 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	string	the limit clause
 	 * @return	string
 	 */	
-	function _delete($table, $where, $limit = FALSE)
+	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
+		$conditions = '';
+
+		if (count($where) > 0 || count($like) > 0)
+		{
+			$conditions = "\nWHERE ";
+			$conditions .= implode("\n", $this->ar_where);
+
+			if (count($where) > 0 && count($like) > 0)
+			{
+				$conditions .= " AND ";
+			}
+			$conditions .= implode("\n", $like);
+		}
+
 		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
 	
-		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where).$limit;
+		return "DELETE FROM ".$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------

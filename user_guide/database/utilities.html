@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.5.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.6.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -65,8 +65,6 @@ Database Utility Class
 
 <ul>
 <li><a href="#init">Initializing the Utility Class</a></li>
-<li><a href="#create">Creating a Database</a></li>
-<li><a href="#drop">Dropping a Database</a></li>
 <li><a href="#list">Listing your Databases</a></li>
 <li><a href="#opttb">Optimizing your Tables</a></li>
 <li><a href="#repair">Repairing your Databases</a></li>
@@ -77,8 +75,8 @@ Database Utility Class
 </ul>
 
 
-<a name="init"></a>
-<h2>Initializing the Utility Class</h2>
+
+<h2><a name="init"></a>Initializing the Utility Class</h2>
 
 <p class="important"><strong>Important:</strong>&nbsp; In order to initialize the Utility class, your database driver must
 already be running, since the utilities class relies on it.</p>
@@ -91,35 +89,8 @@ already be running, since the utilities class relies on it.</p>
 
 <code>$this->dbutil->some_function()</code>
 
-
-
-<a name="create"></a>
-<h2>$this->dbutil->create_database('db_name')</h2>
-
-<p>Permits you to create the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
-
-<code>if ($this->dbutil->create_database('my_db'))<br />
-{<br />
-&nbsp;&nbsp;&nbsp; echo 'Database created!';<br />
-}</code>
-
-
-
-<a name="drop"></a>
-<h2>$this->dbutil->drop_database('db_name')</h2>
-
-<p>Permits you to drop the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
-
-<code>if ($this->dbutil->drop_database('my_db'))<br />
-{<br />
-&nbsp;&nbsp;&nbsp; echo 'Database deleted!';<br />
-}</code>
-
-
-<a name="list"></a>
-<h2>$this->dbutil->list_databases()</h2>
+<h2><a name="list"></a>$this->dbutil->list_databases()</h2>
 <p>Returns an array of database names:</p>
-
 
 <code>
 $dbs = $this->dbutil->list_databases();<br />
@@ -128,10 +99,7 @@ foreach($dbs as $db)<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo $db;<br />
 }</code>
-
-
-<a name="opttb"></a>
-<h2>$this->dbutil->optimize_table('table_name');</h2>
+<h2><a name="opttb"></a>$this->dbutil->optimize_table('table_name');</h2>
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
@@ -148,8 +116,7 @@ if ($this->dbutil->optimize_table('table_name'))<br />
 <p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
-<a name="repair"></a>
-<h2>$this->dbutil->repair_table('table_name');</h2>
+<h2><a name="repair"></a>$this->dbutil->repair_table('table_name');</h2>
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
@@ -166,8 +133,7 @@ if ($this->dbutil->repair_table('table_name'))<br />
 <p><strong>Note:</strong> Not all database platforms support table repairs.</p>
 
 
-<a name="optdb"></a>
-<h2>$this->dbutil->optimize_database();</h2>
+<h2><a name="optdb"></a>$this->dbutil->optimize_database();</h2>
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
 
@@ -185,8 +151,7 @@ if ($result !== FALSE)<br />
 <p><strong>Note:</strong> Not all database platforms support table optimization.</p>
 
 
-<a name="csv"></a>
-<h2>$this->dbutil->csv_from_result($db_result)</h2>
+<h2><a name="csv"></a>$this->dbutil->csv_from_result($db_result)</h2>
 
 <p>Permits you to generate a CSV file from a query result. The first parameter of the function must contain the result object from your query.
 Example:</p>
@@ -213,8 +178,7 @@ echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
-<a name="xml"></a>
-<h2>$this->dbutil->xml_from_result($db_result)</h2>
+<h2><a name="xml"></a>$this->dbutil->xml_from_result($db_result)</h2>
 
 <p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second
 may contain an optional array of config parameters.  Example:</p>
@@ -238,8 +202,7 @@ echo $this->dbutil->xml_from_result($query, $config);
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
-<a name="backup"></a>
-<h2>$this->dbutil->backup()</h2>
+<h2><a name="backup"></a>$this->dbutil->backup()</h2>
 
 <p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format.</p>
 
@@ -320,12 +283,11 @@ $this->dbutil->backup($prefs);
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="caching.html">DB Caching Class</a>
+Previous Topic:&nbsp;&nbsp;<a href="forge.html">DB Forge Class</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="../libraries/email.html"> Email Class</a>
-</p>
+Next Topic:&nbsp;&nbsp;<a href="../libraries/email.html"> Email Class</a></p>
 <p><a href="http://www.codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2007 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

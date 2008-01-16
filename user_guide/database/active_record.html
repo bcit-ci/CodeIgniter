@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.5.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.6.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -128,19 +128,53 @@ instead of using the db->where() function:</p>
 
 <p>Please read the about the where function below for more information.</p>
 <p class="important">Note: get_where() was formerly known as getwhere(), which has been deprecated</p>
+
 <h2>$this->db->select();</h2>
-
 <p>Permits you to write the SELECT portion of your query:</p>
-
-<code>
+<p><code>
 $this->db->select('title, content, date');<br />
 <br />
 $query = $this->db->get('mytable');<br />
 <br />
-// Produces: SELECT title, content, date FROM mytable</code>
+// Produces: SELECT title, content, date FROM mytable</code></p>
+<p class="important"><strong>Note:</strong> If you are selecting all (*) from a table you do not need to use this function.  When omitted, CodeIgniter assumes you wish to SELECT *</p>
 
-<p><strong>Note: If you are selecting all (*) from a table you do not need to use this function.  When omitted, CodeIgniter assumes you wish to SELECT *</strong></p>
+<p>$this-&gt;Db-&gt;select() accepts an optional second parameter. If you set it to FALSE, CodeIgniter will not try to protect your field or table names with backticks. This is useful if you need a compound select statement.</p>
+<p><code> 		$this-&gt;db-&gt;select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE); <br />
+    $query = $this-&gt;db-&gt;get('mytable');<br />
+</code></p>
+<h2>$this->db->select_max();</h2>
+<p>Writes a "SELECT MAX(field)" portion for your query. You can optionally include a second parameter to rename the resulting field.</p>
+<p><code>
+$this->db->select_max('age');<br />
+$query = $this->db->get('members');<br />
 
+// Produces: SELECT MAX(age) as age FROM members<br />
+<br />
+$this-&gt;db-&gt;select_max('age', 'member_age');<br />
+$query = $this-&gt;db-&gt;get('members');<br />
+// Produces: SELECT MAX(age) as member_age FROM members</code></p>
+
+<h2>$this->db->select_min();</h2>
+<p>Writes a "SELECT MIN(field)" portion for your query. As with <dfn>select_max()</dfn>, You can optionally include a second parameter to rename the resulting field.</p>
+<p><code>
+$this->db->select_min('age');<br />
+$query = $this->db->get('members');<br />
+// Produces: SELECT MIN(age) as age FROM members</code></p>
+
+<h2>$this->db->select_avg();</h2>
+<p>Writes a "SELECT AVG(field)" portion for your query. As with <dfn>select_max()</dfn>, You can optionally include a second parameter to rename the resulting field.</p>
+<p><code>
+$this->db->select_avg('age');<br />
+$query = $this->db->get('members');<br />
+// Produces: SELECT AVG(age) as age FROM members</code></p>
+
+<h2>$this->db->select_sum();</h2>
+<p>Writes a "SELECT SUM(field)" portion for your query. As with <dfn>select_max()</dfn>, You can optionally include a second parameter to rename the resulting field.</p>
+<p><code>
+$this->db->select_sum('age');<br />
+$query = $this->db->get('members');<br />
+// Produces: SELECT SUM(age) as age FROM members</code></p>
 
 <h2>$this->db->from();</h2>
 
@@ -154,8 +188,8 @@ $query = $this->db->get();<br />
 <br />
 // Produces: SELECT title, content, date FROM mytable</code>
 
-<p><strong>Note: As shown earlier, the FROM portion of your query can be specified in the <dfn>$this->db->get()</dfn> function, so use whichever method
-you prefer.</strong></p>
+<p class="important">Note: As shown earlier, the FROM portion of your query can be specified in the <dfn>$this->db->get()</dfn> function, so use whichever method
+you prefer.</p>
 
 <h2>$this->db->join();</h2>
 
@@ -294,6 +328,19 @@ $this->db->or_where('id >', $id);
     $this->db->where_in('username', $names);<br />
     // Produces: OR WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
 
+<h2>$this->db->raw_where();</h2>
+<p>  Generates an unfiltered WHERE portion of the query exactly as the developer passes it. Separates multiple calls with AND<br />
+    <code>    $this->db->raw_where('(grade &gt; 50 AND grade &lt; 75)');<br />
+    // Produces: AND WHERE (grade &gt; 50 AND grade &lt; 75)</code></p>
+
+<h2>$this->db->raw_or_where();</h2>
+<p>  Generates an unfiltered WHERE portion of the query exactly as the developer passes it. Separates multiple calls with OR<br />
+    <code>    $this->db->raw_where('(grade &gt; 50 AND grade &lt; 75)');<br />
+    // Produces: OR WHERE (grade &gt; 50 AND grade &lt; 75)</code></p>
+
+<p class="important"><strong>Note:</strong> All values passed through raw_where() and raw_or_where() are <strong>not</strong> escaped automatically, or otherwise touched. It is the responsibility of the developer to ensure all queries are safe. Consider using <a href="queries.html"><dfn>protect_identifiers()</dfn></a> and <a href="helpers.html">escaping your queries </a>as appropriate.</p>
+
+    
 <h2>$this->db->like();</h2>
 <p>This function enables you to generate <strong>LIKE</strong> clauses, useful for doing searches.</p>
 
@@ -390,11 +437,12 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 
 
 <code>$this->db->having(array('title =' => 'My Title', 'id <' => $id));
-<br /><br />// Produces: HAVING title = 'My Title', 'id < 45'
-</code>
+<br /><br />// Produces: HAVING title = 'My Title', 'id < 45'</code>
 
 	
 	
+<h2>$this-&gt;db-&gt;or_having();</h2>
+<p>Identical to having(), only separates multiple clauses with &quot;OR&quot;.</p>
 <h2>$this->db->order_by();</h2>
 <p>Lets you set an ORDER BY clause. The first parameter contains the name of the column you would like to order by.
 The second parameter lets you set the direction of the result.  Options are <kbd>asc</kbd> or <kbd>desc</kbd>, or <kbd>random</kbd>. </p>
@@ -419,7 +467,7 @@ The second parameter lets you set the direction of the result.  Options are <kbd
     // Produces: ORDER BY title DESC, name ASC
     </code></p>
 <p class="important">Note: order_by() was formerly known as orderby(), which has been deprecated.</p>
-<p class="important">Note: random ordering is not currently supported in Orcacle or MSSQL drivers. </p>
+<p class="important">Note: random ordering is not currently supported in Orcacle or MSSQL drivers. These will default to 'ASC'.</p>
 <h2>$this->db->limit();</h2>
 <p>Lets you limit the number of rows you would like returned by the query:</p>
 
@@ -516,14 +564,19 @@ $this->db->insert('mytable');
 
 <p>If you use multiple function called they will be assembled properly based on whether you are doing an insert or an update:</p>
 
-<code>$this->db->set('name', $name);<br />
-$this->db->set('title', $title);<br />
-$this->db->set('status', $status);<br />
-$this->db->insert('mytable');
-</code>
-
+<code>$this-&gt;db-&gt;set('name', $name);<br />
+$this-&gt;db-&gt;set('title', $title);<br />
+$this-&gt;db-&gt;set('status', $status);<br />
+$this-&gt;db-&gt;insert('mytable'); </code>
+<p><strong>set()</strong> will also accept an optional third parameter ($escape), that will prevent data from being escaped if set to FALSE. To illustrate the difference, here is set() used both with and without the escape parameter.</p>
+<p><code>$this-&gt;db-&gt;set('field', 'field+1', FALSE);<br />
+    $this-&gt;db-&gt;insert('mytable'); <br />
+    // gives INSERT INTO mytable (field) VALUES (field+1)<br />
+    <br />
+    $this-&gt;db-&gt;set('field', 'field+1');<br />
+    $this-&gt;db-&gt;insert('mytable'); <br />
+    // gives INSERT INTO mytable (field) VALUES ('field+1')</code></p>
 <p>You can also pass an associative array to this function:</p>
-
 <code>
 $array = array('name' => $name, 'title' => $title, 'status' => $status);<br /><br />
 
@@ -640,9 +693,23 @@ the data to the second parameter of the function:</p>
 <p><code>$tables = array('table1', 'table2', 'table3');<br />
 $this-&gt;db-&gt;where('id', '5');<br />
 $this-&gt;db-&gt;delete($tables);</code></p>
-<p class="important"><strong>Note:</strong> All values are escaped automatically producing safer queries.</p>
-
-
+<p>If you want to delete all data from a table, you can use the <dfn>truncate()</dfn> function, or <dfn>empty_table()</dfn>.</p>
+<h2>$this-&gt;db-&gt;empty_table();</h2>
+<p>Generates a delete SQL string and runs the query.<code>    $this-&gt;db-&gt;empty_table('mytable'); <br />
+    <br />
+// Produces<br />
+// DELETE FROM mytable</code></p>
+<h2>$this-&gt;db-&gt;truncate();</h2>
+<p>Generates a truncate SQL string and runs the query.</p>
+<code> $this-&gt;db-&gt;from('mytable'); <br />
+$this-&gt;db-&gt;truncate(); <br />
+// or <br />
+$this-&gt;db-&gt;truncate('mytable'); <br />
+<br />
+// Produce:<br />
+// TRUNCATE mytable <br />
+</code>
+<p class="important"><strong>Note:</strong> If the TRUNCATE command isn't available, truncate() will execute as &quot;DELETE FROM table&quot;.</p>
 <a name="chaining">&nbsp;</a>
 <h1>Method Chaining</h1>
 
