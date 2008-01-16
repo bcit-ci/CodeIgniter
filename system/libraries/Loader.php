@@ -398,7 +398,7 @@ class CI_Loader {
 	
 		foreach ($plugins as $plugin)
 		{	
-			$plugin = strtolower(str_replace(EXT, '', str_replace('_plugin.', '', $plugin)).'_pi');		
+			$plugin = strtolower(str_replace(EXT, '', str_replace('_pi', '', $plugin)).'_pi');		
 
 			if (isset($this->_ci_plugins[$plugin]))
 			{
