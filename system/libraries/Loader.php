@@ -295,7 +295,7 @@ class CI_Loader {
 	 */
 	function view($view, $vars = array(), $return = FALSE)
 	{
-		return $this->_ci_load(array('view' => $view, 'vars' => $this->_ci_object_to_array($vars), 'return' => $return));
+		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
 	}
 	
 	// --------------------------------------------------------------------
@@ -312,7 +312,7 @@ class CI_Loader {
 	 */
 	function file($path, $return = FALSE)
 	{
-		return $this->_ci_load(array('path' => $path, 'return' => $return));
+		return $this->_ci_load(array('_ci_path' => $path, '_ci_return' => $return));
 	}
 	
 	// --------------------------------------------------------------------
@@ -611,25 +611,25 @@ class CI_Loader {
 	function _ci_load($data)
 	{
 		// Set the default data variables
-		foreach (array('view', 'vars', 'path', 'return') as $val)
+		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $val)
 		{
 			$$val = ( ! isset($data[$val])) ? FALSE : $data[$val];
 		}
 
 		// Set the path to the requested file
-		if ($path == '')
+		if ($_ci_path == '')
 		{
-			$ext = pathinfo($view, PATHINFO_EXTENSION);
-			$file = ($ext == '') ? $view.EXT : $view;
-			$path = $this->_ci_view_path.$file;
+			$ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
+			$file = ($ext == '') ? $_ci_view.EXT : $_ci_view;
+			$_ci_path = $this->_ci_view_path.$file;
 		}
 		else
 		{
-			$x = explode('/', $path);
+			$x = explode('/', $_ci_path);
 			$file = end($x);
 		}
 		
-		if ( ! file_exists($path))
+		if ( ! file_exists($_ci_path))
 		{
 			show_error('Unable to load the requested file: '.$file);
 		}
@@ -658,9 +658,9 @@ class CI_Loader {
 		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
 		 */	
-		if (is_array($vars))
+		if (is_array($_ci_vars))
 		{
-			$this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $vars);
+			$this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
 		}
 		extract($this->_ci_cached_vars);
 				
@@ -684,17 +684,17 @@ class CI_Loader {
 		
 		if ((bool) @ini_get('short_open_tag') === FALSE AND config_item('rewrite_short_tags') == TRUE)
 		{
-			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($path))).'<?php ');
+			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))).'<?php ');
 		}
 		else
 		{
-			include($path);
+			include($_ci_path);
 		}
 		
-		log_message('debug', 'File loaded: '.$path);
+		log_message('debug', 'File loaded: '.$_ci_path);
 		
 		// Return the file data if requested
-		if ($return === TRUE)
+		if ($_ci_return === TRUE)
 		{		
 			$buffer = ob_get_contents();
 			@ob_end_clean();
