@@ -684,13 +684,17 @@ class CI_Email {
 		}
 			
 		$clean_email = array();
-
-		for ($i=0; $i < count($email); $i++)
+		
+		foreach ($email as $addy)
 		{
-			if (preg_match( '/\<(.*)\>/', $email[$i], $match))
-		   		$clean_email[] = $match['1'];
+			if (preg_match( '/\<(.*)\>/', $addy, $match))
+			{
+		   		$clean_email[] = $match['1'];				
+			}
 		   	else
-		   		$clean_email[] = $email[$i];
+			{
+		   		$clean_email[] = $addy;					
+			}
 		}
 		
 		return $clean_email;
