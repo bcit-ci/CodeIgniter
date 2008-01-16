@@ -452,7 +452,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		// This function may get "item1 item2" as a string, and so
 		// we may need "`item1` `item2`" and not "`item1 item2`"
-		if (ctype_alnum($item) !== FALSE)
+		if (ctype_alnum($item) === FALSE)
 		{
 			// This function may get "field >= 1", and need it to return "`field` >= 1"
 			if ($first_word_only === TRUE)
