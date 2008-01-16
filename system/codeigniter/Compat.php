@@ -55,6 +55,11 @@ if (! function_exists('ctype_digit'))
 {
 	function ctype_digit($str)
 	{
+		if (! is_string($str) OR $str == '')
+		{
+			return FALSE;
+		}
+		
 		return ! preg_match('/[^0-9]/', $str);
 	}	
 }
@@ -75,6 +80,11 @@ if (! function_exists('ctype_alnum'))
 {
 	function ctype_alnum($str)
 	{
+		if (! is_string($str) OR $str == '')
+		{
+			return FALSE;
+		}
+		
 		return ! preg_match('/[^0-9a-z]/i', $str);
 	}	
 }
