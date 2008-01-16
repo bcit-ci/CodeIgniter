@@ -124,6 +124,13 @@ class CI_Pagination {
 			// Prep the current page - no funny business!
 			$this->cur_page = (int) $this->cur_page;
 		}
+
+		$this->num_links = (int)$this->num_links;
+		
+		if ($this->num_links < 1)
+		{
+			show_error('Your number of links must be a positive number.');
+		}
 				
 		if ( ! is_numeric($this->cur_page))
 		{
