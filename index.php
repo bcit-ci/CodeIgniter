@@ -42,20 +42,6 @@
 */
 	$application_folder = "application";
 
-
-/*
-|---------------------------------------------------------------
-| Default Controller Data Assignment
-|---------------------------------------------------------------
-|
-| If you need any data passed by default to your controllers you
-| can use this variable.  When a controller class is instantiated
-| this data will be passed to the controller constructor.
-|
-*/
-	$assign_to_controller = NULL;
-
-
 /*
 |===============================================================
 | END OF USER CONFIGURABLE SETTINGS
