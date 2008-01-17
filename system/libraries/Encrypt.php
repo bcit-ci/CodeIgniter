@@ -249,7 +249,7 @@ class CI_Encrypt {
 	{	
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
+		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
 	}
   	
 	// --------------------------------------------------------------------
@@ -264,13 +264,86 @@ class CI_Encrypt {
 	 */	
 	function mcrypt_decode($data, $key)
 	{
+		$data = $this->_remove_cipher_noise($data, $key);
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
-		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
+		$init_vect = substr($data, 0, $init_size);
+		$data = substr($data, $init_size);
 		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
 	}
   	
 	// --------------------------------------------------------------------
 
+	/**
+	 * Adds permuted noise to the IV + encrypted data to protect
+	 * against Man-in-the-middle attacks on CBC mode ciphers
+	 * http://www.ciphersbyritter.com/GLOSSARY.HTM#IV
+	 *
+	 * Function description
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function _add_cipher_noise($data, $key)
+	{
+		$keyhash = $this->hash($key);
+		$keylen = strlen($keyhash);
+		$str = '';
+	
+		for ($i = 0, $j = 0, $len = strlen($data); $i < $len; ++$i, ++$j)
+		{	
+			if ($j >= $keylen)
+			{
+				$j = 0;
+			}
+			
+			$str .= chr((ord($data[$i]) + ord($keyhash[$j])) % 256);
+		}
+		
+		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Removes permuted noise from the IV + encrypted data, reversing
+	 * _add_cipher_noise()
+	 *
+	 * Function description
+	 *
+	 * @access	public
+	 * @param	type
+	 * @return	type
+	 */
+	function _remove_cipher_noise($data, $key)
+	{
+		$keyhash = $this->hash($key);
+		$keylen = strlen($keyhash);
+		$str = '';
+
+		for ($i = 0, $j = 0, $len = strlen($data); $i < $len; ++$i, ++$j)
+		{
+			if ($j >= $keylen)
+			{
+				$j = 0;
+			}
+			
+			$temp = ord($data[$i]) - ord($keyhash[$j]);
+			
+			if ($temp < 0)
+			{
+				$temp = $temp + 256;
+			}
+			
+			$str .= chr($temp);
+		}
+		
+		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Set the Mcrypt Cipher
 	 *

@@ -97,7 +97,8 @@ Change Log
 	<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
     <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
     <li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
-    <li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
+	<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>    
+	<li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
     <li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
     <li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
     <li>Documented 2 config options to the <a href="./database/configuration.html">Database configuration</a> page.</li>
@@ -123,7 +124,8 @@ Change Log
 	<li>Fixed a bug in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
     <li>Fixed a bug in Pagination to scan for non-positive num_links.</li>
 	<li>Fixed a bug in the typography helper causing extraneous paragraph tags when string contains tags.</li>
-    <li>Fixed an example of comma-separated emails in the email library documentation.</li>
+	<li>Fixed a bug in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>    
+	<li>Fixed an example of comma-separated emails in the email library documentation.</li>
     <li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
     <li>Fixed a typo in the database language file.</li>
     <li>Fixed a typo in the image language file &quot;suppor&quot; to &quot;support&quot;.</li>
