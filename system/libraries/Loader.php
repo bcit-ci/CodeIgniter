@@ -820,6 +820,8 @@ class CI_Loader {
 	 */
 	function _ci_init_class($class, $prefix = '', $config = FALSE)
 	{	
+		$class = strtolower($class);
+		
 		// Is there an associated config file for this class?
 		if ($config === NULL)
 		{
@@ -838,8 +840,7 @@ class CI_Loader {
 			$name = $prefix.$class;
 		}
 		
-		// Set the variable name we will assign the class to
-		$class = strtolower($class);			
+		// Set the variable name we will assign the class to	
 		$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
 				
 		// Instantiate the class		
