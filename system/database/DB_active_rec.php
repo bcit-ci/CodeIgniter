@@ -749,7 +749,8 @@ class CI_DB_active_record extends CI_DB_driver {
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 		
-		$this->ar_orderby[] = $this->_protect_identifiers($orderby).$direction;
+		$this->ar_orderby[] = $this->_protect_identifiers($orderby, TRUE).$direction;
+
 		return $this;
 	}
 	
