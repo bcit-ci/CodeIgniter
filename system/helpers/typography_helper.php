@@ -152,8 +152,8 @@ class Auto_typography {
 		 * ends.  Later on we'll do some further clean up.
 		 *
 		 */
-		$str = preg_replace("#(<.*?)(".$this->block_elements.")(.*?>)#", "</p>\\1\\2\\3", $str);
-		$str = preg_replace("#(</.*?)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3<p>", $str);
+		$str = preg_replace("#(<)(".$this->block_elements.")(.*?>)#", "</p>\\1\\2\\3", $str);
+		$str = preg_replace("#(</)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3<p>", $str);
 	
 		/*
 		 * Convert "ignore" tags to temporary marker
