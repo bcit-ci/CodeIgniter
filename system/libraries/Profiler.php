@@ -137,6 +137,56 @@ class CI_Profiler {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Compile $_GET Data
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _compile_get()
+	{	
+		$output  = "\n\n";
+		$output .= '<fieldset style="border:1px solid #cd6e00;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
+		$output .= "\n";
+		$output .= '<legend style="color:#cd6e00;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_get_data').'&nbsp;&nbsp;</legend>';
+		$output .= "\n";
+				
+		if (count($_GET) == 0)
+		{
+			$output .= "<div style='color:#cd6e00;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_get')."</div>";
+		}
+		else
+		{
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
+		
+			foreach ($_GET as $key => $val)
+			{
+				if ( ! is_numeric($key))
+				{
+					$key = "'".$key."'";
+				}
+			
+				$output .= "<tr><td width='50%' style='color:#000;background-color:#ddd;'>&#36;_GET[".$key."]&nbsp;&nbsp; </td><td width='50%' style='color:#cd6e00;font-weight:normal;background-color:#ddd;'>";
+				if (is_array($val))
+				{
+					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, true))) . "</pre>";
+				}
+				else
+				{
+					$output .= htmlspecialchars(stripslashes($val));
+				}
+				$output .= "</td></tr>\n";
+			}
+			
+			$output .= "</table>\n";
+		}
+		$output .= "</fieldset>";
+
+		return $output;	
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Compile $_POST Data
 	 *
 	 * @access	private
@@ -188,6 +238,68 @@ class CI_Profiler {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Show query string
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _compile_uri_string()
+	{	
+		$output  = "\n\n";
+		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
+		$output .= "\n";
+		$output .= '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_uri_string').'&nbsp;&nbsp;</legend>';
+		$output .= "\n";
+		
+		if ($this->CI->uri->uri_string == '')
+		{
+			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_uri')."</div>";
+		}
+		else
+		{
+			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->uri->uri_string."</div>";				
+		}
+		
+		$output .= "</fieldset>";
+
+		return $output;	
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Compile memory usage
+	 *
+	 * Display total used memory
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _compile_memory_usage()
+	{
+		$output  = "\n\n";
+		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
+		$output .= "\n";
+		$output .= '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_memory_usage').'&nbsp;&nbsp;</legend>';
+		$output .= "\n";
+		
+		if (function_exists('memory_get_usage') && ($usage = memory_get_usage()) != '')
+		{
+			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".number_format($usage).' bytes</div>';
+		}
+		else
+		{
+			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory_usage')."</div>";				
+		}
+		
+		$output .= "</fieldset>";
+
+		return $output;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Run the Profiler
 	 *
 	 * @access	private
@@ -197,8 +309,11 @@ class CI_Profiler {
 	{		
 		$output = '<br clear="all" />';
 		$output .= "<div style='background-color:#fff;padding:10px;'>";
-	
-		$output .= $this->_compile_benchmarks();
+		
+		$output .= $this->_compile_memory_usage();
+		$output .= $this->_compile_benchmarks();	
+		$output .= $this->_compile_uri_string();
+		$output .= $this->_compile_get();
 		$output .= $this->_compile_post();
 		$output .= $this->_compile_queries();
 		
