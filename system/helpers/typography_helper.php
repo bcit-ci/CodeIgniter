@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		Rick Ellis
+ * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://www.codeigniter.com/user_guide/license.html
  * @link		http://www.codeigniter.com
@@ -21,7 +21,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		Rick Ellis
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/helpers/typography_helper.html
  */
 
@@ -82,8 +82,7 @@ function auto_typography($str)
  *
  * @access		private
  * @category	Helpers
- * @author		Rick Ellis
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/helpers/
  */
 class Auto_typography {
