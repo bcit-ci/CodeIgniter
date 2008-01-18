@@ -86,8 +86,8 @@ class CI_Validation {
 		}		
 			
 		foreach($this->_fields as $key => $val)
-		{		
-			$this->$key = ( ! isset($_POST[$key]) OR is_array($_POST[$key])) ? '' : $this->prep_for_form($_POST[$key]);
+		{
+			$this->$key = ( ! isset($_POST[$key])) ? '' : $this->prep_for_form($_POST[$key]);
 			
 			$error = $key.'_error';
 			if ( ! isset($this->$error))
@@ -659,14 +659,22 @@ class CI_Validation {
 	 * @param	string
 	 * @return	string
 	 */
-	function prep_for_form($str = '')
+	function prep_for_form($data = '')
 	{
-		if ($this->_safe_form_data == FALSE OR $str == '')
+		if (is_array($data))
 		{
-			return $str;
+			foreach ($data as $key => $val)
+			{
+				$data[$key] = $this->prep_for_form($val);
+			}
+		}
+		
+		if ($this->_safe_form_data == FALSE OR $data == '')
+		{
+			return $data;
 		}
 
-		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($str));
+		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($data));
 	}
 	
 	// --------------------------------------------------------------------
