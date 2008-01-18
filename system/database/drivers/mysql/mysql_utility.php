@@ -179,7 +179,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					$v = str_replace('\\\t', '\t',	$v);
 
 					// Is the value NULL?
-					if ($v == NULL)
+					if ($v === NULL)
 					{
 						$val_str .= 'NULL';
 					}
