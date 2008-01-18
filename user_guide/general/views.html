@@ -113,8 +113,25 @@ class Blog extends Controller {
 
 <code>www.your-site.com/index.php/<var>blog</var>/</code>
 
-<h2>Storing Views within Sub-folders</h2>
+<h2>Loading multiple views</h2>
+<p>CodeIgniter will intelligently handle  multiple calls to $this-&gt;load-&gt;view from within a controller.  If more then one call happens they will be appended together. For example, you may wish to have a header view, a menu view, a content view, and a footer view. That might look something like this:</p>
+<p><code>&lt;?php<br />
+<br />
+class Page extends Controller {<br /><br />
 
+ &nbsp;&nbsp;&nbsp;function index()<br />
+&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data['page_title'] =  'Your title';<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;load-&gt;view('header');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;load-&gt;view('menu');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;load-&gt;view('content', $data);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;load-&gt;view('footer');<br />
+&nbsp;&nbsp;&nbsp;}<br />
+<br />
+}<br />
+    ?&gt;</code></p>
+<p>In the example above, we are using &quot;dynamically added data&quot;, which you will see below.</p>
+<h2>Storing Views within Sub-folders</h2>
 <p>Your view files can also be stored within sub-folders if you prefer that type of organization.  When doing so you will need
 to include the folder name loading the view.  Example:</p>
 
