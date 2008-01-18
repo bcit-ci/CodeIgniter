@@ -60,50 +60,93 @@ Change Log
 <h2>Version 1.6.0</h2>
 <p>Release Date: -- still in development </p>
 <ul>
-	<li>Added Flashdata variables, session_id regeneration and configurable session update   times to the <a href="./libraries/sessions.html">Session class.</a></li>
-	<li>Added the ability to <a href="./general/autoloader.html">auto-load</a> <a href="./general/models.html">Models</a></li>
-	<li>Added $this->DB->save_queries variable to DB driver, enabling queries to get saved or not. Previously they were always saved.</li>
-	<li>Reorganized the URI and Routes classes for better clarity.</li>
-    <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
-    <li>Added <a href="./database/forge.html">DBForge</a> to the database tools.</li>
-    <li>Moved <kbd>create_database()</kbd> and <kbd>drop_database()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
-    <li>Added <kbd>add_field()</kbd>, <kbd>add_key()</kbd>, <kbd>create_table()</kbd>, <kbd>drop_table()</kbd>, <kbd>add_column()</kbd>, <kbd>drop_column()</kbd>, <kbd>modify_column()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
-    <li>Added 'random' as an <kbd>order_by()</kbd> option , and removed &quot;rand()&quot; as a listed option as it was MySQL only.</li>
-    <li>Added <kbd>protect_identifiers()</kbd> in <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>All AR queries are backticked if appropriate to the database.</li>
-    <li>Added <kbd>where_in()</kbd>, <kbd>where_in_or()</kbd>, <kbd>where_not_in()</kbd>,  <kbd>where_not_in_or()</kbd>, <kbd>not_like()</kbd> and <kbd>or_not_like()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added support for <kbd>limit()</kbd>  into <kbd>update()</kbd> and <kbd>delete()</kbd> statements in  <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added <kbd>empty_table()</kbd> and <kbd>truncate_table()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added the ability to pass an array of tables to the <kbd>delete()</kbd> statement in <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added <kbd>count_all_results()</kbd> function to <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added <kbd>select_max()</kbd>, <kbd>select_min()</kbd>, <kbd>select_avg()</kbd> and <kbd>select_sum()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added the ability to use aliases with joins in <a href="./database/active_record.html">Active Record</a>.</li>
-    <li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
-    <li>Added a third parameter to <kbd>set()</kbd> in <a href="./database/active_record.html">Active Record</a> that withholds escaping data.</li>
-    <li>Added a check for NULL fields in the MySQL database backup utility.</li>
-    <li>Added a few additional mime type variations for CSV.</li>
-    <li>Added <kbd>strip_quotes()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-    <li>Added <kbd>reduce_multiples()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-    <li>Added <kbd>quotes_to_entities()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-    <li>Added <kbd>form_fieldset()</kbd>, <kbd>form_fieldset_close()</kbd>, <kbd>form_label()</kbd>, and <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
-    <li>Added support for external urls in <kbd>form_open()</kbd>.</li>
-    <li>Added a language entry for valid_ip validation error.</li>
-    <li>Added titles to all user manual pages.</li>
-	<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>
-    <li>Added <a href="http://codeigniter.com/user_guide/libraries/zip.html">Zip Encoding Class</a> to the table of contents of the userguide.</li>
-	<li>Added memory usage, GET, and URI string data to Profiler output.</li>
-    <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
-    <li>Moved part of the userguide menu javascript to an external file.</li>
-	<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
-	<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
-	<li>Modified Upload class $_FILE error messages to be more precise.</li>
-    <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
-    <li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
-	<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>    
-	<li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
-    <li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
-    <li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
-    <li>Documented 2 config options to the <a href="./database/configuration.html">Database configuration</a> page.</li>
+	<li>DBForge
+		<ul>
+    		<li>Added <a href="./database/forge.html">DBForge</a> to the database tools.</li>
+			<li>Moved <kbd>create_database()</kbd> and <kbd>drop_database()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
+			<li>Added <kbd>add_field()</kbd>, <kbd>add_key()</kbd>, <kbd>create_table()</kbd>, <kbd>drop_table()</kbd>, <kbd>add_column()</kbd>, <kbd>drop_column()</kbd>, <kbd>modify_column()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
+		</ul>
+	</li>
+
+	<li>Active Record
+		<ul>
+			<li>Added <kbd>protect_identifiers()</kbd> in <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>All AR queries are backticked if appropriate to the database.</li>
+			<li>Added <kbd>where_in()</kbd>, <kbd>where_in_or()</kbd>, <kbd>where_not_in()</kbd>,  <kbd>where_not_in_or()</kbd>, <kbd>not_like()</kbd> and <kbd>or_not_like()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added support for <kbd>limit()</kbd>  into <kbd>update()</kbd> and <kbd>delete()</kbd> statements in  <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added <kbd>empty_table()</kbd> and <kbd>truncate_table()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added the ability to pass an array of tables to the <kbd>delete()</kbd> statement in <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added <kbd>count_all_results()</kbd> function to <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added <kbd>select_max()</kbd>, <kbd>select_min()</kbd>, <kbd>select_avg()</kbd> and <kbd>select_sum()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added the ability to use aliases with joins in <a href="./database/active_record.html">Active Record</a>.</li>
+		    <li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
+		    <li>Added a third parameter to <kbd>set()</kbd> in <a href="./database/active_record.html">Active Record</a> that withholds escaping data.</li>
+			<li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
+		</ul>
+	</li>
+	
+	<li>Other Database Related
+		<ul>
+			<li>Added $this->DB->save_queries variable to DB driver, enabling queries to get saved or not. Previously they were always saved.</li>
+			<li>Added 'random' as an <kbd>order_by()</kbd> option , and removed &quot;rand()&quot; as a listed option as it was MySQL only.</li>
+			<li>Added a check for NULL fields in the MySQL database backup utility.</li>
+		    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
+		</ul>
+	</li>
+	
+	<li>Core changes
+		<ul>
+			<li>Added ability to load multiple views, whose content will be appended to the output in the order loaded.</li>
+			<li>Added the ability to <a href="./general/autoloader.html">auto-load</a> <a href="./general/models.html">Models</a></li>
+			<li>Reorganized the URI and Routes classes for better clarity.</li>
+			<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>   
+			<li>Added memory usage, GET, and URI string data to Profiler output.</li>
+			<li>Deprecated Scaffolding.</li>
+		</ul>
+	</li>
+	
+	<li>Libraries
+		<ul>
+			<li>Added Flashdata variables, session_id regeneration and configurable session update   times to the <a href="./libraries/sessions.html">Session class.</a></li>
+			<li>Added a language entry for valid_ip validation error.</li>
+		    <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
+			<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
+			<li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
+			<li>Modified Upload class $_FILE error messages to be more precise.</li>
+			<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
+			<li>Added a few additional mime type variations for CSV.</li>
+		</ul>
+	</li>
+	
+	<li>Helpers &amp; Plugins
+		<ul>
+			<li>Added <kbd>strip_quotes()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+		    <li>Added <kbd>reduce_multiples()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+		    <li>Added <kbd>quotes_to_entities()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+		    <li>Added <kbd>form_fieldset()</kbd>, <kbd>form_fieldset_close()</kbd>, <kbd>form_label()</kbd>, and <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
+		    <li>Added support for external urls in <kbd>form_open()</kbd>.</li>
+		    <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>		    
+			<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>
+		</ul>
+	</li>
+	
+      
+    <li>Documentation Changes
+		<ul>
+			<li>Added titles to all user manual pages.</li>
+			<li>Added <a href="http://codeigniter.com/user_guide/libraries/zip.html">Zip Encoding Class</a> to the table of contents of the userguide.</li>
+			<li>Moved part of the userguide menu javascript to an external file.</li>
+			<li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
+		    <li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
+		    <li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
+		    <li>Documented 2 config options to the <a href="./database/configuration.html">Database configuration</a> page.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for Version 1.6.0</h3>
+	
+<ul>
     <li>Fixed a bug in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
     <li>Fixed a bug: $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
     <li>Fixed a bug in the <a href="./libraries/file_uploading.html">upload library</a> when allowed_files wasn't defined.</li>
@@ -128,7 +171,6 @@ Change Log
 	<li>Fixed a bug in the typography helper causing extraneous paragraph tags when string contains tags.</li>
 	<li>Fixed a bug in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
 	<li>Fixed a bug (#3175) preventing certain libraries from working properly when autoloaded in PHP 4</li>
-	<li>Fixed a bug (#3260) in MySQL backup utility where variables with loose type equivalents to NULL would be output as MySQL NULL.</li>
 	<li>Fixed an example of comma-separated emails in the email library documentation.</li>
     <li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
     <li>Fixed a typo in the database language file.</li>
@@ -139,10 +181,7 @@ Change Log
     <li>Fixed a typo in the <a href="./helpers/string_helper.html">String Helper</a> (uniquid changed to uniqid).</li>
     <li>Fixed typos in the email Language class (email_attachment_unredable, email_filed_smtp_login).</li>
     <li>Fixed assorted user guide typos.</li>
-    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
-    <li>Deprecated Scaffolding.</li>
 </ul>
-
 
 
 
