@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		Rick Ellis, Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://www.codeigniter.com/user_guide/license.html
  * @link		http://www.codeigniter.com
@@ -31,7 +31,7 @@ if ( ! class_exists('CI_Xmlrpc'))
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpcs extends CI_Xmlrpc

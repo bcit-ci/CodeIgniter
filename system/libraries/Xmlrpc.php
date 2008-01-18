@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		Rick Ellis, Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://www.codeigniter.com/user_guide/license.html
  * @link		http://www.codeigniter.com
@@ -27,7 +27,7 @@ if ( ! function_exists('xml_parser_create'))
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpc {
@@ -337,7 +337,7 @@ class CI_Xmlrpc {
  * XML-RPC Client class
  *
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team 
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Client extends CI_Xmlrpc
@@ -415,7 +415,7 @@ class XML_RPC_Client extends CI_Xmlrpc
  * XML-RPC Response class
  *
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Response
@@ -595,7 +595,7 @@ class XML_RPC_Response
  * XML-RPC Message class
  *
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Message extends CI_Xmlrpc
@@ -1192,7 +1192,7 @@ class XML_RPC_Message extends CI_Xmlrpc
  * XML-RPC Values class
  *
  * @category	XML-RPC
- * @author		Paul Burdick
+ * @author		ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Values extends CI_Xmlrpc

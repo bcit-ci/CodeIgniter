@@ -4,12 +4,12 @@
  *
  * An open source application development framework for PHP 4.3.2 or newer
  *
- * @package	 CodeIgniter
- * @author	  Rick Ellis
+ * @package	 	CodeIgniter
+ * @author	 	ExpressionEngine Dev Team
  * @copyright   Copyright (c) 2006, EllisLab, Inc.
- * @license	 http://www.codeigniter.com/user_guide/license.html
+ * @license	 	http://www.codeigniter.com/user_guide/license.html
  * @link		http://www.codeigniter.com
- * @since	   Version 1.0
+ * @since	   	Version 1.0
  * @filesource
  */
 
@@ -21,7 +21,7 @@
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
- * @author	  Rick Ellis
+ * @author	 	ExpressionEngine Dev Team
  * @link		http://www.codeigniter.com/user_guide/database/
  */
 class CI_DB_oci8_result extends CI_DB_result {
