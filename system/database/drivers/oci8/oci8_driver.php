@@ -413,7 +413,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 
-		$query = $this->query($this->_count_string . "FROM ".$table);
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
 
 		if ($query == FALSE)
 			{

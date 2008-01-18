@@ -281,8 +281,8 @@ class CI_DB_odbc_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query($this->_count_string . "FROM `".$this->dbprefix.$table."`");
-		
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
+	
 		if ($query->num_rows() == 0)
 			return '0';
 
