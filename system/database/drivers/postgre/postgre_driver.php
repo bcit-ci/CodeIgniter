@@ -302,9 +302,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 
-		$query = $this->query($this->_count_string .'FROM "'.$this->dbprefix.$table.'"');
-//		original query before _count_string was used.  Kept for reference
-//		$query = $this->query('SELECT COUNT(*) AS numrows FROM "'.$this->dbprefix.$table.'"');
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
 				
 		if ($query->num_rows() == 0)
 			return '0';
