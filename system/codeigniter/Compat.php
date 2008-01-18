@@ -24,7 +24,7 @@
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	Compatibility Functions
- * @author		EllisLab Development Team
+ * @author		ExpressionEngine Development Team
  * @link		http://www.codeigniter.com/user_guide/
  */
 
