@@ -490,6 +490,8 @@ class CI_DB_active_record extends CI_DB_driver {
  	 			
 		$this->ar_where[] = $prefix . $this->_protect_identifiers($key) . $not . " IN (" . implode(", ", $this->ar_wherein) . ") ";
 
+		// reset the array for multiple calls
+		$this->ar_wherein = array();
 		return $this;
 	}
 		
@@ -750,7 +752,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		
 		$this->ar_orderby[] = $this->_protect_identifiers($orderby, TRUE).$direction;
-
 		return $this;
 	}
 	
