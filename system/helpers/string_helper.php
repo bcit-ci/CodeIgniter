@@ -56,7 +56,7 @@ function trim_slashes($str)
  *
  * @access	public
  * @param	mixed	string or array
- * @return	mixed	stering or array
+ * @return	mixed	string or array
  */	
  function strip_slashes($str)
  {
