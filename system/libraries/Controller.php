@@ -84,6 +84,15 @@ class Controller extends CI_Base {
 		else
 		{
 			$this->_ci_autoloader();
+			
+			// sync up the objects since PHP4 was working from a copy
+			foreach (array_keys(get_object_vars($this)) as $attribute)
+            {
+                if (is_object($this->$attribute))
+                {
+                    $this->load->$attribute =& $this->$attribute;
+                }
+            }
 		}
 	}
 	
