@@ -71,7 +71,30 @@ class CI_Output {
 	}
 
 	// --------------------------------------------------------------------
-	
+
+	/**
+	 * Append Output
+	 *
+	 * Appends data onto the output string
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */	
+	function append_output($output)
+	{
+		if ($this->final_output == '')
+		{
+			$this->final_output = $output;
+		}
+		else
+		{
+			$this->final_output .= $output;
+		}
+	}
+
+	// --------------------------------------------------------------------
+		
 	/**
 	 * Set Header
 	 *

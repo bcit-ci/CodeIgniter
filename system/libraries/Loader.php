@@ -719,7 +719,7 @@ class CI_Loader {
 		{
 			// PHP 4 requires that we use a global
 			global $OUT;
-			$OUT->set_output(ob_get_contents());
+			$OUT->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
 	}
