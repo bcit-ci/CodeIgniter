@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
 <title>CodeIgniter User Guide : Change Log</title>
@@ -136,6 +136,7 @@ Change Log
     <li>Documentation Changes
 		<ul>
 			<li>Added titles to all user manual pages.</li>
+			<li>Added attributes into &lt;html&gt; of userguide for valid html.</li>
 			<li>Added <a href="http://codeigniter.com/user_guide/libraries/zip.html">Zip Encoding Class</a> to the table of contents of the userguide.</li>
 			<li>Moved part of the userguide menu javascript to an external file.</li>
 			<li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
@@ -308,7 +309,7 @@ Change Log
 <li>Added new helper:  <a href="./helpers/smiley_helper.html">Smiley Helper</a></li>
 <li>Added support for &lt;ul> and &lt;ol> lists in the  <a href="./helpers/html_helper.html">HTML Helper</a></li>
 <li>Added the ability to rewrite <a href="./general/alternative_php.html">short tags</a> on-the-fly, converting them to standard PHP statements, for those servers that do not support short tags.  This allows the cleaner syntax to be used regardless of whether it's supported by the server.</li>
-<li>Added the ability to <a href="./general/managing_apps.html">rename or relocate the "application" folder</a>.
+<li>Added the ability to <a href="./general/managing_apps.html">rename or relocate the "application" folder</a>.</li>
 <li>Added more thorough initialization in the upload class so that all class variables are reset.</li>
 <li>Added "is_numeric" to validation, which uses the native PHP is_numeric function.</li>
 <li>Improved the URI handler to make it more reliable when the $config['uri_protocol'] item is set to AUTO.</li>
@@ -492,7 +493,7 @@ This feature enables you to (among other things) use your  <a href="./general/mo
 <li>Added support for running standard <a href="urls.html">query string URLs</a>.  These can be optionally enabled in your config file.</li>
 <li>Added the ability to  <a href="urls.html">specify a "suffix"</a>, which will be appended to your URLs.  For example, you could add .html to your URLs, making them appear static. This feature is enabled in your config file.</li>
 <li>Added a new error template for use with native PHP errors.</li>
-<li>Added "alternator" function in the <a href="./helpers/string_helper.html">string helpers</a>.
+<li>Added "alternator" function in the <a href="./helpers/string_helper.html">string helpers</a>.</li>
 <li>Removed slashing from the input class. After much debate we decided to kill this feature.</li>
 <li>Change the commenting style in the scripts to the PEAR standard so that IDEs and tools like phpDocumenter can harvest the comments.</li>
 <li>Added better class and function name-spacing to avoid collisions with user developed classes. All CodeIgniter classes are now prefixed with <dfn>CI_</dfn> and
