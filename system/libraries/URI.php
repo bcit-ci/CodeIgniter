@@ -78,7 +78,7 @@ class CI_URI {
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways		
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');			
-			if ($path != '' AND $path != "/".SELF)
+			if ($path != '' AND $path != '/' AND $path != "/".SELF)
 			{
 				$this->uri_string = $path;
 				return;
@@ -86,7 +86,7 @@ class CI_URI {
 					
 			// No PATH_INFO?... What about QUERY_STRING?
 			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');	
-			if ($path != '')
+			if ($path != '' AND $path != '/')
 			{
 				$this->uri_string = $path;
 				return;
@@ -94,7 +94,7 @@ class CI_URI {
 			
 			// No QUERY_STRING?... Maybe the ORIG_PATH_INFO variable exists?
 			$path = (isset($_SERVER['ORIG_PATH_INFO'])) ? $_SERVER['ORIG_PATH_INFO'] : @getenv('ORIG_PATH_INFO');	
-			if ($path != '' AND $path != "/".SELF)
+			if ($path != '' AND $path != '/' AND $path != "/".SELF)
 			{
 				$this->uri_string = $path;
 				return;
@@ -187,14 +187,15 @@ class CI_URI {
 	 */	
 	function _filter_uri($str)
 	{
-		if ($this->config->item('permitted_uri_chars') != '')
+		if ($str != '' AND $this->config->item('permitted_uri_chars') != '')
 		{
 			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
 			{
 				exit('The URI you submitted has disallowed characters.');
 			}
-		}	
-			return $str;
+		}
+			
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
