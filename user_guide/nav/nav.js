@@ -102,6 +102,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'helpers/date_helper.html">Date Helper</a></li>' +
 		'<li><a href="'+base+'helpers/directory_helper.html">Directory Helper</a></li>' +
 		'<li><a href="'+base+'helpers/download_helper.html">Download Helper</a></li>' +
+		'<li><a href="'+base+'helpers/email_helper.html">Email Helper</a></li>' +
 		'<li><a href="'+base+'helpers/file_helper.html">File Helper</a></li>' +
 		'<li><a href="'+base+'helpers/form_helper.html">Form Helper</a></li>' +
 		'<li><a href="'+base+'helpers/html_helper.html">HTML Helper</a></li>' +
