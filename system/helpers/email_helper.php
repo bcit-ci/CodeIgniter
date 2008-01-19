@@ -1,0 +1,54 @@
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP 4.3.2 or newer
+ *
+ * @package		CodeIgniter
+ * @author		ExpressionEngine Dev Team
+ * @copyright	Copyright (c) 2006, EllisLab, Inc.
+ * @license		http://www.codeigniter.com/user_guide/license.html
+ * @link		http://www.codeigniter.com
+ * @since		Version 1.0
+ * @filesource
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * CodeIgniter Email Helpers
+ *
+ * @package		CodeIgniter
+ * @subpackage	Helpers
+ * @category	Helpers
+ * @author		ExpressionEngine Dev Team
+ * @link		http://www.codeigniter.com/user_guide/helpers/email_helper.html
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * Validate email address
+ *
+ * @access	public
+ * @return	bool
+ */	
+function valid_email($address)
+{
+	return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address)) ? FALSE : TRUE;
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Send an email
+ *
+ * @access	public
+ * @return	bool
+ */	
+function send_email($recipient, $subject = 'Test email', $message = 'Hello World')
+{
+	return mail($recipient, $subject, $message);
+}
+
+?>
