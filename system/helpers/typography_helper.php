@@ -88,7 +88,7 @@ function auto_typography($str)
 class Auto_typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'div|blockquote|pre|code|h\d|script|ol|un';
+	var $block_elements = 'div|blockquote|pre|code|h\d|script|ol|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
 	var $skip_elements	= 'pre|ol|ul';
