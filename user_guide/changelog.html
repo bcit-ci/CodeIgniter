@@ -90,6 +90,7 @@ Change Log
 			<li>Added $this->DB->save_queries variable to DB driver, enabling queries to get saved or not. Previously they were always saved.</li>
 			<li>Added 'random' as an <kbd>order_by()</kbd> option , and removed &quot;rand()&quot; as a listed option as it was MySQL only.</li>
 			<li>Added a check for NULL fields in the MySQL database backup utility.</li>
+		    <li>Added &quot;constrain_by_prefix&quot; parameter to db-&gt;list_table() function.  If set to TRUE it will limit the result to only table names with the current prefix.</li>
 		    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
 		</ul>
 	</li>
