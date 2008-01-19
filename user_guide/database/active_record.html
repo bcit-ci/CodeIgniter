@@ -311,7 +311,7 @@ $this->db->or_where('id >', $id);
 <p>Generates a WHERE field IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
-    $this->db->where_in_or('username', $names);<br />
+    $this->db->or_where_in('username', $names);<br />
     // Produces: OR WHERE username IN ('Frank', 'Todd', 'James')</code></p>
     
 <h2>$this->db->where_not_in();</h2>
@@ -325,22 +325,9 @@ $this->db->or_where('id >', $id);
 <p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
-    $this->db->where_in('username', $names);<br />
+    $this->db->or_where_not_in('username', $names);<br />
     // Produces: OR WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
 
-<h2>$this->db->raw_where();</h2>
-<p>  Generates an unfiltered WHERE portion of the query exactly as the developer passes it. Separates multiple calls with AND<br />
-    <code>    $this->db->raw_where('(grade &gt; 50 AND grade &lt; 75)');<br />
-    // Produces: AND WHERE (grade &gt; 50 AND grade &lt; 75)</code></p>
-
-<h2>$this->db->raw_or_where();</h2>
-<p>  Generates an unfiltered WHERE portion of the query exactly as the developer passes it. Separates multiple calls with OR<br />
-    <code>    $this->db->raw_where('(grade &gt; 50 AND grade &lt; 75)');<br />
-    // Produces: OR WHERE (grade &gt; 50 AND grade &lt; 75)</code></p>
-
-<p class="important"><strong>Note:</strong> All values passed through raw_where() and raw_or_where() are <strong>not</strong> escaped automatically, or otherwise touched. It is the responsibility of the developer to ensure all queries are safe. Consider using <a href="queries.html"><dfn>protect_identifiers()</dfn></a> and <a href="helpers.html">escaping your queries </a>as appropriate.</p>
-
-    
 <h2>$this->db->like();</h2>
 <p>This function enables you to generate <strong>LIKE</strong> clauses, useful for doing searches.</p>
 
@@ -403,7 +390,7 @@ $this->db->or_like('body', $match);
 <code> $this-&gt;db-&gt;like('title', 'match');<br />
 $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 <br />
-// WHERE title  LIKE '%match% OR body NOT LIKE 'match'</code>
+// WHERE title  LIKE '%match% OR body NOT LIKE '%match%'</code>
 <h2>$this->db->group_by();</h2>
 <p>Permits you to write the GROUP BY portion of your query:</p>
 	
@@ -430,14 +417,15 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 <p>Permits you to write the HAVING portion of your query:</p>
 	
 <code>$this->db->having('user_id = 45');
-<br /><br />// Produces: HAVING 'user_id = 45'
-</code>
+<br /><br />
+// Produces: HAVING user_id = 45</code>
 	
 <p>You can also pass an array of multiple values as well:</p>
 
 
 <code>$this->db->having(array('title =' => 'My Title', 'id <' => $id));
-<br /><br />// Produces: HAVING title = 'My Title', 'id < 45'</code>
+<br /><br />
+// Produces: HAVING title = 'My Title', id < 45</code>
 
 	
 	
