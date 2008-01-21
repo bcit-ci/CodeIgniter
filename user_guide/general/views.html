@@ -162,7 +162,7 @@ $this->load->view('blogview', <var>$data</var>);</code>
 <p>Let's try it with your controller file.  Open it add this code:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="14">
-<?php
+&lt;?php
 class Blog extends Controller {
 
 	function index()
@@ -173,7 +173,7 @@ class Blog extends Controller {
 		$this->load->view('blogview', $data);
 	}
 }
-?>
+?&gt;
 </textarea>
 
 
@@ -193,9 +193,6 @@ class Blog extends Controller {
 
 <p>Then load the page at the URL you've been using and you should see the variables replaced.</p>
 
-<p><strong>Note:</strong> You'll notice that in the example above we are using PHP's alternative syntax.  If you
-are not familiar with it you can read about it <a href="alternative_php.html">here</a>.</p>
-
 <h2>Creating Loops</h2>
 
 <p>The data array you pass to your view files is not limited to simple variables.  You can
@@ -205,7 +202,7 @@ pull data from your database it will typically be in the form of a multi-dimensi
 <p>Here's a simple example. Add this to your controller:</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="17">
-<?php
+&lt;?php
 class Blog extends Controller {
 
 	function index()
@@ -218,7 +215,7 @@ class Blog extends Controller {
 		$this->load->view('blogview', $data);
 	}
 }
-?>
+?&gt;
 </textarea>
 
 
@@ -242,12 +239,12 @@ class Blog extends Controller {
 
 &lt;?php endforeach;?>
 &lt;/ul>
-
 	
 &lt;/body>
 &lt;/html>
 </textarea>
-
+<p><strong>Note:</strong> You'll notice that in the example above we are using PHP's alternative syntax.  If you
+are not familiar with it you can read about it <a href="alternative_php.html">here</a>.</p>
 
 
 </div>

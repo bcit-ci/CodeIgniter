@@ -72,7 +72,7 @@ Change Log
 		<ul>
 			<li>Added <kbd>protect_identifiers()</kbd> in <a href="./database/active_record.html">Active Record</a>.</li>
 		    <li>All AR queries are backticked if appropriate to the database.</li>
-			<li>Added <kbd>where_in()</kbd>, <kbd>where_in_or()</kbd>, <kbd>where_not_in()</kbd>,  <kbd>where_not_in_or()</kbd>, <kbd>not_like()</kbd> and <kbd>or_not_like()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added <kbd>where_in()</kbd>, <kbd>or_where_in()</kbd>, <kbd>where_not_in()</kbd>,  <kbd>or_where_not_in()</kbd>, <kbd>not_like()</kbd> and <kbd>or_not_like()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
 			<li>Added support for <kbd>limit()</kbd>  into <kbd>update()</kbd> and <kbd>delete()</kbd> statements in  <a href="./database/active_record.html">Active Record</a>.</li>
 		    <li>Added <kbd>empty_table()</kbd> and <kbd>truncate_table()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
 		    <li>Added the ability to pass an array of tables to the <kbd>delete()</kbd> statement in <a href="./database/active_record.html">Active Record</a>.</li>
@@ -113,7 +113,7 @@ Change Log
 		    <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
 			<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
 			<li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
-			<li>Modified Upload class $_FILE error messages to be more precise.</li>
+			<li>Modified Upload class $_FILES error messages to be more precise.</li>
 			<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
 			<li>Added a few additional mime type variations for CSV.</li>
 		</ul>
