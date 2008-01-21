@@ -17,7 +17,7 @@
 |
 | Please see the user guide for complete details:
 |
-|	http://www.codeigniter.com/user_guide/general/routing.html
+|	http://codeigniter.com/user_guide/general/routing.html
 |
 | -------------------------------------------------------------------------
 | RESERVED ROUTES

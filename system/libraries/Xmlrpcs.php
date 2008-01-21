@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -32,7 +32,7 @@ if ( ! class_exists('CI_Xmlrpc'))
  * @subpackage	Libraries
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpcs extends CI_Xmlrpc
 {

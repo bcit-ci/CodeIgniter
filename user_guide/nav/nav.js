@@ -120,8 +120,8 @@ function create_menu(basepath)
 		'<h3>Additional Resources</h3>' +
 		'<ul>' +
 		'<li><a href="'+base+'general/quick_reference.html">Quick Reference Chart</a></li>' +
-		'<li><a href="http://www.codeigniter.com/forums/">Community Forums</a></li>' +
-		'<li><a href="http://www.codeigniter.com/wiki/">Community Wiki</a></li>' +
+		'<li><a href="http://codeigniter.com/forums/">Community Forums</a></li>' +
+		'<li><a href="http://codeigniter.com/wiki/">Community Wiki</a></li>' +
 		'</ul>' +	
 		
 		'</td></tr></table>');
