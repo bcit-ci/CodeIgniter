@@ -180,7 +180,7 @@ class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
+		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
 
 		$this->_reset();
 		return $this->db->query($sql);
@@ -197,7 +197,7 @@ class CI_DB_forge {
 	 */
 	function drop_table($table_name)
 	{
-		$sql = $this->_drop_table($table_name);
+		$sql = $this->_drop_table($this->db->dbprefix.$table_name);
 		
 		if (is_bool($sql))
 		{
@@ -234,7 +234,7 @@ class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_alter_table('ADD', $table, $this->fields, $after_field);
+		$sql = $this->_alter_table('ADD', $this->db->dbprefix.$table, $this->fields, $after_field);
 
 		$this->_reset();
 		return $this->db->query($sql);
@@ -263,7 +263,7 @@ class CI_DB_forge {
 				show_error('A column name is required for that operation.');
 		}
 
-		$sql = $this->_alter_table('DROP', $table, $column_name);
+		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
 	
 		return $this->db->query($sql);
 	}
@@ -296,7 +296,7 @@ class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_alter_table('CHANGE', $table, $this->fields);
+		$sql = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->fields);
 
 		$this->_reset();
 		return $this->db->query($sql);
