@@ -34,7 +34,7 @@
 | folder then the default one you can set its name here. The folder 
 | can also be renamed or relocated anywhere on your server.
 | For more info please see the user guide:
-| http://www.codeigniter.com/user_guide/general/managing_apps.html
+| http://codeigniter.com/user_guide/general/managing_apps.html
 |
 |
 | NO TRAILING SLASH!

@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.3
  * @filesource
  */
@@ -36,7 +36,7 @@
  * @subpackage	codeigniter
  * @category	front-controller
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/
+ * @link		http://codeigniter.com/user_guide/
  */
  class CI_Base extends CI_Loader {
 

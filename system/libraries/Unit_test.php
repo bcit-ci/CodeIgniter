@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.3.1
  * @filesource
  */
@@ -24,7 +24,7 @@
  * @subpackage	Libraries
  * @category	UnitTesting
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/uri.html
+ * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
 class CI_Unit_test {
 

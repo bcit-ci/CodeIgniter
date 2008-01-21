@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -22,7 +22,7 @@
  * @subpackage	Libraries
  * @category	Uploads
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/file_uploading.html
+ * @link		http://codeigniter.com/user_guide/libraries/file_uploading.html
  */
 class CI_Upload {
 	

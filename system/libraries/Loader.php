@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -24,7 +24,7 @@
  * @subpackage	Libraries
  * @author		ExpressionEngine Dev Team
  * @category	Loader
- * @link		http://www.codeigniter.com/user_guide/libraries/loader.html
+ * @link		http://codeigniter.com/user_guide/libraries/loader.html
  */
 class CI_Loader {
 

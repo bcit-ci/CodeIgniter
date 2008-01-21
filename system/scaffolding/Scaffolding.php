@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -23,7 +23,7 @@
  * @package		CodeIgniter
  * @subpackage	Scaffolding
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/general/scaffolding.html
+ * @link		http://codeigniter.com/user_guide/general/scaffolding.html
  */
 class Scaffolding {
 

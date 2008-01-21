@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://www.codeigniter.com/user_guide/license.html
- * @link		http://www.codeigniter.com
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -28,7 +28,7 @@ if ( ! function_exists('xml_parser_create'))
  * @subpackage	Libraries
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpc {
 
@@ -338,7 +338,7 @@ class CI_Xmlrpc {
  *
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team 
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Client extends CI_Xmlrpc
 {
@@ -416,7 +416,7 @@ class XML_RPC_Client extends CI_Xmlrpc
  *
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Response
 {
@@ -596,7 +596,7 @@ class XML_RPC_Response
  *
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Message extends CI_Xmlrpc
 {
@@ -1193,7 +1193,7 @@ class XML_RPC_Message extends CI_Xmlrpc
  *
  * @category	XML-RPC
  * @author		ExpressionEngine Dev Team
- * @link		http://www.codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Values extends CI_Xmlrpc
 {
