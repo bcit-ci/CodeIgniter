@@ -231,57 +231,59 @@ do not need to write your own routine to do it.</p>
 
 <table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
 <tr>
-<th>Preference</th>
-<th>Default</th>
-<th>Options</th>
-<th>Description</th>
-
-</tr><tr>
-<td class="td"><strong>sess_cookie_name</strong></td>
-<td class="td">ci_session</td
-><td class="td">None</td>
-<td class="td">The name you world the session cookie saved as.</td>
-
-</tr><tr>
-<td class="td"><strong>sess_expiration</strong></td>
-<td class="td">7200</td>
-<td class="td">None</td>
-<td class="td">The number of seconds you would like the session to last. The default value is 2 hours (7200 seconds).
-If you would like a non-expiring session set the value to zero: 0</td>
-
-
-</tr><tr>
-<td class="td"><strong>sess_encrypt_cookie</strong></td>
-<td class="td">FALSE</td>
-<td class="td">TRUE/FALSE (boolean)</td>
-<td class="td">Whether to encrypt the session data.</td>
-
-</tr><tr>
-<td class="td"><strong>sess_use_database</strong></td>
-<td class="td">FALSE</td>
-<td class="td">TRUE/FALSE (boolean)</td>
-<td class="td">Whether to save the session data to a database.  You must create the table before enabling this option.</td>
-
-</tr><tr>
-<td class="td"><strong>sess_table_name</strong></td>
-<td class="td">ci_sessions</td
-><td class="td">Any valid SQL table name</td>
-<td class="td">The name of the session database table.</td>
-
-</tr><tr>
-<td class="td"><strong>sess_match_ip</strong></td>
-<td class="td">FALSE</td>
-<td class="td">TRUE/FALSE (boolean)</td>
-<td class="td">Whether to match the user's IP address when reading the session data.  Note that some ISPs dynamically
-changes the IP, so if you want a non-expiring session you will likely set this to FALSE.</td>
-
-</tr><tr>
-<td class="td"><strong>sess_match_useragent</strong></td>
-<td class="td">TRUE</td>
-<td class="td">TRUE/FALSE (boolean)</td>
-<td class="td">Whether to match the User Agent when reading the session data.</td>
-
-
+    <th>Preference</th>
+    <th>Default</th>
+    <th>Options</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td class="td"><strong>sess_cookie_name</strong></td>
+    <td class="td">ci_session</td>
+    <td class="td">None</td>
+    <td class="td">The name you world the session cookie saved as.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_expiration</strong></td>
+    <td class="td">7200</td>
+    <td class="td">None</td>
+    <td class="td">The number of seconds you would like the session to last. The default value is 2 hours (7200 seconds). If you would like a non-expiring session set the value to zero: 0</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_encrypt_cookie</strong></td>
+    <td class="td">FALSE</td>
+    <td class="td">TRUE/FALSE (boolean)</td>
+    <td class="td">Whether to encrypt the session data.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_use_database</strong></td>
+    <td class="td">FALSE</td>
+    <td class="td">TRUE/FALSE (boolean)</td>
+    <td class="td">Whether to save the session data to a database.  You must create the table before enabling this option.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_table_name</strong></td>
+    <td class="td">ci_sessions</td>
+    <td class="td">Any valid SQL table name</td>
+    <td class="td">The name of the session database table.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_time_to_update</strong></td>
+    <td class="td">300</td>
+    <td class="td">Time in milliseconds</td>
+    <td class="td">This options controls how often the session class will regenerate itself and create a new session id.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_match_ip</strong></td>
+    <td class="td">FALSE</td>
+    <td class="td">TRUE/FALSE (boolean)</td>
+    <td class="td">Whether to match the user's IP address when reading the session data.  Note that some ISPs dynamically
+    changes the IP, so if you want a non-expiring session you will likely set this to FALSE.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_match_useragent</strong></td>
+    <td class="td">TRUE</td>
+    <td class="td">TRUE/FALSE (boolean)</td>
+    <td class="td">Whether to match the User Agent when reading the session data.</td>
 </tr>
 </table>
 
