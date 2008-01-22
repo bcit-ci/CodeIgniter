@@ -200,8 +200,10 @@ function is_really_writable($file)
 			return FALSE;
 		}
 		
+		fclose($fp);
 		@chmod($file, 0777);
 		@unlink($file);
+		return TRUE;
 	}
 	elseif (($fp = @fopen($file, 'ab')) === FALSE)
 	{
