@@ -88,6 +88,7 @@ Change Log
 	<li>Other Database Related
 		<ul>
 			<li>Added $this->DB->save_queries variable to DB driver, enabling queries to get saved or not. Previously they were always saved.</li>
+			<li>Added $this->db->dbprefix() to manually add database prefixes.</li>
 			<li>Added 'random' as an <kbd>order_by()</kbd> option , and removed &quot;rand()&quot; as a listed option as it was MySQL only.</li>
 			<li>Added a check for NULL fields in the MySQL database backup utility.</li>
 		    <li>Added &quot;constrain_by_prefix&quot; parameter to db-&gt;list_table() function.  If set to TRUE it will limit the result to only table names with the current prefix.</li>

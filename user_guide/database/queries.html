@@ -80,6 +80,10 @@ It DOES NOT return a database result set, nor does it set the query timer, or co
 It simply lets you submit a query. Most users will rarely use this function.</p>
 
 
+<h1>Adding Database prefixes manually</h1>
+<p>If you have configured a database prefix and would like to add it in manually for, you can use the following.</p>
+<p><code>$this-&gt;db-&gt;dbprefix('tablename');<br />
+// outputs prefix_tablename</code></p>
 <h1>Protecting identifiers</h1>
 <p>In many databases it is advisable to protect table and field names - for example with backticks in MySQL. Active Record queries are automatically protected, however if you need to manually protect an identifier you can use:</p>
 <p><code>$this-&gt;db-&gt;protect_identifier('table_name');</code></p>
