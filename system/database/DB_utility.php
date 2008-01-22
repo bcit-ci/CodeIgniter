@@ -168,11 +168,12 @@ class CI_DB_utility extends CI_DB_forge {
 	 *
 	 * @access	public
 	 * @param	object	The query result object
-	 * @param	string	The delimiter - tab by default
+	 * @param	string	The delimiter - comma by default
 	 * @param	string	The newline character - \n by default
+	 * @param	string	The enclosure - double quote by default
 	 * @return	string
 	 */
-	function csv_from_result($query, $delim = "\t", $newline = "\n")
+	function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"')
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
 		{
@@ -184,7 +185,7 @@ class CI_DB_utility extends CI_DB_forge {
 		// First generate the headings from the table column names
 		foreach ($query->list_fields() as $name)
 		{
-			$out .= $name.$delim;
+			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
 		}
 		
 		$out = rtrim($out);
@@ -195,7 +196,7 @@ class CI_DB_utility extends CI_DB_forge {
 		{
 			foreach ($row as $item)
 			{
-				$out .= $item.$delim;			
+				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;			
 			}
 			$out = rtrim($out);
 			$out .= $newline;
