@@ -267,7 +267,7 @@ function highlight_code($str)
 	// or B) whether the PHP tags enclose the entire string, we will add our
 	// own PHP tags around the string along with some markers to make replacement easier later
 	
-	$str = '<?php //tempstart'."\n".$str.'//tempend ?>';
+	$str = '<?php tempstart'."\n".$str.'tempend ?>';
 	
 	// All the magic happens here, baby!
 	$str = highlight_string($str, TRUE);
@@ -281,10 +281,9 @@ function highlight_code($str)
 	}
 	
 	// Remove our artificially added PHP and the empty span that results from our temp markers
-	$str = preg_replace("#\<code\>.+?//tempstart\<br />\</span\>#is", "<code>\n", $str);
-	$str = preg_replace("#\<code\>.+?//tempstart\<br />#is", "<code>\n", $str);
-	$str = preg_replace("#//tempend.+#is", "</span>\n</code>", $str);
-	$str = preg_replace("#\<span style=\"color: \#FF8000\"\></span>\n</code>#is", "\n</code>", $str);	
+	$str = preg_replace("#\<code\>.+?tempstart\<br />\</span\>#is", "<code>\n", $str);
+	$str = preg_replace("#\<code\>.+?tempstart\<br />#is", "<code>\n", $str);
+	$str = preg_replace("#tempend.+#is", "</span>\n</code>", $str);	
 	
 	// Replace our markers back to PHP tags.
 	$str = str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
