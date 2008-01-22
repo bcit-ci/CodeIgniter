@@ -204,6 +204,8 @@ class CI_Xmlrpc {
 			// Send Error
 		}
 		
+		$this->data = array();
+		
 		foreach($incoming as $key => $value)
 		{
 			$this->data[$key] = $this->values_parsing($value);
