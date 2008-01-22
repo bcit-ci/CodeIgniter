@@ -167,7 +167,7 @@ class CI_Loader {
 	
 		if ( ! class_exists('Model'))
 		{
-			require_once(BASEPATH.'libraries/Model'.EXT);
+			load_class('Model', FALSE);
 		}
 
 		require_once(APPPATH.'models/'.$path.$model.EXT);
