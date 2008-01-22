@@ -7,8 +7,8 @@
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
- * @link		http://codeigniter.com
+ * @license		http://www.codeigniter.com/user_guide/license.html
+ * @link		http://www.codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
@@ -22,7 +22,7 @@
  * @subpackage	Libraries
  * @category	Validation
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/validation.html
+ * @link		http://www.codeigniter.com/user_guide/libraries/validation.html
  */
 class CI_Validation {
 	
@@ -552,21 +552,21 @@ class CI_Validation {
 	 */	
 	function numeric($str)
 	{
-		return ! preg_match('/[^0-9]/', $str);
+		return ( ! is_numeric($str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Is Numeric
+	 * Integer
 	 *
 	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */	
-	function is_numeric($str)
+	function integer($str)
 	{
-		return ( ! is_numeric($str)) ? FALSE : TRUE;
+		return ( ! is_int($str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
