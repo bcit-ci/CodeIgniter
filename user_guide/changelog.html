@@ -151,7 +151,8 @@ Change Log
 <h3>Bug fixes for Version 1.6.0</h3>
 	
 <ul>
-	<li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
+	<li>Removed an extraneous call to loading models (#3286).</li>
+    <li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
     <li>Fixed a bug in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
     <li>Fixed a bug: $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
     <li>Fixed a bug in the <a href="./libraries/file_uploading.html">upload library</a> when allowed_files wasn't defined.</li>

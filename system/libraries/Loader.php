@@ -895,11 +895,7 @@ class CI_Loader {
 			}		
 		}
 
-		// Autoload models
-		if (isset($autoload['model']))
-		{
-			$this->model($autoload['model']);
-		}
+
 
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
@@ -930,14 +926,14 @@ class CI_Loader {
 			{
 				$this->library($item);
 			}
-
-			// Load the model class.
-			if (in_array('model', $autoload['libraries']))
-			{
-				$this->model();
-				$autoload['libraries'] = array_diff($autoload['libraries'], array('model'));
-			}
 		}		
+
+		// Autoload models
+		if (isset($autoload['model']))
+		{
+			$this->model($autoload['model']);
+		}
+
 	}
 	
 	// --------------------------------------------------------------------
