@@ -120,6 +120,7 @@ Change Log
 			<li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
 			<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
 			<li>Added a few additional mime type variations for CSV.</li>
+			<li>Enabled the 'system' methods for the XML-RPC Server library, except for 'system.multicall' which is still disabled.</li>
 		</ul>
 	</li>
 	
@@ -186,6 +187,7 @@ Change Log
 	<li>Fixed a bug in the typography helper causing extraneous paragraph tags when string contains tags.</li>
 	<li>Fixed a bug in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
 	<li>Fixed a bug in the Typography Helper where unordered list was listed &quot;un&quot; (#3267)</li>
+	<li>Fixed a bug in the XML-RPC library so if a type is specified, a more intelligent decision is made as to the default type</li>
 	<li>Fixed a bug (#3175) preventing certain libraries from working properly when autoloaded in PHP 4</li>
 	<li>Fixed an example of comma-separated emails in the email library documentation.</li>
     <li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
