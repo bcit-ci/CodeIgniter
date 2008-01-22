@@ -122,6 +122,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'general/quick_reference.html">Quick Reference Chart</a></li>' +
 		'<li><a href="http://codeigniter.com/forums/">Community Forums</a></li>' +
 		'<li><a href="http://codeigniter.com/wiki/">Community Wiki</a></li>' +
+		'<li><a href="doc_style/index.html">Writing Documentation</a></li>' +
 		'</ul>' +	
 		
 		'</td></tr></table>');
