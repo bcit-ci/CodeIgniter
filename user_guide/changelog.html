@@ -161,7 +161,8 @@ Change Log
     <li>Fixed a bug in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
     <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
     <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where individual error messages for checkboxes wasn't supported.</li>
-    <li>Fixed a bug in the Session library where user agent matching would fail on user agents ending with a space. </li>
+    <li>Fixed a bug (#3015) in the <a href="./libraries/user_agent.html">User Agent library</a> where more then 2 languages where not reported with languages().</li>
+    <li>Fixed a bug in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
     <li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
     <li>Fixed a bug in captcha calling an invalid PHP function.</li>
     <li>Fixed a bug in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
