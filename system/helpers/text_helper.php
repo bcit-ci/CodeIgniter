@@ -259,8 +259,9 @@ function highlight_code($str)
 	// Replace any existing PHP tags to temporary markers so they don't accidentally
 	// break the string out of PHP, and thus, thwart the highlighting.
 	
-	$str = str_replace(array('&lt;?php', '?&gt;',  '\\'), array('phptagopen', 'phptagclose', 'backslashtmp'), $str);
-		
+	$str = str_replace(array('<?', '?>', '<%', '%>', '\\', '</script>'), 
+						array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'), $str);
+
 	// The highlight_string function requires that the text be surrounded
 	// by PHP tags.  Since we don't know if A) the submitted text has PHP tags,
 	// or B) whether the PHP tags enclose the entire string, we will add our
@@ -279,14 +280,16 @@ function highlight_code($str)
 		$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
 	}
 	
-	// Remove our artificially added PHP
+	// Remove our artificially added PHP and the empty span that results from our temp markers
 	$str = preg_replace("#\<code\>.+?//tempstart\<br />\</span\>#is", "<code>\n", $str);
 	$str = preg_replace("#\<code\>.+?//tempstart\<br />#is", "<code>\n", $str);
 	$str = preg_replace("#//tempend.+#is", "</span>\n</code>", $str);
+	$str = preg_replace("#\<span style=\"color: \#FF8000\"\></span>\n</code>#is", "\n</code>", $str);	
 	
 	// Replace our markers back to PHP tags.
-	$str = str_replace(array('phptagopen', 'phptagclose', 'backslashtmp'), array('&lt;?php', '?&gt;', '\\'), $str); //<?
-				
+	$str = str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
+						array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'), $str);
+										
 	return $str;
 }
 	
