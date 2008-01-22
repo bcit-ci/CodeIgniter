@@ -108,7 +108,8 @@ Change Log
 	
 	<li>Libraries
 		<ul>
-			<li>Added Flashdata variables, session_id regeneration and configurable session update   times to the <a href="./libraries/sessions.html">Session class.</a></li>
+			<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>
+			<li>Added Flashdata variables, session_id regeneration and configurable session update times to the <a href="./libraries/sessions.html">Session class.</a></li>
 			<li>Added a language entry for valid_ip validation error.</li>
 		    <li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
 		    <li>Changed &quot;numeric&quot; to use is_numeric() and added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
@@ -128,8 +129,7 @@ Change Log
 		    <li>Added <kbd>quotes_to_entities()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
 		    <li>Added <kbd>form_fieldset()</kbd>, <kbd>form_fieldset_close()</kbd>, <kbd>form_label()</kbd>, and <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
 		    <li>Added support for external urls in <kbd>form_open()</kbd>.</li>
-		    <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>		    
-			<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>
+		    <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
 		</ul>
 	</li>
 	
@@ -153,6 +153,7 @@ Change Log
 	
 <ul>
 	<li>Removed an extraneous call to loading models (#3286).</li>
+	<li>Fixed a bug (#3289) in the File Helper where temp files in directories being tested with is_really_writable() were not being handled properly</li>
     <li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
     <li>Fixed a bug in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
     <li>Fixed a bug: $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
