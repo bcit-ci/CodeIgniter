@@ -576,11 +576,18 @@ For example, your "username" error will be available at:<br /><dfn>$this->valida
 <td class="td">No</td>
 <td class="td">Returns FALSE if the form element contains anything other than alpha-numeric characters, underscores or dashes.</td>
 <td class="td">&nbsp;</td>
-</tr><tr>
+</tr>
+<tr>
+    <td class="td"><strong>numeric</strong></td>
+    <td class="td">No</td>
+    <td class="td">Returns FALSE if the form element contains anything other than numeric characters.</td>
+    <td class="td">&nbsp;</td>
+</tr>
+<tr>
 
-<td class="td"><strong>numeric</strong></td>
+<td class="td"><strong>integer</strong></td>
 <td class="td">No</td>
-<td class="td">Returns FALSE if the form element contains anything other than numeric characters.</td>
+<td class="td">Returns FALSE if the form element contains anything other than an integer.</td>
 <td class="td">&nbsp;</td>
 </tr><tr>
 
@@ -595,7 +602,6 @@ For example, your "username" error will be available at:<br /><dfn>$this->valida
 <td class="td">Returns FALSE if the supplied IP is not valid.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
 </table>
 
 <p><strong>Note:</strong> These rules can also be called as discreet functions. For example:</p>

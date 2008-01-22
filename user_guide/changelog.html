@@ -110,10 +110,11 @@ Change Log
 		<ul>
 			<li>Added Flashdata variables, session_id regeneration and configurable session update   times to the <a href="./libraries/sessions.html">Session class.</a></li>
 			<li>Added a language entry for valid_ip validation error.</li>
-		    <li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
-			<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
-			<li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
+		    <li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
+		    <li>Changed &quot;numeric&quot; to use is_numeric() and added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
+		    <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
 			<li>Modified Upload class $_FILES error messages to be more precise.</li>
+			<li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
 			<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
 			<li>Added a few additional mime type variations for CSV.</li>
 		</ul>
