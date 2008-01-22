@@ -12,6 +12,7 @@ $lang['alpha']			= "The %s field may only contain alphabetical characters.";
 $lang['alpha_numeric']	= "The %s field may only contain alpha-numeric characters.";
 $lang['alpha_dash']		= "The %s field may only contain alpha-numeric characters, underscores, and dashes.";
 $lang['numeric']		= "The %s field must contain a number.";
+$lang['integer']		= "The %s field must contain an integer.";
 $lang['matches']		= "The %s field does not match the %s field.";
 
 ?>
