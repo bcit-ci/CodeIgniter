@@ -98,7 +98,7 @@ Change Log
 	<li>Core changes
 		<ul>
 			<li>Added ability to load multiple views, whose content will be appended to the output in the order loaded.</li>
-			<li>Added the ability to <a href="./general/autoloader.html">auto-load</a> <a href="./general/models.html">Models</a></li>
+			<li>Added the ability to <a href="./general/autoloader.html">auto-load</a> <a href="./general/models.html">Models</a>.</li>
 			<li>Reorganized the URI and Routes classes for better clarity.</li>
 			<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>   
 			<li>Added memory usage, GET, and URI string data to Profiler output.</li>
@@ -108,6 +108,7 @@ Change Log
 	
 	<li>Libraries
 		<ul>
+			<li>Changed the load protocol of Models to allow for extension.</li>
 			<li>Strengthened the Encryption library to help protect against man in the middle attacks when MCRYPT_MODE_CBC mode is used.</li>
 			<li>Added Flashdata variables, session_id regeneration and configurable session update times to the <a href="./libraries/sessions.html">Session class.</a></li>
 			<li>Added a language entry for valid_ip validation error.</li>
