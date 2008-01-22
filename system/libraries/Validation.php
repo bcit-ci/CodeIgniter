@@ -552,7 +552,8 @@ class CI_Validation {
 	 */	
 	function numeric($str)
 	{
-		return ( ! is_numeric($str)) ? FALSE : TRUE;
+		return (bool)preg_match( '/^[\-+]?[0-9]*\.?[0-9]+$/', $str);
+
 	}
 
 	// --------------------------------------------------------------------
@@ -566,7 +567,7 @@ class CI_Validation {
 	 */	
 	function integer($str)
 	{
-		return ( ! is_int($str)) ? FALSE : TRUE;
+		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
 	}
 	
 	// --------------------------------------------------------------------
