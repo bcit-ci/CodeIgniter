@@ -547,7 +547,7 @@ class CI_Validation {
 	 * Numeric
 	 *
 	 * @access	public
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */	
 	function numeric($str)
