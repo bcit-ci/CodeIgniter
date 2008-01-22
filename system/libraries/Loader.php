@@ -603,35 +603,37 @@ class CI_Loader {
 	 * Loader
 	 *
 	 * This function is used to load views and files.
+	 * Variables are prefixed with _ci_ to avoid symbol collision with
+	 * variables made available to view files
 	 *
 	 * @access	private
 	 * @param	array
 	 * @return	void
 	 */
-	function _ci_load($data)
+	function _ci_load($_ci_data)
 	{
 		// Set the default data variables
-		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $val)
+		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $_ci_val)
 		{
-			$$val = ( ! isset($data[$val])) ? FALSE : $data[$val];
+			$$_ci_val = ( ! isset($_ci_data[$_ci_val])) ? FALSE : $_ci_data[$_ci_val];
 		}
 
 		// Set the path to the requested file
 		if ($_ci_path == '')
 		{
-			$ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
-			$file = ($ext == '') ? $_ci_view.EXT : $_ci_view;
-			$_ci_path = $this->_ci_view_path.$file;
+			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
+			$_ci_file = ($_ci_ext == '') ? $_ci_view.EXT : $_ci_view;
+			$_ci_path = $this->_ci_view_path.$_ci_file;
 		}
 		else
 		{
-			$x = explode('/', $_ci_path);
-			$file = end($x);
+			$_ci_x = explode('/', $_ci_path);
+			$_ci_file = end($_ci_x);
 		}
 		
 		if ( ! file_exists($_ci_path))
 		{
-			show_error('Unable to load the requested file: '.$file);
+			show_error('Unable to load the requested file: '.$_ci_file);
 		}
 	
 		// This allows anything loaded using $this->load (views, files, etc.)
@@ -640,16 +642,16 @@ class CI_Loader {
 		
 		if ($this->_ci_is_instance())
 		{
-			$CI =& get_instance();
-			foreach (get_object_vars($CI) as $key => $var)
+			$_ci_CI =& get_instance();
+			foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 			{
-				if ( ! isset($this->$key))
+				if ( ! isset($this->$_ci_key))
 				{
-					$this->$key =& $CI->$key;
+					$this->$_ci_key =& $_ci_CI->$_ci_key;
 				}
 			}
 		}
-		
+
 		/*
 		 * Extract and cache variables
 		 *
