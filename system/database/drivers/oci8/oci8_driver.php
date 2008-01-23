@@ -393,7 +393,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	function insert_id()
 	{
 		// not supported in oracle
-		return 0;
+		return $this->display_error('db_unsupported_function');
 	}
 
 	// --------------------------------------------------------------------
