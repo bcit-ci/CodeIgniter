@@ -105,34 +105,49 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
-		$output .= "\n";		
 		
 		if ( ! class_exists('CI_DB_driver'))
 		{
-			$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 0 0;'>".$this->CI->lang->line('profiler_no_db')."</div>";
+			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
+			$output .= "\n";		
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
+			$output .="<tr><td width='100%' style='color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
 		}
 		else
 		{
+			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').' ('.count($this->CI->db->queries).')&nbsp;&nbsp;</legend>';
+			$output .= "\n";		
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
+			
 			if (count($this->CI->db->queries) == 0)
 			{
-				$output .= "<div style='color:#0000FF;font-weight:normal;padding:4px 0 4px 0;'>".$this->CI->lang->line('profiler_no_queries')."</div>";
+				$output .= "<tr><td width='100%' style='color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
 			}
 			else
 			{
-				foreach ($this->CI->db->queries as $val)
+				$highlight = array('SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'LEFT JOIN', 'ORDER BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE');
+				
+				foreach ($this->CI->db->queries as $key => $val)
 				{
-					$output .= '<div style="padding:3px;margin:12px 0 12px 0;background-color:#ddd;color:#000">';
-					$output .= htmlspecialchars($val, ENT_QUOTES);
-					$output .= "</div>\n";
-				}	
+					$val = htmlspecialchars($val, ENT_QUOTES);
+					$time = number_format($this->CI->db->query_times[$key], 4);
+					
+					foreach ($highlight as $bold)
+					{
+						$val = str_replace($bold, '<strong>'.$bold.'</strong>', $val);	
+					}
+					
+					$output .= "<tr><td width='1%' valign='top' style='color:#990000;font-weight:normal;background-color:#ddd;'>".$time."&nbsp;&nbsp;</td><td style='color:#000;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
+				}
 			}
 		}
 		
-		$output .= "</fieldset>";		
+		$output .= "</table>\n";
+		$output .= "</fieldset>";
 		
 		return $output;
 	}
+
 	
 	// --------------------------------------------------------------------
 
