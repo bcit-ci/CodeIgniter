@@ -48,6 +48,7 @@ class CI_DB_driver {
 	var $bind_marker	= '?';
 	var $save_queries	= TRUE;
 	var $queries		= array();
+	var $query_times	= array();
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
 	var $_trans_depth	= 0;
@@ -341,6 +342,11 @@ class CI_DB_driver {
 		$time_end = list($em, $es) = explode(' ', microtime());
 		$this->benchmark += ($em + $es) - ($sm + $ss);
 
+		if ($this->save_queries == TRUE)
+		{
+			$this->query_times[] = ($em + $es) - ($sm + $ss);
+		}
+		
 		// Increment the query counter
 		$this->query_count++;
 		
