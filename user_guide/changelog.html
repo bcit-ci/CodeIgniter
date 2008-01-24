@@ -158,6 +158,7 @@ Change Log
 <ul>
 	<li>Removed an extraneous call to loading models (#3286).</li>
 	<li>Removed extraneous load of $CFG in _display_cache() of the Output class (#3285)</li>
+	<li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
 	<li>Fixed a bug (#1890) in csv_from_result() where content that included the delimiter would break the file.</li>
 	<li>Fixed a bug (#3156) in Text Helper highlight_code() causing PHP tags to be handled incorrectly.</li>
 	<li>Fixed a bug (#3289) in the File Helper where temp files in directories being tested with is_really_writable() were not being handled properly</li>
