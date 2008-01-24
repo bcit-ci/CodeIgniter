@@ -164,31 +164,31 @@ Change Log
 	<li>Fixed a bug (#3279) where the Email class was sending the wrong Content-Transfer-Encoding for some character sets.</li>
     <li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
     <li>Fixed a series of grammatical and spelling errors in the language files.</li>
-    <li>Fixed a bug in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
-    <li>Fixed a bug: $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
+    <li>Fixed a bug (#2974) in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
+    <li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
     <li>Fixed a bug in the <a href="./libraries/file_uploading.html">upload library</a> when allowed_files wasn't defined.</li>
     <li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
-    <li>Fixed a bug in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
+    <li>Fixed a bug (#3017) in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
     <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
     <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where individual error messages for checkboxes wasn't supported.</li>
     <li>Fixed a bug (#3015) in the <a href="./libraries/user_agent.html">User Agent library</a> where more then 2 languages where not reported with languages().</li>
-    <li>Fixed a bug in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
+    <li>Fixed a bug (#2762) in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
     <li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
     <li>Fixed a bug in captcha calling an invalid PHP function.</li>
-    <li>Fixed a bug in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
+    <li>Fixed a bug (#2545) in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
 	<li>Fixed a bug in the cookie helper "set_cookie" function.  It was not honoring the config settings.</li>
     <li>Fixed a bug that was making validation callbacks required even when not set as such.</li>
-    <li>Fixed a bug in _object_to_array that broke some types of inserts and updates.</li>
-    <li>Fixed a bug in <kbd>get_filenames()</kbd> in the <a href="./helpers/file_helper.html">File Helper </a>where the array wasn't cleared after each call.</li>
-    <li>Fixed a bug that prevented num_rows from working in Oracle.</li>
-    <li>Fixed a bug in the <a href="./libraries/parser.html">parser class</a> where numeric data was ignored.</li>
-    <li>Fixed a bug when loading plugin files as _plugin. and not _pi.</li>
-    <li>Fixed a bug in the SQLite driver for PHP 4.</li>
-	<li>Fixed a bug in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
-    <li>Fixed a bug in Pagination to scan for non-positive num_links.</li>
-	<li>Fixed a bug in the typography helper causing extraneous paragraph tags when string contains tags.</li>
-	<li>Fixed a bug in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
-	<li>Fixed a bug in the Typography Helper where unordered list was listed &quot;un&quot; (#3267)</li>
+    <li>Fixed a bug (#2702) in _object_to_array that broke some types of inserts and updates.</li>
+    <li>Fixed a bug (#2912) in <kbd>get_filenames()</kbd> in the <a href="./helpers/file_helper.html">File Helper </a>where the array wasn't cleared after each call.</li>
+    <li>Fixed a bug (#3166) that prevented num_rows from working in Oracle.</li>
+    <li>Fixed a bug (#2668) in the <a href="./libraries/parser.html">parser class</a> where numeric data was ignored.</li>
+    <li>Fixed a bug (#2875)when loading plugin files as _plugin. and not _pi.</li>
+    <li>Fixed a bug (#2732) in the SQLite driver for PHP 4.</li>
+	<li>Fixed a bug (#2542)in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
+    <li>Fixed a bug (#2754) in Pagination to scan for non-positive num_links.</li>
+	<li>Fixed a bug (#2810) in the typography helper causing extraneous paragraph tags when string contains tags.</li>
+	<li>Fixed a bug (#3003) in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
+	<li>Fixed a bug (#3267) in the Typography Helper where unordered list was listed &quot;un&quot; (#3267)</li>
 	<li>Fixed a bug in the XML-RPC library so if a type is specified, a more intelligent decision is made as to the default type</li>
 	<li>Fixed a bug (#3175) preventing certain libraries from working properly when autoloaded in PHP 4</li>
 	<li>Fixed an example of comma-separated emails in the email library documentation.</li>
