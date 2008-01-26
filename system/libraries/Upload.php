@@ -711,7 +711,7 @@ class CI_Upload {
 			$filename = str_replace($val, '', $filename);
 		}
 
-		return $filename;
+		return stripslashes($filename);
 	}
 	
 	// --------------------------------------------------------------------
