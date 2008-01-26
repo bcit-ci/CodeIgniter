@@ -451,7 +451,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 		else
 		{
-			return ""{$item}"";
+			return "\"{$item}\"";
 		}
 
 		$exceptions = array('AS', '/', '-', '%', '+', '*');
@@ -459,7 +459,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		foreach ($exceptions as $exception)
 		{
 		
-			if (stristr($item, " "{$exception}" ") !== FALSE)
+			if (stristr($item, " \"{$exception}\" ") !== FALSE)
 			{
 				$item = preg_replace('/ "('.preg_quote($exception).')" /i', ' $1 ', $item);
 			}
