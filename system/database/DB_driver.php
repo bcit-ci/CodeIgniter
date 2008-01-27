@@ -652,7 +652,7 @@ class CI_DB_driver {
 	 */
 	function protect_identifiers($item, $first_word_only = FALSE)
 	{
-		return $this->_protect_identifiers($item, $first_word_only = FALSE);
+		return $this->_protect_identifiers($item, $first_word_only);
 	}
 
 	// --------------------------------------------------------------------
@@ -1136,7 +1136,7 @@ class CI_DB_driver {
 		$LANG = new CI_Language();
 		$LANG->load('db');
 
-		$heading = 'MySQL Error';
+		$heading = 'Database Error';
 		
 		if ($native == TRUE)
 		{
