@@ -302,7 +302,7 @@ class CI_FTP {
 		{
 			if ($this->debug == TRUE)
 			{
-				$msg = ($move = FALSE) ? 'ftp_unable_to_remame' : 'ftp_unable_to_move';
+				$msg = ($move == FALSE) ? 'ftp_unable_to_rename' : 'ftp_unable_to_move';
 				
 				$this->_error($msg);
 			}		
