@@ -124,8 +124,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->ar_select[] = $sql;
 		
 		return $this;
-		
-		return $this;
 	}
 	
 	// --------------------------------------------------------------------
@@ -1246,7 +1244,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	function use_table($table)
 	{
 		return $this->from($table);
-		return $this;
 	}
 	
 	// --------------------------------------------------------------------
@@ -1307,8 +1304,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */	
 	function _filter_table_aliases($statements)
 	{
-		$statements_without_aliases = array();
-
 		foreach ($statements as $k => $v)
 		{
 			foreach ($this->ar_aliased_tables as $table)
