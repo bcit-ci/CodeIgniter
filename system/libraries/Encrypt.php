@@ -27,7 +27,8 @@
  * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Encrypt {
-
+	
+	var $CI;
 	var $encryption_key	= '';
 	var $_hash_type	= 'sha1';
 	var $_mcrypt_exists = FALSE;
@@ -42,6 +43,7 @@ class CI_Encrypt {
 	 */
 	function CI_Encrypt()
 	{
+		$this->CI =& get_instance();
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
 		log_message('debug', "Encrypt Class Initialized");
 	}
@@ -138,16 +140,22 @@ class CI_Encrypt {
 	function decode($string, $key = '')
 	{
 		$key = $this->get_key($key);
+		
+		$this->CI->load->library('validation');
+		
+		if ($this->CI->validation->valid_base64($string) === FALSE)
+		{
+			return FALSE;
+		}
+
 		$dec = base64_decode($string);
-		
-		 if ($dec === FALSE)
-		 {
-		 	return FALSE;
-		 }
-		
+
 		if ($this->_mcrypt_exists === TRUE)
 		{
-			$dec = $this->mcrypt_decode($dec, $key);
+			if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
+			{
+				return FALSE;
+			}
 		}
 		
 		return $this->_xor_decode($dec, $key);
@@ -266,6 +274,12 @@ class CI_Encrypt {
 	{
 		$data = $this->_remove_cipher_noise($data, $key);
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+		
+		if ($init_size > strlen($data))
+		{
+			return FALSE;
+		}
+		
 		$init_vect = substr($data, 0, $init_size);
 		$data = substr($data, $init_size);
 		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
