@@ -34,28 +34,31 @@
  * @param	string
  * @return	string
  */	
-function nl2br_except_pre($str)
+if (! function_exists('nl2br_except_pre'))
 {
-	$ex = explode("pre>",$str);
-	$ct = count($ex);
-	
-	$newstr = "";
-	for ($i = 0; $i < $ct; $i++)
+	function nl2br_except_pre($str)
 	{
-		if (($i % 2) == 0)
-		{
-			$newstr .= nl2br($ex[$i]);
-		}
-		else
-		{
-			$newstr .= $ex[$i];
-		}
-		
-		if ($ct - 1 != $i)
-			$newstr .= "pre>";
-	}
+		$ex = explode("pre>",$str);
+		$ct = count($ex);
 	
-	return $newstr;
+		$newstr = "";
+		for ($i = 0; $i < $ct; $i++)
+		{
+			if (($i % 2) == 0)
+			{
+				$newstr .= nl2br($ex[$i]);
+			}
+			else
+			{
+				$newstr .= $ex[$i];
+			}
+		
+			if ($ct - 1 != $i)
+				$newstr .= "pre>";
+		}
+	
+		return $newstr;
+	}
 }
 	
 // ------------------------------------------------------------------------
@@ -68,10 +71,13 @@ function nl2br_except_pre($str)
  * @param	string
  * @return	string
  */
-function auto_typography($str)
+if (! function_exists('auto_typography'))
 {
-	$TYPE = new Auto_typography();
-	return $TYPE->convert($str);
+	function auto_typography($str)
+	{
+		$TYPE = new Auto_typography();
+		return $TYPE->convert($str);
+	}
 }
 	
 // ------------------------------------------------------------------------

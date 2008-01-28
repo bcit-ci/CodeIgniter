@@ -39,29 +39,31 @@
  * @param	bool	whether to limit the result to the top level only
  * @return	array
  */	
-function directory_map($source_dir, $top_level_only = FALSE)
-{	
-	if ($fp = @opendir($source_dir))
-	{
-		$filedata = array();
-		while (FALSE !== ($file = readdir($fp)))
+if (! function_exists('directory_map'))
+{
+	function directory_map($source_dir, $top_level_only = FALSE)
+	{	
+		if ($fp = @opendir($source_dir))
 		{
-			if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE)
+			$filedata = array();
+			while (FALSE !== ($file = readdir($fp)))
 			{
-				$temp_array = array();
+				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE)
+				{
+					$temp_array = array();
 				
-				$temp_array = directory_map($source_dir.$file."/");
+					$temp_array = directory_map($source_dir.$file."/");
 				
-				$filedata[$file] = $temp_array;
+					$filedata[$file] = $temp_array;
+				}
+				elseif (substr($file, 0, 1) != ".")
+				{
+					$filedata[] = $file;
+				}
 			}
-			elseif (substr($file, 0, 1) != ".")
-			{
-				$filedata[] = $file;
-			}
+			return $filedata;
 		}
-		return $filedata;
 	}
 }
-
 
 ?>

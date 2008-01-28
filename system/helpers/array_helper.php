@@ -39,14 +39,17 @@
  * @param	mixed
  * @return	mixed	depends on what the array contains
  */	
-function element($item, $array, $default = FALSE)
+if (! function_exists('element'))
 {
-	if ( ! isset($array[$item]) OR $array[$item] == "")
+	function element($item, $array, $default = FALSE)
 	{
-		return $default;
-	}
+		if ( ! isset($array[$item]) OR $array[$item] == "")
+		{
+			return $default;
+		}
 
-	return $array[$item];
+		return $array[$item];
+	}	
 }
 
 // ------------------------------------------------------------------------
@@ -58,14 +61,16 @@ function element($item, $array, $default = FALSE)
  * @param	array
  * @return	mixed	depends on what the array contains
  */	
-function random_element($array)
+if (! function_exists('random_element'))
 {
-	if ( ! is_array($array))
+	function random_element($array)
 	{
-		return $array;
-	}
-	return $array[array_rand($array)];
+		if ( ! is_array($array))
+		{
+			return $array;
+		}
+		return $array[array_rand($array)];
+	}	
 }
-
 
 ?>
