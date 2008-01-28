@@ -366,8 +366,23 @@ class CI_Loader {
 			{
 				continue;
 			}
+			
+			$ext_helper = APPPATH.'helpers/'.config_item('subclass_prefix').$helper.EXT;
 
-			if (file_exists(APPPATH.'helpers/'.$helper.EXT))
+			// Is this a helper extension request?			
+			if (file_exists($ext_helper))
+			{
+				$base_helper = BASEPATH.'helpers/'.$helper.EXT;
+				
+				if ( ! file_exists($base_helper))
+				{
+					show_error('Unable to load the requested file: helpers/'.$helper.EXT);
+				}
+				
+				include_once($ext_helper);
+				include_once($base_helper);
+			}
+			elseif (file_exists(APPPATH.'helpers/'.$helper.EXT))
 			{ 
 				include_once(APPPATH.'helpers/'.$helper.EXT);
 			}

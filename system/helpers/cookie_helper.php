@@ -42,52 +42,55 @@
  * @param	string	the cookie prefix
  * @return	void
  */
-function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
+if (! function_exists('set_cookie'))
 {
-	if (is_array($name))
-	{		
-		foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'name') as $item)
-		{
-			if (isset($name[$item]))
+	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
+	{
+		if (is_array($name))
+		{		
+			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'name') as $item)
 			{
-				$$item = $name[$item];
+				if (isset($name[$item]))
+				{
+					$$item = $name[$item];
+				}
 			}
 		}
-	}
 	
-	// Set the config file options
-	$CI =& get_instance();
+		// Set the config file options
+		$CI =& get_instance();
 	
-	if ($prefix == '' AND $CI->config->item('cookie_prefix') != '')
-	{
-		$prefix = $CI->config->item('cookie_prefix');
-	}
-	if ($domain == '' AND $CI->config->item('cookie_domain') != '')
-	{
-		$domain = $CI->config->item('cookie_domain');
-	}
-	if ($path == '/' AND $CI->config->item('cookie_path') != '/')
-	{
-		$path = $CI->config->item('cookie_path');
-	}
-		
-	if ( ! is_numeric($expire))
-	{
-		$expire = time() - 86500;
-	}
-	else
-	{
-		if ($expire > 0)
+		if ($prefix == '' AND $CI->config->item('cookie_prefix') != '')
 		{
-			$expire = time() + $expire;
+			$prefix = $CI->config->item('cookie_prefix');
+		}
+		if ($domain == '' AND $CI->config->item('cookie_domain') != '')
+		{
+			$domain = $CI->config->item('cookie_domain');
+		}
+		if ($path == '/' AND $CI->config->item('cookie_path') != '/')
+		{
+			$path = $CI->config->item('cookie_path');
+		}
+		
+		if ( ! is_numeric($expire))
+		{
+			$expire = time() - 86500;
 		}
 		else
 		{
-			$expire = 0;
+			if ($expire > 0)
+			{
+				$expire = time() + $expire;
+			}
+			else
+			{
+				$expire = 0;
+			}
 		}
-	}
 	
-	setcookie($prefix.$name, $value, $expire, $path, $domain, 0);
+		setcookie($prefix.$name, $value, $expire, $path, $domain, 0);
+	}
 }
 	
 // --------------------------------------------------------------------
@@ -100,10 +103,13 @@ function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path =
  * @param	bool
  * @return	mixed
  */
-function get_cookie($index = '', $xss_clean = FALSE)
+if (! function_exists('get_cookie'))
 {
-	$CI =& get_instance();
-	return $CI->input->cookie($index, $xss_clean);
+	function get_cookie($index = '', $xss_clean = FALSE)
+	{
+		$CI =& get_instance();
+		return $CI->input->cookie($index, $xss_clean);
+	}
 }
 
 // --------------------------------------------------------------------
@@ -117,10 +123,12 @@ function get_cookie($index = '', $xss_clean = FALSE)
  * @param	string	the cookie prefix
  * @return	void
  */
-function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+if (! function_exists('delete_cookie'))
 {
-	set_cookie($name, '', '', $domain, $path, $prefix);
+	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+	{
+		set_cookie($name, '', '', $domain, $path, $prefix);
+	}
 }
-
 
 ?>

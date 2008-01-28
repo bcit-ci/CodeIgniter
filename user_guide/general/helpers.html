@@ -116,6 +116,51 @@ This is done by opening the <var>application/config/autoload.php</var> file and 
 
 <p>Where "Click Here" is the name of the link, and "blog/comments" is the URI to the controller/function you wish to link to.</p>
 
+<h2>"Extending" Helpers</h2>
+
+<p>To "extend" Helpers, create a file in your <dfn>application/helpers/</dfn> folder with an identical name to the existing Helper, but prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</p>
+
+<p>If all you need to do is add some functionality to an existing helper - perhaps add a function or two, or change how a particular
+	helper function operates - then it's overkill to replace the entire helper with your version.  In this case it's better to simply
+	"extend" the Helper.  The term "extend" is used loosely since Helper functions are procedural and discrete and cannot be extended
+	in the traditional programmatic sense.  Under the hood, this gives you the ability to add to the functions a Helper provides,
+	or to modify how the native Helper functions operate.</p>
+
+<p>For example, to extend the native <kbd>Array Helper</kbd> you'll create a file named <dfn>application/helpers/</dfn><kbd>MY_array_helper.php</kbd>, and add or override functions:</p>
+
+<code>
+// any_in_array() is not in the Array Helper, so it defines a new function<br />
+function any_in_array($needle, $haystack)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$needle = (is_array($needle)) ? $needle : array($needle);<br />
+	<br />
+&nbsp;&nbsp;&nbsp;&nbsp;foreach ($needle as $item)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (in_array($item, $haystack))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return TRUE;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+	<br />
+&nbsp;&nbsp;&nbsp;&nbsp;return FALSE;<br />
+}<br />
+<br />
+// random_element() is included in Array Helper, so it overrides the native function<br />
+function random_element($array)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;shuffle($array);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;return array_pop();<br />
+}<br />
+</code>
+
+<h3>Setting Your Own Prefix</h3>
+
+<p>The filename prefix for "extending" Helpers is the same used to extend libraries and Core classes.  To set your own prefix, open your <dfn>application/config/config.php</dfn> file and look for this item:</p>
+
+<code>$config['subclass_prefix'] = 'MY_';</code>
+
+<p>Please note that all native CodeIgniter libraries are prefixed with <kbd>CI_</kbd> so DO NOT use that as your prefix.</p>
+
 
 <h2>Now What?</h2>
 

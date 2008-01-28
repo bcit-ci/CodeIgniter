@@ -42,10 +42,13 @@
  * @param	string
  * @return	string
  */	
-function trim_slashes($str)
+if (! function_exists('trim_slashes'))
 {
-    return trim($str, '/');
-} 
+	function trim_slashes($str)
+	{
+	    return trim($str, '/');
+	} 
+}
 	
 // ------------------------------------------------------------------------
 
@@ -58,21 +61,24 @@ function trim_slashes($str)
  * @param	mixed	string or array
  * @return	mixed	string or array
  */	
- function strip_slashes($str)
- {
-	if (is_array($str))
-	{	
-		foreach ($str as $key => $val)
-		{
-			$str[$key] = strip_slashes($val);
-		}
-	}
-	else
+if (! function_exists('strip_slashes'))
+{
+	function strip_slashes($str)
 	{
-		$str = stripslashes($str);
-	}
+		if (is_array($str))
+		{	
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = strip_slashes($val);
+			}
+		}
+		else
+		{
+			$str = stripslashes($str);
+		}
 	
-	return $str;
+		return $str;
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -86,9 +92,12 @@ function trim_slashes($str)
  * @param	string
  * @return	string
  */	
-function strip_quotes($str)
+if (! function_exists('strip_quotes'))
 {
-	return str_replace(array('"', "'"), '', $str);
+	function strip_quotes($str)
+	{
+		return str_replace(array('"', "'"), '', $str);
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -102,9 +111,12 @@ function strip_quotes($str)
  * @param	string
  * @return	string
  */	
-function quotes_to_entities($str)
-{	
-	return str_replace(array("\'","\"","'",'"'), array("&#39;","&quot;","&#39;","&quot;"), $str);
+if (! function_exists('quotes_to_entities'))
+{
+	function quotes_to_entities($str)
+	{	
+		return str_replace(array("\'","\"","'",'"'), array("&#39;","&quot;","&#39;","&quot;"), $str);
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -124,9 +136,12 @@ function quotes_to_entities($str)
  * @param	string
  * @return	string
  */	
-function reduce_double_slashes($str)
+if (! function_exists('reduce_double_slashes'))
 {
-	return preg_replace("#([^:])//+#", "\\1/", $str);
+	function reduce_double_slashes($str)
+	{
+		return preg_replace("#([^:])//+#", "\\1/", $str);
+	}
 }
 	
 // ------------------------------------------------------------------------
@@ -148,16 +163,19 @@ function reduce_double_slashes($str)
  * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
  * @return	string
  */	
-function reduce_multiples($str, $character = ',', $trim = FALSE)
+if (! function_exists('reduce_multiples'))
 {
-	$str = preg_replace('#'.preg_quote($character, '#').'{2,}#', $character, $str);
-
-	if ($trim === TRUE)
+	function reduce_multiples($str, $character = ',', $trim = FALSE)
 	{
-		$str = trim($str, $character);
-	}
+		$str = preg_replace('#'.preg_quote($character, '#').'{2,}#', $character, $str);
+
+		if ($trim === TRUE)
+		{
+			$str = trim($str, $character);
+		}
     
-	return $str;
+		return $str;
+	}
 }
 	
 // ------------------------------------------------------------------------
@@ -171,36 +189,40 @@ function reduce_multiples($str, $character = ',', $trim = FALSE)
  * @param	string 	type of random string.  Options: alunum, numeric, nozero, unique
  * @param	integer	number of characters
  * @return	string
- */	
-function random_string($type = 'alnum', $len = 8)
-{					
-	switch($type)
-	{
-		case 'alnum'	:
-		case 'numeric'	:
-		case 'nozero'	:
+ */
+if (! function_exists('random_string'))
+{	
+	function random_string($type = 'alnum', $len = 8)
+	{					
+		switch($type)
+		{
+			case 'alnum'	:
+			case 'numeric'	:
+			case 'nozero'	:
 		
-				switch ($type)
-				{
-					case 'alnum'	:	$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-						break;
-					case 'numeric'	:	$pool = '0123456789';
-						break;
-					case 'nozero'	:	$pool = '123456789';
-						break;
-				}
+					switch ($type)
+					{
+						case 'alnum'	:	$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+							break;
+						case 'numeric'	:	$pool = '0123456789';
+							break;
+						case 'nozero'	:	$pool = '123456789';
+							break;
+					}
 
-				$str = '';
-				for ($i=0; $i < $len; $i++)
-				{
-					$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
-				}
-				return $str;
-		  break;
-		case 'unique' : return md5(uniqid(mt_rand()));
-		  break;
+					$str = '';
+					for ($i=0; $i < $len; $i++)
+					{
+						$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
+					}
+					return $str;
+			  break;
+			case 'unique' : return md5(uniqid(mt_rand()));
+			  break;
+		}
 	}
 }
+
 // ------------------------------------------------------------------------
 
 /**
@@ -211,18 +233,21 @@ function random_string($type = 'alnum', $len = 8)
  * @access	public
  * @param	string (as many parameters as needed)
  * @return	string
- */		
-function alternator()
+ */	
+if (! function_exists('alternator'))
 {
-	static $i;	
-
-	if (func_num_args() == 0)
+	function alternator()
 	{
-		$i = 0;
-		return '';
+		static $i;	
+
+		if (func_num_args() == 0)
+		{
+			$i = 0;
+			return '';
+		}
+		$args = func_get_args();
+		return $args[($i++ % count($args))];
 	}
-	$args = func_get_args();
-	return $args[($i++ % count($args))];
 }
 
 // ------------------------------------------------------------------------
@@ -235,10 +260,12 @@ function alternator()
  * @param	integer	number of repeats
  * @return	string
  */	
-function repeater($data, $num = 1)
+if (! function_exists('repeater'))
 {
-	return (($num > 0) ? str_repeat($data, $num) : '');
-} 
-
+	function repeater($data, $num = 1)
+	{
+		return (($num > 0) ? str_repeat($data, $num) : '');
+	} 
+}
 
 ?>
