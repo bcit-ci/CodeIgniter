@@ -105,6 +105,7 @@ Change Log
 			<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>   
 			<li>Added memory usage, GET, URI string data, and individual query execution time to Profiler output.</li>
 			<li>Deprecated Scaffolding.</li>
+			<li>Added is_really_writable() to Common.php to provide a cross-platform reliable method of testing file/folder writability.</li>
 		</ul>
 	</li>
 	
@@ -163,7 +164,6 @@ Change Log
 	<li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
 	<li>Fixed a bug (#1890) in csv_from_result() where content that included the delimiter would break the file.</li>
 	<li>Fixed a bug (#3156) in Text Helper highlight_code() causing PHP tags to be handled incorrectly.</li>
-	<li>Fixed a bug (#3289) in the File Helper where temp files in directories being tested with is_really_writable() were not being handled properly</li>
 	<li>Fixed a bug (#3279) where the Email class was sending the wrong Content-Transfer-Encoding for some character sets.</li>
     <li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
     <li>Fixed a series of grammatical and spelling errors in the language files.</li>

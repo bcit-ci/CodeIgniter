@@ -46,7 +46,7 @@ class CI_Log {
 		
 		$this->log_path = ($config['log_path'] != '') ? $config['log_path'] : BASEPATH.'logs/';
 		
-		if ( ! is_dir($this->log_path) OR ! is_writable($this->log_path))
+		if ( ! is_dir($this->log_path) OR ! is_really_writable($this->log_path))
 		{
 			$this->_enabled = FALSE;
 		}

@@ -63,9 +63,6 @@ class CI_DB_Cache {
 	
 		// Add a trailing slash to the path if needed
 		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
-		
-		// Load the file helper
-		$this->CI->load->helper('file');
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
