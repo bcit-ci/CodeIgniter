@@ -285,7 +285,7 @@ class CI_Output {
 	
 		$cache_path = ($path == '') ? BASEPATH.'cache/' : $path;
 		
-		if ( ! is_dir($cache_path) OR ! is_writable($cache_path))
+		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
 			return;
 		}
@@ -327,7 +327,7 @@ class CI_Output {
 	
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
 			
-		if ( ! is_dir($cache_path) OR ! is_writable($cache_path))
+		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
 			return FALSE;
 		}

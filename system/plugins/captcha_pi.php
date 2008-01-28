@@ -180,7 +180,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 		return FALSE;
 	}
 	
-	if ( ! is_writable($img_path))
+	if ( ! is_really_writable($img_path))
 	{
 		return FALSE;
 	}
