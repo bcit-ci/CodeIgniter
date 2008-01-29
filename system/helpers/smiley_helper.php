@@ -71,7 +71,7 @@ if (! function_exists('get_clickable_smileys'))
 		{
 			if (FALSE === ($smileys = _get_smiley_array()))
 			{
-				return $str;
+				return $smileys;
 			}        
 		}
 
