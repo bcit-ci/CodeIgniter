@@ -731,7 +731,7 @@ class CI_Validation {
 	 */	
 	function strip_image_tags($str)
 	{
-		$_POST[$this->_current_field] = $this->input->strip_image_tags($str);
+		$_POST[$this->_current_field] = $this->CI->input->strip_image_tags($str);
 	}
 	
 	// --------------------------------------------------------------------
