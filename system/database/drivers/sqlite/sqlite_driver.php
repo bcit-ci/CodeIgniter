@@ -466,6 +466,28 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * From Tables
+	 *
+	 * This function implicitly groups FROM tables so there is no confusion
+	 * about operator precedence in harmony with SQL standards
+	 *
+	 * @access	public
+	 * @param	type
+	 * @return	type
+	 */
+	function _from_tables($tables)
+	{
+		if (! is_array($tables))
+		{
+			$tables = array($tables);
+		}
+		
+		return '('.implode(', ', $tables).')';
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Insert statement
 	 *
 	 * Generates a platform-specific insert string from the supplied data

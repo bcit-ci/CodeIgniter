@@ -1343,7 +1343,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if (count($this->ar_from) > 0)
 		{
 			$sql .= "\nFROM ";
-			$sql .= '(' . implode(', ', $this->ar_from) . ')';
+			$sql .= $this->_from_tables($this->ar_from);
 		}
 
 		if (count($this->ar_join) > 0)
