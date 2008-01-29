@@ -473,7 +473,9 @@ class CI_Image_lib {
 			// If the target width/height match the source, AND if
 			// the new file name is not equal to the old file name
 			// we'll simply make a copy of the original with the new name		
-			if (($this->orig_width == $this->width AND $this->orig_height == $this->height) AND ($this->source_image != $this->dest_image))
+			if (($this->orig_width == $this->width AND $this->orig_height == $this->height) AND ($this->source_image != $this->new_image))
+			
+			
 			{
 				if ( ! @copy($this->full_src_path, $this->full_dst_path))
 				{
