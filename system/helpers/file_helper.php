@@ -122,7 +122,7 @@ if (! function_exists('delete_files'))
 	{	
 		// Trim the trailing slash
 		$path = preg_replace("|^(.+?)/*$|", "\\1", $path);
-			
+		
 		if ( ! $current_dir = @opendir($path))
 			return;
 	
@@ -132,8 +132,7 @@ if (! function_exists('delete_files'))
 			{
 				if (is_dir($path.'/'.$filename))
 				{
-					$level++;
-					delete_files($path.'/'.$filename, $del_dir, $level);
+					delete_files($path.'/'.$filename, $del_dir, $level + 1);
 				}
 				else
 				{
