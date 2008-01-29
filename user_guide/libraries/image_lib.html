@@ -122,6 +122,7 @@ folder containing the image files must have file permissions of 777.</p>
 <li>$this->image_lib->crop()</li>
 <li>$this->image_lib->rotate()</li>
 <li>$this->image_lib->watermark()</li>
+<li>$this-&gt;image_lib-&gt;clear()</li>
 </ul>
 
 <p>These functions return boolean TRUE upon success and FALSE for failure.  If they fail you can retrieve the
@@ -413,6 +414,9 @@ if ( ! $this->image_lib->rotate())<br />
 
 
 
+<h2>$this-&gt;image_lib-&gt;clear()</h2>
+<p>The clear function resets all of the values used when processing an image. You will want to call this if you are processing images in a loop.</p>
+<p><code>$this-&gt;image_lib-&gt;clear();</code></p>
 <p>&nbsp;</p>
 <h1>Image Watermarking</h1>
 
@@ -642,8 +646,6 @@ will be positioned at the bottom/center of the image, 20 pixels from the bottom 
 <td class="td">Along with the previous setting, this allows you to specify the coordinate to a pixel representative of the color you want to be transparent.</td>
 </tr>
 </table>
-
-
 
 </div>
 <!-- END CONTENT -->

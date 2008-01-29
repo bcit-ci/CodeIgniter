@@ -117,7 +117,8 @@ Change Log
 			<li>Added a language entry for valid_ip validation error.</li>
 		    <li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
 		    <li>Added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
-			<li>Added valid_base64() to the Validation library.</li>
+			<li>Added valid_base64() to the <a href="./libraries/validation.html">Validation</a> library.</li>
+		    <li>Documented clear() in the <a href="../libraries/image_lib.html">Image Processing</a> library.</li>
 		    <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
 			<li>Modified Upload class $_FILES error messages to be more precise.</li>
 			<li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
@@ -165,6 +166,7 @@ Change Log
 	<li>Removed an unused parameter from Profiler (#3332).</li>
 	<li>Fixed a bug (#3314) which would cause the top level path to be deleted in delete_files() of the File helper.</li>
 	<li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
+	<li>Fixed a bug (#3024) in which master_dim wasn't gettitng reset by clear() in the Image library.</li>
 	<li>Fixed a bug (#3330) in the FTP class where a comparison wasn't getting made.</li>
 	<li>Fixed a bug (#3328) where the smiley helper might return an undefined variable.</li>
 	<li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
