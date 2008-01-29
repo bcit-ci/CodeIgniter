@@ -320,7 +320,7 @@ class CI_Profiler {
 	 * @access	private
 	 * @return	string
 	 */	
-	function run($output = '')
+	function run()
 	{		
 		$output = '<br clear="all" />';
 		$output .= "<div style='background-color:#fff;padding:10px;'>";
