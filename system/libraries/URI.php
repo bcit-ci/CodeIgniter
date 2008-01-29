@@ -67,11 +67,7 @@ class CI_URI {
 			// can be unreliable in some environments
 			if (is_array($_GET) AND count($_GET) == 1)
 			{
-				// Note: Due to a bug in current() that affects some versions
-				// of PHP we can not pass function call directly into it
-				$key = array_keys($_GET);
-				$index = current($key);
-				$this->uri_string = $_GET[$index];				
+				$this->uri_string = key($_GET);			
 				return;
 			}
 		
