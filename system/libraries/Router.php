@@ -100,7 +100,8 @@ class CI_Router {
 		
 			$this->set_class($this->default_controller);
 			$this->set_method('index');
-
+			$this->_set_request(array($this->default_controller, 'index'));
+			
 			log_message('debug', "No URI present. Default controller set.");
 			return;
 		}
