@@ -230,8 +230,11 @@ if (! function_exists('image'))
  * Generates link to a CSS file
  *
  * @access	public
- * @param	mixed	stylesheet name(s)
- * @param	string	media type
+ * @param	mixed	stylesheet hrefs or an array
+ * @param	string	rel
+ * @param	string	type
+ * @param	string	title
+ * @param	string	media
  * @param	boolean	should index_page be added to the css path 
  * @return	string
  */	
@@ -298,6 +301,25 @@ if (! function_exists('link'))
 
 	
 		return $link;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Stylesheet
+ *
+ * Generates a <link /> to a CSS
+ *
+ * @access	public
+ * @param	array
+ * @return	string
+ */	
+if (! function_exists('stylesheet'))
+{
+	function stylesheet($href = '', $rel = 'stylesheet', $title = '', $media = 'screen')
+	{
+		return link($href, $rel, 'text/css', $title, $media);
 	}
 }
 

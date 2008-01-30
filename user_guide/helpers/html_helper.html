@@ -88,16 +88,15 @@ link('css/mystyles.css');<br />
 <p>Further examples:</p>
 
 <code>
-link('favicon.ico', 'shortcut icon', 'image/ico');<br />
-    // &lt;link href=&quot;http://site.com/favicon.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; /&gt; </p>
-<br />
-<br />
-link('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');<br />
-    // &lt;link href=&quot;http://site.com/feed&quot; rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;My RSS Feed&quot; /&gt; <br />
-<br />
-
-<br />
-$link = array(<br />
+    link('favicon.ico', 'shortcut icon', 'image/ico');<br />
+    // &lt;link href=&quot;http://site.com/favicon.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; /&gt; 
+    <br />
+    <br />
+    link('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');<br />
+    // &lt;link href=&quot;http://site.com/feed&quot; rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;My RSS Feed&quot; /&gt; </code>
+<p>Additionally, an associative array can be passed to the link() function for complete control over all attributes and values.</p>
+<p><code>
+    $link = array(<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'href' =&gt; 'css/printer.css',<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'rel' =&gt; 'stylesheet',<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'type' =&gt; 'text/css',<br />
@@ -105,8 +104,17 @@ $link = array(<br />
     );<br />
     <br />
     link($link);<br />
-    // &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code>    
+    // &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code></p>
     
+<h2>stylesheet()</h2>
+<p>The stylesheet() function simplifies the linking of CSS into your document. The arguments are stylesheet(href, optional rel, optional title, optional media).</p>
+<p>For more complete control over the output of the tag, you may want to use the link() function.</p>
+<code>stylesheet('foo.css');<br />
+    // &lt;link href=&quot;http://site.com/foo.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; /&gt;<br />
+<br />
+stylesheet('foo.css', 'alternate stylesheet', 'black and white version', 'screen') .'&lt;br&gt;';<br />
+    // &lt;link href=&quot;http://site.com/foo.css&quot; rel=&quot;alternate stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; title=&quot;black and white version&quot; /&gt;
+</code>
 <h2>nbs()</h2>
 <p>Generates non-breaking spaces (&amp;nbsp;) based on the number you submit. Example:</p>
 <code>echo nbs(3);</code>
