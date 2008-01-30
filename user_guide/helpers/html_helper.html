@@ -79,16 +79,14 @@ second the size of the heading.  Example:</p>
 <code>echo heading('Welcome!', 3);</code>
 <p>The above would produce:  &lt;h3>Welcome!&lt;/h3></p>
 
-<h2>link()</h2>
-<p>Lets you create HTML &lt;link /> tags.  The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.</p>
-<p>While stylesheets are more conveniently handled through the stylesheet() function, they can also be called here.</p>
-<code>
-link('css/mystyles.css');<br />
-    // gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code>
+<h2>link_tag()</h2>
+<p>Lets you create HTML &lt;link /> tags.  This is useful for stylesheet links, as well as other links. The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.<code>
+link_tag('css/mystyles.css');<br />
+// gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></p>
 <p>Further examples:</p>
 
 <code>
-    link('favicon.ico', 'shortcut icon', 'image/ico');<br />
+    link_tag('favicon.ico', 'shortcut icon', 'image/ico');<br />
     // &lt;link href=&quot;http://site.com/favicon.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; /&gt; 
     <br />
     <br />
@@ -103,18 +101,9 @@ link('css/mystyles.css');<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'media' =&gt; 'print'<br />
     );<br />
     <br />
-    link($link);<br />
+    link_tag($link);<br />
     // &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code></p>
     
-<h2>stylesheet()</h2>
-<p>The stylesheet() function simplifies the linking of CSS into your document. The arguments are stylesheet(href, optional rel, optional title, optional media).</p>
-<p>For more complete control over the output of the tag, you may want to use the link() function.</p>
-<code>stylesheet('foo.css');<br />
-    // &lt;link href=&quot;http://site.com/foo.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; /&gt;<br />
-<br />
-stylesheet('foo.css', 'alternate stylesheet', 'black and white version', 'screen') .'&lt;br&gt;';<br />
-    // &lt;link href=&quot;http://site.com/foo.css&quot; rel=&quot;alternate stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; title=&quot;black and white version&quot; /&gt;
-</code>
 <h2>nbs()</h2>
 <p>Generates non-breaking spaces (&amp;nbsp;) based on the number you submit. Example:</p>
 <code>echo nbs(3);</code>
