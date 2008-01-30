@@ -165,7 +165,7 @@ class CI_Pagination {
 		}
 
 		// Render the "previous" link
-		if  (($this->cur_page - $this->num_links) >= 0)
+		if  ($this->cur_page != 1)
 		{
 			$i = $uri_page_number - $this->per_page;
 			if ($i == 0) $i = '';
