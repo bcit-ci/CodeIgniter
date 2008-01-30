@@ -161,6 +161,7 @@ Change Log
 <h3>Bug fixes for Version 1.6.0</h3>
 	
 <ul>
+	<li>Fixed a bug (#1872) where word_limiter() was not retaining whitespace.</li>
 	<li>Fixed a bug (#1890) in csv_from_result() where content that included the delimiter would break the file.</li>
 	<li>Fixed a bug (#2542)in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
 	<li>Fixed a bug (#2545) in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
