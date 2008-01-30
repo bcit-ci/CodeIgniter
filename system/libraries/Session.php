@@ -69,8 +69,8 @@ class CI_Session {
 		 * is set in the config file.  If the developer
 		 * is doing any sort of time localization they
 		 * might want to set the session time to GMT so
-		 * they can offset the "last_activity" and
-		 * "last_visit" times based on each user's locale.
+		 * they can offset the "last_activity" time
+		 * based on each user's locale.
 		 *
 		 */
 
@@ -326,7 +326,6 @@ class CI_Session {
 		}
 			
 		// Write the cookie
-		$this->userdata['last_visit'] = 0;
 		$this->sess_write();
 	}
 	
@@ -340,11 +339,6 @@ class CI_Session {
 	 */
 	function sess_update()
 	{	
-		if (($this->userdata['last_activity'] + $this->sess_length) < $this->now)
-		{
-			$this->userdata['last_visit'] = $this->userdata['last_activity'];
-		}
-
 		// Save the old session id so we know which record to 
 		// update in the database if we need it
 		$old_sessid = $this->userdata['session_id'];
