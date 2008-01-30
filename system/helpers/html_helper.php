@@ -184,41 +184,48 @@ if (! function_exists('br'))
 /**
  * Image
  *
- * Generates an image tag
+ * Generates an <img /> element
  *
  * @access	public
- * @param	integer
+ * @param	mixed
  * @return	string
  */	
-if (! function_exists('image'))
+if (! function_exists('img'))
 {
-	function image($src = '', $alt = '', $index_page = FALSE)
+	function img($src = '', $index_page = FALSE)
 	{
-		$CI =& get_instance();
-	
-		$css = '';
-		
-		foreach ($stylesheets as $stylesheet)
+		if ( ! is_array($src) )
 		{
-			if (strpos($stylesheet, '://') !== FALSE)
+			$src = array('src' => $src);
+		}
+
+		$img = '<img ';
+		
+		foreach ($src as $k=>$v)
+		{
+
+			if ($k == 'src' AND strpos($v, '://') === FALSE)
 			{
-				$href = ' href="'.$stylesheet.'"';			
-			}
-			elseif ($index_page === TRUE)
-			{
-				$href = ' href="'.$CI->config->site_url($stylesheet).'"';
+				$CI =& get_instance();
+
+				if ($index_page === TRUE)
+				{
+					$img .= ' src="'.$CI->config->site_url($v).'" ';
+				}
+				else
+				{
+					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'" ';
+				}
 			}
 			else
 			{
-				$href = ' href="'.$CI->config->slash_item('base_url').$stylesheet.'"';
+				$img .= " $k=\"$v\" ";
 			}
-	
-			$media = ($media !== '') ? ' media="'.$media.'"' : '';
-	
-			$css .= 'link type="text/css" rel="stylesheet"'.$href.$media.' />'."\n";
 		}
-	
-		return $css;
+
+		$img .= '/>';
+
+		return $img;
 	}
 }
 
@@ -244,7 +251,7 @@ if (! function_exists('link_tag'))
 	{
 		$CI =& get_instance();
 
-		$link = 'link ';
+		$link = '<link ';
 
 		if (is_array($href))
 		{
