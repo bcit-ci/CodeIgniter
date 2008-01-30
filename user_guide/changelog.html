@@ -93,7 +93,10 @@ Change Log
 			<li>Added a check for NULL fields in the MySQL database backup utility.</li>
 		    <li>Added &quot;constrain_by_prefix&quot; parameter to db-&gt;list_table() function.  If set to TRUE it will limit the result to only table names with the current prefix.</li>
 		    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
-			<li>Modified <kbd>csv_from_result()</kbd> to output CSV data more in the spirit of basic rules of RFC 4180.</li>  
+			<li>Modified <kbd>csv_from_result()</kbd> to output CSV data more in the spirit of basic rules of RFC 4180.</li>
+			<li>Added 'char_set' and 'dbcollat' database configuration settings, to explicitly set the client communication properly.</li>
+			<li>Removed 'active_r' configuration setting and replaced with a global $active_record setting, which is more
+				in harmony with the global nature of the behavior (#1834).</li>
 		</ul>
 	</li>
 	
@@ -164,6 +167,7 @@ Change Log
 <h3>Bug fixes for Version 1.6.0</h3>
 	
 <ul>
+	<li>Fixed a bug (#1813) preventing using $CI->db in the same application with returned database objects.</li>
 	<li>Fixed a bug (#1842) where the $this->uri->rsegments array would not include the 'index' method if routed to the controller without an implicit method.</li>
 	<li>Fixed a bug (#1872) where word_limiter() was not retaining whitespace.</li>
 	<li>Fixed a bug (#1890) in csv_from_result() where content that included the delimiter would break the file.</li>
