@@ -238,9 +238,9 @@ if (! function_exists('image'))
  * @param	boolean	should index_page be added to the css path 
  * @return	string
  */	
-if (! function_exists('link'))
+if (! function_exists('link_tag'))
 {
-	function link($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
+	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -301,25 +301,6 @@ if (! function_exists('link'))
 
 	
 		return $link;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-/**
- * Stylesheet
- *
- * Generates a <link /> to a CSS
- *
- * @access	public
- * @param	array
- * @return	string
- */	
-if (! function_exists('stylesheet'))
-{
-	function stylesheet($href = '', $rel = 'stylesheet', $title = '', $media = 'screen')
-	{
-		return link($href, $rel, 'text/css', $title, $media);
 	}
 }
 
