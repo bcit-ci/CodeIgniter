@@ -65,7 +65,7 @@ function &DB($params = '', $active_record_override = FALSE)
 	
 	require_once(BASEPATH.'database/DB_driver'.EXT);
 
-	if ($active_record == TRUE)
+	if (! isset($active_record) OR $active_record == TRUE)
 	{
 		require_once(BASEPATH.'database/DB_active_rec'.EXT);
 		
