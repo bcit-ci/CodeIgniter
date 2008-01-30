@@ -246,8 +246,9 @@ class CI_URI {
 	function _reindex_segments()
 	{
 		// Is the routed segment array different then the main segment array?
-		$diff = (count(array_diff($this->rsegments, $this->segments)) == 0) ? FALSE : TRUE;
-	
+		// have to compute the diff both ways since PHP returns only values in $arr1 that are not in $arr2.
+		$diff = (array_diff($this->rsegments, $this->segments) != array_diff($this->segments, $this->rsegments)) ? TRUE : FALSE;
+
 		$i = 1;
 		foreach ($this->segments as $val)
 		{
