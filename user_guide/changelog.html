@@ -177,6 +177,7 @@ Change Log
     <li>Fixed a bug (#2762) in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
     <li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
     <li>Fixed a bug (#2810) in the typography helper causing extraneous paragraph tags when string contains tags.</li>
+	<li>Fixed a bug (#2849) where arguments passed to a subfolder controller method would be incorrectly shifted, dropping the 3rd segment value.</li>
     <li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
     <li>Fixed a bug (#2875)when loading plugin files as _plugin. and not _pi.</li>
     <li>Fixed a bug (#2912) in <kbd>get_filenames()</kbd> in the <a href="./helpers/file_helper.html">File Helper </a>where the array wasn't cleared after each call.</li>
