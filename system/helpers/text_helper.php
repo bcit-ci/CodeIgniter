@@ -40,27 +40,21 @@
  */	
 if (! function_exists('word_limiter'))
 {
-	function word_limiter($str, $n = 100, $end_char = '&#8230;')
+	function word_limiter($str, $limit = 100, $end_char = '&#8230;')
 	{
-		if (strlen($str) < $n)
+		if (trim($str) == '')
 		{
 			return $str;
 		}
 	
-		$words = explode(' ', preg_replace("/\s+/", ' ', preg_replace("/(\r\n|\r|\n)/", " ", $str)));
-	
-		if (count($words) <= $n)
-		{
-			return $str;
-		}
+		preg_match('/^\s*+(?:\S++\s*+){1,'.(int) $limit.'}/', $str, $matches);
 			
-		$str = '';
-		for ($i = 0; $i < $n; $i++)
+		if (strlen($str) == strlen($matches[0]))
 		{
-			$str .= $words[$i].' ';
+			$end_char = '';
 		}
-
-		return trim($str).$end_char;
+		
+		return rtrim($matches[0]).$end_char;
 	}
 }
 	
