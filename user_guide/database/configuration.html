@@ -75,9 +75,10 @@ $db['default']['dbdriver'] = "mysql";<br />
 $db['default']['dbprefix'] = "";<br />
 $db['default']['pconnect'] = TRUE;<br />
 $db['default']['db_debug'] = FALSE;<br />
-$db['default']['active_r'] = TRUE;<br />
 $db['default']['cache_on'] = FALSE;<br />
-$db['default']['cachedir'] =  &quot;&quot;;</code>
+$db['default']['cachedir'] =  &quot;&quot;;<br />
+$db['default']['char_set'] = "utf8";<br />
+$db['default']['dbcollat'] = "utf8_general_ci";</code>
 
 <p>The reason we use a multi-dimensional array rather than a more simple one is to permit you to optionally store
 multiple sets of connection values.  If, for example,  you run multiple environments (development, production, test, etc.)
@@ -92,9 +93,10 @@ $db['test']['dbdriver'] = "mysql";<br />
 $db['test']['dbprefix'] = "";<br />
 $db['test']['pconnect'] = TRUE;<br />
 $db['test']['db_debug'] = FALSE;<br />
-$db['test']['active_r'] = TRUE;<br />
-$db['default']['cache_on'] = FALSE;<br />
-$db['default']['cachedir'] =  &quot;&quot;;</code>
+$db['test']['cache_on'] = FALSE;<br />
+$db['test']['cachedir'] =  &quot;&quot;;<br />
+$db['test']['char_set'] = "utf8";<br />
+$db['test']['dbcollat'] = "utf8_general_ci";</code>
 
 
 <p>Then, to globally tell the system to use that group you would set this variable located in the config file:</p>
@@ -103,6 +105,14 @@ $db['default']['cachedir'] =  &quot;&quot;;</code>
 
 <p>Note: The name "test" is arbitrary.  It can be anything you want. By default we've used the word "default"
 for the primary connection, but it too can be renamed to something more relevant to your project.</p>
+
+<h3>Active Record</h3>
+
+<p>The <a href="active_record.html">Active Record Class</a> is globally enabled or disabled by setting the $active_record variable in the database configuration file to TRUE/FALSE (boolean). If you are not using the active record class, setting it to FALSE will utilize fewer resources when the database classes are initialized.</p>
+
+<code>$active_record = TRUE;</code>
+
+<p class="important"><strong>Note:</strong> that some CodeIgniter classes such as Sessions require Active Records be enabled to access certain functionality.</p>
 
 <h3>Explanation of Values:</h3>
 
@@ -115,10 +125,10 @@ for the primary connection, but it too can be renamed to something more relevant
 <li><strong>dbprefix</strong> - An optional table prefix which will added to the table name when running <a href="active_record.html">Active Record</a> queries.  This permits multiple CodeIgniter installations to share one database.</li>
 <li><strong>pconnect</strong> - TRUE/FALSE (boolean) - Whether to use a persistent connection.</li>
 <li><strong>db_debug</strong> - TRUE/FALSE (boolean) - Whether database errors should be displayed.</li>
-<li><strong>active_r</strong> - TRUE/FALSE (boolean) - Whether to load the <a href="active_record.html">Active Record Class</a>. If you are not using the active record class you can have it omitted when the database classes are initialized in order to utilize less resources.
-<p class="important"><strong>Note:</strong> that some CodeIgniter classes such as Sessions require Active Records be enabled to access certain functionality.</p></li>
 <li><strong>cache_on</strong> - TRUE/FALSE (boolean) - Whether database query caching is enabled, see also <a href="caching.html">Database Caching Class</a>.</li>
 <li><strong>cachedir</strong> - The absolute server path to your database query cache directory.</li>
+<li><strong>char_set</strong> - The character set used in communicating with the database.</li>
+<li><strong>dbcollat</strong> - The character collation used in communicating with the database.</li>
 <li><strong>port</strong> - The database port number.  Currently only used with the Postgre driver. To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code></li>
 </ul>
 

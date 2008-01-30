@@ -22,7 +22,6 @@
 |				 to the table name when using the  Active Record class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
 |	['db_debug'] TRUE/FALSE - Whether database errors should be displayed.
-|	['active_r'] TRUE/FALSE - Whether to load the active record class
 |	['cache_on'] TRUE/FALSE - Enables/disables query caching
 |	['cachedir'] The path to the folder where cache files should be stored
 |	['char_set'] The character set used in communicating with the database
@@ -31,9 +30,12 @@
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the "default" group).
 |
+| The $active_record variables lets you determine whether or not to load
+| the active record class
 */
 
 $active_group = "default";
+$active_record = TRUE;
 
 $db['default']['hostname'] = "localhost";
 $db['default']['username'] = "";
