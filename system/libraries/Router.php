@@ -158,6 +158,12 @@ class CI_Router {
 				$this->set_method($segments[1]);
 			}
 		}
+		else
+		{
+			// This lets the "routed" segment array identify that the default
+			// index method is being used.
+			$segments[1] = 'index';
+		}
 		
 		// Update our "routed" segment array to contain the segments.
 		// Note: If there is no custom routing, this array will be
@@ -271,7 +277,7 @@ class CI_Router {
 				return;
 			}
 		}
-		
+
 		// If we got this far it means we didn't encounter a
 		// matching route so we'll set the site default route
 		$this->_set_request($this->uri->segments);
