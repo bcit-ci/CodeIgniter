@@ -595,7 +595,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function orlike($field, $match = '', $side = 'both')
 	{
-		return $this->orlike($field, $match, $side);
+		return $this->or_like($field, $match, $side);
 	}
 	
 	// --------------------------------------------------------------------
