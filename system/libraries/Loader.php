@@ -193,8 +193,11 @@ class CI_Loader {
 	 */	
 	function database($params = '', $return = FALSE, $active_record = FALSE)
 	{
+		// Grab the super object
+		$CI =& get_instance();
+		
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == FALSE)
+		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == FALSE AND isset($CI->db) AND is_object($CI->db))
 		{
 			return FALSE;
 		}	
@@ -205,9 +208,6 @@ class CI_Loader {
 		{
 			return DB($params, $active_record);
 		}
-
-		// Grab the super object
-		$CI =& get_instance();
 		
 		// Initialize the db variable.  Needed to prevent   
 		// reference errors with some configurations
