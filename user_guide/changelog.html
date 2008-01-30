@@ -164,9 +164,10 @@ Change Log
 	<li>Removed an extraneous call to loading models (#3286).</li>
 	<li>Removed extraneous load of $CFG in _display_cache() of the Output class (#3285).</li>
 	<li>Removed an unused parameter from Profiler (#3332).</li>
+	<li>Fixed a bug (#3284) where the rsegment array would not be set properly if the requested URI contained more segments than the routed URI.</li>
 	<li>Fixed a bug (#3314) which would cause the top level path to be deleted in delete_files() of the File helper.</li>
 	<li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
-	<li>Fixed a bug (#3024) in which master_dim wasn't gettitng reset by clear() in the Image library.</li>
+	<li>Fixed a bug (#3024) in which master_dim wasn't getting reset by clear() in the Image library.</li>
 	<li>Fixed a bug (#3330) in the FTP class where a comparison wasn't getting made.</li>
 	<li>Fixed a bug (#3328) where the smiley helper might return an undefined variable.</li>
 	<li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
