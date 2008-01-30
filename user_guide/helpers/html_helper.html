@@ -68,16 +68,49 @@ Directory Helper
 
 <p>The following functions are available:</p>
 
+<h2>br()</h2>
+<p>Generates line break tags (&lt;br />) based on the number you submit. Example:</p>
+<code>echo br(3);</code>
+<p>The above would produce: &lt;br />&lt;br />&lt;br /></p>
 
 <h2>heading()</h2>
-
 <p>Lets you create HTML &lt;h1> tags.  The first parameter will contain the data, the
 second the size of the heading.  Example:</p>
-
 <code>echo heading('Welcome!', 3);</code>
-
 <p>The above would produce:  &lt;h3>Welcome!&lt;/h3></p>
 
+<h2>link()</h2>
+<p>Lets you create HTML &lt;link /> tags.  The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.</p>
+<p>While stylesheets are more conveniently handled through the stylesheet() function, they can also be called here.</p>
+<code>
+link('css/mystyles.css');<br />
+    // gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code>
+<p>Further examples:</p>
+
+<code>
+link('favicon.ico', 'shortcut icon', 'image/ico');<br />
+    // &lt;link href=&quot;http://site.com/favicon.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; /&gt; </p>
+<br />
+<br />
+link('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');<br />
+    // &lt;link href=&quot;http://site.com/feed&quot; rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;My RSS Feed&quot; /&gt; <br />
+<br />
+
+<br />
+$link = array(<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'href' =&gt; 'css/printer.css',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'rel' =&gt; 'stylesheet',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'type' =&gt; 'text/css',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'media' =&gt; 'print'<br />
+    );<br />
+    <br />
+    link($link);<br />
+    // &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code>    
+    
+<h2>nbs()</h2>
+<p>Generates non-breaking spaces (&amp;nbsp;) based on the number you submit. Example:</p>
+<code>echo nbs(3);</code>
+<p>The above would produce: &amp;nbsp;&amp;nbsp;&amp;nbsp;</p>
 
 <h2>ol()&nbsp; and&nbsp; ul()</h2>
 
@@ -195,21 +228,6 @@ echo ul($list);</code>
 &nbsp;&nbsp;&lt;/li&gt;<br />
 &lt;/ul&gt;
 </code>
-
-
-<h2>nbs()</h2>
-<p>Generates non-breaking spaces (&amp;nbsp;) based on the number you submit. Example:</p>
-<code>echo nbs(3);</code>
-<p>The above would produce: &amp;nbsp;&amp;nbsp;&amp;nbsp;</p>
-
-
-<h2>br()</h2>
-<p>Generates line break tags (&lt;br />) based on the number you submit. Example:</p>
-<code>echo br(3);</code>
-<p>The above would produce: &lt;br />&lt;br />&lt;br /></p>
-
-
-
 
 </div>
 <!-- END CONTENT -->

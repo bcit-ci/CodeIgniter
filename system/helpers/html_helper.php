@@ -182,17 +182,122 @@ if (! function_exists('br'))
 // ------------------------------------------------------------------------
 
 /**
- * Generates non-breaking space entities based on number supplied
+ * Image
+ *
+ * Generates an image tag
  *
  * @access	public
  * @param	integer
  * @return	string
  */	
-if (! function_exists('nbs'))
+if (! function_exists('image'))
 {
-	function nbs($num = 1)
+	function image($src = '', $alt = '', $index_page = FALSE)
 	{
-		return str_repeat("&nbsp;", $num);
+		$CI =& get_instance();
+	
+		$css = '';
+		
+		foreach ($stylesheets as $stylesheet)
+		{
+			if (strpos($stylesheet, '://') !== FALSE)
+			{
+				$href = ' href="'.$stylesheet.'"';			
+			}
+			elseif ($index_page === TRUE)
+			{
+				$href = ' href="'.$CI->config->site_url($stylesheet).'"';
+			}
+			else
+			{
+				$href = ' href="'.$CI->config->slash_item('base_url').$stylesheet.'"';
+			}
+	
+			$media = ($media !== '') ? ' media="'.$media.'"' : '';
+	
+			$css .= 'link type="text/css" rel="stylesheet"'.$href.$media.' />'."\n";
+		}
+	
+		return $css;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Link
+ *
+ * Generates link to a CSS file
+ *
+ * @access	public
+ * @param	mixed	stylesheet name(s)
+ * @param	string	media type
+ * @param	boolean	should index_page be added to the css path 
+ * @return	string
+ */	
+if (! function_exists('link'))
+{
+	function link($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
+	{
+		$CI =& get_instance();
+
+		$link = 'link ';
+
+		if (is_array($href))
+		{
+			foreach ($href as $k=>$v)
+			{
+				if ($k == 'href' AND strpos($k, '://') === FALSE)
+				{
+					if ($index_page === TRUE)
+					{
+						$link .= ' href="'.$CI->config->site_url($v).'" ';
+					}
+					else
+					{
+						$link .= ' href="'.$CI->config->slash_item('base_url').$v.'" ';
+					}
+				}
+				else
+				{
+					$link .= "$k=\"$v\" ";
+				}
+			}
+			
+			$link .= "/>\n";
+		}
+		else
+		{
+			if ( strpos($href, '://') !== FALSE)
+			{
+				$link .= ' href="'.$href.'" ';
+			}
+			elseif ($index_page === TRUE)
+			{
+				$link .= ' href="'.$CI->config->site_url($href).'" ';
+			}
+			else
+			{
+				$link .= ' href="'.$CI->config->slash_item('base_url').$href.'" ';
+			}
+				
+			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
+			
+			if ($media	!= '')
+			{
+				$link .= 'media="'.$media.'" ';
+			}
+
+			if ($title	!= '')
+			{
+				$link .= 'title="'.$title.'" ';
+			}
+			
+			$link .= '/>'."\n";
+		}
+
+	
+		return $link;
 	}
 }
 
@@ -216,6 +321,23 @@ if (! function_exists('meta'))
 		}
 
 		return $str;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Generates non-breaking space entities based on number supplied
+ *
+ * @access	public
+ * @param	integer
+ * @return	string
+ */	
+if (! function_exists('nbs'))
+{
+	function nbs($num = 1)
+	{
+		return str_repeat("&nbsp;", $num);
 	}
 }
 
