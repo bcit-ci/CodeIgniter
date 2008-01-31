@@ -139,7 +139,7 @@ $query = $this->db->get('mytable');<br />
 // Produces: SELECT title, content, date FROM mytable</code></p>
 <p class="important"><strong>Note:</strong> If you are selecting all (*) from a table you do not need to use this function.  When omitted, CodeIgniter assumes you wish to SELECT *</p>
 
-<p>$this-&gt;Db-&gt;select() accepts an optional second parameter. If you set it to FALSE, CodeIgniter will not try to protect your field or table names with backticks. This is useful if you need a compound select statement.</p>
+<p>$this-&gt;db-&gt;select() accepts an optional second parameter. If you set it to FALSE, CodeIgniter will not try to protect your field or table names with backticks. This is useful if you need a compound select statement.</p>
 <p><code> 		$this-&gt;db-&gt;select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE); <br />
     $query = $this-&gt;db-&gt;get('mytable');<br />
 </code></p>
