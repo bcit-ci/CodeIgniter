@@ -91,7 +91,7 @@ already be running, since the forge class relies on it.</p>
 
 <p>Permits you to create the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
-<code>if ($this->dbutil->create_database('my_db'))<br />
+<code>if ($this->dbforge->create_database('my_db'))<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo 'Database created!';<br />
 }</code>
@@ -103,7 +103,7 @@ already be running, since the forge class relies on it.</p>
 
 <p>Permits you to drop the database specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
 
-<code>if ($this->dbutil->drop_database('my_db'))<br />
+<code>if ($this->dbforge->drop_database('my_db'))<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo 'Database deleted!';<br />
 }</code>
