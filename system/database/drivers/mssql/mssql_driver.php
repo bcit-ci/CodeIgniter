@@ -433,6 +433,13 @@ class CI_DB_mssql_driver extends CI_DB {
 	function _protect_identifiers($item, $affect_spaces = TRUE, $first_word_only = FALSE)
 	{
 		// MSSQL doesn't use backticks
+		if (strpos($item, '.') !== FALSE)
+		{
+			$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
+			$table_name =  substr($item, 0, strpos($item, '.')+1);
+			$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
+		}
+
 		return $item;
 	}
 			
