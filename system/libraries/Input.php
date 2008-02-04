@@ -556,14 +556,11 @@ class CI_Input {
 		 *
 		 * <a href="http://%77%77%77%2E%67%6F%6F%67%6C%65%2E%63%6F%6D">Google</a>
 		 *
-		 * Note: Normally urldecode() would be easier but it removes plus signs
+		 * Note: Use rawurldecode() so it does not remove plus signs
 		 *
 		 */	
-		$str = preg_replace("/(%20)+/", '9u3iovBnRThju941s89rKozm', $str);
-		$str = preg_replace("/%u0([a-z0-9]{3})/i", "&#x\\1;", $str);
-		$str = preg_replace("/%([a-z0-9]{2})/i", "&#x\\1;", $str); 
-		$str = str_replace('9u3iovBnRThju941s89rKozm', "%20", $str);	
-				
+		$str = rawurldecode($str);
+		
 		/*
 		 * Convert character entities to ASCII 
 		 *
