@@ -448,6 +448,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 		// we may need "`item1` `item2`" and not "`item1 item2`"
 		if (ctype_alnum($item) === FALSE)
 		{
+			if (strpos($item, '.') !== FALSE)
+			{
+				$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
+				$table_name =  substr($item, 0, strpos($item, '.')+1);
+				$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
+			}
+
 			// This function may get "field >= 1", and need it to return "`field` >= 1"
 			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
 
