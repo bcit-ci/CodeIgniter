@@ -536,7 +536,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 		
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 	
-		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where).$orderby.$limit;
+		$sql = "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr);
+		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= $orderby.$limit;
+		
+		return $sql;
 	}
 
 	

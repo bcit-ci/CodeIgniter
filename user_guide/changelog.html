@@ -66,7 +66,7 @@ Change Log
 		<ul>
 			<li>Added <a href="./database/active_record.html#caching">Active Record Caching</a>.</li>
 			<li>Made Active Record fully database-prefix aware</li>
-		</ul>
+		    </ul>
 	</li>
 	<li>Core Changes
 		<ul>
@@ -82,6 +82,7 @@ Change Log
 	<li>Made Active Record fully database prefix aware (#3384)</li>
 	<li>Fixed a bug where DBForge was outputting invalid SQL in Postgres by adding brackets around the tables in FROM</li>
 	<li>Fixed a bug (#3396) where certain POST variables would cause a PHP warning.</li>
+    <li>Changed the behaviour of Active Record's update() to make the WHERE clause optional (#3395).</li>
 </ul>
 
 
