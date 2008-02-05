@@ -72,16 +72,15 @@ class CI_Input {
 		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', '_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
 							'system_folder', 'application_folder', 'BM', 'EXT', 'CFG', 'URI', 'RTR', 'OUT', 'IN');
 		
-		// Unset globals for securiy. 
+		// Unset globals for security. 
 		// This is effectively the same as register_globals = off
-		foreach (array($_GET, $_POST, $_COOKIE) as $global)
+		foreach (array($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, (isset($_SESSION) && is_array($_SESSION)) ? $_SESSION : array()) as $global)
 		{
 			if ( ! is_array($global))
 			{
 				if ( ! in_array($global, $protected))
 				{
-					global $$global;
-					$$global = NULL;
+					unset($GLOBALS[$global]);
 				}
 			}
 			else
@@ -90,8 +89,18 @@ class CI_Input {
 				{
 					if ( ! in_array($key, $protected))
 					{
-						global $$key;
-						$$key = NULL;
+						unset($GLOBALS[$key]);
+					}
+					
+					if (is_array($val))
+					{
+						foreach($val as $k => $v)
+						{
+							if ( ! in_array($k, $protected))
+							{
+								unset($GLOBALS[$k]);
+							}
+						}
 					}
 				}	
 			}

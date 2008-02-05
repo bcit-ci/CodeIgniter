@@ -63,24 +63,29 @@ Change Log
 
 <ul>
 	<li>Active Record 
-	    <ul>
-	        <li>Added <a href="./database/active_record.html#caching">Active Record Caching</a>.</li>
-	        <li>Made Active Record fully database-prefix aware</li>
-	    </ul>
+		<ul>
+			<li>Added <a href="./database/active_record.html#caching">Active Record Caching</a>.</li>
+			<li>Made Active Record fully database-prefix aware</li>
+		</ul>
 	</li>
-    <li>Core Changes
-        <ul>
-            <li>Modified xss_clean() to be more intelligent with its handling of URL encoded strings.</li>
-            </ul>
-    </li>
-    </ul>
+	<li>Core Changes
+		<ul>
+			<li>Modified xss_clean() to be more intelligent with its handling of URL encoded strings.</li>
+			<li>Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization of globals.</li>
+		</ul>
+	</li>
+</ul>
 
 
 <h3>Bugfixes for 1.6.1</h3>
 <ul>
-    <li> Made Active Record fully database prefix aware (#3384)</li>
-    <li>Fixed a bug where DBForge was outputting invalid SQL in Postgres by adding brackets around the tables in FROM</li>
-    </ul>
+	<li>Made Active Record fully database prefix aware (#3384)</li>
+	<li>Fixed a bug where DBForge was outputting invalid SQL in Postgres by adding brackets around the tables in FROM</li>
+	<li>Fixed a bug (#3396) where certain POST variables would cause a PHP warning.</li>
+</ul>
+
+
+
 <h2>Version 1.6.0</h2>
 <p>Release Date: January 30, 2008 </p>
 <ul>
