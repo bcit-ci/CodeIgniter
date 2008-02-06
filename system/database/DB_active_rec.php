@@ -1449,10 +1449,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _compile_select($select_override = FALSE)
 	{
-		if ($this->ar_caching === TRUE)
-		{
-			$this->_merge_cache();
-		}
+		$this->_merge_cache();
 
 		$sql = ( ! $this->ar_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
 	
