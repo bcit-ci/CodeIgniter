@@ -125,7 +125,7 @@ class CI_Profiler {
 			}
 			else
 			{
-				$highlight = array('SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'LEFT JOIN', 'ORDER BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE');
+				$highlight = array('SELECT', 'FROM', 'WHERE', 'AND', 'LEFT JOIN', 'ORDER BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR');
 				
 				foreach ($this->CI->db->queries as $key => $val)
 				{
