@@ -430,16 +430,51 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * @param	boolean	only affect the first word
 	 * @return	mixed	the item with backticks
 	 */	
-	function _protect_identifiers($item, $affect_spaces = TRUE, $first_word_only = FALSE)
+	function _protect_identifiers($item, $first_word_only = FALSE)
 	{
-		// MSSQL doesn't use backticks
-		if (strpos($item, '.') !== FALSE)
+		if (is_array($item))
 		{
-			$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
-			$table_name =  substr($item, 0, strpos($item, '.')+1);
-			$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
+			$escaped_array = array();
+
+			foreach($item as $k=>$v)
+			{
+				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v, $first_word_only);
+			}
+
+			return $escaped_array;
+		}	
+
+		// This function may get "item1 item2" as a string, and so
+		// we may need ""item1" "item2"" and not ""item1 item2""
+		if (ctype_alnum($item) === FALSE)
+		{
+			if (strpos($item, '.') !== FALSE)
+			{
+				$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
+				$table_name =  substr($item, 0, strpos($item, '.')+1);
+				$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
+			}
+
+			// This function may get "field >= 1", and need it to return ""field" >= 1"
+			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
+
+			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1"$2"$3', $item);
+		}
+		else
+		{
+			return "\"{$item}\"";
 		}
 
+		$exceptions = array('AS', '/', '-', '%', '+', '*');
+		
+		foreach ($exceptions as $exception)
+		{
+		
+			if (stristr($item, " \"{$exception}\" ") !== FALSE)
+			{
+				$item = preg_replace('/ "('.preg_quote($exception).')" /i', ' $1 ', $item);
+			}
+		}
 		return $item;
 	}
 			
