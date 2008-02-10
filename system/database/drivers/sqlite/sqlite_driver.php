@@ -402,11 +402,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		if (stristr($table, '.'))
-		{
-			$table = preg_replace("/\./", ".", $table);
-		}
-		
+
+		// other database drivers use this to add backticks, hence this
+		// function is simply going to return the tablename for sqlite		
 		return $table;
 	}
 		
