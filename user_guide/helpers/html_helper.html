@@ -81,10 +81,10 @@ second the size of the heading.  Example:</p>
 <h2>img()</h2>
 <p>Lets you create HTML &lt;img /&gt; tags.  The first parameter  contains the image source. There is data, the
     second the size of the heading.  Example:</p>
-<code>img('images/picture.jpg');<br />
+<code>echo img('images/picture.jpg');<br />
 // gives &lt;img src=&quot;http://site.com/images/picture.jpg&quot; /&gt;</code>
 <p>There is an optional second parameter that is a TRUE/FALSE value that specifics if the src should have the page specified by $config['index_page'] added to the address it creates. Presumably, this would be if you were using a media controller.</p>
-<p><code>img('images/picture.jpg', TRUE);<br />
+<p><code>echo img('images/picture.jpg', TRUE);<br />
 // gives &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; /&gt;</code></p>
 <p>Additionally, an associative array can be passed to the img() function for complete control over all attributes and values.</p>
 <p><code> $image_properties = array(<br />
@@ -101,16 +101,16 @@ second the size of the heading.  Example:</p>
     // &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; alt=&quot;Me, demonstrating how to eat 4 slices of pizza at one time&quot; class=&quot;post_images&quot; width=&quot;200&quot; height=&quot;200&quot; title=&quot;That was quite a night&quot; rel=&quot;lightbox&quot; /&gt;</code></p>
 <h2>link_tag()</h2>
 <p>Lets you create HTML &lt;link /> tags.  This is useful for stylesheet links, as well as other links. The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.<code>
-link_tag('css/mystyles.css');<br />
+echo link_tag('css/mystyles.css');<br />
 // gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></p>
 <p>Further examples:</p>
 
 <code>
-    link_tag('favicon.ico', 'shortcut icon', 'image/ico');<br />
+    echo link_tag('favicon.ico', 'shortcut icon', 'image/ico');<br />
     // &lt;link href=&quot;http://site.com/favicon.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; /&gt; 
     <br />
     <br />
-    link('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');<br />
+    echo link('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');<br />
     // &lt;link href=&quot;http://site.com/feed&quot; rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;My RSS Feed&quot; /&gt; </code>
 <p>Additionally, an associative array can be passed to the link() function for complete control over all attributes and values.</p>
 <p><code>
@@ -121,7 +121,7 @@ link_tag('css/mystyles.css');<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'media' =&gt; 'print'<br />
     );<br />
     <br />
-    link_tag($link);<br />
+    echo link_tag($link);<br />
     // &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code></p>
     
 <h2>nbs()</h2>
