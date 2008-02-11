@@ -418,7 +418,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		if (strpos($table, '.') !== FALSE)
 		{
-			$table = str_replace('.', '`.`', $table);
+			$table = '`' . str_replace('.', '`.`', $table) . '`';
 		}
 		
 		return $table;
