@@ -406,9 +406,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		if (strpos($table, '.') !== FALSE)
+		if (stristr($table, '.'))
 		{
-			$table = str_replace('.', '`.`', $table);
+			$table = '"'.preg_replace("/\./", '"."', $table).'"';
 		}
 		
 		return $table;
