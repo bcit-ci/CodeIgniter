@@ -103,7 +103,7 @@ even add your own data to a user's session, but the process of reading, writing,
 <li>The user's unique Session ID (this is a statistically random string with very strong entropy, hashed with MD5 for portability, and regenerated (by default) every five minutes)</li>
 <li>The user's IP Address</li>
 <li>The user's User Agent data (the first 50 characters of the browser data string)</li>
-<li>The "last activity" and "last visit" time stamps.</li>
+<li>The "last activity"  time stamp.</li>
 </ul>
 
 <p>The above data is stored in a cookie as a serialized array with this prototype:</p>
@@ -113,8 +113,7 @@ even add your own data to a user's session, but the process of reading, writing,
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'session_id'&nbsp;&nbsp;&nbsp;&nbsp;=> random hash,<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ip_address'&nbsp;&nbsp;&nbsp;&nbsp;=> 'string - user IP address',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'user_agent'&nbsp;&nbsp;&nbsp;&nbsp;=> 'string - user agent data',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'last_activity' => timestamp,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'last_visit'&nbsp;&nbsp;&nbsp;&nbsp;=> timestamp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'last_activity' => timestamp<br />
 )</code>
 
 <p>If you have the encryption option enabled, the serialized array will be encrypted before being stored in the cookie,
