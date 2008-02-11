@@ -556,8 +556,8 @@ class CI_DB_driver {
 	 * @return	string		
 	 */	
 	function compile_binds($sql, $binds)
-	{	
-		if (FALSE === strpos($sql, $this->bind_marker))
+	{
+		if (strpos($sql, $this->bind_marker) === FALSE)
 		{
 			return $sql;
 		}
@@ -567,17 +567,25 @@ class CI_DB_driver {
 			$binds = array($binds);
 		}
 		
-		foreach ($binds as $val)
-		{
-			$val = $this->escape($val);
-					
-			// Just in case the replacement string contains the bind
-			// character we'll temporarily replace it with a marker
-			$val = str_replace($this->bind_marker, '{%bind_marker%}', $val);
-			$sql = preg_replace("#".preg_quote($this->bind_marker, '#')."#", str_replace('$', '\$', $val), $sql, 1);
+		// Get the sql segments around the bind markers
+		$segments = explode($this->bind_marker, $sql);
+
+		// The count of bind should be 1 less then the count of segments
+		// If there are more bind arguments trim it down
+		if (count($binds) >= count($segments)) {
+			$binds = array_slice($binds, 0, count($segments)-1);
 		}
 
-		return str_replace('{%bind_marker%}', $this->bind_marker, $sql);		
+		// Construct the binded query
+		$result = $segments[0];
+		$i = 0;
+		foreach ($binds as $bind)
+		{
+			$result .= $this->escape($bind);
+			$result .= $segments[++$i];
+		}
+
+		return $result;
 	}
 	
 	// --------------------------------------------------------------------

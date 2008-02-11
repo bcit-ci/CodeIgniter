@@ -386,9 +386,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		if (stristr($table, '.'))
+		if (strpos($table, '.') !== FALSE)
 		{
-			$table = preg_replace("/\./", "`.`", $table);
+			$table = '`' . str_replace('.', '`.`', $table) . '`';
 		}
 		
 		return $table;
