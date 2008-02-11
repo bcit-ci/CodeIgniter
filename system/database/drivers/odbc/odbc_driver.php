@@ -386,11 +386,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		if (strpos($table, '.') !== FALSE)
-		{
-			$table = '`' . str_replace('.', '`.`', $table) . '`';
-		}
-		
+		// used to add backticks in other db drivers		
 		return $table;
 	}
 		
@@ -438,7 +434,7 @@ class CI_DB_odbc_driver extends CI_DB {
 		}
 		else
 		{
-			return "`{$item}`";
+			return "{$item}";
 		}
 
 		$exceptions = array('AS', '/', '-', '%', '+', '*');
@@ -446,9 +442,9 @@ class CI_DB_odbc_driver extends CI_DB {
 		foreach ($exceptions as $exception)
 		{
 		
-			if (stristr($item, " `{$exception}` ") !== FALSE)
+			if (stristr($item, " {$exception} ") !== FALSE)
 			{
-				$item = preg_replace('/ `('.preg_quote($exception).')` /i', ' $1 ', $item);
+				$item = preg_replace('/ ('.preg_quote($exception).') /i', ' $1 ', $item);
 			}
 		}
 		return $item;
