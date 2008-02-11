@@ -408,9 +408,9 @@ class CI_DB_mssql_driver extends CI_DB {
 		// I don't believe this is necessary with MS SQL.  Not sure, though. - Rick
 	
 		/*
-		if (strpos($table, '.') !== FALSE)
+		if (stristr($table, '.'))
 		{
-			$table = str_replace('.', '`.`', $table);
+			$table = preg_replace("/\./", "`.`", $table);
 		}
 		*/
 		
