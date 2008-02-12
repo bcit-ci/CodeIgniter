@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-<title>CodeIgniter User Guide</title>
+<title>CodeIgniter User Guide : Upgrading from 1.5.4 to 1.6.0</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Upgrading from Beta 1.1 to Final 1.2
+Upgrading from 1.6.0 to 1.6.0.1
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,22 +55,28 @@ Upgrading from Beta 1.1 to Final 1.2
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Upgrading From Beta 1.0 to Final 1.2</h1>
+<h1>Upgrading from 1.6.0 to 1.6.0.1</h1>
 
-<p>To upgrade to Version 1.2 please replace the following directories with the new versions:</p>
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
+
+
+
+<h2>Step 1: Update your CodeIgniter files</h2>
+
+<p>Replace these files and directories in your "system" folder with the new versions:</p>
+
+<ul>
+
+<li><dfn>system/codeigniter</dfn></li>
+<li><dfn>system/database</dfn></li>
+<li><dfn>system/helpers</dfn></li>
+<li><dfn>system/language</dfn></li>
+<li><dfn>system/libraries</dfn></li>
+</ul>
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
-<ul>
-<li>drivers</li>
-<li>helpers</li>
-<li>init</li>
-<li>language</li>
-<li>libraries</li>
-<li>plugins</li>
-<li>scaffolding</li>
-</ul>
-
+<h2>Step 2: Update your user guide</h2>
 <p>Please also replace your local copy of the user guide with the new version.</p>
 
 </div>
