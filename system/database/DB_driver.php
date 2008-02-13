@@ -70,12 +70,7 @@ class CI_DB_driver {
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
 	 *
-	 * Database settings can be passed as discreet
-	 * parameters or as a data source name in the first
-	 * parameter. DSNs must have this prototype:
-	 * $dsn = 'driver://username:password@hostname/database';
-	 *
-	 * @param mixed. Can be an array or a DSN string
+	 * @param array
 	 */	
 	function CI_DB_driver($params)
 	{
@@ -85,24 +80,6 @@ class CI_DB_driver {
 			{
 				$this->$key = $val;
 			}
-		}
-		elseif (strpos($params, '://'))
-		{
-			if (FALSE === ($dsn = @parse_url($params)))
-			{
-				log_message('error', 'Invalid DB Connection String');
-			
-				if ($this->db_debug)
-				{
-					return $this->display_error('db_invalid_connection_str');
-				}
-				return FALSE;			
-			}
-			
-			$this->hostname = ( ! isset($dsn['host'])) ? '' : rawurldecode($dsn['host']);
-			$this->username = ( ! isset($dsn['user'])) ? '' : rawurldecode($dsn['user']);
-			$this->password = ( ! isset($dsn['pass'])) ? '' : rawurldecode($dsn['pass']);
-			$this->database = ( ! isset($dsn['path'])) ? '' : rawurldecode(substr($dsn['path'], 1));
 		}
 
 		log_message('debug', 'Database Driver Class Initialized');

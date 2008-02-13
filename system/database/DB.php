@@ -46,6 +46,29 @@ function &DB($params = '', $active_record_override = FALSE)
 		
 		$params = $db[$active_group];			
 	}
+	else
+	{
+		
+		/* parse the URL from the DSN string
+		*  Database settings can be passed as discreet
+	 	*  parameters or as a data source name in the first
+	 	*  parameter. DSNs must have this prototype:
+	 	*  $dsn = 'driver://username:password@hostname/database';
+		*/
+	
+		if (($dns = @parse_url($params)) === FALSE)
+		{
+			show_error('Invalid DB Connection String');
+		}
+		
+		$params = array(
+							'dbdriver'	=> $dns['scheme'],
+							'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
+							'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
+							'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
+							'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['host'], 1)) : ''
+						);
+	}
 	
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
