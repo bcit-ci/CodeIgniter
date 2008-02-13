@@ -76,12 +76,13 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 		
-		if ($if_not_exists === TRUE)
+		// IF NOT EXISTS added to SQLite in 3.3.0
+		if ($if_not_exists === TRUE && version_compare($this->_version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
 		
-		$sql .= $this->db->_escape_table($table)." (";
+		$sql .= $this->db->_escape_table($table)."(";
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
