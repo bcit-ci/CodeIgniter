@@ -96,8 +96,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		// TODO - add support if needed
-		return TRUE;
+		return @mysqli_query($this->conn_id, "SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'");
 	}
 
 	// --------------------------------------------------------------------
