@@ -46,7 +46,7 @@ function &DB($params = '', $active_record_override = FALSE)
 		
 		$params = $db[$active_group];			
 	}
-	else
+	elseif (is_string($params))
 	{
 		
 		/* parse the URL from the DSN string
