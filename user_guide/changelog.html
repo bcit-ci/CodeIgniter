@@ -89,6 +89,7 @@ Change Log
 			<li>Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization of globals.</li>
 		    <li>Added a <a href="./helpers/path_helper.html">Path Helper</a>.</li>
 			<li>Simplified _reindex_segments() in the URI class</li>
+			<li>Escaped the '-' in the default 'permitted_uri_chars' config item, to prevent errors if developers just try to add additional characters to the end of the default expression.</li>
 		</ul>
 	</li>
 </ul>
