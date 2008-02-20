@@ -184,6 +184,10 @@ if (! function_exists('get_filenames'))
 			}
 			return $_filedata;
 		}
+		else
+		{
+			return $FALSE;
+		}
 	}
 }
 
