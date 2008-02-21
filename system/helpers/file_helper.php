@@ -186,7 +186,7 @@ if (! function_exists('get_filenames'))
 		}
 		else
 		{
-			return $FALSE;
+			return FALSE;
 		}
 	}
 }
