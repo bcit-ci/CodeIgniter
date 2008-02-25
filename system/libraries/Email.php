@@ -45,13 +45,13 @@ class CI_Email {
 	var	$validate		= FALSE;	// TRUE/FALSE.  Enables email validation
 	var	$priority		= "3";		// Default priority (1 - 5)
 	var	$newline		= "\n";		// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
-
 	var $crlf			= "\n";		// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
-
+	var $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.	
 	var	$bcc_batch_mode	= FALSE;	// TRUE/FALSE  Turns on/off Bcc batch feature
 	var	$bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	var $_safe_mode		= FALSE;
 	var	$_subject		= "";
 	var	$_body			= "";
 	var	$_finalbody		= "";
@@ -59,8 +59,7 @@ class CI_Email {
 	var	$_atc_boundary	= "";
 	var	$_header_str	= "";
 	var	$_smtp_connect	= "";
-	var	$_encoding		= "8bit";
-	var $_safe_mode		= FALSE;
+	var	$_encoding		= "8bit";	
 	var $_IP			= FALSE;
 	var	$_smtp_auth		= FALSE;
 	var $_replyto_flag	= FALSE;
@@ -89,6 +88,9 @@ class CI_Email {
 		{
 			$this->initialize($config);
 		}	
+
+		$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;			
+		$this->_safe_mode = ((boolean)@ini_get("safe_mode") === FALSE) ? FALSE : TRUE;
 
 		log_message('debug', "Email Class Initialized");
 	}
@@ -121,8 +123,6 @@ class CI_Email {
 				}			
 			}
 		}
-		$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;			
-		$this->_safe_mode = ((boolean)@ini_get("safe_mode") === FALSE) ? FALSE : TRUE;
 	}
   	
 	// --------------------------------------------------------------------
@@ -372,20 +372,10 @@ class CI_Email {
 	function _str_to_array($email)
 	{
 		if ( ! is_array($email))
-		{	
-			if (ereg(',$', $email))
-				$email = substr($email, 0, -1);
-			
-			if (ereg('^,', $email))
-				$email = substr($email, 1);	
-					
-			if (ereg(',', $email))
-			{					
-				$x = explode(',', $email);
-				$email = array();
-				
-				for ($i = 0; $i < count($x); $i ++)
-					$email[] = trim($x[$i]);
+		{
+			if (strpos($email, ',') !== FALSE)
+			{
+				$email = preg_split('/[\s,]/', $email, -1, PREG_SPLIT_NO_EMPTY);
 			}
 			else
 			{				
@@ -665,10 +655,7 @@ class CI_Email {
 	 */	
 	function valid_email($address)
 	{
-		if ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address))
-			return FALSE;
-		else
-			return TRUE;
+		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address)) ? FALSE : TRUE;
 	}
   	
 	// --------------------------------------------------------------------
@@ -691,7 +678,7 @@ class CI_Email {
 		}
 			
 		$clean_email = array();
-		
+
 		foreach ($email as $addy)
 		{
 			if (preg_match( '/\<(.*)\>/', $addy, $match))
@@ -726,11 +713,10 @@ class CI_Email {
 		{
 			return $this->word_wrap($this->alt_message, '76');
 		}
-	
-		if (eregi( '\<body(.*)\</body\>', $this->_body, $match))
+		
+		if (preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match))
 		{
 			$body = $match['1'];
-			$body = substr($body, strpos($body, ">") + 1);
 		}
 		else
 		{
@@ -940,30 +926,47 @@ class CI_Email {
 			
 			break;
 			case 'html' :
-								
-				$hdr .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline;
-				$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
-				$hdr .= "--" . $this->_alt_boundary . $this->newline;
+							
+				if ($this->send_multipart === FALSE)
+				{
+					$hdr .= "Content-Type: text/html;". $this->newline;
+				}
+				else
+				{					
+					$hdr .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline;
+					$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
+					$hdr .= "--" . $this->_alt_boundary . $this->newline;
+					
+					$hdr .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
+					$hdr .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
+					$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
 				
-				$hdr .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
-				$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
-			
-				$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: quoted-printable";
+					$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
+					$hdr .= "Content-Transfer-Encoding: quoted-printable";
+				}
 				
 				$this->_body = $this->_prep_quoted_printable($this->_body);
 				
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
-					$this->_finalbody = $this->_body . $this->newline . $this->newline . "--" . $this->_alt_boundary . "--";
+					$this->_finalbody = $this->_body . $this->newline . $this->newline;
+					
+					if ($this->send_multipart !== FALSE)
+					{
+						$this->_finalbody .= "--" . $this->_alt_boundary . "--";
+					}
 					
 					return;
 				}
 				
 				$hdr .= $this->newline . $this->newline;
-				$hdr .= $this->_body . $this->newline . $this->newline . "--" . $this->_alt_boundary . "--";
+				$hdr .= $this->_body . $this->newline . $this->newline;
+				
+				if ($this->send_multipart !== FALSE)
+				{
+					$hdr .= "--" . $this->_alt_boundary . "--";
+				}
 
 				$this->_finalbody = $hdr;
 				return;
@@ -1443,7 +1446,6 @@ class CI_Email {
 	 */	
 	function _smtp_connect()
 	{
-	
 		$this->_smtp_connect = fsockopen($this->smtp_host,
 										$this->smtp_port,
 										$errno,
@@ -1613,7 +1615,7 @@ class CI_Email {
 			$data .= $str;
 			
 			if (substr($str, 3, 1) == " ")
-				break; 	
+				break;
 		}
 		
 		return $data;
