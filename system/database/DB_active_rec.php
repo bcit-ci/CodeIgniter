@@ -289,7 +289,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->ar_from[] = $this->_protect_identifiers($this->_track_aliases($val));
 			if ($this->ar_caching === TRUE)
 			{
-				$this->ar_cache_from[] = $this->_protect_identifiers($val);
+				$this->ar_cache_from[] = $this->_protect_identifiers($this->_track_aliases($val));
 			}
 		}
 

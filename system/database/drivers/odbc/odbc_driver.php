@@ -437,7 +437,7 @@ class CI_DB_odbc_driver extends CI_DB {
 			return "{$item}";
 		}
 
-		$exceptions = array('AS', '/', '-', '%', '+', '*');
+		$exceptions = array('AS', '/', '-', '%', '+', '*', 'OR', 'IS');
 		
 		foreach ($exceptions as $exception)
 		{
