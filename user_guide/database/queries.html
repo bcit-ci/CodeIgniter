@@ -86,7 +86,7 @@ It simply lets you submit a query. Most users will rarely use this function.</p>
 // outputs prefix_tablename</code></p>
 <h1>Protecting identifiers</h1>
 <p>In many databases it is advisable to protect table and field names - for example with backticks in MySQL. Active Record queries are automatically protected, however if you need to manually protect an identifier you can use:</p>
-<p><code>$this-&gt;db-&gt;protect_identifier('table_name');</code></p>
+<p><code>$this-&gt;db-&gt;protect_identifiers('table_name');</code></p>
 <h1>Escaping Queries</h1>
 <p>It's a very good security practice to escape your data before submitting it into your database.
 CodeIgniter has two functions that help you do this:</p>
