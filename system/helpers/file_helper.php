@@ -164,17 +164,22 @@ if (! function_exists('delete_files'))
  */	
 if (! function_exists('get_filenames'))
 {
-	function get_filenames($source_dir, $include_path = FALSE)
+	function get_filenames($source_dir, $include_path = FALSE, $recursion = FALSE)
 	{
-		$_filedata = array();
-	
+		static $_filedata = array();
+		
+		if ($recursion === FALSE)
+		{
+			$_filedata = array();
+		}
+		
 		if ($fp = @opendir($source_dir))
 		{
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.')
 				{
-					 get_filenames($source_dir.$file."/", $include_path);
+					 get_filenames($source_dir.$file."/", $include_path, TRUE);
 				}
 				elseif (substr($file, 0, 1) != ".")
 				{
