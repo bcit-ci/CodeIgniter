@@ -261,7 +261,7 @@ class CI_Table {
 				{
 					$out .= $this->template['cell_'.$name.'start'];
 					
-					if ($cell == "")
+					if ($cell === "")
 					{
 						$out .= $this->empty_cells;
 					}
