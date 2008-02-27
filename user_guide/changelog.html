@@ -95,6 +95,8 @@ Change Log
 		    <li>Added a <a href="./helpers/path_helper.html">Path Helper</a>.</li>
 			<li>Simplified _reindex_segments() in the URI class</li>
 			<li>Escaped the '-' in the default 'permitted_uri_chars' config item, to prevent errors if developers just try to add additional characters to the end of the default expression.</li>
+			<li>Modified method calling to controllers to show a 404 when a private or protected method is accessed via a URL</li>
+			<li>Modified framework initiated 404s to log the controller and method for invalid requests</li>
 		</ul>
 	</li>
 	<li>Helpers
