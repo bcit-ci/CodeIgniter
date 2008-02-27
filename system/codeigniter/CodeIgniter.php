@@ -169,7 +169,7 @@ if ( ! class_exists($class)
 	OR in_array($method, get_class_methods('Controller'), TRUE)
 	)
 {
-	show_404();
+	show_404("{$class}/{$method}");
 }
 
 /*
@@ -214,9 +214,11 @@ else
 	}
 	else
 	{
-		if ( ! method_exists($CI, $method))
+		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
+		// methods, so we'll use this workaround for consistent behavior
+		if (! in_array($method, get_class_methods($CI)))
 		{
-			show_404();
+			show_404("{$class}/{$method}");
 		}
 
 		// Call the requested method.
