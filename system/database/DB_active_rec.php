@@ -779,7 +779,19 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		return $this->_having($key, $value, 'AND ');
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * orhaving() is an alias of or_having()
+	 * this function is here for backwards compatibility, as
+	 * orhaving() has been deprecated
+	 */
+
+	function orhaving($key, $value = '')
+	{
+		return $this->or_havinggroup_by($key, $value = '');
+	}	
 	// --------------------------------------------------------------------
 
 	/**
@@ -792,7 +804,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function orhaving($key, $value = '')
+	function or_having($key, $value = '')
 	{
 		return $this->_having($key, $value, 'OR ');
 	}
