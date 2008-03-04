@@ -179,12 +179,13 @@ If you would like to use CodeIgniter's classes from within your own custom class
 
 <p>First, assign the CodeIgniter object to a variable:</p>
 
-<code>$CI =& get_instance();</code>
+<code>$CI =&amp; get_instance();</code>
 
 <p>Once you've assigned the object to a variable, you'll use that variable <em>instead</em> of <kbd>$this</kbd>:</p>
 
 <code>
-$CI =& get_instance();<br /><br />
+$CI =&amp; get_instance();<br />
+<br />
 $CI->load->helper('url');<br />
 $CI->load->library('session');<br />
 $CI->config->item('base_url');<br />
@@ -193,8 +194,9 @@ etc.
 
 <p class="important"><strong>Note:</strong> You'll notice that the above get_instance() function is being passed by reference:
 <br /><br />
-<var>$CI =& get_instance();</var>
-<br /><br />
+<var>$CI =&amp; get_instance();</var>
+<br />
+<br />
 <kbd>This is very important.</kbd> Assigning by reference allows you to use the original CodeIgniter object rather than creating a copy of it.
 <br /><br />
 <kbd>Also, please note:</kbd> If you are running PHP 4 it's usually best to avoid calling <dfn>get_instance()</dfn>

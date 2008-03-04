@@ -74,7 +74,7 @@ approach to URLs that is synonymous with dynamic systems, CodeIgniter uses a <st
 <ol>
 <li>The first segment represents the controller <strong>class</strong> that should be invoked.</li>
 <li>The second segment represents the class <strong>function</strong>, or method, that should be called.</li>
-<li>The third, and any additional segments, represent the ID and any variables that will be passed to the controller.</p>
+<li>The third, and any additional segments, represent the ID and any variables that will be passed to the controller.</li>
 </ol>
 
 <p>The <a href="../libraries/uri.html">URI Class</a> and the <a href="../helpers/url_helper.html">URL Helper</a>
@@ -116,7 +116,7 @@ by CodeIgniter.  For example, if a URL is this:</p>
 
 <p>In some cases you might prefer to use query strings URLs:</p>
 
-<code>index.php?c=products&m=view&id=345</code>
+<code>index.php?c=products&amp;m=view&amp;id=345</code>
 
 <p>CodeIgniter optionally supports this capability, which can be enabled in your <dfn>application/config.php</dfn> file. If you
 open your config file you'll see these items:</p>
@@ -128,7 +128,7 @@ $config['function_trigger'] = 'm';</code>
 <p>If you change "enable_query_strings" to TRUE this feature will become active.  Your controllers and functions will then
 be accessible using the "trigger" words you've set to invoke your controllers and methods:</p>
 
-<code>index.php?c=controller&m=method</code>
+<code>index.php?c=controller&amp;m=method</code>
 
 <p class="important"><strong>Please note:</strong> If you are using query strings you will have to build your own URLs, rather than utilizing
 the URL helpers (and other helpers that generate URLs, like some of the form helpers) as these are designed to work with
