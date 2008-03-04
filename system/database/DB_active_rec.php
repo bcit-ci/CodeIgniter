@@ -790,7 +790,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	function orhaving($key, $value = '')
 	{
-		return $this->or_havinggroup_by($key, $value = '');
+		return $this->or_having($key, $value = '');
 	}	
 	// --------------------------------------------------------------------
 
