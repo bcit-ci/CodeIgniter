@@ -499,8 +499,14 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Create The Image
-		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
+ 		//  Create The Image
+		//
+		//  old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
+		//  it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
+		//  below should that ever prove inaccurate.
+		//
+		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
+ 		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))		
 		{
 			$create	= 'imagecreatetruecolor';
 			$copy	= 'imagecopyresampled';
