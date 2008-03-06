@@ -119,7 +119,7 @@ if (! function_exists('anchor'))
 
 		if ($attributes == '')
 		{
-			$attributes = ' title="'.$title.'"';
+			$attributes = ' title="'.htmlentities($title).'"';
 		}
 		else
 		{
