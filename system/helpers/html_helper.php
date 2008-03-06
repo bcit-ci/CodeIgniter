@@ -199,7 +199,7 @@ if (! function_exists('img'))
 			$src = array('src' => $src);
 		}
 
-		$img = '<img ';
+		$img = '<img';
 		
 		foreach ($src as $k=>$v)
 		{
