@@ -1434,17 +1434,15 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */	
 	function _filter_table_aliases($statements)
 	{
+
 		foreach ($statements as $k => $v)
 		{
 			foreach ($this->ar_aliased_tables as $table)
 			{
-				$statement = preg_replace('/(\w+\.\w+)/', $this->_protect_identifiers('$0'), $v); // makes `table.field`
-				$statement = str_replace(array($this->dbprefix.$table, '.'), array($table, $this->_protect_identifiers('.')), $statement);
+				$statements[$k] = preg_replace('/(\w+\.\w+)/', $this->_protect_identifiers('$0'), $statements[$k]); // makes `table.field`
+				$statements[$k] = str_replace($this->dbprefix.$table.'.', $table.'.', $statements[$k]);
 			}
-
-			$statements[$k] = $statement;
 		}
-
 		return $statements;
 	}
 
