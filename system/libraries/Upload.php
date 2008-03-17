@@ -185,7 +185,7 @@ class CI_Upload {
 
 		// Set the uploaded data as class variables
 		$this->file_temp = $_FILES[$field]['tmp_name'];		
-		$this->file_name = $_FILES[$field]['name'];
+		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
 		$this->file_size = $_FILES[$field]['size'];		
 		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $_FILES[$field]['type']);
 		$this->file_type = strtolower($this->file_type);
@@ -832,6 +832,46 @@ class CI_Upload {
 	
 		return ( ! isset($this->mimes[$mime])) ? FALSE : $this->mimes[$mime];
 	}
+
+	/**
+	 * Prep Filename
+	 *
+	 * Prevents possible script execution from Apache's handling of files multiple extensions
+     * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	string
+	 */
+	function _prep_filename($filename)
+	{
+		if (strpos($filename, '.') === FALSE)
+		{
+			return $filename;
+		}
+		
+		$parts		= explode('.', $filename);
+		$ext		= array_pop($parts);
+		$filename	= array_shift($parts);
+				
+		foreach ($parts as $part)
+		{
+			if ($this->mimes_types(strtolower($part)) === FALSE)
+			{
+				$filename .= '.'.$part.'_';
+			}
+			else
+			{
+				$filename .= '.'.$part;
+			}
+		}
+		
+		$filename .= '.'.$ext;
+		
+		return $filename;
+	}
+
+	// --------------------------------------------------------------------
 
 }
 // END Upload Class
