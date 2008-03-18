@@ -390,7 +390,7 @@ class CI_Loader {
 			{		
 				if (file_exists(BASEPATH.'helpers/'.$helper.EXT))
 				{
-					include(BASEPATH.'helpers/'.$helper.EXT);
+					include_once(BASEPATH.'helpers/'.$helper.EXT);
 				}
 				else
 				{
@@ -451,13 +451,13 @@ class CI_Loader {
 
 			if (file_exists(APPPATH.'plugins/'.$plugin.EXT))
 			{
-				include(APPPATH.'plugins/'.$plugin.EXT);	
+				include_once(APPPATH.'plugins/'.$plugin.EXT);	
 			}
 			else
 			{
 				if (file_exists(BASEPATH.'plugins/'.$plugin.EXT))
 				{
-					include(BASEPATH.'plugins/'.$plugin.EXT);	
+					include_once(BASEPATH.'plugins/'.$plugin.EXT);	
 				}
 				else
 				{
@@ -524,7 +524,7 @@ class CI_Loader {
 				show_error('Unable to load the requested script: scripts/'.$script.EXT);
 			}
 			
-			include(APPPATH.'scripts/'.$script.EXT);
+			include_once(APPPATH.'scripts/'.$script.EXT);
 		}
 		
 		log_message('debug', 'Scripts loaded: '.implode(', ', $scripts));
@@ -705,7 +705,7 @@ class CI_Loader {
 		}
 		else
 		{
-			include($_ci_path);
+			include_once($_ci_path);
 		}
 		
 		log_message('debug', 'File loaded: '.$_ci_path);
@@ -782,8 +782,8 @@ class CI_Loader {
 					return;
 				}
 	
-				include($baseclass);				
-				include($subclass);
+				include_once($baseclass);				
+				include_once($subclass);
 				$this->_ci_classes[] = $subclass;
 	
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params);			
@@ -810,7 +810,7 @@ class CI_Loader {
 					return;
 				}
 				
-				include($filepath);
+				include_once($filepath);
 				$this->_ci_classes[] = $filepath;
 				return $this->_ci_init_class($class, '', $params);
 			}
@@ -844,7 +844,7 @@ class CI_Loader {
 		{
 			if (file_exists(APPPATH.'config/'.$class.EXT))
 			{
-				include(APPPATH.'config/'.$class.EXT);
+				include_once(APPPATH.'config/'.$class.EXT);
 			}
 		}
 		
@@ -886,7 +886,7 @@ class CI_Loader {
 	 */
 	function _ci_autoloader()
 	{	
-		include(APPPATH.'config/autoload'.EXT);
+		include_once(APPPATH.'config/autoload'.EXT);
 		
 		if ( ! isset($autoload))
 		{
