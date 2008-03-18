@@ -92,12 +92,10 @@ It simply lets you submit a query. Most users will rarely use this function.</p>
 CodeIgniter has two functions that help you do this:</p>
 
 <ol>
-</li>
 <li><strong>$this->db->escape()</strong> This function determines the data type so that it
 can escape only string data.  It also automatically adds single quotes around the data so you don't have to:
 
 <code>$sql = "INSERT INTO table (title) VALUES(".$this->db->escape($title).")";</code></li>
-
 
 <li><strong>$this->db->escape_str()</strong>  This function escapes the data passed to it, regardless of type.
 Most of the time you'll use the above function rather then this one. Use the function like this:
