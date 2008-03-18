@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-<title>CodeIgniter User Guide : Installation Instructions</title>
+<title>CodeIgniter User Guide : Upgrading from 1.6.1 to 1.6.2</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Installation Instructions
+Upgrading from 1.6.0 to 1.6.1
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,27 +55,34 @@ Installation Instructions
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Installation Instructions</h1>
+<h1>Upgrading from 1.6.1 to 1.6.2</h1>
 
-<p>CodeIgniter is installed in four steps:</p>
-
-<ol>
-<li>Unzip the package.</li>
-<li>Upload the CodeIgniter folders and files to your server.  Normally the index.php file will be at your root.</li>
-<li>Open the <dfn>application/config/config.php</dfn> file with a text editor and set your base URL.  If you intend to use encryption or sessions, set your encryption key.</li>
-<li>If you intend to use a database, open the <dfn>application/config/database.php</dfn> file with a text editor and set your database settings.</li>
-</ol>
-
-<p>If you wish to increase security by hiding the location of your CodeIgniter files you can rename the <dfn>system</dfn> folder
-to something more private.  If you do rename it, you must open your main <kbd>index.php</kbd> file and set the <samp>$system_folder</samp>
-variable at the top of the page with the new name you've chosen.</p>
-
-<p>That's it!</p>
-
-<p>If you're new to CodeIgniter, please read the <a href="../general/index.html">Getting Started</a> section of the User Guide to begin learning how
-to build dynamic PHP applications. Enjoy!</p>
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
 
 
+
+<h2>Step 1: Update your CodeIgniter files</h2>
+
+<p>Replace these files and directories in your "system" folder with the new versions:</p>
+
+<ul>
+
+<li><dfn>system/codeigniter</dfn></li>
+<li><dfn>system/database</dfn></li>
+<li><dfn>system/helpers</dfn></li>
+<li><dfn>system/language</dfn></li>
+<li><dfn>system/libraries</dfn></li>
+</ul>
+
+<p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
+
+
+<h2>Step 2: Encryption Key</h2>
+<p>If you are using sessions, open up system/application/config.php and verify you've set an encryption key.</p>
+
+
+<h2>Step 3: Update your user guide</h2>
+<p>Please also replace your local copy of the user guide with the new version.</p>
 
 </div>
 <!-- END CONTENT -->
@@ -83,13 +90,12 @@ to build dynamic PHP applications. Enjoy!</p>
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="../general/credits.html">Credits</a>
+Previous Topic:&nbsp;&nbsp;<a href="index.html">Installation Instructions</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="upgrading.html">Upgrading from a Previous Version</a>
+Next Topic:&nbsp;&nbsp;<a href="../overview/at_a_glance.html">CodeIgniter at a Glance</a>
 </p>
-
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 

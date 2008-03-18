@@ -196,7 +196,22 @@ class CI_Session {
 		{
 			$session = $this->CI->encrypt->decode($session);
 		}
+		else
+		{	
+			// encryption was not used, so we need to check the md5 hash
+			$hash = substr($session, strlen($session)-32); // get last 32 chars
+			$session = substr($session, 0, strlen($session)-32);
 
+			// Does the md5 hash match?  This is to prevent manipulation of session data
+			// in userspace
+			if ($hash !==  md5($session.$this->CI->config->item('encryption_key')))
+			{
+				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
+				$this->sess_destroy();
+				return FALSE;
+			}
+		}
+		
 		$session = @unserialize($this->strip_slashes($session));
 		
 		if ( ! is_array($session) OR ! isset($session['last_activity']))
@@ -283,6 +298,11 @@ class CI_Session {
 		if ($this->encryption == TRUE)
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
+		}
+		else
+		{
+			// if encryption is not used, we provide an md5 hash to prevent userside tampering
+			$cookie_data = $cookie_data . md5($cookie_data.$this->CI->config->item('encryption_key'));
 		}
 
 		setcookie(
