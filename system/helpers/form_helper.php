@@ -387,6 +387,33 @@ if (! function_exists('form_reset'))
 // ------------------------------------------------------------------------
 
 /**
+ * Form Button
+ *
+ * @access	public
+ * @param	mixed
+ * @param	string
+ * @param	string
+ * @return	string
+ */	
+if (! function_exists('form_button'))
+{
+	function form_button($data = '', $content = '', $extra = '')
+	{
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'submit');
+		
+		if ( is_array($data) AND isset($data['content']))
+		{
+			$content = $data['content'];
+			unset($data['content']); // content is not an attribute
+		}
+		
+		return "<button ".parse_form_attributes($data, $defaults).$extra.">".$content."</button>\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
  * Form Label Tag
  *
  * @access	public
