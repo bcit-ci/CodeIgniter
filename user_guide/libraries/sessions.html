@@ -224,6 +224,10 @@ do not need to write your own routine to do it.</p>
 <h2>Destroying a Session </h2>
 <p>To clear the current session: </p>
 <code>$this-&gt;session-&gt;sess_destroy();</code>
+<p class="important"><strong>Note:</strong> This function should be the last one called, and even flash variables will no longer be available.  If you only want some items destroyed and not all, use <dfn>unset_userdata()</dfn>.</p>
+
+
+
 <h2>Session Preferences</h2>
 <p>You'll find the following Session related preferences in your <kbd>application/config/config.php</kbd> file:</p>
 
