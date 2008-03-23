@@ -109,7 +109,7 @@ zero the cookie will only last as long as the browser is open.</p>
 
 <h2>get_cookie()</h2>
 
-<p>Lets you fetch a cookie.  The first parameter will contain the name of the cookie you are looking for:</p>
+<p>Lets you fetch a cookie.  The first parameter will contain the name of the cookie you are looking for (including any prefixes):</p>
 
 <code>get_cookie('some_cookie');</code>
 
@@ -117,10 +117,7 @@ zero the cookie will only last as long as the browser is open.</p>
 
 <p>The second optional parameter lets you run the data through the XSS filter.  It's enabled by setting the second parameter to boolean TRUE;</p>
 
-<code>get_cookie('some_cookie', TRUE);</code>
-
-
-
+<p><code>get_cookie('some_cookie', TRUE);</code></p>
 <h2>delete_cookie()</h2>
 
 <p>Lets you delete a cookie.  Unless you've set a custom path or other values, only the name of the cookie is needed:</p>
