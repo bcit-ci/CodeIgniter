@@ -244,7 +244,15 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	// Create image
 	// -----------------------------------
 			
-	$im = ImageCreate($img_width, $img_height);
+	// PHP.net recommends imagecreatetruecolor(), but it isn't always available
+	if (function_exists(imagecreatetruecolor))
+	{
+		$im = imagecreatetruecolor($img_width, $img_height);
+	}
+	else
+	{
+		$im = imagecreate($img_width, $img_height);
+	}
 			
 	// -----------------------------------
 	//  Assign colors
