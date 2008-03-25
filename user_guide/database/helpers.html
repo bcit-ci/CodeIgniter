@@ -126,8 +126,8 @@ $where = "author_id = 1 AND status = 'active'";
 $str = $this->db->update_string('table_name', $data, $where);
 </code>
 
-<p>The first parameter is the table name, the second is an associative array with the data to be inserted, and the third parameter is the "where" clause. The above example produces:</p>
-<code> UPDATE exp_weblog SET name = 'Rick', email = 'rick@your-site.com', url = 'www.your-site.com' WHERE author_id = 1 AND status = 'active'</code>
+<p>The first parameter is the table name, the second is an associative array with the data to be updated, and the third parameter is the "where" clause. The above example produces:</p>
+<code> UPDATE table_name SET name = 'Rick', email = 'rick@your-site.com', url = 'www.your-site.com' WHERE author_id = 1 AND status = 'active'</code>
 
 <p class="important">Note: Values are automatically escaped, producing safer queries.</p>
 
