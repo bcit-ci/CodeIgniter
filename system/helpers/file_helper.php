@@ -160,18 +160,22 @@ if (! function_exists('delete_files'))
  * @access	public
  * @param	string	path to source
  * @param	bool	whether to include the path as part of the filename
+ * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
  */	
 if (! function_exists('get_filenames'))
 {
-	function get_filenames($source_dir, $include_path = FALSE, $recursion = FALSE)
+	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
 		
-		if ($recursion === FALSE)
+		// reset the array and make sure $source_dir has a trailing slash on the initial call
+		if ($_recursion === FALSE)
 		{
 			$_filedata = array();
+			$source_dir = realpath($source_dir).'/';
 		}
+		
 		
 		if ($fp = @opendir($source_dir))
 		{
