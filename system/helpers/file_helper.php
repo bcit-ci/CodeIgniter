@@ -168,17 +168,16 @@ if (! function_exists('get_filenames'))
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
-		
-		// reset the array and make sure $source_dir has a trailing slash on the initial call
-		if ($_recursion === FALSE)
-		{
-			$_filedata = array();
-			$source_dir = realpath($source_dir).'/';
-		}
-		
-		
+				
 		if ($fp = @opendir($source_dir))
 		{
+			// reset the array and make sure $source_dir has a trailing slash on the initial call
+			if ($_recursion === FALSE)
+			{
+				$_filedata = array();
+				$source_dir = realpath($source_dir).'/';
+			}
+			
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.')
