@@ -257,7 +257,7 @@ if (! function_exists('link_tag'))
 		{
 			foreach ($href as $k=>$v)
 			{
-				if ($k == 'href' AND strpos($k, '://') === FALSE)
+				if ($k == 'href' AND strpos($v, '://') === FALSE)
 				{
 					if ($index_page === TRUE)
 					{
