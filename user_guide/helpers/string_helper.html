@@ -136,12 +136,12 @@ $string=reduce_multiples($string,","); //results in "Fred, Bill, Joe, Jimmy"
 <p>The function accepts the following parameters:
 <code>reduce_multiples(string: text to search in, string: character to reduce, boolean: whether to remove the character from the front and end of the string)</code>
 
-The first parameter contrains the string in which you want to reduce the multiplies. The second parameter contains the character you want to have reduced.
-The third parameter is False by default. If it it's to true it will remove occurences of the character at the beginning and the end of the string. Example:
+The first parameter contains the string in which you want to reduce the multiplies. The second parameter contains the character you want to have reduced.
+The third parameter is FALSE by default; if set to TRUE it will remove occurences of the character at the beginning and the end of the string. Example:
 
 <code>
 $string=",Fred, Bill,, Joe, Jimmy,";<br />
-$string=reduce_multiples($string,",",true); //results in "Fred, Bill, Joe, Jimmy"
+$string=reduce_multiples($string, ", ", TRUE); //results in "Fred, Bill, Joe, Jimmy"
 </code>
 </p> 
 
