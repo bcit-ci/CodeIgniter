@@ -175,14 +175,14 @@ if (! function_exists('get_filenames'))
 			if ($_recursion === FALSE)
 			{
 				$_filedata = array();
-				$source_dir = realpath($source_dir).'/';
+				$source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 			}
 			
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.')
 				{
-					 get_filenames($source_dir.$file."/", $include_path, TRUE);
+					 get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
 				elseif (substr($file, 0, 1) != ".")
 				{
