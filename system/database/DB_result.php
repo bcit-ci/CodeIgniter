@@ -133,7 +133,8 @@ class CI_DB_result {
 				$this->row_data = $this->row_array(0);
 			}
 		
-			if (isset($this->row_data[$n]))
+			// array_key_exists() instead of isset() to allow for MySQL NULL values
+			if (array_key_exists($n, $this->row_data)))
 			{
 				return $this->row_data[$n];
 			}
