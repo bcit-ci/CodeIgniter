@@ -43,7 +43,14 @@ require(BASEPATH.'codeigniter/Common'.EXT);
  * ------------------------------------------------------
  */
 require(BASEPATH.'codeigniter/Compat'.EXT);
-	
+
+/*
+ * ------------------------------------------------------
+ *  Load the compatibility override functions
+ * ------------------------------------------------------
+ */
+require(APPPATH.'config/constants'.EXT);
+
 /*
  * ------------------------------------------------------
  *  Define a custom error handler so we can log PHP errors

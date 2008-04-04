@@ -484,7 +484,7 @@ class CI_Image_lib {
 					return FALSE;
 				}
 			
-				@chmod($this->full_dst_path, 0777);
+				@chmod($this->full_dst_path, DIR_WRITE_MODE);
 				return TRUE;
 			}
 			
@@ -539,7 +539,7 @@ class CI_Image_lib {
 		imagedestroy($src_img);
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);
+		@chmod($this->full_dst_path, DIR_WRITE_MODE);
 		
 		return TRUE;
 	}
@@ -609,7 +609,7 @@ class CI_Image_lib {
 		}
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);
+		@chmod($this->full_dst_path, DIR_WRITE_MODE);
 		
 		return TRUE;
 	}
@@ -695,7 +695,7 @@ class CI_Image_lib {
 		// we have to rename the temp file.
 		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink ($this->dest_folder.'netpbm.tmp');
-		@chmod($dst_image, 0777);
+		@chmod($dst_image, DIR_WRITE_MODE);
 		
 		return TRUE;
 	}
@@ -754,7 +754,7 @@ class CI_Image_lib {
 		
 		// Set the file to 777
 		
-		@chmod($this->full_dst_path, 0777);
+		@chmod($this->full_dst_path, DIR_WRITE_MODE);
 		
 		return true;
 	}
@@ -838,7 +838,7 @@ class CI_Image_lib {
 		imagedestroy($src_img);
 		
 		// Set the file to 777
-		@chmod($this->full_dst_path, 0777);
+		@chmod($this->full_dst_path, DIR_WRITE_MODE);
 		
 		return TRUE;
 	}

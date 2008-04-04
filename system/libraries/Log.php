@@ -109,7 +109,7 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 	
-		@chmod($filepath, 0666); 		
+		@chmod($filepath, FILE_WRITE_MODE); 		
 		return TRUE;
 	}
 
