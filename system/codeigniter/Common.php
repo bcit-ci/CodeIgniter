@@ -52,7 +52,7 @@ function is_really_writable($file)
 		}
 		
 		fclose($fp);
-		@chmod($file, 0777);
+		@chmod($file, DIR_WRITE_MODE);
 		@unlink($file);
 		return TRUE;
 	}

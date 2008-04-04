@@ -308,7 +308,7 @@ class CI_Output {
 		fwrite($fp, $expire.'TS--->'.$output);
 		flock($fp, LOCK_UN);
 		fclose($fp);
-		@chmod($cache_path, 0777);
+		@chmod($cache_path, DIR_WRITE_MODE);
 
 		log_message('debug', "Cache file written: ".$cache_path);
 	}

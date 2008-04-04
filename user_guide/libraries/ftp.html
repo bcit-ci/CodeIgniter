@@ -258,7 +258,7 @@ Permissions can be set by passed an <kbd>octal</kbd> value in the second paramet
 
 <code>
 // Creates a folder named "bar"<br />
-$this->ftp->mkdir('/public_html/foo/bar/', 0777);
+$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
 </code>
 
 
@@ -268,7 +268,7 @@ $this->ftp->mkdir('/public_html/foo/bar/', 0777);
 
 <code>
 // Chmod "bar" to 777<br />
-$this->ftp->chmod('/public_html/foo/bar/', 0777);
+$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
 </code>
 
 
