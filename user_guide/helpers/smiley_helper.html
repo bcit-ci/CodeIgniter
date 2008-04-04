@@ -97,7 +97,7 @@ your <dfn>smiley</dfn> folder.</p>
 <p>You'll notice that in addition to the smiley helper we are using the <a href="../libraries/table.html">Table Class</a>.</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="25">
-<?php
+&lt;?php
 
 class Smileys extends Controller {
 
@@ -121,7 +121,7 @@ class Smileys extends Controller {
 	}
 	
 }
-?>
+?&gt;
 </textarea>
 
 <p>In your <dfn>application/views/</dfn> folder, create a file called <kbd>smiley_view.php</kbd> and place this code in it:</p>
@@ -157,7 +157,7 @@ class Smileys extends Controller {
 
 <h2>get_clickable_smileys()</h2>
 
-<p>Returns an array containing your smiley images wrapped in a cliackable link.  You must supply the URL to your smiley folder
+<p>Returns an array containing your smiley images wrapped in a clickable link.  You must supply the URL to your smiley folder
 via the first parameter:</p>
 
 <code>$image_array = get_clickable_smileys("http://www.your-site.com/images/smileys/");</code>
@@ -175,7 +175,7 @@ form field. This function is designed to be placed into the &lt;head&gt; area of
 <h2>parse_smileys()</h2>
 
 <p>Takes a string of text as input and replaces any contained plain text smileys into the image
-equivalent.  The first parameter must contain your string, the second must contain the the URL to your smiley folder:</p>
+equivalent.  The first parameter must contain your string, the second must contain  the URL to your smiley folder:</p>
 
 <code>
 

@@ -122,7 +122,7 @@ $hook['pre_controller']<kbd>[]</kbd> = array(<br />
 
 <code>$hook['pre_controller']<kbd>[]</kbd></code>
 
-<p>This permits you to the same hook point with multiple scripts.  The order you define your array will be the execution order.</p>
+<p>This permits you to have the same hook point with multiple scripts.  The order you define your array will be the execution order.</p>
 
 
 <h2>Hook Points</h2>
@@ -130,45 +130,24 @@ $hook['pre_controller']<kbd>[]</kbd> = array(<br />
 <p>The following is a list of available hook points.</p>
 
 <ul>
-
-<li><strong>pre_system</strong><br />
-Called very early during system execution.  Only the benchmark and hooks class have been loaded at this point. No routing or other processes have happened.</li>
-
-<li><strong>pre_controller</strong><br />
-Called immediately prior to any of your controllers being called. All base classes, routing, and security checks have been done.</li>
-
-<li><strong>post_controller_constructor</strong><br />
-Called immediately after your controller is instantiated, but prior to any method calls happening.</li>
-
-<li><strong>post_controller</strong><br />
-Called immediately after your controller is fully executed.</li>
-
-<li><strong>display_override</strong><br />
-Overrides the <dfn>_display()</dfn> function, used to send the finalized page to the web browser at the end of system execution.  This permits you to
-use your own display methodology.  Note that the finalized data will be available by calling <dfn>$this->output->get_output()</dfn></li>
-
-<li><strong>cache_override</strong><br />
-Enables you to call your own function instead of the <dfn>_display_cache()</dfn> function in the output class.  This permits you to use your own cache display mechanism.</li>
-
-<li><strong>scaffolding_override</strong><br />
-Permits a scaffolding request to trigger your own script instead.</li>
-
-<li><strong>post_system</strong><br />
-Called after the final rendered page is sent to the browser, at the end of system execution after the finalized data is sent to the browser.</li>
-
-
-</ul>
-
-
-
-
-
-
-
-
-
-
-
+		<li><strong>pre_system</strong><br />
+			Called very early during system execution.  Only the benchmark and hooks class have been loaded at this point. No routing or other processes have happened.</li>
+		<li><strong>pre_controller</strong><br />
+			Called immediately prior to any of your controllers being called. All base classes, routing, and security checks have been done.</li>
+		<li><strong>post_controller_constructor</strong><br />
+			Called immediately after your controller is instantiated, but prior to any method calls happening.</li>
+		<li><strong>post_controller</strong><br />
+			Called immediately after your controller is fully executed.</li>
+		<li><strong>display_override</strong><br />
+			Overrides the <dfn>_display()</dfn> function, used to send the finalized page to the web browser at the end of system execution.  This permits you to
+			use your own display methodology.  Note that the finalized data will be available by calling <dfn>$this->output->get_output()</dfn></li>
+		<li><strong>cache_override</strong><br />
+			Enables you to call your own function instead of the <dfn>_display_cache()</dfn> function in the output class.  This permits you to use your own cache display mechanism.</li>
+		<li><strong>scaffolding_override</strong><br />
+			Permits a scaffolding request to trigger your own script instead.</li>
+		<li><strong>post_system</strong><br />
+			Called after the final rendered page is sent to the browser, at the end of system execution after the finalized data is sent to the browser.</li>
+	</ul>
 </div>
 <!-- END CONTENT -->
 
