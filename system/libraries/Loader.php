@@ -705,7 +705,7 @@ class CI_Loader {
 		}
 		else
 		{
-			include_once($_ci_path);
+			include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		}
 		
 		log_message('debug', 'File loaded: '.$_ci_path);
