@@ -219,8 +219,7 @@ $this->db->join('comments', 'comments.id = blogs.id', <strong>'left'</strong>);<
 	<li><strong>Simple key/value method:</strong>
 
 	<code>$this->db->where('name', $name);
-	<br /><br />// Produces: WHERE name = 'Joe'
-	</code>
+	<br /><br />// Produces: WHERE name = 'Joe'	</code>
 	
 	<p>Notice that the equal sign is added for you.</p>
 	
@@ -229,11 +228,7 @@ $this->db->join('comments', 'comments.id = blogs.id', <strong>'left'</strong>);<
 	<code>$this->db->where('name', $name);<br />
 	$this->db->where('title', $title);<br />
 	$this->db->where('status', $status);
-	<br /><br />// WHERE = name 'Joe' AND title = 'boss' AND status = 'active'
-	</code>
-	
-
-	</li>
+	<br /><br />// WHERE = name 'Joe' AND title = 'boss' AND status = 'active'	</code>	</li>
 	
 	<li><strong>Custom key/value method:</strong>
 	
@@ -241,12 +236,7 @@ $this->db->join('comments', 'comments.id = blogs.id', <strong>'left'</strong>);<
 	
 	<code>$this->db->where('name !=', $name);<br />
 	$this->db->where('id <', $id);
-	<br /><br />// Produces: WHERE name != 'Joe' AND id < 45
-	</code>
-
-
-	
-	</li>
+	<br /><br />// Produces: WHERE name != 'Joe' AND id < 45	</code>	</li>
 	<li><strong>Associative array method:</strong>
 
 
@@ -254,29 +244,27 @@ $this->db->join('comments', 'comments.id = blogs.id', <strong>'left'</strong>);<
 	$array = array('name' => $name, 'title' => $title, 'status' => $status);<br /><br />
 	
 	$this->db->where($array);
-	<br /><br />// Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
-	</code>
+	<br /><br />// Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'	</code>
 
 	<p>You can include your own operators using this method as well:</p>
 
 	<code>
 	$array = array('name !=' => $name, 'id <' => $id, 'date >' => $date);<br /><br />
 	
-	$this->db->where($array);</code>
-
-	</li>
+	$this->db->where($array);</code>	</li>
 		<li><strong>Custom string:</strong>
 		
 		<p>You can write your own clauses manually:</p>
 
 		<code>
 		$where = "name='Joe' AND status='boss' OR status='active'";<br /><br />
-		$this->db->where($where);</code>
-
-	</li>
-</ol>
+		$this->db->where($where);</code></li>
+	</ol>
 
 
+<p>$this-&gt;db-&gt;where() accepts an optional third parameter. If you set it to FALSE, CodeIgniter will not try to protect your field or table names with backticks.</p>
+<p><code> 		$this-&gt;db-&gt;where('MATCH (field) AGAINST (&quot;value&quot;)', NULL, FALSE);<br />
+</code></p>
 <h2>$this->db->or_where();</h2>
 <p>This function is identical to the one above, except that multiple instances are joined by OR:</p>
 
