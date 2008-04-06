@@ -447,14 +447,19 @@ class CI_DB_active_record extends CI_DB_driver {
 					$k .= ' =';
 				}
 			
-				if ($v != '')
+				if ($v !== '' AND $v !== NULL)
 				{		
 					$v = ' '.$this->escape($v);
 				}
 			}
 			else
 			{
-				$k = $this->_protect_identifiers($k, TRUE);
+			
+				if ($escape === TRUE)
+				{
+					$k = $this->_protect_identifiers($k, TRUE);
+				}
+				
 			}
 
 			$this->ar_where[] = $prefix.$k.$v;
