@@ -775,9 +775,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function having($key, $value = '')
+	function having($key, $value = '', $escape = TRUE)
 	{
-		return $this->_having($key, $value, 'AND ');
+		return $this->_having($key, $value, 'AND ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -788,9 +788,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * orhaving() has been deprecated
 	 */
 
-	function orhaving($key, $value = '')
+	function orhaving($key, $value = '', $escape = TRUE)
 	{
-		return $this->or_having($key, $value = '');
+		return $this->or_having($key, $value = '', $escape);
 	}	
 	// --------------------------------------------------------------------
 
@@ -804,9 +804,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function or_having($key, $value = '')
+	function or_having($key, $value = '', $escape = TRUE)
 	{
-		return $this->_having($key, $value, 'OR ');
+		return $this->_having($key, $value, 'OR ', $escape);
 	}
 	
 	// --------------------------------------------------------------------
@@ -822,7 +822,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	object
 	 */
-	function _having($key, $value = '', $type = 'AND ')
+	function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
 	{
 		if ( ! is_array($key))
 		{
@@ -832,7 +832,12 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach ($key as $k => $v)
 		{
 			$prefix = (count($this->ar_having) == 0) ? '' : $type;
-			$k = $this->_protect_identifiers($k);
+
+			if ($escape === TRUE)
+			{
+				$k = $this->_protect_identifiers($k);
+			}
+
 			
 			if ($v != '')
 			{

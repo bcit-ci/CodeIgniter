@@ -403,21 +403,29 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
         <br />
     // Produces: SELECT DISTINCT * FROM table</code></p>
 <h2>$this->db->having();</h2>
-<p>Permits you to write the HAVING portion of your query:</p>
+<p>Permits you to write the HAVING portion of your query. There are 2 possible syntaxe, 1 argument or 2:</p>
 	
 <code>$this->db->having('user_id = 45');
-<br /><br />
-// Produces: HAVING user_id = 45</code>
+<br />
+// Produces: HAVING user_id = 45<br />
+<br />
+$this-&gt;db-&gt;having('user_id',  45'); <br />
+// Produces: HAVING user_id = 45<br />
+<br />
+</code>
 	
 <p>You can also pass an array of multiple values as well:</p>
 
 
-<code>$this->db->having(array('title =' => 'My Title', 'id <' => $id));
-<br /><br />
-// Produces: HAVING title = 'My Title', id < 45</code>
-
-	
-	
+<p><code>$this->db->having(array('title =' => 'My Title', 'id <' => $id)); <br />
+		<br />
+	// Produces: HAVING title = 'My Title', id < 45</code></p>
+<p>If you are using a database that CodeIgniter escapes queries for, you can prevent escaping content by passing an optional third argument, and setting it to FALSE.</p>
+<p><code>$this-&gt;db-&gt;having('user_id',  45'); <br />
+// Produces: HAVING `user_id` = `45` in some databases such as MySQL
+		<br />
+		$this-&gt;db-&gt;having('user_id',  45', FALSE); <br />
+// Produces: HAVING user_id = 45</code></p>
 <h2>$this-&gt;db-&gt;or_having();</h2>
 <p>Identical to having(), only separates multiple clauses with &quot;OR&quot;.</p>
 <h2>$this->db->order_by();</h2>
