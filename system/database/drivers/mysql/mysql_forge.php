@@ -177,7 +177,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * Drop Table
 	 *
 	 * @access	private
-	 * @return	bool
+	 * @return	string
 	 */
 	function _drop_table($table)
 	{
@@ -216,6 +216,24 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
 		}
 		
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rename a table
+	 *
+	 * Generates a platform-specific query so that a table can be renamed
+	 *
+	 * @access	private
+	 * @param	string	the old table name
+	 * @param	string	the new table name
+	 * @return	string
+	 */
+	function _rename_table($table_name, $new_table_name)
+	{
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 

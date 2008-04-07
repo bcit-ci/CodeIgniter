@@ -215,5 +215,24 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rename a table
+	 *
+	 * Generates a platform-specific query so that a table can be renamed
+	 *
+	 * @access	private
+	 * @param	string	the old table name
+	 * @param	string	the new table name
+	 * @return	string
+	 */
+	function _rename_table($table_name, $new_table_name)
+	{
+		// I think this syntax will work, but can find little documentation on renaming tables in MSSQL
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		return $sql;
+	}
+
 }
 ?>

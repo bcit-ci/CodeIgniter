@@ -209,6 +209,27 @@ class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Rename Table
+	 *
+	 * @access	public
+	 * @param	string	the old table name
+	 * @param	string	the new table name
+	 * @return	bool
+	 */
+	function rename_table($table_name, $new_table_name)
+	{
+		if ($table_name == '' OR $new_table_name == '')
+		{
+			show_error('A table name is required for that operation.');
+		}
+			
+		$sql = $this->_rename_table($table_name, $new_table_name);
+		return $this->db->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Column Add
 	 *
 	 * @access	public
