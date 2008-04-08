@@ -46,7 +46,7 @@ require(BASEPATH.'codeigniter/Compat'.EXT);
 
 /*
  * ------------------------------------------------------
- *  Load the compatibility override functions
+ *  Load the framework constants
  * ------------------------------------------------------
  */
 require(APPPATH.'config/constants'.EXT);
