@@ -397,7 +397,7 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 <br />
 // Produces: HAVING user_id = 45<br />
 <br />
-$this-&gt;db-&gt;having('user_id',  45'); <br />
+$this-&gt;db-&gt;having('user_id',  45); <br />
 // Produces: HAVING user_id = 45<br />
 <br />
 </code>
@@ -409,10 +409,10 @@ $this-&gt;db-&gt;having('user_id',  45'); <br />
 		<br />
 	// Produces: HAVING title = 'My Title', id < 45</code></p>
 <p>If you are using a database that CodeIgniter escapes queries for, you can prevent escaping content by passing an optional third argument, and setting it to FALSE.</p>
-<p><code>$this-&gt;db-&gt;having('user_id',  45'); <br />
-// Produces: HAVING `user_id` = `45` in some databases such as MySQL
+<p><code>$this-&gt;db-&gt;having('user_id',  45); <br />
+// Produces: HAVING `user_id` = 45 in some databases such as MySQL
 		<br />
-		$this-&gt;db-&gt;having('user_id',  45', FALSE); <br />
+		$this-&gt;db-&gt;having('user_id',  45, FALSE); <br />
 // Produces: HAVING user_id = 45</code></p>
 <h2>$this-&gt;db-&gt;or_having();</h2>
 <p>Identical to having(), only separates multiple clauses with &quot;OR&quot;.</p>
