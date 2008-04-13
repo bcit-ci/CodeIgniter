@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-<title>CodeIgniter User Guide : Database Utility Class</title>
+<title>CodeIgniter User Guide : Database Forge Class</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -124,10 +124,10 @@ already be running, since the forge class relies on it.</p>
 // will translate to &quot;users VARCHAR(100)&quot; when the field is added.</code></p>
 <p>Additionally, the following key/values can be used:</p>
 <ul>
-    <li>unsigned/true : to generate &quot;UNSIGNED&quot; in the field definition</li>
-    <li>default/value : to generate a default value in the field definition</li>
-    <li>null/true : to generate &quot;NULL&quot; in the field definition. Without this, the field will default to &quot;NOT NULL&quot;</li>
-    <li>auto_increment/true : generates an auto_increment flag on the field. Note that the field type must integer</li>
+    <li>unsigned/true : to generate &quot;UNSIGNED&quot; in the field definition.</li>
+    <li>default/value : to generate a default value in the field definition.</li>
+    <li>null/true : to generate &quot;NULL&quot; in the field definition. Without this, the field will default to &quot;NOT NULL&quot;.</li>
+    <li>auto_increment/true : generates an auto_increment flag on the field. Note that the field type must be a type that supports this, such as integer.</li>
     </ul>
 <p><code>$fields = array(<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'blog_id' =&gt; array(<br />
@@ -204,9 +204,9 @@ $this-&gt;dbforge-&gt;add_column('table_name', $fields);<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'type' =&gt; 'TEXT',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br />
 );<br />
-$this-&gt;dbforge-&gt;modify_column('sites', $fields);<br />
+$this-&gt;dbforge-&gt;modify_column('table_name', $fields);<br />
     <br />
-    // gives ALTER TABLE sites CHANGE   	old_name new_name TEXT </code></p>
+    // gives ALTER TABLE table_name CHANGE   	old_name new_name TEXT </code></p>
 <p>&nbsp;</p>
 </div>
 <!-- END CONTENT -->
