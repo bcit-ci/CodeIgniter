@@ -103,7 +103,8 @@ Change Log
 	<li>Fixed an AR_caching error where it wasn't tracking table aliases (#3463).</li>
 	<li>Fixed a bug in the DB class testing the $params argument.</li>
 	<li>Fixed a bug in the Table library where the integer 0 in cell data would be displayed as a blank cell.</li>
-	<li>Fixed bugs (#3523, #4350) in get_filenames() with recursion and problems with Windows when $include_path is used.</p>
+	<li>Fixed bugs (#3523, #4350) in get_filenames() with recursion and problems with Windows when $include_path is used.</li>
+	<li>Fixed a bug (#4413) where a URI containing slashes only e.g. 'http://example.com/index.php?//' would result in PHP errors</li>
 </ul>
 
 <h2>Version 1.6.1</h2>
