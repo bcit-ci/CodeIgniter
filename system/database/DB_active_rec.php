@@ -1476,7 +1476,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$sql = ( ! $this->ar_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
 	
-		$sql .= (count($this->ar_select) == 0) ? '*' : implode(', ', $this->ar_select);
+		$sql .= (count($this->ar_select) == 0) ? '*' : implode(', ', $this->_filter_table_aliases($this->ar_select));
 
 		if ($select_override !== FALSE)
 		{
