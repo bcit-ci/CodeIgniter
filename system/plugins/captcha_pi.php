@@ -28,7 +28,7 @@ Once loaded you can generate a captcha like this:
 					'word'		 => 'Random word',
 					'img_path'	 => './captcha/',
 					'img_url'	 => 'http://www.your-site.com/captcha/',
-					'font_path'	 => './system/texb.ttf',
+					'font_path'	 => './system/fonts/texb.ttf',
 					'img_width'	 => '150',
 					'img_height' => 30,
 					'expiration' => 7200
