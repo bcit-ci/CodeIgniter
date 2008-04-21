@@ -319,7 +319,7 @@ $rules['password']	= "<kbd>trim</kbd>|required|matches[passconf]|<kbd>md5</kbd>"
 $rules['passconf']	= "<kbd>trim</kbd>|required";<br />
 $rules['email']		= "<kbd>trim</kbd>|required|valid_email";</code>
 
-<p>In the above, we are "trimming" the fields, converting the password to MD5, and running the username through
+<p>In the above example, we are "trimming" the fields, converting the password to MD5, and running the username through
 the "xss_clean" function, which removes malicious data.</p>
 
 <p class="important"><strong>Any native PHP function that accepts one parameter can be used as a rule, like <dfn>htmlspecialchars</dfn>,
@@ -446,7 +446,7 @@ error message.</p>
 }</textarea>
 
 
-<p>Now open your <dfn>myform.php</dfn> view file and update the value in each field so that it has an object corresponding to its name:</p>
+<p>Now open your <dfn>myform.php</dfn> view file and update the value in each field so that it has an attribute corresponding to its name:</p>
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="30">

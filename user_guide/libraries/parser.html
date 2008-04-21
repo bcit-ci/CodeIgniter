@@ -86,10 +86,8 @@ PHP from your templates (view files).</p>
 since using pure PHP in your view pages lets them run a little faster.  However, some developers prefer to use a template engine if
 they work with designers who they feel would find some confusion working with PHP.</p>
 
-<p><strong>Also Note:</strong> The Template Parser Class is <strong>not</strong> not a
-full-blown template parsing solution. We've kept it very lean on purpose in order to maintain maximum performance.
-
-</p>
+<p><strong>Also Note:</strong> The Template Parser Class is <strong>not</strong>  a
+full-blown template parsing solution. We've kept it very lean on purpose in order to maintain maximum performance.</p>
 
 
 <h2>Initializing the Class</h2>
@@ -104,7 +102,7 @@ full-blown template parsing solution. We've kept it very lean on purpose in orde
 
 <h2>$this->parser->parse()</h2>
 
-<p>This variable accepts a template name and data array as input, and it generates a parsed version.  Example:</p>
+<p>This method accepts a template name and data array as input, and it generates a parsed version.  Example:</p>
 
 <code>$this->load->library('parser');<br />
 <br />
@@ -173,7 +171,7 @@ $data = array(<br />
 $this->parser->parse('blog_template', $data);</code>
 
 <p>If your "pair" data is coming from a database result, which is already a multi-dimensional array, you can simply
-use the database result function:</p>
+use the database result_array() function:</p>
 
 <code>
 $query = $this->db->query("SELECT * FROM blog");<br />
