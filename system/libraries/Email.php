@@ -491,6 +491,26 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set CRLF
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */	
+	function set_crlf($crlf = "\n")
+	{
+		if ($crlf != "\n" AND $crlf != "\r\n" AND $crlf != "\r")
+		{
+			$this->crlf	= "\n";	
+			return;
+		}
+	
+		$this->crlf	= $crlf;	
+	}
+  	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set Message Boundary
 	 *
 	 * @access	private

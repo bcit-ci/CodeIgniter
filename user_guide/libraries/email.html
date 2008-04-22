@@ -163,8 +163,16 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 <td class="td"><strong>validate</strong></td><td class="td">FALSE</td><td class="td">TRUE or FALSE  (boolean)</td><td class="td">Whether to validate the email address.</td>
 </tr><tr>
 <td class="td"><strong>priority</strong></td><td class="td">3</td><td class="td">1, 2, 3, 4, 5</td><td class="td">Email Priority. 1 = highest.  5 = lowest.  3 = normal.</td>
-</tr><tr>
-<td class="td"><strong>newline</strong></td><td class="td">\n</td><td class="td">"\r\n" or "\n"</td><td class="td">Newline character. (Use "\r\n" to comply with RFC 822).</td>
+</tr>
+<tr>
+	<td class="td"><strong>crlf</strong></td>
+	<td class="td">\n</td>
+	<td class="td">&quot;\r\n&quot; or &quot;\n&quot; or &quot;\r&quot;</td>
+	<td class="td">Newline character. (Use &quot;\r\n&quot; to comply with RFC 822).</td>
+</tr>
+<tr>
+<td class="td"><strong>newline</strong></td><td class="td">\n</td>
+<td class="td">"\r\n" or "\n" or &quot;\r&quot;</td><td class="td">Newline character. (Use "\r\n" to comply with RFC 822).</td>
 </tr><tr>
 <td class="td"><strong>bcc_batch_mode</strong></td><td class="td">FALSE</td><td class="td">TRUE or FALSE (boolean)</td><td class="td">Enable BCC Batch Mode.</td>
 </tr><tr>
