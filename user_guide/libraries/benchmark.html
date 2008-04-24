@@ -151,7 +151,7 @@ $this->benchmark->mark('another_mark<kbd>_end</kbd>');
 <p>If you would like to display the total elapsed time from the moment CodeIgniter starts to the moment the final output
 is sent to the browser, simply place this in one of your view templates:</p>
 
-<code>&lt;?=$this->benchmark->elapsed_time();?&gt;</code>
+<code>&lt;?php echo $this->benchmark->elapsed_time();?&gt;</code>
 
 <p>You'll notice that it's the same function used in the examples above to calculate the time between two point, except you are
 <strong>not</strong> using any parameters.  When the parameters are absent, CodeIgniter does not stop the benchmark until right before the final
@@ -169,7 +169,7 @@ functions you must set your own start/end points.</p>
 <p>If your PHP installation is configured with --enable-memory-limit, you can display the amount of memory consumed by the entire
 system using the following code in one of your view file:</p>
 
-<code>&lt;?=$this->benchmark->memory_usage();?&gt;</code>
+<code>&lt;?php echo $this->benchmark->memory_usage();?&gt;</code>
 <p>Note: This function can only be used in your view files. The consumption will reflect the total memory used by the entire app.</p>
 
 <p>An alternate way to show your memory usage in your view files is to use this pseudo-variable, if you prefer not to use the pure PHP:</p>

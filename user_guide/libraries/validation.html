@@ -110,9 +110,9 @@ folder:</p>
 &lt;/head>
 &lt;body>
 
-&lt;?=$this->validation->error_string; ?>
+&lt;?php echo $this->validation->error_string; ?>
 
-&lt;?=form_open('form'); ?>
+&lt;?php echo form_open('form'); ?>
 
 &lt;h5>Username&lt;/h5>
 &lt;input type="text" name="username" value="" size="50" />
@@ -151,7 +151,7 @@ folder:</p>
 
 &lt;h3>Your form was successfully submitted!&lt;/h3>
 
-&lt;p>&lt;?=anchor('form', 'Try it again!'); ?>&lt;/p>
+&lt;p>&lt;?php echo anchor('form', 'Try it again!'); ?>&lt;/p>
 
 &lt;/body>
 &lt;/html>
@@ -210,7 +210,7 @@ is that it generates the action URL for you, based on the URL in your config fil
 and flexible in the event your URLs change.</li>
 
 <li>At the top of the form you'll notice the following variable:
-<code>&lt;?=$this->validation->error_string; ?&gt;</code>
+<code>&lt;?php echo $this->validation->error_string; ?&gt;</code>
 
 <p>This variable will display any error messages sent back by the validator. If there are no messages it returns nothing.</p>
 </li>
@@ -456,21 +456,21 @@ error message.</p>
 &lt;/head>
 &lt;body>
 
-&lt;?=$this->validation->error_string; ?>
+&lt;?php echo $this->validation->error_string; ?>
 
-&lt;?=form_open('form'); ?>
+&lt;?php echo form_open('form'); ?>
 
 &lt;h5>Username&lt;/h5>
-&lt;input type="text" name="username" value="&lt;?=$this->validation->username;?>" size="50" />
+&lt;input type="text" name="username" value="&lt;?php echo $this->validation->username;?>" size="50" />
 
 &lt;h5>Password&lt;/h5>
-&lt;input type="text" name="password" value="&lt;?=$this->validation->password;?>" size="50" />
+&lt;input type="text" name="password" value="&lt;?php echo $this->validation->password;?>" size="50" />
 
 &lt;h5>Password Confirm&lt;/h5>
-&lt;input type="text" name="passconf" value="&lt;?=$this->validation->passconf;?>" size="50" />
+&lt;input type="text" name="passconf" value="&lt;?php echo $this->validation->passconf;?>" size="50" />
 
 &lt;h5>Email Address&lt;/h5>
-&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" />
+&lt;input type="text" name="email" value="&lt;?php echo $this->validation->email;?>" size="50" />
 
 &lt;div>&lt;input type="submit" value="Submit" />&lt;/div>
 
@@ -493,20 +493,20 @@ and the error messages will contain a more relevant field name.</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="20">
 &lt;h5>Username&lt;/h5>
-&lt;?=$this->validation->username_error; ?>
-&lt;input type="text" name="username" value="&lt;?=$this->validation->username;?>" size="50" />
+&lt;?php echo $this->validation->username_error; ?>
+&lt;input type="text" name="username" value="&lt;?php echo $this->validation->username;?>" size="50" />
 
 &lt;h5>Password&lt;/h5>
-&lt;?=$this->validation->password_error; ?>
-&lt;input type="text" name="password" value="&lt;?=$this->validation->password;?>" size="50" />
+&lt;?php echo $this->validation->password_error; ?>
+&lt;input type="text" name="password" value="&lt;?php echo $this->validation->password;?>" size="50" />
 
 &lt;h5>Password Confirm&lt;/h5>
-&lt;?=$this->validation->passconf_error; ?>
-&lt;input type="text" name="passconf" value="&lt;?=$this->validation->passconf;?>" size="50" />
+&lt;?php echo $this->validation->passconf_error; ?>
+&lt;input type="text" name="passconf" value="&lt;?php echo $this->validation->passconf;?>" size="50" />
 
 &lt;h5>Email Address&lt;/h5>
-&lt;?=$this->validation->email_error; ?>
-&lt;input type="text" name="email" value="&lt;?=$this->validation->email;?>" size="50" /></textarea>
+&lt;?php echo $this->validation->email_error; ?>
+&lt;input type="text" name="email" value="&lt;?php echo $this->validation->email;?>" size="50" /></textarea>
 
 <p>If there are no errors, nothing will be shown.  If there is an error, the message will appear, wrapped in the delimiters you
 have set (&lt;p> tags by default).</p>
@@ -686,9 +686,9 @@ each item. Example:</p>
 
 <code>
 &lt;select name="myselect"><br />
-&lt;option value="one" <dfn>&lt;?= $this->validation->set_select('myselect', 'one'); ?></dfn> >One&lt;/option><br />
-&lt;option value="two" <dfn>&lt;?= $this->validation->set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
-&lt;option value="three" <dfn>&lt;?= $this->validation->set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
+&lt;option value="one" <dfn>&lt;?php echo  $this->validation->set_select('myselect', 'one'); ?></dfn> >One&lt;/option><br />
+&lt;option value="two" <dfn>&lt;?php echo  $this->validation->set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
+&lt;option value="three" <dfn>&lt;?php echo  $this->validation->set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
 &lt;/select>
 </code>
 
@@ -698,7 +698,7 @@ each item. Example:</p>
 <p>Permits you to display a checkbox in the state it was submitted.  The first parameter
 must contain the name of the checkbox, the second parameter must contain its value. Example:</p>
 
-<code>&lt;input type="checkbox" name="mycheck" value="1" <dfn>&lt;?= $this->validation->set_checkbox('mycheck', '1'); ?></dfn> /></code>
+<code>&lt;input type="checkbox" name="mycheck" value="1" <dfn>&lt;?php echo  $this->validation->set_checkbox('mycheck', '1'); ?></dfn> /></code>
 
 
 <h2>set_radio()</h2>
@@ -706,7 +706,7 @@ must contain the name of the checkbox, the second parameter must contain its val
 <p>Permits you to display radio buttons in the state they were submitted.  The first parameter
 must contain the name of the radio button, the second parameter must contain its value. Example:</p>
 
-<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?= $this->validation->set_radio('myradio', '1'); ?></dfn> /></code>
+<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo  $this->validation->set_radio('myradio', '1'); ?></dfn> /></code>
 
 
 
