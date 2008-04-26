@@ -100,32 +100,48 @@ class CI_Unit_test {
 	 * @return	string
 	 */
 	function report($result = array())
-	{	
+	{
 		if (count($result) == 0)
 		{
 			$result = $this->result();
 		}
-		
+
+		$CI =& get_instance();
+		$CI->load->language('unit_test');
+
 		$this->_parse_template();
-	
+
 		$r = '';
 		foreach ($result as $res)
 		{
 			$table = '';
-		
+
 			foreach ($res as $key => $val)
 			{
-				$temp = $this->_template_rows;			
+
+				if ($key == $CI->lang->line('ut_result'))
+				{
+					if ($val == $CI->lang->line('ut_passed'))
+					{
+						$val = '<span style="color: #0C0;">'.$val.'</span>';
+					}
+					elseif ($val == $CI->lang->line('ut_failed'))
+					{
+						$val = '<span style="color: #C00;">'.$val.'</span>';
+					}
+				}
+
+				$temp = $this->_template_rows;
 				$temp = str_replace('{item}', $key, $temp);
 				$temp = str_replace('{result}', $val, $temp);
 				$table .= $temp;
 			}
-			
+
 			$r .= str_replace('{rows}', $table, $this->_template);
 		}
-	
-		return $r;	
-	}	
+
+		return $r;
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -262,18 +278,14 @@ class CI_Unit_test {
 	 */
 	function _default_template()
 	{	
-		$this->_template = '	
-		<div style="margin:15px;background-color:#ccc;">
-		<table border="0" cellpadding="4" cellspacing="1" style="width:100%;">		
-		{rows}
-		</table></div>';
+		$this->_template = "\n".'<table style="width:100%; font-size:small; margin:10px 0; border-collapse:collapse; border:1px solid #CCC;">';
+		$this->_template .= '{rows}';
+		$this->_template .= "\n".'</table>';
 		
-		$this->_template_rows = '
-		<tr>
-		<td style="background-color:#fff;width:140px;font-size:12px;font-weight:bold;">{item}</td>
-		<td style="background-color:#fff;font-size:12px;">{result}</td>
-		</tr>
-		';	
+		$this->_template_rows = "\n\t".'<tr>';
+		$this->_template_rows .= "\n\t\t".'<th style="text-align: left; border-bottom:1px solid #CCC;">{item}</th>';
+		$this->_template_rows .= "\n\t\t".'<td style="border-bottom:1px solid #CCC;">{result}</td>';
+		$this->_template_rows .= "\n\t".'</tr>';	
 	}
 	
 	// --------------------------------------------------------------------
