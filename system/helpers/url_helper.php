@@ -470,6 +470,8 @@ if (! function_exists('url_title'))
  * Header Redirect
  *
  * Header redirect in two flavors
+ * For very fine grained control over headers, you could use the Output
+ * Library's set_header() function.
  *
  * @access	public
  * @param	string	the URL
@@ -478,13 +480,13 @@ if (! function_exists('url_title'))
  */
 if (! function_exists('redirect'))
 {
-	function redirect($uri = '', $method = 'location')
+	function redirect($uri = '', $method = 'location', $http_response_code = 302)
 	{
 		switch($method)
 		{
 			case 'refresh'	: header("Refresh:0;url=".site_url($uri));
 				break;
-			default			: header("Location: ".site_url($uri));
+			default			: header("Location: ".site_url($uri), TRUE, $http_response_code);
 				break;
 		}
 		exit;
