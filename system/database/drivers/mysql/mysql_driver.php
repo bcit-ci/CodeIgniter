@@ -314,11 +314,8 @@ class CI_DB_mysql_driver extends CI_DB {
 	
 		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
 		
-		if ($query->num_rows() == 0)
-			return '0';
-
 		$row = $query->row();
-		return $row->numrows;
+		return (int)$row->numrows;
 	}
 
 	// --------------------------------------------------------------------

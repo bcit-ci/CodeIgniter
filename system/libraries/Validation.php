@@ -488,6 +488,33 @@ class CI_Validation {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Valid Emails
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */	
+	function valid_emails($str)
+	{
+		if (strpos($str, ',') === FALSE)
+		{
+			return $this->valid_email(trim($str));
+		}
+		
+		foreach(explode(',', $str) as $email)
+		{
+			if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE)
+			{
+				return FALSE;
+			}
+		}
+		
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Validate IP Address
 	 *
 	 * @access	public
