@@ -91,8 +91,7 @@ if (! function_exists('force_download'))
 			header("Content-Length: ".strlen($data));
 		}
 	
-		echo $data;
-		exit; // exit($data); // didn't work on some browsers
+		exit($data);
 	}
 }
 
