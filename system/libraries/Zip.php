@@ -351,7 +351,7 @@ class CI_Zip  {
 			header("Content-Length: ".strlen($this->get_zip()));
 		}
 	
-		echo $this->get_zip();
+		exit($this->get_zip());
 	}
 
 	// --------------------------------------------------------------------
