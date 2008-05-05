@@ -1070,7 +1070,7 @@ class CI_Email {
 			$attachment[$z++] = $h;
 			$file = filesize($filename) +1;
 			
-			if (! $fp = fopen($filename, 'r'))
+			if (! $fp = fopen($filename, FOPEN_READ_BOF))
 			{
 				$this->_set_error_message('email_attachment_unreadable', $filename);
 				return FALSE;

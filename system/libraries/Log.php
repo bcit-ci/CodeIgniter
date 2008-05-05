@@ -97,7 +97,7 @@ class CI_Log {
 			$message .= "<"."?php  if (!defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 			
-		if (! $fp = @fopen($filepath, "a"))
+		if (! $fp = @fopen($filepath, FOPEN_WRITE_CREATE_EOF))
 		{
 			return FALSE;
 		}
