@@ -152,7 +152,7 @@ class CI_Loader {
 	
 		$model = strtolower($model);
 		
-		if ( ! file_exists(APPPATH.'models/'.$path.$model.EXT))
+		if (! file_exists(APPPATH.'models/'.$path.$model.EXT))
 		{
 			show_error('Unable to locate the model you have specified: '.$model);
 		}
@@ -165,7 +165,7 @@ class CI_Loader {
 			$CI->load->database($db_conn, FALSE, TRUE);
 		}
 	
-		if ( ! class_exists('Model'))
+		if (! class_exists('Model'))
 		{
 			load_class('Model', FALSE);
 		}
@@ -230,7 +230,7 @@ class CI_Loader {
 	 */		
 	function dbutil()
 	{
-		if ( ! class_exists('CI_DB'))
+		if (! class_exists('CI_DB'))
 		{
 			$this->database();
 		}
@@ -260,7 +260,7 @@ class CI_Loader {
 	 */		
 	function dbforge()
 	{
-		if ( ! class_exists('CI_DB'))
+		if (! class_exists('CI_DB'))
 		{
 			$this->database();
 		}
@@ -353,7 +353,7 @@ class CI_Loader {
 	 */
 	function helper($helpers = array())
 	{
-		if ( ! is_array($helpers))
+		if (! is_array($helpers))
 		{
 			$helpers = array($helpers);
 		}
@@ -374,7 +374,7 @@ class CI_Loader {
 			{
 				$base_helper = BASEPATH.'helpers/'.$helper.EXT;
 				
-				if ( ! file_exists($base_helper))
+				if (! file_exists($base_helper))
 				{
 					show_error('Unable to load the requested file: helpers/'.$helper.EXT);
 				}
@@ -435,7 +435,7 @@ class CI_Loader {
 	 */
 	function plugin($plugins = array())
 	{
-		if ( ! is_array($plugins))
+		if (! is_array($plugins))
 		{
 			$plugins = array($plugins);
 		}
@@ -505,7 +505,7 @@ class CI_Loader {
 	 */
 	function script($scripts = array())
 	{
-		if ( ! is_array($scripts))
+		if (! is_array($scripts))
 		{
 			$scripts = array($scripts);
 		}
@@ -519,7 +519,7 @@ class CI_Loader {
 				continue;
 			}
 		
-			if ( ! file_exists(APPPATH.'scripts/'.$script.EXT))
+			if (! file_exists(APPPATH.'scripts/'.$script.EXT))
 			{
 				show_error('Unable to load the requested script: scripts/'.$script.EXT);
 			}
@@ -544,7 +544,7 @@ class CI_Loader {
 	{
 		$CI =& get_instance();
 
-		if ( ! is_array($file))
+		if (! is_array($file))
 		{
 			$file = array($file);
 		}
@@ -630,7 +630,7 @@ class CI_Loader {
 		// Set the default data variables
 		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $_ci_val)
 		{
-			$$_ci_val = ( ! isset($_ci_data[$_ci_val])) ? FALSE : $_ci_data[$_ci_val];
+			$$_ci_val = (! isset($_ci_data[$_ci_val])) ? FALSE : $_ci_data[$_ci_val];
 		}
 
 		// Set the path to the requested file
@@ -646,7 +646,7 @@ class CI_Loader {
 			$_ci_file = end($_ci_x);
 		}
 		
-		if ( ! file_exists($_ci_path))
+		if (! file_exists($_ci_path))
 		{
 			show_error('Unable to load the requested file: '.$_ci_file);
 		}
@@ -660,7 +660,7 @@ class CI_Loader {
 			$_ci_CI =& get_instance();
 			foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 			{
-				if ( ! isset($this->$_ci_key))
+				if (! isset($this->$_ci_key))
 				{
 					$this->$_ci_key =& $_ci_CI->$_ci_key;
 				}
@@ -768,7 +768,7 @@ class CI_Loader {
 			{
 				$baseclass = BASEPATH.'libraries/'.ucfirst($class).EXT;
 				
-				if ( ! file_exists($baseclass))
+				if (! file_exists($baseclass))
 				{
 					log_message('error', "Unable to load the requested class: ".$class);
 					show_error("Unable to load the requested class: ".$class);
@@ -797,7 +797,7 @@ class CI_Loader {
 				$filepath = $path.'libraries/'.$class.EXT;
 				
 				// Does the file exist?  No?  Bummer...
-				if ( ! file_exists($filepath))
+				if (! file_exists($filepath))
 				{
 					continue;
 				}
@@ -858,7 +858,7 @@ class CI_Loader {
 		}
 		
 		// Set the variable name we will assign the class to	
-		$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
+		$classvar = (! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
 				
 		// Instantiate the class		
 		$CI =& get_instance();
@@ -888,7 +888,7 @@ class CI_Loader {
 	{	
 		include_once(APPPATH.'config/autoload'.EXT);
 		
-		if ( ! isset($autoload))
+		if (! isset($autoload))
 		{
 			return FALSE;
 		}
@@ -916,7 +916,7 @@ class CI_Loader {
 
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
-		if ( ! isset($autoload['libraries']))
+		if (! isset($autoload['libraries']))
 		{
 			$autoload['libraries'] = $autoload['core'];
 		}

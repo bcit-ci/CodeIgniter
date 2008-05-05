@@ -105,7 +105,7 @@ if (! function_exists('_list'))
 	function _list($type = 'ul', $list, $attributes = '', $depth = 0)
 	{
 		// If an array wasn't submitted there's nothing to do...
-		if ( ! is_array($list))
+		if (! is_array($list))
 		{
 			return $list;
 		}
@@ -138,7 +138,7 @@ if (! function_exists('_list'))
 			$out .= str_repeat(" ", $depth + 2);
 			$out .= "<li>";
 		
-			if ( ! is_array($val))
+			if (! is_array($val))
 			{
 				$out .= $val;
 			}
@@ -194,7 +194,7 @@ if (! function_exists('img'))
 {
 	function img($src = '', $index_page = FALSE)
 	{
-		if ( ! is_array($src) )
+		if (! is_array($src) )
 		{
 			$src = array('src' => $src);
 		}

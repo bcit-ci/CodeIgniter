@@ -103,9 +103,9 @@ if (! function_exists('anchor'))
 	{
 		$title = (string) $title;
 	
-		if ( ! is_array($uri))
+		if (! is_array($uri))
 		{
-			$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+			$site_url = (! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
 		}
 		else
 		{
@@ -150,7 +150,7 @@ if (! function_exists('anchor_popup'))
 	{	
 		$title = (string) $title;
 	
-		$site_url = ( ! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+		$site_url = (! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
 	
 		if ($title == '')
 		{
@@ -162,14 +162,14 @@ if (! function_exists('anchor_popup'))
 			return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank');\">".$title."</a>";
 		}
 	
-		if ( ! is_array($attributes))
+		if (! is_array($attributes))
 		{
 			$attributes = array();
 		}
 		
 		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
 		{
-			$atts[$key] = ( ! isset($attributes[$key])) ? $val : $attributes[$key];
+			$atts[$key] = (! isset($attributes[$key])) ? $val : $attributes[$key];
 		}
 
 		return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\">".$title."</a>";

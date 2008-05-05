@@ -158,7 +158,7 @@ class CI_Image_lib {
 		 * properties using ImageMagick and NetPBM
 		 *
 		 */		
-		if ( ! function_exists('getimagesize'))
+		if (! function_exists('getimagesize'))
 		{
 			$this->set_error('imglib_gd_required_for_props');
 			return FALSE;		
@@ -188,7 +188,7 @@ class CI_Image_lib {
 		$this->source_folder = str_replace($this->source_image, '', $full_source_path);
 								
 		// Set the Image Properties
-		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
+		if (! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
 			return FALSE;	   	
 		}				
@@ -226,7 +226,7 @@ class CI_Image_lib {
 				}
 				
 				// Is there a file name?
-				if ( ! preg_match("#[\.jpg|\.jpeg|\.gif|\.png]$#i", $full_dest_path))
+				if (! preg_match("#[\.jpg|\.jpeg|\.gif|\.png]$#i", $full_dest_path))
 				{
 					$this->dest_folder = $full_dest_path.'/';
 					$this->dest_image = $this->source_image;
@@ -478,7 +478,7 @@ class CI_Image_lib {
 			// we'll simply make a copy of the original with the new name		
 			if (($this->orig_width == $this->width AND $this->orig_height == $this->height) AND ($this->source_image != $this->new_image))			
 			{
-				if ( ! @copy($this->full_src_path, $this->full_dst_path))
+				if (! @copy($this->full_src_path, $this->full_dst_path))
 				{
 					$this->set_error('imglib_copy_failed');
 					return FALSE;
@@ -494,7 +494,7 @@ class CI_Image_lib {
 		}
 		
 		//  Create the image handle
-		if ( ! ($src_img = $this->image_create_gd()))
+		if (! ($src_img = $this->image_create_gd()))
 		{		
 			return FALSE;
 		}
@@ -528,7 +528,7 @@ class CI_Image_lib {
 		else
 		{
 			// Or save it
-			if ( ! $this->image_save_gd($dst_img))
+			if (! $this->image_save_gd($dst_img))
 			{
 				return FALSE;
 			}
@@ -564,9 +564,9 @@ class CI_Image_lib {
 			return FALSE;
 		}
 				
-		if ( ! eregi("convert$", $this->library_path))
+		if (! eregi("convert$", $this->library_path))
 		{
-			if ( ! eregi("/$", $this->library_path)) $this->library_path .= "/";
+			if (! eregi("/$", $this->library_path)) $this->library_path .= "/";
 		
 			$this->library_path .= 'convert';
 		}
@@ -712,14 +712,14 @@ class CI_Image_lib {
 	{	
 		// Is Image Rotation Supported?
 		// this function is only supported as of PHP 4.3
-		if ( ! function_exists('imagerotate'))
+		if (! function_exists('imagerotate'))
 		{
 			$this->set_error('imglib_rotate_unsupported');
 			return FALSE;
 		}
 		
 		//  Create the image handle
-		if ( ! ($src_img = $this->image_create_gd()))
+		if (! ($src_img = $this->image_create_gd()))
 		{		
 			return FALSE;
 		}
@@ -742,7 +742,7 @@ class CI_Image_lib {
 		else
 		{
 			// Or save it
-			if ( ! $this->image_save_gd($dst_img))
+			if (! $this->image_save_gd($dst_img))
 			{
 				return FALSE;
 			}
@@ -771,7 +771,7 @@ class CI_Image_lib {
 	 */			
 	function image_mirror_gd()
 	{		
-		if ( ! $src_img = $this->image_create_gd())
+		if (! $src_img = $this->image_create_gd())
 		{
 			return FALSE;
 		}
@@ -828,7 +828,7 @@ class CI_Image_lib {
 		else
 		{
 			// Or save it
-			if ( ! $this->image_save_gd($src_img))
+			if (! $this->image_save_gd($src_img))
 			{
 				return FALSE;
 			}
@@ -877,7 +877,7 @@ class CI_Image_lib {
 	 */			
 	function overlay_watermark()
 	{
-		if ( ! function_exists('imagecolortransparent'))
+		if (! function_exists('imagecolortransparent'))
 		{
 			$this->set_error('imglib_gd_required');
 			return FALSE;		
@@ -955,7 +955,7 @@ class CI_Image_lib {
 		}
 		else
 		{
-			if ( ! $this->image_save_gd($src_img))
+			if (! $this->image_save_gd($src_img))
 			{
 				return FALSE;
 			}
@@ -977,7 +977,7 @@ class CI_Image_lib {
 	 */			
 	function text_watermark()
 	{
-		if ( ! ($src_img = $this->image_create_gd()))
+		if (! ($src_img = $this->image_create_gd()))
 		{		
 			return FALSE;
 		}
@@ -1131,7 +1131,7 @@ class CI_Image_lib {
 		switch ($image_type)
 		{
 			case	 1 :
-						if ( ! function_exists('imagecreatefromgif'))
+						if (! function_exists('imagecreatefromgif'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
 							return FALSE;
@@ -1140,7 +1140,7 @@ class CI_Image_lib {
 						return imagecreatefromgif($path);
 				break;
 			case 2 :
-						if ( ! function_exists('imagecreatefromjpeg'))
+						if (! function_exists('imagecreatefromjpeg'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
 							return FALSE;
@@ -1149,7 +1149,7 @@ class CI_Image_lib {
 						return imagecreatefromjpeg($path);
 				break;
 			case 3 :
-						if ( ! function_exists('imagecreatefrompng'))
+						if (! function_exists('imagecreatefrompng'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));				
 							return FALSE;
@@ -1181,7 +1181,7 @@ class CI_Image_lib {
 		switch ($this->image_type)
 		{
 			case 1 :
-						if ( ! function_exists('imagegif'))
+						if (! function_exists('imagegif'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
 							return FALSE;		
@@ -1190,7 +1190,7 @@ class CI_Image_lib {
 						@imagegif($resource, $this->full_dst_path);
 				break;
 			case 2	:
-						if ( ! function_exists('imagejpeg'))
+						if (! function_exists('imagejpeg'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
 							return FALSE;		
@@ -1204,7 +1204,7 @@ class CI_Image_lib {
 						@imagejpeg($resource, $this->full_dst_path, $this->quality);
 				break;
 			case 3	:
-						if ( ! function_exists('imagepng'))
+						if (! function_exists('imagepng'))
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
 							return FALSE;		
@@ -1267,10 +1267,10 @@ class CI_Image_lib {
 	 */			
 	function image_reproportion()
 	{
-		if ( ! is_numeric($this->width) OR ! is_numeric($this->height) OR $this->width == 0 OR $this->height == 0)
+		if (! is_numeric($this->width) OR ! is_numeric($this->height) OR $this->width == 0 OR $this->height == 0)
 			return;
 		
-		if ( ! is_numeric($this->orig_width) OR ! is_numeric($this->orig_height) OR $this->orig_width == 0 OR $this->orig_height == 0)
+		if (! is_numeric($this->orig_width) OR ! is_numeric($this->orig_height) OR $this->orig_width == 0 OR $this->orig_height == 0)
 			return;
 		
 		$new_width	= ceil($this->orig_width*$this->height/$this->orig_height);		
@@ -1315,7 +1315,7 @@ class CI_Image_lib {
 		if ($path == '')
 			$path = $this->full_src_path;
 				
-		if ( ! file_exists($path))
+		if (! file_exists($path))
 		{
 			$this->set_error('imglib_invalid_path');		
 			return FALSE;				
@@ -1369,14 +1369,14 @@ class CI_Image_lib {
 	 */			
 	function size_calculator($vals)
 	{
-		if ( ! is_array($vals))
+		if (! is_array($vals))
 			return;
 			
 		$allowed = array('new_width', 'new_height', 'width', 'height');
 	
 		foreach ($allowed as $item)
 		{
-			if ( ! isset($vals[$item]) OR $vals[$item] == '')
+			if (! isset($vals[$item]) OR $vals[$item] == '')
 				$vals[$item] = 0;
 		}
 		
@@ -1447,9 +1447,9 @@ class CI_Image_lib {
 	 */	
 	function gd_loaded()
 	{
-		if ( ! extension_loaded('gd'))
+		if (! extension_loaded('gd'))
 		{
-			if ( ! dl('gd.so'))
+			if (! dl('gd.so'))
 			{
 				return FALSE;
 			}

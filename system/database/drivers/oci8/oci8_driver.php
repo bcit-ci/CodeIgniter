@@ -155,7 +155,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function _set_stmt_id($sql)
 	{
-		if ( ! is_resource($this->stmt_id))
+		if (! is_resource($this->stmt_id))
 		{
 			$this->stmt_id = ociparse($this->conn_id, $this->_prep_query($sql));
 		}
@@ -254,7 +254,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function _bind_params($params)
 	{
-		if ( ! is_array($params) OR ! is_resource($this->stmt_id))
+		if (! is_array($params) OR ! is_resource($this->stmt_id))
 		{
 			return;
 		}
@@ -263,7 +263,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
  			foreach (array('name', 'value', 'type', 'length') as $val)
 			{
-				if ( ! isset($param[$val]))
+				if (! isset($param[$val]))
 				{
 					$param[$val] = '';
 				}
@@ -283,7 +283,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */	
 	function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -313,7 +313,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */	
 	function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -339,7 +339,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */	
 	function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}

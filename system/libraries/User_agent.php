@@ -63,7 +63,7 @@ class CI_User_agent {
 			$this->agent = trim($_SERVER['HTTP_USER_AGENT']);
 		}
 		
-		if ( ! is_null($this->agent))
+		if (! is_null($this->agent))
 		{
 			if ($this->_load_agent_file())
 			{
@@ -84,7 +84,7 @@ class CI_User_agent {
 	 */		
 	function _load_agent_file()
 	{
-		if ( ! @include(APPPATH.'config/user_agents'.EXT))
+		if (! @include(APPPATH.'config/user_agents'.EXT))
 		{
 			return FALSE;
 		}
@@ -339,7 +339,7 @@ class CI_User_agent {
 	 */			
 	function is_referral()
 	{
-		return ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? FALSE : TRUE;
+		return (! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -429,7 +429,7 @@ class CI_User_agent {
 	 */			
 	function referrer()
 	{
-		return ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? '' : trim($_SERVER['HTTP_REFERER']);
+		return (! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? '' : trim($_SERVER['HTTP_REFERER']);
 	}
 
 	// --------------------------------------------------------------------

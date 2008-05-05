@@ -59,9 +59,9 @@ if (! function_exists('dohash'))
 	{
 		if ($type == 'sha1')
 		{
-			if ( ! function_exists('sha1'))
+			if (! function_exists('sha1'))
 			{
-				if ( ! function_exists('mhash'))
+				if (! function_exists('mhash'))
 				{	
 					require_once(BASEPATH.'libraries/Sha1'.EXT);
 					$SH = new CI_SHA;

@@ -330,13 +330,13 @@ class Auto_typography {
 			$one_before = substr($str, $start+$current-1, 1);
 			$one_after = substr($str, $start+$current+2, 1);
 			
-			if ( ! in_array($one_after, $space, TRUE) && $one_after != "<")
+			if (! in_array($one_after, $space, TRUE) && $one_after != "<")
 			{
 				$str = str_replace(	$one_before."\"'".$one_after,
 									$one_before."&#8220;&#8216;".$one_after,
 									$str);
 			}
-			elseif ( ! in_array($one_before, $space, TRUE) && (in_array($one_after, $space, TRUE) OR $one_after == '<'))
+			elseif (! in_array($one_before, $space, TRUE) && (in_array($one_after, $space, TRUE) OR $one_after == '<'))
 			{
 				$str = str_replace(	$one_before."\"'".$one_after,
 									$one_before."&#8221;&#8217;".$one_after,
@@ -363,7 +363,7 @@ class Auto_typography {
 									$one_before."&#8216;&#8220;".$one_after,
 									$str);
 			}
-			elseif ( ! in_array($one_before, $space, TRUE) && $one_before != ">")
+			elseif (! in_array($one_before, $space, TRUE) && $one_before != ">")
 			{
 				$str = str_replace(	$one_before."'\"".$one_after,
 									$one_before."&#8217;&#8221;".$one_after,
@@ -378,7 +378,7 @@ class Auto_typography {
 		{
 			for ($i=0, $s=sizeof($matches['0']); $i < $s; ++$i)
 			{
-				if ( ! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
+				if (! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
 				{
 					$str = str_replace(	$matches['0'][$i],
 										$matches['1'][$i]."&#8220;".$matches['2'][$i]."&#8221;".$matches['3'][$i],
@@ -391,7 +391,7 @@ class Auto_typography {
 		{
 			for ($i=0, $s=sizeof($matches['0']); $i < $s; ++$i)
 			{
-				if ( ! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
+				if (! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
 				{
 					$str = str_replace(	$matches['0'][$i],
 										$matches['1'][$i]."&#8216;".$matches['2'][$i]."&#8217;".$matches['3'][$i],
@@ -412,7 +412,7 @@ class Auto_typography {
 			$one_before = substr($str, $start+$current-1, 1);
 			$one_after = substr($str, $start+$current+1, 1);
 			
-			if ( ! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
+			if (! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
 			{
 				$str = str_replace(	$one_before."'".$one_after,
 									$one_before."&#8217;".$one_after,
@@ -435,9 +435,9 @@ class Auto_typography {
 			$two_before = substr($str, $start+$current-2, 1);
 			$two_after = substr($str, $start+$current+3, 1);
 			
-			if (( ! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
+			if ((! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
 				OR
-				( ! in_array($two_before, $space, TRUE) && ! in_array($two_after, $space, TRUE) && $one_before == ' ' && $one_after == ' ')
+				(! in_array($two_before, $space, TRUE) && ! in_array($two_after, $space, TRUE) && $one_before == ' ' && $one_after == ' ')
 				)
 			{
 				$str = str_replace(	$two_before.$one_before."--".$one_after.$two_after,
@@ -468,13 +468,13 @@ class Auto_typography {
 			$one_before = substr($str, $start+$current-1, 1);
 			$one_after = substr($str, $start+$current+1, 1);
 			
-			if ( ! in_array($one_after, $space, TRUE))
+			if (! in_array($one_after, $space, TRUE))
 			{
 				$str = str_replace(	$one_before.'"'.$one_after,
 									$one_before."&#8220;".$one_after,
 									$str);
 			}
-			elseif( ! in_array($one_before, $space, TRUE))
+			elseif(! in_array($one_before, $space, TRUE))
 			{
 				$str = str_replace(	$one_before."'".$one_after,
 									$one_before."&#8221;".$one_after,
@@ -495,13 +495,13 @@ class Auto_typography {
 			$one_before = substr($str, $start+$current-1, 1);
 			$one_after = substr($str, $start+$current+1, 1);
 			
-			if ( ! in_array($one_after, $space, TRUE))
+			if (! in_array($one_after, $space, TRUE))
 			{
 				$str = str_replace(	$one_before."'".$one_after,
 									$one_before."&#8216;".$one_after,
 									$str);
 			}
-			elseif( ! in_array($one_before, $space, TRUE))
+			elseif(! in_array($one_before, $space, TRUE))
 			{
 				$str = str_replace(	$one_before."'".$one_after,
 									$one_before."&#8217;".$one_after,

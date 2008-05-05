@@ -36,7 +36,7 @@
  * will generate errors when running under PHP 4
  *
  */
-if ( ! defined('E_STRICT'))
+if (! defined('E_STRICT'))
 {
 	define('E_STRICT', 2048);
 }

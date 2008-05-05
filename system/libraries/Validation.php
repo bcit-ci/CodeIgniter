@@ -74,7 +74,7 @@ class CI_Validation {
 		}
 		else
 		{
-			if ( ! is_array($data))
+			if (! is_array($data))
 			{
 				$data = array($data => $field);
 			}
@@ -87,10 +87,10 @@ class CI_Validation {
 			
 		foreach($this->_fields as $key => $val)
 		{
-			$this->$key = ( ! isset($_POST[$key])) ? '' : $this->prep_for_form($_POST[$key]);
+			$this->$key = (! isset($_POST[$key])) ? '' : $this->prep_for_form($_POST[$key]);
 			
 			$error = $key.'_error';
-			if ( ! isset($this->$error))
+			if (! isset($this->$error))
 			{
 				$this->$error = '';
 			}
@@ -112,7 +112,7 @@ class CI_Validation {
 	 */
 	function set_rules($data, $rules = '')
 	{
-		if ( ! is_array($data))
+		if (! is_array($data))
 		{
 			if ($rules == '')
 				return;
@@ -141,7 +141,7 @@ class CI_Validation {
 	 */
 	function set_message($lang, $val = '')
 	{
-		if ( ! is_array($lang))
+		if (! is_array($lang))
 		{
 			$lang = array($lang => $val);
 		}
@@ -195,9 +195,9 @@ class CI_Validation {
 			$ex = explode('|', $rules);
 
 			// Is the field required?  If not, if the field is blank  we'll move on to the next test
-			if ( ! in_array('required', $ex, TRUE))
+			if (! in_array('required', $ex, TRUE))
 			{
-				if ( ! isset($_POST[$field]) OR $_POST[$field] == '')
+				if (! isset($_POST[$field]) OR $_POST[$field] == '')
 				{
 					continue;
 				}
@@ -212,11 +212,11 @@ class CI_Validation {
 			 * test for it here since there's not reason to go
 			 * further
 			 */
-			if ( ! isset($_POST[$field]))
+			if (! isset($_POST[$field]))
 			{			
 				if (in_array('isset', $ex, TRUE) OR in_array('required', $ex))
 				{
-					if ( ! isset($this->_error_messages['isset']))
+					if (! isset($this->_error_messages['isset']))
 					{
 						if (FALSE === ($line = $this->CI->lang->line('isset')))
 						{
@@ -229,7 +229,7 @@ class CI_Validation {
 					}
 					
 					// Build the error message
-					$mfield = ( ! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
+					$mfield = (! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
 					$message = sprintf($line, $mfield);
 
 					// Set the error variable.  Example: $this->username_error
@@ -274,7 +274,7 @@ class CI_Validation {
 				// Call the function that corresponds to the rule
 				if ($callback === TRUE)
 				{
-					if ( ! method_exists($this->CI, $rule))
+					if (! method_exists($this->CI, $rule))
 					{ 		
 						continue;
 					}
@@ -282,7 +282,7 @@ class CI_Validation {
 					$result = $this->CI->$rule($_POST[$field], $param);	
 					
 					// If the field isn't required and we just processed a callback we'll move on...
-					if ( ! in_array('required', $ex, TRUE) AND $result !== FALSE)
+					if (! in_array('required', $ex, TRUE) AND $result !== FALSE)
 					{
 						continue 2;
 					}
@@ -290,7 +290,7 @@ class CI_Validation {
 				}
 				else
 				{				
-					if ( ! method_exists($this, $rule))
+					if (! method_exists($this, $rule))
 					{
 						/*
 						 * Run the native PHP function if called for
@@ -314,7 +314,7 @@ class CI_Validation {
 				// Did the rule test negatively?  If so, grab the error.
 				if ($result === FALSE)
 				{
-					if ( ! isset($this->_error_messages[$rule]))
+					if (! isset($this->_error_messages[$rule]))
 					{
 						if (FALSE === ($line = $this->CI->lang->line($rule)))
 						{
@@ -327,8 +327,8 @@ class CI_Validation {
 					}				
 
 					// Build the error message
-					$mfield = ( ! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
-					$mparam = ( ! isset($this->_fields[$param])) ? $param : $this->_fields[$param];
+					$mfield = (! isset($this->_fields[$field])) ? $field : $this->_fields[$field];
+					$mparam = (! isset($this->_fields[$param])) ? $param : $this->_fields[$param];
 					$message = sprintf($line, $mfield, $mparam);
 					
 					// Set the error variable.  Example: $this->username_error
@@ -385,13 +385,13 @@ class CI_Validation {
 	 */
 	function required($str)
 	{
-		if ( ! is_array($str))
+		if (! is_array($str))
 		{
 			return (trim($str) == '') ? FALSE : TRUE;
 		}
 		else
 		{
-			return ( ! empty($str));
+			return (! empty($str));
 		}
 	}
 	
@@ -406,7 +406,7 @@ class CI_Validation {
 	 */
 	function matches($str, $field)
 	{
-		if ( ! isset($_POST[$field]))
+		if (! isset($_POST[$field]))
 		{
 			return FALSE;
 		}
@@ -482,7 +482,7 @@ class CI_Validation {
 	 */	
 	function valid_email($str)
 	{
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+		return (! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -537,7 +537,7 @@ class CI_Validation {
 	 */		
 	function alpha($str)
 	{
-		return ( ! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
+		return (! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -551,7 +551,7 @@ class CI_Validation {
 	 */	
 	function alpha_numeric($str)
 	{
-		return ( ! preg_match("/^([a-z0-9])+$/i", $str)) ? FALSE : TRUE;
+		return (! preg_match("/^([a-z0-9])+$/i", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -565,7 +565,7 @@ class CI_Validation {
 	 */	
 	function alpha_dash($str)
 	{
-		return ( ! preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
+		return (! preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -594,7 +594,7 @@ class CI_Validation {
      */
     function is_numeric($str)
     {
-        return ( ! is_numeric($str)) ? FALSE : TRUE;
+        return (! is_numeric($str)) ? FALSE : TRUE;
     } 
 
 	// --------------------------------------------------------------------

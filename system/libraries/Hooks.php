@@ -68,7 +68,7 @@ class CI_Hooks {
 		
 		@include(APPPATH.'config/hooks'.EXT);
 		
-		if ( ! isset($hook) OR ! is_array($hook))
+		if (! isset($hook) OR ! is_array($hook))
 		{
 			return;
 		}
@@ -90,7 +90,7 @@ class CI_Hooks {
 	 */
 	function _call_hook($which = '')
 	{
-		if ( ! $this->enabled OR ! isset($this->hooks[$which]))
+		if (! $this->enabled OR ! isset($this->hooks[$which]))
 		{
 			return FALSE;
 		}
@@ -123,7 +123,7 @@ class CI_Hooks {
 	 */
 	function _run_hook($data)
 	{
-		if ( ! is_array($data))
+		if (! is_array($data))
 		{
 			return FALSE;
 		}
@@ -144,14 +144,14 @@ class CI_Hooks {
 		// Set file path
 		// -----------------------------------
 		
-		if ( ! isset($data['filepath']) OR ! isset($data['filename']))
+		if (! isset($data['filepath']) OR ! isset($data['filename']))
 		{
 			return FALSE;
 		}
 		
 		$filepath = APPPATH.$data['filepath'].'/'.$data['filename'];
 	
-		if ( ! file_exists($filepath))
+		if (! file_exists($filepath))
 		{
 			return FALSE;
 		}
@@ -196,7 +196,7 @@ class CI_Hooks {
 		
 		if ($class !== FALSE)
 		{
-			if ( ! class_exists($class))
+			if (! class_exists($class))
 			{
 				require($filepath);
 			}
@@ -206,7 +206,7 @@ class CI_Hooks {
 		}
 		else
 		{
-			if ( ! function_exists($function))
+			if (! function_exists($function))
 			{
 				require($filepath);
 			}

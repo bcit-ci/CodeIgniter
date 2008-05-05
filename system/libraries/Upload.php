@@ -135,23 +135,23 @@ class CI_Upload {
 	function do_upload($field = 'userfile')
 	{
 		// Is $_FILES[$field] set? If not, no reason to continue.
-		if ( ! isset($_FILES[$field]))
+		if (! isset($_FILES[$field]))
 		{
 			$this->set_error('upload_no_file_selected');
 			return FALSE;
 		}
 		
 		// Is the upload path valid?
-		if ( ! $this->validate_upload_path())
+		if (! $this->validate_upload_path())
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 						
 		// Was the file able to be uploaded? If not, determine the reason why.
-		if ( ! is_uploaded_file($_FILES[$field]['tmp_name']))
+		if (! is_uploaded_file($_FILES[$field]['tmp_name']))
 		{
-			$error = ( ! isset($_FILES[$field]['error'])) ? 4 : $_FILES[$field]['error'];
+			$error = (! isset($_FILES[$field]['error'])) ? 4 : $_FILES[$field]['error'];
 
 			switch($error)
 			{
@@ -198,14 +198,14 @@ class CI_Upload {
 		}
 
 		// Is the file type allowed to be uploaded?
-		if ( ! $this->is_allowed_filetype())
+		if (! $this->is_allowed_filetype())
 		{
 			$this->set_error('upload_invalid_filetype');
 			return FALSE;
 		}
 
 		// Is the file size within the allowed maximum?
-		if ( ! $this->is_allowed_filesize())
+		if (! $this->is_allowed_filesize())
 		{
 			$this->set_error('upload_invalid_filesize');
 			return FALSE;
@@ -213,7 +213,7 @@ class CI_Upload {
 
 		// Are the image dimensions within the allowed size?
 		// Note: This can fail if the server has an open_basdir restriction.
-		if ( ! $this->is_allowed_dimensions())
+		if (! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');
 			return FALSE;
@@ -253,9 +253,9 @@ class CI_Upload {
 		 * we'll use move_uploaded_file().  One of the two should
 		 * reliably work in most environments
 		 */
-		if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
+		if (! @copy($this->file_temp, $this->upload_path.$this->file_name))
 		{
-			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
+			if (! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
 			{
 				 $this->set_error('upload_destination_error');
 				 return FALSE;
@@ -350,7 +350,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext; 			
 		}
 	
-		if ( ! file_exists($path.$filename))
+		if (! file_exists($path.$filename))
 		{
 			return $filename;
 		}
@@ -360,7 +360,7 @@ class CI_Upload {
 		$new_filename = '';
 		for ($i = 1; $i < 100; $i++)
 		{			
-			if ( ! file_exists($path.$filename.$i.$this->file_ext))
+			if (! file_exists($path.$filename.$i.$this->file_ext))
 			{
 				$new_filename = $filename.$i.$this->file_ext;
 				break;
@@ -389,7 +389,7 @@ class CI_Upload {
 	 */	
 	function set_max_filesize($n)
 	{
-		$this->max_size = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_size = (! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
 	}
 	
 	// --------------------------------------------------------------------
@@ -403,7 +403,7 @@ class CI_Upload {
 	 */	
 	function set_max_width($n)
 	{
-		$this->max_width = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_width = (! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
 	}
 	
 	// --------------------------------------------------------------------
@@ -417,7 +417,7 @@ class CI_Upload {
 	 */	
 	function set_max_height($n)
 	{
-		$this->max_height = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_height = (! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
 	}
 	
 	// --------------------------------------------------------------------
@@ -447,7 +447,7 @@ class CI_Upload {
 	 */	
 	function set_image_properties($path = '')
 	{
-		if ( ! $this->is_image())
+		if (! $this->is_image())
 		{
 			return;
 		}
@@ -460,7 +460,7 @@ class CI_Upload {
 
 				$this->image_width		= $D['0'];
 				$this->image_height		= $D['1'];
-				$this->image_type		= ( ! isset($types[$D['2']])) ? 'unknown' : $types[$D['2']];
+				$this->image_type		= (! isset($types[$D['2']])) ? 'unknown' : $types[$D['2']];
 				$this->image_size_str	= $D['3'];  // string containing height and width
 			}
 		}
@@ -587,7 +587,7 @@ class CI_Upload {
 	 */	
 	function is_allowed_dimensions()
 	{
-		if ( ! $this->is_image())
+		if (! $this->is_image())
 		{
 			return TRUE;
 		}
@@ -636,13 +636,13 @@ class CI_Upload {
 			$this->upload_path = str_replace("\\", "/", realpath($this->upload_path));
 		}
 
-		if ( ! @is_dir($this->upload_path))
+		if (! @is_dir($this->upload_path))
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 
-		if ( ! is_really_writable($this->upload_path))
+		if (! is_really_writable($this->upload_path))
 		{
 			$this->set_error('upload_not_writable');
 			return FALSE;
@@ -741,7 +741,7 @@ class CI_Upload {
 			return FALSE;
 		}
 		
-		if ( ! $fp = @fopen($file, 'r+b'))
+		if (! $fp = @fopen($file, 'r+b'))
 		{
 			return FALSE;
 		}
@@ -830,7 +830,7 @@ class CI_Upload {
 			}
 		}
 	
-		return ( ! isset($this->mimes[$mime])) ? FALSE : $this->mimes[$mime];
+		return (! isset($this->mimes[$mime])) ? FALSE : $this->mimes[$mime];
 	}
 
 	/**

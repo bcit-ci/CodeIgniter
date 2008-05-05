@@ -133,7 +133,7 @@ class CI_URI {
 	 */	
 	function _parse_request_uri()
 	{
-		if ( ! isset($_SERVER['REQUEST_URI']) OR $_SERVER['REQUEST_URI'] == '')
+		if (! isset($_SERVER['REQUEST_URI']) OR $_SERVER['REQUEST_URI'] == '')
 		{
 			return '';
 		}
@@ -185,7 +185,7 @@ class CI_URI {
 	{
 		if ($str != '' AND $this->config->item('permitted_uri_chars') != '')
 		{
-			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
+			if (! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
 			{
 				exit('The URI you submitted has disallowed characters.');
 			}
@@ -278,7 +278,7 @@ class CI_URI {
 	 */
 	function segment($n, $no_result = FALSE)
 	{
-		return ( ! isset($this->segments[$n])) ? $no_result : $this->segments[$n];
+		return (! isset($this->segments[$n])) ? $no_result : $this->segments[$n];
 	}
 
 	// --------------------------------------------------------------------
@@ -297,7 +297,7 @@ class CI_URI {
 	 */
 	function rsegment($n, $no_result = FALSE)
 	{
-		return ( ! isset($this->rsegments[$n])) ? $no_result : $this->rsegments[$n];
+		return (! isset($this->rsegments[$n])) ? $no_result : $this->rsegments[$n];
 	}
 
 	// --------------------------------------------------------------------
@@ -360,7 +360,7 @@ class CI_URI {
 			$segment_array = 'rsegment_array';
 		}
 		
-		if ( ! is_numeric($n))
+		if (! is_numeric($n))
 		{
 			return $default;
 		}
@@ -409,7 +409,7 @@ class CI_URI {
 		{
 			foreach ($default as $val)
 			{
-				if ( ! array_key_exists($val, $retval))
+				if (! array_key_exists($val, $retval))
 				{
 					$retval[$val] = FALSE;
 				}

@@ -43,7 +43,7 @@ if (! function_exists('element'))
 {
 	function element($item, $array, $default = FALSE)
 	{
-		if ( ! isset($array[$item]) OR $array[$item] == "")
+		if (! isset($array[$item]) OR $array[$item] == "")
 		{
 			return $default;
 		}
@@ -65,7 +65,7 @@ if (! function_exists('random_element'))
 {
 	function random_element($array)
 	{
-		if ( ! is_array($array))
+		if (! is_array($array))
 		{
 			return $array;
 		}

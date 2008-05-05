@@ -76,9 +76,9 @@ class CI_Input {
 		// This is effectively the same as register_globals = off
 		foreach (array($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, (isset($_SESSION) && is_array($_SESSION)) ? $_SESSION : array()) as $global)
 		{
-			if ( ! is_array($global))
+			if (! is_array($global))
 			{
-				if ( ! in_array($global, $protected))
+				if (! in_array($global, $protected))
 				{
 					unset($GLOBALS[$global]);
 				}
@@ -87,7 +87,7 @@ class CI_Input {
 			{
 				foreach ($global as $key => $val)
 				{
-					if ( ! in_array($key, $protected))
+					if (! in_array($key, $protected))
 					{
 						unset($GLOBALS[$key]);
 					}
@@ -96,7 +96,7 @@ class CI_Input {
 					{
 						foreach($val as $k => $v)
 						{
-							if ( ! in_array($k, $protected))
+							if (! in_array($k, $protected))
 							{
 								unset($GLOBALS[$k]);
 							}
@@ -198,7 +198,7 @@ class CI_Input {
 	 */
 	function _clean_input_keys($str)
 	{	
-		 if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
+		 if (! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
 		 {
 			exit('Disallowed Key Characters.');
 		 }
@@ -218,7 +218,7 @@ class CI_Input {
 	 */
 	function get($index = '', $xss_clean = FALSE)
 	{		
-		if ( ! isset($_GET[$index]))
+		if (! isset($_GET[$index]))
 		{
 			return FALSE;
 		}
@@ -253,7 +253,7 @@ class CI_Input {
 	 */
 	function post($index = '', $xss_clean = FALSE)
 	{		
-		if ( ! isset($_POST[$index]))
+		if (! isset($_POST[$index]))
 		{
 			return FALSE;
 		}
@@ -288,7 +288,7 @@ class CI_Input {
 	 */
 	function cookie($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_COOKIE[$index]))
+		if (! isset($_COOKIE[$index]))
 		{
 			return FALSE;
 		}
@@ -328,7 +328,7 @@ class CI_Input {
 	 */
 	function server($index = '', $xss_clean = FALSE)
 	{		
-		if ( ! isset($_SERVER[$index]))
+		if (! isset($_SERVER[$index]))
 		{
 			return FALSE;
 		}
@@ -385,7 +385,7 @@ class CI_Input {
 			$this->ip_address = end($x);
 		}
 		
-		if ( ! $this->valid_ip($this->ip_address))
+		if (! $this->valid_ip($this->ip_address))
 		{
 			$this->ip_address = '0.0.0.0';
 		}
@@ -447,7 +447,7 @@ class CI_Input {
 			return $this->user_agent;
 		}
 	
-		$this->user_agent = ( ! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
+		$this->user_agent = (! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
 		
 		return $this->user_agent;
 	}

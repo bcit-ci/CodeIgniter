@@ -57,7 +57,7 @@ if (! function_exists('set_realpath'))
 		// Make sure the path exists
 		if ($check_existance == TRUE)
 		{
-			if ( ! is_dir($path))
+			if (! is_dir($path))
 			{
 				show_error('Not a valid path: '.$path);
 			}

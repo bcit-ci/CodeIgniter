@@ -175,7 +175,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 */
 	function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"')
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		if (! is_object($query) OR ! method_exists($query, 'field_names'))
 		{
 			show_error('You must submit a valid result object');
 		}	
@@ -217,7 +217,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 */
 	function xml_from_result($query, $params = array())
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		if (! is_object($query) OR ! method_exists($query, 'field_names'))
 		{
 			show_error('You must submit a valid result object');
 		}
@@ -225,7 +225,7 @@ class CI_DB_utility extends CI_DB_forge {
 		// Set our default values
 		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
 		{
-			if ( ! isset($params[$key]))
+			if (! isset($params[$key]))
 			{
 				$params[$key] = $val;
 			}
@@ -310,7 +310,7 @@ class CI_DB_utility extends CI_DB_forge {
 		// ------------------------------------------------------
 
 		// Validate the format
-		if ( ! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
+		if (! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
 		{
 			$prefs['format'] = 'txt';
 		}
@@ -367,7 +367,7 @@ class CI_DB_utility extends CI_DB_forge {
 			}
 			
 			// Tack on the ".sql" file extension if needed
-			if ( ! preg_match("|.+?\.sql$|", $prefs['filename']))
+			if (! preg_match("|.+?\.sql$|", $prefs['filename']))
 			{
 				$prefs['filename'] .= '.sql';
 			}
