@@ -301,7 +301,7 @@ class CI_Zip  {
 	 */	
 	function archive($filepath)
 	{
-		if (! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_BOF)))
+		if (! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
 		{
 			return FALSE;
 		}
