@@ -18,4 +18,20 @@ define('FILE_WRITE_MODE', 0666);
 define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0777);
 
+/*
+|--------------------------------------------------------------------------
+| File Stream Modes
+|--------------------------------------------------------------------------
+|
+| These modes are used when working with fopen()/popen()
+|
+*/
+define('FOPEN_READ_BOF', 				'rb');
+define('FOPEN_READ_WRITE_BOF',			'r+b');
+define('FOPEN_WRITE_CREATE_BOF', 		'wb');	// truncates existing file data, use with care
+define('FOPEN_READ_WRITE_CREATE_BOF', 	'w+b'); // truncates existing file data, use with care
+define('FOPEN_WRITE_CREATE_EOF', 		'ab');
+define('FOPEN_READ_WRITE_CREATE_EOF', 	'a+b');
+define('FOPEN_WRITE_CREATE_STRICT', 	'xb');
+define('FOPEN_READ_WRITE_CREATE_STRICT','x+b');
 ?>
