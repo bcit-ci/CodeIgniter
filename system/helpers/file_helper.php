@@ -50,7 +50,7 @@ if (! function_exists('read_file'))
 			return file_get_contents($file);		
 		}
 
-		if (! $fp = @fopen($file, 'rb'))
+		if (! $fp = @fopen($file, FOPEN_READ_BOF))
 		{
 			return FALSE;
 		}
@@ -85,7 +85,7 @@ if (! function_exists('read_file'))
  */	
 if (! function_exists('write_file'))
 {
-	function write_file($path, $data, $mode = 'wb')
+	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_BOF)
 	{
 		if (! $fp = @fopen($path, $mode))
 		{
@@ -167,7 +167,7 @@ if (! function_exists('get_filenames'))
 {
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
-		$_filedata = array();
+		static $_filedata = array();
 				
 		if ($fp = @opendir($source_dir))
 		{

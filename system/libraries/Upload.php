@@ -741,7 +741,7 @@ class CI_Upload {
 			return FALSE;
 		}
 		
-		if (! $fp = @fopen($file, 'r+b'))
+		if (! $fp = @fopen($file, FOPEN_READ_WRITE_BOF))
 		{
 			return FALSE;
 		}
