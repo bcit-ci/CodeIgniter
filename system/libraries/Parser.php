@@ -130,7 +130,7 @@ class CI_Parser {
 			$temp = $match['1'];
 			foreach ($row as $key => $val)
 			{
-				if ( ! is_array($val))
+				if (! is_array($val))
 				{
 					$temp = $this->_parse_single($key, $val, $temp);
 				}
@@ -158,7 +158,7 @@ class CI_Parser {
 	 */
 	function _match_pair($string, $variable)
 	{
-		if ( ! preg_match("|".$this->l_delim . $variable . $this->r_delim."(.+)".$this->l_delim . '/' . $variable . $this->r_delim."|s", $string, $match))
+		if (! preg_match("|".$this->l_delim . $variable . $this->r_delim."(.+)".$this->l_delim . '/' . $variable . $this->r_delim."|s", $string, $match))
 		{
 			return FALSE;
 		}

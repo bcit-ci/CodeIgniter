@@ -13,7 +13,7 @@
  * @filesource
  */
 
-if ( ! function_exists('xml_parser_create'))
+if (! function_exists('xml_parser_create'))
 {	
 	show_error('Your PHP installation does not support XML');
 }
@@ -176,7 +176,7 @@ class CI_Xmlrpc {
 
 	function timeout($seconds=5)
 	{
-		if ( ! is_null($this->client) && is_int($seconds))
+		if (! is_null($this->client) && is_int($seconds))
 		{
 			$this->client->timeout = $seconds;
 		}
@@ -199,7 +199,7 @@ class CI_Xmlrpc {
 
 	function request($incoming)
 	{
-		if ( ! is_array($incoming))
+		if (! is_array($incoming))
 		{
 			// Send Error
 		}
@@ -231,7 +231,7 @@ class CI_Xmlrpc {
 	{
 		if (is_array($value) && isset($value['0']))
 		{
-			if ( ! isset($value['1']) OR ! isset($this->xmlrpcTypes[strtolower($value['1'])]))
+			if (! isset($value['1']) OR ! isset($this->xmlrpcTypes[strtolower($value['1'])]))
 			{
 				if (is_array($value[0]))
 				{
@@ -275,12 +275,12 @@ class CI_Xmlrpc {
 		$this->message = new XML_RPC_Message($this->method,$this->data);
 		$this->message->debug = $this->debug;
 	
-		if ( ! $this->result = $this->client->send($this->message))
+		if (! $this->result = $this->client->send($this->message))
 		{
 			$this->error = $this->result->errstr;
 			return FALSE;
 		}
-		elseif( ! is_object($this->result->val))
+		elseif(! is_object($this->result->val))
 		{
 			$this->error = $this->result->errstr;
 			return FALSE;
@@ -765,7 +765,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			$r = new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'],$this->xmlrpcstr['invalid_return'].' '.$this->xh[$parser]['isf_reason']);
 			return $r;
 		}
-		elseif ( ! is_object($this->xh[$parser]['value']))
+		elseif (! is_object($this->xh[$parser]['value']))
 		{
 			$r = new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'],$this->xmlrpcstr['invalid_return'].' '.$this->xh[$parser]['isf_reason']);
 			return $r;
@@ -961,7 +961,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			case 'STRUCT':
 			case 'ARRAY':
 				$cur_val = array_shift($this->xh[$the_parser]['valuestack']);
-				$this->xh[$the_parser]['value'] = ( ! isset($cur_val['values'])) ? array() : $cur_val['values'];
+				$this->xh[$the_parser]['value'] = (! isset($cur_val['values'])) ? array() : $cur_val['values'];
 				$this->xh[$the_parser]['vt']	= strtolower($name);
 			break;
 			case 'NAME':
@@ -1101,7 +1101,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				$this->xh[$the_parser]['lv'] = 2; // Found a value
 			}
 				
-			if( ! @isset($this->xh[$the_parser]['ac']))
+			if(! @isset($this->xh[$the_parser]['ac']))
 			{
 				$this->xh[$the_parser]['ac'] = '';
 			}

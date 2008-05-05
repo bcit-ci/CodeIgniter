@@ -124,7 +124,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 */
 	function _drop_database($name)
 	{
-		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
+		if (! @file_exists($this->db->database) OR ! @unlink($this->db->database))
 		{
 			if ($this->db->db_debug)
 			{

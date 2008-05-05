@@ -226,7 +226,7 @@ if (! function_exists('word_censor'))
 {
 	function word_censor($str, $censored, $replacement = '')
 	{
-		if ( ! is_array($censored))
+		if (! is_array($censored))
 		{
 			return $str;
 		}
@@ -354,7 +354,7 @@ if (! function_exists('word_wrap'))
 	function word_wrap($str, $charlim = '76')
 	{
 		// Se the character limit
-		if ( ! is_numeric($charlim))
+		if (! is_numeric($charlim))
 			$charlim = 76;
 	
 		// Reduce multiple spaces

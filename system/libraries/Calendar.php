@@ -49,7 +49,7 @@ class CI_Calendar {
 	{		
 		$this->CI =& get_instance();
 		
-		if ( ! in_array('calendar_lang'.EXT, $this->CI->lang->is_loaded, TRUE))
+		if (! in_array('calendar_lang'.EXT, $this->CI->lang->is_loaded, TRUE))
 		{
 			$this->CI->lang->load('calendar');
 		}
@@ -125,7 +125,7 @@ class CI_Calendar {
 						
 		// Set the starting day of the week
 		$start_days	= array('sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6);
-		$start_day = ( ! isset($start_days[$this->start_day])) ? 0 : $start_days[$this->start_day];
+		$start_day = (! isset($start_days[$this->start_day])) ? 0 : $start_days[$this->start_day];
 		
 		// Set the starting day number
 		$local_date = mktime(12, 0, 0, $month, 1, $year);

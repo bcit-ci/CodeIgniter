@@ -13,12 +13,12 @@
  * @filesource
  */
 
-if ( ! function_exists('xml_parser_create'))
+if (! function_exists('xml_parser_create'))
 {	
 	show_error('Your PHP installation does not support XML');
 }
 
-if ( ! class_exists('CI_Xmlrpc'))
+if (! class_exists('CI_Xmlrpc'))
 {
 	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
@@ -176,7 +176,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  PARSE + PROCESS XML DATA
 		//-------------------------------------  	
 		
-		if ( ! xml_parse($parser, $data, 1))
+		if (! xml_parse($parser, $data, 1))
 		{
 			// return XML error as a faultCode
 			$r = new XML_RPC_Response(0,
@@ -244,7 +244,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  Valid Method
 		//-------------------------------------
 		
-		if ( ! isset($this->methods[$methName]['function']))
+		if (! isset($this->methods[$methName]['function']))
 		{
 			return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 		}

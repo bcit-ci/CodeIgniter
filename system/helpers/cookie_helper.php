@@ -73,7 +73,7 @@ if (! function_exists('set_cookie'))
 			$path = $CI->config->item('cookie_path');
 		}
 		
-		if ( ! is_numeric($expire))
+		if (! is_numeric($expire))
 		{
 			$expire = time() - 86500;
 		}

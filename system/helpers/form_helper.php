@@ -48,7 +48,7 @@ if (! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"';
 	
-		if ( ! isset($attributes['method']))
+		if (! isset($attributes['method']))
 		{
 			$form .= ' method="post"';
 		}
@@ -111,7 +111,7 @@ if (! function_exists('form_hidden'))
 {
 	function form_hidden($name, $value = '')
 	{
-		if ( ! is_array($name))
+		if (! is_array($name))
 		{
 			return '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
 		}
@@ -141,7 +141,7 @@ if (! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value, 'maxlength' => '500', 'size' => '50');
+		$defaults = array('type' => 'text', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value, 'maxlength' => '500', 'size' => '50');
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -164,7 +164,7 @@ if (! function_exists('form_password'))
 {
 	function form_password($data = '', $value = '', $extra = '')
 	{
-		if ( ! is_array($data))
+		if (! is_array($data))
 		{
 			$data = array('name' => $data);
 		}
@@ -191,7 +191,7 @@ if (! function_exists('form_upload'))
 {
 	function form_upload($data = '', $value = '', $extra = '')
 	{
-		if ( ! is_array($data))
+		if (! is_array($data))
 		{
 			$data = array('name' => $data);
 		}
@@ -216,9 +216,9 @@ if (! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
+		$defaults = array('name' => ((! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
 	
-	    if ( ! is_array($data) OR ! isset($data['value']))
+	    if (! is_array($data) OR ! isset($data['value']))
 		{
 			$val = $value;
 		}
@@ -248,7 +248,7 @@ if (! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if ( ! is_array($selected))
+		if (! is_array($selected))
 		{
 			$selected = array($selected);
 		}
@@ -291,7 +291,7 @@ if (! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
 	{
-		$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'checkbox', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
 	
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
@@ -332,7 +332,7 @@ if (! function_exists('form_radio'))
 {
 	function form_radio($data = '', $value = '', $checked = TRUE, $extra = '')
 	{
-		if ( ! is_array($data))
+		if (! is_array($data))
 		{	
 			$data = array('name' => $data);
 		}
@@ -357,7 +357,7 @@ if (! function_exists('form_submit'))
 {	
 	function form_submit($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'submit', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -378,7 +378,7 @@ if (! function_exists('form_reset'))
 {
 	function form_reset($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'reset', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -399,7 +399,7 @@ if (! function_exists('form_button'))
 {
 	function form_button($data = '', $content = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'submit');
+		$defaults = array('name' => ((! is_array($data)) ? $data : ''), 'type' => 'submit');
 		
 		if ( is_array($data) AND isset($data['content']))
 		{

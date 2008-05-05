@@ -107,7 +107,7 @@ class CI_DB_driver {
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 		// No connection?  Throw an error
-		if ( ! $this->conn_id)
+		if (! $this->conn_id)
 		{
 			log_message('error', 'Unable to connect to the database');
 			
@@ -121,7 +121,7 @@ class CI_DB_driver {
 		// Select the database
 		if ($this->database != '')
 		{
-			if ( ! $this->db_select())
+			if (! $this->db_select())
 			{
 				// Should we attempt to create the database?
 				if ($create_db == TRUE)
@@ -131,7 +131,7 @@ class CI_DB_driver {
 					$CI->load->dbutil();
 					
 					// Create the DB
-					if ( ! $CI->dbutil->create_database($this->database))
+					if (! $CI->dbutil->create_database($this->database))
 					{
 						log_message('error', 'Unable to create database: '.$this->database);
 					
@@ -401,7 +401,7 @@ class CI_DB_driver {
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-		if ( ! class_exists($driver))
+		if (! class_exists($driver))
 		{
 			include_once(BASEPATH.'database/DB_result'.EXT);
 			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
@@ -424,7 +424,7 @@ class CI_DB_driver {
 	 */	
 	function simple_query($sql)
 	{
-		if ( ! $this->conn_id)
+		if (! $this->conn_id)
 		{
 			$this->initialize();
 		}
@@ -456,7 +456,7 @@ class CI_DB_driver {
 	 */	
 	function trans_start($test_mode = FALSE)
 	{	
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return FALSE;
 		}
@@ -481,7 +481,7 @@ class CI_DB_driver {
 	 */	
 	function trans_complete()
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return FALSE;
 		}
@@ -539,7 +539,7 @@ class CI_DB_driver {
 			return $sql;
 		}
 		
-		if ( ! is_array($binds))
+		if (! is_array($binds))
 		{
 			$binds = array($binds);
 		}
@@ -576,7 +576,7 @@ class CI_DB_driver {
 	 */	
 	function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
+		if (! preg_match('/^\s*"?(INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
 		{
 			return FALSE;
 		}
@@ -683,7 +683,7 @@ class CI_DB_driver {
 	{	
 		$fields = $this->list_fields($table);
 		
-		if ( ! is_array($fields))
+		if (! is_array($fields))
 		{
 			return FALSE;
 		}
@@ -747,7 +747,7 @@ class CI_DB_driver {
 	 */
 	function table_exists($table_name)
 	{
-		return ( ! in_array($this->prep_tablename($table_name), $this->list_tables())) ? FALSE : TRUE;
+		return (! in_array($this->prep_tablename($table_name), $this->list_tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -815,7 +815,7 @@ class CI_DB_driver {
 	 */
 	function field_exists($field_name, $table_name)
 	{	
-		return ( ! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
+		return (! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -899,7 +899,7 @@ class CI_DB_driver {
 			$fields[$key] = $this->escape($val);
 		}
 
-		if ( ! is_array($where))
+		if (! is_array($where))
 		{
 			$dest = array($where);
 		}
@@ -912,7 +912,7 @@ class CI_DB_driver {
 	
 				if ($val !== '')
 				{
-					if ( ! $this->_has_operator($key))
+					if (! $this->_has_operator($key))
 					{
 						$key .= ' =';
 					}
@@ -969,7 +969,7 @@ class CI_DB_driver {
 			$function = $driver.$function;
 		}
 		
-		if ( ! function_exists($function))
+		if (! function_exists($function))
 		{
 			if ($this->db_debug)
 			{
@@ -1038,7 +1038,7 @@ class CI_DB_driver {
 	 */		
 	function cache_delete($segment_one = '', $segment_two = '')
 	{
-		if ( ! $this->_cache_init())
+		if (! $this->_cache_init())
 		{
 			return FALSE;
 		}
@@ -1055,7 +1055,7 @@ class CI_DB_driver {
 	 */		
 	function cache_delete_all()
 	{
-		if ( ! $this->_cache_init())
+		if (! $this->_cache_init())
 		{
 			return FALSE;
 		}
@@ -1078,7 +1078,7 @@ class CI_DB_driver {
 			return TRUE;
 		}
 	
-		if ( ! @include(BASEPATH.'database/DB_cache'.EXT))
+		if (! @include(BASEPATH.'database/DB_cache'.EXT))
 		{
 			return $this->cache_off();
 		}
@@ -1129,10 +1129,10 @@ class CI_DB_driver {
 		}
 		else
 		{
-			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+			$message = (! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
 		}
 
-		if ( ! class_exists('CI_Exceptions'))
+		if (! class_exists('CI_Exceptions'))
 		{
 //			include(BASEPATH.'core/Exceptions'.EXT);
 			include(BASEPATH.'libraries/Exceptions'.EXT);

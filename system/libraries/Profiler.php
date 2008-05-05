@@ -106,7 +106,7 @@ class CI_Profiler {
 		$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
 		
-		if ( ! class_exists('CI_DB_driver'))
+		if (! class_exists('CI_DB_driver'))
 		{
 			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 			$output .= "\n";		
@@ -175,7 +175,7 @@ class CI_Profiler {
 		
 			foreach ($_GET as $key => $val)
 			{
-				if ( ! is_numeric($key))
+				if (! is_numeric($key))
 				{
 					$key = "'".$key."'";
 				}
@@ -225,7 +225,7 @@ class CI_Profiler {
 		
 			foreach ($_POST as $key => $val)
 			{
-				if ( ! is_numeric($key))
+				if (! is_numeric($key))
 				{
 					$key = "'".$key."'";
 				}

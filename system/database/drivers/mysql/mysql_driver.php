@@ -161,7 +161,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */	
 	function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -192,7 +192,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */	
 	function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -218,7 +218,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */	
 	function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
+		if (! $this->trans_enabled)
 		{
 			return TRUE;
 		}

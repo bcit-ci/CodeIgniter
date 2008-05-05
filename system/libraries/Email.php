@@ -371,7 +371,7 @@ class CI_Email {
 	 */	
 	function _str_to_array($email)
 	{
-		if ( ! is_array($email))
+		if (! is_array($email))
 		{
 			if (strpos($email, ',') !== FALSE)
 			{
@@ -439,7 +439,7 @@ class CI_Email {
 	 */	
 	function set_protocol($protocol = 'mail')
 	{
-		$this->protocol = ( ! in_array($protocol, $this->_protocols, TRUE)) ? 'mail' : strtolower($protocol);
+		$this->protocol = (! in_array($protocol, $this->_protocols, TRUE)) ? 'mail' : strtolower($protocol);
 	}
   	
 	// --------------------------------------------------------------------
@@ -453,7 +453,7 @@ class CI_Email {
 	 */	
 	function set_priority($n = 3)
 	{
-		if ( ! is_numeric($n))
+		if (! is_numeric($n))
 		{
 			$this->priority = 3;
 			return;
@@ -551,7 +551,7 @@ class CI_Email {
 	function _get_protocol($return = TRUE)
 	{
 		$this->protocol = strtolower($this->protocol);
-		$this->protocol = ( ! in_array($this->protocol, $this->_protocols, TRUE)) ? 'mail' : $this->protocol;
+		$this->protocol = (! in_array($this->protocol, $this->_protocols, TRUE)) ? 'mail' : $this->protocol;
 		
 		if ($return == TRUE)
 			return $this->protocol;
@@ -568,7 +568,7 @@ class CI_Email {
 	 */	
 	function _get_encoding($return = TRUE)
 	{		
-		$this->_encoding = ( ! in_array($this->_encoding, $this->_bit_depths)) ? '8bit' : $this->_encoding;
+		$this->_encoding = (! in_array($this->_encoding, $this->_bit_depths)) ? '8bit' : $this->_encoding;
 		
 		foreach ($this->_base_charsets as $charset)
 		{
@@ -648,7 +648,7 @@ class CI_Email {
 	 */	
 	function validate_email($email)
 	{	
-		if ( ! is_array($email))
+		if (! is_array($email))
 		{
 			$this->_set_error_message('email_must_be_array');		
 			return FALSE;
@@ -656,7 +656,7 @@ class CI_Email {
 
 		foreach ($email as $val)
 		{
-			if ( ! $this->valid_email($val))
+			if (! $this->valid_email($val))
 			{
 				$this->_set_error_message('email_invalid_address', $val);				
 				return FALSE;
@@ -675,7 +675,7 @@ class CI_Email {
 	 */	
 	function valid_email($address)
 	{
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address)) ? FALSE : TRUE;
+		return (! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $address)) ? FALSE : TRUE;
 	}
   	
 	// --------------------------------------------------------------------
@@ -689,7 +689,7 @@ class CI_Email {
 	 */	
 	function clean_email($email)
 	{
-		if ( ! is_array($email))
+		if (! is_array($email))
 		{
 			if (preg_match('/\<(.*)\>/', $email, $match))
 		   		return $match['1'];
@@ -1055,7 +1055,7 @@ class CI_Email {
 			$basename = basename($filename);
 			$ctype = $this->_attach_type[$i];
 						
-			if ( ! file_exists($filename))
+			if (! file_exists($filename))
 			{
 				$this->_set_error_message('email_attachment_missing', $filename);
 				return FALSE;
@@ -1070,7 +1070,7 @@ class CI_Email {
 			$attachment[$z++] = $h;
 			$file = filesize($filename) +1;
 			
-			if ( ! $fp = fopen($filename, 'r'))
+			if (! $fp = fopen($filename, 'r'))
 			{
 				$this->_set_error_message('email_attachment_unreadable', $filename);
 				return FALSE;
@@ -1194,9 +1194,9 @@ class CI_Email {
 			$this->reply_to($this->_headers['From']);
 		}
 	
-		if (( ! isset($this->_recipients) AND ! isset($this->_headers['To']))  AND
-			( ! isset($this->_bcc_array) AND ! isset($this->_headers['Bcc'])) AND
-			( ! isset($this->_headers['Cc'])))
+		if ((! isset($this->_recipients) AND ! isset($this->_headers['To']))  AND
+			(! isset($this->_bcc_array) AND ! isset($this->_headers['Bcc'])) AND
+			(! isset($this->_headers['Cc'])))
 		{
 			$this->_set_error_message('email_no_recipients');					
 			return FALSE;
@@ -1212,7 +1212,7 @@ class CI_Email {
 		
 		$this->_build_message();
 						
-		if ( ! $this->_spool_email())
+		if (! $this->_spool_email())
 			return FALSE;
 		else
 			return TRUE;
@@ -1311,7 +1311,7 @@ class CI_Email {
 		{
 			case 'mail'	:
 			
-					if ( ! $this->_send_with_mail())
+					if (! $this->_send_with_mail())
 					{
 						$this->_set_error_message('email_send_failure_phpmail');							
 						return FALSE;
@@ -1319,7 +1319,7 @@ class CI_Email {
 			break;
 			case 'sendmail'	:
 								
-					if ( ! $this->_send_with_sendmail())
+					if (! $this->_send_with_sendmail())
 					{
 						$this->_set_error_message('email_send_failure_sendmail');							
 						return FALSE;
@@ -1327,7 +1327,7 @@ class CI_Email {
 			break;
 			case 'smtp'	:
 								
-					if ( ! $this->_send_with_smtp())
+					if (! $this->_send_with_smtp())
 					{
 						$this->_set_error_message('email_send_failure_smtp');							
 						return FALSE;
@@ -1352,7 +1352,7 @@ class CI_Email {
 	{	
 		if ($this->_safe_mode == TRUE)
 		{
-			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
+			if (! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
 				return FALSE;
 			else
 				return TRUE;		
@@ -1361,7 +1361,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
+			if (! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
 				return FALSE;
 			else
 				return TRUE;
@@ -1380,7 +1380,7 @@ class CI_Email {
 	{
 		$fp = @popen($this->mailpath . " -oi -f ".$this->clean_email($this->_headers['From'])." -t", 'w');
 		
-		if ( ! is_resource($fp))
+		if (! is_resource($fp))
 		{								
 			$this->_set_error_message('email_no_socket');				
 			return FALSE;
@@ -1472,7 +1472,7 @@ class CI_Email {
 										$errstr,
 										$this->smtp_timeout);
 
-		if( ! is_resource($this->_smtp_connect))
+		if(! is_resource($this->_smtp_connect))
 		{								
 			$this->_set_error_message('email_smtp_error', $errno." ".$errstr);				
 			return FALSE;
@@ -1557,7 +1557,7 @@ class CI_Email {
 	 */	
 	function _smtp_authenticate()
 	{	
-		if ( ! $this->_smtp_auth)
+		if (! $this->_smtp_auth)
 			return TRUE;
 			
 		if ($this->smtp_user == ""  AND  $this->smtp_pass == "")
@@ -1609,7 +1609,7 @@ class CI_Email {
 	 */	
 	function _send_data($data)
 	{
-		if ( ! fwrite($this->_smtp_connect, $data . $this->newline))
+		if (! fwrite($this->_smtp_connect, $data . $this->newline))
 		{
 			$this->_set_error_message('email_smtp_data_failure', $data);			
 			return FALSE;
@@ -1684,7 +1684,7 @@ class CI_Email {
 			$this->_IP = end($x);
 		}
 		
-		if ( ! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $this->_IP))
+		if (! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $this->_IP))
 			$this->_IP = '0.0.0.0';
 		
 		unset($cip);
@@ -1842,7 +1842,7 @@ class CI_Email {
 						'eml'	=>	'message/rfc822'
 					);
 
-		return ( ! isset($mimes[strtolower($ext)])) ? "application/x-unknown-content-type" : $mimes[strtolower($ext)];
+		return (! isset($mimes[strtolower($ext)])) ? "application/x-unknown-content-type" : $mimes[strtolower($ext)];
 	}
 
 }

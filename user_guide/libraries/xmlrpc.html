@@ -120,7 +120,7 @@ $this->xmlrpc->method('weblogUpdates.ping');<br />
 $request = array('My Photoblog', 'http://www.my-site.com/photoblog/');<br />
 $this->xmlrpc->request($request);<br />
 <br />
-if ( ! $this->xmlrpc->send_request())<br />
+if (! $this->xmlrpc->send_request())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $this-&gt;xmlrpc->display_error();<br />
 }</code>
@@ -333,7 +333,7 @@ class Xmlrpc_client extends Controller {
 		$request = array('How is it going?');
 		$this->xmlrpc->request($request);	
 		
-		if ( ! $this->xmlrpc->send_request())
+		if (! $this->xmlrpc->send_request())
 		{
 			echo $this->xmlrpc->display_error();
 		}

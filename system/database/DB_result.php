@@ -125,10 +125,10 @@ class CI_DB_result {
 	 */	
 	function row($n = 0, $type = 'object')
 	{
-		if ( ! is_numeric($n))
+		if (! is_numeric($n))
 		{
 			// We cache the row data for subsequent uses
-			if ( ! is_array($this->row_data))
+			if (! is_array($this->row_data))
 			{
 				$this->row_data = $this->row_array(0);
 			}
@@ -156,7 +156,7 @@ class CI_DB_result {
 	function set_row($key, $value = NULL)
 	{
 		// We cache the row data for subsequent uses
-		if ( ! is_array($this->row_data))
+		if (! is_array($this->row_data))
 		{
 			$this->row_data = $this->row_array(0);
 		}

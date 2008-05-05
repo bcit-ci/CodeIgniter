@@ -49,7 +49,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 */
 	function _drop_database($name)
 	{
-		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
+		if (! @file_exists($this->db->database) OR ! @unlink($this->db->database))
 		{
 			if ($this->db->db_debug)
 			{

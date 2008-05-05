@@ -40,7 +40,7 @@ if (! function_exists('read_file'))
 {
 	function read_file($file)
 	{
-		if ( ! file_exists($file))
+		if (! file_exists($file))
 		{
 			return FALSE;
 		}
@@ -50,7 +50,7 @@ if (! function_exists('read_file'))
 			return file_get_contents($file);		
 		}
 
-		if ( ! $fp = @fopen($file, 'rb'))
+		if (! $fp = @fopen($file, 'rb'))
 		{
 			return FALSE;
 		}
@@ -87,7 +87,7 @@ if (! function_exists('write_file'))
 {
 	function write_file($path, $data, $mode = 'wb')
 	{
-		if ( ! $fp = @fopen($path, $mode))
+		if (! $fp = @fopen($path, $mode))
 		{
 			return FALSE;
 		}
@@ -123,7 +123,7 @@ if (! function_exists('delete_files'))
 		// Trim the trailing slash
 		$path = preg_replace("|^(.+?)/*$|", "\\1", $path);
 		
-		if ( ! $current_dir = @opendir($path))
+		if (! $current_dir = @opendir($path))
 			return;
 	
 		while(FALSE !== ($filename = @readdir($current_dir)))
@@ -167,7 +167,7 @@ if (! function_exists('get_filenames'))
 {
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
-		static $_filedata = array();
+		$_filedata = array();
 				
 		if ($fp = @opendir($source_dir))
 		{
@@ -180,11 +180,11 @@ if (! function_exists('get_filenames'))
 			
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.')
+				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
 				{
 					 get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
-				elseif (substr($file, 0, 1) != ".")
+				elseif (strncmp($file, '.', 1) !== 0)
 				{
 			
 					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
@@ -200,5 +200,172 @@ if (! function_exists('get_filenames'))
 }
 
 // --------------------------------------------------------------------
+
+/**
+ * Get Directory File Information
+ *
+ * Reads the specified directory and builds an array containing the filenames,  
+ * filesize, dates, and permissions
+ *
+ * Any sub-folders contained within the specified path are read as well.
+ *
+ * @access	public
+ * @param	string	path to source
+ * @param	bool	whether to include the path as part of the filename
+ * @param	bool	internal variable to determine recursion status - do not use in calls
+ * @return	array
+ */	
+if (! function_exists('get_dir_file_info'))
+{
+	function get_dir_file_info($source_dir, $include_path = FALSE, $_recursion = FALSE)
+	{
+		$_filedata = array();
+		$relative_path = $source_dir;
+				
+		if ($fp = @opendir($source_dir))
+		{
+			// reset the array and make sure $source_dir has a trailing slash on the initial call
+			if ($_recursion === FALSE)
+			{
+				$_filedata = array();
+				$source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+			}
+
+			while (FALSE !== ($file = readdir($fp)))
+			{
+				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
+				{
+					 get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
+				}
+				elseif (strncmp($file, '.', 1) !== 0)
+				{
+					$_filedata[$file] = get_file_info($source_dir.$file);
+					$_filedata[$file]['relative_path'] = $relative_path;
+				}
+			}
+			return $_filedata;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+}
+
+// --------------------------------------------------------------------
+
+/**
+* Get File Info
+*
+* Given a file and path, returns the name, path, size, date modified
+* Second parameter allows you to explicitly declare what information you want returned
+* Options are: name, server_path, size, date, readable, writable, executable, fileperms
+* Returns FALSE if the file cannot be found.
+*
+* @access    public
+* @param    string    path to file
+* @param    mixed    array or comma separated string of information returned
+* @return    array
+*/    
+if (! function_exists('get_file_info'))
+{
+    function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
+    {
+
+        if (! file_exists($file))
+        {
+            return FALSE;
+        }
+
+        if (is_string($returned_values))
+        {
+            $returned_values = explode(',', $returned_values);
+        }
+
+        foreach ($returned_values as $key)
+        {
+            switch ($key)
+            {
+                case 'name':
+                    $fileinfo['name'] = substr(strrchr($file, '/'), 1);
+                    break;
+                case 'server_path':
+                    $fileinfo['server_path'] = $file;
+                    break;
+                case 'size':
+                    $fileinfo['size'] = filesize($file);
+                    break;
+                case 'date':
+                    $fileinfo['date'] = filectime($file);
+                    break;
+                case 'readable':
+                    $fileinfo['readable'] = is_readable($file);
+                    break;
+                case 'writable':
+                    // There are known problems using is_weritable on IIS.  It may not be reliable - consider fileperms()
+                    $fileinfo['writable'] = is_writable($file);
+                    break;
+                case 'executable':
+                    $fileinfo['executable'] = is_executable($file);
+                    break;
+                case 'fileperms':
+                    $fileinfo['fileperms'] = fileperms($file);
+                    break;
+            }
+        }
+
+        return $fileinfo;
+    }
+}
+
+// --------------------------------------------------------------------
+
+/**
+ * Get Mime by Extension
+ *
+ * Translates a file extension into a mime type based on config/mimes.php. 
+ * Returns FALSE if it can't determine the type, or open the mime config file
+ *
+ * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
+ * It should NOT be trusted, and should certainly NOT be used for security
+ *
+ * @access	public
+ * @param	string	path to file
+ * @return	mixed
+ */	
+if (! function_exists('get_mime_by_extension'))
+{
+	function get_mime_by_extension($file)
+	{
+		$extension = substr(strrchr($file, '.'), 1);
+	
+		global $mimes;
+	
+		if (! is_array($mimes))
+		{
+			if (! require_once(APPPATH.'config/mimes.php'))
+			{
+				return FALSE;
+			}
+		}
+
+		if (array_key_exists($extension, $mimes))
+		{
+			if (is_array($mimes[$extension]))
+			{
+				// Multiple mime types, just give the first one
+				return current($mimes[$extension]);
+			}
+			else
+			{
+				return $mimes[$extension];
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+}
 
 ?>

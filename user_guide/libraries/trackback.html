@@ -86,7 +86,7 @@ $tb_data = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'charset'&nbsp;&nbsp;&nbsp;=> 'utf-8'<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
-if ( ! $this->trackback->send($tb_data))<br />
+if (! $this->trackback->send($tb_data))<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $this->trackback->display_errors();<br />
 }<br />
@@ -173,7 +173,7 @@ if ($this->uri->segment(3) == FALSE)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->trackback->send_error("Unable to determine the entry ID");<br />
 }<br />
 <br />
-if ( ! $this->trackback->receive())<br />
+if (! $this->trackback->receive())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->trackback->send_error("The Trackback did not contain valid data");<br />
 }<br />

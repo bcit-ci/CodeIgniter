@@ -61,7 +61,7 @@ if (! function_exists('force_download'))
 		@include(APPPATH.'config/mimes'.EXT);
 	
 		// Set a default mime if we can't find it
-		if ( ! isset($mimes[$extension]))
+		if (! isset($mimes[$extension]))
 		{
 			$mime = 'application/octet-stream';
 		}

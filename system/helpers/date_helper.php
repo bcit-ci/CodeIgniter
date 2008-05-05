@@ -123,7 +123,7 @@ if (! function_exists('standard_date'))
 						'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%Q'
 						);
 
-		if ( ! isset($formats[$fmt]))
+		if (! isset($formats[$fmt]))
 		{
 			return FALSE;
 		}
@@ -152,12 +152,12 @@ if (! function_exists('timespan'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		if ( ! is_numeric($seconds))
+		if (! is_numeric($seconds))
 		{
 			$seconds = 1;
 		}
 	
-		if ( ! is_numeric($time))
+		if (! is_numeric($time))
 		{
 			$time = time();
 		}
@@ -271,7 +271,7 @@ if (! function_exists('days_in_month'))
 			return 0;
 		}
 	
-		if ( ! is_numeric($year) OR strlen($year) != 4)
+		if (! is_numeric($year) OR strlen($year) != 4)
 		{
 			$year = date('Y');
 		}
@@ -442,7 +442,7 @@ if (! function_exists('human_to_unix'))
 		$datestr = trim($datestr);
 		$datestr = preg_replace("/\040+/", "\040", $datestr);
 
-		if ( ! ereg("^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}\040[0-9]{1,2}:[0-9]{1,2}.*$", $datestr))
+		if (! ereg("^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}\040[0-9]{1,2}:[0-9]{1,2}.*$", $datestr))
 		{
 			return FALSE;
 		}
@@ -592,7 +592,7 @@ if (! function_exists('timezones'))
 		if ($tz == 'GMT')
 			$tz = 'UTC';
 	
-		return ( ! isset($zones[$tz])) ? 0 : $zones[$tz];
+		return (! isset($zones[$tz])) ? 0 : $zones[$tz];
 	}
 }
 

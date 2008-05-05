@@ -132,7 +132,7 @@ error message using this function:</p>
 
 <p>A good practice is use the processing function conditionally, showing an error upon failure, like this:</p>
 
-<code>if ( ! $this->image_lib->resize())<br />
+<code>if (! $this->image_lib->resize())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $this->image_lib->display_errors();<br />
 }</code>
@@ -370,7 +370,7 @@ $config['y_axis'] = '60';<br />
 $this->image_lib->initialize($config);
 <br />
 <br />
-if ( ! $this->image_lib->crop())<br />
+if (! $this->image_lib->crop())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $this->image_lib->display_errors();<br />
 }</code>
@@ -407,7 +407,7 @@ $config['rotation_angle'] = 'hor';<br />
 $this->image_lib->initialize($config);
 <br />
 <br />
-if ( ! $this->image_lib->rotate())<br />
+if (! $this->image_lib->rotate())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $this->image_lib->display_errors();<br />
 }</code>

@@ -260,8 +260,8 @@ class CI_Unit_test {
 		{
 			$back = debug_backtrace();
 			
-			$file = ( ! isset($back['1']['file'])) ? '' : $back['1']['file'];
-			$line = ( ! isset($back['1']['line'])) ? '' : $back['1']['line'];
+			$file = (! isset($back['1']['file'])) ? '' : $back['1']['file'];
+			$line = (! isset($back['1']['line'])) ? '' : $back['1']['line'];
 						
 			return array('file' => $file, 'line' => $line);
 		}
@@ -300,7 +300,7 @@ class CI_Unit_test {
 	 */
  	function _parse_template()
  	{
- 		if ( ! is_null($this->_template_rows))
+ 		if (! is_null($this->_template_rows))
  		{
  			return;
  		}
@@ -311,7 +311,7 @@ class CI_Unit_test {
  			return;
  		}
  		
-		if ( ! preg_match("/\{rows\}(.*?)\{\/rows\}/si", $this->_template, $match))
+		if (! preg_match("/\{rows\}(.*?)\{\/rows\}/si", $this->_template, $match))
 		{
  			$this->_default_template();
  			return;
