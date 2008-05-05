@@ -50,7 +50,7 @@ if (! function_exists('read_file'))
 			return file_get_contents($file);		
 		}
 
-		if (! $fp = @fopen($file, FOPEN_READ_BOF))
+		if (! $fp = @fopen($file, FOPEN_READ))
 		{
 			return FALSE;
 		}
@@ -85,7 +85,7 @@ if (! function_exists('read_file'))
  */	
 if (! function_exists('write_file'))
 {
-	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_BOF)
+	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
 	{
 		if (! $fp = @fopen($path, $mode))
 		{

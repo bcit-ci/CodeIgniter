@@ -46,7 +46,7 @@ function is_really_writable($file)
 	{
 		$file = rtrim($file, '/').'/'.md5(rand(1,100));
 		
-		if (($fp = @fopen($file, FOPEN_WRITE_CREATE_EOF)) === FALSE)
+		if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 		{
 			return FALSE;
 		}
@@ -56,7 +56,7 @@ function is_really_writable($file)
 		@unlink($file);
 		return TRUE;
 	}
-	elseif (($fp = @fopen($file, FOPEN_WRITE_CREATE_EOF)) === FALSE)
+	elseif (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 	{
 		return FALSE;
 	}
