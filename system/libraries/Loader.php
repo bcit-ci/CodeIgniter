@@ -272,6 +272,8 @@ class CI_Loader {
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
 
 		$CI->dbforge = new $class();
+		
+		$CI->load->_ci_assign_to_models();
 	}
 	
 	// --------------------------------------------------------------------
