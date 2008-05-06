@@ -132,12 +132,13 @@ class CI_DB_forge {
 		{
 			if ($field == 'id')
 			{
-				$this->fields[] = array('id' => array(
-										'type' => 'INT',
-										'constraint' => 9,
-										'auto_increment' => TRUE
-										)
-									);									
+				$this->add_field(array(
+										'id' => array(
+													'type' => 'INT',
+													'constraint' => 9,
+													'auto_increment' => TRUE
+													)
+								));
 				$this->add_key('id', TRUE);
 			}
 			else
