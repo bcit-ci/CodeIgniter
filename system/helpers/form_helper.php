@@ -289,7 +289,7 @@ if (! function_exists('form_dropdown'))
  */	
 if (! function_exists('form_checkbox'))
 {
-	function form_checkbox($data = '', $value = '', $checked = TRUE, $extra = '')
+	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
 		$defaults = array('type' => 'checkbox', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
 	
@@ -330,7 +330,7 @@ if (! function_exists('form_checkbox'))
  */	
 if (! function_exists('form_radio'))
 {
-	function form_radio($data = '', $value = '', $checked = TRUE, $extra = '')
+	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
 		if (! is_array($data))
 		{	
