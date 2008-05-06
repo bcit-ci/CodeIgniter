@@ -45,22 +45,31 @@ if (! function_exists('directory_map'))
 	{	
 		if ($fp = @opendir($source_dir))
 		{
+			$source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;		
 			$filedata = array();
+			
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && substr($file, 0, 1) != '.' AND $top_level_only == FALSE)
+				if (substr($file, 0, 1) == '.')
+				{
+					continue;
+				}
+				
+				if ($top_level_only == FALSE && @is_dir($source_dir.$file))
 				{
 					$temp_array = array();
 				
-					$temp_array = directory_map($source_dir.$file."/");
+					$temp_array = directory_map($source_dir.$file.DIRECTORY_SEPARATOR);
 				
 					$filedata[$file] = $temp_array;
 				}
-				elseif (substr($file, 0, 1) != ".")
+				else
 				{
 					$filedata[] = $file;
 				}
 			}
+			
+			closedir($fp);
 			return $filedata;
 		}
 	}
