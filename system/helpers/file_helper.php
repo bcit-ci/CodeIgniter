@@ -22,7 +22,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/file_helpers.html
+ * @link		http://codeigniter.com/user_guide/helpers/file_helper.html
  */
 
 // ------------------------------------------------------------------------
