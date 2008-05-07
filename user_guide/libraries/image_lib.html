@@ -104,7 +104,7 @@ $this->load->library('image_lib', $config);
 $this->image_lib->resize();</code>
 
 <p>The above code tells the <dfn>image_resize</dfn> function to look for an image called <em>mypic.jpg</em>
-located in the <dfn>source_image</dfn> folder, then create a thumbnail that is 75 X 50 pixels using the GD2 <dfn>image_library</dfn>.
+located in the <dfn>source_image</dfn> folder, then create a thumbnail that is 75 X 50 pixels using the GD <dfn>image_library</dfn>.
 Since the <dfn>maintain_ratio</dfn> option is enabled, the thumb will be as close to the target <dfn>width</dfn> and
 <dfn>height</dfn> as possible while preserving the original aspect ratio.  The thumbnail will be called <em>mypic_thumb.jpg</em>
 </p>
@@ -145,7 +145,7 @@ tags in the function, like this:</p>
 
 <h2>Preferences</h2>
 
-<p>The 14 available preferences described below allow you to tailor the image processing to suit your needs.</p>
+<p>The  preferences described below allow you to tailor the image processing to suit your needs.</p>
 
 <p>Note that not all preferences are available for every
 function.  For example, the x/y axis preferences are only available for image cropping. Likewise, the width and height
@@ -464,7 +464,7 @@ $this->image_lib->watermark();</code>
 <p>The above example will use a 16 pixel True Type font to create the text "Copyright 2006 - John Doe".  The watermark
 will be positioned at the bottom/center of the image, 20 pixels from the bottom of the image.</p>
 
-<p class="important"><strong>Note:</strong> In order for the image class to be allowed to do any processing, the image file must have file permissions of 777.</p>
+<p class="important"><strong>Note:</strong> In order for the image class to be allowed to do any processing, the image file must have &quot;write&quot; file permissions. For example, 777.</p>
 
 
 <h2>Watermarking Preferences</h2>
