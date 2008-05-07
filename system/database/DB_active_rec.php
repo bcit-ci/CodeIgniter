@@ -483,7 +483,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-
 	 * @return	object
 	 */
 	function where_in($key = NULL, $values = NULL)
@@ -502,7 +501,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-
 	 * @return	object
 	 */
 	function or_where_in($key = NULL, $values = NULL)
@@ -521,7 +519,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-
 	 * @return	object
 	 */
 	function where_not_in($key = NULL, $values = NULL)
@@ -540,12 +537,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-
 	 * @return	object
 	 */
 	function or_where_not_in($key = NULL, $values = NULL)
 	{	 	
-		return $this->_where_in($key, $values, FALSE, 'OR ');
+		return $this->_where_in($key, $values, TRUE, 'OR ');
 	}
 
 	// --------------------------------------------------------------------
