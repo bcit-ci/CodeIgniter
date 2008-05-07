@@ -92,7 +92,8 @@ class CI_URI {
 			$path = (isset($_SERVER['ORIG_PATH_INFO'])) ? $_SERVER['ORIG_PATH_INFO'] : @getenv('ORIG_PATH_INFO');	
 			if (trim($path, '/') != '' AND $path != "/".SELF)
 			{
-				$this->uri_string = $path;
+				// remove path and script information so we have good URI data
+				$this->uri_string = str_replace($_SERVER['SCRIPT_NAME'], '', $path);
 				return;
 			}
 
