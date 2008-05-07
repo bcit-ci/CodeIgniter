@@ -117,7 +117,7 @@ class CI_Validation {
 			if ($rules == '')
 				return;
 				
-			$data[$data] = $rules;
+			$data = array($data => $rules);
 		}
 	
 		foreach ($data as $key => $val)
