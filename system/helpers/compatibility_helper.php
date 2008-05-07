@@ -129,7 +129,7 @@ if (! function_exists('file_put_contents'))
 	
 		if (($flags & LOCK_EX) > 0)
 		{
-			if (! flock($fh, LOCK_EX))
+			if (! flock($fp, LOCK_EX))
 			{
 				$backtrace = debug_backtrace();
 				_exception_handler(E_USER_WARNING, 'file_put_contents('.htmlentities($filename).') unable to acquire an exclusive lock on file', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -145,7 +145,7 @@ if (! function_exists('file_put_contents'))
 		}
 	
 		// Close the handle
-		@fclose($fh);
+		@fclose($fp);
 	
 		// Return length
 		return $written;
