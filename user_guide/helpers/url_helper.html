@@ -181,7 +181,7 @@ written with JavaScript to help prevent the email address from being harvested b
 <code>$string = auto_link($string);</code>
 
 <p>The second parameter determines whether URLs and emails are converted or just one or the other.  Default behavior is both
-if the parameter is not specified</p>
+if the parameter is not specified.  Email links are encoded as safe_mailto() as shown above.</p>
 
 <p>Converts only URLs:</p>
 <code>$string = auto_link($string, 'url');</code>
