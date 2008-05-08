@@ -42,6 +42,7 @@ function create_menu(basepath)
 		'<ul>' +
 			'<li><a href="'+base+'general/index.html">Getting Started</a></li>' +
 			'<li><a href="'+base+'general/urls.html">CodeIgniter URLs</a></li>' +
+			'<li><a href="'+base+'general/reserved_names.html">Reserved Names</a></li>' +
 			'<li><a href="'+base+'general/controllers.html">Controllers</a></li>' +
 			'<li><a href="'+base+'general/views.html">Views</a></li>' +
 			'<li><a href="'+base+'general/models.html">Models</a></li>' +
@@ -52,6 +53,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/core_classes.html">Creating Core Classes</a></li>' +
 			'<li><a href="'+base+'general/hooks.html">Hooks - Extending the Core</a></li>' +
 			'<li><a href="'+base+'general/autoloader.html">Auto-loading Resources</a></li>' +
+			'<li><a href="'+base+'general/common_functions.html">Common Functions</a></li>' +
 			'<li><a href="'+base+'general/scaffolding.html">Scaffolding</a></li>' +
 			'<li><a href="'+base+'general/routing.html">URI Routing</a></li>' +
 			'<li><a href="'+base+'general/errors.html">Error Handling</a></li>' +

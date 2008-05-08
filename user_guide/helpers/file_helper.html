@@ -134,11 +134,14 @@ can optionally be added to the file names by setting the second parameter to TRU
 <p>Given a file and path, returns the name, path, size, date modified. Second parameter allows you to explicitly declare what information you want returned; options are: name, server_path, size, date, readable, writable, executable, fileperms.  Returns FALSE if the file cannot be found.</p>
 
 <p class="important"><strong>Note:</strong> The &quot;writable&quot; uses the PHP function is_writable() which is known to have issues on the IIS webserver. Consider using fileperms instead, which returns information from PHP's fileperms() function.</p>
-<h2>get_mime_by_extension('<var>path/to/file/</var>')</h2>
+<h2>get_mime_by_extension('<var>file</var>')</h2>
 
 <p>Translates a file extension into a mime type based on config/mimes.php. Returns FALSE if it can't determine the type, or open the mime config file.</p>
-
-<p class="important"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be  used for security.</p>
+<p>
+<code>$file = &quot;somefile.png&quot;;<br />
+echo $file . ' is has a mime type of ' . get_mime_by_extension($file);</code>
+</p>
+<p class="critical"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be  used for security.</p>
 </div>
 <!-- END CONTENT -->
 
