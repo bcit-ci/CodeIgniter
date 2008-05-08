@@ -180,8 +180,9 @@ class and method for processing.</p>
 $this->load->library('xmlrpc');<br />
 $this->load->library('xmlrpcs');<br />
 <br />
-$config['functions']['<var>new_post</var>']&nbsp;&nbsp;= array('function' => '<dfn>My_blog.new_entry</dfn>');<br />
-$config['functions']['<var>update_post</var>'] = array('function' => '<dfn>My_blog.update_entry</dfn>');<br />
+$config['functions]['<var>new_post</var>'] = array('function' => '<dfn>My_blog.new_entry</dfn>'),<br />
+$config['functions]['<var>update_post</var>'] = array('function' => '<dfn>My_blog.update_entry</dfn>');<br />
+$config['object'] = $this;<br />
 <br />
 $this->xmlrpcs->initialize($config);<br />
 $this->xmlrpcs->serve();</code>
@@ -189,6 +190,9 @@ $this->xmlrpcs->serve();</code>
 <p>The above example contains an array specifying two method requests that the Server allows.
 The allowed methods are on the left side of the array. When either of those are received, they will be mapped to the class and method on the right.</p>
 
+<p>The '<var>object</var>' key is a special key that you pass an instantiated class object with, which is necessary when the method you are mapping to is not
+	part of the CodeIgniter super object.</p>
+	
 <p>In other words, if an XML-RPC Client sends a request for the <var>new_post</var> method, your
 server will load the <dfn>My_blog</dfn> class and call the <dfn>new_entry</dfn> function.
 If the request is for the <var>update_post</var> method, your
@@ -196,8 +200,7 @@ server will load the <dfn>My_blog</dfn> class and call the <dfn>update_entry</df
 
 <p>The function names in the above example are arbitrary.  You'll decide what they should be called on your server,
 or if you are using standardized APIs, like the Blogger or MetaWeblog API, you'll use their function names.</p>
-
-
+	
 <h2>Processing Server Requests</h2>
 
 <p>When the XML-RPC Server receives a request and loads the class/method for processing, it will pass
