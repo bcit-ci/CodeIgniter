@@ -137,6 +137,7 @@ SVN Commit: not currently released</p>
 	<li>Fixed a bug in DB_result::row() that prevented it from returning individual fields with MySQL NULL values.</li>
 	<li>Fixed a bug in the table library that could cause identically constructed rows to be dropped (#3459).</li>
 	<li>Fixed a bug (#4206) in the Directory Helper where the directory resource was not being closed, and minor improvements.</li>
+	<li>Fixed a bug where SMTP emails were not having dot transformation performed on lines that begin with a dot.</li>
 </ul>
 
 <h2>Version 1.6.1</h2>
