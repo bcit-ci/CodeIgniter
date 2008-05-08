@@ -1436,8 +1436,9 @@ class CI_Email {
 		}
 		
 		$this->_send_command('data');
-
-		$this->_send_data($this->_header_str . $this->_finalbody);
+		
+		// perform dot transformation on any lines that begin with a dot
+		$this->_send_data($this->_header_str . preg_replace('/^\./m', '..$1', $this->_finalbody));
 		
 		$this->_send_data('.');
 
