@@ -142,7 +142,25 @@ can optionally be added to the file names by setting the second parameter to TRU
 echo $file . ' is has a mime type of ' . get_mime_by_extension($file);</code>
 </p>
 <p class="critical"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be  used for security.</p>
+
+<h2>symbolic_permissions(<kbd>$perms</kbd>)</h2>
+
+<p>Takes numeric permissions (such as is returned by <kbd>fileperms()</kbd> and returns standard symbolic notation of file permissions.</p>
+
+<code>echo symbolic_permissions(fileperms('./index.php'));<br />
+<br />
+// -rw-r--r--</code>
+
+<h2>octal_permissions(<kbd>$perms</kbd>)</h2>
+
+<p>Takes numeric permissions (such as is returned by <kbd>fileperms()</kbd> and returns a three character octal notation of file permissions.</p>
+
+<code>echo octal_permissions(fileperms('./index.php'));<br />
+<br />
+// 644</code>
+
 </div>
+
 <!-- END CONTENT -->
 
 
