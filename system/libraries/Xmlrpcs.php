@@ -41,7 +41,9 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	var $system_methods = array(); // XML RPC Server methods
 	var $controller_obj;
 
-
+	var $object			= FALSE;
+	
+	
 	//-------------------------------------
 	//  Constructor, more or less
 	//-------------------------------------
@@ -73,6 +75,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		if (isset($config['debug']))
 		{
 			$this->debug = $config['debug'];
+		}
+		
+		if (isset($config['object']) && is_object($config['object']))
+		{
+			$this->object = $config['object'];
 		}
 	}
 	
@@ -320,11 +327,16 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			}
 			else
 			{
-				$CI =& get_instance();
-				return $CI->$method_parts['1']($m);
-				//$class = new $method_parts['0'];
-				//return $class->$method_parts['1']($m);
-				//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);
+				if ($this->object === FALSE)
+				{
+					$CI =& get_instance();
+					return $CI->$method_parts['1']($m);
+				}
+				else
+				{
+					return $this->object->$method_parts['1']($m);
+					//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);
+				}
 			}
 		}
 		else
