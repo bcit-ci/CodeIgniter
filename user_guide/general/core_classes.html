@@ -140,6 +140,20 @@ class MY_Input extends CI_Input {<br />
 (this is known as "method overriding").
 This allows you to substantially alter the CodeIgniter core.</p>
 
+<p>If you are extending the Controller core class, then be sure to extend your new class in your application controller's constructors.</p>
+
+<code>class Welcome extends MY_Controller {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function Welcome()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::MY_Controller();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function index()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->load->view('welcome_message');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
 
 <h3>Setting Your Own Prefix</h3>
 
