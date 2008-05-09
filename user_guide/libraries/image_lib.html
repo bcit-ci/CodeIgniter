@@ -91,7 +91,7 @@ using the <dfn>$this->load-&gt;library</dfn> function:</p>
 identical. You will set some preferences corresponding to the action you intend to perform, then
 call one of four available processing functions.  For example, to create an image thumbnail you'll do this:</p>
 
-<code>$config['image_library'] = 'GD';<br />
+<code>$config['image_library'] = 'gd2';<br />
 $config['source_image']	= '/path/to/image/mypic.jpg';<br />
 $config['create_thumb'] = TRUE;<br />
 $config['maintain_ratio'] = TRUE;<br />
@@ -104,7 +104,7 @@ $this->load->library('image_lib', $config);
 $this->image_lib->resize();</code>
 
 <p>The above code tells the <dfn>image_resize</dfn> function to look for an image called <em>mypic.jpg</em>
-located in the <dfn>source_image</dfn> folder, then create a thumbnail that is 75 X 50 pixels using the GD <dfn>image_library</dfn>.
+located in the <dfn>source_image</dfn> folder, then create a thumbnail that is 75 X 50 pixels using the GD2 <dfn>image_library</dfn>.
 Since the <dfn>maintain_ratio</dfn> option is enabled, the thumb will be as close to the target <dfn>width</dfn> and
 <dfn>height</dfn> as possible while preserving the original aspect ratio.  The thumbnail will be called <em>mypic_thumb.jpg</em>
 </p>
