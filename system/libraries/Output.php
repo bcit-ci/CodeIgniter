@@ -383,4 +383,3 @@ class CI_Output {
 
 }
 // END Output Class
-?>

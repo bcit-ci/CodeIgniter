@@ -186,4 +186,3 @@ class CI_DB_Cache {
 
 }
 
-?>

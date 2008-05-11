@@ -118,4 +118,3 @@ class CI_Language {
 
 }
 // END Language Class
-?>

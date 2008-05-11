@@ -586,4 +586,3 @@ class CI_URI {
 
 }
 // END URI Class
-?>

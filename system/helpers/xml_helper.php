@@ -57,4 +57,3 @@ if (! function_exists('xml_convert'))
 	}
 }
 
-?>

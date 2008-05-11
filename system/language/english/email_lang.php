@@ -18,4 +18,3 @@ $lang['email_smtp_auth_un'] = "Failed to authenticate username. Error: %s";
 $lang['email_smtp_auth_pw'] = "Failed to authenticate password. Error: %s";
 $lang['email_smtp_data_failure'] = "Unable to send data: %s";
 
-?>

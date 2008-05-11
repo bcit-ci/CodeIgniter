@@ -100,4 +100,3 @@ $robots = array(
 				);	
 
 
-?>

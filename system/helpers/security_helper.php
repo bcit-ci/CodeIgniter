@@ -121,4 +121,3 @@ if (! function_exists('encode_php_tags'))
 	}
 }
 
-?>

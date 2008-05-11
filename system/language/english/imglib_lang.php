@@ -18,4 +18,3 @@ $lang['imglib_invalid_path'] = "The path to the image is not correct.";
 $lang['imglib_copy_failed'] = "The image copy routine failed.";
 $lang['imglib_missing_font'] = "Unable to find a font to use.";
 
-?>

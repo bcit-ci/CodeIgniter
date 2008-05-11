@@ -170,4 +170,3 @@ if (! function_exists('_get_smiley_array'))
 	}
 }
 
-?>

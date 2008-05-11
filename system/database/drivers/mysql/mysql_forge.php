@@ -238,4 +238,3 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	}
 
 }
-?>

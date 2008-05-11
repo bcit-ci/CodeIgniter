@@ -164,4 +164,3 @@ if (! function_exists('humanize'))
 	}
 }
 	
-?>

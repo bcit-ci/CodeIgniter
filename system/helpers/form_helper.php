@@ -610,4 +610,3 @@ if (! function_exists('parse_form_attributes'))
 	}
 }
 
-?>

@@ -374,4 +374,3 @@ class CI_Router {
 
 }
 // END Router Class
-?>

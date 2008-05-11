@@ -15,4 +15,3 @@ $lang['numeric']		= "The %s field must contain a number.";
 $lang['integer']		= "The %s field must contain an integer.";
 $lang['matches']		= "The %s field does not match the %s field.";
 
-?>

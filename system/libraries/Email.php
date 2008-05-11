@@ -1848,4 +1848,3 @@ class CI_Email {
 
 }
 // END CI_Email class
-?>

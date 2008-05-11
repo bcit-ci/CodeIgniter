@@ -121,4 +121,3 @@ class Controller extends CI_Base {
 
 }
 // END _Controller class
-?>

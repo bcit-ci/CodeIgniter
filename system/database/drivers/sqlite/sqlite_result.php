@@ -180,4 +180,3 @@ class CI_DB_sqlite_result extends CI_DB_result {
 
 }
 
-?>

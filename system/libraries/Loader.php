@@ -1027,4 +1027,3 @@ class CI_Loader {
 	}
 	
 }
-?>
