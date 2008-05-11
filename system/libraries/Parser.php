@@ -168,4 +168,6 @@ class CI_Parser {
 
 }
 // END Parser Class
-?>
+
+/* End of file Parser.php */
+/* Location: ./system/libraries/Parser.php */

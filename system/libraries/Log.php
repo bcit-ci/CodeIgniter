@@ -115,4 +115,6 @@ class CI_Log {
 
 }
 // END Log Class
-?>
+
+/* End of file Log.php */
+/* Location: ./system/libraries/Log.php */

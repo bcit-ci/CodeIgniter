@@ -167,4 +167,6 @@ class CI_Exceptions {
 
 }
 // END Exceptions Class
-?>
+
+/* End of file Exceptions.php */
+/* Location: ./system/libraries/Exceptions.php */

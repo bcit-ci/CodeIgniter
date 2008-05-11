@@ -273,4 +273,6 @@ if (class_exists('CI_DB') AND isset($CI->db))
 }
 
 
-?>
+
+/* End of file CodeIgniter.php */
+/* Location: ./system/codeigniter/CodeIgniter.php */

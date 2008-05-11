@@ -624,4 +624,6 @@ function js_calendar_write($field_id, $time = '', $highlight = TRUE)
 	</script>';	
 }	
 
-?>
+
+/* End of file js_calendar_pi.php */
+/* Location: ./system/plugins/js_calendar_pi.php */

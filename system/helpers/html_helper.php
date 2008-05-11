@@ -351,4 +351,6 @@ if (! function_exists('nbs'))
 	}
 }
 
-?>
+
+/* End of file html_helper.php */
+/* Location: ./system/helpers/html_helper.php */

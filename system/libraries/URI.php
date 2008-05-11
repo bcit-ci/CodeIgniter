@@ -586,4 +586,6 @@ class CI_URI {
 
 }
 // END URI Class
-?>
+
+/* End of file URI.php */
+/* Location: ./system/libraries/URI.php */

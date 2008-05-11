@@ -170,4 +170,6 @@ if (! function_exists('_get_smiley_array'))
 	}
 }
 
-?>
+
+/* End of file smiley_helper.php */
+/* Location: ./system/helpers/smiley_helper.php */

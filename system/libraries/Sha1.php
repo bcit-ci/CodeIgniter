@@ -246,4 +246,6 @@ class CI_SHA {
 	}
 }
 // END CI_SHA
-?>
+
+/* End of file Sha1.php */
+/* Location: ./system/libraries/Sha1.php */

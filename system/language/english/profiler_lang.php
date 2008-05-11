@@ -12,4 +12,6 @@ $lang['profiler_no_post']		= 'No POST data exists';
 $lang['profiler_no_get']		= 'No GET data exists';
 $lang['profiler_no_uri']		= 'No URI data exists';
 $lang['profiler_no_memory']		= 'Memory Usage Unavailable';
-?>
+
+/* End of file profiler_lang.php */
+/* Location: ./system/language/english/profiler_lang.php */

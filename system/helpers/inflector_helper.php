@@ -164,4 +164,6 @@ if (! function_exists('humanize'))
 	}
 }
 	
-?>
+
+/* End of file inflector_helper.php */
+/* Location: ./system/helpers/inflector_helper.php */

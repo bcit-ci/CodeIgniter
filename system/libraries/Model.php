@@ -79,4 +79,6 @@ class Model {
 
 }
 // END Model Class
-?>
+
+/* End of file Model.php */
+/* Location: ./system/libraries/Model.php */

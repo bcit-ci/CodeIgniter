@@ -493,4 +493,6 @@ if (! function_exists('http_build_query'))
 	}
 }
 
-?>
+
+/* End of file compatibility_helper.php */
+/* Location: ./system/helpers/compatibility_helper.php */

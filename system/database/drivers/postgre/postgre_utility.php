@@ -119,4 +119,6 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 
 }
 
-?>
+
+/* End of file postgre_utility.php */
+/* Location: ./system/database/drivers/postgre/postgre_utility.php */

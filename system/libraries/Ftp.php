@@ -613,4 +613,6 @@ class CI_FTP {
 
 }
 // END FTP Class
-?>
+
+/* End of file Ftp.php */
+/* Location: ./system/libraries/Ftp.php */

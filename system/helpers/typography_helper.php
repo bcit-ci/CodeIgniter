@@ -542,4 +542,6 @@ class Auto_typography {
 }
 
 
-?>
+
+/* End of file typography_helper.php */
+/* Location: ./system/helpers/typography_helper.php */

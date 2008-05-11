@@ -57,4 +57,6 @@ if (! function_exists('xml_convert'))
 	}
 }
 
-?>
+
+/* End of file xml_helper.php */
+/* Location: ./system/helpers/xml_helper.php */

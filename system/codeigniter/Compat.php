@@ -91,4 +91,6 @@ if (! function_exists('ctype_alnum'))
 
 // --------------------------------------------------------------------
 
-?>
+
+/* End of file Compat.php */
+/* Location: ./system/codeigniter/Compat.php */

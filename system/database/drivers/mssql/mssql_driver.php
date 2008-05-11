@@ -641,4 +641,6 @@ class CI_DB_mssql_driver extends CI_DB {
 }
 
 
-?>
+
+/* End of file mssql_driver.php */
+/* Location: ./system/database/drivers/mssql/mssql_driver.php */

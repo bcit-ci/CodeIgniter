@@ -22,4 +22,6 @@
 
 <?php echo $paginate; ?>
 
-<?php $this->load->view('footer'); ?>
+<?php $this->load->view('footer'); 
+/* End of file view.php */
+/* Location: ./system/scaffolding/views/view.php */

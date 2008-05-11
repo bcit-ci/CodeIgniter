@@ -472,4 +472,6 @@ class CI_Calendar {
 }
 
 // END CI_Calendar class
-?>
+
+/* End of file Calendar.php */
+/* Location: ./system/libraries/Calendar.php */

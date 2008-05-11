@@ -286,4 +286,6 @@ class Scaffolding {
 	}
 
 }
-?>
+
+/* End of file Scaffolding.php */
+/* Location: ./system/scaffolding/Scaffolding.php */

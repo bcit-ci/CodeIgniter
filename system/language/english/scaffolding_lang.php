@@ -12,4 +12,6 @@ $lang['scaff_no']				= 'No';
 $lang['scaff_no_data']			= 'No data exists for this table yet.';
 $lang['scaff_del_confirm']		= 'Are you sure you want to delete the following row:';
 
-?>
+
+/* End of file scaffolding_lang.php */
+/* Location: ./system/language/english/scaffolding_lang.php */

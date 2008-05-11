@@ -1533,4 +1533,6 @@ class CI_Image_lib {
 
 }
 // END Image_lib Class
-?>
+
+/* End of file Image_lib.php */
+/* Location: ./system/libraries/Image_lib.php */

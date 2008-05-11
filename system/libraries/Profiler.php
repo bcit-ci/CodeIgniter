@@ -340,4 +340,6 @@ class CI_Profiler {
 }
 
 // END CI_Profiler class
-?>
+
+/* End of file Profiler.php */
+/* Location: ./system/libraries/Profiler.php */

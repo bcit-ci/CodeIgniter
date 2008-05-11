@@ -120,4 +120,6 @@ function &DB($params = '', $active_record_override = FALSE)
 }	
 
 
-?>
+
+/* End of file DB.php */
+/* Location: ./system/database/DB.php */
