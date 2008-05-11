@@ -351,4 +351,6 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	return array('word' => $word, 'time' => $now, 'image' => $img);
 }
 
-?>
+
+/* End of file captcha_pi.php */
+/* Location: ./system/plugins/captcha_pi.php */

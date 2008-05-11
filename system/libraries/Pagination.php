@@ -215,4 +215,6 @@ class CI_Pagination {
 	}
 }
 // END Pagination Class
-?>
+
+/* End of file Pagination.php */
+/* Location: ./system/libraries/Pagination.php */

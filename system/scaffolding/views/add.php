@@ -27,4 +27,6 @@
 
 </form>
 
-<?php $this->load->view('footer'); ?>
+<?php $this->load->view('footer'); 
+/* End of file add.php */
+/* Location: ./system/scaffolding/views/add.php */

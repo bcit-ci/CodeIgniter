@@ -121,4 +121,6 @@ class Controller extends CI_Base {
 
 }
 // END _Controller class
-?>
+
+/* End of file Controller.php */
+/* Location: ./system/libraries/Controller.php */

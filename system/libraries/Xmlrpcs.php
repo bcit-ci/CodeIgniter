@@ -531,4 +531,6 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 }
 // END XML_RPC_Server class
 
-?>
+
+/* End of file Xmlrpcs.php */
+/* Location: ./system/libraries/Xmlrpcs.php */

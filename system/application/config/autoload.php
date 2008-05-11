@@ -122,4 +122,6 @@ $autoload['model'] = array();
 // $autoload['core'] = array();
 
 
-?>
+
+/* End of file autoload.php */
+/* Location: ./system/application/config/autoload.php */

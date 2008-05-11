@@ -238,4 +238,6 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	}
 
 }
-?>
+
+/* End of file mysqli_forge.php */
+/* Location: ./system/database/drivers/mysqli/mysqli_forge.php */

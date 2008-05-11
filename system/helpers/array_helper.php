@@ -73,4 +73,6 @@ if (! function_exists('random_element'))
 	}	
 }
 
-?>
+
+/* End of file array_helper.php */
+/* Location: ./system/helpers/array_helper.php */

@@ -61,4 +61,6 @@ $smileys = array(
 	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
 	
 		);
-?>
+
+/* End of file smileys.php */
+/* Location: ./system/application/config/smileys.php */

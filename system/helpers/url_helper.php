@@ -532,4 +532,6 @@ if (! function_exists('_parse_attributes'))
 	}
 }
 
-?>
+
+/* End of file url_helper.php */
+/* Location: ./system/helpers/url_helper.php */

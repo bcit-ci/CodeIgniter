@@ -15,4 +15,6 @@ $lang['numeric']		= "The %s field must contain a number.";
 $lang['integer']		= "The %s field must contain an integer.";
 $lang['matches']		= "The %s field does not match the %s field.";
 
-?>
+
+/* End of file validation_lang.php */
+/* Location: ./system/language/english/validation_lang.php */

@@ -17,4 +17,6 @@ $lang['upload_no_file_types'] = "You have not specified any allowed file types."
 $lang['upload_bad_filename'] = "The file name you submitted already exists on the server.";
 $lang['upload_not_writable'] = "The upload destination folder does not appear to be writable.";
 
-?>
+
+/* End of file upload_lang.php */
+/* Location: ./system/language/english/upload_lang.php */

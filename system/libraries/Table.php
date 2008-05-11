@@ -435,4 +435,6 @@ class CI_Table {
 
 }
 
-?>
+
+/* End of file Table.php */
+/* Location: ./system/libraries/Table.php */

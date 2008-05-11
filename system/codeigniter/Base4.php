@@ -64,4 +64,6 @@ function &get_instance()
 	return $OBJ->load;
 }
 
-?>
+
+/* End of file Base4.php */
+/* Location: ./system/codeigniter/Base4.php */

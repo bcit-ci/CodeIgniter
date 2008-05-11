@@ -248,4 +248,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 
 }
 
-?>
+
+/* End of file oci8_result.php */
+/* Location: ./system/database/drivers/oci8/oci8_result.php */

@@ -99,4 +99,6 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 			);
 
 
-?>
+
+/* End of file mimes.php */
+/* Location: ./system/application/config/mimes.php */

@@ -436,4 +436,6 @@ if (! function_exists('word_wrap'))
 	}
 }
 
-?>
+
+/* End of file text_helper.php */
+/* Location: ./system/helpers/text_helper.php */

@@ -311,4 +311,6 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 
 
-?>
+
+/* End of file config.php */
+/* Location: ./system/application/config/config.php */

@@ -497,4 +497,6 @@ class CI_User_agent {
 	
 }
 
-?>
+
+/* End of file User_agent.php */
+/* Location: ./system/libraries/User_agent.php */

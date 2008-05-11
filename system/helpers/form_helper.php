@@ -610,4 +610,6 @@ if (! function_exists('parse_form_attributes'))
 	}
 }
 
-?>
+
+/* End of file form_helper.php */
+/* Location: ./system/helpers/form_helper.php */

@@ -1848,4 +1848,6 @@ class CI_Email {
 
 }
 // END CI_Email class
-?>
+
+/* End of file Email.php */
+/* Location: ./system/libraries/Email.php */

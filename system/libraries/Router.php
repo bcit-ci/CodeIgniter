@@ -374,4 +374,6 @@ class CI_Router {
 
 }
 // END Router Class
-?>
+
+/* End of file Router.php */
+/* Location: ./system/libraries/Router.php */

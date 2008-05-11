@@ -186,4 +186,6 @@ class CI_DB_Cache {
 
 }
 
-?>
+
+/* End of file DB_cache.php */
+/* Location: ./system/database/DB_cache.php */
