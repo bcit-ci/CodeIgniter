@@ -43,4 +43,3 @@
 $route['default_controller'] = "welcome";
 $route['scaffolding_trigger'] = "";
 
-?>

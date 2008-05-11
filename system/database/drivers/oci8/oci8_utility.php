@@ -117,4 +117,3 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	}
 
 }
-?>

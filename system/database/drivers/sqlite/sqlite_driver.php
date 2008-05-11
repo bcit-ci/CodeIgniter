@@ -656,4 +656,3 @@ class CI_DB_sqlite_driver extends CI_DB {
 
 }
 
-?>

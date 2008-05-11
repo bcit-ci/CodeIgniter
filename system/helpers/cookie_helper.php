@@ -131,4 +131,3 @@ if (! function_exists('delete_cookie'))
 	}
 }
 
-?>

@@ -12,4 +12,3 @@ class Welcome extends Controller {
 		$this->load->view('welcome_message');
 	}
 }
-?>

@@ -497,4 +497,3 @@ class CI_User_agent {
 	
 }
 
-?>

@@ -435,4 +435,3 @@ class CI_Table {
 
 }
 
-?>

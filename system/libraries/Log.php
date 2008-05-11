@@ -115,4 +115,3 @@ class CI_Log {
 
 }
 // END Log Class
-?>

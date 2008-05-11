@@ -113,4 +113,3 @@ else
 |
 */
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
-?>

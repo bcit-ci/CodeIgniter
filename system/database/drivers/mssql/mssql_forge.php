@@ -235,4 +235,3 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	}
 
 }
-?>

@@ -340,4 +340,3 @@ class CI_Profiler {
 }
 
 // END CI_Profiler class
-?>

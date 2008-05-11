@@ -613,4 +613,3 @@ class CI_DB_odbc_driver extends CI_DB {
 }
 
 
-?>

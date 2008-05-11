@@ -481,4 +481,3 @@ class CI_Encrypt {
 }
 
 // END CI_Encrypt class
-?>

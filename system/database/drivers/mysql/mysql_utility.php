@@ -249,4 +249,3 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	}
 
 }
-?>

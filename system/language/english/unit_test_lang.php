@@ -19,4 +19,3 @@ $lang['ut_object']			= 'Object';
 $lang['ut_resource']		= 'Resource';
 $lang['ut_null']			= 'Null'
 
-?>

@@ -229,4 +229,3 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 }
 
-?>

@@ -95,4 +95,3 @@ if (! function_exists('force_download'))
 	}
 }
 
-?>
