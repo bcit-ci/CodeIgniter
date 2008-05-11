@@ -118,3 +118,4 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 
 }
 
+?>

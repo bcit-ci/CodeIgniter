@@ -596,3 +596,4 @@ if (! function_exists('timezones'))
 	}
 }
 
+?>

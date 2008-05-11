@@ -436,3 +436,4 @@ if (! function_exists('word_wrap'))
 	}
 }
 
+?>

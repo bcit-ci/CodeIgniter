@@ -246,3 +246,4 @@ class CI_SHA {
 	}
 }
 // END CI_SHA
+?>

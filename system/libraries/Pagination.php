@@ -215,3 +215,4 @@ class CI_Pagination {
 	}
 }
 // END Pagination Class
+?>

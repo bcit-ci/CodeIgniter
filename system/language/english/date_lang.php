@@ -46,3 +46,4 @@ $lang['UP10']	= "(UTC + 10:00) Melbourne, Papua New Guinea, Sydney, Vladivostok"
 $lang['UP11']	= "(UTC + 11:00) Magadan, New Caledonia, Solomon Islands";
 $lang['UP12']	= "(UTC + 12:00) Auckland, Wellington, Fiji, Marshall Islands";
 
+?>

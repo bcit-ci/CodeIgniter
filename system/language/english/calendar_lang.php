@@ -46,3 +46,4 @@ $lang['cal_october'] 	= "October";
 $lang['cal_november']	= "November";
 $lang['cal_december'] 	= "December";
 
+?>

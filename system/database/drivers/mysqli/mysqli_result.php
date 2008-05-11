@@ -170,3 +170,4 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	
 }
 
+?>

@@ -67,3 +67,4 @@ if (! function_exists('set_realpath'))
 	}
 }
 
+?>

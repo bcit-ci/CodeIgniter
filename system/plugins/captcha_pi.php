@@ -351,3 +351,4 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	return array('word' => $word, 'time' => $now, 'image' => $img);
 }
 
+?>

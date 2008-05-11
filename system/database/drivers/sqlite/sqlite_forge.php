@@ -231,3 +231,4 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		
 	}
 }
+?>

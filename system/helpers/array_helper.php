@@ -73,3 +73,4 @@ if (! function_exists('random_element'))
 	}	
 }
 
+?>

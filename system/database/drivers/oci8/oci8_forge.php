@@ -232,3 +232,4 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 
 }
+?>
