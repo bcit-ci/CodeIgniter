@@ -64,3 +64,4 @@ function &get_instance()
 	return $OBJ->load;
 }
 
+?>

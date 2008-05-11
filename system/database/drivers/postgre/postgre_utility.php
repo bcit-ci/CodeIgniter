@@ -119,3 +119,4 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 
 }
 
+?>

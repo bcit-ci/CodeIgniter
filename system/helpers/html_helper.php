@@ -351,3 +351,4 @@ if (! function_exists('nbs'))
 	}
 }
 
+?>

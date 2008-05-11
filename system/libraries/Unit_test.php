@@ -340,3 +340,4 @@ function is_false($test)
 	return (is_bool($test) AND $test === FALSE) ? TRUE : FALSE;
 }
 
+?>

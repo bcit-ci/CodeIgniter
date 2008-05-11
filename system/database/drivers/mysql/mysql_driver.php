@@ -649,3 +649,4 @@ class CI_DB_mysql_driver extends CI_DB {
 	
 }
 
+?>

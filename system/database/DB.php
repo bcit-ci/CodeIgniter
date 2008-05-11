@@ -120,3 +120,4 @@ function &DB($params = '', $active_record_override = FALSE)
 }	
 
 
+?>

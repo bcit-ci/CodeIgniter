@@ -99,3 +99,4 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 			);
 
 
+?>

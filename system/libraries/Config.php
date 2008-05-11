@@ -242,3 +242,4 @@ class CI_Config {
 }
 
 // END CI_Config class
+?>

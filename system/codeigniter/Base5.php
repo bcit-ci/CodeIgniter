@@ -51,3 +51,4 @@ function &get_instance()
 }
 
 
+?>

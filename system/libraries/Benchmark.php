@@ -108,3 +108,4 @@ class CI_Benchmark {
 }
 
 // END CI_Benchmark class
+?>
