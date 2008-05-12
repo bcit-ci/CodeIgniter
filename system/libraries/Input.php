@@ -666,7 +666,7 @@ class CI_Input {
 						'-moz-binding'		=> '[removed]',
 						'<!--'				=> '&lt;!--',
 						'-->'				=> '--&gt;',
-						'<!CDATA['			=> '&lt;![CDATA['
+						'<![CDATA['			=> '&lt;![CDATA['
 					);
 
 		foreach ($bad as $key => $val)
