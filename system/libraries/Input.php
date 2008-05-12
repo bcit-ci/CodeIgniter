@@ -28,6 +28,7 @@
  */
 class CI_Input {
 	var $use_xss_clean		= FALSE;
+	var $xss_hash			= '';
 	var $ip_address			= FALSE;
 	var $user_agent			= FALSE;
 	var $allow_get_array	= FALSE;
@@ -530,7 +531,21 @@ class CI_Input {
 	 * @return	string
 	 */
 	function xss_clean($str)
-	{	
+	{
+		/*
+		 * Is the string an array?
+		 *
+		 */
+		if (is_array($str))
+		{
+			while (list($key) = each($str))
+			{
+				$str[$key] = $this->xss_clean($str[$key]);
+			}
+			
+			return $str;
+		}
+		
 		/*
 		 * Remove Null Characters
 		 *
@@ -540,6 +555,14 @@ class CI_Input {
 		 */
 		$str = preg_replace('/\0+/', '', $str);
 		$str = preg_replace('/(\\\\0)+/', '', $str);
+
+		/*
+		 * Protect GET variables in URLs
+		 */
+		 
+		 // 901119URL5918AMP18930PROTECT8198
+		 
+		$str = preg_replace('|\&([a-z\_0-9]+)\=([a-z\_0-9]+)|i', $this->xss_hash()."\\1=\\2", $str);
 
 		/*
 		 * Validate standard character entities
@@ -558,6 +581,12 @@ class CI_Input {
 		 */
 		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i',"\\1\\2;",$str);
 
+		/*
+		 * Un-Protect GET variables in URLs
+		 */
+		 
+		$str = str_replace($this->xss_hash(), '&', $str);
+		
 		/*
 		 * URL Decode
 		 *
@@ -792,6 +821,29 @@ class CI_Input {
 						
 		log_message('debug', "XSS Filtering completed");
 		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Random Hash for protecting URLs
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function xss_hash()
+	{	
+		if ($this->xss_hash == '')
+		{
+			if (phpversion() >= 4.2)
+				mt_srand();
+			else
+				mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
+			
+			$this->xss_hash = md5(time() + mt_rand(0, 1999999999));
+		}
+		
+		return $this->xss_hash;
 	}
 
 	// --------------------------------------------------------------------
