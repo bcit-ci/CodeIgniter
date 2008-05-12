@@ -726,6 +726,8 @@ class CI_Validation {
 			{
 				$data[$key] = $this->prep_for_form($val);
 			}
+			
+			return $data;
 		}
 		
 		if ($this->_safe_form_data == FALSE OR $data == '')
