@@ -50,7 +50,7 @@ if (! function_exists('directory_map'))
 			
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (substr($file, 0, 1) == '.')
+				if (strncmp($file, '.', 1) == 0)
 				{
 					continue;
 				}

@@ -117,6 +117,8 @@ SVN Commit: not currently released</p>
 		<ul>
 			<li>Added ability for <a href="libraries/input.html">xss_clean()</a> to accept arrays.</li>
 			<li>Removed closing PHP tags from all PHP files to avoid accidental output and potential 'cannot modify headers' errors.</li>
+			<li>Removed &quot;scripts&quot; from the auto-load search path. Scripts were deprecated 
+				in Version 1.4.1 (September 21, 2006). If you still need to use them for legacy reasons, they must now be manually loaded in each Controller.</li>
 			<li>Added a <a href="general/reserved_names.html">Reserved Names</a> page to the userguide, and migrated reserved controller names into it.</li>
 			<li>Added a <a href="general/common_functions.html">Common Functions</a> page to the userguide for globally available functions.</li>
 		</ul>
