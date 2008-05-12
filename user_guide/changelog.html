@@ -139,6 +139,7 @@ SVN Commit: not currently released</p>
 	<li>Fixed a bug in the table library that could cause identically constructed rows to be dropped (#3459).</li>
 	<li>Fixed a bug (#4206) in the Directory Helper where the directory resource was not being closed, and minor improvements.</li>
 	<li>Fixed a bug where SMTP emails were not having dot transformation performed on lines that begin with a dot.</li>
+	<li>Fixed a bug in display_error() in the DB driver that was instantiating new Language and Exception objects, and not using the error heading.</li> 
 </ul>
 
 <h2>Version 1.6.1</h2>
