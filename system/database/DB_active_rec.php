@@ -95,7 +95,14 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (is_string($select))
 		{
-			$select = explode(',', $select);
+			if ($protect_identifiers !== FALSE)
+			{
+				$select = explode(',', $select);
+			}
+			else
+			{
+				$select = array($select);
+			}
 		}
 	
 		foreach ($select as $val)

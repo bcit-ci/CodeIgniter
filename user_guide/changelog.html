@@ -123,20 +123,21 @@ SVN Commit: not currently released</p>
     <li>Fixed assorted user guide typos (#3453, #4364, #4379, #4399, #4408, #4412, #4448, #4488).</li>
 	<li>Fixed DB Driver and MySQLi result driver checking for resources instead of objects (#3461).</li>
 	<li>Fixed an incorrect documentation of $this-&gt;load-&gt;language (#3520).</li>
+	<li>Fixed a bug in DB Forge, when inserting an id field (#3456).</li>
+	<li>Fixed a bug in the table library that could cause identically constructed rows to be dropped (#3459).</li>
 	<li>Fixed an AR_caching error where it wasn't tracking table aliases (#3463).</li>
+	<li>Fixed a bug in AR compiling, where select statements with arguments got incorrectly escaped (#3478).</li>
 	<li>Fixed an AR bug with or_where_not_in() (#4171).</li>
 	<li>Fixed a bug in the FTP library where delete_dir() was not working recursively (#4215).</li>
 	<li>Fixed a Validation bug when set_rules() is used with a non-array field name and rule (#4220).</li>
 	<li>Fixed a bug in the Upload library that might output the same error twice (#4390).</li>
 	<li>Fixed an AR bug when joining with a table alias and table prefix (#4400).</li>
-	<li>Fixed a bug in DB Forge, when inserting an id field (#3456).</li>
 	<li>Fixed a bug in the DB class testing the $params argument.</li>
 	<li>Fixed a bug in the Table library where the integer 0 in cell data would be displayed as a blank cell.</li>
 	<li>Fixed bugs (#3523, #4350) in get_filenames() with recursion and problems with Windows when $include_path is used.</li>
 	<li>Fixed a bug (#4413) where a URI containing slashes only e.g. 'http://example.com/index.php?//' would result in PHP errors</li>
 	<li>Fixed a bug in <kbd>link_tag()</kbd> of the <a href="helpers/url_helper.html">URL helper</a> where a key was passed instead of a value.</li>
 	<li>Fixed a bug in DB_result::row() that prevented it from returning individual fields with MySQL NULL values.</li>
-	<li>Fixed a bug in the table library that could cause identically constructed rows to be dropped (#3459).</li>
 	<li>Fixed a bug (#4206) in the Directory Helper where the directory resource was not being closed, and minor improvements.</li>
 	<li>Fixed a bug (#4223) where DB caching would not work for returned DB objects or multiple DB connections.</li>
 	<li>Fixed a bug where SMTP emails were not having dot transformation performed on lines that begin with a dot.</li>
@@ -144,7 +145,7 @@ SVN Commit: not currently released</p>
 	<li>Fixed an array to string conversion error in the Validation library (#4425)</li>
 	<li>Fixed a bug (#4506) with overlay_watermark() in the Image library preventing support for PNG-24s with alpha transparency</li>
 	<li>Fixed a bug (#4153) in the XML-RPC class preventing dateTime.iso8601 from being used.</li>
-</ul>
+	</ul>
 
 <h2>Version 1.6.1</h2>
 <p>Release Date: February 12, 2008<br />
