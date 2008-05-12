@@ -51,6 +51,7 @@ class CI_DB_driver {
 	var $query_times	= array();
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
+	var $trans_strict	= TRUE;
 	var $_trans_depth	= 0;
 	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
@@ -107,7 +108,7 @@ class CI_DB_driver {
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 		// No connection?  Throw an error
-		if (! $this->conn_id)
+		if ( ! $this->conn_id)
 		{
 			log_message('error', 'Unable to connect to the database');
 			
@@ -121,7 +122,7 @@ class CI_DB_driver {
 		// Select the database
 		if ($this->database != '')
 		{
-			if (! $this->db_select())
+			if ( ! $this->db_select())
 			{
 				// Should we attempt to create the database?
 				if ($create_db == TRUE)
@@ -131,7 +132,7 @@ class CI_DB_driver {
 					$CI->load->dbutil();
 					
 					// Create the DB
-					if (! $CI->dbutil->create_database($this->database))
+					if ( ! $CI->dbutil->create_database($this->database))
 					{
 						log_message('error', 'Unable to create database: '.$this->database);
 					
@@ -297,11 +298,23 @@ class CI_DB_driver {
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
 		{
+			if ($this->save_queries == TRUE)
+			{
+				$this->query_times[] = 0;
+			}
+		
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
-			
+
 			if ($this->db_debug)
 			{
+				// We call this function in order to roll-back queries
+				// if transactions are enabled.  If we don't call this here
+				// the error message will trigger an exit, causing the 
+				// transactions to remain in limbo.
+				$this->trans_complete();
+			
+				// Log and display errors
 				log_message('error', 'Query error: '.$this->_error_message());
 				return $this->display_error(
 										array(
@@ -401,7 +414,7 @@ class CI_DB_driver {
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-		if (! class_exists($driver))
+		if ( ! class_exists($driver))
 		{
 			include_once(BASEPATH.'database/DB_result'.EXT);
 			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result'.EXT);
@@ -424,7 +437,7 @@ class CI_DB_driver {
 	 */	
 	function simple_query($sql)
 	{
-		if (! $this->conn_id)
+		if ( ! $this->conn_id)
 		{
 			$this->initialize();
 		}
@@ -449,6 +462,23 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Enable/disable Transaction Strict Mode
+	 * When strict mode is enabled, if you are running multiple groups of
+	 * transactions, if one group fails all groups will be rolled back.
+	 * If strict mode is disabled, each group is treated autonomously, meaning
+	 * a failure of one group will not affect any others
+	 *
+	 * @access	public
+	 * @return	void		
+	 */	
+	function trans_strict($mode = TRUE)
+	{
+		$this->trans_strict = is_bool($mode) ? $mode : TRUE;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Start Transaction
 	 *
 	 * @access	public
@@ -456,7 +486,7 @@ class CI_DB_driver {
 	 */	
 	function trans_start($test_mode = FALSE)
 	{	
-		if (! $this->trans_enabled)
+		if ( ! $this->trans_enabled)
 		{
 			return FALSE;
 		}
@@ -481,7 +511,7 @@ class CI_DB_driver {
 	 */	
 	function trans_complete()
 	{
-		if (! $this->trans_enabled)
+		if ( ! $this->trans_enabled)
 		{
 			return FALSE;
 		}
@@ -493,15 +523,20 @@ class CI_DB_driver {
 			return TRUE;
 		}
 	
-		// The query() function will set this flag to TRUE in the event that a query failed
+		// The query() function will set this flag to FALSE in the event that a query failed
 		if ($this->_trans_status === FALSE)
 		{
 			$this->trans_rollback();
 			
-			if ($this->db_debug)
+			// If we are NOT running in strict mode, we will reset
+			// the _trans_status flag so that subsequent groups of transactions
+			// will be permitted.
+			if ($this->trans_strict === FALSE)
 			{
-				return $this->display_error('db_transaction_failure');
+				$this->_trans_status = TRUE;
 			}
+
+			log_message('debug', 'DB Transaction Failure');			
 			return FALSE;			
 		}
 		
@@ -539,7 +574,7 @@ class CI_DB_driver {
 			return $sql;
 		}
 		
-		if (! is_array($binds))
+		if ( ! is_array($binds))
 		{
 			$binds = array($binds);
 		}
@@ -576,7 +611,7 @@ class CI_DB_driver {
 	 */	
 	function is_write_type($sql)
 	{
-		if (! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
+		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
 		{
 			return FALSE;
 		}
@@ -683,7 +718,7 @@ class CI_DB_driver {
 	{	
 		$fields = $this->list_fields($table);
 		
-		if (! is_array($fields))
+		if ( ! is_array($fields))
 		{
 			return FALSE;
 		}
@@ -747,7 +782,7 @@ class CI_DB_driver {
 	 */
 	function table_exists($table_name)
 	{
-		return (! in_array($this->prep_tablename($table_name), $this->list_tables())) ? FALSE : TRUE;
+		return ( ! in_array($this->prep_tablename($table_name), $this->list_tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -815,7 +850,7 @@ class CI_DB_driver {
 	 */
 	function field_exists($field_name, $table_name)
 	{	
-		return (! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
+		return ( ! in_array($field_name, $this->list_fields($table_name))) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
@@ -899,7 +934,7 @@ class CI_DB_driver {
 			$fields[$key] = $this->escape($val);
 		}
 
-		if (! is_array($where))
+		if ( ! is_array($where))
 		{
 			$dest = array($where);
 		}
@@ -912,7 +947,7 @@ class CI_DB_driver {
 	
 				if ($val !== '')
 				{
-					if (! $this->_has_operator($key))
+					if ( ! $this->_has_operator($key))
 					{
 						$key .= ' =';
 					}
@@ -969,7 +1004,7 @@ class CI_DB_driver {
 			$function = $driver.$function;
 		}
 		
-		if (! function_exists($function))
+		if ( ! function_exists($function))
 		{
 			if ($this->db_debug)
 			{
@@ -1038,7 +1073,7 @@ class CI_DB_driver {
 	 */		
 	function cache_delete($segment_one = '', $segment_two = '')
 	{
-		if (! $this->_cache_init())
+		if ( ! $this->_cache_init())
 		{
 			return FALSE;
 		}
@@ -1055,7 +1090,7 @@ class CI_DB_driver {
 	 */		
 	function cache_delete_all()
 	{
-		if (! $this->_cache_init())
+		if ( ! $this->_cache_init())
 		{
 			return FALSE;
 		}
@@ -1078,7 +1113,7 @@ class CI_DB_driver {
 			return TRUE;
 		}
 	
-		if (! @include(BASEPATH.'database/DB_cache'.EXT))
+		if ( ! @include(BASEPATH.'database/DB_cache'.EXT))
 		{
 			return $this->cache_off();
 		}
