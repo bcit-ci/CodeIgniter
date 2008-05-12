@@ -1083,7 +1083,7 @@ class CI_DB_driver {
 			return $this->cache_off();
 		}
 		
-		$this->CACHE = new CI_DB_Cache;
+		$this->CACHE = new CI_DB_Cache($this); // pass db object to support multiple db connections and returned db objects
 		return TRUE;
 	}
 
