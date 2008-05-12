@@ -96,6 +96,17 @@ $this->db->query('AND YET ANOTHER QUERY...');<br />
 of any given query.</p>
 
 
+<h2>Strict Mode</h2>
+
+<p>By default CodeIgniter runs all transactions in <dfn>Strict Mode</dfn>.  When strict mode is enabled, if you are running multiple groups of
+transactions, if one group fails all groups will be rolled back. If strict mode is disabled, each group is treated independently, meaning
+a failure of one group will not affect any others.</p>
+
+<p>Strict Mode can be disabled as follows:</p>
+
+<code>$this->db->trans_strict(FALSE);</code>
+
+
 <h2>Managing Errors</h2>
 
 <p>If you have error reporting enabled in your <dfn>config/database.php</dfn> file you'll see a standard error message if the commit was unsuccessful. If debugging is turned off, you can
@@ -167,10 +178,6 @@ else<br />
 
 <p class="important"><strong>Note:</strong> Make sure to use <kbd>$this->db->trans_begin()</kbd> when running manual transactions, <strong>NOT</strong>
 <dfn>$this->db->trans_start()</dfn>.</p>
-
-
-
-
 
 
 
