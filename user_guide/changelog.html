@@ -138,6 +138,7 @@ SVN Commit: not currently released</p>
 	<li>Fixed a bug in DB_result::row() that prevented it from returning individual fields with MySQL NULL values.</li>
 	<li>Fixed a bug in the table library that could cause identically constructed rows to be dropped (#3459).</li>
 	<li>Fixed a bug (#4206) in the Directory Helper where the directory resource was not being closed, and minor improvements.</li>
+	<li>Fixed a bug (#4223) where DB caching would not work for returned DB objects or multiple DB connections.</li>
 	<li>Fixed a bug where SMTP emails were not having dot transformation performed on lines that begin with a dot.</li>
 	<li>Fixed a bug in display_error() in the DB driver that was instantiating new Language and Exception objects, and not using the error heading.</li>
 	<li>Fixed a bug (#4506) with overlay_watermark() in the Image library preventing support for PNG-24s with alpha transparency</li>
