@@ -168,12 +168,16 @@ class CI_Email {
 	function from($from, $name = '')
 	{
 		if (preg_match( '/\<(.*)\>/', $from, $match))
+		{
 			$from = $match['1'];
+		}
 
 		if ($this->validate)
+		{
 			$this->validate_email($this->_str_to_array($from));
+		}
 			
-		if ($name != '' && substr($name, 0, 1) != '"')
+		if ($name != '' && strncmp($name, '"', 1) != 0)
 		{
 			$name = '"'.$name.'"';
 		}
@@ -195,17 +199,21 @@ class CI_Email {
 	function reply_to($replyto, $name = '')
 	{
 		if (preg_match( '/\<(.*)\>/', $replyto, $match))
+		{
 			$replyto = $match['1'];
+		}
 
 		if ($this->validate)
+		{
 			$this->validate_email($this->_str_to_array($replyto));	
+		}
 
 		if ($name == '')
 		{
 			$name = $replyto;
 		}
 
-		if (substr($name, 0, 1) != '"')
+		if (strncmp($name, '"', 1) != 0)
 		{
 			$name = '"'.$name.'"';
 		}
@@ -229,10 +237,14 @@ class CI_Email {
 		$to = $this->clean_email($to);
 	
 		if ($this->validate)
+		{
 			$this->validate_email($to);
+		}
 			
 		if ($this->_get_protocol() != 'mail')
+		{
 			$this->_set_header('To', implode(", ", $to));
+		}
 
 		switch ($this->_get_protocol())
 		{
@@ -265,7 +277,9 @@ class CI_Email {
 		$this->_set_header('Cc', implode(", ", $cc));
 		
 		if ($this->_get_protocol() == "smtp")
+		{
 			$this->_cc_array = $cc;
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -290,12 +304,18 @@ class CI_Email {
 		$bcc = $this->clean_email($bcc);
 		
 		if ($this->validate)
+		{
 			$this->validate_email($bcc);
+		}
 
 		if (($this->_get_protocol() == "smtp") OR ($this->bcc_batch_mode && count($bcc) > $this->bcc_batch_size))
+		{
 			$this->_bcc_array = $bcc;
+		}
 		else
+		{
 			$this->_set_header('Bcc', implode(", ", $bcc));
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -554,7 +574,9 @@ class CI_Email {
 		$this->protocol = (! in_array($this->protocol, $this->_protocols, TRUE)) ? 'mail' : $this->protocol;
 		
 		if ($return == TRUE)
+		{
 			return $this->protocol;
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -594,16 +616,22 @@ class CI_Email {
 	 */	
 	function _get_content_type()
 	{	
-			if	($this->mailtype == 'html' &&  count($this->_attach_name) == 0)
+		if	($this->mailtype == 'html' &&  count($this->_attach_name) == 0)
+		{
 				return 'html';
-	
+		}
 		elseif	($this->mailtype == 'html' &&  count($this->_attach_name)  > 0)
+		{
 				return 'html-attach';				
-				
+		}
 		elseif	($this->mailtype == 'text' &&  count($this->_attach_name)  > 0)
+		{
 				return 'plain-attach';
-				
-		  else	return 'plain';
+		}
+		else
+		{
+			return 'plain';
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -617,7 +645,7 @@ class CI_Email {
 	function _set_date()
 	{
 		$timezone = date("Z");
-		$operator = (substr($timezone, 0, 1) == '-') ? '-' : '+';
+		$operator = (strncmp($timezone, '-', 1) == 0) ? '-' : '+';
 		$timezone = abs($timezone);
 		$timezone = floor($timezone/3600) * 100 + ($timezone % 3600 ) / 60;
 		
@@ -692,9 +720,13 @@ class CI_Email {
 		if (! is_array($email))
 		{
 			if (preg_match('/\<(.*)\>/', $email, $match))
+			{
 		   		return $match['1'];
+			}
 		   	else
+			{
 		   		return $email;
+			}
 		}
 			
 		$clean_email = array();
@@ -752,7 +784,9 @@ class CI_Email {
 			$n = "";
 			
 			for ($x = 1; $x <= $i; $x ++)
+			{
 				 $n .= "\n";
+			}
 		
 			$body = str_replace($n, "\n\n", $body);	
 		}
@@ -823,7 +857,7 @@ class CI_Email {
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim-1);
+				$temp .= ($line, 0, $charlim-1);
 				$line = substr($line, $charlim-1);
 			}
 			
@@ -1213,9 +1247,13 @@ class CI_Email {
 		$this->_build_message();
 						
 		if (! $this->_spool_email())
+		{
 			return FALSE;
+		}
 		else
+		{
 			return TRUE;
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -1238,7 +1276,9 @@ class CI_Email {
 		for ($i = 0; $i < count($this->_bcc_array); $i++)
 		{
 			if (isset($this->_bcc_array[$i]))
+			{
 				$set .= ", ".$this->_bcc_array[$i];
+			}
 		
 			if ($i == $float)
 			{	
@@ -1248,7 +1288,9 @@ class CI_Email {
 			}
 			
 			if ($i == count($this->_bcc_array)-1)
-					$chunk[] = substr($set, 1);	
+			{
+				$chunk[] = substr($set, 1);
+			}
 		}
 
 		for ($i = 0; $i < count($chunk); $i++)
@@ -1260,9 +1302,13 @@ class CI_Email {
 			$bcc = $this->clean_email($bcc);
 	
 			if ($this->protocol != 'smtp')
+			{
 				$this->_set_header('Bcc', implode(", ", $bcc));
+			}
 			else
+			{
 				$this->_bcc_array = $bcc;
+			}
 			
 			$this->_build_message();
 			$this->_spool_email();		
@@ -1446,7 +1492,7 @@ class CI_Email {
 		
 		$this->_set_error_message($reply);			
 
-		if (substr($reply, 0, 3) != '250')
+		if (strncmp($reply, '250', 3) != 0)
 		{
 			$this->_set_error_message('email_smtp_error', $reply);			
 			return FALSE;
@@ -1543,7 +1589,9 @@ class CI_Email {
 		}
 			
 		if ($cmd == 'quit')
+		{
 			fclose($this->_smtp_connect);
+		}
 	
 		return TRUE;
 	}
@@ -1559,7 +1607,9 @@ class CI_Email {
 	function _smtp_authenticate()
 	{	
 		if (! $this->_smtp_auth)
+		{
 			return TRUE;
+		}
 			
 		if ($this->smtp_user == ""  AND  $this->smtp_pass == "")
 		{
@@ -1571,7 +1621,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();			
 
-		if (substr($reply, 0, 3) != '334')
+		if (strncmp($reply, '334', 3) != 0)
 		{
 			$this->_set_error_message('email_failed_smtp_login', $reply);			
 			return FALSE;
@@ -1581,7 +1631,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();			
 
-		if (substr($reply, 0, 3) != '334')
+		if (strncmp($reply, '334', 3) != 0)
 		{
 			$this->_set_error_message('email_smtp_auth_un', $reply);			
 			return FALSE;
@@ -1591,7 +1641,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();			
 
-		if (substr($reply, 0, 3) != '235')
+		if (strncmp($reply, '235', 3) != 0)
 		{
 			$this->_set_error_message('email_smtp_auth_pw', $reply);			
 			return FALSE;
@@ -1616,7 +1666,9 @@ class CI_Email {
 			return FALSE;
 		}
 		else
+		{
 			return TRUE;
+		}
 	}
   	
 	// --------------------------------------------------------------------
@@ -1636,7 +1688,9 @@ class CI_Email {
 			$data .= $str;
 			
 			if (substr($str, 3, 1) == " ")
+			{
 				break;
+			}
 		}
 		
 		return $data;
@@ -1686,7 +1740,9 @@ class CI_Email {
 		}
 		
 		if (! preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $this->_IP))
+		{
 			$this->_IP = '0.0.0.0';
+		}
 		
 		unset($cip);
 		unset($rip);
