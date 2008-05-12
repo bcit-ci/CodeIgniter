@@ -172,12 +172,9 @@ class CI_Config {
 		
 		$pref = $this->config[$item];
 		
-		if ($pref != '')
+		if ($pref != '' && substr($pref, -1) != '/')
 		{			
-			if (ereg("/$", $pref) === FALSE)
-			{
-				$pref .= '/';
-			}
+			$pref .= '/';
 		}
 
 		return $pref;

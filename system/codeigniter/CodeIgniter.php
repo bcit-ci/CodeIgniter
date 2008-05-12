@@ -172,7 +172,7 @@ $method = $RTR->fetch_method();
 
 if (! class_exists($class)
 	OR $method == 'controller'
-	OR substr($method, 0, 1) == '_'
+	OR strncmp($method, '_', 1) == 0
 	OR in_array($method, get_class_methods('Controller'), TRUE)
 	)
 {

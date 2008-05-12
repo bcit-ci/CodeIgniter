@@ -905,8 +905,8 @@ class CI_Loader {
 			}
 		}		
 
-		// Autoload plugins, helpers, scripts and languages
-		foreach (array('helper', 'plugin', 'script', 'language') as $type)
+		// Autoload plugins, helpers and languages
+		foreach (array('helper', 'plugin', 'language') as $type)
 		{			
 			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
 			{
