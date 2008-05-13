@@ -32,7 +32,26 @@ class CI_Input {
 	var $ip_address			= FALSE;
 	var $user_agent			= FALSE;
 	var $allow_get_array	= FALSE;
-
+	
+	/* never allowed, string replacement */
+	var $never_allowed_str = array(
+									'document.cookie'	=> '[removed]',
+									'document.write'	=> '[removed]',
+									'.parentNode'		=> '[removed]',
+									'.innerHTML'		=> '[removed]',
+									'window.location'	=> '[removed]',
+									'-moz-binding'		=> '[removed]',
+									'<!--'				=> '&lt;!--',
+									'-->'				=> '--&gt;',
+									'<![CDATA['			=> '&lt;![CDATA['
+									);
+	/* never allowed, regex replacement */
+	var $never_allowed_regex = array(
+										"javascript\s*:"	=> '[removed]',
+										"expression\s*\("	=> '[removed]', // CSS and IE
+										"Redirect\s+302"	=> '[removed]'
+									);
+				
 	/**
 	 * Constructor
 	 *
@@ -663,30 +682,13 @@ class CI_Input {
 		/*
 		 * Not Allowed Under Any Conditions
 		 */
-		$bad = array(
-						'document.cookie'	=> '[removed]',
-						'document.write'	=> '[removed]',
-						'.parentNode'		=> '[removed]',
-						'.innerHTML'		=> '[removed]',
-						'window.location'	=> '[removed]',
-						'-moz-binding'		=> '[removed]',
-						'<!--'				=> '&lt;!--',
-						'-->'				=> '--&gt;',
-						'<![CDATA['			=> '&lt;![CDATA['
-					);
-
-		foreach ($bad as $key => $val)
+		
+		foreach ($this->never_allowed_str as $key => $val)
 		{
 			$str = str_replace($key, $val, $str);   
 		}
-
-		$bad = array(
-						"javascript\s*:"	=> '[removed]',
-						"expression\s*\("	=> '[removed]', // CSS and IE
-						"Redirect\s+302"	=> '[removed]'
-					);
-			
-		foreach ($bad as $key => $val)
+	
+		foreach ($this->never_allowed_regex as $key => $val)
 		{
 			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
@@ -774,7 +776,8 @@ class CI_Input {
 		 * Becomes: &lt;blink&gt;
 		 *
 		 */
-		$str = preg_replace('#<(/*\s*)(alert|applet|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|layer|link|meta|object|plaintext|style|script|textarea|title|xml|xss)([^>]*)>#is', "&lt;\\1\\2\\3&gt;", $str);
+		$naughty = 'alert|applet|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|layer|link|meta|object|plaintext|style|script|textarea|title|xml|xss';
+		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
 
 		/*
 		 * Sanitize naughty scripting elements
@@ -807,7 +810,7 @@ class CI_Input {
 						'-moz-binding'		=> '[removed]',
 						'<!--'				=> '&lt;!--',
 						'-->'				=> '--&gt;',
-						'<!CDATA['			=> '&lt;![CDATA['
+						'<![CDATA['			=> '&lt;![CDATA['
 					);
 
 		foreach ($bad as $key => $val)
@@ -855,7 +858,36 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Sanitize Naughty HTML
+	 *
+	 * Callback function for xss_clean() to remove naughty HTML elements
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */
+	function _sanitize_naughty_html($matches)
+	{
+		// encode opening brace
+		$str = '&lt;'.$matches[1].$matches[2].$matches[3];
+		
+		// encode captured opening or closing brace to prevent recursive vectors
+		if ($matches[4] == '>')
+		{
+			$str .= '&gt;';
+		}
+		elseif ($matches[4] == '<')
+		{
+			$str .= '&lt;';
+		}
 
+		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * JS Link Removal
 	 *
