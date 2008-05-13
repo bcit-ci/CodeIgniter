@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -137,7 +137,7 @@ class CI_Output {
 	 */	
 	function cache($time)
 	{
-		$this->cache_expiration = (! is_numeric($time)) ? 0 : $time;
+		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 	}
 	
 	// --------------------------------------------------------------------
@@ -187,7 +187,7 @@ class CI_Output {
 		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
-		$memory	 = (! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
 		$output = str_replace('{memory_usage}', $memory, $output);		
 
 		// --------------------------------------------------------------------
@@ -220,7 +220,7 @@ class CI_Output {
 		// Does the get_instance() function exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if (! function_exists('get_instance'))
+		if ( ! function_exists('get_instance'))
 		{
 			echo $output;
 			log_message('debug', "Final output sent to browser");
@@ -285,7 +285,7 @@ class CI_Output {
 	
 		$cache_path = ($path == '') ? BASEPATH.'cache/' : $path;
 		
-		if (! is_dir($cache_path) OR ! is_really_writable($cache_path))
+		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
 			return;
 		}
@@ -296,7 +296,7 @@ class CI_Output {
 		
 		$cache_path .= md5($uri);
 
-		if (! $fp = @fopen($cache_path, 'wb'))
+		if ( ! $fp = @fopen($cache_path, 'wb'))
 		{
 			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
@@ -327,7 +327,7 @@ class CI_Output {
 	
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
 			
-		if (! is_dir($cache_path) OR ! is_really_writable($cache_path))
+		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
 			return FALSE;
 		}
@@ -339,12 +339,12 @@ class CI_Output {
 				
 		$filepath = $cache_path.md5($uri);
 		
-		if (! @file_exists($filepath))
+		if ( ! @file_exists($filepath))
 		{
 			return FALSE;
 		}
 	
-		if (! $fp = @fopen($filepath, 'rb'))
+		if ( ! $fp = @fopen($filepath, 'rb'))
 		{
 			return FALSE;
 		}
@@ -361,7 +361,7 @@ class CI_Output {
 		fclose($fp);
 					
 		// Strip out the embedded timestamp		
-		if (! preg_match("/(\d+TS--->)/", $cache, $match))
+		if ( ! preg_match("/(\d+TS--->)/", $cache, $match))
 		{
 			return FALSE;
 		}

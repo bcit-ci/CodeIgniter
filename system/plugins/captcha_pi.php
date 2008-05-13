@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -157,16 +157,16 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	
 	foreach ($defaults as $key => $val)
 	{
-		if (! is_array($data))
+		if ( ! is_array($data))
 		{
-			if (! isset($$key) OR $$key == '')
+			if ( ! isset($$key) OR $$key == '')
 			{
 				$$key = $val;
 			}
 		}
 		else
 		{			
-			$$key = (! isset($data[$key])) ? $val : $data[$key];
+			$$key = ( ! isset($data[$key])) ? $val : $data[$key];
 		}
 	}
 	
@@ -175,17 +175,17 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 		return FALSE;
 	}
 
-	if (! @is_dir($img_path))
+	if ( ! @is_dir($img_path))
 	{
 		return FALSE;
 	}
 	
-	if (! is_really_writable($img_path))
+	if ( ! is_really_writable($img_path))
 	{
 		return FALSE;
 	}
 			
-	if (! extension_loaded('gd'))
+	if ( ! extension_loaded('gd'))
 	{
 		return FALSE;
 	}		

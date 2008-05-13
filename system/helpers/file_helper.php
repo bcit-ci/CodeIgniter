@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -36,11 +36,11 @@
  * @param	string	path to file
  * @return	string
  */	
-if (! function_exists('read_file'))
+if ( ! function_exists('read_file'))
 {
 	function read_file($file)
 	{
-		if (! file_exists($file))
+		if ( ! file_exists($file))
 		{
 			return FALSE;
 		}
@@ -50,7 +50,7 @@ if (! function_exists('read_file'))
 			return file_get_contents($file);		
 		}
 
-		if (! $fp = @fopen($file, FOPEN_READ))
+		if ( ! $fp = @fopen($file, FOPEN_READ))
 		{
 			return FALSE;
 		}
@@ -83,11 +83,11 @@ if (! function_exists('read_file'))
  * @param	string	file data
  * @return	bool
  */	
-if (! function_exists('write_file'))
+if ( ! function_exists('write_file'))
 {
 	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
 	{
-		if (! $fp = fopen($path, $mode))
+		if ( ! $fp = fopen($path, $mode))
 		{
 			return FALSE;
 		}
@@ -116,14 +116,14 @@ if (! function_exists('write_file'))
  * @param	bool	whether to delete any directories found in the path
  * @return	bool
  */	
-if (! function_exists('delete_files'))
+if ( ! function_exists('delete_files'))
 {
 	function delete_files($path, $del_dir = FALSE, $level = 0)
 	{	
 		// Trim the trailing slash
 		$path = preg_replace("|^(.+?)/*$|", "\\1", $path);
 		
-		if (! $current_dir = @opendir($path))
+		if ( ! $current_dir = @opendir($path))
 			return;
 	
 		while(FALSE !== ($filename = @readdir($current_dir)))
@@ -163,7 +163,7 @@ if (! function_exists('delete_files'))
  * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
  */	
-if (! function_exists('get_filenames'))
+if ( ! function_exists('get_filenames'))
 {
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
@@ -215,7 +215,7 @@ if (! function_exists('get_filenames'))
  * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
  */	
-if (! function_exists('get_dir_file_info'))
+if ( ! function_exists('get_dir_file_info'))
 {
 	function get_dir_file_info($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
@@ -267,12 +267,12 @@ if (! function_exists('get_dir_file_info'))
 * @param    mixed    array or comma separated string of information returned
 * @return    array
 */    
-if (! function_exists('get_file_info'))
+if ( ! function_exists('get_file_info'))
 {
     function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
     {
 
-        if (! file_exists($file))
+        if ( ! file_exists($file))
         {
             return FALSE;
         }
@@ -333,7 +333,7 @@ if (! function_exists('get_file_info'))
  * @param	string	path to file
  * @return	mixed
  */	
-if (! function_exists('get_mime_by_extension'))
+if ( ! function_exists('get_mime_by_extension'))
 {
 	function get_mime_by_extension($file)
 	{
@@ -341,9 +341,9 @@ if (! function_exists('get_mime_by_extension'))
 	
 		global $mimes;
 	
-		if (! is_array($mimes))
+		if ( ! is_array($mimes))
 		{
-			if (! require_once(APPPATH.'config/mimes.php'))
+			if ( ! require_once(APPPATH.'config/mimes.php'))
 			{
 				return FALSE;
 			}
@@ -380,7 +380,7 @@ if (! function_exists('get_mime_by_extension'))
  * @param	int
  * @return	string
  */	
-if (! function_exists('symbolic_permissions'))
+if ( ! function_exists('symbolic_permissions'))
 {
 	function symbolic_permissions($perms)
 	{	
@@ -448,7 +448,7 @@ if (! function_exists('symbolic_permissions'))
  * @param	int
  * @return	string
  */	
-if (! function_exists('octal_permissions'))
+if ( ! function_exists('octal_permissions'))
 {
 	function octal_permissions($perms)
 	{

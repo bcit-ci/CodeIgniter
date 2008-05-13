@@ -98,7 +98,7 @@ they are initialized.</p>
 
 <p>Classes should have this basic prototype (Note:  We are using the name <kbd>Someclass</kbd> purely as an example):</p>
 
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<code>&lt;?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <br /><br />
 class Someclass {<br />
 <br />
@@ -137,7 +137,7 @@ $this->load->library('Someclass', <kbd>$params</kbd>);</code>
 
 <p>If you use this feature you must set up your class constructor to expect data:</p>
 
-<code>&lt;?php  if (!defined('BASEPATH')) exit('No direct script access allowed');<br />
+<code>&lt;?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');<br />
 <br />
 class Someclass {<br />
 <br />

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -53,7 +53,7 @@ class CI_Table {
 	 */
 	function set_template($template)
 	{
-		if (! is_array($template))
+		if ( ! is_array($template))
 		{
 			return FALSE;
 		}
@@ -93,7 +93,7 @@ class CI_Table {
 	 */
 	function make_columns($array = array(), $col_limit = 0)
 	{
-		if (! is_array($array) OR count($array) == 0)
+		if ( ! is_array($array) OR count($array) == 0)
 		{
 			return FALSE;
 		}
@@ -186,7 +186,7 @@ class CI_Table {
 	{
 		// The table data can optionally be passed to this function
 		// either as a database result object or an array
-		if (! is_null($table_data))
+		if ( ! is_null($table_data))
 		{
 			if (is_object($table_data))
 			{
@@ -245,7 +245,7 @@ class CI_Table {
 			$i = 1;
 			foreach($this->rows as $row)
 			{
-				if (! is_array($row))
+				if ( ! is_array($row))
 				{
 					break;
 				}
@@ -308,7 +308,7 @@ class CI_Table {
 	 */
 	function _set_from_object($query)
 	{
-		if (! is_object($query))
+		if ( ! is_object($query))
 		{
 			return FALSE;
 		}
@@ -316,7 +316,7 @@ class CI_Table {
 		// First generate the headings from the table column names
 		if (count($this->heading) == 0)
 		{
-			if (! method_exists($query, 'list_fields'))
+			if ( ! method_exists($query, 'list_fields'))
 			{
 				return FALSE;
 			}
@@ -346,7 +346,7 @@ class CI_Table {
 	 */
 	function _set_from_array($data, $set_heading = TRUE)
 	{
-		if (! is_array($data) OR count($data) == 0)
+		if ( ! is_array($data) OR count($data) == 0)
 		{
 			return FALSE;
 		}
@@ -354,7 +354,7 @@ class CI_Table {
 		$i = 0;
 		foreach ($data as $row)
 		{
-			if (! is_array($row))
+			if ( ! is_array($row))
 			{
 				$this->rows[] = $data;
 				break;
@@ -393,7 +393,7 @@ class CI_Table {
 		$this->temp = $this->_default_template();
 		foreach (array('table_open','heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end', 'row_start', 'row_end', 'cell_start', 'cell_end', 'row_alt_start', 'row_alt_end', 'cell_alt_start', 'cell_alt_end', 'table_close') as $val)
 		{
-			if (! isset($this->template[$val]))
+			if ( ! isset($this->template[$val]))
 			{
 				$this->template[$val] = $this->temp[$val];
 			}

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -147,7 +147,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function select_max($select = '', $alias='')
 	{
-		if (!is_string($select) || $select == '')
+		if ( ! is_string($select) OR $select == '')
 		{
 			$this->display_error('db_invalid_query');
 		}
@@ -179,7 +179,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function select_min($select = '', $alias='')
 	{
-		if (!is_string($select) || $select == '')
+		if ( ! is_string($select) OR $select == '')
 		{
 			$this->display_error('db_invalid_query');
 		}
@@ -211,7 +211,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function select_avg($select = '', $alias='')
 	{
-		if (!is_string($select) || $select == '')
+		if ( ! is_string($select) OR $select == '')
 		{
 			$this->display_error('db_invalid_query');
 		}
@@ -243,7 +243,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function select_sum($select = '', $alias='')
 	{
-		if (!is_string($select) || $select == '')
+		if ( ! is_string($select) OR $select == '')
 		{
 			$this->display_error('db_invalid_query');
 		}
@@ -322,7 +322,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$type = strtoupper(trim($type));
 
-			if (! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
 			{
 				$type = '';
 			}
@@ -418,7 +418,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _where($key, $value = NULL, $type = 'AND ', $escape = TRUE)
 	{
-		if (! is_array($key))
+		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
 		}
@@ -427,13 +427,13 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$prefix = (count($this->ar_where) == 0) ? '' : $type;
 
-			if (! $this->_has_operator($k) && is_null($key[$k]))
+			if ( ! $this->_has_operator($k) && is_null($key[$k]))
 			{
 				// value appears not to have been set, assign the test to IS NULL
 				$k .= ' IS NULL';
 			}
 			
-			if (! is_null($v))
+			if ( ! is_null($v))
 			{
 
 				if ($escape === TRUE)
@@ -449,7 +449,7 @@ class CI_DB_active_record extends CI_DB_driver {
 					}
 				}
 
-				if (! $this->_has_operator($k))
+				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' =';
 				}
@@ -570,7 +570,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ')
 	{
-		if ($key === NULL || !is_array($values))
+		if ($key === NULL OR ! is_array($values))
 		{
 			return;
 		}
@@ -696,7 +696,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
 	{
-		if (! is_array($field))
+		if ( ! is_array($field))
 		{
 			$field = array($field => $match);
 		}
@@ -838,7 +838,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
 	{
-		if (! is_array($key))
+		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
 		}
@@ -978,7 +978,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		$key = $this->_object_to_array($key);
 	
-		if (! is_array($key))
+		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
 		}	
@@ -1028,7 +1028,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 		
-		if (! is_null($limit))
+		if ( ! is_null($limit))
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1093,12 +1093,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		if (! is_null($where))
+		if ( ! is_null($where))
 		{
 			$this->where($where);
 		}
 		
-		if (! is_null($limit))
+		if ( ! is_null($limit))
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1136,7 +1136,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function insert($table = '', $set = NULL)
 	{
-		if (! is_null($set))
+		if ( ! is_null($set))
 		{
 			$this->set($set);
 		}
@@ -1152,7 +1152,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if ($table == '')
 		{
-			if (! isset($this->ar_from[0]))
+			if ( ! isset($this->ar_from[0]))
 			{
 				if ($this->db_debug)
 				{
@@ -1185,7 +1185,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
 	{
-		if (! is_null($set))
+		if ( ! is_null($set))
 		{
 			$this->set($set);
 		}
@@ -1201,7 +1201,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if ($table == '')
 		{
-			if (! isset($this->ar_from[0]))
+			if ( ! isset($this->ar_from[0]))
 			{
 				if ($this->db_debug)
 				{
@@ -1244,7 +1244,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table == '')
 		{
-			if (! isset($this->ar_from[0]))
+			if ( ! isset($this->ar_from[0]))
 			{
 				if ($this->db_debug)
 				{
@@ -1285,7 +1285,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table == '')
 		{
-			if (! isset($this->ar_from[0]))
+			if ( ! isset($this->ar_from[0]))
 			{
 				if ($this->db_debug)
 				{
@@ -1327,7 +1327,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if ($table == '')
 		{
-			if (! isset($this->ar_from[0]))
+			if ( ! isset($this->ar_from[0]))
 			{
 				if ($this->db_debug)
 				{
@@ -1407,7 +1407,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	function _has_operator($str)
 	{
 		$str = trim($str);
-		if (! preg_match("/(\s|<|>|!|=|is null|is not null)/i", $str))
+		if ( ! preg_match("/(\s|<|>|!|=|is null|is not null)/i", $str))
 		{
 			return FALSE;
 		}
@@ -1480,7 +1480,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		$this->_merge_cache();
 
-		$sql = (! $this->ar_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
+		$sql = ( ! $this->ar_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
 	
 		$sql .= (count($this->ar_select) == 0) ? '*' : implode(', ', $this->_filter_table_aliases($this->ar_select));
 
@@ -1583,7 +1583,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _object_to_array($object)
 	{
-		if (! is_object($object))
+		if ( ! is_object($object))
 		{
 			return $object;
 		}
@@ -1592,7 +1592,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach (get_object_vars($object) as $key => $val)
 		{
 			// There are some built in keys we need to ignore for this conversion
-			if (! is_object($val) && ! is_array($val) && $key != '_parent_name' && $key != '_ci_scaffolding' && $key != '_ci_scaff_table')
+			if ( ! is_object($val) && ! is_array($val) && $key != '_parent_name' && $key != '_ci_scaffolding' && $key != '_ci_scaff_table')
   
 			{
 				$array[$key] = $val;
@@ -1696,7 +1696,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		foreach ($ar_reset_items as $item => $default_value)
 		{
-			if (!in_array($item, $this->ar_store_array))
+			if ( ! in_array($item, $this->ar_store_array))
 			{
 				$this->$item = $default_value;
 			}

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -132,7 +132,7 @@ class CI_Pagination {
 			show_error('Your number of links must be a positive number.');
 		}
 				
-		if (! is_numeric($this->cur_page))
+		if ( ! is_numeric($this->cur_page))
 		{
 			$this->cur_page = 0;
 		}

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -97,7 +97,7 @@ class Scaffolding {
 	function add()
 	{	
 		$data = array(
-						'title'	=>  (! isset($this->lang['scaff_add'])) ? 'Add Data' : $this->lang['scaff_add'],
+						'title'	=>  ( ! isset($this->lang['scaff_add'])) ? 'Add Data' : $this->lang['scaff_add'],
 						'fields' => $this->CI->db->field_data($this->current_table),
 						'action' => $this->base_uri.'/insert'
 					);
@@ -172,7 +172,7 @@ class Scaffolding {
 								);	
 
 		$data = array(
-						'title'	=>  (! isset($this->lang['scaff_view'])) ? 'View Data' : $this->lang['scaff_view'],
+						'title'	=>  ( ! isset($this->lang['scaff_view'])) ? 'View Data' : $this->lang['scaff_view'],
 						'query'		=> $query,
 						'fields'	=> $fields,
 						'primary'	=> $primary,
@@ -207,7 +207,7 @@ class Scaffolding {
 		$query = $this->CI->db->get_where($this->current_table, array($primary => $id));
 
 		$data = array(
-						'title'	=>  (! isset($this->lang['scaff_edit'])) ? 'Edit Data' : $this->lang['scaff_edit'],
+						'title'	=>  ( ! isset($this->lang['scaff_edit'])) ? 'Edit Data' : $this->lang['scaff_edit'],
 						'fields'	=> $query->field_data(),
 						'query'		=> $query->row(),
 						'action'	=> $this->base_uri.'/update/'.$this->CI->uri->segment(4)
@@ -245,7 +245,7 @@ class Scaffolding {
 	 */
 	function delete()
 	{
-		if (! isset($this->lang['scaff_del_confirm']))
+		if ( ! isset($this->lang['scaff_del_confirm']))
 		{
 			$message = 'Are you sure you want to delete the following row: '.$this->CI->uri->segment(4);
 		}
@@ -255,10 +255,10 @@ class Scaffolding {
 		}
 		
 		$data = array(
-						'title'		=> (! isset($this->lang['scaff_delete'])) ? 'Delete Data' : $this->lang['scaff_delete'],
+						'title'		=> ( ! isset($this->lang['scaff_delete'])) ? 'Delete Data' : $this->lang['scaff_delete'],
 						'message'	=> $message,
-						'no'		=> anchor(array($this->base_uri, 'view'), (! isset($this->lang['scaff_no'])) ? 'No' : $this->lang['scaff_no']),
-						'yes'		=> anchor(array($this->base_uri, 'do_delete', $this->CI->uri->segment(4)), (! isset($this->lang['scaff_yes'])) ? 'Yes' : $this->lang['scaff_yes'])
+						'no'		=> anchor(array($this->base_uri, 'view'), ( ! isset($this->lang['scaff_no'])) ? 'No' : $this->lang['scaff_no']),
+						'yes'		=> anchor(array($this->base_uri, 'do_delete', $this->CI->uri->segment(4)), ( ! isset($this->lang['scaff_yes'])) ? 'Yes' : $this->lang['scaff_yes'])
 					);
 	
 		$this->CI->load->view('delete', $data);

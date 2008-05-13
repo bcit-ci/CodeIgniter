@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -42,7 +42,7 @@
  * @param	string
  * @return	string
  */	
-if (! function_exists('trim_slashes'))
+if ( ! function_exists('trim_slashes'))
 {
 	function trim_slashes($str)
 	{
@@ -61,7 +61,7 @@ if (! function_exists('trim_slashes'))
  * @param	mixed	string or array
  * @return	mixed	string or array
  */	
-if (! function_exists('strip_slashes'))
+if ( ! function_exists('strip_slashes'))
 {
 	function strip_slashes($str)
 	{
@@ -92,7 +92,7 @@ if (! function_exists('strip_slashes'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('strip_quotes'))
+if ( ! function_exists('strip_quotes'))
 {
 	function strip_quotes($str)
 	{
@@ -111,7 +111,7 @@ if (! function_exists('strip_quotes'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('quotes_to_entities'))
+if ( ! function_exists('quotes_to_entities'))
 {
 	function quotes_to_entities($str)
 	{	
@@ -136,7 +136,7 @@ if (! function_exists('quotes_to_entities'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('reduce_double_slashes'))
+if ( ! function_exists('reduce_double_slashes'))
 {
 	function reduce_double_slashes($str)
 	{
@@ -163,7 +163,7 @@ if (! function_exists('reduce_double_slashes'))
  * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
  * @return	string
  */	
-if (! function_exists('reduce_multiples'))
+if ( ! function_exists('reduce_multiples'))
 {
 	function reduce_multiples($str, $character = ',', $trim = FALSE)
 	{
@@ -190,7 +190,7 @@ if (! function_exists('reduce_multiples'))
  * @param	integer	number of characters
  * @return	string
  */
-if (! function_exists('random_string'))
+if ( ! function_exists('random_string'))
 {	
 	function random_string($type = 'alnum', $len = 8)
 	{					
@@ -234,7 +234,7 @@ if (! function_exists('random_string'))
  * @param	string (as many parameters as needed)
  * @return	string
  */	
-if (! function_exists('alternator'))
+if ( ! function_exists('alternator'))
 {
 	function alternator()
 	{
@@ -260,7 +260,7 @@ if (! function_exists('alternator'))
  * @param	integer	number of repeats
  * @return	string
  */	
-if (! function_exists('repeater'))
+if ( ! function_exists('repeater'))
 {
 	function repeater($data, $num = 1)
 	{

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -38,7 +38,7 @@
  * @param	array	a key/value pair hidden data
  * @return	string
  */	
-if (! function_exists('form_open'))
+if ( ! function_exists('form_open'))
 {
 	function form_open($action = '', $attributes = array(), $hidden = array())
 	{
@@ -48,7 +48,7 @@ if (! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"';
 	
-		if (! isset($attributes['method']))
+		if ( ! isset($attributes['method']))
 		{
 			$form .= ' method="post"';
 		}
@@ -85,7 +85,7 @@ if (! function_exists('form_open'))
  * @param	array	a key/value pair hidden data
  * @return	string
  */	
-if (! function_exists('form_open_multipart'))
+if ( ! function_exists('form_open_multipart'))
 {
 	function form_open_multipart($action, $attributes = array(), $hidden = array())
 	{
@@ -107,11 +107,11 @@ if (! function_exists('form_open_multipart'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_hidden'))
+if ( ! function_exists('form_hidden'))
 {
 	function form_hidden($name, $value = '')
 	{
-		if (! is_array($name))
+		if ( ! is_array($name))
 		{
 			return '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
 		}
@@ -137,11 +137,11 @@ if (! function_exists('form_hidden'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_input'))
+if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'text', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value, 'maxlength' => '500', 'size' => '50');
+		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value, 'maxlength' => '500', 'size' => '50');
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -160,11 +160,11 @@ if (! function_exists('form_input'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_password'))
+if ( ! function_exists('form_password'))
 {
 	function form_password($data = '', $value = '', $extra = '')
 	{
-		if (! is_array($data))
+		if ( ! is_array($data))
 		{
 			$data = array('name' => $data);
 		}
@@ -187,11 +187,11 @@ if (! function_exists('form_password'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_upload'))
+if ( ! function_exists('form_upload'))
 {
 	function form_upload($data = '', $value = '', $extra = '')
 	{
-		if (! is_array($data))
+		if ( ! is_array($data))
 		{
 			$data = array('name' => $data);
 		}
@@ -212,13 +212,13 @@ if (! function_exists('form_upload'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_textarea'))
+if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => ((! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
 	
-	    if (! is_array($data) OR ! isset($data['value']))
+	    if ( ! is_array($data) OR ! isset($data['value']))
 		{
 			$val = $value;
 		}
@@ -244,11 +244,11 @@ if (! function_exists('form_textarea'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_dropdown'))
+if ( ! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if (! is_array($selected))
+		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
 		}
@@ -287,11 +287,11 @@ if (! function_exists('form_dropdown'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_checkbox'))
+if ( ! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		$defaults = array('type' => 'checkbox', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 	
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
@@ -328,11 +328,11 @@ if (! function_exists('form_checkbox'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_radio'))
+if ( ! function_exists('form_radio'))
 {
 	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		if (! is_array($data))
+		if ( ! is_array($data))
 		{	
 			$data = array('name' => $data);
 		}
@@ -353,11 +353,11 @@ if (! function_exists('form_radio'))
  * @param	string
  * @return	string
  */
-if (! function_exists('form_submit'))
+if ( ! function_exists('form_submit'))
 {	
 	function form_submit($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'submit', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -374,11 +374,11 @@ if (! function_exists('form_submit'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_reset'))
+if ( ! function_exists('form_reset'))
 {
 	function form_reset($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'reset', 'name' => ((! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -395,11 +395,11 @@ if (! function_exists('form_reset'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_button'))
+if ( ! function_exists('form_button'))
 {
 	function form_button($data = '', $content = '', $extra = '')
 	{
-		$defaults = array('name' => ((! is_array($data)) ? $data : ''), 'type' => 'submit');
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'submit');
 		
 		if ( is_array($data) AND isset($data['content']))
 		{
@@ -422,7 +422,7 @@ if (! function_exists('form_button'))
  * @param	string	Additional attributes
  * @return	string
  */	
-if (! function_exists('form_label'))
+if ( ! function_exists('form_label'))
 {
 	function form_label($label_text = '', $id = '', $attributes = array())
 	{
@@ -460,7 +460,7 @@ if (! function_exists('form_label'))
  * @param	string	Additional attributes
  * @return	string
  */	
-if (! function_exists('form_fieldset'))
+if ( ! function_exists('form_fieldset'))
 {
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
@@ -497,7 +497,7 @@ if (! function_exists('form_fieldset'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_fieldset_close'))
+if ( ! function_exists('form_fieldset_close'))
 {
 	function form_fieldset_close($extra = '')
 	{
@@ -514,7 +514,7 @@ if (! function_exists('form_fieldset_close'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_close'))
+if ( ! function_exists('form_close'))
 {
 	function form_close($extra = '')
 	{
@@ -533,7 +533,7 @@ if (! function_exists('form_close'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('form_prep'))
+if ( ! function_exists('form_prep'))
 {
 	function form_prep($str = '')
 	{
@@ -574,7 +574,7 @@ if (! function_exists('form_prep'))
  * @param	array
  * @return	string
  */	
-if (! function_exists('parse_form_attributes'))
+if ( ! function_exists('parse_form_attributes'))
 {
 	function parse_form_attributes($attributes, $default)
 	{

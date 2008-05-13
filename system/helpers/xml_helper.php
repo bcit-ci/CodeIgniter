@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -34,7 +34,7 @@
  * @param	string
  * @return	string
  */	
-if (! function_exists('xml_convert'))
+if ( ! function_exists('xml_convert'))
 {
 	function xml_convert($str)
 	{

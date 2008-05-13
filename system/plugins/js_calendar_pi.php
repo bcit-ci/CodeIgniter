@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -274,7 +274,7 @@ function total_days()
 		case 1: // Check for leap year
 			if ((  this.date_obj.getFullYear() % 4 == 0
 				&& this.date_obj.getFullYear() % 100 != 0)
-				|| this.date_obj.getFullYear() % 400 == 0)
+				OR this.date_obj.getFullYear() % 400 == 0)
 				return 29;
 			else
 				return 28;
@@ -385,9 +385,9 @@ function update_calendar(id, dateValue)
 	var newMonth = dateParts[1];
 	var newDay   = dateParts[2];
 	
-	if (isNaN(newDay)  || newDay < 1 || (newDay.length != 1 && newDay.length != 2)) return;
-	if (isNaN(newYear) || newYear < 1 || newYear.length != 4) return;
-	if (isNaN(newMonth) || newMonth < 1 || (newMonth.length != 1 && newMonth.length != 2)) return;
+	if (isNaN(newDay)  OR newDay < 1 OR (newDay.length != 1 && newDay.length != 2)) return;
+	if (isNaN(newYear) OR newYear < 1 OR newYear.length != 4) return;
+	if (isNaN(newMonth) OR newMonth < 1 OR (newMonth.length != 1 && newMonth.length != 2)) return;
 	
 	if (newMonth > 12) newMonth = 12;
 	
@@ -396,7 +396,7 @@ function update_calendar(id, dateValue)
 		switch(newMonth - 1)
 		{
 			case 1: // Check for leap year
-				if ((newYear % 4 == 0 && newYear % 100 != 0) || newYear % 400 == 0)
+				if ((newYear % 4 == 0 && newYear % 100 != 0) OR newYear % 400 == 0)
 				{
 					if (newDay > 29) newDay = 29;
 				}
@@ -541,7 +541,7 @@ function change_month(mo, cal)
 		switch(newMonth)
 		{
 			case 1: // Check for leap year
-				if ((newYear % 4 == 0 && newYear % 100 != 0) || newYear % 400 == 0)
+				if ((newYear % 4 == 0 && newYear % 100 != 0) OR newYear % 400 == 0)
 				{
 					if (newDate > 29) newDate = 29;
 				}

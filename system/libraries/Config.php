@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -66,7 +66,7 @@ class CI_Config {
 			return TRUE;
 		}
 
-		if (! file_exists(APPPATH.'config/'.$file.EXT))
+		if ( ! file_exists(APPPATH.'config/'.$file.EXT))
 		{
 			if ($fail_gracefully === TRUE)
 			{
@@ -77,7 +77,7 @@ class CI_Config {
 	
 		include(APPPATH.'config/'.$file.EXT);
 
-		if (! isset($config) OR ! is_array($config))
+		if ( ! isset($config) OR ! is_array($config))
 		{
 			if ($fail_gracefully === TRUE)
 			{
@@ -125,7 +125,7 @@ class CI_Config {
 	{	
 		if ($index == '')
 		{	
-			if (! isset($this->config[$item]))
+			if ( ! isset($this->config[$item]))
 			{
 				return FALSE;
 			}
@@ -134,12 +134,12 @@ class CI_Config {
 		}
 		else
 		{
-			if (! isset($this->config[$index]))
+			if ( ! isset($this->config[$index]))
 			{
 				return FALSE;
 			}
 
-			if (! isset($this->config[$index][$item]))
+			if ( ! isset($this->config[$index][$item]))
 			{
 				return FALSE;
 			}
@@ -165,7 +165,7 @@ class CI_Config {
 	 */
 	function slash_item($item)
 	{
-		if (! isset($this->config[$item]))
+		if ( ! isset($this->config[$item]))
 		{
 			return FALSE;
 		}

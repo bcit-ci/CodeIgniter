@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -83,7 +83,7 @@ class CI_Language {
 		}
 
 		
-		if (! isset($lang))
+		if ( ! isset($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;

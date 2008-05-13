@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,7 +37,7 @@
  * @param	mixed	the data to be downloaded
  * @return	void
  */	
-if (! function_exists('force_download'))
+if ( ! function_exists('force_download'))
 {
 	function force_download($filename = '', $data = '')
 	{
@@ -61,7 +61,7 @@ if (! function_exists('force_download'))
 		@include(APPPATH.'config/mimes'.EXT);
 	
 		// Set a default mime if we can't find it
-		if (! isset($mimes[$extension]))
+		if ( ! isset($mimes[$extension]))
 		{
 			$mime = 'application/octet-stream';
 		}

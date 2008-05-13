@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -98,7 +98,7 @@ class CI_FTP {
 			return FALSE;
 		}
 		
-		if (! $this->_login())
+		if ( ! $this->_login())
 		{
 			if ($this->debug == TRUE)
 			{
@@ -139,7 +139,7 @@ class CI_FTP {
 	 */	
 	function _is_conn()
 	{
-		if (! is_resource($this->conn_id))
+		if ( ! is_resource($this->conn_id))
 		{
 			if ($this->debug == TRUE)
 			{
@@ -216,7 +216,7 @@ class CI_FTP {
 		}
 
 		// Set file permissions if needed
-		if (! is_null($permissions))
+		if ( ! is_null($permissions))
 		{
 			$this->chmod($path, (int)$permissions);
 		}
@@ -237,12 +237,12 @@ class CI_FTP {
 	 */	
 	function upload($locpath, $rempath, $mode = 'auto', $permissions = NULL)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
 
-		if (! file_exists($locpath))
+		if ( ! file_exists($locpath))
 		{
 			$this->_error('ftp_no_source_file');
 			return FALSE;
@@ -270,7 +270,7 @@ class CI_FTP {
 		}
 		
 		// Set file permissions if needed
-		if (! is_null($permissions))
+		if ( ! is_null($permissions))
 		{
 			$this->chmod($rempath, (int)$permissions);
 		}
@@ -291,7 +291,7 @@ class CI_FTP {
 	 */	
 	function rename($old_file, $new_file, $move = FALSE)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -338,7 +338,7 @@ class CI_FTP {
 	 */	
 	function delete_file($filepath)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -369,7 +369,7 @@ class CI_FTP {
 	 */	
 	function delete_dir($filepath)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -385,7 +385,7 @@ class CI_FTP {
 			{			
 				// If we can't delete the item it's probaly a folder so
 				// we'll recursively call delete_dir()
-				if (! @ftp_delete($this->conn_id, $item))
+				if ( ! @ftp_delete($this->conn_id, $item))
 				{
 					$this->delete_dir($item);
 				}
@@ -418,13 +418,13 @@ class CI_FTP {
 	 */		
 	function chmod($path, $perm)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
 
 		// Permissions can only be set when running PHP 5
-		if (! function_exists('ftp_chmod'))
+		if ( ! function_exists('ftp_chmod'))
 		{
 			if ($this->debug == TRUE)
 			{
@@ -457,7 +457,7 @@ class CI_FTP {
 	 */	
 	function list_files($path = '.')
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -481,7 +481,7 @@ class CI_FTP {
 	 */	
 	function mirror($locpath, $rempath)
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -490,10 +490,10 @@ class CI_FTP {
 		if ($fp = @opendir($locpath))
 		{
 			// Attempt to open the remote file path.
-			if (! $this->changedir($rempath, TRUE))
+			if ( ! $this->changedir($rempath, TRUE))
 			{
 				// If it doesn't exist we'll attempt to create the direcotory
-				if (! $this->mkdir($rempath) OR ! $this->changedir($rempath))
+				if ( ! $this->mkdir($rempath) OR ! $this->changedir($rempath))
 				{
 					return FALSE;
 				}
@@ -586,7 +586,7 @@ class CI_FTP {
 	 */	
 	function close()
 	{
-		if (! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}

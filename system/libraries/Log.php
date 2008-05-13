@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -46,7 +46,7 @@ class CI_Log {
 		
 		$this->log_path = ($config['log_path'] != '') ? $config['log_path'] : BASEPATH.'logs/';
 		
-		if (! is_dir($this->log_path) OR ! is_really_writable($this->log_path))
+		if ( ! is_dir($this->log_path) OR ! is_really_writable($this->log_path))
 		{
 			$this->_enabled = FALSE;
 		}
@@ -84,7 +84,7 @@ class CI_Log {
 	
 		$level = strtoupper($level);
 		
-		if (! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
+		if ( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
 		{
 			return FALSE;
 		}
@@ -92,12 +92,12 @@ class CI_Log {
 		$filepath = $this->log_path.'log-'.date('Y-m-d').EXT;
 		$message  = '';
 		
-		if (! file_exists($filepath))
+		if ( ! file_exists($filepath))
 		{
-			$message .= "<"."?php  if (!defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			$message .= "<"."?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 			
-		if (! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
 		{
 			return FALSE;
 		}

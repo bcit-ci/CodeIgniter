@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -39,7 +39,7 @@
  * @param	bool	whether to limit the result to the top level only
  * @return	array
  */	
-if (! function_exists('directory_map'))
+if ( ! function_exists('directory_map'))
 {
 	function directory_map($source_dir, $top_level_only = FALSE)
 	{	

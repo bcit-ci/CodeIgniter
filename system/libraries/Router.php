@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -80,12 +80,12 @@ class CI_Router {
 		
 		// Load the routes.php file.
 		@include(APPPATH.'config/routes'.EXT);
-		$this->routes = (! isset($route) OR ! is_array($route)) ? array() : $route;
+		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlated to a valid controller.
-		$this->default_controller = (! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);	
+		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);	
 		
 		// Fetch the complete URI string
 		$this->uri->_fetch_uri_string();
@@ -202,7 +202,7 @@ class CI_Router {
 			if (count($segments) > 0)
 			{
 				// Does the requested controller exist in the sub-folder?
-				if (! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
 				{
 					show_404($this->fetch_directory().$segments[0]);
 				}
@@ -213,7 +213,7 @@ class CI_Router {
 				$this->set_method('index');
 			
 				// Does the default controller exist in the sub-folder?
-				if (! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$this->default_controller.EXT))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$this->default_controller.EXT))
 				{
 					$this->directory = '';
 					return array();
