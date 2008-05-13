@@ -308,18 +308,23 @@ class CI_DB_driver {
 
 			if ($this->db_debug)
 			{
+				// grab the error number and message now, as we might run some
+				// additional queries before displaying the error
+				$error_no = $this->_error_number();
+				$error_msg = $this->_error_message();
+				
 				// We call this function in order to roll-back queries
 				// if transactions are enabled.  If we don't call this here
 				// the error message will trigger an exit, causing the 
 				// transactions to remain in limbo.
 				$this->trans_complete();
-			
+
 				// Log and display errors
 				log_message('error', 'Query error: '.$this->_error_message());
 				return $this->display_error(
 										array(
-												'Error Number: '.$this->_error_number(),
-												$this->_error_message(),
+												'Error Number: '.$error_no,
+												$error_msg,
 												$sql
 											)
 										);
