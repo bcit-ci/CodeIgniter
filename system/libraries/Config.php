@@ -82,10 +82,10 @@ class CI_Config {
 			if ($fail_gracefully === TRUE)
 			{
 				return FALSE;
-			}		
+			}
 			show_error('Your '.$file.EXT.' file does not appear to contain a valid configuration array.');
 		}
-		
+
 		if ($use_sections === TRUE)
 		{
 			if (isset($this->config[$file]))
@@ -120,16 +120,16 @@ class CI_Config {
 	 * @param	string	the index name
 	 * @param	bool
 	 * @return	string
-	 */		
+	 */
 	function item($item, $index = '')
-	{			
+	{	
 		if ($index == '')
 		{	
 			if (! isset($this->config[$item]))
 			{
 				return FALSE;
 			}
-		
+
 			$pref = $this->config[$item];
 		}
 		else
@@ -138,12 +138,12 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-		
+
 			if (! isset($this->config[$index][$item]))
 			{
 				return FALSE;
 			}
-		
+
 			$pref = $this->config[$index][$item];
 		}
 
@@ -162,18 +162,18 @@ class CI_Config {
 	 * @param	string	the config item name
 	 * @param	bool
 	 * @return	string
-	 */		
+	 */
 	function slash_item($item)
 	{
 		if (! isset($this->config[$item]))
 		{
 			return FALSE;
 		}
-		
+
 		$pref = $this->config[$item];
-		
+
 		if ($pref != '' && substr($pref, -1) != '/')
-		{			
+		{	
 			$pref .= '/';
 		}
 
@@ -188,21 +188,21 @@ class CI_Config {
 	 * @access	public
 	 * @param	string	the URI string
 	 * @return	string
-	 */		
+	 */
 	function site_url($uri = '')
 	{
 		if (is_array($uri))
 		{
 			$uri = implode('/', $uri);
 		}
-		
+
 		if ($uri == '')
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 		else
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');		
+			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
 			return $this->slash_item('base_url').$this->slash_item('index_page').preg_replace("|^/*(.+?)/*$|", "\\1", $uri).$suffix;
 		}
 	}
@@ -214,7 +214,7 @@ class CI_Config {
 	 *
 	 * @access	public
 	 * @return	string
-	 */		
+	 */
 	function system_url()
 	{
 		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", BASEPATH));
@@ -230,7 +230,7 @@ class CI_Config {
 	 * @param	string	the config item key
 	 * @param	string	the config item value
 	 * @return	void
-	 */		
+	 */
 	function set_item($item, $value)
 	{
 		$this->config[$item] = $value;

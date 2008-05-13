@@ -229,8 +229,8 @@ else
 		}
 
 		// Call the requested method.
-		// Any URI segments present (besides the class/function) will be passed to the method for convenience		
-		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));		
+		// Any URI segments present (besides the class/function) will be passed to the method for convenience
+		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
 	}
 }
 
@@ -271,7 +271,6 @@ if (class_exists('CI_DB') AND isset($CI->db))
 {
 	$CI->db->close();
 }
-
 
 
 /* End of file CodeIgniter.php */
