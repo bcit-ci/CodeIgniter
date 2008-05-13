@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -150,7 +150,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */	
 	function trans_begin($test_mode = FALSE)
 	{
-		if (! $this->trans_enabled)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -179,7 +179,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */	
 	function trans_commit()
 	{
-		if (! $this->trans_enabled)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -203,7 +203,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */	
 	function trans_rollback()
 	{
-		if (! $this->trans_enabled)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
@@ -488,7 +488,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _from_tables($tables)
 	{
-		if (! is_array($tables))
+		if ( ! is_array($tables))
 		{
 			$tables = array($tables);
 		}
@@ -536,7 +536,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			$valstr[] = $key." = ".$val;
 		}
 		
-		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
+		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 		
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 	
@@ -583,7 +583,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		$conditions = '';
 
-		if (count($where) > 0 || count($like) > 0)
+		if (count($where) > 0 OR count($like) > 0)
 		{
 			$conditions = "\nWHERE ";
 			$conditions .= implode("\n", $this->ar_where);
@@ -595,7 +595,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			$conditions .= implode("\n", $like);
 		}
 
-		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
+		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 	
 		return "DELETE FROM ".$table.$conditions.$limit;
 	}

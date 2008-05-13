@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -59,7 +59,7 @@ class Model {
 		$CI =& get_instance();				
 		foreach (array_keys(get_object_vars($CI)) as $key)
 		{
-			if (! isset($this->$key) AND $key != $this->_parent_name)
+			if ( ! isset($this->$key) AND $key != $this->_parent_name)
 			{			
 				// In some cases using references can cause
 				// problems so we'll conditionally use them

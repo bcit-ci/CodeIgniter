@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -44,7 +44,7 @@ class CI_Encrypt {
 	function CI_Encrypt()
 	{
 		$this->CI =& get_instance();
-		$this->_mcrypt_exists = (! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
+		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
 		log_message('debug', "Encrypt Class Initialized");
 	}
   	
@@ -459,9 +459,9 @@ class CI_Encrypt {
 	 */	
 	function sha1($str)
 	{
-		if (! function_exists('sha1'))
+		if ( ! function_exists('sha1'))
 		{
-			if (! function_exists('mhash'))
+			if ( ! function_exists('mhash'))
 			{	
 				require_once(BASEPATH.'libraries/Sha1'.EXT);
 				$SH = new CI_SHA;

@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -146,7 +146,7 @@ class CI_Session {
 		 * a new one.  If it does, we'll update it.
 		 *
 		 */
-		if (! $this->sess_read())
+		if ( ! $this->sess_read())
 		{
 			$this->sess_create();
 		}
@@ -214,7 +214,7 @@ class CI_Session {
 		
 		$session = @unserialize($this->strip_slashes($session));
 		
-		if (! is_array($session) OR ! isset($session['last_activity']))
+		if ( ! is_array($session) OR ! isset($session['last_activity']))
 		{
 			log_message('error', 'The session cookie data did not contain a valid array. This could be a possible hacking attempt.');
 			return FALSE;
@@ -439,7 +439,7 @@ class CI_Session {
 	 */		
 	function userdata($item)
 	{
-		return (! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 	}
 
 	// --------------------------------------------------------------------
@@ -452,7 +452,7 @@ class CI_Session {
 	 */	
 	function all_userdata()
 	{
-        return (! isset($this->userdata)) ? FALSE : $this->userdata;
+        return ( ! isset($this->userdata)) ? FALSE : $this->userdata;
 	}
 	
 	// --------------------------------------------------------------------

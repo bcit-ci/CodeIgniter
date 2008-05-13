@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -13,12 +13,12 @@
  * @filesource
  */
 
-if (! function_exists('xml_parser_create'))
+if ( ! function_exists('xml_parser_create'))
 {	
 	show_error('Your PHP installation does not support XML');
 }
 
-if (! class_exists('CI_Xmlrpc'))
+if ( ! class_exists('CI_Xmlrpc'))
 {
 	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
@@ -183,7 +183,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  PARSE + PROCESS XML DATA
 		//-------------------------------------  	
 		
-		if (! xml_parse($parser, $data, 1))
+		if ( ! xml_parse($parser, $data, 1))
 		{
 			// return XML error as a faultCode
 			$r = new XML_RPC_Response(0,
@@ -251,7 +251,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  Valid Method
 		//-------------------------------------
 		
-		if (! isset($this->methods[$methName]['function']))
+		if ( ! isset($this->methods[$methName]['function']))
 		{
 			return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 		}
@@ -265,18 +265,18 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		
 		if ($system_call === TRUE)
 		{
-			if (! is_callable(array($this,$method_parts['1'])))
+			if ( ! is_callable(array($this,$method_parts['1'])))
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
 		}
 		else
 		{
-			if ($objectCall && !is_callable(array($method_parts['0'],$method_parts['1'])))
+			if ($objectCall && ! is_callable(array($method_parts['0'],$method_parts['1'])))
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
-			elseif (!$objectCall && !is_callable($this->methods[$methName]['function']))
+			elseif ( ! $objectCall && ! is_callable($this->methods[$methName]['function']))
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
@@ -494,17 +494,17 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	{
 		if ($call->kindOf() != 'struct')
 			return $this->multicall_error('notstruct');
-		elseif (!$methName = $call->me['struct']['methodName'])
+		elseif ( ! $methName = $call->me['struct']['methodName'])
 			return $this->multicall_error('nomethod');
 		
 		list($scalar_type,$scalar_value)=each($methName->me);
 		$scalar_type = $scalar_type == $this->xmlrpcI4 ? $this->xmlrpcInt : $scalar_type;
 			
-		if ($methName->kindOf() != 'scalar' || $scalar_type != 'string')
+		if ($methName->kindOf() != 'scalar' OR $scalar_type != 'string')
 			return $this->multicall_error('notstring');
 		elseif ($scalar_value == 'system.multicall')
 			return $this->multicall_error('recursion');
-		elseif (!$params = $call->me['struct']['params'])
+		elseif ( ! $params = $call->me['struct']['params'])
 			return $this->multicall_error('noparams');
 		elseif ($params->kindOf() != 'array')
 			return $this->multicall_error('notarray');

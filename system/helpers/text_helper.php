@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -38,7 +38,7 @@
  * @param	string	the end character. Usually an ellipsis
  * @return	string
  */	
-if (! function_exists('word_limiter'))
+if ( ! function_exists('word_limiter'))
 {
 	function word_limiter($str, $limit = 100, $end_char = '&#8230;')
 	{
@@ -72,7 +72,7 @@ if (! function_exists('word_limiter'))
  * @param	string	the end character. Usually an ellipsis
  * @return	string
  */	
-if (! function_exists('character_limiter'))
+if ( ! function_exists('character_limiter'))
 {
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
 	{
@@ -81,7 +81,7 @@ if (! function_exists('character_limiter'))
 			return $str;
 		}
 		
-		$str = preg_replace("/\s+/", ' ', preg_replace("/(\r\n|\r|\n)/", " ", $str));
+		$str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
 		if (strlen($str) <= $n)
 		{
@@ -111,7 +111,7 @@ if (! function_exists('character_limiter'))
  * @param	string
  * @return	string
  */	
-if (! function_exists('ascii_to_entities'))
+if ( ! function_exists('ascii_to_entities'))
 {
 	function ascii_to_entities($str)
 	{
@@ -163,7 +163,7 @@ if (! function_exists('ascii_to_entities'))
  * @param	bool
  * @return	string
  */	
-if (! function_exists('entities_to_ascii'))
+if ( ! function_exists('entities_to_ascii'))
 {
 	function entities_to_ascii($str, $all = TRUE)
 	{
@@ -222,11 +222,11 @@ if (! function_exists('entities_to_ascii'))
  * @param	string	the optional replacement value
  * @return	string
  */	
-if (! function_exists('word_censor'))
+if ( ! function_exists('word_censor'))
 {
 	function word_censor($str, $censored, $replacement = '')
 	{
-		if (! is_array($censored))
+		if ( ! is_array($censored))
 		{
 			return $str;
 		}
@@ -259,7 +259,7 @@ if (! function_exists('word_censor'))
  * @param	string	the text string
  * @return	string
  */	
-if (! function_exists('highlight_code'))
+if ( ! function_exists('highlight_code'))
 {
 	function highlight_code($str)
 	{		
@@ -317,7 +317,7 @@ if (! function_exists('highlight_code'))
  * @param	string	the closing tag to end the phrase with
  * @return	string
  */	
-if (! function_exists('highlight_phrase'))
+if ( ! function_exists('highlight_phrase'))
 {
 	function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
 	{
@@ -349,19 +349,22 @@ if (! function_exists('highlight_phrase'))
  * @param	integer	the number of characters to wrap at
  * @return	string
  */	
-if (! function_exists('word_wrap'))
+if ( ! function_exists('word_wrap'))
 {
 	function word_wrap($str, $charlim = '76')
 	{
 		// Se the character limit
-		if (! is_numeric($charlim))
+		if ( ! is_numeric($charlim))
 			$charlim = 76;
 	
 		// Reduce multiple spaces
 		$str = preg_replace("| +|", " ", $str);
 	
 		// Standardize newlines
-		$str = preg_replace("/\r\n|\r/", "\n", $str);
+		if (strpos($str, "\r") !== FALSE)
+		{
+			$str = str_replace(array("\r\n", "\r"), "\n", $str);			
+		}
 	
 		// If the current word is surrounded by {unwrap} tags we'll 
 		// strip the entire chunk and replace it with a marker.

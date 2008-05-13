@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -147,7 +147,7 @@ class CI_DB_driver {
 						// In the event the DB was created we need to select it
 						if ($this->db_select())
 						{
-							if (! $this->db_set_charset($this->char_set, $this->dbcollat))
+							if ( ! $this->db_set_charset($this->char_set, $this->dbcollat))
 							{
 								log_message('error', 'Unable to set database connection charset: '.$this->char_set);
 
@@ -173,7 +173,7 @@ class CI_DB_driver {
 				return FALSE;
 			}
 			
-			if (! $this->db_set_charset($this->char_set, $this->dbcollat))
+			if ( ! $this->db_set_charset($this->char_set, $this->dbcollat))
 			{
 				log_message('error', 'Unable to set database connection charset: '.$this->char_set);
 			
@@ -1163,7 +1163,7 @@ class CI_DB_driver {
 		}
 		else
 		{
-			$message = (! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
 		}
 		
 		$error =& load_class('Exceptions');

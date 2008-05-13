@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -146,7 +146,7 @@ load_class('Controller', FALSE);
 // Load the local application controller
 // Note: The Router class automatically validates the controller path.  If this include fails it 
 // means that the default controller in the Routes.php file is not resolving to something valid.
-if (! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT))
+if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT))
 {
 	show_error('Unable to load your default controller.  Please make sure the controller specified in your Routes.php file is valid.');
 }
@@ -170,7 +170,7 @@ $class  = $RTR->fetch_class();
 $method = $RTR->fetch_method();
 
 
-if (! class_exists($class)
+if ( ! class_exists($class)
 	OR $method == 'controller'
 	OR strncmp($method, '_', 1) == 0
 	OR in_array($method, get_class_methods('Controller'), TRUE)
@@ -223,7 +223,7 @@ else
 	{
 		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
 		// methods, so we'll use this workaround for consistent behavior
-		if (! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
+		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
 		{
 			show_404("{$class}/{$method}");
 		}

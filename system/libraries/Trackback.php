@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -56,7 +56,7 @@ class CI_Trackback {
 	 */	
 	function send($tb_data)
 	{		
-		if (! is_array($tb_data))
+		if ( ! is_array($tb_data))
 		{
 			$this->set_error('The send() method must be passed an array');
 			return FALSE;
@@ -65,7 +65,7 @@ class CI_Trackback {
 		// Pre-process the Trackback Data
 		foreach (array('url', 'title', 'excerpt', 'blog_name', 'ping_url') as $item)
 		{
-			if (! isset($tb_data[$item]))
+			if ( ! isset($tb_data[$item]))
 			{
 				$this->set_error('Required item missing: '.$item);
 				return FALSE;
@@ -102,7 +102,7 @@ class CI_Trackback {
 		}
 
 		// Build the Trackback data string
-		$charset = (! isset($tb_data['charset'])) ? $this->charset : $tb_data['charset'];
+		$charset = ( ! isset($tb_data['charset'])) ? $this->charset : $tb_data['charset'];
 		
 		$data = "url=".rawurlencode($url)."&title=".rawurlencode($title)."&blog_name=".rawurlencode($blog_name)."&excerpt=".rawurlencode($excerpt)."&charset=".rawurlencode($charset);
 				
@@ -139,13 +139,13 @@ class CI_Trackback {
 	{  					
 		foreach (array('url', 'title', 'blog_name', 'excerpt') as $val)
 		{
-			if (! isset($_POST[$val]) OR $_POST[$val] == '')
+			if ( ! isset($_POST[$val]) OR $_POST[$val] == '')
 			{
 				$this->set_error('The following required POST variable is missing: '.$val);
 				return FALSE;
 			}
 			
-			$this->data['charset'] = (! isset($_POST['charset'])) ? 'auto' : strtoupper(trim($_POST['charset']));
+			$this->data['charset'] = ( ! isset($_POST['charset'])) ? 'auto' : strtoupper(trim($_POST['charset']));
 	
 			if ($val != 'url' && function_exists('mb_convert_encoding'))
 			{
@@ -212,7 +212,7 @@ class CI_Trackback {
 	 */	
 	function data($item)
 	{
-		return (! isset($this->data[$item])) ? '' : $this->data[$item];
+		return ( ! isset($this->data[$item])) ? '' : $this->data[$item];
 	}
 
 	// --------------------------------------------------------------------
@@ -233,14 +233,14 @@ class CI_Trackback {
 		$target = parse_url($url);
 	
 		// Open the socket
-		if (! $fp = @fsockopen($target['host'], 80))
+		if ( ! $fp = @fsockopen($target['host'], 80))
 		{
 			$this->set_error('Invalid Connection: '.$url);
 			return FALSE;
 		}
 
 		// Build the path
-		$ppath = (! isset($target['path'])) ? $url : $target['path'];
+		$ppath = ( ! isset($target['path'])) ? $url : $target['path'];
 		
 		$path = (isset($target['query']) && $target['query'] != "") ? $ppath.'?'.$target['query'] : $ppath;
 
@@ -261,13 +261,13 @@ class CI_Trackback {
 		// Was it successful?
 		$this->response = "";
 		
-		while(!feof($fp))
+		while( ! feof($fp))
 		{
 			$this->response .= fgets($fp, 128);
 		}
 		@fclose($fp);
 		
-		if (! eregi("<error>0</error>", $this->response))
+		if ( ! eregi("<error>0</error>", $this->response))
 		{
 			$message = 'An unknown error was encountered';
 			
@@ -360,7 +360,7 @@ class CI_Trackback {
 			$tb_array = explode('/', $url);
 			$tb_end   = $tb_array[count($tb_array)-1];
 			
-			if (! is_numeric($tb_end))
+			if ( ! is_numeric($tb_end))
 			{
 				$tb_end  = $tb_array[count($tb_array)-2];
 			}
@@ -378,13 +378,13 @@ class CI_Trackback {
 			$tb_array = explode('/', $url);
 			$tb_id	= $tb_array[count($tb_array)-1];
 			
-			if (! is_numeric($tb_id))
+			if ( ! is_numeric($tb_id))
 			{
 				$tb_id  = $tb_array[count($tb_array)-2];
 			}
 		}	
 				
-		if (! preg_match ("/^([0-9]+)$/", $tb_id))
+		if ( ! preg_match ("/^([0-9]+)$/", $tb_id))
 		{
 			return false;
 		}
@@ -439,8 +439,8 @@ class CI_Trackback {
 		{
 			return $str;
 		}
-			
-		$str = preg_replace("/\s+/", ' ', preg_replace("/(\r\n|\r|\n)/", " ", $str));
+
+		$str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 	
 		if (strlen($str) <= $n)
 		{

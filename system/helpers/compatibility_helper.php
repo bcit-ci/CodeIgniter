@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -35,7 +35,7 @@
 
 // ------------------------------------------------------------------------
 
-if (! defined('PHP_EOL'))
+if ( ! defined('PHP_EOL'))
 {
 	define('PHP_EOL', (DIRECTORY_SEPARATOR == '/') ? "\n" : "\r\n");
 } 
@@ -55,7 +55,7 @@ if (! defined('PHP_EOL'))
  * @param	int			flags
  * @return	int			length of written string
  */
-if (! function_exists('file_put_contents'))
+if ( ! function_exists('file_put_contents'))
 {
 	function file_put_contents($filename, $data, $flags = NULL)
 	{
@@ -64,7 +64,7 @@ if (! function_exists('file_put_contents'))
 			settype($data, 'STRING');
 		}
 
-		if (! is_string($data) && ! is_array($data) && ! is_resource($data))
+		if ( ! is_string($data) && ! is_array($data) && ! is_resource($data))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'file_put_contents(): the 2nd parameter should be either a string or an array', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -83,7 +83,7 @@ if (! function_exists('file_put_contents'))
 
 			$text = '';
 			
-			while (! feof($data))
+			while ( ! feof($data))
 			{
 				$text .= fread($data, 4096);
 			}
@@ -129,7 +129,7 @@ if (! function_exists('file_put_contents'))
 	
 		if (($flags & LOCK_EX) > 0)
 		{
-			if (! flock($fp, LOCK_EX))
+			if ( ! flock($fp, LOCK_EX))
 			{
 				$backtrace = debug_backtrace();
 				_exception_handler(E_USER_WARNING, 'file_put_contents('.htmlentities($filename).') unable to acquire an exclusive lock on file', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -167,12 +167,12 @@ if (! function_exists('file_put_contents'))
  * @param	string		enclosure
  * @return	int			length of written string
  */
-if (! function_exists('fputcsv'))
+if ( ! function_exists('fputcsv'))
 {
 	function fputcsv($handle, $fields, $delimiter = ',', $enclosure = '"')
 	{
 		// Checking for a handle resource
-		if (! is_resource($handle))
+		if ( ! is_resource($handle))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'fputcsv() expects parameter 1 to be stream resource, '.gettype($handle).' given', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -188,7 +188,7 @@ if (! function_exists('fputcsv'))
 		}
 	
 		// Checking for an array of fields
-		if (! is_array($fields))
+		if ( ! is_array($fields))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'fputcsv() expects parameter 2 to be array, '.gettype($fields).' given', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -218,7 +218,7 @@ if (! function_exists('fputcsv'))
 		{
 			$cell = str_replace($enclosure, $enclosure.$enclosure, $cell);
 
-			if (strpos($cell, $delimiter) !== FALSE || strpos($cell, $enclosure) !== FALSE || strpos($cell, "\n") !== FALSE)
+			if (strpos($cell, $delimiter) !== FALSE OR strpos($cell, $enclosure) !== FALSE OR strpos($cell, "\n") !== FALSE)
 			{
 				$out .= $enclosure.$cell.$enclosure.$delimiter;
 			}
@@ -248,7 +248,7 @@ if (! function_exists('fputcsv'))
  * @param	int			offset
  * @return	int			numeric position of the first occurrence of needle in the haystack
  */
-if (! function_exists('stripos'))
+if ( ! function_exists('stripos'))
 {
 	function stripos($haystack, $needle, $offset = NULL)
 	{
@@ -258,14 +258,14 @@ if (! function_exists('stripos'))
 			settype($haystack, 'STRING');
 		}
 	
-		if (! is_string($haystack))
+		if ( ! is_string($haystack))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() expects parameter 1 to be string, '.gettype($haystack).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
 	
-		if (! is_scalar($needle))
+		if ( ! is_scalar($needle))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() needle is not a string or an integer in '.$backtrace[0]['file'], $backtrace[0]['line']);
@@ -277,7 +277,7 @@ if (! function_exists('stripos'))
 			$offset = (int)$offset;
 		}
 	
-		if (! is_int($offset) && ! is_bool($offset) && ! is_null($offset))
+		if ( ! is_int($offset) && ! is_bool($offset) && ! is_null($offset))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() expects parameter 3 to be long, '.gettype($offset).' given', $backtrace[0]['file'], $backtrace[0]['line']);
@@ -304,12 +304,12 @@ if (! function_exists('stripos'))
  * @param	mixed		subject
  * @return	int			numeric position of the first occurrence of needle in the haystack
  */
-if (! function_exists('str_ireplace'))
+if ( ! function_exists('str_ireplace'))
 {
 	function str_ireplace($search, $replace, $subject)
 	{
 		// Nothing to do here
-		if ($search === NULL || $subject === NULL)
+		if ($search === NULL OR $subject === NULL)
 		{
 			return $subject;
 		}
@@ -376,7 +376,7 @@ if (! function_exists('str_ireplace'))
 		$result = preg_replace($search, $replace, (array)$subject);
 	
 		// Check if subject was initially a string and return it as a string
-		if (! is_array($subject))
+		if ( ! is_array($subject))
 		{
 			return current($result);
 		}
@@ -400,12 +400,12 @@ if (! function_exists('str_ireplace'))
  * @param	string		argument separator
  * @return	string		URL-encoded string
  */
-if (! function_exists('http_build_query'))
+if ( ! function_exists('http_build_query'))
 {
 	function http_build_query($formdata, $numeric_prefix = NULL, $separator = NULL)
 	{
 		// Check the data
-		if (! is_array($formdata) && ! is_object($formdata))
+		if ( ! is_array($formdata) && ! is_object($formdata))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'http_build_query() Parameter 1 expected to be Array or Object. Incorrect value given', $backtrace[0]['file'], $backtrace[0]['line']);

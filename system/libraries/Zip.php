@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -57,7 +57,7 @@ class CI_Zip  {
 	{
 		foreach ((array)$directory as $dir)
 		{
-			if (! preg_match("|.+/$|", $dir))
+			if ( ! preg_match("|.+/$|", $dir))
 			{
 				$dir .= '/';
 			}
@@ -196,7 +196,7 @@ class CI_Zip  {
 	 */	
 	function read_file($path, $preserve_filepath = FALSE)
 	{
-		if (! file_exists($path))
+		if ( ! file_exists($path))
 		{
 			return FALSE;
 		}
@@ -301,7 +301,7 @@ class CI_Zip  {
 	 */	
 	function archive($filepath)
 	{
-		if (! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
+		if ( ! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
 		{
 			return FALSE;
 		}
@@ -326,7 +326,7 @@ class CI_Zip  {
 	 */		
 	function download($filename = 'backup.zip')
 	{
-		if (! preg_match("|.+?\.zip$|", $filename))
+		if ( ! preg_match("|.+?\.zip$|", $filename))
 		{
 			$filename .= '.zip';
 		}

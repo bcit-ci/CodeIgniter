@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -39,11 +39,11 @@
  * @param	mixed
  * @return	mixed	depends on what the array contains
  */	
-if (! function_exists('element'))
+if ( ! function_exists('element'))
 {
 	function element($item, $array, $default = FALSE)
 	{
-		if (! isset($array[$item]) OR $array[$item] == "")
+		if ( ! isset($array[$item]) OR $array[$item] == "")
 		{
 			return $default;
 		}
@@ -61,11 +61,11 @@ if (! function_exists('element'))
  * @param	array
  * @return	mixed	depends on what the array contains
  */	
-if (! function_exists('random_element'))
+if ( ! function_exists('random_element'))
 {
 	function random_element($array)
 	{
-		if (! is_array($array))
+		if ( ! is_array($array))
 		{
 			return $array;
 		}

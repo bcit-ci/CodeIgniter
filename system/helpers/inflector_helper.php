@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,7 +37,7 @@
  * @param	string
  * @return	str
  */	
-if (! function_exists('singular'))
+if ( ! function_exists('singular'))
 {	
 	function singular($str)
 	{
@@ -78,7 +78,7 @@ if (! function_exists('singular'))
  * @param	bool
  * @return	str
  */	
-if (! function_exists('plural'))
+if ( ! function_exists('plural'))
 {	
 	function plural($str, $force = FALSE)
 	{
@@ -116,7 +116,7 @@ if (! function_exists('plural'))
  * @param	string
  * @return	str
  */	
-if (! function_exists('camelize'))
+if ( ! function_exists('camelize'))
 {	
 	function camelize($str)
 	{		
@@ -137,7 +137,7 @@ if (! function_exists('camelize'))
  * @param	string
  * @return	str
  */	
-if (! function_exists('underscore'))
+if ( ! function_exists('underscore'))
 {
 	function underscore($str)
 	{
@@ -156,7 +156,7 @@ if (! function_exists('underscore'))
  * @param	string
  * @return	str
  */	
-if (! function_exists('humanize'))
+if ( ! function_exists('humanize'))
 {	
 	function humanize($str)
 	{

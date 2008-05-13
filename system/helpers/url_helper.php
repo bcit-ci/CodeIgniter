@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,7 +37,7 @@
  * @param	string
  * @return	string
  */	
-if (! function_exists('site_url'))
+if ( ! function_exists('site_url'))
 {
 	function site_url($uri = '')
 	{
@@ -56,7 +56,7 @@ if (! function_exists('site_url'))
  * @access	public
  * @return	string
  */	
-if (! function_exists('base_url'))
+if ( ! function_exists('base_url'))
 {
 	function base_url()
 	{
@@ -75,7 +75,7 @@ if (! function_exists('base_url'))
  * @access	public
  * @return	string
  */	
-if (! function_exists('index_page'))
+if ( ! function_exists('index_page'))
 {
 	function index_page()
 	{
@@ -97,15 +97,15 @@ if (! function_exists('index_page'))
  * @param	mixed	any attributes
  * @return	string
  */	
-if (! function_exists('anchor'))
+if ( ! function_exists('anchor'))
 {
 	function anchor($uri = '', $title = '', $attributes = '')
 	{
 		$title = (string) $title;
 	
-		if (! is_array($uri))
+		if ( ! is_array($uri))
 		{
-			$site_url = (! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+			$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
 		}
 		else
 		{
@@ -140,13 +140,13 @@ if (! function_exists('anchor'))
  * @param	mixed	any attributes
  * @return	string
  */
-if (! function_exists('anchor_popup'))
+if ( ! function_exists('anchor_popup'))
 {
 	function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 	{	
 		$title = (string) $title;
 	
-		$site_url = (! preg_match('!^\w+://!i', $uri)) ? site_url($uri) : $uri;
+		$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
 	
 		if ($title == '')
 		{
@@ -158,14 +158,14 @@ if (! function_exists('anchor_popup'))
 			return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank');\">".$title."</a>";
 		}
 	
-		if (! is_array($attributes))
+		if ( ! is_array($attributes))
 		{
 			$attributes = array();
 		}
 		
 		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
 		{
-			$atts[$key] = (! isset($attributes[$key])) ? $val : $attributes[$key];
+			$atts[$key] = ( ! isset($attributes[$key])) ? $val : $attributes[$key];
 		}
 
 		return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\">".$title."</a>";
@@ -183,7 +183,7 @@ if (! function_exists('anchor_popup'))
  * @param	mixed 	any attributes
  * @return	string
  */
-if (! function_exists('mailto'))
+if ( ! function_exists('mailto'))
 {
 	function mailto($email, $title = '', $attributes = '')
 	{
@@ -213,7 +213,7 @@ if (! function_exists('mailto'))
  * @param	mixed 	any attributes
  * @return	string
  */
-if (! function_exists('safe_mailto'))
+if ( ! function_exists('safe_mailto'))
 {
 	function safe_mailto($email, $title = '', $attributes = '')
 	{
@@ -328,7 +328,7 @@ if (! function_exists('safe_mailto'))
  * @param	bool 	whether to create pop-up links
  * @return	string
  */
-if (! function_exists('auto_link'))
+if ( ! function_exists('auto_link'))
 {
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
@@ -393,7 +393,7 @@ if (! function_exists('auto_link'))
  * @param	string	the URL
  * @return	string
  */
-if (! function_exists('prep_url'))
+if ( ! function_exists('prep_url'))
 {
 	function prep_url($str = '')
 	{
@@ -425,7 +425,7 @@ if (! function_exists('prep_url'))
  * @param	string	the separator: dash, or underscore
  * @return	string
  */
-if (! function_exists('url_title'))
+if ( ! function_exists('url_title'))
 {
 	function url_title($str, $separator = 'dash')
 	{
@@ -474,7 +474,7 @@ if (! function_exists('url_title'))
  * @param	string	the method: location or redirect
  * @return	string
  */
-if (! function_exists('redirect'))
+if ( ! function_exists('redirect'))
 {
 	function redirect($uri = '', $method = 'location', $http_response_code = 302)
 	{
@@ -501,7 +501,7 @@ if (! function_exists('redirect'))
  * @param	bool
  * @return	string
  */
-if (! function_exists('_parse_attributes'))
+if ( ! function_exists('_parse_attributes'))
 {
 	function _parse_attributes($attributes, $javascript = FALSE)
 	{
