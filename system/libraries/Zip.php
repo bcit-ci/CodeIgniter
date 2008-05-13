@@ -32,9 +32,10 @@
  */
 class CI_Zip  {
 
-	var $zipfile	= '';	
-	var $zipdata	= array();
-	var $directory	= array();
+	var $zipdata 	= '';
+	var $directory 	= '';
+    var $entries 	= 0;
+    var $file_num 	= 0;
 	var $offset		= 0;
 
 	function CI_Zip()
@@ -61,7 +62,7 @@ class CI_Zip  {
 			{
 				$dir .= '/';
 			}
-		
+
 			$this->_add_dir($dir);
 		}
 	}
@@ -78,35 +79,36 @@ class CI_Zip  {
 	function _add_dir($dir)
 	{
 		$dir = str_replace("\\", "/", $dir);
-		
-		$this->zipdata[] = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-							.pack('V', 0)
-							.pack('V', 0)
-							.pack('V', 0)
-							.pack('v', strlen($dir))
-							.pack('v', 0)
-							.$dir
-							.pack('V', 0)
-							.pack('V', 0)
-							.pack('V', 0);
-		
-		$newoffset = strlen(implode('', $this->zipdata));
-		
-		$record = "\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-					.pack('V',0)
-					.pack('V',0)
-					.pack('V',0)
-					.pack('v', strlen($dir))
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('V', 16)
-					.pack('V', $this->offset)
-					.$dir;
-		
-		$this->offset = $newoffset;
-		$this->directory[] = $record;
+
+		$this->zipdata .=
+			"\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+			.pack('V', 0) // crc32
+			.pack('V', 0) // compressed filesize
+			.pack('V', 0) // uncompressed filesize
+			.pack('v', strlen($dir)) // length of pathname
+			.pack('v', 0) // extra field length
+			.$dir
+			// below is "data descriptor" segment
+			.pack('V', 0) // crc32
+			.pack('V', 0) // compressed filesize
+			.pack('V', 0); // uncompressed filesize
+
+		$this->directory .=
+			"\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+			.pack('V',0) // crc32
+			.pack('V',0) // compressed filesize
+			.pack('V',0) // uncompressed filesize
+			.pack('v', strlen($dir)) // length of pathname
+			.pack('v', 0) // extra field length
+			.pack('v', 0) // file comment length
+			.pack('v', 0) // disk number start
+			.pack('v', 0) // internal file attributes
+			.pack('V', 16) // external file attributes - 'directory' bit set
+			.pack('V', $this->offset) // relative offset of local header
+			.$dir;
+
+		$this->offset = strlen($this->zipdata);
+		$this->entries++;
 	}
 	
 	// --------------------------------------------------------------------
@@ -137,7 +139,7 @@ class CI_Zip  {
 			$this->_add_data($filepath, $data);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -149,41 +151,43 @@ class CI_Zip  {
 	 * @return	void
 	 */	
 	function _add_data($filepath, $data)
-	{	
+	{
 		$filepath = str_replace("\\", "/", $filepath);
-			
-		$oldlen	= strlen($data);
-		$crc32	= crc32($data);
-		
+
+		$uncompressed_size = strlen($data);
+		$crc32  = crc32($data);
+
 		$gzdata = gzcompress($data);
 		$gzdata = substr($gzdata, 2, -4);
-		$newlen = strlen($gzdata);
-	
-		$this->zipdata[] = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
-							.pack('V', $crc32)
-							.pack('V', $newlen)
-							.pack('V', $oldlen)
-							.pack('v', strlen($filepath))
-							.pack('v', 0)
-							.$filepath
-							.$gzdata;
-			
-		$newoffset = strlen(implode("", $this->zipdata));
-		
-		$record = "\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
-					.pack('V', $crc32)
-					.pack('V', $newlen)
-					.pack('V', $oldlen)
-					.pack('v', strlen($filepath))
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('v', 0)
-					.pack('V', 32)
-					.pack('V', $this->offset);
-		
-		$this->offset = $newoffset;
-		$this->directory[] = $record.$filepath;
+		$compressed_size = strlen($gzdata);
+
+		$this->zipdata .=
+			"\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
+			.pack('V', $crc32)
+			.pack('V', $compressed_size)
+			.pack('V', $uncompressed_size)
+			.pack('v', strlen($filepath)) // length of filename
+			.pack('v', 0) // extra field length
+			.$filepath
+			.$gzdata; // "file data" segment
+
+		$this->directory .=
+			"\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00\x00\x00\x00\x00"
+			.pack('V', $crc32)
+			.pack('V', $compressed_size)
+			.pack('V', $uncompressed_size)
+			.pack('v', strlen($filepath)) // length of filename
+			.pack('v', 0) // extra field length
+			.pack('v', 0) // file comment length
+			.pack('v', 0) // disk number start
+			.pack('v', 0) // internal file attributes
+			.pack('V', 32) // external file attributes - 'archive' bit set
+			.pack('V', $this->offset) // relative offset of local header
+			.$filepath;
+
+		$this->offset = strlen($this->zipdata);
+		$this->entries++;
+		$this->file_num++;
 	}
 	
 	// --------------------------------------------------------------------
@@ -200,7 +204,7 @@ class CI_Zip  {
 		{
 			return FALSE;
 		}
-	
+
 		if (FALSE !== ($data = file_get_contents($path)))
 		{
 			$name = str_replace("\\", "/", $path);
@@ -209,7 +213,7 @@ class CI_Zip  {
 			{
 				$name = preg_replace("|.*/(.+)|", "\\1", $name);
 			}
-			
+
 			$this->add_data($name, $data);
 			return TRUE;
 		}
@@ -261,30 +265,21 @@ class CI_Zip  {
 	 */	
 	function get_zip()
 	{
-		// We cache the zip data so multiple calls
-		// do not require recompiling
-		if ($this->zipfile != '')
-		{
-			return $this->zipfile;
-		}
-	
 		// Is there any data to return?
-		if (count($this->zipdata) == 0)
+		if ($this->entries == 0)
 		{
 			return FALSE;
 		}
-	
-		$data	= implode('', $this->zipdata);
-		$dir	= implode('', $this->directory);
-				
-		$this->zipfile = $data.$dir."\x50\x4b\x05\x06\x00\x00\x00\x00"
-						.pack('v', sizeof($this->directory))
-						.pack('v', sizeof($this->directory))
-						.pack('V', strlen($dir))
-						.pack('V', strlen($data))
-						."\x00\x00";
-		
-		return $this->zipfile;
+
+		$zip_data = $this->zipdata;
+		$zip_data .= $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00";
+		$zip_data .= pack('v', $this->entries); // total # of entries "on this disk"
+		$zip_data .= pack('v', $this->entries); // total # of entries overall
+		$zip_data .= pack('V', strlen($this->directory)); // size of central dir
+		$zip_data .= pack('V', strlen($this->zipdata)); // offset to start of central dir
+		$zip_data .= "\x00\x00"; // .zip file comment length
+
+		return $zip_data;
 	}
 	
 	// --------------------------------------------------------------------
@@ -305,7 +300,7 @@ class CI_Zip  {
 		{
 			return FALSE;
 		}
-		
+
 		flock($fp, LOCK_EX);	
 		fwrite($fp, $this->get_zip());
 		flock($fp, LOCK_UN);
@@ -323,35 +318,20 @@ class CI_Zip  {
 	 * @param	string	the file name
 	 * @param	string	the data to be encoded
 	 * @return	bool
-	 */		
+	 */
 	function download($filename = 'backup.zip')
 	{
-		if ( ! preg_match("|.+?\.zip$|", $filename))
-		{
-			$filename .= '.zip';
-		}
-	
-		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
-		{
-			header('Content-Type: application/x-zip');
-			header('Content-Disposition: inline; filename="'.$filename.'"');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header("Content-Transfer-Encoding: binary");
-			header('Pragma: public');
-			header("Content-Length: ".strlen($this->get_zip()));
-		}
-		else
-		{
-			header('Content-Type: application/x-zip');
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
-			header("Content-Transfer-Encoding: binary");
-			header('Expires: 0');
-			header('Pragma: no-cache');
-			header("Content-Length: ".strlen($this->get_zip()));
-		}
-	
-		exit($this->get_zip());
+        if ( ! preg_match("|.+?\.zip$|", $filename))
+        {
+            $filename .= '.zip';
+        }
+
+        $zip_content =& $this->get_zip();
+
+        $CI =& get_instance();
+        $CI->load->helper('download');
+		
+		force_download($filename, $zip_content);
 	}
 
 	// --------------------------------------------------------------------
@@ -367,10 +347,11 @@ class CI_Zip  {
 	 */		
 	function clear_data()
 	{
-		$this->zipfile		= '';
-		$this->zipdata 		= array();
-		$this->directory	= array();
-		$this->offset		= array();
+		$this->zipdata   = '';
+		$this->directory = '';
+		$this->entries   = 0;
+		$this->file_num  = 0;
+		$this->offset    = 0;
 	}
 	
 }
