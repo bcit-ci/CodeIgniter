@@ -39,18 +39,18 @@
  *
  * @access	private
  * @return	void
- */	
+ */
 function is_really_writable($file)
 {
 	if (is_dir($file))
 	{
 		$file = rtrim($file, '/').'/'.md5(rand(1,100));
-		
+
 		if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 		{
 			return FALSE;
 		}
-		
+
 		fclose($fp);
 		@chmod($file, DIR_WRITE_MODE);
 		@unlink($file);
@@ -88,7 +88,7 @@ function &load_class($class, $instantiate = TRUE)
 	{
 		return $objects[$class];
 	}
-			
+
 	// If the requested class does not exist in the application/libraries
 	// folder we'll load the native class from the system/libraries folder.	
 	if (file_exists(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT))
@@ -116,7 +116,7 @@ function &load_class($class, $instantiate = TRUE)
 		$objects[$class] = TRUE;
 		return $objects[$class];
 	}
-		
+
 	if ($is_subclass == TRUE)
 	{
 		$name = config_item('subclass_prefix').$class;
@@ -139,16 +139,16 @@ function &load_class($class, $instantiate = TRUE)
 function &get_config()
 {
 	static $main_conf;
-		
+
 	if (! isset($main_conf))
 	{
 		if (! file_exists(APPPATH.'config/config'.EXT))
 		{
 			exit('The configuration file config'.EXT.' does not exist.');
 		}
-		
+
 		require(APPPATH.'config/config'.EXT);
-		
+
 		if (! isset($config) OR ! is_array($config))
 		{
 			exit('Your config file does not appear to be formatted correctly.');
@@ -172,7 +172,7 @@ function config_item($item)
 	if (! isset($config_item[$item]))
 	{
 		$config =& get_config();
-		
+
 		if (! isset($config[$item]))
 		{
 			return FALSE;
