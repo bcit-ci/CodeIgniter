@@ -801,30 +801,12 @@ class CI_Input {
 		 * something got through the above filters
 		 *
 		 */
-		$bad = array(
-						'document.cookie'	=> '[removed]',
-						'document.write'	=> '[removed]',
-						'.parentNode'		=> '[removed]',
-						'.innerHTML'		=> '[removed]',
-						'window.location'	=> '[removed]',
-						'-moz-binding'		=> '[removed]',
-						'<!--'				=> '&lt;!--',
-						'-->'				=> '--&gt;',
-						'<![CDATA['			=> '&lt;![CDATA['
-					);
-
-		foreach ($bad as $key => $val)
+		foreach ($this->never_allowed_str as $key => $val)
 		{
 			$str = str_replace($key, $val, $str);   
 		}
-
-		$bad = array(
-						"javascript\s*:"	=> '[removed]',
-						"expression\s*\("	=> '[removed]', // CSS and IE
-						"Redirect\s+302"	=> '[removed]'
-					);
-				
-		foreach ($bad as $key => $val)
+	
+		foreach ($this->never_allowed_regex as $key => $val)
 		{
 			$str = preg_replace("#".$key."#i", $val, $str);   
 		}
