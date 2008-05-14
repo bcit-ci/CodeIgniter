@@ -36,8 +36,8 @@ class CI_DB_driver {
 	var $database;
 	var $dbdriver		= 'mysql';
 	var $dbprefix		= '';
-	var $char_set		= '';
-	var $dbcollat		= '';
+	var $char_set		= 'utf8';
+	var $dbcollat		= 'utf8_general_ci';
 	var $autoinit		= TRUE; // Whether to automatically initialize the DB
 	var $swap_pre		= '';
 	var $port			= '';
