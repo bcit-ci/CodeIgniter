@@ -66,10 +66,31 @@ function &DB($params = '', $active_record_override = FALSE)
 							'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
 							'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
 							'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
-							'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['host'], 1)) : ''
+							'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
 						);
+		
+		// were additional config items set?
+		if (isset($dns['query']))
+		{
+			parse_str($dns['query'], $extra);
+			
+			foreach($extra as $key => $val)
+			{
+				// booleans please
+				if (strtoupper($val) == "TRUE")
+				{
+					$val = TRUE;
+				}
+				elseif (strtoupper($val) == "FALSE")
+				{
+					$val = FALSE;
+				}
+				
+				$params[$key] = $val;
+			}
+		}
 	}
-	
+
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
