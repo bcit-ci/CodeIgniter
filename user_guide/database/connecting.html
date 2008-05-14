@@ -117,8 +117,11 @@ $this->load->database(<samp>$config</samp>);</code>
 <br />
 $this->load->database(<samp>$dsn</samp>);</code>
 
-<p>Note that if you use a DSN you will not be able to specify some of the default values like you can if you use a connection array.</p>
+<p>To override default config values when connecting with a DSN string, add the config variables as a query string.</p>
 
+<code>$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&amp;dbcollat=utf8_general_ci&amp;cache_on=true&amp;cachedir=/path/to/cache';<br />
+<br />
+$this->load->database(<samp>$dsn</samp>);</code>
 
 <h2>Connecting to Multiple Databases</h2>
 
