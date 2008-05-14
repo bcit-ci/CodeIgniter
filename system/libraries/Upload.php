@@ -821,9 +821,11 @@ class CI_Upload {
 	 */	
 	function mimes_types($mime)
 	{
+		global $mimes;
+	
 		if (count($this->mimes) == 0)
 		{
-			if (@include(APPPATH.'config/mimes'.EXT))
+			if (@require_once(APPPATH.'config/mimes'.EXT))
 			{
 				$this->mimes = $mimes;
 				unset($mimes);
