@@ -747,6 +747,16 @@ class CI_Input {
 		 *
 		 */
 		$event_handlers = array('onblur','onchange','onclick','onfocus','onload','onmouseover','onmouseup','onmousedown','onselect','onsubmit','onunload','onkeypress','onkeydown','onkeyup','onresize', 'xmlns');
+
+		if ($is_image === TRUE)
+		{
+			/*
+			 * Adobe Photoshop puts XML metadata into JFIF images, including namespacing, 
+			 * so we have to allow this for images. -Paul
+			 */
+			unset($event_handlers[array_search('xmlns', $event_handlers)]);
+		}
+		
 		$str = preg_replace("#<([^>]+)(".implode('|', $event_handlers).")([^>]*)>#iU", "&lt;\\1\\2\\3&gt;", $str);
 
 		/*
@@ -896,7 +906,7 @@ class CI_Input {
 	 */
 	function _js_link_removal($match)
 	{
-		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,).*?\>.*?</a>#si", "", $match[0]);
+		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,|utf\-7\s*,).*?\>.*?</a>#si", "", $match[0]);
 	}
 
 	/**
@@ -913,7 +923,7 @@ class CI_Input {
 	 */
 	function _js_img_removal($match)
 	{
-		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,).*?\>#si", "", $match[0]);
+		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,|utf-7\s*,).*?\>#si", "", $match[0]);
 	}
 
 	// --------------------------------------------------------------------
