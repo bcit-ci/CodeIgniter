@@ -554,7 +554,7 @@ class CI_Input {
 	 * @param	string
 	 * @return	string
 	 */
-	function xss_clean($str)
+	function xss_clean($str, $is_image = FALSE, $loops = 0)
 	{
 		/*
 		 * Is the string an array?
@@ -568,6 +568,15 @@ class CI_Input {
 			}
 	
 			return $str;
+		}
+		
+		/*
+		 * Runaway loop prevention.  If the text has had to be examined this many times
+		 * I think it's safe to say that it is best to simply ignore it.
+		 */
+		if ($loops > 9)
+		{
+			return '';
 		}
 
 		/*
@@ -608,7 +617,6 @@ class CI_Input {
 		/*
 		 * Un-Protect GET variables in URLs
 		 */
-		 
 		$str = str_replace($this->xss_hash(), '&', $str);
 
 		/*
@@ -622,7 +630,7 @@ class CI_Input {
 		 *
 		 */
 		$str = rawurldecode($str);
-
+	
 		/*
 		 * Convert character entities to ASCII 
 		 *
@@ -634,35 +642,7 @@ class CI_Input {
 
 		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_attribute_conversion'), $str);
 		 
-		$str = preg_replace_callback("/<([\w]+)[^>]*>/si", array($this, '_html_entity_decode_callback'), $str);
-
-		/*
-
-		Old Code that when modified to use preg_replace()'s above became more efficient memory-wise
-
-		if (preg_match_all("/[a-z]+=([\'\"]).*?\\1/si", $str, $matches))
-		{        
-			for ($i = 0; $i < count($matches[0]); $i++)
-			{
-				if (stristr($matches[0][$i], '>'))
-				{
-					$str = str_replace(	$matches['0'][$i], 
-										str_replace('>', '&lt;', $matches[0][$i]),  
-										$str);
-				}
-			}
-		}
-		 
-        if (preg_match_all("/<([\w]+)[^>]*>/si", $str, $matches))
-        {        
-			for ($i = 0; $i < count($matches[0]); $i++)
-			{
-				$str = str_replace($matches[0][$i], 
-									$this->_html_entity_decode($matches[0][$i], $charset), 
-									$str);
-			}
-		}
-		*/
+		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", array($this, '_html_entity_decode_callback'), $str);
 
 		/*
 		 * Convert all tabs to spaces
@@ -679,6 +659,9 @@ class CI_Input {
 			$str = str_replace("\t", ' ', $str);
 		}		
 
+		// capture for comparison at the end
+		$converted_string = $str;
+		
 		/*
 		 * Not Allowed Under Any Conditions
 		 */
@@ -808,10 +791,39 @@ class CI_Input {
 	
 		foreach ($this->never_allowed_regex as $key => $val)
 		{
-			$str = preg_replace("#".$key."#i", $val, $str);   
+			$str = preg_replace("#".$key."#i", $val, $str);
 		}
 
+		/*
+		 *  Images are Handled in a Special Way
+		 *  - Essentially, we want to know that after all of the character conversion is done whether
+		 *  any unwanted, likely XSS, code was found.  If not, we return TRUE, as the image is clean.
+		 *  However, if the string post-conversion does not matched the string post-removal of XSS,
+		 *  then it fails, as there was unwanted XSS code found and removed/changed during processing.
+		 */
 
+		if ($is_image === TRUE)
+		{
+			if ($str == $converted_string)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		
+		/*
+		 * If something changed after character conversion, we can be fairly confident that something
+		 * malicious was removed, so let's take no chances that the attacker is counting on specific
+		 * mutations taking place to allow a new attack to reveal itself.  So say we all.
+		 */
+		if ($converted_string != $str)
+		{
+			$str = $this->xss_clean($str, $is_image, ++$loops);
+		}
+		
 		log_message('debug', "XSS Filtering completed");
 		return $str;
 	}
@@ -884,7 +896,7 @@ class CI_Input {
 	 */
 	function _js_link_removal($match)
 	{
-		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>.*?</a>#si", "", $match[0]);
+		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,).*?\>.*?</a>#si", "", $match[0]);
 	}
 
 	/**
@@ -901,7 +913,7 @@ class CI_Input {
 	 */
 	function _js_img_removal($match)
 	{
-		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss).*?\>#si", "", $match[0]);
+		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,).*?\>#si", "", $match[0]);
 	}
 
 	// --------------------------------------------------------------------
@@ -978,12 +990,12 @@ class CI_Input {
 		if (function_exists('html_entity_decode') && (strtolower($charset) != 'utf-8' OR version_compare(phpversion(), '5.0.0', '>=')))
 		{
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace('~&#x([0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
+			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
 			return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
 		}
 
 		// Numeric Entities
-		$str = preg_replace('~&#x([0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
+		$str = preg_replace('~&#x(0*[0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
 		$str = preg_replace('~&#([0-9]{2,4});{0,1}~e', 'chr(\\1)', $str);
 
 		// Literal Entities - Slightly slow so we do another check

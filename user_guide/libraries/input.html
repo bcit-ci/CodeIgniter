@@ -109,7 +109,12 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 <p>Note: If you use the form validation class, it gives you the option of XSS filtering as well.</p>
 
+<p>An optional second parameter, <dfn>is_image</dfn>, allows this function to be used to test images for potential XSS attacks, useful for file upload security.  When this second parameter is set to <dfn>TRUE</dfn>, instead of returning an altered string, the function returns TRUE if the image is safe, and FALSE if it contained potentially malicious information that a browser may attempt to execute.</p>
 
+<code>if ($this->input->xss_clean($file, TRUE) === FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// file failed the XSS test<br />
+}</code>
 
 
 <h2>Using POST, COOKIE, or SERVER Data</h2>
