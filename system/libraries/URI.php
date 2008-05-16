@@ -246,22 +246,9 @@ class CI_URI {
 	 */	
 	function _reindex_segments()
 	{
-		$i = 1;
-
-		foreach ($this->segments as $val)
-		{
-			$this->segments[$i++] = $val;
-		}
-
+		array_unshift($this->segments, NULL);
+		array_unshift($this->rsegments, NULL);
 		unset($this->segments[0]);
-		
-		$i = 1;
-		
-		foreach ($this->rsegments as $val)
-		{
-			$this->rsegments[$i++] = $val;
-		}
-		
 		unset($this->rsegments[0]);
 	}	
 	
