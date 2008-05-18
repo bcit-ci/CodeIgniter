@@ -933,7 +933,9 @@ class CI_DB_driver {
 	function update_string($table, $data, $where)
 	{
 		if ($where == '')
+		{
 			return false;
+		}
 					
 		$fields = array();
 		foreach($data as $key => $val)
@@ -969,6 +971,26 @@ class CI_DB_driver {
 		return $this->_update($this->prep_tablename($table), $fields, $dest);
 	}	
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Tests whether the string has an SQL operator
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	bool
+	 */
+	function _has_operator($str)
+	{
+		$str = trim($str);
+		if ( ! preg_match("/(\s|<|>|!|=|is null|is not null)/i", $str))
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**

@@ -1394,27 +1394,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		return $this->from($table);
 	}
-	
-	// --------------------------------------------------------------------
 
-	/**
-	 * Tests whether the string has an SQL operator
-	 *
-	 * @access	private
-	 * @param	string
-	 * @return	bool
-	 */
-	function _has_operator($str)
-	{
-		$str = trim($str);
-		if ( ! preg_match("/(\s|<|>|!|=|is null|is not null)/i", $str))
-		{
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-	
 	// --------------------------------------------------------------------
 
 	/**
