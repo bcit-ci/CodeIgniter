@@ -103,8 +103,16 @@ to your browser.  Remember to assign it to a variable if you want the data retur
 <code>$string = $this->load->view('<var>myfile</var>', '', <kbd>true</kbd>);</code>
 
 
+<h2>$this-&gt;load-&gt;model('<var>Model_name</var>');</h2>
+<p><code>$this-&gt;load-&gt;model('<var>Model_name</var>');</code></p>
+<p>If you model is located in a sub-folder, include the relative path from your models folder. For example, if you have a model located at application/models/blog/queries.php you'll load it using:</p>
+<p><code>$this-&gt;load-&gt;model('<var>blog/queries</var>');</code></p>
+<p>If you would like your model assigned to a different object name you can specify it via the second parameter of the loading
+	function:</p>
+<code> $this-&gt;load-&gt;model('<var>Model_name</var>', '<kbd>fubar</kbd>');<br />
+<br />
+$this-&gt;<kbd>fubar</kbd>-&gt;function();</code>
 <h2>$this->load->database('<var>options</var>', <kbd>true/false</kbd>)</h2>
-
 <p>This function lets you load the database class.  The two parameters are <strong>optional</strong>.  Please see the
 <a href="./database/index.html">database</a> section for more info.</p>
 
