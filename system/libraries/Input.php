@@ -711,25 +711,24 @@ class CI_Input {
 
 		/*
 		 * Remove disallowed Javascript in links or img tags
+		 * We used to do some version comparisons and use of stripos for PHP5, but it is dog slow compared
+		 * to these simplified non-capturing preg_match(), especially if the pattern exists in the string
 		 */
 		do
 		{
 			$original = $str;
 	
-			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && stripos($str, '</a>') !== FALSE) OR 
-				 preg_match("/<\/a>/i", $str))
+			if (preg_match("/<a/i", $str))
 			{
-				$str = preg_replace_callback("#<a.*?</a>#si", array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback("#<a.*?(>|<|$)#si", array($this, '_js_link_removal'), $str);
 			}
 	
-			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && stripos($str, '<img') !== FALSE) OR 
-				 preg_match("/img/i", $str))
+			if (preg_match("/<img/i", $str))
 			{
-				$str = preg_replace_callback("#<img.*?".">#si", array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback("#<img.*?(>|<|$)#si", array($this, '_js_img_removal'), $str);
 			}
 	
-			if ((version_compare(PHP_VERSION, '5.0', '>=') === TRUE && (stripos($str, 'script') !== FALSE OR stripos($str, 'xss') !== FALSE)) OR
-				 preg_match("/(script|xss)/i", $str))
+			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
 			{
 				$str = preg_replace("#</*(script|xss).*?\>#si", "", $str);
 			}
@@ -746,7 +745,7 @@ class CI_Input {
 		 * but it's unlikely to be a problem.
 		 *
 		 */
-		$event_handlers = array('onblur','onchange','onclick','onfocus','onload','onmouseover','onmouseup','onmousedown','onselect','onsubmit','onunload','onkeypress','onkeydown','onkeyup','onresize', 'xmlns');
+		$event_handlers = array('onblur','onchange','onclick','onended','onerror','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmouseover','onmouseup','onresize','onselect','onsubmit','onunload','xmlns');
 
 		if ($is_image === TRUE)
 		{
@@ -757,7 +756,7 @@ class CI_Input {
 			unset($event_handlers[array_search('xmlns', $event_handlers)]);
 		}
 		
-		$str = preg_replace("#<([^>]+)(".implode('|', $event_handlers).")([^>]*)>#iU", "&lt;\\1\\2\\3&gt;", $str);
+		$str = preg_replace("#<([^><]+)(".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
 
 		/*
 		 * Sanitize naughty HTML elements
@@ -769,7 +768,7 @@ class CI_Input {
 		 * Becomes: &lt;blink&gt;
 		 *
 		 */
-		$naughty = 'alert|applet|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|layer|link|meta|object|plaintext|style|script|textarea|title|xml|xss';
+		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
 		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
 
 		/*
@@ -878,15 +877,8 @@ class CI_Input {
 		$str = '&lt;'.$matches[1].$matches[2].$matches[3];
 		
 		// encode captured opening or closing brace to prevent recursive vectors
-		if ($matches[4] == '>')
-		{
-			$str .= '&gt;';
-		}
-		elseif ($matches[4] == '<')
-		{
-			$str .= '&lt;';
-		}
-
+		$str .= str_replace(array('>', '<'), array('&gt;', '&lt'), $matches[4]);
+		
 		return $str;
 	}
 
@@ -906,7 +898,7 @@ class CI_Input {
 	 */
 	function _js_link_removal($match)
 	{
-		return preg_replace("#<a.+?href=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,|utf\-7\s*,).*?\>.*?</a>#si", "", $match[0]);
+		return preg_replace("#href=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $match[0]);
 	}
 
 	/**
@@ -923,7 +915,7 @@ class CI_Input {
 	 */
 	function _js_img_removal($match)
 	{
-		return preg_replace("#<img.+?src=.*?(alert\(|alert&\#40;|javascript\:|window\.|document\.|\.cookie|<script|<xss|base64\s*,|utf-7\s*,).*?\>#si", "", $match[0]);
+		return preg_replace("#src=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $match[0]);
 	}
 
 	// --------------------------------------------------------------------
