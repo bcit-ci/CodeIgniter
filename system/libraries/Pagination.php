@@ -51,6 +51,7 @@ class CI_Pagination {
 	var $num_tag_open		= '&nbsp;';
 	var $num_tag_close		= '';
 	var $page_query_string	= FALSE;
+	var $query_string_segment = 'per_page';
 
 	/**
 	 * Constructor
@@ -118,12 +119,26 @@ class CI_Pagination {
 
 		// Determine the current page number.		
 		$CI =& get_instance();	
-		if ($CI->uri->segment($this->uri_segment) != 0)
+		
+		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->cur_page = $CI->uri->segment($this->uri_segment);
-			
-			// Prep the current page - no funny business!
-			$this->cur_page = (int) $this->cur_page;
+			if ($CI->input->get($this->query_string_segment) != 0)
+			{
+				$this->cur_page = $CI->input->get($this->query_string_segment);
+				
+				// Prep the current page - no funny business!
+				$this->cur_page = (int) $this->cur_page;
+			}
+		}
+		else
+		{
+			if ($CI->uri->segment($this->uri_segment) != 0)
+			{
+				$this->cur_page = $CI->uri->segment($this->uri_segment);
+				
+				// Prep the current page - no funny business!
+				$this->cur_page = (int) $this->cur_page;
+			}
 		}
 
 		$this->num_links = (int)$this->num_links;
@@ -157,7 +172,7 @@ class CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).AMP.'per_page=';
+			$this->base_url = rtrim($this->base_url).AMP.$this->query_string_segment.'=';
 		}
 		else
 		{
