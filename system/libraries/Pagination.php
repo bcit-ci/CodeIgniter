@@ -50,6 +50,7 @@ class CI_Pagination {
 	var $prev_tag_close		= '';
 	var $num_tag_open		= '&nbsp;';
 	var $num_tag_close		= '';
+	var $page_query_string	= FALSE;
 
 	/**
 	 * Constructor
@@ -152,8 +153,16 @@ class CI_Pagination {
 		$start = (($this->cur_page - $this->num_links) > 0) ? $this->cur_page - ($this->num_links - 1) : 1;
 		$end   = (($this->cur_page + $this->num_links) < $num_pages) ? $this->cur_page + $this->num_links : $num_pages;
 
-		// Add a trailing slash to the base URL if needed
-		$this->base_url = rtrim($this->base_url, '/') .'/';
+		// Is pagination being used over GET or POST?  If get, add a per_page query
+		// string. If post, add a trailing slash to the base URL if needed
+		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		{
+			$this->base_url = rtrim($this->base_url).AMP.'per_page=';
+		}
+		else
+		{
+			$this->base_url = rtrim($this->base_url, '/') .'/';
+		}
 
   		// And here we go...
 		$output = '';
