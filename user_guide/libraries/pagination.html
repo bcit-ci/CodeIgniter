@@ -124,7 +124,7 @@ something different you can specify it.</p>
 <p><code>http://www.your-site.com/index.php/test/page/20</code></p>
 <p>If you have $config['enable_query_strings']  set to TRUE your links will automatically be re-written using Query Strings. This option can also be explictly set. Using $config['page_query_string'] set to TRUE, the pagination link will become.</p>
 <p><code>http://www.your-site.com/index.php?c=test&amp;m=page&amp;per_page=20</code></p>
-<p>Note that &quot;per_page&quot; is the string automatically passed.</p>
+<p>Note that &quot;per_page&quot; is the default query string  passed, however can be configured using $config['query_string_segment'] = 'your_string'</p>
 <h2>Adding Enclosing Markup</h2>
 
 <p>If you would like to surround the entire pagination with some markup you can do it with these two prefs:</p>
