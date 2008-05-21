@@ -554,7 +554,7 @@ class CI_Input {
 	 * @param	string
 	 * @return	string
 	 */
-	function xss_clean($str, $is_image = FALSE, $loops = 0)
+	function xss_clean($str, $is_image = FALSE, $loops = 0, $looped_convert = '')
 	{
 		/*
 		 * Is the string an array?
@@ -569,7 +569,7 @@ class CI_Input {
 	
 			return $str;
 		}
-		
+
 		/*
 		 * Runaway loop prevention.  If the text has had to be examined this many times
 		 * I think it's safe to say that it is best to simply ignore it.
@@ -640,8 +640,8 @@ class CI_Input {
 		 *
 		 */
 
-		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_attribute_conversion'), $str);
-		 
+		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
+	 
 		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", array($this, '_html_entity_decode_callback'), $str);
 
 		/*
@@ -659,8 +659,20 @@ class CI_Input {
 			$str = str_replace("\t", ' ', $str);
 		}		
 
-		// capture for comparison at the end
-		$converted_string = $str;
+		/*
+		 * Check and set converted string
+		 */
+		if ($looped_convert != '' && $looped_convert == $str)
+		{
+			// if we are in a loop, and the converted string is the same as the last pass,
+			// then this is going to repeat until we hit the runaway loop prevention,
+			// so we might as well stop now.
+			return '';
+		}
+		else
+		{
+			$converted_string = $str;			
+		}		
 		
 		/*
 		 * Not Allowed Under Any Conditions
@@ -720,12 +732,12 @@ class CI_Input {
 	
 			if (preg_match("/<a/i", $str))
 			{
-				$str = preg_replace_callback("#<a.*?(>|<|$)#si", array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback("#<a.*(>|<|$)#si", array($this, '_js_link_removal'), $str);
 			}
 	
 			if (preg_match("/<img/i", $str))
 			{
-				$str = preg_replace_callback("#<img.*?(>|<|$)#si", array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback("#<img.*(>|<|$)#si", array($this, '_js_img_removal'), $str);
 			}
 	
 			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
@@ -822,7 +834,7 @@ class CI_Input {
 				return FALSE;
 			}
 		}
-		
+
 		/*
 		 * If something changed after character conversion, we can be fairly confident that something
 		 * malicious was removed, so let's take no chances that the attacker is counting on specific
@@ -830,7 +842,7 @@ class CI_Input {
 		 */
 		if ($converted_string != $str)
 		{
-			$str = $this->xss_clean($str, $is_image, ++$loops);
+			$str = $this->xss_clean($str, $is_image, ++$loops, $converted_string);
 		}
 		
 		log_message('debug', "XSS Filtering completed");
@@ -877,7 +889,7 @@ class CI_Input {
 		$str = '&lt;'.$matches[1].$matches[2].$matches[3];
 		
 		// encode captured opening or closing brace to prevent recursive vectors
-		$str .= str_replace(array('>', '<'), array('&gt;', '&lt'), $matches[4]);
+		$str .= str_replace(array('>', '<'), array('&gt;', '&lt;'), $matches[4]);
 		
 		return $str;
 	}
@@ -929,9 +941,9 @@ class CI_Input {
 	 * @param	array
 	 * @return	string
 	 */
-	function _attribute_conversion($match)
+	function _convert_attribute($match)
 	{
-		return str_replace('>', '&lt;', $match[0]);
+		return str_replace(array('>', '<'), array('&gt;', '&lt;'), $match[0]);
 	}
 
 	// --------------------------------------------------------------------
