@@ -1281,7 +1281,6 @@ class CI_Email {
 	{
 		$float = $this->bcc_batch_size -1;
 
-		$flag = 0;
 		$set = "";
 
 		$chunk = array();

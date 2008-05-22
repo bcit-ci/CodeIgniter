@@ -252,7 +252,6 @@ class CI_Router {
 
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
-		$num = count($this->uri->segments);
 
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
