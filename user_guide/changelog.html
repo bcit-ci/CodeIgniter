@@ -75,7 +75,7 @@ SVN Revision: not currently released</p>
 	<li>Other changes
 		<ul>
 			<li>Added ability to <a href="libraries/input.html">use xss_clean() to test images</a> for XSS, useful for upload security.</li>
-			<li>Improved security in xss_clean().</li>
+			<li>Improved security in <kbd>xss_clean()</kbd>.</li>
 			<li>Considerably expanded list of mobile user-agents in config/user_agents.php.</li>
 		</ul>
 	</li>
@@ -86,11 +86,14 @@ SVN Revision: not currently released</p>
 
 <ul>
 	<li>Amended fixes for bug (#3419) with parsing DSN database connections.</li>
-	<li>Moved the _has_operators() function (#4535) into DB_driver from DB_active_rec.</li>
+	<li>Moved the <kbd>_has_operators()</kbd> function (#4535) into DB_driver from DB_active_rec.</li>
 	<li>Fixed a syntax error in upload_lang.php.</li>
 	<li>Fixed a bug (#4542) with a regular expression in the Image library.</li>
+	<li>Fixed a bug (#4561) where <kbd>orhaving()</kbd> wasn't properly passing values.</li>
+	<li>Removed some unused variables from the code (#4563).</li>
+	<li>Fixed a bug where <kbd>having()</kbd> was not adding an = into the statement (#4568).</li>
 	<li>Fixed assorted user guide typos or examples (#4574).</li>
-</ul>
+	</ul>
 
 <h2>Version 1.6.2</h2>
 <p>Release Date: May 13, 2008<br />

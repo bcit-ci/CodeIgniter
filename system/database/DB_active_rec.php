@@ -804,7 +804,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	function orhaving($key, $value = '', $escape = TRUE)
 	{
-		return $this->or_having($key, $value = '', $escape);
+		return $this->or_having($key, $value, $escape);
 	}	
 	// --------------------------------------------------------------------
 
@@ -852,7 +852,11 @@ class CI_DB_active_record extends CI_DB_driver {
 				$k = $this->_protect_identifiers($k);
 			}
 
-			
+			if ( ! $this->_has_operator($k))
+			{
+				$k .= ' = ';
+			}
+
 			if ($v != '')
 			{
 				$v = ' '.$this->escape_str($v);
