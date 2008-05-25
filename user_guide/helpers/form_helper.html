@@ -346,7 +346,7 @@ fourth parameter:</p>
 
 <p>Lets you generate a standard button element. You can minimally pass the button name and content in the first and second parameter:</p>
 <code>
-echo form_button(’name’,’content’);<br />
+echo form_button('name','content');<br />
 <br />
 // Would produce<br />
 &lt;button name="name" type="submit"&gt;Content&lt;/button&gt;
@@ -355,11 +355,11 @@ echo form_button(’name’,’content’);<br />
 Or you can pass an associative array containing any data you wish your form to contain:
 <code>
 $data = array(<br />
-&nbsp;&nbsp;&nbsp;&nbsp;‘name’ => ‘button’,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;‘id’ => ‘button’,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;‘value’ => ‘true’,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;‘type’ => ‘reset’,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;‘content’ => ‘Reset’<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'name' => 'button',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'id' => 'button',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'value' => 'true',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'type' => 'reset',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'content' => 'Reset'<br />
 );<br />
 <br />
 echo form_button($data);<br />
@@ -370,8 +370,8 @@ echo form_button($data);<br />
 
 If you would like your form to contain some additional data, like JavaScript, you can pass it as a string in the third parameter:
 <code>
-$js = ‘onClick="some_function()"’;<br /><br />
-echo form_button(’mybutton’, ‘Click Me’, $js);
+$js = 'onClick="some_function()"';<br /><br />
+echo form_button('mybutton', 'Click Me', $js);
 </code>
 
 
