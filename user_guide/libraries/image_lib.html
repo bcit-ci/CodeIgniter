@@ -110,7 +110,7 @@ Since the <dfn>maintain_ratio</dfn> option is enabled, the thumb will be as clos
 </p>
 
 <p class="important"><strong>Note:</strong> In order for the image class to be allowed to do any processing, the
-folder containing the image files must have file permissions of 777.</p>
+folder containing the image files must have write permissions.</p>
 
 
 <h2>Processing Functions</h2>
@@ -305,7 +305,7 @@ preferences have no effect on cropping.  The "availability" column indicates whi
 <h2>Setting preferences in a config file</h2>
 
 <p>If you prefer not to set preferences using the above method, you can instead put them into a config file.
-Simply create a new file called the <var>image_lib.php</var>,  add the <var>$config</var>
+Simply create a new file called <var>image_lib.php</var>,  add the <var>$config</var>
 array in that file. Then save the file in: <var>config/image_lib.php</var> and it will be used automatically. You
 will NOT need to use the <dfn>$this->image_lib->initialize</dfn> function if you save your preferences in a config file.</p>
 
@@ -318,11 +318,11 @@ or create a thumbnail image.</p>
 <p>For practical purposes there is no difference between creating a copy and creating
 a thumbnail except a thumb will have the thumbnail marker as part of the name (ie, mypic_thumb.jpg).</p>
 
-<p>All preferences listed in the table above are available for this function except these three:  rotation, x_axis, and y_axis.</p>
+<p>All preferences listed in the table above are available for this function except these three:  rotation_angle, x_axis, and y_axis.</p>
 
 <h3>Creating a Thumbnail</h3>
 
-<p>The resizing function will create a thumbnail file (and preserve the original) if you set this preference so TRUE:</p>
+<p>The resizing function will create a thumbnail file (and preserve the original) if you set this preference to TRUE:</p>
 
 <code>$config['create_thumb'] = TRUE;</code>
 
@@ -357,7 +357,7 @@ preferences for the X and Y axis (in pixels) specifying where to crop, like this
 <code>$config['x_axis'] = '100';<br />
 $config['y_axis'] = '40';</code>
 
-<p>All preferences listed in the table above are available for this function except these:  rotation, width, height, create_thumb, new_image.</p>
+<p>All preferences listed in the table above are available for this function except these:  rotation_angle, width, height, create_thumb, new_image.</p>
 
 <p>Here's an example showing how you might crop an image:</p>
 
@@ -440,7 +440,7 @@ containing your watermark over the source image.</li>
 
 <h2>Watermarking an Image</h2>
 
-<p>Just as with the other function (resizing, cropping, and rotating) the general process for watermarking
+<p>Just as with the other functions (resizing, cropping, and rotating) the general process for watermarking
 involves setting the preferences corresponding to the action you intend to perform, then
 calling the watermark function.  Here is an example:</p>
 
@@ -482,7 +482,7 @@ will be positioned at the bottom/center of the image, 20 pixels from the bottom 
 <tr>
 <td class="td"><strong>wm_type</strong></td>
 <td class="td">text</td>
-<td class="td">type, overlay</td>
+<td class="td">text, overlay</td>
 <td class="td">Sets the type of watermarking that should be used.</td>
 </tr>
 
