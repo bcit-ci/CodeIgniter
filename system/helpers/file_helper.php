@@ -87,7 +87,7 @@ if ( ! function_exists('write_file'))
 {
 	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
 	{
-		if ( ! $fp = fopen($path, $mode))
+		if ( ! $fp = @fopen($path, $mode))
 		{
 			return FALSE;
 		}
