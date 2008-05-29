@@ -134,13 +134,21 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
-
+		
 		if (is_array($keys) && count($keys) > 0)
 		{
-			$keys = $this->db->_protect_identifiers($keys);
 			foreach ($keys as $key)
 			{
-				$sql .= ",\n\tFOREIGN KEY ($key)";
+				if (is_array($key))
+				{
+					$key = $this->db->_protect_identifiers($key);	
+				}
+				else
+				{
+					$key = array($this->db->_protect_identifiers($key));
+				}
+				
+				$sql .= ",\n\tFOREIGN KEY (" . implode(', ', $key) . ")";
 			}
 		}
 

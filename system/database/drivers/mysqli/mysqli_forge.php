@@ -153,16 +153,27 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
+			$key_name = $this->db->_protect_identifiers(implode('_', $primary_keys));
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY ".$key_name." (" . implode(', ', $primary_keys) . ")";
 		}
 
 		if (is_array($keys) && count($keys) > 0)
 		{
-			$keys = $this->db->_protect_identifiers($keys);
 			foreach ($keys as $key)
 			{
-				$sql .= ",\n\tKEY ($key)";
+				if (is_array($key))
+				{
+					$key_name = $this->db->_protect_identifiers(implode('_', $key));
+					$key = $this->db->_protect_identifiers($key);	
+				}
+				else
+				{
+					$key_name = $this->db->_protect_identifiers($key);
+					$key = array($key_name);
+				}
+				
+				$sql .= ",\n\tKEY {$key_name} (" . implode(', ', $key) . ")";
 			}
 		}
 
