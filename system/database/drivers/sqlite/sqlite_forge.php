@@ -144,13 +144,24 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
-
-		if (count($keys) > 0)
+		
+		if (is_array($keys) && count($keys) > 0)
 		{
-			$keys = $this->db->_protect_identifiers($keys);
-			$sql .= ",\n\tUNIQUE (" . implode(', ', $keys) . ")";
+			foreach ($keys as $key)
+			{
+				if (is_array($key))
+				{
+					$key = $this->db->_protect_identifiers($key);	
+				}
+				else
+				{
+					$key = array($this->db->_protect_identifiers($key));
+				}
+				
+				$sql .= ",\n\tUNIQUE (" . implode(', ', $key) . ")";
+			}
 		}
-
+		
 		$sql .= "\n)";
 
 		return $sql;

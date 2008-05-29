@@ -135,10 +135,21 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
 
-		if (count($keys) > 0)
+		if (is_array($keys) && count($keys) > 0)
 		{
-			$keys = $this->db->_protect_identifiers($keys);
-			$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $keys) . ")";
+			foreach ($keys as $key)
+			{
+				if (is_array($key))
+				{
+					$key = $this->db->_protect_identifiers($key);	
+				}
+				else
+				{
+					$key = array($this->db->_protect_identifiers($key));
+				}
+				
+				$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $key) . ")";
+			}
 		}
 		
 		$sql .= "\n)";
