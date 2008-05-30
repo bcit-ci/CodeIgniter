@@ -715,10 +715,10 @@ class CI_Input {
 			{
 				$temp .= substr($word, $i, 1)."\s*";
 			}
-	
+
 			// We only want to do this when it is followed by a non-word character
 			// That way valid stuff like "dealer to" does not become "dealerto"
-			$str = preg_replace('#('.substr($temp, 0, -3).')(\W)#ise', "preg_replace('/\s+/s', '', '\\1').'\\2'", $str);
+			$str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
 		}
 
 		/*
@@ -757,7 +757,7 @@ class CI_Input {
 		 * but it's unlikely to be a problem.
 		 *
 		 */
-		$event_handlers = array('onblur','onchange','onclick','onended','onerror','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmouseover','onmouseup','onresize','onselect','onsubmit','onunload','xmlns');
+		$event_handlers = array('onblur','onchange','onclick','ondblclick','onended','onerror','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmousemove','onmouseover','onmouseout','onmouseup','onresize','onselect','onsubmit','onunload','xmlns');
 
 		if ($is_image === TRUE)
 		{
@@ -870,6 +870,23 @@ class CI_Input {
 		}
 
 		return $this->xss_hash;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Compact Exploded Words
+	 *
+	 * Callback function for xss_clean() to remove whitespace from
+	 * things like j a v a s c r i p t
+	 *
+	 * @access	public
+	 * @param	type
+	 * @return	type
+	 */
+	function _compact_exploded_words($matches)
+	{
+		return preg_replace('/\s+/s', '', $matches[1]).$matches[2];
 	}
 
 	// --------------------------------------------------------------------
