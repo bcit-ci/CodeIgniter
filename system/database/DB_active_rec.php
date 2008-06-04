@@ -435,7 +435,6 @@ class CI_DB_active_record extends CI_DB_driver {
 			
 			if ( ! is_null($v))
 			{
-
 				if ($escape === TRUE)
 				{
 					// exception for "field<=" keys
@@ -456,16 +455,13 @@ class CI_DB_active_record extends CI_DB_driver {
 				{
 					$k .= ' =';
 				}
-
 			}
 			else
 			{
-
 				if ($escape === TRUE)
 				{
 					$k = $this->_protect_identifiers($k, TRUE);
-				}
-				
+				}				
 			}
 
 			$this->ar_where[] = $prefix.$k.$v;
