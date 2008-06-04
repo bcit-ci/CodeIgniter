@@ -757,7 +757,7 @@ class CI_Input {
 		 * but it's unlikely to be a problem.
 		 *
 		 */
-		$event_handlers = array('xmlns');
+		$event_handlers = array('on\w*','xmlns');
 
 		if ($is_image === TRUE)
 		{
@@ -768,8 +768,7 @@ class CI_Input {
 			unset($event_handlers[array_search('xmlns', $event_handlers)]);
 		}
 		
-		$str = preg_replace("#<([^><]+)((?=on\w*)|".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
-
+		$str = preg_replace("#<([^><]+)(".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
 		/*
 		 * Sanitize naughty HTML elements
 		 *
