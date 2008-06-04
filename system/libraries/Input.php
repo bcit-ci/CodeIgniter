@@ -521,8 +521,7 @@ class CI_Input {
 		 * between ascii characters, like Java\0script.
 		 *
 		 */
-		$str = preg_replace('/\0+/', '', $str);
-		$str = preg_replace('/(\\\\0)+/', '', $str);
+		$str = preg_replace(array('/\0+/', '/(\\\\0)+/'), '', $str);
 
 		/*
 		 * Protect GET variables in URLs
@@ -646,7 +645,9 @@ class CI_Input {
 		foreach ($words as $word)
 		{
 			$temp = '';
-			for ($i = 0; $i < strlen($word); $i++)
+			$wordlen = strlen($word);
+			
+			for ($i = 0; $i < $wordlen; $i++)
 			{
 				$temp .= substr($word, $i, 1)."\s*";
 			}
