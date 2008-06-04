@@ -454,13 +454,11 @@ class CI_DB_active_record extends CI_DB_driver {
 					$k .= ' =';
 				}
 
-				if ($v !== '' AND $v !== NULL)
-				{		
-					if ($escape === TRUE)
-					{
-						$v = ' '.$this->escape($v);
-					}
+				if ($v !== NULL AND $escape === TRUE)
+				{
+					$v = ' '.$this->escape($v);
 				}
+
 			}
 			else
 			{
