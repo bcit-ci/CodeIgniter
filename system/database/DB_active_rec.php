@@ -427,7 +427,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$prefix = (count($this->ar_where) == 0) ? '' : $type;
 
-			if ( ! $this->_has_operator($k) && is_null($key[$k]))
+			if (is_null($v) && ! $this->_has_operator($k))
 			{
 				// value appears not to have been set, assign the test to IS NULL
 				$k .= ' IS NULL';
@@ -447,16 +447,14 @@ class CI_DB_active_record extends CI_DB_driver {
 					{
 						$k = $this->_protect_identifiers($k);
 					}
+					
+					$v = ' '.$this->escape($v);
+
 				}
 
 				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' =';
-				}
-
-				if ($v !== NULL AND $escape === TRUE)
-				{
-					$v = ' '.$this->escape($v);
 				}
 
 			}
@@ -471,6 +469,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 
 			$this->ar_where[] = $prefix.$k.$v;
+			
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_where[] = $prefix.$k.$v;
