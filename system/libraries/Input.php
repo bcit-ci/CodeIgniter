@@ -133,32 +133,14 @@ class CI_Input {
 		}
 		else
 		{
-			if (is_array($_GET) AND count($_GET) > 0)
-			{
-				foreach($_GET as $key => $val)
-				{
-					$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-				}
-			}
+			$_GET = $this->_clean_input_data($_GET);
 		}
 
 		// Clean $_POST Data
-		if (is_array($_POST) AND count($_POST) > 0)
-		{
-			foreach($_POST as $key => $val)
-			{
-				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
-		}
-
+		$_POST = $this->_clean_input_data($_POST);
+		
 		// Clean $_COOKIE Data
-		if (is_array($_COOKIE) AND count($_COOKIE) > 0)
-		{
-			foreach($_COOKIE as $key => $val)
-			{
-				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
-		}
+		$_COOKIE = $this->_clean_input_data($_COOKIE);
 
 		log_message('debug', "Global POST and COOKIE data sanitized");
 	}
@@ -232,7 +214,35 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Fetch from array
+	 *
+	 * This is a helper function to retrieve values from global arrays
+	 *
+	 * @access	private
+	 * @param	array
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
+	function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	{
+		if ( ! isset($array[$index]))
+		{
+			return FALSE;
+		}
 
+		if ($xss_clean === TRUE)
+		{
+			return $this->xss_clean($array[$index]);
+		}
+
+		return $array[$index];
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Fetch an item from the GET array
 	 *
@@ -243,27 +253,7 @@ class CI_Input {
 	 */
 	function get($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_GET[$index]))
-		{
-			return FALSE;
-		}
-
-		if ($xss_clean === TRUE)
-		{
-			if (is_array($_GET[$index]))
-			{
-				foreach($_GET[$index] as $key => $val)
-				{
-					$_GET[$index][$key] = $this->xss_clean($val);
-				}
-			}
-			else
-			{
-				return $this->xss_clean($_GET[$index]);
-			}
-		}
-
-		return $_GET[$index];
+		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -278,27 +268,7 @@ class CI_Input {
 	 */
 	function post($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_POST[$index]))
-		{
-			return FALSE;
-		}
-
-		if ($xss_clean === TRUE)
-		{
-			if (is_array($_POST[$index]))
-			{
-				foreach($_POST[$index] as $key => $val)
-				{
-					$_POST[$index][$key] = $this->xss_clean($val);
-				}
-			}
-			else
-			{
-				return $this->xss_clean($_POST[$index]);
-			}
-		}
-
-		return $_POST[$index];
+		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -313,32 +283,7 @@ class CI_Input {
 	 */
 	function cookie($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_COOKIE[$index]))
-		{
-			return FALSE;
-		}
-
-		if ($xss_clean === TRUE)
-		{
-			if (is_array($_COOKIE[$index]))
-			{
-				$cookie = array();
-				foreach($_COOKIE[$index] as $key => $val)
-				{
-					$cookie[$key] = $this->xss_clean($val);
-				}
-
-				return $cookie;
-			}
-			else
-			{
-				return $this->xss_clean($_COOKIE[$index]);
-			}
-		}
-		else
-		{
-			return $_COOKIE[$index];
-		}
+		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -353,17 +298,7 @@ class CI_Input {
 	 */
 	function server($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_SERVER[$index]))
-		{
-			return FALSE;
-		}
-
-		if ($xss_clean === TRUE)
-		{
-			return $this->xss_clean($_SERVER[$index]);
-		}
-
-		return $_SERVER[$index];
+		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
