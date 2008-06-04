@@ -645,9 +645,8 @@ class CI_Input {
 		foreach ($words as $word)
 		{
 			$temp = '';
-			$wordlen = strlen($word);
 			
-			for ($i = 0; $i < $wordlen; $i++)
+			for ($i = 0, $wordlen = strlen($word); $i < $wordlen; $i++)
 			{
 				$temp .= substr($word, $i, 1)."\s*";
 			}
