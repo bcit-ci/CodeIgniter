@@ -993,7 +993,8 @@ class CI_Email {
 	
 				if ($this->send_multipart === FALSE)
 				{
-					$hdr .= "Content-Type: text/html;". $this->newline;
+					$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
+					$hdr .= "Content-Transfer-Encoding: quoted-printable";
 				}
 				else
 				{	
