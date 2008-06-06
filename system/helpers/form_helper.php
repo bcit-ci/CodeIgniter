@@ -40,9 +40,14 @@
  */	
 if ( ! function_exists('form_open'))
 {
-	function form_open($action = '', $attributes =  = 'method="post"', $hidden = array())
+	function form_open($action = '', $attributes = '', $hidden = array())
 	{
 		$CI =& get_instance();
+
+		if ($attributes == '')
+		{
+			$attributes = 'method="post"';
+		}
 
 		$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
 
