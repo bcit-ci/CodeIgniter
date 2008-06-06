@@ -321,10 +321,8 @@ class CI_Output {
 	 * @access	public
 	 * @return	void
 	 */	
-	function _display_cache(&$CFG, &$RTR)
+	function _display_cache(&$CFG, &$URI)
 	{
-		$URI =& load_class('URI');
-	
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
 			
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
