@@ -40,7 +40,7 @@
  */	
 if ( ! function_exists('form_open'))
 {
-	function form_open($action = '', $attributes = array(), $hidden = array())
+	function form_open($action = '', $attributes =  = 'method="post"', $hidden = array())
 	{
 		$CI =& get_instance();
 
@@ -453,7 +453,6 @@ if ( ! function_exists('form_fieldset'))
 {
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
-
 		$fieldset = "<fieldset";
 
         $fieldset .= _attributes_to_string($attributes, FALSE);
@@ -464,8 +463,6 @@ if ( ! function_exists('form_fieldset'))
 		{
 			$fieldset .= "<legend>$legend_text</legend>\n";
 		}
-		
-
 
 		return $fieldset;
 	}
