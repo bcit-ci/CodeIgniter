@@ -48,18 +48,7 @@ if ( ! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"';
 	
-		if ( ! isset($attributes['method']))
-		{
-			$form .= ' method="post"';
-		}
-	
-		if (is_array($attributes) AND count($attributes) > 0)
-		{
-			foreach ($attributes as $key => $val)
-			{
-				$form .= ' '.$key.'="'.$val.'"';
-			}
-		}
+        $form .= _attributes_to_string($attributes, TRUE);
 	
 		$form .= '>';
 
@@ -467,13 +456,7 @@ if ( ! function_exists('form_fieldset'))
 
 		$fieldset = "<fieldset";
 
-		if (is_array($attributes) AND count($attributes) > 0)
-		{
-			foreach ($attributes as $key => $val)
-			{
-				$fieldset .= ' '.$key.'="'.$val.'"';
-			}
-		}
+        $fieldset .= _attributes_to_string($attributes, FALSE);
 	
 		$fieldset .= ">\n";
 	
@@ -610,6 +593,55 @@ if ( ! function_exists('parse_form_attributes'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Attributes To String
+ *
+ * Helper function used by some of the form helpers
+ *
+ * @access	private
+ * @param	mixed
+ * @param	bool
+ * @return	string
+ */	
+if ( ! function_exists('_attributes_to_string'))
+{
+	function _attributes_to_string($attributes, $formtag = FALSE)
+	{
+	   if (is_string($attributes) AND strlen($attributes) > 0)
+	   {
+		   if ($formtag == TRUE AND strpos($attributes, 'method=') === FALSE)
+		   {
+			  $attributes .= ' method="post"';
+		   }
+		   
+		   return ' '.$attributes;       
+	   }
+	
+	   if (is_object($attributes) AND count($attributes) > 0)
+	   {
+		  $attributes = (array)$attributes;
+	   }
+	   
+	   if (is_array($attributes) AND count($attributes) > 0)
+	   {
+		  $atts = '';
+
+		  if ( ! isset($attributes['method']) AND $formtag === TRUE)
+		  {
+			 $atts .= ' method="post"';
+		  }
+	
+		  foreach ($attributes as $key => $val)
+		  {
+			 $atts .= ' '.$key.'="'.$val.'"';
+		  }
+
+		  return $atts;
+	   }
+	} 
+}
 
 /* End of file form_helper.php */
 /* Location: ./system/helpers/form_helper.php */
