@@ -398,9 +398,36 @@ class Xmlrpc_server extends Controller {
 <p>The client you created sends a message ("How's is going?") to the server, along with a request for the "Greetings" method.
 The Server receives the request and maps it to the "process" function, where a response is sent back.</p>
 
+<h2>Using Associative Arrays In a Request Parameter</h2>
 
+<p>If you wish to use an associative array in your method parameters you will need to use a struct datatype:</p>
 
-<p>&nbsp;</p>
+<code>$request = array(<br />
+	                 array(<br />
+	                       // Param 0<br />
+	                       array(<br />
+	                             'name'=&gt;'John'<br />
+	                            	),<br />
+	                             'struct'<br />
+	                       ),<br />
+	                       array(<br />
+	                             // Param 1<br />
+	                             array(<br />
+	                                  	'size'=&gt;'large',<br />
+	                                   'shape'=&gt;'round'<br />
+	                                  	),<br />
+	                             'struct'<br />
+	                       )<br />
+	                 );<br />
+	$this-&gt;xmlrpc-&gt;request($request);</code>
+	
+<p>You can retrieve the associative array when processing the request in the Server.</p>
+
+<code>$parameters = $request-&gt;output_parameters();<br />
+	$name = $parameters['0']['name'];<br />
+	$size = $parameters['1']['size'];<br />
+	$size = $parameters['1']['shape']; </code>
+
 <h1>XML-RPC Function Reference</h1>
 
 <h2>$this->xmlrpc->server()</h2>
