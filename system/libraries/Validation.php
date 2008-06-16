@@ -402,6 +402,7 @@ class CI_Validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	field
 	 * @return	bool
 	 */
 	function matches($str, $field)
@@ -421,6 +422,7 @@ class CI_Validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	value
 	 * @return	bool
 	 */	
 	function min_length($str, $val)
@@ -440,6 +442,7 @@ class CI_Validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	value
 	 * @return	bool
 	 */	
 	function max_length($str, $val)
@@ -459,6 +462,7 @@ class CI_Validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	value
 	 * @return	bool
 	 */	
 	function exact_length($str, $val)

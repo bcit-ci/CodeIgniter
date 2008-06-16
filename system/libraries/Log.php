@@ -36,9 +36,6 @@ class CI_Log {
 	 * Constructor
 	 *
 	 * @access	public
-	 * @param	string	the log file path
-	 * @param	string	the error threshold
-	 * @param	string	the date formatting codes
 	 */
 	function CI_Log()
 	{

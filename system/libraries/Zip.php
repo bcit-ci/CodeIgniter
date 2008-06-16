@@ -291,7 +291,6 @@ class CI_Zip  {
 	 *
 	 * @access	public
 	 * @param	string	the file name
-	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */	
 	function archive($filepath)
