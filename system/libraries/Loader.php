@@ -100,9 +100,9 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate models.
 	 *
-	 * @access	public
 	 * @param	string	the name of the class
-	 * @param	mixed	any initialization parameters
+	 * @param	string	name for the model
+	 * @param	bool	database connection
 	 * @return	void
 	 */	
 	function model($model, $name = '', $db_conn = FALSE)
