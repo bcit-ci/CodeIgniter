@@ -110,6 +110,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'helpers/form_helper.html">Form Helper</a></li>' +
 		'<li><a href="'+base+'helpers/html_helper.html">HTML Helper</a></li>' +
 		'<li><a href="'+base+'helpers/inflector_helper.html">Inflector Helper</a></li>' +
+		'<li><a href="'+base+'helpers/number_helper.html">Number Helper</a></li>' +
 		'<li><a href="'+base+'helpers/path_helper.html">Path Helper</a></li>' +
 		'<li><a href="'+base+'helpers/security_helper.html">Security Helper</a></li>' +
 		'<li><a href="'+base+'helpers/smiley_helper.html">Smiley Helper</a></li>' +
