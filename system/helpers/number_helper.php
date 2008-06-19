@@ -38,9 +38,13 @@ if ( ! function_exists('byte_format'))
 {
 	function byte_format($num)
 	{
-		$num = (int) $num;
-		
-		if ($num >= 1000000000) 
+
+		if ($num >= 1000000000000) 
+		{
+			$num = round($num/1099511627776)/10;
+			$unit  = 'TB';
+		}
+		elseif ($num >= 1000000000) 
 		{
 			$num = round($num/107374182)/10;
 			$unit  = 'GB';
