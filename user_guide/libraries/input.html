@@ -158,6 +158,18 @@ else<br />
 
 <code>$this->input->post('some_data', TRUE);</code>
 
+<h2>$this->input->get()</h2>
+
+<p>This function is identical to the post function, only it fetches get data:</p>
+
+<code>$this->input->get('some_data', TRUE);</code>
+
+<h2>$this->input->get_post()</h2>
+
+<p>This function will search through both the post and get streams for data, looking first in post, and then in get:</p>
+
+<code>$this->input->get_post('some_data', TRUE);</code>
+
 <h2>$this->input->cookie()</h2>
 
 <p>This function is identical to the post function, only it fetches cookie data:</p>
