@@ -274,6 +274,28 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Fetch an item from either the GET array or the POST
+	 *
+	 * @access	public
+	 * @param	string	The index key
+	 * @param	bool	XSS cleaning
+	 * @return	string
+	 */
+	function get_post($index = '', $xss_clean = FALSE)
+	{		
+		if ( ! isset($_POST[$index]) )
+		{
+			return $this->get($index, $xss_clean);
+		}
+		else
+		{
+			return $this->post($index, $xss_clean);
+		}		
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Fetch an item from the COOKIE array
 	 *
 	 * @access	public
