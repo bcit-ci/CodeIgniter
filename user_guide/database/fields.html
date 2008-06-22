@@ -67,7 +67,7 @@ Field Names
 <p>1. You can supply the table name and call it from the <dfn>$this->db-></dfn> object:</p>
 
 <code>
-$fields = $this->db->list_fields('table_name')<br /><br />
+$fields = $this->db->list_fields('table_name');<br /><br />
 
 foreach ($fields as $field)<br />
 {<br />
@@ -79,7 +79,7 @@ foreach ($fields as $field)<br />
 from your query result object:</p>
 
 <code>
-$query = $this->db->query('SELECT * FROM some_table')
+$query = $this->db->query('SELECT * FROM some_table');
 <br /><br />
 
 foreach ($query->list_fields() as $field)<br />
@@ -105,8 +105,6 @@ if ($this->db->field_exists('field_name', 'table_name'))<br />
 <em>table_name</em> with the name of the table you are looking for.</p>
 
 
-
-
 <h2>$this->db->field_data()</h2>
 <p>Returns an array of objects containing field information.</p>
 <p>Sometimes it's helpful to gather the field names or other metadata, like the column type, max length, etc.</p>
@@ -117,7 +115,7 @@ if ($this->db->field_exists('field_name', 'table_name'))<br />
 <p>Usage example:</p>
 
 <code>
-$fields = $this->db->field_data('table_name')<br /><br />
+$fields = $this->db->field_data('table_name');<br /><br />
 
 foreach ($fields as $field)<br />
 {<br />
@@ -131,8 +129,8 @@ foreach ($fields as $field)<br />
 <p>If you have run a query already you can use the result object instead of supplying the table name:</p>
 
 <code>
-$query = $this->db->query("YOUR QUERY")<br />
-$fields = $query->field_data()
+$query = $this->db->query("YOUR QUERY");<br />
+$fields = $query->field_data();
 </code>
 
 
@@ -144,9 +142,6 @@ $fields = $query->field_data()
 <li>primary_key - 1 if the column is a primary key</li>
 <li>type - the type of the column</li>
 </ul>
-
-
-
 	
 
 </div>
