@@ -511,7 +511,7 @@ class CI_Input {
 	 * @param	string
 	 * @return	string
 	 */
-	function xss_clean($str, $is_image = FALSE, $loops = 0, $looped_convert = '')
+	function xss_clean($str, $is_image = FALSE)
 	{
 		/*
 		 * Is the string an array?
@@ -528,22 +528,9 @@ class CI_Input {
 		}
 
 		/*
-		 * Runaway loop prevention.  If the text has had to be examined this many times
-		 * I think it's safe to say that it is best to simply ignore it.
+		 * Remove Invisible Characters
 		 */
-		if ($loops > 9)
-		{
-			return '';
-		}
-
-		/*
-		 * Remove Null Characters
-		 *
-		 * This prevents sandwiching null characters
-		 * between ascii characters, like Java\0script.
-		 *
-		 */
-		$str = preg_replace(array('/\0+/', '/(\\\\0)+/'), '', $str);
+		$str = $this->_remove_invisible_characters($str);
 
 		/*
 		 * Protect GET variables in URLs
@@ -601,6 +588,11 @@ class CI_Input {
 		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", array($this, '_html_entity_decode_callback'), $str);
 
 		/*
+		 * Remove Invisible Characters Again!
+		 */
+		$str = $this->_remove_invisible_characters($str);
+		
+		/*
 		 * Convert all tabs to spaces
 		 *
 		 * This prevents strings like this: ja	vascript
@@ -613,22 +605,7 @@ class CI_Input {
  		if (strpos($str, "\t") !== FALSE)
 		{
 			$str = str_replace("\t", ' ', $str);
-		}		
-
-		/*
-		 * Check and set converted string
-		 */
-		if ($looped_convert != '' && $looped_convert == $str)
-		{
-			// if we are in a loop, and the converted string is the same as the last pass,
-			// then this is going to repeat until we hit the runaway loop prevention,
-			// so we might as well stop now.
-			return '';
 		}
-		else
-		{
-			$converted_string = $str;			
-		}		
 		
 		/*
 		 * Not Allowed Under Any Conditions
@@ -677,7 +654,7 @@ class CI_Input {
 			// That way valid stuff like "dealer to" does not become "dealerto"
 			$str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
 		}
-
+		
 		/*
 		 * Remove disallowed Javascript in links or img tags
 		 * We used to do some version comparisons and use of stripos for PHP5, but it is dog slow compared
@@ -689,17 +666,17 @@ class CI_Input {
 	
 			if (preg_match("/<a/i", $str))
 			{
-				$str = preg_replace_callback("#<a.*(>|<|$)#si", array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback("#<a\s*([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
 			}
 	
 			if (preg_match("/<img/i", $str))
 			{
-				$str = preg_replace_callback("#<img.*(>|<|$)#si", array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback("#<img\s*([^>]*?)(>|$)#si", array($this, '_js_img_removal'), $str);
 			}
 	
 			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
 			{
-				$str = preg_replace("#</*(script|xss).*?\>#si", "", $str);
+				$str = preg_replace("#<(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
 			}
 		}
 		while($original != $str);
@@ -726,6 +703,7 @@ class CI_Input {
 		}
 		
 		$str = preg_replace("#<([^><]+)(".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
+		
 		/*
 		 * Sanitize naughty HTML elements
 		 *
@@ -790,16 +768,6 @@ class CI_Input {
 				return FALSE;
 			}
 		}
-
-		/*
-		 * If something changed after character conversion, we can be fairly confident that something
-		 * malicious was removed, so let's take no chances that the attacker is counting on specific
-		 * mutations taking place to allow a new attack to reveal itself.  So say we all.
-		 */
-		if ($converted_string != $str)
-		{
-			$str = $this->xss_clean($str, $is_image, ++$loops, $converted_string);
-		}
 		
 		log_message('debug', "XSS Filtering completed");
 		return $str;
@@ -826,6 +794,44 @@ class CI_Input {
 		}
 
 		return $this->xss_hash;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Remove Invisible Characters
+	 *
+	 * This prevents sandwiching null characters
+	 * between ascii characters, like Java\0script.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function _remove_invisible_characters($str)
+	{
+		static $non_displayables;
+		
+		if ( ! isset($non_displayables))
+		{
+			// every control character except newline (10), carriage return (13), and horizontal tab (09),
+			// both as a URL encoded character (::shakes fist at IE and WebKit::), and the actual character
+			$non_displayables = array(
+										'/%0[0-8]/', '/[\x00-\x08]/',			// 00-08
+										'/%11/', '/\x0b/', '/%12/', '/\x0c/',	// 11, 12
+										'/%1[4-9]/', '/%2[0-9]/', '/%3[0-1]/',	// url encoded 14-31
+										'/[\x0e-\x1f]/');						// 14-31
+			
+		}
+
+		do
+		{
+			$cleaned = $str;
+			$str = preg_replace($non_displayables, '', $str);
+		}
+		while ($cleaned != $str);
+
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
@@ -883,7 +889,8 @@ class CI_Input {
 	 */
 	function _js_link_removal($match)
 	{
-		return preg_replace("#href=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $match[0]);
+		$attributes = $this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]));
+		return str_replace($match[1], preg_replace("#href=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $attributes), $match[0]);
 	}
 
 	/**
@@ -900,7 +907,8 @@ class CI_Input {
 	 */
 	function _js_img_removal($match)
 	{
-		return preg_replace("#src=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $match[0]);
+		$attributes = $this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]));
+		return str_replace($match[1], preg_replace("#src=.*?(alert\(|alert&\#40;|javascript\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si", "", $attributes), $match[0]);
 	}
 
 	// --------------------------------------------------------------------
@@ -993,6 +1001,34 @@ class CI_Input {
 
 		return $str;
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Filter Attributes
+	 *
+	 * Filters tag attributes for consistency and safety
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function _filter_attributes($str)
+	{
+		$out = '';
+
+		if (preg_match_all('#\s*[a-z\-]+\s*=\s*(\042|\047)([^\\1]*?)\\1#is', $str, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$out .= "{$match}";
+			}			
+		}
+
+		return $out;
+	}
+
+	// --------------------------------------------------------------------
 
 }
 // END Input class
