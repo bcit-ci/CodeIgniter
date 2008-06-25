@@ -631,8 +631,17 @@ class CI_Input {
 		 * But it doesn't seem to pose a problem.
 		 *
 		 */
-		$str = str_replace(array('<?php', '<?PHP', '<?', '?'.'>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
-
+		if ($is_image === TRUE)
+		{
+			// Images have a tendency to have the PHP short opening and closing tags every so often
+			// so we skip those and only do the long opening tags.
+			$str = str_replace(array('<?php', '<?PHP'),  array('&lt;?php', '&lt;?PHP'), $str);
+		}
+		else
+		{
+			$str = str_replace(array('<?php', '<?PHP', '<?', '?'.'>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		}
+		
 		/*
 		 * Compact any exploded words
 		 *
