@@ -608,6 +608,11 @@ class CI_Input {
 		}
 		
 		/*
+		 * Capture converted string for later comparison
+		 */
+		$converted_string = $str;
+		
+		/*
 		 * Not Allowed Under Any Conditions
 		 */
 		
