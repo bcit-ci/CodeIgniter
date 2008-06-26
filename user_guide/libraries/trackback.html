@@ -133,7 +133,7 @@ able to associate it with a particular entry.</p>
 <p>For example, if your controller class is called <dfn>Trackback</dfn>, and the receiving function is called <dfn>receive</dfn>, your
 Ping URLs will look something like this:</p>
 
-<code>http://www.your-site.com/index.php/trackback/receive/<samp>entry_id</samp></code>
+<code>http://example.com/index.php/trackback/receive/<samp>entry_id</samp></code>
 
 <p>Where <samp>entry_id</samp> represents the individual ID number for each of your entries.</p>
 
@@ -198,7 +198,7 @@ $this->trackback->send_success();</code>
 
 <p>The entry ID number is expected in the third segment of your URL.  This is based on the URI example we gave earlier:</p>
 
-<code>http://www.your-site.com/index.php/trackback/receive/<samp>entry_id</samp></code>
+<code>http://example.com/index.php/trackback/receive/<samp>entry_id</samp></code>
 
 <p>Notice the entry_id is in the third URI segment, which you can retrieve using:</p>
 

@@ -79,7 +79,7 @@ in the event your URL changes.</p>
 
 <code>echo site_url("news/local/123");</code>
 
-<p>The above example would return something like: http://www.your-site.com/index.php/news/local/123</p>
+<p>The above example would return something like: http://example.com/index.php/news/local/123</p>
 
 <p>Here is an example of segments passed as an array:</p>
 
@@ -104,7 +104,7 @@ echo site_url($segments);</code>
 
 <p>Creates a standard HTML anchor link based on your local site URL:</p>
 
-<code>&lt;a href="http://www.your-site.com">Click Here&lt;/a></code>
+<code>&lt;a href="http://example.com">Click Here&lt;/a></code>
 
 <p>The tag has three optional parameters:</p>
 
@@ -124,11 +124,11 @@ will be added automatically from the information specified in your config file. 
 
 <code>echo anchor('news/local/123', 'My News');</code>
 
-<p>Would produce: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="My News">My News&lt;/a></p>
+<p>Would produce: &lt;a href="http://example.com/index.php/news/local/123" title="My News">My News&lt;/a></p>
 
 <code>echo anchor('news/local/123', 'My News', array('title' => 'The best news!'));</code>
 
-<p>Would produce: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="The best news!">My News&lt;/a></p>
+<p>Would produce: &lt;a href="http://example.com/index.php/news/local/123" title="The best news!">My News&lt;/a></p>
 
 
 <h2>anchor_popup()</h2>
@@ -218,7 +218,7 @@ $url_title = url_title($title, 'underscore');<br />
 <h3>prep_url()</h3>
 <p>This function will add <kbd>http://</kbd> in the event it is missing from a URL.  Pass the URL string to the function like this:</p>
 <code>
-$url = "www.example.com";<br /><br />
+$url = "example.com";<br /><br />
 $url = prep_url($url);</code>
 
 

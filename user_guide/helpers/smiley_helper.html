@@ -111,7 +111,7 @@ class Smileys extends Controller {
 		$this->load->helper('smiley');
 		$this->load->library('table');
 		
-		$image_array = get_clickable_smileys('http://www.your-site.com/images/smileys/');
+		$image_array = get_clickable_smileys('http://example.com/images/smileys/');
 
 		$col_array = $this->table->make_columns($image_array, 8);		
 			
@@ -160,7 +160,7 @@ class Smileys extends Controller {
 <p>Returns an array containing your smiley images wrapped in a clickable link.  You must supply the URL to your smiley folder
 via the first parameter:</p>
 
-<code>$image_array = get_clickable_smileys("http://www.your-site.com/images/smileys/");</code>
+<code>$image_array = get_clickable_smileys("http://example.com/images/smileys/");</code>
 
 
 <h2>js_insert_smiley()</h2>
@@ -181,7 +181,7 @@ equivalent.  The first parameter must contain your string, the second must conta
 
 $str = 'Here are some simileys: :-)  ;-)';
 
-$str = parse_smileys($str, "http://www.your-site.com/images/smileys/");
+$str = parse_smileys($str, "http://example.com/images/smileys/");
 
 echo $str;
 </code>

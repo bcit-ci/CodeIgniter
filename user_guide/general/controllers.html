@@ -82,7 +82,7 @@ Controllers
 
 <p>Consider this URI:</p>
 
-<code>www.your-site.com/index.php/<var>blog</var>/</code>
+<code>example.com/index.php/<var>blog</var>/</code>
 
 <p>In the above example, CodeIgniter would attempt to find a controller named <dfn>blog.php</dfn> and load it.</p>
 
@@ -112,7 +112,7 @@ class Blog extends Controller {
 
 <p>Now visit the your site using a URL similar to this:</p>
 
-<code>www.your-site.com/index.php/<var>blog</var>/</code>
+<code>example.com/index.php/<var>blog</var>/</code>
 
 <p>If you did it right, you should see <samp>Hello World!</samp>.</p>
 
@@ -142,7 +142,7 @@ class <var>blog</var> extends Controller {<br />
 <p>In the above example the function name is <dfn>index()</dfn>.  The "index" function is always loaded by default if the
 <strong>second segment</strong> of the URI is empty.  Another way to show your "Hello World" message would be this:</p>
 
-<code>www.your-site.com/index.php/<var>blog</var>/<samp>index</samp>/</code>
+<code>example.com/index.php/<var>blog</var>/<samp>index</samp>/</code>
 
 <p><strong>The second segment of the URI determines which function in the controller gets called.</strong></p>
 
@@ -168,7 +168,7 @@ class Blog extends Controller {
 
 <p>Now load the following URL to see the <dfn>comment</dfn> function:</p>
 
-<code>www.your-site.com/index.php/<var>blog</var>/<samp>comments</samp>/</code>
+<code>example.com/index.php/<var>blog</var>/<samp>comments</samp>/</code>
 
 <p>You should see your new message.</p>
 
@@ -179,7 +179,7 @@ class Blog extends Controller {
 
 <p>For example, lets say you have a URI like this:</p>
 
-<code>www.your-site.com/index.php/<var>products</var>/<samp>shoes</samp>/<kbd>sandals</kbd>/<dfn>123</dfn></code>
+<code>example.com/index.php/<var>products</var>/<samp>shoes</samp>/<kbd>sandals</kbd>/<dfn>123</dfn></code>
 
 <p>Your function will be passed URI segments 3 and 4 ("sandals" and "123"):</p>
 
@@ -287,7 +287,7 @@ function _utility()<br />
 
 <p>Trying to access it via the URL, like this, will not work:</p>
 
-<code>www.your-site.com/index.php/<var>blog</var>/<samp>_utility</samp>/</code>
+<code>example.com/index.php/<var>blog</var>/<samp>_utility</samp>/</code>
 
 
 
@@ -305,7 +305,7 @@ located here:</p>
 
 <p>To call the above controller your URI will look something like this:</p>
 
-<code>www.your-site.com/index.php/products/shoes/show/123</code>
+<code>example.com/index.php/products/shoes/show/123</code>
 
 <p>Each of your sub-folders may contain a default controller which will be
 called if the URL contains only the sub-folder.  Simply name your default controller as specified in your

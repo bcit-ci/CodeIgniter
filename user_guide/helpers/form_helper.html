@@ -84,7 +84,7 @@ in the event your URLs ever change.</p>
 
 <p>The above example would create a form that points to your base URL plus the "email/send" URI segments, like this:</p>
 
-<code>&lt;form method="post" action="http:/www.your-site.com/index.php/email/send" /></code>
+<code>&lt;form method="post" action="http:/example.com/index.php/email/send" /></code>
 
 <h4>Adding Attributes</h4>
 
@@ -97,7 +97,7 @@ echo form_open('email/send', $attributes);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" action="http:/www.your-site.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
+<code>&lt;form method="post" action="http:/example.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
 
 <h4>Adding Hidden Input Fields</h4>
 
@@ -110,7 +110,7 @@ echo form_open('email/send', '', $hidden);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" action="http:/www.your-site.com/index.php/email/send"><br />
+<code>&lt;form method="post" action="http:/example.com/index.php/email/send"><br />
 &lt;input type="hidden" name="username" value="Joe" /><br />
 &lt;input type="hidden" name="member_id" value="234" /></code>
 
@@ -134,7 +134,7 @@ which is necessary if you would like to use the form to upload files with.</p>
 <code>$data = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;=> 'John Doe',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'email' => 'john@example.com',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'url'&nbsp;&nbsp;&nbsp;=> 'http://www.example.com'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'url'&nbsp;&nbsp;&nbsp;=> 'http://example.com'<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
 echo form_hidden($data);<br />
@@ -142,7 +142,7 @@ echo form_hidden($data);<br />
 // Would produce:<br /><br />
 &lt;input type="hidden" name="name" value="John Doe" /><br />
 &lt;input type="hidden" name="email" value="john@example.com" /><br />
-&lt;input type="hidden" name="url" value="http://www.example.com" /></code>
+&lt;input type="hidden" name="url" value="http://example.com" /></code>
 
 
 

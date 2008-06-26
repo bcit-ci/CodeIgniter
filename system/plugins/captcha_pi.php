@@ -27,7 +27,7 @@ Once loaded you can generate a captcha like this:
 	$vals = array(
 					'word'		 => 'Random word',
 					'img_path'	 => './captcha/',
-					'img_url'	 => 'http://www.your-site.com/captcha/',
+					'img_url'	 => 'http://example.com/captcha/',
 					'font_path'	 => './system/fonts/texb.ttf',
 					'img_width'	 => '150',
 					'img_height' => 30,
@@ -69,7 +69,7 @@ The create_captcha() function returns an associative array with this data:
   )
 
 The "image" is the actual image tag:
-<img src="http://your-site.com/captcha/12345.jpg" width="140" height="50" />
+<img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
 
 The "time" is the micro timestamp used as the image name without the file
 extension.  It will be a number like this:  1139612155.3422
@@ -104,7 +104,7 @@ On the page where the captcha will be shown you'll have something like this:
 	$this->load->plugin('captcha');
 	$vals = array(
 					'img_path'	 => './captcha/',
-					'img_url'	 => 'http://www.your-site.com/captcha/'
+					'img_url'	 => 'http://example.com/captcha/'
 				);
 	
 	$cap = create_captcha($vals);

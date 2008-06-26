@@ -61,7 +61,7 @@ URLS
 <p>By default, URLs in CodeIgniter are designed to be search-engine and human friendly.  Rather than using the standard "query string"
 approach to URLs that is synonymous with dynamic systems, CodeIgniter uses a <strong>segment-based</strong> approach:</p>
 
-<code>www.your-site.com/<var>news</var>/<dfn>article</dfn>/<samp>my_article</samp></code>
+<code>example.com/<var>news</var>/<dfn>article</dfn>/<samp>my_article</samp></code>
 
 <p class="important"><strong>Note:</strong> Query string URLs can be optionally enabled, as described below.</p>
 
@@ -69,7 +69,7 @@ approach to URLs that is synonymous with dynamic systems, CodeIgniter uses a <st
 
 <p>The segments in the URL, in following with the Model-View-Controller approach, usually represent:</p>
 
-<code>www.your-site.com/<var>class</var>/<dfn>function</dfn>/<samp>ID</samp></code>
+<code>example.com/<var>class</var>/<dfn>function</dfn>/<samp>ID</samp></code>
 
 <ol>
 <li>The first segment represents the controller <strong>class</strong> that should be invoked.</li>
@@ -87,7 +87,7 @@ contain functions that make it easy to work with your URI data.  In addition, yo
 
 <p>By default, the <strong>index.php</strong> file will be included in your URLs:</p>
 
-<code>www.your-site.com/<var>index.php</var>/news/article/my_article</code>
+<code>example.com/<var>index.php</var>/news/article/my_article</code>
 
 <p>You can easily remove this file by using a .htaccess file with some simple rules. Here is an example
  of such a file, using the "negative" method in which everything is redirected except the specified items:</p>
@@ -105,11 +105,11 @@ a request for your index.php file.</p>
 <p>In your <dfn>config/config.php</dfn> file you can specify a suffix that will be added to all URLs generated
 by CodeIgniter.  For example, if a URL is this:</p>
 
-<code>www.your-site.com/index.php/products/view/shoes</code>
+<code>example.com/index.php/products/view/shoes</code>
 
 <p>You can optionally add a suffix, like <kbd>.html</kbd>, making the page appear to be of a certain type:</p>
 
-<code>www.your-site.com/index.php/products/view/shoes.html</code>
+<code>example.com/index.php/products/view/shoes.html</code>
 
 
 <h2>Enabling Query Strings</h2>

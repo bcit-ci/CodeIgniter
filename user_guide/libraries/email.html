@@ -83,7 +83,7 @@ Email Class
 
 <code>$this->load->library('email');<br />
 <br />
-$this->email->from('your@your-site.com', 'Your Name');<br />	
+$this->email->from('your@example.com', 'Your Name');<br />	
 $this->email->to('someone@example.com'); <br />
 $this->email->cc('another@another-example.com'); <br />
 $this->email->bcc('them@their-example.com'); <br />
@@ -185,11 +185,11 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 
 <h3>$this->email->from()</h3>
 <p>Sets the email address and name of the person sending the email:</p>
-<code>$this->email->from('<var>you@your-site.com</var>', '<var>Your Name</var>');</code>
+<code>$this->email->from('<var>you@example.com</var>', '<var>Your Name</var>');</code>
 
 <h3>$this->email->reply_to()</h3>
 <p>Sets the reply-to address.  If the information is not provided the information in the "from" function is used. Example:</p>
-<code>$this->email->reply_to('<var>you@your-site.com</var>', '<var>Your Name</var>');</code>
+<code>$this->email->reply_to('<var>you@example.com</var>', '<var>Your Name</var>');</code>
 
 
 <h3>$this->email->to()</h3>
@@ -235,7 +235,7 @@ in a loop, permitting the data to be reset between cycles.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->clear();<br /><br />
 	
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->to($address);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$this->email->from('your@your-site.com');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this->email->from('your@example.com');<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->subject('Here is your info '.$name);<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->message('Hi '.$name.' Here is the info you requested.');<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->send();<br />
@@ -280,7 +280,7 @@ word wrapping within part of your message like this:</p>
 <code>The text of your email that<br />
 gets wrapped normally.<br />
 <br />
-<var>{unwrap}</var>http://www.example.com/a_long_link_that_should_not_be_wrapped.html<var>{/unwrap}</var><br />
+<var>{unwrap}</var>http://example.com/a_long_link_that_should_not_be_wrapped.html<var>{/unwrap}</var><br />
 <br />
 More text that will be<br />
 wrapped normally.</code>

@@ -178,7 +178,7 @@ $query = $this->db->query("SELECT * FROM another_table");
 <p>Deletes the cache files associated with a particular page. This is useful if you need to clear caching after you update your database.</p>
 
 <p>The caching system saves your cache files to folders that correspond to the URI of the page you are viewing.  For example, if you are viewing
-a page at <dfn>www.your-site.com/index.php/blog/comments</dfn>, the caching system will put all cache files associated with it in a folder
+a page at <dfn>example.com/index.php/blog/comments</dfn>, the caching system will put all cache files associated with it in a folder
 called <dfn>blog+comments</dfn>.  To delete those particular cache files you will use:</p>
 
 <code>$this->db->cache_delete('blog', 'comments');</code>
