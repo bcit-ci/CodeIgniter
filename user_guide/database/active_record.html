@@ -282,28 +282,28 @@ $this->db->or_where('id >', $id);
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
     $this->db->where_in('username', $names);<br />
-    // Produces: AND WHERE username IN ('Frank', 'Todd', 'James')</code></p>
+    // Produces: WHERE username IN ('Frank', 'Todd', 'James')</code></p>
 
 <h2>$this->db->or_where_in();</h2>
 <p>Generates a WHERE field IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
     $this->db->or_where_in('username', $names);<br />
-    // Produces: OR WHERE username IN ('Frank', 'Todd', 'James')</code></p>
+    // Produces: OR username IN ('Frank', 'Todd', 'James')</code></p>
     
 <h2>$this->db->where_not_in();</h2>
 <p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with AND if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
     $this->db->where_not_in('username', $names);<br />
-    // Produces: AND WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
+    // Produces: WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
 
 <h2>$this->db->or_where_not_in();</h2>
 <p>Generates a WHERE field NOT IN ('item', 'item') SQL query joined with OR if appropriate</p>
 <p><code>
     $names = array('Frank', 'Todd', 'James');<br />
     $this->db->or_where_not_in('username', $names);<br />
-    // Produces: OR WHERE username NOT IN ('Frank', 'Todd', 'James')</code></p>
+    // Produces: OR username NOT IN ('Frank', 'Todd', 'James')</code></p>
 
 <h2>$this->db->like();</h2>
 <p>This function enables you to generate <strong>LIKE</strong> clauses, useful for doing searches.</p>
