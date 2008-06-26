@@ -296,7 +296,7 @@ class CI_URI {
 	 * This function generates and associative array of URI data starting
 	 * at the supplied segment. For example, if this is your URI:
 	 *
-	 *	www.your-site.com/user/search/name/joe/location/UK/gender/male
+	 *	example.com/user/search/name/joe/location/UK/gender/male
 	 *
 	 * You can use this function to generate an array with this prototype:
 	 *

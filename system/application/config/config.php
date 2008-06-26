@@ -8,7 +8,7 @@
 | URL to your CodeIgniter root. Typically this will be your base URL,
 | WITH a trailing slash:
 |
-|	http://www.your-site.com/
+|	http://example.com/
 |
 */
 $config['base_url']	= "http://127.0.0.1/CodeIgniter/";
@@ -132,16 +132,16 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 |--------------------------------------------------------------------------
 |
 | By default CodeIgniter uses search-engine friendly segment based URLs:
-| www.your-site.com/who/what/where/
+| example.com/who/what/where/
 |
 | You can optionally enable standard query string based URLs:
-| www.your-site.com?who=me&what=something&where=here
+| example.com?who=me&what=something&where=here
 |
 | Options are: TRUE or FALSE (boolean)
 |
 | The other items let you set the query string "words" that will
 | invoke your controllers and its functions:
-| www.your-site.com/index.php?c=controller&m=function
+| example.com/index.php?c=controller&m=function
 |
 | Please note that some of the helpers won't work as expected when
 | this feature is enabled, since CodeIgniter is designed primarily to
