@@ -38,30 +38,33 @@ if ( ! function_exists('byte_format'))
 {
 	function byte_format($num)
 	{
+		$CI =& get_instance();
+		$CI->lang->load('number');
 
 		if ($num >= 1000000000000) 
 		{
 			$num = round($num/1099511627776)/10;
-			$unit  = 'TB';
+			$unit  = $CI->lang->line('terabyte_abbr');
 		}
 		elseif ($num >= 1000000000) 
 		{
 			$num = round($num/107374182)/10;
-			$unit  = 'GB';
+			$unit  = $CI->lang->line('gigabyte_abbr');
 		}
 		elseif ($num >= 1000000) 
 		{
 			$num = round($num/104857)/10;
-			$unit  = 'MB';
+			$unit  = $CI->lang->line('megabyte_abbr');
 		}
 		elseif ($num >= 1000) 
 		{
 			$num = round($num/102)/10;
-			$unit  = 'KB';
+			$unit  = $CI->lang->line('kilobyte_abbr');
 		}
 		else
 		{
-			$unit = 'Bytes';
+			$unit = $CI->lang->line('bytes');
+			return number_format($num).' '.$unit;
 		}
 
 		return number_format($num, 1).' '.$unit;
