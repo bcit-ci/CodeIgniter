@@ -109,18 +109,11 @@ class CI_Language {
 	 *
 	 * @access	public
 	 * @param	string	$line 	the language line
-	 * @param	string	$label 	optional label 
 	 * @return	string
 	 */
-	function line($line = '', $label = '')
+	function line($line = '')
 	{
 		$line = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
-		
-		if ($label != '')
-		{
-			$line = '<label for="'.$label.'">'.$line."</label>";
-		}
-		
 		return $line;
 	}
 

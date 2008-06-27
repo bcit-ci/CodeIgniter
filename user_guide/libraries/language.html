@@ -113,12 +113,7 @@ is the language set containing it (ie, english).  If the second parameter is mis
 
 <h3>Using language lines as form labels</h3>
 
-<p>If your application requires it, a language line can automatically be output as a &lt;label&gt; by specifying a second parameter, which will become the "for" attribute of the label.</p>
-
-<code>
-$this->lang->line('<samp>language_key</samp>', '<samp>form_item_id</samp>'); <br />
-// becomes &lt;label for="form_item_id"&gt;language_key&lt;/label&gt;
-</code>
+<p class="important">This feature has been deprecated from the language library and moved to the <kbd>lang()</kbd> function of the <a href="../helpers/language_helper.html">Language helper</a>.</p>
 
 <h2>Auto-loading Languages</h2>
 <p>If you find that you need a particular language globally throughout your application, you can tell CodeIgniter to <a href="../general/autoloader.html">auto-load</a> it during system initialization. This is done by opening the application/config/autoload.php file and adding the language(s) to the autoload array.</p>
