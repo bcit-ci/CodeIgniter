@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Downloading CodeIgniter : CodeIgniter User Guide</title>
+<title>Upgrading from 1.6.2 to 1.6.3 : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Downloading CodeIgniter
+Upgrading from 1.6.2 to 1.6.3
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,45 +55,42 @@ Downloading CodeIgniter
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Downloading CodeIgniter</h1>
+<h1>Upgrading from 1.6.2 to 1.6.3</h1>
+
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
+
+
+
+<h2>Step 1: Update your CodeIgniter files</h2>
+
+<p>Replace these files and directories in your "system" folder with the new versions:</p>
 
 <ul>
-<li><a href="http://codeigniter.com/download.php">CodeIgniter V 1.6.3 (Current version)</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.6.2.zip">CodeIgniter V 1.6.2</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.6.1.zip">CodeIgniter V 1.6.1</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.6.0.zip">CodeIgniter V 1.6.0</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.5.4.zip">CodeIgniter V 1.5.4</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.5.3.zip">CodeIgniter V 1.5.3</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.5.2.zip">CodeIgniter V 1.5.2</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.5.1.zip">CodeIgniter V 1.5.1</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.4.1.zip">CodeIgniter V 1.4.1</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.3.3.zip">CodeIgniter V 1.3.3</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.3.2.zip">CodeIgniter V 1.3.2</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.3.1.zip">CodeIgniter V 1.3.1</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.3.zip">CodeIgniter V 1.3</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.2.zip">CodeIgniter V 1.2</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.1b.zip">CodeIgniter V 1.1</a></li>
-<li><a href="http://codeigniter.com/download_files/CodeIgniter_1.0b.zip">CodeIgniter V 1.0</a></li>
+
+<li><dfn>system/codeigniter</dfn></li>
+<li><dfn>system/database</dfn></li>
+<li><dfn>system/helpers</dfn></li>
+<li><dfn>system/language</dfn></li>
+<li><dfn>system/libraries</dfn></li>
 </ul>
 
+<p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
 
+<h2>Step 2: Update your user guide</h2>
+<p>Please also replace your local copy of the user guide with the new version.</p>
 
-<h1><a name="svn" id="svn"></a>Subversion Server</h1>
-<p><a href="http://subversion.tigris.org">Subversion</a> is a version control system. </p>
-<p>Public subversion access is now available via <a href="http://dev.ellislab.com/svn/CodeIgniter/trunk">http://dev.ellislab.com/svn/CodeIgniter/trunk</a> please note that while every effort is made to keep this codebase functional, we cannot guarantee the functionality of code taken from the repository.</p>
-<p>Beginning with version 1.6.1, version snapshots (tags) are also available via the Subversion server via <a href="http://dev.ellislab.com/svn/CodeIgniter/tags">http://dev.ellislab.com/svn/CodeIgniter/tags</a>.</p>
 </div>
 <!-- END CONTENT -->
 
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="../general/credits.html">Credits</a>
+Previous Topic:&nbsp;&nbsp;<a href="index.html">Installation Instructions</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="../installation/index.html">Installation Instructions</a>
+Next Topic:&nbsp;&nbsp;<a href="../overview/at_a_glance.html">CodeIgniter at a Glance</a>
 </p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
