@@ -829,12 +829,11 @@ class CI_Input {
 		if ( ! isset($non_displayables))
 		{
 			// every control character except newline (10), carriage return (13), and horizontal tab (09),
-			// both as a URL encoded character (::shakes fist at IE and WebKit::), and the actual character
 			$non_displayables = array(
-										'/%0[0-8]/', '/[\x00-\x08]/',			// 00-08
-										'/%11/', '/\x0b/', '/%12/', '/\x0c/',	// 11, 12
-										'/%1[4-9]/', '/%2[0-9]/', '/%3[0-1]/',	// url encoded 14-31
-										'/[\x0e-\x1f]/');						// 14-31
+										'/[\x00-\x08]/',			// 00-08
+										'/\x0b/', '/\x0c/',			// 11, 12
+										'/[\x0e-\x1f]/'				// 14-31
+									);
 			
 		}
 
