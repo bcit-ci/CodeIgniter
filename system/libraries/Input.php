@@ -680,12 +680,12 @@ class CI_Input {
 	
 			if (preg_match("/<a/i", $str))
 			{
-				$str = preg_replace_callback("#<a\s*([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback("#<a\s+([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
 			}
 	
 			if (preg_match("/<img/i", $str))
 			{
-				$str = preg_replace_callback("#<img\s*([^>]*?)(>|$)#si", array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback("#<img\s+([^>]*?)(>|$)#si", array($this, '_js_img_removal'), $str);
 			}
 	
 			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
@@ -705,7 +705,7 @@ class CI_Input {
 		 * but it's unlikely to be a problem.
 		 *
 		 */
-		$event_handlers = array('[^a-z]on\w*','xmlns');
+		$event_handlers = array('[^a-z_\-]on\w*','xmlns');
 
 		if ($is_image === TRUE)
 		{
