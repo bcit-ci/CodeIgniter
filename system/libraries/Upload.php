@@ -707,10 +707,7 @@ class CI_Upload {
 						"%3d"		// =
 					);
 					
-		foreach ($bad as $val)
-		{
-			$filename = str_replace($val, '', $filename);
-		}
+		$filename = str_replace($bad, '', $filename);
 
 		return stripslashes($filename);
 	}
