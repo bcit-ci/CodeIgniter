@@ -111,6 +111,7 @@ if ( ! function_exists('form_hidden'))
 		}
 
 		$form = '';
+		
 		foreach ($name as $name => $value)
 		{
 			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
@@ -137,7 +138,7 @@ if ( ! function_exists('form_input'))
 	{
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
+		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 	
@@ -222,7 +223,7 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 		
-		return "<textarea ".parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>\n";
+		return "<textarea ".parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>";
 	}
 }
 	
@@ -302,11 +303,15 @@ if ( ! function_exists('form_checkbox'))
 		}
 	
 		if ($checked == TRUE)
+		{
 			$defaults['checked'] = 'checked';
+		}
 		else
+		{
 			unset($defaults['checked']);
+		}
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
+		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 	
@@ -353,7 +358,7 @@ if ( ! function_exists('form_submit'))
 	{
 		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
+		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 
@@ -374,7 +379,7 @@ if ( ! function_exists('form_reset'))
 	{
 		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />\n";
+		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 
@@ -401,7 +406,7 @@ if ( ! function_exists('form_button'))
 			unset($data['content']); // content is not an attribute
 		}
 		
-		return "<button ".parse_form_attributes($data, $defaults).$extra.">".$content."</button>\n";
+		return "<button ".parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
 	}
 }
 
@@ -486,7 +491,7 @@ if ( ! function_exists('form_fieldset_close'))
 {
 	function form_fieldset_close($extra = '')
 	{
-		return "</fieldset>\n".$extra;
+		return "</fieldset>".$extra;
 	}
 }
 	
@@ -503,7 +508,7 @@ if ( ! function_exists('form_close'))
 {
 	function form_close($extra = '')
 	{
-		return "</form>\n".$extra;
+		return "</form>".$extra;
 	}
 }
 	
