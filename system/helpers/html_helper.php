@@ -303,7 +303,7 @@ if ( ! function_exists('link_tag'))
 				$link .= 'title="'.$title.'" ';
 			}
 			
-			$link .= '/>'."";
+			$link .= '/>';
 		}
 
 	
