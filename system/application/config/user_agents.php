@@ -159,6 +159,17 @@ $mobiles = array(
 					'cellphone'				=> "Generic Mobile"
 				);
 
+// There are hundreds of bots but these are the most common.
+$robots = array(
+					'googlebot'			=> 'Googlebot',
+					'msnbot'			=> 'MSNBot',
+					'slurp'			    => 'Inktomi Slurp',
+					'yahoo'			    => 'Yahoo',
+					'askjeeves'			=> 'AskJeeves',
+					'fastcrawler'		=> 'FastCrawler',
+					'infoseek'			=> 'InfoSeek Robot 1.0',
+					'lycos'			    => 'Lycos'
+				);
 
 /* End of file user_agents.php */
 /* Location: ./system/application/config/user_agents.php */
