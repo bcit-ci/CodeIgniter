@@ -1196,7 +1196,7 @@ class CI_Email {
 				// Convert spaces and tabs but only if it's the end of the line
 				if ($i == ($length - 1))
 				{
-					$char = ($ascii == '32' OR $ascii == '9') ? $escape.sprintf('%02s', dechex($char)) : $char;
+					$char = ($ascii == '32' OR $ascii == '9') ? $escape.sprintf('%02s', dechex($ascii)) : $char;
 				}
 
 				// encode = signs
