@@ -1162,7 +1162,10 @@ class CI_Email {
 
 		// Reduce multiple spaces
 		$str = preg_replace("| +|", " ", $str);
-
+		
+		// kill nulls
+		$str = preg_replace('/\x00+/', '', $str);
+		
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
