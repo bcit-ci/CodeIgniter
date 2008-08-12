@@ -757,8 +757,28 @@ class CI_Loader {
 	 */
 	function _ci_load_class($class, $params = NULL)
 	{	
-		// Get the class name
-		$class = str_replace(EXT, '', $class);
+		// Get the class name, and while we're at it trim any slashes.  
+		// The directory path can be included as part of the class name, 
+		// but we don't want a leading slash
+		$class = str_replace(EXT, '', trim($class, '/'));
+	
+		// Was the path included with the class name?
+		// We look for a slash to determine this
+		$subdir = '';
+		if (strpos($class, '/') !== FALSE)
+		{
+			// explode the path so we can separate the filename from the path
+			$x = explode('/', $class);	
+			
+			// Reset the $class variable now that we know the actual filename
+			$class = end($x);
+			
+			// Kill the filename from the array
+			unset($x[count($x)-1]);
+			
+			// Glue the path back together, sans filename
+			$subdir = implode($x, '/').'/';
+		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
