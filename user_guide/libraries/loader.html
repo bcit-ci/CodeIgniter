@@ -78,9 +78,20 @@ Note: We use the terms "class" and "library" interchangeably.</p>
 
 <p>Once loaded, the library will be ready for use, using <kbd>$this->email-></kbd><samp><em>some_function</em>()</samp>.
 
-Each library is described in detail in its own page, so please read the information regarding each one you would like to use.</p>
+<p>Library files can be stored in subdirectories within the main "libraries" folder, or within your personal <dfn>application/libraries</dfn> folder.  
+To load a file located in a subdirectory, simply include the path, relative to the "libraries" folder.  
+For example, if you have file located at:</p>
 
-<p>Parameters can be passed to the library via an array in the second parameter.</p>
+<code>libraries/flavors/chocolate.php</code>
+
+<p>You will load it using:</p>
+
+<code>$this->load->library('flavors/chocolate');</code>
+
+<p>You may nest the file in as many subdirectories as you want.</p>
+
+<p>Each library is described in detail in its own page, so please read the information regarding each one you would like to use.</p>
+
 
 
 <h2>$this->load->view('<var>file_name</var>', <samp>$data</samp>, <kbd>true/false</kbd>)</h2>
