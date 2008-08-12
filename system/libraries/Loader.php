@@ -783,7 +783,7 @@ class CI_Loader {
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT;
+			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.EXT;
 
 			// Is this a class extension request?			
 			if (file_exists($subclass))
@@ -816,7 +816,7 @@ class CI_Loader {
 			for ($i = 1; $i < 3; $i++)
 			{
 				$path = ($i % 2) ? APPPATH : BASEPATH;	
-				$filepath = $path.'libraries/'.$class.EXT;
+				$filepath = $path.'libraries/'.$subdir.$class.EXT;
 				
 				// Does the file exist?  No?  Bummer...
 				if ( ! file_exists($filepath))
