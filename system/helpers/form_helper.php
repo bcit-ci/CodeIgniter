@@ -114,6 +114,7 @@ if ( ! function_exists('form_hidden'))
 		
 		foreach ($name as $name => $value)
 		{
+			$form .= "\n";
 			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
 		}
 	
