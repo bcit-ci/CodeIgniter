@@ -86,6 +86,7 @@ SVN Revision: XXXX</p>
 	<li>Fixed assorted user guide typos or examples (#4840, #4862, #4864, #4899, #4930, #5006).</li>
 	<li>Fixed an edit from 1.6.3 that made the $robots array in user_agents.php go poof.</li>
 	<li>Fixed a bug in the Email library with quoted-printable encoding improperly encoding space and tab characters.</li>
+	<li>Modified XSS sanitization to no longer add semicolons after &amp;[single letter], such as in M&amp;M's, B&amp;B, etc.</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
