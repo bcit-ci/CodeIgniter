@@ -45,7 +45,7 @@ if ( ! function_exists('site_url'))
 		return $CI->config->site_url($uri);
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -64,7 +64,45 @@ if ( ! function_exists('base_url'))
 		return $CI->config->slash_item('base_url');
 	}
 }
-	
+
+// ------------------------------------------------------------------------
+
+/**
+ * Current URL
+ *
+ * Returns the full URL (including segments) of the page where this 
+ * function is placed
+ *
+ * @access	public
+ * @return	string
+ */	
+if ( ! function_exists('current_url'))
+{
+	function current_url()
+	{
+		$CI =& get_instance();
+		return $CI->config->site_url($CI->uri->uri_string());
+	}
+}
+
+// ------------------------------------------------------------------------
+/**
+ * URL String
+ *
+ * Returns the URI segments.  
+ *
+ * @access	public
+ * @return	string
+ */	
+if ( ! function_exists('uri_string'))
+{
+	function uri_string()
+	{
+		$CI =& get_instance();
+		return $CI->uri->uri_string();
+	}
+}
+
 // ------------------------------------------------------------------------
 
 /**
