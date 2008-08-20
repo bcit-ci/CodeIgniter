@@ -614,7 +614,35 @@ class CI_Validation {
 	{
 		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+    /**
+     * Is a Natural number  (0,1,2,3, etc.)
+     *
+     * @access	public
+     * @param	string
+     * @return	bool
+     */
+    function is_natural($str)
+    {   
+   		return (bool)preg_match( '/^[0-9]+$/', $str);
+    }
+
+	// --------------------------------------------------------------------
+
+    /**
+     * Is a Natural number, but not a zero  (1,2,3, etc.)
+     *
+     * @access	public
+     * @param	string
+     * @return	bool
+     */
+	function is_natural_no_zero($str)
+    {   
+   		return (bool)preg_match( '/^[1-9]+$/', $str);
+    }
+
 	// --------------------------------------------------------------------
 	
 	/**
