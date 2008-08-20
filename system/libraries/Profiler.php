@@ -322,8 +322,8 @@ class CI_Profiler {
 	 */	
 	function run()
 	{		
-		$output = '<br clear="all" />';
-		$output .= "<div style='background-color:#fff;padding:10px;'>";
+		$output = '<br style="clear: both;" />';
+		$output .= "<div id='codeigniter_profiler' style='background-color:#fff;padding:10px;'>";
 		
 		$output .= $this->_compile_memory_usage();
 		$output .= $this->_compile_benchmarks();	
