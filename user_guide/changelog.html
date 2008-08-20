@@ -69,14 +69,20 @@ SVN Revision: XXXX</p>
 			<li>Improved accuracy of calculations in <a href="helpers/number_helper.html">Number helper</a>.</li>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>
 			<li>Tightened up validation in Date Helper human_to_unix(), and eliminated the POSIX regex.</li>
+			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
 		</ul>
 	</li>
-	<li>Other changes
+	<li>Libraries
 		<ul>
 			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>
+			<li>Changed the output of the profiler to use style attribute rather then clear, and added the id "codeigniter_profiler" to the container div</li>
+		</ul>
+	</li>
+
+	<li>Other changes
+		<ul>
 			<li>Improved performance and accuracy of xss_clean(), including reduction of false positives on image/file tests.</li>
 			<li>Added a few openxml document mime types, and an additional mobile agent to mimes.php and user_agents.php respectively.</li>
-			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
 		</ul>
 	</li>
 </ul>
