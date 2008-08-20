@@ -60,35 +60,35 @@ Session Class
 
 <p>The Session class permits you maintain a user's "state" and track their activity while they browse your site.
 The Session class stores session information for each user as serialized (and optionally encrypted) data in a cookie.
-It can also store the session data in a database table for added security, as this permits the session ID in the
+It can additionally store the session data in a database table for added security, as this permits the session ID in the
 user's cookie to be matched against the stored session ID. By default only the cookie is saved.  If you choose to
-use the database option you'll need to create the session table as indicated below.
+use the database option you'll need to create the session table as indicated below.  
 </p>
 
 <p class="important"><strong>Note:</strong> The Session class does <strong>not</strong> utilize native PHP sessions. It
-generates its own session data, offering more flexibility for developers.</p>
+generates its own session data so you are not dependent on how a particular hosting environment is set up.</p>
 
 <h2>Initializing a Session</h2>
 
-<p>Sessions will typically run globally with each page load, so the session class must either be
+<p>The Session routines must happen with each page load (and before anything is outputted to the browser), so the session class must either be
 <a href="../general/libraries.html">initialized</a> in your
 <a href="../general/controllers.html">controller</a> constructors, or it can be
 <a href="../general/autoloader.html">auto-loaded</a> by the system.
-For the most part the session class will run unattended in the background, so simply initializing the class
-will cause it to read, create, and update sessions.</p>
+Once initialized, the Session class will run unattended in the background, reading, writing, and updating the session as needed.</p>
 
 
 <p>To initialize the Session class manually in your controller constructor, use the <dfn>$this->load->library</dfn> function:</p>
 
 <code>$this->load->library('session');</code>
-<p>Once loaded, the Sessions library object will be available using: <dfn>$this->session</dfn></p>
+
+<p>You can access the Session library object using: <dfn>$this->session</dfn></p>
 
 
 <h2>How do Sessions work?</h2>
 
-<p>When a page is loaded, the session class will check to see if valid session data exists in the user's session cookie.
+<p>When a page is loaded, the Session class will check to see if valid session data exists in the user's session cookie.
 If sessions data does <strong>not</strong> exist (or if it has expired) a new session will be created and saved in the cookie.
-If a session does exist, its information will be updated and the cookie will be updated. With each update, the session_id will be regenerated.</p>
+If a session <strong>does</strong> exist, its information and cookie will be updated automatically. With each update, the session_id will be regenerated for security.</p>
 
 <p>It's important for you to understand that once initialized, the Session class runs automatically.  There is nothing
 you need to do to cause the above behavior to happen.  You can, as you'll see below, work with session data or
@@ -141,7 +141,7 @@ will do this:</p>
 
 <h2>Adding Custom Session Data</h2>
 
-<p>A useful aspect of the session array is that you can add your own data to it and it will be stored in the user's cookie.
+<p>A useful aspect of the session array is that you can add your own data to it and it will be stored in the session array.
 Why would you want to do this?  Here's one example:</p>
 
 <p>Let's say a particular user logs into your site. Once authenticated,
@@ -162,10 +162,14 @@ having to run a database query when you need it.</p>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
     <br />
     $this->session->set_userdata(<samp>$newdata</samp>);</code></p>
+    
 <p>If you want to add userdata one value at a time, set_userdata() also supports this syntax. </p>
 <p><code>$this-&gt;session-&gt;set_userdata('some_name', 'some_value');</code></p>
-<p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity.  The
-encryption process in particular produces a longer data string than the original so keep careful track of how much data you are storing.</p>
+
+
+<p class="important"><strong>Note:</strong> By default, the session class stores your custom data in the session cookie.  Cookies, however, can only hold
+4KB of data, so it is easily possible to exceed the capacity, particularly if you use encryption, since it produces a longer data string than the original.
+If you need to store a larger amount of data it is recommended that you store your session data in a database table. You'll find instructions for this below.</p>
 
 <h2>Removing Session Data</h2>
 <p>Just as set_userdata() can be used to add information into a session, unset_userdata() can be used to remove it, by passing the session key. For example, if you wanted to remove 'some_name' from your session information: </p>
@@ -190,8 +194,12 @@ unless you store session data in a database there is no way to validate it.  For
 security, session ID validation may not be needed, but if your application requires security, validation is mandatory.</p>
 
 <p>When session data is available in a database, every time a valid session is found in the user's cookie, a database
-query is performed to match it.  If the session ID does not match, the session is destroyed.  Session IDs can never
-be updated, they can only be generated when a new session is created.</p>
+query is performed to match it.  If the session ID does not match, the session is destroyed.</p>
+
+<p>An additional benefit of using a database is that it permits you to store custom data along with the session.  Earlier in this page we described how to add
+custom data to your session.  When you use the database feature, your custom data will be stored automatically in the database <strong>instead</strong> of in 
+the user's cookie.</p>
+
 
 <p>In order to store sessions, you must first create a database table for this purpose.  Here is the basic
 prototype (for MySQL) required by the session class:</p>
@@ -202,12 +210,15 @@ session_id varchar(40) DEFAULT '0' NOT NULL,
 ip_address varchar(16) DEFAULT '0' NOT NULL,
 user_agent varchar(50) NOT NULL,
 last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+user_data text NOT NULL,
 PRIMARY KEY (session_id)
 );</textarea>
 
-<p><strong>Note:</strong> By default the table is called <dfn>ci_sessions</dfn>, but you can name it anything you want
-as long as you update the <kbd>application/config/config.php</kbd> file so that it contains the name you have chosen.
-Once you have created your database table you can enable the database option in your config.php file as follows:</p>
+<p><strong>Note:</strong> By default the table is named <dfn>ci_sessions</dfn>, but you can name it anything you want
+as long as you update the <kbd>application/config/config.php</kbd> file so that it contains the name you have chosen. The Session class, however,
+expects the column names to be identical to the ones indicated above.</p>
+
+<p>Once you have created your database table you can enable the database option in your config.php file as follows:</p>
 
 <code>$config['sess_use_database'] = TRUE;</code>
 
@@ -217,7 +228,7 @@ Once you have created your database table you can enable the database option in 
 
 <code>$config['sess_table_name'] = 'ci_sessions";</code>
 
-<p class="important"><strong>Note:</strong> The Session class has built-in garbage collection which clears out expired sessions so you
+<p class="important"><strong>Note:</strong> The Session class has a built-in garbage collection routine which clears out expired sessions periodically so you
 do not need to write your own routine to do it.</p>
 
 
@@ -229,7 +240,21 @@ do not need to write your own routine to do it.</p>
 
 
 <h2>Session Preferences</h2>
-<p>You'll find the following Session related preferences in your <kbd>application/config/config.php</kbd> file:</p>
+<p>Normally you will set the Session preferences in your <kbd>application/config/config.php</kbd> file.</p>
+
+<p>If you prefer to set any of the preferences manually you can do so when you load the session class, by passing an array of values you
+wish to set in the second parameter as follows:</p>
+
+<code>
+$session_vals = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'sess_expiration' = 10800,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'sess_match_ip' &nbsp;&nbsp;= TRUE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->load->library('session', $session_vals);
+</code>
+
+<p>The following table lists the available preferences:</p>
 
 
 <table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
@@ -287,6 +312,12 @@ do not need to write your own routine to do it.</p>
     <td class="td">TRUE</td>
     <td class="td">TRUE/FALSE (boolean)</td>
     <td class="td">Whether to match the User Agent when reading the session data.</td>
+</tr>
+<tr>
+    <td class="td"><strong>sess_cookie_name</strong></td>
+    <td class="td">ci_session</td>
+    <td class="td">None</td>
+    <td class="td">The name of the session cookie</td>
 </tr>
 </table>
 
