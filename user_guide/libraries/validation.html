@@ -576,64 +576,43 @@ For example, your "username" error will be available at:<br /><dfn>$this->valida
 <td class="td">Returns FALSE if the form element contains anything other than alpha-numeric characters, underscores or dashes.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
 <tr>
-<td class="td"><strong>numeric</strong></td>
-<td class="td">No</td>
-<td class="td">Returns FALSE if the form element contains anything other than numeric characters.</td>
-<td class="td">&nbsp;</td>
+	<td class="td"><strong>numeric</strong></td>
+	<td class="td">No</td>
+	<td class="td">Returns FALSE if the form element contains anything other than numeric characters.</td>
+	<td class="td">&nbsp;</td>
 </tr>
-
 <tr>
+
 <td class="td"><strong>integer</strong></td>
 <td class="td">No</td>
 <td class="td">Returns FALSE if the form element contains anything other than an integer.</td>
 <td class="td">&nbsp;</td>
-</tr>
+</tr><tr>
 
-<tr>
-<td class="td"><strong>is_natural</strong></td>
-<td class="td">No</td>
-<td class="td">Returns FALSE if the form element contains anything other than a natural number: 0, 1, 2, 3, etc.</td>
-<td class="td">&nbsp;</td>
-</tr>
-
-<tr>
-<td class="td"><strong>is_natural_no_zero</strong></td>
-<td class="td">No</td>
-<td class="td">Returns FALSE if the form element contains anything other than a natural number, but not zero: 1, 2, 3, etc.</td>
-<td class="td">&nbsp;</td>
-</tr>
-
-<tr>
 <td class="td"><strong>valid_email</strong></td>
 <td class="td">No</td>
 <td class="td">Returns FALSE if the form element does not contain a valid email address.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
 <tr>
-<td class="td"><strong>valid_emails</strong></td>
-<td class="td">No</td>
-<td class="td">Returns FALSE if any value provided in a comma separated list is not a valid email.</td>
-<td class="td">&nbsp;</td>
+	<td class="td"><strong>valid_emails</strong></td>
+	<td class="td">No</td>
+	<td class="td">Returns FALSE if any value provided in a comma separated list is not a valid email.</td>
+	<td class="td">&nbsp;</td>
 </tr>
-
 <tr>
 <td class="td"><strong>valid_ip</strong></td>
 <td class="td">No</td>
 <td class="td">Returns FALSE if the supplied IP is not valid.</td>
 <td class="td">&nbsp;</td>
 </tr>
-
 <tr>
-<td class="td"><strong>valid_base64</strong></td>
-<td class="td">No</td>
-<td class="td">Returns FALSE if the supplied string contains anything other than valid Base64 characters.</td>
-<td class="td">&nbsp;</td>
+	<td class="td"><strong>valid_base64</strong></td>
+	<td class="td">No</td>
+	<td class="td">Returns FALSE if the supplied string contains anything other than valid Base64 characters.</td>
+	<td class="td">&nbsp;</td>
 </tr>
-
-
 </table>
 
 <p><strong>Note:</strong> These rules can also be called as discrete functions. For example:</p>

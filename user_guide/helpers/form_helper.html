@@ -258,7 +258,7 @@ echo form_fieldset_close();
 &lt;/fieldset&gt;</code>
 <p>Similar to other functions, you can submit an associative array in the second parameter if you prefer to set additional attributes. </p>
 <p><code>$attributes = array('id' =&gt; 'address_info', 'class' =&gt; 'address_info');<br />
-    echo form_fieldset('Address Information', $attributes);<br />
+	echo form_fieldset('Address Information', $attributes);<br />
 echo &quot;&lt;p&gt;fieldset content here&lt;/p&gt;\n&quot;;<br />
 echo form_fieldset_close(); <br />
 <br />
@@ -269,7 +269,7 @@ echo form_fieldset_close(); <br />
 &lt;/fieldset&gt;</code></p>
 <h2>form_fieldset_close()</h2>
 <p>Produces a closing &lt;/fieldset&gt; tag.  The only advantage to using this function is it permits you to pass data to it
-    which will be added below the tag.  For example:</p>
+	which will be added below the tag.  For example:</p>
 <code>$string = &quot;&lt;/div&gt;&lt;/div&gt;&quot;;<br />
 <br />
 echo fieldset_close($string);<br />
@@ -321,7 +321,7 @@ fourth parameter:</p>
 <br />
 &lt;input type=&quot;submit&quot; name=&quot;mysubmit&quot; value=&quot;Submit Post!&quot; /&gt;</code>
 <p>Similar to other functions, you can submit an associative array in the first parameter if you prefer to set your own attributes.
-    The third parameter lets you add extra data to your form, like JavaScript.</p>
+	The third parameter lets you add extra data to your form, like JavaScript.</p>
 <h2>form_label()</h2>
 <p>Lets you generate a &lt;label&gt;. Simple example:</p>
 <code>echo form_label('What is your Name', 'username');<br />
@@ -329,13 +329,13 @@ fourth parameter:</p>
 // Would produce:
 <br />
 &lt;label for=&quot;username&quot;&gt;What is your Name&lt;/label&gt;</code>
-<p>Similar to other functions, you can submit an associative array in the third parameter if you prefer to set additional attributes.    </p>
+<p>Similar to other functions, you can submit an associative array in the third parameter if you prefer to set additional attributes.	</p>
 <p><code>$attributes = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;'class' =&gt; 'mycustomclass',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;'style' =&gt; 'color: #000;',<br />
 );<br />
-    echo form_label('What is your Name', 'username', $attributes);<br />
-        <br />
+	echo form_label('What is your Name', 'username', $attributes);<br />
+		<br />
 // Would produce: <br />
 &lt;label for=&quot;username&quot; class=&quot;mycustomclass&quot; style=&quot;color: #000;&quot;&gt;What is your Name&lt;/label&gt;</code></p>
 <h2>form_reset()</h2>
