@@ -93,16 +93,16 @@ function &load_class($class, $instantiate = TRUE)
 	// folder we'll load the native class from the system/libraries folder.	
 	if (file_exists(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT))
 	{
-		require(BASEPATH.'libraries/'.$class.EXT);	
+		require(BASEPATH.'libraries/'.$class.EXT);
 		require(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT);
-		$is_subclass = TRUE;	
+		$is_subclass = TRUE;
 	}
 	else
 	{
 		if (file_exists(APPPATH.'libraries/'.$class.EXT))
 		{
-			require(APPPATH.'libraries/'.$class.EXT);	
-			$is_subclass = FALSE;	
+			require(APPPATH.'libraries/'.$class.EXT);
+			$is_subclass = FALSE;
 		}
 		else
 		{
@@ -241,7 +241,7 @@ function log_message($level = 'error', $message, $php_error = FALSE)
 		return;
 	}
 
-	$LOG =& load_class('Log');	
+	$LOG =& load_class('Log');
 	$LOG->write_log($level, $message, $php_error);
 }
 

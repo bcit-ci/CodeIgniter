@@ -246,15 +246,15 @@ class CI_DB_mysql_driver extends CI_DB {
 	function escape_str($str)	
 	{	
 		if (is_array($str))
-    	{
-    		foreach($str as $key => $val)
-    		{
-    			$str[$key] = $this->escape_str($val);
-    		}
-    		
-    		return $str;
-    	}
-	
+		{
+			foreach($str as $key => $val)
+	   		{
+				$str[$key] = $this->escape_str($val);
+	   		}
+   		
+	   		return $str;
+	   	}
+
 		if (function_exists('mysql_real_escape_string') AND is_resource($this->conn_id))
 		{
 			return mysql_real_escape_string($str, $this->conn_id);

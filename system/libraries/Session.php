@@ -69,10 +69,10 @@ class CI_Session {
 		$this->CI->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie == TRUE)	
+		if ($this->sess_encrypt_cookie == TRUE)
 		{
 			$this->CI->load->library('encrypt');
-		}		
+		}
 
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
@@ -106,10 +106,10 @@ class CI_Session {
 		}
 		
 		// Delete 'old' flashdata (from last request)
-       	$this->_flashdata_sweep();
-        
-        // Mark all new flashdata as old (data will be deleted before next request)
-       	$this->_flashdata_mark();
+	   	$this->_flashdata_sweep();
+		
+		// Mark all new flashdata as old (data will be deleted before next request)
+	   	$this->_flashdata_mark();
 
 		// Delete expired sessions if necessary
 		$this->_sess_gc();
@@ -361,7 +361,7 @@ class CI_Session {
 		// Turn it into a hash
 		$new_sessid = md5(uniqid($new_sessid, TRUE));
 		
-        // Update the session data in the session data array
+		// Update the session data in the session data array
 		$this->userdata['session_id'] = $new_sessid;
 		$this->userdata['last_activity'] = $this->now;
 		
@@ -427,7 +427,7 @@ class CI_Session {
 	 */	
 	function all_userdata()
 	{
-        return ( ! isset($this->userdata)) ? FALSE : $this->userdata;
+		return ( ! isset($this->userdata)) ? FALSE : $this->userdata;
 	}
 	
 	// --------------------------------------------------------------------
@@ -484,9 +484,9 @@ class CI_Session {
 		$this->sess_write();
 	}
 	
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
+	/**
 	 * Add or change flashdata, only available
 	 * until the next request
 	 *
@@ -495,46 +495,46 @@ class CI_Session {
 	 * @param	string
 	 * @return	void
 	 */
-    function set_flashdata($newdata = array(), $newval = '')
-    {
-        if (is_string($newdata))
-        {
-            $newdata = array($newdata => $newval);
-        }
-        
-        if (count($newdata) > 0)
-        {
-            foreach ($newdata as $key => $val)
-            {
-                $flashdata_key = $this->flashdata_key.':new:'.$key;
-                $this->set_userdata($flashdata_key, $val);
-            }
-        }
-    } 
+	function set_flashdata($newdata = array(), $newval = '')
+	{
+		if (is_string($newdata))
+		{
+			$newdata = array($newdata => $newval);
+		}
+		
+		if (count($newdata) > 0)
+		{
+			foreach ($newdata as $key => $val)
+			{
+				$flashdata_key = $this->flashdata_key.':new:'.$key;
+				$this->set_userdata($flashdata_key, $val);
+			}
+		}
+	} 
 	
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Keeps existing flashdata available to next request.
+	/**
+	 * Keeps existing flashdata available to next request.
 	 *
 	 * @access	public
 	 * @param	string
 	 * @return	void
-     */
-    function keep_flashdata($key)
-    {
+	 */
+	function keep_flashdata($key)
+	{
 		// 'old' flashdata gets removed.  Here we mark all 
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
 		// Note the function will return FALSE if the $key 
 		// provided cannot be found
-        $old_flashdata_key = $this->flashdata_key.':old:'.$key;
-        $value = $this->userdata($old_flashdata_key);
+		$old_flashdata_key = $this->flashdata_key.':old:'.$key;
+		$value = $this->userdata($old_flashdata_key);
 
-        $new_flashdata_key = $this->flashdata_key.':new:'.$key;
-        $this->set_userdata($new_flashdata_key, $value);
-    }
+		$new_flashdata_key = $this->flashdata_key.':new:'.$key;
+		$this->set_userdata($new_flashdata_key, $value);
+	}
 	
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Fetch a specific flashdata item from the session array
@@ -543,57 +543,57 @@ class CI_Session {
 	 * @param	string
 	 * @return	string
 	 */	
-    function flashdata($key)
-    {
-        $flashdata_key = $this->flashdata_key.':old:'.$key;
-        return $this->userdata($flashdata_key);
-    }
+	function flashdata($key)
+	{
+		$flashdata_key = $this->flashdata_key.':old:'.$key;
+		return $this->userdata($flashdata_key);
+	}
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Identifies flashdata as 'old' for removal
+	/**
+	 * Identifies flashdata as 'old' for removal
 	 * when _flashdata_sweep() runs.
 	 *
 	 * @access	private
 	 * @return	void
-     */
-    function _flashdata_mark()
-    {
+	 */
+	function _flashdata_mark()
+	{
 		$userdata = $this->all_userdata();
-        foreach ($userdata as $name => $value)
-        {
-            $parts = explode(':new:', $name);
-            if (is_array($parts) && count($parts) === 2)
-            {
-                $new_name = $this->flashdata_key.':old:'.$parts[1];
-                $this->set_userdata($new_name, $value);
-                $this->unset_userdata($name);
-            }
-        }
-    }
+		foreach ($userdata as $name => $value)
+		{
+			$parts = explode(':new:', $name);
+			if (is_array($parts) && count($parts) === 2)
+			{
+				$new_name = $this->flashdata_key.':old:'.$parts[1];
+				$this->set_userdata($new_name, $value);
+				$this->unset_userdata($name);
+			}
+		}
+	}
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Removes all flashdata marked as 'old'
+	/**
+	 * Removes all flashdata marked as 'old'
 	 *
 	 * @access	private
 	 * @return	void
-     */
+	 */
 
-    function _flashdata_sweep()
-    {
+	function _flashdata_sweep()
+	{
 		$userdata = $this->all_userdata();
-        foreach ($userdata as $key => $value)
-        {
-            if (strpos($key, ':old:'))
-            {
-                $this->unset_userdata($key);
-            }
-        }
+		foreach ($userdata as $key => $value)
+		{
+			if (strpos($key, ':old:'))
+			{
+				$this->unset_userdata($key);
+			}
+		}
 
-    }
+	}
 
 	// --------------------------------------------------------------------
 	

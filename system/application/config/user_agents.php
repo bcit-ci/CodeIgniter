@@ -163,12 +163,12 @@ $mobiles = array(
 $robots = array(
 					'googlebot'			=> 'Googlebot',
 					'msnbot'			=> 'MSNBot',
-					'slurp'			    => 'Inktomi Slurp',
-					'yahoo'			    => 'Yahoo',
+					'slurp'				=> 'Inktomi Slurp',
+					'yahoo'				=> 'Yahoo',
 					'askjeeves'			=> 'AskJeeves',
 					'fastcrawler'		=> 'FastCrawler',
 					'infoseek'			=> 'InfoSeek Robot 1.0',
-					'lycos'			    => 'Lycos'
+					'lycos'				=> 'Lycos'
 				);
 
 /* End of file user_agents.php */

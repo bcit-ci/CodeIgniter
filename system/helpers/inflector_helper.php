@@ -41,28 +41,28 @@ if ( ! function_exists('singular'))
 {	
 	function singular($str)
 	{
-	    $str = strtolower(trim($str));
-	    $end = substr($str, -3);
-    
-	    if ($end == 'ies')
-	    {
-	        $str = substr($str, 0, strlen($str)-3).'y';
-	    }
-	    elseif ($end == 'ses')
-	    {
-	        $str = substr($str, 0, strlen($str)-2);
-	    }
-	    else
-	    {
-	        $end = substr($str, -1);
-        
-	        if ($end == 's')
-	        {
-	            $str = substr($str, 0, strlen($str)-1);
-	        }
-	    }
-    
-	    return $str;
+		$str = strtolower(trim($str));
+		$end = substr($str, -3);
+	
+		if ($end == 'ies')
+		{
+			$str = substr($str, 0, strlen($str)-3).'y';
+		}
+		elseif ($end == 'ses')
+		{
+			$str = substr($str, 0, strlen($str)-2);
+		}
+		else
+		{
+			$end = substr($str, -1);
+		
+			if ($end == 's')
+			{
+				$str = substr($str, 0, strlen($str)-1);
+			}
+		}
+	
+		return $str;
 	}
 }
 
@@ -82,26 +82,26 @@ if ( ! function_exists('plural'))
 {	
 	function plural($str, $force = FALSE)
 	{
-	    $str = strtolower(trim($str));
-	    $end = substr($str, -1);
+		$str = strtolower(trim($str));
+		$end = substr($str, -1);
 
-	    if ($end == 'y')
-	    {
-	        $str = substr($str, 0, strlen($str)-1).'ies';
-	    }
-	    elseif ($end == 's')
-	    {
-	        if ($force == TRUE)
-	        {
-	            $str .= 'es';
-	        }
-	    }
-	    else
-	    {
-	        $str .= 's';
-	    }
+		if ($end == 'y')
+		{
+			$str = substr($str, 0, strlen($str)-1).'ies';
+		}
+		elseif ($end == 's')
+		{
+			if ($force == TRUE)
+			{
+				$str .= 'es';
+			}
+		}
+		else
+		{
+			$str .= 's';
+		}
 
-	    return $str;
+		return $str;
 	}
 }
 

@@ -44,8 +44,7 @@ function &DB($params = '', $active_record_override = FALSE)
 			show_error('You have specified an invalid database connection group.');
 		}
 		
-		$params = $db[$active_group];			
-	}
+		$params = $db[$active_group]		}
 	elseif (is_string($params))
 	{
 		

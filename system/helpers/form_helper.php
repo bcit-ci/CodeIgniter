@@ -53,7 +53,7 @@ if ( ! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"';
 	
-        $form .= _attributes_to_string($attributes, TRUE);
+		$form .= _attributes_to_string($attributes, TRUE);
 	
 		$form .= '>';
 
@@ -214,11 +214,11 @@ if ( ! function_exists('form_textarea'))
 	{
 		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
 	
-	    if ( ! is_array($data) OR ! isset($data['value']))
+		if ( ! is_array($data) OR ! isset($data['value']))
 		{
 			$val = $value;
 		}
-	    else
+		else
 		{
 			$val = $data['value']; 
 			unset($data['value']); // textareas don't use the value attribute
@@ -466,7 +466,7 @@ if ( ! function_exists('form_fieldset'))
 	{
 		$fieldset = "<fieldset";
 
-        $fieldset .= _attributes_to_string($attributes, FALSE);
+		$fieldset .= _attributes_to_string($attributes, FALSE);
 	
 		$fieldset .= ">\n";
 	
@@ -623,8 +623,8 @@ if ( ! function_exists('_attributes_to_string'))
 		   {
 			  $attributes .= ' method="post"';
 		   }
-		   
-		   return ' '.$attributes;       
+
+		   return ' '.$attributes;
 	   }
 	
 	   if (is_object($attributes) AND count($attributes) > 0)

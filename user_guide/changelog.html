@@ -63,6 +63,14 @@ Change Log
 SVN Revision: XXXX</p>
 
 <ul>
+	<li>Libraries
+		<ul>
+			<li>Updated the <a href="libraries/sessions.html">Sessions class</a> so that any custom data being saved gets stored to a database rather than the session cookie (assuming you are using a database to store session data), permitting much more data to be saved.</li>
+			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>
+			<li>Changed the output of the profiler to use style attribute rather then clear, and added the id "codeigniter_profiler" to the container div</li>
+			<li>Added <kbd>is_natural()</kbd> and <kbd>is_natural_no_zero()</kbd> to the <a href="libraries/validation.html">Validation class</a>.</li>
+		</ul>
+	</li>
 	<li>Helpers
 		<ul>
 			<li>Added current_url() and uri_segments() to  <a href="helpers/url_helper.html">URL helper</a>.</li>
@@ -72,15 +80,6 @@ SVN Revision: XXXX</p>
 			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
 		</ul>
 	</li>
-	<li>Libraries
-		<ul>
-			<li>Updated the <a href="libraries/sessions.html">Sessions class</a> so that any custom data being saved gets stored to a database rather than the session cookie (assuming you are using a database to store session data), permitting much more data to be saved.</li>
-			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>
-			<li>Changed the output of the profiler to use style attribute rather then clear, and added the id "codeigniter_profiler" to the container div</li>
-			<li>Added <kbd>is_natural()</kbd> and <kbd>is_natural_no_zero()</kbd> to the <a href="libraries/validation.html">Validation class</a>.</li>
-		</ul>
-	</li>
-
 	<li>Other changes
 		<ul>
 			<li>Improved performance and accuracy of xss_clean(), including reduction of false positives on image/file tests.</li>
@@ -155,39 +154,39 @@ SVN Revision: 1238</p>
 	<li>Fixed assorted user guide typos or examples (#4574, #4706).</li>
 	<li>Added quoted-printable headers to Email class when the multi-part override is used.</li>
 	<li>Fixed a double opening &lt;p&gt; tag in the index pages of each system directory.</li>
-	</ul>
+</ul>
 
 <h2>Version 1.6.2</h2>
 <p>Release Date: May 13, 2008<br />
 SVN Revision: 1155</p>
 <ul>
-    <li>Active Record
-    	<ul>
-    		<li>Added the ability to prevent escaping in <kbd>having()</kbd> clauses.</li>
-    		<li>Added <kbd>rename_table()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
-    		<li>Fixed a bug that wasn't allowing escaping to be turned off if the value of a query was NULL.</li>
-    		<li>DB Forge is now assigned to any models that exist after loading (#3457).</li>
-    		</ul>
-    </li>
-    <li>Database
-    	<ul>
-    		<li>Added <a href="./database/transactions.html">Strict Mode</a> to database transactions.</li>
-			<li>Escape behaviour in where() clauses has changed; values in those with the &quot;FALSE&quot; argument are no longer escaped (ie: quoted).</li>
-    	</ul>
+	<li>Active Record
+		<ul>
+			<li>Added the ability to prevent escaping in <kbd>having()</kbd> clauses.</li>
+			<li>Added <kbd>rename_table()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
+			<li>Fixed a bug that wasn't allowing escaping to be turned off if the value of a query was NULL.</li>
+			<li>DB Forge is now assigned to any models that exist after loading (#3457).</li>
+			</ul>
 	</li>
-    <li>Config
-    	<ul>
-    		<li>Added 'application/vnd.ms-powerpoint' to list of mime types.</li>
-    		<li>Added 'audio/mpg' to list of mime types.</li>
+	<li>Database
+		<ul>
+			<li>Added <a href="./database/transactions.html">Strict Mode</a> to database transactions.</li>
+			<li>Escape behaviour in where() clauses has changed; values in those with the &quot;FALSE&quot; argument are no longer escaped (ie: quoted).</li>
+		</ul>
+	</li>
+	<li>Config
+		<ul>
+			<li>Added 'application/vnd.ms-powerpoint' to list of mime types.</li>
+			<li>Added 'audio/mpg' to list of mime types.</li>
 			<li>Added new user-modifiable file constants.php containing file mode and fopen constants.</li>
-    		<li>Added the ability to set CRLF settings via config in the <a href="libraries/email.html">Email</a> class.</li>
-    	</ul>
-    </li>
+			<li>Added the ability to set CRLF settings via config in the <a href="libraries/email.html">Email</a> class.</li>
+		</ul>
+	</li>
 	<li>Libraries
 		<ul>
 			<li>Added increased security for filename handling in the Upload library.</li>
 			<li>Added increased security for sessions for client-side data tampering.</li>
-    		<li>The MySQLi forge class is now in sync with MySQL forge. </li>
+			<li>The MySQLi forge class is now in sync with MySQL forge. </li>
 			<li>Added the ability to set CRLF settings via config in the <a href="libraries/email.html">Email</a> class.</li>
 			<li><a href="libraries/unit_testing.html">Unit Testing</a> results are now colour coded, and a change was made to the default template of results.</li>
 			<li>Added a valid_emails rule to the <a href="libraries/validation.html">Validation</a> class.</li>
@@ -195,7 +194,7 @@ SVN Revision: 1155</p>
 			<li>The <a href="libraries/zip.html">Zip class</a> has undergone a substantial re-write for speed and clarity (thanks stanleyxu for the hard work and code contribution in bug report #3425!)</li>
 		</ul>
 	</li>
-    <li>Helpers
+	<li>Helpers
 		<ul>
 			<li>Added a <a href="helpers/compatibility_helper.html">Compatibility Helper</a> for using some common PHP 5 functions safely in applications that might run on PHP 4 servers (thanks Seppo for the hard work and code contribution!)</li>
 			<li>Added <kbd>form_button()</kbd> in the <a href="helpers/form_helper.html">Form helper</a>.</li>
@@ -207,7 +206,7 @@ SVN Revision: 1155</p>
 			<li>Added <kbd>get_dir_file_info()</kbd>, <kbd>get_file_info()</kbd>, and <kbd>get_mime_by_extension()</kbd> to the <a href="helpers/file_helper.html">File Helper</a>.</li>
 			<li>Added <kbd>symbolic_permissions()</kbd> and <kbd>octal_permissions()</kbd> to the <a href='helpers/file_helper.html'>File helper</a>.</li>
 		</ul>
-    </li>
+	</li>
 	<li>Plugins
 		<ul>
 			<li>Modified captcha generation to first look for the function imagecreatetruecolor, and fallback to imagecreate if it isn't available (#4226).</li>
@@ -257,7 +256,7 @@ SVN Revision: 1155</p>
 	<li>Fixed an array to string conversion error in the Validation library (#4425)</li>
 	<li>Fixed bug (#4451, #4299, #4339) where failed transactions will not rollback when debug mode is enabled.</li>
 	<li>Fixed a bug (#4506) with overlay_watermark() in the Image library preventing support for PNG-24s with alpha transparency</li>
-    <li>Fixed assorted user guide typos (#3453, #4364, #4379, #4399, #4408, #4412, #4448, #4488).</li>
+	<li>Fixed assorted user guide typos (#3453, #4364, #4379, #4399, #4408, #4412, #4448, #4488).</li>
 	</ul>
 
 <h2>Version 1.6.1</h2>
@@ -279,7 +278,7 @@ SVN Revision: 1155</p>
 		<ul>
 			<li>Modified <kbd>xss_clean()</kbd> to be more intelligent with its handling of URL encoded strings.</li>
 			<li>Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization of globals.</li>
-		    <li>Added a <a href="./helpers/path_helper.html">Path Helper</a>.</li>
+			<li>Added a <a href="./helpers/path_helper.html">Path Helper</a>.</li>
 			<li>Simplified <kbd>_reindex_segments()</kbd> in the URI class.</li>
 			<li>Escaped the '-' in the default 'permitted_uri_chars' config item, to prevent errors if developers just try to add additional characters to the end of the default expression.</li>
 			<li>Modified method calling to controllers to show a 404 when a private or protected method is accessed via a URL.</li>
@@ -301,8 +300,8 @@ SVN Revision: 1155</p>
 	<li>Made Active Record fully database prefix aware (#3384).</li>
 	<li>Fixed a bug where DBForge was outputting invalid SQL in Postgres by adding brackets around the tables in FROM.</li>
 	<li>Changed the behaviour of Active Record's update() to make the WHERE clause optional (#3395).</li>
-    <li>Fixed a bug (#3396) where certain POST variables would cause a PHP warning.</li>
-    <li>Fixed a bug in query binding (#3402).</li>
+	<li>Fixed a bug (#3396) where certain POST variables would cause a PHP warning.</li>
+	<li>Fixed a bug in query binding (#3402).</li>
 	<li>Changed order of SQL keywords in the Profiler $highlight array so OR would not be highlighted before ORDER BY.</li>
 	<li>Fixed a bug (#3404) where the MySQLi driver was testing if $this->conn_id was a resource instead of an object.</li>
 	<li>Fixed a bug (#3419) connecting to a database via a DSN string.</li>
@@ -317,7 +316,7 @@ SVN Revision: 1155</p>
 <ul>
 	<li>DBForge
 		<ul>
-    		<li>Added <a href="./database/forge.html">DBForge</a> to the database tools.</li>
+			<li>Added <a href="./database/forge.html">DBForge</a> to the database tools.</li>
 			<li>Moved <kbd>create_database()</kbd> and <kbd>drop_database()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
 			<li>Added <kbd>add_field()</kbd>, <kbd>add_key()</kbd>, <kbd>create_table()</kbd>, <kbd>drop_table()</kbd>, <kbd>add_column()</kbd>, <kbd>drop_column()</kbd>, <kbd>modify_column()</kbd> into <a href="./database/forge.html">DBForge</a>.</li>
 		</ul>
@@ -326,16 +325,16 @@ SVN Revision: 1155</p>
 	<li>Active Record
 		<ul>
 			<li>Added <kbd>protect_identifiers()</kbd> in <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>All AR queries are backticked if appropriate to the database.</li>
+			<li>All AR queries are backticked if appropriate to the database.</li>
 			<li>Added <kbd>where_in()</kbd>, <kbd>or_where_in()</kbd>, <kbd>where_not_in()</kbd>,  <kbd>or_where_not_in()</kbd>, <kbd>not_like()</kbd> and <kbd>or_not_like()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
 			<li>Added support for <kbd>limit()</kbd>  into <kbd>update()</kbd> and <kbd>delete()</kbd> statements in  <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added <kbd>empty_table()</kbd> and <kbd>truncate_table()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added the ability to pass an array of tables to the <kbd>delete()</kbd> statement in <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added <kbd>count_all_results()</kbd> function to <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added <kbd>select_max()</kbd>, <kbd>select_min()</kbd>, <kbd>select_avg()</kbd> and <kbd>select_sum()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added the ability to use aliases with joins in <a href="./database/active_record.html">Active Record</a>.</li>
-		    <li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
-		    <li>Added a third parameter to <kbd>set()</kbd> in <a href="./database/active_record.html">Active Record</a> that withholds escaping data.</li>
+			<li>Added <kbd>empty_table()</kbd> and <kbd>truncate_table()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added the ability to pass an array of tables to the <kbd>delete()</kbd> statement in <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added <kbd>count_all_results()</kbd> function to <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added <kbd>select_max()</kbd>, <kbd>select_min()</kbd>, <kbd>select_avg()</kbd> and <kbd>select_sum()</kbd> to <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added the ability to use aliases with joins in <a href="./database/active_record.html">Active Record</a>.</li>
+			<li>Added a third parameter to Active Record's <kbd>like()</kbd> clause to control where the wildcard goes. </li>
+			<li>Added a third parameter to <kbd>set()</kbd> in <a href="./database/active_record.html">Active Record</a> that withholds escaping data.</li>
 			<li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
 		</ul>
 	</li>
@@ -347,8 +346,8 @@ SVN Revision: 1155</p>
 			<li>Added $this->db->dbprefix() to manually add database prefixes.</li>
 			<li>Added 'random' as an <kbd>order_by()</kbd> option , and removed &quot;rand()&quot; as a listed option as it was MySQL only.</li>
 			<li>Added a check for NULL fields in the MySQL database backup utility.</li>
-		    <li>Added &quot;constrain_by_prefix&quot; parameter to db-&gt;list_table() function.  If set to TRUE it will limit the result to only table names with the current prefix.</li>
-		    <li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
+			<li>Added &quot;constrain_by_prefix&quot; parameter to db-&gt;list_table() function.  If set to TRUE it will limit the result to only table names with the current prefix.</li>
+			<li>Deprecated from Active Record; <kbd>getwhere()</kbd> for <kbd>get_where()</kbd>; <kbd>groupby()</kbd> for <kbd>group_by()</kbd>; <kbd>havingor()</kbd> for <kbd>having_or()</kbd>; <kbd>orderby()</kbd> for <kbd>order_by</kbd>; <kbd>orwhere()</kbd> for <kbd>or_where()</kbd>; and <kbd>orlike()</kbd> for <kbd>or_like()</kbd>.</li>
 			<li>Modified <kbd>csv_from_result()</kbd> to output CSV data more in the spirit of basic rules of RFC 4180.</li>
 			<li>Added 'char_set' and 'dbcollat' database configuration settings, to explicitly set the client communication properly.</li>
 			<li>Removed 'active_r' configuration setting and replaced with a global $active_record setting, which is more
@@ -375,11 +374,11 @@ SVN Revision: 1155</p>
 			<li>Added Flashdata variables, session_id regeneration and configurable session update times to the <a href="./libraries/sessions.html">Session class.</a></li>
 			<li>Removed 'last_visit' from the Session class.</li>
 			<li>Added a language entry for valid_ip validation error.</li>
-		    <li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
-		    <li>Added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
+			<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
+			<li>Added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
 			<li>Added valid_base64() to the <a href="./libraries/validation.html">Validation</a> library.</li>
-		    <li>Documented clear() in the <a href="../libraries/image_lib.html">Image Processing</a> library.</li>
-		    <li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
+			<li>Documented clear() in the <a href="../libraries/image_lib.html">Image Processing</a> library.</li>
+			<li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
 			<li>Modified Upload class $_FILES error messages to be more precise.</li>
 			<li>Moved the safe mode and auth checks for the Email library into the constructor. </li>
 			<li>Modified variable names in _ci_load() method of Loader class to avoid conflicts with view variables.</li>
@@ -394,18 +393,18 @@ SVN Revision: 1155</p>
 			<li>Added img() to the <a href="./helpers/html_helper.html">HTML helper.</a></li>
 			<li>Added ability to <a href="./general/helpers.html">"extend" Helpers</a>.</li>
 			<li>Added an <a href="./helpers/email_helper.html">email helper</a> into core helpers.</li>
-		    <li>Added <kbd>strip_quotes()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-		    <li>Added <kbd>reduce_multiples()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-		    <li>Added <kbd>quotes_to_entities()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
-		    <li>Added <kbd>form_fieldset()</kbd>, <kbd>form_fieldset_close()</kbd>, <kbd>form_label()</kbd>, and <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
-		    <li>Added support for external urls in <kbd>form_open()</kbd>.</li>
-		    <li>Removed support for db_backup in MySQLi due to incompatible functions.</li>
-		    <li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
+			<li>Added <kbd>strip_quotes()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+			<li>Added <kbd>reduce_multiples()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+			<li>Added <kbd>quotes_to_entities()</kbd> function to <a href="./helpers/string_helper.html">string helper</a>.</li>
+			<li>Added <kbd>form_fieldset()</kbd>, <kbd>form_fieldset_close()</kbd>, <kbd>form_label()</kbd>, and <kbd>form_reset()</kbd> function to <a href="./helpers/form_helper.html">form helper</a>.</li>
+			<li>Added support for external urls in <kbd>form_open()</kbd>.</li>
+			<li>Removed support for db_backup in MySQLi due to incompatible functions.</li>
+			<li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
 		</ul>
 	</li>
 	
-      
-    <li>Documentation Changes
+	  
+	<li>Documentation Changes
 		<ul>
 			<li>Added <a href="./doc_style/index.html">Writing Documentation</a> section for the community to use in writing their own documentation.</li>
 			<li>Added titles to all user manual pages.</li>
@@ -413,9 +412,9 @@ SVN Revision: 1155</p>
 			<li>Added <a href="http://codeigniter.com/user_guide/libraries/zip.html">Zip Encoding Class</a> to the table of contents of the userguide.</li>
 			<li>Moved part of the userguide menu javascript to an external file.</li>
 			<li>Documented <kbd>distinct()</kbd> in <a href="./database/active_record.html">Active Record</a>. </li>
-		    <li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
-		    <li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
-		    <li>Documented 2 config options to the <a href="./database/configuration.html">Database configuration</a> page.</li>
+			<li>Documented the <kbd>timezones()</kbd> function in the <a href="./helpers/date_helper.html">Date Helper</a>.</li>
+			<li>Documented unset_userdata in the <a href="./libraries/sessions.html">Session class</a>.</li>
+			<li>Documented 2 config options to the <a href="./database/configuration.html">Database configuration</a> page.</li>
 		</ul>
 	</li>
 </ul>
@@ -430,62 +429,62 @@ SVN Revision: 1155</p>
 	<li>Fixed a bug (#2542)in the clean_email() method of the Email class to allow for non-numeric / non-sequential array keys.</li>
 	<li>Fixed a bug (#2545) in <kbd>_html_entity_decode_callback()</kbd> when 'global_xss_filtering' is enabled.</li>
 	<li>Fixed a bug (#2668) in the <a href="./libraries/parser.html">parser class</a> where numeric data was ignored.</li>
-    <li>Fixed a bug (#2679) where the &quot;previous&quot; pagination link would get drawn on the first page.</li>
+	<li>Fixed a bug (#2679) where the &quot;previous&quot; pagination link would get drawn on the first page.</li>
 	<li>Fixed a bug (#2702) in _object_to_array that broke some types of inserts and updates.</li>
-    <li>Fixed a bug (#2732) in the SQLite driver for PHP 4.</li>
-    <li>Fixed a bug (#2754) in Pagination to scan for non-positive num_links.</li>
-    <li>Fixed a bug (#2762) in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
-    <li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
-    <li>Fixed a bug (#2810) in the typography helper causing extraneous paragraph tags when string contains tags.</li>
+	<li>Fixed a bug (#2732) in the SQLite driver for PHP 4.</li>
+	<li>Fixed a bug (#2754) in Pagination to scan for non-positive num_links.</li>
+	<li>Fixed a bug (#2762) in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
+	<li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
+	<li>Fixed a bug (#2810) in the typography helper causing extraneous paragraph tags when string contains tags.</li>
 	<li>Fixed a bug (#2849) where arguments passed to a subfolder controller method would be incorrectly shifted, dropping the 3rd segment value.</li>
-    <li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
-    <li>Fixed a bug (#2875)when loading plugin files as _plugin. and not _pi.</li>
-    <li>Fixed a bug (#2912) in <kbd>get_filenames()</kbd> in the <a href="./helpers/file_helper.html">File Helper </a>where the array wasn't cleared after each call.</li>
-    <li>Fixed a bug (#2974) in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
-    <li>Fixed a bug (#3003) in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
-    <li>Fixed a bug (#3015) in the <a href="./libraries/user_agent.html">User Agent library</a> where more then 2 languages where not reported with languages().</li>
-    <li>Fixed a bug (#3017) in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
-    <li>Fixed a bug (#3024) in which master_dim wasn't getting reset by clear() in the Image library.</li>
-    <li>Fixed a bug (#3156) in Text Helper highlight_code() causing PHP tags to be handled incorrectly.</li>
-    <li>Fixed a bug (#3166) that prevented num_rows from working in Oracle.</li>
-    <li>Fixed a bug (#3175) preventing certain libraries from working properly when autoloaded in PHP 4.</li>
-    <li>Fixed a bug (#3267) in the Typography Helper where unordered list was listed &quot;un.</li>
-    <li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
-    <li>Fixed a bug (#3279) where the Email class was sending the wrong Content-Transfer-Encoding for some character sets.</li>
-    <li>Fixed a bug (#3284) where the rsegment array would not be set properly if the requested URI contained more segments than the routed URI.</li>
-    <li>Removed extraneous load of $CFG in _display_cache() of the Output class (#3285).</li>
-    <li>Removed an extraneous call to loading models (#3286).</li>
-    <li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
-    <li>Fixed a bug (#3314) which would cause the top level path to be deleted in delete_files() of the File helper.</li>
-    <li>Fixed a bug (#3328) where the smiley helper might return an undefined variable.</li>
-    <li>Fixed a bug (#3330) in the FTP class where a comparison wasn't getting made.</li>
-    <li>Removed an unused parameter from Profiler (#3332).</li>
-    <li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
+	<li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
+	<li>Fixed a bug (#2875)when loading plugin files as _plugin. and not _pi.</li>
+	<li>Fixed a bug (#2912) in <kbd>get_filenames()</kbd> in the <a href="./helpers/file_helper.html">File Helper </a>where the array wasn't cleared after each call.</li>
+	<li>Fixed a bug (#2974) in <kbd>highlight_phrase()</kbd> that caused an error with slashes.</li>
+	<li>Fixed a bug (#3003) in the Encryption Library to support modes other than MCRYPT_MODE_ECB</li>
+	<li>Fixed a bug (#3015) in the <a href="./libraries/user_agent.html">User Agent library</a> where more then 2 languages where not reported with languages().</li>
+	<li>Fixed a bug (#3017) in the <a href="./libraries/email.html">Email</a> library where some timezones were calculated incorrectly. </li>
+	<li>Fixed a bug (#3024) in which master_dim wasn't getting reset by clear() in the Image library.</li>
+	<li>Fixed a bug (#3156) in Text Helper highlight_code() causing PHP tags to be handled incorrectly.</li>
+	<li>Fixed a bug (#3166) that prevented num_rows from working in Oracle.</li>
+	<li>Fixed a bug (#3175) preventing certain libraries from working properly when autoloaded in PHP 4.</li>
+	<li>Fixed a bug (#3267) in the Typography Helper where unordered list was listed &quot;un.</li>
+	<li>Fixed a bug (#3268) where the Router could leave '/' as the path.</li>
+	<li>Fixed a bug (#3279) where the Email class was sending the wrong Content-Transfer-Encoding for some character sets.</li>
+	<li>Fixed a bug (#3284) where the rsegment array would not be set properly if the requested URI contained more segments than the routed URI.</li>
+	<li>Removed extraneous load of $CFG in _display_cache() of the Output class (#3285).</li>
+	<li>Removed an extraneous call to loading models (#3286).</li>
+	<li>Fixed a bug (#3310) with sanitization of globals in the Input class that could unset CI's global variables.</li>
+	<li>Fixed a bug (#3314) which would cause the top level path to be deleted in delete_files() of the File helper.</li>
+	<li>Fixed a bug (#3328) where the smiley helper might return an undefined variable.</li>
+	<li>Fixed a bug (#3330) in the FTP class where a comparison wasn't getting made.</li>
+	<li>Removed an unused parameter from Profiler (#3332).</li>
+	<li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
 	<li>Fixed a bug in the <a href="./libraries/file_uploading.html">upload library</a> when allowed_files wasn't defined.</li>
-    <li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
-    <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
-    <li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where individual error messages for checkboxes wasn't supported.</li>
-    <li>Fixed a bug in captcha calling an invalid PHP function.</li>
-    <li>Fixed a bug in the cookie helper "set_cookie" function.  It was not honoring the config settings.</li>
-    <li>Fixed a bug that was making validation callbacks required even when not set as such.</li>
-    <li>Fixed a bug in the XML-RPC library so if a type is specified, a more intelligent decision is made as to the default type.</li>
-    <li>Fixed an example of comma-separated emails in the email library documentation.</li>
-    <li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
-    <li>Fixed a typo in the database language file.</li>
-    <li>Fixed a typo in the image language file &quot;suppor&quot; to &quot;support&quot;.</li>
-    <li>Fixed an example for XML RPC.</li>
-    <li>Fixed an example of <kbd>accept_charset()</kbd> in the <a href="./libraries/user_agent.html">User Agent Library</a>.</li>
-    <li>Fixed a typo in the docblock comments that had CodeIgniter spelled CodeIgnitor.</li>
-    <li>Fixed a typo in the <a href="./helpers/string_helper.html">String Helper</a> (uniquid changed to uniqid).</li>
-    <li>Fixed typos in the email Language class (email_attachment_unredable, email_filed_smtp_login), and FTP Class (ftp_unable_to_remame).</li>
-    <li>Added a stripslashes()  into the Upload Library.</li>
-    <li>Fixed a series of grammatical and spelling errors in the language files.</li>
-    <li>Fixed assorted user guide typos.</li>
+	<li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
+	<li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
+	<li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where individual error messages for checkboxes wasn't supported.</li>
+	<li>Fixed a bug in captcha calling an invalid PHP function.</li>
+	<li>Fixed a bug in the cookie helper "set_cookie" function.  It was not honoring the config settings.</li>
+	<li>Fixed a bug that was making validation callbacks required even when not set as such.</li>
+	<li>Fixed a bug in the XML-RPC library so if a type is specified, a more intelligent decision is made as to the default type.</li>
+	<li>Fixed an example of comma-separated emails in the email library documentation.</li>
+	<li>Fixed an example in the Calendar library for Showing Next/Previous Month Links.</li>
+	<li>Fixed a typo in the database language file.</li>
+	<li>Fixed a typo in the image language file &quot;suppor&quot; to &quot;support&quot;.</li>
+	<li>Fixed an example for XML RPC.</li>
+	<li>Fixed an example of <kbd>accept_charset()</kbd> in the <a href="./libraries/user_agent.html">User Agent Library</a>.</li>
+	<li>Fixed a typo in the docblock comments that had CodeIgniter spelled CodeIgnitor.</li>
+	<li>Fixed a typo in the <a href="./helpers/string_helper.html">String Helper</a> (uniquid changed to uniqid).</li>
+	<li>Fixed typos in the email Language class (email_attachment_unredable, email_filed_smtp_login), and FTP Class (ftp_unable_to_remame).</li>
+	<li>Added a stripslashes()  into the Upload Library.</li>
+	<li>Fixed a series of grammatical and spelling errors in the language files.</li>
+	<li>Fixed assorted user guide typos.</li>
 </ul>
 <h2>Version 1.5.4</h2>
 <p>Release Date: July 12, 2007 </p>
 <ul>
-    <li>Added <a href="./libraries/language.html">custom Language files</a> to the <a href="./general/autoloader.html">autoload</a> options. </li>
+	<li>Added <a href="./libraries/language.html">custom Language files</a> to the <a href="./general/autoloader.html">autoload</a> options. </li>
 	<li>Added stripslashes() to the _clean_input_data() function in the <a href="./libraries/input.html">Input class</a> when magic quotes is on so that data will always be un-slashed within the framework.</li>
 	<li>Added array to string into the <a href="general/profiling.html">profiler</a>.</li>
 	<li>Added some additional mime types in application/config/mimes.php.</li>
@@ -497,10 +496,10 @@ SVN Revision: 1155</p>
 	<li>Fixed a bug that was allowing multiple load attempts on extended classes.</li>
 	<li>Fixed a bug in the bootstrap file that was incorrectly attempting to discern the full server path even when it was explicity set by the user.</li>
 	<li>Fixed a bug in the escape_str() function in the MySQL driver.</li>
-    <li>Fixed a typo in the <a href="./libraries/calendar.html">Calendar library </a> </li>
-    <li>Fixed a typo in rpcs.php library</li>
-    <li>Fixed a bug in the <a href="./libraries/zip.html">Zip library</a>, providing PC Zip file compatibility with Mac OS X</li>
-    <li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
+	<li>Fixed a typo in the <a href="./libraries/calendar.html">Calendar library </a> </li>
+	<li>Fixed a typo in rpcs.php library</li>
+	<li>Fixed a bug in the <a href="./libraries/zip.html">Zip library</a>, providing PC Zip file compatibility with Mac OS X</li>
+	<li>Fixed a bug in router that was ignoring the scaffolding route for optimization </li>
 	<li>Fixed an IP validation bug.</li>
 	<li>Fixed a bug in display of POST keys in the <a href="./general/profiling.html">Profiler</a> output</li>
 	<li>Fixed a bug in display of queries with characters that would be interpreted as HTML in the <a href="./general/profiling.html">Profiler</a> output</li>
@@ -511,59 +510,59 @@ SVN Revision: 1155</p>
 	<li>Fixed various doc typos. </li>
 	<li>Documented two functions from the <a href="./helpers/string_helper.html">String helper </a> that were missing from the user guide:  trim_slashes() and reduce_double_slashes().</li>
 	<li>Docs now validate to XHTML 1 transitional</li>
-    <li>Updated the XSS Filtering to take into account the IE expression() ability and improved certain deletions to prevent possible exploits</li>
-    <li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
-    <li>Modified the is_image() method in the Upload library to take into account Windows IE 6/7 eccentricities when dealing with MIMEs</li>
-    <li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
+	<li>Updated the XSS Filtering to take into account the IE expression() ability and improved certain deletions to prevent possible exploits</li>
+	<li>Modified the Router so that when Query Strings are Enabled, the controller trigger and function trigger values are sanitized for filename include security.</li>
+	<li>Modified the is_image() method in the Upload library to take into account Windows IE 6/7 eccentricities when dealing with MIMEs</li>
+	<li>Modified XSS Cleaning routine to be more performance friendly and compatible with PHP 5.2's new PCRE backtrack and recursion limits.</li>
 	<li>Modified the <a href="./helpers/url_helper.html">URL Helper</a> to type cast the $title as a string in case a numeric value is supplied</li>
 	<li>Modified Form Helper form_dropdown() to type cast the keys and values of the options array as strings, allowing numeric values to be properly set as 'selected'</li>
 	<li>Deprecated the use if <kbd>is_numeric()</kbd> in various places since it allows periods.  Due to compatibility problems with <kbd>ctype_digit()</kbd>, making it unreliable in some installations, the following regular expression was used instead:  <kbd>preg_match("/[^0-9]/", $n)</kbd></li>
-    <li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
+	<li>Deprecated: APPVER has been deprecated and replaced with CI_VERSION for clarity. </li>
 </ul>
 <h2>Version 1.5.3</h2>
 <p>Release Date: April 15, 2007 </p>
 <ul>
-    <li>Added array to string into the profiler </li>
-    <li>Code Igniter references updated to CodeIgniter </li>
-    <li>pMachine references updated to EllisLab </li>
-    <li>Fixed a bug in the repeater function of <a href="./helpers/string_helper.html">string helper</a>. </li>
-    <li>Fixed a bug in ODBC driver </li>
-    <li>Fixed a bug in result_array() that was returning an empty array when no result is produced.</li>
-    <li>Fixed a bug in the redirect function of the <a href="./helpers/url_helper.html">url helper</a>. </li>
-    <li>Fixed an undefined variable in Loader </li>
-    <li>Fixed a version bug in the Postgre driver </li>
-    <li>Fixed a bug in the textarea function of the form helper for use with strings</li>
-    <li>Fixed doc typos. </li>
+	<li>Added array to string into the profiler </li>
+	<li>Code Igniter references updated to CodeIgniter </li>
+	<li>pMachine references updated to EllisLab </li>
+	<li>Fixed a bug in the repeater function of <a href="./helpers/string_helper.html">string helper</a>. </li>
+	<li>Fixed a bug in ODBC driver </li>
+	<li>Fixed a bug in result_array() that was returning an empty array when no result is produced.</li>
+	<li>Fixed a bug in the redirect function of the <a href="./helpers/url_helper.html">url helper</a>. </li>
+	<li>Fixed an undefined variable in Loader </li>
+	<li>Fixed a version bug in the Postgre driver </li>
+	<li>Fixed a bug in the textarea function of the form helper for use with strings</li>
+	<li>Fixed doc typos. </li>
 </ul>
 <h2>Version 1.5.2</h2>
 <p>Release Date: February 13, 2007 </p>
 <ul>
-    <li>Added <a href="./installation/downloads.html#svn">subversion information</a> to the <a href="./installation/downloads.html">downloads</a> page. </li>
+	<li>Added <a href="./installation/downloads.html#svn">subversion information</a> to the <a href="./installation/downloads.html">downloads</a> page. </li>
 	<li>Added support for captions in the <a href="./libraries/table.html">Table Library</a> </li>
 	<li>Fixed a bug in the <a href="./helpers/download_helper.html">download_helper</a> that was causing Internet Explorer to load rather then download </li>
-    <li>Fixed a bug in the Active Record Join function that was not taking table prefixes into consideration.</li>
-    <li>Removed unescaped variables in error messages of Input and Router classes</li>
-    <li>Fixed a bug in the Loader that was causing errors on Libraries loaded twice. A debug message is now silently made in the log.  </li>
-    <li>Fixed a bug in the <a href="./helpers/form_helper.html">form helper</a> that gave textarea a value attribute </li>
-    <li>Fixed a bug in the <a href="./libraries/image_lib.php">Image Library</a> that was ignoring resizing the same size image </li>
-    <li>Fixed some doc typos.</li>
+	<li>Fixed a bug in the Active Record Join function that was not taking table prefixes into consideration.</li>
+	<li>Removed unescaped variables in error messages of Input and Router classes</li>
+	<li>Fixed a bug in the Loader that was causing errors on Libraries loaded twice. A debug message is now silently made in the log.  </li>
+	<li>Fixed a bug in the <a href="./helpers/form_helper.html">form helper</a> that gave textarea a value attribute </li>
+	<li>Fixed a bug in the <a href="./libraries/image_lib.php">Image Library</a> that was ignoring resizing the same size image </li>
+	<li>Fixed some doc typos.</li>
 </ul>
 
 
 <h2>Version 1.5.1</h2>
 <p>Release Date: November 23, 2006</p>
 <ul>
-    <li>Added support for submitting arrays of libraries in the $this-&gt;load-&gt;library function.</li>
-    <li>Added support for naming custom library files in lower or uppercase.</li>
-    <li>Fixed a bug related to output buffering.</li>
-    <li>Fixed a bug in the active record class that was not resetting query data after a completed query.</li>
-    <li>Fixed a bug that was suppressing errors in controllers.</li>
-    <li>Fixed a problem that can cause a loop to occur when the config file is missing.</li>
-    <li>Fixed a bug that occurred when multiple models were loaded with the third parameter set to TRUE.</li>
-    <li>Fixed an oversight that was not unsetting globals properly in the input sanitize function.</li>
-    <li>Fixed some bugs in the Oracle DB driver.</li>
-    <li>Fixed an incorrectly named variable in the MySQLi result driver.</li>
-    <li>Fixed some doc typos.</li>
+	<li>Added support for submitting arrays of libraries in the $this-&gt;load-&gt;library function.</li>
+	<li>Added support for naming custom library files in lower or uppercase.</li>
+	<li>Fixed a bug related to output buffering.</li>
+	<li>Fixed a bug in the active record class that was not resetting query data after a completed query.</li>
+	<li>Fixed a bug that was suppressing errors in controllers.</li>
+	<li>Fixed a problem that can cause a loop to occur when the config file is missing.</li>
+	<li>Fixed a bug that occurred when multiple models were loaded with the third parameter set to TRUE.</li>
+	<li>Fixed an oversight that was not unsetting globals properly in the input sanitize function.</li>
+	<li>Fixed some bugs in the Oracle DB driver.</li>
+	<li>Fixed an incorrectly named variable in the MySQLi result driver.</li>
+	<li>Fixed some doc typos.</li>
 </ul>
 <h2>Version 1.5.0.1</h2>
 <p>Release Date: October 31, 2006</p>
