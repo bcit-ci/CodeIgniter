@@ -69,9 +69,10 @@ class CI_Loader {
 	 * @access	public
 	 * @param	string	the name of the class
 	 * @param	mixed	the optional parameters
+	 * @param	string	an optional object name
 	 * @return	void
 	 */	
-	function library($library = '', $params = NULL)
+	function library($library = '', $params = NULL, $object_name = NULL)
 	{		
 		if ($library == '')
 		{
@@ -87,7 +88,7 @@ class CI_Loader {
 		}
 		else
 		{
-			$this->_ci_load_class($library, $params);
+			$this->_ci_load_class($library, $params, $object_name);
 		}
 		
 		$this->_ci_assign_to_models();
@@ -329,8 +330,13 @@ class CI_Loader {
 	 * @param	array
 	 * @return	void
 	 */
-	function vars($vars = array())
+	function vars($vars = array(), $val = '')
 	{
+		if ($val != '' AND is_string($vars))
+		{
+			$vars = array($vars => $val);
+		}
+	
 		$vars = $this->_ci_object_to_array($vars);
 	
 		if (is_array($vars) AND count($vars) > 0)
@@ -753,9 +759,10 @@ class CI_Loader {
 	 * @access	private
 	 * @param 	string	the item that is being loaded
 	 * @param	mixed	any additional parameters
+	 * @param	string	an optional object name
 	 * @return 	void
 	 */
-	function _ci_load_class($class, $params = NULL)
+	function _ci_load_class($class, $params = NULL, $object_name = NULL)
 	{	
 		// Get the class name, and while we're at it trim any slashes.  
 		// The directory path can be included as part of the class name, 
@@ -799,6 +806,18 @@ class CI_Loader {
 				// Safety:  Was the class already loaded by a previous call?
 				if (in_array($subclass, $this->_ci_classes))
 				{
+					// Before we deem this to be a duplicate request, let's see
+					// if a custom object name is being supplied.  If so, we'll
+					// return a new instance of the object
+					if ( ! is_null($object_name))
+					{
+						$CI =& get_instance();
+						if ( ! isset($CI->$object_name))
+						{
+							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);			
+						}
+					}		
+				
 					$is_duplicate = TRUE;
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
@@ -808,7 +827,7 @@ class CI_Loader {
 				include_once($subclass);
 				$this->_ci_classes[] = $subclass;
 	
-				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params);			
+				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);			
 			}
 		
 			// Lets search for the requested library file and load it.
@@ -827,6 +846,18 @@ class CI_Loader {
 				// Safety:  Was the class already loaded by a previous call?
 				if (in_array($filepath, $this->_ci_classes))
 				{
+					// Before we deem this to be a duplicate request, let's see
+					// if a custom object name is being supplied.  If so, we'll
+					// return a new instance of the object
+					if ( ! is_null($object_name))
+					{
+						$CI =& get_instance();
+						if ( ! isset($CI->$object_name))
+						{
+							return $this->_ci_init_class($class, '', $params, $object_name);
+						}
+					}
+				
 					$is_duplicate = TRUE;
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
@@ -834,9 +865,16 @@ class CI_Loader {
 				
 				include_once($filepath);
 				$this->_ci_classes[] = $filepath;
-				return $this->_ci_init_class($class, '', $params);
+				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
 		} // END FOREACH
+
+		// One last attempt.  Maybe the library is in a subdirectory, but it wasn't specified?
+		if ($subdir == '')
+		{
+			$path = strtolower($class).'/'.$class;
+			return $this->_ci_load_class($path, $params);
+		}
 		
 		// If we got this far we were unable to find the requested class.
 		// We do not issue errors if the load call failed due to a duplicate request
@@ -855,9 +893,10 @@ class CI_Loader {
 	 * @access	private
 	 * @param	string
 	 * @param	string
+	 * @param	string	an optional object name
 	 * @return	null
 	 */
-	function _ci_init_class($class, $prefix = '', $config = FALSE)
+	function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{	
 		$class = strtolower($class);
 		
@@ -879,8 +918,16 @@ class CI_Loader {
 			$name = $prefix.$class;
 		}
 		
-		// Set the variable name we will assign the class to	
-		$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
+		// Set the variable name we will assign the class to
+		// Was a custom class name supplied?  If so we'll use it
+		if (is_null($object_name))
+		{
+			$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
+		}
+		else
+		{
+			$classvar = $object_name;
+		}
 				
 		// Instantiate the class		
 		$CI =& get_instance();
