@@ -79,6 +79,11 @@ class CI_Loader {
 			return FALSE;
 		}
 
+		if ( ! is_null($params) AND ! is_array($params))
+		{
+			$params = NULL;
+		}
+
 		if (is_array($library))
 		{
 			foreach ($library as $class)
