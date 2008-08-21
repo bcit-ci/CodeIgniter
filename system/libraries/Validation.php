@@ -640,7 +640,17 @@ class CI_Validation {
 	 */
 	function is_natural_no_zero($str)
 	{   
-   		return (bool)preg_match( '/^[1-9]+$/', $str);
+    	if ( ! preg_match( '/^[0-9]+$/', $str))
+    	{
+    		return FALSE;
+    	}
+    	
+    	if ($str == 0)
+    	{
+    		return FALSE;
+    	}
+    
+   		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
