@@ -90,7 +90,35 @@ For example, if you have file located at:</p>
 
 <p>You may nest the file in as many subdirectories as you want.</p>
 
-<p>Each library is described in detail in its own page, so please read the information regarding each one you would like to use.</p>
+<h3>Setting options</h3>
+
+<p>The second parameter allows you to optionally pass configuration setting.  You will typically pass these as an array:</p>
+
+<code>
+$config = array (<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'mailtype' => 'html',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'charset'&nbsp; => 'utf-8,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'priority' => '1'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->load->library('email', $config);</code>
+
+<p>Config options can usually also be set via a config file. Each library is explained in detail in its own page, so please read the information regarding each one you would like to use.</p>
+
+<h3>Assigning a Library to a different object name</h3>
+
+<p>If the third parameter is blank, the library will usually be assigned to an object with the same name as the library.  For example, if the library is named <dfn>Session</dfn>, it
+will be assigned to a variable named <dfn>$this->session</dfn>.</p>
+
+<p>If you prefer to set your own class names you can pass its value to the third parameter:</p>
+
+<code>$this->load->library('session', '', 'my_session');<br /><br />
+
+// Session class is now accessed using:<br /><br />
+
+$this->my_session
+
+</code>
 
 
 
