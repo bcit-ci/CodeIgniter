@@ -34,8 +34,8 @@ class CI_Zip  {
 
 	var $zipdata 	= '';
 	var $directory 	= '';
-    var $entries 	= 0;
-    var $file_num 	= 0;
+	var $entries 	= 0;
+	var $file_num 	= 0;
 	var $offset		= 0;
 
 	function CI_Zip()
@@ -320,16 +320,16 @@ class CI_Zip  {
 	 */
 	function download($filename = 'backup.zip')
 	{
-        if ( ! preg_match("|.+?\.zip$|", $filename))
-        {
-            $filename .= '.zip';
-        }
+		if ( ! preg_match("|.+?\.zip$|", $filename))
+		{
+			$filename .= '.zip';
+		}
 
-        $zip_content =& $this->get_zip();
+		$zip_content =& $this->get_zip();
 
-        $CI =& get_instance();
-        $CI->load->helper('download');
-		
+		$CI =& get_instance();
+		$CI->load->helper('download');
+
 		force_download($filename, $zip_content);
 	}
 
@@ -346,11 +346,11 @@ class CI_Zip  {
 	 */		
 	function clear_data()
 	{
-		$this->zipdata   = '';
-		$this->directory = '';
-		$this->entries   = 0;
-		$this->file_num  = 0;
-		$this->offset    = 0;
+		$this->zipdata		= '';
+		$this->directory	= '';
+		$this->entries		= 0;
+		$this->file_num		= 0;
+		$this->offset		= 0;
 	}
 	
 }

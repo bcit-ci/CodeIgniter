@@ -104,7 +104,7 @@ class CI_DB_result {
 			return array();
 		}
 
-		$this->_data_seek(0);			
+		$this->_data_seek(0);
 		while ($row = $this->_fetch_assoc())
 		{
 			$this->result_array[] = $row;

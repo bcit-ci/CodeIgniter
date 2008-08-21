@@ -1169,7 +1169,7 @@ class CI_Email {
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);			
+			$str = str_replace(array("\r\n", "\r"), "\n", $str);	
 		}
 
 		// We are intentionally wrapping so mail servers will encode characters
@@ -1179,8 +1179,8 @@ class CI_Email {
 		// Break into an array of lines
 		$lines = explode("\n", $str);
 
-	    $escape = '=';
-	    $output = '';
+		$escape = '=';
+		$output = '';
 
 		foreach ($lines as $line)
 		{

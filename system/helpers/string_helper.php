@@ -46,7 +46,7 @@ if ( ! function_exists('trim_slashes'))
 {
 	function trim_slashes($str)
 	{
-	    return trim($str, '/');
+		return trim($str, '/');
 	} 
 }
 	
@@ -173,7 +173,7 @@ if ( ! function_exists('reduce_multiples'))
 		{
 			$str = trim($str, $character);
 		}
-    
+
 		return $str;
 	}
 }

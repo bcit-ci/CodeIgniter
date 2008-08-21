@@ -836,7 +836,7 @@ class CI_Upload {
 	 * Prep Filename
 	 *
 	 * Prevents possible script execution from Apache's handling of files multiple extensions
-     * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
+	 * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
 	 *
 	 * @access	private
 	 * @param	string

@@ -142,7 +142,7 @@ class CI_DB_driver {
 						{
 							$this->display_error('db_unable_to_create', $this->database);
 						}
-						return FALSE;				
+						return FALSE;
 					}
 					else
 					{
@@ -221,7 +221,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_unsupported_function');
 			}
-			return FALSE;		
+			return FALSE;
 		}
 		
 		if ($this->dbdriver == 'oci8')
@@ -258,7 +258,7 @@ class CI_DB_driver {
 				log_message('error', 'Invalid query: '.$sql);
 				return $this->display_error('db_invalid_query');
 			}
-			return FALSE;		
+			return FALSE;
 		}
 
 		// Verify table prefix and replace if necessary
@@ -543,12 +543,12 @@ class CI_DB_driver {
 				$this->_trans_status = TRUE;
 			}
 
-			log_message('debug', 'DB Transaction Failure');			
-			return FALSE;			
+			log_message('debug', 'DB Transaction Failure');
+			return FALSE;
 		}
 		
 		$this->trans_commit();
-		return TRUE;	
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -755,7 +755,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_unsupported_function');
 			}
-			return FALSE;		
+			return FALSE;
 		}
 
 		$retval = array();
@@ -815,7 +815,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_field_param_missing');
 			}
-			return FALSE;			
+			return FALSE;
 		}
 		
 		if (FALSE === ($sql = $this->_list_columns($this->prep_tablename($table))))
@@ -824,7 +824,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_unsupported_function');
 			}
-			return FALSE;		
+			return FALSE;
 		}
 		
 		$query = $this->query($sql);
@@ -887,7 +887,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_field_param_missing');
 			}
-			return FALSE;			
+			return FALSE;
 		}
 		
 		$query = $this->query($this->_field_data($this->prep_tablename($table)));
@@ -906,7 +906,7 @@ class CI_DB_driver {
 	 */	
 	function insert_string($table, $data)
 	{
-		$fields = array();	
+		$fields = array();
 		$values = array();
 		
 		foreach($data as $key => $val)
@@ -1039,7 +1039,7 @@ class CI_DB_driver {
 			{
 				return $this->display_error('db_unsupported_function');
 			}
-			return FALSE;			
+			return FALSE;
 		}
 		else
 		{
