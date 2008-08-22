@@ -160,7 +160,7 @@ class CI_Session {
 		// Unserialize the session array
 		$session = @unserialize(strip_slashes($session));
 		
-		// Is the session data we unserialized and array with the correct format?
+		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id']) OR ! isset($session['ip_address']) OR ! isset($session['user_agent']) OR ! isset($session['last_activity']))
 		{
 			$this->sess_destroy();
