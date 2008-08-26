@@ -3,18 +3,18 @@ body {
  padding: 0;
  font-family: Lucida Grande, Verdana, Geneva, Sans-serif;
  font-size: 14px;
- color: #4F5155;
+ color: #333;
  background-color: #fff;
 }
 
 a {
- color: #003399;
+ color: #0134c5;
  background-color: transparent;
  text-decoration: none;
  font-weight: normal;
 }
 a:visited {
- color: #003399;
+ color: #0134c5;
  background-color: transparent;
  text-decoration: none;
 }
@@ -42,13 +42,13 @@ a:hover {
  color: #666;
 }
 #nav {
- background-color: #5d5d5d;
+ background-color: #494949;
  margin: 0;
  padding: 0;
 }
 #nav2 {
- background: #fff url(images/nav_bg.jpg) repeat-x left top;
- padding: 0 240px 0 0;
+ background: #fff url(images/nav_bg_darker.jpg) repeat-x left top;
+ padding: 0 310px 0 0;
  margin: 0;
  text-align: right;
 }
@@ -68,7 +68,7 @@ a:hover {
 }
 
 #nav_inner .td_sep {
- background: transparent url(images/nav_separator.jpg) repeat-y left top;
+ background: transparent url(images/nav_separator_darker.jpg) repeat-y left top;
  width: 25%;
  padding: 0 0 0 20px;
 }
@@ -118,7 +118,7 @@ a:hover {
 
 #masthead h1 {
 background-color: transparent;
-color: #003399;
+color: #e13300;
 font-size: 18px;
 font-weight: normal;
 margin: 0;
@@ -146,34 +146,35 @@ padding: 0 0 6px 0;
 }
 
 #content p {
- margin: 10px 20px 12px 0;
+ margin: 12px 20px 12px 0;
 }
 
 #content h1 {
-color: #333;
-background-color: #efefef;
+color: #e13300;
+border-bottom: 1px solid #666;
+background-color: transparent;
 font-weight: normal;
-font-size: 22px;
-margin: 0 0 15px 0;
-padding: 3px 2px 3px 10px;
+font-size: 24px;
+margin: 0 0 20px 0;
+padding: 3px 0 7px 3px;
 }
 
 #content h2 {
  background-color: transparent;
- border-bottom: 1px solid #D0D0D0;
- color: #444;
- font-size: 16px;
+ border-bottom: 1px solid #999;
+ color: #000;
+ font-size: 18px;
  font-weight: bold;
- margin: 24px 0 2px 0;
+ margin: 28px 0 16px 0;
  padding: 5px 0 6px 0;
 }
 
 #content h3 {
  background-color: transparent;
  color: #333;
- font-size: 14px;
+ font-size: 16px;
  font-weight: bold;
- margin: 22px 0 12px 0;
+ margin: 16px 0 15px 0;
  padding: 0 0 0 0;
 }
 
@@ -249,13 +250,11 @@ padding: 3px 2px 3px 10px;
 
 #content ul {
  list-style-image: url(images/arrow.gif);
- padding: 0 0 0 18px;
- margin: 8px 0 12px 0;
+ margin: 10px 0 12px 0;
 }
 
 #content li {
- padding: 0;
- margin: 0 0 6px 0;
+ margin-bottom: 9px;
 }
 
 #content li p {
@@ -377,7 +376,7 @@ form {
  background-color: #f9f9f9;
  border: 1px solid #B3B4BD;
  width: 100%;
- padding: 0;
+ padding: 6px;
  margin: 0;
 }
 
