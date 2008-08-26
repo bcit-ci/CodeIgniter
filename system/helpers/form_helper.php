@@ -53,7 +53,7 @@ if ( ! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"';
 	
-		$form .= _attributes_to_string($attributes, TRUE);
+        $form .= _attributes_to_string($attributes, TRUE);
 	
 		$form .= '>';
 
@@ -139,7 +139,7 @@ if ( ! function_exists('form_input'))
 	{
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 	
@@ -214,17 +214,17 @@ if ( ! function_exists('form_textarea'))
 	{
 		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '90', 'rows' => '12');
 	
-		if ( ! is_array($data) OR ! isset($data['value']))
+	    if ( ! is_array($data) OR ! isset($data['value']))
 		{
 			$val = $value;
 		}
-		else
+	    else
 		{
 			$val = $data['value']; 
 			unset($data['value']); // textareas don't use the value attribute
 		}
 		
-		return "<textarea ".parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>";
+		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>";
 	}
 }
 	
@@ -247,6 +247,16 @@ if ( ! function_exists('form_dropdown'))
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
+		}
+		
+		// If no selected state was submitted we will attempt to set it automatically
+		if (count($selected) === 0)
+		{
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
 		}
 
 		if ($extra != '') $extra = ' '.$extra;
@@ -312,7 +322,7 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 	
@@ -359,7 +369,7 @@ if ( ! function_exists('form_submit'))
 	{
 		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 
@@ -380,7 +390,7 @@ if ( ! function_exists('form_reset'))
 	{
 		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input ".parse_form_attributes($data, $defaults).$extra." />";
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
 
@@ -407,7 +417,7 @@ if ( ! function_exists('form_button'))
 			unset($data['content']); // content is not an attribute
 		}
 		
-		return "<button ".parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
+		return "<button "._parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
 	}
 }
 
@@ -466,7 +476,7 @@ if ( ! function_exists('form_fieldset'))
 	{
 		$fieldset = "<fieldset";
 
-		$fieldset .= _attributes_to_string($attributes, FALSE);
+        $fieldset .= _attributes_to_string($attributes, FALSE);
 	
 		$fieldset .= ">\n";
 	
@@ -528,6 +538,17 @@ if ( ! function_exists('form_prep'))
 {
 	function form_prep($str = '')
 	{
+		// if the field name is an array we do this recursively
+		if (is_array($str))
+		{
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = form_prep($val);
+			}
+		
+			return $str;
+		}
+	
 		if ($str === '')
 		{
 			return '';
@@ -552,7 +573,256 @@ if ( ! function_exists('form_prep'))
 		return $str;	
 	}
 }
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Value
+ *
+ * Grabs a value from the POST array for the specified field so you can
+ * re-populate an input field or textarea.  If Form Validation
+ * is active it retrieves the info from the validation class
+ *
+ * @access	public
+ * @param	string
+ * @return	mixed
+ */	
+if ( ! function_exists('set_value'))
+{
+	function set_value($field = '', $default = '')
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				return $default;
+			}
+			
+			return $_POST[$field];
+		}
+		
+		return $OBJ->set_value($field, $default);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Set Select
+ *
+ * Let's you set the selected value of a <select> menu via data in the POST array.
+ * If Form Validation is active it retrieves the info from the validation class
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	string
+ */	
+if ( ! function_exists('set_select'))
+{
+	function set_select($field = '', $value = '', $default = FALSE)
+	{
+		$OBJ =& _get_validation_object();
+
+		if ($OBJ === FALSE)
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				if (count($_POST) === 0)
+				{
+					return ' selected="selected"';
+				}
+				return '';
+			}
 	
+			$field = $_POST[$field];
+			
+			if (is_array($field))
+			{
+				if ( ! in_array($value, $field, TRUE))
+				{
+					return '';
+				}
+			}
+			else
+			{
+				if (($field == '' OR $value == '') OR ($field != $value))
+				{
+					return '';
+				}
+			}
+				
+			return ' selected="selected"';
+		}
+		
+		return $OBJ->set_select($field, $value, $default);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Set Checkbox
+ *
+ * Let's you set the selected value of a checkbox via the value in the POST array.
+ * If Form Validation is active it retrieves the info from the validation class
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	string
+ */	
+if ( ! function_exists('set_checkbox'))
+{
+	function set_checkbox($field = '', $value = '', $default = FALSE)
+	{
+		$OBJ =& _get_validation_object();
+
+		if ($OBJ === FALSE)
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				if (count($_POST) === 0)
+				{
+					return ' checked="checked"';
+				}
+				return '';
+			}
+	
+			$field = $_POST[$field];
+			
+			if (is_array($field))
+			{
+				if ( ! in_array($value, $field, TRUE))
+				{
+					return '';
+				}
+			}
+			else
+			{
+				if (($field == '' OR $value == '') OR ($field != $value))
+				{
+					return '';
+				}
+			}
+				
+			return ' checked="checked"';
+		}
+		
+		return $OBJ->set_checkbox($field, $value, $default);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Set Radio
+ *
+ * Let's you set the selected value of a radio field via info in the POST array.
+ * If Form Validation is active it retrieves the info from the validation class
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	string
+ */	
+if ( ! function_exists('set_radio'))
+{
+	function set_radio($field = '', $value = '', $default = FALSE)
+	{
+		$OBJ =& _get_validation_object();
+
+		if ($OBJ === FALSE)
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				if (count($_POST) === 0)
+				{
+					return ' checked="checked"';
+				}
+				return '';
+			}
+	
+			$field = $_POST[$field];
+			
+			if (is_array($field))
+			{
+				if ( ! in_array($value, $field, TRUE))
+				{
+					return '';
+				}
+			}
+			else
+			{
+				if (($field == '' OR $value == '') OR ($field != $value))
+				{
+					return '';
+				}
+			}
+				
+			return ' checked="checked"';
+		}
+		
+		return $OBJ->set_radio($field, $value, $default);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Error
+ *
+ * Returns the error for a specific form field.  This is a helper for the
+ * form validation class.
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	string
+ * @return	string
+ */	
+if ( ! function_exists('form_error'))
+{
+	function form_error($field = '', $prefix = '', $suffix = '')
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			return '';
+		}
+		
+		return $OBJ->error($field, $prefix, $suffix);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Validation Error String
+ *
+ * Returns all the errors associated with a form submission.  This is a helper
+ * function for the form validation class.
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @return	string
+ */	
+if ( ! function_exists('validation_errors'))
+{
+	function validation_errors($prefix = '', $suffix = '')
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			return '';
+		}
+				
+		return $OBJ->error_string($prefix, $suffix);
+	}
+}
+
 // ------------------------------------------------------------------------
 
 /**
@@ -565,9 +835,9 @@ if ( ! function_exists('form_prep'))
  * @param	array
  * @return	string
  */	
-if ( ! function_exists('parse_form_attributes'))
+if ( ! function_exists('_parse_form_attributes'))
 {
-	function parse_form_attributes($attributes, $default)
+	function _parse_form_attributes($attributes, $default)
 	{
 		if (is_array($attributes))
 		{
@@ -623,8 +893,8 @@ if ( ! function_exists('_attributes_to_string'))
 		   {
 			  $attributes .= ' method="post"';
 		   }
-
-		   return ' '.$attributes;
+		   
+		   return ' '.$attributes;       
 	   }
 	
 	   if (is_object($attributes) AND count($attributes) > 0)
@@ -650,6 +920,43 @@ if ( ! function_exists('_attributes_to_string'))
 	   }
 	} 
 }
+
+// ------------------------------------------------------------------------
+
+/**
+ * Validation Object
+ *
+ * Determines what the form validation class was instantiated as, fetches
+ * the object and returns it.
+ *
+ * @access	private
+ * @return	mixed
+ */	
+if ( ! function_exists('_get_validation_object'))
+{	
+	function &_get_validation_object()
+	{
+		$CI =& get_instance();
+		
+		// We set this as a variable since we're returning by reference
+		$return = FALSE;
+		
+		if ( ! isset($CI->load->_ci_classes) OR  ! isset($CI->load->_ci_classes['form_validation']))
+		{
+			return $return;
+		}
+		
+		$object = $CI->load->_ci_classes['form_validation'];
+		
+		if ( ! isset($CI->$object) OR ! is_object($CI->$object))
+		{
+			return $return;
+		}
+		
+		return $CI->$object;
+	}
+}
+
 
 /* End of file form_helper.php */
 /* Location: ./system/helpers/form_helper.php */
