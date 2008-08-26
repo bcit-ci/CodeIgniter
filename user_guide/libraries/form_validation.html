@@ -79,6 +79,7 @@ have left the old class in the library so applications currently using it will n
 		<li><a href="#errordelimiters">Changing the Error Delimiters</a></li>
 		<li><a href="#individualerrors">Showing Errors Individually</a></li>
 		<li><a href="#savingtoconfig">Saving Sets of Validation Rules to a Config File</a></li>
+		<li><a href="#arraysasfields">Using Arrays as Field Names</a></li>
 	</ul>
 </li>
 <li><a href="#rulereference">Rule Reference</a></li>
@@ -830,9 +831,63 @@ class <kbd>Member</kbd> extends Controller {<br />
 
 <p><dfn>When a rule group is named identically to a controller class/function it will be used automatically when the run() function is invoked from that class/function.</dfn></p>
 
+<p>&nbsp;</p>
 
 
+<a name="arraysasfields"></a>
+<h1>Using Arrays as Field Names</h1>
 
+<p>The Form Validation class supports the use of arrays as field names.  Consider this example:</p>
+
+<code>&lt;input type="text" name="<kbd>options[]</kbd>" value="" size="50" /></code>
+
+<p>If you do use an array as a field name, you must use the EXACT array name in the <a href="#helperreference">Helper Functions</a> that require the field name,
+and as your Validation Rule field name.</p>
+
+<p>For example, to set a rule for the above field you would use:</p>
+
+<code>$this->form_validation->set_rules('<kbd>options[]</kbd>', 'Options', 'required');</code>
+
+<p>Or, to show an error for the above field you would use:</p>
+
+<code>&lt;?php echo form_error('<kbd>options[]</kbd>'); ?></code>
+
+<p>Or to re-populate the field you would use:</p>
+
+<code>&lt;input type="text" name="<kbd>options[]</kbd>" value="<kbd>&lt;?php echo set_value('<kbd>options[]</kbd>'); ?></kbd>" size="50" /></code>
+
+<p>You can use multidimensional arrays as field names as well. For example:</p>
+
+<code>&lt;input type="text" name="<kbd>options[size]</kbd>" value="" size="50" /></code>
+
+<p>Or even:</p>
+
+<code>&lt;input type="text" name="<kbd>sports[nba][basketball]</kbd>" value="" size="50" /></code>
+
+<p>As with our first example, you must use the exact array name in the helper functions:</p>
+
+<code>&lt;?php echo form_error('<kbd>sports[nba][basketball]</kbd>'); ?></code>
+
+<p>If you are using checkboxes (or other fields) that have multiple options, don't forget to leave an empty bracket after each option, so that all selections will be added to the
+POST array:</p>
+
+<code>
+&lt;input type="checkbox" name="<kbd>options[]</kbd>" value="red" /><br />
+&lt;input type="checkbox" name="<kbd>options[]</kbd>" value="blue" /><br />
+&lt;input type="checkbox" name="<kbd>options[]</kbd>" value="green" />
+</code>
+
+<p>Or if you use a multidimensional array:</p>
+
+<code>
+&lt;input type="checkbox" name="<kbd>options[color][]</kbd>" value="red" /><br />
+&lt;input type="checkbox" name="<kbd>options[color][]</kbd>" value="blue" /><br />
+&lt;input type="checkbox" name="<kbd>options[color][]</kbd>" value="green" />
+</code>
+
+<p>When you use a helper function you'll include the bracket as well:</p>
+
+<code>&lt;?php echo form_error('<kbd>options[color][]</kbd>'); ?></code>
 
 
 
@@ -1108,8 +1163,8 @@ each item, and the third (optional) parameter lets you set an item as the defaul
 <p>Permits you to display a checkbox in the state it was submitted.  The first parameter
 must contain the name of the checkbox, the second parameter must contain its value, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE). Example:</p>
 
-<code>&lt;input type="checkbox" name="mycheck" value="1" <dfn>&lt;?php echo set_checkbox('mycheck', '1'); ?></dfn> /><br />
-&lt;input type="checkbox" name="mycheck" value="2" <dfn>&lt;?php echo set_checkbox('mycheck', '2'); ?></dfn> /></code>
+<code>&lt;input type="checkbox" name="mycheck[]" value="1" <dfn>&lt;?php echo set_checkbox('mycheck[]', '1'); ?></dfn> /><br />
+&lt;input type="checkbox" name="mycheck[]" value="2" <dfn>&lt;?php echo set_checkbox('mycheck[]', '2'); ?></dfn> /></code>
 
 
 <h2>set_radio()</h2>
