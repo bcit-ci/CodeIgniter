@@ -39,7 +39,6 @@ class CI_Loader {
 	var $_ci_models			= array();
 	var $_ci_helpers		= array();
 	var $_ci_plugins		= array();
-	var $_ci_scripts		= array();
 	var $_ci_varmap			= array('unit_test' => 'unit', 'user_agent' => 'agent');
 	
 
@@ -74,7 +73,7 @@ class CI_Loader {
 	 * @return	void
 	 */	
 	function library($library = '', $params = NULL, $object_name = NULL)
-	{		
+	{
 		if ($library == '')
 		{
 			return FALSE;
@@ -107,6 +106,7 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate models.
 	 *
+	 * @access	public
 	 * @param	string	the name of the class
 	 * @param	string	name for the model
 	 * @param	bool	database connection
@@ -375,7 +375,7 @@ class CI_Loader {
 		foreach ($helpers as $helper)
 		{		
 			$helper = strtolower(str_replace(EXT, '', str_replace('_helper', '', $helper)).'_helper');
-		
+
 			if (isset($this->_ci_helpers[$helper]))
 			{
 				continue;
@@ -413,10 +413,8 @@ class CI_Loader {
 			}
 
 			$this->_ci_helpers[$helper] = TRUE;
-			
-		}
-		
-		log_message('debug', 'Helpers loaded: '.implode(', ', $helpers));
+			log_message('debug', 'Helper loaded: '.$helper);	
+		}		
 	}
 	
 	// --------------------------------------------------------------------
@@ -480,9 +478,8 @@ class CI_Loader {
 			}
 			
 			$this->_ci_plugins[$plugin] = TRUE;
-		}
-		
-		log_message('debug', 'Plugins loaded: '.implode(', ', $plugins));
+			log_message('debug', 'Plugin loaded: '.$plugin);
+		}		
 	}
 
 	// --------------------------------------------------------------------
@@ -500,48 +497,6 @@ class CI_Loader {
 	function plugins($plugins = array())
 	{
 		$this->plugin($plugins);
-	}
-
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Load Script
-	 *
-	 * This function loads the specified include file from the
-	 * application/scripts/ folder.
-	 *
-	 * NOTE:  This feature has been deprecated but it will remain available
-	 * for legacy users.
-	 *
-	 * @access	public
-	 * @param	array
-	 * @return	void
-	 */
-	function script($scripts = array())
-	{
-		if ( ! is_array($scripts))
-		{
-			$scripts = array($scripts);
-		}
-	
-		foreach ($scripts as $script)
-		{	
-			$script = strtolower(str_replace(EXT, '', $script));
-
-			if (isset($this->_ci_scripts[$script]))
-			{
-				continue;
-			}
-		
-			if ( ! file_exists(APPPATH.'scripts/'.$script.EXT))
-			{
-				show_error('Unable to load the requested script: scripts/'.$script.EXT);
-			}
-			
-			include_once(APPPATH.'scripts/'.$script.EXT);
-		}
-		
-		log_message('debug', 'Scripts loaded: '.implode(', ', $scripts));
 	}
 		
 	// --------------------------------------------------------------------
@@ -822,8 +777,8 @@ class CI_Loader {
 						{
 							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);			
 						}
-					}		
-				
+					}
+					
 					$is_duplicate = TRUE;
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
@@ -904,8 +859,6 @@ class CI_Loader {
 	 */
 	function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{	
-		$class = strtolower($class);
-		
 		// Is there an associated config file for this class?
 		if ($config === NULL)
 		{
@@ -916,16 +869,36 @@ class CI_Loader {
 		}
 		
 		if ($prefix == '')
-		{
-			$name = (class_exists('CI_'.$class)) ? 'CI_'.$class : $class;
+		{			
+			if (class_exists('CI_'.$class)) 
+			{
+				$name = 'CI_'.$class;
+			}
+			elseif (class_exists(config_item('subclass_prefix').$class)) 
+			{
+				$name = config_item('subclass_prefix').$class;
+			}
+			else
+			{
+				$name = $class;
+			}
 		}
 		else
 		{
 			$name = $prefix.$class;
 		}
 		
+		// Is the class name valid?
+		if ( ! class_exists($name))
+		{
+			log_message('error', "Non-existant class: ".$name);
+			show_error("Non-existant class: ".$class);
+		}
+		
 		// Set the variable name we will assign the class to
 		// Was a custom class name supplied?  If so we'll use it
+		$class = strtolower($class);
+		
 		if (is_null($object_name))
 		{
 			$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
@@ -989,8 +962,6 @@ class CI_Loader {
 				$this->$type($autoload[$type]);
 			}		
 		}
-
-
 
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
@@ -1101,7 +1072,7 @@ class CI_Loader {
 		global $CI;
 		return (is_object($CI)) ? TRUE : FALSE;
 	}
-	
+
 }
 
 /* End of file Loader.php */
