@@ -35,6 +35,7 @@ class CI_Loader {
 	var $_ci_is_instance 	= FALSE; // Whether we should use $this or $CI =& get_instance()
 	var $_ci_cached_vars	= array();
 	var $_ci_classes		= array();
+	var $_ci_loaded_files	= array();
 	var $_ci_models			= array();
 	var $_ci_helpers		= array();
 	var $_ci_plugins		= array();
@@ -809,7 +810,7 @@ class CI_Loader {
 				}
 
 				// Safety:  Was the class already loaded by a previous call?
-				if (in_array($subclass, $this->_ci_classes))
+				if (in_array($subclass, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied.  If so, we'll
@@ -830,7 +831,7 @@ class CI_Loader {
 	
 				include_once($baseclass);				
 				include_once($subclass);
-				$this->_ci_classes[] = $subclass;
+				$this->_ci_loaded_files[] = $subclass;
 	
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);			
 			}
@@ -849,7 +850,7 @@ class CI_Loader {
 				}
 				
 				// Safety:  Was the class already loaded by a previous call?
-				if (in_array($filepath, $this->_ci_classes))
+				if (in_array($filepath, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied.  If so, we'll
@@ -869,7 +870,7 @@ class CI_Loader {
 				}
 				
 				include_once($filepath);
-				$this->_ci_classes[] = $filepath;
+				$this->_ci_loaded_files[] = $filepath;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
 		} // END FOREACH
@@ -933,7 +934,10 @@ class CI_Loader {
 		{
 			$classvar = $object_name;
 		}
-				
+
+		// Save the class name and object name		
+		$this->_ci_classes[$class] = $object_name;
+
 		// Instantiate the class		
 		$CI =& get_instance();
 		if ($config !== NULL)
