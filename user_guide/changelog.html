@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.6.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.7</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -57,7 +57,7 @@ Change Log
 
 <h1>Change Log</h1>
 
-<h2>Version 1.6.4</h2>
+<h2>Version 1.7</h2>
 
 <p>Release Date: In development<br />
 SVN Revision: XXXX</p>
@@ -65,15 +65,16 @@ SVN Revision: XXXX</p>
 <ul>
 	<li>Libraries
 		<ul>
+			<li>Added a new <a href="libraries/form_validation.html">Form Validation Class</a>.  It simplifies setting rules and field names, supports arrays as field names, allows groups of validation rules to be saved in a config file, and adds some helper functions for use in view files.  <strong>Please note that the old Validation class is now deprecated</strong>. We will leave it in the library folder for some time so that existing applications that use it will not break, but you are encouraged to migrate to the new version.</li>
 			<li>Updated the <a href="libraries/sessions.html">Sessions class</a> so that any custom data being saved gets stored to a database rather than the session cookie (assuming you are using a database to store session data), permitting much more data to be saved.</li>
 			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>
 			<li>Added the ability to assign library objects to your own variable names when you use <kbd>this->load->library()</kbd>. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>			
 			<li>Changed the output of the profiler to use style attribute rather then clear, and added the id "codeigniter_profiler" to the container div</li>
-			<li>Added <kbd>is_natural()</kbd> and <kbd>is_natural_no_zero()</kbd> to the <a href="libraries/validation.html">Validation class</a>.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
+			<li>Added several new "setting" functions to the <a href="helpers/form_helper.html">Form helper</a> that allow POST data to be retrieved and set into forms.  These are intended to be used on their own, or with the new <a href="libraries/form_validation.html">Form Validation Class</a>.</li>
 			<li>Added current_url() and uri_segments() to  <a href="helpers/url_helper.html">URL helper</a>.</li>
 			<li>Improved accuracy of calculations in <a href="helpers/number_helper.html">Number helper</a>.</li>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>

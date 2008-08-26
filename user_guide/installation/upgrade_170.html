@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Web Page Caching : CodeIgniter User Guide</title>
+<title>Upgrading from 1.6.3 to 1.6.4 : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Page Caching
+Upgrading from 1.6.3 to 1.7.0
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,46 +55,52 @@ Page Caching
 <!-- START CONTENT -->
 <div id="content">
 
+<h1>Upgrading from 1.6.3 to 1.7.0 - In Development!</h1>
 
-<h1>Web Page Caching</h1>
-
-<p>CodeIgniter lets you cache your pages in order to achieve maximum performance.</p>
-
-<p>Although CodeIgniter is quite fast, the amount of dynamic information you display in your pages will correlate directly to the
-server resources, memory, and processing cycles utilized, which affect your page load speeds.
-By caching your pages, since they are saved in their fully rendered state, you can achieve performance that nears that of static web pages.</p>
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
 
 
-<h2>How Does Caching Work?</h2>
 
-<p>Caching can be enabled on a per-page basis, and you can set the length of time that a page should remain cached before being refreshed.
-When a page is loaded for the first time, the cache file will be written to your <dfn>system/cache</dfn> folder.  On subsequent page loads the cache file will be retrieved
-and sent to the requesting user's browser.  If it has expired, it will be deleted and refreshed before being sent to the browser.</p>
+<h2>Step 1: Update your CodeIgniter files</h2>
 
-<p>Note: The Benchmark tag is not cached so you can still view your page load speed when caching is enabled.</p>
+<p>Replace these files and directories in your "system" folder with the new versions:</p>
 
-<h2>Enabling Caching</h2>
+<ul>
 
-<p>To enable caching, put the following tag in any of your controller functions:</p>
+<li><dfn>system/codeigniter</dfn></li>
+<li><dfn>system/database</dfn></li>
+<li><dfn>system/helpers</dfn></li>
+<li><dfn>system/language</dfn></li>
+<li><dfn>system/libraries</dfn></li>
+</ul>
 
-<code>$this->output->cache(<var>n</var>);</code>
-
-<p>Where <var>n</var> is the number of <strong>minutes</strong> you wish the page to remain cached between refreshes.</p>
-
-<p>The above tag can go anywhere within a function. It is not affected by the order that it appears, so place it wherever it seems
-most logical to you. Once the tag is in place, your pages will begin being cached.</p>
-
-<p class="important"><strong>Warning:</strong> Because of the way CodeIgniter stores content for output, caching will only work if you are generating display for your controller with a <a href="./views.html">view</a>.</p>
-<p class="important"><strong>Note:</strong> Before the cache files can be written you must set the file permissions on your
-<dfn>system/cache</dfn> folder such that it is writable.</p>
-
-<h2>Deleting Caches</h2>
-
-<p>If you no longer wish to cache a file you can remove the caching tag and it will no longer be refreshed when it expires.  Note:
-Removing the tag will not delete the cache immediately.  It will have to expire normally.  If you need to remove it earlier you
-will need to manually delete it from your cache folder.</p>
+<p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
 
+<h2>Step 2: Update your Session Table</h2>
+
+<p>If you are using the Session class in your application, AND if you are storing session data to a database, you must add a new column named <dfn>user_data</dfn> to your session table. 
+Here is an example of what this column might look like for MySQL:
+
+<code>user_data text NOT NULL</code>
+
+<p>To add this column you will run a query similar to this:</p>
+
+<code>ALTER TABLE `ci_sessions` ADD `user_data` text NOT NULL</code>
+
+<p>You'll find more information regarding the new Session functionality in the  <a href="../libraries/sessions.html">Session class</a> page.</p>
+
+
+<h2>Step 3: Update your Validation Syntax</h2>
+
+<p>This is an <strong>optional</strong>, but recommended step, for people currently using the Validation class.  CI 1.7 introduces a new  <a href="../libraries/form_validation.html">Form Validation class</a>, which 
+deprecates the old Validation library.  We have left the old one in place so that existing applications that use it will not break, but you are encouraged to
+migrate to the new version as soon as possible.  Please read the user guide carefully as the new library works a little differently, and has several new features.</p>
+
+
+
+<h2>Step 4: Update your user guide</h2>
+<p>Please replace your local copy of the user guide with the new version, including the image files.</p>
 
 </div>
 <!-- END CONTENT -->
@@ -102,11 +108,11 @@ will need to manually delete it from your cache folder.</p>
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="errors.html">Error Handling</a>
+Previous Topic:&nbsp;&nbsp;<a href="index.html">Installation Instructions</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="profiling.html">Profiling Your Application</a>
+Next Topic:&nbsp;&nbsp;<a href="troubleshooting.html">Troubleshooting</a>
 </p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>

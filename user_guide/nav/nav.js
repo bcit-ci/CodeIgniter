@@ -76,6 +76,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/email.html">Email Class</a></li>' +
 		'<li><a href="'+base+'libraries/encryption.html">Encryption Class</a></li>' +
 		'<li><a href="'+base+'libraries/file_uploading.html">File Uploading Class</a></li>' +
+		'<li><a href="'+base+'libraries/form_validation.html">Form Validation Class</a></li>' +
 		'<li><a href="'+base+'libraries/ftp.html">FTP Class</a></li>' +
 		'<li><a href="'+base+'libraries/table.html">HTML Table Class</a></li>' +
 		'<li><a href="'+base+'libraries/image_lib.html">Image Manipulation Class</a></li>' +		
@@ -90,7 +91,6 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/unit_testing.html">Unit Testing Class</a></li>' +
 		'<li><a href="'+base+'libraries/uri.html">URI Class</a></li>' +
 		'<li><a href="'+base+'libraries/user_agent.html">User Agent Class</a></li>' +
-		'<li><a href="'+base+'libraries/validation.html">Validation Class</a></li>' +
 		'<li><a href="'+base+'libraries/xmlrpc.html">XML-RPC Class</a></li>' +
 		'<li><a href="'+base+'libraries/zip.html">Zip Encoding Class</a></li>' +
 		'</ul>' +
