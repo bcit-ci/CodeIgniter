@@ -89,7 +89,7 @@ class CI_Loader {
 		{
 			foreach ($library as $class)
 			{
-				$this->_ci_load_class($class, $params);
+				$this->_ci_load_class($class, $params, $object_name);
 			}
 		}
 		else
