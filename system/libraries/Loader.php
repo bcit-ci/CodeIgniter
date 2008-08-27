@@ -909,7 +909,7 @@ class CI_Loader {
 		}
 
 		// Save the class name and object name		
-		$this->_ci_classes[$class] = $object_name;
+		$this->_ci_classes[$class] = $classvar;
 
 		// Instantiate the class		
 		$CI =& get_instance();
