@@ -98,7 +98,7 @@ can escape only string data.  It also automatically adds single quotes around th
 <code>$sql = "INSERT INTO table (title) VALUES(".$this->db->escape($title).")";</code></li>
 
 <li><strong>$this->db->escape_str()</strong>  This function escapes the data passed to it, regardless of type.
-Most of the time you'll use the above function rather then this one. Use the function like this:
+Most of the time you'll use the above function rather than this one. Use the function like this:
 
 <code>$sql = "INSERT INTO table (title) VALUES('".$this->db->escape_str($title)."')";</code></li>
 </ol>
