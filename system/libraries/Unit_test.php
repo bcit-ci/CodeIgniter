@@ -150,7 +150,7 @@ class CI_Unit_test {
 	/**
 	 * Use strict comparison
 	 *
-	 * Causes the evaluation to use === rather then ==
+	 * Causes the evaluation to use === rather than ==
 	 *
 	 * @access	public
 	 * @param	bool
