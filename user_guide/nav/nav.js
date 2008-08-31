@@ -35,6 +35,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'overview/mvc.html">Model-View-Controller</a></li>' +
 			'<li><a href="'+base+'overview/goals.html">Architectural Goals</a></li>' +
 		'</ul>' +	
+
 				
 		'</td><td class="td_sep" valign="top">' +
 
@@ -62,6 +63,8 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/managing_apps.html">Managing Applications</a></li>' +
 			'<li><a href="'+base+'general/alternative_php.html">Alternative PHP Syntax</a></li>' +
 			'<li><a href="'+base+'general/security.html">Security</a></li>' +
+			'<li><a href="'+base+'general/styleguide.html">PHP Style Guide</a></li>' +
+			'<li><a href="'+base+'doc_style/index.html">Writing Documentation</a></li>' +
 		'</ul>' +
 		
 		'</td><td class="td_sep" valign="top">' +
@@ -128,7 +131,6 @@ function create_menu(basepath)
 		'<li><a href="'+base+'general/quick_reference.html">Quick Reference Chart</a></li>' +
 		'<li><a href="http://codeigniter.com/forums/">Community Forums</a></li>' +
 		'<li><a href="http://codeigniter.com/wiki/">Community Wiki</a></li>' +
-		'<li><a href="'+base+'doc_style/index.html">Writing Documentation</a></li>' +
 		'</ul>' +	
 		
 		'</td></tr></table>');
