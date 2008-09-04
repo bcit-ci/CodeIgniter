@@ -489,14 +489,14 @@ class CI_Input {
 	 * XSS Clean
 	 *
 	 * Sanitizes data so that Cross Site Scripting Hacks can be
-	 * prevented.  This function does a fair amount of work but
+	 * prevented.  This function does a fair amount of work but
 	 * it is extremely thorough, designed to prevent even the
-	 * most obscure XSS attempts.  Nothing is ever 100% foolproof,
+	 * most obscure XSS attempts.  Nothing is ever 100% foolproof,
 	 * of course, but I haven't been able to get anything passed
 	 * the filter.
 	 *
 	 * Note: This function should only be used to deal with data
-	 * upon submission.  It's not something that should
+	 * upon submission.  It's not something that should
 	 * be used for general runtime processing.
 	 *
 	 * This function was based in part on some code and ideas I
