@@ -699,7 +699,7 @@ $query = $this->db->get();</code>
 
 <h1><a name="caching">&nbsp;</a>Active Record Caching</h1>
 <p>While not &quot;true&quot; caching, Active Record enables you to save (or &quot;cache&quot;) certain parts of your queries for reuse later. Normally, when an Active Record call is completed, all stored information is reset for the next call. With caching, you can prevent this reset, and reuse information easily.</p>
-<p>Cached calls are cumulative.  If you make 2 cached select() calls, and then 2 uncached select() calls, this will result in 4 select() calls. There are three Caching functions available:</p>
+<p>Cached calls are cumulative. If you make 2 cached select() calls, and then 2 uncached select() calls, this will result in 4 select() calls. There are three Caching functions available:</p>
 <h2>$this-&gt;db-&gt;start_cache()</h2>
 <p>This function must be called to begin caching. All Active Record queries of the correct type (see below for supported queries) are stored for later use.</p>
 <h2>$this-&gt;db-&gt;stop_cache()</h2>
