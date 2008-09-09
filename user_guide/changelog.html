@@ -68,7 +68,7 @@ SVN Revision: XXXX</p>
 			<li>Added a new <a href="libraries/form_validation.html">Form Validation Class</a>.  It simplifies setting rules and field names, supports arrays as field names, allows groups of validation rules to be saved in a config file, and adds some helper functions for use in view files.  <strong>Please note that the old Validation class is now deprecated</strong>. We will leave it in the library folder for some time so that existing applications that use it will not break, but you are encouraged to migrate to the new version.</li>
 			<li>Updated the <a href="libraries/sessions.html">Sessions class</a> so that any custom data being saved gets stored to a database rather than the session cookie (assuming you are using a database to store session data), permitting much more data to be saved.</li>
 			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>
-			<li>Added the ability to assign library objects to your own variable names when you use <kbd>this->load->library()</kbd>. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>			
+			<li>Added the ability to assign library objects to your own variable names when you use <kbd>$this->load->library()</kbd>. Please see the <a href="libraries/loader.html">Loader class</a> for more info. </li>			
 			<li>Changed the output of the profiler to use style attribute rather than clear, and added the id "codeigniter_profiler" to the container div</li>
 		</ul>
 	</li>
