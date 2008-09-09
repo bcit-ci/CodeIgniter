@@ -96,8 +96,8 @@ class CI_Form_validation {
 			return;
 		}
 		
-		// No rules or fields? Nothing to do...
-		if ( ! is_string($field) OR  ! is_string($rules) OR $field == '' OR $rules == '')
+		// No fields? Nothing to do...
+		if ( ! is_string($field) OR  ! is_string($rules) OR $field == '')
 		{
 			return;
 		}
@@ -197,7 +197,7 @@ class CI_Form_validation {
 	 */	
 	function error($field = '', $prefix = '', $suffix = '')
 	{	
-		if ( ! isset($this->_field_data[$field]['error']))
+		if ( ! isset($this->_field_data[$field]['error']) OR $this->_field_data[$field]['error'] == '')
 		{
 			return '';
 		}
@@ -249,7 +249,10 @@ class CI_Form_validation {
 		$str = '';
 		foreach ($this->_error_array as $val)
 		{
-			$str .= $prefix.$val.$suffix."\n";
+			if ($val != '')
+			{
+				$str .= $prefix.$val.$suffix."\n";
+			}
 		}
 		
 		return $str;
