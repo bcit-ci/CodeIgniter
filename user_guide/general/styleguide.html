@@ -80,7 +80,6 @@ Security
 	<li><a href="#debugging_code">Debugging Code</a></li>
 	<li><a href="#whitespace_in_files">Whitespace in Files</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#use_of_sess_cache">Use of $SESS->cache</a></li>
 	<li><a href="#class_and_file_names_using_common_words">Class and File Names using Common Words</a></li>
 	<li><a href="#database_table_names">Database Table Names</a></li>
 	<li><a href="#one_file_per_class">One File per Class</a></li>
@@ -348,41 +347,7 @@ function build_string($str = "")
 		<div class="guidelineDetails">
 			<p>Unless specifically mentioned in your add-on's documentation, all code must be compatible with PHP version 4.3+.  Additionally, do not use PHP functions that require non-default libraries to be installed unless your code contains an alternative method when the function is not available, or you implicitly document that your add-on requires said PHP libraries.</p>
 		</div>
-	
-	
-		<h2><a name="use_of_sess_cache"></a>Use of $SESS->cache</h2>
-		<div class="guidelineDetails">
-			<p>$SESS->cache is an array provided for you to use for "flash" content, i.e. values that you would like to persist during a page load, helping you eliminate redundant queries and PHP processing.  To avoid conflicts with other first and third-party use of this array, always access it as a multi-dimensional array, using your class name as the primary array name, and your variables within.  Naming conventions should follow that of other variables: lowercase letters, underscores for separators between words, and meaningful names.</p>
-
-<code><strong>INCORRECT</strong>:
-$SESS->cache['admins']
-$SESS->cache['Super_class']['admins']
-
-<strong>CORRECT</strong>:
-$SESS->cache['super_class']['admins']</code>
-
-			<p>Here is an example of how one might utilize the $SESS->cache array.  This way, no matter how many times this method is called on a given page load (for instance, a tag being used twice on a template, or within a tag that might loop, such as a plugin within the Weblog entries tag), the query and loading of the array occurs only once.</p>
-
-<code>if ( ! isset($SESS->cache['super_class']['admins']))
-{
-	$query = $DB->query("SELECT member_id FROM exp_super_class_admins");
-
-	if ($query->num_rows > 0)
-	{
-		foreach ($query->result as $row)
-		{
-			$SESS->cache['super_class']['admins'][] = $row['member_id'];
-		}
-	}	
-}
-
-// set a local variable from the cached global so it's easy to use in the code
-$admins = $SESS->cache['super_class']['admins'];
-</code>
-		<p>You can see an example of real-world usage of $SESS->cache in the Weblog module's <samp>fetch_custom_weblog_fields()</samp> and <samp>next_prev_entry()</samp> methods, and the IP to Nation module's <samp>get_country()</samp> method.</p>
 		
-		</div>
-	
 
 	
 		<h2><a name="class_and_file_names_using_common_words"></a>Class and File Names using Common Words</h2>
@@ -506,7 +471,7 @@ for ($i = 0; $i &lt; 10; $i++)
 $arr[ $foo ] = 'foo';
 
 CORRECT:
-$arr[$foo] = 'foo';		// no spaces around array keys
+$arr[$foo] = 'foo'; // no spaces around array keys
 
 
 INCORRECT:
@@ -516,17 +481,17 @@ function foo ( $bar )
 }
 
 CORRECT:
-function foo($bar)		// no spaces around parenthesis in function declarations
+function foo($bar) // no spaces around parenthesis in function declarations
 {
 	
 }
 
 
 INCORRECT:
-foreach( $query->result as $row )
+foreach( $query->result() as $row )
 
 CORRECT:
-foreach ($query->result as $row)	// single space following PHP control structures, but not in interior parenthesis
+foreach ($query->result() as $row) // single space following PHP control structures, but not in interior parenthesis
 </code>
 		</div>
 	
@@ -632,16 +597,16 @@ $bat = str_replace($foo, $bar, $bag);
 <code><strong>INCORRECT</strong>:
 // keywords are lowercase and query is too long for
 // a single line (... indicates continuation of line)
-$query = $DB->query("select foo, bar, baz, foofoo, foobar as raboof, foobaz from exp_pre_email_addresses
+$query = $this->db->query("select foo, bar, baz, foofoo, foobar as raboof, foobaz from exp_pre_email_addresses
 ...where foo != 'oof' and baz != 'zab' order by foobaz limit 5, 100");
 
 <strong>CORRECT</strong>:
-$query = $DB->query("SELECT foo, bar, baz, foofoo, foobar AS raboof, foobaz
-			FROM exp_pre_email_addresses
-			WHERE foo != 'oof'
-			AND baz != 'zab'
-			ORDER BY foobaz
-			LIMIT 5, 100");</code>
+$query = $this->db->query("SELECT foo, bar, baz, foofoo, foobar AS raboof, foobaz
+				FROM exp_pre_email_addresses
+				WHERE foo != 'oof'
+				AND baz != 'zab'
+				ORDER BY foobaz
+				LIMIT 5, 100");</code>
 		</div>
 	
 
