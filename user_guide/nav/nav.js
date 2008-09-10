@@ -29,6 +29,7 @@ function create_menu(basepath)
 		
 		'<h3>Introduction</h3>' +
 		'<ul>' +
+			'<li><a href="'+base+'overview/getting_started.html">Getting Started</a></li>' +
 			'<li><a href="'+base+'overview/at_a_glance.html">CodeIgniter at a Glance</a></li>' +
 			'<li><a href="'+base+'overview/features.html">Supported Features</a></li>' +
 			'<li><a href="'+base+'overview/appflow.html">Application Flow Chart</a></li>' +
@@ -41,10 +42,9 @@ function create_menu(basepath)
 
 		'<h3>General Topics</h3>' +
 		'<ul>' +
-			'<li><a href="'+base+'general/index.html">Getting Started</a></li>' +
 			'<li><a href="'+base+'general/urls.html">CodeIgniter URLs</a></li>' +
-			'<li><a href="'+base+'general/reserved_names.html">Reserved Names</a></li>' +
 			'<li><a href="'+base+'general/controllers.html">Controllers</a></li>' +
+			'<li><a href="'+base+'general/reserved_names.html">Reserved Names</a></li>' +
 			'<li><a href="'+base+'general/views.html">Views</a></li>' +
 			'<li><a href="'+base+'general/models.html">Models</a></li>' +
 			'<li><a href="'+base+'general/helpers.html">Helpers</a></li>' +
