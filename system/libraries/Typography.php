@@ -35,6 +35,8 @@ class CI_Typography {
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
 
+	// Whether to allow Javascript event handlers to be sumitted inside tags
+	var $allow_js_event_handlers = FALSE;
 
 	/**
 	 * Main Processing Function
@@ -66,6 +68,17 @@ class CI_Typography {
 		$str = preg_replace("/\n\n+/", "\n\n", $str);
 
 		/*
+		 * Do we allow JavaScript event handlers?
+		 *
+		 * If not, we strip them from within all tags
+		 */
+		if ($this->allow_js_event_handlers == FALSE)
+		{
+			$event_handlers = array('[^a-z_\-]on\w*','xmlns');
+			$str = preg_replace("#<([^><]+?)(".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
+ 		}       
+
+		/*
 		 * Convert quotes within tags to temporary marker
 		 *
 		 * We don't want quotes converted within
@@ -82,9 +95,8 @@ class CI_Typography {
 									$str);
 			}
 		}
-	
 
-		/*
+        /*
 		 * Add closing/opening paragraph tags before/after "block" elements
 		 *
 		 * Since block elements (like <blockquotes>, <pre>, etc.) do not get
@@ -187,7 +199,7 @@ class CI_Typography {
 
 		// If the user submitted their own paragraph tags with class data
 		// in them we will retain them instead of using our tags.
-		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);
+		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);  // <?php BBEdit syntax coloring fix
 
 		// Final clean up
 		$str = str_replace(
@@ -474,7 +486,22 @@ class CI_Typography {
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 		
 		return '<p>'.$str.'</p>';
-	}	
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Allow JavaScript Event Handlers?
+	 *
+	 * For security reasons, by default we disallow JS event handlers
+	 *
+	 */	
+	function allow_js_event_handlers($val = FALSE)
+	{
+		$this->allow_js_event_handlers = ($val === FALSE) ? FALSE : TRUE;
+	}
+	
+	
 }
 // END Typography Class
 
