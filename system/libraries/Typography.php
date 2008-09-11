@@ -30,7 +30,7 @@ class CI_Typography {
 	var $block_elements = 'p|div|blockquote|pre|code|h\d|script|ol|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'pre|ol|ul|p';
+	var $skip_elements	= 'p|pre|ol|ul';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
@@ -102,21 +102,22 @@ class CI_Typography {
 		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text	
 		$str = '';
 		$process = TRUE;
+		$paragraph = FALSE;
 		foreach ($chunks as $chunk)
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
 			{
-				if (preg_match("#".$this->skip_elements."#", $match['2']))
+				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
-					$process =  ($match['1'] == '/') ? TRUE : FALSE;		
+					$process =  ($match[1] == '/') ? TRUE : FALSE;					
 				}
-		
+				
 				$str .= $chunk;
 				continue;
 			}
-		
+				
 			if ($process == FALSE)
 			{
 				$str .= $chunk;
@@ -129,7 +130,7 @@ class CI_Typography {
 
 		// Convert Quotes, elipsis, and em-dashes
 		$str = $this->format_characters($str);
-		
+
 		// Do we need to reduce empty lines?
 		if ($this->reduce_empty_lines == TRUE)
 		{
@@ -231,7 +232,7 @@ class CI_Typography {
 		{
 			return $str;
 		}
-		
+
 		$str = str_replace("\n\n", "</p>\n\n<p>", $str);		
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 		
