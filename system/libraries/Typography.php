@@ -235,231 +235,49 @@ class CI_Typography {
 	 * Format Characters
 	 *
 	 * This function mainly converts double and single quotes
-	 * to entities, but since these are directional, it does
-	 * it based on some rules.  It also converts em-dashes
-	 * and a couple other things.
+	 * to curly entities, but it also converts em-dashes,
+	 * double spaces, and ampersands
 	 */
 	function format_characters($str)
-	{	
-		$table = array(
-						' "'		=> " &#8220;",
-						'" '		=> "&#8221; ",
-						" '"		=> " &#8216;",
-						"' "		=> "&#8217; ",
-						
-						'>"'		=> ">&#8220;",
-						'"<'		=> "&#8221;<",
-						">'"		=> ">&#8216;",
-						"'<"		=> "&#8217;<",
+	{
+		static $table;
+		
+		if ( ! isset($table))
+		{
+	        $table = array(					
+							// nested smart quotes, opening and closing
+							// note that rules for grammar (English) allow only for two levels deep
+							// and that single quotes are _supposed_ to always be on the outside
+							// but we'll accommodate both
+							'/(^|\W|\s)\'"/'				=> '$1&#8216;&#8220;',
+							'/\'"(\s|\W|$)/'				=> '&#8217;&#8221;$1',
+							'/(^|\W|\s)"\'/'				=> '$1&#8220;&#8216;',
+							'/"\'(\s|\W|$)/'				=> '&#8221;&#8217;$1',
 
-						"\"."		=> "&#8221;.",
-						"\","		=> "&#8221;,",
-						"\";"		=> "&#8221;;",
-						"\":"		=> "&#8221;:",
-						"\"!"		=> "&#8221;!",
-						"\"?"		=> "&#8221;?",
-						
-						".  "		=> ".&nbsp; ",
-						"?  "		=> "?&nbsp; ",
-						"!  "		=> "!&nbsp; ",
-						":  "		=> ":&nbsp; ",
-					);
+							// single quote smart quotes
+							'/\'(\s|\W|$)/'					=> '&#8217;$1',
+							'/(^|\W|\s)\'/'					=> '$1&#8216;',
 
-		// These deal with quotes within quotes, like:  "'hi here'"
-		$start = 0;
-		$space = array("\n", "\t", " ");
-		
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), "\"'");
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+2, 1);
-			
-			if ( ! in_array($one_after, $space, TRUE) && $one_after != "<")
-			{
-				$str = str_replace(	$one_before."\"'".$one_after,
-									$one_before."&#8220;&#8216;".$one_after,
-									$str);
-			}
-			elseif ( ! in_array($one_before, $space, TRUE) && (in_array($one_after, $space, TRUE) OR $one_after == '<'))
-			{
-				$str = str_replace(	$one_before."\"'".$one_after,
-									$one_before."&#8221;&#8217;".$one_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
-		
-		$start = 0;
-		
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), "'\"");
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+2, 1);
-			
-			if ( in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE) && $one_after != "<")
-			{
-				$str = str_replace(	$one_before."'\"".$one_after,
-									$one_before."&#8216;&#8220;".$one_after,
-									$str);
-			}
-			elseif ( ! in_array($one_before, $space, TRUE) && $one_before != ">")
-			{
-				$str = str_replace(	$one_before."'\"".$one_after,
-									$one_before."&#8217;&#8221;".$one_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
-		
-		// Are there quotes within a word, as in:  ("something")
-		if (preg_match_all("/(.)\"(\S+?)\"(.)/", $str, $matches))
-		{
-			for ($i=0, $s=sizeof($matches['0']); $i < $s; ++$i)
-			{
-				if ( ! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
-				{
-					$str = str_replace(	$matches['0'][$i],
-										$matches['1'][$i]."&#8220;".$matches['2'][$i]."&#8221;".$matches['3'][$i],
-										$str);
-				}
-			}
-		}
-		
-		if (preg_match_all("/(.)\'(\S+?)\'(.)/", $str, $matches))
-		{
-			for ($i=0, $s=sizeof($matches['0']); $i < $s; ++$i)
-			{
-				if ( ! in_array($matches['1'][$i], $space, TRUE) && ! in_array($matches['3'][$i], $space, TRUE))
-				{
-					$str = str_replace(	$matches['0'][$i],
-										$matches['1'][$i]."&#8216;".$matches['2'][$i]."&#8217;".$matches['3'][$i],
-										$str);
-				}
-			}
-		}
-		
-		// How about one apostrophe, as in Rick's
-		$start = 0;
-		
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), "'");
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+1, 1);
-			
-			if ( ! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
-			{
-				$str = str_replace(	$one_before."'".$one_after,
-									$one_before."&#8217;".$one_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
+							// double quote smart quotes
+							'/"(\s|\W|$)/'					=> '&#8221;$1',
+							'/(^|\W|\s)"/'					=> '$1&#8220;',
 
-		// Em-dashes
-		$start = 0;
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), "--");
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+2, 1);
-			$two_before = substr($str, $start+$current-2, 1);
-			$two_after = substr($str, $start+$current+3, 1);
-			
-			if (( ! in_array($one_before, $space, TRUE) && ! in_array($one_after, $space, TRUE))
-				OR
-				( ! in_array($two_before, $space, TRUE) && ! in_array($two_after, $space, TRUE) && $one_before == ' ' && $one_after == ' ')
-				)
-			{
-				$str = str_replace(	$two_before.$one_before."--".$one_after.$two_after,
-									$two_before.trim($one_before)."&#8212;".trim($one_after).$two_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
-		
-		// Ellipsis
-		$str = preg_replace("#(\w)\.\.\.(\s|<br />|</p>)#", "\\1&#8230;\\2", $str);
-		$str = preg_replace("#(\s|<br />|</p>)\.\.\.(\w)#", "\\1&#8230;\\2", $str);
-		
-		// Run the translation array we defined above		
-		$str = str_replace(array_keys($table), array_values($table), $str);
-		
-		// If there are any stray double quotes we'll catch them here
-		
-		$start = 0;
-		
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), '"');
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+1, 1);
-			
-			if ( ! in_array($one_after, $space, TRUE))
-			{
-				$str = str_replace(	$one_before.'"'.$one_after,
-									$one_before."&#8220;".$one_after,
-									$str);
-			}
-			elseif( ! in_array($one_before, $space, TRUE))
-			{
-				$str = str_replace(	$one_before."'".$one_after,
-									$one_before."&#8221;".$one_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
-		
-		$start = 0;
-		
-		while(TRUE)
-		{
-			$current = strpos(substr($str, $start), "'");
-			
-			if ($current === FALSE) break;
-			
-			$one_before = substr($str, $start+$current-1, 1);
-			$one_after = substr($str, $start+$current+1, 1);
-			
-			if ( ! in_array($one_after, $space, TRUE))
-			{
-				$str = str_replace(	$one_before."'".$one_after,
-									$one_before."&#8216;".$one_after,
-									$str);
-			}
-			elseif( ! in_array($one_before, $space, TRUE))
-			{
-				$str = str_replace(	$one_before."'".$one_after,
-									$one_before."&#8217;".$one_after,
-									$str);
-			}
-			
-			$start = $start+$current+2;
-		}
-		
-		return $str;
+							// apostrophes
+							"/(\w)'(\w)/"       	    	=> '$1&#8217;$2',
+
+							// Em dash and ellipses dots
+							'/\s?\-\-\s?/'					=> '&#8212;',
+							'/\w\.{3}/'						=> '&#8230;',
+
+							// double space after sentences
+							'/(\W)\s{2}/'					=> '$1&nbsp; ',
+
+							// ampersands, if not a character entity
+							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
+	        			);			
+		}	
+
+		return preg_replace(array_keys($table), $table, $str);
 	}
 	
 	// --------------------------------------------------------------------
