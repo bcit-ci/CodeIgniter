@@ -74,8 +74,7 @@ class CI_Typography {
 		 */
 		if ($this->allow_js_event_handlers == FALSE)
 		{
-			$event_handlers = array('[^a-z_\-]on\w*','xmlns');
-			$str = preg_replace("#<([^><]+?)(".implode('|', $event_handlers).")(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
+			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
  		}       
 
 		/*
