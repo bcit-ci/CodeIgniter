@@ -27,16 +27,19 @@
 class CI_Typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'div|blockquote|pre|code|h\d|script|ol|ul';
+	var $block_elements = 'p|div|blockquote|pre|code|h\d|script|ol|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'pre|ol|ul';
+	var $skip_elements	= 'pre|ol|ul|p';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
 
 	// Whether to allow Javascript event handlers to be sumitted inside tags
 	var $allow_js_event_handlers = FALSE;
+
+	// Whether to reduce more than two consecutive empty lines to a maximum of two
+	var $reduce_empty_lines	= FALSE;
 
 	/**
 	 * Main Processing Function
@@ -49,42 +52,27 @@ class CI_Typography {
 			return '';
 		}
 		
-		$str = ' '.$str.' ';
-		
 		// Standardize Newlines to make matching easier
 		if (strpos($str, "\r") !== FALSE)
 		{
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);			
 		}
+			
+		// Reduce line breaks.  If there are more than two consecutive linebreaks
+		// we'll compress them down to a maximum of two since there's no benefit to more.
+		if ($this->reduce_empty_lines == TRUE)
+		{
+			$str = preg_replace("/\n\n+/", "\n\n", $str);
+		}
 		
-		/*
-		 * Reduce line breaks
-		 *
-		 * If there are more than two consecutive line
-		 * breaks we'll compress them down to a maximum
-		 * of two since there's no benefit to more.
-		 *
-		 */
-		$str = preg_replace("/\n\n+/", "\n\n", $str);
-
-		/*
-		 * Do we allow JavaScript event handlers?
-		 *
-		 * If not, we strip them from within all tags
-		 */
+		 // Do we allow JavaScript event handlers? If not, we strip them from within all tags
 		if ($this->allow_js_event_handlers == FALSE)
 		{
 			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
  		}       
 
-		/*
-		 * Convert quotes within tags to temporary marker
-		 *
-		 * We don't want quotes converted within
-		 * tags so we'll temporarily convert them to
-		 * {@DQ} and {@SQ}
-		 *
-		 */			
+		// Convert quotes within tags to temporary marker.
+		// We don't want quotes converted within tags so we'll temporarily convert them to {@DQ} and {@SQ}
 		if (preg_match_all("#\<.+?>#si", $str, $matches))
 		{
 			for ($i = 0; $i < count($matches['0']); $i++)
@@ -94,66 +82,30 @@ class CI_Typography {
 									$str);
 			}
 		}
-
-        /*
-		 * Add closing/opening paragraph tags before/after "block" elements
-		 *
-		 * Since block elements (like <blockquotes>, <pre>, etc.) do not get
-		 * wrapped in paragraph tags we will add a closing </p> tag just before
-		 * each block element starts and an opening <p> tag right after the block element
-		 * ends.  Later on we'll do some further clean up.
-		 *
-		 */
-		$str = preg_replace("#(<)(".$this->block_elements.")(.*?>)#", "</p>\\1\\2\\3", $str);
-		$str = preg_replace("#(</)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3<p>", $str);
 	
-		/*
-		 * Convert "ignore" tags to temporary marker
-		 *
-		 * The parser splits out the string at every tag
-		 * it encounters.  Certain inline tags, like image
-		 * tags, links, span tags, etc. will be adversely
-		 * affected if they are split out so we'll convert
-		 * the opening < temporarily to: {@TAG}
-		 *
-		 */		
+		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
+		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
+		// adversely affected if they are split out so we'll convert the opening < temporarily to: {@TAG}
 		$str = preg_replace("#<(/*)(".$this->ignore_elements.")#i", "{@TAG}\\1\\2", $str);	
-		
-		/*
-		 * Split the string at every tag
-		 *
-		 * This creates an array with this prototype:
-		 *
-		 *	[array]
-		 *	{
-		 *		[0] = <opening tag>
-		 *		[1] = Content contained between the tags
-		 *		[2] = <closing tag>
-		 *		Etc...
-		 *	}
-		 *
-		 */			
+
+		// Split the string at every tag.  This expression creates an array with this prototype:
+		// 
+		// 	[array]
+		// 	{
+		// 		[0] = <opening tag>
+		// 		[1] = Content...
+		// 		[2] = <closing tag>
+		// 		Etc...
+		// 	}	
 		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 		
-		/*
-		 * Build our finalized string
-		 *
-		 * We'll cycle through the array, skipping tags,
-		 * and processing the contained text
-		 *
-		 */			
+		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text	
 		$str = '';
 		$process = TRUE;
 		foreach ($chunks as $chunk)
 		{
-			/*
-			 * Are we dealing with a tag?
-			 *
-			 * If so, we'll skip the processing for this cycle.
-			 * Well also set the "process" flag which allows us
-			 * to skip <pre> tags and a few other things.
-			 *
-			 */
+			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
+			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match['2']))
@@ -175,57 +127,38 @@ class CI_Typography {
 			$str .= $this->format_newlines($chunk);
 		}
 
-		// FINAL CLEAN UP
-		// IMPORTANT:  DO NOT ALTER THE ORDER OF THE ITEMS BELOW!
-		
-		/*
-		 * Clean up paragraph tags before/after "block" elements
-		 *
-		 * Earlier we added <p></p> tags before/after block level elements.
-		 * Then, we added paragraph tags around double line breaks.  This
-		 * potentially created incorrectly formatted paragraphs so we'll
-		 * clean it up here.
-		 *
-		 */
-		$str = preg_replace("#<p>({@TAG}.*?)(".$this->block_elements.")(.*?>)#", "\\1\\2\\3", $str);
-		$str = preg_replace("#({@TAG}/.*?)(".$this->block_elements.")(.*?>)</p>#", "\\1\\2\\3", $str);
-
-		// Convert Quotes and other characters
+		// Convert Quotes, elipsis, and em-dashes
 		$str = $this->format_characters($str);
 		
-		// Fix an artifact that happens during the paragraph replacement
-		$str = preg_replace('#(<p>\n*</p>)#', '', $str);
-
-		// If the user submitted their own paragraph tags with class data
-		// in them we will retain them instead of using our tags.
-		$str = preg_replace('#(<p.*?>)<p>#', "\\1", $str);  // <?php BBEdit syntax coloring fix
-
+		// Do we need to reduce empty lines?
+		if ($this->reduce_empty_lines == TRUE)
+		{
+			$str = preg_replace('#(<p>\n*</p>)#', '', $str);
+		}
+	
 		// Final clean up
-		$str = str_replace(
-							array(
-									'</p></p>',
-									'</p><p>',
-									'<p> ',
-									' </p>',
-									'{@TAG}',
-									'{@DQ}',
-									'{@SQ}',
-									'<p></p>'
-								),
-							array(
-									'</p>',
-									'<p>',
-									'<p>',
-									'</p>',
-									'<',
-									'"',
-									"'",
-									''
-								),
-							$str
-						);
+		$table = array(
 		
-		return $str;
+						// If the user submitted their own paragraph tags within the text
+						// we will retain them instead of using our tags.
+						'/(<p.*?>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
+						
+						// Reduce multiple paragraphs to a single one
+						'/(<\/p>)+/'		=> '</p>',
+						'/(<p><p>)+/'		=> '<p>',
+						
+						// Clean up stray paragraph tags that appear before block level elements
+						'/<p><\/p><('.$this->block_elements.')/'	=> '<$1',
+			
+						// Replace the temporary markers we added earlier
+						'/\{@TAG\}/'		=> '<',
+						'/\{@DQ\}/'			=> '"',
+						'/\{@SQ\}/'			=> "'"
+
+						);
+	
+		return preg_replace(array_keys($table), $table, $str);
+
 	}
 	
 	// --------------------------------------------------------------------
@@ -296,10 +229,10 @@ class CI_Typography {
 
 		if (strpos($str, "\n") === FALSE)
 		{
-			return '<p>'.$str.'</p>';
+			return $str;
 		}
-			
-		$str = str_replace("\n\n", "</p>\n\n<p>", $str);
+		
+		$str = str_replace("\n\n", "</p>\n\n<p>", $str);		
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 		
 		return '<p>'.$str.'</p>';
@@ -317,8 +250,20 @@ class CI_Typography {
 	{
 		$this->allow_js_event_handlers = ($val === FALSE) ? FALSE : TRUE;
 	}
-	
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Reduce empty lines
+	 *
+	 * Sets a flag that tells the parser to reduce any instances of more than
+	 * two consecutive linebreaks down to two
+	 *
+	 */	
+	function reduce_empty_lines($val = FALSE)
+	{
+		$this->reduce_empty_lines = ($val === FALSE) ? FALSE : TRUE;
+	}
 }
 // END Typography Class
 
