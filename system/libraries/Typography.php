@@ -269,7 +269,7 @@ class CI_Typography {
 							'/\w\.{3}/'						=> '&#8230;',
 
 							// double space after sentences
-							'/(\W)\s{2}/'					=> '$1&nbsp; ',
+							'/(\W)  /'						=> '$1&nbsp; ',
 
 							// ampersands, if not a character entity
 							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
