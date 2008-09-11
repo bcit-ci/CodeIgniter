@@ -69,15 +69,20 @@ if ( ! function_exists('nl2br_except_pre'))
  *
  * @access	public
  * @param	string
+ * @param	bool	whether to allow javascript event handlers
+ * @param	bool	whether to reduce multiple instances of double newlines to two
  * @return	string
  */
 if ( ! function_exists('auto_typography'))
 {
-	function auto_typography($str)
+	function auto_typography($str, $allow_event_handlers = FALSE, $reduce_empty_lines = FALSE)
 	{
 		$CI =& get_instance();
 	
 		$CI->load->library('typography');
+		
+		$CI->typography->allow_js_event_handlers($allow_event_handlers);
+		$CI->typography->reduce_empty_lines($reduce_empty_lines);
 		
 		return $CI->typography->convert($str);
 	}
