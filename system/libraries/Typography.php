@@ -42,6 +42,14 @@ class CI_Typography {
 	var $reduce_empty_lines	= FALSE;
 
 	/**
+	 * Nothing to do here...
+	 *
+	 */
+	function CI_Typography()
+	{
+	}
+
+	/**
 	 * Main Processing Function
 	 *
 	 */
