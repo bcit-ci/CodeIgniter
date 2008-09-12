@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2006, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -50,10 +50,17 @@ class CI_Typography {
 	}
 
 	/**
-	 * Main Processing Function
+	 * Auto Typography
 	 *
+	 * This function converts text, making it typographically correct:
+	 * 	- Converts double spaces into paragraphs.
+	 * 	- Converts single line breaks into <br /> tags
+	 * 	- Converts single and double quotes into correctly facing curly quote entities.
+	 * 	- Converts three dots into ellipsis.
+	 * 	- Converts double dashes into em-dashes.
+	 *  - Converts two spaces into entities
 	 */
-	function convert($str)
+	function auto_typography($str)
 	{
 		if ($str == '')
 		{
