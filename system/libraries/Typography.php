@@ -71,8 +71,8 @@ class CI_Typography {
 			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
  		}       
 
-		// Convert quotes within tags to temporary marker.
-		// We don't want quotes converted within tags so we'll temporarily convert them to {@DQ} and {@SQ}
+		// Convert quotes within tags to temporary markers. We don't want quotes converted 
+		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
 		if (preg_match_all("#\<.+?>#si", $str, $matches))
 		{
 			for ($i = 0; $i < count($matches['0']); $i++)
@@ -85,7 +85,7 @@ class CI_Typography {
 	
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
-		// adversely affected if they are split out so we'll convert the opening < temporarily to: {@TAG}
+		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
 		$str = preg_replace("#<(/*)(".$this->ignore_elements.")#i", "{@TAG}\\1\\2", $str);	
 
 		// Split the string at every tag.  This expression creates an array with this prototype:
@@ -128,14 +128,8 @@ class CI_Typography {
 			$str .= $this->format_newlines($chunk);
 		}
 
-		// Convert Quotes, elipsis, and em-dashes
+		// Convert quotes, elipsis, and em-dashes
 		$str = $this->format_characters($str);
-
-		// Do we need to reduce empty lines?
-		if ($this->reduce_empty_lines == TRUE)
-		{
-			$str = preg_replace('#(<p>\n*</p>)#', '', $str);
-		}
 	
 		// Final clean up
 		$table = array(
@@ -145,11 +139,11 @@ class CI_Typography {
 						'/(<p.*?>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
-						'/(<\/p>)+/'		=> '</p>',
+						'#(</p>)+#'		=> '</p>',
 						'/(<p><p>)+/'		=> '<p>',
 						
 						// Clean up stray paragraph tags that appear before block level elements
-						'/<p><\/p><('.$this->block_elements.')/'	=> '<$1',
+						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
 			
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
@@ -157,6 +151,18 @@ class CI_Typography {
 						'/\{@SQ\}/'			=> "'"
 
 						);
+	
+		// Do we need to reduce empty lines?
+		if ($this->reduce_empty_lines == TRUE)
+		{
+			$table['#<p>\n*</p>#'] = '';
+		}
+		else
+		{
+			// If we have empty paragraph tags we add a non-breaking space
+			// otherwise most browsers won't treat them as true paragraphs
+			$table['#<p></p>#'] = '<p>&nbsp;</p>';
+		}
 	
 		return preg_replace(array_keys($table), $table, $str);
 
