@@ -60,16 +60,11 @@ if ( ! function_exists('nl2br_except_pre'))
  */
 if ( ! function_exists('auto_typography'))
 {
-	function auto_typography($str, $allow_event_handlers = FALSE, $reduce_empty_lines = FALSE)
+	function auto_typography($str, $strip_js_event_handlers = TRUE, $reduce_linebreaks = FALSE)
 	{
-		$CI =& get_instance();
-	
+		$CI =& get_instance();	
 		$CI->load->library('typography');
-		
-		$CI->typography->allow_js_event_handlers($allow_event_handlers);
-		$CI->typography->reduce_empty_lines($reduce_empty_lines);
-		
-		return $CI->typography->auto_typography($str);
+		return $CI->typography->auto_typography($str, $strip_js_event_handlers, $reduce_linebreaks);
 	}
 }
 

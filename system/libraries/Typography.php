@@ -35,12 +35,6 @@ class CI_Typography {
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
 
-	// Whether to allow Javascript event handlers to be sumitted inside tags
-	var $allow_js_event_handlers = FALSE;
-
-	// Whether to reduce more than two consecutive empty lines to a maximum of two
-	var $reduce_empty_lines	= FALSE;
-
 	/**
 	 * Nothing to do here...
 	 *
@@ -59,14 +53,20 @@ class CI_Typography {
 	 * 	- Converts three dots into ellipsis.
 	 * 	- Converts double dashes into em-dashes.
 	 *  - Converts two spaces into entities
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	bool	whether to strip javascript event handlers for security
+	 * @param	bool	whether to reduce more then two consecutive newlines to two
+	 * @return	string
 	 */
-	function auto_typography($str)
+	function auto_typography($str, $strip_js_event_handlers = TRUE, $reduce_linebreaks = FALSE)
 	{
 		if ($str == '')
 		{
 			return '';
 		}
-		
+
 		// Standardize Newlines to make matching easier
 		if (strpos($str, "\r") !== FALSE)
 		{
@@ -75,13 +75,13 @@ class CI_Typography {
 			
 		// Reduce line breaks.  If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
-		if ($this->reduce_empty_lines == TRUE)
+		if ($reduce_linebreaks === TRUE)
 		{
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
 		}
 		
 		 // Do we allow JavaScript event handlers? If not, we strip them from within all tags
-		if ($this->allow_js_event_handlers == FALSE)
+		if ($strip_js_event_handlers === TRUE)
 		{
 			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
  		}       
@@ -140,7 +140,7 @@ class CI_Typography {
 			}
 			
 			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->format_newlines($chunk);
+			$str .= $this->_format_newlines($chunk);
 		}
 
 		// Convert quotes, elipsis, and em-dashes
@@ -168,7 +168,7 @@ class CI_Typography {
 						);
 	
 		// Do we need to reduce empty lines?
-		if ($this->reduce_empty_lines == TRUE)
+		if ($reduce_linebreaks === TRUE)
 		{
 			$table['#<p>\n*</p>#'] = '';
 		}
@@ -191,6 +191,10 @@ class CI_Typography {
 	 * This function mainly converts double and single quotes
 	 * to curly entities, but it also converts em-dashes,
 	 * double spaces, and ampersands
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
 	 */
 	function format_characters($str)
 	{
@@ -242,7 +246,7 @@ class CI_Typography {
 	 * Converts newline characters into either <p> tags or <br />
 	 *
 	 */	
-	function format_newlines($str)
+	function _format_newlines($str)
 	{
 		if ($str == '')
 		{
@@ -260,33 +264,6 @@ class CI_Typography {
 		return '<p>'.$str.'</p>';
 	}
 	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Allow JavaScript Event Handlers?
-	 *
-	 * For security reasons, by default we disallow JS event handlers
-	 *
-	 */	
-	function allow_js_event_handlers($val = FALSE)
-	{
-		$this->allow_js_event_handlers = ($val === FALSE) ? FALSE : TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reduce empty lines
-	 *
-	 * Sets a flag that tells the parser to reduce any instances of more than
-	 * two consecutive linebreaks down to two
-	 *
-	 */	
-	function reduce_empty_lines($val = FALSE)
-	{
-		$this->reduce_empty_lines = ($val === FALSE) ? FALSE : TRUE;
-	}
-
 	// ------------------------------------------------------------------------
 	
 	/**

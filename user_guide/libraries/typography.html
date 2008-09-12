@@ -89,7 +89,21 @@ the following formatting:</p>
 
 <code>$string = $this->typography->auto_typography($string);</code>
 
-<p><strong>Note:</strong> Typographic formatting can be processor intensive, particularly if you have a lot of content being formatted.
+<h3>Parameters</h3>
+
+<p>There are two optional parameters:</p>
+
+<ol>
+	<li><strong>Strip JavaScript Event Handlers</strong>. Determines whether the parser should strip all JavaScript event handlers for security.  Use bolean <kbd>TRUE</kbd> or <kbd>FALSE</kbd>.</li>
+	<li><strong>Reduce Linebreaks</strong>.  Determines whether the parser should reduce more then two consecutive linebreaks down to two. Use bolean <kbd>TRUE</kbd> or <kbd>FALSE</kbd>.</li>
+</ol>
+
+<p>By default the parser strips JS Event handlers and does not reduce line breaks. In other words, if no parameters are submitted, it is the same as doing this:</p>
+
+<code>$string = $this->typography->auto_typography($string, <kbd>TRUE</kbd>, <kbd>FALSE</kbd>);</code>
+
+
+<p class="important"><strong>Note:</strong> Typographic formatting can be processor intensive, particularly if you have a lot of content being formatted.
 If you choose to use this function you may want to consider
 <a href="../general/caching.html">caching</a> your pages.</p>
 
@@ -97,9 +111,19 @@ If you choose to use this function you may want to consider
 
 <h2>convert_characters()</h2>
 
+<p>This function is similiar to the <dfn>auto_typography</dfn> function above, except that it only does character conversion:</p>
 
+<ul>
+<li>Quotes are converted to correctly facing curly quote entities, except those that appear within tags.</li>
+<li>Apostrophes are converted to curly apostrophy entities.</li>
+<li>Double dashes (either like -- this or like--this) are converted to em&#8212;dashes.</li>
+<li>Three consecutive periods either preceding or following a word are converted to ellipsis&#8230;</li>
+<li>Double spaces following sentences are converted to non-breaking spaces to mimic double spacing.</li>
+</ul>
 
+<p>Usage example:</p>
 
+<code>$string = $this->typography->convert_characters($string);</code>
 
 
 <h2>nl2br_except_pre()</h2>
