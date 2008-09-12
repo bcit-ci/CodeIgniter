@@ -245,6 +245,9 @@ class CI_Typography {
 	 *
 	 * Converts newline characters into either <p> tags or <br />
 	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
 	 */	
 	function _format_newlines($str)
 	{
