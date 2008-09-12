@@ -38,26 +38,11 @@ if ( ! function_exists('nl2br_except_pre'))
 {
 	function nl2br_except_pre($str)
 	{
-		$ex = explode("pre>",$str);
-		$ct = count($ex);
+		$CI =& get_instance();
 	
-		$newstr = "";
-		for ($i = 0; $i < $ct; $i++)
-		{
-			if (($i % 2) == 0)
-			{
-				$newstr .= nl2br($ex[$i]);
-			}
-			else
-			{
-				$newstr .= $ex[$i];
-			}
+		$CI->load->library('typography');
 		
-			if ($ct - 1 != $i)
-				$newstr .= "pre>";
-		}
-	
-		return $newstr;
+		return $CI->typography->nl2br_except_pre($str);
 	}
 }
 	
