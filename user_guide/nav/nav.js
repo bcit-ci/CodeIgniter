@@ -91,6 +91,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/sessions.html">Session Class</a></li>' +
 		'<li><a href="'+base+'libraries/trackback.html">Trackback Class</a></li>' +
 		'<li><a href="'+base+'libraries/parser.html">Template Parser Class</a></li>' +
+		'<li><a href="'+base+'libraries/typography.html">Typography Class</a></li>' +		
 		'<li><a href="'+base+'libraries/unit_testing.html">Unit Testing Class</a></li>' +
 		'<li><a href="'+base+'libraries/uri.html">URI Class</a></li>' +
 		'<li><a href="'+base+'libraries/user_agent.html">User Agent Class</a></li>' +

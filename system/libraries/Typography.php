@@ -286,6 +286,40 @@ class CI_Typography {
 	{
 		$this->reduce_empty_lines = ($val === FALSE) ? FALSE : TRUE;
 	}
+
+	// ------------------------------------------------------------------------
+	
+	/**
+	 * Convert newlines to HTML line breaks except within PRE tags
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */		
+	function nl2br_except_pre($str)
+	{
+		$ex = explode("pre>",$str);
+		$ct = count($ex);
+	
+		$newstr = "";
+		for ($i = 0; $i < $ct; $i++)
+		{
+			if (($i % 2) == 0)
+			{
+				$newstr .= nl2br($ex[$i]);
+			}
+			else
+			{
+				$newstr .= $ex[$i];
+			}
+		
+			if ($ct - 1 != $i)
+				$newstr .= "pre>";
+		}
+	
+		return $newstr;
+	}
+	
 }
 // END Typography Class
 
