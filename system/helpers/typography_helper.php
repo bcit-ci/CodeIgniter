@@ -84,7 +84,7 @@ if ( ! function_exists('auto_typography'))
 		$CI->typography->allow_js_event_handlers($allow_event_handlers);
 		$CI->typography->reduce_empty_lines($reduce_empty_lines);
 		
-		return $CI->typography->convert($str);
+		return $CI->typography->auto_typography($str);
 	}
 }
 
