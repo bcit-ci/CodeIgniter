@@ -246,6 +246,14 @@ class Blog extends Controller {
 <p><strong>Note:</strong> You'll notice that in the example above we are using PHP's alternative syntax.  If you
 are not familiar with it you can read about it <a href="alternative_php.html">here</a>.</p>
 
+<h2>Returning views as data</h2>
+
+<p>There is a third <strong>optional</strong> parameter lets you change the behavior of the function so that it returns data as a string
+rather than sending it to your browser.  This can be useful if you want to process the data in some way.  If you
+set the parameter to <kbd>true</kbd> (boolean) it will return data.  The default behavior is <kbd>false</kbd>, which sends it
+to your browser.  Remember to assign it to a variable if you want the data returned:</p>
+
+<code>$string = $this->load->view('<var>myfile</var>', '', <kbd>true</kbd>);</code>
 
 </div>
 <!-- END CONTENT -->
