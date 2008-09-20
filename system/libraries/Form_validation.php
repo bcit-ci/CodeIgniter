@@ -504,11 +504,11 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_error_messages['isset'];
+					$line = $this->_translate_fieldname('isset');
 				}
 				
 				// Build the error message
-				$message = sprintf($line, $row['label']);
+				$message = sprintf($line, $this->_translate_fieldname($row['label']));
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -646,11 +646,11 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_error_messages[$rule];
+					$line = $this->_translate_fieldname($rule);
 				}				
 
 				// Build the error message
-				$message = sprintf($line, $row['label'], $param);
+				$message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -663,7 +663,31 @@ class CI_Form_validation {
 				return;
 			}
 		}
-	}	
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Translate a field name
+	 *
+	 * @access	private
+	 * @param	string	the field name
+	 * @return	string
+	 */	
+	function _translate_fieldname($fieldname)
+	{
+		// Do we need to translate the field name?
+		// We look for the prefix lang: to determine this
+		if (substr($fieldname, 0, 5) == 'lang:')
+		{
+			$label = $this->CI->lang->line(substr($fieldname, 5));
+			
+			// Were we able to translate the field name?
+			$fieldname = ($label === FALSE) ? substr($fieldname, 5) : $label;
+		}
+
+		return $fieldname;
+	}
 
 	// --------------------------------------------------------------------
 	

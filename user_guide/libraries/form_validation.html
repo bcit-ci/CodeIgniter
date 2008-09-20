@@ -77,6 +77,7 @@ have left the old class in the library so applications currently using it will n
 		<li><a href="#callbacks">Callbacks</a></li>
 		<li><a href="#settingerrors">Setting Error Messages</a></li>
 		<li><a href="#errordelimiters">Changing the Error Delimiters</a></li>
+		<li><a href="#translatingfn">Translating Field Names</a></li>
 		<li><a href="#individualerrors">Showing Errors Individually</a></li>
 		<li><a href="#savingtoconfig">Saving Sets of Validation Rules to a Config File</a></li>
 		<li><a href="#arraysasfields">Using Arrays as Field Names</a></li>
@@ -296,7 +297,7 @@ at the same time. To set validation rules you will use the <dfn>set_rules()</dfn
 
 <ol>
 	<li>The field name - the exact name you've given the form field.</li>
-	<li>A "human" name for this field, which will be inserted into the error message. For example, if your field is named "user" you might give it a human name of "Username".</li>
+	<li>A "human" name for this field, which will be inserted into the error message. For example, if your field is named "user" you might give it a human name of "Username". <strong>Note:</strong> If you would like the field name to be stored in a language file, please see <a href="#translatingfn">Translating Field Names</a>.</li>
 	<li>The validation rules for this form field.</li>
 </ol>
 
@@ -588,6 +589,28 @@ it is assumed that the data is your newly processed form data.</p>
 
 <code>$this->form_validation->set_message('required', 'Your custom message here');</code>
 
+
+
+<a name="translatingfn"></a>
+<h2>Translating Field Names</h2>
+
+<p>If you would like to store the "human" name you passed to the <dfn>set_rules()</dfn> function in a language file, and therefore make the name able to be translated, here's how:</p>
+
+<p>First, prefix your "human" name with <dfn>lang:</dfn>, as in this example:</p>
+
+<code>
+$this->form_validation->set_rules('first_name', '<kbd>lang:</kbd>first_name', 'required');<br />
+</code>
+
+<p>Then, store the name in one of your language file arrays (without the prefix):</p>
+
+<code>$lang['first_name'] = 'First Name';</code>
+
+<p><strong>Note:</strong> If you store your array item in a language file that is not loaded automatically by CI, you'll need to remember to load it in your controller using:</p>
+
+<code>$this->lang->load('file_name');</code>
+
+<p>See the <a href="language.html">Language Class</a> page for more info regarding language files.</p>
 
 
 <a name="errordelimiters"></a>
