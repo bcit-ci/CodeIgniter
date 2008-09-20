@@ -640,7 +640,7 @@ if ( ! function_exists('set_select'))
 			
 			if (is_array($field))
 			{
-				if ( ! in_array($value, $field, TRUE))
+				if ( ! in_array($value, $field))
 				{
 					return '';
 				}
@@ -681,7 +681,7 @@ if ( ! function_exists('set_checkbox'))
 		$OBJ =& _get_validation_object();
 
 		if ($OBJ === FALSE)
-		{
+		{ 
 			if ( ! isset($_POST[$field]))
 			{
 				if (count($_POST) === 0)
@@ -695,7 +695,7 @@ if ( ! function_exists('set_checkbox'))
 			
 			if (is_array($field))
 			{
-				if ( ! in_array($value, $field, TRUE))
+				if ( ! in_array($value, $field))
 				{
 					return '';
 				}
@@ -750,7 +750,7 @@ if ( ! function_exists('set_radio'))
 			
 			if (is_array($field))
 			{
-				if ( ! in_array($value, $field, TRUE))
+				if ( ! in_array($value, $field))
 				{
 					return '';
 				}
