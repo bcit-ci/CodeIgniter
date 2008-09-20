@@ -740,7 +740,7 @@ class CI_Form_validation {
 		
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field, TRUE))
+			if ( ! in_array($value, $field))
 			{
 				return '';
 			}
@@ -784,7 +784,7 @@ class CI_Form_validation {
 		
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field, TRUE))
+			if ( ! in_array($value, $field))
 			{
 				return '';
 			}
@@ -828,7 +828,7 @@ class CI_Form_validation {
 		
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field, TRUE))
+			if ( ! in_array($value, $field))
 			{
 				return '';
 			}
