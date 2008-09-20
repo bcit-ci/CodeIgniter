@@ -479,19 +479,29 @@ class CI_Form_validation {
 			
 			return;
 		}
-
+		
 		// --------------------------------------------------------------------
 
 		// If the field is blank, but NOT required, no further tests are necessary
-		if ( ! in_array('required', $rules, TRUE) AND is_null($postdata))
+		$callback = FALSE;
+		if ( ! in_array('required', $rules) AND is_null($postdata))
 		{
-			return;
+			// Before we bail out, does the rule contain a callback?
+			if (preg_match("/(callback_\w+)/", implode(' ', $rules), $match))
+			{
+				$callback = TRUE;
+				$rules = (array('1' => $match[1]));
+			}
+			else
+			{
+				return;
+			}
 		}
 
 		// --------------------------------------------------------------------
 		
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (is_null($postdata))
+		if (is_null($postdata) AND $callback == FALSE)
 		{			
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
