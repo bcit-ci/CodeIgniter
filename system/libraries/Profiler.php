@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008, EllisLab, Inc.
+ * @copyright	Copyright (c) 2006, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -230,7 +230,6 @@ class CI_Profiler {
 					$key = "'".$key."'";
 				}
 			
-//				$output .= "<tr><td width='50%' style='color:#000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp;</td><td width='50%' style='color:#009900;font-weight:normal;background-color:#ddd;'>".htmlspecialchars(stripslashes($val))."</td></tr>\n";
 				$output .= "<tr><td width='50%' style='color:#000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td width='50%' style='color:#009900;font-weight:normal;background-color:#ddd;'>";
 				if (is_array($val))
 				{
@@ -283,6 +282,29 @@ class CI_Profiler {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Show the controller and function that were called
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _compile_controller_info()
+	{	
+		$output  = "\n\n";
+		$output .= '<fieldset style="border:1px solid #995300;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
+		$output .= "\n";
+		$output .= '<legend style="color:#995300;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_controller_info').'&nbsp;&nbsp;</legend>';
+		$output .= "\n";
+		
+		$output .= "<div style='color:#995300;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->router->fetch_class()."/".$this->CI->router->fetch_method()."</div>";				
+
+		
+		$output .= "</fieldset>";
+
+		return $output;	
+	}
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Compile memory usage
 	 *
 	 * Display total used memory
@@ -293,18 +315,18 @@ class CI_Profiler {
 	function _compile_memory_usage()
 	{
 		$output  = "\n\n";
-		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
+		$output .= '<fieldset style="border:1px solid #5a0099;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_memory_usage').'&nbsp;&nbsp;</legend>';
+		$output .= '<legend style="color:#5a0099;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_memory_usage').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
 		
 		if (function_exists('memory_get_usage') && ($usage = memory_get_usage()) != '')
 		{
-			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".number_format($usage).' bytes</div>';
+			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".number_format($usage).' bytes</div>';
 		}
 		else
 		{
-			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory_usage')."</div>";				
+			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory_usage')."</div>";				
 		}
 		
 		$output .= "</fieldset>";
@@ -322,12 +344,13 @@ class CI_Profiler {
 	 */	
 	function run()
 	{		
-		$output = '<br style="clear: both;" />';
-		$output .= "<div id='codeigniter_profiler' style='background-color:#fff;padding:10px;'>";
-		
+		$output = '<br clear="all" />';
+		$output .= "<div style='background-color:#fff;padding:10px;'>";
+
+		$output .= $this->_compile_uri_string();
+		$output .= $this->_compile_controller_info();
 		$output .= $this->_compile_memory_usage();
 		$output .= $this->_compile_benchmarks();	
-		$output .= $this->_compile_uri_string();
 		$output .= $this->_compile_get();
 		$output .= $this->_compile_post();
 		$output .= $this->_compile_queries();
