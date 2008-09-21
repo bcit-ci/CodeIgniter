@@ -141,9 +141,7 @@ class CI_Encrypt {
 	{
 		$key = $this->get_key($key);
 		
-		$this->CI->load->library('validation');
-		
-		if ($this->CI->validation->valid_base64($string) === FALSE)
+		if ( ! preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
 		{
 			return FALSE;
 		}
