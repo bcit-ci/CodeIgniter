@@ -1,5 +1,6 @@
 <?php
 
+$lang['profiler_controller_info'] = 'CLASS/METHOD';
 $lang['profiler_benchmarks']	= 'BENCHMARKS';
 $lang['profiler_queries']		= 'QUERIES';
 $lang['profiler_get_data']		= 'GET DATA';
