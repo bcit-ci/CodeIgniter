@@ -690,14 +690,16 @@ class CI_Form_validation {
 		// We look for the prefix lang: to determine this
 		if (substr($fieldname, 0, 5) == 'lang:')
 		{
+			// Grab the variable
 			$line = substr($fieldname, 5);
-			
+
+			// Translate it
 			$fieldname = $this->CI->lang->line($line);
 			
 			// Were we able to translate the field name?
 			if ($fieldname === FALSE)
 			{
-				return $this->CI->lang->line($line);
+				return $line;
 			}
 			else
 			{
