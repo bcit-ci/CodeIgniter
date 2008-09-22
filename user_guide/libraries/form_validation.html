@@ -293,7 +293,7 @@ at the same time. To set validation rules you will use the <dfn>set_rules()</dfn
 
 <code>$this->form_validation->set_rules();</code>
 
-<p>The above function takes <srong>three</strong> parameters as input:</p>
+<p>The above function takes <strong>three</strong> parameters as input:</p>
 
 <ol>
 	<li>The field name - the exact name you've given the form field.</li>
@@ -625,19 +625,19 @@ individually.</p>
 
 <p>To globally change the error delimiters, in your controller function, just after loading the Form Validation class, add this:</p>
 
-<code>&lt;?php echo $this->form_validation->set_error_delimiters('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>');</code>
+<code>$this->form_validation->set_error_delimiters('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>');</code>
 
 <p>In this example, we've switched to using div tags.</p>
 
 </li>
 
-<li><strong>Changing delimiters Individually</strong></p>
+<li><strong>Changing delimiters Individually</strong>
 
 <p>Each of the two error generating functions shown in this tutorial can be supplied their own delimiters as follows:</p>
 
 <code>&lt;?php echo form_error('field name', '<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>'); ?></code>
 
-</p>Or:</p>
+<p>Or:</p>
 
 <code>&lt;?php echo validation_errors('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>'); ?></code>
 
@@ -826,7 +826,7 @@ class <kbd>Member</kbd> extends Controller {<br />
 }<br />
 ?></code>
 
-<p>In your validation config file, you will name your rule group <kbd>member/signup</kbd>:
+<p>In your validation config file, you will name your rule group <kbd>member/signup</kbd>:</p>
 
 
 <code>$config = array(<br />
@@ -1199,12 +1199,6 @@ must contain the name of the checkbox, the second parameter must contain its val
 
 <code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo  set_radio('myradio', '1', TRUE); ?></dfn> /><br />
 &lt;input type="radio" name="myradio" value="2" <dfn>&lt;?php echo  set_radio('myradio', '2'); ?></dfn> /></code>
-
-
-
-
-
-
 
 
 
