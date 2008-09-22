@@ -20,5 +20,5 @@ $lang['is_natural']			= "The %s field must contain only positive numbers.";
 $lang['is_natural_no_zero']	= "The %s field must contain a number greater than zero.";
 
 
-/* End of file validation_lang.php */
-/* Location: ./system/language/english/validation_lang.php */
+/* End of file form_validation_lang.php */
+/* Location: ./system/language/english/form_validation_lang.php */
