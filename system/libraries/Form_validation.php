@@ -701,7 +701,7 @@ class CI_Form_validation {
 			}
 			else
 			{
-				return $label;
+				return $fieldname;
 			}
 		}
 
