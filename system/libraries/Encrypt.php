@@ -141,7 +141,7 @@ class CI_Encrypt {
 	{
 		$key = $this->get_key($key);
 		
-		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string) === FALSE)
+		if ( ! preg_match('/[a-zA-Z0-9\/\+=]/', $string))
 		{
 			return FALSE;
 		}
