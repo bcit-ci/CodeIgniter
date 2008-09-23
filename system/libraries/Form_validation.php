@@ -691,19 +691,12 @@ class CI_Form_validation {
 		if (substr($fieldname, 0, 5) == 'lang:')
 		{
 			// Grab the variable
-			$line = substr($fieldname, 5);
-
-			// Translate it
-			$fieldname = $this->CI->lang->line($line);
+			$line = substr($fieldname, 5);			
 			
-			// Were we able to translate the field name?
-			if ($fieldname === FALSE)
+			// Were we able to translate the field name?  If not we use $line
+			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
 			{
 				return $line;
-			}
-			else
-			{
-				return $fieldname;
 			}
 		}
 
