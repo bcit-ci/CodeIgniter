@@ -27,10 +27,10 @@
 class CI_Typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'p|div|blockquote|pre|code|h\d|script|ol|ul';
+	var $block_elements = 'p|div|blockquote|pre|code|h\d|script|ol|ul|dl|dt|dd';
 	
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'p|pre|ol|ul';
+	var $skip_elements	= 'p|pre|ol|ul|dl';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
@@ -154,7 +154,7 @@ class CI_Typography {
 						'/(<p.*?>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
-						'#(</p>)+#'		=> '</p>',
+						'#(</p>)+#'			=> '</p>',
 						'/(<p><p>)+/'		=> '<p>',
 						
 						// Clean up stray paragraph tags that appear before block level elements
@@ -260,11 +260,21 @@ class CI_Typography {
 		{
 			return $str;
 		}
-
-		$str = str_replace("\n\n", "</p>\n\n<p>", $str);		
+		
+		// Convert two consecutive newlines to paragraphs
+		$str = str_replace("\n\n", "</p>\n\n<p>", $str);
+		
+		// Convert single spaces to <br /> tags
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 		
-		return '<p>'.$str.'</p>';
+		// Wrap the whole enchilada in enclosing paragraphs
+		$str =  '<p>'.$str.'</p>';
+
+		// Remove empty paragraphs if they are on the first line, as this
+		// is a potential unintended consequence of the previous code
+		$str = preg_replace("/<p><\/p>(.*)/", "\\1", $str, 1);
+		
+		return $str;
 	}
 	
 	// ------------------------------------------------------------------------
