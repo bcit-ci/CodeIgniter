@@ -514,7 +514,7 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_translate_fieldname('isset');
+					$line = $this->_error_messages[$rule];
 				}
 				
 				// Build the error message
@@ -646,7 +646,7 @@ class CI_Form_validation {
 							
 			// Did the rule test negatively?  If so, grab the error.
 			if ($result === FALSE)
-			{
+			{			
 				if ( ! isset($this->_error_messages[$rule]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($rule)))
@@ -656,8 +656,8 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_translate_fieldname($rule);
-				}				
+					$line = $this->_error_messages[$rule];
+				}
 
 				// Build the error message
 				$message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
@@ -707,7 +707,7 @@ class CI_Form_validation {
 			}
 		}
 
-		return $this->CI->lang->line($fieldname);
+		return $fieldname;
 	}
 
 	// --------------------------------------------------------------------
