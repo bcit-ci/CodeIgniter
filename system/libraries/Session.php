@@ -252,16 +252,17 @@ class CI_Session {
 			return;
 		}
 
-		// We need two copies of the session data array.  One will contain any custom data
-		// that might have been set.  The other will contain the data that will be saved to the cookie
-		$cookie_userdata = $this->userdata;
+		// set the custom userdata, the session data we will set in a second
 		$custom_userdata = $this->userdata;
-
+		$cookie_userdata = array();
+		
 		// Before continuing, we need to determine if there is any custom data to deal with.
 		// Let's determine this by removing the default indexes to see if there's anything left in the array
+		// and set the session data while we're at it
 		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
 		{
 			unset($custom_userdata[$val]);
+			$cookie_userdata[$val] = $this->userdata[$val];
 		}
 		
 		// Did we find any custom data?  If not, we turn the empty array into a string
@@ -271,14 +272,7 @@ class CI_Session {
 			$custom_userdata = '';
 		}
 		else
-		{
-			// Before we serialize the custom data array, let's remove that data from the
-			// main session array since we do not want to save that info to the cookie
-			foreach (array_keys($custom_userdata) as $val)
-			{
-				unset($cookie_userdata[$val]);
-			}
-		
+		{	
 			// Serialize the custom data array so we can store it
 			$custom_userdata = serialize($custom_userdata);
 		}
@@ -365,14 +359,25 @@ class CI_Session {
 		$this->userdata['session_id'] = $new_sessid;
 		$this->userdata['last_activity'] = $this->now;
 		
+		// _set_cookie() will handle this for us if we aren't using database sessions
+		// by pushing all userdata to the cookie.
+		$cookie_data = NULL;
+		
 		// Update the session ID and last_activity field in the DB if needed
 		if ($this->sess_use_database === TRUE)
 		{
+			// set cookie explicitly to only have our session data
+			$cookie_data = array();
+			foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+			{
+				$cookie_data[$val] = $this->userdata[$val];
+			}
+			
 			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
 		}
 		
 		// Write the cookie
-		$this->_set_cookie();
+		$this->_set_cookie($cookie_data);
 	}
 	
 	// --------------------------------------------------------------------
