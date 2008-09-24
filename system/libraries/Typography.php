@@ -27,13 +27,13 @@
 class CI_Typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'address|blockquote|del|div|dl|fieldset|form|h\d|hr|ins|noscript|ol|p|pre|script|table|ul';
+	var $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|ol|p|pre|script|table|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
 	var $skip_elements	= 'p|pre|ol|ul|dl|table';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
-	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
+	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|object|samp|select|span|strong|sub|sup|textarea|var';
 
 	/**
 	 * Nothing to do here...
@@ -101,7 +101,7 @@ class CI_Typography {
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
-		$str = preg_replace("#<(/*)(".$this->ignore_elements.")#i", "{@TAG}\\1\\2", $str);	
+		$str = preg_replace("#<(/*)(".$this->inline_elements.")#i", "{@TAG}\\1\\2", $str);	
 
 		// Split the string at every tag.  This expression creates an array with this prototype:
 		// 
