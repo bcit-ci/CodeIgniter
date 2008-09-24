@@ -27,10 +27,10 @@
 class CI_Typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'p|div|blockquote|pre|code|h\d|script|ol|ul|dl|dt|dd';
+	var $block_elements = 'address|blockquote|del|div|dl|fieldset|form|h\d|hr|ins|noscript|ol|p|pre|script|table|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'p|pre|ol|ul|dl';
+	var $skip_elements	= 'p|pre|ol|ul|dl|table';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $ignore_elements = 'a|b|i|em|strong|span|img|li';	
@@ -126,7 +126,7 @@ class CI_Typography {
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
-					$process =  ($match[1] == '/') ? TRUE : FALSE;					
+					$process =  ($match[1] == '/') ? TRUE : FALSE;
 				}
 				
 				$str .= $chunk;
