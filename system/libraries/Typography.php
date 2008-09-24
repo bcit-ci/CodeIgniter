@@ -225,7 +225,7 @@ class CI_Typography {
 
 							// Em dash and ellipses dots
 							'/\s?\-\-\s?/'					=> '&#8212;',
-							'/\w\.{3}/'						=> '&#8230;',
+							'/(\w)\.{3}/'					=> '$1&#8230;',
 
 							// double space after sentences
 							'/(\W)  /'						=> '$1&nbsp; ',
