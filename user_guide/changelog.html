@@ -74,6 +74,12 @@ SVN Revision: XXXX</p>
 			<li>Changed the output of the profiler to use style attribute rather than clear, and added the id "codeigniter_profiler" to the container div</li>
 		</ul>
 	</li>
+	<li>Database
+		<ul>
+			<li>Added removal of non-printing control characters in escape_str() of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid
+				potential SQL errors, and possible sources of SQL injection.</li>
+		</ul>
+	</li>
 	<li>Helpers
 		<ul>
 			<li>Added several new "setting" functions to the <a href="helpers/form_helper.html">Form helper</a> that allow POST data to be retrieved and set into forms.  These are intended to be used on their own, or with the new <a href="libraries/form_validation.html">Form Validation Class</a>.</li>
