@@ -80,7 +80,7 @@ else
 |
 | EXT		- The file extension.  Typically ".php"
 | FCPATH	- The full server path to THIS file
-| SELF		- The name of THIS file (typically "index.php)
+| SELF		- The name of THIS file (typically "index.php")
 | BASEPATH	- The full server path to the "system" folder
 | APPPATH	- The full server path to the "application" folder
 |
