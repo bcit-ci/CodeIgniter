@@ -88,6 +88,7 @@ SVN Revision: XXXX</p>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>
 			<li>Tightened up validation in Date Helper human_to_unix(), and eliminated the POSIX regex.</li>
 			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
+			<li>Fixed the spelling of "Dhaka" in the timezone_menu() function of the <a href="helpers/date_helper.html">Date helper.</a></li>
 			<li>Fixed the spelling of "raspberry" in config/smileys.php</li>
 			<li>Fixed incorrect parenthesis in form_open() function. (#5135)</li>
 		</ul>
@@ -105,7 +106,7 @@ SVN Revision: XXXX</p>
 <h3>Bug fixes for 1.7.0</h3>
 <ul>
 	<li>Fixed bug in xss_clean() that could remove some desirable tag attributes.</li>
-	<li>Fixed assorted user guide typos or examples (#4807, #4812, #4840, #4862, #4864, #4899, #4930, #5006, #5071, #5158).</li>
+	<li>Fixed assorted user guide typos or examples (#4807, #4812, #4840, #4862, #4864, #4899, #4930, #5006, #5071, #5158, #5229).</li>
 	<li>Fixed an edit from 1.6.3 that made the $robots array in user_agents.php go poof.</li>
 	<li>Fixed a bug in the Email library with quoted-printable encoding improperly encoding space and tab characters.</li>
 	<li>Modified XSS sanitization to no longer add semicolons after &amp;[single letter], such as in M&amp;M's, B&amp;B, etc.</li>
