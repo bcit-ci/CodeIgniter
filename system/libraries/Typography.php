@@ -143,6 +143,12 @@ class CI_Typography {
 			$str .= $this->_format_newlines($chunk);
 		}
 
+		// is the whole of the content inside a block level element?
+		if ( ! preg_match("/^<(?:".$this->block_elements.")/i", $str, $match))
+		{
+			$str = "<p>{$str}</p>";
+		}
+
 		// Convert quotes, elipsis, and em-dashes
 		$str = $this->format_characters($str);
 	
