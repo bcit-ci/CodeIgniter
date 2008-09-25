@@ -57,7 +57,7 @@ if ( ! function_exists('form_open'))
 	
 		$form .= '>';
 
-		if (is_array($hidden) AND count($hidden > 0))
+		if (is_array($hidden) AND count($hidden) > 0)
 		{
 			$form .= form_hidden($hidden);
 		}
