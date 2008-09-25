@@ -121,7 +121,7 @@ for the primary connection, but it too can be renamed to something more relevant
 <li><strong>username</strong> - The username used to connect to the database.</li>
 <li><strong>password</strong> - The password used to connect to the database.</li>
 <li><strong>database</strong> - The name of the database you want to connect to.</li>
-<li><strong>dbdriver</strong> - The database type. ie: mysql, postgre, odcc, etc. Must be specified in lower case.</li>
+<li><strong>dbdriver</strong> - The database type. ie: mysql, postgres, odcc, etc. Must be specified in lower case.</li>
 <li><strong>dbprefix</strong> - An optional table prefix which will added to the table name when running <a href="active_record.html">Active Record</a> queries.  This permits multiple CodeIgniter installations to share one database.</li>
 <li><strong>pconnect</strong> - TRUE/FALSE (boolean) - Whether to use a persistent connection.</li>
 <li><strong>db_debug</strong> - TRUE/FALSE (boolean) - Whether database errors should be displayed.</li>
@@ -129,10 +129,10 @@ for the primary connection, but it too can be renamed to something more relevant
 <li><strong>cachedir</strong> - The absolute server path to your database query cache directory.</li>
 <li><strong>char_set</strong> - The character set used in communicating with the database.</li>
 <li><strong>dbcollat</strong> - The character collation used in communicating with the database.</li>
-<li><strong>port</strong> - The database port number.  Currently only used with the Postgre driver. To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code></li>
+<li><strong>port</strong> - The database port number.  Currently only used with the Postgres driver. To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code></li>
 </ul>
 
-<p class="important"><strong>Note:</strong> Depending on what database platform you are using (MySQL, Postgre, etc.)
+<p class="important"><strong>Note:</strong> Depending on what database platform you are using (MySQL, Postgres, etc.)
 not all values will be needed.  For example, when using SQLite you will not need to supply a username or password, and
 the database name will be the path to your database file. The information above assumes you are using MySQL.</p>
 

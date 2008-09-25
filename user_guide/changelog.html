@@ -449,7 +449,7 @@ SVN Revision: 1155</p>
 	<li>Fixed a bug (#2732) in the SQLite driver for PHP 4.</li>
 	<li>Fixed a bug (#2754) in Pagination to scan for non-positive num_links.</li>
 	<li>Fixed a bug (#2762) in the <a href="./libraries/sessions.html">Session library</a> where user agent matching would fail on user agents ending with a space. </li>
-	<li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgre and sqlite drivers.</li>
+	<li>Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgres and sqlite drivers.</li>
 	<li>Fixed a bug (#2810) in the typography helper causing extraneous paragraph tags when string contains tags.</li>
 	<li>Fixed a bug (#2849) where arguments passed to a subfolder controller method would be incorrectly shifted, dropping the 3rd segment value.</li>
 	<li>Fixed a bug (#2858) which referenced a wrong variable in the Image class.</li>
@@ -545,7 +545,7 @@ SVN Revision: 1155</p>
 	<li>Fixed a bug in result_array() that was returning an empty array when no result is produced.</li>
 	<li>Fixed a bug in the redirect function of the <a href="./helpers/url_helper.html">url helper</a>. </li>
 	<li>Fixed an undefined variable in Loader </li>
-	<li>Fixed a version bug in the Postgre driver </li>
+	<li>Fixed a version bug in the Postgres driver </li>
 	<li>Fixed a bug in the textarea function of the form helper for use with strings</li>
 	<li>Fixed doc typos. </li>
 </ul>
@@ -683,7 +683,7 @@ SVN Revision: 1155</p>
 <li>Added support for % character in URL.</li>
 <li>Added the ability to supply full URLs using the <a href="./helpers/url_helper.html">anchor()</a> helper function.</li>
 <li>Added mode parameter to <a href="./helpers/file_helper.html">file_write()</a> helper.</li>
-<li>Added support for changing the port number in the <a href="./database/configuration.html">Postgre driver</a>.</li>
+<li>Added support for changing the port number in the <a href="./database/configuration.html">Postgres driver</a>.</li>
 <li>Moved the list of "allowed URI characters" out of the Router class and into the config file.</li>
 <li>Moved the MIME type array out of the Upload class and into its own file in the applications/config/ folder.</li>
 <li>Updated the Upload class to allow the upload field name to be set when calling <a href="./libraries/file_uploading.html">do_upload()</a>.</li>
@@ -694,10 +694,10 @@ SVN Revision: 1155</p>
 <li>Updated the SQLite Driver to check for object support before attempting to return results as objects.  If unsupported it returns an array.</li>
 <li>Updated the Models loader function to allow multiple loads of the same model.</li>
 <li>Updated the MS SQL driver so that single quotes are escaped.</li>
-<li>Updated the Postgre and ODBC drivers for better compatibility.</li>
+<li>Updated the Postgres and ODBC drivers for better compatibility.</li>
 <li>Removed a strtolower() call that was changing URL segments to lower case.</li>
 <li>Removed some references that were interfering with PHP 4.4.1 compatibility.</li>
-<li>Removed backticks from Postgre class since these are not needed.</li>
+<li>Removed backticks from Postgres class since these are not needed.</li>
 <li>Renamed <dfn>display()</dfn> to <dfn>_display()</dfn> in the Output class to make it clear that it's a private function.</li>
 <li>Deprecated the hash() function due to a naming conflict with a native PHP function with the same name.  Please use <kbd>dohash()</kbd> instead.</li>
 <li>Fixed an bug that was preventing the input class from unsetting GET variables.</li>
@@ -790,7 +790,7 @@ This feature enables you to (among other things) use your  <a href="./general/mo
 
 <ul>
 <li>Added support for <a href="models.html">Models</a>.</li>
-<li>Redesigned the database libraries to support additional RDBMs (Postgre, MySQLi, etc.).</li>
+<li>Redesigned the database libraries to support additional RDBMs (Postgres, MySQLi, etc.).</li>
 <li>Redesigned the <a href="./database/active_record.html">Active Record class</a> to enable more varied types of queries with simpler syntax, and advanced features like JOINs.</li>
 <li>Added a feature to the database class that lets you run <a href="./database/call_function.html">custom function calls</a>.</li>
 <li>Added support for <a href="controllers.html">private functions</a> in your controllers.  Any controller function name that starts with an underscore will not be served by a URI request.</li>
