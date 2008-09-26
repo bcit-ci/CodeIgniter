@@ -176,15 +176,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					}
 					else
 					{
-						// Do a little formatting...
-						$v = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $v);
-						$v = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $v);
-						$v = str_replace('\\', '\\\\',	$v);
-						$v = str_replace('\'', '\\\'',	$v);
-						$v = str_replace('\\\n', '\n',	$v);
-						$v = str_replace('\\\r', '\r',	$v);
-						$v = str_replace('\\\t', '\t',	$v);
-
 						// Escape the data if it's not an integer
 						if ($is_int[$i] == FALSE)
 						{

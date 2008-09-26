@@ -112,6 +112,7 @@ SVN Revision: XXXX</p>
 	<li>Modified XSS sanitization to no longer add semicolons after &amp;[single letter], such as in M&amp;M's, B&amp;B, etc.</li>
 	<li>Modified XSS sanitization to no longer strip XHTML image tags of closing slashes.</li>
 	<li>Fixed a bug in the Session class when database sessions are used where upon session update all userdata would be errantly written to the session cookie.</li>
+	<li>Fixed a bug (#4536) in backups with the MySQL driver where some legacy code was causing certain characters to be double escaped.</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
