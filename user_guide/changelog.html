@@ -88,9 +88,6 @@ SVN Revision: XXXX</p>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>
 			<li>Tightened up validation in Date Helper human_to_unix(), and eliminated the POSIX regex.</li>
 			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
-			<li>Fixed the spelling of "Dhaka" in the timezone_menu() function of the <a href="helpers/date_helper.html">Date helper.</a></li>
-			<li>Fixed the spelling of "raspberry" in config/smileys.php</li>
-			<li>Fixed incorrect parenthesis in form_open() function. (#5135)</li>
 		</ul>
 	</li>
 	<li>Other changes
@@ -99,6 +96,7 @@ SVN Revision: XXXX</p>
 			<li>Added a few openxml document mime types, and an additional mobile agent to mimes.php and user_agents.php respectively.</li>
 			<li>Added sanitization in xss_clean() for a deprecated HTML tag that could be abused in user input in Internet Explorer.</li>
 			<li>Added <a href="./general/styleguide.html">PHP Style Guide</a> to docs.</li>
+			<li>Added backticks around column names in MySQL when using insert_string and update_string functions.</li>
 		</ul>
 	</li>
 </ul>
@@ -113,6 +111,11 @@ SVN Revision: XXXX</p>
 	<li>Modified XSS sanitization to no longer strip XHTML image tags of closing slashes.</li>
 	<li>Fixed a bug in the Session class when database sessions are used where upon session update all userdata would be errantly written to the session cookie.</li>
 	<li>Fixed a bug (#4536) in backups with the MySQL driver where some legacy code was causing certain characters to be double escaped.</li>
+	<li>Fixed a routing bug (#4661) that occurred when the default route pointed to a subfolder.</li>
+	<li>Fixed the spelling of "Dhaka" in the timezone_menu() function of the <a href="helpers/date_helper.html">Date helper.</a></li>
+	<li>Fixed the spelling of "raspberry" in config/smileys.php</li>
+	<li>Fixed incorrect parenthesis in form_open() function. (#5135)</li>
+	<li>Fixed a bug that was ignoring case when comparing controller methods (#4560)</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
