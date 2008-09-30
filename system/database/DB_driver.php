@@ -911,11 +911,10 @@ class CI_DB_driver {
 		
 		foreach($data as $key => $val)
 		{
-			$fields[] = $key;
+			$fields[] = $this->_escape_column($key);
 			$values[] = $this->escape($val);
 		}
 				
-		
 		return $this->_insert($this->prep_tablename($table), $fields, $values);
 	}	
 	
@@ -940,7 +939,7 @@ class CI_DB_driver {
 		$fields = array();
 		foreach($data as $key => $val)
 		{
-			$fields[$key] = $this->escape($val);
+			$fields[$this->_escape_column($key)] = $this->escape($val);
 		}
 
 		if ( ! is_array($where))

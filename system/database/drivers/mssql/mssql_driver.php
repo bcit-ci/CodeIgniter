@@ -390,7 +390,24 @@ class CI_DB_mssql_driver extends CI_DB {
 		// Are error numbers supported?
 		return '';
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		// Not necessary with MS SQL so we simply return the value
+		return $column;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -405,15 +422,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		// I don't believe this is necessary with MS SQL.  Not sure, though. - Rick
-	
-		/*
-		if (strpos($table, '.') !== FALSE)
-		{
-			$table = '"' . str_replace('.', '"."', $table) . '"';
-		}
-		*/
-		
+		// Not necessary with MS SQL so we simply return the value
 		return $table;
 	}	
 	

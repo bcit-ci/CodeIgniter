@@ -506,6 +506,23 @@ class CI_DB_oci8_driver extends CI_DB {
 		$error = ocierror($this->conn_id);
 		return $error['code'];
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		// Probably not necessary with Oracle so we simply return the value
+		return $column;
+	}
 
 	// --------------------------------------------------------------------
 

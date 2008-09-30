@@ -391,7 +391,23 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		return '';
 	}
-	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		// Probably not necessary with Postgres so we simply return the value
+		return $column;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
