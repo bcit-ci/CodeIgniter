@@ -701,7 +701,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			$prefix = (count($this->ar_like) == 0) ? '' : $type;
 
-			$v = $this->escape_str($v);
+			$v = $this->escape($v);
 
 			if ($side == 'before')
 			{
@@ -851,7 +851,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			if ($v != '')
 			{
-				$v = ' '.$this->escape_str($v);
+				$v = ' '.$this->escape($v);
 			}
 			
 			$this->ar_having[] = $prefix.$k.$v;
