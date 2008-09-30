@@ -821,11 +821,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the HAVING values
 	 *
-	 * Called by having() or orhaving()
+	 * Called by having() or or_having()
 	 *
 	 * @access	private
 	 * @param	string
-
 	 * @param	string
 	 * @return	object
 	 */

@@ -87,7 +87,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		// TODO - add support if needed
+		// @todo - add support if needed
 		return TRUE;
 	}
 
