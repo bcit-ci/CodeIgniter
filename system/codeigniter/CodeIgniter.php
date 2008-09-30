@@ -169,11 +169,10 @@ $BM->mark('loading_time_base_classes_end');
 $class  = $RTR->fetch_class();
 $method = $RTR->fetch_method();
 
-
 if ( ! class_exists($class)
 	OR $method == 'controller'
 	OR strncmp($method, '_', 1) == 0
-	OR in_array($method, get_class_methods('Controller'), TRUE)
+	OR in_array(strtolower($method), array_map('strtolower', get_class_methods('Controller')))
 	)
 {
 	show_404("{$class}/{$method}");
