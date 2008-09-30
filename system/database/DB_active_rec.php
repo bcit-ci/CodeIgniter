@@ -440,7 +440,7 @@ class CI_DB_active_record extends CI_DB_driver {
 					// exception for "field<=" keys
 					if ($this->_has_operator($k))
 					{
-						$k =  preg_replace("/([A-Za-z_0-9]+)/", $this->_protect_identifiers('$1'), $k);
+						$k =  preg_replace("/([A-Za-z_0-9]+)/", $this->_escape_column($this->_protect_identifiers('$1')), $k);
 					}
 					else
 					{
