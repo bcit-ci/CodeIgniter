@@ -398,6 +398,22 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		return mysql_errno($this->conn_id);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		return '`' .$column. '`';
+	}
 	
 	// --------------------------------------------------------------------
 

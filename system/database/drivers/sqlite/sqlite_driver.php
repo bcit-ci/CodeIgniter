@@ -387,7 +387,24 @@ class CI_DB_sqlite_driver extends CI_DB {
 	{
 		return sqlite_last_error($this->conn_id);
 	}
-		
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		// Not necessary with SQLite so we simply return the value
+		return $column;
+	}
+			
 	// --------------------------------------------------------------------
 
 	/**
@@ -402,7 +419,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-
 		// other database drivers use this to add backticks, hence this
 		// function is simply going to return the tablename for sqlite		
 		return $table;

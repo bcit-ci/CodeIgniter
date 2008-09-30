@@ -371,7 +371,23 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		return odbc_error($this->conn_id);
 	}
-	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Column Name
+	 *
+	 * This function adds backticks around supplied column name
+	 *
+	 * @access	private
+	 * @param	string	the column name
+	 * @return	string
+	 */
+	function _escape_column($column)
+	{
+		// Not necessary with ODBC so we simply return the value
+		return $column;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -386,9 +402,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function _escape_table($table)
 	{
-		// used to add backticks in other db drivers		
+		// Not necessary with ODBC so we simply return the value
 		return $table;
-	}
+	}	
 		
 	// --------------------------------------------------------------------
 
