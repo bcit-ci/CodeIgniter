@@ -27,13 +27,13 @@
 class CI_Typography {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	var $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|ol|p|pre|script|table|ul';
+	var $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
 	
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'p|pre|ol|ul|dl|table';
+	var $skip_elements	= 'p|pre|ol|ul|dl|object|table';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
-	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|object|samp|select|span|strong|sub|sup|textarea|var';
+	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|samp|select|span|strong|sub|sup|textarea|var';
 
 	/**
 	 * Nothing to do here...
