@@ -73,7 +73,7 @@ function &DB($params = '', $active_record_override = FALSE)
 		if (isset($dns['query']))
 		{
 			parse_str($dns['query'], $extra);
-			
+
 			foreach($extra as $key => $val)
 			{
 				// booleans please
@@ -85,12 +85,12 @@ function &DB($params = '', $active_record_override = FALSE)
 				{
 					$val = FALSE;
 				}
-				
+
 				$params[$key] = $val;
 			}
 		}
 	}
-
+	
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
