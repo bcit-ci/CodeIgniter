@@ -84,7 +84,7 @@ class CI_Typography {
 		if ($strip_js_event_handlers === TRUE)
 		{
 			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
- 		}       
+		}       
 
 		// Convert quotes within tags to temporary markers. We don't want quotes converted 
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
@@ -132,7 +132,7 @@ class CI_Typography {
 				$str .= $chunk;
 				continue;
 			}
-	
+
 			if ($process == FALSE)
 			{
 				$str .= $chunk;
