@@ -58,23 +58,23 @@ class CI_URI {
 	 * @return	string
 	 */	
 	function _fetch_uri_string()
-	{	
+	{
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
 			// If the URL has a question mark then it's simplest to just
 			// build the URI string from the zero index of the $_GET array.
 			// This avoids having to deal with $_SERVER variables, which
 			// can be unreliable in some environments
-			if (is_array($_GET) AND count($_GET) == 1 AND trim(key($_GET), '/') != '')
+			if (is_array($_GET) && count($_GET) == 1 && trim(key($_GET), '/') != '')
 			{
-				$this->uri_string = key($_GET);			
+				$this->uri_string = key($_GET);
 				return;
 			}
 		
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways		
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');			
-			if (trim($path, '/') != '' AND $path != "/".SELF)
+			if (trim($path, '/') != '' && $path != "/".SELF)
 			{
 				$this->uri_string = $path;
 				return;
@@ -90,7 +90,7 @@ class CI_URI {
 			
 			// No QUERY_STRING?... Maybe the ORIG_PATH_INFO variable exists?
 			$path = (isset($_SERVER['ORIG_PATH_INFO'])) ? $_SERVER['ORIG_PATH_INFO'] : @getenv('ORIG_PATH_INFO');	
-			if (trim($path, '/') != '' AND $path != "/".SELF)
+			if (trim($path, '/') != '' && $path != "/".SELF)
 			{
 				// remove path and script information so we have good URI data
 				$this->uri_string = str_replace($_SERVER['SCRIPT_NAME'], '', $path);
@@ -119,7 +119,7 @@ class CI_URI {
 			$this->uri_string = '';
 		}		
 	}
-	
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -157,7 +157,7 @@ class CI_URI {
 		$i = 0;
 		foreach(explode("/", $fc_path) as $segment)
 		{
-			if (isset($parsed_uri[$i]) AND $segment == $parsed_uri[$i])
+			if (isset($parsed_uri[$i]) && $segment == $parsed_uri[$i])
 			{
 				$i++;
 			}
@@ -184,15 +184,19 @@ class CI_URI {
 	 */	
 	function _filter_uri($str)
 	{
-		if ($str != '' AND $this->config->item('permitted_uri_chars') != '')
+		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
 		{
 			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
 			{
 				exit('The URI you submitted has disallowed characters.');
 			}
-		}
-			
-		return $str;
+		}	
+		
+		// Convert programatic characters to entities
+		$bad	= array('$', 		'(', 		')',	 	'%28', 		'%29');
+		$good	= array('&#36;',	'&#40;',	'&#41;',	'&#40;',	'&#41;');
+		
+		return str_replace($bad, $good, $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -228,7 +232,9 @@ class CI_URI {
 			$val = trim($this->_filter_uri($val));
 			
 			if ($val != '')
+			{
 				$this->segments[] = $val;
+			}
 		}
 	}
 	
