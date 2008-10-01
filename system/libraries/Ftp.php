@@ -379,7 +379,7 @@ class CI_FTP {
 		
 		$list = $this->list_files($filepath);
 		
-		if ($list !== FALSE)
+		if ($list !== FALSE AND count($list) > 0)
 		{
 			foreach ($list as $item)
 			{			
