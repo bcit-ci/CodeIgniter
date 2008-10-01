@@ -35,6 +35,9 @@ class CI_Typography {
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|samp|select|span|strong|sub|sup|textarea|var';
 
+	// whether or not to protect quotes within { curly braces }
+	var $protect_braced_quotes = FALSE;
+	
 	/**
 	 * Nothing to do here...
 	 *
@@ -97,7 +100,20 @@ class CI_Typography {
 									$str);
 			}
 		}
-	
+
+		if ($this->protect_braced_quotes === TRUE)
+		{
+			if (preg_match_all("#\{.+?}#si", $str, $matches))
+			{
+				for ($i = 0; $i < count($matches['0']); $i++)
+				{
+					$str = str_replace($matches['0'][$i],
+										str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches['0'][$i]),
+										$str);
+				}
+			}			
+		}
+			
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
