@@ -943,7 +943,7 @@ class CI_Image_lib {
 		{
 			@imagealphablending($src_img, TRUE);
 		} 		
-		
+
 		// Set RGB values for text and shadow
 		$rgba = imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp);
 		$alpha = ($rgba & 0x7F000000) >> 24;
