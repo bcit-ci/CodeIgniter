@@ -94,7 +94,7 @@ class CI_Output {
 	}
 
 	// --------------------------------------------------------------------
-		
+
 	/**
 	 * Set Header
 	 *
@@ -107,9 +107,55 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */	
-	function set_header($header)
+	function set_header($header, $replace = TRUE)
 	{
-		$this->headers[] = $header;
+		$this->headers[] = array($header, $replace);
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set HTTP Status Header
+	 *
+	 * @access	public
+	 * @param	int 	the status code
+	 * @param	string	
+	 * @return	void
+	 */	
+	function set_status_header($code, $text='')
+	{		
+		if ( ! in_array($code, array(200, 304, 401, 404)) AND $text == '')
+		{
+			show_error('You must submit a status message and a status code');
+		}
+	
+		if ($text == '')
+		{
+			switch($code)
+			{
+				case 200:	$text = 'OK';
+					break;
+				case 304:	$text = 'Not Modified';
+					break;
+				case 401:	$text = 'Unauthorized';
+					break;
+				case 404:	$text = 'Not Found';
+					break;
+			}
+		}
+	
+		if (substr(php_sapi_name(), 0, 3) == 'cgi')
+		{
+			@header("Status: {$code} {$text}", TRUE);
+		}
+		elseif ($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.1' OR $_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
+		{
+			@header($_SERVER['SERVER_PROTOCOL']." {$code} {$text}", TRUE, $code);
+		}
+		else
+		{
+			@header("HTTP/1.1 {$code} {$text}", TRUE, $code);
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -183,7 +229,7 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-				
+
 		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
 		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
@@ -211,7 +257,7 @@ class CI_Output {
 		{
 			foreach ($this->headers as $header)
 			{
-				@header($header);
+				@header($header[0], $header[1]);
 			}
 		}		
 
@@ -296,7 +342,7 @@ class CI_Output {
 		
 		$cache_path .= md5($uri);
 
-		if ( ! $fp = @fopen($cache_path, 'wb'))
+		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
 		{
 			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
@@ -342,7 +388,7 @@ class CI_Output {
 			return FALSE;
 		}
 	
-		if ( ! $fp = @fopen($filepath, 'rb'))
+		if ( ! $fp = @fopen($filepath, FOPEN_READ))
 		{
 			return FALSE;
 		}
