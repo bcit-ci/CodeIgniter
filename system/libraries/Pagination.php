@@ -183,7 +183,7 @@ class CI_Pagination {
 		$output = '';
 
 		// Render the "First" link
-		if  ($this->cur_page > $this->num_links)
+		if  ($this->cur_page > ($this->num_links + 1))
 		{
 			$output .= $this->first_tag_open.'<a href="'.$this->base_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
