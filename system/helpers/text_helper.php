@@ -287,12 +287,11 @@ if ( ! function_exists('highlight_code'))
 		{
 			$str = str_replace(array('<font ', '</font>'), array('<span ', '</span>'), $str);
 			$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
-			$str = str_replace('<span style="color: #0000BB">&lt;?php ', '<span style="color: #0000BB">', $str);
 		}
-
+		
 		// Remove our artificially added PHP, and the syntax highlighting that came with it
-		$str = str_replace('<span style="color: #0000BB">&lt;?php&nbsp;', '<span style="color: #0000BB">', $str);
-		$str = preg_replace('/(<span style="color: #0000BB">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);
+		$str = preg_replace('/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i', '<span style="color: #$1">', $str);
+		$str = preg_replace('/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);
 		$str = preg_replace('/<span style="color: #[A-Z0-9]+"\><\/span>/i', '', $str);
 			
 		// Replace our markers back to PHP tags.
