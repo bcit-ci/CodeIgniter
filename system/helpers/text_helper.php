@@ -274,27 +274,27 @@ if ( ! function_exists('highlight_code'))
 							array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'), $str);
 
 		// The highlight_string function requires that the text be surrounded
-		// by PHP tags.  Since we don't know if A) the submitted text has PHP tags,
-		// or B) whether the PHP tags enclose the entire string, we will add our
-		// own PHP tags around the string along with some markers to make replacement easier later
-	
-		$str = '<?php tempstart'."\n".$str.'tempend ?>';
-	
-		// All the magic happens here, baby!
+		// by PHP tags, which we will remove later
+		$str = '<?php '.$str.' ?>'; // <?
+
+		// All the magic happens here, baby!	
 		$str = highlight_string($str, TRUE);
 
-		// Prior to PHP 5, the highlight function used icky font tags
-		// so we'll replace them with span tags.	
-		if (abs(phpversion()) < 5)
+		// Prior to PHP 5, the highligh function used icky <font> tags
+		// so we'll replace them with <span> tags.
+
+		if (abs(PHP_VERSION) < 5)
 		{
 			$str = str_replace(array('<font ', '</font>'), array('<span ', '</span>'), $str);
 			$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
+			$str = str_replace('<span style="color: #0000BB">&lt;?php ', '<span style="color: #0000BB">', $str);
 		}
-	
-		// Remove our artificially added PHP
-		$str = preg_replace("#\<code\>.+?tempstart\<br />(?:\</span\>)?#is", "<code>\n", $str);
-		$str = preg_replace("#tempend.+#is", "</span>\n</code>", $str);	
-	
+
+		// Remove our artificially added PHP, and the syntax highlighting that came with it
+		$str = str_replace('<span style="color: #0000BB">&lt;?php&nbsp;', '<span style="color: #0000BB">', $str);
+		$str = preg_replace('/(<span style="color: #0000BB">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);
+		$str = preg_replace('/<span style="color: #[A-Z0-9]+"\><\/span>/i', '', $str);
+			
 		// Replace our markers back to PHP tags.
 		$str = str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
 							array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'), $str);
