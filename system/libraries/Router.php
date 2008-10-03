@@ -98,7 +98,22 @@ class CI_Router {
 				show_error("Unable to determine what should be displayed. A default route has not been specified in the routing file.");
 			}
 
-			$this->uri->uri_string = $this->default_controller;
+			// Turn the default route into an array.  We explode it in the event that
+			// the controller is located in a subfolder
+			$segments = $this->_validate_request(explode('/', $this->default_controller));
+
+			// Set the class and method
+			$this->set_class($segments[0]);
+			$this->set_method('index');
+			
+			// Assign the segments to the URI class
+			$this->uri->rsegments = $segments;
+			
+			// re-index the routed segments array so it starts with 1 rather than 0
+			$this->uri->_reindex_segments();
+			
+			log_message('debug', "No URI present. Default controller set.");
+			return;
 		}
 		unset($this->routes['default_controller']);
 		
