@@ -29,6 +29,7 @@ class CI_Upload {
 	var $max_size		= 0;
 	var $max_width		= 0;
 	var $max_height		= 0;
+	var $max_filename	= 0;
 	var $allowed_types	= "";
 	var $file_temp		= "";
 	var $file_name		= "";
@@ -147,7 +148,7 @@ class CI_Upload {
 			// errors will already be set by validate_upload_path() so just return FALSE
 			return FALSE;
 		}
-						
+
 		// Was the file able to be uploaded? If not, determine the reason why.
 		if ( ! is_uploaded_file($_FILES[$field]['tmp_name']))
 		{
@@ -221,6 +222,12 @@ class CI_Upload {
 
 		// Sanitize the file name for security
 		$this->file_name = $this->clean_file_name($this->file_name);
+		
+		// Truncate the file name if it's too long
+		if ($this->max_filename > 0)
+		{
+			$this->file_name = $this->limit_filename_length($this->file_name, $this->max_filename);
+		}
 
 		// Remove white spaces in the name
 		if ($this->remove_spaces == TRUE)
@@ -325,7 +332,8 @@ class CI_Upload {
 	 */	
 	function set_upload_path($path)
 	{
-		$this->upload_path = $path;
+		// Make sure it has a trailing slash
+		$this->upload_path = rtrim($path, '/').'/';
 	}
 	
 	// --------------------------------------------------------------------
@@ -347,7 +355,7 @@ class CI_Upload {
 		if ($this->encrypt_name == TRUE)
 		{		
 			mt_srand();
-			$filename = md5(uniqid(mt_rand())).$this->file_ext; 			
+			$filename = md5(uniqid(mt_rand())).$this->file_ext;	
 		}
 	
 		if ( ! file_exists($path.$filename))
@@ -392,6 +400,20 @@ class CI_Upload {
 		$this->max_size = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
 	}
 	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Set Maximum File Name Length
+	 *
+	 * @access	public
+	 * @param	integer
+	 * @return	void
+	 */	
+	function set_max_filename($n)
+	{
+		$this->max_filename = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -711,7 +733,34 @@ class CI_Upload {
 
 		return stripslashes($filename);
 	}
+
+	// --------------------------------------------------------------------
 	
+	/**
+	 * Limit the File Name Length
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */		
+	function limit_filename_length($filename, $length)
+	{
+		if (strlen($filename) < $length)
+		{
+			return $filename;
+		}
+	
+		$ext = '';
+		if (strpos($filename, '.') !== FALSE)
+		{
+			$parts		= explode('.', $filename);
+			$ext		= '.'.array_pop($parts);
+			$filename	= implode('.', $parts);
+		}
+	
+		return substr($filename, 0, ($length - strlen($ext))).$ext;
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -832,6 +881,8 @@ class CI_Upload {
 		return ( ! isset($this->mimes[$mime])) ? FALSE : $this->mimes[$mime];
 	}
 
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Prep Filename
 	 *
