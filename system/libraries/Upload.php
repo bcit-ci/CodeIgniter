@@ -398,7 +398,7 @@ class CI_Upload {
 	 */	
 	function set_max_filesize($n)
 	{
-		$this->max_size = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_size = ((int) $n < 0) ? 0: (int) $n;
 	}
 	
 	// --------------------------------------------------------------------
@@ -412,7 +412,7 @@ class CI_Upload {
 	 */	
 	function set_max_filename($n)
 	{
-		$this->max_filename = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_filename = ((int) $n < 0) ? 0: (int) $n;
 	}
 
 	// --------------------------------------------------------------------
@@ -426,7 +426,7 @@ class CI_Upload {
 	 */	
 	function set_max_width($n)
 	{
-		$this->max_width = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_width = ((int) $n < 0) ? 0: (int) $n;
 	}
 	
 	// --------------------------------------------------------------------
@@ -440,7 +440,7 @@ class CI_Upload {
 	 */	
 	function set_max_height($n)
 	{
-		$this->max_height = ( ! eregi("^[[:digit:]]+$", $n)) ? 0 : $n;
+		$this->max_height = ((int) $n < 0) ? 0: (int) $n;
 	}
 	
 	// --------------------------------------------------------------------
