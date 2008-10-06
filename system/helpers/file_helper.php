@@ -132,7 +132,11 @@ if ( ! function_exists('delete_files'))
 			{
 				if (is_dir($path.'/'.$filename))
 				{
-					delete_files($path.'/'.$filename, $del_dir, $level + 1);
+					// Ignore empty folders
+					if (substr($filename, 0, 1) != '.')
+					{
+						delete_files($path.'/'.$filename, $del_dir, $level + 1);
+					}
 				}
 				else
 				{
