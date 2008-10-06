@@ -77,27 +77,28 @@ SVN Revision: XXXX</p>
 	</li>
 	<li>Database
 		<ul>
-			<li>Added removal of non-printing control characters in escape_str() of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid
+			<li>Added removal of non-printing control characters in <kbd>escape_str()</kbd> of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid
 				potential SQL errors, and possible sources of SQL injection.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
 			<li>Added several new "setting" functions to the <a href="helpers/form_helper.html">Form helper</a> that allow POST data to be retrieved and set into forms.  These are intended to be used on their own, or with the new <a href="libraries/form_validation.html">Form Validation Class</a>.</li>
-			<li>Added current_url() and uri_segments() to  <a href="helpers/url_helper.html">URL helper.</a>.</li>
-			<li>Improved accuracy of calculations in <a href="helpers/number_helper.html">Number helper.</a>.</li>
+			<li>Added <kbd>current_url()</kbd> and uri_segments() to  <a href="helpers/url_helper.html">URL helper</a>.</li>
+			<li>Altered <kbd>auto_link()</kbd> in the <a href="helpers/url_helper.html">URL helper</a> so that email addresses with "+" included will be linked.</li>
+			<li>Improved accuracy of calculations in <a href="helpers/number_helper.html">Number helper</a>.</li>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>
-			<li>Tightened up validation in Date Helper human_to_unix(), and eliminated the POSIX regex.</li>
-			<li>Updated Date Helper to match the world's current time zones and offsets.</li>
+			<li>Tightened up validation in the <a href="helpers/date_helper.html">Date helper</a> function <kbd>human_to_unix()</kbd>, and eliminated the POSIX regex.</li>
+			<li>Updated <a href="helpers/date_helper.html">Date helper</a> to match the world's current time zones and offsets.</li>
 		</ul>
 	</li>
 	<li>Other changes
 		<ul>
-			<li>Improved performance and accuracy of xss_clean(), including reduction of false positives on image/file tests.</li>
+			<li>Improved performance and accuracy of <kbd>xss_clean()</kbd>, including reduction of false positives on image/file tests.</li>
+			<li>Added sanitization in <kbd>xss_clean()</kbd> for a deprecated HTML tag that could be abused in user input in Internet Explorer.</li>
 			<li>Added a few openxml document mime types, and an additional mobile agent to mimes.php and user_agents.php respectively.</li>
-			<li>Added sanitization in xss_clean() for a deprecated HTML tag that could be abused in user input in Internet Explorer.</li>
 			<li>Added <a href="./general/styleguide.html">PHP Style Guide</a> to docs.</li>
-			<li>Added backticks around column names in MySQL when using insert_string and update_string functions, and in where() function.</li>
+			<li>Added backticks around column names in MySQL when using insert_string and update_string functions, and in <kbd>where()</kbd> function.</li>
 			<li>Modified Pagination library to only output the "First" link when the link for page one would not be shown.</li>
 		</ul>
 	</li>
@@ -105,7 +106,7 @@ SVN Revision: XXXX</p>
 
 <h3>Bug fixes for 1.7.0</h3>
 <ul>
-	<li>Fixed bug in xss_clean() that could remove some desirable tag attributes.</li>
+	<li>Fixed bug in <kbd>xss_clean()</kbd> that could remove some desirable tag attributes.</li>
 	<li>Fixed assorted user guide typos or examples (#4807, #4812, #4840, #4862, #4864, #4899, #4930, #5006, #5071, #5158, #5229, #5254).</li>
 	<li>Fixed an edit from 1.6.3 that made the $robots array in user_agents.php go poof.</li>
 	<li>Fixed a bug in the Email library with quoted-printable encoding improperly encoding space and tab characters.</li>
@@ -114,12 +115,12 @@ SVN Revision: XXXX</p>
 	<li>Fixed a bug in the Session class when database sessions are used where upon session update all userdata would be errantly written to the session cookie.</li>
 	<li>Fixed a bug (#4536) in backups with the MySQL driver where some legacy code was causing certain characters to be double escaped.</li>
 	<li>Fixed a routing bug (#4661) that occurred when the default route pointed to a subfolder.</li>
-	<li>Fixed the spelling of "Dhaka" in the timezone_menu() function of the <a href="helpers/date_helper.html">Date helper.</a></li>
+	<li>Fixed the spelling of "Dhaka" in the <kbd>timezone_menu()</kbd> function of the <a href="helpers/date_helper.html">Date helper.</a></li>
 	<li>Fixed the spelling of "raspberry" in config/smileys.php</li>
-	<li>Fixed incorrect parenthesis in form_open() function. (#5135)</li>
+	<li>Fixed incorrect parenthesis in <kbd>form_open()</kbd> function. (#5135)</li>
 	<li>Fixed a bug that was ignoring case when comparing controller methods (#4560)</li>
 	<li>Fixed a bug (#4615) that was not setting SMTP authorization settings when using the initialize function</li>
-	<li>Fixed a bug in highlight_code() in the Text helper that would leave a stray &lt;/span&gt; in certain cases.</li>
+	<li>Fixed a bug in <kbd>highlight_code()</kbd> in the Text helper that would leave a stray &lt;/span&gt; in certain cases.</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
