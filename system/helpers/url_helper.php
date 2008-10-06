@@ -400,7 +400,7 @@ if ( ! function_exists('auto_link'))
 
 		if ($type != 'url')
 		{	
-			if (preg_match_all("/([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
+			if (preg_match_all("/([a-zA-Z0-9_\.\-\+Å]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
 			{
 				for ($i = 0; $i < sizeof($matches['0']); $i++)
 				{
