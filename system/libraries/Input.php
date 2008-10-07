@@ -147,7 +147,7 @@ class CI_Input {
 		// note that the key names below are single quoted strings, and are not PHP variables
 		unset($_COOKIE['$Version']);
 		unset($_COOKIE['$Path']);
-		unset($_COOKIE['$Domain'])
+		unset($_COOKIE['$Domain']);
 		$_COOKIE = $this->_clean_input_data($_COOKIE);
 
 		log_message('debug', "Global POST and COOKIE data sanitized");
