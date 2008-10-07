@@ -141,6 +141,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		// oracle must parse the query before it is run. All of the actions with
 		// the query are based on the statement id returned by ociparse
+		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		ocisetprefetch($this->stmt_id, 1000);
 		return @ociexecute($this->stmt_id, $this->_commit);
