@@ -366,7 +366,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function escape_str($str)
 	{
-		return $this->input->_remove_invisible_characters($str);
+		return $this->input->CI->_remove_invisible_characters($str);
 	}
 
 	// --------------------------------------------------------------------
