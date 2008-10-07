@@ -122,6 +122,8 @@ SVN Revision: XXXX</p>
 	<li>Fixed a bug that was ignoring case when comparing controller methods (#4560)</li>
 	<li>Fixed a bug (#4615) that was not setting SMTP authorization settings when using the initialize function</li>
 	<li>Fixed a bug in <kbd>highlight_code()</kbd> in the Text helper that would leave a stray &lt;/span&gt; in certain cases.</li>
+	<li>Fixed Oracle bug (#3306) that was preventing multiple queries in one action.</li>
+	<li>Fixed ODBC bug that was ignoring connection params due to its use of a constructor.</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
