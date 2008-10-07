@@ -382,6 +382,7 @@ class CI_DB_driver {
 			$RES->stmt_id		= $this->stmt_id;
 			$RES->curs_id		= NULL;
 			$RES->limit_used	= $this->limit_used;
+			$this->stmt_id		= FALSE;
 		}
 		
 		// Is query caching enabled?  If so, we'll serialize the
