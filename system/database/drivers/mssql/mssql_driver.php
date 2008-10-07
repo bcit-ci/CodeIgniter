@@ -37,7 +37,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword = ' ASC'; // not currently supported
-	
+	var $dbdriver		= 'mssql';
+
 	/**
 	 * Non-persistent database connection
 	 *

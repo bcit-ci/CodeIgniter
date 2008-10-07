@@ -30,6 +30,8 @@
  */
 class CI_DB_mysqli_driver extends CI_DB {
 
+	var $dbdriver = 'mysqli';
+
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is

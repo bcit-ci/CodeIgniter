@@ -32,6 +32,8 @@
  */
 class CI_DB_sqlite_driver extends CI_DB {
 
+	var $dbdriver = 'sqlite';
+
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is

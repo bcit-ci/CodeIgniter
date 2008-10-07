@@ -30,6 +30,8 @@
  */
 class CI_DB_mysql_driver extends CI_DB {
 
+	var $dbdriver = 'mysql';
+
 	/**
 	 * Whether to use the MySQL "delete hack" which allows the number
 	 * of affected rows to be shown. Uses a preg_replace when enabled,
