@@ -140,6 +140,14 @@ class CI_Input {
 		$_POST = $this->_clean_input_data($_POST);
 		
 		// Clean $_COOKIE Data
+		// Also get rid of specially treated cookies that might be set by a server
+		// or silly application, that are of no use to a CI application anyway
+		// but that when present will trip our 'Disallowed Key Characters' alarm
+		// http://www.ietf.org/rfc/rfc2109.txt
+		// note that the key names below are single quoted strings, and are not PHP variables
+		unset($_COOKIE['$Version']);
+		unset($_COOKIE['$Path']);
+		unset($_COOKIE['$Domain'])
 		$_COOKIE = $this->_clean_input_data($_COOKIE);
 
 		log_message('debug', "Global POST and COOKIE data sanitized");
