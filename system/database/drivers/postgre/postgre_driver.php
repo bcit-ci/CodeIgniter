@@ -39,16 +39,43 @@ class CI_DB_postgre_driver extends CI_DB {
 	var $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
+	 * Connection String
+	 *
+	 * @access	private
+	 * @return	string
+	 */	
+	function _connect_string()
+	{
+		$components = array(
+								'hostname'	=> 'host',
+								'port'		=> 'port',
+								'database'	=> 'dbname',
+								'username'	=> 'user',
+								'password'	=> 'password'
+							);
+		
+		$connect_string = "";
+		foreach ($components as $key => $val)
+		{
+			if (isset($this->$key) && $this->$key != '')
+			{
+				$connect_string .= " $val=".$this->$key;
+			}
+		}
+		return trim($connect_string);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Non-persistent database connection
 	 *
 	 * @access	private called by the base class
 	 * @return	resource
 	 */	
 	function db_connect()
-	{
-		$port = ($this->port == '') ? '' : " port=".$this->port;
-		
-		return @pg_connect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+	{		
+		return @pg_connect($this->_connect_string());
 	}
 
 	// --------------------------------------------------------------------
@@ -61,9 +88,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */	
 	function db_pconnect()
 	{
-		$port = ($this->port == '') ? '' : " port=".$this->port;
-
-		return @pg_pconnect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		return @pg_pconnect($this->_connect_string());
 	}
 	
 	// --------------------------------------------------------------------
