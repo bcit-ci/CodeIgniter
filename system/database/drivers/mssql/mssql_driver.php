@@ -470,11 +470,11 @@ class CI_DB_mssql_driver extends CI_DB {
 			// This function may get "field >= 1", and need it to return ""field" >= 1"
 			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
 
-			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1"$2"$3', $item);
+			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1$2$3', $item);
 		}
 		else
 		{
-			return "\"{$item}\"";
+			return $item;
 		}
 
 		$exceptions = array('AS', '/', '-', '%', '+', '*', 'OR', 'IS');
