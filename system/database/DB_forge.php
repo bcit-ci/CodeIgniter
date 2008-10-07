@@ -191,7 +191,7 @@ class CI_DB_forge {
 		}
 
 		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
-
+		
 		$this->_reset();
 		return $this->db->query($sql);
 	}

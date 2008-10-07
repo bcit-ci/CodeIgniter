@@ -214,7 +214,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	function escape_str($str)	
 	{	
 		// Escape single quotes
-		return str_replace("'", "''", $this->input->_remove_invisible_characters($str));
+		return str_replace("'", "''", $this->CI->input->_remove_invisible_characters($str));
 	}
 	
 	// --------------------------------------------------------------------
