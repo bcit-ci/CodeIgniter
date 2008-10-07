@@ -72,7 +72,7 @@ SVN Revision: XXXX</p>
 			<li>Added controller class/method info to <a href="general/profiling.html">Profiler class</a>.</li>
 			<li>Improved the "auto typography" feature and moved it out of the helper into its own <a href="libraries/typography.html">Typography Class</a>.</li>
 			<li>Added <dfn>max_filename</dfn> option to set a file name length limit in the  <a href="libraries/file_uploading.html">File Upload Class</a>.</li>
-			<li>Added <dfn>set_status_header()</dfn> function to <a href="libraries/output.html">Output class</a></li>
+			<li>Added <dfn>set_status_header()</dfn> function to <a href="libraries/output.html">Output class</a>.</li>
 			<li>Changed the output of the profiler to use style attribute rather than clear, and added the id "codeigniter_profiler" to the container div.</li>
 		</ul>
 	</li>
@@ -102,7 +102,7 @@ SVN Revision: XXXX</p>
 			<li>Added backticks around column names in MySQL when using insert_string and update_string functions, and in <kbd>where()</kbd> function.</li>
 			<li>Modified Pagination library to only output the "First" link when the link for page one would not be shown.</li>
 			<li>Added a file lock check during caching, before trying to write to the file.</li>
-			<li>Added driver name variable in each DB driver, based on this bug report: #4436</li>
+			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
 			<li>Modified Cookie key cleaning to unset a few troublesome key names that can be present in certain environments,
 				preventing CI from halting execution.</li>
 		</ul>
@@ -114,18 +114,18 @@ SVN Revision: XXXX</p>
 	<li>Fixed bug in <kbd>xss_clean()</kbd> that could remove some desirable tag attributes.</li>
 	<li>Fixed assorted user guide typos or examples (#4807, #4812, #4840, #4862, #4864, #4899, #4930, #5006, #5071, #5158, #5229, #5254).</li>
 	<li>Fixed an edit from 1.6.3 that made the $robots array in user_agents.php go poof.</li>
-	<li>Fixed a bug in the Email library with quoted-printable encoding improperly encoding space and tab characters.</li>
+	<li>Fixed a bug in the <a href="libraries/email.html">Email library</a> with quoted-printable encoding improperly encoding space and tab characters.</li>
 	<li>Modified XSS sanitization to no longer add semicolons after &amp;[single letter], such as in M&amp;M's, B&amp;B, etc.</li>
 	<li>Modified XSS sanitization to no longer strip XHTML image tags of closing slashes.</li>
 	<li>Fixed a bug in the Session class when database sessions are used where upon session update all userdata would be errantly written to the session cookie.</li>
 	<li>Fixed a bug (#4536) in backups with the MySQL driver where some legacy code was causing certain characters to be double escaped.</li>
 	<li>Fixed a routing bug (#4661) that occurred when the default route pointed to a subfolder.</li>
 	<li>Fixed the spelling of "Dhaka" in the <kbd>timezone_menu()</kbd> function of the <a href="helpers/date_helper.html">Date helper.</a></li>
-	<li>Fixed the spelling of "raspberry" in config/smileys.php</li>
-	<li>Fixed incorrect parenthesis in <kbd>form_open()</kbd> function. (#5135)</li>
-	<li>Fixed a bug that was ignoring case when comparing controller methods (#4560)</li>
-	<li>Fixed a bug (#4615) that was not setting SMTP authorization settings when using the initialize function</li>
-	<li>Fixed a bug in <kbd>highlight_code()</kbd> in the Text helper that would leave a stray &lt;/span&gt; in certain cases.</li>
+	<li>Fixed the spelling of "raspberry" in config/smileys.php.</li>
+	<li>Fixed incorrect parenthesis in <kbd>form_open()</kbd> function (#5135).</li>
+	<li>Fixed a bug that was ignoring case when comparing controller methods (#4560).</li>
+	<li>Fixed a bug (#4615) that was not setting SMTP authorization settings when using the initialize function.</li>
+	<li>Fixed a bug in <kbd>highlight_code()</kbd> in the <a href="helpers/text_helper.html">Text helper</a> that would leave a stray &lt;/span&gt; in certain cases.</li>
 	<li>Fixed Oracle bug (#3306) that was preventing multiple queries in one action.</li>
 	<li>Fixed ODBC bug that was ignoring connection params due to its use of a constructor.</li>
 </ul>
