@@ -389,9 +389,16 @@ class CI_Output {
 		
 		$expire = time() + ($this->cache_expiration * 60);
 		
-		flock($fp, LOCK_EX);
-		fwrite($fp, $expire.'TS--->'.$output);
-		flock($fp, LOCK_UN);
+		if (flock($fp, LOCK_EX))
+		{
+			fwrite($fp, $expire.'TS--->'.$output);
+			flock($fp, LOCK_UN);
+		}
+		else
+		{
+			log_message('error', "Unable to secure a file lock for file at: ".$cache_path);
+			return;
+		}
 		fclose($fp);
 		@chmod($cache_path, DIR_WRITE_MODE);
 
