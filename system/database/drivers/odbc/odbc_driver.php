@@ -30,6 +30,8 @@
  */
 class CI_DB_odbc_driver extends CI_DB {
 
+	var $dbdriver = 'odbc';
+
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is

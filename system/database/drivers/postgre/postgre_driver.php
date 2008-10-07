@@ -30,6 +30,8 @@
  */
 class CI_DB_postgre_driver extends CI_DB {
 
+	var $dbdriver = 'postgre';
+
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
