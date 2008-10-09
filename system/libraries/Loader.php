@@ -891,8 +891,8 @@ class CI_Loader {
 		// Is the class name valid?
 		if ( ! class_exists($name))
 		{
-			log_message('error', "Non-existant class: ".$name);
-			show_error("Non-existant class: ".$class);
+			log_message('error', "Non-existent class: ".$name);
+			show_error("Non-existent class: ".$class);
 		}
 		
 		// Set the variable name we will assign the class to
