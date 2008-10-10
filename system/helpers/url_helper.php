@@ -479,19 +479,20 @@ if ( ! function_exists('url_title'))
 		}
 		
 		$trans = array(
-						$search								=> $replace,
-						"\s+"								=> $replace,
-						"[^a-z0-9".$replace."]"				=> '',
-						$replace."+"						=> $replace,
-						$replace."$"						=> '',
-						"^".$replace						=> ''
-					   );
+						'&\#\d+?;'				=> '',
+						'&\S+?;'				=> '',
+						'\s+'					=> $replace,
+						'[^a-z0-9\-\._]'		=> '',
+						$replace.'+'			=> $replace,
+						$replace.'$'			=> $replace,
+						'^'.$replace			=> $replace
+					  );
 
-		$str = strip_tags(strtolower($str));
+		$str = strip_tags($str);
 	
 		foreach ($trans as $key => $val)
 		{
-			$str = preg_replace("#".$key."#", $val, $str);
+			$str = preg_replace("#".$key."#i", $val, $str);
 		}
 	
 		return trim(stripslashes($str));

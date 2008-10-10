@@ -91,6 +91,8 @@ SVN Revision: XXXX</p>
 			<li>Removed added newlines ("\n") from most form and html helper functions.</li>
 			<li>Tightened up validation in the <a href="helpers/date_helper.html">Date helper</a> function <kbd>human_to_unix()</kbd>, and eliminated the POSIX regex.</li>
 			<li>Updated <a href="helpers/date_helper.html">Date helper</a> to match the world's current time zones and offsets.</li>
+			<li>Modified url_title() in the <a href="helpers/url_helper.html">URL helper</a> to remove characters and digits that are part of
+				character entities, to allow dashes, underscores, and periods regardless of the $separator, and to allow uppercase characters.</li>
 		</ul>
 	</li>
 	<li>Other changes
