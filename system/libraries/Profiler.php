@@ -126,7 +126,13 @@ class CI_Profiler {
 			$output .= "</fieldset>";
 			
 			return $output;
-		}	
+		}
+		
+		// Load the text helper so we can highlight the SQL
+		$this->CI->load->helper('text');
+
+		// Key words we want bolded
+		$highlight = array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')');
 
 		$output  = "\n\n";
 			
@@ -143,15 +149,13 @@ class CI_Profiler {
 				$output .= "<tr><td width='100%' style='color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
 			}
 			else
-			{
-				$highlight = array('SELECT', 'FROM', 'WHERE', 'AND', 'LEFT JOIN', 'ORDER BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR');
-				
+			{				
 				foreach ($db->queries as $key => $val)
-				{
-					$val = htmlspecialchars($val, ENT_QUOTES);
-					
+				{					
 					$time = number_format($db->query_times[$key], 4);
-					
+
+					$val = highlight_code($val, ENT_QUOTES);
+	
 					foreach ($highlight as $bold)
 					{
 						$val = str_replace($bold, '<strong>'.$bold.'</strong>', $val);	
@@ -365,7 +369,7 @@ class CI_Profiler {
 	 */	
 	function run()
 	{
-		$output .= "<div id='codeigniter_profiler' style='clear:both;background-color:#fff;padding:10px;'>";
+		$output = "<div id='codeigniter_profiler' style='clear:both;background-color:#fff;padding:10px;'>";
 
 		$output .= $this->_compile_uri_string();
 		$output .= $this->_compile_controller_info();
