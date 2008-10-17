@@ -107,8 +107,7 @@ SVN Revision: XXXX</p>
 			<li>Modified Pagination library to only output the "First" link when the link for page one would not be shown.</li>
 			<li>Added a file lock check during caching, before trying to write to the file.</li>
 			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
-			<li>Modified Cookie key cleaning to unset a few troublesome key names that can be present in certain environments,
-				preventing CI from halting execution.</li>
+			<li>Modified Cookie key cleaning to unset a few troublesome key names that can be present in certain environments, preventing CI from halting execution.</li>
 		</ul>
 	</li>
 </ul>
@@ -134,6 +133,7 @@ SVN Revision: XXXX</p>
 	<li>Fixed ODBC bug that was ignoring connection params due to its use of a constructor.</li>
 	<li>Fixed a DB driver bug with num_rows() that would cause an error with the Oracle driver.</li>
 	<li>Fixed MS SQL bug (#4915).  Added brackets around database name in MS SQL driver when selecting the database, in the event that reserved characters are used in the name.</li>
+	<li>Fixed a DB caching bug (4718) in which the path was incorrect when no URI segments were present.</li>
 	<li>Fixed a spelling error in a Loader error message.</li>
 </ul>
 
