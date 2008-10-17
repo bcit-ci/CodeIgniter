@@ -453,19 +453,21 @@ class CI_Image_lib {
 		// we'll simply make a copy of the original with the new name... assuming dynamic rendering is off.
 		if ($this->dynamic_output === FALSE)
 		{
-			if (($this->orig_width == $this->width AND $this->orig_height == $this->height) AND ($this->source_image != $this->new_image))			
+			if ($this->orig_width == $this->width AND $this->orig_height == $this->height)			
 			{
-				if ( ! @copy($this->full_src_path, $this->full_dst_path))
-				{
-					$this->set_error('imglib_copy_failed');
-					return FALSE;
+ 				if ($this->source_image != $this->new_image)
+ 				{
+					if (@copy($this->full_src_path, $this->full_dst_path))
+					{
+						@chmod($this->full_dst_path, DIR_WRITE_MODE);
+					}
 				}
-			
-				@chmod($this->full_dst_path, DIR_WRITE_MODE);
+				
 				return TRUE;
 			}
 		}
 		
+		// Let's set up our values based on the action
 		if ($action == 'crop')
 		{
 			//  Reassign the source width/height if cropping
