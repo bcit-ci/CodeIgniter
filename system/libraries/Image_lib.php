@@ -688,7 +688,7 @@ class CI_Image_lib {
 		// we have to rename the temp file.
 		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink ($this->dest_folder.'netpbm.tmp');
-		@chmod($dst_image, DIR_WRITE_MODE);
+		@chmod($this->full_dst_path, DIR_WRITE_MODE);
 		
 		return TRUE;
 	}
