@@ -413,7 +413,7 @@ class CI_Input {
 		{
 			// IP segments must be digits and can not be 
 			// longer than 3 digits or greater then 255
-			if (preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
+			if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
 			{
 				return FALSE;
 			}
