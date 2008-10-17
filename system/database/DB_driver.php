@@ -1126,7 +1126,7 @@ class CI_DB_driver {
 	 */	
 	function display_error($error = '', $swap = '', $native = FALSE)
 	{
-		global $LANG;
+		$LANG =& load_class('Language');
 		$LANG->load('db');
 
 		$heading = $LANG->line('db_error_heading');
