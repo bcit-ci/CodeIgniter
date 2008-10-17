@@ -329,7 +329,6 @@ class CI_DB_result {
 	function num_rows() { return $this->num_rows; }
 	function num_fields() { return 0; }
 	function list_fields() { return array(); }
-	function field_names() { return array(); } // Deprecated
 	function field_data() { return array(); }	
 	function free_result() { return TRUE; }
 	function _data_seek() { return TRUE; }

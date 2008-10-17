@@ -30,6 +30,10 @@
  */
 class CI_DB_mssql_driver extends CI_DB {
 
+	var $dbdriver = 'mssql';
+	
+	// The character used for escaping
+	var $_escape_char = '';
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
@@ -37,7 +41,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword = ' ASC'; // not currently supported
-	var $dbdriver		= 'mssql';
 
 	/**
 	 * Non-persistent database connection
@@ -301,7 +304,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 			return '0';
@@ -348,7 +351,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";	
+		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$table."'";	
 	}
 
 	// --------------------------------------------------------------------
@@ -364,7 +367,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 * FROM ".$this->_escape_table($table);	
+		return "SELECT TOP 1 * FROM ".$table;	
 	}
 
 	// --------------------------------------------------------------------
@@ -398,99 +401,34 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape Column Name
+	 * Escape the SQL Identifiers
 	 *
-	 * This function adds backticks around supplied column name
+	 * This function escapes column and table names
 	 *
 	 * @access	private
-	 * @param	string	the column name
+	 * @param	string
 	 * @return	string
 	 */
-	function _escape_column($column)
+	function _escape_identifiers($item)
 	{
-		// Not necessary with MS SQL so we simply return the value
-		return $column;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape Table Name
-	 *
-	 * This function adds backticks if the table name has a period
-	 * in it. Some DBs will get cranky unless periods are escaped
-	 *
-	 * @access	private
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	function _escape_table($table)
-	{
-		// Not necessary with MS SQL so we simply return the value
-		return $table;
-	}	
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
-	 * This function adds backticks if appropriate based on db type
-	 *
-	 * @access	private
-	 * @param	mixed	the item(s)
-	 * @param	boolean	should spaces be backticked
-	 * @param	boolean	only affect the first word
-	 * @return	mixed	the item with backticks
-	 */	
-	function _protect_identifiers($item, $first_word_only = FALSE)
-	{
-		if (is_array($item))
-		{
-			$escaped_array = array();
-
-			foreach($item as $k=>$v)
-			{
-				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v, $first_word_only);
-			}
-
-			return $escaped_array;
-		}	
-
-		// This function may get "item1 item2" as a string, and so
-		// we may need ""item1" "item2"" and not ""item1 item2""
-		if (ctype_alnum($item) === FALSE)
-		{
-			if (strpos($item, '.') !== FALSE)
-			{
-				$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
-				$table_name =  substr($item, 0, strpos($item, '.')+1);
-				$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
-			}
-
-			// This function may get "field >= 1", and need it to return ""field" >= 1"
-			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
-
-			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1$2$3', $item);
-		}
-		else
+		if ($this->_escape_char == '')
 		{
 			return $item;
 		}
-
-		$exceptions = array('AS', '/', '-', '%', '+', '*', 'OR', 'IS');
-		
-		foreach ($exceptions as $exception)
+	
+		if (strpos($item, '.') !== FALSE)
 		{
-		
-			if (stristr($item, " \"{$exception}\" ") !== FALSE)
-			{
-				$item = preg_replace('/ "('.preg_quote($exception).')" /i', ' $1 ', $item);
-			}
+			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;			
 		}
-		return $item;
+		else
+		{
+			$str = $this->_escape_char.$item.$this->_escape_char;
+		}
+		
+		// remove duplicates if the user already included the escape
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
 	}
-			
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -528,7 +466,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{	
-		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 	
 	// --------------------------------------------------------------------
@@ -557,8 +495,10 @@ class CI_DB_mssql_driver extends CI_DB {
 		
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 	
-		$sql = "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr);
+		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+
 		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+
 		$sql .= $orderby.$limit;
 		
 		return $sql;
@@ -580,7 +520,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */	
 	function _truncate($table)
 	{
-		return "TRUNCATE ".$this->_escape_table($table);
+		return "TRUNCATE ".$table;
 	}
 	
 	// --------------------------------------------------------------------
