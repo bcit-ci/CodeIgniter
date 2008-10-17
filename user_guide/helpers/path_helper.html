@@ -72,16 +72,20 @@ Path Helper
 
 <p>Checks to see if the path exists. This function will return a server path without symbolic links or relative directory structures. An optional second argument will cause an error to be triggered if the path cannot be resolved.</p>
 
-<code>$directory = './../../etc/passwd';<br />
+<code>$directory = '/etc/passwd';<br />
 echo set_realpath($directory);<br />
 // returns &quot;/etc/passwd&quot;<br />
 <br />
-$non_existent_directory = './../../path/not/found';<br />
+$non_existent_directory = '/path/to/nowhere';<br />
 echo set_realpath($non_existent_directory, TRUE);<br />
-// returns &quot;/path/not/found&quot;<br />
-<br />
+// returns an <strong>error</strong>, as the path could not be resolved
+<br /><br />
 echo set_realpath($non_existent_directory, FALSE);<br />
-// returns an <strong>error</strong>, as the path could not be resolved</code>
+// returns &quot;/path/to/nowhere&quot;
+
+
+
+</code>
 <h2>&nbsp;</h2>
 </div>
 <!-- END CONTENT -->
