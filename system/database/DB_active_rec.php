@@ -412,7 +412,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->ar_where) == 0) ? '' : $type;
+			$prefix = (count($this->ar_where) == 0 AND count($this->ar_cache_where) == 0) ? '' : $type;
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -1675,13 +1675,20 @@ class CI_DB_active_record extends CI_DB_driver {
 			return;
 		}
 	
-		$ar_items = array('select', 'from', 'join', 'where', 'like', 'groupby', 'having', 'orderby', 'set');
-
-		foreach ($ar_items as $ar_item)
+		foreach (array('select', 'from', 'join', 'where', 'like', 'groupby', 'having', 'orderby', 'set') as $val)
 		{
-			$ar_cache_item = 'ar_cache_'.$ar_item;
-			$ar_item = 'ar_'.$ar_item;
-			$this->$ar_item = array_unique(array_merge($this->$ar_item, $this->$ar_cache_item));
+			$ar_variable	= 'ar_'.$val;
+			$ar_cache_var	= 'ar_cache_'.$val;
+
+			if (count($this->$ar_cache_var) == 0)
+			{
+				continue;
+			}
+					
+			// This doesn't seem to work right, per bug report #4995
+			// $this->$ar_variable = array_unique(array_merge($this->$ar_variable, $this->$ar_cache_var));
+			
+			$this->$ar_variable = array_unique(array_merge($this->$ar_cache_var, $this->$ar_variable));
 		}
 		
 		// If we are "protecting identifiers" we need to examine the "from"
