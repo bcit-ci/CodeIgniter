@@ -46,6 +46,12 @@ class CI_Validation {
 	function CI_Validation()
 	{	
 		$this->CI =& get_instance();
+		
+		if (function_exists('mb_internal_encoding'))
+		{
+			mb_internal_encoding($this->CI->config->item('charset'));
+		}
+		
 		log_message('debug', "Validation Class Initialized");
 	}
 	
@@ -431,7 +437,12 @@ class CI_Validation {
 		{
 			return FALSE;
 		}
-	
+
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) < $val) ? FALSE : TRUE;		
+		}
+
 		return (strlen($str) < $val) ? FALSE : TRUE;
 	}
 	
@@ -451,7 +462,12 @@ class CI_Validation {
 		{
 			return FALSE;
 		}
-	
+		
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) > $val) ? FALSE : TRUE;		
+		}
+
 		return (strlen($str) > $val) ? FALSE : TRUE;
 	}
 	
@@ -472,6 +488,11 @@ class CI_Validation {
 			return FALSE;
 		}
 	
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) != $val) ? FALSE : TRUE;		
+		}
+
 		return (strlen($str) != $val) ? FALSE : TRUE;
 	}
 	
