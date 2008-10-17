@@ -153,7 +153,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 										) ? TRUE : FALSE;
 										
 				// Create a string of field names
-				$field_str .= $field->name.', ';
+				$field_str .= '`'.$field->name.'`, ';
 				$i++;
 			}
 			
