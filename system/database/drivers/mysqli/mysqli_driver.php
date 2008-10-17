@@ -60,7 +60,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */	
 	function db_connect()
 	{
-		return @mysqli_connect($this->hostname, $this->username, $this->password);
+		return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
 	}
 
 	// --------------------------------------------------------------------
