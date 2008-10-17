@@ -66,7 +66,8 @@ class Controller extends CI_Base {
 							'benchmark'	=> 'Benchmark',
 							'uri'		=> 'URI',
 							'output'	=> 'Output',
-							'lang'		=> 'Language'
+							'lang'		=> 'Language',
+							'router'	=> 'Router'
 							);
 		
 		foreach ($classes as $var => $class)
