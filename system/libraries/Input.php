@@ -962,7 +962,7 @@ class CI_Input {
 	 */
 	function _html_entity_decode_callback($match)
 	{
-		global $CFG;
+		$CFG =& load_class('Config');
 		$charset = $CFG->item('charset');
 
 		return $this->_html_entity_decode($match[0], strtoupper($charset));
