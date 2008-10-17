@@ -50,7 +50,13 @@ class CI_Form_validation {
 		
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
-		
+
+		// Set the character encoding in MB.
+		if (function_exists('mb_internal_encoding'))
+		{
+			mb_internal_encoding($this->CI->config->item('charset'));
+		}
+	
 		log_message('debug', "Validation Class Initialized");
 	}
 	
@@ -514,7 +520,7 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_error_messages[$rule];
+					$line = $this->_error_messages['isset'];
 				}
 				
 				// Build the error message
@@ -912,6 +918,11 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
+
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) < $val) ? FALSE : TRUE;		
+		}
 	
 		return (strlen($str) < $val) ? FALSE : TRUE;
 	}
@@ -932,6 +943,11 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
+
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) > $val) ? FALSE : TRUE;		
+		}
 	
 		return (strlen($str) > $val) ? FALSE : TRUE;
 	}
@@ -951,6 +967,11 @@ class CI_Form_validation {
 		if (preg_match("/[^0-9]/", $val))
 		{
 			return FALSE;
+		}
+
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) != $val) ? FALSE : TRUE;		
 		}
 	
 		return (strlen($str) != $val) ? FALSE : TRUE;
