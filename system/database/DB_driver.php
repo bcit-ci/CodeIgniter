@@ -314,7 +314,7 @@ class CI_DB_driver {
 				$this->trans_complete();
 
 				// Log and display errors
-				log_message('error', 'Query error: '.$this->_error_message());
+				log_message('error', 'Query error: '.$error_msg);
 				return $this->display_error(
 										array(
 												'Error Number: '.$error_no,
