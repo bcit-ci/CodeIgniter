@@ -236,11 +236,11 @@ if ( ! function_exists('word_censor'))
 		{
 			if ($replacement != '')
 			{
-				$str = preg_replace("/\b(".str_replace('\*', '\w*?', preg_quote($badword)).")\b/i", $replacement, $str);
+				$str = preg_replace("/\b(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")\b/i", $replacement, $str);
 			}
 			else
 			{
-				$str = preg_replace("/\b(".str_replace('\*', '\w*?', preg_quote($badword)).")\b/ie", "str_repeat('#', strlen('\\1'))", $str);
+				$str = preg_replace("/\b(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")\b/ie", "str_repeat('#', strlen('\\1'))", $str);
 			}
 		}
 	
