@@ -6,6 +6,7 @@ $lang['db_unable_to_select'] = 'Unable to select the specified database: %s';
 $lang['db_unable_to_create'] = 'Unable to create the specified database: %s';
 $lang['db_invalid_query'] = 'The query you submitted is not valid.';
 $lang['db_must_set_table'] = 'You must set the database table to be used with your query.';
+$lang['db_must_set_database'] = 'You must set the database name in your database config file.';
 $lang['db_must_use_set'] = 'You must use the "set" method to update an entry.';
 $lang['db_must_use_where'] = 'Updates are not allowed unless they contain a "where" clause.';
 $lang['db_del_must_use_where'] = 'Deletes are not allowed unless they contain a "where" or "like" clause.';

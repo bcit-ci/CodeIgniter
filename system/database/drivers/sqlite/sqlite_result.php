@@ -71,12 +71,6 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		return $field_names;
 	}
 
-	// Deprecated
-	function field_names()
-	{
-		return $this->list_fields();
-	}
-
 	// --------------------------------------------------------------------
 
 	/**

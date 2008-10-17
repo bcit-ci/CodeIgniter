@@ -253,7 +253,7 @@ class CI_DB_forge {
 	{
 		if ($table == '')
 		{
-				show_error('A table name is required for that operation.');
+			show_error('A table name is required for that operation.');
 		}
 
 		// add field info into field array, but we can only do one at a time
@@ -286,12 +286,12 @@ class CI_DB_forge {
 	
 		if ($table == '')
 		{
-				show_error('A table name is required for that operation.');
+			show_error('A table name is required for that operation.');
 		}
 
 		if ($column_name == '')
 		{
-				show_error('A column name is required for that operation.');
+			show_error('A column name is required for that operation.');
 		}
 
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
@@ -312,10 +312,9 @@ class CI_DB_forge {
 	 */
 	function modify_column($table = '', $field = array())
 	{
-	
 		if ($table == '')
 		{
-				show_error('A table name is required for that operation.');
+			show_error('A table name is required for that operation.');
 		}
 
 		// add field info into field array, but we can only do one at a time
