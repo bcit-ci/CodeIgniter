@@ -90,7 +90,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 			$F->name 		= pg_field_name($this->result_id, $i);
 			$F->type 		= pg_field_type($this->result_id, $i);
 			$F->max_length	= pg_field_size($this->result_id, $i);
-			$F->primary_key = $i == 0;
+			$F->primary_key = 0;
 			$F->default		= '';
 
 			$retval[] = $F;
