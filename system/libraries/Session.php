@@ -711,7 +711,7 @@ class CI_Session {
 		{
 			foreach ($data as $key => $val)
 			{
-				$data[$key] = str_replace('{{slash}}', '\\', $str);
+				$data[$key] = str_replace('{{slash}}', '\\', $val);
 			}
 			
 			return $data;
