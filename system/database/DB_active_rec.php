@@ -47,6 +47,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	
 	// Active Record Caching variables
 	var $ar_caching 			= FALSE;
+	var $ar_cache_exists		= array();
 	var $ar_cache_select		= array();
 	var $ar_cache_from			= array();
 	var $ar_cache_join			= array();
@@ -96,6 +97,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				if ($this->ar_caching === TRUE)
 				{
 					$this->ar_cache_select[] = $val;
+					$this->ar_cache_exists[] = 'select';
 				}
 			}
 		}
@@ -211,6 +213,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_select[] = $sql;
+			$this->ar_cache_exists[] = 'select';
 		}
 		
 		return $this;
@@ -276,6 +279,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_from[] = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->ar_cache_exists[] = 'from';
 			}
 		}
 
@@ -331,6 +335,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_join[] = $join;
+			$this->ar_cache_exists[] = 'join';
 		}
 
 		return $this;
@@ -444,6 +449,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_where[] = $prefix.$k.$v;
+				$this->ar_cache_exists[] = 'where';
 			}
 			
 		}
@@ -564,6 +570,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_where[] = $where_in;
+			$this->ar_cache_exists[] = 'where';
 		}
 
 		// reset the array for multiple calls
@@ -700,6 +707,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_like[] = $like_statement;
+				$this->ar_cache_exists[] = 'like';
 			}
 			
 		}
@@ -733,6 +741,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				if ($this->ar_caching === TRUE)
 				{
 					$this->ar_cache_groupby[] = $this->_protect_identifiers($val);
+					$this->ar_cache_exists[] = 'groupby';
 				}
 			}
 		}
@@ -839,6 +848,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_having[] = $prefix.$k.$v;
+				$this->ar_cache_exists[] = 'having';
 			}
 		}
 		
@@ -873,6 +883,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_orderby[] = $orderby_statement;
+			$this->ar_cache_exists[] = 'orderby';
 		}
 
 		return $this;
@@ -906,6 +917,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_limit[] = $value;
+			$this->ar_cache_exists[] = 'limit';
 		}
 
 		if ($offset != '')
@@ -914,6 +926,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($this->ar_caching === TRUE)
 			{
 				$this->ar_cache_offset[] = $offset;
+				$this->ar_cache_exists[] = 'limit';
 			}
 		}
 		
@@ -935,6 +948,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if ($this->ar_caching === TRUE)
 		{
 			$this->ar_cache_offset[] = $offset;
+			$this->ar_cache_exists[] = 'offset';
 		}
 			
 		return $this;
@@ -969,6 +983,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				if ($this->ar_caching === TRUE)
 				{
 					$this->ar_cache_offset[$this->_protect_identifiers($k)] = $v;
+					$this->ar_cache_exists[] = 'offset';
 				}
 			}
 			else
@@ -978,6 +993,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				if ($this->ar_caching === TRUE)
 				{
 					$this->ar_cache_offset[$this->_protect_identifiers($k)] = $this->escape($v);
+					$this->ar_cache_exists[] = 'offset';
 				}
 			}
 		}
@@ -1670,12 +1686,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _merge_cache()
 	{
-		if ($this->ar_caching == FALSE)
+		if (count($this->ar_cache_exists) == 0)
 		{
 			return;
 		}
-	
-		foreach (array('select', 'from', 'join', 'where', 'like', 'groupby', 'having', 'orderby', 'set') as $val)
+
+		foreach ($this->ar_cache_exists as $val)
 		{
 			$ar_variable	= 'ar_'.$val;
 			$ar_cache_var	= 'ar_cache_'.$val;
@@ -1684,16 +1700,13 @@ class CI_DB_active_record extends CI_DB_driver {
 			{
 				continue;
 			}
-					
-			// This doesn't seem to work right, per bug report #4995
-			// $this->$ar_variable = array_unique(array_merge($this->$ar_variable, $this->$ar_cache_var));
-			
+
 			$this->$ar_variable = array_unique(array_merge($this->$ar_cache_var, $this->$ar_variable));
 		}
-		
+
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE)
+		if ($this->_protect_identifiers === TRUE AND count($this->ar_cache_from) > 0)
 		{
 			$this->_track_aliases($this->ar_from);
 		}
