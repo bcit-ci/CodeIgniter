@@ -1098,7 +1098,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @return	object
 	 */
 	function insert($table = '', $set = NULL)
-	{
+	{	
 		if ( ! is_null($set))
 		{
 			$this->set($set);
@@ -1148,6 +1148,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
 	{
+		// Combine any cached components with the current statements
+		$this->_merge_cache();
+
 		if ( ! is_null($set))
 		{
 			$this->set($set);
@@ -1286,6 +1289,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
+		// Combine any cached components with the current statements
+		$this->_merge_cache();
+
 		if ($table == '')
 		{
 			if ( ! isset($this->ar_from[0]))
