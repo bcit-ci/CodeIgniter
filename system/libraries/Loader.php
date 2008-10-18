@@ -862,9 +862,18 @@ class CI_Loader {
 		// Is there an associated config file for this class?
 		if ($config === NULL)
 		{
-			if (file_exists(APPPATH.'config/'.$class.EXT))
+			// We test for both uppercase and lowercase, for servers that
+			// are case-sensitive with regard to file names
+			if (file_exists(APPPATH.'config/'.strtolower($class).EXT))
 			{
-				include_once(APPPATH.'config/'.$class.EXT);
+				include_once(APPPATH.'config/'.strtolower($class).EXT);
+			}			
+			else
+			{
+				if (file_exists(APPPATH.'config/'.ucfirst(strtolower($class)).EXT))
+				{
+					include_once(APPPATH.'config/'.ucfirst(strtolower($class)).EXT);
+				}			
 			}
 		}
 		
