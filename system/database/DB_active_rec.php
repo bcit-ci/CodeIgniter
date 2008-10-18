@@ -1665,9 +1665,10 @@ class CI_DB_active_record extends CI_DB_driver {
 									'ar_cache_where'	=> array(), 
 									'ar_cache_like'		=> array(), 
 									'ar_cache_groupby'	=> array(), 
-									'ar_cache_having'	=>array(), 
+									'ar_cache_having'	=> array(), 
 									'ar_cache_orderby'	=> array(), 
-									'ar_cache_set'		=> array()
+									'ar_cache_set'		=> array(),
+									'ar_cache_exists'	=> array()
 								);
 
 		$this->_reset_run($ar_reset_items);	
