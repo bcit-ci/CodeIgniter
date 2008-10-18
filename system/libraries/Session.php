@@ -158,7 +158,7 @@ class CI_Session {
 		}
 		
 		// Unserialize the session array
-		$session = @unserialize(strip_slashes($session));
+		$session = $this->_unserialize($session);
 		
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id']) OR ! isset($session['ip_address']) OR ! isset($session['user_agent']) OR ! isset($session['last_activity']))
@@ -216,7 +216,7 @@ class CI_Session {
 			$row = $query->row();
 			if (isset($row->user_data) AND $row->user_data != '')
 			{
-				$custom_data = @unserialize(strip_slashes($row->user_data));
+				$custom_data = $this->_unserialize($row->user_data);
 
 				if (is_array($custom_data))
 				{
@@ -274,7 +274,7 @@ class CI_Session {
 		else
 		{	
 			// Serialize the custom data array so we can store it
-			$custom_userdata = serialize($custom_userdata);
+			$custom_userdata = $this->_serialize($custom_userdata);
 		}
 		
 		// Run the update query
@@ -286,7 +286,7 @@ class CI_Session {
 		// in this case that array contains custom data, which we do not want in the cookie.
 		$this->_set_cookie($cookie_userdata);
 	}
-
+	
 	// --------------------------------------------------------------------
 	
 	/**
@@ -639,7 +639,7 @@ class CI_Session {
 		}
 	
 		// Serialize the userdata for the cookie
-		$cookie_data = serialize($cookie_data);
+		$cookie_data = $this->_serialize($cookie_data);
 		
 		if ($this->sess_encrypt_cookie == TRUE)
 		{
@@ -660,6 +660,64 @@ class CI_Session {
 					$this->cookie_domain,
 					0
 				);
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Serialize an array
+	 *
+	 * This function first converts any slashes found in the array to a temporary
+	 * marker, so when it gets unserialized the slashes will be preserved
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */	
+	function _serialize($data)
+	{
+		if (is_array($data))
+		{
+			foreach ($data as $key => $val)
+			{
+				$data[$key] = str_replace('\\', '{{slash}}', $val);
+			}
+		}
+		else
+		{
+			$data = str_replace('\\', '{{slash}}', $data);
+		}
+		
+		return serialize($data);
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Unserialize
+	 *
+	 * This function unserializes a data string, then converts any
+	 * temporary slash markers back to actual slashes
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */		
+	function _unserialize($data)
+	{
+		$data = @unserialize(strip_slashes($data));
+		
+		if (is_array($data))
+		{
+			foreach ($data as $key => $val)
+			{
+				$data[$key] = str_replace('{{slash}}', '\\', $str);
+			}
+			
+			return $data;
+		}
+		
+		return str_replace('{{slash}}', '\\', $data);
 	}
 
 	// --------------------------------------------------------------------
