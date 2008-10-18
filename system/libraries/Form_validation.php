@@ -508,19 +508,22 @@ class CI_Form_validation {
 		
 		// Isset Test. Typically this rule will only apply to checkboxes.
 		if (is_null($postdata) AND $callback == FALSE)
-		{			
+		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
-				if ( ! isset($this->_error_messages['isset']))
+				// Set the message type
+				$type = (in_array('required', $rules)) ? 'required' : 'isset';
+			
+				if ( ! isset($this->_error_messages[$type]))
 				{
-					if (FALSE === ($line = $this->CI->lang->line('isset')))
+					if (FALSE === ($line = $this->CI->lang->line($type)))
 					{
 						$line = 'The field was not set';
 					}							
 				}
 				else
 				{
-					$line = $this->_error_messages['isset'];
+					$line = $this->_error_messages[$type];
 				}
 				
 				// Build the error message
