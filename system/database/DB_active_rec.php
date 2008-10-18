@@ -55,9 +55,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_cache_like			= array();
 	var $ar_cache_groupby		= array();
 	var $ar_cache_having		= array();
-	var $ar_cache_limit			= FALSE;
-	var $ar_cache_offset		= FALSE;
-	var $ar_cache_order			= FALSE;
 	var $ar_cache_orderby		= array();
 	var $ar_cache_set			= array();	
 
@@ -914,20 +911,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	function limit($value, $offset = '')
 	{
 		$this->ar_limit = $value;
-		if ($this->ar_caching === TRUE)
-		{
-			$this->ar_cache_limit[] = $value;
-			$this->ar_cache_exists[] = 'limit';
-		}
 
 		if ($offset != '')
 		{
 			$this->ar_offset = $offset;
-			if ($this->ar_caching === TRUE)
-			{
-				$this->ar_cache_offset[] = $offset;
-				$this->ar_cache_exists[] = 'limit';
-			}
 		}
 		
 		return $this;
@@ -945,12 +932,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	function offset($offset)
 	{
 		$this->ar_offset = $offset;
-		if ($this->ar_caching === TRUE)
-		{
-			$this->ar_cache_offset[] = $offset;
-			$this->ar_cache_exists[] = 'offset';
-		}
-			
 		return $this;
 	}
 	
@@ -979,22 +960,10 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($escape === FALSE)
 			{
 				$this->ar_set[$this->_protect_identifiers($k)] = $v;
-				
-				if ($this->ar_caching === TRUE)
-				{
-					$this->ar_cache_offset[$this->_protect_identifiers($k)] = $v;
-					$this->ar_cache_exists[] = 'offset';
-				}
 			}
 			else
 			{
 				$this->ar_set[$this->_protect_identifiers($k)] = $this->escape($v);
-				
-				if ($this->ar_caching === TRUE)
-				{
-					$this->ar_cache_offset[$this->_protect_identifiers($k)] = $this->escape($v);
-					$this->ar_cache_exists[] = 'offset';
-				}
 			}
 		}
 		
@@ -1455,6 +1424,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function _compile_select($select_override = FALSE)
 	{
+		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
 		// ----------------------------------------------------------------
@@ -1658,7 +1628,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */	
 	function flush_cache()
 	{	
-		$ar_reset_items = array(
+		$this->_reset_run(
+							array(
 									'ar_cache_select'	=> array(), 
 									'ar_cache_from'		=> array(), 
 									'ar_cache_join'		=> array(),
@@ -1669,9 +1640,8 @@ class CI_DB_active_record extends CI_DB_driver {
 									'ar_cache_orderby'	=> array(), 
 									'ar_cache_set'		=> array(),
 									'ar_cache_exists'	=> array()
-								);
-
-		$this->_reset_run($ar_reset_items);	
+								)
+							);	
 	}
 
 	// --------------------------------------------------------------------
