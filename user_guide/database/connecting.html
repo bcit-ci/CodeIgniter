@@ -80,6 +80,16 @@ available globally in that class.</p>
 <p class="important">If the above function does <strong>not</strong> contain any information in the first parameter it will connect
 to the group specified in your database config file. For most people, this is the preferred method of use.</p>
 
+<h3>Available Parameters</h3>
+
+<ol>
+	<li>The database connection values, passed either as an array or a DSN string.</li>
+	<li>TRUE/FALSE (boolean).  Whether to return the connection ID (see Connecting to Multiple Databases below).</li>
+	<li>TRUE/FALSE (boolean).  Whether to enable the Active Record class.  Set to FALSE by default.</li>
+</ol>
+
+
+<h3>Manuallly Connecting to a Database</h3>
 
 <p>The first parameter of this function can <strong>optionally</strong> be used to specify a particular database group
 from your config file, or you can even submit connection values for a database that is not specified in your config file.
