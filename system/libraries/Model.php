@@ -65,8 +65,7 @@ class Model {
 				// problems so we'll conditionally use them
 				if ($use_reference == TRUE)
 				{
-					// Needed to prevent reference errors with some configurations
-					$this->$key = '';
+					$this->$key = NULL; // Needed to prevent reference errors with some configurations
 					$this->$key =& $CI->$key;
 				}
 				else
