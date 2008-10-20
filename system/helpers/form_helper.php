@@ -598,10 +598,10 @@ if ( ! function_exists('set_value'))
 				return $default;
 			}
 
-			return $_POST[$field];
+			return form_prep($_POST[$field]);
 		}
 
-		return $OBJ->set_value($field, $default);
+		return form_prep($OBJ->set_value($field, $default));
 	}
 }
 
