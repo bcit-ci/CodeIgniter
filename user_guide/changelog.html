@@ -111,6 +111,7 @@ SVN Revision: XXXX</p>
 			<li>Added support for multiple database connections in the Profiler class.</li>
 			<li>Added port support to MySQL, MySQLi, and MS SQL database drivers.</li>
 			<li>Added Active Record caching feature to update and delete functions.</li>
+			<li>Improved <a href="./libraries/parser.html">Parser class</a> to allow multiple calls to the parse() function.  The output of each is appended in the output.</li>
 			<li>Modified Cookie key cleaning to unset a few troublesome key names that can be present in certain environments, preventing CI from halting execution.</li>
 		</ul>
 	</li>
@@ -147,6 +148,7 @@ SVN Revision: XXXX</p>
 	<li>Fixed a Form Validation bug in which the "isset" error message was being trigged by the "required" rule.</li>
 	<li>Fixed a spelling error in a Loader error message.</li>
 	<li>Fixed a bug (5050) with IP validation with empty segments.</li>
+	<li>Fixed a bug in which the parser was being greedy if multiple identical sets of tags were enountered.</li>
 </ul>
 
 <h2>Version 1.6.3</h2>
