@@ -66,7 +66,7 @@ class CI_Parser {
 		
 		if ($return == FALSE)
 		{
-			$CI->output->final_output = $template;
+			$CI->output->append_output($template);
 		}
 		
 		return $template;
