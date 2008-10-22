@@ -290,7 +290,10 @@ class CI_Typography {
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 		
 		// Wrap the whole enchilada in enclosing paragraphs
-		$str =  '<p>'.$str.'</p>';
+		if ($str != "\n")
+		{
+			$str =  '<p>'.$str.'</p>';
+		}
 
 		// Remove empty paragraphs if they are on the first line, as this
 		// is a potential unintended consequence of the previous code
