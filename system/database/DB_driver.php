@@ -767,7 +767,7 @@ class CI_DB_driver {
 	 */
 	function table_exists($table_name)
 	{	
-		return ( ! in_array($this->_protect_identifiers($table_name, TRUE, NULL, FALSE), $this->list_tables())) ? FALSE : TRUE;
+		return ( ! in_array($this->_protect_identifiers($table_name, TRUE, FALSE, FALSE), $this->list_tables())) ? FALSE : TRUE;
 	}
 	
 	// --------------------------------------------------------------------
