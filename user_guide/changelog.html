@@ -71,17 +71,24 @@ SVN Revision: XXXX</p>
 			<li>Added the ability to assign library objects to your own variable names when you use <kbd>$this->load->library()</kbd>. Please see the <a href="libraries/loader.html">Loader class</a> for more info.</li>
 			<li>Added controller class/method info to <a href="general/profiling.html">Profiler class</a>.</li>
 			<li>Improved the "auto typography" feature and moved it out of the helper into its own <a href="libraries/typography.html">Typography Class</a>.</li>
-			<li>Improved Active Record class to allow full path column and table names:  hostname.database.table.column</li>
+			<li>Improved performance and accuracy of <kbd>xss_clean()</kbd>, including reduction of false positives on image/file tests.</li>
+			<li>Improved <a href="./libraries/parser.html">Parser class</a> to allow multiple calls to the parse() function.  The output of each is appended in the output.</li>
 			<li>Added <dfn>max_filename</dfn> option to set a file name length limit in the  <a href="libraries/file_uploading.html">File Upload Class</a>.</li>
 			<li>Added <dfn>set_status_header()</dfn> function to <a href="libraries/output.html">Output class</a>.</li>
-			<li>Changed the output of the profiler to use style attribute rather than clear, and added the id "codeigniter_profiler" to the container div.</li>
+			<li>Modified <a href="libraries/pagination.html">Pagination</a> class to only output the "First" link when the link for page one would not be shown.</li>
+			<li>Added support for mb_strlen in the <a href="libraries/form_validation.html">Form Validation</a> class so that multi-byte languages will calculate string lengths properly.</li>
 		</ul>
 	</li>
 	<li>Database
 		<ul>
-			<li>Added removal of non-printing control characters in <kbd>escape_str()</kbd> of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid
-				potential SQL errors, and possible sources of SQL injection.</li>
-		</ul>
+			<li>Improved Active Record class to allow full path column and table names:  hostname.database.table.column.  Also improved the alias handling.</li>			
+			<li>Improved how table and column names are escaped and prefixed.  It now honors full path names when adding prefixes and escaping.</li>
+			<li>Added Active Record caching feature to "update" and "delete" functions.</li>
+			<li>Added removal of non-printing control characters in <kbd>escape_str()</kbd> of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid potential SQL errors, and possible sources of SQL injection.</li>
+			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
+			<li>Added support for multiple database connections in the Profiler class.</li>
+			<li>Added port support to MySQL, MySQLi, and MS SQL database drivers.</li>
+	</ul>
 	</li>
 	<li>Helpers
 		<ul>
@@ -97,22 +104,14 @@ SVN Revision: XXXX</p>
 			<li>Added support for arbitrary attributes in anchor_popup() of the <a href="helpers/url_helper.html">URL helper</a>.</li>
 		</ul>
 	</li>
-	<li>Other changes
+	<li>Other Changes
 		<ul>
-			<li>Improved performance and accuracy of <kbd>xss_clean()</kbd>, including reduction of false positives on image/file tests.</li>
+			<li>Added <a href="./general/styleguide.html">PHP Style Guide</a> to docs.</li>
 			<li>Added sanitization in <kbd>xss_clean()</kbd> for a deprecated HTML tag that could be abused in user input in Internet Explorer.</li>
 			<li>Added a few openxml document mime types, and an additional mobile agent to mimes.php and user_agents.php respectively.</li>
-			<li>Added <a href="./general/styleguide.html">PHP Style Guide</a> to docs.</li>
-			<li>Added backticks around column names in MySQL when using insert_string and update_string functions, and in <kbd>where()</kbd> function.</li>
-			<li>Modified Pagination library to only output the "First" link when the link for page one would not be shown.</li>
 			<li>Added a file lock check during caching, before trying to write to the file.</li>
-			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
-			<li>Added support for mb_strlen in the validation class so that multi-byte languages will calculate string lengths properly.</li>
-			<li>Added support for multiple database connections in the Profiler class.</li>
-			<li>Added port support to MySQL, MySQLi, and MS SQL database drivers.</li>
-			<li>Added Active Record caching feature to update and delete functions.</li>
-			<li>Improved <a href="./libraries/parser.html">Parser class</a> to allow multiple calls to the parse() function.  The output of each is appended in the output.</li>
 			<li>Modified Cookie key cleaning to unset a few troublesome key names that can be present in certain environments, preventing CI from halting execution.</li>
+			<li>Changed the output of the profiler to use style attribute rather than clear, and added the id "codeigniter_profiler" to the container div.</li>
 		</ul>
 	</li>
 </ul>
