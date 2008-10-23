@@ -69,7 +69,7 @@ SVN Revision: XXXX</p>
 			<li>Updated the <a href="libraries/sessions.html">Sessions class</a> so that any custom data being saved gets stored to a database rather than the session cookie (assuming you are using a database to store session data), permitting much more data to be saved.</li>
 			<li>Added the ability to store libraries in subdirectories within either the main "libraries" or the local application "libraries" folder. Please see the <a href="libraries/loader.html">Loader class</a> for more info.</li>
 			<li>Added the ability to assign library objects to your own variable names when you use <kbd>$this->load->library()</kbd>. Please see the <a href="libraries/loader.html">Loader class</a> for more info.</li>
-			<li>Added controller class/method info to <a href="general/profiling.html">Profiler class</a>.</li>
+			<li>Added controller class/method info to <a href="general/profiling.html">Profiler class</a> and support for multiple database connections.</li>
 			<li>Improved the "auto typography" feature and moved it out of the helper into its own <a href="libraries/typography.html">Typography Class</a>.</li>
 			<li>Improved performance and accuracy of <kbd>xss_clean()</kbd>, including reduction of false positives on image/file tests.</li>
 			<li>Improved <a href="./libraries/parser.html">Parser class</a> to allow multiple calls to the parse() function.  The output of each is appended in the output.</li>
@@ -85,9 +85,8 @@ SVN Revision: XXXX</p>
 			<li>Improved how table and column names are escaped and prefixed.  It now honors full path names when adding prefixes and escaping.</li>
 			<li>Added Active Record caching feature to "update" and "delete" functions.</li>
 			<li>Added removal of non-printing control characters in <kbd>escape_str()</kbd> of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid potential SQL errors, and possible sources of SQL injection.</li>
-			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
-			<li>Added support for multiple database connections in the Profiler class.</li>
 			<li>Added port support to MySQL, MySQLi, and MS SQL database drivers.</li>
+			<li>Added driver name variable in each DB driver, based on bug report #4436.</li>
 	</ul>
 	</li>
 	<li>Helpers
