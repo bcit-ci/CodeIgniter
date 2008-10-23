@@ -245,6 +245,56 @@ echo ul($list);</code>
 &lt;/ul&gt;
 </code>
 
+
+
+<h2>meta()</h2>
+
+<p>Helps you generate meta tags.  You can pass strings to the function, or simple arrays, or multidimensional ones. Examples:</p>
+
+<code>
+echo meta('description', 'My Great site');<br />
+// Generates:  &lt;meta name="description" content="My Great Site" /><br />
+<br /><br />
+
+echo meta('Content-type', 'text/html; charset=utf-8', 'equiv'); // Note the third parameter.  Can be "equiv" or "name"<br />
+// Generates:  &lt;meta http-equiv="Content-type" content="text/html; charset=utf-8" /><br />
+
+<br /><br />
+
+echo meta(array('name' => 'robots', 'content' => 'no-cache'));<br />
+// Generates:  &lt;meta name="robots" content="no-cache" /><br />
+
+<br /><br />
+
+$meta = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('name' => 'robots', 'content' => 'no-cache'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('name' => 'description', 'content' => 'My Great Site'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('name' => 'keywords', 'content' => 'love, passion, intrigue, deception'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('name' => 'robots', 'content' => 'no-cache'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('name' => 'Content-type', 'content' => 'text/html; charset=utf-8', 'type' => 'equiv')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo meta($meta);
+<br />
+// Generates:  <br />
+// &lt;meta name="robots" content="no-cache" /><br />
+// &lt;meta name="description" content="My Great Site" /><br />
+// &lt;meta name="keywords" content="love, passion, intrigue, deception" /><br />
+// &lt;meta name="robots" content="no-cache" /><br />
+// &lt;meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</code>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 <!-- END CONTENT -->
 
