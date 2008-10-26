@@ -91,16 +91,11 @@ the following formatting:</p>
 
 <h3>Parameters</h3>
 
-<p>There are two optional parameters:</p>
+<p>There is one optional parameters that determines whether the parser should reduce more then two consecutive linebreaks down to two. Use bolean <kbd>TRUE</kbd> or <kbd>FALSE</kbd>.
 
-<ol>
-	<li><strong>Strip JavaScript Event Handlers</strong>. Determines whether the parser should strip all JavaScript event handlers for security.  Use bolean <kbd>TRUE</kbd> or <kbd>FALSE</kbd>.</li>
-	<li><strong>Reduce Linebreaks</strong>.  Determines whether the parser should reduce more then two consecutive linebreaks down to two. Use bolean <kbd>TRUE</kbd> or <kbd>FALSE</kbd>.</li>
-</ol>
+<p>By default the parser does not reduce line breaks. In other words, if no parameters are submitted, it is the same as doing this:</p>
 
-<p>By default the parser strips JS Event handlers and does not reduce line breaks. In other words, if no parameters are submitted, it is the same as doing this:</p>
-
-<code>$string = $this->typography->auto_typography($string, <kbd>TRUE</kbd>, <kbd>FALSE</kbd>);</code>
+<code>$string = $this->typography->auto_typography($string, <kbd>FALSE</kbd>);</code>
 
 
 <p class="important"><strong>Note:</strong> Typographic formatting can be processor intensive, particularly if you have a lot of content being formatted.
