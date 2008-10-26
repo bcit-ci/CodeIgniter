@@ -1302,7 +1302,7 @@ class CI_DB_driver {
 				$item = $this->dbprefix.$item;
 			}		
 		}
-		
+
 		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
 		{
 			$item = $this->_escape_identifiers($item);

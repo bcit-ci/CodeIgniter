@@ -399,6 +399,17 @@ class CI_DB_odbc_driver extends CI_DB {
 		{
 			return $item;
 		}
+
+		foreach ($this->_reserved_identifiers as $id)
+		{
+			if (strpos($item, '.'.$id) !== FALSE)
+			{
+				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);  
+				
+				// remove duplicates if the user already included the escape
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+			}		
+		}
 	
 		if (strpos($item, '.') !== FALSE)
 		{
