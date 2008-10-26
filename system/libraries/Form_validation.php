@@ -57,7 +57,7 @@ class CI_Form_validation {
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
 	
-		log_message('debug', "Validation Class Initialized");
+		log_message('debug', "Form Validation Class Initialized");
 	}
 	
 	// --------------------------------------------------------------------
