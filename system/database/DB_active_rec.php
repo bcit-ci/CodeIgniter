@@ -267,16 +267,38 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		foreach ((array)$from as $val)
 		{
-			// Extract any aliases that might exist.  We use this information
-			// in the _protect_identifiers to know whether to add a table prefix 
-			$this->_track_aliases($val);
-
-			$this->ar_from[] = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
-			
-			if ($this->ar_caching === TRUE)
+			if (strpos($val, ',') !== FALSE)
 			{
-				$this->ar_cache_from[] = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
-				$this->ar_cache_exists[] = 'from';
+				foreach (explode(',', $val) as $v)
+				{
+					$v = trim($v);
+					$this->_track_aliases($v);
+
+					$this->ar_from[] = $this->_protect_identifiers($v, TRUE, NULL, FALSE);
+					
+					if ($this->ar_caching === TRUE)
+					{
+						$this->ar_cache_from[] = $this->_protect_identifiers($v, TRUE, NULL, FALSE);
+						$this->ar_cache_exists[] = 'from';
+					}				
+				}
+
+			}
+			else
+			{
+				$val = trim($val);
+
+				// Extract any aliases that might exist.  We use this information
+				// in the _protect_identifiers to know whether to add a table prefix 
+				$this->_track_aliases($val);
+	
+				$this->ar_from[] = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
+				
+				if ($this->ar_caching === TRUE)
+				{
+					$this->ar_cache_from[] = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
+					$this->ar_cache_exists[] = 'from';
+				}
 			}
 		}
 
@@ -873,8 +895,30 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
-		
-		$orderby_statement = $this->_protect_identifiers($orderby).$direction;
+	
+	
+		if (strpos($orderby, ',') !== FALSE)
+		{
+			$temp = array();
+			foreach (explode(',', $orderby) as $part)
+			{
+				$part = trim($part);
+				if ( ! in_array($part, $this->ar_aliased_tables))
+				{
+					$part = $this->_protect_identifiers(trim($part));
+				}
+				
+				$temp[] = $part;
+			}
+			
+			$orderby = implode(', ', $temp);			
+		}
+		else
+		{
+			$orderby = $this->_protect_identifiers($orderby);
+		}
+	
+		$orderby_statement = $orderby.$direction;
 		
 		$this->ar_orderby[] = $orderby_statement;
 		if ($this->ar_caching === TRUE)
