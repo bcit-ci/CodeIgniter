@@ -662,7 +662,14 @@ class CI_Form_validation {
 				{
 					$line = $this->_error_messages[$rule];
 				}
-
+				
+				// Is the parameter we are inserting into the error message the name
+				// of another field?  If so we need to grab its "field label"
+				if (isset($this->_field_data[$param]) AND isset($this->_field_data[$param]['label']))
+				{
+					$param = $this->_field_data[$param]['label'];
+				}
+				
 				// Build the error message
 				$message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
 
