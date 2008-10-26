@@ -59,11 +59,10 @@ class CI_Typography {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @param	bool	whether to strip javascript event handlers for security
 	 * @param	bool	whether to reduce more then two consecutive newlines to two
 	 * @return	string
 	 */
-	function auto_typography($str, $strip_js_event_handlers = TRUE, $reduce_linebreaks = FALSE)
+	function auto_typography($str, $reduce_linebreaks = FALSE)
 	{
 		if ($str == '')
 		{
@@ -81,13 +80,7 @@ class CI_Typography {
 		if ($reduce_linebreaks === TRUE)
 		{
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
-		}
-		
-		 // Do we allow JavaScript event handlers? If not, we strip them from within all tags
-		if ($strip_js_event_handlers === TRUE)
-		{
-			$str = preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([><]*)#i", "<\\1\\4", $str);
-		}       
+		} 
 
 		// Convert quotes within tags to temporary markers. We don't want quotes converted 
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}

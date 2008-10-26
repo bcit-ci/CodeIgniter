@@ -111,17 +111,6 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 
-/*
-| -------------------------------------------------------------------
-|  Auto-load Core Libraries
-| -------------------------------------------------------------------
-|
-| DEPRECATED:  Use $autoload['libraries'] above instead.
-|
-*/
-// $autoload['core'] = array();
-
-
 
 /* End of file autoload.php */
 /* Location: ./system/application/config/autoload.php */

@@ -1218,7 +1218,7 @@ class CI_DB_driver {
 			
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified?  If so,
-			// we have nothing more to do other then escape the item
+			// we have nothing more to do other than escape the item
 			if (in_array($parts[0], $this->ar_aliased_tables))
 			{				
 				if ($protect_identifiers === TRUE)
