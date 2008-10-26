@@ -66,8 +66,8 @@ Loader Class
 <p>The following functions are available in this class:</p>
 
 
+<h2>$this->load->library('<var>class_name</var>', <samp>$config</samp>, <kbd>'object name'</kbd>)</h2>
 
-<h2>$this->load->library('<var>class_name</var>')</h2>
 
 <p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load.
 Note: We use the terms "class" and "library" interchangeably.</p>
@@ -92,7 +92,7 @@ For example, if you have file located at:</p>
 
 <h3>Setting options</h3>
 
-<p>The second parameter allows you to optionally pass configuration setting.  You will typically pass these as an array:</p>
+<p>The second (optional) parameter allows you to optionally pass configuration setting.  You will typically pass these as an array:</p>
 
 <code>
 $config = array (<br />
@@ -107,7 +107,7 @@ $this->load->library('email', $config);</code>
 
 <h3>Assigning a Library to a different object name</h3>
 
-<p>If the third parameter is blank, the library will usually be assigned to an object with the same name as the library.  For example, if the library is named <dfn>Session</dfn>, it
+<p>If the third (optional) parameter is blank, the library will usually be assigned to an object with the same name as the library.  For example, if the library is named <dfn>Session</dfn>, it
 will be assigned to a variable named <dfn>$this->session</dfn>.</p>
 
 <p>If you prefer to set your own class names you can pass its value to the third parameter:</p>
