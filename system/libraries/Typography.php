@@ -86,22 +86,22 @@ class CI_Typography {
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
 		if (preg_match_all("#\<.+?>#si", $str, $matches))
 		{
-			for ($i = 0; $i < count($matches['0']); $i++)
+			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 			{
-				$str = str_replace($matches['0'][$i],
-									str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches['0'][$i]),
+				$str = str_replace($matches[0][$i],
+									str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches[0][$i]),
 									$str);
 			}
 		}
-
+		
 		if ($this->protect_braced_quotes === TRUE)
 		{
 			if (preg_match_all("#\{.+?}#si", $str, $matches))
 			{
-				for ($i = 0; $i < count($matches['0']); $i++)
+				for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 				{
-					$str = str_replace($matches['0'][$i],
-										str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches['0'][$i]),
+					$str = str_replace($matches[0][$i],
+										str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches[0][$i]),
 										$str);
 				}
 			}			
@@ -160,13 +160,13 @@ class CI_Typography {
 
 		// Convert quotes, elipsis, and em-dashes
 		$str = $this->format_characters($str);
-	
+
 		// Final clean up
 		$table = array(
 		
 						// If the user submitted their own paragraph tags within the text
 						// we will retain them instead of using our tags.
-						'/(<p.*?>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
+						'/(<p[^>*?]>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
 						'#(</p>)+#'			=> '</p>',
