@@ -42,8 +42,8 @@ class CI_Pagination {
 	var $first_tag_close	= '&nbsp;';
 	var $last_tag_open		= '&nbsp;';
 	var $last_tag_close		= '';
-	var $cur_tag_open		= '&nbsp;<b>';
-	var $cur_tag_close		= '</b>';
+	var $cur_tag_open		= '&nbsp;<strong>';
+	var $cur_tag_close		= '</strong>';
 	var $next_tag_open		= '&nbsp;';
 	var $next_tag_close		= '&nbsp;';
 	var $prev_tag_open		= '&nbsp;';
