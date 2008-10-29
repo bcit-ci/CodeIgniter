@@ -84,12 +84,13 @@ class CI_Typography {
 
 		// Convert quotes within tags to temporary markers. We don't want quotes converted 
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
+		// and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 		if (preg_match_all("#\<.+?>#si", $str, $matches))
 		{
 			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 			{
 				$str = str_replace($matches[0][$i],
-									str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches[0][$i]),
+									str_replace(array("'",'"','--'), array('{@SQ}', '{@DQ}', '{@DD}'), $matches[0][$i]),
 									$str);
 			}
 		}
@@ -106,7 +107,7 @@ class CI_Typography {
 				}
 			}			
 		}
-			
+		
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
@@ -178,7 +179,8 @@ class CI_Typography {
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
 						'/\{@DQ\}/'			=> '"',
-						'/\{@SQ\}/'			=> "'"
+						'/\{@SQ\}/'			=> "'",
+						'/\{@DD\}/'			=> '--'
 
 						);
 	
