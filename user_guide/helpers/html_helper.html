@@ -285,12 +285,67 @@ echo meta($meta);
 </code>
 
 
+<h2>doctype()</h2>
 
+<p>Helps you generate document type declarations, or DTD's. XHTML 1.0 Strict is used by default, but many doctypes are available.</p>
 
+<code>
+echo docytype();<br />
+// &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;<br />
+<br />
+echo doctype('html4-trans');<br />
+// &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;
+</code>
 
+<p>The following is a list of doctype choices.  These are configurable, and pulled from <samp>application/config/doctypes.php</samp></p>
 
-
-
+<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+	<tr>
+	<th>Doctype</th>
+	<th>Option</th>
+	<th>Result</th>
+	</tr>
+	<tr>
+	<td class="td">XHTML 1.1</td>
+	<td class="td">doctype('xhtml11')</td>
+	<td class="td">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">XHTML 1.0 Strict</td>
+	<td class="td">doctype('xhtml1-strict')</td>
+	<td class="td">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">XHTML 1.0 Transitional</td>
+	<td class="td">doctype('xhtml1-trans')</td>
+	<td class="td">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">XHTML 1.0 Frameset</td>
+	<td class="td">doctype('xhtml1-frame')</td>
+	<td class="td">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">HTML 5</td>
+	<td class="td">doctype('html5')</td>
+	<td class="td">&lt;!DOCTYPE html&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">HTML 4 Strict</td>
+	<td class="td">doctype('html4-strict')</td>
+	<td class="td">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">HTML 4 Transitional</td>
+	<td class="td">doctype('html4-trans')</td>
+	<td class="td">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</td>
+	</tr>
+	<tr>
+	<td class="td">HTML 4 Frameset</td>
+	<td class="td">doctype('html4-frame')</td>
+	<td class="td">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"&gt;</td>
+	</tr>
+</table>
 
 
 
