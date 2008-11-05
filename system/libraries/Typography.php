@@ -33,7 +33,7 @@ class CI_Typography {
 	var $skip_elements	= 'p|pre|ol|ul|dl|object|table';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
-	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|samp|select|span|strong|sub|sup|textarea|var';
+	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|samp|select|span|strong|sub|sup|textarea|var|big|small|q';
 
 	// whether or not to protect quotes within { curly braces }
 	var $protect_braced_quotes = FALSE;
@@ -143,6 +143,18 @@ class CI_Typography {
 				$str .= $chunk;
 				continue;
 			}
+			elseif (preg_match('/<(\/?)([a-z]*).*?>/s', $chunk, $tagmatch))
+			{
+				if ($tagmatch[1] == '/' && $tagmatch[2] == $this->last_tag)
+				{
+					$process = FALSE;
+				}
+				else
+				{
+					$process = TRUE;
+					$this->last_tag = $tagmatch[2];					
+				}
+			}
 
 			if ($process == FALSE)
 			{
@@ -151,7 +163,7 @@ class CI_Typography {
 			}
 			
 			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->_format_newlines($chunk);
+			$str .= $this->format_characters($this->_format_newlines($chunk));			
 		}
 
 		// is the whole of the content inside a block level element?
@@ -160,22 +172,33 @@ class CI_Typography {
 			$str = "<p>{$str}</p>";
 		}
 
-		// Convert quotes, elipsis, and em-dashes
-		$str = $this->format_characters($str);
 
+		// some special linebreak cleanup
+		$str = preg_replace_callback('#<(?!/|'.$this->block_elements.')([^>]*)><p>(.*?)</p><(\w*)#si', array($this, '_linebreak_cleanup'), $str);
+		
+		// and cleanup empty paragraph tags sitting between two closing tags
+		$str = preg_replace('#(</\w+>)<p>(\s*)</p>(</\w+>)#si', '$1$2$3', $str);
+		
 		// Final clean up
 		$table = array(
 		
 						// If the user submitted their own paragraph tags within the text
 						// we will retain them instead of using our tags.
-						'/(<p[^>*?]>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
+						'/(<p[^>*?]>)<p>/'	=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
 						'#(</p>)+#'			=> '</p>',
 						'/(<p><p>)+/'		=> '<p>',
+						'/(<p>\W+<p>)+/'	=> '<p>',
 						
 						// Clean up stray paragraph tags that appear before block level elements
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
+						
+						// Clean up open paragraph tags that appear before block level elements
+						'#<p>(\W)<('.$this->block_elements.')#'	=> '<p></p>$1<$2',
+
+						// Clean up stray non-breaking spaces preceeding block elements
+						'#[&nbsp; ]+<('.$this->block_elements.')#'	=> '  <$1',
 			
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
@@ -185,7 +208,7 @@ class CI_Typography {
 						'/\{@NBS\}/'		=> '  '
 
 						);
-	
+
 		// Do we need to reduce empty lines?
 		if ($reduce_linebreaks === TRUE)
 		{
@@ -203,7 +226,31 @@ class CI_Typography {
 	}
 	
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Linebreak Cleanup
+	 *
+	 * Removes paragraph and line break tags inserted inbetween
+	 * inline content and a new opening block level element
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	string
+	 */
+	function _linebreak_cleanup($match)
+	{
+		if (in_array($match[3], explode('|', $this->block_elements)))
+		{
+			return "<{$match[1]}>".str_replace('<br />', '', $match[2])."<{$match[3]}";
+		}
+		else
+		{
+			return $match[0];
+		}
+	}
 
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Format Characters
 	 *
