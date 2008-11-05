@@ -33,7 +33,7 @@ class CI_Typography {
 	var $skip_elements	= 'p|pre|ol|ul|dl|object|table';
 	
 	// Tags we want the parser to completely ignore when splitting the string.
-	var $inline_elements = 'a|abbr|acronym|b|bdo|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|samp|select|span|strong|sub|sup|textarea|var|big|small|q|tt';
+	var $inline_elements = 'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
 
 	// whether or not to protect quotes within { curly braces }
 	var $protect_braced_quotes = FALSE;
