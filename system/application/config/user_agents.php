@@ -86,7 +86,7 @@ $mobiles = array(
 //					'ericsson'			=> 'Ericsson',
 //					'blackberry'		=> 'BlackBerry',
 //					'motorola'			=> 'Motorola'
-					
+
 					// Phones and Manufacturers
 					'motorola'			=> "Motorola",
 					'nokia'				=> "Nokia",
@@ -121,7 +121,7 @@ $mobiles = array(
 					'spv'				=> "SPV",
 					'zte'				=> "ZTE",
 					'sendo'				=> "Sendo",
-					
+
 					// Operating Systems
 					'symbian'				=> "Symbian",
 					'SymbianOS'				=> "SymbianOS", 
@@ -129,15 +129,15 @@ $mobiles = array(
 					'palm'					=> "Palm",
 					'series60'				=> "Symbian S60",
 					'windows ce'			=> "Windows CE",
-				
-					// Browsers	
+
+					// Browsers
 					'obigo'					=> "Obigo",
 					'netfront'				=> "Netfront Browser",
 					'openwave'				=> "Openwave Browser",
 					'mobilexplorer'			=> "Mobile Explorer",
 					'operamini'				=> "Opera Mini",
 					'opera mini'			=> "Opera Mini",
-				
+
 					// Other
 					'digital paths'			=> "Digital Paths",
 					'avantgo'				=> "AvantGo",
@@ -146,7 +146,7 @@ $mobiles = array(
 					'vodafone'				=> "Vodafone",
 					'docomo'				=> "NTT DoCoMo",
 					'o2'					=> "O2",
-				
+
 					// Fallback
 					'mobile'				=> "Generic Mobile",
 					'wireless' 				=> "Generic Mobile",
