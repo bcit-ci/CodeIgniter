@@ -133,7 +133,7 @@ class CI_Typography {
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
+			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
@@ -188,8 +188,7 @@ class CI_Typography {
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
 						'#(</p>)+#'			=> '</p>',
-						'/(<p><p>)+/'		=> '<p>',
-						'/(<p>\W+<p>)+/'	=> '<p>',
+						'/(<p>\W*<p>)+/'	=> '<p>',
 						
 						// Clean up stray paragraph tags that appear before block level elements
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
