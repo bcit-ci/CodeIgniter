@@ -182,9 +182,19 @@ class CI_Email {
 			$this->validate_email($this->_str_to_array($from));
 		}
 
-		if ($name != '' && strncmp($name, '"', 1) != 0)
+		// prepare the display name
+		if ($name != '')
 		{
-			$name = '"'.$name.'"';
+			// only use Q encoding if there are characters that would require it
+			if ( ! preg_match('/[\200-\377]/', $name))
+			{
+				// add slashes for non-printing characters, slashes, and double quotes, and surround it in double quotes
+				$name = '"'.addcslashes($name, '\0..\37\177"\\').'"';
+			}
+			else
+			{
+				$name = $this->_prep_q_encoding($name, TRUE);
+			}
 		}
 
 		$this->_set_header('From', $name.' <'.$from.'>');
@@ -336,17 +346,8 @@ class CI_Email {
 	 */
 	function subject($subject)
 	{
-		if (strpos($subject, "\r") !== FALSE OR strpos($subject, "\n") !== FALSE)
-		{
-			$subject = str_replace(array("\r\n", "\r", "\n"), '', $subject);
-		}
-
-		if (strpos($subject, "\t"))
-		{
-			$subject = str_replace("\t", ' ', $subject);
-		}
-
-		$this->_set_header('Subject', trim($subject));
+		$subject = $this->_prep_q_encoding($subject);
+		$this->_set_header('Subject', $subject);
 	}
   
 	// --------------------------------------------------------------------
@@ -1242,7 +1243,79 @@ class CI_Email {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Prep Q Encoding
+	 *
+	 * Performs "Q Encoding" on a string for use in email headers.  It's related
+	 * but not identical to quoted-printable, so it has its own method
+	 *
+	 * @access	public
+	 * @param	str
+	 * @param	bool	// set to TRUE for processing From: headers
+	 * @return	str
+	 */
+	function _prep_q_encoding($str, $from = FALSE)
+	{
+		$str = str_replace(array("\r", "\n"), array('', ''), $str);
 
+		// Line length must not exceed 76 characters, so we adjust for
+		// a space, 7 extra characters =??Q??=, and the charset that we will add to each line
+		$limit = 75 - 7 - strlen($this->charset);
+
+		// these special characters must be converted too
+		$convert = array('_', '=', '?');
+
+		if ($from === TRUE)
+		{
+			$convert[] = ',';
+			$convert[] = ';';
+		}
+
+		$output = '';
+		$temp = '';
+
+		for ($i = 0, $length = strlen($str); $i < $length; $i++)
+		{
+			// Grab the next character
+			$char = substr($str, $i, 1);
+			$ascii = ord($char);
+
+			// convert ALL non-printable ASCII characters and our specials
+			if ($ascii < 32 OR $ascii > 126 OR in_array($char, $convert))
+			{
+				$char = '='.dechex($ascii);
+			}
+
+			// handle regular spaces a bit more compactly than =20
+			if ($ascii == 32)
+			{
+				$char = '_';
+			}
+
+			// If we're at the character limit, add the line to the output,
+			// reset our temp variable, and keep on chuggin'
+			if ((strlen($temp) + strlen($char)) >= $limit)
+			{
+				$output .= $temp.$this->crlf;
+				$temp = '';
+			}
+
+			// Add the character to our temporary line
+			$temp .= $char;
+		}
+
+		$str = $output.$temp;
+
+		// wrap each line with the shebang, charset, and transfer encoding
+		// the preceding space on successive lines is required for header "folding"
+		$str = trim(preg_replace('/^(.*)$/m', ' =?'.$this->charset.'?Q?$1?=', $str));
+
+		return $str;
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Send Email
 	 *
