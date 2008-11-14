@@ -34,7 +34,13 @@ class CI_Typography {
 	
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $inline_elements = 'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
-
+	
+	// array of block level elements that require inner content to be within another block level element
+	var $inner_block_required = array('blockquote');
+	
+	// the last block element parsed
+	var $last_block_element = '';
+	
 	// whether or not to protect quotes within { curly braces }
 	var $protect_braced_quotes = FALSE;
 	
@@ -80,7 +86,7 @@ class CI_Typography {
 		if ($reduce_linebreaks === TRUE)
 		{
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
-		} 
+		}   
 
 		// Convert quotes within tags to temporary markers. We don't want quotes converted 
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
@@ -133,37 +139,30 @@ class CI_Typography {
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunk, $match))
+			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
 					$process =  ($match[1] == '/') ? TRUE : FALSE;
 				}
 				
+				if ($match[1] == '')
+				{
+					$this->last_block_element = $match[2];
+				}
+
 				$str .= $chunk;
 				continue;
 			}
-			elseif (preg_match('/<(\/?)([a-z]*).*?>/s', $chunk, $tagmatch))
-			{
-				if ($tagmatch[1] == '/' && $tagmatch[2] == $this->last_tag)
-				{
-					$process = FALSE;
-				}
-				else
-				{
-					$process = TRUE;
-					$this->last_tag = $tagmatch[2];					
-				}
-			}
-
+			
 			if ($process == FALSE)
 			{
 				$str .= $chunk;
 				continue;
 			}
-			
+
 			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->format_characters($this->_format_newlines($chunk));			
+			$str .= $this->_format_newlines($chunk);
 		}
 
 		// is the whole of the content inside a block level element?
@@ -171,20 +170,16 @@ class CI_Typography {
 		{
 			$str = "<p>{$str}</p>";
 		}
-
-
-		// some special linebreak cleanup
-		$str = preg_replace_callback('#<(?!/|'.$this->block_elements.')([^>]*)><p>(.*?)</p><(\w*)#si', array($this, '_linebreak_cleanup'), $str);
 		
-		// and cleanup empty paragraph tags sitting between two closing tags
-		$str = preg_replace('#(</\w+>)<p>(\s*)</p>(</\w+>)#si', '$1$2$3', $str);
-		
+		// Convert quotes, elipsis, and em-dashes
+		$str = $this->format_characters($str);
+	
 		// Final clean up
 		$table = array(
 		
 						// If the user submitted their own paragraph tags within the text
 						// we will retain them instead of using our tags.
-						'/(<p[^>*?]>)<p>/'	=> '$1', // <?php BBEdit syntax coloring bug fix
+						'/(<p[^>*?]>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
 						'#(</p>)+#'			=> '</p>',
@@ -192,13 +187,10 @@ class CI_Typography {
 						
 						// Clean up stray paragraph tags that appear before block level elements
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
-						
-						// Clean up open paragraph tags that appear before block level elements
-						'#<p>(\W)<('.$this->block_elements.')#'	=> '<p></p>$1<$2',
 
 						// Clean up stray non-breaking spaces preceeding block elements
 						'#[&nbsp; ]+<('.$this->block_elements.')#'	=> '  <$1',
-			
+
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
 						'/\{@DQ\}/'			=> '"',
@@ -207,7 +199,7 @@ class CI_Typography {
 						'/\{@NBS\}/'		=> '  '
 
 						);
-
+	
 		// Do we need to reduce empty lines?
 		if ($reduce_linebreaks === TRUE)
 		{
@@ -224,30 +216,6 @@ class CI_Typography {
 
 	}
 	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Linebreak Cleanup
-	 *
-	 * Removes paragraph and line break tags inserted inbetween
-	 * inline content and a new opening block level element
-	 *
-	 * @access	private
-	 * @param	array
-	 * @return	string
-	 */
-	function _linebreak_cleanup($match)
-	{
-		if (in_array($match[3], explode('|', $this->block_elements)))
-		{
-			return "<{$match[1]}>".str_replace('<br />', '', $match[2])."<{$match[3]}";
-		}
-		else
-		{
-			return $match[0];
-		}
-	}
-
 	// --------------------------------------------------------------------
 	
 	/**
@@ -320,8 +288,8 @@ class CI_Typography {
 		{
 			return $str;
 		}
-
-		if (strpos($str, "\n") === FALSE)
+		
+		if (strpos($str, "\n") === FALSE  && ! in_array($this->last_block_element, $this->inner_block_required))
 		{
 			return $str;
 		}
