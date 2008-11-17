@@ -189,7 +189,7 @@ class CI_Email {
 			if ( ! preg_match('/[\200-\377]/', $name))
 			{
 				// add slashes for non-printing characters, slashes, and double quotes, and surround it in double quotes
-				$name = '"'.addcslashes($name, '\0..\37\177"\\').'"';
+				$name = '"'.addcslashes($name, "\0..\37\177'\"\\").'"';
 			}
 			else
 			{
@@ -1539,15 +1539,21 @@ class CI_Email {
 	{
 		$fp = @popen($this->mailpath . " -oi -f ".$this->clean_email($this->_headers['From'])." -t", 'w');
 
-		if ( ! is_resource($fp))
+		fputs($fp, $this->_header_str);
+		fputs($fp, $this->_finalbody);
+
+	    $status = pclose($fp);
+	    
+		if (version_compare(PHP_VERSION, '4.2.3') == -1)
+		{
+			$status = $status >> 8 & 0xFF;
+	    }
+	
+		if ($status == 0)
 		{
 			$this->_set_error_message('email_no_socket');
 			return FALSE;
 		}
-
-		fputs($fp, $this->_header_str);
-		fputs($fp, $this->_finalbody);
-		pclose($fp) >> 8 & 0xFF;
 
 		return TRUE;
 	}
