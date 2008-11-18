@@ -1549,8 +1549,9 @@ class CI_Email {
 			$status = $status >> 8 & 0xFF;
 	    }
 	
-		if ($status == 0)
+		if ($status != 0)
 		{
+			$this->_set_error_message('email_exit_status', $status);
 			$this->_set_error_message('email_no_socket');
 			return FALSE;
 		}
