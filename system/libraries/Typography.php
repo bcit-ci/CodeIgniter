@@ -235,26 +235,37 @@ class CI_Typography {
 		
 		if ( ! isset($table))
 		{
-	        $table = array(					
+			$table = array(					
 							// nested smart quotes, opening and closing
 							// note that rules for grammar (English) allow only for two levels deep
 							// and that single quotes are _supposed_ to always be on the outside
 							// but we'll accommodate both
-							'/(^|\W|\s)\'"/'				=> '$1&#8216;&#8220;',
-							'/\'"(\s|\W|$)/'				=> '&#8217;&#8221;$1',
-							'/(^|\W|\s)"\'/'				=> '$1&#8220;&#8216;',
-							'/"\'(\s|\W|$)/'				=> '&#8221;&#8217;$1',
+							// Note that in all cases, whitespace is the primary determining factor
+							// on which direction to curl, with non-word characters like punctuation
+							// being a secondary factor only after whitespace is addressed.
+							'/\'"(\s|$)/'					=> '&#8217;&#8221;$1',
+							'/(^|\s)\'"/'					=> '$1&#8216;&#8220;',
+							'/\'"(\W)/'						=> '&#8217;&#8221;$1',
+							'/(\W)\'"/'						=> '$1&#8216;&#8220;',
+							'/"\'(\s|$)/'					=> '&#8221;&#8217;$1',
+							'/(^|\s)"\'/'					=> '$1&#8220;&#8216;',
+							'/"\'(\W)/'						=> '&#8221;&#8217;$1',
+							'/(\W)"\'/'						=> '$1&#8220;&#8216;',
 
 							// single quote smart quotes
-							'/(^|\W|\s)\'/'					=> '$1&#8216;',
-							'/\'(\s|\W|$)/'					=> '&#8217;$1',
+							'/\'(\s|$)/'					=> '&#8217;$1',
+							'/(^|\s)\'/'					=> '$1&#8216;',
+							'/\'(\W)/'						=> '&#8217;$1',
+							'/(\W)\'/'						=> '$1&#8216;',
 
 							// double quote smart quotes
-							'/(^|\W|\s)"/'					=> '$1&#8220;',
-							'/"(\s|\W|$)/'					=> '&#8221;$1',
-							
+							'/"(\s|$)/'						=> '&#8221;$1',
+							'/(^|\s)"/'						=> '$1&#8220;',
+							'/"(\W)/'						=> '&#8221;$1',
+							'/(\W)"/'						=> '$1&#8220;',
+
 							// apostrophes
-							"/(\w)'(\w)/"       	    	=> '$1&#8217;$2',
+							"/(\w)'(\w)/"					=> '$1&#8217;$2',
 
 							// Em dash and ellipses dots
 							'/\s?\-\-\s?/'					=> '&#8212;',
@@ -265,8 +276,8 @@ class CI_Typography {
 
 							// ampersands, if not a character entity
 							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
-	        			);			
-		}	
+						);
+		}
 
 		return preg_replace(array_keys($table), $table, $str);
 	}
