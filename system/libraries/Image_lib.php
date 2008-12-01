@@ -397,7 +397,7 @@ class CI_Image_lib {
 		// Allowed rotation values
 		$degs = array(90, 180, 270, 'vrt', 'hor');
 
-		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs, TRUE))
+		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs))
 		{
 			$this->set_error('imglib_rotation_angle_required');
 			return FALSE;	   
