@@ -1195,7 +1195,11 @@ class CI_Image_lib {
 							return FALSE;
 						}
 
-						@imagegif($resource, $this->full_dst_path);
+						if ( ! @imagegif($resource, $this->full_dst_path))
+						{
+							$this->set_error('imglib_save_failed');
+							return FALSE;
+						}
 				break;
 			case 2	:
 						if ( ! function_exists('imagejpeg'))
@@ -1209,7 +1213,11 @@ class CI_Image_lib {
 							@touch($this->full_dst_path); // PHP 4.4.1 bug #35060 - workaround
 						}
 
-						@imagejpeg($resource, $this->full_dst_path, $this->quality);
+						if ( ! @imagejpeg($resource, $this->full_dst_path, $this->quality))
+						{
+							$this->set_error('imglib_save_failed');
+							return FALSE;
+						}
 				break;
 			case 3	:
 						if ( ! function_exists('imagepng'))
@@ -1218,7 +1226,11 @@ class CI_Image_lib {
 							return FALSE;
 						}
 
-						@imagepng($resource, $this->full_dst_path);
+						if ( ! @imagepng($resource, $this->full_dst_path))
+						{
+							$this->set_error('imglib_save_failed');
+							return FALSE;
+						}
 				break;
 			default		:
 							$this->set_error(array('imglib_unsupported_imagecreate'));
