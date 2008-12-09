@@ -471,7 +471,7 @@ if ( ! function_exists('prep_url'))
  */
 if ( ! function_exists('url_title'))
 {
-	function url_title($str, $separator = 'dash')
+	function url_title($str, $separator = 'dash', $lowercase = FALSE)
 	{
 		if ($separator == 'dash')
 		{
@@ -501,6 +501,11 @@ if ( ! function_exists('url_title'))
 			$str = preg_replace("#".$key."#i", $val, $str);
 		}
 
+		if ($lowercase === TRUE)
+		{
+			$str = strtolower($str);
+		}
+		
 		return trim(stripslashes($str));
 	}
 }

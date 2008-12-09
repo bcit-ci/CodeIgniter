@@ -223,9 +223,17 @@ $url_title = url_title($title);<br />
 <br />
 $url_title = url_title($title, 'underscore');<br />
 <br />
-// Produces:  whats_wrong_with_css
+// Produces:  Whats_wrong_with_CSS
 </code>
 
+<p>The third parameter determines whether or not lowercase characters are forced.  By default they are not.  Options are boolean <dfn>TRUE</dfn>/<dfn>FALSE</dfn>:</p>
+
+<code>$title = "What's wrong with CSS?";<br />
+<br />
+$url_title = url_title($title, 'underscore', TRUE);<br />
+<br />
+// Produces:  whats_wrong_with_css
+</code>
 
 <h3>prep_url()</h3>
 <p>This function will add <kbd>http://</kbd> in the event it is missing from a URL.  Pass the URL string to the function like this:</p>
