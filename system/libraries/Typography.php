@@ -88,11 +88,25 @@ class CI_Typography {
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
 		}   
 
+		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
+		$html_comments = array();
+		if (strpos($str, '<!--') !== FALSE)
+		{
+			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches))
+			{
+				for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
+				{
+					$html_comments[] = $matches[0][$i];
+					$str = str_replace($matches[0][$i], '{@HC'.$i.'}', $str);
+				}
+			}
+		}
+
 		// Convert quotes within tags to temporary markers. We don't want quotes converted 
 		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
 		// and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 		// likewise double spaces are converted to {@NBS} to prevent entity conversion
-		if (preg_match_all("#\<.+?>#si", $str, $matches))
+		if (preg_match_all("#<.+?>#si", $str, $matches))
 		{
 			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 			{
@@ -104,7 +118,7 @@ class CI_Typography {
 		
 		if ($this->protect_braced_quotes === TRUE)
 		{
-			if (preg_match_all("#\{.+?}#si", $str, $matches))
+			if (preg_match_all("#\{.+?\}#si", $str, $matches))
 			{
 				for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 				{
@@ -114,7 +128,7 @@ class CI_Typography {
 				}
 			}			
 		}
-		
+				
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be 
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
@@ -139,7 +153,7 @@ class CI_Typography {
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(".$this->block_elements.").*?\>#", $chunk, $match))
+			if (preg_match("#<(/*)(".$this->block_elements.")[\s.]*?>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
@@ -157,23 +171,26 @@ class CI_Typography {
 			
 			if ($process == FALSE)
 			{
-				$str .= $chunk;
+				$str .= ($this->last_block_element == 'pre') ? $chunk : $this->format_characters($chunk);
 				continue;
 			}
 
 			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->_format_newlines($chunk);
+			$str .= $this->format_characters($this->_format_newlines($chunk));
 		}
 
 		// is the whole of the content inside a block level element?
-		if ( ! preg_match("/^<(?:".$this->block_elements.")/i", $str, $match))
+		if ( ! preg_match("/^\s*<(?:".$this->block_elements.")/i", $str, $match))
 		{
 			$str = "<p>{$str}</p>";
 		}
-		
-		// Convert quotes, elipsis, and em-dashes
-		$str = $this->format_characters($str);
-	
+
+		// restore HTML comments
+		for ($i = 0, $total = count($html_comments); $i < $total; $i++)
+		{
+			$str = preg_replace('#(?:<p>)?{@HC'.$i.'}(?:\s*</p>)?#s', $html_comments[$i], $str);
+		}
+				
 		// Final clean up
 		$table = array(
 		
@@ -199,7 +216,7 @@ class CI_Typography {
 						'/\{@NBS\}/'		=> '  '
 
 						);
-	
+		
 		// Do we need to reduce empty lines?
 		if ($reduce_linebreaks === TRUE)
 		{
