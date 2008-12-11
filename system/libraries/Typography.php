@@ -101,32 +101,21 @@ class CI_Typography {
 				}
 			}
 		}
-
-		// Convert quotes within tags to temporary markers. We don't want quotes converted 
-		// within tags so we'll temporarily convert them to {@DQ} and {@SQ}
-		// and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
-		// likewise double spaces are converted to {@NBS} to prevent entity conversion
-		if (preg_match_all("#<.+?>#si", $str, $matches))
+		
+		// match and yank <pre> tags if they exist.  It's cheaper to do this separately since most content will
+		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
+		if (strpos($str, '<pre') !== FALSE)
 		{
-			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
-			{
-				$str = str_replace($matches[0][$i],
-									str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $matches[0][$i]),
-									$str);
-			}
+			$str = preg_replace_callback("#<pre.*?>.*?</pre>#si", array($this, '_protect_characters'), $str);
 		}
 		
+		// Convert quotes within tags to temporary markers.
+		$str = preg_replace_callback("#<.+?>#si", array($this, '_protect_characters'), $str);
+
+		// Do the same with braces if necessary
 		if ($this->protect_braced_quotes === TRUE)
 		{
-			if (preg_match_all("#\{.+?\}#si", $str, $matches))
-			{
-				for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
-				{
-					$str = str_replace($matches[0][$i],
-										str_replace(array("'",'"'), array('{@SQ}', '{@DQ}'), $matches[0][$i]),
-										$str);
-				}
-			}			
+			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protect_characters'), $str);		
 		}
 				
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag 
@@ -153,7 +142,7 @@ class CI_Typography {
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(".$this->block_elements.")[\s.]*?>#", $chunk, $match))
+			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunk, $match))
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
@@ -171,12 +160,12 @@ class CI_Typography {
 			
 			if ($process == FALSE)
 			{
-				$str .= ($this->last_block_element == 'pre') ? $chunk : $this->format_characters($chunk);
+				$str .= $chunk;
 				continue;
 			}
 
 			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->format_characters($this->_format_newlines($chunk));
+			$str .= $this->_format_newlines($chunk);
 		}
 
 		// is the whole of the content inside a block level element?
@@ -185,6 +174,9 @@ class CI_Typography {
 			$str = "<p>{$str}</p>";
 		}
 
+		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
+		$str = $this->format_characters($str);
+		
 		// restore HTML comments
 		for ($i = 0, $total = count($html_comments); $i < $total; $i++)
 		{
@@ -342,6 +334,25 @@ class CI_Typography {
 	}
 	
 	// ------------------------------------------------------------------------
+	
+	/**
+	 * Protect Characters
+	 *
+	 * Protects special characters from being formatted later
+	 * We don't want quotes converted within tags so we'll temporarily convert them to {@DQ} and {@SQ}
+ 	 * and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
+ 	 * likewise double spaces are converted to {@NBS} to prevent entity conversion
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	string
+	 */
+	function _protect_characters($match)
+	{
+		return str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
+	}
+
+	// --------------------------------------------------------------------
 	
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
