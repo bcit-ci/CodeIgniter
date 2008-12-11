@@ -180,9 +180,12 @@ class CI_Typography {
 		// restore HTML comments
 		for ($i = 0, $total = count($html_comments); $i < $total; $i++)
 		{
-			$str = preg_replace('#(?:<p>)?{@HC'.$i.'}(?:\s*</p>)?#s', $html_comments[$i], $str);
+			// remove surrounding paragraph tags, but only if there's an opening paragraph tag
+			// otherwise HTML comments at the ends of paragraphs will have the closing tag removed
+			// if '<p>{@HC1}' then replace <p>{@HC1}</p> with the comment, else replace only {@HC1} with the comment
+			$str = preg_replace('#(?(?=<p>\{@HC'.$i.'\})<p>\{@HC'.$i.'\}(\s*</p>)|\{@HC'.$i.'\})#s', $html_comments[$i], $str);
 		}
-				
+
 		// Final clean up
 		$table = array(
 		
