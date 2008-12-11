@@ -196,9 +196,9 @@ class CI_Typography {
 						
 						// Clean up stray paragraph tags that appear before block level elements
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
-
+						
 						// Clean up stray non-breaking spaces preceeding block elements
-						'#[&nbsp; ]+<('.$this->block_elements.')#'	=> '  <$1',
+						'#(&nbsp;\s*)+<('.$this->block_elements.')#'	=> '  <$2',
 
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
