@@ -97,8 +97,9 @@ SVN Revision: </p>
 	<li>Changed a few docblock comments to reflect actual return values.</li>
 	<li>Fixed a bug with high ascii characters in subject and from email headers.</li>
 	<li>Fixed a bug in xss_clean() where whitespace following a validated character entity would not be preserved.</li>
-	<li>Fixed a bug where HTML comments and &lt;pre&gt; tags were being parsed in Typography::auto_typography()</li>
-	<li>Fixed a bug with non-breaking space cleanup in Typography::auto_typography()</li>
+	<li>Fixed a bug where HTML comments and &lt;pre&gt; tags were being parsed in Typography::auto_typography().</li>
+	<li>Fixed a bug with non-breaking space cleanup in Typography::auto_typography().</li>
+	<li>Fixed a bug in database escaping where a compound statement (ie: SUM()) wasn't handled correctly with database prefixes.</li>
 </ul>
 
 

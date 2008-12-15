@@ -1204,9 +1204,18 @@ class CI_DB_driver {
 		// Basically we remove everything to the right of the first space
 		$alias = '';
 		if (strpos($item, ' ') !== FALSE)
-		{		
+		{
 			$alias = strstr($item, " ");
 			$item = substr($item, 0, - strlen($alias));
+		}
+
+		// This is basically a bug fix for queries that use MAX, MIN, etc.
+		// If a parenthesis is found we know that we do not need to 
+		// escape the data or add a prefix.  There's probably a more graceful
+		// way to deal with this, but I'm not thinking of it -- Rick
+		if (strpos($item, '(') !== FALSE)
+		{
+			return $item.$alias;
 		}
 
 		// Break the string apart if it contains periods, then insert the table prefix
@@ -1220,7 +1229,7 @@ class CI_DB_driver {
 			// one of the aliases previously identified?  If so,
 			// we have nothing more to do other than escape the item
 			if (in_array($parts[0], $this->ar_aliased_tables))
-			{				
+			{
 				if ($protect_identifiers === TRUE)
 				{
 					foreach ($parts as $key => $val)
@@ -1284,15 +1293,6 @@ class CI_DB_driver {
 			return $item.$alias;
 		}
 
-		// This is basically a bug fix for queries that use MAX, MIN, etc.
-		// If a parenthesis is found we know that we do not need to 
-		// escape the data or add a prefix.  There's probably a more graceful
-		// way to deal with this, but I'm not thinking of it -- Rick
-		if (strpos($item, '(') !== FALSE)
-		{
-			return $item.$alias;
-		}
-		
 		// Is there a table prefix?  If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
