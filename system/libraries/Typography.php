@@ -138,8 +138,13 @@ class CI_Typography {
 		$str = '';
 		$process = TRUE;
 		$paragraph = FALSE;
+		$current_chunk = 0;
+		$total_chunks = count($chunks);
+		
 		foreach ($chunks as $chunk)
-		{
+		{ 
+			$current_chunk++;
+			
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunk, $match))
@@ -163,17 +168,23 @@ class CI_Typography {
 				$str .= $chunk;
 				continue;
 			}
-
+			
+			//  Force a newline to make sure end tags get processed by _format_newlines()
+			if ($current_chunk == $total_chunks)
+			{
+				$chunk .= "\n";  
+			}
+			
 			//  Convert Newlines into <p> and <br /> tags
 			$str .= $this->_format_newlines($chunk);
 		}
-
-		// is the whole of the content inside a block level element?
-		if ( ! preg_match("/^\s*<(?:".$this->block_elements.")/i", $str, $match))
+		
+		// No opening block level tag?  Add it if needed.
+		if ( ! preg_match("/^\s*<(?:".$this->block_elements.")/i", $str))
 		{
-			$str = "<p>{$str}</p>";
+			$str = preg_replace("/^(.*?)<(".$this->block_elements.")/i", '<p>$1</p><$2', $str);
 		}
-
+		
 		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
 		$str = $this->format_characters($str);
 		
@@ -185,7 +196,7 @@ class CI_Typography {
 			// if '<p>{@HC1}' then replace <p>{@HC1}</p> with the comment, else replace only {@HC1} with the comment
 			$str = preg_replace('#(?(?=<p>\{@HC'.$i.'\})<p>\{@HC'.$i.'\}(\s*</p>)|\{@HC'.$i.'\})#s', $html_comments[$i], $str);
 		}
-
+				
 		// Final clean up
 		$table = array(
 		
@@ -199,7 +210,7 @@ class CI_Typography {
 						
 						// Clean up stray paragraph tags that appear before block level elements
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
-						
+
 						// Clean up stray non-breaking spaces preceeding block elements
 						'#(&nbsp;\s*)+<('.$this->block_elements.')#'	=> '  <$2',
 
@@ -223,7 +234,7 @@ class CI_Typography {
 			// otherwise most browsers won't treat them as true paragraphs
 			$table['#<p></p>#'] = '<p>&nbsp;</p>';
 		}
-	
+		
 		return preg_replace(array_keys($table), $table, $str);
 
 	}
