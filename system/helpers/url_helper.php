@@ -382,7 +382,7 @@ if ( ! function_exists('auto_link'))
 			{
 				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
 	
-				for ($i = 0; $i < sizeof($matches['0']); $i++)
+				for ($i = 0; $i < count($matches['0']); $i++)
 				{
 					$period = '';
 					if (preg_match("|\.$|", $matches['6'][$i]))
@@ -408,7 +408,7 @@ if ( ! function_exists('auto_link'))
 		{
 			if (preg_match_all("/([a-zA-Z0-9_\.\-\+Å]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
 			{
-				for ($i = 0; $i < sizeof($matches['0']); $i++)
+				for ($i = 0; $i < count($matches['0']); $i++)
 				{
 					$period = '';
 					if (preg_match("|\.$|", $matches['3'][$i]))
