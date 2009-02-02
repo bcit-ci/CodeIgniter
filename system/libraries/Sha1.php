@@ -80,7 +80,7 @@ class CI_SHA {
 		$d =  271733878;
 		$e = -1009589776;
 
-		for ($i = 0; $i < sizeof($x); $i += 16)
+		for ($i = 0; $i < count($x); $i += 16)
 		{
 			$olda = $a;
 			$oldb = $b;
