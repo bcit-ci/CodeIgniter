@@ -127,7 +127,17 @@ if ( ! function_exists('ascii_to_entities'))
 	
 		   if ($ordinal < 128)
 		   {
-			   $out .= $str[$i];
+				/*
+					If the $temp array has a value but we have moved on, then it seems only
+					fair that we output that entity and restart $temp before continuing. -Paul
+				*/
+				if (count($temp) == 1)
+				{
+					$out  .= '&#'.array_shift($temp).';';
+					$count = 1;
+				}
+
+				$out .= $str[$i];
 		   }
 		   else
 		   {
