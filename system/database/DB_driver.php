@@ -613,7 +613,7 @@ class CI_DB_driver {
 	 */	
 	function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
+		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
 		{
 			return FALSE;
 		}
@@ -1086,12 +1086,15 @@ class CI_DB_driver {
 		{
 			return TRUE;
 		}
-	
-		if ( ! @include(BASEPATH.'database/DB_cache'.EXT))
+
+		if ( ! class_exists('CI_DB_Cache'))
 		{
-			return $this->cache_off();
+			if ( ! @include(BASEPATH.'database/DB_cache'.EXT))
+			{
+				return $this->cache_off();
+			}
 		}
-		
+
 		$this->CACHE = new CI_DB_Cache($this); // pass db object to support multiple db connections and returned db objects
 		return TRUE;
 	}
@@ -1196,7 +1199,19 @@ class CI_DB_driver {
 		{
 			$protect_identifiers = $this->_protect_identifiers;
 		}
-		
+
+		if (is_array($item))
+		{
+			$escaped_array = array();
+
+			foreach($item as $k => $v)
+			{
+				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v);
+			}
+
+			return $escaped_array;
+		}
+
 		// Convert tabs or multiple spaces into single spaces
 		$item = preg_replace('/[\t| ]+/', ' ', $item);
 	
