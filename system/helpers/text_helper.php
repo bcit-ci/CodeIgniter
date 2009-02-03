@@ -87,14 +87,16 @@ if ( ! function_exists('character_limiter'))
 		{
 			return $str;
 		}
-									
+
 		$out = "";
 		foreach (explode(' ', trim($str)) as $val)
 		{
-			$out .= $val.' ';			
+			$out .= $val.' ';
+			
 			if (strlen($out) >= $n)
 			{
-				return trim($out).$end_char;
+				$out = trim($out);
+				return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
 			}		
 		}
 	}
@@ -236,7 +238,7 @@ if ( ! function_exists('word_censor'))
 		// \w, \b and a few others do not match on a unicode character
 		// set for performance reasons. As a result words like über
 		// will not match on a word boundary. Instead, we'll assume that
-		// a bad word will be bookeneded by any of these characters.
+		// a bad word will be bookended by any of these characters.
 		$delim = '[-_\'\"`(){}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';
 
 		foreach ($censored as $badword)
