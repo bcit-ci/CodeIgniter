@@ -75,8 +75,12 @@ SVN Revision: </p>
 	<li>Database
 		<ul>
 			<li>Added where_in to the list of expected arguments received by <kbd>delete()</kbd>.</li>
+			<li>Fixed a bug when doing 'random' on order_by() (#5706).</li>
+			<li>Fixed a bug where adding a primary key through Forge could fail (#5731).</li>
+			<li>Fixed a bug when using DB cache on multiple databases (#5737).</li>
 		</ul>
-	</li>	<li>Helpers
+	</li>
+	<li>Helpers
 		<ul>
 			<li>Added a doctype() function to the <a href="helpers/html_helper.html">HTML helper</a>.</li>
 			<li>Added ability to force lowercase for url_title() in the <a href="helpers/url_helper.html">URL helper</a>.</li>
