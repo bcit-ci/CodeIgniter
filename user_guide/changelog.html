@@ -107,6 +107,7 @@ SVN Revision: </p>
 	<li>Fixed a bug in database escaping where a compound statement (ie: SUM()) wasn't handled correctly with database prefixes.</li>
 	<li>Fixed a bug when an opening quote is preceded by a paragraph tag and immediately followed by another tag.</li>
 	<li>Fixed a bug in the Text Helper affecting some locales where word_censor() would not work on words beginning or ending with an accented character.</li>
+	<li>Fixed a bug in the Text Helper character limiter where the provided limit intersects the last word of the string.</li>
 	<li>Tweaked Typography::auto_typography() for some edge-cases.</li>
 </ul>
 
