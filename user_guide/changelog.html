@@ -95,7 +95,7 @@ SVN Revision: </p>
 
 <h3>Bug fixes for 1.7.1</h3>
 <ul>
-	<li>Fixed assorted user guide typos or examples (#6521, #6339, #6259, #6093).</li>
+	<li>Fixed assorted user guide typos or examples (#6521, #6339, #6259, #6093, #5998).</li>
 	<li>Fixed a bug in the MySQLi driver when no port is specified</li>
 	<li>Fixed a bug (#5702), in which the field label was not being fetched properly, when "matching" one field to another.</li>
 	<li>Fixed a bug in which identifers were not being escaped properly when reserved characters were used.</li>
@@ -740,7 +740,7 @@ SVN Revision: 1155</p>
 <p>Release Date: September 21, 2006</p>
 
 <ul>
-<li>Added a new feature that passes URI segments directly to your function calls as parameters. See the <a href="controllers.html">Controllers</a> page for more info.</li>
+<li>Added a new feature that passes URI segments directly to your function calls as parameters. See the <a href="./general/controllers.html">Controllers</a> page for more info.</li>
 <li>Added support for a function named <dfn>_output()</dfn>, which when used in your controllers will received the final rendered output from the output class.  More info in the <a href="controllers.html">Controllers</a> page.</li>
 <li>Added several new functions in the <a href="./libraries/uri.html">URI Class</a> to let you retrieve and manipulate URI segments that have been re-routed using the <a href="routing.html">URI Routing</a> feature. Previously, the URI class did not permit you to access any re-routed URI segments, but now it does.</li>
 <li>Added <a href="./libraries/output.html">$this->output->set_header()</a> function, which allows you to set server headers.</li>
@@ -771,11 +771,11 @@ SVN Revision: 1155</p>
 <p>Release Date: September 17, 2006</p>
 
 <ul>
-<li>Added <a href="hooks.html">Hooks</a> feature, enabling you to tap into and modify the inner workings of the framework without hacking the core files.</li>
-<li>Added the ability to organize controller files <a href="controllers.html">into sub-folders</a>.  Kudos to Marco for <a href="http://codeigniter.com/forums/viewthread/627/">suggesting</a> this (and the next two) feature.</li>
-<li>Added regular expressions support for <a href="routing.html">routing rules</a>.</li>
-<li>Added the ability to <a href="controllers.html">remap function calls</a> within your controllers.</li>
-<li>Added the ability to <a href="core_classes.html">replace core system classes</a> with your own classes.</li>
+<li>Added <a href="./general/hooks.html">Hooks</a> feature, enabling you to tap into and modify the inner workings of the framework without hacking the core files.</li>
+<li>Added the ability to organize controller files <a href="./general/controllers.html">into sub-folders</a>.  Kudos to Marco for <a href="http://codeigniter.com/forums/viewthread/627/">suggesting</a> this (and the next two) feature.</li>
+<li>Added regular expressions support for <a href="./general/routing.html">routing rules</a>.</li>
+<li>Added the ability to <a href="./general/controllers.html">remap function calls</a> within your controllers.</li>
+<li>Added the ability to <a href="./general/core_classes.html">replace core system classes</a> with your own classes.</li>
 <li>Added support for % character in URL.</li>
 <li>Added the ability to supply full URLs using the <a href="./helpers/url_helper.html">anchor()</a> helper function.</li>
 <li>Added mode parameter to <a href="./helpers/file_helper.html">file_write()</a> helper.</li>
