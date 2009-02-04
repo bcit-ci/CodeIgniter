@@ -346,8 +346,15 @@ class CI_Input {
 		{
 			return $this->ip_address;
 		}
+		
+		if ($this->config->item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
+		{
+			$proxies = preg_split('/[\s,]/', $this->config->item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
+			$proxies = is_array($proxies) ? $proxies : array($proxies);
 
-		if ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
+			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+		}
+		elseif ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		}
@@ -373,7 +380,7 @@ class CI_Input {
 		if (strstr($this->ip_address, ','))
 		{
 			$x = explode(',', $this->ip_address);
-			$this->ip_address = end($x);
+			$this->ip_address = trim(end($x));
 		}
 
 		if ( ! $this->valid_ip($this->ip_address))
