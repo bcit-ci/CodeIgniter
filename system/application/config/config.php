@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://your-site.com/";
+$config['base_url']	= "http://example.com/";
 
 /*
 |--------------------------------------------------------------------------
