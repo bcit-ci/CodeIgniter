@@ -47,9 +47,10 @@ class CI_Input {
 									);
 	/* never allowed, regex replacement */
 	var $never_allowed_regex = array(
-										"javascript\s*:"	=> '[removed]',
-										"expression\s*\("	=> '[removed]', // CSS and IE
-										"Redirect\s+302"	=> '[removed]'
+										"javascript\s*:"			=> '[removed]',
+										"expression\s*(\(|&\#40;)"	=> '[removed]', // CSS and IE
+										"vbscript\s*:"				=> '[removed]', // IE, surprise!
+										"Redirect\s+302"			=> '[removed]'
 									);
 
 	/**
@@ -946,7 +947,7 @@ class CI_Input {
 	*/
 	function _convert_attribute($match)
 	{
-		return str_replace(array('>', '<'), array('&gt;', '&lt;'), $match[0]);
+		return str_replace(array('>', '<', '\\'), array('&gt;', '&lt;', '\\\\'), $match[0]);
 	}
 
 	// --------------------------------------------------------------------
@@ -1043,7 +1044,7 @@ class CI_Input {
 		{
 			foreach ($matches[0] as $match)
 			{
-				$out .= "{$match}";
+				$out .= preg_replace("#/\*.*?\*/#s", '', $match);
 			}
 		}
 
