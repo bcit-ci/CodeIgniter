@@ -170,7 +170,7 @@ echo form_input($data);<br />
 // Would produce:<br /><br />
 &lt;input type="text" name="username" id="username" value="johndoe" maxlength="100" size="50" style="width:50%" /></code>
 
-<p>If you would like your form to contain some additional data, like JavaScript, you can pass it as a string in the
+<p>If you would like your form to contain some additional data, like Javascript, you can pass it as a string in the
 third parameter:</p>
 
 <code>$js = 'onClick="some_function()"';<br />
@@ -232,10 +232,10 @@ echo form_dropdown('shirts', $options, $shirts_on_sale);<br />
 &lt;/select&gt;</code>
 
 
-<p>If you would like the opening &lt;select> to contain  additional data, like JavaScript, you can pass it as a string in the
+<p>If you would like the opening &lt;select> to contain additional data, like an <kbd>id</kbd> attribute or JavaScript, you can pass it as a string in the
 fourth parameter:</p>
 
-<code>$js = 'onChange="some_function()"';<br />
+<code>$js = 'id="shirts" onChange="some_function();"';<br />
 <br />
 echo form_dropdown('shirts', $options, 'large', $js);</code>
 
