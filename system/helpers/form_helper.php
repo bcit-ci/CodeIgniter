@@ -275,7 +275,7 @@ if ( ! function_exists('form_dropdown'))
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
-					$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
 					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
 				}
