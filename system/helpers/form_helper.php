@@ -268,11 +268,26 @@ if ( ! function_exists('form_dropdown'))
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
-			$val = (string) $val;
 
-			$sel = (in_array($key, $selected))?' selected="selected"':'';
+			if (is_array($val))
+			{
+				$form .= '<optgroup label="'.$key.'">'."\n";
 
-			$form .= '<option value="'.$key.'"'.$sel.'>'.$val."</option>\n";
+				foreach ($val as $optgroup_key => $optgroup_val)
+				{
+					$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+				}
+
+				$form .= '</optgroup>'."\n";
+			}
+			else
+			{
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+			}
 		}
 
 		$form .= '</select>';
