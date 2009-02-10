@@ -424,7 +424,7 @@ if ( ! function_exists('form_button'))
 {
 	function form_button($data = '', $content = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'submit');
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
 
 		if ( is_array($data) AND isset($data['content']))
 		{
