@@ -956,7 +956,7 @@ class CI_Email {
 
 		if ($this->_get_protocol() == 'mail')
 		{
-			$this->_header_str = substr($this->_header_str, 0, -1);
+			$this->_header_str = rtrim($this->_header_str);
 		}
 	}
   
