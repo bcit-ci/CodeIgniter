@@ -107,6 +107,8 @@ if ( ! function_exists('get_cookie'))
 {
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
+		$CI =& get_instance();
+		
 		$prefix = '';
 		
 		if ( ! isset($_COOKIE[$index]) && config_item('cookie_prefix') != '')
