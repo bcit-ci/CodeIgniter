@@ -223,7 +223,7 @@ if ( ! function_exists('get_dir_file_info'))
 {
 	function get_dir_file_info($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
-		$_filedata = array();
+		static $_filedata = array();
 		$relative_path = $source_dir;
 				
 		if ($fp = @opendir($source_dir))
