@@ -75,10 +75,6 @@ SVN Revision: </p>
 	<li>Database
 		<ul>
 			<li>Added where_in to the list of expected arguments received by <kbd>delete()</kbd>.</li>
-			<li>Fixed a bug when doing 'random' on order_by() (#5706).</li>
-			<li>Fixed a bug where adding a primary key through Forge could fail (#5731).</li>
-			<li>Fixed a bug when using DB cache on multiple databases (#5737).</li>
-			<li>Fixed a bug where TRUNCATE was not considered a "write" query (#6619).</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -102,6 +98,15 @@ SVN Revision: </p>
 
 <h3>Bug fixes for 1.7.1</h3>
 <ul>
+	<li>Database
+		<ul>
+			<li>Fixed a bug when doing 'random' on order_by() (#5706).</li>
+			<li>Fixed a bug where adding a primary key through Forge could fail (#5731).</li>
+			<li>Fixed a bug when using DB cache on multiple databases (#5737).</li>
+			<li>Fixed a bug where TRUNCATE was not considered a "write" query (#6619).</li>
+			<li>Fixed a bug where csv_from_result() was checking for a nonexistent method.</li>
+		</ul>
+	</li>
 	<li>Fixed assorted user guide typos or examples (#5998, #6093, #6259, #6339, #6432, #6521).</li>
 	<li>Fixed a bug in the MySQLi driver when no port is specified</li>
 	<li>Fixed a bug (#5702), in which the field label was not being fetched properly, when "matching" one field to another.</li>
