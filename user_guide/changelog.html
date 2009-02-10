@@ -133,6 +133,7 @@ SVN Revision: </p>
 	<li>Fixed bug (#6517) where Routed URI segments returned by URI::rsegment() method were incorrect for the default controller.</li>
 	<li>Fixed a bug (#6706) in the Security Helper where xss_clean() was using a deprecated second argument.</li>
 	<li>Fixed a bug in the URL helper url_title() function where trailing periods were allowed at the end of a URL.</li>
+	<li>Fixed a bug (#6669) in the Email class when CRLF's are used for the newline character with headers when used with the "mail" protocol.</li>
 	<li>Tweaked Typography::auto_typography() for some edge-cases.</li>
 </ul>
 
