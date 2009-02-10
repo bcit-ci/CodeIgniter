@@ -406,7 +406,7 @@ if ( ! function_exists('auto_link'))
 
 		if ($type != 'url')
 		{
-			if (preg_match_all("/([a-zA-Z0-9_\.\-\+Å]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
+			if (preg_match_all("/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
 			{
 				for ($i = 0; $i < count($matches['0']); $i++)
 				{
@@ -491,7 +491,8 @@ if ( ! function_exists('url_title'))
 						'[^a-z0-9\-\._]'		=> '',
 						$replace.'+'			=> $replace,
 						$replace.'$'			=> $replace,
-						'^'.$replace			=> $replace
+						'^'.$replace			=> $replace,
+						'\.+$'					=> ''
 					  );
 
 		$str = strip_tags($str);
