@@ -1437,26 +1437,10 @@ class CI_Image_lib {
 	 */
 	function explode_name($source_image)
 	{
-		$x = explode('.', $source_image);
-		$ret['ext'] = '.'.end($x);
-
-		$name = '';
-
-		$ct = count($x)-1;
-
-		for ($i = 0; $i < $ct; $i++)
-		{
-			$name .= $x[$i];
-
-			if ($i < ($ct - 1))
-			{
-				$name .= '.';
-			}
-		}
-
-		$ret['name'] = $name;
-
-		return $ret;
+		$ext = strrchr($source_image, '.');
+		$name = ($ext === FALSE) ? $source_image : substr($source_image, 0, -strlen($ext));
+		
+		return array('ext' => $ext, 'name' => $name);
 	}
 
 	// --------------------------------------------------------------------
