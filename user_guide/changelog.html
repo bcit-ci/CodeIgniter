@@ -125,6 +125,7 @@ SVN Revision: </p>
 	<li>Fixed a bug in the Text Helper affecting some locales where word_censor() would not work on words beginning or ending with an accented character.</li>
 	<li>Fixed a bug in the Text Helper character limiter where the provided limit intersects the last word of the string.</li>
 	<li>Fixed a bug (#6342) with plural() in the Inflection helper with words ending in "y".</li>
+	<li>Fixed bug (#6517) where Routed URI segments returned by URI::rsegment() method were incorrect for the default controller.</li>
 	<li>Tweaked Typography::auto_typography() for some edge-cases.</li>
 </ul>
 
