@@ -87,7 +87,9 @@ if ( ! function_exists('plural'))
 
 		if ($end == 'y')
 		{
-			$str = substr($str, 0, strlen($str)-1).'ies';
+			// Y preceded by vowel => regular plural
+			$vowels = array('a', 'e', 'i', 'o', 'u');
+			$str = in_array(substr($str, -2, 1), $vowels) ? $str.'s' : substr($str, 0, -1).'ies';
 		}
 		elseif ($end == 's')
 		{
