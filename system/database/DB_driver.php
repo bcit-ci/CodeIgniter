@@ -673,16 +673,19 @@ class CI_DB_driver {
 	 * @return	integer		
 	 */	
 	function escape($str)
-	{	
-		switch (gettype($str))
+	{
+		if (is_string($str))
 		{
-			case 'string'	:	$str = "'".$this->escape_str($str)."'";
-				break;
-			case 'boolean'	:	$str = ($str === FALSE) ? 0 : 1;
-				break;
-			default			:	$str = ($str === NULL) ? 'NULL' : $str;
-				break;
-		}		
+			$str = "'".$this->escape_str($str)."'";
+		}
+		elseif (is_bool($str))
+		{
+			$str = ($str === FALSE) ? 0 : 1;
+		}
+		elseif (is_null($str))
+		{
+			$str = 'NULL';
+		}
 
 		return $str;
 	}
