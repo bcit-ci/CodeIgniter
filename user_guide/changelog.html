@@ -62,6 +62,11 @@ Change Log
 SVN Revision: </p>
 
 <ul>
+	<li>Database
+		<ul>
+			<li>Switched from using gettype() in escape() to is_* methods, since future PHP versions might change its output.</li>
+		</ul>
+	</li>
 </ul>
 
 <h3>Bug fixes for 1.7.2</h3>
