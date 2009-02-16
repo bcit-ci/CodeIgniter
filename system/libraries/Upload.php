@@ -911,11 +911,11 @@ class CI_Upload {
 		{
 			return $filename;
 		}
-		
+
 		$parts		= explode('.', $filename);
 		$ext		= array_pop($parts);
 		$filename	= array_shift($parts);
-				
+
 		foreach ($parts as $part)
 		{
 			if ($this->mimes_types(strtolower($part)) === FALSE)
@@ -928,7 +928,8 @@ class CI_Upload {
 			}
 		}
 
-		// file name override
+		// file name override, since the exact name is provided, no need to
+		// run it through a $this->mimes check.
 		if ($this->file_name != '')
 		{
 			$filename = $this->file_name;
