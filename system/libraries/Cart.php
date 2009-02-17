@@ -517,7 +517,7 @@ class CI_Cart {
 		$this->_cart_contents['cart_total'] = 0;		
 		$this->_cart_contents['total_items'] = 0;		
 
-		$this->CI->session->sess_destroy();		
+		$this->CI->session->unset_userdata('cart_contents');
 	}
 
 
