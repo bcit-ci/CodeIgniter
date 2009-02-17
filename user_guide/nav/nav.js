@@ -73,7 +73,7 @@ function create_menu(basepath)
 		'<h3>Class Reference</h3>' +
 		'<ul>' +
 		'<li><a href="'+base+'libraries/benchmark.html">Benchmarking Class</a></li>' +
-		'<li><a href="'+base+'libraries/calendar.html">Cart Class</a></li>' +
+		'<li><a href="'+base+'libraries/cart.html">Cart Class</a></li>' +
 		'<li><a href="'+base+'libraries/calendar.html">Calendar Class</a></li>' +
 		'<li><a href="'+base+'libraries/config.html">Config Class</a></li>' +
 		'<li><a href="'+base+'database/index.html">Database Class</a></li>' +
