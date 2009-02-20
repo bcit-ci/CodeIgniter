@@ -34,7 +34,11 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// The character used for escaping
 	var	$_escape_char = '`';
-	
+
+	// clause and character used for LIKE escape sequences - not used in MySQL
+	var $_like_escape_str = '';
+	var $_like_escape_chr = '';
+
 	/**
 	 * Whether to use the MySQL "delete hack" which allows the number
 	 * of affected rows to be shown. Uses a preg_replace when enabled,
@@ -256,15 +260,16 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
-	function escape_str($str)	
+	function escape_str($str, $like = FALSE)	
 	{	
 		if (is_array($str))
 		{
 			foreach($str as $key => $val)
 	   		{
-				$str[$key] = $this->escape_str($val);
+				$str[$key] = $this->escape_str($val, $like);
 	   		}
    		
 	   		return $str;
@@ -272,16 +277,24 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		if (function_exists('mysql_real_escape_string') AND is_resource($this->conn_id))
 		{
-			return mysql_real_escape_string($str, $this->conn_id);
+			$str = mysql_real_escape_string($str, $this->conn_id);
 		}
 		elseif (function_exists('mysql_escape_string'))
 		{
-			return mysql_escape_string($str);
+			$str = mysql_escape_string($str);
 		}
 		else
 		{
-			return addslashes($str);
+			$str = addslashes($str);
 		}
+		
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			$str = str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+		}
+		
+		return $str;
 	}
 		
 	// --------------------------------------------------------------------
