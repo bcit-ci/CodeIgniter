@@ -37,6 +37,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// The character used to escape with - not needed for SQLite
 	var $_escape_char = '';
 
+	// clause and character used for LIKE escape sequences
+ 	var $_like_escape_str = " ESCAPE '%s' ";
+	var $_like_escape_chr = '!';
+	
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
@@ -253,11 +257,32 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
-	function escape_str($str)	
+	function escape_str($str, $like = FALSE)
 	{
-		return sqlite_escape_string($str);
+		if (is_array($str))
+		{
+			foreach($str as $key => $val)
+	   		{
+				$str[$key] = $this->escape_str($val, $like);
+	   		}
+   		
+	   		return $str;
+	   	}
+	
+		$str = sqlite_escape_string($str);
+		
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
+								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+								$str);
+		}
+		
+		return $str;
 	}
 		
 	// --------------------------------------------------------------------

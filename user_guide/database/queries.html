@@ -96,7 +96,7 @@ It simply lets you submit a query. Most users will rarely use this function.</p>
 
 <h1>Escaping Queries</h1>
 <p>It's a very good security practice to escape your data before submitting it into your database.
-CodeIgniter has two functions that help you do this:</p>
+CodeIgniter has three methods that help you do this:</p>
 
 <ol>
 <li><strong>$this->db->escape()</strong> This function determines the data type so that it
@@ -108,6 +108,13 @@ can escape only string data.  It also automatically adds single quotes around th
 Most of the time you'll use the above function rather than this one. Use the function like this:
 
 <code>$sql = "INSERT INTO table (title) VALUES('".$this->db->escape_str($title)."')";</code></li>
+
+<li><strong>$this->db->escape_like_str()</strong>  This method should be used when strings are to be used in LIKE
+conditions so that LIKE wildcards ('%', '_') in the string are also properly escaped.
+
+<code>$search = '20% raise';<br />
+$sql = "SELECT id FROM table WHERE column LIKE '%".$this->db->escape_like_str($search)."%'";</code>
+
 </ol>
 
 

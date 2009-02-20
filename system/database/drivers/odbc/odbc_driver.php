@@ -34,7 +34,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	
 	// the character used to excape - not necessary for ODBC
 	var $_escape_char = '';
-
+	
+	// clause and character used for LIKE escape sequences
+	var $_like_escape_str = " {escape '%s'} ";
+	var $_like_escape_chr = '!';
+	
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
@@ -237,15 +241,36 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
-	function escape_str($str)	
+	function escape_str($str, $like = FALSE)
 	{
+		if (is_array($str))
+		{
+			foreach($str as $key => $val)
+	   		{
+				$str[$key] = $this->escape_str($val, $like);
+	   		}
+   		
+	   		return $str;
+	   	}
+
 		// Access the CI object
 		$CI =& get_instance();
-
+		
 		// ODBC doesn't require escaping
-		return $CI->_remove_invisible_characters($str);
+		$str = $CI->input->_remove_invisible_characters($str);
+		
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
+								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+								$str);
+		}
+		
+		return $str;
 	}
 	
 	// --------------------------------------------------------------------

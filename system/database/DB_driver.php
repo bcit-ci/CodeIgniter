@@ -670,7 +670,7 @@ class CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	integer		
+	 * @return	mixed		
 	 */	
 	function escape($str)
 	{
@@ -691,7 +691,24 @@ class CI_DB_driver {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Smart Escape LIKE String
+	 *
+	 * Calls the individual driver for platform
+	 * specific escaping for LIKE conditions
+	 * 
+	 * @access	public
+	 * @param	string
+	 * @return	mixed
+	 */
+    function escape_like_str($str)    
+    {    
+    	return $this->escape_str($str, TRUE);
+	}
 
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Primary
 	 *
