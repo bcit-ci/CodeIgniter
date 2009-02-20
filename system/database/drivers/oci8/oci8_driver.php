@@ -375,7 +375,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		// Access the CI object
 		$CI =& get_instance();
 
-		return $CI->_remove_invisible_characters($str);
+		return $CI->input->_remove_invisible_characters($str);
 	}
 
 	// --------------------------------------------------------------------
