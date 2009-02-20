@@ -693,7 +693,7 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Smart Escape LIKE String
+	 * Escape LIKE String
 	 *
 	 * Calls the individual driver for platform
 	 * specific escaping for LIKE conditions
