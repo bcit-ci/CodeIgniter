@@ -370,7 +370,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
 		{
-			$sql .= " LIKE '".$this->dbprefix."%'";
+			$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
 
 		return $sql;
