@@ -32,7 +32,7 @@ class CI_Cart {
 	
 	// Private variables.  Do not change!
 	var $CI;
-	var $_cart_contents		= array();
+	var $_cart_contents	= array();
 
 
 	/**
@@ -382,7 +382,7 @@ class CI_Cart {
 			
 			// Set the subtotal
 			// Note: "subtotal" is a reserved array index.  We need to make a note of that in the docs
-			$this->_cart_contents[$key]['subtotal'] = number_format(($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']), 2);
+			$this->_cart_contents[$key]['subtotal'] = ($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
 		}
 
 		// Unset these so our total can be calculated correctly below
@@ -420,7 +420,7 @@ class CI_Cart {
 	 */
 	function total()
 	{
-		return number_format($this->_cart_contents['cart_total'], 2);
+		return $this->_cart_contents['cart_total'];
 	}
 
 	// --------------------------------------------------------------------
@@ -499,7 +499,30 @@ class CI_Cart {
 
 		return $this->_cart_contents[$rowid]['options'];
 	}
+
+	// --------------------------------------------------------------------
 	
+	/**
+	 * Format Number
+	 *
+	 * Returns the supplied number with commas and a decimal point.
+	 *
+	 * @access	public
+	 * @return	integer
+	 */
+	function format_number($n = '')
+	{
+		if ($n == '')
+		{
+			return '';
+		}
+	
+		// Remove anything that isn't a number or decimal point.
+		$n = trim(preg_replace('/([^0-9\.])/i', '', $n));
+	
+		return number_format($n, 2, '.', ',');
+	}
+		
 	// --------------------------------------------------------------------
 	
 	/**
