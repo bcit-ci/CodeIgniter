@@ -368,12 +368,16 @@ class CI_Cart {
 	 */
 	function _save_cart()
 	{
-		// First we add up the individual prices and get the cart total
+		// Unset these so our total can be calculated correctly below
+		unset($this->_cart_contents['total_items']);
+		unset($this->_cart_contents['cart_total']);
+
+		// Lets add up the individual prices and set the cart sub-total
 		$total = 0;
 		foreach ($this->_cart_contents as $key => $val)
 		{
 			// We make sure the array contains the proper indexes
-			if ( ! isset($val['price']) or ! isset($val['qty']))
+			if ( ! is_array($val) OR ! isset($val['price']) OR ! isset($val['qty']))
 			{
 				continue;
 			}
@@ -381,13 +385,8 @@ class CI_Cart {
 			$total += ($val['price'] * $val['qty']);
 			
 			// Set the subtotal
-			// Note: "subtotal" is a reserved array index.  We need to make a note of that in the docs
 			$this->_cart_contents[$key]['subtotal'] = ($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
 		}
-
-		// Unset these so our total can be calculated correctly below
-		unset($this->_cart_contents['total_items']);
-		unset($this->_cart_contents['cart_total']);
 
 		// Set the cart total and total items.
 		$this->_cart_contents['total_items'] = count($this->_cart_contents);			
