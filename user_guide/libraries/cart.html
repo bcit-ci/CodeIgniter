@@ -200,8 +200,8 @@ $this->cart->insert($data);
 			&lt;?php endif; ?>
 				
 	  &lt;/td>
-	  &lt;td style="text-align:right">&lt;?php echo $items['price']; ?>&lt;/td>
-	  &lt;td style="text-align:right">$&lt;?php echo $items['subtotal']; ?>&lt;/td>
+	  &lt;td style="text-align:right">&lt;?php echo $this->cart->format_number($items['price']); ?>&lt;/td>
+	  &lt;td style="text-align:right">$&lt;?php echo $this->cart->format_number($items['subtotal']); ?>&lt;/td>
 	&lt;/tr>
 
 &lt;?php $i++; ?>
@@ -211,14 +211,13 @@ $this->cart->insert($data);
 &lt;tr>
   &lt;td colspan="2">&nbsp;&lt;/td>
   &lt;td class="right">&lt;strong>Total&lt;/strong>&lt;/td>
-  &lt;td class="right">$&lt;?php echo $this->cart->total(); ?>&lt;/td>
+  &lt;td class="right">$&lt;?php echo $this->cart->format_number($this->cart->total()); ?>&lt;/td>
 &lt;/tr>
 
 &lt;/table>
 
 &lt;p>&lt;?php echo form_submit('', 'Update your Cart'); ?>&lt;/p>
 </textarea>
-
 
 
 
