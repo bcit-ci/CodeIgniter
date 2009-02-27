@@ -158,6 +158,11 @@ you can pass the connection values as indicated above).</p>
 
 </div>
 
+<h2>Reconnecting / Keeping the Connection Alive</h2>
+
+<p>If the database server's idle timeout is exceeded while you're doing some heavy PHP lifting (processing an image, for instance), you should consider pinging the server by using the <dfn>reconnect()</dfn> method before sending further queries, which can gracefully keep the connection alive or re-establish it.</p>
+
+<code>$this->db->reconnect();</code>
 
 
 	
