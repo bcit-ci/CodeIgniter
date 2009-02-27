@@ -100,6 +100,22 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Reconnect
+	 *
+	 * Keep / reestablish the db connection if no queries have been
+	 * sent for a length of time exceeding the server's idle timeout
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	function reconnect()
+	{
+		// not implemented in SQLite
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Select the database
 	 *
 	 * @access	private called by the base class
