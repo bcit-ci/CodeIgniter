@@ -146,7 +146,7 @@ class CI_URI {
 			return '';
 		}
 
-		$fc_path = FCPATH;
+		$fc_path = FCPATH.SELF;
 		if (strpos($request_uri, '?') !== FALSE)
 		{
 			$fc_path .= '?';
