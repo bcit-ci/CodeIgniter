@@ -79,15 +79,15 @@ else
 |---------------------------------------------------------------
 |
 | EXT		- The file extension.  Typically ".php"
-| FCPATH	- The full server path to THIS file
 | SELF		- The name of THIS file (typically "index.php")
+| FCPATH	- The full server path to THIS file
 | BASEPATH	- The full server path to the "system" folder
 | APPPATH	- The full server path to the "application" folder
 |
 */
 define('EXT', '.'.pathinfo(__FILE__, PATHINFO_EXTENSION));
-define('FCPATH', __FILE__);
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('FCPATH', str_replace(SELF, '', __FILE__));
 define('BASEPATH', $system_folder.'/');
 
 if (is_dir($application_folder))
