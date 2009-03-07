@@ -63,14 +63,14 @@ class CI_Pagination {
 	{
 		if (count($params) > 0)
 		{
-			$this->initialize($params);		
+			$this->initialize($params);
 		}
-		
+
 		log_message('debug', "Pagination Class Initialized");
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialize Preferences
 	 *
@@ -91,21 +91,21 @@ class CI_Pagination {
 			}
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Generate the pagination links
 	 *
 	 * @access	public
 	 * @return	string
-	 */	
+	 */
 	function create_links()
 	{
 		// If our item count or per-page total is zero there is no need to continue.
 		if ($this->total_rows == 0 OR $this->per_page == 0)
 		{
-		   return '';
+			return '';
 		}
 
 		// Calculate the total number of pages
@@ -117,15 +117,15 @@ class CI_Pagination {
 			return '';
 		}
 
-		// Determine the current page number.		
+		// Determine the current page number.
 		$CI =& get_instance();
-		
+
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
 			if ($CI->input->get($this->query_string_segment) != 0)
 			{
 				$this->cur_page = $CI->input->get($this->query_string_segment);
-				
+
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
 			}
@@ -135,31 +135,31 @@ class CI_Pagination {
 			if ($CI->uri->segment($this->uri_segment) != 0)
 			{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
-				
+
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
 			}
 		}
 
 		$this->num_links = (int)$this->num_links;
-		
+
 		if ($this->num_links < 1)
 		{
 			show_error('Your number of links must be a positive number.');
 		}
-				
+
 		if ( ! is_numeric($this->cur_page))
 		{
 			$this->cur_page = 0;
 		}
-		
+
 		// Is the page number beyond the result range?
 		// If so we show the last page
 		if ($this->cur_page > $this->total_rows)
 		{
 			$this->cur_page = ($num_pages - 1) * $this->per_page;
 		}
-		
+
 		$uri_page_number = $this->cur_page;
 		$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
 
@@ -200,7 +200,7 @@ class CI_Pagination {
 		for ($loop = $start -1; $loop <= $end; $loop++)
 		{
 			$i = ($loop * $this->per_page) - $this->per_page;
-					
+
 			if ($i >= 0)
 			{
 				if ($this->cur_page == $loop)
@@ -234,8 +234,8 @@ class CI_Pagination {
 
 		// Add the wrapper HTML if exists
 		$output = $this->full_tag_open.$output.$this->full_tag_close;
-		
-		return $output;		
+
+		return $output;
 	}
 }
 // END Pagination Class
