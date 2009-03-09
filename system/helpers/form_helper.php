@@ -644,7 +644,7 @@ if ( ! function_exists('set_select'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0)
+				if (count($_POST) === 0 AND $default == TRUE)
 				{
 					return ' selected="selected"';
 				}
@@ -699,7 +699,7 @@ if ( ! function_exists('set_checkbox'))
 		{ 
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0)
+				if (count($_POST) === 0 AND $default == TRUE)
 				{
 					return ' checked="checked"';
 				}
@@ -754,7 +754,7 @@ if ( ! function_exists('set_radio'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0)
+				if (count($_POST) === 0 AND $default == TRUE)
 				{
 					return ' checked="checked"';
 				}
