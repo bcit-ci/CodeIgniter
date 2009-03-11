@@ -267,7 +267,7 @@ class CI_Trackback {
 		}
 		@fclose($fp);
 		
-		if ( ! eregi("<error>0</error>", $this->response))
+		if (stristr($this->response, '<error>0</error>') === FALSE)
 		{
 			$message = 'An unknown error was encountered';
 			
@@ -370,10 +370,7 @@ class CI_Trackback {
 		}
 		else
 		{
-			if (ereg("/$", $url))
-			{
-				$url = substr($url, 0, -1);
-			}
+			$url = rtrim($url, '/');
 				
 			$tb_array = explode('/', $url);
 			$tb_id	= $tb_array[count($tb_array)-1];

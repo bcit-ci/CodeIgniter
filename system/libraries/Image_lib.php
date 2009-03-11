@@ -350,7 +350,7 @@ class CI_Image_lib {
 	{
 		$protocol = 'image_process_'.$this->image_library;
 
-		if (eregi("gd2$", $protocol))
+		if (preg_match('/gd2$/i', $protocol))
 		{
 			$protocol = 'image_process_gd';
 		}
@@ -373,7 +373,7 @@ class CI_Image_lib {
 	{
 		$protocol = 'image_process_'.$this->image_library;
 
-		if (eregi("gd2$", $protocol))
+		if (preg_match('/gd2$/i', $protocol))
 		{
 			$protocol = 'image_process_gd';
 		}
@@ -559,9 +559,9 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		if ( ! eregi("convert$", $this->library_path))
+		if ( ! preg_match("/convert$/i", $this->library_path))
 		{
-			if ( ! eregi("/$", $this->library_path)) $this->library_path .= "/";
+			$this->library_path = rtrim($this->library_path, '/').'/';
 
 			$this->library_path .= 'convert';
 		}
