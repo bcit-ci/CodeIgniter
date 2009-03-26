@@ -103,19 +103,35 @@ if ( ! function_exists('form_open_multipart'))
  */
 if ( ! function_exists('form_hidden'))
 {
-	function form_hidden($name, $value = '')
+	function form_hidden($name, $value = '', $recursing = FALSE)
 	{
-		if ( ! is_array($name))
+		static $form;
+
+		if ($recursing === FALSE)
 		{
-			return '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
+			$form = "\n";
 		}
 
-		$form = '';
-
-		foreach ($name as $name => $value)
+		if (is_array($name))
 		{
-			$form .= "\n";
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />';
+			foreach ($name as $key => $val)
+			{
+				form_hidden($key, $val, TRUE);
+			}
+			return $form;
+		}
+
+		if ( ! is_array($value))
+		{
+			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" />'."\n";
+		}
+		else
+		{
+			foreach ($value as $k => $v)
+			{
+				$k = (is_int($k)) ? '' : $k; 
+				form_hidden($name.'['.$k.']', $v, TRUE);
+			}
 		}
 
 		return $form;
@@ -264,7 +280,7 @@ if ( ! function_exists('form_dropdown'))
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
 		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
-	
+
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
