@@ -247,6 +247,31 @@ if ( ! function_exists('form_textarea'))
 // ------------------------------------------------------------------------
 
 /**
+ * Multi-select menu
+ *
+ * @access	public
+ * @param	string
+ * @param	array
+ * @param	mixed
+ * @param	string
+ * @return	type
+ */
+if (! function_exists('form_multiselect'))
+{
+	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
+	{
+		if ( ! strpos($extra, 'multiple'))
+		{
+			$extra .= ' multiple="multiple"';
+		}
+	
+		return form_dropdown($name, $options, $selected, $extra);
+	}
+}
+
+// --------------------------------------------------------------------
+
+/**
  * Drop-down Menu
  *
  * @access	public
