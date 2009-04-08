@@ -241,6 +241,14 @@ echo form_dropdown('shirts', $options, 'large', $js);</code>
 
 <p>If the array passed as $options is a multidimensional array, form_dropdown() will produce an &lt;optgroup&gt; with the array key as the label.</p>
 
+<h2>form_multiselect()</h2>
+
+<p>Lets you create a standard multiselect field.  The first parameter will contain the name of the field,
+the second parameter will contain an associative array of options, and the third parameter will contain the
+value or values you wish to be selected.  The parameter usage is identical to using <kbd>form_dropdown()</kbd> above,
+except of course that the name of the field will need to use POST array syntax, e.g. <samp>foo[]</samp>.</p>
+
+
 <h2>form_fieldset()</h2>
 
 <p>Lets you generate fieldset/legend fields.</p>
