@@ -246,7 +246,7 @@ if ( ! function_exists('img'))
  */
 if ( ! function_exists('doctype'))
 {
-	function doctype($type = 'xhtml-strict')
+	function doctype($type = 'xhtml1-strict')
 	{
 		global $_doctypes;
 
