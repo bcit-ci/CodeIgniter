@@ -22,7 +22,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/file_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/file_helpers.html
  */
 
 // ------------------------------------------------------------------------
@@ -121,8 +121,8 @@ if ( ! function_exists('delete_files'))
 	function delete_files($path, $del_dir = FALSE, $level = 0)
 	{	
 		// Trim the trailing slash
-		$path = preg_replace("|^(.+?)/*$|", "\\1", $path);
-		
+		$path = rtrim($path, DIRECTORY_SEPARATOR);
+			
 		if ( ! $current_dir = @opendir($path))
 			return;
 	
@@ -130,17 +130,17 @@ if ( ! function_exists('delete_files'))
 		{
 			if ($filename != "." and $filename != "..")
 			{
-				if (is_dir($path.'/'.$filename))
+				if (is_dir($path.DIRECTORY_SEPARATOR.$filename))
 				{
 					// Ignore empty folders
 					if (substr($filename, 0, 1) != '.')
 					{
-						delete_files($path.'/'.$filename, $del_dir, $level + 1);
-					}
+						delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1);
+					}				
 				}
 				else
 				{
-					unlink($path.'/'.$filename);
+					unlink($path.DIRECTORY_SEPARATOR.$filename);
 				}
 			}
 		}
@@ -190,7 +190,6 @@ if ( ! function_exists('get_filenames'))
 				}
 				elseif (strncmp($file, '.', 1) !== 0)
 				{
-			
 					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
 				}
 			}
@@ -225,7 +224,7 @@ if ( ! function_exists('get_dir_file_info'))
 	{
 		static $_filedata = array();
 		$relative_path = $source_dir;
-				
+
 		if ($fp = @opendir($source_dir))
 		{
 			// reset the array and make sure $source_dir has a trailing slash on the initial call
@@ -267,8 +266,8 @@ if ( ! function_exists('get_dir_file_info'))
 * Returns FALSE if the file cannot be found.
 *
 * @access	public
-* @param	string		path to file
-* @param	mixed		array or comma separated string of information returned
+* @param	string	path to file
+* @param	mixed	array or comma separated string of information returned
 * @return	array
 */
 if ( ! function_exists('get_file_info'))
@@ -291,7 +290,7 @@ if ( ! function_exists('get_file_info'))
 			switch ($key)
 			{
 				case 'name':
-					$fileinfo['name'] = substr(strrchr($file, '/'), 1);
+					$fileinfo['name'] = substr(strrchr($file, DIRECTORY_SEPARATOR), 1);
 					break;
 				case 'server_path':
 					$fileinfo['server_path'] = $file;
@@ -342,9 +341,9 @@ if ( ! function_exists('get_mime_by_extension'))
 	function get_mime_by_extension($file)
 	{
 		$extension = substr(strrchr($file, '.'), 1);
-	
+
 		global $mimes;
-	
+
 		if ( ! is_array($mimes))
 		{
 			if ( ! require_once(APPPATH.'config/mimes.php'))
