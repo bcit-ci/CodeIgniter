@@ -1539,6 +1539,12 @@ class CI_Email {
 	{
 		$fp = @popen($this->mailpath . " -oi -f ".$this->clean_email($this->_headers['From'])." -t", 'w');
 
+		if ($fp === FALSE OR $fp === NULL)
+		{
+			// server probably has popen disabled, so nothing we can do to get a verbose error.
+			return FALSE;
+		}
+		
 		fputs($fp, $this->_header_str);
 		fputs($fp, $this->_finalbody);
 
