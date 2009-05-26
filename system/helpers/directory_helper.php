@@ -41,7 +41,7 @@
  */	
 if ( ! function_exists('directory_map'))
 {
-	function directory_map($source_dir, $top_level_only = FALSE)
+	function directory_map($source_dir, $top_level_only = FALSE, $hidden = FALSE)
 	{	
 		if ($fp = @opendir($source_dir))
 		{
@@ -50,7 +50,7 @@ if ( ! function_exists('directory_map'))
 			
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (strncmp($file, '.', 1) == 0)
+				if (($hidden == FALSE && strncmp($file, '.', 1) == 0) OR ($file == '.' OR $file == '..'))
 				{
 					continue;
 				}
@@ -59,7 +59,7 @@ if ( ! function_exists('directory_map'))
 				{
 					$temp_array = array();
 				
-					$temp_array = directory_map($source_dir.$file.DIRECTORY_SEPARATOR);
+					$temp_array = directory_map($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, $hidden);
 				
 					$filedata[$file] = $temp_array;
 				}
