@@ -240,7 +240,7 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
-		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".$val."</textarea>";
+		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".form_prep($val)."</textarea>";
 	}
 }
 
