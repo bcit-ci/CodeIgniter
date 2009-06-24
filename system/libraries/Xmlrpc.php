@@ -1351,13 +1351,13 @@ class XML_RPC_Values extends CI_Xmlrpc
 				switch ($typ)
 				{
 					case $this->xmlrpcBase64:
-						$rs .= "<{$typ}>" . base64_encode($val) . "</{$typ}>\n";
+						$rs .= "<{$typ}>" . base64_encode((string)$val) . "</{$typ}>\n";
 					break;
 					case $this->xmlrpcBoolean:
-						$rs .= "<{$typ}>" . ($val ? '1' : '0') . "</{$typ}>\n";
+						$rs .= "<{$typ}>" . ((bool)$val ? '1' : '0') . "</{$typ}>\n";
 					break;
 					case $this->xmlrpcString:
-						$rs .= "<{$typ}>" . htmlspecialchars($val). "</{$typ}>\n";
+						$rs .= "<{$typ}>" . htmlspecialchars((string)$val). "</{$typ}>\n";
 					break;
 					default:
 						$rs .= "<{$typ}>{$val}</{$typ}>\n";
