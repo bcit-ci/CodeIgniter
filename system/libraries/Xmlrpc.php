@@ -38,7 +38,7 @@ class CI_Xmlrpc {
 	var $xmlrpcBoolean	= 'boolean';
 	var $xmlrpcDouble	= 'double';	
 	var $xmlrpcString	= 'string';
-	var $xmlrpcDateTime	= 'datetime.iso8601';
+	var $xmlrpcDateTime	= 'dateTime.iso8601';
 	var $xmlrpcBase64	= 'base64';
 	var $xmlrpcArray	= 'array';
 	var $xmlrpcStruct	= 'struct';
@@ -231,7 +231,7 @@ class CI_Xmlrpc {
 	{
 		if (is_array($value) && isset($value['0']))
 		{
-			if ( ! isset($value['1']) OR ! isset($this->xmlrpcTypes[strtolower($value['1'])]))
+			if ( ! isset($value['1']) OR (! isset($this->xmlrpcTypes[$value['1']]) && ! isset($this->xmlrpcTypes[strtolower($value['1'])])))
 			{
 				if (is_array($value[0]))
 				{
