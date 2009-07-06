@@ -601,7 +601,7 @@ class CI_Form_validation {
 				// If the field isn't required and we just processed a callback we'll move on...
 				if ( ! in_array('required', $rules, TRUE) AND $result !== FALSE)
 				{
-					return;
+					continue;
 				}
 			}
 			else
