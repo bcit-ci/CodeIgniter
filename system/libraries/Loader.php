@@ -868,12 +868,9 @@ class CI_Loader {
 			{
 				include_once(APPPATH.'config/'.strtolower($class).EXT);
 			}			
-			else
+			elseif (file_exists(APPPATH.'config/'.ucfirst(strtolower($class)).EXT))
 			{
-				if (file_exists(APPPATH.'config/'.ucfirst(strtolower($class)).EXT))
-				{
-					include_once(APPPATH.'config/'.ucfirst(strtolower($class)).EXT);
-				}			
+				include_once(APPPATH.'config/'.ucfirst(strtolower($class)).EXT);
 			}
 		}
 		
