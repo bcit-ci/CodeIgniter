@@ -71,9 +71,10 @@ about class/function scoping.</p>
 
 <p>The following functions let you generate errors:</p>
 
-<h2>show_error('<var>message</var>')</h2>
+<h2>show_error('<var>message</var>' [, int <var>$status_code</var>= 500 ] )</h2>
 <p>This function will display the error message supplied to it using the following error template:</p>
 <p><dfn>application/errors/</dfn><kbd>error_general.php</kbd></p>
+<p>The optional parameter $status_code determines what HTTP status code should be sent with the error.</p>
 
 <h2>show_404('<var>page</var>')</h2>
 <p>This function will display the 404 error message supplied to it using the following error template:</p>

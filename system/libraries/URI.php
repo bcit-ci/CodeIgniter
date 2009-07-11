@@ -188,8 +188,7 @@ class CI_URI {
 		{
 			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
 			{
-				header('HTTP/1.1 400 Bad Request');
-				show_error('The URI you submitted has disallowed characters.');
+				show_error('The URI you submitted has disallowed characters.', 400);
 			}
 		}
 
