@@ -113,8 +113,10 @@ class CI_Exceptions {
 	 * @param	string	the template name
 	 * @return	string
 	 */
-	function show_error($heading, $message, $template = 'error_general')
+	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
+		set_status_header($status_code);
+		
 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
 
 		if (ob_get_level() > $this->ob_level + 1)
