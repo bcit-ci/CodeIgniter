@@ -1309,7 +1309,13 @@ class CI_DB_driver {
 				{
 					$i++;
 				}
-				
+
+				// Verify table prefix and replace if necessary
+				if ($this->swap_pre != '' && strncmp($parts[$i], $this->swap_pre, strlen($this->swap_pre)) === 0)
+				{
+					$parts[$i] = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $parts[$i]);
+				}
+								
 				// We only add the table prefix if it does not already exist
 				if (substr($parts[$i], 0, strlen($this->dbprefix)) != $this->dbprefix)
 				{
@@ -1331,6 +1337,12 @@ class CI_DB_driver {
 		// Is there a table prefix?  If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
+			// Verify table prefix and replace if necessary
+			if ($this->swap_pre != '' && strncmp($item, $this->swap_pre, strlen($this->swap_pre)) === 0)
+			{
+				$item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
+			}
+
 			// Do we prefix an item with no segments?
 			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
 			{
