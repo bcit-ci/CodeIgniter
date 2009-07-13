@@ -154,13 +154,13 @@ class CI_FTP {
 
 
 	/**
-	 * Change direcotry
+	 * Change directory
 	 *
 	 * The second parameter lets us momentarily turn off debugging so that
-	 * this function can be used to test for the existance of a folder
+	 * this function can be used to test for the existence of a folder
 	 * without throwing an error.  There's no FTP equivalent to is_dir()
 	 * so we do it by trying to change to a particular directory.
-	 * Internally, this paramter is only used by the "mirror" function below.
+	 * Internally, this parameter is only used by the "mirror" function below.
 	 *
 	 * @access	public
 	 * @param	string
