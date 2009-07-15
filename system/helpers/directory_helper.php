@@ -72,6 +72,10 @@ if ( ! function_exists('directory_map'))
 			closedir($fp);
 			return $filedata;
 		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }
 
