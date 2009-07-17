@@ -613,9 +613,13 @@ if ( ! function_exists('form_prep'))
 			return '';
 		}
 
+		// we've already prepped a field with this name
+		// @todo need to figure out a way to namespace this so
+		// that we know the *exact* field and not just one with
+		// the same name
 		if (isset($prepped_fields[$field_name]))
 		{
-			return $prepped_fields[$field_name];
+			return $str;
 		}
 		
 		$str = htmlspecialchars($str);
