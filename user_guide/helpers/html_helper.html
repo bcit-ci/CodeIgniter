@@ -60,6 +60,16 @@ HTML Helper
 
 <p>The HTML Helper file contains functions that assist in working with HTML.</p>
 
+<ul>
+	<li><a href="#br">br()</a></li>
+	<li><a href="#heading">heading()</a></li>
+	<li><a href="#img">img()</a></li>
+	<li><a href="#link_tag">link_tag()</a></li>
+	<li><a href="#nbs">nbs()</a></li>
+	<li><a href="#ol_and_ul">ol() and ul()</a></li>
+	<li><a href="#meta">meta()</a></li>
+	<li><a href="#doctype">doctype()</a></li>
+</ul>
 
 <h2>Loading this Helper</h2>
 
@@ -68,17 +78,18 @@ HTML Helper
 
 <p>The following functions are available:</p>
 
-<h2>br()</h2>
+<h2><a name="br"></a>br()</h2>
 <p>Generates line break tags (&lt;br />) based on the number you submit. Example:</p>
 <code>echo br(3);</code>
 <p>The above would produce: &lt;br />&lt;br />&lt;br /></p>
 
-<h2>heading()</h2>
+<h2><a name="heading"></a>heading()</h2>
 <p>Lets you create HTML &lt;h1> tags.  The first parameter will contain the data, the
 second the size of the heading.  Example:</p>
 <code>echo heading('Welcome!', 3);</code>
 <p>The above would produce:  &lt;h3>Welcome!&lt;/h3></p>
-<h2>img()</h2>
+
+<h2><a name="img"></a>img()</h2>
 <p>Lets you create HTML &lt;img /&gt; tags.  The first parameter  contains the image source. Example:</p>
 <code>echo img('images/picture.jpg');<br />
 // gives &lt;img src=&quot;http://site.com/images/picture.jpg&quot; /&gt;</code>
@@ -98,7 +109,8 @@ second the size of the heading.  Example:</p>
 	<br />
 	img($image_properties);<br />
 	// &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; alt=&quot;Me, demonstrating how to eat 4 slices of pizza at one time&quot; class=&quot;post_images&quot; width=&quot;200&quot; height=&quot;200&quot; title=&quot;That was quite a night&quot; rel=&quot;lightbox&quot; /&gt;</code></p>
-<h2>link_tag()</h2>
+
+<h2><a name="link_tag"></a>link_tag()</h2>
 <p>Lets you create HTML &lt;link /> tags.  This is useful for stylesheet links, as well as other links. The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.<code>
 echo link_tag('css/mystyles.css');<br />
 // gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></p>
@@ -123,12 +135,12 @@ echo link_tag('css/mystyles.css');<br />
 	echo link_tag($link);<br />
 	// &lt;link href=&quot;http://site.com/css/printer.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; /&gt;</code></p>
 	
-<h2>nbs()</h2>
+<h2><a name="nbs"></a>nbs()</h2>
 <p>Generates non-breaking spaces (&amp;nbsp;) based on the number you submit. Example:</p>
 <code>echo nbs(3);</code>
 <p>The above would produce: &amp;nbsp;&amp;nbsp;&amp;nbsp;</p>
 
-<h2>ol()&nbsp; and&nbsp; ul()</h2>
+<h2><a name="ol_and_ul"></a>ol()&nbsp; and&nbsp; ul()</h2>
 
 <p>Permits you to generate ordered or unordered HTML lists from simple or multi-dimensional arrays. Example:</p>
 
@@ -252,7 +264,7 @@ echo ul($list, $attributes);</code>
 
 
 
-<h2>meta()</h2>
+<h2><a name="meta"></a>meta()</h2>
 
 <p>Helps you generate meta tags.  You can pass strings to the function, or simple arrays, or multidimensional ones. Examples:</p>
 
@@ -290,7 +302,7 @@ echo meta($meta);
 </code>
 
 
-<h2>doctype()</h2>
+<h2><a name="doctype"></a>doctype()</h2>
 
 <p>Helps you generate document type declarations, or DTD's. XHTML 1.0 Strict is used by default, but many doctypes are available.</p>
 
