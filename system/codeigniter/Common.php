@@ -30,6 +30,29 @@
 // ------------------------------------------------------------------------
 
 /**
+* Determines if the current version of PHP is greater then the supplied value
+*
+* Since there are a few places where we conditionally test for PHP > 5
+* we'll set a static variable.
+*
+* @access	public
+* @return	bool
+*/
+	function is_php($version = '5.0.0')
+	{
+		static $_is_php;
+
+		if ( ! isset($_is_php[$version]))
+		{
+			$_is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? FALSE : TRUE;
+		}
+
+		return $_is_php[$version];
+	}
+
+// ------------------------------------------------------------------------
+
+/**
  * Tests for file writability
  *
  * is_writable() returns TRUE on Windows servers when you really can't write to 
