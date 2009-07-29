@@ -56,7 +56,7 @@ require(APPPATH.'config/constants'.EXT);
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
-//set_error_handler('_exception_handler');
+set_error_handler('_exception_handler');
 @set_magic_quotes_runtime(0); // Kill magic quotes
 
 /*
