@@ -56,8 +56,8 @@ require(APPPATH.'config/constants'.EXT);
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
-set_error_handler('_exception_handler');
-set_magic_quotes_runtime(0); // Kill magic quotes
+//set_error_handler('_exception_handler');
+@set_magic_quotes_runtime(0); // Kill magic quotes
 
 /*
  * ------------------------------------------------------
@@ -130,7 +130,7 @@ $LANG	=& load_class('Language');
  *  Note: The Loader class needs to be included first
  *
  */
-if (floor(phpversion()) < 5)
+if ( ! is_php(5))
 {
 	load_class('Loader', FALSE);
 	require(BASEPATH.'codeigniter/Base4'.EXT);

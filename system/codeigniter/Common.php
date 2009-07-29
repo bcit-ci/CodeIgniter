@@ -150,14 +150,32 @@ function &load_class($class, $instantiate = TRUE)
 	if ($is_subclass == TRUE)
 	{
 		$name = config_item('subclass_prefix').$class;
-		$objects[$class] =& new $name();
+
+		$objects[$class] =& instantiate_class(new $name());
 		return $objects[$class];
 	}
 
 	$name = ($class != 'Controller') ? 'CI_'.$class : $class;
-	
-	$objects[$class] =& new $name();
+
+	$objects[$class] =& instantiate_class(new $name());
 	return $objects[$class];
+}
+
+/**
+ * Instantiate Class
+ *
+ * Returns a new class object by reference, used by load_class() and the DB class.
+ * Required to retain PHP 4 compatibility and also not make PHP 5.3 cry.
+ *
+ * Use: $obj =& instantiate_class(new Foo());
+ * 
+ * @access	public
+ * @param	object
+ * @return	object
+ */
+function &instantiate_class(&$class_object)
+{
+	return $class_object;
 }
 
 /**
