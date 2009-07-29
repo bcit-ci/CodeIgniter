@@ -103,11 +103,11 @@ class CI_Profiler {
 	function _compile_queries()
 	{
 		$dbs = array();
-		
+
 		// Let's determine which databases are currently connected to
 		foreach (get_object_vars($this->CI) as $CI_object)
 		{
-			if ( is_subclass_of(get_class($CI_object), 'CI_DB') )
+			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB') )
 			{
 				$dbs[] = $CI_object;
 			}
