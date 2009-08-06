@@ -37,7 +37,7 @@
 *
 * @access	public
 * @param	string
-* * @return	bool
+* @return	bool
 */
 function is_php($version = '5.0.0')
 {
