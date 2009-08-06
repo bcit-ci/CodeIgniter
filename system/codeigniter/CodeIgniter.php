@@ -134,7 +134,7 @@ $LANG	=& load_class('Language');
  *  Note: The Loader class needs to be included first
  *
  */
-if ( ! is_php(5))
+if ( ! is_php('5.0.0'))
 {
 	load_class('Loader', FALSE);
 	require(BASEPATH.'codeigniter/Base4'.EXT);
