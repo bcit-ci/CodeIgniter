@@ -76,6 +76,7 @@ SVN Revision: </p>
 			<li>Added escape_like_str() method for escaping strings to be used in LIKE conditions</li>
 			<li>Updated Active Record to utilize the new LIKE escaping mechanism.</li>
 			<li>Added reconnect() method to DB drivers to try to keep alive / reestablish a connection after a long idle.</li>
+			<li>Modified MSSQL driver to use mssql_get_last_message() for error messages.</li>
 		</ul>
 	</li>
 	<li>Helpers

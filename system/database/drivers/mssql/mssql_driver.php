@@ -438,8 +438,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		// Are errros even supported in MS SQL?
-		return '';
+		return mssql_get_last_message();
 	}
 	
 	// --------------------------------------------------------------------
