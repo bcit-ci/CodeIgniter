@@ -262,7 +262,7 @@ $parts = $this->foo($parts);
 	
 		<h2><a name="constants"></a>Constants</h2>
 		<div class="guidelineDetails">
-			<p>Constants follow the same guidelines as do variables, except constants should always be fully uppercase.  <em>Always use ExpressionEngine constants when appropriate, i.e. SLASH, LD, RD, PATH_CACHE, etc.</em></p>
+			<p>Constants follow the same guidelines as do variables, except constants should always be fully uppercase.  <em>Always use CodeIgniter constants when appropriate, i.e. SLASH, LD, RD, PATH_CACHE, etc.</em></p>
 <code><strong>INCORRECT</strong>:
 myConstant	// missing underscore separator and not fully uppercase
 N		// no single-letter constants
@@ -364,7 +364,7 @@ function build_string($str = "")
 	
 		<h2><a name="whitespace_in_files"></a>Whitespace in Files</h2>
 		<div class="guidelineDetails">
-			<p>No whitespace can precede the opening PHP tag or follow the closing PHP tag.  ExpressionEngine output is buffered, so whitespace in your files can cause output to begin before ExpressionEngine outputs its content, leading to errors and an inability for ExpressionEngine to send proper headers.  In the examples below, select the text with your mouse to reveal the incorrect whitespace.</p>
+			<p>No whitespace can precede the opening PHP tag or follow the closing PHP tag.  Output is buffered, so whitespace in your files can cause output to begin before CodeIgniter outputs its content, leading to errors and an inability for CodeIgniter to send proper headers.  In the examples below, select the text with your mouse to reveal the incorrect whitespace.</p>
 
 			<p><strong>INCORRECT</strong>:</p>
 <code>     
@@ -407,7 +407,7 @@ class Pre_import	mod.pre_import.php
 	
 		<h2><a name="database_table_names"></a>Database Table Names</h2>
 		<div class="guidelineDetails">
-			<p>Any tables that your add-on might use must use the 'exp_' prefix, followed by a prefix uniquely identifying you as the developer or company, and then a short descriptive table name.  You do not need to be concerned about the database prefix being used on the user's installation, as ExpressionEngine's database class will automatically convert 'exp_' to what is actually being used.</p>
+			<p>Any tables that your add-on might use must use the 'exp_' prefix, followed by a prefix uniquely identifying you as the developer or company, and then a short descriptive table name.  You do not need to be concerned about the database prefix being used on the user's installation, as CodeIgniter's database class will automatically convert 'exp_' to what is actually being used.</p>
 
 <code><strong>INCORRECT</strong>:
 email_addresses		// missing both prefixes
@@ -425,7 +425,7 @@ exp_pre_email_addresses
 	
 		<h2><a name="one_file_per_class"></a>One File per Class</h2>
 		<div class="guidelineDetails">
-			<p>Use separate files for each class your add-on uses, unless the classes are <em>closely related</em>.  An example of ExpressionEngine files that contains multiple classes is the Database class file, which contains both the DB class and the DB_Cache class, and the Magpie plugin, which contains both the Magpie and Snoopy classes.</p>
+			<p>Use separate files for each class your add-on uses, unless the classes are <em>closely related</em>.  An example of CodeIgniter files that contains multiple classes is the Database class file, which contains both the DB class and the DB_Cache class, and the Magpie plugin, which contains both the Magpie and Snoopy classes.</p>
 		</div>
 	
 
