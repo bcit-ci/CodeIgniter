@@ -16,20 +16,6 @@
 // ------------------------------------------------------------------------
 
 /**
- * Common Functions
- *
- * Loads the base classes and executes the request.
- *
- * @package		CodeIgniter
- * @subpackage	codeigniter
- * @category	Common Functions
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/
- */
-
-// ------------------------------------------------------------------------
-
-/**
 * Determines if the current version of PHP is greater then the supplied value
 *
 * Since there are a few places where we conditionally test for PHP > 5
