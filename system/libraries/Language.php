@@ -78,7 +78,7 @@ class CI_Language {
 			}
 			else
 			{
-				show_error('Unable to load the requested language file: language/'.$langfile);
+				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
 		}
 
