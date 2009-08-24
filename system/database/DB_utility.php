@@ -217,7 +217,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 */
 	function xml_from_result($query, $params = array())
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'field_names'))
+		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
 			show_error('You must submit a valid result object');
 		}
