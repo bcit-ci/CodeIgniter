@@ -320,7 +320,7 @@ if ( ! function_exists('link_tag'))
 		{
 			if ( strpos($href, '://') !== FALSE)
 			{
-				$link .= ' href="'.$href.'" ';
+				$link .= 'href="'.$href.'" ';
 			}
 			elseif ($index_page === TRUE)
 			{
