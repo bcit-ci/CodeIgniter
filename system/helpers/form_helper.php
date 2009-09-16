@@ -44,9 +44,30 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
+		$charset = strtolower($CI->config->item('charset'));
+
 		if ($attributes == '')
 		{
-			$attributes = 'method="post"';
+			$attributes = 'method="post" accept-charset="'.$charset.'"';
+		}
+		else
+		{
+			if ( is_string($attributes) )
+			{
+				if(strpos('accept-charset=') === FALSE)
+				{
+					$attributes .= ' accept-charset="'.$charset.'"';
+				}
+			}
+			else
+			{
+				$attributes = (array) $attributes;
+
+				if(!in_array('accept-charset', $attributes))
+				{
+					$attributes['accept-charset'] = $charset;
+				}
+			}
 		}
 
 		$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
