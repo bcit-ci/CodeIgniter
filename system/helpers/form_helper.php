@@ -52,7 +52,7 @@ if ( ! function_exists('form_open'))
 		}
 		else
 		{
-			if ( is_string($attributes) )
+			if ( is_string($attributes))
 			{
 				if(strpos('accept-charset=') === FALSE)
 				{
@@ -63,7 +63,7 @@ if ( ! function_exists('form_open'))
 			{
 				$attributes = (array) $attributes;
 
-				if(!in_array('accept-charset', $attributes))
+				if ( ! in_array('accept-charset', $attributes))
 				{
 					$attributes['accept-charset'] = $charset;
 				}
