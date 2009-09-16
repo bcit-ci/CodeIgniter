@@ -73,7 +73,7 @@ Form Helper
 <h2>form_open()</h2>
 
 <p>Creates an opening form tag with a base URL <strong>built from your config preferences</strong>.  It will optionally let you
-add form attributes and hidden input fields.</p>
+add form attributes and hidden input fields, and will always add the attribute <kbd>accept-charset</kbd> based on the charset value in your config file.</p>
 
 <p>The main benefit of using this tag rather than hard coding your own HTML is that it permits your site to be more portable
 in the event your URLs ever change.</p>
@@ -84,7 +84,7 @@ in the event your URLs ever change.</p>
 
 <p>The above example would create a form that points to your base URL plus the "email/send" URI segments, like this:</p>
 
-<code>&lt;form method="post" action="http:/example.com/index.php/email/send" /></code>
+<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send" /></code>
 
 <h4>Adding Attributes</h4>
 
@@ -97,7 +97,7 @@ echo form_open('email/send', $attributes);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" action="http:/example.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
+<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
 
 <h4>Adding Hidden Input Fields</h4>
 
@@ -110,7 +110,7 @@ echo form_open('email/send', '', $hidden);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" action="http:/example.com/index.php/email/send"><br />
+<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send"><br />
 &lt;input type="hidden" name="username" value="Joe" /><br />
 &lt;input type="hidden" name="member_id" value="234" /></code>
 
