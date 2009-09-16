@@ -301,11 +301,11 @@ if ( ! function_exists('link_tag'))
 				{
 					if ($index_page === TRUE)
 					{
-						$link .= ' href="'.$CI->config->site_url($v).'" ';
+						$link .= 'href="'.$CI->config->site_url($v).'" ';
 					}
 					else
 					{
-						$link .= ' href="'.$CI->config->slash_item('base_url').$v.'" ';
+						$link .= 'href="'.$CI->config->slash_item('base_url').$v.'" ';
 					}
 				}
 				else
@@ -324,11 +324,11 @@ if ( ! function_exists('link_tag'))
 			}
 			elseif ($index_page === TRUE)
 			{
-				$link .= ' href="'.$CI->config->site_url($href).'" ';
+				$link .= 'href="'.$CI->config->site_url($href).'" ';
 			}
 			else
 			{
-				$link .= ' href="'.$CI->config->slash_item('base_url').$href.'" ';
+				$link .= 'href="'.$CI->config->slash_item('base_url').$href.'" ';
 			}
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
