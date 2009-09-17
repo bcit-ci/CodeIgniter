@@ -44,30 +44,9 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
-		$charset = strtolower($CI->config->item('charset'));
-
 		if ($attributes == '')
 		{
-			$attributes = 'method="post" accept-charset="'.$charset.'"';
-		}
-		else
-		{
-			if ( is_string($attributes))
-			{
-				if(strpos('accept-charset=') === FALSE)
-				{
-					$attributes .= ' accept-charset="'.$charset.'"';
-				}
-			}
-			else
-			{
-				$attributes = (array) $attributes;
-
-				if ( ! in_array('accept-charset', $attributes))
-				{
-					$attributes['accept-charset'] = $charset;
-				}
-			}
+			$attributes = 'method="post"';
 		}
 
 		$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
@@ -86,6 +65,7 @@ if ( ! function_exists('form_open'))
 		return $form;
 	}
 }
+
 
 // ------------------------------------------------------------------------
 
@@ -978,6 +958,11 @@ if ( ! function_exists('_attributes_to_string'))
 				$attributes .= ' method="post"';
 			}
 
+			if ($formtag == TRUE AND strpos($attributes, 'accept-charset=') === FALSE)
+			{
+				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+			}
+
 		return ' '.$attributes;
 		}
 	
@@ -988,19 +973,24 @@ if ( ! function_exists('_attributes_to_string'))
 
 		if (is_array($attributes) AND count($attributes) > 0)
 		{
-		$atts = '';
+			$atts = '';
 
-		if ( ! isset($attributes['method']) AND $formtag === TRUE)
-		{
-			$atts .= ' method="post"';
-		}
+			if ( ! isset($attributes['method']) AND $formtag === TRUE)
+			{
+				$atts .= ' method="post"';
+			}
 
-		foreach ($attributes as $key => $val)
-		{
-			$atts .= ' '.$key.'="'.$val.'"';
-		}
+			if ( ! isset($attributes['accept-charset']) AND $formtag === TRUE)
+			{
+				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+			}
 
-		return $atts;
+			foreach ($attributes as $key => $val)
+			{
+				$atts .= ' '.$key.'="'.$val.'"';
+			}
+
+			return $atts;
 		}
 	}
 }
