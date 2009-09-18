@@ -132,6 +132,14 @@ $encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';<br />
 <br />
 $plaintext_string = $this->encrypt->decode($encrypted_string);</code>
 
+<p>You can optionally pass your encryption key via the second parameter if you don't want to use the one in your config file:</p>
+
+<code>
+$msg = 'My secret message';<br />
+$key = 'super-secret-key';<br />
+<br />
+$encrypted_string = $this->encrypt->decode($msg, $key);</code>
+
 
 <h2>$this->encrypt->set_cipher();</h2>
 
