@@ -340,7 +340,7 @@ if ( ! function_exists('get_mime_by_extension'))
 {
 	function get_mime_by_extension($file)
 	{
-		$extension = substr(strrchr($file, '.'), 1);
+		$extension = strtolower(substr(strrchr($file, '.'), 1));
 
 		global $mimes;
 
