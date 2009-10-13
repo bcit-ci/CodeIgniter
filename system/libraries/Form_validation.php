@@ -658,7 +658,7 @@ class CI_Form_validation {
 				// of another field?  If so we need to grab its "field label"
 				if (isset($this->_field_data[$param]) AND isset($this->_field_data[$param]['label']))
 				{
-					$param = $this->_field_data[$param]['label'];
+					$param = $this->_translate_fieldname($this->_field_data[$param]['label']);
 				}
 				
 				// Build the error message
