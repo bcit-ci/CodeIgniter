@@ -146,7 +146,7 @@ class CI_DB_Cache {
 			return FALSE;
 		}
 		
-		@chmod($dir_path.$filename, DIR_WRITE_MODE);
+		@chmod($dir_path.$filename, FILE_WRITE_MODE);
 		return TRUE;
 	}
 
