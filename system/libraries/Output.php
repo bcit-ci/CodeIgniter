@@ -331,7 +331,7 @@ class CI_Output {
 			return;
 		}
 		fclose($fp);
-		@chmod($cache_path, DIR_WRITE_MODE);
+		@chmod($cache_path, FILE_WRITE_MODE);
 
 		log_message('debug', "Cache file written: ".$cache_path);
 	}
