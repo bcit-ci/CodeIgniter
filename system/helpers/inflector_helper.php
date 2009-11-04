@@ -91,6 +91,17 @@ if ( ! function_exists('plural'))
 			$vowels = array('a', 'e', 'i', 'o', 'u');
 			$str = in_array(substr($str, -2, 1), $vowels) ? $str.'s' : substr($str, 0, -1).'ies';
 		}
+		elseif ($end == 'h')
+		{
+		    if (substr($str, -2) == 'ch' || substr($str, -2) == 'sh')
+		    {
+		        $str .= 'es';
+		    }
+		    else
+		    {
+		        $str .= 's';
+		    }
+		}
 		elseif ($end == 's')
 		{
 			if ($force == TRUE)
