@@ -70,7 +70,7 @@ SVN Revision: </p>
 	<li>Helpers
 		<ul>
 			<li>Added accept-charset to the list of inserted attributes of <kbd>form_open()</kbd> in the <a href="helpers/form_helper.html">Form Helper</a>.</li>
-			<li>Deprecated the <kbd>dohash()</kbd> function in favour of <kbd>do_hash()</kbd> for naming consistency.</li>
+			<li>Deprecated the <kbd>dohash()</kbd> function in favur of <kbd>do_hash()</kbd> for naming consistency.</li>
 		</ul>
 	</li>
 </ul>
@@ -82,6 +82,7 @@ SVN Revision: </p>
 	<li>Made <kbd>get_mime_by_extension()</kbd> case insensitive.</li>
 	<li>Fixed a bug in the Form Validation library where fields passed as rule parameters were not being translated (#9132)</li>
 	<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
+	<li>Modified inflector helper to properly pluralize words that end in 'ch' or 'sh'</li>
 </ul>
 
 <h2>Version 1.7.2</h2>
