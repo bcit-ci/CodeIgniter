@@ -83,6 +83,7 @@ SVN Revision: </p>
 	<li>Fixed a bug in the Form Validation library where fields passed as rule parameters were not being translated (#9132)</li>
 	<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
 	<li>Modified inflector helper to properly pluralize words that end in 'ch' or 'sh'</li>
+	<li>Fixed a bug in xss_clean() that was not allowing hyphens in query strings of submitted URLs.</li>
 </ul>
 
 <h2>Version 1.7.2</h2>
