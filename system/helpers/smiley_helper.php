@@ -93,7 +93,7 @@ if ( ! function_exists('smiley_js'))
 						el.setSelectionRange(newStart, newStart);
 					}
 					else if (document.selection) {
-						document.selection.createRange().text = text;
+						document.selection.createRange().text = smiley;
 					}
 				}
 EOF;
