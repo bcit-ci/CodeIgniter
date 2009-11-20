@@ -74,7 +74,7 @@ class CI_Profiler {
 		// be modified.  We also might want to make this data available to be logged
 	
 		$output  = "\n\n";
-		$output .= '<fieldset style="border:1px solid #990000;padding:6px 10px 10px 10px;margin:0 0 20px 0;background-color:#eee">';
+		$output .= '<fieldset style="border:1px solid #990000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
 		$output .= '<legend style="color:#990000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_benchmarks').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";			
