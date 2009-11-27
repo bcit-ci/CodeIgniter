@@ -71,19 +71,22 @@ SVN Revision: </p>
 		<ul>
 			<li>Added accept-charset to the list of inserted attributes of <kbd>form_open()</kbd> in the <a href="helpers/form_helper.html">Form Helper</a>.</li>
 			<li>Deprecated the <kbd>dohash()</kbd> function in favur of <kbd>do_hash()</kbd> for naming consistency.</li>
+			<li>Non-backwards compatible change made to <kbd>get_dir_file_info()</kbd> in the <a href="helpers/file_helper.html">File Helper</a>.  No longer recurses
+				by default so as to encourage responsible use (this function can cause server performance issues when used without caution).</li>
 		</ul>
 	</li>
 </ul>
 
 <h3>Bug fixes for 1.7.3</h3>
 <ul>
-	<li>Increased randomness with<kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
+	<li>Increased randomness with <kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
 	<li>Fixed or clarified assorted user guide typos or examples.</li>
 	<li>Made <kbd>get_mime_by_extension()</kbd> case insensitive.</li>
 	<li>Fixed a bug in the Form Validation library where fields passed as rule parameters were not being translated (#9132)</li>
 	<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
 	<li>Modified inflector helper to properly pluralize words that end in 'ch' or 'sh'</li>
 	<li>Fixed a bug in xss_clean() that was not allowing hyphens in query strings of submitted URLs.</li>
+	<li>Fixed bugs in get_dir_file_info() and get_file_info() in the File Helper with recursion, and file paths on Windows.</li>
 </ul>
 
 <h2>Version 1.7.2</h2>

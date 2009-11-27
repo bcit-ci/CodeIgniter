@@ -220,7 +220,7 @@ if ( ! function_exists('get_filenames'))
  */	
 if ( ! function_exists('get_dir_file_info'))
 {
-	function get_dir_file_info($source_dir, $include_path = FALSE, $_recursion = FALSE)
+	function get_dir_file_info($source_dir, $top_level_only = TRUE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
 		$relative_path = $source_dir;
@@ -234,18 +234,20 @@ if ( ! function_exists('get_dir_file_info'))
 				$source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 			}
 
+			// foreach (scandir($source_dir, 1) as $file) // In addition to being PHP5+, scandir() is simply not as fast
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
+				if (@is_dir($source_dir.$file) AND strncmp($file, '.', 1) !== 0 AND $top_level_only === FALSE)
 				{
-					 get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
-				}
-				elseif (strncmp($file, '.', 1) !== 0)
-				{
+ 					 get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
+ 				}
+ 				elseif (strncmp($file, '.', 1) !== 0)
+ 				{
 					$_filedata[$file] = get_file_info($source_dir.$file);
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
+
 			return $_filedata;
 		}
 		else
