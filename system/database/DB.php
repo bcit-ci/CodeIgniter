@@ -22,7 +22,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-function &DB($params = '', $active_record_override = FALSE)
+function &DB($params = '', $active_record_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE)
@@ -102,9 +102,9 @@ function &DB($params = '', $active_record_override = FALSE)
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
 	
-	if ($active_record_override == TRUE)
+	if ($active_record_override !== NULL)
 	{
-		$active_record = TRUE;
+		$active_record = $active_record_override;
 	}
 	
 	require_once(BASEPATH.'database/DB_driver'.EXT);

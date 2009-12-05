@@ -198,7 +198,7 @@ class CI_Loader {
 	 * @param	bool	whether to enable active record (this allows us to override the config setting)
 	 * @return	object
 	 */	
-	function database($params = '', $return = FALSE, $active_record = FALSE)
+	function database($params = '', $return = FALSE, $active_record = NULL)
 	{
 		// Grab the super object
 		$CI =& get_instance();
