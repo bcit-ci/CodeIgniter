@@ -351,7 +351,7 @@ class CI_Profiler {
 		}
 		else
 		{
-			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory_usage')."</div>";				
+			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory')."</div>";				
 		}
 		
 		$output .= "</fieldset>";
