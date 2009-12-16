@@ -215,14 +215,20 @@ class CI_DB_driver {
 			}
 			return FALSE;
 		}
-		
-		if ($this->dbdriver == 'oci8')
+
+		// Some DBs have functions that return the version, and don't run special
+		// SQL queries per se. In these instances, just return the result.
+		$driver_version_exceptions = array('oci8', 'sqlite');
+
+		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
 			return $sql;
 		}
-	
-		$query = $this->query($sql);
-		return $query->row('ver');
+		else
+		{
+			$query = $this->query($sql);
+			return $query->row('ver');
+		}
 	}
 	
 	// --------------------------------------------------------------------

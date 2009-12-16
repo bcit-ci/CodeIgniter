@@ -69,6 +69,11 @@ SVN Revision: </p>
 			<li>Fixed a language key in the profiler: "profiler_no_memory_usage" to "profiler_no_memory".</li>
 		</ul>
 	</li>
+	<li>Database
+		<ul>
+			<li>Semantic change to db->version() function to allow a list of exceptions for databases with functions to return version string instead of specially formed SQL queries. Currently this list only includes Oracle and SQLite.</li>
+		</ul>
+	</li>
 	<li>Helpers
 		<ul>
 			<li>Added accept-charset to the list of inserted attributes of <kbd>form_open()</kbd> in the <a href="helpers/form_helper.html">Form Helper</a>.</li>
