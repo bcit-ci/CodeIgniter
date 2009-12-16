@@ -12,16 +12,19 @@ a {
  background-color: transparent;
  text-decoration: none;
  font-weight: normal;
+ outline-style: none;
 }
 a:visited {
  color: #0134c5;
  background-color: transparent;
  text-decoration: none;
+ outline-style: none;
 }
 a:hover {
  color: #000;
  text-decoration: none;
  background-color: transparent;
+ outline-style: none;
 }
 
 #breadcrumb {
@@ -96,18 +99,21 @@ a:hover {
  background-color: transparent;
  text-decoration: none;
  font-weight: normal;
+ outline-style: none;
 }
 
 #nav_inner a:visited {
  color: #eee;
  background-color: transparent;
  text-decoration: none;
+ outline-style: none;
 }
 
 #nav_inner a:hover {
  color: #ccc;
  text-decoration: none;
  background-color: transparent;
+ outline-style: none;
 }
 
 #masthead {
