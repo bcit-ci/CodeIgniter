@@ -140,7 +140,7 @@ if ( ! function_exists('reduce_double_slashes'))
 {
 	function reduce_double_slashes($str)
 	{
-		return preg_replace("#([^:])//+#", "\\1/", $str);
+		return preg_replace("#(^|[^:])//+#", "\\1/", $str);
 	}
 }
 	
