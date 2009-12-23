@@ -96,6 +96,7 @@ SVN Revision: </p>
 	<li>Fixed a bug in xss_clean() that was not allowing hyphens in query strings of submitted URLs.</li>
 	<li>Fixed bugs in get_dir_file_info() and get_file_info() in the File Helper with recursion, and file paths on Windows.</li>
 	<li>Fixed a bug where Active Record override parameter would not let you disable Active Record if it was enabled in your database config file.</li>
+	<li>Fixed a bug in reduce_double_slashes() in the String Helper to properly remove duplicate leading slashes (#7585)</li>
 </ul>
 
 <h2>Version 1.7.2</h2>
