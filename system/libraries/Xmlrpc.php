@@ -229,7 +229,7 @@ class CI_Xmlrpc {
 
 	function values_parsing($value, $return = FALSE)
 	{
-		if (is_array($value) && isset($value['0']))
+		if (is_array($value) && array_key_exists(0, $value))
 		{
 			if ( ! isset($value['1']) OR (! isset($this->xmlrpcTypes[$value['1']])))
 			{
