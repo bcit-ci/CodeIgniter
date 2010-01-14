@@ -96,13 +96,8 @@ the "catalog" class and the "product_lookup" method are instead used.</p>
 
 <p>You can match literal values or you can use two wildcard types:</p>
 
-<p>
-:num<br />
-:any
-</p>
-
-<p><strong>:num</strong> will match a segment containing only numbers.<br />
-<strong>:any</strong> will match a segment containing any character.
+<p><strong>(:num)</strong> will match a segment containing only numbers.<br />
+<strong>(:any)</strong> will match a segment containing any character.
 </p>
 
 <p class="important"><strong>Note:</strong> Routes will run in the order they are defined.
@@ -118,7 +113,7 @@ Higher routes will always take precedence over lower ones.</p>
 <code>$route['blog/joe'] = "blogs/users/34";</code>
 <p>A URL containing the segments blog/joe will be remapped to the "blogs" class and the "users" method.  The ID will be set to "34".</p>
 
-<code>$route['product/:any'] = "catalog/product_lookup";</code>
+<code>$route['product/(:any)'] = "catalog/product_lookup";</code>
 <p>A URL with "product" as the first segment, and anything in the second will be remapped to the "catalog" class and the  "product_lookup" method.</p>
 
 <code>$route['product/(:num)'] = "catalog/product_lookup_by_id/$1";</code>
