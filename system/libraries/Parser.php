@@ -29,11 +29,11 @@ class CI_Parser {
 	var $l_delim = '{';
 	var $r_delim = '}';
 	var $object;
-		
+
 	/**
 	 *  Parse a template
 	 *
-	 * Parses pseudo-variables contained in the specified template,
+	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
 	 *
 	 * @access	public
@@ -46,12 +46,50 @@ class CI_Parser {
 	{
 		$CI =& get_instance();
 		$template = $CI->load->view($template, $data, TRUE);
-		
+
+		return $this->_parse($template, $data, $return);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 *  Parse a String
+	 *
+	 * Parses pseudo-variables contained in the specified string,
+	 * replacing them with the data in the second param
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	array
+	 * @param	bool
+	 * @return	string
+	 */
+	function parse_string($template, $data, $return = FALSE)
+	{
+		return $this->_parse($template, $data, $return);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 *  Parse a template
+	 *
+	 * Parses pseudo-variables contained in the specified template,
+	 * replacing them with the data in the second param
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	array
+	 * @param	bool
+	 * @return	string
+	 */
+	function _parse($template, $data, $return = FALSE)
+	{
 		if ($template == '')
 		{
 			return FALSE;
 		}
-		
+
 		foreach ($data as $key => $val)
 		{
 			if (is_array($val))
@@ -63,12 +101,13 @@ class CI_Parser {
 				$template = $this->_parse_single($key, (string)$val, $template);
 			}
 		}
-		
+
 		if ($return == FALSE)
 		{
+			$CI =& get_instance();
 			$CI->output->append_output($template);
 		}
-		
+
 		return $template;
 	}
 	
