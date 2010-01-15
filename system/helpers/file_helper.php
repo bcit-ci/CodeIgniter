@@ -124,7 +124,9 @@ if ( ! function_exists('delete_files'))
 		$path = rtrim($path, DIRECTORY_SEPARATOR);
 			
 		if ( ! $current_dir = @opendir($path))
-			return;
+		{
+			return TRUE;			
+		}
 	
 		while(FALSE !== ($filename = @readdir($current_dir)))
 		{
@@ -148,8 +150,10 @@ if ( ! function_exists('delete_files'))
 	
 		if ($del_dir == TRUE AND $level > 0)
 		{
-			@rmdir($path);
+			return @rmdir($path);
 		}
+		
+		return TRUE;
 	}
 }
 
