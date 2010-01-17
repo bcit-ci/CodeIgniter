@@ -246,9 +246,8 @@ $url = prep_url($url);</code>
 
 <h2>redirect()</h2>
 
-<p>Does a "header redirect" to the local URI specified. Just like other functions in this helper, this one is designed
-to redirect to a local URL within your site.  You will <strong>not</strong> specify the full site URL, but rather simply the URI segments
-to the controller you want to direct to. The function will build the URL based on your config file values.</p>
+<p>Does a "header redirect" to the URI specified. If you specify the full site URL that link will be build, but for local links simply providing the URI segments
+to the controller you want to direct to will create the link. The function will build the URL based on your config file values.</p>
 
 <p>The optional second parameter allows you to choose between the "location"
 method (default) or the "refresh" method.  Location is faster, but on Windows servers it can sometimes be a problem.  The optional third parameter allows you to send a specific HTTP Response Code - this could be used for example to create 301 redirects for search engine purposes. The default Response Code is 302. The third parameter is <em>only</em> available with 'location' redirects, and not 'refresh'. Examples:</p>
