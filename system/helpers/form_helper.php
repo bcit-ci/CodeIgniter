@@ -84,7 +84,15 @@ if ( ! function_exists('form_open_multipart'))
 {
 	function form_open_multipart($action, $attributes = array(), $hidden = array())
 	{
-		$attributes['enctype'] = 'multipart/form-data';
+		if (is_string($attributes))
+		{
+			$attributes .= ' enctype="multipart/form-data"';
+		}
+		else
+		{
+			$attributes['enctype'] = 'multipart/form-data';
+		}
+
 		return form_open($action, $attributes, $hidden);
 	}
 }
