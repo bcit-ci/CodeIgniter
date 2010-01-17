@@ -76,11 +76,17 @@ Number Helper
 <code>
 echo byte_format(456); // Returns 456 Bytes<br />
 echo byte_format(4567); // Returns 4.5 KB<br />
-echo byte_format(45678); // Returns 44.8 KB<br />
+echo byte_format(45678); // Returns 44.6 KB<br />
 echo byte_format(456789); // Returns 447.8 KB<br />
 echo byte_format(3456789); // Returns 3.3 MB<br />
 echo byte_format(12345678912345); // Returns 1.8 GB<br />
 echo byte_format(123456789123456789); // Returns 11,228.3 TB
+</code>
+
+<p>An optional second parameter allows you to set the precision of the result.</p>
+
+<code>
+echo byte_format(45678, 2); // Returns 44.61 KB
 </code>
 
 <p class="important">
