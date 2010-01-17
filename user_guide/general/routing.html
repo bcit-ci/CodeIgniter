@@ -117,7 +117,7 @@ Higher routes will always take precedence over lower ones.</p>
 <p>A URL with "product" as the first segment, and anything in the second will be remapped to the "catalog" class and the  "product_lookup" method.</p>
 
 <code>$route['product/(:num)'] = "catalog/product_lookup_by_id/$1";</code>
-<p>A URL with "product" as the first segment, and anything in the second will be remapped to the "catalog" class and the "product_lookup_by_id" method passing in the match as a variable to the function.</p>
+<p>A URL with "product" as the first segment, and a number in the second will be remapped to the "catalog" class and the "product_lookup_by_id" method passing in the match as a variable to the function.</p>
 
 <p class="important"><strong>Important:</strong> Do not use leading/trailing slashes.</p>
 
