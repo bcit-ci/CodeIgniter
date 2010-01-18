@@ -69,6 +69,7 @@ SVN Revision: </p>
 			<li>Added a <kbd>parse_string()</kbd> method to the <a href="libraries/parser.html">Parser Class</a>.</li>
 			<li>Added HTTP headers and Config information to the <a href="general/profiling.html">Profiler</a> output.</li>
 			<li>Added Chrome and Flock to the list of detectable browsers by <kbd>browser()</kbd> in the <a href="libraries/user_agent.html">User Agent Class</a>.</li>
+			<li>The <a href="libraries/unit_testing.html">Unit Test Class</a> now has an optional "notes" field available to it, and allows for discrete display of test result items using <kbd>$this->unit->set_test_items()</kbd>.</li>
 		</ul>
 	</li>
 	<li>Database
@@ -114,7 +115,7 @@ SVN Revision: </p>
 	<li>Fixed a bug in reduce_double_slashes() in the String Helper to properly remove duplicate leading slashes (#7585)</li>
 	<li>Fixed a bug in values_parsing() of the XML-RPC library which prevented NULL variables typed as 'string' from being handled properly.</li>
 	<li>Fixed a bug were form_open_multipart() didn't accept string attribute arguments (#10930).</li>
-	<li>Fixed a bug (#10470) where <kdb>get_mime_by_extension()</kbd> case sensitive.</li>
+	<li>Fixed a bug (#10470) where <kdb>get_mime_by_extension()</kbd> was case sensitive.</li>
 </ul>
 
 <h2>Version 1.7.2</h2>

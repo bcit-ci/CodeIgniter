@@ -79,10 +79,10 @@ to determine if it is producing the correct data type and result.
 
 <p>Running a test involves supplying a test and an expected result to the following function:</p>
 
-<h2>$this->unit->run( <var>test</var>, <var>expected result</var>, '<var>test name</var>' );</h2>
+<h2>$this->unit->run( <var>test</var>, <var>expected result</var>, '<var>test name</var>', '<var>notes</var>');</h2>
 
-<p>Where <var>test</var> is the result of the code you wish to test,
-<var>expected result</var> is the data type you expect, and <var>test name</var> is an optional name you can give your test. Example:</p>
+<p>Where <var>test</var> is the result of the code you wish to test, <var>expected result</var> is the data type you expect, 
+<var>test name</var> is an optional name you can give your test, and <var>notes</var> are optional notes. Example:</p>
 
 <code>$test = 1 + 1;<br />
 <br />
@@ -160,9 +160,29 @@ unit testing using:</p>
 
 <code>$this->unit->active(FALSE)</code>
 
+<h2>Unit Test Display</h2>
 
+<p>When your unit test results display, the following items show by default:</p>
 
-<h2>Creating a Template</h2>
+<ul>
+	<li>Test Name (test_name)</li>
+	<li>Test Datatype (test_datatype)</li>
+	<li>Expected Datatype (res_datatype)</li>
+	<li>Result (result)</li>
+	<li>File Name (file)</li>
+	<li>Line Number (line)</li>
+	<li>Any notes you entered for the test (notes)</li>
+</ul>
+
+You can customize which of these items get displayed by using <kbd>$this->unit->set_items()</kbd>. For example, if you only wanted the test name and the result displayed:</p>
+
+<h3>Customizing displayed tests</h3>
+
+<code>
+	$this->unit->set_test_items(array('test_name', 'result'));
+</code>
+
+<h3>Creating a Template</h3>
 
 <p>If you would like your test results formatted differently then the default you can set your own template.  Here is an
 example of a simple template.  Note the required pseudo-variables:</p>

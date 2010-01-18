@@ -28,19 +28,50 @@
  */
 class CI_Unit_test {
 
-	var $active			= TRUE;
-	var $results 		= array();
-	var $strict			= FALSE;
-	var $_template 		= NULL;
-	var $_template_rows	= NULL;
+	var $active					= TRUE;
+	var $results 				= array();
+	var $strict					= FALSE;
+	var $_template 				= NULL;
+	var $_template_rows			= NULL;
+	var $_test_items_visible	= array();
 
 	function CI_Unit_test()
 	{
+		// These are the default items visible when a test is run.
+		$this->_test_items_visible = array (
+							'test_name',
+							'test_datatype',
+							'res_datatype',
+							'result',
+							'file',
+							'line',
+							'notes'
+						);
+
 		log_message('debug', "Unit Testing Class Initialized");
-	}	
+	}
 
 	// --------------------------------------------------------------------
-	
+
+	/**
+	 * Run the tests
+	 *
+	 * Runs the supplied tests
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	void
+	 */
+	function set_test_items($items = array())
+	{
+		if ( ! empty($items) AND is_array($items))
+		{
+			$this->_test_items_visible = $items;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Run the tests
 	 *
@@ -52,7 +83,7 @@ class CI_Unit_test {
 	 * @param	string
 	 * @return	string
 	 */	
-	function run($test, $expected = TRUE, $test_name = 'undefined')
+	function run($test, $expected = TRUE, $test_name = 'undefined', $notes = '')
 	{
 		if ($this->active == FALSE)
 		{
@@ -83,11 +114,12 @@ class CI_Unit_test {
 							'res_datatype'		=> $extype,
 							'result'			=> ($result === TRUE) ? 'passed' : 'failed',
 							'file'				=> $back['file'],
-							'line'				=> $back['line']
+							'line'				=> $back['line'],
+							'notes'				=> $notes
 						);
 
-		$this->results[] = $report;		
-				
+		$this->results[] = $report;
+
 		return($this->report($this->result($report)));
 	}
 
@@ -120,7 +152,6 @@ class CI_Unit_test {
 
 			foreach ($res as $key => $val)
 			{
-
 				if ($key == $CI->lang->line('ut_result'))
 				{
 					if ($val == $CI->lang->line('ut_passed'))
@@ -203,6 +234,11 @@ class CI_Unit_test {
 			$temp = array();
 			foreach ($result as $key => $val)
 			{
+				if ( ! in_array($key, $this->_test_items_visible))
+				{
+					continue;
+				}
+
 				if (is_array($val))
 				{
 					foreach ($val as $k => $v)
