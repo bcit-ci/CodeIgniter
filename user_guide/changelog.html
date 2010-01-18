@@ -64,21 +64,16 @@ SVN Revision: </p>
 <ul>
 	<li>Libraries
 		<ul>
-			<li>Documented a second argument in the <kbd>decode()</kbd> function for the <a href="libraries/encryption.html">Encryption Class</a>.</li>
-			<li>Fixed an error in the Zip library that didn't allow downloading on PHP 4 servers.</li>
-			<li>Fixed a language key in the profiler: "profiler_no_memory_usage" to "profiler_no_memory".</li>
 			<li>Added "is_object" into the list of unit tests capable of being run.</li>
 			<li>Table library will generate an empty cell with a blank string, or NULL value.</li>
 			<li>Added a <kbd>parse_string()</kbd> method to the <a href="libraries/parser.html">Parser Class</a>.</li>
 			<li>Added HTTP headers and Config information to the <a href="general/profiling.html">Profiler</a> output.</li>
-			<li>Documented <kbd>append_output()</kbd> in the <a href="libraries/output.html">Output Class</a>.</li>
 			<li>Added Chrome and Flock to the list of detectable browsers by <kbd>browser()</kbd> in the <a href="libraries/user_agent.html">User Agent Class</a>.</li>
 		</ul>
 	</li>
 	<li>Database
 		<ul>
 			<li>Semantic change to db->version() function to allow a list of exceptions for databases with functions to return version string instead of specially formed SQL queries. Currently this list only includes Oracle and SQLite.</li>
-			<li>Documentd db->close().</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -94,8 +89,14 @@ SVN Revision: </p>
 	</li>
 	<li>Other Changes
 		<ul>
+			<li>Increased randomness with <kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
+			<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
+			<li><kbd>get_mime_by_extension()</kbd> is now case insensitive.</li>
 			<li>Added "default" to the list <a href="general/reserved_names.html">Reserved Names</a>.</li>
 			<li>Added 'application/x-msdownload' for .exe files and ''application/x-gzip-compressed' for .tgz files to config/mimes.php.</li>
+			<li>Documented <kbd>append_output()</kbd> in the <a href="libraries/output.html">Output Class</a>.</li>
+			<li>Documented a second argument in the <kbd>decode()</kbd> function for the <a href="libraries/encryption.html">Encryption Class</a>.</li>
+			<li>Documentd db->close().</li>
 		</ul>
 	</li>
 </ul>
@@ -103,11 +104,9 @@ SVN Revision: </p>
 <h3>Bug fixes for 1.7.3</h3>
 <ul>
 	<li>Fixed assorted user guide typos or examples (#10693, #8951, #7825, #8660, #7883, #6771, #10656).</li>
-	<li>Increased randomness with <kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
-	<li>Fixed or clarified assorted user guide typos or examples.</li>
-	<li>Made <kbd>get_mime_by_extension()</kbd> case insensitive.</li>
+	<li>Fixed a language key in the profiler: "profiler_no_memory_usage" to "profiler_no_memory".</li>
+	<li>Fixed an error in the Zip library that didn't allow downloading on PHP 4 servers.</li>
 	<li>Fixed a bug in the Form Validation library where fields passed as rule parameters were not being translated (#9132)</li>
-	<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
 	<li>Modified inflector helper to properly pluralize words that end in 'ch' or 'sh'</li>
 	<li>Fixed a bug in xss_clean() that was not allowing hyphens in query strings of submitted URLs.</li>
 	<li>Fixed bugs in get_dir_file_info() and get_file_info() in the File Helper with recursion, and file paths on Windows.</li>
