@@ -74,13 +74,15 @@ String Helper
 
 <p>The first parameter specifies the type of string, the second parameter specifies the length.  The following choices are available:</p>
 
-
+ alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
 <ul>
-<li><strong>alnum</strong>:&nbsp; Alpha-numeric string with lower and uppercase characters.</li>
-<li><strong>numeric</strong>:&nbsp; Numeric string.</li>
-<li><strong>nozero</strong>:&nbsp; Numeric string with no zeros.</li>
-<li><strong>unique</strong>:&nbsp; Encrypted with MD5 and uniqid(). Note: The length parameter is not available for this type.
-Returns a fixed length 32 character string.</li>
+	<li><strong>alpha</strong>:&nbsp; A string with lower and uppercase letters only.</li>
+	<li><strong>alnum</strong>:&nbsp; Alpha-numeric string with lower and uppercase characters.</li>
+	<li><strong>numeric</strong>:&nbsp; Numeric string.</li>
+	<li><strong>nozero</strong>:&nbsp; Numeric string with no zeros.</li>
+	<li><strong>unique</strong>:&nbsp; Encrypted with MD5 and uniqid(). Note: The length parameter is not available for this type.
+	Returns a fixed length 32 character string.</li>
+	<li><strong>sha1</strong>:&nbsp; An encrypted random number based on <kbd>do_hash()</kbd> from the <a href="security_helper.html">security helper</a>.</li>
 </ul>
 
 <p>Usage example:</p>

@@ -186,22 +186,27 @@ if ( ! function_exists('reduce_multiples'))
  * Useful for generating passwords or hashes.
  *
  * @access	public
- * @param	string 	type of random string.  Options: alunum, numeric, nozero, unique
+ * @param	string 	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
  * @param	integer	number of characters
  * @return	string
- */
+ */	
 if ( ! function_exists('random_string'))
-{	
+{
 	function random_string($type = 'alnum', $len = 8)
 	{					
 		switch($type)
 		{
+			case 'basic'	: return mt_rand();
+			  break;
 			case 'alnum'	:
 			case 'numeric'	:
 			case 'nozero'	:
+			case 'alpha'	:
 		
 					switch ($type)
 					{
+						case 'alpha'	:	$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+							break;
 						case 'alnum'	:	$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 							break;
 						case 'numeric'	:	$pool = '0123456789';
@@ -217,12 +222,22 @@ if ( ! function_exists('random_string'))
 					}
 					return $str;
 			  break;
-			case 'unique' : return md5(uniqid(mt_rand()));
+			case 'unique'	: 
+			case 'md5' 		: 
+				
+						return md5(uniqid(mt_rand()));
+			  break;
+			case 'encrypt'	: 
+			case 'sha1'	: 
+		
+						$CI =& get_instance();
+						$CI->load->helper('security');
+		
+						return do_hash(uniqid(mt_rand(), TRUE), 'sha1');
 			  break;
 		}
 	}
 }
-
 // ------------------------------------------------------------------------
 
 /**
