@@ -822,7 +822,7 @@ class CI_DB_driver {
 			return FALSE;
 		}
 		
-		if (FALSE === ($sql = $this->_list_columns($this->_protect_identifiers($table, TRUE, NULL, FALSE))))
+		if (FALSE === ($sql = $this->_list_columns($table)))
 		{
 			if ($this->db_debug)
 			{
