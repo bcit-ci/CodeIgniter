@@ -75,6 +75,20 @@ class CI_DB_utility extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Determine if a particular database exists
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	boolean
+	 */
+	function database_exists($database_name)
+	{	
+		return ( ! in_array($database_name, $this->list_databases())) ? FALSE : TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Optimize Table
 	 *
 	 * @access	public

@@ -66,6 +66,7 @@ Database Utility Class
 <ul>
 <li><a href="#init">Initializing the Utility Class</a></li>
 <li><a href="#list">Listing your Databases</a></li>
+<li><a href="#exists">Checking for a specific Database</a></li>
 <li><a href="#opttb">Optimizing your Tables</a></li>
 <li><a href="#repair">Repairing your Databases</a></li>
 <li><a href="#optdb">Optimizing your Database</a></li>
@@ -99,6 +100,24 @@ foreach($dbs as $db)<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo $db;<br />
 }</code>
+
+
+<h2><a name="exists"></a>$this->db->database_exists();</h2>
+
+<p>Sometimes it's helpful to know whether a particular database exists.
+Returns a boolean TRUE/FALSE.  Usage example:</p>
+
+<code>
+if ($this->db->database_exists('database_name'))<br />
+{<br />
+&nbsp;&nbsp; // some code...<br />
+}
+</code>
+
+<p>Note:  Replace <em>database_name</em> with the name of the table you are looking for.</p>
+
+
+
 <h2><a name="opttb"></a>$this->dbutil->optimize_table('table_name');</h2>
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
