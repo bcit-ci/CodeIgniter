@@ -82,9 +82,20 @@ class CI_DB_utility extends CI_DB_forge {
 	 * @return	boolean
 	 */
 	function database_exists($database_name)
-	{	
-		return ( ! in_array($database_name, $this->list_databases())) ? FALSE : TRUE;
+	{
+		// Some databases won't have access to the list_databases() function, so
+		// this is intended to allow them to override with their own functions as
+		// defined in $driver_utility.php
+		if (method_exists($this, '_database_exists'))
+		{
+			return $this->_database_exists($database_name);
+		}
+		else
+		{
+			return ( ! in_array($database_name, $this->list_databases())) ? FALSE : TRUE;
+		}
 	}
+
 
 	// --------------------------------------------------------------------
 
