@@ -244,7 +244,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			if ($this->db_debug)
 			{
 				log_message('error', 'Invalid query: '.$package.'.'.$procedure);
-				return $this->display_error('db_invalid_query');
+				return $this->db->display_error('db_invalid_query');
 			}
 			return FALSE;
 		}
@@ -443,7 +443,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	function insert_id()
 	{
 		// not supported in oracle
-		return $this->display_error('db_unsupported_function');
+		return $this->db->display_error('db_unsupported_function');
 	}
 
 	// --------------------------------------------------------------------

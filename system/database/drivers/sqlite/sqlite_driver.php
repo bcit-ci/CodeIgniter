@@ -63,7 +63,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 			
 			if ($this->db_debug)
 			{
-				$this->display_error($error, '', TRUE);
+				$this->db->display_error($error, '', TRUE);
 			}
 			
 			return FALSE;
@@ -88,7 +88,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 			
 			if ($this->db_debug)
 			{
-				$this->display_error($error, '', TRUE);
+				$this->db->display_error($error, '', TRUE);
 			}
 			
 			return FALSE;
