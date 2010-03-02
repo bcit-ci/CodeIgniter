@@ -137,6 +137,11 @@ function &DB($params = '', $active_record_override = NULL)
 		$DB->initialize();
 	}
 	
+	if (isset($params['stricton']) && $params['stricton'] == TRUE)
+	{
+		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');		
+	}
+	
 	return $DB;
 }	
 

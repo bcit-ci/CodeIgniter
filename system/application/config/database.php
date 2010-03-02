@@ -26,6 +26,8 @@
 |	['cachedir'] The path to the folder where cache files should be stored
 |	['char_set'] The character set used in communicating with the database
 |	['dbcollat'] The character collation used in communicating with the database
+|	['stricton'] TRUE/FALSE - forces "Strict Mode" connections
+|							- good for ensuring strict SQL while developing
 |
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the "default" group).
@@ -49,6 +51,7 @@ $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = "";
 $db['default']['char_set'] = "utf8";
 $db['default']['dbcollat'] = "utf8_general_ci";
+$db['default']['stricton'] = FALSE;
 
 
 /* End of file database.php */
