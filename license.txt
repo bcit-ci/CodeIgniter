@@ -29,7 +29,6 @@ the following conditions are met:
    nor may "CodeIgniter" appear in their name, without prior written
    permission from EllisLab, Inc.
 
-
 INDEMNITY
 You agree to indemnify and hold harmless the authors of the Software and
 any contributors for any direct, indirect, incidental, or consequential
