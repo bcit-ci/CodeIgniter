@@ -1082,4 +1082,4 @@ class CI_Loader {
 }
 
 /* End of file Loader.php */
-/* Location: ./system/libraries/Loader.php */
+/* Location: ./system/core/Loader.php */
