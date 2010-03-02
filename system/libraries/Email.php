@@ -1544,7 +1544,7 @@ class CI_Email {
 			// server probably has popen disabled, so nothing we can do to get a verbose error.
 			return FALSE;
 		}
-		
+
 		fputs($fp, $this->_header_str);
 		fputs($fp, $this->_finalbody);
 
@@ -1554,7 +1554,7 @@ class CI_Email {
 		{
 			$status = $status >> 8 & 0xFF;
 	    }
-	
+
 		if ($status != 0)
 		{
 			$this->_set_error_message('email_exit_status', $status);
