@@ -33,7 +33,7 @@ Then to show the actual calendar you'll do this:
 <?php echo js_calendar_write('entry_date', time(), true);?>
 <form name="my_form">
 <input type="text" name="entry_date" value="" onblur="update_calendar(this.name, this.value);" />
-<p><a href="javascript:void(0);" onClick="set_to_time('entry_date', '<?php echo time();?>')" >Today</a></p>
+<p><a href="javascript:void(0);" onclick="set_to_time('entry_date', '<?php echo time();?>')" >Today</a></p>
 </form>
 
 
@@ -210,9 +210,9 @@ function build_calendar()
 	str += '<div id="cal' + this.id + '">';
 	str += '<table class="calendar" cellspacing="0" cellpadding="0" border="0" >';
 	str += '<tr>';
-	str += '<td class="calnavleft" onClick="change_month(-1, \'' + this.id + '\')">&lt;&lt;<\/td>';
+	str += '<td class="calnavleft" onclick="change_month(-1, \'' + this.id + '\')">&lt;&lt;<\/td>';
 	str += '<td colspan="5" class="calheading">' + months[this.month] + ' ' + this.year + '<\/td>';
-	str += '<td class="calnavright" onClick="change_month(1, \'' + this.id + '\')">&gt;&gt;<\/td>';
+	str += '<td class="calnavright" onclick="change_month(1, \'' + this.id + '\')">&gt;&gt;<\/td>';
 	str += '<\/tr>';
 	
 	//	Day Names
@@ -242,7 +242,7 @@ function build_calendar()
 		}
 		else if (displayNum == selDate && this.highlight == true) // Selected date
 		{
-			str += '<td id="' + this.id +'selected" class="caldayselected" onClick="set_date(this,\'' + this.id + '\')">' + displayNum + '<\/td>';
+			str += '<td id="' + this.id +'selected" class="caldayselected" onclick="set_date(this,\'' + this.id + '\')">' + displayNum + '<\/td>';
 		}
 		else if (displayNum > this.total_days())
 		{
@@ -250,7 +250,7 @@ function build_calendar()
 		}
 		else  // Unselected days
 		{
-			str += '<td id="" class="caldaycells" onClick="set_date(this,\'' + this.id + '\'); return false;"  onMouseOver="javascript:cell_highlight(this,\'' + displayNum + '\',\'' + this.id + '\');" onMouseOut="javascript:cell_reset(this,\'' + displayNum + '\',\'' + this.id + '\');" >' + displayNum + '<\/td>';
+			str += '<td id="" class="caldaycells" onclick="set_date(this,\'' + this.id + '\'); return false;"  onmouseOver="javascript:cell_highlight(this,\'' + displayNum + '\',\'' + this.id + '\');" onmouseOut="javascript:cell_reset(this,\'' + displayNum + '\',\'' + this.id + '\');" >' + displayNum + '<\/td>';
 		}
 		
 		if (j % 7 == 6)
