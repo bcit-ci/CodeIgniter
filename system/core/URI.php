@@ -44,7 +44,7 @@ class CI_URI {
 	 */
 	function CI_URI()
 	{
-		$this->config =& load_class('Config');
+		$this->config =& load_class('Config', 'core');
 		log_message('debug', "URI Class Initialized");
 	}
 
