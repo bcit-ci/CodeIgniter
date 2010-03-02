@@ -261,10 +261,10 @@ class CI_DB_driver {
 
 		// Verify table prefix and replace if necessary
 		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
-		{			
+		{
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
-		
+
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
@@ -679,7 +679,7 @@ class CI_DB_driver {
 	 * @return	mixed		
 	 */	
 	function escape($str)
-	{
+	{	
 		if (is_string($str))
 		{
 			$str = "'".$this->escape_str($str)."'";
@@ -697,7 +697,7 @@ class CI_DB_driver {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Escape LIKE String
 	 *
@@ -714,7 +714,7 @@ class CI_DB_driver {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Primary
 	 *
@@ -1155,7 +1155,7 @@ class CI_DB_driver {
 	 */	
 	function display_error($error = '', $swap = '', $native = FALSE)
 	{
-		$LANG =& load_class('Language');
+		$LANG =& load_class('Lang', 'core');
 		$LANG->load('db');
 
 		$heading = $LANG->line('db_error_heading');
@@ -1169,7 +1169,7 @@ class CI_DB_driver {
 			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
 		}
 		
-		$error =& load_class('Exceptions');
+		$error =& load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;
 	}
@@ -1315,13 +1315,13 @@ class CI_DB_driver {
 				{
 					$i++;
 				}
-
+				
 				// Verify table prefix and replace if necessary
 				if ($this->swap_pre != '' && strncmp($parts[$i], $this->swap_pre, strlen($this->swap_pre)) === 0)
 				{
 					$parts[$i] = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $parts[$i]);
 				}
-								
+				
 				// We only add the table prefix if it does not already exist
 				if (substr($parts[$i], 0, strlen($this->dbprefix)) != $this->dbprefix)
 				{
