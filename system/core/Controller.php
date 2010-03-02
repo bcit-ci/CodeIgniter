@@ -18,7 +18,7 @@
 /**
  * CodeIgniter Application Controller Class
  *
- * This class object is the super class that every library in
+ * This class object is the super class the every library in
  * CodeIgniter will be assigned to.
  *
  * @package		CodeIgniter
@@ -28,9 +28,6 @@
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class Controller extends CI_Base {
-
-	var $_ci_scaffolding	= FALSE;
-	var $_ci_scaff_table	= FALSE;
 	
 	/**
 	 * Constructor
@@ -40,46 +37,23 @@ class Controller extends CI_Base {
 	function Controller()
 	{	
 		parent::CI_Base();
-		$this->_ci_initialize();
-		log_message('debug', "Controller Class Initialized");
-	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Initialize
-	 *
-	 * Assigns all the bases classes loaded by the front controller to
-	 * variables in this class.  Also calls the autoload routine.
-	 *
-	 * @access	private
-	 * @return	void
-	 */
-	function _ci_initialize()
-	{
 		// Assign all the class objects that were instantiated by the
-		// front controller to local class variables so that CI can be
-		// run as one big super object.
-		$classes = array(
-							'config'	=> 'Config',
-							'input'		=> 'Input',
-							'benchmark'	=> 'Benchmark',
-							'uri'		=> 'URI',
-							'output'	=> 'Output',
-							'lang'		=> 'Language',
-							'router'	=> 'Router'
-							);
-		
-		foreach ($classes as $var => $class)
+		// bootstrap file (CodeIgniter.php) to local class variables 
+		// so that CI can run as one big super object.
+		foreach (is_loaded() as $var => $class)
 		{
 			$this->$var =& load_class($class);
 		}
 
 		// In PHP 5 the Loader class is run as a discreet
-		// class.  In PHP 4 it extends the Controller
-		if (floor(phpversion()) >= 5)
+		// class.  In PHP 4 it extends the Controller @PHP4
+	 	if (is_php('5.0.0') == TRUE)
 		{
-			$this->load =& load_class('Loader');
+			$this->load =& load_class('Loader', 'core');
+			
+			$this->load->_base_classes =& is_loaded();
+			
 			$this->load->_ci_autoloader();
 		}
 		else
@@ -95,30 +69,10 @@ class Controller extends CI_Base {
 				}
 			}
 		}
-	}
-	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Run Scaffolding
-	 *
-	 * @access	private
-	 * @return	void
-	 */	
-	function _ci_scaffolding()
-	{
-		if ($this->_ci_scaffolding === FALSE OR $this->_ci_scaff_table === FALSE)
-		{
-			show_404('Scaffolding unavailable');
-		}
-		
-		$method = ( ! in_array($this->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE)) ? 'view' : $this->uri->segment(3);
-		
-		require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
-		$scaff = new Scaffolding($this->_ci_scaff_table);
-		$scaff->$method();
-	}
 
+		log_message('debug', "Controller Class Initialized");
+		
+	}
 
 }
 // END _Controller class
