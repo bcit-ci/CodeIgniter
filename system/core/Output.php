@@ -32,7 +32,7 @@ class CI_Output {
 	var $cache_expiration	= 0;
 	var $headers 			= array();
 	var $enable_profiler 	= FALSE;
-
+	var $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
 	function CI_Output()
 	{
@@ -123,7 +123,7 @@ class CI_Output {
 	 * @param	string	
 	 * @return	void
 	 */	
-	function set_status_header($code = '200', $text = '')
+	function set_status_header($code = 200, $text = '')
 	{
 		set_status_header($code, $text);
 	}
@@ -199,12 +199,16 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-
-		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');		
-		$output = str_replace('{elapsed_time}', $elapsed, $output);
 		
-		$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
-		$output = str_replace('{memory_usage}', $memory, $output);		
+		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');			
+
+		if ($this->parse_exec_vars === TRUE)
+		{
+			$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+			
+			$output = str_replace('{elapsed_time}', $elapsed, $output);
+			$output = str_replace('{memory_usage}', $memory, $output);
+		}
 
 		// --------------------------------------------------------------------
 		
