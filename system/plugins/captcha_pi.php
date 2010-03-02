@@ -28,7 +28,7 @@ Once loaded you can generate a captcha like this:
 					'word'		 => 'Random word',
 					'img_path'	 => './captcha/',
 					'img_url'	 => 'http://example.com/captcha/',
-					'font_path'	 => './system/fonts/texb.ttf',
+					'font_path'	 => './path/to/fonts/texb.ttf',
 					'img_width'	 => '150',
 					'img_height' => 30,
 					'expiration' => 7200
@@ -110,7 +110,6 @@ On the page where the captcha will be shown you'll have something like this:
 	$cap = create_captcha($vals);
 
 	$data = array(
-					'captcha_id'	=> '',
 					'captcha_time'	=> $cap['time'],
 					'ip_address'	=> $this->input->ip_address(),
 					'word'			=> $cap['word']
@@ -128,7 +127,7 @@ Then, on the page that accepts the submission you'll have something like this:
 
 	// First, delete old captchas
 	$expiration = time()-7200; // Two hour limit
-	$DB->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);		
+	$this->db->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);		
 
 	// Then see if a captcha exists:
 	$sql = "SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date > ?";
@@ -180,7 +179,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 		return FALSE;
 	}
 	
-	if ( ! is_really_writable($img_path))
+	if ( ! is_writable($img_path))
 	{
 		return FALSE;
 	}
@@ -243,7 +242,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 	// -----------------------------------
 	// Create image
 	// -----------------------------------
-			
+	
 	// PHP.net recommends imagecreatetruecolor(), but it isn't always available
 	if (function_exists('imagecreatetruecolor'))
 	{
