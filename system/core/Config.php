@@ -30,6 +30,7 @@ class CI_Config {
 
 	var $config = array();
 	var $is_loaded = array();
+	var $_config_paths = array(APPPATH);
 
 	/**
 	 * Constructor
@@ -44,7 +45,7 @@ class CI_Config {
 	 */
 	function CI_Config()
 	{
-		$this->config =& get_config();
+		$this->config =& get_config();	
 		log_message('debug', "Config Class Initialized");
 	}
   	
@@ -60,13 +61,58 @@ class CI_Config {
 	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
+		$loaded = FALSE;
 	
-		if (in_array($file, $this->is_loaded, TRUE))
+		foreach($this->_config_paths as $path)
 		{
-			return TRUE;
-		}
+			$file_path = $path.'config/'.$file.EXT;
+			
+			if (in_array($file_path, $this->is_loaded, TRUE))
+			{
+				$loaded = TRUE;
+				continue;
+			}
 
-		if ( ! file_exists(APPPATH.'config/'.$file.EXT))
+			if ( ! file_exists($path.'config/'.$file.EXT))
+			{
+				continue;
+			}
+			
+			include($file_path);
+
+			if ( ! isset($config) OR ! is_array($config))
+			{
+				if ($fail_gracefully === TRUE)
+				{
+					return FALSE;
+				}
+				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
+			}
+			
+			if ($use_sections === TRUE)
+			{
+				if (isset($this->config[$file]))
+				{
+					$this->config[$file] = array_merge($this->config[$file], $config);
+				}
+				else
+				{
+					$this->config[$file] = $config;
+				}
+			}
+			else
+			{
+				$this->config = array_merge($this->config, $config);
+			}
+			
+			$this->is_loaded[] = $file_path;
+			unset($config);
+			
+			$loaded = TRUE;
+			log_message('debug', 'Config file loaded: '.$file_path);
+		}
+		
+		if ($loaded === FALSE)
 		{
 			if ($fail_gracefully === TRUE)
 			{
@@ -74,38 +120,7 @@ class CI_Config {
 			}
 			show_error('The configuration file '.$file.EXT.' does not exist.');
 		}
-	
-		include(APPPATH.'config/'.$file.EXT);
 
-		if ( ! isset($config) OR ! is_array($config))
-		{
-			if ($fail_gracefully === TRUE)
-			{
-				return FALSE;
-			}
-			show_error('Your '.$file.EXT.' file does not appear to contain a valid configuration array.');
-		}
-
-		if ($use_sections === TRUE)
-		{
-			if (isset($this->config[$file]))
-			{
-				$this->config[$file] = array_merge($this->config[$file], $config);
-			}
-			else
-			{
-				$this->config[$file] = $config;
-			}
-		}
-		else
-		{
-			$this->config = array_merge($this->config, $config);
-		}
-
-		$this->is_loaded[] = $file;
-		unset($config);
-
-		log_message('debug', 'Config file loaded: config/'.$file.EXT);
 		return TRUE;
 	}
   	
@@ -191,19 +206,52 @@ class CI_Config {
 	 */
 	function site_url($uri = '')
 	{
-		if (is_array($uri))
-		{
-			$uri = implode('/', $uri);
-		}
-
 		if ($uri == '')
 		{
-			return $this->slash_item('base_url').$this->item('index_page');
+			if ($this->item('base_url') == '')
+			{
+				return $this->item('index_page');
+			}
+			else
+			{
+				return $this->slash_item('base_url').$this->item('index_page');
+			}
+		}
+
+		if ($this->item('enable_query_strings') == FALSE)
+		{
+			if (is_array($uri))
+			{
+				$uri = implode('/', $uri);
+			}
+	
+			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
+			return $this->slash_item('base_url').$this->slash_item('index_page').trim($uri, '/').$suffix; 
 		}
 		else
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').trim($uri, '/').$suffix; 
+			if (is_array($uri))
+			{
+				$i = 0;
+				$str = '';
+				foreach ($uri as $key => $val)
+				{
+					$prefix = ($i == 0) ? '' : '&';
+					$str .= $prefix.$key.'='.$val;
+					$i++;
+				}
+
+				$uri = $str;
+			}
+
+			if ($this->item('base_url') == '')
+			{
+				return $this->item('index_page').'?'.$uri;
+			}
+			else
+			{
+				return $this->slash_item('base_url').$this->item('index_page').'?'.$uri;
+			}
 		}
 	}
 	
@@ -235,7 +283,30 @@ class CI_Config {
 	{
 		$this->config[$item] = $value;
 	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Assign to Config
+	 *
+	 * This function is called by the front controller (CodeIgniter.php)
+	 * after the Config class is instantiated.  It permits config items
+	 * to be assigned or overriden by variables contained in the index.php file
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	void
+	 */	
+	function _assign_to_config($items = array())
+	{
+		if (is_array($items))
+		{
+			foreach ($items as $key => $val)
+			{
+				$this->set_item($key, $val);
+			}
+		}	
+	}
 }
 
 // END CI_Config class
