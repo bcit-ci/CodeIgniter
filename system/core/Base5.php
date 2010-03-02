@@ -22,7 +22,8 @@
  * This file contains some code used only when CodeIgniter is being
  * run under PHP 5.  It allows us to manage the CI super object more
  * gracefully than what is possible with PHP 4.
- *
+ * @PHP4 (no need for separate Bases after PHP 4 is gone)
+ * 
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	front-controller

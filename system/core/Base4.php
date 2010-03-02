@@ -31,7 +31,8 @@
  *
  * Since PHP 5 doesn't suffer from this problem so we load one of
  * two files based on the version of PHP being run.
- *
+ * @PHP4
+ * 
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	front-controller
