@@ -207,7 +207,8 @@
  *  Note: Due to the poor object handling in PHP 4 we'll
  *  conditionally load different versions of the base
  *  class.  Retaining PHP 4 compatibility requires a bit of a hack.
- *
+ *  @PHP4
+ * 
  */
  	if (is_php('5.0.0') == TRUE)
 	{
