@@ -34,6 +34,7 @@
  * PHP versions prior to 5.0 don't support the E_STRICT constant
  * so we need to explicitly define it otherwise the Exception class 
  * will generate errors when running under PHP 4
+ * @PHP4
  *
  */
 if ( ! defined('E_STRICT'))
@@ -46,6 +47,7 @@ if ( ! defined('E_STRICT'))
  *
  * Determines if a string is comprised only of digits
  * http://us.php.net/manual/en/function.ctype_digit.php
+ * @PHP4
  *
  * @access	public
  * @param	string
@@ -71,6 +73,7 @@ if ( ! function_exists('ctype_digit'))
  *
  * Determines if a string is comprised of only alphanumeric characters
  * http://us.php.net/manual/en/function.ctype-alnum.php
+ * @PHP4
  *
  * @access	public
  * @param	string
