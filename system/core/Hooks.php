@@ -18,8 +18,7 @@
 /**
  * CodeIgniter Hooks Class
  *
- * Provides a mechanism to extend the base system without hacking.  Most of
- * this class is borrowed from Paul's Extension class in ExpressionEngine.
+ * Provides a mechanism to extend the base system without hacking.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
