@@ -24,7 +24,7 @@
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	Compatibility Functions
- * @author		ExpressionEngine Development Team
+ * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/
  */
 
@@ -88,6 +88,9 @@ if ( ! function_exists('ctype_alnum'))
 		return ! preg_match('/[^0-9a-z]/i', $str);
 	}	
 }
+
+// --------------------------------------------------------------------
+
 
 /* End of file Compat.php */
 /* Location: ./system/core/Compat.php */
