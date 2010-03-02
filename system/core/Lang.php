@@ -24,7 +24,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
-class CI_Language {
+class CI_Lang {
 
 	var $language	= array();
 	var $is_loaded	= array();
@@ -34,7 +34,7 @@ class CI_Language {
 	 *
 	 * @access	public
 	 */
-	function CI_Language()
+	function CI_Lang()
 	{
 		log_message('debug', "Language Class Initialized");
 	}
@@ -49,24 +49,36 @@ class CI_Language {
 	 * @param	string	the language (english, etc.)
 	 * @return	mixed
 	 */
-	function load($langfile = '', $idiom = '', $return = FALSE)
+	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
-		$langfile = str_replace(EXT, '', str_replace('_lang.', '', $langfile)).'_lang'.EXT;
+		$langfile = str_replace(EXT, '', $langfile);
+
+		if ($add_suffix == TRUE)
+		{
+			$langfile = str_replace('_lang.', '', $langfile).'_lang';
+		}
+
+		$langfile .= EXT;
 
 		if (in_array($langfile, $this->is_loaded, TRUE))
 		{
 			return;
 		}
 
+		$config =& get_config();
+
 		if ($idiom == '')
 		{
-			$CI =& get_instance();
-			$deft_lang = $CI->config->item('language');
+			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
 			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
 		}
 
 		// Determine where the language file is and load it
-		if (file_exists(APPPATH.'language/'.$idiom.'/'.$langfile))
+		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
+		{
+			include($alt_path.'language/'.$idiom.'/'.$langfile);
+		}
+		elseif (file_exists(APPPATH.'language/'.$idiom.'/'.$langfile))
 		{
 			include(APPPATH.'language/'.$idiom.'/'.$langfile);
 		}
@@ -81,6 +93,7 @@ class CI_Language {
 				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
 		}
+
 
 		if ( ! isset($lang))
 		{
@@ -119,5 +132,5 @@ class CI_Language {
 }
 // END Language Class
 
-/* End of file Language.php */
-/* Location: ./system/core/Language.php */
+/* End of file Lang.php */
+/* Location: ./system/core/Lang.php */
