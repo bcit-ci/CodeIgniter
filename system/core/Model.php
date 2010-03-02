@@ -24,7 +24,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
-class Model {
+class CI_Model {
 
 	var $_parent_name = '';
 
@@ -33,7 +33,7 @@ class Model {
 	 *
 	 * @access public
 	 */
-	function Model()
+	function CI_Model()
 	{
 		// If the magic __get() or __set() methods are used in a Model references can't be used.
 		$this->_assign_libraries( (method_exists($this, '__get') OR method_exists($this, '__set')) ? FALSE : TRUE );
@@ -65,7 +65,8 @@ class Model {
 				// problems so we'll conditionally use them
 				if ($use_reference == TRUE)
 				{
-					$this->$key = NULL; // Needed to prevent reference errors with some configurations
+					// Needed to prevent reference errors with some configurations
+					$this->$key = '';
 					$this->$key =& $CI->$key;
 				}
 				else
