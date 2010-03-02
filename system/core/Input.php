@@ -1064,4 +1064,4 @@ class CI_Input {
 // END Input class
 
 /* End of file Input.php */
-/* Location: ./system/libraries/Input.php */
+/* Location: ./system/core/Input.php */

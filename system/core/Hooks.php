@@ -223,4 +223,4 @@ class CI_Hooks {
 // END CI_Hooks class
 
 /* End of file Hooks.php */
-/* Location: ./system/libraries/Hooks.php */
+/* Location: ./system/core/Hooks.php */

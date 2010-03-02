@@ -66,4 +66,4 @@ function &get_instance()
 
 
 /* End of file Base4.php */
-/* Location: ./system/codeigniter/Base4.php */
+/* Location: ./system/core/Base4.php */

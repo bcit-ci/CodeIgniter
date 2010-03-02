@@ -418,4 +418,4 @@ function _exception_handler($severity, $message, $filepath, $line)
 
 
 /* End of file Common.php */
-/* Location: ./system/codeigniter/Common.php */
+/* Location: ./system/core/Common.php */

@@ -53,4 +53,4 @@ function &get_instance()
 
 
 /* End of file Base5.php */
-/* Location: ./system/codeigniter/Base5.php */
+/* Location: ./system/core/Base5.php */

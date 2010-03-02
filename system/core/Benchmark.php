@@ -110,4 +110,4 @@ class CI_Benchmark {
 // END CI_Benchmark class
 
 /* End of file Benchmark.php */
-/* Location: ./system/libraries/Benchmark.php */
+/* Location: ./system/core/Benchmark.php */
