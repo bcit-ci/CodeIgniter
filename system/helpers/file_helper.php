@@ -125,7 +125,7 @@ if ( ! function_exists('delete_files'))
 			
 		if ( ! $current_dir = @opendir($path))
 		{
-			return TRUE;			
+			return FALSE;			
 		}
 	
 		while(FALSE !== ($filename = @readdir($current_dir)))
@@ -218,7 +218,7 @@ if ( ! function_exists('get_filenames'))
  *
  * @access	public
  * @param	string	path to source
- * @param	bool	whether to include the path as part of the filename
+ * @param	bool	Look only at the top level directory specified?
  * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
  */	
