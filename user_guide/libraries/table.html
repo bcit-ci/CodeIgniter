@@ -2,17 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
+<title>CodeIgniter User Guide : HTML Table Class</title>
+
+<link rel='stylesheet' type='text/css' media='all' href='http://codeigniter.com/user_guide/userguide.css' />
+
+<script type="text/javascript" src="http://codeigniter.com/user_guide/nav/nav.js"></script>
+<script type="text/javascript" src="http://codeigniter.com/user_guide/nav/prototype.lite.js"></script>
+<script type="text/javascript" src="http://codeigniter.com/user_guide/nav/moo.fx.js"></script>
+<script type="text/javascript" src="http://codeigniter.com/user_guide/nav/user_guide_menu.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>HTML Table Class : CodeIgniter User Guide</title>
-
-<style type='text/css' media='all'>@import url('../userguide.css');</style>
-<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
-
-<script type="text/javascript" src="../nav/nav.js"></script>
-<script type="text/javascript" src="../nav/prototype.lite.js"></script>
-<script type="text/javascript" src="../nav/moo.fx.js"></script>
-<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
-
 <meta http-equiv='expires' content='-1' />
 <meta http-equiv= 'pragma' content='no-cache' />
 <meta name='robots' content='all' />
@@ -24,7 +23,7 @@
 
 <!-- START NAVIGATION -->
 <div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
-<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="http://codeigniter.com/user_guide/images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
@@ -199,6 +198,14 @@ $this->table->set_template($tmpl);
 <code>$this->table->add_row('Blue', 'Red', 'Green');</code>
 <code>$this->table->add_row(array('Blue', 'Red', 'Green'));</code>
 
+<p>If you would like to set an individual cell's tag attributes, you can use an associative array for that cell.  The associative key <dfn>'data'</dfn> defines the cell's data.  Any other key =&gt; val pairs are added as <dfn>key='val'</dfn> attributes to the tag:</p>
+
+<code>$cell = array('data' => 'Blue', 'class' => 'highlight', 'colspan' => 2);<br />
+$this->table->add_row($cell, 'Red', 'Green');<br />
+<br />
+// generates<br />
+// &lt;td class='highlight' colspan='2'&gt;Blue&lt;/td&gt;&lt;td&gt;Red&lt;/td&gt;&lt;td&gt;Green&lt;/td&gt;
+</code>
 
 <h2>$this->table->make_columns()</h2>
 
@@ -274,6 +281,22 @@ $this->table->add_row('John', 'Saturday', 'Overnight');<br />
 echo $this->table->generate();
 </code>
 
+<h2>$this->table->function</h2>
+
+<p>Allows you to specify a native PHP function or a valid function array object to be applied to all cell data.</p>
+
+<code>$this->load->library('table');<br />
+<br />
+$this->table->set_heading('Name', 'Color', 'Size');<br />
+$this->table->add_row('Fred', '&lt;strong&gt;Blue&lt;/strong&gt;', 'Small');<br />
+<br />
+$this->table->function = 'htmlspecialchars';<br />
+echo $this->table->generate();<br />
+</code>
+
+<p>In the above example, all cell data would be ran through PHP's <dfn>htmlspecialchars()</dfn> function, resulting in:</p>
+
+<code>&lt;td&gt;Fred&lt;/td&gt;&lt;td&gt;&amp;lt;strong&amp;gt;Blue&amp;lt;/strong&amp;gt;&lt;/td&gt;&lt;td&gt;Small&lt;/td&gt;</code>
 </div>
 <!-- END CONTENT -->
 
