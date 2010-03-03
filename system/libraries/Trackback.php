@@ -128,7 +128,7 @@ class CI_Trackback {
 	 * Receive Trackback  Data
 	 *
 	 * This function simply validates the incoming TB data.
-	 * It returns false on failure and true on success.
+	 * It returns FALSE on failure and TRUE on success.
 	 * If the data is valid it is set to the $this->data array
 	 * so that it can be inserted into a database.
 	 *
@@ -221,7 +221,7 @@ class CI_Trackback {
 	 * Process Trackback
 	 *
 	 * Opens a socket connection and passes the data to
-	 * the server.  Returns true on success, false on failure
+	 * the server.  Returns TRUE on success, FALSE on failure
 	 *
 	 * @access	public
 	 * @param	string
@@ -266,6 +266,7 @@ class CI_Trackback {
 			$this->response .= fgets($fp, 128);
 		}
 		@fclose($fp);
+		
 		
 		if (stristr($this->response, '<error>0</error>') === FALSE)
 		{
@@ -383,7 +384,7 @@ class CI_Trackback {
 				
 		if ( ! preg_match ("/^([0-9]+)$/", $tb_id))
 		{
-			return false;
+			return FALSE;
 		}
 		else
 		{
@@ -436,7 +437,7 @@ class CI_Trackback {
 		{
 			return $str;
 		}
-
+			
 		$str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 	
 		if (strlen($str) <= $n)
