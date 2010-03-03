@@ -513,7 +513,7 @@ class XML_RPC_Response
 				}
 				else
 				{
-					$array[$key] = $CI->input->xss_clean($array[$key]);
+					$array[$key] = $CI->security->xss_clean($array[$key]);
 				}
 			}
 			
@@ -529,7 +529,7 @@ class XML_RPC_Response
 			}
 			else
 			{
-				$result = $CI->input->xss_clean($result);
+				$result = $CI->security->xss_clean($result);
 			}
 		}
 		
@@ -1127,7 +1127,9 @@ class XML_RPC_Message extends CI_Xmlrpc
 				}
 				else
 				{
-					$array[$key] = $CI->input->xss_clean($array[$key]);
+					// 'bits' is for the MetaWeblog API image bits
+					// @todo - this needs to be made more general purpose
+					$array[$key] = ($key == 'bits') ? $array[$key] : $CI->security->xss_clean($array[$key]);
 				}
 			}
 			
@@ -1147,7 +1149,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				}
 				else
 				{
-					$parameters[] = $CI->input->xss_clean($a_param);
+					$parameters[] = $CI->security->xss_clean($a_param);
 				}
 			}	
 		}
@@ -1322,7 +1324,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	function serializedata($typ, $val)
 	{
 		$rs = '';
-		
+
 		switch($this->xmlrpcTypes[$typ])
 		{
 			case 3:
