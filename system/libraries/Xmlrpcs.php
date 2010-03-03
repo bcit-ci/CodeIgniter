@@ -40,10 +40,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	var $debug_msg		= '';		// Debug Message
 	var $system_methods = array(); // XML RPC Server methods
 	var $controller_obj;
-
+	
 	var $object			= FALSE;
-	
-	
+
+
 	//-------------------------------------
 	//  Constructor, more or less
 	//-------------------------------------
