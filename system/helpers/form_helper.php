@@ -66,7 +66,6 @@ if ( ! function_exists('form_open'))
 	}
 }
 
-
 // ------------------------------------------------------------------------
 
 /**
@@ -266,7 +265,7 @@ if ( ! function_exists('form_textarea'))
  * @param	string
  * @return	type
  */
-if (! function_exists('form_multiselect'))
+if ( ! function_exists('form_multiselect'))
 {
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
@@ -320,7 +319,7 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$key = (string) $key;
 
-			if (is_array($val))
+			if (is_array($val) && ! empty($val))
 			{
 				$form .= '<optgroup label="'.$key.'">'."\n";
 
@@ -638,7 +637,7 @@ if ( ! function_exists('form_prep'))
 
 		if ($field_name != '')
 		{
-			$prepped_fields[$field_name] = $str;
+			$prepped_fields[$field_name] = $field_name;
 		}
 		
 		return $str;
