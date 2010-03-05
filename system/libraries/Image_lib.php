@@ -349,7 +349,7 @@ class CI_Image_lib {
 	function resize()
 	{
 		$protocol = 'image_process_'.$this->image_library;
-
+		
 		if (preg_match('/gd2$/i', $protocol))
 		{
 			$protocol = 'image_process_gd';
