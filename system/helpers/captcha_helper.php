@@ -242,5 +242,5 @@ if ( ! function_exists('create_captcha'))
 
 // ------------------------------------------------------------------------
 
-/* End of file captcha_pi.php */
-/* Location: ./system/plugins/captcha_pi.php */
+/* End of file captcha_helper.php */
+/* Location: ./system/heleprs/captcha_helper.php */
