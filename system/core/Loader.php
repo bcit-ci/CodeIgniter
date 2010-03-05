@@ -544,6 +544,29 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Driver
+	 *
+	 * Loads a driver library
+	 *
+	 * @param	string	the name of the class
+	 * @param	mixed	the optional parameters
+	 * @param	string	an optional object name
+	 * @return	void
+	 */
+	function driver($library = '', $params = NULL, $object_name = NULL)
+	{
+		if ( ! class_exists('CI_Driver_Library'))
+		{
+			// we aren't instantiating an object here, that'll be done by the Library itself
+			require_once BASEPATH.'libraries/Driver'.EXT;
+		}
+		
+		return $this->library($library, $params, $object_name);
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Add Package Path
 	 *
 	 * Prepends a parent path to the library, model, helper, and config path arrays
