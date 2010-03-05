@@ -1,13 +1,35 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP 4.3.2 or newer
+ *
+ * @package		CodeIgniter
+ * @author		ExpressionEngine Dev Team
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
+ * @filesource
+ */
 
+// ------------------------------------------------------------------------
 
-
+/**
+ * Javascript Class
+ *
+ * @package		CodeIgniter
+ * @subpackage	Libraries
+ * @category	Javascript
+ * @author		ExpressionEngine Dev Team
+ * @link		http://codeigniter.com/user_guide/general/errors.html
+ */
 class CI_Javascript {
 
 	var $_javascript_location = 'js';
 
 	function CI_Javascript($params = array())
-	{
+	{		
 		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
 		
 		foreach ($defaults as $key => $val)
@@ -23,7 +45,7 @@ class CI_Javascript {
 		$this->CI =& get_instance();
 
 		// load the requested js library
-		$this->CI->load->library('javsacript/'.$js_library_driver, array('autoload' => $autoload));
+		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
 		
@@ -840,8 +862,10 @@ class CI_Javascript {
 			return $result;
 		}
 	}
+	
+	// --------------------------------------------------------------------
 }
-
+// END Javascript Class
 
 /* End of file Javascript.php */
 /* Location: ./system/libraries/Javascript.php */
