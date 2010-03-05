@@ -30,7 +30,7 @@
 /**
  * Trim Slashes
  *
- * Removes any leading/traling slashes from a string:
+ * Removes any leading/trailing slashes from a string:
  *
  * /this/that/theother/
  *
@@ -46,10 +46,10 @@ if ( ! function_exists('trim_slashes'))
 {
 	function trim_slashes($str)
 	{
-		return trim($str, '/');
-	} 
+	    return trim($str, '/');
+	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -120,6 +120,7 @@ if ( ! function_exists('quotes_to_entities'))
 }
 
 // ------------------------------------------------------------------------
+
 /**
  * Reduce Double Slashes
  *
@@ -143,7 +144,7 @@ if ( ! function_exists('reduce_double_slashes'))
 		return preg_replace("#(^|[^:])//+#", "\\1/", $str);
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -173,7 +174,7 @@ if ( ! function_exists('reduce_multiples'))
 		{
 			$str = trim($str, $character);
 		}
-
+    
 		return $str;
 	}
 }
@@ -238,6 +239,7 @@ if ( ! function_exists('random_string'))
 		}
 	}
 }
+
 // ------------------------------------------------------------------------
 
 /**
