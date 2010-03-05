@@ -288,7 +288,7 @@ if ( ! function_exists('days_in_month'))
 		return $days_in_month[$month - 1];
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -343,7 +343,7 @@ if ( ! function_exists('gmt_to_local'))
 		return $time;
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -440,14 +440,14 @@ if ( ! function_exists('human_to_unix'))
 		}
 	
 		$datestr = trim($datestr);
-		$datestr = preg_replace("/\040+/", "\040", $datestr);
-
+		$datestr = preg_replace("/\040+/", ' ', $datestr);
+	
 		if ( ! preg_match('/^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}(?::[0-9]{1,2})?(?:\s[AP]M)?$/i', $datestr))
 		{
 			return FALSE;
 		}
-
-		$split = preg_split("/\040/", $datestr);
+	
+		$split = explode(' ', $datestr);
 
 		$ex = explode("-", $split['0']);
 	
