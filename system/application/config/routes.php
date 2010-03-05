@@ -23,25 +23,16 @@
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
-| There are two reserved routes:
+| There is one reserved routes:
 |
 |	$route['default_controller'] = 'welcome';
 |
 | This route indicates which controller class should be loaded if the
 | URI contains no data. In the above example, the "welcome" class
 | would be loaded.
-|
-|	$route['scaffolding_trigger'] = 'scaffolding';
-|
-| This route lets you set a "secret" word that will trigger the
-| scaffolding feature for added security. Note: Scaffolding must be
-| enabled in the controller in which you intend to use it.   The reserved 
-| routes must come before any wildcard or regular expression routes.
-|
 */
 
 $route['default_controller'] = "welcome";
-$route['scaffolding_trigger'] = "";
 
 
 /* End of file routes.php */
