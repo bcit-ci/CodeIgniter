@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Upgrading from 1.7.2 to 1.7.3 : CodeIgniter User Guide</title>
+<title>Upgrading from 1.7.2 to 2.0.0 : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 1.7.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Upgrading from 1.7.2 to 1.7.3
+Upgrading from 1.7.2 to 2.0.0
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,7 +55,7 @@ Upgrading from 1.7.2 to 1.7.3
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Upgrading from 1.7.2 to 1.7.3</h1>
+<h1>Upgrading from 1.7.2 to 2.0.0</h1>
 
 <p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
 
@@ -78,7 +78,7 @@ Upgrading from 1.7.2 to 1.7.3
 
 <h2>Step 2: Adjust get_dir_file_info() where necessary</h2>
 
-<p>Version 1.7.3 brings a non-backwards compatible change to <kbd>get_dir_file_info()</kbd> in the <a href="../helpers/file_helper.html">File Helper</a>.  Non-backwards compatible changes are extremely rare
+<p>Version 2.0.0 brings a non-backwards compatible change to <kbd>get_dir_file_info()</kbd> in the <a href="../helpers/file_helper.html">File Helper</a>.  Non-backwards compatible changes are extremely rare
 	in CodeIgniter, but this one we feel was warranted due to how easy it was to create serious server performance issues.  If you <em>need</em>
 	recursiveness where you are using this helper function, change such instances, setting the second parameter, <kbd>$top_level_only</kbd> to FALSE:</p>
 
