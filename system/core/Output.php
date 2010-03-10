@@ -34,6 +34,8 @@ class CI_Output {
 	var $enable_profiler 	= FALSE;
 	var $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
+	var $_profiler_sections = array();
+
 	function CI_Output()
 	{
 		log_message('debug', "Output Class Initialized");
@@ -142,6 +144,25 @@ class CI_Output {
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Profiler Sections
+	 *
+	 * Allows override of default / config settings for Profiler section display
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	void
+	 */
+	function set_profiler_sections($sections)
+	{
+		foreach ($sections as $section => $enable)
+		{
+			$this->_profiler_sections[$section] = ($enable !== FALSE) ? TRUE : FALSE;
+		}
+	}
+
 	// --------------------------------------------------------------------
 	
 	/**
@@ -258,7 +279,12 @@ class CI_Output {
 		if ($this->enable_profiler == TRUE)
 		{
 			$CI->load->library('profiler');				
-										
+			
+			if ( ! empty($this->_profiler_sections))
+			{
+				$CI->profiler->set_sections($this->_profiler_sections);
+			}						
+
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
 			if (preg_match("|</body>.*?</html>|is", $output))
