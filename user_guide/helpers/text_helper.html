@@ -115,6 +115,13 @@ part it should correctly identify characters outside the normal range (like acce
 
 <p>This function does the opposite of the previous one; it turns character entities back into ASCII.</p>
 
+<h2>convert_accented_characters()</h2>
+
+<p>Transliterates high ASCII characters to low ASCII equivalents, useful when non-English characters need to be used where only standard ASCII characters are safely used, for instance, in URLs.</p>
+
+<code>$string = convert_accented_characters($string);</code>
+	
+<p>This function uses a companion config file <dfn>system/application/config/foreign_chars.php</dfn> to define the to and from array for transliteration.</p>
 
 <h2>word_censor()</h2>
 
