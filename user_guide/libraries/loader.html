@@ -59,7 +59,7 @@ Loader Class
 <h1>Loader Class</h1>
 
 <p>Loader, as the name suggests, is used to load elements.  These elements can be libraries (classes) <a href="../general/views.html">View files</a>,
-<a href="../general/helpers.html">Helpers</a>, <a href="../general/plugins.html">Plugins</a>, or your own files.</p>
+<a href="../general/helpers.html">Helpers</a>, <a href="../general/models.html">Models</a>, or your own files.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
 
@@ -176,9 +176,6 @@ and merged into one array for conversion to variables.
 <h2>$this->load->helper('<var>file_name</var>')</h2>
 <p>This function loads helper files, where <var>file_name</var> is the name of the file, without the <kbd>_helper.php</kbd> extension.</p>
 
-
-<h2>$this->load->plugin('<var>file_name</var>')</h2>
-<p>This function loads plugins files, where <var>file_name</var> is the name of the file, without the <kbd>_plugin.php</kbd> extension.</p>
 
 <h2>$this->load->file('<var>filepath/filename</var>', <kbd>true/false</kbd>)</h2>
 <p>This is a generic file loading function.  Supply the filepath and name in the first parameter and it will open and read the file.

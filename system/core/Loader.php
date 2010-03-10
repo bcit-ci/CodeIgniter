@@ -41,7 +41,6 @@ class CI_Loader {
 	var $_ci_loaded_files	= array();
 	var $_ci_models			= array();
 	var $_ci_helpers		= array();
-	var $_ci_plugins		= array();
 	var $_ci_varmap			= array('unit_test' => 'unit', 'user_agent' => 'agent');
 	
 
@@ -443,64 +442,6 @@ class CI_Loader {
 		$this->helper($helpers);
 	}
 	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Load Plugin
-	 *
-	 * This function loads the specified plugin.
-	 *
-	 * @access	public
-	 * @param	array
-	 * @return	void
-	 */
-	function plugin($plugins = array())
-	{
-		foreach ($this->_ci_prep_filename($plugins, '_pi') as $plugin)
-		{	
-			if (isset($this->_ci_plugins[$plugin]))
-			{
-				continue;
-			}
-
-			if (file_exists(APPPATH.'plugins/'.$plugin.EXT))
-			{
-				include_once(APPPATH.'plugins/'.$plugin.EXT);	
-			}
-			else
-			{
-				if (file_exists(BASEPATH.'plugins/'.$plugin.EXT))
-				{
-					include_once(BASEPATH.'plugins/'.$plugin.EXT);	
-				}
-				else
-				{
-					show_error('Unable to load the requested file: plugins/'.$plugin.EXT);
-				}
-			}
-			
-			$this->_ci_plugins[$plugin] = TRUE;
-			log_message('debug', 'Plugin loaded: '.$plugin);
-		}		
-	}
-
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Load Plugins
-	 *
-	 * This is simply an alias to the above function in case the
-	 * user has written the plural form of this function.
-	 *
-	 * @access	public
-	 * @param	array
-	 * @return	void
-	 */
-	function plugins($plugins = array())
-	{
-		$this->plugin($plugins);
-	}
-		
 	// --------------------------------------------------------------------
 	
 	/**
@@ -987,7 +928,7 @@ class CI_Loader {
 	 * Autoloader
 	 *
 	 * The config/autoload.php file contains an array that permits sub-systems,
-	 * libraries, plugins, and helpers to be loaded automatically.
+	 * libraries, and helpers to be loaded automatically.
 	 *
 	 * @access	private
 	 * @param	array
@@ -1012,8 +953,8 @@ class CI_Loader {
 			}
 		}		
 
-		// Autoload plugins, helpers and languages
-		foreach (array('helper', 'plugin', 'language') as $type)
+		// Autoload helpers and languages
+		foreach (array('helper', 'language') as $type)
 		{			
 			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
 			{
@@ -1058,7 +999,7 @@ class CI_Loader {
 	/**
 	 * Assign to Models
 	 *
-	 * Makes sure that anything loaded by the loader class (libraries, plugins, etc.)
+	 * Makes sure that anything loaded by the loader class (libraries, etc.)
 	 * will be available to models, if any exist.
 	 *
 	 * @access	private

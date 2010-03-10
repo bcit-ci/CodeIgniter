@@ -88,7 +88,7 @@ CAPTCHA Helper
 	<p>The "word" is the word that appears in the captcha image, which if not
 	supplied to the function, will be a random string.</p>
 	
-	<h3>Using the CAPTCHA plugin</h3>
+	<h3>Using the CAPTCHA helper</h3>
 	
 	<p>Once loaded you can generate a captcha like this:</p>
 
@@ -139,7 +139,7 @@ echo $cap['image'];</code>
 
 	<p>Here is an example of usage with a database.  On the page where the CAPTCHA will be shown you'll have something like this:</p>
 	
-<code>$this-&gt;load-&gt;plugin(&#x27;captcha&#x27;);<br />
+<code>$this-&gt;load-&gt;helper(&#x27;captcha&#x27;);<br />
 $vals = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&#x27;img_path&#x27;	 =&gt; &#x27;./captcha/&#x27;,<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&#x27;img_url&#x27;	 =&gt; &#x27;http://example.com/captcha/&#x27;<br />

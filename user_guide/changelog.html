@@ -62,6 +62,13 @@ Change Log
 Hg Tag: </p>
 
 <ul>
+	<li>General changes
+		<ul>
+			<li>PHP 4 support is deprecated.  Features new to 2.0.0 may not be support PHP 4, and all legacy features will no longer support PHP 4 as of 2.1.0.</li>
+			<li>Scaffolding, having been deprecated for a number of versions, has been removed.</li>
+			<li>Plugins have been removed, in favor of Helpers.  The CAPTCHA plugin has been converted to a Helper and <a href="./helpers/captcha_helper.html">documented</a>.  The JavaScript calendar plugin was removed due to the ready availability of great JavaScript calendars, particularly with jQuery.</li>
+			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a>.</li>
+		</ul>
 	<li>Libraries
 		<ul>
 			<li>Added "is_object" into the list of unit tests capable of being run.</li>
@@ -94,7 +101,6 @@ Hg Tag: </p>
 	</li>
 	<li>Other Changes
 		<ul>
-			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a></li>
 			<li>Increased randomness with <kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
 			<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
 			<li><kbd>get_mime_by_extension()</kbd> is now case insensitive.</li>

@@ -63,16 +63,7 @@ Upgrading from 1.7.2 to 2.0.0
 
 <h2>Step 1: Update your CodeIgniter files</h2>
 
-<p>Replace these files and directories in your "system" folder with the new versions:</p>
-
-<ul>
-
-<li><dfn>system/codeigniter</dfn></li>
-<li><dfn>system/database</dfn></li>
-<li><dfn>system/helpers</dfn></li>
-<li><dfn>system/language</dfn></li>
-<li><dfn>system/libraries</dfn></li>
-</ul>
+<p>Replace all files and directories in your "system" folder <strong>except</strong> your <kbd>application</kbd> folder.</p>
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
@@ -83,6 +74,20 @@ Upgrading from 1.7.2 to 2.0.0
 	recursiveness where you are using this helper function, change such instances, setting the second parameter, <kbd>$top_level_only</kbd> to FALSE:</p>
 
 <code>get_dir_file_info('/path/to/directory', <kbd>FALSE</kbd>);</code>
+
+</p>
+
+<h2>Step 3: Convert your Plugins to Helpers</h2>
+
+<p>2.0.0 gets rid of the "Plugin" system as their functionality was identical to Helpers, but non-extensible.  You will need to rename your plugin files from <var>filename_pi.php</var> to <var>filename_helper.php</var>, move them to your <kbd>helpers</kbd> folder, and change all instances of:
+	
+	<code>$this->load->plugin('foo');</code>
+	
+to
+
+	<code>$this->load->helper('foo');</code>
+
+</p>
 
 <h2>Step 3: Update your user guide</h2>
 <p>Please replace your local copy of the user guide with the new version, including the image files.</p>
