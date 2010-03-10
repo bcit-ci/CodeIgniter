@@ -34,14 +34,59 @@ class CI_Profiler {
 
 	var $CI;
  	
- 	function CI_Profiler()
+	var $_available_sections	= array(
+										'benchmarks',
+										'config',
+										'controller_info',
+										'get',
+										'http_headers',
+										'memory_usage',
+										'post',
+										'queries',
+										'uri_string'
+										);
+
+ 	function CI_Profiler($config = array())
  	{
  		$this->CI =& get_instance();
  		$this->CI->load->language('profiler');
+		
+		// default all sections to display
+		foreach ($this->_available_sections as $section)
+		{
+			if ( ! isset($config[$section]))
+			{
+				$this->_compile_{$section} = TRUE;
+			}
+		}
+		
+		$this->set_sections($config);
  	}
  	
 	// --------------------------------------------------------------------
 
+	/**
+	 * Set Sections
+	 *
+	 * Sets the private _compile_* properties to enable/disable Profiler sections
+	 *
+	 * @access	public
+	 * @param	mixed
+	 * @return	void
+	 */
+	function set_sections($config)
+	{
+		foreach ($config as $method => $enable)
+		{
+			if (in_array($method, $this->_available_sections))
+			{
+				$this->_compile_{$method} = ($enable !== FALSE) ? TRUE : FALSE;				
+			}
+		}
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Auto Profiler
 	 *
@@ -49,7 +94,7 @@ class CI_Profiler {
 	 * matches any two points that are named identically (ending in "_start"
 	 * and "_end" respectively).  It then compiles the execution times for
 	 * all points and returns it as an array
-	 *
+	 * @PHP4 - all methods should be declared private
 	 * @access	private
 	 * @return	array
 	 */
@@ -438,16 +483,23 @@ class CI_Profiler {
 	function run()
 	{
 		$output = "<div id='codeigniter_profiler' style='clear:both;background-color:#fff;padding:10px;'>";
+		$fields_displayed = 0;
+		
+		foreach ($this->_available_sections as $section)
+		{
+			if ($this->_compile_{$section} !== FALSE)
+			{
+				$func = "_compile_{$section}";
+				$output .= $this->{$func}();
+				$fields_displayed++;
+			}
+		}
 
-		$output .= $this->_compile_uri_string();
-		$output .= $this->_compile_controller_info();
-		$output .= $this->_compile_memory_usage();
-		$output .= $this->_compile_benchmarks();
-		$output .= $this->_compile_get();
-		$output .= $this->_compile_post();
-		$output .= $this->_compile_queries();
-		$output .= $this->_compile_config();
-		$output .= $this->_compile_http_headers();
+		if ($fields_displayed == 0)
+		{
+			$output .= '<p style="border:1px solid #5a0099;padding:10px;margin:20px 0;background-color:#eee">'.$this->CI->lang->line('profiler_no_profiles').'</p>';
+		}
+		
 		$output .= '</div>';
 
 		return $output;
