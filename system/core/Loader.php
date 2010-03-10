@@ -558,7 +558,14 @@ class CI_Loader {
 		if ( ! class_exists('CI_Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
-			require_once BASEPATH.'libraries/Driver'.EXT;
+			require BASEPATH.'libraries/Driver'.EXT;
+		}
+		
+		// We can save the loader some time since Drivers will *always* be in a subfolder,
+		// and typically identically named to the library
+		if ( ! strpos($library, '/'))
+		{
+			$library = $library.'/'.$library;
 		}
 		
 		return $this->library($library, $params, $object_name);
