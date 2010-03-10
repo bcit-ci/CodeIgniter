@@ -83,6 +83,7 @@ Hg Tag: </p>
 			<li>Added an 'object' config variable to the XML-RPC Server library so that one can specify the object to look for requested methods, instead of assuming it is in the $CI superobject.</li>
 			<li>Added "is_object" into the list of unit tests capable of being run.</li>
 			<li>Table library will generate an empty cell with a blank string, or NULL value.</li>
+			<li>Added ability to set tag attributes for individual cells in the Table library</li>
 			<li>Added a <kbd>parse_string()</kbd> method to the <a href="libraries/parser.html">Parser Class</a>.</li>
 			<li>Added HTTP headers and Config information to the <a href="general/profiling.html">Profiler</a> output.</li>
 			<li>Added Chrome and Flock to the list of detectable browsers by <kbd>browser()</kbd> in the <a href="libraries/user_agent.html">User Agent Class</a>.</li>
@@ -115,6 +116,7 @@ Hg Tag: </p>
 	</li>
 	<li>Other Changes
 		<ul>
+			<li>Updated loader to automatically apply the sub-class prefix as an option when loading classes.  Class names can be prefixed with the standard "CI_" or the same prefix as the subclass prefix, or no prefix at all.</li>
 			<li>Increased randomness with <kbd>is_really_writable()</kbd> to avoid file collisions when hundreds or thousands of requests occur at once.</li>
 			<li>Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE where files and not directories are being operated on.</li>
 			<li><kbd>get_mime_by_extension()</kbd> is now case insensitive.</li>
