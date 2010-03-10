@@ -20,10 +20,9 @@
 |
 | 1. Libraries
 | 2. Helper files
-| 3. Plugins
-| 4. Custom config files
-| 5. Language files
-| 6. Models
+| 3. Custom config files
+| 4. Language files
+| 5. Models
 |
 */
 
@@ -52,18 +51,6 @@ $autoload['libraries'] = array();
 */
 
 $autoload['helper'] = array();
-
-
-/*
-| -------------------------------------------------------------------
-|  Auto-load Plugins
-| -------------------------------------------------------------------
-| Prototype:
-|
-|	$autoload['plugin'] = array('captcha', 'js_calendar');
-*/
-
-$autoload['plugin'] = array();
 
 
 /*
