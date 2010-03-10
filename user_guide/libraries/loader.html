@@ -190,6 +190,55 @@ it will instead return the data as a string.</p>
 <p>This function is an alias of the <a href="config.html">config file loading function</a>: $this->config->load()</p>
 
 
+<h2>Application "Packages"</h2>
+
+<p>An application package allows for the easy distribution of complete sets of resources in a single directory, complete with its own libraries, models, helpers, config, and language files.  It is recommended that these packages be placed in the <dfn>system/application/third_party</dfn> folder.  Below is a sample map of an package directory</p>
+
+
+<h2>Sample Package "Foo Bar" Directory Map</h2>
+
+<p>The following is an example of a directory for an application package named "Foo Bar".</p>
+
+<code>/system/application/third_party/foo_bar<br />
+<br />
+config/<br />
+helpers/<br />
+language/<br />
+libraries/<br />
+models/<br />
+</code>
+
+<p>Whatever the purpose of the "Foo Bar" application package, it has its own config files, helpers, language files, libraries, and models.  To use these resources in your controllers, you first need to tell the Loader that you are going to be loading resources from a package, by adding the package path.</p>
+
+<h3>$this->load->add_package_path()</h3>
+
+<p>Adding a package path instructs the Loader class to prepend a given path for subsequent requests for resources.  As an example, the "Foo Bar" application package above has a library named <dfn>Foo_bar.php</dfn>. In our controller, we'd do the following:</p>
+
+<code>$this->load->add_package_path(<var>APPPATH</var>.'third_party/<var>foo_bar</var>/');<br />
+$this->load->library('foo_bar');</code>
+
+<h3>$this->load->remove_package_path()</h3>
+
+<p>When your controller is finished using resources from an application package, and particularly if you have other application packages you want to work with, you may wish to remove the package path so the Loader no longer looks in that folder for resources.  To remove the last path added, simply call the method with no parameters.</p>
+
+<h3>$this->load->remove_package_path()</h3>
+	
+<p>Or to remove a specific package path, specify the same path previously given to <kbd>add_package_path() for a package.</kbd>:</p>
+
+<code>$this->load->remove_package_path(<var>APPPATH</var>.'third_party/<var>foo_bar</var>/');</code>
+
+<h3>Package view files</h3>
+
+<p>@todo - package view file interface is not complete.  It can be experimentally used by first saving the Loader's original view path, setting the view path to the package's view path, and when finished, setting back to the original view path.</p>
+
+<code>// ... save the original view path, and set to our Foo Bar package view folder<br />
+$orig_view_path = $this->load->_ci_view_path;<br />
+$this->load->_ci_view_path = <var>APPPATH</var>.'third_party/<var>foo_bar</var>/views/';<br />
+<br />
+// ... code using the package's view files<br />
+<br />
+// ... then return the view path to the application's original view path<br />
+$this->load->_ci_view_path = $orig_view_path;</code>
 
 
 </div>
