@@ -137,6 +137,12 @@ at the bottom of your pages for debugging and optimization purposes.</p>
 <h2>$this->output->cache();</h2>
 <p>The CodeIgniter output library also controls caching.  For more information, please see the <a href="../general/caching.html">caching documentation</a>.</p>
 
+<h2>Parsing Execution Variables</h2>
+
+	<p>CodeIgniter will parse the pseudo-variables <var>{elapsed_time}</var> and <var>{memory_usage}</var> in your output by default.  To disable this, set the <var>$parse_exec_vars</var> class property to <var>FALSE</var> in your controller.
+		
+	<code>$this->output->parse_exec_vars = FALSE;</code>
+	
 </div>
 <!-- END CONTENT -->
 
