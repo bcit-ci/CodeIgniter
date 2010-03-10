@@ -89,6 +89,9 @@ Hg Tag: </p>
 	</li>
 	<li>Database
 		<ul>
+			<li>Added <kbd>swap_pre</kbd> value to <a href="./database/configuration.html">database configuration</a>.</li>
+			<li>Added <kbd>autoinit</kbd> value to <a href="./database/configuration.html">database configuration</a>.</li>
+			<li>Added <kbd>stricton</kbd> value to <a href="./database/configuration.html">database configuration</a>.</li>
 			<li>Added <kbd>database_exists()</kbd> to the <a href="database/utilities.html">Database Utilities Class</a>.</li>
 			<li>Semantic change to db->version() function to allow a list of exceptions for databases with functions to return version string instead of specially formed SQL queries. Currently this list only includes Oracle and SQLite.</li>
 			<li>Fixed a bug where driver specific table identifier protection could lead to malformed queries in the <kbd>field_data()</kbd> functions.</li>

@@ -26,6 +26,8 @@
 |	['cachedir'] The path to the folder where cache files should be stored
 |	['char_set'] The character set used in communicating with the database
 |	['dbcollat'] The character collation used in communicating with the database
+|	['swap_pre'] A default table prefix that should be swapped with the dbprefix
+|	['autoinit'] Whether or not to automatically initialize the database.
 |	['stricton'] TRUE/FALSE - forces "Strict Mode" connections
 |							- good for ensuring strict SQL while developing
 |
@@ -51,6 +53,8 @@ $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = "";
 $db['default']['char_set'] = "utf8";
 $db['default']['dbcollat'] = "utf8_general_ci";
+$db['default']['swap_pre'] = "";
+$db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 
