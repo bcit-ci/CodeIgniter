@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Input and Security Class
+Input Class
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -83,38 +83,12 @@ Input and Security Class
 
 <h2>XSS Filtering</h2>
 
-<p>CodeIgniter comes with a Cross Site Scripting Hack prevention filter which can either run automatically to filter
-all POST and COOKIE data that is encountered, or you can run it on a per item basis.  By default it does <strong>not</strong>
-run globally since it requires a bit of processing overhead, and since you may not need it in all cases.</p>
-
-<p>The XSS filter looks for commonly used techniques to trigger Javascript or other types of code that attempt to hijack cookies
-or do other malicious things.  If anything disallowed is encountered it is rendered safe by converting the data to character entities.</p>
-
-<p>
-Note: This function should only be used to deal with data upon submission. It's not something that should be used for general runtime processing since it requires a fair amount of processing overhead.</p>
-
-
-<p>To filter data through the XSS filter use this function:</p>
-
-<h2>$this->input->xss_clean()</h2>
-
-<p>Here is an usage example:</p>
-
-<code>$data = $this->input->xss_clean($data);</code>
-
-<p>If you want the filter to run automatically every time it encounters POST or COOKIE data you can enable it by opening your
+<p>The Input class has the ability to filter input automatically to prevent cross-site scripting attacks.  If you want the filter to run automatically every time it encounters POST or COOKIE data you can enable it by opening your
 <kbd>application/config/config.php</kbd> file and setting this:</p>
 
 <code>$config['global_xss_filtering'] = TRUE;</code>
 
-<p>Note: If you use the form validation class, it gives you the option of XSS filtering as well.</p>
-
-<p>An optional second parameter, <dfn>is_image</dfn>, allows this function to be used to test images for potential XSS attacks, useful for file upload security.  When this second parameter is set to <dfn>TRUE</dfn>, instead of returning an altered string, the function returns TRUE if the image is safe, and FALSE if it contained potentially malicious information that a browser may attempt to execute.</p>
-
-<code>if ($this->input->xss_clean($file, TRUE) === FALSE)<br />
-{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;// file failed the XSS test<br />
-}</code>
+<p>Please refer to the <a href="security.html">Security class</a> documentation for information on using XSS Filtering in your application.</p>
 
 
 <h2>Using POST, COOKIE, or SERVER Data</h2>
@@ -183,6 +157,55 @@ else<br />
 <code>$this->input->server('some_data');</code>
 
 
+<h2>$this->input->set_cookie()</h2>
+
+<p>Sets a cookie containing the values you specify.  There are two ways to pass information to this function so that a cookie can be set:
+Array Method, and Discrete Parameters:</p>
+
+<h4>Array Method</h4>
+
+<p>Using this method, an associative array is passed to the first parameter:</p>
+
+<code>$cookie = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->input->set_cookie($cookie);
+</code>
+
+<p><strong>Notes:</strong></p>
+
+<p>Only the name and value are required. To delete a cookie set it with the expiration blank.</p>
+
+<p>The expiration is set in <strong>seconds</strong>, which will be added to the current time.  Do not include the time, but rather only the
+number of seconds from <em>now</em> that you wish the cookie to be valid.  If the expiration is set to
+zero the cookie will only last as long as the browser is open.</p>
+<p>For site-wide cookies regardless of how your site is requested, add your URL to the <strong>domain</strong> starting with a period, like this:  .your-domain.com</p>
+<p>The path is usually not needed since the function sets a root path.</p>
+<p>The prefix is only needed if you need to avoid name collisions with other identically named cookies for your server.</p>
+
+<h4>Discrete Parameters</h4>
+
+<p>If you prefer, you can set the cookie by passing data using individual parameters:</p>
+
+<code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix);</code>
+
+<h2>$this->input->get_cookie()</h2>
+
+<p>Lets you fetch a cookie.  The first parameter will contain the name of the cookie you are looking for (including any prefixes):</p>
+
+<code>get_cookie('some_cookie');</code>
+
+<p>The function returns FALSE (boolean) if the item you are attempting to retrieve does not exist.</p>
+
+<p>The second optional parameter lets you run the data through the XSS filter.  It's enabled by setting the second parameter to boolean TRUE;</p>
+
+<p><code>get_cookie('some_cookie', TRUE);</code></p>
 
 
 <h2>$this->input->ip_address()</h2>
