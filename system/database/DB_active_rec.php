@@ -1916,7 +1916,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach (get_object_vars($object) as $key => $val)
 		{
 			// There are some built in keys we need to ignore for this conversion
-			if ( ! is_object($val) && ! is_array($val) && $key != '_parent_name' && $key != '_ci_scaffolding' && $key != '_ci_scaff_table')
+			if ( ! is_object($val) && ! is_array($val) && $key != '_parent_name')
 			{
 				$array[$key] = $val;
 			}
@@ -1950,7 +1950,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach ($fields as $val)
 		{
 			// There are some built in keys we need to ignore for this conversion
-			if ($val != '_parent_name' && $val != '_ci_scaffolding' && $val != '_ci_scaff_table')
+			if ($val != '_parent_name')
 			{
 
 				$i = 0;

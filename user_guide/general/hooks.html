@@ -143,8 +143,6 @@ $hook['pre_controller']<kbd>[]</kbd> = array(<br />
 			use your own display methodology.  Note that you will need to reference the CI superobject with <dfn>$this->CI =&amp; get_instance()</dfn> and then the finalized data will be available by calling <dfn>$this->CI->output->get_output()</dfn></li>
 		<li><strong>cache_override</strong><br />
 			Enables you to call your own function instead of the <dfn>_display_cache()</dfn> function in the output class.  This permits you to use your own cache display mechanism.</li>
-		<li><strong>scaffolding_override</strong><br />
-			Permits a scaffolding request to trigger your own script instead.</li>
 		<li><strong>post_system</strong><br />
 			Called after the final rendered page is sent to the browser, at the end of system execution after the finalized data is sent to the browser.</li>
 	</ul>

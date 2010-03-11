@@ -55,7 +55,6 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/hooks.html">Hooks - Extending the Core</a></li>' +
 			'<li><a href="'+base+'general/autoloader.html">Auto-loading Resources</a></li>' +
 			'<li><a href="'+base+'general/common_functions.html">Common Functions</a></li>' +
-			'<li><a href="'+base+'general/scaffolding.html">Scaffolding</a></li>' +
 			'<li><a href="'+base+'general/routing.html">URI Routing</a></li>' +
 			'<li><a href="'+base+'general/errors.html">Error Handling</a></li>' +
 			'<li><a href="'+base+'general/caching.html">Caching</a></li>' +
