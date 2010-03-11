@@ -25,6 +25,7 @@
  * well with CodeIgniter, so those functions have been refactored.
  * We cheat a little and use CI's _exception_handler() to output our own PHP errors
  * so that the behavior fully mimicks the PHP 5 counterparts.  -- Derek Jones
+ * @PHP4
  * 
  * @package		CodeIgniter
  * @subpackage	Helpers
