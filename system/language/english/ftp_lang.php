@@ -7,6 +7,7 @@ $lang['ftp_unable_to_makdir']		= "Unable to create the directory you have specif
 $lang['ftp_unable_to_changedir']	= "Unable to change directories.";
 $lang['ftp_unable_to_chmod']		= "Unable to set file permissions.  Please check your path.  Note: This feature is only available in PHP 5 or higher.";
 $lang['ftp_unable_to_upload']		= "Unable to upload the specified file.  Please check your path.";
+$lang['ftp_unable_to_download']		= "Unable to download the specified file.  Please check your path.";
 $lang['ftp_no_source_file']			= "Unable to locate the source file.  Please check your path.";
 $lang['ftp_unable_to_rename']		= "Unable to rename the file.";
 $lang['ftp_unable_to_delete']		= "Unable to delete the file.";
