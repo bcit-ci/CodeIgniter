@@ -142,13 +142,13 @@
 		}
 
 		// Is the request a class extension?  If so we load it too
-		if (file_exists(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT))
+		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.EXT))
 		{	
 			$name = config_item('subclass_prefix').$class;
 	
 			if (class_exists($name) === FALSE)
 			{
-				require(APPPATH.'libraries/'.config_item('subclass_prefix').$class.EXT);
+				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.EXT);
 			}
 		}
 
