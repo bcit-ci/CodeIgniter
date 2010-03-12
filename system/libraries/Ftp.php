@@ -281,6 +281,48 @@ class CI_FTP {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Download a file from a remote server to the local server
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	function download($rempath, $locpath, $mode = 'auto')
+	{
+		if ( ! $this->_is_conn())
+		{
+			return FALSE;
+		}
+       
+		// Set the mode if not specified
+		if ($mode == 'auto')
+		{
+			// Get the file extension so we can set the upload type
+			$ext = $this->_getext($rempath);
+			$mode = $this->_settype($ext);
+		}
+               
+		$mode = ($mode == 'ascii') ? FTP_ASCII : FTP_BINARY;
+               
+		$result = @ftp_get($this->conn_id, $locpath, $rempath, $mode);
+
+		if ($result === FALSE)
+		{
+			if ($this->debug == TRUE)
+			{
+				$this->_error('ftp_unable_to_download');
+			}
+			return FALSE;          
+		}
+               
+		return TRUE;
+    }
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Rename (or move) a file
 	 *
 	 * @access	public
