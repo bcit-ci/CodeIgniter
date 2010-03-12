@@ -446,7 +446,7 @@ if ( ! function_exists('prep_url'))
 			return '';
 		}
 
-		if (substr($str, 0, 7) != 'http://' && substr($str, 0, 8) != 'https://')
+		if (!preg_match('/^[a-z]{3,6}:\/\//', $str))
 		{
 			$str = 'http://'.$str;
 		}
