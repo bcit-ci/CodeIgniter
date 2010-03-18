@@ -200,6 +200,8 @@ server will load the <dfn>My_blog</dfn> class and call the <dfn>update_entry</df
 
 <p>The function names in the above example are arbitrary.  You'll decide what they should be called on your server,
 or if you are using standardized APIs, like the Blogger or MetaWeblog API, you'll use their function names.</p>
+
+<p>There are two additional configuration keys you may make use of when initializing the server class: <var>debug</var> can be set to TRUE in order to enable debugging, and <var>xss_clean</var> may be set to FALSE to prevent sending data through the Security library's xss_clean function.
 	
 <h2>Processing Server Requests</h2>
 

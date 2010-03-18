@@ -81,6 +81,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		{
 			$this->object = $config['object'];
 		}
+		
+		if (isset($config['xss_clean']))
+		{
+			$this->xss_clean = $config['xss_clean'];
+		}
 	}
 	
 	//-------------------------------------
@@ -247,6 +252,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		// Check to see if it is a system call
 		$system_call = (strncmp($methName, 'system', 5) == 0) ? TRUE : FALSE;
 		
+		if ($this->xss_clean == FALSE)
+		{
+			$m->xss_clean = FALSE;
+		}
+
 		//-------------------------------------
 		//  Valid Method
 		//-------------------------------------
