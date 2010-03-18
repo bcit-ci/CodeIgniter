@@ -63,6 +63,7 @@ class CI_Xmlrpc {
 	var $result;
 	var $response			= array();  // Response from remote server
 
+	var $xss_clean			= TRUE;
 
 	//-------------------------------------
 	//  VALUES THAT MULTIPLE CLASSES NEED
@@ -513,7 +514,7 @@ class XML_RPC_Response
 				}
 				else
 				{
-					$array[$key] = $CI->security->xss_clean($array[$key]);
+					$array[$key] = ($this->xss_clean) ? $CI->security->xss_clean($array[$key]) : $array[$key];
 				}
 			}
 			
@@ -529,7 +530,7 @@ class XML_RPC_Response
 			}
 			else
 			{
-				$result = $CI->security->xss_clean($result);
+				$result = ($this->xss_clean) ? $CI->security->xss_clean($result) : $result;
 			}
 		}
 		
@@ -1129,7 +1130,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					// 'bits' is for the MetaWeblog API image bits
 					// @todo - this needs to be made more general purpose
-					$array[$key] = ($key == 'bits') ? $array[$key] : $CI->security->xss_clean($array[$key]);
+					$array[$key] = ($key == 'bits' OR $this->xss_clean == FALSE) ? $array[$key] : $CI->security->xss_clean($array[$key]);
 				}
 			}
 			
@@ -1149,7 +1150,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				}
 				else
 				{
-					$parameters[] = $CI->security->xss_clean($a_param);
+					$parameters[] = ($this->xss_clean) ? $CI->security->xss_clean($a_param) : $a_param;
 				}
 			}	
 		}
