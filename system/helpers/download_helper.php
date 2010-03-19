@@ -71,7 +71,7 @@ if ( ! function_exists('force_download'))
 		}
 	
 		// Generate the server headers
-		if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
 		{
 			header('Content-Type: "'.$mime.'"');
 			header('Content-Disposition: attachment; filename="'.$filename.'"');
