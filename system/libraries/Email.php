@@ -1865,7 +1865,7 @@ class CI_Email {
 		elseif ($cip)		$this->_IP = $cip;
 		elseif ($fip)		$this->_IP = $fip;
 
-		if (strstr($this->_IP, ','))
+		if (strpos($this->_IP, ',') !== FALSE)
 		{
 			$x = explode(',', $this->_IP);
 			$this->_IP = end($x);

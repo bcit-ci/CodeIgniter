@@ -288,7 +288,7 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
-		if (strstr($this->ip_address, ','))
+		if (strpos($this->ip_address, ',') !== FALSE)
 		{
 			$x = explode(',', $this->ip_address);
 			$this->ip_address = trim(end($x));
