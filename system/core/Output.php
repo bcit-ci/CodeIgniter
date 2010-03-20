@@ -377,12 +377,7 @@ class CI_Output {
 	function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
-			
-		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
-		{
-			return FALSE;
-		}
-		
+	
 		// Build the file path.  The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
@@ -410,7 +405,7 @@ class CI_Output {
 	
 		flock($fp, LOCK_UN);
 		fclose($fp);
-					
+				
 		// Strip out the embedded timestamp		
 		if ( ! preg_match("/(\d+TS--->)/", $cache, $match))
 		{
@@ -419,10 +414,13 @@ class CI_Output {
 		
 		// Has the file expired? If so we'll delete it.
 		if (time() >= trim(str_replace('TS--->', '', $match['1'])))
-		{ 		
-			@unlink($filepath);
-			log_message('debug', "Cache file has expired. File deleted");
-			return FALSE;
+		{
+			if (is_really_writable($cache_path))
+			{
+				@unlink($filepath);
+				log_message('debug', "Cache file has expired. File deleted");
+				return FALSE;				
+			}
 		}
 
 		// Display the cache
