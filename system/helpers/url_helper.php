@@ -431,7 +431,7 @@ if ( ! function_exists('auto_link'))
 /**
  * Prep URL
  *
- * Simply adds the http:// part if missing
+ * Simply adds the http:// part if no scheme is included
  *
  * @access	public
  * @param	string	the URL
@@ -446,7 +446,7 @@ if ( ! function_exists('prep_url'))
 			return '';
 		}
 
-		if (!preg_match('/^[a-z]{3,6}:\/\//', $str))
+		if ( ! parse_url($str, PHP_URL_SCHEME))
 		{
 			$str = 'http://'.$str;
 		}
