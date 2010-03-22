@@ -224,6 +224,11 @@
 	// Load the base controller class
 	require BASEPATH.'core/Controller'.EXT;
 	
+	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller'.EXT))
+	{
+		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller'.EXT;
+	}
+	
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().  
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
