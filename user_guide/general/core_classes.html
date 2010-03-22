@@ -89,9 +89,9 @@ know what you are doing before attempting it.</p>
 
 <h2>Replacing Core Classes</h2>
 
-<p>To use one of your own system classes instead of a default one simply place your version inside your local <dfn>application/libraries</dfn> directory:</p>
+<p>To use one of your own system classes instead of a default one simply place your version inside your local <dfn>application/core</dfn> directory:</p>
 
-<code>application/libraries/<dfn>some-class.php</dfn></code>
+<code>application/core/<dfn>some-class.php</dfn></code>
 
 <p>If this directory does not exist you can create it.</p>
 
@@ -118,7 +118,7 @@ Extending a class is nearly identical to replacing a class with a couple excepti
 <li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li>
 </ul>
 
-<p>For example, to extend the native <kbd>Input</kbd> class you'll create a file named <dfn>application/libraries/</dfn><kbd>MY_Input.php</kbd>, and declare your class with:</p>
+<p>For example, to extend the native <kbd>Input</kbd> class you'll create a file named <dfn>application/core/</dfn><kbd>MY_Input.php</kbd>, and declare your class with:</p>
 
 <code>
 class MY_Input extends CI_Input {<br /><br />
