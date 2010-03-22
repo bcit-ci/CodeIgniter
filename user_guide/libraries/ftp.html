@@ -188,6 +188,19 @@ Example:</p>
 <p>Permissions are available if you are running PHP 5 and can be passed as an <kbd>octal</kbd> value in the fourth parameter.</p>
 
 
+<h2>$this->ftp->download()</h2>
+
+<p>Downloads a file from your server.  You must supply the remote path and the local path, and you can optionally set the mode.
+Example:</p>
+
+<code>$this->ftp->download('/public_html/myfile.html', '/local/path/to/myfile.html', 'ascii');</code>
+
+<p><strong>Mode options are:</strong>&nbsp; <kbd>ascii</kbd>, <kbd>binary</kbd>, and <kbd>auto</kbd> (the default). If
+<kbd>auto</kbd> is used it will base the mode on the file extension of the source file.</p>
+
+<p>Returns FALSE if the download does not execute successfully (including if PHP does not have permission to write the local file)</p>
+
+
 <h2>$this->ftp->rename()</h2>
 <p>Permits you to rename a file.  Supply the source file name/path and the new file name/path.</p>
 
