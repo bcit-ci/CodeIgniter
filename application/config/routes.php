@@ -36,4 +36,4 @@ $route['default_controller'] = "welcome";
 
 
 /* End of file routes.php */
-/* Location: ./system/application/config/routes.php */
+/* Location: ./application/config/routes.php */

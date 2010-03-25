@@ -67,7 +67,7 @@ Upgrading from 1.5.3 to 1.5.4
 
 <ul>
 
-<li><dfn>system/application/config/mimes.php</dfn></li>
+<li><dfn>application/config/mimes.php</dfn></li>
 <li><dfn>system/codeigniter</dfn></li>
 <li><dfn>system/database</dfn></li>
 <li><dfn>system/helpers</dfn></li>
@@ -78,7 +78,7 @@ Upgrading from 1.5.3 to 1.5.4
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
 <h2>Step 2: Add charset to your config.php </h2>
-<p>Add the following to system/application/config/config.php</p>
+<p>Add the following to application/config/config.php</p>
 <code>/*<br />
 	|--------------------------------------------------------------------------<br />
 	| Default Character Set<br />
@@ -91,7 +91,7 @@ Upgrading from 1.5.3 to 1.5.4
 	$config['charset'] = &quot;UTF-8&quot;;</code>
 
 <h2>Step 3: Autoloading language files </h2>
-<p>If you want to autoload any language files, add this line to system/application/config/autoload.php</p>
+<p>If you want to autoload any language files, add this line to application/config/autoload.php</p>
 <code>$autoload['language'] = array();</code>
 
 <h2>Step 4: Update your user guide</h2>

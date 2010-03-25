@@ -78,10 +78,10 @@ Upgrading from 1.5.4 to 1.6.0
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 
 <h2>Step 2: Add time_to_update to your config.php </h2>
-<p>Add the following to system/application/config/config.php with the other session configuration options</p>
+<p>Add the following to application/config/config.php with the other session configuration options</p>
 <p><code>$config['sess_time_to_update'] 		= 300;</code></p>
 <h2>Step 3: Add $autoload['model']</h2>
-<p>Add the following to system/application/config/autoload.php</p>
+<p>Add the following to application/config/autoload.php</p>
 <p><code> /*<br />
 	| -------------------------------------------------------------------<br />
 	|  Auto-load Model files<br />
@@ -94,7 +94,7 @@ Upgrading from 1.5.4 to 1.6.0
 	<br />
 	$autoload['model'] = array();</code></p>
 <h2>Step 4: Add  to your database.php </h2>
-<p>Make the following changes to your system/application/config/database.php file:</p>
+<p>Make the following changes to your application/config/database.php file:</p>
 <p>Add the following variable above the database configuration options, with <dfn>$active_group</dfn></p>
 <p><code>$active_record = TRUE;</code></p>
 <p>Remove the following from your database configuration options</p>
