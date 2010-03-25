@@ -61,4 +61,4 @@ $foreign_characters = array('223'	=>	"ss", // ß
 
 
 /* End of file foreign_chars.php */
-/* Location: ./system/application/config/foreign_chars.php */
+/* Location: ./application/config/foreign_chars.php */
