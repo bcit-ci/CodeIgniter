@@ -75,7 +75,7 @@ class Controller extends CI_Base {
 	}
 
 }
-// END _Controller class
+// END Controller class
 
 /* End of file Controller.php */
 /* Location: ./system/core/Controller.php */
