@@ -506,7 +506,7 @@ class CI_Loader {
 		// and typically identically named to the library
 		if ( ! strpos($library, '/'))
 		{
-			$library = $library.'/'.$library;
+			$library = ucfirst($library).'/'.$library;
 		}
 		
 		return $this->library($library, $params, $object_name);
