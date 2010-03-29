@@ -680,12 +680,18 @@ class CI_Session {
 		{
 			foreach ($data as $key => $val)
 			{
-				$data[$key] = str_replace('\\', '{{slash}}', $val);
+				if (is_string($val))
+				{
+					$data[$key] = str_replace('\\', '{{slash}}', $val);					
+				}
 			}
 		}
 		else
 		{
-			$data = str_replace('\\', '{{slash}}', $data);
+			if (is_string($data))
+			{
+				$data = str_replace('\\', '{{slash}}', $data);				
+			}
 		}
 
 		return serialize($data);
@@ -711,13 +717,16 @@ class CI_Session {
 		{
 			foreach ($data as $key => $val)
 			{
-				$data[$key] = str_replace('{{slash}}', '\\', $val);
+				if (is_string($val))
+				{
+					$data[$key] = str_replace('{{slash}}', '\\', $val);					
+				}
 			}
 
 			return $data;
 		}
 
-		return str_replace('{{slash}}', '\\', $data);
+		return (is_string($data)) ? str_replace('{{slash}}', '\\', $data) : $data;
 	}
 
 	// --------------------------------------------------------------------
