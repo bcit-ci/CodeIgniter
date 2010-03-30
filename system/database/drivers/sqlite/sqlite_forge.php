@@ -77,7 +77,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		$sql = 'CREATE TABLE ';
 		
 		// IF NOT EXISTS added to SQLite in 3.3.0
-		if ($if_not_exists === TRUE && version_compare($this->_version(), '3.3.0', '>=') === TRUE)
+		if ($if_not_exists === TRUE && version_compare($this->db->_version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
