@@ -434,8 +434,6 @@ class CI_Profiler {
 		$output .= "</table>\n";
 		$output .= "</fieldset>";
 
-		$output .= "</fieldset>";
-
 		return $output;
 	}
 
@@ -465,8 +463,6 @@ class CI_Profiler {
 		}
 
 		$output .= "</table>\n";
-		$output .= "</fieldset>";
-
 		$output .= "</fieldset>";
 
 		return $output;
