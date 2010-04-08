@@ -134,7 +134,7 @@
 	define('FCPATH', str_replace(SELF, '', __FILE__));
 	
 	// Name of the "system folder"
-	define('SYSDIR', end(explode('/', trim(BASEPATH, '/'))));		
+	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));		
 
 
 	// The path to the "application" folder
