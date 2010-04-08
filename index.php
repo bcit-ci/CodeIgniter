@@ -102,7 +102,7 @@
  *  Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
-	if (function_exists('realpath') AND @realpath($system_path) !== FALSE)
+	if (realpath($system_path) !== FALSE)
 	{
 		$system_path = realpath($system_path).'/';
 	}
