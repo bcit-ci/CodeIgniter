@@ -128,6 +128,7 @@ Hg Tag: </p>
 			<li><kbd>get_mime_by_extension()</kbd> is now case insensitive.</li>
 			<li>Added "default" to the list <a href="general/reserved_names.html">Reserved Names</a>.</li>
 			<li>Added 'application/x-msdownload' for .exe files and ''application/x-gzip-compressed' for .tgz files to config/mimes.php.</li>
+			<li>Updated the output library to no longer compress output or send content-length headers if the server runs with zlib.output_compression enabled.</li>
 			<li>Eliminated a call to is_really_writable() on each request unless it is really needed (Output caching)</li>
 			<li>Documented <kbd>append_output()</kbd> in the <a href="libraries/output.html">Output Class</a>.</li>
 			<li>Documented a second argument in the <kbd>decode()</kbd> function for the <a href="libraries/encryption.html">Encryption Class</a>.</li>

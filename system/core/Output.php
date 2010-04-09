@@ -34,10 +34,13 @@ class CI_Output {
 	var $enable_profiler 	= FALSE;
 	var $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
+	var $_zlib_oc			= FALSE;
 	var $_profiler_sections = array();
 
 	function CI_Output()
 	{
+		$this->_zlib_oc = @ini_get('zlib.output_compression');
+		
 		log_message('debug', "Output Class Initialized");
 	}
 	
@@ -111,6 +114,16 @@ class CI_Output {
 	 */	
 	function set_header($header, $replace = TRUE)
 	{
+		// If zlib.output_compression is enabled it will compress the output,
+		// but it will not modify the content-length header to compensate for
+		// the reduction, causing the browser to hang waiting for more data.
+		// We'll just skip content-length in those cases.
+		
+		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) == 0)
+		{
+			return;
+		}
+	    
 		$this->headers[] = array($header, $replace);
 	}
 
@@ -234,7 +247,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 		
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE)
+		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE)
 		{
 			if (extension_loaded('zlib'))
 			{
