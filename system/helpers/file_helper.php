@@ -305,7 +305,7 @@ if ( ! function_exists('get_file_info'))
 					$fileinfo['size'] = filesize($file);
 					break;
 				case 'date':
-					$fileinfo['date'] = filectime($file);
+					$fileinfo['date'] = filemtime($file);
 					break;
 				case 'readable':
 					$fileinfo['readable'] = is_readable($file);
