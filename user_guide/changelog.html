@@ -74,6 +74,7 @@ Hg Tag: </p>
 			<li>Added <kbd>$config['directory_trigger']</kbd> to the config file so that a controller sub-directory can be specified when running _GET strings instead of URI segments.</li>
 			<li>Added ability to set "Package" paths - specific paths where the Loader and Config classes should try to look first for a requested file.  This allows distribution of sub-applications with their own libraries, models, config files, etc. in a single "package" directory.  See the <a href="libraries/loader.html">Loader class</a> documentation for more details.</li>
 			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a>.</li>
+			<li>Removed the deprecated Validation Class.</li>
 		</ul>
 	<li>Libraries
 		<ul>
@@ -494,7 +495,7 @@ Hg Tag: 1.6.2</p>
 			<li>The MySQLi forge class is now in sync with MySQL forge. </li>
 			<li>Added the ability to set CRLF settings via config in the <a href="libraries/email.html">Email</a> class.</li>
 			<li><a href="libraries/unit_testing.html">Unit Testing</a> results are now colour coded, and a change was made to the default template of results.</li>
-			<li>Added a valid_emails rule to the <a href="libraries/validation.html">Validation</a> class.</li>
+			<li>Added a valid_emails rule to the Validation class.</li>
 			<li>The <a href="libraries/zip.html">Zip class</a> now exits within <kbd>download()</kbd>.</li>
 			<li>The <a href="libraries/zip.html">Zip class</a> has undergone a substantial re-write for speed and clarity (thanks stanleyxu for the hard work and code contribution in bug report #3425!)</li>
 		</ul>
@@ -680,8 +681,8 @@ Hg Tag: 1.6.1</p>
 			<li>Removed 'last_visit' from the Session class.</li>
 			<li>Added a language entry for valid_ip validation error.</li>
 			<li>Modified prep_for_form() in the Validation class to accept arrays, adding support for POST array validation (via callbacks only)</li>
-			<li>Added an &quot;integer&quot; rule into the <a href="./libraries/validation.html">Validation</a> library.</li>
-			<li>Added valid_base64() to the <a href="./libraries/validation.html">Validation</a> library.</li>
+			<li>Added an &quot;integer&quot; rule into the Validation library.</li>
+			<li>Added valid_base64() to the Validation library.</li>
 			<li>Documented clear() in the <a href="../libraries/image_lib.html">Image Processing</a> library.</li>
 			<li>Changed the behaviour of custom callbacks so that they no longer trigger the &quot;required&quot; rule. </li>
 			<li>Modified Upload class $_FILES error messages to be more precise.</li>
@@ -767,8 +768,8 @@ Hg Tag: 1.6.1</p>
 	<li>Fixed a bug in database driver where num_rows property wasn't getting updated.</li>
 	<li>Fixed a bug in the <a href="./libraries/file_uploading.html">upload library</a> when allowed_files wasn't defined.</li>
 	<li>Fixed a bug in <kbd>word_wrap()</kbd> of the Text Helper that incorrectly referenced an object. </li>
-	<li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where <kbd>valid_ip()</kbd> wasn't called properly.</li>
-	<li>Fixed a bug in <a href="./libraries/validation.html">Validation</a> where individual error messages for checkboxes wasn't supported.</li>
+	<li>Fixed a bug in Validation where <kbd>valid_ip()</kbd> wasn't called properly.</li>
+	<li>Fixed a bug in Validation where individual error messages for checkboxes wasn't supported.</li>
 	<li>Fixed a bug in captcha calling an invalid PHP function.</li>
 	<li>Fixed a bug in the cookie helper "set_cookie" function.  It was not honoring the config settings.</li>
 	<li>Fixed a bug that was making validation callbacks required even when not set as such.</li>
