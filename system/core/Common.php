@@ -479,6 +479,43 @@
 		$_error->log_exception($severity, $message, $filepath, $line);
 	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Remove Invisible Characters
+	 *
+	 * This prevents sandwiching null characters
+	 * between ascii characters, like Java\0script.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function remove_invisible_characters($str)
+	{
+		static $non_displayables;
+		
+		if ( ! isset($non_displayables))
+		{
+			// every control character except newline (dec 10), carriage return (dec 13), and horizontal tab (dec 09),
+			$non_displayables = array(
+										'/%0[0-8bcef]/',			// url encoded 00-08, 11, 12, 14, 15
+										'/%1[0-9a-f]/',				// url encoded 16-31
+										'/[\x00-\x08]/',			// 00-08
+										'/\x0b/', '/\x0c/',			// 11, 12
+										'/[\x0e-\x1f]/'				// 14-31
+									);
+		}
+
+		do
+		{
+			$cleaned = $str;
+			$str = preg_replace($non_displayables, '', $str);
+		}
+		while ($cleaned != $str);
+
+		return $str;
+	}
 
 
 /* End of file Common.php */
