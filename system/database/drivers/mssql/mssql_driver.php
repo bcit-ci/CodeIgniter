@@ -260,12 +260,9 @@ class CI_DB_mssql_driver extends CI_DB {
    		
 	   		return $str;
 	   	}
-
-		// Access the CI object
-		$CI =& get_instance();
 		
 		// Escape single quotes
-		$str = str_replace("'", "''", $CI->input->_remove_invisible_characters($str));
+		$str = str_replace("'", "''", remove_invisible_characters($str));
 		
 		// escape LIKE condition wildcards
 		if ($like === TRUE)

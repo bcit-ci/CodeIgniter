@@ -271,12 +271,9 @@ class CI_DB_odbc_driver extends CI_DB {
    		
 	   		return $str;
 	   	}
-
-		// Access the CI object
-		$CI =& get_instance();
 		
 		// ODBC doesn't require escaping
-		$str = $CI->input->_remove_invisible_characters($str);
+		$str = remove_invisible_characters($str);
 		
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
