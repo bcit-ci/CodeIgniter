@@ -434,6 +434,7 @@ class XML_RPC_Response
 	var $errno = 0;
 	var $errstr = '';
 	var $headers = array();
+	var $xss_clean = TRUE;
 
 	function XML_RPC_Response($val, $code = 0, $fstr = '')
 	{	
