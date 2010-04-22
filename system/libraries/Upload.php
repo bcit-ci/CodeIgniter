@@ -190,7 +190,7 @@ class CI_Upload {
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
 		$this->file_size = $_FILES[$field]['size'];		
 		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $_FILES[$field]['type']);
-		$this->file_type = strtolower($this->file_type);
+		$this->file_type = trim(stripslashes($this->file_type), '"');
 		$this->file_ext	 = $this->get_extension($_FILES[$field]['name']);
 		
 		// Convert the file size to kilobytes
