@@ -578,7 +578,7 @@ class CI_Upload {
 			$mime = $this->mimes_types(strtolower($val));
 
 			// Images get some additional checks
-			if (in_array($val, $image_types))
+			if ($this->file_ext == '.' . $val &&  in_array($val, $image_types))
 			{
 				if (getimagesize($this->file_temp) === FALSE)
 				{
