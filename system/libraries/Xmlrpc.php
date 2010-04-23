@@ -505,6 +505,11 @@ class XML_RPC_Response
 	{
 		$CI =& get_instance();
 
+		if ($this->xss_clean && ! is_object($CI->security))
+		{
+			$CI->load('security');
+		}
+
 		if ($array !== FALSE && is_array($array))
 		{
 			while (list($key) = each($array))
@@ -1119,6 +1124,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 	{
 		$CI =& get_instance();	
 
+		if ($this->xss_clean && ! is_object($CI->security))
+		{
+			$CI->load('security');
+		}
+		
 		if ($array !== FALSE && is_array($array))
 		{
 			while (list($key) = each($array))

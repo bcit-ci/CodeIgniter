@@ -854,7 +854,12 @@ class CI_Upload {
 		}
 
 		$CI =& get_instance();
-
+		
+		if ( ! is_object($CI->security))
+		{
+			$CI->load('security');
+		}
+		
 		return $CI->security->xss_clean($data, TRUE);
 	}
 	
