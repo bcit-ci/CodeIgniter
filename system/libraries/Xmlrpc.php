@@ -505,9 +505,9 @@ class XML_RPC_Response
 	{
 		$CI =& get_instance();
 
-		if ($this->xss_clean && ! is_object($CI->security))
+		if ($this->xss_clean && ! isset($CI->security))
 		{
-			$CI->load('security');
+			$CI->load->library('security');
 		}
 
 		if ($array !== FALSE && is_array($array))
@@ -1124,9 +1124,9 @@ class XML_RPC_Message extends CI_Xmlrpc
 	{
 		$CI =& get_instance();	
 
-		if ($this->xss_clean && ! is_object($CI->security))
+		if ($this->xss_clean && ! isset($CI->security))
 		{
-			$CI->load('security');
+			$CI->load->library('security');
 		}
 		
 		if ($array !== FALSE && is_array($array))
