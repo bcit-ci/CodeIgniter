@@ -855,7 +855,7 @@ class CI_Upload {
 
 		$CI =& get_instance();
 		
-		if ( ! is_object($CI->security))
+		if ( ! isset($CI->security))
 		{
 			$CI->load('security');
 		}
