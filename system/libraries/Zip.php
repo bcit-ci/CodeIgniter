@@ -273,7 +273,7 @@ class CI_Zip  {
 	 */
 	function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
-		if (!$fp = @opendir($path))
+		if ( ! $fp = @opendir($path))
 		{
 			return FALSE;
 		}
@@ -295,7 +295,6 @@ class CI_Zip  {
 			{
 				$this->read_dir($path.$file."/", $preserve_filepath, $root_path);
 			}
-
 			else
 			{
 				if (FALSE !== ($data = file_get_contents($path.$file)))
@@ -311,6 +310,7 @@ class CI_Zip  {
 				}
 			}
 		}
+
 		return TRUE;
 	}
 
