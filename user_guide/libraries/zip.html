@@ -177,7 +177,7 @@ $this->zip->download('my_backup.zip');
 
 <h2>$this->zip->read_dir()</h2>
 
-<p>Permits you to compress a folder (and its contents) that already exists somewhere on your server.  Supply a file path to the 
+<p>Permits you to compress a folder (and its contents) that already exists somewhere on your server.  Supply a file path to the
 directory and the zip class will recursively read it and recreate it as a Zip archive.  All files contained within the
 supplied path will be encoded, as will any sub-folders contained within it.  Example:</p>
 
@@ -188,6 +188,16 @@ $this->zip->read_dir($path);
  // Download the file to your desktop.  Name it "my_backup.zip"<br />
 $this->zip->download('my_backup.zip');
 </code>
+
+<p>By default the Zip archive will place all directories listed in the first parameter inside the zip. If you only want the end folder to be in the zip
+you can pass <kbd>FALSE</kbd> (boolean) in the second parameter.  Example:</p>
+
+<code>
+$path = '/path/to/your/directory/';<br /><br />
+$this->zip->read_dir($path, FALSE);
+</code>
+
+<p>This will create a ZIP with the folder "directory" inside, then all sub-folders stored correctly inside that.</p>
 
 
 

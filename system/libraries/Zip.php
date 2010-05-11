@@ -270,27 +270,48 @@ class CI_Zip  {
 	 * @access	public
 	 * @param	string	path to source
 	 * @return	bool
-	 */	
-	function read_dir($path)
-	{	
-		if ($fp = @opendir($path))
+	 */
+	function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
+	{
+		if (!$fp = @opendir($path))
 		{
-			while (FALSE !== ($file = readdir($fp)))
+			return FALSE;
+		}
+
+		// Set the original directory root for child dir's to use as relative
+		if ($root_path === NULL)
+		{
+			$root_path = dirname($path).'/';
+		}
+
+		while (FALSE !== ($file = readdir($fp)))
+		{
+			if(substr($file, 0, 1) == '.')
 			{
-				if (@is_dir($path.$file) && substr($file, 0, 1) != '.')
-				{					
-					$this->read_dir($path.$file."/");
-				}
-				elseif (substr($file, 0, 1) != ".")
+				continue;
+			}
+
+			if (@is_dir($path.$file))
+			{
+				$this->read_dir($path.$file."/", $preserve_filepath, $root_path);
+			}
+
+			else
+			{
+				if (FALSE !== ($data = file_get_contents($path.$file)))
 				{
-					if (FALSE !== ($data = file_get_contents($path.$file)))
-					{						
-						$this->add_data(str_replace("\\", "/", $path).$file, $data);
+					$name = str_replace("\\", "/", $path);
+
+					if ($preserve_filepath === FALSE)
+					{
+						$name = str_replace($root_path, '', $name);
 					}
+
+					$this->add_data($name.$file, $data);
 				}
 			}
-			return TRUE;
 		}
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
