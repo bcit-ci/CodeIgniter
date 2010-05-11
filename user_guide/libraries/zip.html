@@ -189,7 +189,7 @@ $this->zip->read_dir($path);
 $this->zip->download('my_backup.zip');
 </code>
 
-<p>By default the Zip archive will place all directories listed in the first parameter inside the zip. If you only want the end folder to be in the zip
+<p>By default the Zip archive will place all directories listed in the first parameter inside the zip. If you want the tree preceding the target folder to be ignored
 you can pass <kbd>FALSE</kbd> (boolean) in the second parameter.  Example:</p>
 
 <code>
@@ -197,7 +197,7 @@ $path = '/path/to/your/directory/';<br /><br />
 $this->zip->read_dir($path, FALSE);
 </code>
 
-<p>This will create a ZIP with the folder "directory" inside, then all sub-folders stored correctly inside that.</p>
+<p>This will create a ZIP with the folder "directory" inside, then all sub-folders stored correctly inside that, but will not include the folders <samp>/path/to/your</samp>.</p>
 
 
 
