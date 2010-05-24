@@ -27,6 +27,9 @@
 class CI_Pagination {
 
 	var $base_url			= ''; // The page we are linking to
+	var $prefix				= ''; // A custom prefix added to the path.
+	var $suffix				= ''; // A custom suffix added to the path.
+
 	var $total_rows  		= ''; // Total number of items (database results)
 	var $per_page	 		= 10; // Max number of items you want shown per page
 	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
@@ -42,6 +45,7 @@ class CI_Pagination {
 	var $first_tag_close	= '&nbsp;';
 	var $last_tag_open		= '&nbsp;';
 	var $last_tag_close		= '';
+	var $first_url			= ''; // Alternative URL for the First Page.
 	var $cur_tag_open		= '&nbsp;<strong>';
 	var $cur_tag_close		= '</strong>';
 	var $next_tag_open		= '&nbsp;';
@@ -185,15 +189,25 @@ class CI_Pagination {
 		// Render the "First" link
 		if  ($this->cur_page > ($this->num_links + 1))
 		{
-			$output .= $this->first_tag_open.'<a href="'.$this->base_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
+			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
+			$output .= $this->first_tag_open.'<a href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "previous" link
 		if  ($this->cur_page != 1)
 		{
 			$i = $uri_page_number - $this->per_page;
-			if ($i == 0) $i = '';
-			$output .= $this->prev_tag_open.'<a href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+								
+			if ($i == 0 && $this->first_url != '')
+			{
+				$output .= $this->prev_tag_open.'<a href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;				
+			}
+			else
+			{
+				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
+				$output .= $this->prev_tag_open.'<a href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+			}
+		
 		}
 
 		// Write the digit links
@@ -210,7 +224,17 @@ class CI_Pagination {
 				else
 				{
 					$n = ($i == 0) ? '' : $i;
-					$output .= $this->num_tag_open.'<a href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+					
+					if ($n == '' && $this->first_url != '')
+					{
+						$output .= $this->num_tag_open.'<a href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
+					}
+					else
+					{
+						$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
+						
+						$output .= $this->num_tag_open.'<a href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+					}
 				}
 			}
 		}
@@ -218,14 +242,14 @@ class CI_Pagination {
 		// Render the "next" link
 		if ($this->cur_page < $num_pages)
 		{
-			$output .= $this->next_tag_open.'<a href="'.$this->base_url.($this->cur_page * $this->per_page).'">'.$this->next_link.'</a>'.$this->next_tag_close;
+			$output .= $this->next_tag_open.'<a href="'.$this->base_url.$this->prefix.($this->cur_page * $this->per_page).$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
 		}
 
 		// Render the "Last" link
 		if (($this->cur_page + $this->num_links) < $num_pages)
 		{
 			$i = (($num_pages * $this->per_page) - $this->per_page);
-			$output .= $this->last_tag_open.'<a href="'.$this->base_url.$i.'">'.$this->last_link.'</a>'.$this->last_tag_close;
+			$output .= $this->last_tag_open.'<a href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->last_link.'</a>'.$this->last_tag_close;
 		}
 
 		// Kill double slashes.  Note: Sometimes we can end up with a double slash
