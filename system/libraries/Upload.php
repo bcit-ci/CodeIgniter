@@ -812,13 +812,13 @@ class CI_Upload {
 		{
 			$current = ini_get('memory_limit') * 1024 * 1024;
 			
-				// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
-				// into scientific notation.  number_format() ensures this number is an integer
-				// http://bugs.php.net/bug.php?id=43053
-				
-				$new_memory = number_format(ceil(filesize($this->new_name) + $current), 0, '.', '');
-				
-				ini_set('memory_limit', $new_memory); // When an integer is used, the value is measured in bytes. - PHP.net
+			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
+			// into scientific notation.  number_format() ensures this number is an integer
+			// http://bugs.php.net/bug.php?id=43053
+			
+			$new_memory = number_format(ceil(filesize($file) + $current), 0, '.', '');
+			
+			ini_set('memory_limit', $new_memory); // When an integer is used, the value is measured in bytes. - PHP.net
 		}
 
 		// If the file being uploaded is an image, then we should have no problem with XSS attacks (in theory), but
