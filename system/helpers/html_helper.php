@@ -199,6 +199,12 @@ if ( ! function_exists('img'))
 			$src = array('src' => $src);
 		}
 
+		// If there is no alt attribute defined, set it to an empty string
+		if ( ! isset($src['alt']))
+		{
+			$src['alt'] = '';
+		}
+
 		$img = '<img';
 
 		foreach ($src as $k=>$v)
