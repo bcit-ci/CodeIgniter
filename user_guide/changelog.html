@@ -112,7 +112,7 @@ Hg Tag: </p>
 	</li>
 	<li>Helpers
 		<ul>
-			<li>Added <kbd>convert_accented_characters()</kbd> function to  <a href="./helpers/text_helper.html">text helper</a>.</li>
+			<li>Added <kbd>convert_accented_characters()</kbd> function to <a href="./helpers/text_helper.html">text helper</a>.</li>
 			<li>Added accept-charset to the list of inserted attributes of <kbd>form_open()</kbd> in the <a href="helpers/form_helper.html">Form Helper</a>.</li>
 			<li>Deprecated the <kbd>dohash()</kbd> function in favour of <kbd>do_hash()</kbd> for naming consistency.</li>
 			<li>Non-backwards compatible change made to <kbd>get_dir_file_info()</kbd> in the <a href="helpers/file_helper.html">File Helper</a>.  No longer recurses
@@ -124,6 +124,7 @@ Hg Tag: </p>
 			<li>Modified <kbd>prep_url()</kbd> so as to not prepend http:// if the supplied string already has a scheme.</li>
 			<li>Modified <kbd>get_file_info</kbd> in the file helper, changing filectime() to filemtime() for dates.</li>
 			<li>Modified <kbd>smiley_js()</kbd> to add optional third parameter to return only the javascript with no script tags.</li>
+			<li>The <kbd>img()</kbd> function of the <a href="./helpers/html_helper.html">HTML helper</a> will now generate an empty string as an alt attribute if one is not provided.</li>
 		</ul>
 	</li>
 	<li>Other Changes

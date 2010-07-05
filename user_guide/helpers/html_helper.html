@@ -95,8 +95,8 @@ second the size of the heading.  Example:</p>
 // gives &lt;img src=&quot;http://site.com/images/picture.jpg&quot; /&gt;</code>
 <p>There is an optional second parameter that is a TRUE/FALSE value that specifics if the src should have the page specified by $config['index_page'] added to the address it creates. Presumably, this would be if you were using a media controller.</p>
 <p><code>echo img('images/picture.jpg', TRUE);<br />
-// gives &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; /&gt;</code></p>
-<p>Additionally, an associative array can be passed to the img() function for complete control over all attributes and values.</p>
+// gives &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; alt=&quot;&quot; /&gt;</code></p>
+<p>Additionally, an associative array can be passed to the img() function for complete control over all attributes and values. If an alt attribute is not provided, CodeIgniter will generate an empty string.</p>
 <p><code> $image_properties = array(<br />
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'src' =&gt; 'images/picture.jpg',<br />
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'alt' =&gt; 'Me, demonstrating how to eat 4 slices of pizza at one time',<br />
