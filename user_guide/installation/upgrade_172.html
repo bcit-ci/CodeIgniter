@@ -72,6 +72,7 @@ Upgrading from 1.7.1 to 1.7.2
 <li><dfn>system/helpers</dfn></li>
 <li><dfn>system/language</dfn></li>
 <li><dfn>system/libraries</dfn></li>
+<li><dfn>index.php</dfn></li>
 </ul>
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
@@ -83,7 +84,10 @@ Upgrading from 1.7.1 to 1.7.2
 
 <p>404 status headers are now properly handled in the show_404() method itself.</p>
 
-<h2>Step 3: Update your user guide</h2>
+<h2>Step 3: Confirm your system_path</h2>
+<p>In your updated index.php file, confirm that the <dfn>$system_path</dfn> variable is set to your application's system folder.</p>
+
+<h2>Step 4: Update your user guide</h2>
 <p>Please replace your local copy of the user guide with the new version, including the image files.</p>
 
 </div>
