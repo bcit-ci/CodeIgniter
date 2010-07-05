@@ -113,7 +113,7 @@ Most of the time you'll use the above function rather than this one. Use the fun
 conditions so that LIKE wildcards ('%', '_') in the string are also properly escaped.
 
 <code>$search = '20% raise';<br />
-$sql = "SELECT id FROM table WHERE column LIKE '%".$this->db->escape_like_str($search)."%'";</code>
+$sql = "SELECT id FROM table WHERE column LIKE '%".$this->db->escape_like_str($search)."%'";</code></li>
 
 </ol>
 
