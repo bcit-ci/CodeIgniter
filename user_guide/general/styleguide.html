@@ -88,7 +88,7 @@ Style Guide
 	<li><a href="#line_breaks">Line Breaks</a></li>
 	<li><a href="#code_indenting">Code Indenting</a></li>
 	<li><a href="#bracket_spacing">Bracket and Parenthetic Spacing</li>
-	<li><a href="#localized_text_in_control_panel">Localized Text in Control Panel</a></li>
+	<li><a href="#localized_text">Localized Text</a></li>
 	<li><a href="#private_methods_and_variables">Private Methods and Variables</a></li>
 	<li><a href="#php_errors">PHP Errors</a></li>
 	<li><a href="#short_open_tags">Short Open Tags</a></li>
@@ -96,7 +96,6 @@ Style Guide
 	<li><a href="#strings">Strings</a></li>
 	<li><a href="#sql_queries">SQL Queries</a></li>
 	<li><a href="#default_function_arguments">Default Function Arguments</a></li>
-	<li><a href="#overlapping_tag_parameters">Overlapping Tag Parameters</a></li>
 </ul>
 
 <li>
@@ -535,15 +534,15 @@ foreach ($query->result() as $row) // single space following PHP control structu
 	
 	
 	
-		<h2><a name="localized_text_in_control_panel"></a>Localized Text in Control Panel</h2>
+		<h2><a name="localized_text"></a>Localized Text</h2>
 		<div class="guidelineDetails">
-			<p>Any text that is output in the control panel should use language variables in your module's lang file to allow localization.</p>
+			<p>Any text that is output in the control panel should use language variables in your lang file to allow localization.</p>
 
 <code>INCORRECT:
 return "Invalid Selection";
 
 CORRECT:
-return $LANG->line('invalid_selection');</code>
+return $this->lang->line('invalid_selection');</code>
 		</div>
 	
 
@@ -657,12 +656,6 @@ $query = $this->db->query("SELECT foo, bar, baz, foofoo, foobar AS raboof, fooba
 		</div>
 	
 
-	
-		<h2><a name="overlapping_tag_parameters"></a>Overlapping Tag Parameters</h2>
-		<div class="guidelineDetails">
-			<p>Avoid multiple tag parameters that have effect on the same thing.  For instance, instead of <strong>include=</strong> and <strong>exclude=</strong>, perhaps allow <strong>include=</strong> to handle the parameter alone, with the addition of "not", e.g. <strong>include="not bar"</strong>.  This will prevent problems of parameters overlapping or having to worry about which parameter has priority over another.</p>
-		</div>
-	
 
 </div>
 
