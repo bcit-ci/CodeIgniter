@@ -138,7 +138,7 @@ for the primary connection, but it too can be renamed to something more relevant
 <li><strong>swap_pre</strong> - A default table prefix that should be swapped with <var>dbprefix</var>.  This is useful for distributed applications where you might run manually written queries, and need the prefix to still be customizable by the end user.</li>
 <li><strong>autoinit</strong> - Whether or not to automatically initialize the database.</li>
 <li><strong>stricton</strong> - TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL while developing an application.</li>
-<li><strong>port</strong> - The database port number.  Currently only used with the Postgres driver. To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code>
+<li><strong>port</strong> - The database port number.  To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code>
 </ul>
 
 <p class="important"><strong>Note:</strong> Depending on what database platform you are using (MySQL, Postgres, etc.)
