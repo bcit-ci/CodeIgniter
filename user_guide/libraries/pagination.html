@@ -139,7 +139,7 @@ something different you can specify it.</p>
 <h2>Customizing the First Link</h2>
 
 <h4>$config['first_link'] = 'First';</h4>
-<p>The text you would like shown in the "first" link on the left.</p>
+<p>The text you would like shown in the "first" link on the left. If you do not want this link rendered, you can set its value to FALSE.</p>
 
 <h4>$config['first_tag_open'] = '&lt;div>';</h4>
 <p>The opening tag for the "first" link.</p>
@@ -150,7 +150,7 @@ something different you can specify it.</p>
 <h2>Customizing the Last Link</h2>
 
 <h4>$config['last_link'] = 'Last';</h4>
-<p>The text you would like shown in the "last" link on the right.</p>
+<p>The text you would like shown in the "last" link on the right. If you do not want this link rendered, you can set its value to FALSE.</p>
 
 <h4>$config['last_tag_open'] = '&lt;div>';</h4>
 <p>The opening tag for the "last" link.</p>
@@ -161,7 +161,7 @@ something different you can specify it.</p>
 <h2>Customizing the "Next" Link</h2>
 
 <h4>$config['next_link'] = '&amp;gt;';</h4>
-<p>The text you would like shown in the "next" page link.</p>
+<p>The text you would like shown in the "next" page link. If you do not want this link rendered, you can set its value to FALSE.</p>
 
 <h4>$config['next_tag_open'] = '&lt;div>';</h4>
 <p>The opening tag for the "next" link.</p>
@@ -172,7 +172,7 @@ something different you can specify it.</p>
 <h2>Customizing the "Previous" Link</h2>
 
 <h4>$config['prev_link'] = '&amp;lt;';</h4>
-<p>The text you would like shown in the "previous" page link.</p>
+<p>The text you would like shown in the "previous" page link. If you do not want this link rendered, you can set its value to FALSE.</p>
 
 <h4>$config['prev_tag_open'] = '&lt;div>';</h4>
 <p>The opening tag for the "previous" link.</p>
@@ -196,8 +196,10 @@ something different you can specify it.</p>
 
 <h4>$config['num_tag_close'] = '&lt;/div>';</h4>
 <p>The closing tag for the "digit" link.</p>
-		
 
+<h2>Adding a class to every anchor</h2>
+
+<p>If you want to add a class attribute to every link rendered by the pagination class, you can set the config "anchor_class" equal to the classname you want.</p>
 
 </div>
 <!-- END CONTENT -->
