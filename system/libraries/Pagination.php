@@ -56,6 +56,7 @@ class CI_Pagination {
 	var $num_tag_close		= '';
 	var $page_query_string	= FALSE;
 	var $query_string_segment = 'per_page';
+	var $display_pages		= TRUE;
 	var $anchor_class		= '';
 
 	/**
@@ -216,30 +217,34 @@ class CI_Pagination {
 		
 		}
 
-		// Write the digit links
-		for ($loop = $start -1; $loop <= $end; $loop++)
+		// Render the pages
+		if ($this->display_pages !== FALSE)
 		{
-			$i = ($loop * $this->per_page) - $this->per_page;
-
-			if ($i >= 0)
+			// Write the digit links
+			for ($loop = $start -1; $loop <= $end; $loop++)
 			{
-				if ($this->cur_page == $loop)
+				$i = ($loop * $this->per_page) - $this->per_page;
+
+				if ($i >= 0)
 				{
-					$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
-				}
-				else
-				{
-					$n = ($i == 0) ? '' : $i;
-					
-					if ($n == '' && $this->first_url != '')
+					if ($this->cur_page == $loop)
 					{
-						$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
+						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
 					}
 					else
 					{
-						$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
+						$n = ($i == 0) ? '' : $i;
+					
+						if ($n == '' && $this->first_url != '')
+						{
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
+						}
+						else
+						{
+							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
 						
-						$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+						}
 					}
 				}
 			}
