@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 1.7.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -74,7 +74,7 @@ preferences, restricting the type and size of the files.</p>
 <li>Once uploaded, the user will be shown a success message.</li>
 </ul>
 
-<p>To demonstrate this process here is a brief tutorial. Afterward you'll find reference information.</p>
+<p>To demonstrate this process here is brief tutorial. Afterward you'll find reference information.</p>
 
 <h2>Creating the Upload Form</h2>
 
@@ -255,7 +255,7 @@ $this->upload->initialize($config);</code>
 <td class="td"><strong>allowed_types</strong></td>
 <td class="td">None</td>
 <td class="td">None</td>
-<td class="td">The mime types corresponding to the types of files you allow to be uploaded.  Usually the file extension can be used as the mime type.  Separate multiple types with a pipe.  If '*' is used, all file types will be allowed.</td>
+<td class="td">The mime types corresponding to the types of files you allow to be uploaded.  Usually the file extension can be used as the mime type.  Separate multiple types with a pipe.</td>
 </tr>
 
 
@@ -264,8 +264,7 @@ $this->upload->initialize($config);</code>
 <td class="td">None</td>
 <td class="td">Desired file name</td>
 <td class="td">
-	<p>If set CodeIgniter will rename the uploaded file to this name.</p>
-	<p class="important"><strong>Note:</strong>The filename should not include a file extension.</p>
+	<p>If set CodeIgniter will rename the uploaded file to this name.  The extension provided in the file name must also be an allowed file type.</p>
 </td>
 </tr>
 
@@ -317,12 +316,6 @@ $this->upload->initialize($config);</code>
 <td class="td">TRUE</td>
 <td class="td">TRUE/FALSE (boolean)</td>
 <td class="td">If set to TRUE, any spaces in the file name will be converted to underscores. This is recommended.</td>
-</tr>
-<tr>
-<td class="td"><strong>xss_clean</strong></td>
-<td class="td">FALSE</td>
-<td class="td">TRUE/FALSE (boolean)</td>
-<td class="td">If set to TRUE, the files will be tested for XSS vulnerabilities.</td> 
 </tr>
 </table>
 
@@ -377,6 +370,7 @@ Here is the array prototype:</p>
 &nbsp;&nbsp;&nbsp;&nbsp;[full_path]&nbsp;&nbsp;&nbsp;&nbsp;=> /path/to/your/upload/jpg.jpg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;[raw_name]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> mypic<br />
 &nbsp;&nbsp;&nbsp;&nbsp;[orig_name]&nbsp;&nbsp;&nbsp;&nbsp;=> mypic.jpg<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[client_name]&nbsp;&nbsp;=> mypic.jpg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;[file_ext]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> .jpg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;[file_size]&nbsp;&nbsp;&nbsp;&nbsp;=> 22.2<br />
 &nbsp;&nbsp;&nbsp;&nbsp;[is_image]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 1<br />
@@ -410,6 +404,9 @@ Here is the array prototype:</p>
 
 <tr><td class="td"><strong>orig_name</strong></td>
 <td class="td">The original file name.  This is only useful if you use the encrypted name option.</td></tr>
+
+<tr><td class="td"><strong>client_name</strong></td>
+<td class="td">The file name as supplied by the client user agent, prior to any file name preparation or incrementing.</td></tr>
 
 <tr><td class="td"><strong>file_ext</strong></td>
 <td class="td">The file extension with period</td></tr>
@@ -447,7 +444,7 @@ Previous Topic:&nbsp;&nbsp;<a href="encryption.html">Encryption Helper</a>
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="form_validation.html">Form Validation Class</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2010 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2010 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
 </div>
 
 </body>
