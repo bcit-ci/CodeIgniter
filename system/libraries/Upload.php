@@ -988,7 +988,7 @@ class CI_Upload {
 	 */
 	function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE)
+		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
 		{
 			return $filename;
 		}
