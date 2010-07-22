@@ -54,7 +54,7 @@ class CI_Security {
 	{
 		// Set the CSRF hash
 		$this->_csrf_set_hash();
-		
+
 		log_message('debug', "Security Class Initialized");
 	}
 
@@ -67,21 +67,24 @@ class CI_Security {
 	 * @return	null
 	 */
 	function csrf_verify()
-	{	
+	{
 		// If no POST data exists we will set the CSRF cookie
 		if (count($_POST) == 0)
 		{
 			return $this->csrf_set_cookie();
 		}
 
+		// Append application specific cookie prefix to token name
+		$csrf_token_name = (config_item('cookie_prefix')) ? config_item('cookie_prefix').$this->csrf_token_name : $this->csrf_token_name;
+
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
-		if ( ! isset($_POST[$this->csrf_token_name]) OR ! isset($_COOKIE[$this->csrf_token_name]))
+		if ( ! isset($_POST[$this->csrf_token_name]) OR ! isset($_COOKIE[$csrf_token_name]))
 		{
 			$this->csrf_show_error();
 		}
 
 		// Do the tokens match?
-		if ($_POST[$this->csrf_token_name] != $_COOKIE[$this->csrf_token_name])
+		if ($_POST[$this->csrf_token_name] != $_COOKIE[$csrf_token_name])
 		{
 			$this->csrf_show_error();
 		}
@@ -134,7 +137,10 @@ class CI_Security {
 				$this->csrf_hash = md5(uniqid(rand(), TRUE));
 			}
 		}
-		
+
+		// Create the cookie before we finish up
+		$this->csrf_set_cookie();
+
 		return $this->csrf_hash;
 	}
 
