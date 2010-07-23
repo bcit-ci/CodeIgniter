@@ -44,6 +44,24 @@ if ( ! function_exists('xss_clean'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Sanitize Filename
+ *
+ * @access	public
+ * @param	string
+ * @return	string
+ */	
+if ( ! function_exists('sanitize_filename'))
+{
+	function sanitize_filename($filename)
+	{
+		$CI =& get_instance();
+		return $CI->security->sanitize_filename($filename);
+	}
+}
+
 // --------------------------------------------------------------------
 
 /**
