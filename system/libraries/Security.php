@@ -29,7 +29,8 @@ class CI_Security {
 	var $csrf_hash 			= '';
 	var $csrf_expire		= 7200;  // Two hours (in seconds)
 	var $csrf_token_name	= 'ci_csrf_token';
-
+	var $csfr_cookie_name	= 'ci_csrf_token';
+	
 	/* never allowed, string replacement */
 	var $never_allowed_str = array(
 									'document.cookie'	=> '[removed]',
@@ -52,6 +53,9 @@ class CI_Security {
 
 	function CI_Security()
 	{
+		// Append application specific cookie prefix to token name
+		$this->csfr_cookie_name = (config_item('cookie_prefix')) ? config_item('cookie_prefix').$this->csrf_token_name : $this->csrf_token_name;
+
 		// Set the CSRF hash
 		$this->_csrf_set_hash();
 
@@ -74,23 +78,25 @@ class CI_Security {
 			return $this->csrf_set_cookie();
 		}
 
-		// Append application specific cookie prefix to token name
-		$csrf_token_name = (config_item('cookie_prefix')) ? config_item('cookie_prefix').$this->csrf_token_name : $this->csrf_token_name;
-
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
-		if ( ! isset($_POST[$this->csrf_token_name]) OR ! isset($_COOKIE[$csrf_token_name]))
+		if ( ! isset($_POST[$this->csrf_token_name]) OR ! isset($_COOKIE[$this->csfr_cookie_name]))
 		{
 			$this->csrf_show_error();
 		}
 
 		// Do the tokens match?
-		if ($_POST[$this->csrf_token_name] != $_COOKIE[$csrf_token_name])
+		if ($_POST[$this->csrf_token_name] != $_COOKIE[$this->csfr_cookie_name])
 		{
 			$this->csrf_show_error();
 		}
 
 		// We kill this since we're done and we don't want to polute the _POST array
 		unset($_POST[$this->csrf_token_name]);
+		
+		// Nothing should last forever
+		unset($_COOKIE[$this->csfr_cookie_name]);
+		$this->_csrf_set_hash();
+		$this->csrf_set_cookie();
 
 		log_message('debug', "CSRF token verified ");
 	}
@@ -105,11 +111,9 @@ class CI_Security {
 	 */
 	function csrf_set_cookie()
 	{
-		$prefix = ( ! is_string(config_item('cookie_prefix'))) ? '' : config_item('cookie_prefix');
-		
 		$expire = time() + $this->csrf_expire;
 
-		setcookie($prefix.$this->csrf_token_name, $this->csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), 0);
+		setcookie($this->csfr_cookie_name, $this->csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), 0);
 		
 		log_message('debug', "CRSF cookie Set");		
 	}
@@ -128,18 +132,15 @@ class CI_Security {
 		{
 			// If the cookie exists we will use it's value.  We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded sub-pages causing this feature to fail
-			if (isset($_COOKIE[$this->csrf_token_name]) AND $_COOKIE[$this->csrf_token_name] != '')
+			if (isset($_COOKIE[$this->csfr_cookie_name]) AND $_COOKIE[$this->csfr_cookie_name] != '')
 			{
-				$this->csrf_hash = $_COOKIE[$this->csrf_token_name];
+				$this->csrf_hash = $_COOKIE[$this->csfr_cookie_name];
 			}
 			else
 			{
 				$this->csrf_hash = md5(uniqid(rand(), TRUE));
 			}
 		}
-
-		// Create the cookie before we finish up
-		$this->csrf_set_cookie();
 
 		return $this->csrf_hash;
 	}
