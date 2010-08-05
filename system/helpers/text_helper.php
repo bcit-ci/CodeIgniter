@@ -497,19 +497,19 @@ if ( ! function_exists('word_wrap'))
  
 // ------------------------------------------------------------------------
 
+/**
+ * Ellipsize String
+ *
+ * This function will strip tags from a string, split it at its max_length and ellipsize
+ *
+ * @param 	string		string to ellipsize
+ * @param	integer		max length of string
+ * @param	mixed		int (1|0) or float, .5, .2, etc for position to split
+ * @param 	string		ellipsis ; Default '...'
+ * @return	string		ellipsized string
+ */
 if ( ! function_exists('ellipsize'))
 {
-	/**
-	 * Ellipsize String
-	 *
-	 * This function will strip tags from a string, split it at its max_length and ellipsize
-	 *
-	 * @param 	string		string to ellipsize
-	 * @param	integer		max length of string
-	 * @param	mixed		int (1|0) or float, .5, .2, etc for position to split
-	 * @param 	string		ellipsis ; Default '...'
-	 * @return	string		ellipsized string
-	 */
 	function ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
 	{
 		// Strip tags
