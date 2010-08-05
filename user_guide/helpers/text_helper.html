@@ -177,7 +177,19 @@ of text that will help<br />
 us demonstrate this<br />
 function</code>
 
+<h2>ellipsize()</h2>
 
+<p>This function will strip tags from a string, split it at a defined maximum length, and insert an ellipsis.</p>
+<p>The first parameter is the string to ellipsize, the second is the number of characters in the final string. The third parameter is where in the string the ellipsis should appear from 0 - 1, left to right.  For example.  a value of 1 will place the ellipsis at the right of the string, .5 in the middle, and 0 at the left.</p>
+<p>An optional forth parameter is the kind of ellipsis.  By default, <samp>&amp;hellip;</samp> will be inserted.</p>
+
+<code>$str = 'this_string_is_entirely_too_long_and_might_break_my_design.jpg';<br />
+<br />
+echo ellipsize($str, 32, .5);</code>
+
+Produces:
+
+<code>this_string_is_e&hellip;ak_my_design.jpg</code>
 
 
 </div>
