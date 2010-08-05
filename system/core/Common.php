@@ -317,10 +317,10 @@
 * @access	public
 * @return	void
 */
-	function show_404($page = '')
+	function show_404($page = '', $log_error = TRUE)
 	{
 		$_error =& load_class('Exceptions', 'core');
-		$_error->show_404($page);
+		$_error->show_404($page, $log_error);
 		exit;
 	}
 
