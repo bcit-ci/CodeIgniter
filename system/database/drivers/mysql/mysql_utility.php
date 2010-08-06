@@ -204,41 +204,6 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 		return $output;
 	}
-
-	/**
-	 *
-	 * The functions below have been deprecated as of 1.6, and are only here for backwards
-	 * compatibility.  They now reside in dbforge().  The use of dbutils for database manipulation
-	 * is STRONGLY discouraged in favour if using dbforge.
-	 *
-	 */
-
-	/**
-	 * Create database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _create_database($name)
-	{
-		return "CREATE DATABASE ".$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _drop_database($name)
-	{
-		return "DROP DATABASE ".$name;
-	}
-
 }
 
 /* End of file mysql_utility.php */
