@@ -116,7 +116,7 @@ instead of using the db->where() function:</p>
 <code>$query = $this->db->get_where('mytable', array('id' => $id), $limit, $offset);</code>
 
 <p>Please read the about the where function below for more information.</p>
-<p class="important">Note: get_where() was formerly known as getwhere(), which has been deprecated</p>
+<p class="important">Note: get_where() was formerly known as getwhere(), which has been removed</p>
 
 <h2>$this->db->select();</h2>
 <p>Permits you to write the SELECT portion of your query:</p>
@@ -274,7 +274,7 @@ $this->db->or_where('id >', $id);
 <br />
 <br />// Produces: WHERE name != 'Joe' OR id > 50</code>
 
-<p class="important">Note: or_where() was formerly known as orwhere(), which has been deprecated.</p>
+<p class="important">Note: or_where() was formerly known as orwhere(), which has been removed.</p>
 
 
 <h2>$this->db->where_in();</h2>
@@ -356,7 +356,7 @@ $this->db->or_like('body', $match);
 
 
 	
-<p class="important">Note: or_like() was formerly known as orlike(), which has been deprecated.</p>
+<p class="important">Note: or_like() was formerly known as orlike(), which has been removed.</p>
 <h2>$this-&gt;db-&gt;not_like();</h2>
 <p>This function is identical to <strong>like()</strong>, except that it generates NOT LIKE statements:</p>
 <code> $this-&gt;db-&gt;not_like('title', 'match');<br />
@@ -381,7 +381,7 @@ $this-&gt;db-&gt;or_not_like('body', 'match'); <br />
 <br />
 <br />// Produces: GROUP BY title, date</code>
 	
-<p class="important">Note: group_by() was formerly known as groupby(), which has been deprecated. </p>
+<p class="important">Note: group_by() was formerly known as groupby(), which has been removed. </p>
 
 <h2> $this-&gt;db-&gt;distinct();<br />
 </h2>
@@ -439,7 +439,7 @@ The second parameter lets you set the direction of the result.  Options are <kbd
 	<br />
 	// Produces: ORDER BY title DESC, name ASC
 	</code></p>
-<p class="important">Note: order_by() was formerly known as orderby(), which has been deprecated.</p>
+<p class="important">Note: order_by() was formerly known as orderby(), which has been removed.</p>
 <p class="important">Note: random ordering is not currently supported in Oracle or MSSQL drivers. These will default to 'ASC'.</p>
 <h2>$this->db->limit();</h2>
 <p>Lets you limit the number of rows you would like returned by the query:</p>
