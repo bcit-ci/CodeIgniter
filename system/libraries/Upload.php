@@ -937,12 +937,9 @@ class CI_Upload {
 	 */	
 	function display_errors($open = '<p>', $close = '</p>')
 	{
-		$CI =& get_instance();	
-		$CI->lang->load('upload');
 		$str = '';
 		foreach ($this->error_msg as $val)
 		{
-			$str .= '<pre>'.print_r($CI->lang->line($msg), TRUE).'</pre>';
 			$str .= $open.$val.$close;
 		}
 	
