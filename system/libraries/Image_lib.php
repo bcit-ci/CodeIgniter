@@ -513,6 +513,13 @@ class CI_Image_lib {
 		}
 
 		$dst_img = $create($this->width, $this->height);
+
+		if ($this->image_type == 3) // png we can actually preserve transparency
+		{
+			imagealphablending($dst_img, FALSE);
+			imagesavealpha($dst_img, TRUE);
+		}
+		
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
 		//  Show the image
