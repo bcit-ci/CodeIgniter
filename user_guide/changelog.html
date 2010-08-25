@@ -110,6 +110,7 @@ Hg Tag: </p>
 			<li>Semantic change to db->version() function to allow a list of exceptions for databases with functions to return version string instead of specially formed SQL queries. Currently this list only includes Oracle and SQLite.</li>
 			<li>Fixed a bug where driver specific table identifier protection could lead to malformed queries in the <kbd>field_data()</kbd> functions.</li>
 			<li>Fixed a bug where an undefined class variable was referenced in database drivers.</li>
+			<li>Modified the database errors to show the filename and line number of the problematic query.</li>
 			<li>Removed the following deprecated functions: orwhere, orlike, groupby, orhaving, orderby, getwhere.</li>
 			<li>Removed deprecated _drop_database() and _create_database() functions from the db utility drivers.</li>
 		</ul>
