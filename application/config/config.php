@@ -213,8 +213,8 @@ $config['cache_path'] = '';
 | Encryption Key
 |--------------------------------------------------------------------------
 |
-| If you use the Encryption class or the Sessions class with encryption
-| enabled you MUST set an encryption key.  See the user guide for info.
+| If you use the Encryption class or the Session class you
+| MUST set an encryption key.  See the user guide for info.
 |
 */
 $config['encryption_key'] = "";
