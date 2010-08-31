@@ -65,6 +65,11 @@ class CI_Session {
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
 
+		if ($this->encryption_key == '')
+		{
+			show_error('In order to use the Session class you are required to set an encryption key in your config file.');
+		}
+
 		// Load the string helper so we can use the strip_slashes() function
 		$this->CI->load->helper('string');
 

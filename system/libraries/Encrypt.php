@@ -72,7 +72,7 @@ class CI_Encrypt {
 			$CI =& get_instance();
 			$key = $CI->config->item('encryption_key');
 
-			if ($key === FALSE)
+			if ($key == FALSE)
 			{
 				show_error('In order to use the encryption class requires that you set an encryption key in your config file.');
 			}
