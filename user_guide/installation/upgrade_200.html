@@ -89,7 +89,20 @@ to
 
 </p>
 
-<h2>Step 3: Update your user guide</h2>
+<h2>Step 4: Update stored encrypted data</h2>
+
+<p class="important"><strong>Note:</strong> If your application does not use the Encryption library, does not store Encrypted data permanently, or is on an environment that does not support Mcrypt, you may skip this step.</p>
+
+<p>The Encryption library has had a number of improvements, some for encryption strength and some for performance, that has an unavoidable consequence of
+	making it no longer possible to decode encrypted data produced by the original version of this library.  To help with the transition, a new method has
+	been added, <kbd>encode_from_legacy()</kbd> that will decode the data with the original algorithm and return a re-encoded string using the improved methods.
+	This will enable you to easily replace stale encrypted data with fresh in your applications, either on the fly or en masse.</p>
+	
+<p>Please read <a href="../libraries/encryption.html#legacy">how to use this method</a> in the Encryption library documentation.</p>
+
+</p>
+
+<h2>Step 5: Update your user guide</h2>
 <p>Please replace your local copy of the user guide with the new version, including the image files.</p>
 
 </div>

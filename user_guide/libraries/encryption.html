@@ -58,12 +58,11 @@ Encryption Class
 
 <h1>Encryption Class</h1>
 
-<p>The Encryption Class provides two-way data encryption.  It uses a scheme that pre-compiles
-the message using a randomly hashed bitwise XOR encoding scheme, which is then encrypted using
+<p>The Encryption Class provides two-way data encryption.  It uses a scheme that either compiles
+the message using a randomly hashed bitwise XOR encoding scheme, or is encrypted using
 the Mcrypt library.  If Mcrypt is not available on your server the encoded message will
 still provide a reasonable degree of security for encrypted sessions or other such "light" purposes.
-If Mcrypt is available, you'll effectively end up with a double-encrypted message string, which should
-provide a very high degree of security.</p>
+If Mcrypt is available, you'll be provided with a high degree of security appropriate for storage.</p>
 
 
 <h2>Setting your Key</h2>
@@ -153,7 +152,7 @@ $encrypted_string = $this->encrypt->decode($msg, $key);</code>
 
 <h2>$this->encrypt->set_mode();</h2>
 
-<p>Permits you to set an Mcrypt mode.  By default it uses <samp>MCRYPT_MODE_ECB</samp>.  Example:</p>
+<p>Permits you to set an Mcrypt mode.  By default it uses <samp>MCRYPT_MODE_CBC</samp>.  Example:</p>
 <code>$this->encrypt->set_mode(MCRYPT_MODE_CFB);</code>
 <p>Please visit php.net for a list of  <a href="http://php.net/mcrypt">available modes</a>.</p>
 
@@ -169,7 +168,42 @@ function:</p>
 
 <p>If your server does not support SHA1 you can use the provided function.</p>
 
+<h2 id="legacy">$this->encrypt->encode_from_legacy(<kbd>$orig_data</kbd>, <kbd>$legacy_mode</kbd> = MCRYPT_MODE_ECB, <kbd>$key</kbd> = '');</h2>
+<p>Enables you to re-encode data that was originally encrypted with CodeIgniter 1.x to be compatible with the Encryption library in CodeIgniter 2.x.  It is only
+	necessary to use this method if you have encrypted data stored permanently such as in a file or database and are on a server that supports Mcrypt.  "Light" use encryption
+	such as encrypted session data or transitory encrypted flashdata require no intervention on your part.  However, existing encrypted Sessions will be
+	destroyed since data encrypted prior to 2.x will not be decoded.</p>
 
+<p class="important"><strong>Why only a method to re-encode the data instead of maintaining legacy methods for both encoding and decoding?</strong>  The algorithms in
+	the Encryption library have improved in CodeIgniter 2.x	both for performance and security, and we do not wish to encourage continued use of the older methods.
+	You can of course extend the Encryption library if you wish and replace the new methods with the old and retain seamless compatibility with CodeIgniter 1.x
+	encrypted data, but this a decision that a developer should make cautiously and deliberately, if at all.</p>
+
+<code>$new_data = $this->encrypt->encode_from_legacy(<kbd>$old_encrypted_string</kbd>);</code>
+
+<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+<tr>
+	<th>Parameter</th>
+	<th>Default</th>
+	<th>Description</th>
+</tr>
+<tr>
+	<td class="td"><strong>$orig_data</strong></td>
+	<td class="td">n/a</td>
+	<td class="td">The original encrypted data from CodeIgniter 1.x's Encryption library</td>
+</tr>
+<tr>
+	<td class="td"><strong>$legacy_mode</strong></td>
+	<td class="td">MCRYPT_MODE_ECB</td>
+	<td class="td">The Mcrypt mode that was used to generate the original encrypted data.  CodeIgniter 1.x's default was MCRYPT_MODE_ECB, and it will
+		assume that to be the case unless overridden by this parameter.</td>
+</tr>
+<tr>
+	<td class="td"><strong>$key</strong></td>
+	<td class="td">n/a</td>
+	<td class="td">The encryption key.  This it typically specified in your config file as outlined above.</td>
+</tr>
+</table>
 
 </div>
 <!-- END CONTENT -->
