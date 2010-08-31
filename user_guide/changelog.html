@@ -98,7 +98,8 @@ Hg Tag: </p>
 			<li>Changed <kbd>do_xss_clean()</kbd> to return FALSE if the uploaded file fails XSS checks.</li> 
 			<li>Added stripslashes() and trim()ing of double quotes from $_FILES type value to standardize input in Upload library.</li>
 			<li>Added a second parameter (boolean) to <kbd>$this->zip->read_dir('/path/to/directory', FALSE)</kbd> to remove the preceding trail of empty folders when creating a Zip archive. This example would contain a zip with "directory" and all of its contents.</li>
-			<li>Added ability in the Image Library to handle PNG transparency for resize operations when using the GD lib.</p>
+			<li>Added ability in the Image Library to handle PNG transparency for resize operations when using the GD lib.</li>
+			<li>Modified the Session class to prevent use if no encryption key is set in the config file.</li>
 		</ul>
 	</li>
 	<li>Database
