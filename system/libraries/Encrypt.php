@@ -116,12 +116,16 @@ class CI_Encrypt {
 	function encode($string, $key = '')
 	{
 		$key = $this->get_key($key);
-		$enc = $this->_xor_encode($string, $key);
-		
+
 		if ($this->_mcrypt_exists === TRUE)
 		{
-			$enc = $this->mcrypt_encode($enc, $key);
+			$enc = $this->mcrypt_encode($string, $key);
 		}
+		else
+		{
+			$enc = $this->_xor_encode($string, $key);
+		}
+
 		return base64_encode($enc);
 	}
 
@@ -155,12 +159,71 @@ class CI_Encrypt {
 				return FALSE;
 			}
 		}
-
-		return $this->_xor_decode($dec, $key);
+		else
+		{
+			$dec = $this->_xor_decode($dec, $key);
+		}
+		
+		return $dec;
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Encode from Legacy
+	 *
+	 * Takes an encoded string from the original Encryption class algorithms and
+	 * returns a newly encoded string using the improved method added in 2.0.0
+	 * This allows for backwards compatibility and a method to transition to the
+	 * new encryption algorithms.
+	 * 
+	 * For more details, see http://codeigniter.com/user_guide/installation/upgrade_200.html#encryption
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	int		(mcrypt mode constant)
+	 * @param	string
+	 * @return	string
+	 */
+	function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
+	{
+		if ($this->_mcrypt_exists === FALSE)
+		{
+			log_message('error', 'Encoding from legacy is available only when Mcrypt is in use.');
+			return FALSE;
+		}
+		
+		// decode it first
+		// set mode temporarily to what it was when string was encoded with the legacy
+		// algorithm - typically MCRYPT_MODE_ECB 
+		$current_mode = $this->_get_mode();
+		$this->set_mode($legacy_mode);
+		
+		$key = $this->get_key($key);
+		
+		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
+		{
+			return FALSE;
+		}
 
+		$dec = base64_decode($string);
+		
+		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		$dec = $this->_xor_decode($dec, $key);
+
+		// set the mcrypt mode back to what it should be, typically MCRYPT_MODE_CBC
+		$this->set_mode(MCRYPT_MODE_CBC);
+
+		// and re-encode
+		return base64_encode($this->mcrypt_encode($dec, $key));
+	}
+
+	// --------------------------------------------------------------------
+	
 	/**
 	 * XOR Encode
 	 *
@@ -412,7 +475,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_mode == '')
 		{
-			$this->_mcrypt_mode = MCRYPT_MODE_ECB;
+			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
 		
 		return $this->_mcrypt_mode;
