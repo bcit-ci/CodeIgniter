@@ -68,6 +68,9 @@ use the database option you'll need to create the session table as indicated bel
 <p class="important"><strong>Note:</strong> The Session class does <strong>not</strong> utilize native PHP sessions. It
 generates its own session data, offering more flexibility for developers.</p>
 
+<p class="important"><strong>Note:</strong> Even if you are not using encrypted sessions, you must set
+an encryption key in your config file which is used to aid in preventing session data manipulation.</p>
+
 <h2>Initializing a Session</h2>
 
 <p>Sessions will typically run globally with each page load, so the session class must either be
