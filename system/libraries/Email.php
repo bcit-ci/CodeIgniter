@@ -146,6 +146,8 @@ class CI_Email {
 		$this->_header_str	= "";
 		$this->_replyto_flag = FALSE;
 		$this->_recipients	= array();
+		$this->_cc_array	= array();
+		$this->_bcc_array	= array();
 		$this->_headers		= array();
 		$this->_debug_msg	= array();
 
