@@ -182,6 +182,7 @@ Hg Tag: </p>
 	<li>Fixed a PHP Strict Standards Error in the index.php file.</li>
 	<li>Fixed a bug where getimagesize() was being needlessly checked on non-image files in is_allowed_type().</li>
 	<li>Fixed a bug in the Encryption library where an empty key was not triggering an error.</li>
+	<li>Fixed a bug in the Email library where CC and BCC recipients were not reset when using the clear() method (#109).</li>
 </ul>
 
 <h2>Version 1.7.2</h2>
