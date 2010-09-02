@@ -100,6 +100,7 @@ Hg Tag: </p>
 			<li>Added a second parameter (boolean) to <kbd>$this->zip->read_dir('/path/to/directory', FALSE)</kbd> to remove the preceding trail of empty folders when creating a Zip archive. This example would contain a zip with "directory" and all of its contents.</li>
 			<li>Added ability in the Image Library to handle PNG transparency for resize operations when using the GD lib.</li>
 			<li>Modified the Session class to prevent use if no encryption key is set in the config file.</li>
+			<li>Added a new config item to the Session class <kbd>sess_expire_on_close</kbd> to allow sessions to auto-expire when the browser window is closed.</li>
 			<li>Improved performance of the Encryption library on servers where Mcrypt is available.</li>
 			<li>Changed the default encryption mode in the Encryption library to CBC.</li>
 			<li>Added an <kbd>encode_from_legacy()</kbd> method to provide a way to transition encrypted data from CodeIgniter 1.x to CodeIgniter 2.x.
