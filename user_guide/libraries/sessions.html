@@ -190,11 +190,13 @@ $this-&gt;session-&gt;unset_userdata(<samp>$array_items</samp>);</code></p>
 <h2>Saving Session Data to a Database</h2>
 <p>While the session data array stored in the user's cookie contains a Session ID,
 unless you store session data in a database there is no way to validate it.  For some applications that require little or no
-security, session ID validation may not be needed, but if your application requires security, validation is mandatory.</p>
+security, session ID validation may not be needed, but if your application requires security, validation is mandatory.  Otherwise, an old session
+could be restored by a user modifying their cookies.</p>
 
 <p>When session data is available in a database, every time a valid session is found in the user's cookie, a database
 query is performed to match it.  If the session ID does not match, the session is destroyed.  Session IDs can never
 be updated, they can only be generated when a new session is created.</p>
+
 
 <p>In order to store sessions, you must first create a database table for this purpose.  Here is the basic
 prototype (for MySQL) required by the session class:</p>
