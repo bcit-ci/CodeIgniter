@@ -30,6 +30,7 @@ class CI_Session {
 	var $sess_use_database			= FALSE;
 	var $sess_table_name			= '';
 	var $sess_expiration			= 7200;
+	var $sess_expire_on_close		= FALSE;
 	var $sess_match_ip				= FALSE;
 	var $sess_match_useragent		= TRUE;
 	var $sess_cookie_name			= 'ci_session';
@@ -655,12 +656,14 @@ class CI_Session {
 			// if encryption is not used, we provide an md5 hash to prevent userside tampering
 			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		}
-
+		
+		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
+		
 		// Set the cookie
 		setcookie(
 					$this->sess_cookie_name,
 					$cookie_data,
-					$this->sess_expiration + time(),
+					$expire,
 					$this->cookie_path,
 					$this->cookie_domain,
 					0
