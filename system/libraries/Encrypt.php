@@ -216,7 +216,7 @@ class CI_Encrypt {
 		$dec = $this->_xor_decode($dec, $key);
 
 		// set the mcrypt mode back to what it should be, typically MCRYPT_MODE_CBC
-		$this->set_mode(MCRYPT_MODE_CBC);
+		$this->set_mode($current_mode);
 
 		// and re-encode
 		return base64_encode($this->mcrypt_encode($dec, $key));
