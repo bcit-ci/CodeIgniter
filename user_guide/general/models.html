@@ -77,7 +77,7 @@ you use CodeIgniter to manage a blog.  You might have a model class that contain
 retrieve your blog data. Here is an example of what such a model class might look like:</p>
 
 <code>
-class&nbsp;Blogmodel&nbsp;extends&nbsp;Model&nbsp;{<br />
+class&nbsp;Blogmodel&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;var $title&nbsp;&nbsp; = '';<br />
 &nbsp;&nbsp;&nbsp;&nbsp;var $content = '';<br />
@@ -86,7 +86,7 @@ class&nbsp;Blogmodel&nbsp;extends&nbsp;Model&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;Blogmodel()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Call the Model constructor<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 &nbsp;&nbsp;&nbsp;&nbsp;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;get_last_ten_entries()<br />
@@ -126,11 +126,11 @@ want this type of organization.</p>
 
 
 <code>
-class&nbsp;<var>Model_name</var>&nbsp;extends&nbsp;Model&nbsp;{<br />
+class&nbsp;<var>Model_name</var>&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>Model_name</var>()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
@@ -140,11 +140,11 @@ Make sure your class extends the base Model class.</p>
 <p>The file name will be a lower case version of your class name.  For example, if your class is this:</p>
 
 <code>
-class&nbsp;<var>User_model</var>&nbsp;extends&nbsp;Model&nbsp;{<br />
+class&nbsp;<var>User_model</var>&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>User_model</var>()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
