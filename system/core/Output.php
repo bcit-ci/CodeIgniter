@@ -346,6 +346,7 @@ class CI_Output {
 		
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
+			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
 		}
 		
