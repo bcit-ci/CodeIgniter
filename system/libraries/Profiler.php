@@ -128,7 +128,7 @@ class CI_Profiler {
 		foreach ($profile as $key => $val)
 		{
 			$key = ucwords(str_replace(array('_', '-'), ' ', $key));
-			$output .= "<tr><td width='50%' style='color:#000;font-weight:bold;background-color:#ddd;'>".$key."&nbsp;&nbsp;</td><td width='50%' style='color:#900;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
+			$output .= "<tr><td style='width:50%;color:#000;font-weight:bold;background-color:#ddd;'>".$key."&nbsp;&nbsp;</td><td style='width:50%;color:#900;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
 		}
 		
 		$output .= "</table>\n";
@@ -165,8 +165,8 @@ class CI_Profiler {
 			$output .= "\n";
 			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 			$output .= "\n";		
-			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
-			$output .="<tr><td width='100%' style='color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' style='width:100%'>\n";
+			$output .="<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
 			$output .= "</table>\n";
 			$output .= "</fieldset>";
 			
@@ -187,11 +187,11 @@ class CI_Profiler {
 			$output .= "\n";
 			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database').':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').': '.count($this->CI->db->queries).'&nbsp;&nbsp;&nbsp;</legend>';
 			$output .= "\n";		
-			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' width='100%'>\n";
+			$output .= "\n\n<table cellpadding='4' cellspacing='1' border='0' style='width:100%;'>\n";
 		
 			if (count($db->queries) == 0)
 			{
-				$output .= "<tr><td width='100%' style='color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
+				$output .= "<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
 			}
 			else
 			{				
@@ -206,7 +206,7 @@ class CI_Profiler {
 						$val = str_replace($bold, '<strong>'.$bold.'</strong>', $val);	
 					}
 					
-					$output .= "<tr><td width='1%' valign='top' style='color:#900;font-weight:normal;background-color:#ddd;'>".$time."&nbsp;&nbsp;</td><td style='color:#000;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
+					$output .= "<tr><td valign='top' style='width:1%;color:#900;font-weight:normal;background-color:#ddd;'>".$time."&nbsp;&nbsp;</td><td style='color:#000;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
 				}
 			}
 			
