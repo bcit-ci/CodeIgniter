@@ -446,7 +446,9 @@ if ( ! function_exists('prep_url'))
 			return '';
 		}
 
-		if ( ! parse_url($str, PHP_URL_SCHEME))
+		$url = parse_url($str);
+		
+		if ( ! $url OR ! isset($url['scheme']))
 		{
 			$str = 'http://'.$str;
 		}
