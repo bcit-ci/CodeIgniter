@@ -57,18 +57,15 @@ if ( ! function_exists('form_open'))
 	
 		$form .= '>';
 
-		if (is_array($hidden) AND count($hidden) > 0)
-		{
-			$form .= form_hidden($hidden);
-		}
-
 		// CSRF
 		if ($CI->config->item('csrf_protection') === TRUE)
 		{
-			$form .= sprintf('<div class="hidden">%s</div>',
-							form_hidden($CI->security->csrf_token_name, 
-										$CI->security->csrf_hash)
-							);
+			$hidden[$CI->security->csrf_token_name] = $CI->security->csrf_hash;
+		}
+
+		if (is_array($hidden) AND count($hidden) > 0)
+		{
+			$form .= sprintf("\n<div class=\"hidden\">%s</div>", form_hidden($hidden));
 		}
 
 		return $form;
