@@ -36,6 +36,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_like				= array();
 	var $ar_groupby				= array();
 	var $ar_having				= array();
+	var $ar_keys				= array();
 	var $ar_limit				= FALSE;
 	var $ar_offset				= FALSE;
 	var $ar_order				= FALSE;
@@ -2045,7 +2046,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Resets the active record "write" values.
 	 *
-	 * Called by the insert() update() and delete() functions
+	 * Called by the insert() update() insert_batch() update_batch() and delete() functions
 	 *
 	 * @access	private
 	 * @return	void
@@ -2057,7 +2058,8 @@ class CI_DB_active_record extends CI_DB_driver {
 								'ar_from'		=> array(), 
 								'ar_where'		=> array(), 
 								'ar_like'		=> array(),
-								'ar_orderby'	=> array(), 
+								'ar_orderby'	=> array(),
+								'ar_keys'		=> array(), 
 								'ar_limit'		=> FALSE, 
 								'ar_order'		=> FALSE
 								);
