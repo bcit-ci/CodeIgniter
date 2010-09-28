@@ -162,6 +162,7 @@ Hg Tag: </p>
 
 <h3>Bug fixes for 2.0.0</h3>
 <ul>
+	<li>Fixed a bug where the Output class would send incorrect cached output for controllers implementing their own <dfn>_output()</dfn> method.</li>
 	<li>Fixed a bug where a failed query would not have a saved query execution time causing errors in the Profiler</li>
 	<li>Fixed a bug that was writing log entries when multiple identical helpers and plugins were loaded.</li>
 	<li>Fixed assorted user guide typos or examples (#10693, #8951, #7825, #8660, #7883, #6771, #10656).</li>
