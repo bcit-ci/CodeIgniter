@@ -212,7 +212,13 @@ class CI_Output {
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
-		
+
+		// Grab the super object if we can.
+		if (function_exists('get_instance'))
+		{
+			$CI =& get_instance();
+		}
+
 		// --------------------------------------------------------------------
 		
 		// Set the output data
@@ -223,8 +229,10 @@ class CI_Output {
 		
 		// --------------------------------------------------------------------
 		
-		// Do we need to write a cache file?
-		if ($this->cache_expiration > 0)
+		// Do we need to write a cache file?  Only if the controller does not have its
+		// own _output() method and we are not dealing with a cache file, which we
+		// can determine by the existence of the $CI object above
+		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
 		{
 			$this->_write_cache($output);
 		}
@@ -271,10 +279,10 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 		
-		// Does the get_instance() function exist?
+		// Does the $CI object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if ( ! function_exists('get_instance'))
+		if ( ! isset($CI))
 		{
 			echo $output;
 			log_message('debug', "Final output sent to browser");
@@ -283,9 +291,6 @@ class CI_Output {
 		}
 	
 		// --------------------------------------------------------------------
-
-		// Grab the super object.  We'll need it in a moment...
-		$CI =& get_instance();
 		
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
