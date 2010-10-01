@@ -202,7 +202,7 @@ class CI_Typography {
 		
 						// If the user submitted their own paragraph tags within the text
 						// we will retain them instead of using our tags.
-						'/(<p[^>*?]>)<p>/'		=> '$1', // <?php BBEdit syntax coloring bug fix
+						'/(<p[^>*?]>)<p>/'	=> '$1', // <?php BBEdit syntax coloring bug fix
 						
 						// Reduce multiple instances of opening/closing paragraph tags to a single one
 						'#(</p>)+#'			=> '</p>',
@@ -219,8 +219,17 @@ class CI_Typography {
 						'/\{@DQ\}/'			=> '"',
 						'/\{@SQ\}/'			=> "'",
 						'/\{@DD\}/'			=> '--',
-						'/\{@NBS\}/'		=> '  '
+						'/\{@NBS\}/'		=> '  ',
 
+						// An unintended consequence of the _format_newlines function is that
+						// some of the newlines get truncated, resulting in <p> tags
+						// starting immediately after <block> tags on the same line. 
+						// This forces a newline after such occurrences, which looks much nicer.
+						"/><p>\n/"			=> ">\n<p>",
+						
+						// Similarly, there might be cases where a closing </block> will follow
+						// a closing </p> tag, so we'll correct it by adding a newline in between
+						"#</p></#"			=> "</p>\n</"
 						);
 		
 		// Do we need to reduce empty lines?
@@ -337,7 +346,10 @@ class CI_Typography {
 		// Wrap the whole enchilada in enclosing paragraphs
 		if ($str != "\n")
 		{
-			$str =  '<p>'.$str.'</p>';
+			// We trim off the right-side new line so that the closing </p> tag
+			// will be positioned immediately following the string, matching
+			// the behavior of the opening <p> tag
+			$str =  '<p>'.rtrim($str).'</p>';
 		}
 
 		// Remove empty paragraphs if they are on the first line, as this
