@@ -274,7 +274,7 @@ To have your controller's output cached properly, its <dfn>_output()</dfn> metho
 
 <code>if ($this-&gt;output-&gt;cache_expiration &gt; 0)<br />
 {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output-&gt;write_cache($output);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output-&gt;_write_cache($output);<br />
 }</code>
 
 If you are using this feature the page execution timer and memory usage stats might not be perfectly accurate
