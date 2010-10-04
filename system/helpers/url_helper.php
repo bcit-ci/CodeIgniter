@@ -70,7 +70,7 @@ if ( ! function_exists('base_url'))
 /**
  * Current URL
  *
- * Returns the full URL (including segments) of the page where this 
+ * Returns the full URL (including segments) of the page where this
  * function is placed
  *
  * @access	public
@@ -224,7 +224,7 @@ if ( ! function_exists('anchor_popup'))
  * @access	public
  * @param	string	the email address
  * @param	string	the link title
- * @param	mixed 	any attributes
+ * @param	mixed	any attributes
  * @return	string
  */
 if ( ! function_exists('mailto'))
@@ -254,7 +254,7 @@ if ( ! function_exists('mailto'))
  * @access	public
  * @param	string	the email address
  * @param	string	the link title
- * @param	mixed 	any attributes
+ * @param	mixed	any attributes
  * @return	string
  */
 if ( ! function_exists('safe_mailto'))
@@ -320,7 +320,7 @@ if ( ! function_exists('safe_mailto'))
 				{
 					$count = ($ordinal < 224) ? 2 : 3;
 				}
-	
+
 				$temp[] = $ordinal;
 				if (count($temp) == $count)
 				{
@@ -369,7 +369,7 @@ if ( ! function_exists('safe_mailto'))
  * @access	public
  * @param	string	the string
  * @param	string	the type: email, url, or both
- * @param	bool 	whether to create pop-up links
+ * @param	bool	whether to create pop-up links
  * @return	string
  */
 if ( ! function_exists('auto_link'))
@@ -381,7 +381,7 @@ if ( ! function_exists('auto_link'))
 			if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
 			{
 				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
-	
+
 				for ($i = 0; $i < count($matches['0']); $i++)
 				{
 					$period = '';
@@ -390,7 +390,7 @@ if ( ! function_exists('auto_link'))
 						$period = '.';
 						$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
 					}
-		
+
 					$str = str_replace($matches['0'][$i],
 										$matches['1'][$i].'<a href="http'.
 										$matches['4'][$i].'://'.
@@ -416,7 +416,7 @@ if ( ! function_exists('auto_link'))
 						$period = '.';
 						$matches['3'][$i] = substr($matches['3'][$i], 0, -1);
 					}
-		
+
 					$str = str_replace($matches['0'][$i], safe_mailto($matches['1'][$i].'@'.$matches['2'][$i].'.'.$matches['3'][$i]).$period, $str);
 				}
 			}
@@ -447,7 +447,7 @@ if ( ! function_exists('prep_url'))
 		}
 
 		$url = parse_url($str);
-		
+
 		if ( ! $url OR ! isset($url['scheme']))
 		{
 			$str = 'http://'.$str;
@@ -495,7 +495,7 @@ if ( ! function_exists('url_title'))
 						$replace.'$'			=> $replace,
 						'^'.$replace			=> $replace,
 						'\.+$'					=> ''
-					  );
+					);
 
 		$str = strip_tags($str);
 
@@ -508,7 +508,7 @@ if ( ! function_exists('url_title'))
 		{
 			$str = strtolower($str);
 		}
-		
+
 		return trim(stripslashes($str));
 	}
 }
@@ -535,7 +535,7 @@ if ( ! function_exists('redirect'))
 		{
 			$uri = site_url($uri);
 		}
-		
+
 		switch($method)
 		{
 			case 'refresh'	: header("Refresh:0;url=".$uri);

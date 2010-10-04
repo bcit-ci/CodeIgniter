@@ -32,7 +32,7 @@
  *
  * @access	public
  * @return	bool
- */	
+ */
 if ( ! function_exists('valid_email'))
 {
 	function valid_email($address)
@@ -48,7 +48,7 @@ if ( ! function_exists('valid_email'))
  *
  * @access	public
  * @return	bool
- */	
+ */
 if ( ! function_exists('send_email'))
 {
 	function send_email($recipient, $subject = 'Test email', $message = 'Hello World')

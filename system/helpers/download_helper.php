@@ -36,7 +36,7 @@
  * @param	string	filename
  * @param	mixed	the data to be downloaded
  * @return	void
- */	
+ */
 if ( ! function_exists('force_download'))
 {
 	function force_download($filename = '', $data = '')
@@ -52,14 +52,14 @@ if ( ! function_exists('force_download'))
 		{
 			return FALSE;
 		}
-	
+
 		// Grab the file extension
 		$x = explode('.', $filename);
 		$extension = end($x);
 
 		// Load the mime types
 		@include(APPPATH.'config/mimes'.EXT);
-	
+
 		// Set a default mime if we can't find it
 		if ( ! isset($mimes[$extension]))
 		{
@@ -69,7 +69,7 @@ if ( ! function_exists('force_download'))
 		{
 			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 		}
-	
+
 		// Generate the server headers
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
 		{
@@ -90,7 +90,7 @@ if ( ! function_exists('force_download'))
 			header('Pragma: no-cache');
 			header("Content-Length: ".strlen($data));
 		}
-	
+
 		exit($data);
 	}
 }

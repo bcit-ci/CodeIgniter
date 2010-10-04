@@ -36,7 +36,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		return @mysql_num_rows($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -49,7 +49,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		return @mysql_num_fields($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,7 +67,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 		{
 			$field_names[] = $field->name;
 		}
-		
+
 		return $field_names;
 	}
 
@@ -85,27 +85,27 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		$retval = array();
 		while ($field = mysql_fetch_field($this->result_id))
-		{	
+		{
 			$F				= new stdClass();
-			$F->name 		= $field->name;
-			$F->type 		= $field->type;
+			$F->name		= $field->name;
+			$F->type		= $field->type;
 			$F->default		= $field->def;
 			$F->max_length	= $field->max_length;
 			$F->primary_key = $field->primary_key;
-			
+
 			$retval[] = $F;
 		}
-		
+
 		return $retval;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
 	 * Free the result
 	 *
 	 * @return	null
-	 */		
+	 */
 	function free_result()
 	{
 		if (is_resource($this->result_id))
@@ -146,7 +146,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		return mysql_fetch_assoc($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -161,7 +161,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		return mysql_fetch_object($this->result_id);
 	}
-	
+
 }
 
 

@@ -35,7 +35,7 @@
  * @access	public
  * @param	string	path to file
  * @return	string
- */	
+ */
 if ( ! function_exists('read_file'))
 {
 	function read_file($file)
@@ -44,19 +44,19 @@ if ( ! function_exists('read_file'))
 		{
 			return FALSE;
 		}
-	
+
 		if (function_exists('file_get_contents'))
 		{
-			return file_get_contents($file);		
+			return file_get_contents($file);
 		}
 
 		if ( ! $fp = @fopen($file, FOPEN_READ))
 		{
 			return FALSE;
 		}
-		
+
 		flock($fp, LOCK_SH);
-	
+
 		$data = '';
 		if (filesize($file) > 0)
 		{
@@ -69,7 +69,7 @@ if ( ! function_exists('read_file'))
 		return $data;
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -82,7 +82,7 @@ if ( ! function_exists('read_file'))
  * @param	string	path to file
  * @param	string	file data
  * @return	bool
- */	
+ */
 if ( ! function_exists('write_file'))
 {
 	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
@@ -91,16 +91,16 @@ if ( ! function_exists('write_file'))
 		{
 			return FALSE;
 		}
-		
+
 		flock($fp, LOCK_EX);
 		fwrite($fp, $data);
 		flock($fp, LOCK_UN);
-		fclose($fp);	
+		fclose($fp);
 
 		return TRUE;
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -115,19 +115,19 @@ if ( ! function_exists('write_file'))
  * @param	string	path to file
  * @param	bool	whether to delete any directories found in the path
  * @return	bool
- */	
+ */
 if ( ! function_exists('delete_files'))
 {
 	function delete_files($path, $del_dir = FALSE, $level = 0)
-	{	
+	{
 		// Trim the trailing slash
 		$path = rtrim($path, DIRECTORY_SEPARATOR);
-			
+
 		if ( ! $current_dir = @opendir($path))
 		{
-			return FALSE;			
+			return FALSE;
 		}
-	
+
 		while(FALSE !== ($filename = @readdir($current_dir)))
 		{
 			if ($filename != "." and $filename != "..")
@@ -138,7 +138,7 @@ if ( ! function_exists('delete_files'))
 					if (substr($filename, 0, 1) != '.')
 					{
 						delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1);
-					}				
+					}
 				}
 				else
 				{
@@ -147,12 +147,12 @@ if ( ! function_exists('delete_files'))
 			}
 		}
 		@closedir($current_dir);
-	
+
 		if ($del_dir == TRUE AND $level > 0)
 		{
 			return @rmdir($path);
 		}
-		
+
 		return TRUE;
 	}
 }
@@ -162,7 +162,7 @@ if ( ! function_exists('delete_files'))
 /**
  * Get Filenames
  *
- * Reads the specified directory and builds an array containing the filenames.  
+ * Reads the specified directory and builds an array containing the filenames.
  * Any sub-folders contained within the specified path are read as well.
  *
  * @access	public
@@ -170,13 +170,13 @@ if ( ! function_exists('delete_files'))
  * @param	bool	whether to include the path as part of the filename
  * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
- */	
+ */
 if ( ! function_exists('get_filenames'))
 {
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
-				
+
 		if ($fp = @opendir($source_dir))
 		{
 			// reset the array and make sure $source_dir has a trailing slash on the initial call
@@ -185,12 +185,12 @@ if ( ! function_exists('get_filenames'))
 				$_filedata = array();
 				$source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 			}
-			
+
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
 				{
-					 get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
+					get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
 				elseif (strncmp($file, '.', 1) !== 0)
 				{
@@ -211,7 +211,7 @@ if ( ! function_exists('get_filenames'))
 /**
  * Get Directory File Information
  *
- * Reads the specified directory and builds an array containing the filenames,  
+ * Reads the specified directory and builds an array containing the filenames,
  * filesize, dates, and permissions
  *
  * Any sub-folders contained within the specified path are read as well.
@@ -221,7 +221,7 @@ if ( ! function_exists('get_filenames'))
  * @param	bool	Look only at the top level directory specified?
  * @param	bool	internal variable to determine recursion status - do not use in calls
  * @return	array
- */	
+ */
 if ( ! function_exists('get_dir_file_info'))
 {
 	function get_dir_file_info($source_dir, $top_level_only = TRUE, $_recursion = FALSE)
@@ -243,10 +243,10 @@ if ( ! function_exists('get_dir_file_info'))
 			{
 				if (@is_dir($source_dir.$file) AND strncmp($file, '.', 1) !== 0 AND $top_level_only === FALSE)
 				{
- 					 get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
- 				}
- 				elseif (strncmp($file, '.', 1) !== 0)
- 				{
+					get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
+				}
+				elseif (strncmp($file, '.', 1) !== 0)
+				{
 					$_filedata[$file] = get_file_info($source_dir.$file);
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
@@ -332,7 +332,7 @@ if ( ! function_exists('get_file_info'))
 /**
  * Get Mime by Extension
  *
- * Translates a file extension into a mime type based on config/mimes.php. 
+ * Translates a file extension into a mime type based on config/mimes.php.
  * Returns FALSE if it can't determine the type, or open the mime config file
  *
  * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
@@ -341,7 +341,7 @@ if ( ! function_exists('get_file_info'))
  * @access	public
  * @param	string	path to file
  * @return	mixed
- */	
+ */
 if ( ! function_exists('get_mime_by_extension'))
 {
 	function get_mime_by_extension($file)
@@ -388,11 +388,11 @@ if ( ! function_exists('get_mime_by_extension'))
  * @access	public
  * @param	int
  * @return	string
- */	
+ */
 if ( ! function_exists('symbolic_permissions'))
 {
 	function symbolic_permissions($perms)
-	{	
+	{
 		if (($perms & 0xC000) == 0xC000)
 		{
 			$symbolic = 's'; // Socket
@@ -441,7 +441,7 @@ if ( ! function_exists('symbolic_permissions'))
 		$symbolic .= (($perms & 0x0002) ? 'w' : '-');
 		$symbolic .= (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x' ) : (($perms & 0x0200) ? 'T' : '-'));
 
-		return $symbolic;		
+		return $symbolic;
 	}
 }
 
@@ -456,7 +456,7 @@ if ( ! function_exists('symbolic_permissions'))
  * @access	public
  * @param	int
  * @return	string
- */	
+ */
 if ( ! function_exists('octal_permissions'))
 {
 	function octal_permissions($perms)

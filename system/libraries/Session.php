@@ -39,7 +39,7 @@ class CI_Session {
 	var $cookie_domain				= '';
 	var $sess_time_to_update		= 300;
 	var $encryption_key				= '';
-	var $flashdata_key 				= 'flash';
+	var $flashdata_key				= 'flash';
 	var $time_reference				= 'time';
 	var $gc_probability				= 5;
 	var $userdata					= array();
@@ -96,7 +96,7 @@ class CI_Session {
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
-		 
+		
 		// Set the cookie name
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
 
@@ -112,10 +112,10 @@ class CI_Session {
 		}
 
 		// Delete 'old' flashdata (from last request)
-	   	$this->_flashdata_sweep();
+		$this->_flashdata_sweep();
 
 		// Mark all new flashdata as old (data will be deleted before next request)
-	   	$this->_flashdata_mark();
+		$this->_flashdata_mark();
 
 		// Delete expired sessions if necessary
 		$this->_sess_gc();
@@ -313,9 +313,9 @@ class CI_Session {
 		$sessid .= $this->CI->input->ip_address();
 
 		$this->userdata = array(
-							'session_id' 	=> md5(uniqid($sessid, TRUE)),
-							'ip_address' 	=> $this->CI->input->ip_address(),
-							'user_agent' 	=> substr($this->CI->input->user_agent(), 0, 50),
+							'session_id'	=> md5(uniqid($sessid, TRUE)),
+							'ip_address'	=> $this->CI->input->ip_address(),
+							'user_agent'	=> substr($this->CI->input->user_agent(), 0, 50),
 							'last_activity'	=> $this->now
 							);
 
@@ -656,9 +656,9 @@ class CI_Session {
 			// if encryption is not used, we provide an md5 hash to prevent userside tampering
 			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		}
-		
+
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
-		
+
 		// Set the cookie
 		setcookie(
 					$this->sess_cookie_name,
@@ -690,7 +690,7 @@ class CI_Session {
 			{
 				if (is_string($val))
 				{
-					$data[$key] = str_replace('\\', '{{slash}}', $val);					
+					$data[$key] = str_replace('\\', '{{slash}}', $val);
 				}
 			}
 		}
@@ -698,7 +698,7 @@ class CI_Session {
 		{
 			if (is_string($data))
 			{
-				$data = str_replace('\\', '{{slash}}', $data);				
+				$data = str_replace('\\', '{{slash}}', $data);
 			}
 		}
 
@@ -727,7 +727,7 @@ class CI_Session {
 			{
 				if (is_string($val))
 				{
-					$data[$key] = str_replace('{{slash}}', '\\', $val);					
+					$data[$key] = str_replace('{{slash}}', '\\', $val);
 				}
 			}
 

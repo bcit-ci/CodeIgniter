@@ -36,14 +36,14 @@
  * @access	public
  * @param	string
  * @return	str
- */	
+ */
 if ( ! function_exists('singular'))
-{	
+{
 	function singular($str)
 	{
 		$str = strtolower(trim($str));
 		$end = substr($str, -3);
-	
+
 		if ($end == 'ies')
 		{
 			$str = substr($str, 0, strlen($str)-3).'y';
@@ -55,13 +55,13 @@ if ( ! function_exists('singular'))
 		else
 		{
 			$end = substr($str, -1);
-		
+
 			if ($end == 's')
 			{
 				$str = substr($str, 0, strlen($str)-1);
 			}
 		}
-	
+
 		return $str;
 	}
 }
@@ -77,9 +77,9 @@ if ( ! function_exists('singular'))
  * @param	string
  * @param	bool
  * @return	str
- */	
+ */
 if ( ! function_exists('plural'))
-{	
+{
 	function plural($str, $force = FALSE)
 	{
 		$str = strtolower(trim($str));
@@ -93,14 +93,14 @@ if ( ! function_exists('plural'))
 		}
 		elseif ($end == 'h')
 		{
-		    if (substr($str, -2) == 'ch' || substr($str, -2) == 'sh')
-		    {
-		        $str .= 'es';
-		    }
-		    else
-		    {
-		        $str .= 's';
-		    }
+			if (substr($str, -2) == 'ch' || substr($str, -2) == 'sh')
+			{
+				$str .= 'es';
+			}
+			else
+			{
+				$str .= 's';
+			}
 		}
 		elseif ($end == 's')
 		{
@@ -128,11 +128,11 @@ if ( ! function_exists('plural'))
  * @access	public
  * @param	string
  * @return	str
- */	
+ */
 if ( ! function_exists('camelize'))
-{	
+{
 	function camelize($str)
-	{		
+	{
 		$str = 'x'.strtolower(trim($str));
 		$str = ucwords(preg_replace('/[\s_]+/', ' ', $str));
 		return substr(str_replace(' ', '', $str), 1);
@@ -149,7 +149,7 @@ if ( ! function_exists('camelize'))
  * @access	public
  * @param	string
  * @return	str
- */	
+ */
 if ( ! function_exists('underscore'))
 {
 	function underscore($str)
@@ -168,15 +168,15 @@ if ( ! function_exists('underscore'))
  * @access	public
  * @param	string
  * @return	str
- */	
+ */
 if ( ! function_exists('humanize'))
-{	
+{
 	function humanize($str)
 	{
 		return ucwords(preg_replace('/[_]+/', ' ', strtolower(trim($str))));
 	}
 }
-	
+
 
 /* End of file inflector_helper.php */
 /* Location: ./system/helpers/inflector_helper.php */

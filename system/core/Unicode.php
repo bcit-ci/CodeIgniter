@@ -30,14 +30,14 @@ class CI_Unicode {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * Determines if UTF-8 support is to be enabled
-	 * 
+	 *
 	 */
 	function CI_Unicode()
 	{
 		log_message('debug', "Unicode Class Initialized");
-		
+
 		global $CFG;
 
 		if (
@@ -48,7 +48,7 @@ class CI_Unicode {
 			)
 		{
 			log_message('debug', "Unicode Class - UTF-8 Support Enabled");
-			
+
 			define('UTF8_ENABLED', TRUE);
 
 			// set internal encoding for multibyte string functions if necessary
@@ -68,11 +68,11 @@ class CI_Unicode {
 		{
 			log_message('debug', "Unicode Class - UTF-8 Support Disabled");
 			define('UTF8_ENABLED', FALSE);
-		}		
+		}
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Clean UTF-8 strings
 	 *
@@ -88,19 +88,19 @@ class CI_Unicode {
 		{
 			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 		}
-		
+
 		return $str;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Remove ASCII control characters
 	 *
 	 * Removes all ASCII control characters except horizontal tabs,
 	 * line feeds, and carriage returns, as all others can cause
 	 * problems in XML
-	 * 
+	 *
 	 * @access	public
 	 * @param	string
 	 * @return	string
@@ -111,7 +111,7 @@ class CI_Unicode {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Convert to UTF-8
 	 *
@@ -136,12 +136,12 @@ class CI_Unicode {
 		{
 			return FALSE;
 		}
-		
+
 		return $str;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Is ASCII?
 	 *
@@ -157,7 +157,7 @@ class CI_Unicode {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 }
 // End Unicode Class
 

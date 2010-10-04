@@ -32,14 +32,14 @@ class CI_DB_Cache {
 	 *
 	 * Grabs the CI super object instance so we can access it.
 	 *
-	 */	
+	 */
 	function CI_DB_Cache(&$db)
 	{
 		// Assign the main CI object to $this->CI
 		// and load the file helper since we use it a lot
 		$this->CI =& get_instance();
 		$this->db =& $db;
-		$this->CI->load->helper('file');	
+		$this->CI->load->helper('file');
 	}
 
 	// --------------------------------------------------------------------
@@ -50,7 +50,7 @@ class CI_DB_Cache {
 	 * @access	public
 	 * @param	string	the path to the cache directory
 	 * @return	bool
-	 */		
+	 */
 	function check_path($path = '')
 	{
 		if ($path == '')
@@ -59,10 +59,10 @@ class CI_DB_Cache {
 			{
 				return $this->db->cache_off();
 			}
-		
+
 			$path = $this->db->cachedir;
 		}
-	
+
 		// Add a trailing slash to the path if needed
 		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
 
@@ -71,11 +71,11 @@ class CI_DB_Cache {
 			// If the path is wrong we'll turn off caching
 			return $this->db->cache_off();
 		}
-		
+
 		$this->db->cachedir = $path;
 		return TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -95,18 +95,18 @@ class CI_DB_Cache {
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
-		
+
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-	
-		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);		
-		
+
+		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
+
 		if (FALSE === ($cachedata = read_file($filepath)))
-		{	
+		{
 			return FALSE;
 		}
-		
-		return unserialize($cachedata);			
-	}	
+
+		return unserialize($cachedata);
+	}
 
 	// --------------------------------------------------------------------
 
@@ -124,28 +124,28 @@ class CI_DB_Cache {
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
-		
+
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-	
+
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
-		
+
 		$filename = md5($sql);
-	
+
 		if ( ! @is_dir($dir_path))
 		{
 			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
 			{
 				return FALSE;
 			}
-			
-			@chmod($dir_path, DIR_WRITE_MODE);			
+
+			@chmod($dir_path, DIR_WRITE_MODE);
 		}
-		
+
 		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
 		{
 			return FALSE;
 		}
-		
+
 		@chmod($dir_path.$filename, FILE_WRITE_MODE);
 		return TRUE;
 	}
@@ -159,19 +159,19 @@ class CI_DB_Cache {
 	 * @return	bool
 	 */
 	function delete($segment_one = '', $segment_two = '')
-	{	
+	{
 		if ($segment_one == '')
 		{
 			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
-		
+
 		if ($segment_two == '')
 		{
 			$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		}
-		
+
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
-		
+
 		delete_files($dir_path, TRUE);
 	}
 

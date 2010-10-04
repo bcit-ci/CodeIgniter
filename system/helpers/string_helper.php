@@ -41,12 +41,12 @@
  * @access	public
  * @param	string
  * @return	string
- */	
+ */
 if ( ! function_exists('trim_slashes'))
 {
 	function trim_slashes($str)
 	{
-	    return trim($str, '/');
+		return trim($str, '/');
 	}
 }
 
@@ -60,13 +60,13 @@ if ( ! function_exists('trim_slashes'))
  * @access	public
  * @param	mixed	string or array
  * @return	mixed	string or array
- */	
+ */
 if ( ! function_exists('strip_slashes'))
 {
 	function strip_slashes($str)
 	{
 		if (is_array($str))
-		{	
+		{
 			foreach ($str as $key => $val)
 			{
 				$str[$key] = strip_slashes($val);
@@ -76,7 +76,7 @@ if ( ! function_exists('strip_slashes'))
 		{
 			$str = stripslashes($str);
 		}
-	
+
 		return $str;
 	}
 }
@@ -91,7 +91,7 @@ if ( ! function_exists('strip_slashes'))
  * @access	public
  * @param	string
  * @return	string
- */	
+ */
 if ( ! function_exists('strip_quotes'))
 {
 	function strip_quotes($str)
@@ -110,11 +110,11 @@ if ( ! function_exists('strip_quotes'))
  * @access	public
  * @param	string
  * @return	string
- */	
+ */
 if ( ! function_exists('quotes_to_entities'))
 {
 	function quotes_to_entities($str)
-	{	
+	{
 		return str_replace(array("\'","\"","'",'"'), array("&#39;","&quot;","&#39;","&quot;"), $str);
 	}
 }
@@ -136,7 +136,7 @@ if ( ! function_exists('quotes_to_entities'))
  * @access	public
  * @param	string
  * @return	string
- */	
+ */
 if ( ! function_exists('reduce_double_slashes'))
 {
 	function reduce_double_slashes($str)
@@ -163,7 +163,7 @@ if ( ! function_exists('reduce_double_slashes'))
  * @param	string	the character you wish to reduce
  * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
  * @return	string
- */	
+ */
 if ( ! function_exists('reduce_multiples'))
 {
 	function reduce_multiples($str, $character = ',', $trim = FALSE)
@@ -174,11 +174,11 @@ if ( ! function_exists('reduce_multiples'))
 		{
 			$str = trim($str, $character);
 		}
-    
+
 		return $str;
 	}
 }
-	
+
 // ------------------------------------------------------------------------
 
 /**
@@ -187,23 +187,23 @@ if ( ! function_exists('reduce_multiples'))
  * Useful for generating passwords or hashes.
  *
  * @access	public
- * @param	string 	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
+ * @param	string	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
  * @param	integer	number of characters
  * @return	string
- */	
+ */
 if ( ! function_exists('random_string'))
 {
 	function random_string($type = 'alnum', $len = 8)
-	{					
+	{
 		switch($type)
 		{
 			case 'basic'	: return mt_rand();
-			  break;
+				break;
 			case 'alnum'	:
 			case 'numeric'	:
 			case 'nozero'	:
 			case 'alpha'	:
-		
+
 					switch ($type)
 					{
 						case 'alpha'	:	$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -222,20 +222,20 @@ if ( ! function_exists('random_string'))
 						$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
 					}
 					return $str;
-			  break;
-			case 'unique'	: 
-			case 'md5' 		: 
-				
+				break;
+			case 'unique'	:
+			case 'md5'		:
+
 						return md5(uniqid(mt_rand()));
-			  break;
-			case 'encrypt'	: 
-			case 'sha1'	: 
-		
+				break;
+			case 'encrypt'	:
+			case 'sha1'	:
+
 						$CI =& get_instance();
 						$CI->load->helper('security');
-		
+
 						return do_hash(uniqid(mt_rand(), TRUE), 'sha1');
-			  break;
+				break;
 		}
 	}
 }
@@ -250,12 +250,12 @@ if ( ! function_exists('random_string'))
  * @access	public
  * @param	string (as many parameters as needed)
  * @return	string
- */	
+ */
 if ( ! function_exists('alternator'))
 {
 	function alternator()
 	{
-		static $i;	
+		static $i;
 
 		if (func_num_args() == 0)
 		{
@@ -276,13 +276,13 @@ if ( ! function_exists('alternator'))
  * @param	string
  * @param	integer	number of repeats
  * @return	string
- */	
+ */
 if ( ! function_exists('repeater'))
 {
 	function repeater($data, $num = 1)
 	{
 		return (($num > 0) ? str_repeat($data, $num) : '');
-	} 
+	}
 }
 
 

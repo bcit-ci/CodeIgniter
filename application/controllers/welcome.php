@@ -4,9 +4,9 @@ class Welcome extends Controller {
 
 	function Welcome()
 	{
-		parent::Controller();	
+		parent::Controller();
 	}
-	
+
 	function index()
 	{
 		$this->load->view('welcome_message');

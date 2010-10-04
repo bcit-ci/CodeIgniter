@@ -4,12 +4,12 @@
  *
  * An open source application development framework for PHP 4.3.2 or newer
  *
- * @package	 	CodeIgniter
- * @author	 	ExpressionEngine Dev Team
+ * @package		CodeIgniter
+ * @author		ExpressionEngine Dev Team
  * @copyright   Copyright (c) 2008 - 2010, EllisLab, Inc.
- * @license	 	http://codeigniter.com/user_guide/license.html
+ * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
- * @since	   	Version 1.0
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -21,7 +21,7 @@
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
- * @author	 	ExpressionEngine Dev Team
+ * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_oci8_result extends CI_DB_result {
@@ -35,7 +35,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Oracle doesn't have a graceful way to retun the number of rows
 	 * so we have to use what amounts to a hack.
-	 * 
+	 *
 	 *
 	 * @access  public
 	 * @return  integer
@@ -111,7 +111,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		$fieldCount = $this->num_fields();
 		for ($c = 1; $c <= $fieldCount; $c++)
 		{
-			$F			  = new stdClass();
+			$F				= new stdClass();
 			$F->name		= ocicolumnname($this->stmt_id, $c);
 			$F->type		= ocicolumntype($this->stmt_id, $c);
 			$F->max_length  = ocicolumnsize($this->stmt_id, $c);
@@ -128,12 +128,12 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * Free the result
 	 *
 	 * @return	null
-	 */		
+	 */
 	function free_result()
 	{
 		if (is_resource($this->result_id))
 		{
-			ocifreestatement($this->result_id);			
+			ocifreestatement($this->result_id);
 			$this->result_id = FALSE;
 		}
 	}
@@ -151,8 +151,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	function _fetch_assoc(&$row)
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-	
-		return ocifetchinto($id, $row, OCI_ASSOC + OCI_RETURN_NULLS);	
+
+		return ocifetchinto($id, $row, OCI_ASSOC + OCI_RETURN_NULLS);
 	}
 
 	// --------------------------------------------------------------------
@@ -166,17 +166,17 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @return  object
 	 */
 	function _fetch_object()
-	{	
+	{
 		$result = array();
 
 		// If PHP 5 is being used we can fetch an result object
 		if (function_exists('oci_fetch_object'))
 		{
 			$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-			
+
 			return @oci_fetch_object($id);
 		}
-		
+
 		// If PHP 4 is being used we have to build our own result
 		foreach ($this->result_array() as $key => $val)
 		{
@@ -192,7 +192,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 			{
 				$obj->$key = $val;
 			}
-			
+
 			$result[] = $obj;
 		}
 

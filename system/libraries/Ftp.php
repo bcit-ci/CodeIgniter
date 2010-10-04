@@ -295,7 +295,7 @@ class CI_FTP {
 		{
 			return FALSE;
 		}
-       
+
 		// Set the mode if not specified
 		if ($mode == 'auto')
 		{
@@ -303,9 +303,9 @@ class CI_FTP {
 			$ext = $this->_getext($rempath);
 			$mode = $this->_settype($ext);
 		}
-               
+
 		$mode = ($mode == 'ascii') ? FTP_ASCII : FTP_BINARY;
-               
+
 		$result = @ftp_get($this->conn_id, $locpath, $rempath, $mode);
 
 		if ($result === FALSE)
@@ -314,11 +314,11 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_download');
 			}
-			return FALSE;          
+			return FALSE;
 		}
-               
+
 		return TRUE;
-    }
+	}
 
 	// --------------------------------------------------------------------
 
@@ -454,7 +454,7 @@ class CI_FTP {
 	 * Set file permissions
 	 *
 	 * @access	public
-	 * @param	string 	the file path
+	 * @param	string	the file path
 	 * @param	string	the permissions
 	 * @return	bool
 	 */

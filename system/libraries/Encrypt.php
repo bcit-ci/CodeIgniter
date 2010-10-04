@@ -144,7 +144,7 @@ class CI_Encrypt {
 	function decode($string, $key = '')
 	{
 		$key = $this->get_key($key);
-		
+
 		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
 		{
 			return FALSE;
@@ -163,12 +163,12 @@ class CI_Encrypt {
 		{
 			$dec = $this->_xor_decode($dec, $key);
 		}
-		
+
 		return $dec;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Encode from Legacy
 	 *
@@ -176,7 +176,7 @@ class CI_Encrypt {
 	 * returns a newly encoded string using the improved method added in 2.0.0
 	 * This allows for backwards compatibility and a method to transition to the
 	 * new encryption algorithms.
-	 * 
+	 *
 	 * For more details, see http://codeigniter.com/user_guide/installation/upgrade_200.html#encryption
 	 *
 	 * @access	public
@@ -192,22 +192,22 @@ class CI_Encrypt {
 			log_message('error', 'Encoding from legacy is available only when Mcrypt is in use.');
 			return FALSE;
 		}
-		
+
 		// decode it first
 		// set mode temporarily to what it was when string was encoded with the legacy
-		// algorithm - typically MCRYPT_MODE_ECB 
+		// algorithm - typically MCRYPT_MODE_ECB
 		$current_mode = $this->_get_mode();
 		$this->set_mode($legacy_mode);
-		
+
 		$key = $this->get_key($key);
-		
+
 		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
 		{
 			return FALSE;
 		}
 
 		$dec = base64_decode($string);
-		
+
 		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
 		{
 			return FALSE;
@@ -223,7 +223,7 @@ class CI_Encrypt {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * XOR Encode
 	 *
@@ -247,7 +247,7 @@ class CI_Encrypt {
 
 		$enc = '';
 		for ($i = 0; $i < strlen($string); $i++)
-		{			
+		{
 			$enc .= substr($rand, ($i % strlen($rand)), 1).(substr($rand, ($i % strlen($rand)), 1) ^ substr($string, $i, 1));
 		}
 
@@ -410,7 +410,7 @@ class CI_Encrypt {
 			{
 				$temp = $temp + 256;
 			}
-			
+
 			$str .= chr($temp);
 		}
 
@@ -418,7 +418,7 @@ class CI_Encrypt {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Set the Mcrypt Cipher
 	 *
@@ -477,7 +477,7 @@ class CI_Encrypt {
 		{
 			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
-		
+
 		return $this->_mcrypt_mode;
 	}
 
@@ -503,7 +503,7 @@ class CI_Encrypt {
 	 * @access	public
 	 * @param	string
 	 * @return	string
-	 */	
+	 */
 	function hash($str)
 	{
 		return ($this->_hash_type == 'sha1') ? $this->sha1($str) : md5($str);
