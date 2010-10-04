@@ -71,7 +71,7 @@ fx.Layout.prototype = Object.extend(new fx.Base(), {
 });
 
 fx.Height = Class.create();
-Object.extend(Object.extend(fx.Height.prototype, fx.Layout.prototype), {	
+Object.extend(Object.extend(fx.Height.prototype, fx.Layout.prototype), {
 	increase: function() {
 		this.el.style.height = this.now + "px";
 	},
@@ -83,7 +83,7 @@ Object.extend(Object.extend(fx.Height.prototype, fx.Layout.prototype), {
 });
 
 fx.Width = Class.create();
-Object.extend(Object.extend(fx.Width.prototype, fx.Layout.prototype), {	
+Object.extend(Object.extend(fx.Width.prototype, fx.Layout.prototype), {
 	increase: function() {
 		this.el.style.width = this.now + "px";
 	},

@@ -26,7 +26,7 @@
  */
 class CI_Image_lib {
 
-	var $image_library		= 'gd2';  	// Can be:  imagemagick, netpbm, gd, gd2
+	var $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
 	var $library_path		= '';
 	var $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
 	var $source_image		= '';
@@ -36,7 +36,7 @@ class CI_Image_lib {
 	var $quality			= '90';
 	var $create_thumb		= FALSE;
 	var $thumb_marker		= '_thumb';
-	var $maintain_ratio		= TRUE;  	// Whether to maintain aspect ratio when resizing or use hard values
+	var $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
 	var $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
 	var $rotation_angle		= '';
 	var $x_axis				= '';
@@ -54,11 +54,11 @@ class CI_Image_lib {
 	var $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
 	var $wm_padding			= 0;			// Padding around text
 	var $wm_hor_offset		= 0;			// Lets you push text to the right
-	var $wm_vrt_offset		= 0;			 // Lets you push  text down
+	var $wm_vrt_offset		= 0;			// Lets you push  text down
 	var $wm_font_color		= '#ffffff';	// Text color
 	var $wm_shadow_color	= '';			// Dropshadow color
 	var $wm_shadow_distance	= 2;			// Dropshadow distance
-	var $wm_opacity			= 50; 			// Image opacity: 1 - 100  Only works with image
+	var $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
 
 	// Private Vars
 	var $source_folder		= '';
@@ -147,7 +147,7 @@ class CI_Image_lib {
 		if ($this->source_image == '')
 		{
 			$this->set_error('imglib_source_image_required');
-			return FALSE;	   
+			return FALSE;	
 		}
 
 		/*
@@ -190,7 +190,7 @@ class CI_Image_lib {
 		// Set the Image Properties
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
-			return FALSE;	   
+			return FALSE;	
 		}
 
 		/*
@@ -400,7 +400,7 @@ class CI_Image_lib {
 		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs))
 		{
 			$this->set_error('imglib_rotation_angle_required');
-			return FALSE;	   
+			return FALSE;	
 		}
 
 		// Reassign the width and height
@@ -455,8 +455,8 @@ class CI_Image_lib {
 		{
 			if ($this->orig_width == $this->width AND $this->orig_height == $this->height)
 			{
- 				if ($this->source_image != $this->new_image)
- 				{
+				if ($this->source_image != $this->new_image)
+				{
 					if (@copy($this->full_src_path, $this->full_dst_path))
 					{
 						@chmod($this->full_dst_path, FILE_WRITE_MODE);
@@ -494,14 +494,14 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
- 		//  Create The Image
+		//  Create The Image
 		//
 		//  old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
 		//  it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
 		//  below should that ever prove inaccurate.
 		//
 		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
- 		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
+		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
 		{
 			$create	= 'imagecreatetruecolor';
 			$copy	= 'imagecopyresampled';
@@ -519,7 +519,7 @@ class CI_Image_lib {
 			imagealphablending($dst_img, FALSE);
 			imagesavealpha($dst_img, TRUE);
 		}
-		
+
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
 		//  Show the image
@@ -584,9 +584,9 @@ class CI_Image_lib {
 		{
 			switch ($this->rotation_angle)
 			{
-				case 'hor' 	: $angle = '-flop';
+				case 'hor'	: $angle = '-flop';
 					break;
-				case 'vrt' 	: $angle = '-flip';
+				case 'vrt'	: $angle = '-flip';
 					break;
 				default		: $angle = '-rotate '.$this->rotation_angle;
 					break;
@@ -664,7 +664,7 @@ class CI_Image_lib {
 					break;
 				case 180	:	$angle = 'r180';
 					break;
-				case 270 	:	$angle = 'r90';
+				case 270	:	$angle = 'r90';
 					break;
 				case 'vrt'	:	$angle = 'tb';
 					break;
@@ -889,7 +889,7 @@ class CI_Image_lib {
 		$this->get_image_properties();
 
 		//  Fetch watermark image properties
-		$props 			= $this->get_image_properties($this->wm_overlay_path, TRUE);
+		$props			= $this->get_image_properties($this->wm_overlay_path, TRUE);
 		$wm_img_type	= $props['image_type'];
 		$wm_width		= $props['width'];
 		$wm_height		= $props['height'];
@@ -944,7 +944,7 @@ class CI_Image_lib {
 		if ($wm_img_type == 3 AND function_exists('imagealphablending'))
 		{
 			@imagealphablending($src_img, TRUE);
-		} 
+		}
 
 		// Set RGB values for text and shadow
 		$rgba = imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp);
@@ -1266,7 +1266,7 @@ class CI_Image_lib {
 
 		switch ($this->image_type)
 		{
-			case 1 		:	imagegif($resource);
+			case 1		:	imagegif($resource);
 				break;
 			case 2		:	imagejpeg($resource, '', $this->quality);
 				break;
@@ -1384,8 +1384,8 @@ class CI_Image_lib {
 	 * new variable needs to be known
 	 *
 	 *	$props = array(
-	 *					'width' 		=> $width,
-	 *					'height' 		=> $height,
+	 *					'width'			=> $width,
+	 *					'height'		=> $height,
 	 *					'new_width'		=> 40,
 	 *					'new_height'	=> ''
 	 *				  );
@@ -1446,7 +1446,7 @@ class CI_Image_lib {
 	{
 		$ext = strrchr($source_image, '.');
 		$name = ($ext === FALSE) ? $source_image : substr($source_image, 0, -strlen($ext));
-		
+
 		return array('ext' => $ext, 'name' => $name);
 	}
 

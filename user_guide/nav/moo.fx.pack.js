@@ -113,7 +113,7 @@ fx.MultiFadeSize.prototype = Object.extend(new Multi(), {
 				this.el[i].fs.toggle(mode);
 				setTimeout(function(){el.fs.toggle(mode);}.bind(el), delay);
 			}
-			
+
 		}
 	},
 
@@ -170,13 +170,13 @@ fx.RememberHeight.prototype = Object.extend(new Remember(), {
 		this.fx = new fx.Height(this.el, this.options);
 		this.prefix = 'height';
 	},
-	
+
 	toggle: function(){
 		if (this.el.offsetHeight == 0) this.setCookie(this.el.scrollHeight);
 		else this.setCookie(0);
 		this.fx.toggle();
 	},
-	
+
 	resize: function(to){
 		this.setCookie(this.el.offsetHeight+to);
 		this.fx.custom(this.el.offsetHeight,this.el.offsetHeight+to);

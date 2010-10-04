@@ -55,7 +55,7 @@ class CI_SHA {
 	 * @access	public
 	 * @param	string
 	 * @return	string
-	 */	
+	 */
 	function generate($str)
 	{
 		$n = ((strlen($str) + 8) >> 6) + 1;
@@ -117,7 +117,7 @@ class CI_SHA {
 
 		return $this->_hex($a).$this->_hex($b).$this->_hex($c).$this->_hex($d).$this->_hex($e);
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -126,7 +126,7 @@ class CI_SHA {
 	 * @access	private
 	 * @param	string
 	 * @return	string
-	 */	
+	 */
 	function _hex($str)
 	{
 		$str = dechex($str);
@@ -138,7 +138,7 @@ class CI_SHA {
 
 		return $str;
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -146,7 +146,7 @@ class CI_SHA {
 	 *
 	 * @access	private
 	 * @return	string
-	 */	
+	 */
 	function _ft($t, $b, $c, $d)
 	{
 		if ($t < 20)
@@ -166,7 +166,7 @@ class CI_SHA {
 	 *
 	 * @access	private
 	 * @return	string
-	 */	
+	 */
 	function _kt($t)
 	{
 		if ($t < 20)
@@ -186,7 +186,7 @@ class CI_SHA {
 			return -899497514;
 		}
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -194,7 +194,7 @@ class CI_SHA {
 	 *
 	 * @access	private
 	 * @return	string
-	 */	
+	 */
 	function _safe_add($x, $y)
 	{
 		$lsw = ($x & 0xFFFF) + ($y & 0xFFFF);
@@ -202,7 +202,7 @@ class CI_SHA {
 
 		return ($msw << 16) | ($lsw & 0xFFFF);
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -210,7 +210,7 @@ class CI_SHA {
 	 *
 	 * @access	private
 	 * @return	integer
-	 */	
+	 */
 	function _rol($num, $cnt)
 	{
 		return ($num << $cnt) | $this->_zero_fill($num, 32 - $cnt);
@@ -223,7 +223,7 @@ class CI_SHA {
 	 *
 	 * @access	private
 	 * @return	string
-	 */	
+	 */
 	function _zero_fill($a, $b)
 	{
 		$bin = decbin($a);

@@ -83,7 +83,7 @@ $data = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array('John', 'Green', 'Medium')	<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 <br />
-echo $this->table->generate($data);		
+echo $this->table->generate($data);
 </code>
 
 <p>Here is an example of a table created from a database query result. The table class will automatically generate the
@@ -95,7 +95,7 @@ $this->load->library('table');<br />
 <br />
 $query = $this->db->query("SELECT * FROM my_table");<br />
 <br />
-echo $this->table->generate($query);		
+echo $this->table->generate($query);
 </code>
 
 
@@ -110,7 +110,7 @@ $this->table->add_row('Fred', 'Blue', 'Small');<br />
 $this->table->add_row('Mary', 'Red', 'Large');<br />
 $this->table->add_row('John', 'Green', 'Medium');<br />
 <br />
-echo $this->table->generate();		
+echo $this->table->generate();
 </code>
 
 <p>Here is the same example, except instead of individual parameters, arrays are used:</p>
@@ -124,7 +124,7 @@ $this->table->add_row(array('Fred', 'Blue', 'Small'));<br />
 $this->table->add_row(array('Mary', 'Red', 'Large'));<br />
 $this->table->add_row(array('John', 'Green', 'Medium'));<br />
 <br />
-echo $this->table->generate();		
+echo $this->table->generate();
 </code>
 
 

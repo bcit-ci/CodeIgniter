@@ -28,18 +28,18 @@
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class Controller extends CI_Base {
-	
+
 	/**
 	 * Constructor
 	 *
 	 * Calls the initialize() function
 	 */
 	function Controller()
-	{	
+	{
 		parent::CI_Base();
 
 		// Assign all the class objects that were instantiated by the
-		// bootstrap file (CodeIgniter.php) to local class variables 
+		// bootstrap file (CodeIgniter.php) to local class variables
 		// so that CI can run as one big super object.
 		foreach (is_loaded() as $var => $class)
 		{
@@ -48,18 +48,18 @@ class Controller extends CI_Base {
 
 		// In PHP 5 the Loader class is run as a discreet
 		// class.  In PHP 4 it extends the Controller @PHP4
-	 	if (is_php('5.0.0') == TRUE)
+		if (is_php('5.0.0') == TRUE)
 		{
 			$this->load =& load_class('Loader', 'core');
-			
+
 			$this->load->_base_classes =& is_loaded();
-			
+
 			$this->load->_ci_autoloader();
 		}
 		else
 		{
 			$this->_ci_autoloader();
-			
+
 			// sync up the objects since PHP4 was working from a copy
 			foreach (array_keys(get_object_vars($this)) as $attribute)
 			{
@@ -71,7 +71,7 @@ class Controller extends CI_Base {
 		}
 
 		log_message('debug', "Controller Class Initialized");
-		
+
 	}
 
 }

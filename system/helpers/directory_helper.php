@@ -38,7 +38,7 @@
  * @param	string	path to source
  * @param	int		depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
  * @return	array
- */	
+ */
 if ( ! function_exists('directory_map'))
 {
 	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
@@ -47,8 +47,8 @@ if ( ! function_exists('directory_map'))
 		{
 			$filedata	= array();
 			$new_depth	= $directory_depth - 1;
-			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;		
-						
+			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				// Remove '.', '..', and hidden files [optional]
@@ -66,7 +66,7 @@ if ( ! function_exists('directory_map'))
 					$filedata[] = $file;
 				}
 			}
-			
+
 			closedir($fp);
 			return $filedata;
 		}

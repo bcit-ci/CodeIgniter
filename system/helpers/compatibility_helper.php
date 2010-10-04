@@ -20,13 +20,13 @@
  *
  * This helper contains some functions based on the PEAR PHP_Compat library
  * http://pear.php.net/package/PHP_Compat
- * 
+ *
  * The PEAR compat library is a little bloated and the code doesn't harmonize
  * well with CodeIgniter, so those functions have been refactored.
  * We cheat a little and use CI's _exception_handler() to output our own PHP errors
  * so that the behavior fully mimicks the PHP 5 counterparts.  -- Derek Jones
  * @PHP4
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
@@ -39,7 +39,7 @@
 if ( ! defined('PHP_EOL'))
 {
 	define('PHP_EOL', (DIRECTORY_SEPARATOR == '/') ? "\n" : "\r\n");
-} 
+}
 
 // ------------------------------------------------------------------------
 
@@ -83,16 +83,16 @@ if ( ! function_exists('file_put_contents'))
 			}
 
 			$text = '';
-			
+
 			while ( ! feof($data))
 			{
 				$text .= fread($data, 4096);
 			}
-			
+
 			$data = $text;
 			unset($text);
 		}
-	
+
 		// strings only please!
 		if (is_array($data))
 		{
@@ -108,7 +108,7 @@ if ( ! function_exists('file_put_contents'))
 		{
 			$mode = FOPEN_WRITE_CREATE_DESTRUCTIVE;
 		}
-	
+
 		// Check if we're using the include path
 		if (($flags & 1) > 0) // 1 = FILE_USE_INCLUDE_PATH flag
 		{
@@ -118,16 +118,16 @@ if ( ! function_exists('file_put_contents'))
 		{
 			$use_include_path = FALSE;
 		}
-	
+
 		$fp = @fopen($filename, $mode, $use_include_path);
-	
+
 		if ($fp === FALSE)
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'file_put_contents('.htmlentities($filename).') failed to open stream', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		if (($flags & LOCK_EX) > 0)
 		{
 			if ( ! flock($fp, LOCK_EX))
@@ -137,17 +137,17 @@ if ( ! function_exists('file_put_contents'))
 				return FALSE;
 			}
 		}
-		
+
 		// write it
 		if (($written = @fwrite($fp, $data)) === FALSE)
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'file_put_contents('.htmlentities($filename).') failed to write to '.htmlentities($filename), $backtrace[0]['file'], $backtrace[0]['line']);
 		}
-	
+
 		// Close the handle
 		@fclose($fp);
-	
+
 		// Return length
 		return $written;
 	}
@@ -179,7 +179,7 @@ if ( ! function_exists('fputcsv'))
 			_exception_handler(E_USER_WARNING, 'fputcsv() expects parameter 1 to be stream resource, '.gettype($handle).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		// OK, it is a resource, but is it a stream?
 		if (get_resource_type($handle) !== 'stream')
 		{
@@ -187,7 +187,7 @@ if ( ! function_exists('fputcsv'))
 			_exception_handler(E_USER_WARNING, 'fputcsv() expects parameter 1 to be stream resource, '.get_resource_type($handle).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		// Checking for an array of fields
 		if ( ! is_array($fields))
 		{
@@ -195,7 +195,7 @@ if ( ! function_exists('fputcsv'))
 			_exception_handler(E_USER_WARNING, 'fputcsv() expects parameter 2 to be array, '.gettype($fields).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		// validate delimiter
 		if (strlen($delimiter) > 1)
 		{
@@ -203,7 +203,7 @@ if ( ! function_exists('fputcsv'))
 			$backtrace = debug_backtrace();
 			_exception_handler(E_NOTICE, 'fputcsv() delimiter must be one character long, "'.htmlentities($delimiter).'" used', $backtrace[0]['file'], $backtrace[0]['line']);
 		}
-	
+
 		// validate enclosure
 		if (strlen($enclosure) > 1)
 		{
@@ -212,9 +212,9 @@ if ( ! function_exists('fputcsv'))
 			_exception_handler(E_NOTICE, 'fputcsv() enclosure must be one character long, "'.htmlentities($enclosure).'" used', $backtrace[0]['file'], $backtrace[0]['line']);
 
 		}
-	
+
 		$out = '';
-	
+
 		foreach ($fields as $cell)
 		{
 			$cell = str_replace($enclosure, $enclosure.$enclosure, $cell);
@@ -228,9 +228,9 @@ if ( ! function_exists('fputcsv'))
 				$out .= $cell.$delimiter;
 			}
 		}
-	
+
 		$length = @fwrite($handle, substr($out, 0, -1)."\n");
-	
+
 		return $length;
 	}
 }
@@ -258,33 +258,33 @@ if ( ! function_exists('stripos'))
 		{
 			settype($haystack, 'STRING');
 		}
-	
+
 		if ( ! is_string($haystack))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() expects parameter 1 to be string, '.gettype($haystack).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		if ( ! is_scalar($needle))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() needle is not a string or an integer in '.$backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		if (is_float($offset))
 		{
 			$offset = (int)$offset;
 		}
-	
+
 		if ( ! is_int($offset) && ! is_bool($offset) && ! is_null($offset))
 		{
 			$backtrace = debug_backtrace();
 			_exception_handler(E_USER_WARNING, 'stripos() expects parameter 3 to be long, '.gettype($offset).' given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return NULL;
 		}
-	
+
 		return strpos(strtolower($haystack), strtolower($needle), $offset);
 	}
 }
@@ -314,7 +314,7 @@ if ( ! function_exists('str_ireplace'))
 		{
 			return $subject;
 		}
-	
+
 		// Crazy arguments
 		if (is_scalar($search) && is_array($replace))
 		{
@@ -329,7 +329,7 @@ if ( ! function_exists('str_ireplace'))
 				_exception_handler(E_USER_NOTICE, 'Array to string conversion in '.$backtrace[0]['file'], $backtrace[0]['line']);
 			}
 		}
-	
+
 		// Searching for an array
 		if (is_array($search))
 		{
@@ -360,28 +360,28 @@ if ( ! function_exists('str_ireplace'))
 			$search  = array((string)$search);
 			$replace = array((string)$replace);
 		}
-		
+
 		// Prepare the search array
 		foreach ($search as $search_key => $search_value)
 		{
 			$search[$search_key] = '/'.preg_quote($search_value, '/').'/i';
 		}
-		
+
 		// Prepare the replace array (escape backreferences)
 		foreach ($replace as $k => $v)
 		{
 			$replace[$k] = str_replace(array(chr(92), '$'), array(chr(92).chr(92), '\$'), $v);
 		}
-	
+
 		// do the replacement
 		$result = preg_replace($search, $replace, (array)$subject);
-	
+
 		// Check if subject was initially a string and return it as a string
 		if ( ! is_array($subject))
 		{
 			return current($result);
 		}
-	
+
 		// Otherwise, just return the array
 		return $result;
 	}
@@ -412,19 +412,19 @@ if ( ! function_exists('http_build_query'))
 			_exception_handler(E_USER_WARNING, 'http_build_query() Parameter 1 expected to be Array or Object. Incorrect value given', $backtrace[0]['file'], $backtrace[0]['line']);
 			return FALSE;
 		}
-	
+
 		// Cast it as array
 		if (is_object($formdata))
 		{
 			$formdata = get_object_vars($formdata);
 		}
-	
+
 		// If the array is empty, return NULL
 		if (empty($formdata))
 		{
 			return NULL;
 		}
-	
+
 		// Argument separator
 		if ($separator === NULL)
 		{
@@ -435,7 +435,7 @@ if ( ! function_exists('http_build_query'))
 				$separator = '&';
 			}
 		}
-	
+
 		// Start building the query
 		$tmp = array();
 
@@ -445,36 +445,36 @@ if ( ! function_exists('http_build_query'))
 			{
 				continue;
 			}
-	
+
 			if (is_integer($key) && $numeric_prefix != NULL)
 			{
 				$key = $numeric_prefix.$key;
 			}
-	
+
 			if (is_resource($val))
 			{
 				return NULL;
 			}
-			
+
 			// hand it off to a recursive parser
 			$tmp[] = _http_build_query_helper($key, $val, $separator);
 		}
-	
+
 		return implode($separator, $tmp);
 	}
-	
-	
+
+
 	// Helper helper.  Remind anyone of college?
 	// Required to handle recursion in nested arrays.
-	// 
+	//
 	// You could shave fractions of fractions of a second by moving where
 	// the urlencoding takes place, but it's much less intuitive, and if
 	// your application has 10,000 form fields, well, you have other problems ;)
 	function _http_build_query_helper($key, $val, $separator = '&')
-	{	
+	{
 		if (is_scalar($val))
 		{
-			return urlencode($key).'='.urlencode($val);			
+			return urlencode($key).'='.urlencode($val);
 		}
 		else
 		{
@@ -483,13 +483,13 @@ if ( ! function_exists('http_build_query'))
 			{
 				$val = get_object_vars($val);
 			}
-			
+
 			foreach ($val as $k => $v)
 			{
 				$tmp[] = _http_build_query_helper($key.'['.$k.']', $v, $separator);
 			}
 		}
-			
+
 		return implode($separator, $tmp);
 	}
 }

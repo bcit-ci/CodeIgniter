@@ -65,11 +65,11 @@ Query Results
 <p>There are several ways to generate query results:</p>
 
 	<h2>result()</h2>
-	
+
 	<p>This function returns the query result as an array of <strong>objects</strong>, or <strong>an empty array</strong> on failure.
-	
+
 	Typically you'll use this in a foreach loop, like this:</p>
-	
+
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
 	<br />
@@ -79,11 +79,11 @@ Query Results
 	&nbsp;&nbsp;&nbsp;echo $row->name;<br />
 	&nbsp;&nbsp;&nbsp;echo $row->body;<br />
 	}</code>
-	
+
 	<p>The above <dfn>function</dfn> is an alias of <dfn>result_object()</dfn>.</p>
 
 	<p>If you run queries that might <strong>not</strong> produce a result, you are encouraged to test the result first:</p>
-	
+
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
 	<br />
@@ -97,9 +97,9 @@ Query Results
 	&nbsp;&nbsp;&nbsp;}<br />
 	}
 	</code>
-	
+
 	<h2>result_array()</h2>
-	
+
 	<p>This function returns the query result as a pure array, or an empty array when no result is produced.  Typically you'll use this in a foreach loop, like this:</p>
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
@@ -113,7 +113,7 @@ Query Results
 
 
 	<h2>row()</h2>
-	
+
 	<p>This function returns a single result row.  If your query has more than one row, it returns only the first row.
 	The result is returned as an <strong>object</strong>.  Here's a usage example:</p>
 	<code>
@@ -128,9 +128,9 @@ Query Results
 	&nbsp;&nbsp;&nbsp;echo $row->body;<br />
 	}
 	</code>
-	
+
 	<p>If you want a specific row returned you can submit the row number as a digit in the first parameter:</p>
-	
+
 	<code>$row = $query->row(<dfn>5</dfn>);</code>
 
 
@@ -151,13 +151,13 @@ Query Results
 	}
 	</code>
 
-	
-	<p>If you want a specific row returned you can submit the row number as a digit in the first parameter:</p>
-	
-	<code>$row = $query->row_array(<dfn>5</dfn>);</code>
-	
 
- 	<p>In addition, you can walk forward/backwards/first/last through your results using these variations:</p>
+	<p>If you want a specific row returned you can submit the row number as a digit in the first parameter:</p>
+
+	<code>$row = $query->row_array(<dfn>5</dfn>);</code>
+
+
+	<p>In addition, you can walk forward/backwards/first/last through your results using these variations:</p>
 
 <p>
 	<strong>$row = $query->first_row()</strong><br />
@@ -217,7 +217,7 @@ $query2->free_result();  // The $query2 result object will no longer be availabl
 
 
 
-	
+
 
 </div>
 <!-- END CONTENT -->

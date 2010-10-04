@@ -23,7 +23,7 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_mysqli_utility extends CI_DB_utility {
-	
+
 	/**
 	 * List databases
 	 *
@@ -34,7 +34,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	{
 		return "SHOW DATABASES";
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**

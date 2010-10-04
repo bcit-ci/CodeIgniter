@@ -7,7 +7,7 @@
 | Individual images can be used to replace multiple simileys.  For example:
 | :-) and :) use the same image replacement.
 |
-| Please see user guide for more info: 
+| Please see user guide for more info:
 | http://codeigniter.com/user_guide/helpers/smiley_helper.html
 |
 */

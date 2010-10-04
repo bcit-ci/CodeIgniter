@@ -79,7 +79,7 @@ Upgrading from 1.6.3 to 1.7.0
 
 <h2>Step 2: Update your Session Table</h2>
 
-<p>If you are using the Session class in your application, AND if you are storing session data to a database, you must add a new column named <dfn>user_data</dfn> to your session table. 
+<p>If you are using the Session class in your application, AND if you are storing session data to a database, you must add a new column named <dfn>user_data</dfn> to your session table.
 Here is an example of what this column might look like for MySQL:</p>
 
 <code>user_data text NOT NULL</code>
@@ -93,7 +93,7 @@ Here is an example of what this column might look like for MySQL:</p>
 
 <h2>Step 3: Update your Validation Syntax</h2>
 
-<p>This is an <strong>optional</strong>, but recommended step, for people currently using the Validation class.  CI 1.7 introduces a new  <a href="../libraries/form_validation.html">Form Validation class</a>, which 
+<p>This is an <strong>optional</strong>, but recommended step, for people currently using the Validation class.  CI 1.7 introduces a new  <a href="../libraries/form_validation.html">Form Validation class</a>, which
 deprecates the old Validation library.  We have left the old one in place so that existing applications that use it will not break, but you are encouraged to
 migrate to the new version as soon as possible.  Please read the user guide carefully as the new library works a little differently, and has several new features.</p>
 

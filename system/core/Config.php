@@ -45,10 +45,10 @@ class CI_Config {
 	 */
 	function CI_Config()
 	{
-		$this->config =& get_config();	
+		$this->config =& get_config();
 		log_message('debug', "Config Class Initialized");
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -57,16 +57,16 @@ class CI_Config {
 	 * @access	public
 	 * @param	string	the config file name
 	 * @return	boolean	if the file was loaded correctly
-	 */	
+	 */
 	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
 		$loaded = FALSE;
-	
+
 		foreach($this->_config_paths as $path)
 		{
 			$file_path = $path.'config/'.$file.EXT;
-			
+
 			if (in_array($file_path, $this->is_loaded, TRUE))
 			{
 				$loaded = TRUE;
@@ -77,7 +77,7 @@ class CI_Config {
 			{
 				continue;
 			}
-			
+
 			include($file_path);
 
 			if ( ! isset($config) OR ! is_array($config))
@@ -88,7 +88,7 @@ class CI_Config {
 				}
 				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
 			}
-			
+
 			if ($use_sections === TRUE)
 			{
 				if (isset($this->config[$file]))
@@ -104,14 +104,14 @@ class CI_Config {
 			{
 				$this->config = array_merge($this->config, $config);
 			}
-			
+
 			$this->is_loaded[] = $file_path;
 			unset($config);
-			
+
 			$loaded = TRUE;
 			log_message('debug', 'Config file loaded: '.$file_path);
 		}
-		
+
 		if ($loaded === FALSE)
 		{
 			if ($fail_gracefully === TRUE)
@@ -123,7 +123,7 @@ class CI_Config {
 
 		return TRUE;
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -137,9 +137,9 @@ class CI_Config {
 	 * @return	string
 	 */
 	function item($item, $index = '')
-	{	
+	{
 		if ($index == '')
-		{	
+		{
 			if ( ! isset($this->config[$item]))
 			{
 				return FALSE;
@@ -164,8 +164,8 @@ class CI_Config {
 
 		return $pref;
 	}
-  	
-  	// --------------------------------------------------------------------
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Fetch a config file item - adds slash after item
@@ -188,13 +188,13 @@ class CI_Config {
 		$pref = $this->config[$item];
 
 		if ($pref != '' && substr($pref, -1) != '/')
-		{	
+		{
 			$pref .= '/';
 		}
 
 		return $pref;
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -224,9 +224,9 @@ class CI_Config {
 			{
 				$uri = implode('/', $uri);
 			}
-	
+
 			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').trim($uri, '/').$suffix; 
+			return $this->slash_item('base_url').$this->slash_item('index_page').trim($uri, '/').$suffix;
 		}
 		else
 		{
@@ -254,7 +254,7 @@ class CI_Config {
 			}
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -268,7 +268,7 @@ class CI_Config {
 		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", BASEPATH));
 		return $this->slash_item('base_url').end($x).'/';
 	}
-  	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -283,7 +283,7 @@ class CI_Config {
 	{
 		$this->config[$item] = $value;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -296,7 +296,7 @@ class CI_Config {
 	 * @access	private
 	 * @param	array
 	 * @return	void
-	 */	
+	 */
 	function _assign_to_config($items = array())
 	{
 		if (is_array($items))
@@ -305,7 +305,7 @@ class CI_Config {
 			{
 				$this->set_item($key, $val);
 			}
-		}	
+		}
 	}
 }
 

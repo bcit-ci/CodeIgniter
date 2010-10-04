@@ -25,7 +25,7 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_mssql_result extends CI_DB_result {
-	
+
 	/**
 	 * Number of rows in the result set
 	 *
@@ -36,7 +36,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		return @mssql_num_rows($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,7 +67,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 		{
 			$field_names[] = $field->name;
 		}
-		
+
 		return $field_names;
 	}
 
@@ -85,17 +85,17 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		$retval = array();
 		while ($field = mssql_fetch_field($this->result_id))
-		{	
-			$F 				= new stdClass();
-			$F->name 		= $field->name;
-			$F->type 		= $field->type;
+		{
+			$F				= new stdClass();
+			$F->name		= $field->name;
+			$F->type		= $field->type;
 			$F->max_length	= $field->max_length;
 			$F->primary_key = 0;
 			$F->default		= '';
-			
+
 			$retval[] = $F;
 		}
-		
+
 		return $retval;
 	}
 
@@ -105,7 +105,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 * Free the result
 	 *
 	 * @return	null
-	 */		
+	 */
 	function free_result()
 	{
 		if (is_resource($this->result_id))
@@ -131,7 +131,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		return mssql_data_seek($this->result_id, $n);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -146,7 +146,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		return mssql_fetch_assoc($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**

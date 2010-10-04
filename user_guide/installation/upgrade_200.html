@@ -80,9 +80,9 @@ Upgrading from 1.7.2 to 2.0.0
 <h2>Step 3: Convert your Plugins to Helpers</h2>
 
 <p>2.0.0 gets rid of the "Plugin" system as their functionality was identical to Helpers, but non-extensible.  You will need to rename your plugin files from <var>filename_pi.php</var> to <var>filename_helper.php</var>, move them to your <kbd>helpers</kbd> folder, and change all instances of:
-	
+
 	<code>$this->load->plugin('foo');</code>
-	
+
 to
 
 	<code>$this->load->helper('foo');</code>
@@ -97,7 +97,7 @@ to
 	making it no longer possible to decode encrypted data produced by the original version of this library.  To help with the transition, a new method has
 	been added, <kbd>encode_from_legacy()</kbd> that will decode the data with the original algorithm and return a re-encoded string using the improved methods.
 	This will enable you to easily replace stale encrypted data with fresh in your applications, either on the fly or en masse.</p>
-	
+
 <p>Please read <a href="../libraries/encryption.html#legacy">how to use this method</a> in the Encryption library documentation.</p>
 
 </p>

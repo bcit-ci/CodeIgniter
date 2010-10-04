@@ -23,7 +23,7 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_mysql_forge extends CI_DB_forge {
-	
+
 	/**
 	 * Create database
 	 *
@@ -76,52 +76,52 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
-				
+
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
 				if (array_key_exists('NAME', $attributes))
 				{
 					$sql .= ' '.$this->db->_protect_identifiers($attributes['NAME']).' ';
 				}
-				
+
 				if (array_key_exists('TYPE', $attributes))
 				{
 					$sql .=  ' '.$attributes['TYPE'];
 				}
-	
+
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
-	
+
 				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
 				{
 					$sql .= ' UNSIGNED';
 				}
-	
+
 				if (array_key_exists('DEFAULT', $attributes))
 				{
 					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
 				}
-	
+
 				if (array_key_exists('NULL', $attributes))
 				{
 					$sql .= ($attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL';
 				}
-	
+
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' AUTO_INCREMENT';
 				}
 			}
-			
+
 			// don't add a comma on the end of the last field
 			if (++$current_field_count < count($fields))
 			{
 				$sql .= ',';
 			}
 		}
-		
+
 		return $sql;
 	}
 
@@ -141,12 +141,12 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
-		
+
 		if ($if_not_exists === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
-		
+
 		$sql .= $this->db->_escape_identifiers($table)." (";
 
 		$sql .= $this->_process_fields($fields);
@@ -165,14 +165,14 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 				if (is_array($key))
 				{
 					$key_name = $this->db->_protect_identifiers(implode('_', $key));
-					$key = $this->db->_protect_identifiers($key);	
+					$key = $this->db->_protect_identifiers($key);
 				}
 				else
 				{
 					$key_name = $this->db->_protect_identifiers($key);
 					$key = array($key_name);
 				}
-				
+
 				$sql .= ",\n\tKEY {$key_name} (" . implode(', ', $key) . ")";
 			}
 		}
@@ -226,7 +226,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		{
 			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
 		}
-		
+
 		return $sql;
 	}
 

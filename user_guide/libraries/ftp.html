@@ -82,7 +82,7 @@ $this->load->library('ftp');<br />
 $config['hostname'] = 'ftp.example.com';<br />
 $config['username'] = 'your-username';<br />
 $config['password'] = 'your-password';<br />
-$config['debug'] 	= TRUE;<br />
+$config['debug']	= TRUE;<br />
 <br />
 $this->ftp->connect($config);<br />
 <br />
@@ -101,7 +101,7 @@ $this->load->library('ftp');<br />
 $config['hostname'] = 'ftp.example.com';<br />
 $config['username'] = 'your-username';<br />
 $config['password'] = 'your-password';<br />
-$config['debug'] 	= TRUE;<br />
+$config['debug']	= TRUE;<br />
 <br />
 $this->ftp->connect($config);<br />
 <br />
@@ -121,7 +121,7 @@ $this->load->library('ftp');<br />
 $config['hostname'] = 'ftp.example.com';<br />
 $config['username'] = 'your-username';<br />
 $config['password'] = 'your-password';<br />
-$config['debug'] 	= TRUE;<br />
+$config['debug']	= TRUE;<br />
 <br />
 $this->ftp->connect($config);<br />
 <br />
@@ -231,7 +231,7 @@ $this->ftp->delete_file('/public_html/joe/blog.html');
 <h2>$this->ftp->delete_dir()</h2>
 <p>Lets you delete a directory and everything it contains.  Supply the source path to the directory with a trailing slash.</p>
 
-<p class="important"><strong>Important</strong>&nbsp; Be VERY careful with this function.  It will recursively delete 
+<p class="important"><strong>Important</strong>&nbsp; Be VERY careful with this function.  It will recursively delete
 <b>everything</b> within the supplied path, including sub-folders and all files.  Make absolutely sure your path is correct.
 Try using the <kbd>list_files()</kbd> function first to verify that your path is correct.</p>
 
@@ -242,7 +242,7 @@ $this->ftp->delete_dir('/public_html/path/to/folder/');
 
 
 <h2>$this->ftp->list_files()</h2>
-<p>Permits you to retrieve a list of files on your server returned as an <dfn>array</dfn>.  You must supply 
+<p>Permits you to retrieve a list of files on your server returned as an <dfn>array</dfn>.  You must supply
 the path to the desired directory.</p>
 
 <code>
@@ -254,7 +254,7 @@ print_r($list);
 
 <h2>$this->ftp->mirror()</h2>
 
-<p>Recursively reads a local folder and everything it contains (including sub-folders) and creates a 
+<p>Recursively reads a local folder and everything it contains (including sub-folders) and creates a
 mirror via FTP based on it.  Whatever the directory structure of the original file path will be recreated on the server.
 You must supply a source path and a destination path:</p>
 
