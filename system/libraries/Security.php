@@ -680,11 +680,10 @@ class CI_Security {
 	 * @param	string
 	 * @return	string
 	 */
-	function sanitize_filename($str)
+	function sanitize_filename($str, $relative_path = FALSE)
 	{
 		$bad = array(
 						"../",
-						"./",
 						"<!--",
 						"-->",
 						"<",
@@ -701,7 +700,6 @@ class CI_Security {
 						'=',
 						';',
 						'?',
-						'/',
 						"%20",
 						"%22",
 						"%3c",		// <
@@ -717,6 +715,12 @@ class CI_Security {
 						"%3b", 		// ;
 						"%3d"		// =
 					);
+		
+		if ( ! $relative_path)
+		{
+			$bad[] = './';
+			$bad[] = '/';
+		}
 
 		return stripslashes(str_replace($bad, '', $str));
 	}
