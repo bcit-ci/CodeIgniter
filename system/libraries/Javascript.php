@@ -22,7 +22,7 @@
  * @subpackage	Libraries
  * @category	Javascript
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/general/errors.html
+ * @link		http://codeigniter.com/user_guide/libraries/javascript.html
  */
 class CI_Javascript {
 
