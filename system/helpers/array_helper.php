@@ -73,6 +73,46 @@ if ( ! function_exists('random_element'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+/**
+ * Elements
+ *
+ * Returns only the array items specified.  Will return a default value if
+ * it is not set.
+ *
+ * @access	public
+ * @param	array
+ * @param	array
+ * @param	mixed
+ * @return	mixed	depends on what the array contains
+ */
+if ( ! function_exists('elements'))
+{
+	function elements($items, $array, $default = FALSE)
+	{
+		$return = array();
+		
+		if ( ! is_array($items))
+		{
+			$items = array($items);
+		}
+		
+		foreach ($items as $item)
+		{
+			if (isset($array[$item]))
+			{
+				$return[$item] = $array[$item];
+			}
+			else
+			{
+				$return[$item] = $default;
+			}
+		}
+
+		return $return;
+	}
+}
 
 /* End of file array_helper.php */
 /* Location: ./system/helpers/array_helper.php */
