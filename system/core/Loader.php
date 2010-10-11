@@ -177,7 +177,7 @@ class CI_Loader {
 				$CI->load->database($db_conn, FALSE, TRUE);
 			}
 
-			if ( ! class_exists('Model'))
+			if ( ! class_exists('CI_Model'))
 			{
 				load_class('Model', 'core');
 			}
