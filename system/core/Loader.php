@@ -78,6 +78,16 @@ class CI_Loader {
 	 */	
 	function library($library = '', $params = NULL, $object_name = NULL)
 	{
+		if (is_array($library))
+		{
+			foreach($library as $read)
+			{
+				$this->library($read);	
+			}
+			
+			return;
+		}
+		
 		if ($library == '' OR isset($this->_base_classes[$library]))
 		{
 			return FALSE;
