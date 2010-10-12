@@ -78,6 +78,16 @@ class CI_Loader {
 	 */
 	function library($library = '', $params = NULL, $object_name = NULL)
 	{
+		if (is_array($library))
+		{
+			foreach($library as $read)
+			{
+				$this->library($read);	
+			}
+			
+			return;
+		}
+		
 		if ($library == '' OR isset($this->_base_classes[$library]))
 		{
 			return FALSE;
@@ -177,7 +187,7 @@ class CI_Loader {
 				$CI->load->database($db_conn, FALSE, TRUE);
 			}
 
-			if ( ! class_exists('Model'))
+			if ( ! class_exists('CI_Model'))
 			{
 				load_class('Model', 'core');
 			}
