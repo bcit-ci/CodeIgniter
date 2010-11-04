@@ -30,11 +30,11 @@ class CI_Pagination {
 	var $prefix				= ''; // A custom prefix added to the path.
 	var $suffix				= ''; // A custom suffix added to the path.
 
-	var $total_rows  		= ''; // Total number of items (database results)
-	var $per_page	 		= 10; // Max number of items you want shown per page
+	var $total_rows			= ''; // Total number of items (database results)
+	var $per_page			= 10; // Max number of items you want shown per page
 	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
-	var $cur_page	 		=  0; // The current page being viewed
-	var $first_link   		= '&lsaquo; First';
+	var $cur_page			=  0; // The current page being viewed
+	var $first_link			= '&lsaquo; First';
 	var $next_link			= '&gt;';
 	var $prev_link			= '&lt;';
 	var $last_link			= 'Last &rsaquo;';
@@ -190,7 +190,7 @@ class CI_Pagination {
 			$this->base_url = rtrim($this->base_url, '/') .'/';
 		}
 
-  		// And here we go...
+		// And here we go...
 		$output = '';
 
 		// Render the "First" link
@@ -204,17 +204,17 @@ class CI_Pagination {
 		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
 		{
 			$i = $uri_page_number - $this->per_page;
-								
+
 			if ($i == 0 && $this->first_url != '')
 			{
-				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;				
+				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
 				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
-		
+
 		}
 
 		// Render the pages
@@ -234,7 +234,7 @@ class CI_Pagination {
 					else
 					{
 						$n = ($i == 0) ? '' : $i;
-					
+
 						if ($n == '' && $this->first_url != '')
 						{
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
@@ -242,7 +242,7 @@ class CI_Pagination {
 						else
 						{
 							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
-						
+
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
 						}
 					}

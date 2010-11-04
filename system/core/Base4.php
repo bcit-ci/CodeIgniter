@@ -32,7 +32,7 @@
  * Since PHP 5 doesn't suffer from this problem so we load one of
  * two files based on the version of PHP being run.
  * @PHP4
- * 
+ *
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	front-controller
@@ -46,7 +46,7 @@
 		// This allows syntax like $this->load->foo() to work
 		parent::CI_Loader();
 		$this->load =& $this;
-		
+
 		// This allows resources used within controller constructors to work
 		global $OBJ;
 		$OBJ = $this->load; // Do NOT use a reference.
@@ -56,12 +56,12 @@
 function &get_instance()
 {
 	global $CI, $OBJ;
-	
+
 	if (is_object($CI))
 	{
 		return $CI;
 	}
-	
+
 	return $OBJ->load;
 }
 

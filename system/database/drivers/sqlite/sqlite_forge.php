@@ -75,13 +75,13 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
-		
+
 		// IF NOT EXISTS added to SQLite in 3.3.0
 		if ($if_not_exists === TRUE && version_compare($this->db->_version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
-		
+
 		$sql .= $this->db->_escape_identifiers($table)."(";
 		$current_field_count = 0;
 
@@ -97,41 +97,41 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
-				
+
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
-				
+
 				$sql .=  ' '.$attributes['TYPE'];
-	
+
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
-	
+
 				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
 				{
 					$sql .= ' UNSIGNED';
 				}
-	
+
 				if (array_key_exists('DEFAULT', $attributes))
 				{
 					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
 				}
-	
+
 				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
 				{
 					$sql .= ' NULL';
 				}
 				else
 				{
-					$sql .= ' NOT NULL';			
+					$sql .= ' NOT NULL';
 				}
-	
+
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' AUTO_INCREMENT';
 				}
 			}
-			
+
 			// don't add a comma on the end of the last field
 			if (++$current_field_count < count($fields))
 			{
@@ -151,13 +151,13 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);	
+					$key = $this->db->_protect_identifiers($key);
 				}
 				else
 				{
 					$key = array($this->db->_protect_identifiers($key));
 				}
-				
+
 				$sql .= ",\n\tUNIQUE (" . implode(', ', $key) . ")";
 			}
 		}
@@ -237,9 +237,9 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		{
 			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
 		}
-		
+
 		return $sql;
-		
+
 	}
 
 	// --------------------------------------------------------------------

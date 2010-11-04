@@ -32,7 +32,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		// Not sure if ODBC lets you list all databases...	
+		// Not sure if ODBC lets you list all databases...
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
@@ -53,7 +53,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _optimize_table($table)
 	{
-		// Not a supported ODBC feature	
+		// Not a supported ODBC feature
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
@@ -74,7 +74,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 */
 	function _repair_table($table)
 	{
-		// Not a supported ODBC feature	
+		// Not a supported ODBC feature
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');

@@ -30,8 +30,8 @@ class CI_Output {
 
 	var $final_output;
 	var $cache_expiration	= 0;
-	var $headers 			= array();
-	var $enable_profiler 	= FALSE;
+	var $headers			= array();
+	var $enable_profiler	= FALSE;
 	var $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
 	var $_zlib_oc			= FALSE;
@@ -40,12 +40,12 @@ class CI_Output {
 	function CI_Output()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
-		
+
 		log_message('debug', "Output Class Initialized");
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Get Output
 	 *
@@ -53,14 +53,14 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @return	string
-	 */	
+	 */
 	function get_output()
 	{
 		return $this->final_output;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Set Output
 	 *
@@ -69,7 +69,7 @@ class CI_Output {
 	 * @access	public
 	 * @param	string
 	 * @return	void
-	 */	
+	 */
 	function set_output($output)
 	{
 		$this->final_output = $output;
@@ -85,7 +85,7 @@ class CI_Output {
 	 * @access	public
 	 * @param	string
 	 * @return	void
-	 */	
+	 */
 	function append_output($output)
 	{
 		if ($this->final_output == '')
@@ -111,52 +111,52 @@ class CI_Output {
 	 * @access	public
 	 * @param	string
 	 * @return	void
-	 */	
+	 */
 	function set_header($header, $replace = TRUE)
 	{
 		// If zlib.output_compression is enabled it will compress the output,
 		// but it will not modify the content-length header to compensate for
 		// the reduction, causing the browser to hang waiting for more data.
 		// We'll just skip content-length in those cases.
-		
+
 		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) == 0)
 		{
 			return;
 		}
-	    
+
 		$this->headers[] = array($header, $replace);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Set HTTP Status Header
 	 * moved to Common procedural functions in 1.7.2
-	 * 
+	 *
 	 * @access	public
-	 * @param	int 	the status code
-	 * @param	string	
+	 * @param	int		the status code
+	 * @param	string
 	 * @return	void
-	 */	
+	 */
 	function set_status_header($code = 200, $text = '')
 	{
 		set_status_header($code, $text);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Enable/disable Profiler
 	 *
 	 * @access	public
 	 * @param	bool
 	 * @return	void
-	 */	
+	 */
 	function enable_profiler($val = TRUE)
 	{
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -177,21 +177,21 @@ class CI_Output {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Set Cache
 	 *
 	 * @access	public
 	 * @param	integer
 	 * @return	void
-	 */	
+	 */
 	function cache($time)
 	{
 		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Display Output
 	 *
@@ -205,47 +205,55 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @return	mixed
-	 */		
+	 */
 	function _display($output = '')
-	{	
+	{
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
-		
+
+		// Grab the super object if we can.
+		if (function_exists('get_instance'))
+		{
+			$CI =& get_instance();
+		}
+
 		// --------------------------------------------------------------------
-		
+
 		// Set the output data
 		if ($output == '')
 		{
 			$output =& $this->final_output;
 		}
-		
+
 		// --------------------------------------------------------------------
-		
-		// Do we need to write a cache file?
-		if ($this->cache_expiration > 0)
+
+		// Do we need to write a cache file?  Only if the controller does not have its
+		// own _output() method and we are not dealing with a cache file, which we
+		// can determine by the existence of the $CI object above
+		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
 		{
 			$this->_write_cache($output);
 		}
-		
+
 		// --------------------------------------------------------------------
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-		
-		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');			
+
+		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');
 
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
-			
+
 			$output = str_replace('{elapsed_time}', $elapsed, $output);
 			$output = str_replace('{memory_usage}', $memory, $output);
 		}
 
 		// --------------------------------------------------------------------
-		
+
 		// Is compression requested?
 		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE)
 		{
@@ -259,7 +267,7 @@ class CI_Output {
 		}
 
 		// --------------------------------------------------------------------
-		
+
 		// Are there any server headers to send?
 		if (count($this->headers) > 0)
 		{
@@ -267,36 +275,33 @@ class CI_Output {
 			{
 				@header($header[0], $header[1]);
 			}
-		}		
+		}
 
 		// --------------------------------------------------------------------
-		
-		// Does the get_instance() function exist?
+
+		// Does the $CI object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if ( ! function_exists('get_instance'))
+		if ( ! isset($CI))
 		{
 			echo $output;
 			log_message('debug', "Final output sent to browser");
 			log_message('debug', "Total execution time: ".$elapsed);
 			return TRUE;
 		}
-	
+
 		// --------------------------------------------------------------------
 
-		// Grab the super object.  We'll need it in a moment...
-		$CI =& get_instance();
-		
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler == TRUE)
 		{
-			$CI->load->library('profiler');				
-			
+			$CI->load->library('profiler');
+
 			if ( ! empty($this->_profiler_sections))
 			{
 				$CI->profiler->set_sections($this->_profiler_sections);
-			}						
+			}
 
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
@@ -311,7 +316,7 @@ class CI_Output {
 				$output .= $CI->profiler->run();
 			}
 		}
-		
+
 		// --------------------------------------------------------------------
 
 		// Does the controller contain a function named _output()?
@@ -324,36 +329,36 @@ class CI_Output {
 		{
 			echo $output;  // Send it to the browser!
 		}
-		
+
 		log_message('debug', "Final output sent to browser");
-		log_message('debug', "Total execution time: ".$elapsed);		
+		log_message('debug', "Total execution time: ".$elapsed);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Write a Cache File
 	 *
 	 * @access	public
 	 * @return	void
-	 */	
+	 */
 	function _write_cache($output)
 	{
-		$CI =& get_instance();	
+		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
-	
+
 		$cache_path = ($path == '') ? BASEPATH.'cache/' : $path;
-		
+
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
 			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
 		}
-		
+
 		$uri =	$CI->config->item('base_url').
 				$CI->config->item('index_page').
 				$CI->uri->uri_string();
-		
+
 		$cache_path .= md5($uri);
 
 		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
@@ -361,9 +366,9 @@ class CI_Output {
 			log_message('error', "Unable to write cache file: ".$cache_path);
 			return;
 		}
-		
+
 		$expire = time() + ($this->cache_expiration * 60);
-		
+
 		if (flock($fp, LOCK_EX))
 		{
 			fwrite($fp, $expire.'TS--->'.$output);
@@ -381,51 +386,51 @@ class CI_Output {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Update/serve a cached file
 	 *
 	 * @access	public
 	 * @return	void
-	 */	
+	 */
 	function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? BASEPATH.'cache/' : $CFG->item('cache_path');
-	
+
 		// Build the file path.  The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
 				$URI->uri_string;
-				
+
 		$filepath = $cache_path.md5($uri);
-		
+
 		if ( ! @file_exists($filepath))
 		{
 			return FALSE;
 		}
-	
+
 		if ( ! $fp = @fopen($filepath, FOPEN_READ))
 		{
 			return FALSE;
 		}
-			
+
 		flock($fp, LOCK_SH);
-		
+
 		$cache = '';
 		if (filesize($filepath) > 0)
 		{
 			$cache = fread($fp, filesize($filepath));
 		}
-	
+
 		flock($fp, LOCK_UN);
 		fclose($fp);
-				
-		// Strip out the embedded timestamp		
+
+		// Strip out the embedded timestamp
 		if ( ! preg_match("/(\d+TS--->)/", $cache, $match))
 		{
 			return FALSE;
 		}
-		
+
 		// Has the file expired? If so we'll delete it.
 		if (time() >= trim(str_replace('TS--->', '', $match['1'])))
 		{
@@ -433,13 +438,13 @@ class CI_Output {
 			{
 				@unlink($filepath);
 				log_message('debug', "Cache file has expired. File deleted");
-				return FALSE;				
+				return FALSE;
 			}
 		}
 
 		// Display the cache
 		$this->_display(str_replace($match['0'], '', $cache));
-		log_message('debug', "Cache file is current. Sending it to browser.");		
+		log_message('debug', "Cache file is current. Sending it to browser.");
 		return TRUE;
 	}
 

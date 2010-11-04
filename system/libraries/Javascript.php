@@ -22,16 +22,16 @@
  * @subpackage	Libraries
  * @category	Javascript
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/general/errors.html
+ * @link		http://codeigniter.com/user_guide/libraries/javascript.html
  */
 class CI_Javascript {
 
 	var $_javascript_location = 'js';
 
 	function CI_Javascript($params = array())
-	{		
+	{
 		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
-		
+
 		foreach ($defaults as $key => $val)
 		{
 			if (isset($params[$key]) && $params[$key] !== "")
@@ -39,7 +39,7 @@ class CI_Javascript {
 				$defaults[$key] = $params[$key];
 			}
 		}
-		
+
 		extract($defaults);
 
 		$this->CI =& get_instance();
@@ -48,13 +48,13 @@ class CI_Javascript {
 		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
-		
+
 		log_message('debug', "Javascript Class Initialized and loaded.  Driver used: $js_library_driver");
 	}
 
-	// --------------------------------------------------------------------	 
-	// Event Code
 	// --------------------------------------------------------------------	
+	// Event Code
+	// --------------------------------------------------------------------
 
 	/**
 	 * Blur
@@ -70,9 +70,9 @@ class CI_Javascript {
 	{
 		return $this->js->_blur($element, $js);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Change
 	 *
@@ -87,9 +87,9 @@ class CI_Javascript {
 	{
 		return $this->js->_change($element, $js);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Click
 	 *
@@ -107,7 +107,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Double Click
 	 *
@@ -124,7 +124,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Error
 	 *
@@ -141,7 +141,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Focus
 	 *
@@ -158,7 +158,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Hover
 	 *
@@ -168,7 +168,7 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- Javascript code for mouse over
 	 * @param	string	- Javascript code for mouse out
- 	 * @return	string
+	 * @return	string
 	 */
 	function hover($element = 'this', $over, $out)
 	{
@@ -176,7 +176,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Keydown
 	 *
@@ -193,7 +193,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Keyup
 	 *
@@ -207,10 +207,10 @@ class CI_Javascript {
 	function keyup($element = 'this', $js = '')
 	{
 		return $this->js->_keyup($element, $js);
-	}	
+	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Load
 	 *
@@ -224,10 +224,10 @@ class CI_Javascript {
 	function load($element = 'this', $js = '')
 	{
 		return $this->js->_load($element, $js);
-	}	
-	
+	}
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Mousedown
 	 *
@@ -244,7 +244,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Mouse Out
 	 *
@@ -261,7 +261,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Mouse Over
 	 *
@@ -360,7 +360,7 @@ class CI_Javascript {
 	{
 		return $this->js->_scroll($element, $js);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -378,9 +378,9 @@ class CI_Javascript {
 		return $this->js->_unload($element, $js);
 	}
 
-	// --------------------------------------------------------------------	 
-	// Effects
 	// --------------------------------------------------------------------	
+	// Effects
+	// --------------------------------------------------------------------
 
 
 	/**
@@ -391,14 +391,14 @@ class CI_Javascript {
 	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
- 	 * @return	string
+	 * @return	string
 	 */
 	function addClass($element = 'this', $class = '')
 	{
 		return $this->js->_addClass($element, $class);
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Animate
@@ -409,7 +409,7 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function animate($element = 'this', $params = array(), $speed = '', $extra = '')
 	{
@@ -417,7 +417,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-		
+
 	/**
 	 * Fade In
 	 *
@@ -427,15 +427,15 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function fadeIn($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_fadeIn($element, $speed, $callback);
 	}
-		
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Fade Out
 	 *
@@ -445,14 +445,14 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function fadeOut($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_fadeOut($element, $speed, $callback);
 	}
 	// --------------------------------------------------------------------
-		
+
 	/**
 	 * Slide Up
 	 *
@@ -462,14 +462,14 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function slideUp($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_slideUp($element, $speed, $callback);
 
 	}
-		
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -480,15 +480,15 @@ class CI_Javascript {
 	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
- 	 * @return	string
+	 * @return	string
 	 */
 	function removeClass($element = 'this', $class = '')
 	{
 		return $this->js->_removeClass($element, $class);
 	}
 
-	// --------------------------------------------------------------------	
-	
+	// --------------------------------------------------------------------
+
 	/**
 	 * Slide Down
 	 *
@@ -498,7 +498,7 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function slideDown($element = 'this', $speed = '', $callback = '')
 	{
@@ -506,7 +506,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Slide Toggle
 	 *
@@ -516,14 +516,14 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function slideToggle($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_slideToggle($element, $speed, $callback);
 
 	}
-		
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -535,15 +535,15 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function hide($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_hide($element, $speed, $callback);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Toggle
 	 *
@@ -551,16 +551,16 @@ class CI_Javascript {
 	 *
 	 * @access	public
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function toggle($element = 'this')
 	{
 		return $this->js->_toggle($element);
 
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Toggle Class
 	 *
@@ -568,15 +568,15 @@ class CI_Javascript {
 	 *
 	 * @access	public
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function toggleClass($element = 'this', $class='')
 	{
 		return $this->js->_toggleClass($element, $class);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Show
 	 *
@@ -586,7 +586,7 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function show($element = 'this', $speed = '', $callback = '')
 	{
@@ -604,12 +604,12 @@ class CI_Javascript {
 	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @return	string
-	 */	
+	 */
 	function compile($view_var = 'script_foot', $script_tags = TRUE)
 	{
 		$this->js->_compile($view_var, $script_tags);
 	}
-	
+
 	/**
 	 * Clear Compile
 	 *
@@ -624,7 +624,7 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * External
 	 *
@@ -645,16 +645,16 @@ class CI_Javascript {
 			if ($this->CI->config->item('javascript_location') != '')
 			{
 				$this->_javascript_location = $this->CI->config->item('javascript_location');
-			}		
+			}
 		}
-		
+
 		if ($relative === TRUE OR strncmp($external_file, 'http://', 7) == 0 OR strncmp($external_file, 'https://', 8) == 0)
 		{
-			$str = $this->_open_script($external_file);		
+			$str = $this->_open_script($external_file);
 		}
 		elseif (strpos($this->_javascript_location, 'http://') !== FALSE)
 		{
-			$str = $this->_open_script($this->_javascript_location.$external_file);		
+			$str = $this->_open_script($this->_javascript_location.$external_file);
 		}
 		else
 		{
@@ -664,13 +664,13 @@ class CI_Javascript {
 		$str .= $this->_close_script();
 		return $str;
 	}
-  	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Inline
 	 *
-	 * Outputs a <script> tag 
+	 * Outputs a <script> tag
 	 *
 	 * @access	public
 	 * @param	string	The element to attach the event to
@@ -682,19 +682,19 @@ class CI_Javascript {
 		$str = $this->_open_script();
 		$str .= ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
 		$str .= $this->_close_script();
-		
+
 		return $str;
 	}
-	  	
-	// --------------------------------------------------------------------
 	
+	// --------------------------------------------------------------------
+
 	/**
 	 * Open Script
 	 *
-	 * Outputs an opening <script> 
+	 * Outputs an opening <script>
 	 *
 	 * @access	private
-	 * @param	string	
+	 * @param	string
 	 * @return	string
 	 */
 	function _open_script($src = '')
@@ -705,22 +705,22 @@ class CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Close Script
 	 *
-	 * Outputs an closing </script> 
+	 * Outputs an closing </script>
 	 *
 	 * @access	private
-	 * @param	string	
+	 * @param	string
 	 * @return	string
 	 */
 	function _close_script($extra = "\n")
 	{
 		return "</script>$extra";
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------
 	// --------------------------------------------------------------------
 	// AJAX-Y STUFF - still a testbed
@@ -736,15 +736,15 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function update($element = 'this', $speed = '', $callback = '')
 	{
 		return $this->js->_updater($element, $speed, $callback);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Generate JSON
 	 *
@@ -780,7 +780,7 @@ class CI_Javascript {
 
 		$json = array();
 		$_is_assoc = TRUE;
-		
+
 		if ( ! is_array($json_result) AND empty($json_result))
 		{
 			show_error("Generate JSON Failed - Illegal key, value pair.");
@@ -805,11 +805,11 @@ class CI_Javascript {
 		$json = implode(',', $json);
 
 		return $_is_assoc ? "{".$json."}" : "[".$json."]";
-		
+
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Is associative array
 	 *
@@ -828,12 +828,12 @@ class CI_Javascript {
 				return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Prep Args
 	 *
@@ -862,7 +862,7 @@ class CI_Javascript {
 			return $result;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 }
 // END Javascript Class

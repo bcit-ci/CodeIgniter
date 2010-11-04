@@ -25,7 +25,7 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlite_result extends CI_DB_result {
-	
+
 	/**
 	 * Number of rows in the result set
 	 *
@@ -36,7 +36,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	{
 		return @sqlite_num_rows($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,7 +67,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		{
 			$field_names[] = sqlite_field_name($this->result_id, $i);
 		}
-		
+
 		return $field_names;
 	}
 
@@ -86,16 +86,16 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		$retval = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
 		{
-			$F 				= new stdClass();
-			$F->name 		= sqlite_field_name($this->result_id, $i);
-			$F->type 		= 'varchar';
+			$F				= new stdClass();
+			$F->name		= sqlite_field_name($this->result_id, $i);
+			$F->type		= 'varchar';
 			$F->max_length	= 0;
 			$F->primary_key = 0;
 			$F->default		= '';
 
 			$retval[] = $F;
 		}
-		
+
 		return $retval;
 	}
 
@@ -105,7 +105,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 * Free the result
 	 *
 	 * @return	null
-	 */		
+	 */
 	function free_result()
 	{
 		// Not implemented in SQLite
@@ -142,7 +142,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	{
 		return sqlite_fetch_array($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -168,7 +168,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 				return $obj;
 			} else {
 				return NULL;
-			} 
+			}
 		}
 	}
 

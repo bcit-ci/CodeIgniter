@@ -43,7 +43,7 @@
 	{
 		static $_is_php;
 		$version = (string)$version;
-	
+
 		if ( ! isset($_is_php[$version]))
 		{
 			$_is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? FALSE : TRUE;
@@ -57,13 +57,13 @@
 /**
  * Tests for file writability
  *
- * is_writable() returns TRUE on Windows servers when you really can't write to 
+ * is_writable() returns TRUE on Windows servers when you really can't write to
  * the file, based on the read-only attribute.  is_writable() is also unreliable
  * on Unix servers if safe_mode is on.
  *
  * @access	private
  * @return	void
- */	
+ */
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
@@ -115,7 +115,7 @@
 	function &load_class($class, $directory = 'libraries', $prefix = 'CI_')
 	{
 		static $_classes = array();
-		
+
 		// Does the class exist?  If so, we're done...
 		if (isset($_classes[$class]))
 		{
@@ -127,25 +127,25 @@
 		// Look for the class first in the native system/libraries folder
 		// thenin the local application/libraries folder
 		foreach (array(BASEPATH, APPPATH) as $path)
-		{ 
+		{
 			if (file_exists($path.$directory.'/'.$class.EXT))
 			{
 				$name = $prefix.$class;
-		
+
 				if (class_exists($name) === FALSE)
 				{
 					require($path.$directory.'/'.$class.EXT);
 				}
-		
+
 				break;
 			}
 		}
 
 		// Is the request a class extension?  If so we load it too
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.EXT))
-		{	
+		{
 			$name = config_item('subclass_prefix').$class;
-	
+
 			if (class_exists($name) === FALSE)
 			{
 				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.EXT);
@@ -155,8 +155,8 @@
 		// Did we find the class?
 		if ($name === FALSE)
 		{
-			// Note: We use exit() rather then show_error() in order to avoid a 
-			// self-referencing loop with the Excptions class 
+			// Note: We use exit() rather then show_error() in order to avoid a
+			// self-referencing loop with the Excptions class
 			exit('Unable to locate the specified class: '.$class.EXT);
 		}
 
@@ -176,7 +176,7 @@
  * Required to retain PHP 4 compatibility and also not make PHP 5.3 cry.
  *
  * Use: $obj =& instantiate_class(new Foo());
- * 
+ *
  * @access	public
  * @param	object
  * @return	object
@@ -221,11 +221,11 @@
 	function &get_config($replace = array())
 	{
 		static $_config;
-	
+
 		if (isset($_config))
 		{
 			return $_config[0];
-		}	
+		}
 
 		// Fetch the config file
 		if ( ! file_exists(APPPATH.'config/config'.EXT))
@@ -254,7 +254,7 @@
 				}
 			}
 		}
-	
+
 		return $_config[0] =& $config;
 	}
 
@@ -269,18 +269,18 @@
 	function config_item($item)
 	{
 		static $_config_item = array();
-	
+
 		if ( ! isset($_config_item[$item]))
 		{
 			$config =& get_config();
-	
+
 			if ( ! isset($config[$item]))
 			{
 				return FALSE;
 			}
 			$_config_item[$item] = $config[$item];
 		}
-	
+
 		return $_config_item[$item];
 	}
 
@@ -343,7 +343,7 @@
 		{
 			return;
 		}
-	
+
 		$_log =& load_class('Log');
 		$_log->write_log($level, $message, $php_error);
 	}
@@ -354,10 +354,10 @@
  * Set HTTP Status Header
  *
  * @access	public
- * @param	int 	the status code
- * @param	string	
+ * @param	int		the status code
+ * @param	string
  * @return	void
- */	
+ */
 	function set_status_header($code = 200, $text = '')
 	{
 		$stati = array(
@@ -408,15 +408,15 @@
 		}
 
 		if (isset($stati[$code]) AND $text == '')
-		{				
+		{
 			$text = $stati[$code];
 		}
-	
+
 		if ($text == '')
 		{
 			show_error('No status text available.  Please check your status code number or supply your own message text.', 500);
 		}
-	
+
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
 		if (substr(php_sapi_name(), 0, 3) == 'cgi')
@@ -432,7 +432,7 @@
 			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
 		}
 	}
-	
+
 // --------------------------------------------------------------------
 
 /**
@@ -450,20 +450,20 @@
 * @return	void
 */
 	function _exception_handler($severity, $message, $filepath, $line)
-	{	
+	{
 		 // We don't bother with "strict" notices since they tend to fill up
 		 // the log file with excess information that isn't normally very helpful.
-		 // For example, if you are running PHP 5 and you use version 4 style 
-		 // class functions (without prefixes like "public", "private", etc.) 
+		 // For example, if you are running PHP 5 and you use version 4 style
+		 // class functions (without prefixes like "public", "private", etc.)
 		 // you'll get notices telling you that these have been deprecated.
 		if ($severity == E_STRICT)
 		{
 			return;
 		}
-	
+
 		$_error =& load_class('Exceptions', 'core');
-	
-		// Should we display the error? We'll get the current error_reporting 
+
+		// Should we display the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
 		if (($severity & error_reporting()) == $severity)
 		{
@@ -475,12 +475,12 @@
 		{
 			return;
 		}
-	
+
 		$_error->log_exception($severity, $message, $filepath, $line);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Remove Invisible Characters
 	 *
@@ -494,7 +494,7 @@
 	function remove_invisible_characters($str)
 	{
 		static $non_displayables;
-		
+
 		if ( ! isset($non_displayables))
 		{
 			// every control character except newline (dec 10), carriage return (dec 13), and horizontal tab (dec 09),

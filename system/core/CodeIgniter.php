@@ -61,10 +61,10 @@
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
-	
+
 	if ( ! is_php('5.3'))
 	{
-		@set_magic_quotes_runtime(0); // Kill magic quotes		
+		@set_magic_quotes_runtime(0); // Kill magic quotes
 	}
 
 	// Set a liberal script execution time limit
@@ -78,18 +78,18 @@
  *  Set the subclass_prefix
  * ------------------------------------------------------
  *
- * Normally the "subclass_prefix" is set in the config file. 
- * The subclass prefix allows CI to know if a core class is 
+ * Normally the "subclass_prefix" is set in the config file.
+ * The subclass prefix allows CI to know if a core class is
  * being extended via a library in the local application
- * "libraries" folder. Since CI allows config items to be 
- * overriden via data set in the main index. php file, 
- * before proceeding we need to know if a subclass_prefix 
+ * "libraries" folder. Since CI allows config items to be
+ * overriden via data set in the main index. php file,
+ * before proceeding we need to know if a subclass_prefix
  * override exists.  If so, we will set this value now,
  * before any classes are loaded
- * Note: Since the config file data is cached it doesn't 
+ * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
-	if (isset($assign_to_config['subclass_prefix']) AND $assign_to_config['subclass_prefix'] != '') 
+	if (isset($assign_to_config['subclass_prefix']) AND $assign_to_config['subclass_prefix'] != '')
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
 	}
@@ -121,12 +121,12 @@
  * ------------------------------------------------------
  *  Instantiate the config class
  * ------------------------------------------------------
- */ 
+ */
 	$CFG =& load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config))
-	{	
+	{
 		$CFG->_assign_to_config($assign_to_config);
 	}
 
@@ -134,16 +134,16 @@
  * ------------------------------------------------------
  *  Instantiate the Unicode class
  * ------------------------------------------------------
- * 
+ *
  * Note: Order here is rather important as the Unicode
  * class needs to be used very early on, but it cannot
- * properly determine if UTf-8 can be supported until 
+ * properly determine if UTf-8 can be supported until
  * after the Config class is instantiated.
- * 
+ *
  */
 
 	$UNI =& load_class('Unicode', 'core');
-		
+
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
@@ -155,10 +155,10 @@
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
- */ 
+ */
 	$RTR =& load_class('Router', 'core');
 	$RTR->_set_routing();
-	
+
 	// Set any routing overrides that may exist in the main index file
 	if (isset($routing))
 	{
@@ -190,7 +190,7 @@
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');	
+	$IN	=& load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
@@ -208,9 +208,9 @@
  *  conditionally load different versions of the base
  *  class.  Retaining PHP 4 compatibility requires a bit of a hack.
  *  @PHP4
- * 
+ *
  */
- 	if (is_php('5.0.0') == TRUE)
+	if (is_php('5.0.0') == TRUE)
 	{
 		require(BASEPATH.'core/Base5'.EXT);
 	}
@@ -220,25 +220,25 @@
 		load_class('Loader', 'core');
 		require(BASEPATH.'core/Base4'.EXT);
 	}
-	
+
 	// Load the base controller class
 	require BASEPATH.'core/Controller'.EXT;
-	
+
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller'.EXT))
 	{
 		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller'.EXT;
 	}
-	
+
 	// Load the local application controller
-	// Note: The Router class automatically validates the controller path using the router->_validate_request().  
+	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
 	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT))
 	{
 		show_error('Unable to load your default controller.  Please make sure the controller specified in your Routes.php file is valid.');
 	}
-	
+
 	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
-	
+
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
 
@@ -253,7 +253,7 @@
  */
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
-	
+
 	if ( ! class_exists($class)
 		OR $method == 'controller'
 		OR strncmp($method, '_', 1) == 0
@@ -277,7 +277,7 @@
  */
 	// Mark a start point so we can benchmark the controller
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
-	
+
 	$CI = new $class();
 
 /*
@@ -307,11 +307,11 @@
 		}
 
 		// Call the requested method.
-		// Any URI segments present (besides the class/function) will be passed to the method for convenience		
-		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));		
+		// Any URI segments present (besides the class/function) will be passed to the method for convenience
+		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
 	}
 
-	
+
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
 
@@ -331,7 +331,7 @@
 	{
 		$OUT->_display();
 	}
-	
+
 /*
  * ------------------------------------------------------
  *  Is there a "post_system" hook?

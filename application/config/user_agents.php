@@ -113,7 +113,7 @@ $mobiles = array(
 					'benq'				=> "BenQ",
 					'ipaq'				=> "HP iPaq",
 					'mot-'				=> "Motorola",
-					'playstation portable' 	=> "PlayStation Portable",
+					'playstation portable'	=> "PlayStation Portable",
 					'hiptop'			=> "Danger Hiptop",
 					'nec-'				=> "NEC",
 					'panasonic'			=> "Panasonic",
@@ -126,7 +126,7 @@ $mobiles = array(
 
 					// Operating Systems
 					'symbian'				=> "Symbian",
-					'SymbianOS'				=> "SymbianOS", 
+					'SymbianOS'				=> "SymbianOS",
 					'elaine'				=> "Palm",
 					'palm'					=> "Palm",
 					'series60'				=> "Symbian S60",
@@ -151,7 +151,7 @@ $mobiles = array(
 
 					// Fallback
 					'mobile'				=> "Generic Mobile",
-					'wireless' 				=> "Generic Mobile",
+					'wireless'				=> "Generic Mobile",
 					'j2me'					=> "Generic Mobile",
 					'midp'					=> "Generic Mobile",
 					'cldc'					=> "Generic Mobile",

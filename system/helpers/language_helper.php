@@ -36,7 +36,7 @@
  * @param	string	the language line
  * @param	string	the id of the form element
  * @return	string
- */	
+ */
 if ( ! function_exists('lang'))
 {
 	function lang($line, $id = '')
