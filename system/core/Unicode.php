@@ -9,16 +9,16 @@
  * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.0
  * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * Output Class
+ * Unicode Class
  *
- * Responsible for sending final output to browser
+ * Provides unicode support for UTF-8 environments
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
