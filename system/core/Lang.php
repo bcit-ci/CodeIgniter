@@ -120,7 +120,7 @@ class CI_Lang {
 	 * Fetch a single line of text from the language array
 	 *
 	 * @access	public
-	 * @param	string	$line 	the language line
+	 * @param	string	$line	the language line
 	 * @return	string
 	 */
 	function line($line = '')

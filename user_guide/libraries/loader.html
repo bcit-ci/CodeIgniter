@@ -78,8 +78,8 @@ Note: We use the terms "class" and "library" interchangeably.</p>
 
 <p>Once loaded, the library will be ready for use, using <kbd>$this->email-></kbd><samp><em>some_function</em>()</samp>.</p>
 
-<p>Library files can be stored in subdirectories within the main "libraries" folder, or within your personal <dfn>application/libraries</dfn> folder.  
-To load a file located in a subdirectory, simply include the path, relative to the "libraries" folder.  
+<p>Library files can be stored in subdirectories within the main "libraries" folder, or within your personal <dfn>application/libraries</dfn> folder.
+To load a file located in a subdirectory, simply include the path, relative to the "libraries" folder.
 For example, if you have file located at:</p>
 
 <code>libraries/flavors/chocolate.php</code>
@@ -217,7 +217,7 @@ $this->load->library('foo_bar');</code>
 <p>When your controller is finished using resources from an application package, and particularly if you have other application packages you want to work with, you may wish to remove the package path so the Loader no longer looks in that folder for resources.  To remove the last path added, simply call the method with no parameters.</p>
 
 <h3>$this->load->remove_package_path()</h3>
-	
+
 <p>Or to remove a specific package path, specify the same path previously given to <kbd>add_package_path() for a package.</kbd>:</p>
 
 <code>$this->load->remove_package_path(<var>APPPATH</var>.'third_party/<var>foo_bar</var>/');</code>

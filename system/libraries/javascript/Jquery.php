@@ -173,7 +173,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- Javascript code for mouse over
 	 * @param	string	- Javascript code for mouse out
- 	 * @return	string
+	 * @return	string
 	 */
 	function _hover($element = 'this', $over, $out)
 	{
@@ -390,7 +390,7 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @access	private
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function _addClass($element = 'this', $class='')
 	{
@@ -410,7 +410,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _animate($element = 'this', $params = array(), $speed = '', $extra = '')
 	{
@@ -452,7 +452,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _fadeIn($element = 'this', $speed = '', $callback = '')
 	{
@@ -480,7 +480,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _fadeOut($element = 'this', $speed = '', $callback = '')
 	{
@@ -508,7 +508,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _hide($element = 'this', $speed = '', $callback = '')
 	{
@@ -534,7 +534,7 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @access	private
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function _removeClass($element = 'this', $class='')
 	{
@@ -554,7 +554,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _slideUp($element = 'this', $speed = '', $callback = '')
 	{
@@ -582,7 +582,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _slideDown($element = 'this', $speed = '', $callback = '')
 	{
@@ -610,7 +610,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _slideToggle($element = 'this', $speed = '', $callback = '')
 	{
@@ -636,7 +636,7 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @access	private
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function _toggle($element = 'this')
 	{
@@ -654,7 +654,7 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @access	private
 	 * @param	string	- element
- 	 * @return	string
+	 * @return	string
 	 */
 	function _toggleClass($element = 'this', $class='')
 	{
@@ -674,7 +674,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
- 	 * @return	string
+	 * @return	string
 	 */
 	function _show($element = 'this', $speed = '', $callback = '')
 	{
@@ -884,7 +884,7 @@ class CI_Jquery extends CI_Javascript {
 	}
 
 	// --------------------------------------------------------------------
-		 
+
 	/**
 	 * Table Sorter Plugin
 	 *

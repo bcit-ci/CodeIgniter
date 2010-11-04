@@ -192,7 +192,7 @@ The allowed methods are on the left side of the array. When either of those are 
 
 <p>The '<var>object</var>' key is a special key that you pass an instantiated class object with, which is necessary when the method you are mapping to is not
 	part of the CodeIgniter super object.</p>
-	
+
 <p>In other words, if an XML-RPC Client sends a request for the <var>new_post</var> method, your
 server will load the <dfn>My_blog</dfn> class and call the <dfn>new_entry</dfn> function.
 If the request is for the <var>update_post</var> method, your
@@ -202,7 +202,7 @@ server will load the <dfn>My_blog</dfn> class and call the <dfn>update_entry</df
 or if you are using standardized APIs, like the Blogger or MetaWeblog API, you'll use their function names.</p>
 
 <p>There are two additional configuration keys you may make use of when initializing the server class: <var>debug</var> can be set to TRUE in order to enable debugging, and <var>xss_clean</var> may be set to FALSE to prevent sending data through the Security library's xss_clean function.
-	
+
 <h2>Processing Server Requests</h2>
 
 <p>When the XML-RPC Server receives a request and loads the class/method for processing, it will pass
@@ -324,20 +324,20 @@ In it, place this code and save it to your <samp>applications/controllers/</samp
 <textarea class="textarea" style="width:100%" cols="50" rows="32">&lt;?php
 
 class Xmlrpc_client extends Controller {
-	
+
 	function index()
-	{	
+	{
 		$this->load->helper('url');
 		$server_url = site_url('xmlrpc_server');
-	
+
 		$this->load->library('xmlrpc');
-		
+
 		$this->xmlrpc->server($server_url, 80);
 		$this->xmlrpc->method('Greetings');
-		
+
 		$request = array('How is it going?');
-		$this->xmlrpc->request($request);	
-		
+		$this->xmlrpc->request($request);
+
 		if ( ! $this->xmlrpc->send_request())
 		{
 			echo $this->xmlrpc->display_error();
@@ -367,24 +367,24 @@ class Xmlrpc_server extends Controller {
 	{
 		$this->load->library('xmlrpc');
 		$this->load->library('xmlrpcs');
-		
+
 		$config['functions']['Greetings'] = array('function' => 'Xmlrpc_server.process');
-		
+
 		$this->xmlrpcs->initialize($config);
 		$this->xmlrpcs->serve();
 	}
-	
-	
+
+
 	function process($request)
 	{
 		$parameters = $request->output_parameters();
-		
+
 		$response = array(
 							array(
 									'you_said'  => $parameters['0'],
 									'i_respond' => 'Not bad at all.'),
 							'struct');
-						
+
 		return $this->xmlrpc->send_response($response);
 	}
 }
@@ -422,7 +422,7 @@ The Server receives the request and maps it to the "process" function, where a r
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 	$this-&gt;xmlrpc-&gt;request($request);</code>
-	
+
 <p>You can retrieve the associative array when processing the request in the Server.</p>
 
 <code>$parameters = $request-&gt;output_parameters();<br />

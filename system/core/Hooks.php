@@ -28,8 +28,8 @@
  */
 class CI_Hooks {
 
-	var $enabled 		= FALSE;
-	var $hooks   		= array();
+	var $enabled		= FALSE;
+	var $hooks			= array();
 	var $in_progress	= FALSE;
 
 	/**
@@ -41,7 +41,7 @@ class CI_Hooks {
 		$this->_initialize();
 		log_message('debug', "Hooks Class Initialized");
 	}
-  
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -49,9 +49,9 @@ class CI_Hooks {
 	 *
 	 * @access	private
 	 * @return	void
-	 */  
-  	function _initialize()
-  	{
+	 */
+	function _initialize()
+	{
 		$CFG =& load_class('Config', 'core');
 
 		// If hooks are not enabled in the config file
@@ -74,8 +74,8 @@ class CI_Hooks {
 
 		$this->hooks =& $hook;
 		$this->enabled = TRUE;
-  	}
-  
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

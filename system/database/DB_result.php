@@ -32,7 +32,7 @@ class CI_DB_result {
 	var $result_id		= NULL;
 	var $result_array	= array();
 	var $result_object	= array();
-	var $current_row 	= 0;
+	var $current_row	= 0;
 	var $num_rows		= 0;
 	var $row_data		= NULL;
 
@@ -42,10 +42,10 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array	
-	 */	
+	 * @return	mixed	either a result object or array
+	 */
 	function result($type = 'object')
-	{	
+	{
 		return ($type == 'object') ? $this->result_object() : $this->result_array();
 	}
 
@@ -56,16 +56,16 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function result_object()
 	{
 		if (count($this->result_object) > 0)
 		{
 			return $this->result_object;
 		}
-		
-		// In the event that query caching is on the result_id variable 
-		// will return FALSE since there isn't a valid SQL resource so 
+
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
 		// we'll simply return an empty array.
 		if ($this->result_id === FALSE OR $this->num_rows() == 0)
 		{
@@ -77,10 +77,10 @@ class CI_DB_result {
 		{
 			$this->result_object[] = $row;
 		}
-		
+
 		return $this->result_object;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -88,7 +88,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	array
-	 */	
+	 */
 	function result_array()
 	{
 		if (count($this->result_array) > 0)
@@ -96,8 +96,8 @@ class CI_DB_result {
 			return $this->result_array;
 		}
 
-		// In the event that query caching is on the result_id variable 
-		// will return FALSE since there isn't a valid SQL resource so 
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
 		// we'll simply return an empty array.
 		if ($this->result_id === FALSE OR $this->num_rows() == 0)
 		{
@@ -109,7 +109,7 @@ class CI_DB_result {
 		{
 			$this->result_array[] = $row;
 		}
-		
+
 		return $this->result_array;
 	}
 
@@ -121,8 +121,8 @@ class CI_DB_result {
 	 * @access	public
 	 * @param	string
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array	
-	 */	
+	 * @return	mixed	either a result object or array
+	 */
 	function row($n = 0, $type = 'object')
 	{
 		if ( ! is_numeric($n))
@@ -132,16 +132,16 @@ class CI_DB_result {
 			{
 				$this->row_data = $this->row_array(0);
 			}
-		
+
 			// array_key_exists() instead of isset() to allow for MySQL NULL values
 			if (array_key_exists($n, $this->row_data))
 			{
 				return $this->row_data[$n];
 			}
-			// reset the $n variable if the result was not achieved			
+			// reset the $n variable if the result was not achieved
 			$n = 0;
 		}
-		
+
 		return ($type == 'object') ? $this->row_object($n) : $this->row_array($n);
 	}
 
@@ -152,7 +152,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function set_row($key, $value = NULL)
 	{
 		// We cache the row data for subsequent uses
@@ -160,17 +160,17 @@ class CI_DB_result {
 		{
 			$this->row_data = $this->row_array(0);
 		}
-	
+
 		if (is_array($key))
 		{
 			foreach ($key as $k => $v)
 			{
 				$this->row_data[$k] = $v;
 			}
-			
+
 			return;
 		}
-	
+
 		if ($key != '' AND ! is_null($value))
 		{
 			$this->row_data[$key] = $value;
@@ -184,11 +184,11 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function row_object($n = 0)
 	{
 		$result = $this->result_object();
-		
+
 		if (count($result) == 0)
 		{
 			return $result;
@@ -209,7 +209,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	array
-	 */	
+	 */
 	function row_array($n = 0)
 	{
 		$result = $this->result_array();
@@ -218,16 +218,16 @@ class CI_DB_result {
 		{
 			return $result;
 		}
-			
+
 		if ($n != $this->current_row AND isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
-		
+
 		return $result[$this->current_row];
 	}
 
-		
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -235,7 +235,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function first_row($type = 'object')
 	{
 		$result = $this->result($type);
@@ -246,7 +246,7 @@ class CI_DB_result {
 		}
 		return $result[0];
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -254,7 +254,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function last_row($type = 'object')
 	{
 		$result = $this->result($type);
@@ -264,7 +264,7 @@ class CI_DB_result {
 			return $result;
 		}
 		return $result[count($result) -1];
-	}	
+	}
 
 	// --------------------------------------------------------------------
 
@@ -273,7 +273,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function next_row($type = 'object')
 	{
 		$result = $this->result($type);
@@ -287,10 +287,10 @@ class CI_DB_result {
 		{
 			++$this->current_row;
 		}
-				
+
 		return $result[$this->current_row];
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -298,7 +298,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
-	 */	
+	 */
 	function previous_row($type = 'object')
 	{
 		$result = $this->result($type);
@@ -329,12 +329,12 @@ class CI_DB_result {
 	function num_rows() { return $this->num_rows; }
 	function num_fields() { return 0; }
 	function list_fields() { return array(); }
-	function field_data() { return array(); }	
+	function field_data() { return array(); }
 	function free_result() { return TRUE; }
 	function _data_seek() { return TRUE; }
-	function _fetch_assoc() { return array(); }	
+	function _fetch_assoc() { return array(); }
 	function _fetch_object() { return array(); }
-	
+
 }
 // END DB_result class
 

@@ -95,7 +95,7 @@ Hg Tag: </p>
 			<li>The <a href="libraries/unit_testing.html">Unit Test Class</a> now has an optional "notes" field available to it, and allows for discrete display of test result items using <kbd>$this->unit->set_test_items()</kbd>.</li>
 			<li>Added a <kbd>$xss_clean</kbd> class variable to the XMLRPC library, enabling control over the use of the Security library's <kbd>xss_clean()</kbd> method.</li>
 			<li>Added a <kbd>download()</kbd> method to the <a href="libraries/ftp.html">FTP library</a></li>
-			<li>Changed <kbd>do_xss_clean()</kbd> to return FALSE if the uploaded file fails XSS checks.</li> 
+			<li>Changed <kbd>do_xss_clean()</kbd> to return FALSE if the uploaded file fails XSS checks.</li>
 			<li>Added stripslashes() and trim()ing of double quotes from $_FILES type value to standardize input in Upload library.</li>
 			<li>Added a second parameter (boolean) to <kbd>$this->zip->read_dir('/path/to/directory', FALSE)</kbd> to remove the preceding trail of empty folders when creating a Zip archive. This example would contain a zip with "directory" and all of its contents.</li>
 			<li>Added ability in the Image Library to handle PNG transparency for resize operations when using the GD lib.</li>
@@ -129,7 +129,7 @@ Hg Tag: </p>
 			<li>Non-backwards compatible change made to <kbd>get_dir_file_info()</kbd> in the <a href="helpers/file_helper.html">File Helper</a>.  No longer recurses
 				by default so as to encourage responsible use (this function can cause server performance issues when used without caution).</li>
 			<li>Modified the second parameter of <kbd>directory_map()</kbd> in the <a href="helpers/directory_helper.html">Directory Helper</a> to accept an integer to specify recursion depth.</li>
-			<li>Modified <kbd>delete_files()</kbd> in the <a href="helpers/file_helper.html">File Helper</a> to return FALSE on failure.</li> 
+			<li>Modified <kbd>delete_files()</kbd> in the <a href="helpers/file_helper.html">File Helper</a> to return FALSE on failure.</li>
 			<li>Added an optional second parameter to <kbd>byte_format()</kbd> in the <a href="helpers/number_helper.html">Number Helper</a> to allow for decimal precision.</li>
 			<li>Added alpha, and sha1 string types to <kbd>random_string()</kbd> in the <a href="helpers/string_helper.html">String Helper</a>.</li>
 			<li>Modified <kbd>prep_url()</kbd> so as to not prepend http:// if the supplied string already has a scheme.</li>
@@ -139,6 +139,7 @@ Hg Tag: </p>
 			<li>If CSRF is enabled in the application config file, <kbd>form_open()</kbd> will automatically insert it as a hidden field.</li>
 			<li>Added <kbd>sanitize_filename()</kbd> into the <a href="./helpers/security_helper.html">Security helper</a>.</li>
 			<li>Added <kbd>ellipsize()</kbd> to the <a href="./helpers/text_helper.html">Text Helper</a></li>
+			<li>Added <kbd>elements()</kbd> to the <a href="./helpers/array_helper.html">Array Helper</a></li>
 		</ul>
 	</li>
 	<li>Other Changes
@@ -162,6 +163,7 @@ Hg Tag: </p>
 
 <h3>Bug fixes for 2.0.0</h3>
 <ul>
+	<li>Fixed a bug where the Output class would send incorrect cached output for controllers implementing their own <dfn>_output()</dfn> method.</li>
 	<li>Fixed a bug where a failed query would not have a saved query execution time causing errors in the Profiler</li>
 	<li>Fixed a bug that was writing log entries when multiple identical helpers and plugins were loaded.</li>
 	<li>Fixed assorted user guide typos or examples (#10693, #8951, #7825, #8660, #7883, #6771, #10656).</li>
@@ -186,6 +188,7 @@ Hg Tag: </p>
 	<li>Fixed a bug in the Email library where CC and BCC recipients were not reset when using the clear() method (#109).</li>
 	<li>Fixed a bug in the URL Helper where prep_url() could cause a PHP error on PHP versions &lt; 5.1.2.</li>
 	<li>Added a log message in core/output if the cache directory config value was not found.</li>
+	<li>Fixed a bug where multiple libraries could not be loaded by passing an array to load-&gt;library()</li>
 </ul>
 
 <h2>Version 1.7.2</h2>
@@ -226,7 +229,7 @@ Hg Tag: v1.7.2</p>
 			<li>Modified <a href="general/errors.html">show_error()</a> to allow sending of HTTP server response codes.</li>
 			<li>Modified <a href="general/errors.html">show_404()</a> to send 404 status code, removing non-CGI compatible header() statement from error_404.php template.</li>
 			<li>Added set_status_header() to the <a href="general/common_functions.html">Common functions<a> to allow use when the Output class is unavailable.</li>
-			<li>Added is_php() to <a href="general/common_functions.html">Common functions</a> to facilitate PHP version comparisons.</p> 
+			<li>Added is_php() to <a href="general/common_functions.html">Common functions</a> to facilitate PHP version comparisons.</p>
 			<li>Added 2 CodeIgniter "cheatsheets" (thanks to DesignFellow.com for this contribution).</li>
 		</ul>
 	</li>
@@ -251,7 +254,7 @@ Hg Tag: v1.7.2</p>
 	<li>Fixed a bug in form_textarea() where form data was not prepped correctly.</li>
 	<li>Fixed a bug in form_prep() causing it to not preserve entities in the user's original input when called back into a form element</li>
 	<li>Fixed a bug in _protect_identifiers() where the swap prefix ($swap_pre) was not being observed.</li>
-	<li>Fixed a bug where the 400 status header sent with the 'disallowed URI characters' was not compatible with CGI environments.</li> 
+	<li>Fixed a bug where the 400 status header sent with the 'disallowed URI characters' was not compatible with CGI environments.</li>
 	<li>Fixed a bug in the typography class where heading tags could have paragraph tags inserted when using auto_typography().</li>
 </ul>
 
@@ -362,7 +365,7 @@ Hg Tag: 1.7.0</p>
 	</li>
 	<li>Database
 		<ul>
-			<li>Improved Active Record class to allow full path column and table names:  hostname.database.table.column.  Also improved the alias handling.</li>			
+			<li>Improved Active Record class to allow full path column and table names:  hostname.database.table.column.  Also improved the alias handling.</li>
 			<li>Improved how table and column names are escaped and prefixed.  It now honors full path names when adding prefixes and escaping.</li>
 			<li>Added Active Record caching feature to "update" and "delete" functions.</li>
 			<li>Added removal of non-printing control characters in <kbd>escape_str()</kbd> of DB drivers that do not have native PHP escaping mechanisms (mssql, oci8, odbc), to avoid potential SQL errors, and possible sources of SQL injection.</li>
@@ -552,7 +555,7 @@ Hg Tag: 1.6.2</p>
 		<ul>
 			<li>Added ability for <a href="libraries/input.html">xss_clean()</a> to accept arrays.</li>
 			<li>Removed closing PHP tags from all PHP files to avoid accidental output and potential 'cannot modify headers' errors.</li>
-			<li>Removed &quot;scripts&quot; from the auto-load search path. Scripts were deprecated 
+			<li>Removed &quot;scripts&quot; from the auto-load search path. Scripts were deprecated
 				in Version 1.4.1 (September 21, 2006). If you still need to use them for legacy reasons, they must now be manually loaded in each Controller.</li>
 			<li>Added a <a href="general/reserved_names.html">Reserved Names</a> page to the userguide, and migrated reserved controller names into it.</li>
 			<li>Added a <a href="general/common_functions.html">Common Functions</a> page to the userguide for globally available functions.</li>
@@ -598,7 +601,7 @@ Hg Tag: 1.6.2</p>
 <p>Release Date: February 12, 2008<br />
 Hg Tag: 1.6.1</p>
 <ul>
-	<li>Active Record 
+	<li>Active Record
 		<ul>
 			<li>Added <a href="./database/active_record.html#caching">Active Record Caching</a>.</li>
 			<li>Made Active Record fully database-prefix aware.</li>
@@ -673,7 +676,7 @@ Hg Tag: 1.6.1</p>
 			<li>Changed the behaviour of variables submitted to the where() clause with no values to auto set &quot;IS NULL&quot;</li>
 		</ul>
 	</li>
-	
+
 	<li>Other Database Related
 		<ul>
 			<li>MySQL driver now requires MySQL 4.1+</li>
@@ -689,19 +692,19 @@ Hg Tag: 1.6.1</p>
 				in harmony with the global nature of the behavior (#1834).</li>
 		</ul>
 	</li>
-	
+
 	<li>Core changes
 		<ul>
 			<li>Added ability to load multiple views, whose content will be appended to the output in the order loaded.</li>
 			<li>Added the ability to <a href="./general/autoloader.html">auto-load</a> <a href="./general/models.html">Models</a>.</li>
 			<li>Reorganized the URI and Routes classes for better clarity.</li>
-			<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>   
+			<li>Added Compat.php to allow function overrides for older versions of PHP or PHP environments missing certain extensions / libraries</li>
 			<li>Added memory usage, GET, URI string data, and individual query execution time to Profiler output.</li>
 			<li>Deprecated Scaffolding.</li>
 			<li>Added is_really_writable() to Common.php to provide a cross-platform reliable method of testing file/folder writability.</li>
 		</ul>
 	</li>
-	
+
 	<li>Libraries
 		<ul>
 			<li>Changed the load protocol of Models to allow for extension.</li>
@@ -721,7 +724,7 @@ Hg Tag: 1.6.1</p>
 			<li>Enabled the 'system' methods for the XML-RPC Server library, except for 'system.multicall' which is still disabled.</li>
 		</ul>
 	</li>
-	
+
 	<li>Helpers &amp; Plugins
 		<ul>
 			<li>Added link_tag() to the <a href="./helpers/html_helper.html">HTML helper.</a></li>
@@ -737,8 +740,8 @@ Hg Tag: 1.6.1</p>
 			<li>Javascript Calendar plugin now uses the months and days from the calendar language file, instead of hard-coded values, internationalizing it.</li>
 		</ul>
 	</li>
+
 	
-	  
 	<li>Documentation Changes
 		<ul>
 			<li>Added <a href="./doc_style/index.html">Writing Documentation</a> section for the community to use in writing their own documentation.</li>
@@ -755,7 +758,7 @@ Hg Tag: 1.6.1</p>
 </ul>
 
 <h3>Bug fixes for Version 1.6.0</h3>
-	
+
 <ul>
 	<li>Fixed a bug (#1813) preventing using $CI->db in the same application with returned database objects.</li>
 	<li>Fixed a bug (#1842) where the $this->uri->rsegments array would not include the 'index' method if routed to the controller without an implicit method.</li>

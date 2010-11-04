@@ -83,7 +83,7 @@ Email Class
 
 <code>$this->load->library('email');<br />
 <br />
-$this->email->from('your@example.com', 'Your Name');<br />	
+$this->email->from('your@example.com', 'Your Name');<br />
 $this->email->to('someone@example.com'); <br />
 $this->email->cc('another@another-example.com'); <br />
 $this->email->bcc('them@their-example.com'); <br />
@@ -233,7 +233,7 @@ in a loop, permitting the data to be reset between cycles.</p>
 <code>foreach ($list as $name => $address)<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->clear();<br /><br />
-	
+
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->to($address);<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->from('your@example.com');<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$this->email->subject('Here is your info '.$name);<br />

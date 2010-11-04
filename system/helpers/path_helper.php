@@ -34,7 +34,7 @@
  * @param	string
  * @param	bool	checks to see if the path exists
  * @return	string
- */	
+ */
 if ( ! function_exists('set_realpath'))
 {
 	function set_realpath($path, $check_existance = FALSE)
@@ -44,16 +44,16 @@ if ( ! function_exists('set_realpath'))
 		{
 			show_error('The path you submitted must be a local server path, not a URL');
 		}
-	
+
 		// Resolve the path
 		if (function_exists('realpath') AND @realpath($path) !== FALSE)
 		{
 			$path = realpath($path).'/';
 		}
-	
+
 		// Add a trailing slash
 		$path = preg_replace("#([^/])/*$#", "\\1/", $path);
-	
+
 		// Make sure the path exists
 		if ($check_existance == TRUE)
 		{
@@ -62,7 +62,7 @@ if ( ! function_exists('set_realpath'))
 				show_error('Not a valid path: '.$path);
 			}
 		}
-	
+
 		return $path;
 	}
 }

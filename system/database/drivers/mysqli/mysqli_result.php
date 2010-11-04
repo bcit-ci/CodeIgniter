@@ -25,7 +25,7 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_mysqli_result extends CI_DB_result {
-	
+
 	/**
 	 * Number of rows in the result set
 	 *
@@ -36,7 +36,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		return @mysqli_num_rows($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,7 +67,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		{
 			$field_names[] = $field->name;
 		}
-		
+
 		return $field_names;
 	}
 
@@ -85,17 +85,17 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		$retval = array();
 		while ($field = mysqli_fetch_field($this->result_id))
-		{	
-			$F 				= new stdClass();
-			$F->name 		= $field->name;
-			$F->type 		= $field->type;
+		{
+			$F				= new stdClass();
+			$F->name		= $field->name;
+			$F->type		= $field->type;
 			$F->default		= $field->def;
 			$F->max_length	= $field->max_length;
 			$F->primary_key = ($field->flags & MYSQLI_PRI_KEY_FLAG) ? 1 : 0;
-			
+
 			$retval[] = $F;
 		}
-		
+
 		return $retval;
 	}
 
@@ -105,7 +105,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 * Free the result
 	 *
 	 * @return	null
-	 */		
+	 */
 	function free_result()
 	{
 		if (is_object($this->result_id))
@@ -146,7 +146,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		return mysqli_fetch_assoc($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -161,7 +161,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		return mysqli_fetch_object($this->result_id);
 	}
-	
+
 }
 
 

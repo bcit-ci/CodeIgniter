@@ -268,7 +268,16 @@ function _output($output)<br />
 
 <p class="important">Please note that your <dfn>_output()</dfn> function will receive the data in its finalized state.  Benchmark and memory usage data will be rendered,
 cache files written (if you have caching enabled), and headers will be sent (if you use that <a href="../libraries/output.html">feature</a>)
-before it is handed off to the _output() function.  If you are using this feature the page execution timer and memory usage stats might not be perfectly accurate
+before it is handed off to the _output() function.<br />
+<br />
+To have your controller's output cached properly, its <dfn>_output()</dfn> method can use:<br />
+
+<code>if ($this-&gt;output-&gt;cache_expiration &gt; 0)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output-&gt;_write_cache($output);<br />
+}</code>
+
+If you are using this feature the page execution timer and memory usage stats might not be perfectly accurate
 since they will not take into acccount any further processing you do.  For an alternate way to control output <em>before</em> any of the final processing is done, please see
 the available methods in the <a href="../libraries/output.html">Output Class</a>.</p>
 

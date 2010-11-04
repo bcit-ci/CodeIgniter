@@ -106,7 +106,7 @@ have left the old class in the library so applications currently using it will n
 <ol>
 <li>A form is displayed.</li>
 <li>You fill it in and submit it.</li>
-<li>If you submitted something invalid, or perhaps missed a required item, the form is redisplayed containing your data 
+<li>If you submitted something invalid, or perhaps missed a required item, the form is redisplayed containing your data
 along with an error message describing the problem.</li>
 <li>This process continues until you have submitted a valid form.</li>
 </ol>
@@ -225,13 +225,13 @@ folder:</p>
 <textarea class="textarea" style="width:100%" cols="50" rows="21">&lt;?php
 
 class Form extends Controller {
-	
+
 	function index()
 	{
 		$this->load->helper(array('form', 'url'));
-		
+
 		$this->load->library('form_validation');
-				
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('myform');
@@ -316,18 +316,18 @@ $this->form_validation->set_rules('email', 'Email', 'required');<br />
 <textarea class="textarea" style="width:100%" cols="50" rows="28">&lt;?php
 
 class Form extends Controller {
-	
+
 	function index()
 	{
 		$this->load->helper(array('form', 'url'));
-		
+
 		$this->load->library('form_validation');
-			
+
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
-			
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('myform');
@@ -518,18 +518,18 @@ create a callback function that does that.  Let's create a example of this.</p>
 <textarea class="textarea" style="width:100%" cols="50" rows="44">&lt;?php
 
 class Form extends Controller {
-	
+
 	function index()
 	{
 		$this->load->helper(array('form', 'url'));
-		
+
 		$this->load->library('form_validation');
-			
+
 		$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
-					
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('myform');
@@ -539,7 +539,7 @@ class Form extends Controller {
 			$this->load->view('formsuccess');
 		}
 	}
-	
+
 	function username_check($str)
 	{
 		if ($str == 'test')
@@ -552,7 +552,7 @@ class Form extends Controller {
 			return TRUE;
 		}
 	}
-	
+
 }
 ?></textarea>
 
@@ -616,7 +616,7 @@ $this->form_validation->set_rules('first_name', '<kbd>lang:</kbd>first_name', 'r
 <a name="errordelimiters"></a>
 <h2>Changing the Error Delimiters</h2>
 
-<p>By default, the Form Validation class adds a paragraph tag (&lt;p&gt;) around each error message shown. You can either change these delimiters globally or 
+<p>By default, the Form Validation class adds a paragraph tag (&lt;p&gt;) around each error message shown. You can either change these delimiters globally or
 individually.</p>
 
 <ol>

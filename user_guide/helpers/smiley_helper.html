@@ -91,7 +91,7 @@ a publicly accessible place on your server.  This helper also assumes you have t
 
 <p>In your <dfn>application/controllers/</dfn> folder, create a file called <kbd>smileys.php</kbd> and place the code below in it.</p>
 
-<p><strong>Important:</strong> Change the URL in the <dfn>get_clickable_smileys()</dfn> function below so that it points to 
+<p><strong>Important:</strong> Change the URL in the <dfn>get_clickable_smileys()</dfn> function below so that it points to
 your <dfn>smiley</dfn> folder.</p>
 
 <p>You'll notice that in addition to the smiley helper we are using the <a href="../libraries/table.html">Table Class</a>.</p>
@@ -105,21 +105,21 @@ class Smileys extends Controller {
 	{
 		parent::Controller();
 	}
-	
+
 	function index()
 	{
 		$this->load->helper('smiley');
 		$this->load->library('table');
-		
+
 		$image_array = get_clickable_smileys('http://example.com/images/smileys/', 'comments');
-		
+
 		$col_array = $this->table->make_columns($image_array, 8);
-		
+
 		$data['smiley_table'] = $this->table->generate($col_array);
-		
+
 		$this->load->view('smiley_view', $data);
 	}
-	
+
 }
 ?&gt;
 </textarea>

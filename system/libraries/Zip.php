@@ -32,17 +32,17 @@
  */
 class CI_Zip  {
 
-	var $zipdata 	= '';
-	var $directory 	= '';
-	var $entries 	= 0;
-	var $file_num 	= 0;
+	var $zipdata	= '';
+	var $directory	= '';
+	var $entries	= 0;
+	var $file_num	= 0;
 	var $offset		= 0;
 	var $now;
 
 	function CI_Zip()
 	{
 		log_message('debug', "Zip Compression Class Initialized");
-		
+
 		$this->now = time();
 	}
 
@@ -72,24 +72,24 @@ class CI_Zip  {
 		}
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 
 	/**
 	 *	Get file/directory modification time
-	 *	
+	 *
 	 *	If this is a newly created file/dir, we will set the time to 'now'
 	 *
 	 *	@param string	path to file
-	 *	@return array 	filemtime/filemdate
+	 *	@return array	filemtime/filemdate
 	 */
 	function _get_mod_time($dir)
 	{
 		// filemtime() will return false, but it does raise an error.
-		$date = (@filemtime($dir)) ? filemtime($dir) : getdate($this->now); 
+		$date = (@filemtime($dir)) ? filemtime($dir) : getdate($this->now);
 
 		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
 		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
-		
+
 		return $time;
 	}
 
@@ -103,7 +103,7 @@ class CI_Zip  {
 	 * @return	void
 	 */
 	function _add_dir($dir, $file_mtime, $file_mdate)
-	{		
+	{
 		$dir = str_replace("\\", "/", $dir);
 
 		$this->zipdata .=
@@ -140,7 +140,7 @@ class CI_Zip  {
 		$this->offset = strlen($this->zipdata);
 		$this->entries++;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -154,14 +154,14 @@ class CI_Zip  {
 	 * @param	mixed
 	 * @param	string
 	 * @return	void
-	 */	
+	 */
 	function add_data($filepath, $data = NULL)
-	{	
+	{
 		if (is_array($filepath))
 		{
 			foreach ($filepath as $path => $data)
 			{
-				$file_data = $this->_get_mod_time($path);	
+				$file_data = $this->_get_mod_time($path);
 
 				$this->_add_data($path, $data, $file_data['file_mtime'], $file_data['file_mdate']);
 			}
@@ -169,7 +169,7 @@ class CI_Zip  {
 		else
 		{
 			$file_data = $this->_get_mod_time($filepath);
-			
+
 			$this->_add_data($filepath, $data, $file_data['file_mtime'], $file_data['file_mdate']);
 		}
 	}
@@ -183,7 +183,7 @@ class CI_Zip  {
 	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
 	 * @return	void
-	 */	
+	 */
 	function _add_data($filepath, $data, $file_mtime, $file_mdate)
 	{
 		$filepath = str_replace("\\", "/", $filepath);
@@ -227,7 +227,7 @@ class CI_Zip  {
 		$this->entries++;
 		$this->file_num++;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -235,7 +235,7 @@ class CI_Zip  {
 	 *
 	 * @access	public
 	 * @return	bool
-	 */	
+	 */
 	function read_file($path, $preserve_filepath = FALSE)
 	{
 		if ( ! file_exists($path))
@@ -246,7 +246,7 @@ class CI_Zip  {
 		if (FALSE !== ($data = file_get_contents($path)))
 		{
 			$name = str_replace("\\", "/", $path);
-			
+
 			if ($preserve_filepath === FALSE)
 			{
 				$name = preg_replace("|.*/(.+)|", "\\1", $name);
@@ -259,7 +259,7 @@ class CI_Zip  {
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Read a directory and add it to the zip.
 	 *
@@ -321,7 +321,7 @@ class CI_Zip  {
 	 *
 	 * @access	public
 	 * @return	binary string
-	 */	
+	 */
 	function get_zip()
 	{
 		// Is there any data to return?
@@ -340,7 +340,7 @@ class CI_Zip  {
 
 		return $zip_data;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -351,7 +351,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @param	string	the file name
 	 * @return	bool
-	 */	
+	 */
 	function archive($filepath)
 	{
 		if ( ! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
@@ -359,12 +359,12 @@ class CI_Zip  {
 			return FALSE;
 		}
 
-		flock($fp, LOCK_EX);	
+		flock($fp, LOCK_EX);
 		fwrite($fp, $this->get_zip());
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		return TRUE;	
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -404,7 +404,7 @@ class CI_Zip  {
 	 *
 	 * @access	public
 	 * @return	void
-	 */		
+	 */
 	function clear_data()
 	{
 		$this->zipdata		= '';
@@ -413,7 +413,7 @@ class CI_Zip  {
 		$this->file_num		= 0;
 		$this->offset		= 0;
 	}
-	
+
 }
 
 /* End of file Zip.php */
