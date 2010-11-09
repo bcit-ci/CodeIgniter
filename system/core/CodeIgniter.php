@@ -261,7 +261,7 @@
 	if ( ! class_exists($class)
 		OR $method == 'controller'
 		OR strncmp($method, '_', 1) == 0
-		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('Controller')))
+		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
 	{
 		show_404("{$class}/{$method}");

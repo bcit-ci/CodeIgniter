@@ -27,17 +27,17 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
-class Controller extends CI_Base {
+class CI_Controller extends CI_Base {
 
 	/**
 	 * Constructor
 	 *
 	 * Calls the initialize() function
 	 */
-	function Controller()
+	function CI_Controller()
 	{
 		parent::CI_Base();
-
+		
 		// Assign all the class objects that were instantiated by the
 		// bootstrap file (CodeIgniter.php) to local class variables
 		// so that CI can run as one big super object.
