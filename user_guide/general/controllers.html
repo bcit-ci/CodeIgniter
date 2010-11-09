@@ -96,7 +96,7 @@ Controllers
 
 <textarea class="textarea" style="width:100%" cols="50" rows="10">
 &lt;?php
-class Blog extends Controller {
+class Blog extends CI_Controller {
 
 	function index()
 	{
@@ -119,7 +119,7 @@ class Blog extends Controller {
 <p>Note: Class names must start with an uppercase letter.  In other words, this is valid:</p>
 
 <code>&lt;?php<br />
-class <var>Blog</var> extends Controller {<br />
+class <var>Blog</var> extends CI_Controller {<br />
 <br />
 }<br />
 ?&gt;</code>
@@ -127,7 +127,7 @@ class <var>Blog</var> extends Controller {<br />
 <p>This is <strong>not</strong> valid:</p>
 
 <code>&lt;?php<br />
-class <var>blog</var> extends Controller {<br />
+class <var>blog</var> extends CI_Controller {<br />
 <br />
 }<br />
 ?&gt;</code>
@@ -151,7 +151,7 @@ class <var>blog</var> extends Controller {<br />
 
 <textarea class="textarea" style="width:100%" cols="50" rows="15">
 &lt;?php
-class Blog extends Controller {
+class Blog extends CI_Controller {
 
 	function index()
 	{
@@ -185,7 +185,7 @@ class Blog extends Controller {
 
 <code>
 &lt;?php<br />
-class Products extends Controller {<br />
+class Products extends CI_Controller {<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;function shoes($sandals, $id)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
@@ -329,7 +329,7 @@ called if the URL contains only the sub-folder.  Simply name your default contro
 
 <p>If you intend to use a constructor in any of your Controllers, you <strong>MUST</strong> place the following line of code in it:</p>
 
-<code>parent::Controller();</code>
+<code>parent::CI_Controller();</code>
 
 <p>The reason this line is necessary is because your local constructor will be overriding the one in the parent controller class so we need to manually call it.</p>
 
@@ -338,11 +338,11 @@ called if the URL contains only the sub-folder.  Simply name your default contro
 
 <code>
 &lt;?php<br />
-class <kbd>Blog</kbd> extends Controller {<br />
+class <kbd>Blog</kbd> extends CI_Controller {<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function <kbd>Blog()</kbd><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::Controller();</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::CI_Controller();</var><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br />
 ?&gt;</code>
@@ -351,11 +351,11 @@ class <kbd>Blog</kbd> extends Controller {<br />
 
 <code>
 &lt;?php<br />
-class <kbd>Blog</kbd> extends Controller {<br />
+class <kbd>Blog</kbd> extends CI_Controller {<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function <kbd>__construct()</kbd><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::Controller();</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::CI_Controller();</var><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br />
 ?&gt;</code>
