@@ -981,6 +981,7 @@ class CI_Email {
 		$this->_write_headers();
 
 		$hdr = ($this->_get_protocol() == 'mail') ? $this->newline : '';
+		$body = '';
 
 		switch ($this->_get_content_type())
 		{
@@ -993,13 +994,12 @@ class CI_Email {
 				{
 					$this->_header_str .= $hdr;
 					$this->_finalbody = $this->_body;
-
-					return;
 				}
-
-				$hdr .= $this->newline . $this->newline . $this->_body;
-
-				$this->_finalbody = $hdr;
+				else
+				{
+					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
+				}
+				
 				return;
 
 			break;
@@ -1013,93 +1013,81 @@ class CI_Email {
 				else
 				{
 					$hdr .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline . $this->newline;
-					$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
-					$hdr .= "--" . $this->_alt_boundary . $this->newline;
 
-					$hdr .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
-					$hdr .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
-					$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
+					$body .= $this->_get_mime_message() . $this->newline . $this->newline;
+					$body .= "--" . $this->_alt_boundary . $this->newline;
 
-					$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
-					$hdr .= "Content-Transfer-Encoding: quoted-printable";
+					$body .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
+					$body .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
+					$body .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
+
+					$body .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
+					$body .= "Content-Transfer-Encoding: quoted-printable" . $this->newline . $this->newline;
 				}
-
-				$this->_body = $this->_prep_quoted_printable($this->_body);
-
+				
+				$this->_finalbody = $body . $this->_prep_quoted_printable($this->_body) . $this->newline . $this->newline;
+				
+				
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
-					$this->_finalbody = $this->_body . $this->newline . $this->newline;
-
-					if ($this->send_multipart !== FALSE)
-					{
-						$this->_finalbody .= "--" . $this->_alt_boundary . "--";
-					}
-
-					return;
+				}
+				else
+				{
+					$this->_finalbody = $hdr . $this->_finalbody;
 				}
 
-				$hdr .= $this->newline . $this->newline;
-				$hdr .= $this->_body . $this->newline . $this->newline;
 
 				if ($this->send_multipart !== FALSE)
 				{
-					$hdr .= "--" . $this->_alt_boundary . "--";
+					$this->_finalbody .= "--" . $this->_alt_boundary . "--";
 				}
 
-				$this->_finalbody = $hdr;
 				return;
 
 			break;
 			case 'plain-attach' :
 
 				$hdr .= "Content-Type: multipart/".$this->multipart."; boundary=\"" . $this->_atc_boundary."\"" . $this->newline . $this->newline;
-				$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
-				$hdr .= "--" . $this->_atc_boundary . $this->newline;
-
-				$hdr .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: " . $this->_get_encoding();
 
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
+				}				
+				
+				$body .= $this->_get_mime_message() . $this->newline . $this->newline;
+				$body .= "--" . $this->_atc_boundary . $this->newline;
 
-					$body  = $this->_body . $this->newline . $this->newline;
-				}
+				$body .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
+				$body .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
 
-				$hdr .= $this->newline . $this->newline;
-				$hdr .= $this->_body . $this->newline . $this->newline;
+				$body .= $this->_body . $this->newline . $this->newline;
 
 			break;
 			case 'html-attach' :
 
 				$hdr .= "Content-Type: multipart/".$this->multipart."; boundary=\"" . $this->_atc_boundary."\"" . $this->newline . $this->newline;
-				$hdr .= $this->_get_mime_message() . $this->newline . $this->newline;
-				$hdr .= "--" . $this->_atc_boundary . $this->newline;
-
-				$hdr .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline .$this->newline;
-				$hdr .= "--" . $this->_alt_boundary . $this->newline;
-
-				$hdr .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
-				$hdr .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
-
-				$hdr .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
-				$hdr .= "Content-Transfer-Encoding: quoted-printable";
-
-				$this->_body = $this->_prep_quoted_printable($this->_body);
-
+				
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
-
-					$body  = $this->_body . $this->newline . $this->newline;
-					$body .= "--" . $this->_alt_boundary . "--" . $this->newline . $this->newline;
 				}
 
-				$hdr .= $this->newline . $this->newline;
-				$hdr .= $this->_body . $this->newline . $this->newline;
-				$hdr .= "--" . $this->_alt_boundary . "--" . $this->newline . $this->newline;
+				$body .= $this->_get_mime_message() . $this->newline . $this->newline;
+				$body .= "--" . $this->_atc_boundary . $this->newline;
+
+				$body .= "Content-Type: multipart/alternative; boundary=\"" . $this->_alt_boundary . "\"" . $this->newline .$this->newline;
+				$body .= "--" . $this->_alt_boundary . $this->newline;
+
+				$body .= "Content-Type: text/plain; charset=" . $this->charset . $this->newline;
+				$body .= "Content-Transfer-Encoding: " . $this->_get_encoding() . $this->newline . $this->newline;
+				$body .= $this->_get_alt_message() . $this->newline . $this->newline . "--" . $this->_alt_boundary . $this->newline;
+
+				$body .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
+				$body .= "Content-Transfer-Encoding: quoted-printable" . $this->newline . $this->newline;
+
+				$body .= $this->_prep_quoted_printable($this->_body) . $this->newline . $this->newline;
+				$body .= "--" . $this->_alt_boundary . "--" . $this->newline . $this->newline;
 
 			break;
 		}
@@ -1139,15 +1127,18 @@ class CI_Email {
 			fclose($fp);
 		}
 
+		$body .= implode($this->newline, $attachment).$this->newline."--".$this->_atc_boundary."--";
+		
+
 		if ($this->_get_protocol() == 'mail')
 		{
-			$this->_finalbody = $body . implode($this->newline, $attachment).$this->newline."--".$this->_atc_boundary."--";
-
-			return;
+			$this->_finalbody = $body;
 		}
-
-		$this->_finalbody = $hdr.implode($this->newline, $attachment).$this->newline."--".$this->_atc_boundary."--";
-
+		else
+		{
+			$this->_finalbody = $hdr . $body;
+		}
+		
 		return;
 	}
 
@@ -1518,6 +1509,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
+						
 			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
 			{
 				return FALSE;
