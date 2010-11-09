@@ -229,7 +229,7 @@ CodeIgniter permits you to override this behavior through the use of the <kbd>_r
 get called regardless of what your URI contains.  It overrides the normal behavior in which the URI determines which function is called,
 allowing you to define your own function routing rules.</p>
 
-<p>The overridden function call (typically the second segment of the URI) will be passed as a parameter the <kbd>_remap()</kbd> function:</p>
+<p>The overridden function call (typically the second segment of the URI) will be passed as a parameter to the <kbd>_remap()</kbd> function:</p>
 
 <code>function _remap(<var>$method</var>)<br />
 {<br />
@@ -243,6 +243,7 @@ allowing you to define your own function routing rules.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
+<p>An array of leftover segments are passed into <kbd>_remap()</kbd> as an optional second parameter.</p>
 
 
 
