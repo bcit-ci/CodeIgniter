@@ -67,12 +67,6 @@
 		@set_magic_quotes_runtime(0); // Kill magic quotes
 	}
 
-	// Set a liberal script execution time limit
-	if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
-	{
-		@set_time_limit(300);
-	}
-
 /*
  * ------------------------------------------------------
  *  Set the subclass_prefix
@@ -92,6 +86,16 @@
 	if (isset($assign_to_config['subclass_prefix']) AND $assign_to_config['subclass_prefix'] != '')
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
+	}
+	
+/*
+ * ------------------------------------------------------
+ *  Set a liberal script execution time limit
+ * ------------------------------------------------------
+ */
+	if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
+	{
+		@set_time_limit(300);
 	}
 
 /*
