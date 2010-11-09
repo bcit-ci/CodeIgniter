@@ -98,7 +98,7 @@ you should do so before continuing.</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="10">
 &lt;?php
-class Blog extends Controller {
+class Blog extends CI_Controller {
 
 	function index()
 	{
@@ -117,7 +117,7 @@ class Blog extends Controller {
 <p>CodeIgniter will intelligently handle  multiple calls to $this-&gt;load-&gt;view from within a controller.  If more than one call happens they will be appended together. For example, you may wish to have a header view, a menu view, a content view, and a footer view. That might look something like this:</p>
 <p><code>&lt;?php<br />
 <br />
-class Page extends Controller {<br /><br />
+class Page extends CI_Controller {<br /><br />
 
  &nbsp;&nbsp;&nbsp;function index()<br />
 &nbsp;&nbsp;&nbsp;{<br />
@@ -163,7 +163,7 @@ $this->load->view('blogview', <var>$data</var>);</code>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="14">
 &lt;?php
-class Blog extends Controller {
+class Blog extends CI_Controller {
 
 	function index()
 	{
@@ -203,7 +203,7 @@ pull data from your database it will typically be in the form of a multi-dimensi
 
 <textarea class="textarea" style="width:100%" cols="50" rows="17">
 &lt;?php
-class Blog extends Controller {
+class Blog extends CI_Controller {
 
 	function index()
 	{
