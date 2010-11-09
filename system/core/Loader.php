@@ -535,6 +535,8 @@ class CI_Loader {
 	 */
 	function add_package_path($path)
 	{
+		$path = rtrim($path, '/').'/';
+		
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
@@ -569,6 +571,8 @@ class CI_Loader {
 		}
 		else
 		{
+			$path = rtrim($path, '/').'/';
+			
 			foreach (array('_ci_library_paths', '_ci_model_paths', '_ci_helper_paths') as $var)
 			{
 				if (($key = array_search($path, $this->{$var})) !== FALSE)
