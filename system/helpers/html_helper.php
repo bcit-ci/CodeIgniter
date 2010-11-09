@@ -216,16 +216,16 @@ if ( ! function_exists('img'))
 
 				if ($index_page === TRUE)
 				{
-					$img .= ' src="'.$CI->config->site_url($v).'" ';
+					$img .= ' src="'.$CI->config->site_url($v).'"';
 				}
 				else
 				{
-					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'" ';
+					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'"';
 				}
 			}
 			else
 			{
-				$img .= " $k=\"$v\" ";
+				$img .= " $k=\"$v\"";
 			}
 		}
 
