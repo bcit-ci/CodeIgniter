@@ -267,7 +267,7 @@ class CI_Loader {
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility'.EXT);
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
-		$CI->dbutil =& instantiate_class(new $class());
+		$CI->dbutil = new $class();
 	}
 
 	// --------------------------------------------------------------------
@@ -703,9 +703,7 @@ class CI_Loader {
 		}
 		else
 		{
-			// PHP 4 requires that we use a global
-			global $OUT;
-			$OUT->append_output(ob_get_contents());
+			$_ci_CI->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
 	}
