@@ -712,14 +712,6 @@ class CI_Image_lib {
 	 */
 	function image_rotate_gd()
 	{
-		// Is Image Rotation Supported?
-		// this function is only supported as of PHP 4.3
-		if ( ! function_exists('imagerotate'))
-		{
-			$this->set_error('imglib_rotate_unsupported');
-			return FALSE;
-		}
-
 		//  Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
@@ -1213,11 +1205,6 @@ class CI_Image_lib {
 						{
 							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
 							return FALSE;
-						}
-
-						if (phpversion() == '4.4.1')
-						{
-							@touch($this->full_dst_path); // PHP 4.4.1 bug #35060 - workaround
 						}
 
 						if ( ! @imagejpeg($resource, $this->full_dst_path, $this->quality))
