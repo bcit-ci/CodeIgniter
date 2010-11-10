@@ -221,7 +221,7 @@
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
 	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT))
 	{
-		show_error('Unable to load your default controller.  Please make sure the controller specified in your Routes.php file is valid.');
+		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
 	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT);
@@ -242,7 +242,6 @@
 	$method = $RTR->fetch_method();
 
 	if ( ! class_exists($class)
-		OR $method == 'controller'
 		OR strncmp($method, '_', 1) == 0
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
