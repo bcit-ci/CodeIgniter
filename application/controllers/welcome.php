@@ -1,10 +1,10 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-	function Welcome()
+	function __construct()
 	{
-		parent::CI_Controller();
+		parent::__construct();
 	}
 
 	function index()

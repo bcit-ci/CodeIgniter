@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 4.3.2 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
@@ -27,16 +27,16 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
-class CI_Controller extends CI_Base {
+class CI_Controller {
+
+	private static $instance;
 
 	/**
 	 * Constructor
-	 *
-	 * Calls the initialize() function
 	 */
-	function CI_Controller()
+	public function __construct()
 	{
-		parent::CI_Base();
+		self::$instance =& $this;
 		
 		// Assign all the class objects that were instantiated by the
 		// bootstrap file (CodeIgniter.php) to local class variables
@@ -46,34 +46,20 @@ class CI_Controller extends CI_Base {
 			$this->$var =& load_class($class);
 		}
 
-		// In PHP 5 the Loader class is run as a discreet
-		// class.  In PHP 4 it extends the Controller @PHP4
-		if (is_php('5.0.0') == TRUE)
-		{
-			$this->load =& load_class('Loader', 'core');
+		$this->load =& load_class('Loader', 'core');
 
-			$this->load->_base_classes =& is_loaded();
+		$this->load->_base_classes =& is_loaded();
 
-			$this->load->_ci_autoloader();
-		}
-		else
-		{
-			$this->_ci_autoloader();
-
-			// sync up the objects since PHP4 was working from a copy
-			foreach (array_keys(get_object_vars($this)) as $attribute)
-			{
-				if (is_object($this->$attribute))
-				{
-					$this->load->$attribute =& $this->$attribute;
-				}
-			}
-		}
+		$this->load->_ci_autoloader();
 
 		log_message('debug', "Controller Class Initialized");
 
 	}
 
+	public static function &get_instance()
+	{
+		return self::$instance;
+	}
 }
 // END Controller class
 

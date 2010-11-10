@@ -208,25 +208,15 @@
  *  Load the app controller and local controller
  * ------------------------------------------------------
  *
- *  Note: Due to the poor object handling in PHP 4 we'll
- *  conditionally load different versions of the base
- *  class.  Retaining PHP 4 compatibility requires a bit of a hack.
- *  @PHP4
- *
  */
-	if (is_php('5.0.0') == TRUE)
-	{
-		require(BASEPATH.'core/Base5'.EXT);
-	}
-	else
-	{
-		// The Loader class needs to be included first when running PHP 4.x
-		load_class('Loader', 'core');
-		require(BASEPATH.'core/Base4'.EXT);
-	}
-
 	// Load the base controller class
 	require BASEPATH.'core/Controller'.EXT;
+
+	function &get_instance()
+	{
+		return CI_Controller::get_instance();
+	}
+
 
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller'.EXT))
 	{
