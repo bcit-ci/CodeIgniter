@@ -65,7 +65,7 @@ class CI_Pagination {
 	 * @access	public
 	 * @param	array	initialization parameters
 	 */
-	function CI_Pagination($params = array())
+	public function __construct($params = array())
 	{
 		if (count($params) > 0)
 		{

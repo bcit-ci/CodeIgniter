@@ -36,7 +36,7 @@ class CI_Hooks {
 	 * Constructor
 	 *
 	 */
-	function CI_Hooks()
+	function __construct()
 	{
 		$this->_initialize();
 		log_message('debug', "Hooks Class Initialized");

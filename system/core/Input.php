@@ -35,16 +35,14 @@ class CI_Input {
 	var $_enable_xss			= FALSE; // Set automatically based on config setting
 	var $_enable_csrf			= FALSE; // Set automatically based on config setting
 
-
 	/**
-	* Constructor
-	*
-	* Sets whether to globally enable the XSS processing
-	* and whether to allow the $_GET array
-	*
-	* @access	public
-	*/
-	function CI_Input()
+	 * Constructor
+	 *
+	 * Sets whether to globally enable the XSS processing
+	 * and whether to allow the $_GET array
+	 *
+	 */
+	public function __construct()
 	{
 		log_message('debug', "Input Class Initialized");
 
@@ -72,16 +70,16 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch from array
-	*
-	* This is a helper function to retrieve values from global arrays
-	*
-	* @access	private
-	* @param	array
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
+	 * Fetch from array
+	 *
+	 * This is a helper function to retrieve values from global arrays
+	 *
+	 * @access	private
+	 * @param	array
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
 		if ( ! isset($array[$index]))

@@ -52,7 +52,7 @@ class CI_Session {
 	 * The constructor runs the session routines automatically
 	 * whenever the class is instantiated.
 	 */
-	function CI_Session($params = array())
+	public function __construct($params = array())
 	{
 		log_message('debug', "Session Class Initialized");
 

@@ -34,7 +34,7 @@ class CI_Unicode {
 	 * Determines if UTF-8 support is to be enabled
 	 *
 	 */
-	function CI_Unicode()
+	function __construct()
 	{
 		log_message('debug', "Unicode Class Initialized");
 

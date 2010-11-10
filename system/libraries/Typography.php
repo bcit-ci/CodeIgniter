@@ -45,14 +45,6 @@ class CI_Typography {
 	var $protect_braced_quotes = FALSE;
 
 	/**
-	 * Nothing to do here...
-	 *
-	 */
-	function CI_Typography()
-	{
-	}
-
-	/**
 	 * Auto Typography
 	 *
 	 * This function converts text, making it typographically correct:

@@ -34,7 +34,7 @@ class CI_Jquery extends CI_Javascript {
 	var $jquery_table_sorter_pager_active = FALSE;
 	var $jquery_ajax_img = '';
 
-	function Jquery($params)
+	public function __construct($params)
 	{
 		$this->CI =& get_instance();	
 		extract($params);

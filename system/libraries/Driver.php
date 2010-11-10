@@ -119,11 +119,10 @@ class CI_Driver {
 	 *
 	 * Decorates the child with the parent driver lib's methods and properties
 	 *
-	 * @access	public
 	 * @param	object
 	 * @return	void
 	 */
-	function decorate($parent)
+	public function decorate($parent)
 	{
 		$this->parent = $parent;
 
@@ -191,11 +190,10 @@ class CI_Driver {
 	 *
 	 * Handles reading of the parent driver library's properties
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	mixed
 	 */
-	function __get($var)
+	public function __get($var)
 	{
 		if (in_array($var, $this->properties))
 		{
@@ -210,12 +208,11 @@ class CI_Driver {
 	 *
 	 * Handles writing to the parent driver library's properties
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @return	mixed
 	 */
-	function __set($var, $val)
+	public function __set($var, $val)
 	{
 		if (in_array($var, $this->properties))
 		{

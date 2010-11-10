@@ -51,7 +51,7 @@ class CI_Security {
 										"Redirect\s+302"			=> '[removed]'
 									);
 
-	function CI_Security()
+	public function __construct()
 	{
 		// Append application specific cookie prefix to token name
 		$this->csrf_cookie_name = (config_item('cookie_prefix')) ? config_item('cookie_prefix').$this->csrf_token_name : $this->csrf_token_name;
