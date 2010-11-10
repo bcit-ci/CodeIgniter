@@ -482,21 +482,18 @@ class CI_URI {
 	 */
 	function _slash_segment($n, $where = 'trailing', $which = 'segment')
 	{
+		$leading	= '/';
+		$trailing	= '/';
+		
 		if ($where == 'trailing')
 		{
-			$trailing	= '/';
 			$leading	= '';
 		}
 		elseif ($where == 'leading')
 		{
-			$leading	= '/';
 			$trailing	= '';
 		}
-		else
-		{
-			$leading	= '/';
-			$trailing	= '/';
-		}
+		
 		return $leading.$this->$which($n).$trailing;
 	}
 
