@@ -146,9 +146,9 @@ folder:</p>
 
 class Upload extends CI_Controller {
 
-	function Upload()
+	function __construct()
 	{
-		parent::CI_Controller();
+		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 	}
 

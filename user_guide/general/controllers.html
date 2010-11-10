@@ -330,25 +330,9 @@ called if the URL contains only the sub-folder.  Simply name your default contro
 
 <p>If you intend to use a constructor in any of your Controllers, you <strong>MUST</strong> place the following line of code in it:</p>
 
-<code>parent::CI_Controller();</code>
+<code>parent::__construct();</code>
 
 <p>The reason this line is necessary is because your local constructor will be overriding the one in the parent controller class so we need to manually call it.</p>
-
-
-<p>If you are not familiar with constructors, in PHP 4, a <em>constructor</em> is simply a function that has the exact same name as the class:</p>
-
-<code>
-&lt;?php<br />
-class <kbd>Blog</kbd> extends CI_Controller {<br />
-<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function <kbd>Blog()</kbd><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::CI_Controller();</var><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-}<br />
-?&gt;</code>
-
-<p>In PHP 5, constructors use the following syntax:</p>
 
 <code>
 &lt;?php<br />
@@ -357,6 +341,7 @@ class <kbd>Blog</kbd> extends CI_Controller {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function <kbd>__construct()</kbd><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::CI_Controller();</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Your own constructor code<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br />
 ?&gt;</code>
