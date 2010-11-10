@@ -34,7 +34,7 @@ class CI_Profiler {
 
 	var $CI;
 
-	var $_available_sections	= array(
+	protected $_available_sections = array(
 										'benchmarks',
 										'get',
 										'memory_usage',
@@ -46,7 +46,7 @@ class CI_Profiler {
 										'config'
 										);
 
-	function CI_Profiler($config = array())
+	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->language('profiler');
@@ -70,11 +70,10 @@ class CI_Profiler {
 	 *
 	 * Sets the private _compile_* properties to enable/disable Profiler sections
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @return	void
 	 */
-	function set_sections($config)
+	public function set_sections($config)
 	{
 		foreach ($config as $method => $enable)
 		{
@@ -94,11 +93,10 @@ class CI_Profiler {
 	 * matches any two points that are named identically (ending in "_start"
 	 * and "_end" respectively).  It then compiles the execution times for
 	 * all points and returns it as an array
-	 * @PHP4 - all methods should be declared private
-	 * @access	private
+	 *
 	 * @return	array
 	 */
-	function _compile_benchmarks()
+	protected function _compile_benchmarks()
 	{
 		$profile = array();
 		foreach ($this->CI->benchmark->marker as $key => $val)
@@ -142,10 +140,9 @@ class CI_Profiler {
 	/**
 	 * Compile Queries
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_queries()
+	protected function _compile_queries()
 	{
 		$dbs = array();
 
@@ -224,10 +221,9 @@ class CI_Profiler {
 	/**
 	 * Compile $_GET Data
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_get()
+	protected function _compile_get()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #cd6e00;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -274,10 +270,9 @@ class CI_Profiler {
 	/**
 	 * Compile $_POST Data
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_post()
+	protected function _compile_post()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #009900;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -324,10 +319,9 @@ class CI_Profiler {
 	/**
 	 * Show query string
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_uri_string()
+	protected function _compile_uri_string()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -354,10 +348,9 @@ class CI_Profiler {
 	/**
 	 * Show the controller and function that were called
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_controller_info()
+	protected function _compile_controller_info()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #995300;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -380,10 +373,9 @@ class CI_Profiler {
 	 *
 	 * Display total used memory
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _compile_memory_usage()
+	protected function _compile_memory_usage()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #5a0099;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -412,10 +404,9 @@ class CI_Profiler {
 	 *
 	 * Lists HTTP headers
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _compile_http_headers()
+	protected function _compile_http_headers()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -444,10 +435,9 @@ class CI_Profiler {
 	 *
 	 * Lists developer config variables
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _compile_config()
+	protected function _compile_config()
 	{
 		$output  = "\n\n";
 		$output .= '<fieldset style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
@@ -478,10 +468,9 @@ class CI_Profiler {
 	/**
 	 * Run the Profiler
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function run()
+	public function run()
 	{
 		$output = "<div id='codeigniter_profiler' style='clear:both;background-color:#fff;padding:10px;'>";
 		$fields_displayed = 0;
