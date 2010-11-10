@@ -34,7 +34,6 @@ class CI_Loader {
 	var $_ci_library_paths	= array();
 	var $_ci_model_paths	= array();
 	var $_ci_helper_paths	= array();
-	var $_ci_is_instance	= FALSE; // Whether we should use $this or $CI =& get_instance()
 	var $_base_classes		= array(); // Set by the controller class
 	var $_ci_cached_vars	= array();
 	var $_ci_classes		= array();
@@ -627,17 +626,13 @@ class CI_Loader {
 
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
-		// Only needed when running PHP 5
 
-		if ($this->_ci_is_instance())
+		$_ci_CI =& get_instance();
+		foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 		{
-			$_ci_CI =& get_instance();
-			foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
+			if ( ! isset($this->$_ci_key))
 			{
-				if ( ! isset($this->$_ci_key))
-				{
-					$this->$_ci_key =& $_ci_CI->$_ci_key;
-				}
+				$this->$_ci_key =& $_ci_CI->$_ci_key;
 			}
 		}
 
@@ -1018,26 +1013,6 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Determines whether we should use the CI instance or $this
-	 * @PHP4
-	 *
-	 * @access	private
-	 * @return	bool
-	 */
-	function _ci_is_instance()
-	{
-		if (is_php('5.0.0') == TRUE)
-		{
-			return TRUE;
-		}
-
-		global $CI;
-		return (is_object($CI)) ? TRUE : FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Get a reference to a specific library or model
 	 *
 	 * @access	private
@@ -1045,15 +1020,8 @@ class CI_Loader {
 	 */
 	function &_ci_get_component($component)
 	{
-		if ($this->_ci_is_instance())
-		{
-			$CI =& get_instance();
-			return $CI->$component;
-		}
-		else
-		{
-			return $this->$component;
-		}
+		$CI =& get_instance();
+		return $CI->$component;
 	}
 
 	// --------------------------------------------------------------------
