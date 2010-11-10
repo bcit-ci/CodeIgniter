@@ -83,10 +83,10 @@ class&nbsp;Blogmodel&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;var $content = '';<br />
 &nbsp;&nbsp;&nbsp;&nbsp;var $date&nbsp;&nbsp;&nbsp; = '';<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;Blogmodel()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;__construct()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Call the Model constructor<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 &nbsp;&nbsp;&nbsp;&nbsp;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;get_last_ten_entries()<br />
@@ -128,9 +128,9 @@ want this type of organization.</p>
 <code>
 class&nbsp;<var>Model_name</var>&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>Model_name</var>()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>__construct</var>()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
@@ -142,9 +142,9 @@ Make sure your class extends the base Model class.</p>
 <code>
 class&nbsp;<var>User_model</var>&nbsp;extends&nbsp;CI_Model&nbsp;{<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>User_model</var>()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<var>__construct</var>()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Model();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 

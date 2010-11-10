@@ -131,9 +131,9 @@ class MY_Input extends CI_Input {<br /><br />
 <code>
 class MY_Input extends CI_Input {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function MY_Input()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Input();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
@@ -145,9 +145,9 @@ This allows you to substantially alter the CodeIgniter core.</p>
 
 <code>class Welcome extends MY_Controller {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function Welcome()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::MY_Controller();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;function index()<br />

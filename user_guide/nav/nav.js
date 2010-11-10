@@ -104,7 +104,6 @@ function create_menu(basepath)
 		'<ul>' +
 		'<li><a href="'+base+'helpers/array_helper.html">Array Helper</a></li>' +
 		'<li><a href="'+base+'helpers/captcha_helper.html">CAPTCHA Helper</a></li>' +
-		'<li><a href="'+base+'helpers/compatibility_helper.html">Compatibility Helper</a></li>' +
 		'<li><a href="'+base+'helpers/cookie_helper.html">Cookie Helper</a></li>' +
 		'<li><a href="'+base+'helpers/date_helper.html">Date Helper</a></li>' +
 		'<li><a href="'+base+'helpers/directory_helper.html">Directory Helper</a></li>' +
