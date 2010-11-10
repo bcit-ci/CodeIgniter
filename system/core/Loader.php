@@ -703,7 +703,7 @@ class CI_Loader {
 		}
 		else
 		{
-			$_ci_CI->append_output(ob_get_contents());
+			$_ci_CI->output->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
 	}
