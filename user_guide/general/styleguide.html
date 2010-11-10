@@ -161,7 +161,7 @@ echo "Here's my code!";
 
 		<h2><a name="class_and_method_naming"></a>Class and Method Naming</h2>
 		<div class="guidelineDetails">
-			<p>Class names should always have their first letter uppercase, and the constructor method should match identically.  Multiple words should be separated with an underscore, and not CamelCased.  All other class methods should be entirely lowercased and named to clearly indicate their function, preferably including a verb.  Try to avoid overly long and verbose names.</p>
+			<p>Class names should always start with an uppercase letter.  Multiple words should be separated with an underscore, and not CamelCased.  All other class methods should be entirely lowercased and named to clearly indicate their function, preferably including a verb.  Try to avoid overly long and verbose names.</p>
 
 	<code><strong>INCORRECT</strong>:
 class superclass
@@ -170,11 +170,10 @@ class SuperClass
 <strong>CORRECT</strong>:
 class Super_class</code>
 
-			<p>Notice that the Class and constructor methods are identically named and cased:</p>
 
 	<code>class Super_class {
 
-	function Super_class()
+	function __construct()
 	{
 
 	}

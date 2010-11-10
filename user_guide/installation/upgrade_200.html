@@ -100,13 +100,16 @@ to
 
 <p>Please read <a href="../libraries/encryption.html#legacy">how to use this method</a> in the Encryption library documentation.</p>
 
-</p>
+<h2>Step 5: Remove loading calls for the compatibility helper.</h2>
+<p>The compatibility helper has been removed from the CodeIgniter core. All methods in it should be natively available in supported PHP versions.</p>
 
-<h2>Step 5: Update Class extension</h2>
+<h2>Step 6: Update Class extension</h2>
 <p>All core classes are now prefixed with <kbd>CI_</kbd>.  Update Models and Controllers to extend CI_Model and CI_Controller, respectively.</p> 
 
+<h2>Step 7: Update Parent Constructor calls</h2>
+<p>All native CodeIgniter classes now use the PHP 5 <kbd>__construct()</kbd> convention. Please update extended libraries to call <kbd>parent::__construct()</kbd>.</p>
 
-<h2>Step 6: Update your user guide</h2>
+<h2>Step 8: Update your user guide</h2>
 <p>Please replace your local copy of the user guide with the new version, including the image files.</p>
 
 </div>

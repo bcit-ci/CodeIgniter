@@ -141,7 +141,7 @@ $this->load->library('Someclass', <kbd>$params</kbd>);</code>
 <br />
 class Someclass {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function Someclass($params)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct($params)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
@@ -248,9 +248,9 @@ class MY_Email extends CI_Email {<br /><br />
 <code>
 class MY_Email extends CI_Email {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function My_Email()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::CI_Email();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }</code>
 
