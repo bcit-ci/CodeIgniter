@@ -267,7 +267,7 @@ class CI_Loader {
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility'.EXT);
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
-		$CI->dbutil =& instantiate_class(new $class());
+		$CI->dbutil = new $class();
 	}
 
 	// --------------------------------------------------------------------
