@@ -4,6 +4,7 @@ At line 79 in the toggle: function()  function, I added:
 
 document.getElementById('nav').style.display = 'block';
 
-
-
 -- Rick Ellis
+
+
+Also removed fx.Opacity and fx.Height from moo.fx.js -- Pascal

@@ -81,39 +81,3 @@ Object.extend(Object.extend(fx.Height.prototype, fx.Layout.prototype), {
 		else this.custom(0, this.el.scrollHeight);
 	}
 });
-
-fx.Width = Class.create();
-Object.extend(Object.extend(fx.Width.prototype, fx.Layout.prototype), {
-	increase: function() {
-		this.el.style.width = this.now + "px";
-	},
-
-	toggle: function(){
-		if (this.el.offsetWidth > 0) this.custom(this.el.offsetWidth, 0);
-		else this.custom(0, this.el.iniWidth);
-	}
-});
-
-//fader
-fx.Opacity = Class.create();
-fx.Opacity.prototype = Object.extend(new fx.Base(), {
-	initialize: function(el, options) {
-		this.el = $(el);
-		this.now = 1;
-		this.increase();
-		this.setOptions(options);
-	},
-
-	increase: function() {
-		if (this.now == 1) this.now = 0.9999;
-		if (this.now > 0 && this.el.style.visibility == "hidden") this.el.style.visibility = "visible";
-		if (this.now == 0) this.el.style.visibility = "hidden";
-		if (window.ActiveXObject) this.el.style.filter = "alpha(opacity=" + this.now*100 + ")";
-		this.el.style.opacity = this.now;
-	},
-
-	toggle: function() {
-		if (this.now > 0) this.custom(1, 0);
-		else this.custom(0, 1);
-	}
-});
