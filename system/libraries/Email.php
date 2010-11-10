@@ -160,6 +160,8 @@ class CI_Email {
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
 		}
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -201,6 +203,8 @@ class CI_Email {
 
 		$this->_set_header('From', $name.' <'.$from.'>');
 		$this->_set_header('Return-Path', '<'.$from.'>');
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -237,6 +241,8 @@ class CI_Email {
 
 		$this->_set_header('Reply-To', $name.' <'.$replyto.'>');
 		$this->_replyto_flag = TRUE;
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -272,6 +278,8 @@ class CI_Email {
 			case 'mail'		: $this->_recipients = implode(", ", $to);
 			break;
 		}
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -299,6 +307,8 @@ class CI_Email {
 		{
 			$this->_cc_array = $cc;
 		}
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -335,6 +345,8 @@ class CI_Email {
 		{
 			$this->_set_header('Bcc', implode(", ", $bcc));
 		}
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -350,6 +362,7 @@ class CI_Email {
 	{
 		$subject = $this->_prep_q_encoding($subject);
 		$this->_set_header('Subject', $subject);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -364,6 +377,7 @@ class CI_Email {
 	function message($body)
 	{
 		$this->_body = stripslashes(rtrim(str_replace("\r", "", $body)));
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -380,6 +394,7 @@ class CI_Email {
 		$this->_attach_name[] = $filename;
 		$this->_attach_type[] = $this->_mime_types(next(explode('.', basename($filename))));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -435,6 +450,7 @@ class CI_Email {
 	function set_alt_message($str = '')
 	{
 		$this->alt_message = ($str == '') ? '' : $str;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -449,6 +465,7 @@ class CI_Email {
 	function set_mailtype($type = 'text')
 	{
 		$this->mailtype = ($type == 'html') ? 'html' : 'text';
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -463,6 +480,7 @@ class CI_Email {
 	function set_wordwrap($wordwrap = TRUE)
 	{
 		$this->wordwrap = ($wordwrap === FALSE) ? FALSE : TRUE;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -477,6 +495,7 @@ class CI_Email {
 	function set_protocol($protocol = 'mail')
 	{
 		$this->protocol = ( ! in_array($protocol, $this->_protocols, TRUE)) ? 'mail' : strtolower($protocol);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -503,6 +522,7 @@ class CI_Email {
 		}
 
 		$this->priority = $n;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -523,6 +543,8 @@ class CI_Email {
 		}
 
 		$this->newline	= $newline;
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -543,6 +565,8 @@ class CI_Email {
 		}
 
 		$this->crlf	= $crlf;
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
