@@ -109,8 +109,6 @@ class CI_Loader {
 		{
 			$this->_ci_load_class($library, $params, $object_name);
 		}
-
-		$this->_ci_assign_to_models();
 	}
 
 	// --------------------------------------------------------------------
@@ -182,7 +180,9 @@ class CI_Loader {
 			if ($db_conn !== FALSE AND ! class_exists('CI_DB'))
 			{
 				if ($db_conn === TRUE)
+				{
 					$db_conn = '';
+				}
 
 				$CI->load->database($db_conn, FALSE, TRUE);
 			}
@@ -197,7 +197,6 @@ class CI_Loader {
 			$model = ucfirst($model);
 
 			$CI->$name = new $model();
-			$CI->$name->_assign_libraries();
 
 			$this->_ci_models[] = $name;
 			return;
@@ -242,9 +241,6 @@ class CI_Loader {
 
 		// Load the DB class
 		$CI->db =& DB($params, $active_record);
-
-		// Assign the DB object to any existing models
-		$this->_ci_assign_to_models();
 	}
 
 	// --------------------------------------------------------------------
@@ -273,8 +269,6 @@ class CI_Loader {
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
 		$CI->dbutil =& instantiate_class(new $class());
-
-		$CI->load->_ci_assign_to_models();
 	}
 
 	// --------------------------------------------------------------------
@@ -299,8 +293,6 @@ class CI_Loader {
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
 
 		$CI->dbforge = new $class();
-
-		$CI->load->_ci_assign_to_models();
 	}
 
 	// --------------------------------------------------------------------
@@ -1004,33 +996,6 @@ class CI_Loader {
 		if (isset($autoload['model']))
 		{
 			$this->model($autoload['model']);
-		}
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Assign to Models
-	 *
-	 * Makes sure that anything loaded by the loader class (libraries, etc.)
-	 * will be available to models, if any exist.
-	 *
-	 * @access	private
-	 * @param	object
-	 * @return	array
-	 */
-	function _ci_assign_to_models()
-	{
-		if (count($this->_ci_models) == 0)
-		{
-			return;
-		}
-
-		foreach($this->_ci_models as $model)
-		{
-			$model = $this->_ci_get_component($model);
-			$model->_assign_libraries();
 		}
 	}
 

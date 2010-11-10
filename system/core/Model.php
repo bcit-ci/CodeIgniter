@@ -26,57 +26,29 @@
  */
 class CI_Model {
 
-	var $_parent_name = '';
-
 	/**
 	 * Constructor
 	 *
 	 * @access public
 	 */
-	function CI_Model()
+	function __construct()
 	{
-		// If the magic __get() or __set() methods are used in a Model references can't be used.
-		$this->_assign_libraries( (method_exists($this, '__get') OR method_exists($this, '__set')) ? FALSE : TRUE );
-
-		// We don't want to assign the model object to itself when using the
-		// assign_libraries function below so we'll grab the name of the model parent
-		$this->_parent_name = ucfirst(get_class($this));
-
 		log_message('debug', "Model Class Initialized");
 	}
 
 	/**
-	 * Assign Libraries
+	 * __get
 	 *
-	 * Creates local references to all currently instantiated objects
-	 * so that any syntax that can be legally used in a controller
-	 * can be used within models.
+	 * Allows models to access CI's loaded classes using the same
+	 * syntax as controllers.
 	 *
 	 * @access private
 	 */
-	function _assign_libraries($use_reference = TRUE)
+	function __get($key)
 	{
 		$CI =& get_instance();
-		foreach (array_keys(get_object_vars($CI)) as $key)
-		{
-			if ( ! isset($this->$key) AND $key != $this->_parent_name)
-			{
-				// In some cases using references can cause
-				// problems so we'll conditionally use them
-				if ($use_reference == TRUE)
-				{
-					// Needed to prevent reference errors with some configurations
-					$this->$key = '';
-					$this->$key =& $CI->$key;
-				}
-				else
-				{
-					$this->$key = $CI->$key;
-				}
-			}
-		}
+		return $CI->$key;
 	}
-
 }
 // END Model Class
 
