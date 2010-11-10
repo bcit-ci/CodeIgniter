@@ -28,7 +28,7 @@ class CI_Javascript {
 
 	var $_javascript_location = 'js';
 
-	function CI_Javascript($params = array())
+	public function __construct($params = array())
 	{
 		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
 

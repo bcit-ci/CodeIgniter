@@ -44,7 +44,7 @@
  */
 class CI_SHA {
 
-	function CI_SHA()
+	public function __construct()
 	{
 		log_message('debug', "SHA1 Class Initialized");
 	}

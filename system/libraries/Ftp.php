@@ -40,7 +40,7 @@ class CI_FTP {
 	 *
 	 * The constructor can be passed an array of config values
 	 */
-	function CI_FTP($config = array())
+	public function __construct($config = array())
 	{
 		if (count($config) > 0)
 		{

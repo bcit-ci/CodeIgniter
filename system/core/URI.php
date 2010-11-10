@@ -28,7 +28,7 @@
  */
 class CI_URI {
 
-	var	$keyval	= array();
+	var	$keyval			= array();
 	var $uri_string;
 	var $segments		= array();
 	var $rsegments		= array();
@@ -42,7 +42,7 @@ class CI_URI {
 	 *
 	 * @access	public
 	 */
-	function CI_URI()
+	function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
 		log_message('debug', "URI Class Initialized");

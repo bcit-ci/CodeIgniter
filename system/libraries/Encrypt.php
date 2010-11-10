@@ -41,7 +41,7 @@ class CI_Encrypt {
 	 * Simply determines whether the mcrypt library exists.
 	 *
 	 */
-	function CI_Encrypt()
+	public function __construct()
 	{
 		$this->CI =& get_instance();
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;

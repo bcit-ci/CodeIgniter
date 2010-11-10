@@ -40,7 +40,7 @@ class CI_Cart {
 	 *
 	 * The constructor loads the Session class, used to store the shopping cart contents.
 	 */
-	function CI_Cart($params = array())
+	public function __construct($params = array())
 	{
 		// Set the super object to a local variable for use later
 		$this->CI =& get_instance();

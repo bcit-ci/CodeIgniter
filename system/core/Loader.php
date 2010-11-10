@@ -50,7 +50,7 @@ class CI_Loader {
 	 *
 	 * @access	public
 	 */
-	function CI_Loader()
+	function __construct()
 	{
 		$this->_ci_view_path = APPPATH.'views/';
 		$this->_ci_ob_level  = ob_get_level();

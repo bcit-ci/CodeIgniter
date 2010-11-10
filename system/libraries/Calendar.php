@@ -42,10 +42,8 @@ class CI_Calendar {
 	 * Constructor
 	 *
 	 * Loads the calendar language file and sets the default time reference
-	 *
-	 * @access	public
 	 */
-	function CI_Calendar($config = array())
+	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
 

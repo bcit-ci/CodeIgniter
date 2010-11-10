@@ -37,7 +37,7 @@ class CI_Output {
 	var $_zlib_oc			= FALSE;
 	var $_profiler_sections = array();
 
-	function CI_Output()
+	function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 

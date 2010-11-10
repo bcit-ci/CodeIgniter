@@ -56,7 +56,7 @@ class CI_User_agent {
 	 * @access	public
 	 * @return	void
 	 */
-	function CI_User_agent()
+	public function __construct()
 	{
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 		{

@@ -35,7 +35,7 @@ class CI_Unit_test {
 	var $_template_rows			= NULL;
 	var $_test_items_visible	= array();
 
-	function CI_Unit_test()
+	public function __construct()
 	{
 		// These are the default items visible when a test is run.
 		$this->_test_items_visible = array (

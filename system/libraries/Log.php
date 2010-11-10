@@ -34,10 +34,8 @@ class CI_Log {
 
 	/**
 	 * Constructor
-	 *
-	 * @access	public
 	 */
-	function CI_Log()
+	public function __construct()
 	{
 		$config =& get_config();
 

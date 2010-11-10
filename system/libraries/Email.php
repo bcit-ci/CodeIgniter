@@ -82,7 +82,7 @@ class CI_Email {
 	 *
 	 * The constructor can be passed an array of config values
 	 */
-	function CI_Email($config = array())
+	function __construct($config = array())
 	{
 		if (count($config) > 0)
 		{
