@@ -42,7 +42,7 @@ class CI_Parser {
 	 * @param	bool
 	 * @return	string
 	 */
-	public function __construct($template, $data, $return = FALSE)
+	public function parse($template, $data, $return = FALSE)
 	{
 		$CI =& get_instance();
 		$template = $CI->load->view($template, $data, TRUE);
