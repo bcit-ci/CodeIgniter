@@ -75,8 +75,7 @@ to an existing library. Or you can even replace native libraries just by placing
 
 <p>The page below explains these three concepts in detail.</p>
 
-<p class="important"><strong>Note:</strong> The Database classes can not be extended or replaced with your own classes,
-nor can the Loader class in PHP 4.  All other classes are able to be replaced/extended.</p>
+<p class="important"><strong>Note:</strong> The Database classes can not be extended or replaced with your own classes.  All other classes are able to be replaced/extended.</p>
 
 
 <h2>Storage</h2>
@@ -197,11 +196,7 @@ etc.
 <var>$CI =&amp; get_instance();</var>
 <br />
 <br />
-<kbd>This is very important.</kbd> Assigning by reference allows you to use the original CodeIgniter object rather than creating a copy of it.
-<br /><br />
-<kbd>Also, please note:</kbd> If you are running PHP 4 it's usually best to avoid calling <dfn>get_instance()</dfn>
-from within your class constructors.  PHP 4 has trouble referencing the CI super object within application constructors
-since objects do not exist until the class is fully instantiated.</p>
+<kbd>This is very important.</kbd> Assigning by reference allows you to use the original CodeIgniter object rather than creating a copy of it.</p>
 
 
 <h2>Replacing Native Libraries with Your Versions</h2>
