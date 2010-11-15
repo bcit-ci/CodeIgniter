@@ -233,7 +233,15 @@ else<br />
 <code>echo $this->input->user_agent();</code>
 
 
+<h2>$this->input->request_headers()</h2>
+<p>Useful if running in a non-Apache environment where <a href="http://php.net/apache_request_headers">apache_request_headers()</a> will not be supported.  Returns an array of headers.</p>
 
+<code>$headers = $this->input->request_headers();</code>
+
+<h2>$this->input->get_request_header();</h2>
+<p>Returns a single 
+
+<code>$this->input->get_request_header('some-header', TRUE);</code>
 
 </div>
 <!-- END CONTENT -->
