@@ -35,6 +35,9 @@ class CI_Input {
 	var $_enable_xss			= FALSE; // Set automatically based on config setting
 	var $_enable_csrf			= FALSE; // Set automatically based on config setting
 
+	protected $headers			= array();
+	
+
 	/**
 	 * Constructor
 	 *
@@ -378,8 +381,10 @@ class CI_Input {
 	function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', '_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
-							'system_folder', 'application_folder', 'BM', 'EXT', 'CFG', 'URI', 'RTR', 'OUT', 'IN');
+		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', 
+							'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
+							'system_folder', 'application_folder', 'BM', 'EXT', 
+							'CFG', 'URI', 'RTR', 'OUT', 'IN');
 
 		// Unset globals for securiy.
 		// This is effectively the same as register_globals = off
@@ -543,6 +548,80 @@ class CI_Input {
 		}
 
 		return $str;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Request Headers
+	 *
+	 * In Apache, you can simply call apache_request_headers(), however for 
+	 * people running other webservers the function is undefined.
+	 *
+	 * @return array
+	 */
+	public function request_headers($xss_clean = FALSE)
+	{
+		// Look at Apache go!
+		if (function_exists('apache_request_headers'))
+		{
+			$headers = apache_request_headers();
+		}
+		else
+		{
+			$headers['Content-Type'] = (isset($_SERVER['CONTENT_TYPE'])) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+
+			foreach ($_SERVER as $key => $val)
+			{
+				if (strncmp($key, 'HTTP_', 5) === 0)
+				{
+					$headers[substr($key, 5)] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
+				}
+			}
+		}
+
+		// take SOME_HEADER and turn it into Some-Header
+		foreach ($headers as $key => $val)
+		{
+			$key = str_replace('_', ' ', strtolower($key));
+			$key = str_replace(' ', '-', ucwords($key));
+			
+			$this->headers[$key] = $val;
+		}
+		
+		return $this->headers;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Request Header
+	 *
+	 * Returns the value of a single member of the headers class member
+	 *
+	 * @param 	string		array key for $this->headers
+	 * @param	boolean		XSS Clean or not
+	 * @return 	mixed		FALSE on failure, string on success
+	 */
+	public function get_request_header($index, $xss_clean = FALSE)
+	{
+		if (empty($this->headers))
+		{
+			$this->request_headers();
+		}
+		
+		if ( ! isset($this->headers[$index]))
+		{
+			return FALSE;
+		}
+
+		if ($xss_clean === TRUE)
+		{
+			$_security =& load_class('Security');
+			return $_security->xss_clean($this->headers[$index]);
+		}
+
+		return $this->headers[$index];		
 	}
 
 }
