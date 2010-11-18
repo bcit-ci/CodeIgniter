@@ -1,3 +1,6 @@
 syntax: glob
 
 .DS_Store
+
+syntax: regexp
+system/cache/(?!index\.html|\.htaccess)
