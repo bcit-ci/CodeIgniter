@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Welcome to CodeIgniter</title>
+	<meta charset="utf-8">
+	<title>Welcome to CodeIgniter</title>
 
 <style type="text/css">
 
