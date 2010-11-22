@@ -239,9 +239,16 @@ else<br />
 <code>$headers = $this->input->request_headers();</code>
 
 <h2>$this->input->get_request_header();</h2>
-<p>Returns a single 
+<p>Returns a single member of the request headers array.</p>
 
 <code>$this->input->get_request_header('some-header', TRUE);</code>
+
+
+<h2>$this->input->is_ajax_request()</h2>
+<p>Checks to see if the <var>HTTP_X_REQUESTED_WITH</var> server header has been set, and returns a boolean response.</p>
+
+<code>$this->input->is_ajax_request()</code>
+
 
 </div>
 <!-- END CONTENT -->
