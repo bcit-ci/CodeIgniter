@@ -144,7 +144,7 @@ class CI_Router {
 
 			$this->set_class($x[0]);
 			$this->set_method($x[1]);
-			$this->_set_request(array($x[0], $x[1]));
+			$this->_set_request($x);
 		}
 		else
 		{
