@@ -942,6 +942,15 @@ class CI_Loader {
 			return FALSE;
 		}
 
+		// Autoload packages
+		if (isset($autoload['packages']))
+		{
+			foreach ($autoload['packages'] as $package_path)
+			{
+				$this->add_package_path($package_path);
+			}
+		}
+
 		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{
