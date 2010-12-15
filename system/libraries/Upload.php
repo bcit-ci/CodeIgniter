@@ -212,7 +212,18 @@ class CI_Upload {
 		if ($this->_file_name_override != '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
-			$this->file_ext  = $this->get_extension($this->file_name);
+
+			// If no extension was provided in the file_name config item, use the uploaded one
+			if(strpos($this->_file_name_override, '.') === FALSE)
+			{
+				$this->file_name .= $this->file_ext;
+			}
+
+			// An extension was provided, lets have it!
+			else
+			{
+				$this->file_ext	 = $this->get_extension($this->_file_name_override);
+			}
 
 			if ( ! $this->is_allowed_filetype(TRUE))
 			{
