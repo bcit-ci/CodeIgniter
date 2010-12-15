@@ -30,7 +30,7 @@ class CI_Input {
 
 	var $ip_address				= FALSE;
 	var $user_agent				= FALSE;
-	var $_allow_get_array		= FALSE;
+	var $_allow_get_array		= TRUE;
 	var $_standardize_newlines	= TRUE;
 	var $_enable_xss			= FALSE; // Set automatically based on config setting
 	var $_enable_csrf			= FALSE; // Set automatically based on config setting
@@ -49,7 +49,7 @@ class CI_Input {
 	{
 		log_message('debug', "Input Class Initialized");
 
-		$this->_allow_get_array	= (config_item('enable_query_strings') === TRUE) ? TRUE : FALSE;
+		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE) ? TRUE : FALSE;
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE) ? TRUE : FALSE;
 
