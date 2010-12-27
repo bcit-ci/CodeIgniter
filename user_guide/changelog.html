@@ -76,6 +76,10 @@ Hg Tag: </p>
 			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a>.</li>
 			<li>Removed the deprecated Validation Class.</li>
 			<li>Added CI_ Prefix to all core classes.</li>
+			<li>Package paths can now be set in application/config/autoload.php.</li>
+			<li>Upload library file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
+			<li>Name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
+			<li><kbd>$config['base_url']</kbd> is now empty by default and will guess what it should be.</li>
 		</ul>
 	<li>Libraries
 		<ul>

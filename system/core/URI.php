@@ -133,23 +133,25 @@ class CI_URI {
 		if (isset($_SERVER['REQUEST_URI']))
 		{
 			$uri = $_SERVER['REQUEST_URI'];
-			if (strpos($uri, $_SERVER['HTTP_HOST']) !== FALSE)
+			if (strpos($uri, $_SERVER['SERVER_NAME']) !== FALSE)
 			{
-				$uri = preg_replace('/^\w+:\/\/[^\/]+/','',$uri);
+				$uri = preg_replace('/^\w+:\/\/[^\/]+/', '', $uri);
 			}
 		}
+
 		// Now lets check for IIS
 		elseif (isset($_SERVER['HTTP_X_REWRITE_URL']))
 		{
 			$uri = $_SERVER['HTTP_X_REWRITE_URL'];
 		}
+		
 		// Last ditch effort (for older CGI servers, like IIS 5)
 		elseif (isset($_SERVER['ORIG_PATH_INFO']))
 		{
 			$uri = $_SERVER['ORIG_PATH_INFO'];
 			if ( ! empty($_SERVER['QUERY_STRING']))
 			{
-				$uri .= '?'.$_SERVER['QUERY_STRING'];
+				$uri .= '?' . $_SERVER['QUERY_STRING'];
 			}
 		}
 
@@ -173,8 +175,8 @@ class CI_URI {
 	{
 		// Some server's require URL's like index.php?/whatever If that is the case,
 		// then we need to add that to our parsing.
-		$fc_path = ltrim(FCPATH.SELF, '/');
-		if (strpos($uri, SELF.'?') !== FALSE)
+		$fc_path = ltrim(FCPATH . SELF, '/');
+		if (strpos($uri, SELF . '?') !== FALSE)
 		{
 			$fc_path .= '?';
 		}
@@ -182,7 +184,7 @@ class CI_URI {
 		$parsed_uri = explode('/', ltrim($uri, '/'));
 
 		$i = 0;
-		foreach(explode("/", $fc_path) as $segment)
+		foreach (explode("/", $fc_path) as $segment)
 		{
 			if (isset($parsed_uri[$i]) && $segment == $parsed_uri[$i])
 			{
@@ -203,7 +205,7 @@ class CI_URI {
 		}
 
 		// If it is just a / or index.php then just empty it.
-		if ($uri == '/' || $uri == SELF)
+		if ($uri == '/' OR $uri == SELF)
 		{
 			$uri = '';
 		}
@@ -266,7 +268,7 @@ class CI_URI {
 	 */
 	function _explode_segments()
 	{
-		foreach(explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
+		foreach (explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
 		{
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));

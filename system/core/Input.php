@@ -49,9 +49,9 @@ class CI_Input {
 	{
 		log_message('debug', "Input Class Initialized");
 
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE) ? TRUE : FALSE;
-		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
-		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE) ? TRUE : FALSE;
+		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
 		// Do we need to load the security class?
 		if ($this->_enable_xss == TRUE OR $this->_enable_csrf == TRUE)
@@ -216,14 +216,7 @@ class CI_Input {
 		}
 		else
 		{
-			if ($expire > 0)
-			{
-				$expire = time() + $expire;
-			}
-			else
-			{
-				$expire = 0;
-			}
+			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
 
 		setcookie($prefix.$name, $value, $expire, $path, $domain, 0);
@@ -492,7 +485,7 @@ class CI_Input {
 		}
 
 		// We strip slashes if magic quotes is on to keep things consistent
-		if (get_magic_quotes_gpc())
+		if (function_exists('get_magic_quotes_gpc') AND get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
 		}
@@ -514,7 +507,7 @@ class CI_Input {
 		{
 			if (strpos($str, "\r") !== FALSE)
 			{
-				$str = str_replace(array("\r\n", "\r"), "\n", $str);
+				$str = str_replace(array("\r\n", "\r"), PHP_EOL, $str);
 			}
 		}
 

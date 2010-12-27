@@ -333,6 +333,12 @@ class CI_DB_forge {
 
 		foreach ($field as $k => $v)
 		{
+			// If no name provided, use the current name
+			if ( ! isset($field[$k]['name']))
+			{
+				$field[$k]['name'] = $k;
+			}
+
 			$this->add_field(array($k => $field[$k]));
 
 			if (count($this->fields) == 0)
