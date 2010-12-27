@@ -10,8 +10,11 @@
 |
 |	http://example.com/
 |
+| If this is not set then CodeIgniter will guess the protocol, domain and
+| path to your installation.
+|
 */
-$config['base_url']	= "http://example.com/";
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +26,7 @@ $config['base_url']	= "http://example.com/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "index.php";
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +34,7 @@ $config['index_page'] = "index.php";
 |--------------------------------------------------------------------------
 |
 | This item determines which server global should be used to retrieve the
-| URI string.  The default setting of "AUTO" works for most servers.
+| URI string.  The default setting of 'AUTO' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
 | 'AUTO'			Default - auto detects
@@ -41,7 +44,7 @@ $config['index_page'] = "index.php";
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= "AUTO";
+$config['uri_protocol']	= 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +57,7 @@ $config['uri_protocol']	= "AUTO";
 | http://codeigniter.com/user_guide/general/urls.html
 */
 
-$config['url_suffix'] = "";
+$config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +69,7 @@ $config['url_suffix'] = "";
 | than english.
 |
 */
-$config['language']	= "english";
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -77,14 +80,14 @@ $config['language']	= "english";
 | that require a character set to be provided.
 |
 */
-$config['charset'] = "UTF-8";
+$config['charset'] = 'UTF-8';
 
 /*
 |--------------------------------------------------------------------------
 | Enable/Disable System Hooks
 |--------------------------------------------------------------------------
 |
-| If you would like to use the "hooks" feature you must enable it by
+| If you would like to use the 'hooks' feature you must enable it by
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
@@ -142,7 +145,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 |
 | Options are: TRUE or FALSE (boolean)
 |
-| The other items let you set the query string "words" that will
+| The other items let you set the query string 'words' that will
 | invoke your controllers and its functions:
 | example.com/index.php?c=controller&m=function
 |
@@ -151,7 +154,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array'] = TRUE;
+$config['allow_get_array']		= TRUE;
 $config['enable_query_strings'] = FALSE;
 $config['controller_trigger']	= 'c';
 $config['function_trigger']		= 'm';
@@ -221,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "";
+$config['encryption_key'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -261,9 +264,9 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_path'   =  Typically will be a forward slash
 |
 */
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= '';
+$config['cookie_path']		= '/';
 
 /*
 |--------------------------------------------------------------------------
@@ -301,7 +304,7 @@ $config['csrf_protection'] = FALSE;
 | means you are prematurely outputting something to your browser. It could
 | even be a line of whitespace at the end of one of your scripts.  For
 | compression to work, nothing can be sent before the output buffer is called
-| by the output class.  Do not "echo" any values with compression enabled.
+| by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
 $config['compress_output'] = FALSE;
@@ -311,9 +314,9 @@ $config['compress_output'] = FALSE;
 | Master Time Reference
 |--------------------------------------------------------------------------
 |
-| Options are "local" or "gmt".  This pref tells the system whether to use
-| your server's local time as the master "now" reference, or convert it to
-| GMT.  See the "date helper" page of the user guide for information
+| Options are 'local' or 'gmt'.  This pref tells the system whether to use
+| your server's local time as the master 'now' reference, or convert it to
+| GMT.  See the 'date helper' page of the user guide for information
 | regarding date handling.
 |
 */

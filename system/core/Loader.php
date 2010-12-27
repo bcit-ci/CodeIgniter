@@ -81,12 +81,12 @@ class CI_Loader {
 		{
 			foreach($library as $read)
 			{
-				$this->library($read);	
+				$this->library($read);
 			}
-			
+
 			return;
 		}
-		
+
 		if ($library == '' OR isset($this->_base_classes[$library]))
 		{
 			return FALSE;
@@ -527,7 +527,7 @@ class CI_Loader {
 	function add_package_path($path)
 	{
 		$path = rtrim($path, '/').'/';
-		
+
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
@@ -535,6 +535,22 @@ class CI_Loader {
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
 		array_unshift($config->_config_paths, $path);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Package Paths
+	 *
+	 * Return a list of all package paths, by default it will ignore BASEPATH.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */
+	function get_package_paths($include_base = FALSE)
+	{
+		return $include_base === TRUE ? $this->_ci_library_paths : $this->_ci_model_paths;
 	}
 
 	// --------------------------------------------------------------------
@@ -563,7 +579,7 @@ class CI_Loader {
 		else
 		{
 			$path = rtrim($path, '/').'/';
-			
+
 			foreach (array('_ci_library_paths', '_ci_model_paths', '_ci_helper_paths') as $var)
 			{
 				if (($key = array_search($path, $this->{$var})) !== FALSE)

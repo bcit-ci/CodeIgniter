@@ -346,7 +346,7 @@ class CI_Table {
 					{
 						if ($function !== FALSE && is_callable($function))
 						{
-							$out .= $function($cell);
+							$out .= call_user_func($function, $cell);
 						}
 						else
 						{
