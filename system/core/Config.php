@@ -51,7 +51,6 @@ class CI_Config {
 		// Set the base_url automatically if none was provided
 		if ($this->config['base_url'] == '')
 		{
-			// Base URL (keeps this crazy sh*t out of the config.php
 			if(isset($_SERVER['HTTP_HOST']))
 			{
 				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
