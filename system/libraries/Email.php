@@ -108,7 +108,6 @@ class CI_Email {
 	 */
 	function initialize($config = array())
 	{
-		$this->clear();
 		foreach ($config as $key => $val)
 		{
 			if (isset($this->$key))
@@ -125,6 +124,7 @@ class CI_Email {
 				}
 			}
 		}
+		$this->clear();
 
 		$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;
 		$this->_safe_mode = ((boolean)@ini_get("safe_mode") === FALSE) ? FALSE : TRUE;
@@ -160,7 +160,7 @@ class CI_Email {
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
 		}
-		
+
 		return $this;
 	}
 
@@ -203,7 +203,7 @@ class CI_Email {
 
 		$this->_set_header('From', $name.' <'.$from.'>');
 		$this->_set_header('Return-Path', '<'.$from.'>');
-		
+
 		return $this;
 	}
 
@@ -278,7 +278,7 @@ class CI_Email {
 			case 'mail'		: $this->_recipients = implode(", ", $to);
 			break;
 		}
-		
+
 		return $this;
 	}
 
@@ -307,7 +307,7 @@ class CI_Email {
 		{
 			$this->_cc_array = $cc;
 		}
-		
+
 		return $this;
 	}
 
@@ -345,7 +345,7 @@ class CI_Email {
 		{
 			$this->_set_header('Bcc', implode(", ", $bcc));
 		}
-		
+
 		return $this;
 	}
 
@@ -543,7 +543,7 @@ class CI_Email {
 		}
 
 		$this->newline	= $newline;
-		
+
 		return $this;
 	}
 
@@ -565,7 +565,7 @@ class CI_Email {
 		}
 
 		$this->crlf	= $crlf;
-		
+
 		return $this;
 	}
 
@@ -1023,7 +1023,7 @@ class CI_Email {
 				{
 					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
 				}
-				
+
 				return;
 
 			break;
@@ -1048,10 +1048,10 @@ class CI_Email {
 					$body .= "Content-Type: text/html; charset=" . $this->charset . $this->newline;
 					$body .= "Content-Transfer-Encoding: quoted-printable" . $this->newline . $this->newline;
 				}
-				
+
 				$this->_finalbody = $body . $this->_prep_quoted_printable($this->_body) . $this->newline . $this->newline;
-				
-				
+
+
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
@@ -1077,8 +1077,8 @@ class CI_Email {
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
-				}				
-				
+				}
+
 				$body .= $this->_get_mime_message() . $this->newline . $this->newline;
 				$body .= "--" . $this->_atc_boundary . $this->newline;
 
@@ -1091,7 +1091,7 @@ class CI_Email {
 			case 'html-attach' :
 
 				$hdr .= "Content-Type: multipart/".$this->multipart."; boundary=\"" . $this->_atc_boundary."\"" . $this->newline . $this->newline;
-				
+
 				if ($this->_get_protocol() == 'mail')
 				{
 					$this->_header_str .= $hdr;
@@ -1152,7 +1152,7 @@ class CI_Email {
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline."--".$this->_atc_boundary."--";
-		
+
 
 		if ($this->_get_protocol() == 'mail')
 		{
@@ -1162,7 +1162,7 @@ class CI_Email {
 		{
 			$this->_finalbody = $hdr . $body;
 		}
-		
+
 		return;
 	}
 
@@ -1533,7 +1533,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-						
+
 			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
 			{
 				return FALSE;
@@ -1567,7 +1567,7 @@ class CI_Email {
 		fputs($fp, $this->_finalbody);
 
 		$status = pclose($fp);
-	
+
 		if (version_compare(PHP_VERSION, '4.2.3') == -1)
 		{
 			$status = $status >> 8 & 0xFF;

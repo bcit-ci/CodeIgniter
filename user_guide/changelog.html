@@ -171,6 +171,7 @@ Hg Tag: </p>
 
 <h3>Bug fixes for 2.0.0</h3>
 <ul>
+	<li>Fixed a bug where you could not change the User-Agent when sending email.</li>
 	<li>Fixed a bug where the Output class would send incorrect cached output for controllers implementing their own <dfn>_output()</dfn> method.</li>
 	<li>Fixed a bug where a failed query would not have a saved query execution time causing errors in the Profiler</li>
 	<li>Fixed a bug that was writing log entries when multiple identical helpers and plugins were loaded.</li>
@@ -750,7 +751,7 @@ Hg Tag: 1.6.1</p>
 		</ul>
 	</li>
 
-	
+
 	<li>Documentation Changes
 		<ul>
 			<li>Added <a href="./doc_style/index.html">Writing Documentation</a> section for the community to use in writing their own documentation.</li>
