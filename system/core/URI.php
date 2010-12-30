@@ -68,6 +68,13 @@ class CI_URI {
 				return;
 			}
 
+			// Arguments exist, it must be a command line request
+			if ( ! empty($_SERVER['argv']))
+			{
+				$this->uri_string = $this->_parse_cli_args();
+				return;
+			}
+
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
@@ -102,6 +109,11 @@ class CI_URI {
 			if ($uri == 'REQUEST_URI')
 			{
 				$this->uri_string = $this->_parse_request_uri($this->_get_request_uri());
+				return;
+			}
+			elseif ($uri == 'CLI')
+			{
+				$this->uri_string = $this->_parse_cli_args();
 				return;
 			}
 
@@ -144,7 +156,7 @@ class CI_URI {
 		{
 			$uri = $_SERVER['HTTP_X_REWRITE_URL'];
 		}
-		
+
 		// Last ditch effort (for older CGI servers, like IIS 5)
 		elseif (isset($_SERVER['ORIG_PATH_INFO']))
 		{
@@ -171,7 +183,7 @@ class CI_URI {
 	 * @param	string
 	 * @return	string
 	 */
-	function _parse_request_uri($uri)
+	private function _parse_request_uri($uri)
 	{
 		// Some server's require URL's like index.php?/whatever If that is the case,
 		// then we need to add that to our parsing.
@@ -211,6 +223,23 @@ class CI_URI {
 		}
 
 		return $uri;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse cli arguments
+	 *
+	 * Take each command line argument and assume it is a URI segment.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+	private function _parse_cli_args()
+	{
+		$args = array_slice($_SERVER['argv'], 1);
+
+		return $args ? '/' . implode('/', $args) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -524,7 +553,7 @@ class CI_URI {
 	{
 		$leading	= '/';
 		$trailing	= '/';
-		
+
 		if ($where == 'trailing')
 		{
 			$leading	= '';
@@ -533,7 +562,7 @@ class CI_URI {
 		{
 			$trailing	= '';
 		}
-		
+
 		return $leading.$this->$which($n).$trailing;
 	}
 
