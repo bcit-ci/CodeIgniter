@@ -870,15 +870,28 @@ class CI_Loader {
 		// Is there an associated config file for this class?  Note: these should always be lowercase
 		if ($config === NULL)
 		{
-			// We test for both uppercase and lowercase, for servers that
-			// are case-sensitive with regard to file names
-			if (file_exists(APPPATH.'config/'.strtolower($class).EXT))
+			// Fetch the config paths containing any package paths
+			$config_component = $this->_ci_get_component('config');
+
+			if (is_array($config_component->_config_paths))
 			{
-				include_once(APPPATH.'config/'.strtolower($class).EXT);
-			}
-			elseif (file_exists(APPPATH.'config/'.ucfirst(strtolower($class)).EXT))
-			{
-				include_once(APPPATH.'config/'.ucfirst(strtolower($class)).EXT);
+				// Break on the first found file, thus package files
+				// are not overridden by default paths
+				foreach ($config_component->_config_paths as $path)
+				{
+					// We test for both uppercase and lowercase, for servers that
+					// are case-sensitive with regard to file names
+					if (file_exists($path .'config/'.strtolower($class).EXT))
+					{
+						include_once($path .'config/'.strtolower($class).EXT);
+						break;
+					}
+					elseif (file_exists($path .'config/'.ucfirst(strtolower($class)).EXT))
+					{
+						include_once($path .'config/'.ucfirst(strtolower($class)).EXT);
+						break;
+					}
+				}
 			}
 		}
 
