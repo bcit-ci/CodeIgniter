@@ -736,6 +736,13 @@ class CI_Form_validation {
 			return $default;
 		}
 
+		// If the data is an array output them one at a time.
+		//     E.g: form_input('name[]', set_value('name[]');
+		if (is_array($this->_field_data[$field]['postdata']))
+		{
+			return array_shift($this->_field_data[$field]['postdata']);
+		}
+		
 		return $this->_field_data[$field]['postdata'];
 	}
 
