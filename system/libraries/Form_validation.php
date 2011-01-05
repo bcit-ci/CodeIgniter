@@ -339,7 +339,13 @@ class CI_Form_validation {
 				}
 			}
 
-			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
+			preg_match_all('/([a-zA-Z_-]*(\[.*\])?)\|?/i', $row['rules'], $matches);
+
+			$rules = $matches[1];
+			array_pop($rules);
+			unset($matches);
+
+			$this->_execute($row, $rules, $this->_field_data[$field]['postdata']);
 		}
 
 		// Did we end up with any errors?
@@ -576,7 +582,7 @@ class CI_Form_validation {
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
 			$param = FALSE;
-			if (preg_match("/(.*?)\[(.*?)\]/", $rule, $match))
+			if (preg_match("/(.*?)\[(.*)\]/", $rule, $match))
 			{
 				$rule	= $match[1];
 				$param	= $match[2];
@@ -730,6 +736,13 @@ class CI_Form_validation {
 			return $default;
 		}
 
+		// If the data is an array output them one at a time.
+		//     E.g: form_input('name[]', set_value('name[]');
+		if (is_array($this->_field_data[$field]['postdata']))
+		{
+			return array_shift($this->_field_data[$field]['postdata']);
+		}
+		
 		return $this->_field_data[$field]['postdata'];
 	}
 
@@ -884,6 +897,26 @@ class CI_Form_validation {
 		{
 			return ( ! empty($str));
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Performs a Regular Expression match test.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	regex
+	 * @return	bool
+	 */
+	function regex_match($str, $regex)
+	{
+		if ( ! preg_match($regex, $str))
+		{
+			return FALSE;
+		}
+
+		return  TRUE;
 	}
 
 	// --------------------------------------------------------------------
