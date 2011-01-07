@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -940,6 +940,15 @@ class CI_Loader {
 		if ( ! isset($autoload))
 		{
 			return FALSE;
+		}
+
+		// Autoload packages
+		if (isset($autoload['packages']))
+		{
+			foreach ($autoload['packages'] as $package_path)
+			{
+				$this->add_package_path($package_path);
+			}
 		}
 
 		// Load any custom config file
