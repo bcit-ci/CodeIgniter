@@ -18,13 +18,27 @@
 |
 | These are the things you can load automatically:
 |
-| 1. Libraries
-| 2. Helper files
-| 3. Custom config files
-| 4. Language files
-| 5. Models
+| 1. Packages
+| 2. Libraries
+| 3. Helper files
+| 4. Custom config files
+| 5. Language files
+| 6. Models
 |
 */
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Packges
+| -------------------------------------------------------------------
+| Prototype:
+|
+|  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+|
+*/
+
+$autoload['packages'] = array(APPPATH.'third_party');
+
 
 /*
 | -------------------------------------------------------------------
@@ -96,7 +110,6 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array();
-
 
 
 /* End of file autoload.php */
