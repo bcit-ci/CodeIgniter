@@ -114,7 +114,7 @@ if ( ! function_exists('standard_date'))
 		$formats = array(
 						'DATE_ATOM'		=>	'%Y-%m-%dT%H:%i:%s%Q',
 						'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
-						'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%O',
+						'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%Q',
 						'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
 						'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%m:%i UTC',
 						'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
