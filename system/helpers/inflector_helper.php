@@ -93,7 +93,7 @@ if ( ! function_exists('plural'))
 		}
 		elseif ($end == 'h')
 		{
-			if (substr($str, -2) == 'ch' || substr($str, -2) == 'sh')
+			if (substr($str, -2) == 'ch' OR substr($str, -2) == 'sh')
 			{
 				$str .= 'es';
 			}
