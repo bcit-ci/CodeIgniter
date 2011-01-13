@@ -188,7 +188,7 @@ $config['log_threshold'] = 0;
 |--------------------------------------------------------------------------
 |
 | Leave this BLANK unless you would like to set something other than the default
-| system/logs/ folder.  Use a full server path with trailing slash.
+| application/logs/ folder. Use a full server path with trailing slash.
 |
 */
 $config['log_path'] = '';
