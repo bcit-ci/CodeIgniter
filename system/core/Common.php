@@ -209,13 +209,13 @@
 		}
 
 		// Fetch the config file
-		if ( ! file_exists(APPPATH.'config/config'.EXT))
+		if ( ! file_exists(APPPATH.'config/'.ENVIRONMENT.'/config'.EXT))
 		{
 			exit('The configuration file does not exist.');
 		}
 		else
 		{
-			require(APPPATH.'config/config'.EXT);
+			require(APPPATH.'config/'.ENVIRONMENT.'/config'.EXT);
 		}
 
 		// Does the $config array exist in the file?

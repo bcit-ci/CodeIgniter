@@ -30,6 +30,7 @@ class CI_Config {
 
 	var $config = array();
 	var $is_loaded = array();
+	var $environment = ENVIRONMENT;
 	var $_config_paths = array(APPPATH);
 
 	/**
@@ -74,6 +75,8 @@ class CI_Config {
 	 *
 	 * @access	public
 	 * @param	string	the config file name
+	 * @param   boolean  if configuration values should be loaded into their own section
+	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
 	 * @return	boolean	if the file was loaded correctly
 	 */
 	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
@@ -82,8 +85,8 @@ class CI_Config {
 		$loaded = FALSE;
 
 		foreach($this->_config_paths as $path)
-		{
-			$file_path = $path.'config/'.$file.EXT;
+		{			
+			$file_path = $path.'config/'.ENVIRONMENT.'/'.$file.EXT;
 
 			if (in_array($file_path, $this->is_loaded, TRUE))
 			{
@@ -91,9 +94,12 @@ class CI_Config {
 				continue;
 			}
 
-			if ( ! file_exists($path.'config/'.$file.EXT))
+			if ( ! $file_path)
 			{
-				continue;
+				if ( ! file_exists($path.'config/'.$file.EXT))
+				{
+					$file_path = $path.'config/'.$file.EXT;
+				}
 			}
 
 			include($file_path);
@@ -136,9 +142,9 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.$file.EXT.' does not exist.');
+			show_error('The configuration file '.$environment.'/'.$file.EXT.' does not exist.');
 		}
-
+		
 		return TRUE;
 	}
 

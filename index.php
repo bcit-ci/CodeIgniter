@@ -2,6 +2,18 @@
 
 /*
  *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
+ *
+ * You can load different configurations depending on your
+ * current environment. The enviroment variable can be set
+ * to "development" (default), "test" or "production"
+ *
+ */
+	define('ENVIRONMENT', 'development');
+
+/*
+ *---------------------------------------------------------------
  * PHP ERROR REPORTING LEVEL
  *---------------------------------------------------------------
  *
