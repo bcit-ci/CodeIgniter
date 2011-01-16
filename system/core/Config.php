@@ -94,14 +94,17 @@ class CI_Config {
 				continue;
 			}
 
-			if ( ! $file_path)
+			if ( ! file_exists($file_path))
 			{
-				if ( ! file_exists($path.'config/'.$file.EXT))
+				log_message('debug', 'Config for '.ENVIRONMENT.' environment is not found. Trying global config.');
+				$file_path = $path.'config/'.$file.EXT;
+				
+				if ( ! file_exists($file_path))
 				{
-					$file_path = $path.'config/'.$file.EXT;
+					continue;
 				}
 			}
-
+			
 			include($file_path);
 
 			if ( ! isset($config) OR ! is_array($config))
@@ -142,7 +145,7 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.$environment.'/'.$file.EXT.' does not exist.');
+			show_error('The configuration file '.ENVIRONMENT.'/'.$file.EXT.' and '.$file.EXT.' do not exist.');
 		}
 		
 		return TRUE;
