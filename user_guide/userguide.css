@@ -410,3 +410,11 @@ form {
  margin: 0;
  padding: 1px 5px 2px 5px;
 }
+
+.note_header {
+    border-bottom: 1px dotted #999999;
+}
+
+.note_body {
+    padding-top: 10px;
+}
