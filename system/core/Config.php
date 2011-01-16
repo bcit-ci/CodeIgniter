@@ -30,7 +30,6 @@ class CI_Config {
 
 	var $config = array();
 	var $is_loaded = array();
-	var $environment = ENVIRONMENT;
 	var $_config_paths = array(APPPATH);
 
 	/**
