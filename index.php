@@ -6,23 +6,13 @@
  *---------------------------------------------------------------
  *
  * You can load different configurations depending on your
- * current environment. The enviroment variable can be set
- * to "development" (default), "test" or "production"
+ * current environment. Setting the environment also influences
+ * things like logging and error reporting. The enviroment 
+ * variable can be set to "development" (default), 
+ * "test" or "production".
  *
  */
 	define('ENVIRONMENT', 'development');
-
-/*
- *---------------------------------------------------------------
- * PHP ERROR REPORTING LEVEL
- *---------------------------------------------------------------
- *
- * By default CI runs with error reporting set to ALL.  For security
- * reasons you are encouraged to change this to 0 when your site goes live.
- * For more info visit:  http://www.php.net/error_reporting
- *
- */
-	error_reporting(E_ALL);
 
 /*
  *---------------------------------------------------------------
@@ -106,9 +96,25 @@
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
+/*
+ * ---------------------------------------------------------------
+ *  Check if environment is set, and set error reporting appropriately
+ * ---------------------------------------------------------------
+ */
 
-
-
+	if (ENVIRONMENT == 'development')
+	{
+		error_reporting(E_ALL);
+	}
+	elseif (ENVIRONMENT == 'production' OR ENVIRONMENT == 'test')
+	{
+		error_reporting(0);		
+	}
+	else
+	{
+		exit("The application environment is not set correctly.");		
+	}
+	
 /*
  * ---------------------------------------------------------------
  *  Resolve the system path for increased reliability
