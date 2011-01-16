@@ -112,6 +112,7 @@
 	}
 	else
 	{
+		error_reporting(E_ALL);
 		exit("The application environment is not set correctly.");		
 	}
 	
