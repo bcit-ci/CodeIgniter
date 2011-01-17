@@ -418,3 +418,7 @@ form {
 .note_body {
     padding-top: 10px;
 }
+
+.note_body code {
+    word-wrap: break-word;
+}
