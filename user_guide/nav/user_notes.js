@@ -1,7 +1,7 @@
 /**
  * This is the base URL of the note hosting application
  */
-var base_url = 'http://user-notes.codeigniter.com/';
+var base_url = 'http://ci-notes-exp.katzgrau.com/';
 
 /**
  * This is the version number of the current set of notes
@@ -41,6 +41,12 @@ function load_notes()
     /* Show the add link */
     set_add_link();
 
+    /* Is this doc commentable? */
+    if(user_guide_notes === false)
+    {
+        document.getElementById('note_block').style.display = 'none';
+    }
+
     /* No notes? say so */
     if(user_guide_notes.length == 0)
     {
@@ -70,11 +76,10 @@ function load_notes()
         list.appendChild(item);
     }
 
-    var container = document.getElementById('note_section');
-    var old       = document.getElementById('notes');
+    var old = document.getElementById('notes');
 
     /* Display */
-    container.replaceChild(list, old);
+    note_container.replaceChild(list, old);
 }
 
 /* Set the location of the 'Add Note' link */

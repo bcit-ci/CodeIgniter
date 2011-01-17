@@ -12,6 +12,7 @@
 <script type="text/javascript" src="../nav/prototype.lite.js"></script>
 <script type="text/javascript" src="../nav/moo.fx.js"></script>
 <script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+<script type="text/javascript" src="../nav/user_notes.js"></script>
 
 <meta http-equiv='expires' content='-1' />
 <meta http-equiv= 'pragma' content='no-cache' />
@@ -327,6 +328,23 @@ function when the update form is submitted. Please examine the construction of t
 
 
 
+<div id="note_block">
+
+    <h2>User Contributed Notes</h2>
+
+    <p><a target="_blank" href="#" id="add_note">Add a note</a></p>
+
+    <div id="note_section">
+
+        <ul id="notes">
+            <li>
+                Loading ...
+            </li>
+        </ul>
+    </div>
+
+</div>
+
 </div>
 <!-- END CONTENT -->
 
@@ -341,6 +359,10 @@ Next Topic:&nbsp;&nbsp;<a href="config.html">Config Class</a>
 </p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2010 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
+
+<script type="text/javascript">include_notes('libraries-cart');</script>
+<script type="text/javascript">load_notes();</script>
+
 
 </body>
 </html>
