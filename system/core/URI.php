@@ -61,17 +61,17 @@ class CI_URI {
 	{
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
-			// Let's try the REQUEST_URI first, this will work in most situations
-			if ($uri = $this->_get_request_uri())
-			{
-				$this->uri_string = $this->_parse_request_uri($uri);
-				return;
-			}
-
 			// Arguments exist, it must be a command line request
 			if ( ! empty($_SERVER['argv']))
 			{
 				$this->uri_string = $this->_parse_cli_args();
+				return;
+			}
+
+			// Let's try the REQUEST_URI first, this will work in most situations
+			if ($uri = $this->_detect_uri())
+			{
+				$this->uri_string = $uri;
 				return;
 			}
 
@@ -108,7 +108,7 @@ class CI_URI {
 
 			if ($uri == 'REQUEST_URI')
 			{
-				$this->uri_string = $this->_parse_request_uri($this->_get_request_uri());
+				$this->uri_string = $this->_detect_uri();
 				return;
 			}
 			elseif ($uri == 'CLI')
@@ -130,99 +130,53 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get REQUEST_URI
+	 * Detects the URI
 	 *
-	 * Retrieves the REQUEST_URI, or equivelent for IIS.
+	 * This function will detect the URI automatically and fix the query string
+	 * if necessary.
 	 *
 	 * @access	private
 	 * @return	string
 	 */
-	function _get_request_uri()
+	private function _detect_uri()
 	{
-		$uri = FALSE;
-
-		// Let's check for standard servers first
-		if (isset($_SERVER['REQUEST_URI']))
+		if ( ! isset($_SERVER['REQUEST_URI']))
 		{
-			$uri = $_SERVER['REQUEST_URI'];
-			if (strpos($uri, $_SERVER['SERVER_NAME']) !== FALSE)
-			{
-				$uri = preg_replace('/^\w+:\/\/[^\/]+/', '', $uri);
-			}
+			return '';
 		}
 
-		// Now lets check for IIS
-		elseif (isset($_SERVER['HTTP_X_REWRITE_URL']))
+		$uri = $_SERVER['REQUEST_URI'];
+		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 		{
-			$uri = $_SERVER['HTTP_X_REWRITE_URL'];
+			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+		}
+		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		{
+			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
 
-		// Last ditch effort (for older CGI servers, like IIS 5)
-		elseif (isset($_SERVER['ORIG_PATH_INFO']))
+		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
+		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
+		if (strncmp($uri, '?/', 2) === 0)
 		{
-			$uri = $_SERVER['ORIG_PATH_INFO'];
-			if ( ! empty($_SERVER['QUERY_STRING']))
-			{
-				$uri .= '?' . $_SERVER['QUERY_STRING'];
-			}
+			$uri = substr($uri, 2);
 		}
-
-		return $uri;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Parse REQUEST_URI
-	 *
-	 * Due to the way REQUEST_URI works it usually contains path info
-	 * that makes it unusable as URI data.  We'll trim off the unnecessary
-	 * data, hopefully arriving at a valid URI that we can use.
-	 *
-	 * @access	private
-	 * @param	string
-	 * @return	string
-	 */
-	private function _parse_request_uri($uri)
-	{
-		// Some server's require URL's like index.php?/whatever If that is the case,
-		// then we need to add that to our parsing.
-		$fc_path = ltrim(FCPATH . SELF, '/');
-		if (strpos($uri, SELF . '?') !== FALSE)
+		$parts = preg_split('#\?#i', $uri, 2);
+		$uri = $parts[0];
+		if (isset($parts[1]))
 		{
-			$fc_path .= '?';
-		}
-
-		$parsed_uri = explode('/', ltrim($uri, '/'));
-
-		$i = 0;
-		foreach (explode("/", $fc_path) as $segment)
-		{
-			if (isset($parsed_uri[$i]) && $segment == $parsed_uri[$i])
-			{
-				$i++;
-			}
-		}
-
-		$uri = implode("/", array_slice($parsed_uri, $i));
-
-		// Let's take off any query string and re-assign $_SERVER['QUERY_STRING'] and $_GET.
-		// This is only needed on some servers.  However, we are forced to use it to accomodate
-		// them.
-		if (($qs_pos = strpos($uri, '?')) !== FALSE)
-		{
-			$_SERVER['QUERY_STRING'] = substr($uri, $qs_pos + 1);
+			$_SERVER['QUERY_STRING'] = $parts[1];
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
-			$uri = substr($uri, 0, $qs_pos);
 		}
-
-		// If it is just a / or index.php then just empty it.
-		if ($uri == '/' OR $uri == SELF)
+		else
 		{
-			$uri = '';
+			$_SERVER['QUERY_STRING'] = '';
+			$_GET = array();
 		}
+		$uri = parse_url($uri, PHP_URL_PATH);
 
-		return $uri;
+		// Do some final cleaning of the URI and return it
+		return str_replace(array('//', '../'), '/', trim($uri, '/'));
 	}
 
 	// --------------------------------------------------------------------
