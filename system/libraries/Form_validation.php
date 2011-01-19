@@ -171,7 +171,7 @@ class CI_Form_validation {
 		}
 
 		$this->_error_messages = array_merge($this->_error_messages, $lang);
-		
+
 		return $this;
 	}
 
@@ -191,7 +191,7 @@ class CI_Form_validation {
 	{
 		$this->_error_prefix = $prefix;
 		$this->_error_suffix = $suffix;
-		
+
 		return $this;
 	}
 
@@ -339,13 +339,7 @@ class CI_Form_validation {
 				}
 			}
 
-			preg_match_all('/([a-zA-Z_-]*(\[.*\])?)\|?/i', $row['rules'], $matches);
-
-			$rules = $matches[1];
-			array_pop($rules);
-			unset($matches);
-
-			$this->_execute($row, $rules, $this->_field_data[$field]['postdata']);
+			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
 		}
 
 		// Did we end up with any errors?
@@ -742,7 +736,7 @@ class CI_Form_validation {
 		{
 			return array_shift($this->_field_data[$field]['postdata']);
 		}
-		
+
 		return $this->_field_data[$field]['postdata'];
 	}
 
