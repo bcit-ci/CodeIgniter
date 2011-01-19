@@ -618,17 +618,31 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Is ajax Request?
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
-	 * @return 	boolean 	
+	 * @return 	boolean
 	 */
 	public function is_ajax_request()
 	{
 		return ($this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is cli Request?
+	 *
+	 * Test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	public function is_cli_request()
+	{
+		return (bool) defined('STDIN');
 	}
 
 }
