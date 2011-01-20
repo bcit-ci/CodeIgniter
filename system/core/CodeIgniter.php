@@ -129,17 +129,17 @@
 
 /*
  * ------------------------------------------------------
- *  Instantiate the Unicode class
+ *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  *
- * Note: Order here is rather important as the Unicode
+ * Note: Order here is rather important as the UTF-8
  * class needs to be used very early on, but it cannot
  * properly determine if UTf-8 can be supported until
  * after the Config class is instantiated.
  *
  */
 
-	$UNI =& load_class('Unicode', 'core');
+	$UNI =& load_class('Utf8', 'core');
 
 /*
  * ------------------------------------------------------

@@ -16,17 +16,17 @@
 // ------------------------------------------------------------------------
 
 /**
- * Unicode Class
+ * Utf8 Class
  *
- * Provides unicode support for UTF-8 environments
+ * Provides support for UTF-8 environments
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @category	Unicode
+ * @category	UTF-8
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/unicode.html
+ * @link		http://codeigniter.com/user_guide/libraries/utf8.html
  */
-class CI_Unicode {
+class CI_Utf8 {
 
 	/**
 	 * Constructor
@@ -36,7 +36,7 @@ class CI_Unicode {
 	 */
 	function __construct()
 	{
-		log_message('debug', "Unicode Class Initialized");
+		log_message('debug', "Utf8 Class Initialized");
 
 		global $CFG;
 
@@ -47,7 +47,7 @@ class CI_Unicode {
 			AND $CFG->item('charset') == 'UTF-8'			// Application charset must be UTF-8
 			)
 		{
-			log_message('debug', "Unicode Class - UTF-8 Support Enabled");
+			log_message('debug', "UTF-8 Support Enabled");
 
 			define('UTF8_ENABLED', TRUE);
 
@@ -66,7 +66,7 @@ class CI_Unicode {
 		}
 		else
 		{
-			log_message('debug', "Unicode Class - UTF-8 Support Disabled");
+			log_message('debug', "UTF-8 Support Disabled");
 			define('UTF8_ENABLED', FALSE);
 		}
 	}
@@ -159,7 +159,7 @@ class CI_Unicode {
 	// --------------------------------------------------------------------
 
 }
-// End Unicode Class
+// End Utf8 Class
 
-/* End of file Unicode.php */
-/* Location: ./system/core/Unicode.php */
+/* End of file Utf8.php */
+/* Location: ./system/core/Utf8.php */
