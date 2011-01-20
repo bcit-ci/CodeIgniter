@@ -59,7 +59,7 @@ class CI_Input {
 			$this->security =& load_class('Security');
 		}
 
-		// Do we need the Unicode class?
+		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
 		{
 			global $UNI;
