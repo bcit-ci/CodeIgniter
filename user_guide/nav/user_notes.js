@@ -101,20 +101,27 @@ function load_notes()
 
 }
 
-/* Set the location of the 'Add Note' link */
+/**
+ * Set the location of the 'Add Note' link
+ */
 function set_add_link()
 {
     var link  = document.getElementById('add_note');
     link.href = base_url + 'version/' + version + '/documents/'+ document_key +'/notes/add';
 }
 
-/* Hide the link to add a note */
+/**
+ * Hide the link to add a note
+ */
 function hide_add_link()
 {
     var link  = document.getElementById('add_note');
     link.style.display = 'none';
 }
 
+/**
+ * Build a permink to a user note, given it's id and the path
+ */
 function build_permalink(n_id, n_path)
 {
    return official_user_notes + n_path + '#note-' + n_id;
