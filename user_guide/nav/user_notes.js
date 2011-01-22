@@ -1,7 +1,8 @@
 /**
  * This is the base URL of the note hosting application
  */
-var base_url = 'http://ci-notes-exp.katzgrau.com/';
+//var base_url = 'http://ci-notes-exp.katzgrau.com/';
+var base_url = 'http://user-notes.codeigniter.com/';
 
 /**
  * This is the version number of the current set of notes
@@ -12,6 +13,14 @@ var version = '2.0.0';
  * This will hold the key of the currently viewed document
  */
 var document_key = '';
+
+/**
+ * This is where the official user notes are kept (CodeIgntier Site)
+ *  We need this to know where to point 'global' permalinks to
+ */
+
+//var official_user_notes = 'file:///Users/katzgrau/Dev/reactor/user_guide/';
+var official_user_notes = 'http://codeigniter.com/user_guide/';
 
 /**
  * Include the js/json that contains the notes
@@ -36,6 +45,7 @@ function load_notes()
     {
         note_container.innerHTML = 'The notes are not accesible. You may be offline';
         hide_add_link();
+        return;
     }
 
     /* Show the add link */
@@ -48,7 +58,7 @@ function load_notes()
     }
 
     /* No notes? say so */
-    if(user_guide_notes.length == 0)
+    if(user_guide_notes.notes.length == 0)
     {
         note_container.innerHTML = 'There are no notes for this document yet.';
     }
@@ -59,19 +69,27 @@ function load_notes()
     /* Load the content into DOM elements (in memory), then display everything
      * at once
      */
-    for(var i = 0; i < user_guide_notes.length; i++)
+    for(var i = 0; i < user_guide_notes.notes.length; i++)
     {
+        anch = document.createElement('a');
+        perm = document.createElement('a');
         head = document.createElement('h4');
         body = document.createElement('div');
         item = document.createElement('li');
 
         head.setAttribute('class', 'note_header');
         body.setAttribute('class', 'note_body');
+        anch.setAttribute('name', 'note-' + user_guide_notes.notes[i].id);
+        perm.setAttribute('href', build_permalink(user_guide_notes.notes[i].id, user_guide_notes.document_path));
+        perm.setAttribute('class', 'note_permalink');
 
-        head.innerHTML = user_guide_notes[i].email + ' at ' + user_guide_notes[i].created;
-        body.innerHTML = user_guide_notes[i].body;
+        head.innerHTML = user_guide_notes.notes[i].byline + ' on ' + user_guide_notes.notes[i].whenline;
+        body.innerHTML = user_guide_notes.notes[i].body;
+        perm.innerHTML = 'Permalink';
 
+        item.appendChild(anch);
         item.appendChild(head);
+        item.appendChild(perm);
         item.appendChild(body);
         list.appendChild(item);
     }
@@ -80,6 +98,7 @@ function load_notes()
 
     /* Display */
     note_container.replaceChild(list, old);
+
 }
 
 /* Set the location of the 'Add Note' link */
@@ -94,4 +113,9 @@ function hide_add_link()
 {
     var link  = document.getElementById('add_note');
     link.style.display = 'none';
+}
+
+function build_permalink(n_id, n_path)
+{
+   return official_user_notes + n_path + '#note-' + n_id;
 }

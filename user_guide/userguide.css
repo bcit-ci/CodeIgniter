@@ -411,6 +411,18 @@ form {
  padding: 1px 5px 2px 5px;
 }
 
+#note_block h2 {
+    background-color: #494949;
+    color: white;
+    padding: 5px;
+    border-bottom: 1px solid #000;
+}
+
+#add_note {
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+}
+
 .note_header {
     border-bottom: 1px dotted #999999;
 }
@@ -421,4 +433,8 @@ form {
 
 .note_body code {
     word-wrap: break-word;
+}
+
+.note_permalink {
+    font-size: 10px;
 }
