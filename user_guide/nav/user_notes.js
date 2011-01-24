@@ -1,8 +1,8 @@
 /**
  * This is the base URL of the note hosting application
  */
-//var base_url = 'http://ci-notes-exp.katzgrau.com/';
-var base_url = 'http://user-notes.codeigniter.com/';
+var base_url = 'http://ci-notes-exp.katzgrau.com/';
+//var base_url = 'http://user-notes.codeigniter.com/';
 
 /**
  * This is the version number of the current set of notes
