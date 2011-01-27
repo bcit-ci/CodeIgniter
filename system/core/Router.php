@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -144,7 +144,7 @@ class CI_Router {
 
 			$this->set_class($x[0]);
 			$this->set_method($x[1]);
-			$this->_set_request(array($x[0], $x[1]));
+			$this->_set_request($x);
 		}
 		else
 		{
