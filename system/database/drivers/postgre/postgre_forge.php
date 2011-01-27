@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -69,7 +69,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 		if ($if_not_exists === TRUE)
 		{
-			$sql .= 'IF NOT EXISTS ';
+			if ($this->db->table_exists($table))
+			{
+				return "SELECT * FROM $table"; // Needs to return innocous but valid SQL statement
+			}
 		}
 
 		$sql .= $this->db->_escape_identifiers($table)." (";
@@ -90,16 +93,55 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
-				$sql .=  ' '.$attributes['TYPE'];
+				$is_unsigned = (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE);
 
-				if (array_key_exists('CONSTRAINT', $attributes))
+				// Convert datatypes to be PostgreSQL-compatible
+				switch (strtoupper($attributes['TYPE']))
 				{
-					$sql .= '('.$attributes['CONSTRAINT'].')';
+					case 'TINYINT':
+						$attributes['TYPE'] = 'SMALLINT';
+						break;
+					case 'SMALLINT':
+						$attributes['TYPE'] = ($is_unsigned) ? 'INTEGER' : 'SMALLINT';
+						break;
+					case 'MEDIUMINT':
+						$attributes['TYPE'] = 'INTEGER';
+						break;
+					case 'INT':
+						$attributes['TYPE'] = ($is_unsigned) ? 'BIGINT' : 'INTEGER';
+						break;
+					case 'BIGINT':
+						$attributes['TYPE'] = ($is_unsigned) ? 'NUMERIC' : 'BIGINT';
+						break;
+					case 'DOUBLE':
+						$attributes['TYPE'] = 'DOUBLE PRECISION';
+						break;
+					case 'DATETIME':
+						$attributes['TYPE'] = 'TIMESTAMP';
+						break;
+					case 'LONGTEXT':
+						$attributes['TYPE'] = 'TEXT';
+						break;
+					case 'BLOB':
+						$attributes['TYPE'] = 'BYTEA';
+						break;
 				}
 
-				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
+				// If this is an auto-incrementing primary key, use the serial data type instead
+				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes) 
+					&& $attributes['AUTO_INCREMENT'] === TRUE)
 				{
-					$sql .= ' UNSIGNED';
+					$sql .= ' SERIAL';
+				}
+				else
+				{
+					$sql .=  ' '.$attributes['TYPE'];
+				}
+
+				// Modified to prevent constraints with integer data types
+				if (array_key_exists('CONSTRAINT', $attributes) && strpos($attributes['TYPE'], 'INT') === false)
+				{
+					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
 
 				if (array_key_exists('DEFAULT', $attributes))
@@ -116,9 +158,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					$sql .= ' NOT NULL';
 				}
 
-				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
+				// Added new attribute to create unqite fields. Also works with MySQL
+				if (array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE)
 				{
-					$sql .= ' AUTO_INCREMENT';
+					$sql .= ' UNIQUE';
 				}
 			}
 
@@ -131,9 +174,16 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
+			// Something seems to break when passing an array to _protect_identifiers()
+			foreach ($primary_keys as $index => $key)
+			{
+				$primary_keys[$index] = $this->db->_protect_identifiers($key);
+			}
+
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
+
+		$sql .= "\n);";
 
 		if (is_array($keys) && count($keys) > 0)
 		{
@@ -148,11 +198,12 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					$key = array($this->db->_protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tFOREIGN KEY (" . implode(', ', $key) . ")";
+				foreach ($key as $field)
+				{
+					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
+				}
 			}
 		}
-
-		$sql .= "\n);";
 
 		return $sql;
 	}
@@ -162,12 +213,12 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access	private
-	 * @return	bool
+	 * @access    private
+	 * @return    bool
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_identifiers($table)." CASCADE";
+		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table)." CASCADE";
 	}
 
 	// --------------------------------------------------------------------
