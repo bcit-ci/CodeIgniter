@@ -364,30 +364,21 @@ if ( ! function_exists('highlight_phrase'))
  */
 if ( ! function_exists('convert_accented_characters'))
 {
-	function convert_accented_characters($match)
+	function convert_accented_characters($str)
 	{
 		if ( ! file_exists(APPPATH.'config/foreign_chars'.EXT))
 		{
-			return $match;
+			return $str;
 		}
 
 		include APPPATH.'config/foreign_chars'.EXT;
 
 		if ( ! isset($foreign_characters))
 		{
-			return $match;
+			return $str;
 		}
 
-		$ord = ord($match['1']);
-
-		if (isset($foreign_characters[$ord]))
-		{
-			return $foreign_characters[$ord];
-		}
-		else
-		{
-			return $match['1'];
-		}
+		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str);
 	}
 }
 

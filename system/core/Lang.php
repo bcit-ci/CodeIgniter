@@ -78,17 +78,21 @@ class CI_Lang {
 		{
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
 		}
-		elseif (file_exists(APPPATH.'language/'.$idiom.'/'.$langfile))
-		{
-			include(APPPATH.'language/'.$idiom.'/'.$langfile);
-		}
 		else
 		{
-			if (file_exists(BASEPATH.'language/'.$idiom.'/'.$langfile))
+			$found = FALSE;
+
+			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
 			{
-				include(BASEPATH.'language/'.$idiom.'/'.$langfile);
+				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
+				{
+					include($package_path.'language/'.$idiom.'/'.$langfile);
+					$found = TRUE;
+					break;
+				}
 			}
-			else
+
+			if ($found !== TRUE)
 			{
 				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
