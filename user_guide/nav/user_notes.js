@@ -14,12 +14,6 @@ var version = '2.0.0';
 var document_key = '';
 
 /**
- * This is where the official user notes are kept (CodeIgntier Site)
- *  We need this to know where to point 'global' permalinks to
- */
-var official_user_notes = 'http://codeigniter.com/user_guide/';
-
-/**
  * Include the js/json that contains the notes
  */
 function include_notes(key)
@@ -77,7 +71,9 @@ function load_notes()
         head.setAttribute('class', 'note_header');
         body.setAttribute('class', 'note_body');
         anch.setAttribute('name', 'note-' + user_guide_notes.notes[i].id);
-        perm.setAttribute('href', build_permalink(user_guide_notes.notes[i].id, user_guide_notes.document_path));
+        perm.setAttribute('href', build_permalink(user_guide_notes.user_guide_url,
+                                                  user_guide_notes.notes[i].id,
+                                                  user_guide_notes.document_path));
         perm.setAttribute('class', 'note_permalink');
 
         head.innerHTML = user_guide_notes.notes[i].byline + ' on ' + user_guide_notes.notes[i].whenline;
@@ -119,7 +115,7 @@ function hide_add_link()
 /**
  * Build a permink to a user note, given it's id and the path
  */
-function build_permalink(n_id, n_path)
+function build_permalink(user_guide_url, n_id, n_path)
 {
-   return official_user_notes + n_path + '#note-' + n_id;
+   return user_guide_url + n_path + '#note-' + n_id;
 }
