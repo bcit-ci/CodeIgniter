@@ -2,7 +2,6 @@
  * This is the base URL of the note hosting application
  */
 var base_url = 'http://ci-notes-exp.katzgrau.com/';
-//var base_url = 'http://user-notes.codeigniter.com/';
 
 /**
  * This is the version number of the current set of notes
@@ -18,8 +17,6 @@ var document_key = '';
  * This is where the official user notes are kept (CodeIgntier Site)
  *  We need this to know where to point 'global' permalinks to
  */
-
-//var official_user_notes = 'file:///Users/katzgrau/Dev/reactor/user_guide/';
 var official_user_notes = 'http://codeigniter.com/user_guide/';
 
 /**
