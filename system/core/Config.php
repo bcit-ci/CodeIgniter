@@ -47,6 +47,24 @@ class CI_Config {
 	{
 		$this->config =& get_config();
 		log_message('debug', "Config Class Initialized");
+
+		// Set the base_url automatically if none was provided
+		if ($this->config['base_url'] == '')
+		{
+			if(isset($_SERVER['HTTP_HOST']))
+			{
+				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+				$base_url .= '://'. $_SERVER['HTTP_HOST'];
+				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+			}
+
+			else
+			{
+				$base_url = 'http://localhost/';
+			}
+
+			$this->set_item('base_url', $base_url);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -185,14 +203,7 @@ class CI_Config {
 			return FALSE;
 		}
 
-		$pref = $this->config[$item];
-
-		if ($pref != '' && substr($pref, -1) != '/')
-		{
-			$pref .= '/';
-		}
-
-		return $pref;
+		return rtrim($this->config[$item], '/').'/';
 	}
 
 	// --------------------------------------------------------------------
@@ -208,14 +219,7 @@ class CI_Config {
 	{
 		if ($uri == '')
 		{
-			if ($this->item('base_url') == '')
-			{
-				return $this->item('index_page');
-			}
-			else
-			{
-				return $this->slash_item('base_url').$this->item('index_page');
-			}
+			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
 		if ($this->item('enable_query_strings') == FALSE)
@@ -225,8 +229,9 @@ class CI_Config {
 				$uri = implode('/', $uri);
 			}
 
+			$index = $this->item('index_page') == '' ? '' : $this->slash_item('index_page');
 			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').trim($uri, '/').$suffix;
+			return $this->slash_item('base_url').$index.trim($uri, '/').$suffix;
 		}
 		else
 		{
@@ -244,14 +249,7 @@ class CI_Config {
 				$uri = $str;
 			}
 
-			if ($this->item('base_url') == '')
-			{
-				return $this->item('index_page').'?'.$uri;
-			}
-			else
-			{
-				return $this->slash_item('base_url').$this->item('index_page').'?'.$uri;
-			}
+			return $this->slash_item('base_url').$this->item('index_page').'?'.$uri;
 		}
 	}
 
