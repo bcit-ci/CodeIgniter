@@ -76,12 +76,12 @@ Hg Tag: </p>
 			<li>Added the ability to set config values (or override config values) directly from data set in the main index.php file.  This allows a single application to be used with multiple front controllers, each having its own config values.</li>
 			<li>Added <kbd>$config['directory_trigger']</kbd> to the config file so that a controller sub-directory can be specified when running _GET strings instead of URI segments.</li>
 			<li>Added ability to set "Package" paths - specific paths where the Loader and Config classes should try to look first for a requested file.  This allows distribution of sub-applications with their own libraries, models, config files, etc. in a single "package" directory.  See the <a href="libraries/loader.html">Loader class</a> documentation for more details.</li>
-			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a>.</li>
+			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter-reactor/">BitBucket</a>.</li>
 			<li>Removed the deprecated Validation Class.</li>
 			<li>Added CI_ Prefix to all core classes.</li>
 			<li class="reactor">Package paths can now be set in application/config/autoload.php.</li>
-			<li class="reactor">Upload library file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
-			<li class="reactor">Name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
+			<li class="reactor"><a href="libraries/file_uploading.html">Upload library</a> file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
+			<li class="reactor">In <a href="database/forge.html">Database Forge</a> the name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
 			<li class="reactor"><kbd>$config['base_url']</kbd> is now empty by default and will guess what it should be.</li>
 		</ul>
 	<li>Libraries
