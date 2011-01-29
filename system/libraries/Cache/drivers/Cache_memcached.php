@@ -122,7 +122,7 @@ class Cache_memcached extends CI_Driver {
 			return FALSE;
 		}
 
-		list($value, $time, $ttl) = $stored;
+		list($data, $time, $ttl) = $stored;
 
 		return array(
 			'expire'	=> $time + $ttl,
