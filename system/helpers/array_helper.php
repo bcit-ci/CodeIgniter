@@ -69,6 +69,7 @@ if ( ! function_exists('random_element'))
 		{
 			return $array;
 		}
+
 		return $array[array_rand($array)];
 	}
 }
