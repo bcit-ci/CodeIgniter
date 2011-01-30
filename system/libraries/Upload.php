@@ -142,7 +142,8 @@ class CI_Upload {
 	 */
 	public function do_upload($field = 'userfile')
 	{
-		// Is $_FILES[$field] set? If not, no reason to continue.
+		
+	// Is $_FILES[$field] set? If not, no reason to continue.
 		if ( ! isset($_FILES[$field]))
 		{
 			$this->set_error('upload_no_file_selected');
