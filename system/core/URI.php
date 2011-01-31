@@ -61,8 +61,8 @@ class CI_URI {
 	{
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
-			// Arguments exist, it must be a command line request
-			if ( ! empty($_SERVER['argv']))
+			// Is the request coming from the command line?
+			if (defined('STDIN'))
 			{
 				$this->uri_string = $this->_parse_cli_args();
 				return;
