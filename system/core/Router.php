@@ -270,7 +270,7 @@ class CI_Router {
 
 		// If we've gotten this far it means that the URI does not correlate to a valid
 		// controller class.  We will now see if there is an override
-		if (!empty($this->routes['404_override']))
+		if ( ! empty($this->routes['404_override']))
 		{
 			$x = explode('/', $this->routes['404_override']);
 
