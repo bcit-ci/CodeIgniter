@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-<title>CodeIgniter User Guide : JavaScript Class</title>
+<title>JavaScript Driver : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -42,7 +42,8 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Input Class
+<a href="../general/drivers.html">Drivers</a> &nbsp;&#8250;&nbsp;
+JavaScript Driver
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -57,7 +58,7 @@ Input Class
 
 <p class="important"><strong>Note:</strong> This driver is experimental. Its feature set and implementation may change in future releases.</p><br>
 
-<h1>Javascript Class</h1>
+<h1>Javascript Driver</h1>
 <p>CodeIgniter provides a library to help you with certain common functions that you may want to use with Javascript. Please note that CodeIgniter does not require the jQuery library to run, and that any scripting library will work equally well. The jQuery library is simply presented as a convenience if you choose to use it.</p>
 <h2>Initializing the Class</h2>
 <p>To initialize the Javascript class manually in your controller constructor, use the <dfn>$this-&gt;load-&gt;library</dfn> function. Currently, the only available library is jQuery, which will automatically be loaded like this:</p>
@@ -82,7 +83,7 @@ Input Class
 <h3>Set the path to the librarys with config items</h3>
 <p>There are some configuration items in Javascript library. These can either be set in application/config.php, within its own config/javascript.php file, or within any controller usings the set_item() function. </p>
 <p>An image to be used as an &quot;ajax loader&quot;, or progress indicator. Without one, the simple text message of &quot;loading&quot; will appear when Ajax calls need to be made.</p>
-<p><code>$config['javascript_location'] = 'http://localhost/codeigniter/themes/js/jquery/');<br />
+<p><code>$config['javascript_location'] = 'http://localhost/codeigniter/themes/js/jquery/';<br />
 		$config['javascript_ajax_img'] = 'images/ajax-loader.gif';</code></p>
 <p>If you keep your files in the same directories they were downloaded from, then you need not set this configuration items.</p>
 
