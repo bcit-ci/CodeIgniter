@@ -104,10 +104,17 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 <p>If it is acceptable for the user input to include relative paths, e.g. <kbd>file/in/some/approved/folder.txt</kbd>, you can set the second optional parameter,
 	<samp>$relative_path</samp> to TRUE.</p>
-	
+
 <code>$filename = $this->security->sanitize_filename($this->input->post('filename'), TRUE);</code>
 
 <!-- @todo write docs for CSRF methods -->
+
+<h2>Cross-site request forgery (CSRF)</h2>
+
+<p>You can enable csrf protection by opening your <kbd>application/config/config.php</kbd> file and setting this:</p>
+<code>$config['csrf_protection'] = TRUE;</code>
+
+<p>If you use the <a href="../helpers/form_helper.html">form helper</a> the <var>form_open()</var> function will automatically insert a hidden csrf field in your forms.</p>
 
 </div>
 <!-- END CONTENT -->
@@ -121,7 +128,7 @@ Previous Topic:&nbsp;&nbsp;<a href="pagination.html">Pagination Class</a>
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="sessions.html">Session Class</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2010 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>
