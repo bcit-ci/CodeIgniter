@@ -7,12 +7,41 @@
  *
  * You can load different configurations depending on your
  * current environment. Setting the environment also influences
- * things like logging and error reporting. The enviroment 
- * variable can be set to "development" (default), 
- * "test" or "production".
+ * things like logging and error reporting.
+ *
+ * This can be set to anything, but default usage is:
+ *
+ *     development
+ *     testing
+ *     production
+ *
+ * NOTE: If you change these, also change the error_reporting() code below
  *
  */
 	define('ENVIRONMENT', 'development');
+/*
+ *---------------------------------------------------------------
+ * ERROR REPORTING
+ *---------------------------------------------------------------
+ *
+ * Different environments will require different levels of error reporting.
+ * By default development will show errors but testing and live will hide them.
+ */
+
+	switch (ENVIRONMENT)
+	{
+		case 'development':
+			error_reporting(E_ALL);
+		break;
+	
+		case 'testing':
+		case 'production':
+			error_reporting(0);
+		break;
+
+		default:
+			exit('The application environment is not set correctly.');
+	}
 
 /*
  *---------------------------------------------------------------
@@ -24,7 +53,7 @@
  * as this file.
  *
  */
-	$system_path = "system";
+	$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
@@ -40,7 +69,7 @@
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = "application";
+	$application_folder = 'application';
 
 /*
  * --------------------------------------------------------------------
@@ -96,26 +125,6 @@
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
-/*
- * ---------------------------------------------------------------
- *  Check if environment is set, and set error reporting appropriately
- * ---------------------------------------------------------------
- */
-
-	if (ENVIRONMENT == 'development')
-	{
-		error_reporting(E_ALL);
-	}
-	elseif (ENVIRONMENT == 'production' OR ENVIRONMENT == 'test')
-	{
-		error_reporting(0);		
-	}
-	else
-	{
-		error_reporting(E_ALL);
-		exit("The application environment is not set correctly.");		
-	}
-	
 /*
  * ---------------------------------------------------------------
  *  Resolve the system path for increased reliability
