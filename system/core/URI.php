@@ -173,6 +173,12 @@ class CI_URI {
 			$_SERVER['QUERY_STRING'] = '';
 			$_GET = array();
 		}
+		
+		if ($uri == '/' || empty($uri))
+		{
+			return '/';
+		}
+				
 		$uri = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
