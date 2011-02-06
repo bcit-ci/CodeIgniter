@@ -126,6 +126,22 @@ class CI_Input {
 	*/
 	function post($index = '', $xss_clean = FALSE)
 	{
+		// check if a field has been entered
+		if( empty($index ) )
+		{
+			// no field entered - return all fields
+
+			$all_post_fields = array();
+
+			// loop through the full _POST array
+			foreach( $_POST as $key )
+			{
+				$all_post_fields[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
+			}
+			return $all_post_fields;
+
+		}
+		
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
