@@ -130,6 +130,13 @@
  *  Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
+
+	// Set the current directory correctly for CLI requests
+	if (defined('STDIN'))
+	{
+		chdir(dirname(__FILE__));
+	}
+
 	if (realpath($system_path) !== FALSE)
 	{
 		$system_path = realpath($system_path).'/';
