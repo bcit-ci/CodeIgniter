@@ -74,6 +74,7 @@ Hg Tag: n/a</p>
 <h3>Bug fixes for 2.0.1</h3>
 <ul>
 	<li class="reactor">CLI requests can now be run from any folder, not just when CD'ed next to index.php.</li>
+	<li class="reactor">MySQL Driver will now wrap field names for <kbd>insert()</kbd>, <kbd>update()</kbd> and <kbd>replace()</kbd> with backticks (`) so fields like "default" and "order" will not cause SQL errors.</li>
 </ul>
 
 <h2>Version 2.0.0</h2>
