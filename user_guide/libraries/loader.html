@@ -90,6 +90,10 @@ For example, if you have file located at:</p>
 
 <p>You may nest the file in as many subdirectories as you want.</p>
 
+<p>Additionally, multiple libraries can be loaded at the same time by passing an array of libraries to the load function.</p>
+
+<code>$this->load->library(array('<var>email</var>', '<var>table</var>'));</code>
+
 <h3>Setting options</h3>
 
 <p>The second (optional) parameter allows you to optionally pass configuration setting.  You will typically pass these as an array:</p>
@@ -104,6 +108,8 @@ $config = array (<br />
 $this->load->library('email', $config);</code>
 
 <p>Config options can usually also be set via a config file. Each library is explained in detail in its own page, so please read the information regarding each one you would like to use.</p>
+
+<p>Please take note, when multiple libraries are supplied in an array for the first parameter, each will receive the same parameter information.</p>
 
 <h3>Assigning a Library to a different object name</h3>
 
@@ -120,6 +126,7 @@ $this->my_session
 
 </code>
 
+<p>Please take note, when multiple libraries are supplied in an array for the first parameter, this parameter is discarded.</p>
 
 
 <h2>$this->load->view('<var>file_name</var>', <samp>$data</samp>, <kbd>true/false</kbd>)</h2>
