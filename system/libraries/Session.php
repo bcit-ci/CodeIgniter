@@ -658,6 +658,8 @@ class CI_Session {
 		}
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
+		
+		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
 
 		// Set the cookie
 		setcookie(
@@ -666,7 +668,7 @@ class CI_Session {
 					$expire,
 					$this->cookie_path,
 					$this->cookie_domain,
-					0
+					$secure_cookie
 				);
 	}
 
