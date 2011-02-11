@@ -225,8 +225,10 @@ class CI_Input {
 				$expire = 0;
 			}
 		}
+		
+		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
 
-		setcookie($prefix.$name, $value, $expire, $path, $domain, 0);
+		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure_cookie);
 	}
 
 	// --------------------------------------------------------------------
