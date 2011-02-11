@@ -367,6 +367,9 @@ class CI_Table {
 
 		$out .= $this->template['table_close'];
 
+		// Clear table class properties before generating the table
+		$this->clear();
+
 		return $out;
 	}
 
