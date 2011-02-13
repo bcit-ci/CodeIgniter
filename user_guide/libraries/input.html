@@ -132,11 +132,31 @@ else<br />
 
 <code>$this->input->post('some_data', TRUE);</code>
 
+<p>To return an array of all POST items call without any parameters.</p>
+<p>To return all POST items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>The function returns FALSE (boolean) if there are no items in the POST.</p>
+
+<code>
+	$this->input->post(); // returns all POST items with XSS filter
+	<br />
+	$this->input->post('', FALSE); // returns all POST items without XSS
+</code>
+
 <h2>$this->input->get()</h2>
 
 <p>This function is identical to the post function, only it fetches get data:</p>
 
 <code>$this->input->get('some_data', TRUE);</code>
+
+<p>To return an array of all GET items call without any parameters.</p>
+<p>To return all GET items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>The function returns FALSE (boolean) if there are no items in the GET.</p>
+
+<code>
+	$this->input->get(); // returns all GET items with XSS filter
+	<br />
+	$this->input->get('', FALSE); // returns all GET items without XSS filtering
+</code>
 
 <h2>$this->input->get_post()</h2>
 
