@@ -111,6 +111,22 @@ class CI_Input {
 	*/
 	function get($index = '', $xss_clean = FALSE)
 	{
+		// check if a field has been entered
+		if( empty($index) AND is_array($_GET) AND count($_GET) )
+		{
+			// no field entered - return all fields
+
+			$all_get_fields = array();
+
+			// loop through the full _GET array
+			foreach( $_GET as $key )
+			{
+				$all_get_fields[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
+			}
+			return $all_get_fields;
+
+		}
+
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
@@ -127,7 +143,7 @@ class CI_Input {
 	function post($index = '', $xss_clean = FALSE)
 	{
 		// check if a field has been entered
-		if( empty($index ) )
+		if( empty($index) AND is_array($_POST) AND count($_POST) )
 		{
 			// no field entered - return all fields
 
