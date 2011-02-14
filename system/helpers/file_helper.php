@@ -128,7 +128,7 @@ if ( ! function_exists('delete_files'))
 			return FALSE;
 		}
 
-		while(FALSE !== ($filename = @readdir($current_dir)))
+		while (FALSE !== ($filename = @readdir($current_dir)))
 		{
 			if ($filename != "." and $filename != "..")
 			{

@@ -443,7 +443,7 @@ if ( ! function_exists('word_wrap'))
 			}
 
 			$temp = '';
-			while((strlen($line)) > $charlim)
+			while ((strlen($line)) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match("!\[url.+\]|://|wwww.!", $line))
