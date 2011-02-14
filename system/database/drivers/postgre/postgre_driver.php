@@ -283,7 +283,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		if (is_array($str))
 		{
-			foreach($str as $key => $val)
+			foreach ($str as $key => $val)
 			{
 				$str[$key] = $this->escape_str($val, $like);
 			}
@@ -568,7 +568,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
 		}

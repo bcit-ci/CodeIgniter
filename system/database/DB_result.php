@@ -78,7 +78,7 @@ class CI_DB_result {
 		while ($row = $this->_fetch_object())
         {
             $object = new $class_name();
-            foreach($row as $key => $value)
+            foreach ($row as $key => $value)
             {
                 $object->$key = $value;
             }
