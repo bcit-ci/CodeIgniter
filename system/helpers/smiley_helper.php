@@ -59,7 +59,7 @@ if ( ! function_exists('smiley_js'))
 
 				if (is_array($alias))
 				{
-					foreach($alias as $name => $id)
+					foreach ($alias as $name => $id)
 					{
 						$m[] = '"'.$name.'" : "'.$id.'"';
 					}
@@ -101,7 +101,7 @@ EOF;
 		{
 			if (is_array($alias))
 			{
-				foreach($alias as $name => $id)
+				foreach ($alias as $name => $id)
 				{
 					$r .= 'smiley_map["'.$name.'"] = "'.$id.'";'."\n";
 				}
