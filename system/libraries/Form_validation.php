@@ -1177,7 +1177,7 @@ class CI_Form_validation {
 	{
 		if ( ! is_numeric($str))
 		{
-			return false;
+			return FALSE;
 		}
 		return $str > $min;
 	}
@@ -1195,7 +1195,7 @@ class CI_Form_validation {
 	{
 		if ( ! is_numeric($str))
 		{
-			return false;
+			return FALSE;
 		}
 		return $str < $max;
 	}

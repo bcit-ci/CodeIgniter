@@ -358,7 +358,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 	var $errno			= '';
 	var $errstring		= '';
 	var $timeout		= 5;
-	var $no_multicall	= false;
+	var $no_multicall	= FALSE;
 
 	public function __construct($path, $server, $port=80)
 	{
@@ -896,7 +896,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				$this->xh[$the_parser]['isf'] = 1;
 			break;
 			case 'PARAM':
-				$this->xh[$the_parser]['value'] = null;
+				$this->xh[$the_parser]['value'] = NULL;
 			break;
 			case 'VALUE':
 				$this->xh[$the_parser]['vt'] = 'value';
@@ -925,7 +925,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				$this->xh[$the_parser]['valuestack'][0]['name'] = '';
 
 				// Set NULL value to check to see if value passed for this param/member
-				$this->xh[$the_parser]['value'] = null;
+				$this->xh[$the_parser]['value'] = NULL;
 			break;
 			case 'DATA':
 			case 'METHODCALL':
