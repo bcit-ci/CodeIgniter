@@ -214,7 +214,7 @@ class CI_Upload {
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
 
 			// If no extension was provided in the file_name config item, use the uploaded one
-			if(strpos($this->_file_name_override, '.') === FALSE)
+			if (strpos($this->_file_name_override, '.') === FALSE)
 			{
 				$this->file_name .= $this->file_ext;
 			}

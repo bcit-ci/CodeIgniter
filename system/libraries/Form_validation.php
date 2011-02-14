@@ -1040,7 +1040,7 @@ class CI_Form_validation {
 			return $this->valid_email(trim($str));
 		}
 
-		foreach(explode(',', $str) as $email)
+		foreach (explode(',', $str) as $email)
 		{
 			if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE)
 			{

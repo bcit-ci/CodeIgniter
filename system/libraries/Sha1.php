@@ -88,7 +88,7 @@ class CI_SHA {
 			$oldd = $d;
 			$olde = $e;
 
-			for($j = 0; $j < 80; $j++)
+			for ($j = 0; $j < 80; $j++)
 			{
 				if ($j < 16)
 				{

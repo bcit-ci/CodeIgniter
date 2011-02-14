@@ -108,7 +108,7 @@ class CI_Table {
 		}
 
 		$new = array();
-		while(count($array) > 0)
+		while (count($array) > 0)
 		{
 			$temp = array_splice($array, 0, $col_limit);
 
@@ -280,7 +280,7 @@ class CI_Table {
 			$out .= $this->template['heading_row_start'];
 			$out .= $this->newline;
 
-			foreach($this->heading as $heading)
+			foreach ($this->heading as $heading)
 			{
 				$temp = $this->template['heading_cell_start'];
 
@@ -310,7 +310,7 @@ class CI_Table {
 			$out .= $this->newline;
 
 			$i = 1;
-			foreach($this->rows as $row)
+			foreach ($this->rows as $row)
 			{
 				if ( ! is_array($row))
 				{
@@ -323,7 +323,7 @@ class CI_Table {
 				$out .= $this->template['row_'.$name.'start'];
 				$out .= $this->newline;
 
-				foreach($row as $cell)
+				foreach ($row as $cell)
 				{
 					$temp = $this->template['cell_'.$name.'start'];
 
