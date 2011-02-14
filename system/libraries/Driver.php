@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -36,7 +36,7 @@ class CI_Driver_Library {
 	// subsequents calls will go straight to the proper child.
 	function __get($child)
 	{
-		if (! isset($this->lib_name))
+		if ( ! isset($this->lib_name))
 		{
 			$this->lib_name = get_class($this);
 		}
@@ -143,7 +143,7 @@ class CI_Driver {
 				}
 			}
 
-			foreach($r->getProperties() as $prop)
+			foreach ($r->getProperties() as $prop)
 			{
 				if ($prop->isPublic())
 				{

@@ -94,7 +94,7 @@ class CI_Trackback {
 				{
 					$$item = $this->convert_ascii($$item);
 				}
-				elseif($item == 'blog_name')
+				elseif ($item == 'blog_name')
 				{
 					$$item = $this->convert_ascii($$item);
 				}
@@ -261,7 +261,7 @@ class CI_Trackback {
 		// Was it successful?
 		$this->response = "";
 
-		while( ! feof($fp))
+		while ( ! feof($fp))
 		{
 			$this->response .= fgets($fp, 128);
 		}

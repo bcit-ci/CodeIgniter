@@ -897,7 +897,7 @@ class CI_Email {
 			}
 
 			$temp = '';
-			while((strlen($line)) > $charlim)
+			while ((strlen($line)) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match("!\[url.+\]|://|wwww.!", $line))
@@ -973,7 +973,7 @@ class CI_Email {
 		reset($this->_headers);
 		$this->_header_str = "";
 
-		foreach($this->_headers as $key => $val)
+		foreach ($this->_headers as $key => $val)
 		{
 			$val = trim($val);
 
@@ -1607,14 +1607,14 @@ class CI_Email {
 
 		$this->_send_command('from', $this->clean_email($this->_headers['From']));
 
-		foreach($this->_recipients as $val)
+		foreach ($this->_recipients as $val)
 		{
 			$this->_send_command('to', $val);
 		}
 
 		if (count($this->_cc_array) > 0)
 		{
-			foreach($this->_cc_array as $val)
+			foreach ($this->_cc_array as $val)
 			{
 				if ($val != "")
 				{
@@ -1625,7 +1625,7 @@ class CI_Email {
 
 		if (count($this->_bcc_array) > 0)
 		{
-			foreach($this->_bcc_array as $val)
+			foreach ($this->_bcc_array as $val)
 			{
 				if ($val != "")
 				{
@@ -1672,7 +1672,7 @@ class CI_Email {
 										$errstr,
 										$this->smtp_timeout);
 
-		if( ! is_resource($this->_smtp_connect))
+		if ( ! is_resource($this->_smtp_connect))
 		{
 			$this->_set_error_message('email_smtp_error', $errno." ".$errstr);
 			return FALSE;
