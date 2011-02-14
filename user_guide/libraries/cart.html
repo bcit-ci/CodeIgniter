@@ -178,7 +178,7 @@ $this->cart->insert($data);
 
 &lt;?php $i = 1; ?>
 
-&lt;?php foreach($this->cart->contents() as $items): ?>
+&lt;?php foreach ($this->cart->contents() as $items): ?>
 
 	&lt;?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
