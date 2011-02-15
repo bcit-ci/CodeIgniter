@@ -954,7 +954,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			else
 			{
-				$this->ar_set[$this->_protect_identifiers($k)] = $this->escape($v);
+				$this->ar_set[$this->_protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
 			}
 		}
 
@@ -1156,7 +1156,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				$this->ar_set[] = array();
 				return;
 			}
-		
+
 			ksort($row); // puts $row in the same order as our keys
 
 			if ($escape === FALSE)
