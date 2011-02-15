@@ -79,7 +79,7 @@ class CI_Loader {
 	{
 		if (is_array($library))
 		{
-			foreach($library as $read)
+			foreach ($library as $read)
 			{
 				$this->library($read);
 			}
@@ -127,7 +127,7 @@ class CI_Loader {
 	{
 		if (is_array($model))
 		{
-			foreach($model as $babe)
+			foreach ($model as $babe)
 			{
 				$this->model($babe);
 			}

@@ -88,7 +88,7 @@ function &DB($params = '', $active_record_override = NULL)
 		{
 			parse_str($dns['query'], $extra);
 
-			foreach($extra as $key => $val)
+			foreach ($extra as $key => $val)
 			{
 				// booleans please
 				if (strtoupper($val) == "TRUE")

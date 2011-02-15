@@ -373,7 +373,7 @@ class CI_Security {
 				$str = preg_replace("#<(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
 			}
 		}
-		while($original != $str);
+		while ($original != $str);
 
 		unset($original);
 
