@@ -445,7 +445,7 @@ class CI_Input {
 		{
 			if (is_array($_GET) AND count($_GET) > 0)
 			{
-				foreach($_GET as $key => $val)
+				foreach ($_GET as $key => $val)
 				{
 					$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 				}
@@ -455,7 +455,7 @@ class CI_Input {
 		// Clean $_POST Data
 		if (is_array($_POST) AND count($_POST) > 0)
 		{
-			foreach($_POST as $key => $val)
+			foreach ($_POST as $key => $val)
 			{
 				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}
@@ -473,7 +473,7 @@ class CI_Input {
 			unset($_COOKIE['$Path']);
 			unset($_COOKIE['$Domain']);
 
-			foreach($_COOKIE as $key => $val)
+			foreach ($_COOKIE as $key => $val)
 			{
 				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}

@@ -283,7 +283,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		if (is_array($str))
 		{
-			foreach($str as $key => $val)
+			foreach ($str as $key => $val)
 			{
 				$str[$key] = $this->escape_str($val, $like);
 			}
@@ -330,21 +330,21 @@ class CI_DB_postgre_driver extends CI_DB {
 		$v = $this->_version();
 		$v = $v['server'];
 
-		$table	= func_num_args() > 0 ? func_get_arg(0) : null;
-		$column	= func_num_args() > 1 ? func_get_arg(1) : null;
+		$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
+		$column	= func_num_args() > 1 ? func_get_arg(1) : NULL;
 
-		if ($table == null && $v >= '8.1')
+		if ($table == NULL && $v >= '8.1')
 		{
 			$sql='SELECT LASTVAL() as ins_id';
 		}
-		elseif ($table != null && $column != null && $v >= '8.0')
+		elseif ($table != NULL && $column != NULL && $v >= '8.0')
 		{
 			$sql = sprintf("SELECT pg_get_serial_sequence('%s','%s') as seq", $table, $column);
 			$query = $this->query($sql);
 			$row = $query->row();
 			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $row->seq);
 		}
-		elseif ($table != null)
+		elseif ($table != NULL)
 		{
 			// seq_name passed in table parameter
 			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $table);
@@ -568,7 +568,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
 		}

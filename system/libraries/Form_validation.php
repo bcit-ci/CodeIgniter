@@ -138,14 +138,14 @@ class CI_Form_validation {
 
 		// Build our master array
 		$this->_field_data[$field] = array(
-											'field'				=> $field,
-											'label'				=> $label,
-											'rules'				=> $rules,
-											'is_array'			=> $is_array,
-											'keys'				=> $indexes,
-											'postdata'			=> NULL,
-											'error'				=> ''
-											);
+			'field'				=> $field,
+			'label'				=> $label,
+			'rules'				=> $rules,
+			'is_array'			=> $is_array,
+			'keys'				=> $indexes,
+			'postdata'			=> NULL,
+			'error'				=> ''
+		);
 
 		return $this;
 	}
@@ -1040,7 +1040,7 @@ class CI_Form_validation {
 			return $this->valid_email(trim($str));
 		}
 
-		foreach(explode(',', $str) as $email)
+		foreach (explode(',', $str) as $email)
 		{
 			if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE)
 			{
@@ -1147,7 +1147,57 @@ class CI_Form_validation {
 	 */
 	function integer($str)
 	{
-		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
+		return (bool) preg_match('/^[\-+]?[0-9]+$/', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Decimal number
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function decimal($str)
+	{
+		return (bool) preg_match('/^[\-+]?[0-9]+\.[0-9]+$/', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Greather than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function greater_than($str, $min)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str > $min;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Less than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function less_than($str, $max)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str < $max;
 	}
 
 	// --------------------------------------------------------------------
@@ -1161,7 +1211,7 @@ class CI_Form_validation {
 	 */
 	function is_natural($str)
 	{
-		return (bool)preg_match( '/^[0-9]+$/', $str);
+		return (bool) preg_match( '/^[0-9]+$/', $str);
 	}
 
 	// --------------------------------------------------------------------
