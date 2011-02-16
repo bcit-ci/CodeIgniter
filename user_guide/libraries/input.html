@@ -139,7 +139,7 @@ else<br />
 <code>
 	$this->input->post(); // returns all POST items with XSS filter
 	<br />
-	$this->input->post('', FALSE); // returns all POST items without XSS
+	$this->input->post(NULL, FALSE); // returns all POST items without XSS
 </code>
 
 <h2>$this->input->get()</h2>
@@ -155,7 +155,7 @@ else<br />
 <code>
 	$this->input->get(); // returns all GET items with XSS filter
 	<br />
-	$this->input->get('', FALSE); // returns all GET items without XSS filtering
+	$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
 </code>
 
 <h2>$this->input->get_post()</h2>
