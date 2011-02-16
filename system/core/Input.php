@@ -30,7 +30,7 @@ class CI_Input {
 
 	var $ip_address				= FALSE;
 	var $user_agent				= FALSE;
-	var $_allow_get_array		= FALSE;
+	var $_allow_get_array		= TRUE;
 	var $_standardize_newlines	= TRUE;
 	var $_enable_xss			= FALSE; // Set automatically based on config setting
 	var $_enable_csrf			= FALSE; // Set automatically based on config setting
@@ -49,9 +49,9 @@ class CI_Input {
 	{
 		log_message('debug', "Input Class Initialized");
 
-		$this->_allow_get_array	= (config_item('enable_query_strings') === TRUE) ? TRUE : FALSE;
-		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE) ? TRUE : FALSE;
-		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE) ? TRUE : FALSE;
+		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
 		// Do we need to load the security class?
 		if ($this->_enable_xss == TRUE OR $this->_enable_csrf == TRUE)
@@ -109,8 +109,21 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function get($index = '', $xss_clean = FALSE)
+	function get($index = NULL, $xss_clean = FALSE)
 	{
+		// Check if a field has been provided
+		if ($index === NULL AND ! empty($_GET))
+		{
+			$get = array();
+
+			// loop through the full _GET array
+			foreach (array_keys($_GET) as $key)
+			{
+				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
+			}
+			return $get;
+		}
+
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
@@ -124,8 +137,21 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function post($index = '', $xss_clean = FALSE)
+	function post($index = NULL, $xss_clean = FALSE)
 	{
+		// Check if a field has been provided
+		if ($index === NULL AND ! empty($_POST))
+		{
+			$post = array();
+
+			// Loop through the full _POST array and return it
+			foreach (array_keys($_POST) as $key)
+			{
+				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
+			}
+			return $post;
+		}
+		
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
@@ -182,13 +208,14 @@ class CI_Input {
 	* @param	string	the cookie domain.  Usually:  .yourdomain.com
 	* @param	string	the cookie path
 	* @param	string	the cookie prefix
+	* @param	bool	true makes the cookie secure
 	* @return	void
 	*/
-	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
+	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL)
 	{
 		if (is_array($name))
 		{
-			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'name') as $item)
+			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'name', 'secure') as $item)
 			{
 				if (isset($name[$item]))
 				{
@@ -216,19 +243,16 @@ class CI_Input {
 		}
 		else
 		{
-			if ($expire > 0)
-			{
-				$expire = time() + $expire;
-			}
-			else
-			{
-				$expire = 0;
-			}
+			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
-		
-		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
 
-		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure_cookie);
+		// If TRUE/FALSE is not provided, use the config
+		if ( ! is_bool($secure))
+		{
+			$secure = (bool) (config_item('cookie_secure') === TRUE);
+		}
+
+		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure);
 	}
 
 	// --------------------------------------------------------------------
@@ -422,7 +446,7 @@ class CI_Input {
 		{
 			if (is_array($_GET) AND count($_GET) > 0)
 			{
-				foreach($_GET as $key => $val)
+				foreach ($_GET as $key => $val)
 				{
 					$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 				}
@@ -432,7 +456,7 @@ class CI_Input {
 		// Clean $_POST Data
 		if (is_array($_POST) AND count($_POST) > 0)
 		{
-			foreach($_POST as $key => $val)
+			foreach ($_POST as $key => $val)
 			{
 				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}
@@ -450,7 +474,7 @@ class CI_Input {
 			unset($_COOKIE['$Path']);
 			unset($_COOKIE['$Domain']);
 
-			foreach($_COOKIE as $key => $val)
+			foreach ($_COOKIE as $key => $val)
 			{
 				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}
@@ -494,7 +518,7 @@ class CI_Input {
 		}
 
 		// We strip slashes if magic quotes is on to keep things consistent
-		if (get_magic_quotes_gpc())
+		if (function_exists('get_magic_quotes_gpc') AND get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
 		}
@@ -516,7 +540,7 @@ class CI_Input {
 		{
 			if (strpos($str, "\r") !== FALSE)
 			{
-				$str = str_replace(array("\r\n", "\r"), "\n", $str);
+				$str = str_replace(array("\r\n", "\r"), PHP_EOL, $str);
 			}
 		}
 
@@ -627,17 +651,31 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Is ajax Request?
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
-	 * @return 	boolean 	
+	 * @return 	boolean
 	 */
 	public function is_ajax_request()
 	{
 		return ($this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is cli Request?
+	 *
+	 * Test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	public function is_cli_request()
+	{
+		return (bool) defined('STDIN');
 	}
 
 }

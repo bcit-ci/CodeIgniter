@@ -87,7 +87,7 @@ if ( ! function_exists('create_captcha'))
 
 		$current_dir = @opendir($img_path);
 
-		while($filename = @readdir($current_dir))
+		while ($filename = @readdir($current_dir))
 		{
 			if ($filename != "." and $filename != ".." and $filename != "index.html")
 			{

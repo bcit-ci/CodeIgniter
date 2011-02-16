@@ -138,14 +138,14 @@ class CI_Form_validation {
 
 		// Build our master array
 		$this->_field_data[$field] = array(
-											'field'				=> $field,
-											'label'				=> $label,
-											'rules'				=> $rules,
-											'is_array'			=> $is_array,
-											'keys'				=> $indexes,
-											'postdata'			=> NULL,
-											'error'				=> ''
-											);
+			'field'				=> $field,
+			'label'				=> $label,
+			'rules'				=> $rules,
+			'is_array'			=> $is_array,
+			'keys'				=> $indexes,
+			'postdata'			=> NULL,
+			'error'				=> ''
+		);
 
 		return $this;
 	}
@@ -171,7 +171,7 @@ class CI_Form_validation {
 		}
 
 		$this->_error_messages = array_merge($this->_error_messages, $lang);
-		
+
 		return $this;
 	}
 
@@ -191,7 +191,7 @@ class CI_Form_validation {
 	{
 		$this->_error_prefix = $prefix;
 		$this->_error_suffix = $suffix;
-		
+
 		return $this;
 	}
 
@@ -576,7 +576,7 @@ class CI_Form_validation {
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
 			$param = FALSE;
-			if (preg_match("/(.*?)\[(.*?)\]/", $rule, $match))
+			if (preg_match("/(.*?)\[(.*)\]/", $rule, $match))
 			{
 				$rule	= $match[1];
 				$param	= $match[2];
@@ -728,6 +728,13 @@ class CI_Form_validation {
 		if ( ! isset($this->_field_data[$field]))
 		{
 			return $default;
+		}
+
+		// If the data is an array output them one at a time.
+		//     E.g: form_input('name[]', set_value('name[]');
+		if (is_array($this->_field_data[$field]['postdata']))
+		{
+			return array_shift($this->_field_data[$field]['postdata']);
 		}
 
 		return $this->_field_data[$field]['postdata'];
@@ -889,6 +896,26 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Performs a Regular Expression match test.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	regex
+	 * @return	bool
+	 */
+	function regex_match($str, $regex)
+	{
+		if ( ! preg_match($regex, $str))
+		{
+			return FALSE;
+		}
+
+		return  TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Match one field to another
 	 *
 	 * @access	public
@@ -1013,7 +1040,7 @@ class CI_Form_validation {
 			return $this->valid_email(trim($str));
 		}
 
-		foreach(explode(',', $str) as $email)
+		foreach (explode(',', $str) as $email)
 		{
 			if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE)
 			{
@@ -1120,7 +1147,57 @@ class CI_Form_validation {
 	 */
 	function integer($str)
 	{
-		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
+		return (bool) preg_match('/^[\-+]?[0-9]+$/', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Decimal number
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function decimal($str)
+	{
+		return (bool) preg_match('/^[\-+]?[0-9]+\.[0-9]+$/', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Greather than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function greater_than($str, $min)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str > $min;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Less than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function less_than($str, $max)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str < $max;
 	}
 
 	// --------------------------------------------------------------------
@@ -1134,7 +1211,7 @@ class CI_Form_validation {
 	 */
 	function is_natural($str)
 	{
-		return (bool)preg_match( '/^[0-9]+$/', $str);
+		return (bool) preg_match( '/^[0-9]+$/', $str);
 	}
 
 	// --------------------------------------------------------------------
