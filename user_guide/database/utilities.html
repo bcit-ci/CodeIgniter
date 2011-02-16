@@ -96,19 +96,19 @@ already be running, since the utilities class relies on it.</p>
 <code>
 $dbs = $this->dbutil->list_databases();<br />
 <br />
-foreach($dbs as $db)<br />
+foreach ($dbs as $db)<br />
 {<br />
 &nbsp;&nbsp;&nbsp; echo $db;<br />
 }</code>
 
 
-<h2><a name="exists"></a>$this->db->database_exists();</h2>
+<h2><a name="exists"></a>$this->dbutil->database_exists();</h2>
 
 <p>Sometimes it's helpful to know whether a particular database exists.
 Returns a boolean TRUE/FALSE.  Usage example:</p>
 
 <code>
-if ($this->db->database_exists('database_name'))<br />
+if ($this->dbutil->database_exists('database_name'))<br />
 {<br />
 &nbsp;&nbsp; // some code...<br />
 }

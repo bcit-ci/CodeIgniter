@@ -205,7 +205,7 @@ $this-&gt;dbforge-&gt;add_column('table_name', $fields);<br />
 <p>Used to remove a column from a table. </p>
 <p><code>$this-&gt;dbforge-&gt;drop_column('table_name', 'column_to_drop');</code></p>
 <h2>$this-&gt;dbforge-&gt;modify_column()</h2>
-<p>The usage of this function is identical to add_column(), except it alters an existing column rather than adding a new one. In order to use it you must add a &quot;name&quot; key into the field defining array.</p>
+<p>The usage of this function is identical to add_column(), except it alters an existing column rather than adding a new one. In order to change the name you can add a &quot;name&quot; key into the field defining array.</p>
 <p><code>$fields = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'old_name' =&gt; array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name' =&gt; 'new_name',<br />

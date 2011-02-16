@@ -57,10 +57,12 @@ Change Log
 
 <h1>Change Log</h1>
 
-<h2>Version 2.0.1</h2>
-<p>Release Date: not yet released</p>
+<p>The <img src="images/reactor-bullet.png" width="16" height="16" alt="Reactor Marker" /> indicates items that were contributed to CodeIgniter via CodeIgniter Reactor.</p>
 
-<h3>Bug Fixes for 2.0.1</h3>
+<h2>Version 2.0.1</h2>
+<p>Release Date: n/a<br />
+Hg Tag: n/a</p>
+
 <ul>
 	<li>General changes
 		<ul>
@@ -69,9 +71,19 @@ Change Log
 	</li>
 	<li>Libraries
 		<ul>
-			<li>Fixed a bug where the table class would not clear table data after calling generate().</li>
+			<li class="reactor">Added <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd> rules to the <a href="libraries/form_validation.html">Form validation Class</a>.</li>
+			<li class="reactor"><a href="libraries/input.html">Input Class</a> methods <kbd>post()</kbd> and <kbd>get()</kbd> will now return a full array if the first argument is not provided.</li>
+			<li class="reactor">Secure cookies can now be made with the <kbd>set_cookie()</kbd> helper and <a href="libraries/input.html">Input Class</a> method.</li>
 		</ul>
 	</li>
+</ul>
+
+<h3>Bug fixes for 2.0.1</h3>
+<ul>
+	<li class="reactor">CLI requests can now be run from any folder, not just when CD'ed next to index.php.</li>
+	<li class="reactor">Fixed issue #41: Added audio/mp3 mime type to mp3.</li>
+	<li class="reactor">Fixed a bug (Core #329) where the file caching driver referenced the incorrect cache directory.</li>
+	<li class="reactor">Fixed a bug (Reactor #69) where the SHA1 library was named incorrectly.</li>
 </ul>
 
 <h2>Version 2.0.0</h2>
@@ -85,18 +97,25 @@ Hg Tag: v2.0.0</p>
 			<li>Scaffolding, having been deprecated for a number of versions, has been removed.</li>
 			<li>Plugins have been removed, in favor of Helpers.  The CAPTCHA plugin has been converted to a Helper and <a href="./helpers/captcha_helper.html">documented</a>.  The JavaScript calendar plugin was removed due to the ready availability of great JavaScript calendars, particularly with jQuery.</li>
 			<li>Added new special Library type: <a href="./general/drivers.html">Drivers</a>.</li>
+			<li class="reactor">Added full query-string support.  See the config file for details.</li>
 			<li>Moved the application folder outside of the system folder.</li>
 			<li>Moved system/cache and system/logs directories to the application directory.</li>
 			<li>Added routing overrides to the main index.php file, enabling the normal routing to be overridden on a per "index" file basis.</li>
 			<li>Added the ability to set config values (or override config values) directly from data set in the main index.php file.  This allows a single application to be used with multiple front controllers, each having its own config values.</li>
 			<li>Added <kbd>$config['directory_trigger']</kbd> to the config file so that a controller sub-directory can be specified when running _GET strings instead of URI segments.</li>
 			<li>Added ability to set "Package" paths - specific paths where the Loader and Config classes should try to look first for a requested file.  This allows distribution of sub-applications with their own libraries, models, config files, etc. in a single "package" directory.  See the <a href="libraries/loader.html">Loader class</a> documentation for more details.</li>
-			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter/">BitBucket</a>.</li>
+			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter-reactor/">BitBucket</a>.</li>
 			<li>Removed the deprecated Validation Class.</li>
 			<li>Added CI_ Prefix to all core classes.</li>
+			<li class="reactor">Package paths can now be set in application/config/autoload.php.</li>
+			<li class="reactor"><a href="libraries/file_uploading.html">Upload library</a> file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
+			<li class="reactor">In <a href="database/forge.html">Database Forge</a> the name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
+			<li class="reactor"><kbd>$config['base_url']</kbd> is now empty by default and will guess what it should be.</li>
+			<li class="reactor">Enabled full Command Line Interface compatibility with <kbd>config['uri_protocol'] = 'CLI';</kbd>.</li>
 		</ul>
 	<li>Libraries
 		<ul>
+			<li class="reactor">Added a <a href="libraries/caching.html">Cache driver</a> with APC, memcached, and file-based support.</li>
 			<li>Added <var>$prefix</var>, <var>$suffix</var> and <var>$first_url</var> properties to <a href="./libraries/pagination.html">Pagination library</a>.</li>
 			<li>Added the ability to suppress first, previous, next, last, and page links by setting their values to FALSE in the <a href="./libraries/pagination.html">Pagination library</a>.</li>
 			<li>Added <a href="./libraries/security.html">Security library</a>, which now contains the <dfn>xss_clean</dfn> function, <dfn>filename_security</dfn> function and other security related functions.</li>
@@ -127,6 +146,8 @@ Hg Tag: v2.0.0</p>
 			<li>Altered Form_Validation library to allow for method chaining on <kbd>set_rules()</kbd>, <kbd>set_message()</kbd> and <kbd>set_error_delimiters()</kbd> functions.</li>
 			<li>Altered Email Library to allow for method chaining.</li>
 			<li>Added <kbd>request_headers()</kbd>, <kbd>get_request_header()</kbd> and <kbd>is_ajax_request()</kbd> to the input class.</li>
+			<li class="reactor">Altered <a href="libraries/user_agent.html">User agent library</a> so that <kbd>is_browser()</kbd>, <kbd>is_mobile()</kbd> and <kbd>is_robot()</kbd> can optionally check for a specific browser or mobile device.</li>
+			<li class="reactor">Altered <a href="libraries/input.html">Input library</a> so that <kbd>post()</kbd> and <kbd>get()</kbd> will return all POST and GET items (respectively) if there are no parameters passed in.</li>
 		</ul>
 	</li>
 	<li>Database
@@ -188,6 +209,7 @@ Hg Tag: v2.0.0</p>
 
 <h3>Bug fixes for 2.0.0</h3>
 <ul>
+	<li class="reactor">Fixed a bug where you could not change the User-Agent when sending email.</li>
 	<li>Fixed a bug where the Output class would send incorrect cached output for controllers implementing their own <dfn>_output()</dfn> method.</li>
 	<li>Fixed a bug where a failed query would not have a saved query execution time causing errors in the Profiler</li>
 	<li>Fixed a bug that was writing log entries when multiple identical helpers and plugins were loaded.</li>
@@ -769,7 +791,7 @@ Hg Tag: 1.6.1</p>
 		</ul>
 	</li>
 
-	
+
 	<li>Documentation Changes
 		<ul>
 			<li>Added <a href="./doc_style/index.html">Writing Documentation</a> section for the community to use in writing their own documentation.</li>

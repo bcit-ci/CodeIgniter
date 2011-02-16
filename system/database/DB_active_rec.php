@@ -954,7 +954,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			else
 			{
-				$this->ar_set[$this->_protect_identifiers($k)] = $this->escape($v);
+				$this->ar_set[$this->_protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
 			}
 		}
 
@@ -1156,7 +1156,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				$this->ar_set[] = array();
 				return;
 			}
-		
+
 			ksort($row); // puts $row in the same order as our keys
 
 			if ($escape === FALSE)
@@ -1167,7 +1167,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			{
 				$clean = array();
 
-				foreach($row as $value)
+				foreach ($row as $value)
 				{
 					$clean[] = $this->escape($value);
 				}
@@ -1425,7 +1425,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$index_set = FALSE;
 			$clean = array();
 
-			foreach($v as $k2 => $v2)
+			foreach ($v as $k2 => $v2)
 			{
 				if ($k2 == $index)
 				{
@@ -1569,7 +1569,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		elseif (is_array($table))
 		{
-			foreach($table as $single_table)
+			foreach ($table as $single_table)
 			{
 				$this->delete($single_table, $where, $limit, FALSE);
 			}

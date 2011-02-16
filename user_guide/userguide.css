@@ -259,6 +259,9 @@ padding: 3px 0 7px 3px;
  margin: 10px 0 12px 0;
 }
 
+li.reactor {
+ list-style-image: url(images/reactor-bullet.png);
+}
 #content li {
  margin-bottom: 9px;
 }
