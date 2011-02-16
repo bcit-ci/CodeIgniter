@@ -187,13 +187,14 @@ Array Method, and Discrete Parameters:</p>
 <p>Using this method, an associative array is passed to the first parameter:</p>
 
 <code>$cookie = array(<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'secure' => TRUE<br />
+);<br />
 <br />
 $this->input->set_cookie($cookie);
 </code>
@@ -208,12 +209,13 @@ zero the cookie will only last as long as the browser is open.</p>
 <p>For site-wide cookies regardless of how your site is requested, add your URL to the <strong>domain</strong> starting with a period, like this:  .your-domain.com</p>
 <p>The path is usually not needed since the function sets a root path.</p>
 <p>The prefix is only needed if you need to avoid name collisions with other identically named cookies for your server.</p>
+<p>The secure boolean is only needed if you want to make it a secure cookie by setting it to TRUE.</p>
 
 <h4>Discrete Parameters</h4>
 
 <p>If you prefer, you can set the cookie by passing data using individual parameters:</p>
 
-<code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix);</code>
+<code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);</code>
 
 <h2>$this->input->get_cookie()</h2>
 
