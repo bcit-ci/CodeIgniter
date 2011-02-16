@@ -42,7 +42,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/general/encryption.html
  */
-class CI_SHA {
+class CI_SHA1 {
 
 	public function __construct()
 	{
