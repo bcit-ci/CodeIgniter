@@ -68,7 +68,7 @@ By caching your pages, since they are saved in their fully rendered state, you c
 <h2>How Does Caching Work?</h2>
 
 <p>Caching can be enabled on a per-page basis, and you can set the length of time that a page should remain cached before being refreshed.
-When a page is loaded for the first time, the cache file will be written to your <dfn>system/cache</dfn> folder.  On subsequent page loads the cache file will be retrieved
+When a page is loaded for the first time, the cache file will be written to your <dfn>application/cache</dfn> folder.  On subsequent page loads the cache file will be retrieved
 and sent to the requesting user's browser.  If it has expired, it will be deleted and refreshed before being sent to the browser.</p>
 
 <p>Note: The Benchmark tag is not cached so you can still view your page load speed when caching is enabled.</p>
@@ -86,7 +86,7 @@ most logical to you. Once the tag is in place, your pages will begin being cache
 
 <p class="important"><strong>Warning:</strong> Because of the way CodeIgniter stores content for output, caching will only work if you are generating display for your controller with a <a href="./views.html">view</a>.</p>
 <p class="important"><strong>Note:</strong> Before the cache files can be written you must set the file permissions on your
-<dfn>system/cache</dfn> folder such that it is writable.</p>
+<dfn>application/cache</dfn> folder such that it is writable.</p>
 
 <h2>Deleting Caches</h2>
 
