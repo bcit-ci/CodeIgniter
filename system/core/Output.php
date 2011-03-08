@@ -28,19 +28,24 @@
  */
 class CI_Output {
 
-	var $final_output;
-	var $cache_expiration	= 0;
-	var $headers			= array();
-	var $enable_profiler	= FALSE;
-	var $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
+	protected $final_output;
+	protected $cache_expiration	= 0;
+	protected $headers			= array();
+	protected $mime_types			= array();
+	protected $enable_profiler	= FALSE;
+	protected $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
-	var $_zlib_oc			= FALSE;
-	var $_profiler_sections = array();
+	protected $_zlib_oc			= FALSE;
+	protected $_profiler_sections = array();
 
 	function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
+		// Get mime types for later
+		include APPPATH.'config/mimes'.EXT;
+		$this->mime_types = $mimes;
+		
 		log_message('debug', "Output Class Initialized");
 	}
 
@@ -73,6 +78,8 @@ class CI_Output {
 	function set_output($output)
 	{
 		$this->final_output = $output;
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -96,6 +103,8 @@ class CI_Output {
 		{
 			$this->final_output .= $output;
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -125,6 +134,42 @@ class CI_Output {
 		}
 
 		$this->headers[] = array($header, $replace);
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Content Type Header
+	 *
+	 * @access	public
+	 * @param	string	extension of the file we're outputting
+	 * @return	void
+	 */
+	function set_content_type($mime_type)
+	{
+		if (strpos($mime_type, '/') === FALSE)
+		{
+			$extension = ltrim($mime_type, '.');
+
+			// Is this extension supported?
+			if (isset($this->mime_types[$extension]))
+			{
+				$mime_type =& $this->mime_types[$extension];
+
+				if (is_array($mime_type))
+				{
+					$mime_type = current($mime_type);
+				}
+			}
+		}
+
+		$header = 'Content-Type: '.$mime_type;
+
+		$this->headers[] = array($header, TRUE);
+		
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -141,6 +186,8 @@ class CI_Output {
 	function set_status_header($code = 200, $text = '')
 	{
 		set_status_header($code, $text);
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -155,6 +202,8 @@ class CI_Output {
 	function enable_profiler($val = TRUE)
 	{
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -174,6 +223,8 @@ class CI_Output {
 		{
 			$this->_profiler_sections[$section] = ($enable !== FALSE) ? TRUE : FALSE;
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -188,6 +239,8 @@ class CI_Output {
 	function cache($time)
 	{
 		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
