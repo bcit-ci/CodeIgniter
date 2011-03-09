@@ -749,7 +749,7 @@ class CI_Image_lib {
 
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
-		return true;
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
