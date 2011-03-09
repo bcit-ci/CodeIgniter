@@ -39,7 +39,7 @@
  *  Define the CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
  * ------------------------------------------------------
  */
-	define('CI_CORE', FALSE);
+	define('CI_CORE', TRUE);
 
 /*
  * ------------------------------------------------------
