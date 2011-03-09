@@ -132,11 +132,31 @@ else<br />
 
 <code>$this->input->post('some_data', TRUE);</code>
 
+<p>To return an array of all POST items call without any parameters.</p>
+<p>To return all POST items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>The function returns FALSE (boolean) if there are no items in the POST.</p>
+
+<code>
+	$this->input->post(); // returns all POST items with XSS filter
+	<br />
+	$this->input->post(NULL, FALSE); // returns all POST items without XSS
+</code>
+
 <h2>$this->input->get()</h2>
 
 <p>This function is identical to the post function, only it fetches get data:</p>
 
 <code>$this->input->get('some_data', TRUE);</code>
+
+<p>To return an array of all GET items call without any parameters.</p>
+<p>To return all GET items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>The function returns FALSE (boolean) if there are no items in the GET.</p>
+
+<code>
+	$this->input->get(); // returns all GET items with XSS filter
+	<br />
+	$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
+</code>
 
 <h2>$this->input->get_post()</h2>
 
@@ -167,13 +187,14 @@ Array Method, and Discrete Parameters:</p>
 <p>Using this method, an associative array is passed to the first parameter:</p>
 
 <code>$cookie = array(<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'secure' => TRUE<br />
+);<br />
 <br />
 $this->input->set_cookie($cookie);
 </code>
@@ -188,12 +209,13 @@ zero the cookie will only last as long as the browser is open.</p>
 <p>For site-wide cookies regardless of how your site is requested, add your URL to the <strong>domain</strong> starting with a period, like this:  .your-domain.com</p>
 <p>The path is usually not needed since the function sets a root path.</p>
 <p>The prefix is only needed if you need to avoid name collisions with other identically named cookies for your server.</p>
+<p>The secure boolean is only needed if you want to make it a secure cookie by setting it to TRUE.</p>
 
 <h4>Discrete Parameters</h4>
 
 <p>If you prefer, you can set the cookie by passing data using individual parameters:</p>
 
-<code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix);</code>
+<code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);</code>
 
 <h2>$this->input->get_cookie()</h2>
 
@@ -231,7 +253,7 @@ else<br />
 <h2>$this->input->user_agent()</h2>
 <p>Returns the user agent (web browser) being used by the current user. Returns FALSE if it's not available.</p>
 <code>echo $this->input->user_agent();</code>
-
+<p>See the <a href="user_agent.html">User Agent Class</a> for methods which extract information from the user agent string.</p>
 
 <h2>$this->input->request_headers()</h2>
 <p>Useful if running in a non-Apache environment where <a href="http://php.net/apache_request_headers">apache_request_headers()</a> will not be supported.  Returns an array of headers.</p>

@@ -98,6 +98,18 @@ Query Results
 	}
 	</code>
 
+	<p>You can also pass a string to result() which represents a class to instantiate for each result object (note: this class must be loaded)</p>
+
+	<code>
+	$query = $this->db->query("SELECT * FROM users;");<br />
+	<br />
+	foreach ($query->result('User') as $user)<br />
+	{<br />
+	&nbsp;&nbsp;&nbsp;echo $row->name; // call attributes<br />
+	&nbsp;&nbsp;&nbsp;echo $row->reverse_name(); // or methods defined on the 'User' class<br />
+	}
+	</code>
+
 	<h2>result_array()</h2>
 
 	<p>This function returns the query result as a pure array, or an empty array when no result is produced.  Typically you'll use this in a foreach loop, like this:</p>
@@ -133,6 +145,15 @@ Query Results
 
 	<code>$row = $query->row(<dfn>5</dfn>);</code>
 
+	<p>You can also add a second String parameter, which is the name of a class to instantiate the row with:</p>
+
+	<code>
+	$query = $this->db->query("SELECT * FROM users LIMIT 1;");<br />
+	<br />
+	$query->row(0, 'User')<br />
+	echo $row->name; // call attributes<br />
+	echo $row->reverse_name(); // or methods defined on the 'User' class<br />
+	</code>
 
 	<h2>row_array()</h2>
 
