@@ -153,21 +153,39 @@ $site_name = $blog_config['site_name'];</code>
 <a name="environments"></a>
 <h2>Environments</h2>
 
-<p>You can set the environment of you application and load config items depending on the current environment. It also disables PHP from displaying errors in environments other than development. To set your environment, open <strong>index.php</strong>, located at the root and change the <var>ENVIRONMENT</var> constant. By default, there is support for a development, test and production environment.</p>
-	
-<code>
-define('<var>ENVIRONMENT</var>', '<var>development</var>');	
-</code>
+<p>
+    You may load different configuration files depending on the current environment.
+    The <kbd>ENVIRONMENT</kbd> constant is defined in index.php, and is described
+    in detail in the <a href="../general/environments.html">Handling Environments</a>
+    section.
+</p>
 
-<p>To make a config file environment-aware, copy the file from <samp>application/config/</samp> to <samp>application/config/development/</samp>, depending on the environment the config file belongs to. You can place the following configuration files in environment folders:</p>
+<p>
+    To create an environment-specific configuration file,
+    create or copy a configuration file in application/config/{ENVIRONMENT}/{FILENAME}.php
+</p>
+
+<p>For example, to create a production-only config.php, you would:</p>
+
+<ol>
+    <li>Create the directory application/config/production/</li>
+    <li>Copy your existing config.php into the above directory</li>
+    <li>Edit application/config/production/config.php so it contains your production settings</li>
+</ol>
+
+<p>
+    When you set the <kbd>ENVIRONMENT</kbd> constant to 'production', the settings
+    for your new production-only config.php will be loaded.
+</p>
+
+<p>You can place the following configuration files in environment-specific folders:</p>
 	
 <ul>
-<li>Default config files</li>
-<li>Database config files</li>
-<li>Custom config files</li>
+<li>Default CodeIgniter configuration files</li>
+<li>Your own custom configuration files</li>
 </ul>
 
-<p><strong>Note:</strong> CodeIgniter always tries to load the config file for the current environment first. If the file does not exist, the global config file (i.e. <samp>application/config/</samp>) is loaded. This means you are not obligated to place <strong>all</strong> your config files (but rather the files that change per environment) in an environment folder.</p>
+<p><strong>Note:</strong> CodeIgniter always tries to load the configuration files for the current environment first. If the file does not exist, the global config file (i.e., the one in <samp>application/config/</samp>) is loaded. This means you are not obligated to place <strong>all</strong> of your configuration files in an environment folder &minus; only the files that change per environment.</p>
 
 <h2>Helper Functions</h2>
 
