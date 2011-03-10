@@ -34,7 +34,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return @mssql_num_rows($this->result_id);
+		return @sqlsrv_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -47,7 +47,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function num_fields()
 	{
-		return @mssql_num_fields($this->result_id);
+		return @sqlsrv_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -63,7 +63,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	function list_fields()
 	{
 		$field_names = array();
-		while ($field = mssql_fetch_field($this->result_id))
+		while ($field = sqlsrv_get_field($this->result_id))
 		{
 			$field_names[] = $field->name;
 		}
@@ -84,7 +84,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	function field_data()
 	{
 		$retval = array();
-		while ($field = mssql_fetch_field($this->result_id))
+		while ($field = sqlsrv_get_field($this->result_id))
 		{
 			$F				= new stdClass();
 			$F->name		= $field->name;
@@ -110,7 +110,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	{
 		if (is_resource($this->result_id))
 		{
-			mssql_free_result($this->result_id);
+			sqlsrv_free_stmt($this->result_id);
 			$this->result_id = FALSE;
 		}
 	}
@@ -129,7 +129,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function _data_seek($n = 0)
 	{
-		return mssql_data_seek($this->result_id, $n);
+		// Not implemented
 	}
 
 	// --------------------------------------------------------------------
@@ -144,7 +144,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function _fetch_assoc()
 	{
-		return mssql_fetch_assoc($this->result_id);
+		return sqlsrv_fetch_array($this->result_id, SQLSRV_FETCH_ASSOC);
 	}
 
 	// --------------------------------------------------------------------
@@ -159,7 +159,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	function _fetch_object()
 	{
-		return mssql_fetch_object($this->result_id);
+		return sqlsrv_fetch_object($this->result_id);
 	}
 
 }
