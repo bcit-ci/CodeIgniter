@@ -49,7 +49,10 @@ if ( ! function_exists('form_open'))
 			$attributes = 'method="post"';
 		}
 
-		$action = ( strpos($action, '://') === FALSE) ? $CI->config->site_url($action) : $action;
+		if ($action && strpos($action, '://') === FALSE)
+		{
+			$CI->config->site_url($action);
+		}
 
 		$form = '<form action="'.$action.'"';
 
