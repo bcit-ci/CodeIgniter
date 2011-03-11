@@ -81,7 +81,8 @@ if ( ! function_exists('singular'))
 if ( ! function_exists('plural'))
 {
 	function plural($str, $force = FALSE)
-	{
+	{   
+        $str = trim($str);
 		$end = substr($str, -1);
 
 		if (preg_match('/y/i',$end))
