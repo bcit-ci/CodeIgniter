@@ -98,7 +98,7 @@ Controllers
 &lt;?php
 class Blog extends CI_Controller {
 
-	function index()
+	public function index()
 	{
 		echo 'Hello World!';
 	}
@@ -153,12 +153,12 @@ class <var>blog</var> extends CI_Controller {<br />
 &lt;?php
 class Blog extends CI_Controller {
 
-	function index()
+	public function index()
 	{
 		echo 'Hello World!';
 	}
 
-	function comments()
+	public function comments()
 	{
 		echo 'Look at this!';
 	}
@@ -187,7 +187,7 @@ class Blog extends CI_Controller {
 &lt;?php<br />
 class Products extends CI_Controller {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function shoes($sandals, $id)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public function shoes($sandals, $id)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $sandals;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $id;<br />
@@ -220,7 +220,7 @@ specifying any URI segments you'll see your Hello World message by default.</p>
 <p>As noted above, the second segment of the URI typically determines which function in the controller gets called.
 CodeIgniter permits you to override this behavior through the use of the <kbd>_remap()</kbd> function:</p>
 
-<code>function _remap()<br />
+<code>public function _remap()<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;// Some code here...<br />
 }</code>
@@ -231,7 +231,7 @@ allowing you to define your own function routing rules.</p>
 
 <p>The overridden function call (typically the second segment of the URI) will be passed as a parameter to the <kbd>_remap()</kbd> function:</p>
 
-<code>function _remap(<var>$method</var>)<br />
+<code>public function _remap(<var>$method</var>)<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;if ($method == 'some_method')<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
@@ -245,10 +245,10 @@ allowing you to define your own function routing rules.</p>
 
 <p>Any extra segments after the method name are passed into <kbd>_remap()</kbd> as an optional second parameter. This array can be used in combination with PHP's <a href="http://php.net/call_user_func_array">call_user_func_array</a> to emulate CodeIgniter's default behavior.</p>
 
-<code>function _remap($method, $params = array())<br />
+<code>public function _remap($method, $params = array())<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;$method = 'process_'.$method;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if (method_exists($this, $method)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if (method_exists($this, $method))<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return call_user_func_array(array($this, $method), $params);<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
@@ -270,7 +270,7 @@ be called by the output class instead of echoing the finalized data directly. Th
 <p>Here is an example:</p>
 
 <code>
-function _output($output)<br />
+public function _output($output)<br />
 {<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $output;<br />
 }</code>
@@ -298,7 +298,7 @@ the available methods in the <a href="../libraries/output.html">Output Class</a>
 underscore as the name prefix and it will not be served via a URL request. For example, if you were to have a function like this:</p>
 
 <code>
-function _utility()<br />
+private function _utility()<br />
 {<br />
 &nbsp;&nbsp;// some code<br />
 }</code>
@@ -346,7 +346,7 @@ called if the URL contains only the sub-folder.  Simply name your default contro
 &lt;?php<br />
 class <kbd>Blog</kbd> extends CI_Controller {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function <kbd>__construct()</kbd><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public function <kbd>__construct()</kbd><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>parent::__construct();</var><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Your own constructor code<br />
