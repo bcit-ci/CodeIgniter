@@ -41,20 +41,22 @@ if ( ! function_exists('singular'))
 {
 	function singular($str)
 	{
-		$str = strtolower(trim($str));
+		$str = trim($str);
 		$end = substr($str, -3);
-
-		if ($end == 'ies')
+        
+        $str = preg_replace('/(.*)?([s|c]h)es/i','$1$2',$str);
+        
+		if (strtolower($end) == 'ies')
 		{
-			$str = substr($str, 0, strlen($str)-3).'y';
+			$str = substr($str, 0, strlen($str)-3).(preg_match('/[a-z]/',$end) ? 'y' : 'Y');
 		}
-		elseif ($end == 'ses')
+		elseif (strtolower($end) == 'ses')
 		{
 			$str = substr($str, 0, strlen($str)-2);
 		}
 		else
 		{
-			$end = substr($str, -1);
+			$end = strtolower(substr($str, -1));
 
 			if ($end == 's')
 			{
