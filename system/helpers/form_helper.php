@@ -51,7 +51,7 @@ if ( ! function_exists('form_open'))
 
 		if ($action && strpos($action, '://') === FALSE)
 		{
-			$CI->config->site_url($action);
+			$action = $CI->config->site_url($action);
 		}
 
 		$form = '<form action="'.$action.'"';
