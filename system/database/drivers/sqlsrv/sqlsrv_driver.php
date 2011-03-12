@@ -60,7 +60,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			$this->hostname .= ','.$this->port;
 		}
 
-		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 0));
+		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 0, 'ReturnDatesAsStrings' => 1));
 	}
 
 	// --------------------------------------------------------------------
@@ -78,7 +78,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			$this->hostname .= ','.$this->port;
 		}
 		
-		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 1));
+		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 1, 'ReturnDatesAsStrings' => 1));
 	}
 
 	// --------------------------------------------------------------------
@@ -107,7 +107,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function db_select()
 	{
-		// not implemented in sqlsrv
+		return $this->_execute('USE ' . $this->database);
 	}
 
 	// --------------------------------------------------------------------
