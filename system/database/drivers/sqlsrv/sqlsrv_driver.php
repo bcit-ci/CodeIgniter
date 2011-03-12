@@ -283,7 +283,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function affected_rows()
 	{
-		return @mssql_rows_affected($this->conn_id);
+		return @sqlrv_rows_affected($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
