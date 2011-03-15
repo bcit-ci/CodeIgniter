@@ -70,6 +70,20 @@ Upgrading from 2.0.0 to 2.0.1
 
 <p>This config file has been updated to contain more mime types, please copy it to <kbd>application/config/mimes.php</kbd>.</p>
 
+<h2>Step 3: Check for forms posting to default controller</h2>
+
+<p>
+	The default behavior for <kbd>form_open()</kbd> when called with no parameters used to be to post to the default controller, but it will now just leave an empty action="" meaning the form will submit to the current URL.
+	If submitting to the default controller was the expected behavior it will need to be changed from:
+</p>
+
+<code>echo form_open(); //&lt;form action="" method="post" accept-charset="utf-8"></code>
+
+<p>to use either a / or <kbd>base_url()</kbd>:</p>
+
+<code>echo form_open('/'); //&lt;form action="http://example.com/index.php/" method="post" accept-charset="utf-8"><br/>
+echo form_open('/'); //&lt;form action="http://example.com/" method="post" accept-charset="utf-8"></code>
+
 </div>
 <!-- END CONTENT -->
 
