@@ -53,7 +53,14 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	require(APPPATH.'config/constants'.EXT);
+	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants'.EXT))
+	{
+		require(APPPATH.'config/'.ENVIRONMENT.'/constants'.EXT);
+	}
+	else
+	{
+		require(APPPATH.'config/constants'.EXT);
+	}
 
 /*
  * ------------------------------------------------------
