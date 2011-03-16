@@ -539,7 +539,7 @@ class CI_Input {
 		{
 			if (strpos($str, "\r") !== FALSE)
 			{
-				$str = str_replace(array("\r\n", "\r"), PHP_EOL, $str);
+				$str = str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 			}
 		}
 
