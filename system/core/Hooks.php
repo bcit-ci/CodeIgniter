@@ -65,7 +65,15 @@ class CI_Hooks {
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
 
-		@include(APPPATH.'config/hooks'.EXT);
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/hooks'.EXT))
+		{
+		    @include(APPPATH.'config/'.ENVIRONMENT.'/hooks'.EXT);
+		}
+		else
+		{
+			@include(APPPATH.'config/hooks'.EXT);
+		}
+		
 
 		if ( ! isset($hook) OR ! is_array($hook))
 		{
