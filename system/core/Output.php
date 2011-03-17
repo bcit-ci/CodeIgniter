@@ -43,7 +43,16 @@ class CI_Output {
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		include APPPATH.'config/mimes'.EXT;
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
+		{
+		    include APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT;
+		}
+		else
+		{
+			include APPPATH.'config/mimes'.EXT;
+		}
+		
+		
 		$this->mime_types = $mimes;
 		
 		log_message('debug', "Output Class Initialized");

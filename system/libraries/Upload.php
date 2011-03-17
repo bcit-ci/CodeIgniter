@@ -951,7 +951,16 @@ class CI_Upload {
 
 		if (count($this->mimes) == 0)
 		{
-			if (@require(APPPATH.'config/mimes'.EXT))
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
+			{
+			    $_mimes_path = APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT;
+			}
+			else
+			{
+				$_mimes_path = APPPATH.'config/mimes'.EXT;
+			}
+			
+			if (@require($_mimes_path))
 			{
 				$this->mimes = $mimes;
 				unset($mimes);

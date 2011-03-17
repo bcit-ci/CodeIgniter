@@ -975,7 +975,15 @@ class CI_Loader {
 	 */
 	function _ci_autoloader()
 	{
-		include_once(APPPATH.'config/autoload'.EXT);
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload'.EXT))
+		{
+			include_once(APPPATH.'config/'.ENVIRONMENT.'/autoload'.EXT);
+		}
+		else
+		{
+			include_once(APPPATH.'config/autoload'.EXT);
+		}
+		
 
 		if ( ! isset($autoload))
 		{

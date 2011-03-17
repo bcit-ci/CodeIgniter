@@ -229,13 +229,20 @@ if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if ( ! file_exists(APPPATH.'config/smileys'.EXT))
+		if ( ! file_exists(APPPATH.'config/smileys'.EXT) AND ! file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys'.EXT))
 		{
 			return FALSE;
 		}
 
-		include(APPPATH.'config/smileys'.EXT);
-
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys'.EXT))
+		{
+		    include(APPPATH.'config/'.ENVIRONMENT.'/smileys'.EXT);
+		}
+		else
+		{
+			include(APPPATH.'config/smileys'.EXT);
+		}
+		
 		if ( ! isset($smileys) OR ! is_array($smileys))
 		{
 			return FALSE;
