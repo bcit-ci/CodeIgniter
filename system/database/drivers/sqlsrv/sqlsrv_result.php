@@ -63,11 +63,11 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	function list_fields()
 	{
 		$field_names = array();
-		while ($field = sqlsrv_get_field($this->result_id))
+		foreach(sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
-			$field_names[] = $field->name;
+			$field_names[] = $field['Name'];
 		}
-
+		
 		return $field_names;
 	}
 
@@ -84,18 +84,18 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	function field_data()
 	{
 		$retval = array();
-		while ($field = sqlsrv_get_field($this->result_id))
+		foreach(sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
-			$F				= new stdClass();
-			$F->name		= $field->name;
-			$F->type		= $field->type;
-			$F->max_length	= $field->max_length;
+			$F 				= new stdClass();
+			$F->name 		= $field['Name'];
+			$F->type 		= $field['Type'];
+			$F->max_length	= $field['Size'];
 			$F->primary_key = 0;
 			$F->default		= '';
-
+			
 			$retval[] = $F;
 		}
-
+		
 		return $retval;
 	}
 

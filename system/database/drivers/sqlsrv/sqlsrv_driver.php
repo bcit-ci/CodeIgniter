@@ -53,14 +53,27 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_connect()
+	function db_connect($pooling = false)
 	{
-		if ($this->port != '')
-		{
-			$this->hostname .= ','.$this->port;
+		// Check for a UTF-8 charset being passed as CI's default 'utf8'.
+		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
+
+		$connection = array(
+			'UID'				=> empty($this->username) ? '' : $this->username,
+			'PWD'				=> empty($this->password) ? '' : $this->password,
+			'Database'			=> $this->database,
+			'ConnectionPooling' => $pooling ? 1 : 0,
+			'CharacterSet'		=> $character_set,
+			'ReturnDatesAsStrings' => 1
+		);
+		
+		// If the username and password are both empty, assume this is a 
+		// 'Windows Authentication Mode' connection.
+		if(empty($connection['UID']) && empty($connection['PWD'])) {
+			unset($connection['UID'], $connection['PWD']);
 		}
 
-		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 0, 'ReturnDatesAsStrings' => 1));
+		return sqlsrv_connect($this->hostname, $connection);
 	}
 
 	// --------------------------------------------------------------------
@@ -73,12 +86,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		if ($this->port != '')
-		{
-			$this->hostname .= ','.$this->port;
-		}
-		
-		return @sqlsrv_connect($this->hostname, array('UID' => $this->username, 'PWD' => $this->password, 'Database' => $this->database, 'ConnectionPooling' => 1, 'ReturnDatesAsStrings' => 1));
+		$this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -138,7 +146,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		return @sqlsrv_query($this->conn_id, $sql);
+		return sqlsrv_query($this->conn_id, $sql, null, array(
+			'Scrollable'				=> SQLSRV_CURSOR_STATIC,
+			'SendStreamParamsAtExec'	=> true
+		));
 	}
 
 	// --------------------------------------------------------------------
@@ -183,8 +194,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		$this->simple_query('BEGIN TRAN');
-		return TRUE;
+		return sqlsrv_begin_transaction($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -208,8 +218,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('COMMIT TRAN');
-		return TRUE;
+		return sqlsrv_commit($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -233,8 +242,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('ROLLBACK TRAN');
-		return TRUE;
+		return sqlsrv_rollback($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -249,28 +257,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function escape_str($str, $like = FALSE)
 	{
-		if (is_array($str))
-		{
-			foreach ($str as $key => $val)
-			{
-				$str[$key] = $this->escape_str($val, $like);
-			}
-
-			return $str;
-		}
-
 		// Escape single quotes
-		$str = str_replace("'", "''", remove_invisible_characters($str));
-
-		// escape LIKE condition wildcards
-		if ($like === TRUE)
-		{
-			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
-								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
-								$str);
-		}
-
-		return $str;
+		return str_replace("'", "''", $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -298,11 +286,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	*/
 	function insert_id()
 	{
-		$ver = self::_parse_major_version($this->version());
-		$sql = ($ver >= 8 ? "SELECT SCOPE_IDENTITY() AS last_id" : "SELECT @@IDENTITY AS last_id");
-		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->last_id;
+		return $this->query('select @@IDENTITY as insert_id')->row('insert_id');
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +317,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	*/
 	function _version()
 	{
-		return "SELECT @@VERSION AS ver";
+		$info = sqlsrv_server_info($this->conn_id);
+		return sprintf("select '%s' as ver", $info['SQLServerVersion']);
 	}
 
 	// --------------------------------------------------------------------
@@ -351,19 +336,15 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function count_all($table = '')
 	{
 		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
-
+			return '0';
+	
+		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
+		
 		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
+			return '0';
 
 		$row = $query->row();
-		return (int) $row->numrows;
+		return $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -379,16 +360,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
-
-		// for future compatibility
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
-		{
-			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-			return FALSE; // not currently supported
-		}
-
-		return $sql;
+		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
 	}
 
 	// --------------------------------------------------------------------
@@ -404,7 +376,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$table."'";
+		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";
 	}
 
 	// --------------------------------------------------------------------
@@ -420,7 +392,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 * FROM ".$table;
+		return "SELECT TOP 1 * FROM " . $this->_escape_table($table);	
 	}
 
 	// --------------------------------------------------------------------
@@ -433,7 +405,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		return sqlsrv_errors();
+		$error = array_shift(sqlsrv_errors());
+		return !empty($error['message']) ? $error['message'] : null;
 	}
 
 	// --------------------------------------------------------------------
@@ -446,11 +419,27 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		// Are error numbers supported?
-		return '';
+		$error = array_shift(sqlsrv_errors());
+		return isset($error['SQLSTATE']) ? $error['SQLSTATE'] : null;
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * Escape Table Name
+	 *
+	 * This function adds backticks if the table name has a period
+	 * in it. Some DBs will get cranky unless periods are escaped
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _escape_table($table)
+	{
+		return $table;
+	}	
+
 
 	/**
 	 * Escape the SQL Identifiers
@@ -463,33 +452,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _escape_identifiers($item)
 	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
-		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+		return $item;
 	}
 
 	// --------------------------------------------------------------------
@@ -528,8 +491,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @return	string
 	 */
 	function _insert($table, $keys, $values)
-	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+	{	
+		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 
 	// --------------------------------------------------------------------
@@ -547,27 +510,16 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	function _update($table, $values, $where)
 	{
-		foreach ($values as $key => $val)
+		foreach($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
 		}
-
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
-
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
-
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
-
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
-
-		$sql .= $orderby.$limit;
-
-		return $sql;
+	
+		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
 	}
-
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -599,25 +551,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	function _delete($table, $where)
 	{
-		$conditions = '';
-
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ";
-			$conditions .= implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= " AND ";
-			}
-			$conditions .= implode("\n", $like);
-		}
-
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
-
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return "DELETE FROM ".$this->_escape_table($table)." WHERE ".implode(" ", $where);
 	}
 
 	// --------------------------------------------------------------------
@@ -636,8 +572,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _limit($sql, $limit, $offset)
 	{
 		$i = $limit + $offset;
-
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);
+	
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
 	}
 
 	// --------------------------------------------------------------------
