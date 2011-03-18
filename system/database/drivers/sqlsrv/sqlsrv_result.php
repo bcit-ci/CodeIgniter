@@ -16,7 +16,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * MS SQL Result Class
+ * SQLSRV Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
@@ -24,7 +24,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_result extends CI_DB_result {
+class CI_DB_sqlsrv_result extends CI_DB_result {
 
 	/**
 	 * Number of rows in the result set
