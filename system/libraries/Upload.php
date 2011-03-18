@@ -142,7 +142,7 @@ class CI_Upload {
 	 */
 	public function do_upload($field = 'userfile')
 	{
-		
+
 	// Is $_FILES[$field] set? If not, no reason to continue.
 		if ( ! isset($_FILES[$field]))
 		{
@@ -953,13 +953,13 @@ class CI_Upload {
 		{
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
 			{
-			    $_mimes_path = APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT;
+				$_mimes_path = APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT;
 			}
 			else
 			{
 				$_mimes_path = APPPATH.'config/mimes'.EXT;
 			}
-			
+
 			if (@require($_mimes_path))
 			{
 				$this->mimes = $mimes;

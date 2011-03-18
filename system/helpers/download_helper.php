@@ -60,7 +60,7 @@ if ( ! function_exists('force_download'))
 		// Load the mime types
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
 		{
-		    @include(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT);
+			include(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT);
 		}
 		else
 		{

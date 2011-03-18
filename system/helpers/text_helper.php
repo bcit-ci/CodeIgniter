@@ -373,7 +373,7 @@ if ( ! function_exists('convert_accented_characters'))
 
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars'.EXT))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/foreign_chars'.EXT;
+			include APPPATH.'config/'.ENVIRONMENT.'/foreign_chars'.EXT;
 		}
 		else
 		{
