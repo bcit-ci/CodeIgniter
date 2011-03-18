@@ -16,13 +16,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * MS SQL Utility Class
+ * SQLSRV Utility Class
  *
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_utility extends CI_DB_utility {
+class CI_DB_sqlsrv_utility extends CI_DB_utility {
 
 	/**
 	 * List databases

@@ -16,7 +16,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * MS SQL Database Adapter Class
+ * SQLSRV Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the active record
@@ -28,7 +28,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_driver extends CI_DB {
+class CI_DB_sqlsrv_driver extends CI_DB {
 
 	var $dbdriver = 'sqlsrv';
 
