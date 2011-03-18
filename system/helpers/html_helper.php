@@ -260,13 +260,13 @@ if ( ! function_exists('doctype'))
 		{
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT))
 			{
-			    @include(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT);
+				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT);
 			}
 			else
 			{
 				@include(APPPATH.'config/doctypes'.EXT);
 			}
-			
+
 			if ( ! is_array($_doctypes))
 			{
 				return FALSE;

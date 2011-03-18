@@ -92,7 +92,7 @@ class CI_User_agent {
 		{
 			$_ua_path = APPPATH.'config/user_agents'.EXT;
 		}
-	
+
 		if ( ! @include($_ua_path))
 		{
 			return FALSE;
