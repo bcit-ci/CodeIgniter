@@ -67,12 +67,17 @@ Hg Tag: n/a</p>
 	<li>General changes
 		<ul>
 			<li class="reactor"><kbd>constants.php</kbd> will now be loaded from the environment folder if available.</li>
+			<li class="reactor">Added language key error logging</li>
+			<li class="reactor">Added Environment Support for Hooks.</li>
 		</ul>
 	</li>
 </ul>
 
 <h3>Bug fixes for 2.0.2</h3>
 <ul>
+	<li class="reactor">Fixed a bug (Reactor #145) where the Output Library had parse_exec_vars set to protected.</li>
+	<li class="reactor">Fixed a bug (Reactor #80) where is_really_writable would create an empty file when on Windows or with safe_mode enabled.</li>
+	<li class="reactor">Fixed various bugs with User Guide.</li>
 	<li class="reactor">Added form_validation_lang entries for <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd>.</li>
 </ul>
 
