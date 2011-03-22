@@ -88,7 +88,7 @@
 			@unlink($file);
 			return TRUE;
 		}
-		elseif (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+		elseif ( ! is_file($file) OR ($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 		{
 			return FALSE;
 		}
