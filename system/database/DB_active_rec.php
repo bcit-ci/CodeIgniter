@@ -1020,11 +1020,11 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if ($query->num_rows() == 0)
 		{
-			return '0';
+			return 0;
 		}
 
 		$row = $query->row();
-		return $row->numrows;
+		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
