@@ -101,11 +101,11 @@ they are initialized.</p>
 <br /><br />
 class Someclass {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function some_function()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public function some_function()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }<br /><br />
-?&gt;</code>
+/* End of file Someclass.php */</code>
 
 
 <h2>Using Your Class</h2>
@@ -140,7 +140,7 @@ $this->load->library('Someclass', <kbd>$params</kbd>);</code>
 <br />
 class Someclass {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function __construct($params)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public function __construct($params)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with $params<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
@@ -243,7 +243,7 @@ class MY_Email extends CI_Email {<br /><br />
 <code>
 class MY_Email extends CI_Email {<br />
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public function __construct()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;{<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
 &nbsp;&nbsp;&nbsp;&nbsp;}<br />
