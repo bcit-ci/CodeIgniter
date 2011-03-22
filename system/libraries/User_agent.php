@@ -84,16 +84,15 @@ class CI_User_agent {
 	 */
 	private function _load_agent_file()
 	{
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/user_agents'.EXT))
+		if (is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents'.EXT))
 		{
-			$_ua_path = APPPATH.'config/'.ENVIRONMENT.'/user_agents'.EXT;
+			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents'.EXT);
+		}
+		elseif (is_file(APPPATH.'config/user_agents'.EXT))
+		{
+			include(APPPATH.'config/user_agents'.EXT);
 		}
 		else
-		{
-			$_ua_path = APPPATH.'config/user_agents'.EXT;
-		}
-
-		if ( ! @include($_ua_path))
 		{
 			return FALSE;
 		}

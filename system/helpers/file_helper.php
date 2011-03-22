@@ -352,13 +352,13 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
+			if (is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/mimes'.EXT);
 			}
-			else
+			elseif (is_file(APPPATH.'config/mimes'.EXT))
 			{
-				@include(APPPATH.'config/mimes'.EXT);
+				include(APPPATH.'config/mimes'.EXT);
 			}
 
 			if ( ! is_array($mimes))
