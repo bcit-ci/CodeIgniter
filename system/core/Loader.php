@@ -81,7 +81,7 @@ class CI_Loader {
 		{
 			foreach ($library as $read)
 			{
-				$this->library($read);
+				$this->library($class, $params);
 			}
 
 			return;
@@ -97,17 +97,7 @@ class CI_Loader {
 			$params = NULL;
 		}
 
-		if (is_array($library))
-		{
-			foreach ($library as $class)
-			{
-				$this->_ci_load_class($class, $params, $object_name);
-			}
-		}
-		else
-		{
-			$this->_ci_load_class($library, $params, $object_name);
-		}
+		$this->_ci_load_class($library, $params, $object_name);
 	}
 
 	// --------------------------------------------------------------------

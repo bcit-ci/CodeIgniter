@@ -217,17 +217,17 @@ zero the cookie will only last as long as the browser is open.</p>
 
 <code>$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);</code>
 
-<h2>$this->input->get_cookie()</h2>
+<h2>$this->input->cookie()</h2>
 
 <p>Lets you fetch a cookie.  The first parameter will contain the name of the cookie you are looking for (including any prefixes):</p>
 
-<code>get_cookie('some_cookie');</code>
+<code>cookie('some_cookie');</code>
 
 <p>The function returns FALSE (boolean) if the item you are attempting to retrieve does not exist.</p>
 
 <p>The second optional parameter lets you run the data through the XSS filter.  It's enabled by setting the second parameter to boolean TRUE;</p>
 
-<p><code>get_cookie('some_cookie', TRUE);</code></p>
+<p><code>cookie('some_cookie', TRUE);</code></p>
 
 
 <h2>$this->input->ip_address()</h2>
