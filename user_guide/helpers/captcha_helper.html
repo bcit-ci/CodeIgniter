@@ -167,7 +167,7 @@ $expiration = time()-7200; // Two hour limit<br />
 $this-&gt;db-&gt;query(&quot;DELETE FROM captcha WHERE captcha_time &lt; &quot;.$expiration);	<br />
 <br />
 // Then see if a captcha exists:<br />
-$sql = &quot;SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date &gt; ?&quot;;<br />
+$sql = &quot;SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND captcha_time &gt; ?&quot;;<br />
 $binds = array($_POST[&#x27;captcha&#x27;], $this-&gt;input-&gt;ip_address(), $expiration);<br />
 $query = $this-&gt;db-&gt;query($sql, $binds);<br />
 $row = $query-&gt;row();<br />
