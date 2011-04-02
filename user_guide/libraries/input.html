@@ -269,7 +269,11 @@ else<br />
 <h2>$this->input->is_ajax_request()</h2>
 <p>Checks to see if the <var>HTTP_X_REQUESTED_WITH</var> server header has been set, and returns a boolean response.</p>
 
-<code>$this->input->is_ajax_request()</code>
+
+<h2>$this->input->is_cli_request()</h2>
+<p>Checks to see if the <var>STDIN</var> constant is set, which is a failsafe way to see if PHP is being run on the command line.</p>
+
+<code>$this->input->is_cli_request()</code>
 
 
 </div>
