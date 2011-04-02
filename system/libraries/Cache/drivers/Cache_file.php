@@ -25,7 +25,7 @@
  * @link		
  */
 
-class Cache_file extends CI_Driver {
+class CI_Cache_file extends CI_Driver {
 
 	protected $_cache_path;
 

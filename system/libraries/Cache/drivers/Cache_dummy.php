@@ -25,7 +25,7 @@
  * @link		
  */
 
-class Cache_dummy extends CI_Driver {
+class CI_Cache_dummy extends CI_Driver {
 
 	/**
 	 * Get 
