@@ -25,7 +25,7 @@
  * @link		
  */
 
-class Cache_apc extends CI_Driver {
+class CI_Cache_apc extends CI_Driver {
 
 	/**
 	 * Get 

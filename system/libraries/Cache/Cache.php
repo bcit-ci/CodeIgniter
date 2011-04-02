@@ -24,11 +24,11 @@
  * @author		ExpressionEngine Dev Team
  * @link		
  */
-class Cache extends CI_Driver_Library {
+class CI_Cache extends CI_Driver_Library {
 	
 	protected $valid_drivers 	= array(
-				'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy'
-		);
+		'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy'
+	);
 
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
 	protected $_adapter			= 'dummy';

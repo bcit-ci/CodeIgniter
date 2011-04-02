@@ -44,7 +44,11 @@ class CI_Driver_Library {
 		// The class will be prefixed with the parent lib
 		$child_class = $this->lib_name.'_'.$child;
 
-		if (in_array(strtolower($child_class), array_map('strtolower', $this->valid_drivers)))
+		// Remove the CI_ prefix and lowercase
+		$lib_name = strtolower(preg_replace('/^CI_/', '', $this->lib_name));
+		$driver_name = strtolower(preg_replace('/^CI_/', '', $child_class));
+
+		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
 			// check and see if the driver is in a separate file
 			if ( ! class_exists($child_class))
@@ -52,19 +56,15 @@ class CI_Driver_Library {
 				// check application path first
 				foreach (array(APPPATH, BASEPATH) as $path)
 				{
-					// and check for case sensitivity of both the parent and child libs
-					foreach (array(ucfirst($this->lib_name), strtolower($this->lib_name)) as $lib)
+					// loves me some nesting!
+					foreach (array(ucfirst($driver_name), $driver_name) as $class)
 					{
-						// loves me some nesting!
-						foreach (array(ucfirst($child_class), strtolower($child_class)) as $class)
-						{
-							$filepath = $path.'libraries/'.$this->lib_name.'/drivers/'.$child_class.EXT;
+						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.EXT;
 
-							if (file_exists($filepath))
-							{
-								include_once $filepath;
-								break;
-							}
+						if (file_exists($filepath))
+						{
+							include_once $filepath;
+							break;
 						}
 					}
 				}
