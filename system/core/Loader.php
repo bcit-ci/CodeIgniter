@@ -79,7 +79,7 @@ class CI_Loader {
 	{
 		if (is_array($library))
 		{
-			foreach ($library as $read)
+			foreach ($library as $class)
 			{
 				$this->library($class, $params);
 			}
