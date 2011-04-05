@@ -64,14 +64,14 @@ class CI_URI {
 			// Is the request coming from the command line?
 			if (defined('STDIN'))
 			{
-				$this->uri_string = $this->_parse_cli_args();
+				$this->_set_uri_string($this->_parse_cli_args());
 				return;
 			}
 
 			// Let's try the REQUEST_URI first, this will work in most situations
 			if ($uri = $this->_detect_uri())
 			{
-				$this->uri_string = $uri;
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -80,7 +80,7 @@ class CI_URI {
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
 			if (trim($path, '/') != '' && $path != "/".SELF)
 			{
-				$this->uri_string = $path;
+				$this->_set_uri_string($path);
 				return;
 			}
 
@@ -88,43 +88,54 @@ class CI_URI {
 			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
 			if (trim($path, '/') != '')
 			{
-				$this->uri_string = $path;
+				$this->_set_uri_string($path);
 				return;
 			}
 
 			// As a last ditch effort lets try using the $_GET array
 			if (is_array($_GET) && count($_GET) == 1 && trim(key($_GET), '/') != '')
 			{
-				$this->uri_string = key($_GET);
+				$this->_set_uri_string(key($_GET));
 				return;
 			}
 
 			// We've exhausted all our options...
 			$this->uri_string = '';
+			return;
 		}
-		else
+
+		$uri = strtoupper($this->config->item('uri_protocol'));
+
+		if ($uri == 'REQUEST_URI')
 		{
-			$uri = strtoupper($this->config->item('uri_protocol'));
-
-			if ($uri == 'REQUEST_URI')
-			{
-				$this->uri_string = $this->_detect_uri();
-				return;
-			}
-			elseif ($uri == 'CLI')
-			{
-				$this->uri_string = $this->_parse_cli_args();
-				return;
-			}
-
-			$this->uri_string = (isset($_SERVER[$uri])) ? $_SERVER[$uri] : @getenv($uri);
+			$this->_set_uri_string($this->_detect_uri());
+			return;
+		}
+		elseif ($uri == 'CLI')
+		{
+			$this->_set_uri_string($this->_parse_cli_args());
+			return;
 		}
 
+		$path = (isset($_SERVER[$uri])) ? $_SERVER[$uri] : @getenv($uri);
+		$this->_set_uri_string($path);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the URI String
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function _set_uri_string($str)
+	{
+		// Filter out control characters
+		$str = remove_invisible_characters($str, FALSE);
+		
 		// If the URI contains only a slash we'll kill it
-		if ($this->uri_string == '/')
-		{
-			$this->uri_string = '';
-		}
+		$this->uri_string = ($str == '/') ? '' : $str;
 	}
 
 	// --------------------------------------------------------------------
