@@ -66,10 +66,17 @@ Hg Tag: n/a</p>
 <ul>
 	<li>General changes
 		<ul>
+			<li>The <a href="./libraries/security.html">Security library</a> was moved to the core and is now loaded automatically. Please remove your loading calls.</li>
+			<li>The CI_SHA class is now deprecated. All supported versions of PHP provide a <kbd>sha1()</kbd> function.</li>
 			<li class="reactor"><kbd>constants.php</kbd> will now be loaded from the environment folder if available.</li>
 			<li class="reactor">Added language key error logging</li>
 			<li class="reactor">Added Environment Support for Hooks.</li>
 			<li class="reactor">Added CI_ Prefix to the <a href="libraries/caching.html">Cache driver</a>.</li>
+		</ul>
+	</li>
+	<li>Helpers
+		<ul>
+			<li>Removed the previously deprecated <kbd>dohash()</kbd> from the <a href="./helpers/security_helper.html">Security helper</a>; use <kbd>do_hash()</kbd> instead.</li>
 		</ul>
 	</li>
 	<li>Database
