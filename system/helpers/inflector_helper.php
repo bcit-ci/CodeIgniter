@@ -41,20 +41,22 @@ if ( ! function_exists('singular'))
 {
 	function singular($str)
 	{
-		$str = strtolower(trim($str));
+		$str = trim($str);
 		$end = substr($str, -3);
-
-		if ($end == 'ies')
+        
+        $str = preg_replace('/(.*)?([s|c]h)es/i','$1$2',$str);
+        
+		if (strtolower($end) == 'ies')
 		{
-			$str = substr($str, 0, strlen($str)-3).'y';
+			$str = substr($str, 0, strlen($str)-3).(preg_match('/[a-z]/',$end) ? 'y' : 'Y');
 		}
-		elseif ($end == 'ses')
+		elseif (strtolower($end) == 'ses')
 		{
 			$str = substr($str, 0, strlen($str)-2);
 		}
 		else
 		{
-			$end = substr($str, -1);
+			$end = strtolower(substr($str, -1));
 
 			if ($end == 's')
 			{
@@ -81,19 +83,19 @@ if ( ! function_exists('singular'))
 if ( ! function_exists('plural'))
 {
 	function plural($str, $force = FALSE)
-	{
-		$str = strtolower(trim($str));
+	{   
+        $str = trim($str);
 		$end = substr($str, -1);
 
-		if ($end == 'y')
+		if (preg_match('/y/i',$end))
 		{
 			// Y preceded by vowel => regular plural
-			$vowels = array('a', 'e', 'i', 'o', 'u');
+			$vowels = array('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
 			$str = in_array(substr($str, -2, 1), $vowels) ? $str.'s' : substr($str, 0, -1).'ies';
 		}
-		elseif ($end == 'h')
+		elseif (preg_match('/h/i',$end))
 		{
-			if (substr($str, -2) == 'ch' OR substr($str, -2) == 'sh')
+            if(preg_match('/^[c|s]h$/i',substr($str, -2)))
 			{
 				$str .= 'es';
 			}
@@ -102,7 +104,7 @@ if ( ! function_exists('plural'))
 				$str .= 's';
 			}
 		}
-		elseif ($end == 's')
+		elseif (preg_match('/s/i',$end))
 		{
 			if ($force == TRUE)
 			{
