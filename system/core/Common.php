@@ -476,28 +476,26 @@
 	 * @param	string
 	 * @return	string
 	 */
-	function remove_invisible_characters($str)
+	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
-		static $non_displayables;
-
-		if ( ! isset($non_displayables))
+		$non_displayables = array();
+		
+		// every control character except newline (dec 10)
+		// carriage return (dec 13), and horizontal tab (dec 09)
+		
+		if ($url_encoded)
 		{
-			// every control character except newline (dec 10), carriage return (dec 13), and horizontal tab (dec 09),
-			$non_displayables = array(
-										'/%0[0-8bcef]/',			// url encoded 00-08, 11, 12, 14, 15
-										'/%1[0-9a-f]/',				// url encoded 16-31
-										'/[\x00-\x08]/',			// 00-08
-										'/\x0b/', '/\x0c/',			// 11, 12
-										'/[\x0e-\x1f]/'				// 14-31
-									);
+			$non_displayables[] = '/%0[0-8bcef]/';	// url encoded 00-08, 11, 12, 14, 15
+			$non_displayables[] = '/%1[0-9a-f]/';	// url encoded 16-31
 		}
+		
+		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
 
 		do
 		{
-			$cleaned = $str;
-			$str = preg_replace($non_displayables, '', $str);
+			$str = preg_replace($non_displayables, '', $str, -1, $count);
 		}
-		while ($cleaned != $str);
+		while ($count);
 
 		return $str;
 	}

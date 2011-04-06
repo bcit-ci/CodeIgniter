@@ -107,7 +107,7 @@ class CI_Utf8 {
 	 */
 	function safe_ascii_for_xml($str)
 	{
-		return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S', '', $str);
+		return remove_invisible_characters($str, FALSE);
 	}
 
 	// --------------------------------------------------------------------
