@@ -258,7 +258,7 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($_doctypes))
 		{
-			if (is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT))
+			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes'.EXT);
 			}

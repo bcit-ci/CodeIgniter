@@ -87,7 +87,7 @@ class CI_Router {
 		}
 
 		// Load the routes.php file.
-		if (is_file(APPPATH.'config/'.ENVIRONMENT.'/routes'.EXT))
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes'.EXT))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes'.EXT);
 		}
