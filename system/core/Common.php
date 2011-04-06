@@ -208,19 +208,18 @@
 			return $_config[0];
 		}
 
-		$file_path = APPPATH.'config/'.ENVIRONMENT.'/config'.EXT;
+		// Is the config file in the environment folder?
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config'.EXT))
+		{
+			$file_path = APPPATH.'config/config'.EXT;
+		}
 
 		// Fetch the config file
 		if ( ! file_exists($file_path))
 		{
-			$file_path = APPPATH.'config/config'.EXT;
-			
-			if ( ! file_exists($file_path))
-			{
-				exit('The configuration file does not exist.');
-			}
+			exit('The configuration file does not exist.');
 		}
-	
+
 		require($file_path);
 
 		// Does the $config array exist in the file?

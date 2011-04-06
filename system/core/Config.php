@@ -81,29 +81,37 @@ class CI_Config {
 	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
+		$found = FALSE;
 		$loaded = FALSE;
 
 		foreach ($this->_config_paths as $path)
-		{			
-			$file_path = $path.'config/'.ENVIRONMENT.'/'.$file.EXT;
+		{
+			$check_locations = defined('ENVIRONMENT')
+				? array(ENVIRONMENT.'/'.$file, $file)
+				: array($file);
 
-			if (in_array($file_path, $this->is_loaded, TRUE))
+			foreach ($check_locations as $location)
 			{
-				$loaded = TRUE;
+				$file_path = $path.'config/'.$location.EXT;
+
+				if (in_array($file_path, $this->is_loaded, TRUE))
+				{
+					$loaded = TRUE;
+					continue 2;
+				}
+
+				if (file_exists($file_path))
+				{
+					$found = TRUE;
+					break;
+				}
+			}
+
+			if ($found === FALSE)
+			{
 				continue;
 			}
 
-			if ( ! file_exists($file_path))
-			{
-				log_message('debug', 'Config for '.ENVIRONMENT.' environment is not found. Trying global config.');
-				$file_path = $path.'config/'.$file.EXT;
-				
-				if ( ! file_exists($file_path))
-				{
-					continue;
-				}
-			}
-			
 			include($file_path);
 
 			if ( ! isset($config) OR ! is_array($config))
@@ -144,9 +152,9 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.ENVIRONMENT.'/'.$file.EXT.' and '.$file.EXT.' do not exist.');
+			show_error('The configuration file '.$file.EXT.' does not exist.');
 		}
-		
+
 		return TRUE;
 	}
 
