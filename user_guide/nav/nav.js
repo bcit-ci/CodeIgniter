@@ -58,6 +58,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/errors.html">Error Handling</a></li>' +
 			'<li><a href="'+base+'general/caching.html">Caching</a></li>' +
 			'<li><a href="'+base+'general/profiling.html">Profiling Your Application</a></li>' +
+			'<li><a href="'+base+'general/cli.html">Running via the CLI</a></li>' +
 			'<li><a href="'+base+'general/managing_apps.html">Managing Applications</a></li>' +
 			'<li><a href="'+base+'general/environments.html">Handling Multiple Environments</a></li>' +
 			'<li><a href="'+base+'general/alternative_php.html">Alternative PHP Syntax</a></li>' +
