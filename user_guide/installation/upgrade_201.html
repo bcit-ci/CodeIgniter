@@ -72,17 +72,7 @@ Upgrading from 2.0.0 to 2.0.1
 <p>This config file has been updated to contain more mime types, please copy it to <kbd>application/config/mimes.php</kbd>.</p>
 
 
-<h2>Step 3: Remove loading calls for the Security Library</h2>
-
-<p>Security has been moved to the core and is now always loaded automatically. Make sure you remove any loading calls as they will result in PHP errors.</p>
-
-
-<h2>Step 4: Move MY_Security</h2>
-
-<p>If you are overriding or extending the Security library, you will need to move it to <kbd>application/core</kbd>.</p>
-
-
-<h2>Step 5: Check for forms posting to default controller</h2>
+<h2>Step 3: Check for forms posting to default controller</h2>
 
 <p>
 	The default behavior for <kbd>form_open()</kbd> when called with no parameters used to be to post to the default controller, but it will now just leave an empty action="" meaning the form will submit to the current URL.
