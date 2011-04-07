@@ -76,6 +76,8 @@ Upgrading from 2.0.1 to 2.0.2
 
 <p>If you are overriding or extending the Security library, you will need to move it to <kbd>application/core</kbd>.</p>
 
+<p><samp>csrf_token_name</samp> and <samp>csrf_hash</samp> have changed to protected class properties.  Please use <samp>security->get_csrf_hash()</samp> and <samp>security->get_csrf_token_name()</samp> to access those values.</p>
+
 </div>
 <!-- END CONTENT -->
 
