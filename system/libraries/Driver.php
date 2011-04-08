@@ -45,7 +45,7 @@ class CI_Driver_Library {
 		$child_class = $this->lib_name.'_'.$child;
 
 		// Remove the CI_ prefix and lowercase
-		$lib_name = strtolower(preg_replace('/^CI_/', '', $this->lib_name));
+		$lib_name = ucfirst(strtolower(preg_replace('/^CI_/', '', $this->lib_name)));
 		$driver_name = strtolower(preg_replace('/^CI_/', '', $child_class));
 
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
