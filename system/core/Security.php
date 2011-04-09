@@ -58,6 +58,15 @@ class CI_Security {
 	 */
 	public function __construct()
 	{
+		// CSRF config
+		foreach(array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+		{
+			if (FALSE !== ($val = config_item($key)))
+			{
+				$this->{'_'.$key} = $val;
+			}
+		}
+
 		// Append application specific cookie prefix to token name
 		$this->_csrf_cookie_name = (config_item('cookie_prefix')) ? config_item('cookie_prefix').$this->_csrf_token_name : $this->_csrf_token_name;
 
