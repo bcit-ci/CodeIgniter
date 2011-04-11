@@ -129,15 +129,15 @@ class CI_Lang {
 	 */
 	function line($line = '')
 	{
-		$line = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
+		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
-		if ($line === FALSE)
+		if ($value === FALSE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
 
-		return $line;
+		return $value;
 	}
 
 }
