@@ -32,8 +32,6 @@
  */
 class CI_Profiler {
 
-	private $CI;
-
 	protected $_available_sections = array(
 										'benchmarks',
 										'get',
@@ -46,11 +44,23 @@ class CI_Profiler {
 										'session_data',
 										'config'
 										);
+	
+	protected $_query_toggle_count = 25;
+	
+	protected $CI;	
 
+	// --------------------------------------------------------------------
+	
 	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->language('profiler');
+
+		if (isset($config['query_toggle_count']))
+		{
+			$this->_query_toggle_count = (int) $config['query_toggle_count'];
+			unset($config['query_toggle_count']);
+		}
 
 		// default all sections to display
 		foreach ($this->_available_sections as $section)
@@ -163,7 +173,7 @@ class CI_Profiler {
 			$output .= "\n";
 			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 			$output .= "\n";
-			$output .= "\n\n<table style='border:none; width:100%'>\n";
+			$output .= "\n\n<table style='border:none; width:100%;'>\n";
 			$output .="<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
 			$output .= "</table>\n";
 			$output .= "</fieldset>";
@@ -178,14 +188,27 @@ class CI_Profiler {
 		$highlight = array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR&nbsp;', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')');
 
 		$output  = "\n\n";
-
+		
+		$count = 0;
+		
 		foreach ($dbs as $db)
 		{
+			$count++;
+			
+			$hide_queries = (count($db->queries) > $this->_query_toggle_count) ? ' display:none' : '';
+			
+			$show_hide_js = '(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_hide').'\'?\''.$this->CI->lang->line('profiler_section_show').'\':\''.$this->CI->lang->line('profiler_section_hide').'\';">'.$this->CI->lang->line('profiler_section_hide').'</span>)';
+			
+			if ($hide_queries != '')
+			{
+				$show_hide_js = '(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show').'</span>)';
+			}
+			
 			$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 			$output .= "\n";
-			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database').':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').': '.count($db->queries).'&nbsp;&nbsp;&nbsp;</legend>';
+			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database').':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').': '.count($db->queries).'&nbsp;&nbsp;'.$show_hide_js.'</legend>';
 			$output .= "\n";
-			$output .= "\n\n<table style='width:100%;'>\n";
+			$output .= "\n\n<table style='width:100%;{$hide_queries}' id='ci_profiler_queries_db_{$count}'>\n";
 
 			if (count($db->queries) == 0)
 			{
