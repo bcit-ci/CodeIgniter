@@ -89,6 +89,11 @@ second the size of the heading.  Example:</p>
 <code>echo heading('Welcome!', 3);</code>
 <p>The above would produce:  &lt;h3>Welcome!&lt;/h3></p>
 
+<p>Additionally, in order to add attributes to the heading tag such as HTML classes, ids or inline styles, a third parameter is available.</p>
+<code>echo heading('Welcome!', 3, 'class="pink"')</code>
+<p>The above code produces: &lt;h3 class="pink">Welcome!<&lt;h3></p>
+
+
 <h2><a name="img"></a>img()</h2>
 <p>Lets you create HTML &lt;img /&gt; tags.  The first parameter  contains the image source. Example:</p>
 <code>echo img('images/picture.jpg');<br />
