@@ -170,6 +170,23 @@ having to run a database query when you need it.</p>
 <p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity.  The
 encryption process in particular produces a longer data string than the original so keep careful track of how much data you are storing.</p>
 
+<h2>Retrieving All Session Data</h2>
+<p>An array of all userdata can be retrieved as follows:</p>
+<code>$this-&gt;session-&gt;all_userdata()</code>
+
+<p>And returns an associative array like the following:</p>
+
+<pre>
+Array
+(
+    [session_id] => 4a5a5dca22728fb0a84364eeb405b601
+    [ip_address] => 127.0.0.1
+    [user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
+    [last_activity] => 1303142623
+)
+</pre>
+
+
 <h2>Removing Session Data</h2>
 <p>Just as set_userdata() can be used to add information into a session, unset_userdata() can be used to remove it, by passing the session key. For example, if you wanted to remove 'some_name' from your session information: </p>
 <p><code>$this-&gt;session-&gt;unset_userdata('some_name');</code></p>
