@@ -40,9 +40,10 @@
  */
 if ( ! function_exists('heading'))
 {
-	function heading($data = '', $h = '1')
+	function heading($data = '', $h = '1', $attributes = '')
 	{
-		return "<h".$h.">".$data."</h".$h.">";
+		$attributes = ($attributes != '') ? ' '.$attributes : $attributes;
+		return "<h".$h.$attributes.">".$data."</h".$h.">";
 	}
 }
 
