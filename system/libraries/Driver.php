@@ -59,7 +59,7 @@ class CI_Driver_Library {
 					// loves me some nesting!
 					foreach (array(ucfirst($driver_name), $driver_name) as $class)
 					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.EXT;
+						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
 
 						if (file_exists($filepath))
 						{
