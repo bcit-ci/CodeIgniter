@@ -83,7 +83,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').EXT;
+		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
 		$message  = '';
 
 		if ( ! file_exists($filepath))
