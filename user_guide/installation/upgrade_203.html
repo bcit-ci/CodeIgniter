@@ -83,6 +83,18 @@ Upgrading from 2.0.2 to 2.0.3
 <h2>Step 5: Change references of the EXT constant to ".php"</h2>
 <p class="important"><strong>Note:</strong> The EXT Constant has been marked as deprecated, but has not been removed from the application.  You are encouraged to make the changes sooner rather than later.</p>
 
+<h2>Step 6: Remove APPPATH.'third_party' from autoload.php</h2>
+
+<p>Open application/autoload.php, and look for the following:</p>
+
+<code>$autoload['packages'] = array(APPPATH.'third_party');</code>
+
+<p>If you have not chosen to load any additional packages, that line can be changed to:</p>
+<code>$autoload['packages'] = array();</code>
+
+<p>Which should provide for nominal performance gains if not autoloading packages.</p>
+
+
 </div>
 <!-- END CONTENT -->
 

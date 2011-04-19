@@ -80,6 +80,7 @@ Change Log
 <ul>
 	<li class="reactor">Added ENVIRONMENT to reserved constants. (Reactor #196)</li>
 	<li class="reactor">Changed server check to ensure SCRIPT_NAME is defined. (Reactor #57)</li>
+	<li class="reactor">Removed <samp>APPPATH.'third_party'</samp> from the packages autoloader to negate needless file stats if no packages exist or if the developer does not load any other packages by default.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
