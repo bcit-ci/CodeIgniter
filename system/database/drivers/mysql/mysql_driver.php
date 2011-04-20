@@ -132,7 +132,22 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		return @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
+		static $use_set_names;
+		
+		if ( ! isset($use_set_names))
+		{
+			// mysql_set_charset() requires PHP >= 5.2.3 and MySQL >= 5.0.7, use SET NAMES as fallback
+			$use_set_names = (version_compare(PHP_VERSION, '5.2.3', '>=') && version_compare(mysql_get_server_info(), '5.0.7', '>=')) ? FALSE : TRUE;
+		}
+
+		if ($use_set_names)
+		{
+			return @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
+		}
+		else
+		{
+			return @mysql_set_charset($charset, $this->conn_id);
+		}
 	}
 
 	// --------------------------------------------------------------------
