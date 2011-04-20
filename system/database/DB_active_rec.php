@@ -58,6 +58,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_cache_having		= array();
 	var $ar_cache_orderby		= array();
 	var $ar_cache_set			= array();
+	
+	var $ar_no_escape 			= array();
 
 
 	// --------------------------------------------------------------------
@@ -73,12 +75,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function select($select = '*', $escape = NULL)
 	{
-		// Set the global value if this was sepecified
-		if (is_bool($escape))
-		{
-			$this->_protect_identifiers = $escape;
-		}
-
 		if (is_string($select))
 		{
 			$select = explode(',', $select);
@@ -91,6 +87,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			if ($val != '')
 			{
 				$this->ar_select[] = $val;
+				$this->ar_no_escape[] = $escape;
 
 				if ($this->ar_caching === TRUE)
 				{
@@ -441,10 +438,10 @@ class CI_DB_active_record extends CI_DB_driver {
 
 					$v = ' '.$this->escape($v);
 				}
-
+				
 				if ( ! $this->_has_operator($k))
 				{
-					$k .= ' =';
+					$k .= ' = ';
 				}
 			}
 			else
@@ -1718,7 +1715,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->ar_select as $key => $val)
 				{
-					$this->ar_select[$key] = $this->_protect_identifiers($val);
+					$this->ar_select[$key] = $this->_protect_identifiers($val, FALSE, $this->ar_no_escape[$key]);
 				}
 
 				$sql .= implode(', ', $this->ar_select);
@@ -1753,9 +1750,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		if (count($this->ar_where) > 0 OR count($this->ar_like) > 0)
 		{
-			$sql .= "\n";
-
-			$sql .= "WHERE ";
+			$sql .= "\nWHERE ";
 		}
 
 		$sql .= implode("\n", $this->ar_where);
@@ -2032,6 +2027,7 @@ class CI_DB_active_record extends CI_DB_driver {
 								'ar_orderby'		=> array(),
 								'ar_wherein'		=> array(),
 								'ar_aliased_tables'	=> array(),
+								'ar_no_escape'		=> array(),
 								'ar_distinct'		=> FALSE,
 								'ar_limit'			=> FALSE,
 								'ar_offset'			=> FALSE,
