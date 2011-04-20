@@ -98,8 +98,9 @@ Upgrading from 2.0.2 to 2.0.3
 
 <p>If you are using database sessions with the CI Session Library, please update your <samp>ci_sessions</samp> database table as follows:</p>
 
-<code>	
+<code>
 	CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
+	ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
 </code>	
 	
 	
