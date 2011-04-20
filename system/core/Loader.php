@@ -29,19 +29,19 @@
 class CI_Loader {
 
 	// All these are set automatically. Don't mess with them.
-	var $_ci_ob_level;
-	var $_ci_view_paths		= array();
+	protected $_ci_ob_level;
+	protected $_ci_view_paths		= array();
 	protected $_ci_library_paths	= array();
-	var $_ci_model_paths	= array();
-	var $_ci_helper_paths	= array();
-	var $_base_classes		= array(); // Set by the controller class
-	var $_ci_cached_vars	= array();
-	var $_ci_classes		= array();
-	var $_ci_loaded_files	= array();
-	var $_ci_models			= array();
-	var $_ci_helpers		= array();
-	var $_ci_varmap			= array('unit_test' => 'unit', 'user_agent' => 'agent');
-
+	protected $_ci_model_paths		= array();
+	protected $_ci_helper_paths		= array();
+	protected $_base_classes		= array(); // Set by the controller class
+	protected $_ci_cached_vars		= array();
+	protected $_ci_classes			= array();
+	protected $_ci_loaded_files		= array();
+	protected $_ci_models			= array();
+	protected $_ci_helpers			= array();
+	protected $_ci_varmap			= array('unit_test' => 'unit', 
+											'user_agent' => 'agent');
 
 	/**
 	 * Constructor
@@ -60,6 +60,47 @@ class CI_Loader {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Set _base_classes variable
+	 *
+	 * This method is called once in CI_Controller.
+	 *
+	 * @param 	array 	
+	 * @return 	object
+	 */
+	public function set_base_classes()
+	{
+		$this->_base_classes =& is_loaded();
+		
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is Loaded
+	 *
+	 * A utility function to test if a class is in the self::$_ci_classes array.
+	 * This function returns the object name if the class tested for is loaded,
+	 * and returns FALSE if it isn't.
+	 *
+	 * It is mainly used in the form_helper -> _get_validation_object()
+	 *
+	 * @param 	string	class being checked for
+	 * @return 	mixed	class object name on the CI SuperObject or FALSE
+	 */
+	public function is_loaded($class)
+	{
+		if (isset($this->_ci_classes[$class]))
+		{
+			return $this->_ci_classes[$class];
+		}
+				
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Class Loader
@@ -67,13 +108,12 @@ class CI_Loader {
 	 * This function lets users load and instantiate classes.
 	 * It is designed to be called from a user's app controllers.
 	 *
-	 * @access	public
 	 * @param	string	the name of the class
 	 * @param	mixed	the optional parameters
 	 * @param	string	an optional object name
 	 * @return	void
 	 */
-	function library($library = '', $params = NULL, $object_name = NULL)
+	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
 		if (is_array($library))
 		{
@@ -856,13 +896,12 @@ class CI_Loader {
 	/**
 	 * Instantiates a class
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	string
 	 * @param	string	an optional object name
 	 * @return	null
 	 */
-	function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
+	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{
 		// Is there an associated config file for this class?  Note: these should always be lowercase
 		if ($config === NULL)
@@ -1102,8 +1141,6 @@ class CI_Loader {
 			return $filename;
 		}
 	}
-
-
 }
 
 /* End of file Loader.php */
