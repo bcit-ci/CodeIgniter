@@ -231,17 +231,22 @@ $this->load->library('foo_bar');</code>
 
 <h3>Package view files</h3>
 
-<p>@todo - package view file interface is not complete.  It can be experimentally used by first saving the Loader's original view path, setting the view path to the package's view path, and when finished, setting back to the original view path.</p>
+<p>By Default, package view files paths are set when <samp>add_package_path()</samp> is called.  View paths are looped through, and once a match is encountered that view is loaded.</p>
+<p>In this instance, it is possible for view naming collisions within packages to occur, and possibly the incorrect package being loaded.  To ensure against this, set an optional second parameter of <var>FALSE</var> when calling <samp>add_package_path()</samp>.</p>
 
-<code>// ... save the original view path, and set to our Foo Bar package view folder<br />
-$orig_view_path = $this->load->_ci_view_path;<br />
-$this->load->_ci_view_path = <var>APPPATH</var>.'third_party/<var>foo_bar</var>/views/';<br />
-<br />
-// ... code using the package's view files<br />
-<br />
-// ... then return the view path to the application's original view path<br />
-$this->load->_ci_view_path = $orig_view_path;</code>
-
+<code>
+$this->load->add_package_path(APPPATH.'my_app', TRUE);<br>
+$this->load->view('my_app_index'); // Loads<br>
+$this->load->view('welcome_message'); // Will not load the default welcome_message b/c the second param to add_package_path is TRUE<br>
+<br>
+// Reset things<br>
+$this->load->remove_package_path(APPPATH.'my_app');<br>
+<br>
+// Again without the second parameter:<br>
+$this->load->add_package_path(APPPATH.'my_app', TRUE);<br>
+$this->load->view('my_app_index'); // Loads<br>
+$this->load->view('welcome_message'); // Loads<br>
+</code>
 
 </div>
 <!-- END CONTENT -->
