@@ -78,7 +78,7 @@ Change Log
 		<ul>
 			<li>Added an optional third parameter to <samp>heading()</samp> which allows adding html attributes to the rendered heading tag.</li>
 		</ul>
-	</li>	
+	</li>
 </ul>
 
 <h3>Bug fixes for 2.0.3</h3>
@@ -86,6 +86,8 @@ Change Log
 	<li class="reactor">Added ENVIRONMENT to reserved constants. (Reactor #196)</li>
 	<li class="reactor">Changed server check to ensure SCRIPT_NAME is defined. (Reactor #57)</li>
 	<li class="reactor">Removed <samp>APPPATH.'third_party'</samp> from the packages autoloader to negate needless file stats if no packages exist or if the developer does not load any other packages by default.</li>
+	<li>Fixed a bug (Reactor #231) where Sessions Library database table example SQL did not contain an index on last_activity. See <a href="installation/upgrade_203.html">Upgrade Notes</a>.</li>
+	<li>Fixed a bug (Reactor #229) where the Sessions Library example SQL in the documentation contained incorrect SQL.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>

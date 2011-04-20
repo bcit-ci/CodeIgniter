@@ -218,15 +218,17 @@ be updated, they can only be generated when a new session is created.</p>
 <p>In order to store sessions, you must first create a database table for this purpose.  Here is the basic
 prototype (for MySQL) required by the session class:</p>
 
-<textarea class="textarea" style="width:100%" cols="50" rows="8">
+<textarea class="textarea" style="width:100%" cols="50" rows="10">
 CREATE TABLE IF NOT EXISTS  `ci_sessions` (
-session_id varchar(40) DEFAULT '0' NOT NULL,
-ip_address varchar(16) DEFAULT '0' NOT NULL,
-user_agent varchar(50) NOT NULL,
-last_activity int(10) unsigned DEFAULT 0 NOT NULL,
-user_data text DEFAULT '' NOT NULL,
-PRIMARY KEY (session_id)
-);</textarea>
+	session_id varchar(40) DEFAULT '0' NOT NULL,
+	ip_address varchar(16) DEFAULT '0' NOT NULL,
+	user_agent varchar(50) NOT NULL,
+	last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+	user_data text NOT NULL,
+	PRIMARY KEY (session_id),
+	KEY `last_activity_idx` (`last_activity`)
+);
+</textarea>
 
 <p><strong>Note:</strong> By default the table is called <dfn>ci_sessions</dfn>, but you can name it anything you want
 as long as you update the <kbd>application/config/config.php</kbd> file so that it contains the name you have chosen.
