@@ -4,7 +4,7 @@
 
 require_once(BASEPATH.'helpers/array_helper.php');
 
-class Array_helper_test extends PHPUnit_Framework_TestCase
+class Array_helper_test extends CI_TestCase
 {
 	public function setUp()
 	{
