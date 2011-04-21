@@ -117,6 +117,23 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
+	public function testLoadView()
+	{
+		$this->ci_set_core_class('output', 'CI_Output');
+		
+		$content = 'This is my test page.  <?php echo $hello; ?>';
+		$view = vfsStream::newFile('unit_test_view.php')->withContent($content)
+														->at($this->load->views_dir);
+		
+		// Use the optional return parameter in this test, so the view is not
+		// run through the output class.
+		$this->assertEquals('This is my test page.  World!',
+			$this->load->view('unit_test_view', array('hello' => "World!"), TRUE));
+		
+	}
+
+	// --------------------------------------------------------------------
+	
 	public function testNonExistentView()
 	{
 		$this->setExpectedException(
