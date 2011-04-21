@@ -195,8 +195,8 @@ class Loader_test extends CI_TestCase {
 			'foo'	=> 'bar'
 		);
 		
-		$this->assertEquals(NULL, $this->load->vars($vars));
-		$this->assertEquals(NULL, $this->load->vars('foo', 'bar'));
+		$this->assertNull($this->load->vars($vars));
+		$this->assertNull($this->load->vars('foo', 'bar'));
 	}
 
 	// --------------------------------------------------------------------
@@ -230,12 +230,30 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	// public function testLoadConfig()
-	// {
-	// 	$this->assertEquals(NULL, $this->load->config('config', FALSE, TRUE));
-	// }
+	public function testLoadConfig()
+	{
+		$this->_setup_config_mock();
+		
+		$this->assertNull($this->load->config('config', FALSE));
+	}
+	
+	// --------------------------------------------------------------------
+
+	public function testLoadBadConfig()
+	{
+		$this->_setup_config_mock();
+		
+		$this->setExpectedException(
+			'Exception',
+			'CI Error: The configuration file foobar.php does not exist.'
+			);
+		
+		$this->load->config('foobar', FALSE);
+	}
+
+	// --------------------------------------------------------------------
+	
+	
+	
+	
 }
-
-
-
-
