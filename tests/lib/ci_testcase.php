@@ -20,9 +20,9 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'security'	=> 'sec',
 		'input'		=> 'in',
 		'lang'		=> 'lang',
-		
 		// @todo the loader is an edge case
-		'loader'	=> 'load'
+		'loader'	=> 'load',
+		'model'		=> 'model'
 	);
 	
 	public function __construct()
