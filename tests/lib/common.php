@@ -13,15 +13,21 @@ function &get_instance()
 
 function &get_config() {
 	$test = CI_TestCase::instance();
-	$config = $test->ci_config_array();
+	$config = $test->ci_get_config();
 		
 	return $config;
 }
 
 function config_item($item)
 {
-	$test = CI_TestCase::instance();
-	return $test->ci_config_item($item);
+	$config =& get_config();
+	
+	if ( ! isset($config[$item]))
+	{
+		return FALSE;
+	}
+	
+	return $config[$item];
 }
 
 // --------------------------------------------------------------------
