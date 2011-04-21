@@ -4,18 +4,24 @@
 
 function &get_instance() 
 {
-	$test = CodeIgniterTestCase::$test_instance;
-	return $test->ci_instance;
+	$test = CI_TestCase::instance();
+	$instance = $test->ci_instance();
+	return $instance;
 }
 
-// Config Stuff | @todo High priority!
 // --------------------------------------------------------------------
 
-function get_config() { die('implement me'); }
+function &get_config() {
+	$test = CI_TestCase::instance();
+	$config = $test->ci_config_array();
+		
+	return $config;
+}
 
 function config_item($item)
 {
-	return CodeIgniterTestCase::ci_config($item);
+	$test = CI_TestCase::instance();
+	return $test->ci_config_item($item);
 }
 
 // --------------------------------------------------------------------
@@ -27,7 +33,7 @@ function load_class($class, $directory = 'libraries', $prefix = 'CI_')
 		throw new Exception('Not Implemented: Non-core load_class()');
 	}
 	
-	$test = CodeIgniterTestCase::$test_instance;
+	$test = CI_TestCase::instance();
 	
 	$obj =& $test->ci_core_class($class);
 	
