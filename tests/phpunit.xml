@@ -8,6 +8,7 @@
 			<file>codeigniter/Setup_test.php</file>
 			<directory suffix="test.php">codeigniter/core</directory>
 			<directory suffix="test.php">codeigniter/helpers</directory>
+			<directory suffix="test.php">codeigniter/libraries</directory>
 			<!-- We'll worry about these later ...
 			<directory suffix="test.php">codeigniter/libraries</directory>
 			<directory suffix="test.php">codeigniter/helpers</directory>
