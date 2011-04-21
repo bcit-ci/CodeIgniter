@@ -5,8 +5,12 @@
 // Need a way to set the CI class
 
 class CI_TestCase extends PHPUnit_Framework_TestCase {
+	
+	protected $ci_config;
+	protected $ci_instance;
+	protected static $ci_test_instance;
 		
-	public static $global_map = array(
+	private $global_map = array(
 		'benchmark'	=> 'bm',
 		'config'	=> 'cfg',
 		'hooks'		=> 'ext',
@@ -21,39 +25,25 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'loader'	=> 'load'
 	);
 	
-	protected $ci_config = array();
-	
-	protected $ci_instance;
-	protected static $ci_test_instance;
-	
-	
 	public function __construct()
 	{
 		parent::__construct();
+		
+		$this->ci_config = array();
 	}
 	
 	// --------------------------------------------------------------------
 	
-	/**
-	 * Overwrite runBare
-	 *
-	 * PHPUnit instantiates the test classes before
-	 * running them individually. So right before a test
-	 * runs we set our instance. Normally this step would
-	 * happen in setUp, but someone is bound to forget to
-	 * call the parent method and debugging this is no fun.
-	 */
-	public function runBare()
+	function ci_set_config($key, $val = '')
 	{
-		self::$ci_test_instance = $this;
-		parent::runBare();
-	}
-	
-	// --------------------------------------------------------------------
-	
-	public static function instance()
-	{
-		return self::$ci_test_instance;
+		if (is_array($key))
+		{
+			$this->ci_config = $key;
+		}
+		else
+		{
+			$this->ci_config[$key] = $val;
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -81,14 +71,6 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	}
 	
 	// --------------------------------------------------------------------
-	
-	// Set a class to a mock before it is loaded
-	function ci_library($name)
-	{
-		
-	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Grab a core class
@@ -103,14 +85,14 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		$name = strtolower($name);
 		
-		if (isset(self::$global_map[$name]))
+		if (isset($this->global_map[$name]))
 		{
 			$class_name = ucfirst($name);
-			$global_name = self::$global_map[$name];
+			$global_name = $this->global_map[$name];
 		}
-		elseif (in_array($name, self::$global_map))
+		elseif (in_array($name, $this->global_map))
 		{
-			$class_name = ucfirst(array_search($name, self::$global_map));
+			$class_name = ucfirst(array_search($name, $this->global_map));
 			$global_name = $name;
 		}
 		else
@@ -137,31 +119,36 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	}
 	
 	// --------------------------------------------------------------------
+	// Internals
+	// --------------------------------------------------------------------
 	
-	function ci_set_config($key, $val = '')
+	/**
+	 * Overwrite runBare
+	 *
+	 * PHPUnit instantiates the test classes before
+	 * running them individually. So right before a test
+	 * runs we set our instance. Normally this step would
+	 * happen in setUp, but someone is bound to forget to
+	 * call the parent method and debugging this is no fun.
+	 */
+	public function runBare()
 	{
-		if (is_array($key))
-		{
-			$this->ci_config = $key;
-		}
-		else
-		{
-			$this->ci_config[$key] = $val;
-		}
+		self::$ci_test_instance = $this;
+		parent::runBare();
 	}
 	
 	// --------------------------------------------------------------------
 	
-	function ci_config_array()
+	public static function instance()
+	{
+		return self::$ci_test_instance;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	function ci_get_config()
 	{
 		return $this->ci_config;
-	}
-	
-	// --------------------------------------------------------------------
-	
-	function ci_config_item($item)
-	{
-		return '';
 	}
 }
 
