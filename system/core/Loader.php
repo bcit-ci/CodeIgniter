@@ -647,7 +647,12 @@ class CI_Loader {
 		$file_exists = FALSE;
 
 		// Set the path to the requested file
-		if ($_ci_path == '')
+		if ($_ci_path != '')
+		{
+			$_ci_x = explode('/', $_ci_path);
+			$_ci_file = end($_ci_x);
+		}
+		else
 		{
 			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
 			$_ci_file = ($_ci_ext == '') ? $_ci_view.'.php' : $_ci_view;
@@ -666,11 +671,6 @@ class CI_Loader {
 					break;
 				}				
 			}
-		}
-		else
-		{
-			$_ci_x = explode('/', $_ci_path);
-			$_ci_file = end($_ci_x);
 		}
 
 		if ( ! $file_exists && ! file_exists($_ci_path))
