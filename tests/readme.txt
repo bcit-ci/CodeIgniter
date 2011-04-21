@@ -57,12 +57,12 @@ All functions in common.php should be a minimal implementation, or and mapped
 to a method in the test's parent class to gives us full control of their output.
 
 
-### CodeIgniterTestCase Documentation
+### CI_TestCase Documentation
 
 
-Test cases should extend CodeIgniterTestCase. This internally
-extends PHPUnit_Framework_TestCase, so you have access to all
-of your usual PHPUnit methods.
+Test cases should extend CI_TestCase. This internally extends
+PHPUnit_Framework_TestCase, so you have access to all of your
+usual PHPUnit methods.
 
 We need to provide a simple way to modify the globals and the
 common function output. We also need to be able to mock up
@@ -70,12 +70,16 @@ the super object as we please.
 
 Current API is *not stable*. Names and implementations will change.
 
+$this->ci_set_config($key, $val)
+	Set the global config variables. If key is an array, it will
+	replace the entire config array. They are _not_ merged.
+
 $this->ci_instance($obj)
 	set the object to use as the "super object", in a lot
 	of cases this will be a simple stdClass with the attributes
-	you need it to have.
+	you need it to have. If no parameter, will return the instance.
 
-$this->ci_set_instance_var($name, $val)
+$this->ci_instance_var($name, $val)
 	add an attribute to the super object. This is useful if you
 	set up a simple instance in setUp and then need to add different
 	class mockups to your super object.
@@ -87,9 +91,18 @@ $this->ci_core_class($name)
 	$cfg =& $this->ci_core_class('cfg'); // returns 'CI_Config'
 	$cfg = new $cfg;					// instantiates config and overwrites the CFG global
 
-$this->ci_set_core_class($name, $obj);
+$this->ci_set_core_class($name, $obj)
 	An alternative way to set one of the core globals.
 
+$this->ci_get_config()  __internal__
+	Returns the global config array. Internal as you shouldn't need to
+	call this (you're setting it, after all). Used internally to make
+	CI's get_config() work.
+
+CI_TestCase::instance()  __internal__
+	Returns an instance of the current test case. We force phpunit to
+	run with backup-globals enabled, so this will always be the instance
+	of the currently running test class.
 
 ## 3. Application Test:
 
