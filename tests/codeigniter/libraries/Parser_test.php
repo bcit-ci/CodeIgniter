@@ -1,7 +1,5 @@
 <?php
 
-// OLD TEST FORMAT: DO NOT COPY
-
 require BASEPATH.'libraries/Parser.php';
 
 class Parser_test extends CI_TestCase
