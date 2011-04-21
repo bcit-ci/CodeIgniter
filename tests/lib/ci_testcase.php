@@ -4,10 +4,8 @@
 // Need a way to change dependencies (core libs and laoded libs)
 // Need a way to set the CI class
 
-class CodeIgniterTestCase extends PHPUnit_Framework_TestCase {
+class CI_TestCase extends PHPUnit_Framework_TestCase {
 		
-	public $ci_instance;
-	public static $test_instance;
 	public static $global_map = array(
 		'benchmark'	=> 'bm',
 		'config'	=> 'cfg',
@@ -23,23 +21,62 @@ class CodeIgniterTestCase extends PHPUnit_Framework_TestCase {
 		'loader'	=> 'load'
 	);
 	
-	function __construct()
+	protected $ci_config = array();
+	
+	protected $ci_instance;
+	protected static $ci_test_instance;
+	
+	
+	public function __construct()
 	{
 		parent::__construct();
 	}
 	
 	// --------------------------------------------------------------------
 	
-	// Change what get_instance returns
-	function ci_instance($obj)
+	/**
+	 * Overwrite runBare
+	 *
+	 * PHPUnit instantiates the test classes before
+	 * running them individually. So right before a test
+	 * runs we set our instance. Normally this step would
+	 * happen in setUp, but someone is bound to forget to
+	 * call the parent method and debugging this is no fun.
+	 */
+	public function runBare()
 	{
+		self::$ci_test_instance = $this;
+		parent::runBare();
+	}
+	
+	// --------------------------------------------------------------------
+	
+	public static function instance()
+	{
+		return self::$ci_test_instance;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	function ci_instance($obj = FALSE)
+	{
+		if ( ! is_object($obj))
+		{
+			return $this->ci_instance;
+		}
+		
 		$this->ci_instance = $obj;
 	}
 	
 	// --------------------------------------------------------------------
 	
-	function ci_set_instance_var($name, $obj)
+	function ci_instance_var($name, $obj = FALSE)
 	{
+		if ( ! is_object($obj))
+		{
+			return $this->ci_instance->$name;
+		}
+		
 		$this->ci_instance->$name =& $obj;
 	}
 	
@@ -101,7 +138,28 @@ class CodeIgniterTestCase extends PHPUnit_Framework_TestCase {
 	
 	// --------------------------------------------------------------------
 	
-	static function ci_config($item)
+	function ci_set_config($key, $val = '')
+	{
+		if (is_array($key))
+		{
+			$this->ci_config = $key;
+		}
+		else
+		{
+			$this->ci_config[$key] = $val;
+		}
+	}
+	
+	// --------------------------------------------------------------------
+	
+	function ci_config_array()
+	{
+		return $this->ci_config;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	function ci_config_item($item)
 	{
 		return '';
 	}
