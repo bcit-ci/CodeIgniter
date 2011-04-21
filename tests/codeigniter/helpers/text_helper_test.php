@@ -2,7 +2,7 @@
 
 require_once(BASEPATH.'helpers/text_helper.php');
 
-class Text_helper_test extends PHPUnit_Framework_TestCase
+class Text_helper_test extends CI_TestCase
 {
 	private $_long_string;
 	

@@ -2,7 +2,7 @@
 
 require_once(BASEPATH.'helpers/inflector_helper.php');
 
-class Inflector_helper_test extends PHPUnit_Framework_TestCase {
+class Inflector_helper_test extends CI_TestCase {
 	
 	
 	public function testSingular()

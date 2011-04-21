@@ -2,7 +2,7 @@
 
 require_once(BASEPATH.'helpers/html_helper.php');
 
-class Html_helper_test extends PHPUnit_Framework_TestCase
+class Html_helper_test extends CI_TestCase
 {
 	public function testHeading()
 	{
