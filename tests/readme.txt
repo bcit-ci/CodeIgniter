@@ -19,6 +19,17 @@ format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 
 *FIRST PUBLIC DRAFT: EVERYTHING IS SUBJECT TO CHANGE*
 
+# Requirements
+
+1. PHP Unit
+    - pear channel-discover pear.phpunit.de
+    - pear install phpunit/PHPUnit
+
+2. vfsStream
+    - pear channel-discover pear.php-tools.net
+    - pear install pat/vfsStream-alpha
+
+
 # Test Suites:
 
 CodeIgniter bootstraps a request very directly, with very flat class
