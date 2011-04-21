@@ -101,7 +101,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertNull($this->load->model('unit_test_model'));
 		
 		// Test no model given
-		$this->assertEquals(FALSE, $this->load->model(''));
+		$this->assertFalse($this->load->model(''));
 		
 		// Test a string given to params
 		// $this->assertEquals(NULL, $this->load->model('foobar', ' '));		
