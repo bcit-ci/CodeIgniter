@@ -2,24 +2,19 @@
 
 // OLD TEST FORMAT: DO NOT COPY
 
-class Parser_test extends PHPUnit_Framework_TestCase
-{
-	static $cls;
-	protected $parser;
-	
-	public static function setUpBeforeClass()
-	{
-		$CI = get_instance();
-		$CI->load->library('parser');
-		self::$cls = get_class($CI->parser);
-	}
+require BASEPATH.'libraries/Parser.php';
 
-	// --------------------------------------------------------------------
+class Parser_test extends CI_TestCase
+{
 	
 	public function setUp()
 	{
-		$cls = self::$cls;
-		$this->parser = new $cls;
+		$obj = new StdClass;
+		$obj->parser = new CI_Parser();
+		
+		$this->ci_instance($obj);
+		
+		$this->parser = $obj->parser;
 	}
 	// --------------------------------------------------------------------
 	
@@ -61,23 +56,23 @@ class Parser_test extends PHPUnit_Framework_TestCase
 	}
 	
 	// --------------------------------------------------------------------
-
+	
 	public function testParse()
 	{
 		$this->_parse_no_template();
 		$this->_parse_var_pair();
 		$this->_mismatched_var_pair();
 	}
-
+	
 	// --------------------------------------------------------------------
-
+	
 	private function _parse_no_template()
 	{
 		$this->assertFalse($this->parser->parse_string('', '', TRUE));
 	}
-
+	
 	// --------------------------------------------------------------------
-
+	
 	private function _parse_var_pair()
 	{
 		$data = array(
@@ -95,9 +90,9 @@ class Parser_test extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals($result, $this->parser->parse_string($template, $data, TRUE));	
 	}
-
+	
 	// --------------------------------------------------------------------
-
+	
 	private function _mismatched_var_pair()
 	{
 		$data = array(
@@ -117,9 +112,4 @@ class Parser_test extends PHPUnit_Framework_TestCase
 	}
 
 	// --------------------------------------------------------------------
-
-	// --------------------------------------------------------------------
-
-	// --------------------------------------------------------------------
-
 }
