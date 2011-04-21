@@ -64,7 +64,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_instance_var('config', $config);
 		
 		// Test loading as an array.
-		$this->assertEquals(NULL, $this->load->library(array('table')));
+		$this->assertNull($this->load->library(array('table')));
 		$this->assertTrue(class_exists('CI_Table'), 'Table class exists');
 		$this->assertAttributeInstanceOf('CI_Table', 'table', $this->ci_obj);
 		
@@ -100,11 +100,11 @@ class Loader_test extends CI_TestCase {
 		
 		$this->assertNull($this->load->model('unit_test_model'));
 		
-		// Test no model given
-		$this->assertFalse($this->load->model(''));
+		// Was the model class instantiated.
+		$this->assertTrue(class_exists('Unit_test_model'));
 		
-		// Test a string given to params
-		// $this->assertEquals(NULL, $this->load->model('foobar', ' '));		
+		// Test no model given
+		$this->assertNull($this->load->model(''));	
 	}
 
 	// --------------------------------------------------------------------
@@ -132,14 +132,8 @@ class Loader_test extends CI_TestCase {
 	public function testFile()
 	{
 		// I'm not entirely sure this is the proper way to handle this.
-		try 
-		{
-			 $this->load->file('foo');
-		}
-		catch (Exception $expected)
-		{
-			return;
-		}		
+		// $this->load->file('foo');
+		
 	}
 
 	// --------------------------------------------------------------------
@@ -156,15 +150,22 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	// public function testHelper()
-	// {
-	// 	$this->assertEquals(NULL, $this->load->helper('array'));
-	// 	$this->assertEquals(NULL, $this->load->helper('bad'));
-	// }
+	public function testHelper()
+	{
+		$this->assertEquals(NULL, $this->load->helper('array'));
+		
+		$this->setExpectedException(
+			'Exception',
+			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
+			);
+		
+		
+		$this->load->helper('bad');
+	}
 	
 	// --------------------------------------------------------------------
 
-	public function testHelpers()
+	public function testLoadingMultipleHelpers()
 	{
 		$this->assertEquals(NULL, $this->load->helpers(array('file', 'array', 'string')));
 	}
