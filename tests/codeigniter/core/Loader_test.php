@@ -101,7 +101,6 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	
 	public function testNonExistentModel()
 	{
 		$this->setExpectedException(
@@ -182,8 +181,22 @@ class Loader_test extends CI_TestCase {
 
 	public function testFile()
 	{
-		// I'm not entirely sure this is the proper way to handle this.
-		// $this->load->file('foo');
+		$content = 'Here is a test file, which we will load now.';
+		$file = vfsStream::newFile('ci_test_mock_file.php')->withContent($content)
+														   ->at($this->load->views_dir);
+		
+		// Just like load->view(), take the output class out of the mix here.
+		$load = $this->load->file(vfsStream::url('application').'/views/ci_test_mock_file.php', 
+								TRUE);
+		
+		$this->assertEquals($content, $load);
+		
+		$this->setExpectedException(
+			'Exception',
+			'CI Error: Unable to load the requested file: ci_test_file_not_exists'
+			);
+		
+		$this->load->file('ci_test_file_not_exists', TRUE);
 		
 	}
 
@@ -209,7 +222,6 @@ class Loader_test extends CI_TestCase {
 			'Exception',
 			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
 			);
-		
 		
 		$this->load->helper('bad');
 	}
