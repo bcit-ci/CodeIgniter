@@ -1,6 +1,6 @@
 <?php
 
-class Lang_test extends CodeIgniterTestCase {
+class Lang_test extends CI_TestCase {
 	
 	protected $lang;
 	

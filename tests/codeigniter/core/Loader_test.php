@@ -1,6 +1,6 @@
 <?php
 
-class Loader_test extends CodeIgniterTestCase {
+class Loader_test extends CI_TestCase {
 	
 	private $ci_obj;
 	
@@ -14,7 +14,6 @@ class Loader_test extends CodeIgniterTestCase {
 		$this->ci_obj = new StdClass;
 		
 		// Fix get_instance()
-		CodeIgniterTestCase::$test_instance =& $this;
 		$this->ci_instance($this->ci_obj);
 	}
 
@@ -30,7 +29,7 @@ class Loader_test extends CodeIgniterTestCase {
 			   ->will($this->returnValue(TRUE));
 		
 		// Add the mock to our stdClass
-		$this->ci_set_instance_var('config', $config);
+		$this->ci_instance_var('config', $config);
 		
 		// Test loading as an array.
 		$this->assertEquals(NULL, $this->_loader->library(array('table')));

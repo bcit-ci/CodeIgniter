@@ -1,33 +1,19 @@
 <?php
 
-class Config_test extends CodeIgniterTestCase {
+class Config_test extends CI_TestCase {
 
 	public function setUp()
 	{
 		$cls =& $this->ci_core_class('cfg');
-		
-		$stub = $this->getMock($cls, NULL, array(), '', FALSE);
-		
-	 	//I would prefer this, but it currently
-		// does not work as when you try to pass
-		// null to setMethods it fails on an internal
-		// function call that expects an array =(
-		/*
-		$stub = $this->getMockBuilder($cls)
-					 ->disableOriginalConstructor()
-					 ->setMethods(null)
-					 ->getMock();
-		*/
-
-		
+				
 		// set predictable config values
-		$stub->config = array(
+		$this->ci_set_config(array(
 			'index_page'		=> 'index.php',
 			'base_url'			=> 'http://example.com/',
 			'subclass_prefix'	=> 'MY_'
-		);
-		
-		$this->config = $stub;
+		));
+
+		$this->config = new $cls;	
 	}
 	
 	// --------------------------------------------------------------------
