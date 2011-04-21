@@ -53,15 +53,7 @@ class Loader_test extends CI_TestCase {
 	
 	public function testLibrary()
 	{
-		// Mock up a config object until we
-		// figure out how to test the library configs
-		$config = $this->getMock('CI_Config', NULL, array(), '', FALSE);
-		$config->expects($this->any())
-			   ->method('load')
-			   ->will($this->returnValue(TRUE));
-		
-		// Add the mock to our stdClass
-		$this->ci_instance_var('config', $config);
+		$this->_setup_config_mock();
 		
 		// Test loading as an array.
 		$this->assertNull($this->load->library(array('table')));
@@ -73,22 +65,58 @@ class Loader_test extends CI_TestCase {
 		
 		// Test a string given to params
 		$this->assertEquals(NULL, $this->load->library('table', ' '));
-	}	
+	}
+
+	// --------------------------------------------------------------------
+
+	public function testLoadLibraryInApplicationDir()
+	{
+		$this->_setup_config_mock();
+		
+		$content = '<?php class Super_test_library {} ';
+		
+		$model = vfsStream::newFile('Super_test_library.php')->withContent($content)
+														->at($this->load->libs_dir);
+		
+		$this->assertNull($this->load->library('super_test_library'));
+		
+		// Was the model class instantiated.
+		$this->assertTrue(class_exists('Super_test_library'));		
+	}
 	
 	// --------------------------------------------------------------------
+	
+	private function _setup_config_mock()
+	{
+		// Mock up a config object until we
+		// figure out how to test the library configs
+		$config = $this->getMock('CI_Config', NULL, array(), '', FALSE);
+		$config->expects($this->any())
+			   ->method('load')
+			   ->will($this->returnValue(TRUE));
+		
+		// Add the mock to our stdClass
+		$this->ci_instance_var('config', $config);
+	}
+
+	// --------------------------------------------------------------------
+
 	
 	public function testNonExistentModel()
 	{
 		$this->setExpectedException(
 			'Exception',
-			'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_mode.php'
+			'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_model.php'
 			);
 			
-		$this->load->model('ci_test_nonexistent_mode.php');
+		$this->load->model('ci_test_nonexistent_model.php');
 	}
 
 	// --------------------------------------------------------------------
 	
+	/**
+	 * @coverts CI_Loader::model
+	 */
 	public function testModels()
 	{
 		$this->ci_set_core_class('model', 'CI_Model');
@@ -117,6 +145,9 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
+	/**
+	 * @coverts CI_Loader::view
+	 */
 	public function testLoadView()
 	{
 		$this->ci_set_core_class('output', 'CI_Output');
@@ -134,6 +165,9 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
+	/**
+	 * @coverts CI_Loader::view
+	 */
 	public function testNonExistentView()
 	{
 		$this->setExpectedException(
