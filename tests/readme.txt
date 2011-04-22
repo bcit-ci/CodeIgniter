@@ -21,7 +21,7 @@ format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 
 # Requirements
 
-1. PHP Unit
+1. PHP Unit >= 3.5.6
     - pear channel-discover pear.phpunit.de
     - pear install phpunit/PHPUnit
 
