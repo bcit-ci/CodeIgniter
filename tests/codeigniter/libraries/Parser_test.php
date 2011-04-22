@@ -5,7 +5,7 @@ require BASEPATH.'libraries/Parser.php';
 class Parser_test extends CI_TestCase
 {
 	
-	public function setUp()
+	public function set_up()
 	{
 		$obj = new StdClass;
 		$obj->parser = new CI_Parser();
@@ -16,7 +16,7 @@ class Parser_test extends CI_TestCase
 	}
 	// --------------------------------------------------------------------
 	
-	public function testSetDelimiters()
+	public function test_set_delimiters()
 	{
 		// Make sure default delimiters are there
 		$this->assertEquals('{', $this->parser->l_delim);
@@ -39,7 +39,7 @@ class Parser_test extends CI_TestCase
 	
 	// --------------------------------------------------------------------
 	
-	public function testParseSimpleString()
+	public function test_parse_simple_string()
 	{
 		$data = array(
 			'title' => 'Page Title',
@@ -55,7 +55,7 @@ class Parser_test extends CI_TestCase
 	
 	// --------------------------------------------------------------------
 	
-	public function testParse()
+	public function test_parse()
 	{
 		$this->_parse_no_template();
 		$this->_parse_var_pair();

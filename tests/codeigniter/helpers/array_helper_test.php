@@ -6,7 +6,7 @@ require_once(BASEPATH.'helpers/array_helper.php');
 
 class Array_helper_test extends CI_TestCase
 {
-	public function setUp()
+	public function set_up()
 	{
 		$this->my_array = array(
 			'foo'		=> 'bar',
@@ -18,7 +18,7 @@ class Array_helper_test extends CI_TestCase
 	
 	// ------------------------------------------------------------------------
 	
-	public function testElementWithExistingItem()
+	public function test_element_with_existing_item()
 	{	
 		$this->assertEquals(FALSE, element('testing', $this->my_array));
 		
@@ -29,7 +29,7 @@ class Array_helper_test extends CI_TestCase
 	
 	// ------------------------------------------------------------------------	
 
-	public function testRandomElement()
+	public function test_random_element()
 	{
 		// Send a string, not an array to random_element
 		$this->assertEquals('my string', random_element('my string'));
@@ -40,7 +40,7 @@ class Array_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 	
-	public function testElements()
+	public function test_elements()
 	{
 		$this->assertEquals(TRUE, is_array(elements('test', $this->my_array)));
 		$this->assertEquals(TRUE, is_array(elements('foo', $this->my_array)));

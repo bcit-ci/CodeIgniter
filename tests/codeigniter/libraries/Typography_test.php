@@ -5,7 +5,7 @@ require BASEPATH.'libraries/Typography.php';
 class Typography_test extends CI_TestCase
 {
 
-	public function setUp()
+	public function set_up()
 	{
 		$obj = new StdClass;
 		$obj->type = new CI_Typography();
@@ -22,7 +22,7 @@ class Typography_test extends CI_TestCase
 	 *
 	 * this can and should grow.
 	 */
-	public function testFormatCharacters()
+	public function test_format_characters()
 	{
 		$strs = array(
 			'"double quotes"' 				=> '&#8220;double quotes&#8221;',
@@ -46,7 +46,7 @@ class Typography_test extends CI_TestCase
 
 	// --------------------------------------------------------------------
 
-	public function testNl2brExceptPre()
+	public function test_nl2br_except_pre()
 	{	
 		$str = <<<EOH
 Hello, I'm a happy string with some new lines.  
@@ -94,7 +94,7 @@ EOH;
 
 	// --------------------------------------------------------------------
 	
-	public function testAutoTypography()
+	public function test_auto_typography()
 	{
 		$this->_blank_string();
 		$this->_standardize_new_lines();
