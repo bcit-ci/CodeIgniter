@@ -1,6 +1,7 @@
 syntax: glob
 
 .DS_Store
+tests/output/*
 
 syntax: regexp
 application/cache/(?!index\.html|\.htaccess)
