@@ -30,7 +30,7 @@ class CI_Pagination {
 	var $prefix				= ''; // A custom prefix added to the path.
 	var $suffix				= ''; // A custom suffix added to the path.
 
-	var $total_rows			= ''; // Total number of items (database results)
+	var $total_rows			=  0; // Total number of items (database results)
 	var $per_page			= 10; // Max number of items you want shown per page
 	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
 	var $cur_page			=  0; // The current page being viewed
