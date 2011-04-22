@@ -137,7 +137,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ( ! isset($use_set_names))
 		{
 			// mysqli_set_charset() requires MySQL >= 5.0.7, use SET NAMES as fallback
-			$use_set_names = (version_compare(mysql_get_server_info(), '5.0.7', '>=')) ? FALSE : TRUE;
+			$use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
 		}
 
 		if ($use_set_names)
