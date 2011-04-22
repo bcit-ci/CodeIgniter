@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+	bootstrap="./Bootstrap.php"
+	colors="true">
+	<testsuites>
+		<testsuite name="CodeIgniter Core Test Suite">
+			<file>codeigniter/Setup_test.php</file>
+			<directory suffix="test.php">codeigniter/core</directory>
+			<directory suffix="test.php">codeigniter/helpers</directory>
+			<directory suffix="test.php">codeigniter/libraries</directory>
+			<!-- We'll worry about these later ...
+			<directory suffix="test.php">codeigniter/libraries</directory>
+			<directory suffix="test.php">codeigniter/helpers</directory>
+			-->
+			
+		</testsuite>
+	</testsuites>
+</phpunit>
