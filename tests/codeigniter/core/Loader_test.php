@@ -37,7 +37,7 @@ class Loader_test extends CI_TestCase {
 	
 	private $ci_obj;
 	
-	public function setUp()
+	public function set_up()
 	{
 		// Instantiate a new loader
 		$this->load = new Extended_Loader();
@@ -51,7 +51,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	public function testLibrary()
+	public function test_library()
 	{
 		$this->_setup_config_mock();
 		
@@ -69,7 +69,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function testLoadLibraryInApplicationDir()
+	public function test_load_library_in_application_dir()
 	{
 		$this->_setup_config_mock();
 		
@@ -101,7 +101,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function testNonExistentModel()
+	public function test_non_existent_model()
 	{
 		$this->setExpectedException(
 			'Exception',
@@ -116,7 +116,7 @@ class Loader_test extends CI_TestCase {
 	/**
 	 * @coverts CI_Loader::model
 	 */
-	public function testModels()
+	public function test_models()
 	{
 		$this->ci_set_core_class('model', 'CI_Model');
 		
@@ -147,7 +147,7 @@ class Loader_test extends CI_TestCase {
 	/**
 	 * @coverts CI_Loader::view
 	 */
-	public function testLoadView()
+	public function test_load_view()
 	{
 		$this->ci_set_core_class('output', 'CI_Output');
 		
@@ -158,7 +158,7 @@ class Loader_test extends CI_TestCase {
 		// Use the optional return parameter in this test, so the view is not
 		// run through the output class.
 		$this->assertEquals('This is my test page.  World!',
-			$this->load->view('unit_test_view', array('hello' => "World!"), TRUE));
+		$this->load->view('unit_test_view', array('hello' => "World!"), TRUE));
 		
 	}
 
@@ -167,7 +167,7 @@ class Loader_test extends CI_TestCase {
 	/**
 	 * @coverts CI_Loader::view
 	 */
-	public function testNonExistentView()
+	public function test_non_existent_view()
 	{
 		$this->setExpectedException(
 			'Exception',
@@ -179,7 +179,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function testFile()
+	public function test_file()
 	{
 		$content = 'Here is a test file, which we will load now.';
 		$file = vfsStream::newFile('ci_test_mock_file.php')->withContent($content)
@@ -202,7 +202,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	public function testVars()
+	public function test_vars()
 	{
 		$vars = array(
 			'foo'	=> 'bar'
@@ -214,7 +214,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	public function testHelper()
+	public function test_helper()
 	{
 		$this->assertEquals(NULL, $this->load->helper('array'));
 		
@@ -228,7 +228,7 @@ class Loader_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 
-	public function testLoadingMultipleHelpers()
+	public function test_loading_multiple_helpers()
 	{
 		$this->assertEquals(NULL, $this->load->helpers(array('file', 'array', 'string')));
 	}
@@ -242,7 +242,7 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function testLoadConfig()
+	public function test_load_config()
 	{
 		$this->_setup_config_mock();
 		
@@ -251,7 +251,7 @@ class Loader_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 
-	public function testLoadBadConfig()
+	public function test_load_bad_config()
 	{
 		$this->_setup_config_mock();
 		

@@ -4,7 +4,7 @@ require_once(BASEPATH.'helpers/string_helper.php');
 
 class String_helper_test extends CI_TestCase
 {
-	public function testTrimSlashes()
+	public function test_trim_slashes()
 	{
 		$strs = array(
 			'//Slashes//\/'	=> 'Slashes//\\',
@@ -18,15 +18,8 @@ class String_helper_test extends CI_TestCase
 	}
 	
 	// --------------------------------------------------------------------	
-	
-	public function testStripSlashes()
-	{
-		$this->assertEquals("This is totally foo bar'd", trim_slashes("This is totally foo bar'd"));
-	}
 
-	// --------------------------------------------------------------------	
-
-	public function testStripQuotes()
+	public function test_strip_quotes()
 	{
 		$strs = array(
 			'"me oh my!"'		=> 'me oh my!',
@@ -41,7 +34,7 @@ class String_helper_test extends CI_TestCase
 
 	// --------------------------------------------------------------------	
 	
-	public function testQuotesToEntities()
+	public function test_quotes_to_entities()
 	{
 		$strs = array(
 			'"me oh my!"'		=> '&quot;me oh my!&quot;',
@@ -56,7 +49,7 @@ class String_helper_test extends CI_TestCase
 
 	// --------------------------------------------------------------------	
 	
-	public function testReduceDoubleSlashes()
+	public function test_reduce_double_slashes()
 	{
 		$strs = array(
 			'http://codeigniter.com'		=> 'http://codeigniter.com',
@@ -72,7 +65,7 @@ class String_helper_test extends CI_TestCase
 
 	// --------------------------------------------------------------------	
 	
-	public function testReduceMultiples()
+	public function test_reduce_multiples()
 	{
 		$strs = array(
 			'Fred, Bill,, Joe, Jimmy'	=> 'Fred, Bill, Joe, Jimmy',
@@ -97,7 +90,7 @@ class String_helper_test extends CI_TestCase
 	
 	// --------------------------------------------------------------------	
 	
-	public function testRepeater()
+	public function test_repeater()
 	{
 		$strs = array(
 			'a'			=> 'aaaaaaaaaa',
@@ -114,4 +107,12 @@ class String_helper_test extends CI_TestCase
 
 	// --------------------------------------------------------------------	
 
+
+	public function test_random_string()
+	{
+		$this->assertEquals(16, strlen(random_string('alnum', 16)));
+		$this->assertEquals(32, strlen(random_string('unique', 16)));
+		$this->assertInternalType('string', random_string('numeric', 16));
+	}
+	
 }

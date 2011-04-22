@@ -5,7 +5,7 @@ require BASEPATH.'libraries/Table.php';
 class Table_test extends CI_TestCase
 {
 
-	public function setUp()
+	public function set_up()
 	{
 		$obj = new StdClass;
 		$obj->table = new CI_table();
@@ -19,7 +19,7 @@ class Table_test extends CI_TestCase
 	// Setter Methods
 	// --------------------------------------------------------------------
 	
-	public function testSetTemplate()
+	public function test_set_template()
 	{
 		$this->assertFalse($this->table->set_template('not an array'));
 		
@@ -31,13 +31,13 @@ class Table_test extends CI_TestCase
 		$this->assertEquals($template, $this->table->template);
 	}
 	
-	public function testSetEmpty()
+	public function test_set_empty()
 	{
 		$this->table->set_empty('nada');
 		$this->assertEquals('nada', $this->table->empty_cells);
 	}
 	
-	public function testSetCaption()
+	public function test_set_caption()
 	{
 		$this->table->set_caption('awesome cap');
 		$this->assertEquals('awesome cap', $this->table->caption);
@@ -47,7 +47,7 @@ class Table_test extends CI_TestCase
 	/*
 	 * @depends testPrepArgs
 	 */
-	public function testSetHeading()
+	public function test_set_heading()
 	{
 		// uses _prep_args internally, so we'll just do a quick
 		// check to verify that func_get_args and prep_args are
@@ -69,7 +69,7 @@ class Table_test extends CI_TestCase
 	/*
 	 * @depends testPrepArgs
 	 */
-	public function testAddRow()
+	public function test_add_row()
 	{
 		// uses _prep_args internally, so we'll just do a quick
 		// check to verify that func_get_args and prep_args are
@@ -95,7 +95,7 @@ class Table_test extends CI_TestCase
 	// Uility Methods
 	// --------------------------------------------------------------------
 	
-	public function testPrepArgs()
+	public function test_prep_args()
 	{
 		$expected = array(
 			array('data' => 'name'),
@@ -139,7 +139,7 @@ class Table_test extends CI_TestCase
 		'attributes');
 	}
 	
-	public function testDefaultTemplateKeys()
+	public function test_default_template_keys()
 	{
 		$deft_template = $this->table->_default_template();
 		$keys = array(
@@ -158,7 +158,7 @@ class Table_test extends CI_TestCase
 		}
 	}
 	
-	public function testCompileTemplate()
+	public function test_compile_template()
 	{
 		$this->assertFalse($this->table->set_template('invalid_junk'));
 		
@@ -177,7 +177,7 @@ class Table_test extends CI_TestCase
 		$this->assertEquals('</table junk>', $this->table->template['table_close']);
 	}
 	
-	public function testMakeColumns()
+	public function test_make_columns()
 	{
 		// Test bogus parameters
 		$this->assertFalse($this->table->make_columns('invalid_junk'));
@@ -213,7 +213,7 @@ class Table_test extends CI_TestCase
 		$this->markTestSkipped('Look at commented assertFalse above');
 	}
 	
-	public function testClear()
+	public function test_clear()
 	{
 		$this->table->set_heading('Name', 'Color', 'Size');
 		
@@ -240,7 +240,7 @@ class Table_test extends CI_TestCase
 	}
 	
 	
-	public function testSetFromArray()
+	public function test_set_from_array()
 	{
 		$this->assertFalse($this->table->_set_from_array('bogus'));
 		$this->assertFalse($this->table->_set_from_array(array()));
@@ -281,7 +281,7 @@ class Table_test extends CI_TestCase
 		);
 	}
 	
-	function testSetFromObject()
+	function test_set_from_object()
 	{
 		$this->markTestSkipped('Not yet implemented.');
 	}

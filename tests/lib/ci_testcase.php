@@ -25,11 +25,33 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'model'		=> 'model'
 	);
 	
+	// --------------------------------------------------------------------
+	
 	public function __construct()
 	{
 		parent::__construct();
 		
 		$this->ci_config = array();
+	}
+	
+	// --------------------------------------------------------------------
+	
+	public function setUp()
+	{
+		if (method_exists($this, 'set_up'))
+		{
+			$this->set_up();
+		}
+	}
+	
+	// --------------------------------------------------------------------
+	
+	public function tearDown() 
+	{
+		if (method_exists($this, 'tear_down'))
+		{
+			$this->tear_down();
+		}
 	}
 	
 	// --------------------------------------------------------------------

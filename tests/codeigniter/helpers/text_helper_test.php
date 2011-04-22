@@ -6,14 +6,14 @@ class Text_helper_test extends CI_TestCase
 {
 	private $_long_string;
 	
-	public function setUp()
+	public function set_up()
 	{
 		$this->_long_string = 'Once upon a time, a framework had no tests.  It sad.  So some nice people began to write tests.  The more time that went on, the happier it became.  Everyone was happy.';
 	}
 	
 	// ------------------------------------------------------------------------
 	
-	public function testWordLimiter()
+	public function test_word_limiter()
 	{
 		$this->assertEquals('Once upon a time,&#8230;', word_limiter($this->_long_string, 4));
 		$this->assertEquals('Once upon a time,&hellip;', word_limiter($this->_long_string, 4, '&hellip;'));
@@ -22,7 +22,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 	
-	public function testCharacterLimiter()
+	public function test_character_limiter()
 	{
 		$this->assertEquals('Once upon a time, a&#8230;', character_limiter($this->_long_string, 20));
 		$this->assertEquals('Once upon a time, a&hellip;', character_limiter($this->_long_string, 20, '&hellip;'));
@@ -32,7 +32,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 	
-	public function testAsciiToEntities()
+	public function test_ascii_to_entities()
 	{
 		$strs = array(
 			'“‘ “test”'			=> '&#8220;&#8216; &#8220;test&#8221;',
@@ -47,7 +47,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 
-	public function testEntitiesToAscii()
+	public function test_entities_to_ascii()
 	{
 		$strs = array(
 			'&#8220;&#8216; &#8220;test&#8221;' => '“‘ “test”',
@@ -59,10 +59,18 @@ class Text_helper_test extends CI_TestCase
 			$this->assertEquals($expect, entities_to_ascii($str));
 		}		
 	}
+	
+	// ------------------------------------------------------------------------	
+	
+	function test_convert_accented_characters() 
+	{
+		$this->assertEquals('AAAeEEEIIOOEUUUeY', convert_accented_characters('ÀÂÄÈÊËÎÏÔŒÙÛÜŸ'));
+		$this->assertEquals('a e i o u n ue', convert_accented_characters('á é í ó ú ñ ü'));
+	}
 
 	// ------------------------------------------------------------------------	
 	
-	public function testCensoredWords()
+	public function test_censored_words()
 	{
 		$censored = array('boob', 'nerd', 'ass', 'fart');
 		
@@ -86,7 +94,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 
-	public function testHighlightCode()
+	public function test_highlight_code()
 	{
 		$code = '<?php var_dump($this); ?>';
 		$expect = "<code><span style=\"color: #000000\">\n<span style=\"color: #0000BB\">&lt;?php&nbsp;var_dump</span><span style=\"color: #007700\">(</span><span style=\"color: #0000BB\">\$this</span><span style=\"color: #007700\">);&nbsp;</span><span style=\"color: #0000BB\">?&gt;&nbsp;</span>\n</span>\n</code>";
@@ -96,7 +104,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 
-	public function testHighlightPhrase()
+	public function test_highlight_phrase()
 	{
 		$strs = array(
 			'this is a phrase'			=> '<strong>this is</strong> a phrase',
@@ -114,7 +122,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 
-	public function testEllipsizing()
+	public function test_ellipsizing()
 	{
 		$strs = array(
 			'0'		=> array(

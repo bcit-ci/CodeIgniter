@@ -4,14 +4,25 @@ require_once(BASEPATH.'helpers/html_helper.php');
 
 class Html_helper_test extends CI_TestCase
 {
-	public function testHeading()
+	
+	// ------------------------------------------------------------------------
+	
+	public function test_br()
+	{
+		$this->assertEquals('<br /><br />', br(2));
+	}
+	
+	// ------------------------------------------------------------------------
+	
+	public function test_heading()
 	{
 		$this->assertEquals('<h1>foobar</h1>', heading('foobar'));
+		$this->assertEquals('<h2 class="bar">foobar</h2>', heading('foobar', 2, 'class="bar"'));
 	}
 
 	// ------------------------------------------------------------------------
 	
-	public function testUl()
+	public function test_Ul()
 	{
 		$expect = <<<EOH
 <ul>
@@ -47,14 +58,14 @@ EOH;
 	
 	// ------------------------------------------------------------------------
 
-	public function testNBS()
+	public function test_NBS()
 	{
 		$this->assertEquals('&nbsp;&nbsp;&nbsp;', nbs(3));
 	}
 
 	// ------------------------------------------------------------------------
 	
-	public function testMeta()
+	public function test_meta()
 	{
 		$this->assertEquals("<meta name=\"test\" content=\"foo\" />\n", meta('test', 'foo'));
 		

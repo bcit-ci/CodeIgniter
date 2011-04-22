@@ -4,7 +4,7 @@ class Lang_test extends CI_TestCase {
 	
 	protected $lang;
 	
-	public function setUp()
+	public function set_up()
 	{
 		$cls = $this->ci_core_class('lang');
 		$this->lang = new $cls;
@@ -12,7 +12,7 @@ class Lang_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 	
-	public function testLoad()
+	public function test_load()
 	{
 		// get_config needs work
 		$this->markTestIncomplete('get_config needs work');
@@ -21,7 +21,7 @@ class Lang_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 
-	public function testLine()
+	public function test_line()
 	{
 		$this->markTestIncomplete('get_config needs work');
 		

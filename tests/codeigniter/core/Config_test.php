@@ -2,7 +2,7 @@
 
 class Config_test extends CI_TestCase {
 
-	public function setUp()
+	public function set_up()
 	{
 		$cls =& $this->ci_core_class('cfg');
 				
@@ -18,7 +18,7 @@ class Config_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 
-	public function testItem()
+	public function test_item()
 	{
 		$this->assertEquals('http://example.com/', $this->config->item('base_url'));
 
@@ -32,7 +32,7 @@ class Config_test extends CI_TestCase {
 	
 	// --------------------------------------------------------------------
 	
-	public function testSetItem()
+	public function test_set_item()
 	{
 		$this->assertFalse($this->config->item('not_yet_set'));
 		
@@ -43,7 +43,7 @@ class Config_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	public function testSlashItem()
+	public function test_slash_item()
 	{
 		// Bad Config value
 		$this->assertFalse($this->config->slash_item('no_good_item'));
@@ -55,7 +55,7 @@ class Config_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function testSiteUrl()
+	public function test_site_url()
 	{
 		$this->assertEquals('http://example.com/index.php', $this->config->site_url());
 		
@@ -85,7 +85,7 @@ class Config_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 	
-	public function testSystemUrl()
+	public function test_system_url()
 	{
 		$this->assertEquals('http://example.com/system/', $this->config->system_url());
 	}

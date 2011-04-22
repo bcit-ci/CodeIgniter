@@ -2,7 +2,7 @@
 
 class Setup_test extends PHPUnit_Framework_TestCase {
 	
-	function testNonsense()
+	function test_nonsense()
 	{
 		$this->markTestIncomplete('not implemented');
 		// ensure that our bootstrapped test environment
