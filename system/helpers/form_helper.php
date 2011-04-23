@@ -898,7 +898,7 @@ if ( ! function_exists('validation_errors'))
 	function validation_errors($prefix = '', $suffix = '')
 	{
 		if (FALSE === ($OBJ =& _get_validation_object()))
-		{var_dump(_get_validation_object()); exit;
+		{
 			return '';
 		}
 
