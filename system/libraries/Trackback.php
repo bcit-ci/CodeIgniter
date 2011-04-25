@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -125,7 +125,7 @@ class CI_Trackback {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Receive Trackback  Data
+	 * Receive Trackback Data
 	 *
 	 * This function simply validates the incoming TB data.
 	 * It returns FALSE on failure and TRUE on success.
@@ -170,7 +170,7 @@ class CI_Trackback {
 	/**
 	 * Send Trackback Error Message
 	 *
-	 * Allows custom errors to be set.  By default it
+	 * Allows custom errors to be set. By default it
 	 * sends the "incomplete information" error, as that's
 	 * the most common one.
 	 *
@@ -221,7 +221,7 @@ class CI_Trackback {
 	 * Process Trackback
 	 *
 	 * Opens a socket connection and passes the data to
-	 * the server.  Returns TRUE on success, FALSE on failure
+	 * the server. Returns TRUE on success, FALSE on failure
 	 *
 	 * @access	public
 	 * @param	string
@@ -359,11 +359,11 @@ class CI_Trackback {
 		if (strpos($url, '?') !== FALSE)
 		{
 			$tb_array = explode('/', $url);
-			$tb_end   = $tb_array[count($tb_array)-1];
+			$tb_end  = $tb_array[count($tb_array)-1];
 
 			if ( ! is_numeric($tb_end))
 			{
-				$tb_end  = $tb_array[count($tb_array)-2];
+				$tb_end = $tb_array[count($tb_array)-2];
 			}
 
 			$tb_array = explode('=', $tb_end);
@@ -378,7 +378,7 @@ class CI_Trackback {
 
 			if ( ! is_numeric($tb_id))
 			{
-				$tb_id  = $tb_array[count($tb_array)-2];
+				$tb_id = $tb_array[count($tb_array)-2];
 			}
 		}
 
@@ -406,7 +406,7 @@ class CI_Trackback {
 		$temp = '__TEMP_AMPERSANDS__';
 
 		$str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
-		$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
+		$str = preg_replace("/&(\w+);/", "$temp\\1;", $str);
 
 		$str = str_replace(array("&","<",">","\"", "'", "-"),
 							array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),

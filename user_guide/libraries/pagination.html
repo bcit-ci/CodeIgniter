@@ -72,26 +72,26 @@ Pagination Class
 $this->load->library('pagination');<br /><br />
 $config['base_url'] = 'http://example.com/index.php/test/page/';<br />
 $config['total_rows'] = 200;<br />
-$config['per_page']  = 20;
+$config['per_page'] = 20;
 <br /><br />
 $this->pagination->initialize($config);
 
 <br /><br />
-echo  $this->pagination->create_links();</code>
+echo $this->pagination->create_links();</code>
 
 <h3>Notes:</h3>
 
-<p>The <var>$config</var> array contains your configuration variables.  It is passed to the <dfn>$this->pagination->initialize</dfn> function as shown above.  Although there are some twenty items you can configure, at
-minimum you need the three shown.  Here is a description of what those items represent:</p>
+<p>The <var>$config</var> array contains your configuration variables. It is passed to the <dfn>$this->pagination->initialize</dfn> function as shown above. Although there are some twenty items you can configure, at
+minimum you need the three shown. Here is a description of what those items represent:</p>
 
 <ul>
-	<li><strong>base_url</strong> This is the full URL to the controller class/function containing your pagination.  In the example
-	above, it is pointing to a controller called "Test" and a function called "page".  Keep in mind that you can
+	<li><strong>base_url</strong> This is the full URL to the controller class/function containing your pagination. In the example
+	above, it is pointing to a controller called "Test" and a function called "page". Keep in mind that you can
 	<a href="../general/routing.html">re-route your URI</a> if you need a different structure.</li>
 	<li><strong>total_rows</strong> This number represents the total rows in the result set you are creating pagination for.
 	Typically this number will be the total rows that your database query returned.
 	</li>
-	<li><strong>per_page</strong> The number of items you intend to show per page.  In the above example, you would be showing 20 items per page.</li>
+	<li><strong>per_page</strong> The number of items you intend to show per page. In the above example, you would be showing 20 items per page.</li>
 </ul>
 
 <p>The <var>create_links()</var> function returns an empty string when there is no pagination to show.</p>
@@ -100,7 +100,7 @@ minimum you need the three shown.  Here is a description of what those items rep
 <h3>Setting preferences in a config file</h3>
 
 <p>If you prefer not to set preferences using the above method, you can instead put them into a config file.
-Simply create a new file called <var>pagination.php</var>,  add the <var>$config</var>
+Simply create a new file called <var>pagination.php</var>, add the <var>$config</var>
 array in that file. Then save the file in: <var>config/pagination.php</var> and it will be used automatically. You
 will NOT need to use the <dfn>$this->pagination->initialize</dfn> function if you save your preferences in a config file.</p>
 
@@ -122,9 +122,9 @@ something different you can specify it.</p>
 <h4>$config['page_query_string'] = TRUE</h4>
 <p>By default, the pagination library assume you are using <a href="../general/urls.html">URI Segments</a>, and constructs your links something like</p>
 <p><code>http://example.com/index.php/test/page/20</code></p>
-<p>If you have $config['enable_query_strings']  set to TRUE your links will automatically be re-written using Query Strings. This option can also be explictly set. Using $config['page_query_string'] set to TRUE, the pagination link will become.</p>
+<p>If you have $config['enable_query_strings'] set to TRUE your links will automatically be re-written using Query Strings. This option can also be explictly set. Using $config['page_query_string'] set to TRUE, the pagination link will become.</p>
 <p><code>http://example.com/index.php?c=test&amp;m=page&amp;per_page=20</code></p>
-<p>Note that &quot;per_page&quot; is the default query string  passed, however can be configured using $config['query_string_segment'] = 'your_string'</p>
+<p>Note that &quot;per_page&quot; is the default query string passed, however can be configured using $config['query_string_segment'] = 'your_string'</p>
 <h2>Adding Enclosing Markup</h2>
 
 <p>If you would like to surround the entire pagination with some markup you can do it with these two prefs:</p>

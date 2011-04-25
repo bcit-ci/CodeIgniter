@@ -58,7 +58,7 @@ Caching Driver
 
 <h1>Caching Driver</h1>
 
-<p>CodeIgniter features wrappers around some of the most popular forms of fast and dynamic caching.  All but file-based caching require specific server requirements, and a Fatal Exception will be thrown if server requirements are not met.</p>
+<p>CodeIgniter features wrappers around some of the most popular forms of fast and dynamic caching. All but file-based caching require specific server requirements, and a Fatal Exception will be thrown if server requirements are not met.</p>
 
 <h2>Table of Contents</h2>
 <ul>
@@ -97,7 +97,7 @@ echo $foo;
 
 <h2>is_supported(<var>driver</var>['string'])</h2>
 
-<p>This function is automatically called when accessing drivers via <samp>$this->cache->get()</samp>.  However, if the individual drivers are used, make sure to call this function to ensure the driver is supported in the hosting environment.</p>
+<p>This function is automatically called when accessing drivers via <samp>$this->cache->get()</samp>. However, if the individual drivers are used, make sure to call this function to ensure the driver is supported in the hosting environment.</p>
 
 <code>
 if ($this->cache->apc->is_supported())<br />
@@ -111,23 +111,23 @@ if ($this->cache->apc->is_supported())<br />
 
 <h2>get(<var>id</var>['string'])</h2>
 
-<p>This function will attempt to fetch an item from the cache store.  If the item does not exist, the function will return <samp>FALSE</samp>.</p>
+<p>This function will attempt to fetch an item from the cache store. If the item does not exist, the function will return <samp>FALSE</samp>.</p>
 <code>$foo = $this->cache->get('my_cached_item');</code>
 
 <h2>save(<var>id</var>['string'], <var>data</var>['mixed'], <var>ttl</var>['int'])</h2>
 
-<p>This function will save an item to the cache store.  If saving fails, the function will return <samp>FALSE</samp>.</p>
+<p>This function will save an item to the cache store. If saving fails, the function will return <samp>FALSE</samp>.</p>
 <p>The optional third parameter (Time To Live) defaults to 60 seconds.</p>
 <code>$this->cache->save('cache_item_id', 'data_to_cache');</code>
 
 <h2>delete(<var>id</var>['string'])</h2>
 
-<p>This function will delete a specific item from the cache store.  If item deletion fails, the function will return <samp>FALSE</samp>.</p>
+<p>This function will delete a specific item from the cache store. If item deletion fails, the function will return <samp>FALSE</samp>.</p>
 <code>$this->cache->delete('cache_item_id');</code>
 
 <h2>clean()</h2>
 
-<p>This function will 'clean' the entire cache.  If the deletion of the cache files fails, the function will return <samp>FALSE</samp>.</p>
+<p>This function will 'clean' the entire cache. If the deletion of the cache files fails, the function will return <samp>FALSE</samp>.</p>
 
 <code>$this->cache->clean();</code>
 
@@ -154,7 +154,7 @@ if ($this->cache->apc->is_supported())<br />
 
 <h2 id="file">File-based Caching</h2>
 
-<p>Unlike caching from the Output Class, the driver file-based caching allows for pieces of view files to be cached.  Use this with care, and make sure to benchmark your application, as a point can come where disk I/O will negate positive gains by caching.</p>
+<p>Unlike caching from the Output Class, the driver file-based caching allows for pieces of view files to be cached. Use this with care, and make sure to benchmark your application, as a point can come where disk I/O will negate positive gains by caching.</p>
 
 <p>All of the functions listed above can be accessed without passing a specific adapter to the driver loader as follows:</p>
 <code>$this->load->driver('cache');<br />
@@ -172,7 +172,7 @@ if ($this->cache->apc->is_supported())<br />
 
 <h2 id="dummy">Dummy Cache</h2>
 
-<p>This is a caching backend that will always 'miss.'  It stores no data, but lets you keep your caching code in place in environments that don't support your chosen cache.</p>
+<p>This is a caching backend that will always 'miss.' It stores no data, but lets you keep your caching code in place in environments that don't support your chosen cache.</p>
 
 </div>
 <!-- END CONTENT -->

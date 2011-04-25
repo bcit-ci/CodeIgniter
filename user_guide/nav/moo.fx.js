@@ -25,8 +25,8 @@ fx.Base.prototype = {
 	},
 
 	step: function() {
-		var time  = (new Date).getTime();
-		var Tpos   = (time - this.startTime) / (this.duration);
+		var time = (new Date).getTime();
+		var Tpos  = (time - this.startTime) / (this.duration);
 		if (time >= this.duration+this.startTime) {
 			this.now = this.to;
 			clearInterval (this.timer);

@@ -105,7 +105,7 @@ foreach ($dbs as $db)<br />
 <h2><a name="exists"></a>$this->dbutil->database_exists();</h2>
 
 <p>Sometimes it's helpful to know whether a particular database exists.
-Returns a boolean TRUE/FALSE.  Usage example:</p>
+Returns a boolean TRUE/FALSE. Usage example:</p>
 
 <code>
 if ($this->dbutil->database_exists('database_name'))<br />
@@ -114,7 +114,7 @@ if ($this->dbutil->database_exists('database_name'))<br />
 }
 </code>
 
-<p>Note:  Replace <em>database_name</em> with the name of the table you are looking for. This function is case sensitive.</p>
+<p>Note: Replace <em>database_name</em> with the name of the table you are looking for. This function is case sensitive.</p>
 
 
 
@@ -184,7 +184,7 @@ echo $this->dbutil->csv_from_result($query);
 </code>
 
 <p>The second and third parameters allows you to
-set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:</p>
+set the delimiter and newline character. By default tabs are used as the delimiter and "\n" is used as a new line. Example:</p>
 
 <code>
 $delimiter = ",";<br />
@@ -193,14 +193,14 @@ $newline = "\r\n";<br />
 echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
 </code>
 
-<p><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
+<p><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you. It simply creates the CSV layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
 <h2><a name="xml"></a>$this->dbutil->xml_from_result($db_result)</h2>
 
 <p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second
-may contain an optional array of config parameters.  Example:</p>
+may contain an optional array of config parameters. Example:</p>
 
 <code>
 $this->load->dbutil();<br />
@@ -217,18 +217,18 @@ $config = array (<br />
 echo $this->dbutil->xml_from_result($query, $config);
 </code>
 
-<p><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you.  It simply creates the XML layout.
+<p><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you. It simply creates the XML layout.
 If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
 
 
 <h2><a name="backup"></a>$this->dbutil->backup()</h2>
 
-<p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format.</p>
+<p>Permits you to backup your full database or individual tables. The backup data can be compressed in either Zip or Gzip format.</p>
 
 <p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL databases.</p>
 
 <p>Note: Due to the limited execution time and memory available to PHP, backing up very large
-databases may not be possible.  If your database is very large you might need to backup directly from your SQL server
+databases may not be possible. If your database is very large you might need to backup directly from your SQL server
 via the command line, or have your server admin do it for you if you do not have root privileges.</p>
 
 <h3>Usage Example</h3>
@@ -278,7 +278,7 @@ $this->dbutil->backup($prefs);
 <th>Options</th>
 <th>Description</th>
 </tr><tr>
-<td class="td"><strong>tables</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you want backed up.  If left blank all tables will be exported.</td>
+<td class="td"><strong>tables</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you want backed up. If left blank all tables will be exported.</td>
 </tr><tr>
 <td class="td"><strong>ignore</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you want the backup routine to ignore.</td>
 </tr><tr>

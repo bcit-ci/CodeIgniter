@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,7 +30,7 @@
 /**
  * Heading
  *
- * Generates an HTML heading tag.  First param is the data.
+ * Generates an HTML heading tag. First param is the data.
  * Second param is the size of the heading tag.
  *
  * @access	public
@@ -114,7 +114,7 @@ if ( ! function_exists('_list'))
 		// Set the indentation based on the depth
 		$out = str_repeat(" ", $depth);
 
-		// Were any attributes submitted?  If so generate a string
+		// Were any attributes submitted? If so generate a string
 		if (is_array($attributes))
 		{
 			$atts = '';
@@ -128,7 +128,7 @@ if ( ! function_exists('_list'))
 		// Write the opening list tag
 		$out .= "<".$type.$attributes.">\n";
 
-		// Cycle through the list elements.  If an array is
+		// Cycle through the list elements. If an array is
 		// encountered we will recursively call _list()
 
 		static $_last_list_item = '';
@@ -244,7 +244,7 @@ if ( ! function_exists('img'))
  * Generates a page document type declaration
  *
  * Valid options are xhtml-11, xhtml-strict, xhtml-trans, xhtml-frame,
- * html4-strict, html4-trans, and html4-frame.  Values are saved in the
+ * html4-strict, html4-trans, and html4-frame. Values are saved in the
  * doctypes config file.
  *
  * @access	public

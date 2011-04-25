@@ -70,13 +70,13 @@ In addition you can get referrer information as well as language and supported c
 
 <h2>User Agent Definitions</h2>
 
-<p>The user agent name definitions are located in a config file located at: <dfn>application/config/user_agents.php</dfn>.  You may add items to the
+<p>The user agent name definitions are located in a config file located at: <dfn>application/config/user_agents.php</dfn>. You may add items to the
 various user agent arrays if needed.</p>
 
 <h2>Example</h2>
 
 <p>When the User Agent class is initialized it will attempt to determine whether the user agent browsing your site is
-a web browser, a mobile device, or a robot.  It will also gather the platform information if it is available.</p>
+a web browser, a mobile device, or a robot. It will also gather the platform information if it is available.</p>
 
 
 <code>
@@ -84,7 +84,7 @@ $this->load->library('user_agent');<br />
 <br />
 if ($this->agent->is_browser())<br />
 {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$agent  = $this->agent->browser().' '.$this->agent->version();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$agent = $this->agent->browser().' '.$this->agent->version();<br />
 }<br />
 elseif ($this->agent->is_robot())<br />
 {<br />
@@ -143,7 +143,7 @@ else<br />
 <p>Returns TRUE/FALSE (boolean) if the user agent is a known robot.</p>
 
 <p class="important"><strong>Note:</strong>&nbsp; The user agent library only contains the most common robot
-definitions.  It is not a complete list of bots. There are hundreds of them so searching for each one would not be
+definitions. It is not a complete list of bots. There are hundreds of them so searching for each one would not be
 very efficient. If you find that some bots that commonly visit your site are missing from the list you can add them to your
 <dfn>application/config/user_agents.php</dfn> file.</p>
 
@@ -176,7 +176,7 @@ very efficient. If you find that some bots that commonly visit your site are mis
 
 
 <h2>$this->agent->agent_string()</h2>
-<p>Returns a string containing the full user agent string.  Typically it will be something like this:</p>
+<p>Returns a string containing the full user agent string. Typically it will be something like this:</p>
 
 <code>Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.0.4) Gecko/20060613 Camino/1.0.2</code>
 

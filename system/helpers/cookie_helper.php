@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,7 +37,7 @@
  * @param	mixed
  * @param	string	the value of the cookie
  * @param	string	the number of seconds until expiration
- * @param	string	the cookie domain.  Usually:  .yourdomain.com
+ * @param	string	the cookie domain. Usually: .yourdomain.com
  * @param	string	the cookie path
  * @param	string	the cookie prefix
  * @return	void
@@ -85,7 +85,7 @@ if ( ! function_exists('get_cookie'))
  * Delete a COOKIE
  *
  * @param	mixed
- * @param	string	the cookie domain.  Usually:  .yourdomain.com
+ * @param	string	the cookie domain. Usually: .yourdomain.com
  * @param	string	the cookie path
  * @param	string	the cookie prefix
  * @return	void

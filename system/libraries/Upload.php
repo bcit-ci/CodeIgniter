@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -185,7 +185,7 @@ class CI_Upload {
 				case 8: // UPLOAD_ERR_EXTENSION
 					$this->set_error('upload_stopped_by_extension');
 					break;
-				default :   $this->set_error('upload_no_file_selected');
+				default :  $this->set_error('upload_no_file_selected');
 					break;
 			}
 
@@ -290,7 +290,7 @@ class CI_Upload {
 		/*
 		 * Run the file through the XSS hacking filter
 		 * This helps prevent malicious code from being
-		 * embedded within a file.  Scripts can easily
+		 * embedded within a file. Scripts can easily
 		 * be disguised as images or other file types.
 		 */
 		if ($this->xss_clean)
@@ -305,8 +305,8 @@ class CI_Upload {
 		/*
 		 * Move the file to the final destination
 		 * To deal with different server configurations
-		 * we'll attempt to use copy() first.  If that fails
-		 * we'll use move_uploaded_file().  One of the two should
+		 * we'll attempt to use copy() first. If that fails
+		 * we'll use move_uploaded_file(). One of the two should
 		 * reliably work in most environments
 		 */
 		if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
@@ -321,7 +321,7 @@ class CI_Upload {
 		/*
 		 * Set the finalized image dimensions
 		 * This sets the image width/height (assuming the
-		 * file was an image).  We use this information
+		 * file was an image). We use this information
 		 * in the "data" function.
 		 */
 		$this->set_image_properties($this->upload_path.$this->file_name);
@@ -518,7 +518,7 @@ class CI_Upload {
 				$this->image_width		= $D['0'];
 				$this->image_height		= $D['1'];
 				$this->image_type		= ( ! isset($types[$D['2']])) ? 'unknown' : $types[$D['2']];
-				$this->image_size_str	= $D['3'];  // string containing height and width
+				$this->image_size_str	= $D['3']; // string containing height and width
 			}
 		}
 	}
@@ -551,7 +551,7 @@ class CI_Upload {
 		// IE will sometimes return odd mime-types during upload, so here we just standardize all
 		// jpegs or pngs to the same file type.
 
-		$png_mimes  = array('image/x-png');
+		$png_mimes = array('image/x-png');
 		$jpeg_mimes = array('image/jpg', 'image/jpe', 'image/jpeg', 'image/pjpeg');
 
 		if (in_array($this->file_type, $png_mimes))
@@ -642,7 +642,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		if ($this->max_size != 0  AND  $this->file_size > $this->max_size)
+		if ($this->max_size != 0 AND $this->file_size > $this->max_size)
 		{
 			return FALSE;
 		}
@@ -721,7 +721,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/",  $this->upload_path);
+		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/", $this->upload_path);
 		return TRUE;
 	}
 
@@ -834,7 +834,7 @@ class CI_Upload {
 			$current = ini_get('memory_limit') * 1024 * 1024;
 
 			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
-			// into scientific notation.  number_format() ensures this number is an integer
+			// into scientific notation. number_format() ensures this number is an integer
 			// http://bugs.php.net/bug.php?id=43053
 
 			$new_memory = number_format(ceil(filesize($file) + $current), 0, '.', '');
@@ -844,8 +844,8 @@ class CI_Upload {
 
 		// If the file being uploaded is an image, then we should have no problem with XSS attacks (in theory), but
 		// IE can be fooled into mime-type detecting a malformed image as an html file, thus executing an XSS attack on anyone
-		// using IE who looks at the image.  It does this by inspecting the first 255 bytes of an image.  To get around this
-		// CI will itself look at the first 255 bytes of an image to determine its relative safety.  This can save a lot of
+		// using IE who looks at the image. It does this by inspecting the first 255 bytes of an image. To get around this
+		// CI will itself look at the first 255 bytes of an image to determine its relative safety. This can save a lot of
 		// processor power and time if it is actually a clean image, as it will be in nearly all instances _except_ an
 		// attempted XSS attack.
 
@@ -933,7 +933,7 @@ class CI_Upload {
 	/**
 	 * List of Mime Types
 	 *
-	 * This is a list of mime types.  We use it to validate
+	 * This is a list of mime types. We use it to validate
 	 * the "allowed types" set by the developer
 	 *
 	 * @param	string
