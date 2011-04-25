@@ -145,6 +145,11 @@ Higher routes will always take precedence over lower ones.</p>
 when people load your root URL. In the above example, the "welcome" class would be loaded.  You
 are encouraged to always have a default route otherwise a 404 page will appear by default.</p>
 
+<code>$route['404_override'] = '';</code>
+
+<p>This route indicates which controller class should be loaded if the requested controller is not found. It will override the default 404
+error page. It won't affect to the <samp>show_404()</samp> function, which will continue loading the default <dfn>error_404.php</dfn> file at <var>application/errors/error_404.php</var>.</p>
+
 <p class="important"><strong>Important:</strong>&nbsp; The reserved routes must come before any wildcard or regular expression routes.</p>
 
 </div>
