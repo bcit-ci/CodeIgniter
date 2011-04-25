@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -54,7 +54,7 @@ class CI_Exceptions {
 	public function __construct()
 	{
 		$this->ob_level = ob_get_level();
-		// Note:  Do not log messages from this constructor.
+		// Note: Do not log messages from this constructor.
 	}
 
 	// --------------------------------------------------------------------
@@ -75,7 +75,7 @@ class CI_Exceptions {
 	{
 		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
+		log_message('error', 'Severity: '.$severity.' --> '.$message. ' '.$filepath.' '.$line, TRUE);
 	}
 
 	// --------------------------------------------------------------------

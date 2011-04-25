@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -31,7 +31,7 @@ class CI_Parser {
 	var $object;
 
 	/**
-	 *  Parse a template
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
@@ -53,7 +53,7 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a String
+	 * Parse a String
 	 *
 	 * Parses pseudo-variables contained in the specified string,
 	 * replacing them with the data in the second param
@@ -72,7 +72,7 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a template
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
@@ -114,7 +114,7 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Set the left/right variable delimiters
+	 * Set the left/right variable delimiters
 	 *
 	 * @access	public
 	 * @param	string
@@ -130,7 +130,7 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a single key/value
+	 * Parse a single key/value
 	 *
 	 * @access	private
 	 * @param	string
@@ -146,9 +146,9 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a tag pair
+	 * Parse a tag pair
 	 *
-	 * Parses tag pairs:  {some_tag} string... {/some_tag}
+	 * Parses tag pairs: {some_tag} string... {/some_tag}
 	 *
 	 * @access	private
 	 * @param	string
@@ -188,7 +188,7 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Matches a variable pair
+	 * Matches a variable pair
 	 *
 	 * @access	private
 	 * @param	string

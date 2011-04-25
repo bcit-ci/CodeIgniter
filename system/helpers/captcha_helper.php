@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -106,8 +106,8 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-	   if ($word == '')
-	   {
+	  if ($word == '')
+	  {
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			$str = '';
@@ -117,7 +117,7 @@ if ( ! function_exists('create_captcha'))
 			}
 
 			$word = $str;
-	   }
+	  }
 
 		// -----------------------------------
 		// Determine angle and position
@@ -143,7 +143,7 @@ if ( ! function_exists('create_captcha'))
 		}
 
 		// -----------------------------------
-		//  Assign colors
+		// Assign colors
 		// -----------------------------------
 
 		$bg_color		= imagecolorallocate ($im, 255, 255, 255);
@@ -153,13 +153,13 @@ if ( ! function_exists('create_captcha'))
 		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
 
 		// -----------------------------------
-		//  Create the rectangle
+		// Create the rectangle
 		// -----------------------------------
 
 		ImageFilledRectangle($im, 0, 0, $img_width, $img_height, $bg_color);
 
 		// -----------------------------------
-		//  Create the spiral pattern
+		// Create the spiral pattern
 		// -----------------------------------
 
 		$theta		= 1;
@@ -183,7 +183,7 @@ if ( ! function_exists('create_captcha'))
 		}
 
 		// -----------------------------------
-		//  Write the text
+		// Write the text
 		// -----------------------------------
 
 		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
@@ -219,13 +219,13 @@ if ( ! function_exists('create_captcha'))
 
 
 		// -----------------------------------
-		//  Create the border
+		// Create the border
 		// -----------------------------------
 
 		imagerectangle($im, 0, 0, $img_width-1, $img_height-1, $border_color);
 
 		// -----------------------------------
-		//  Generate the image
+		// Generate the image
 		// -----------------------------------
 
 		$img_name = $now.'.jpg';
