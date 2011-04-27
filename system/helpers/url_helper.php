@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -286,7 +286,7 @@ if ( ! function_exists('safe_mailto'))
 			{
 				foreach ($attributes as $key => $val)
 				{
-					$x[] =  ' '.$key.'="';
+					$x[] = ' '.$key.'="';
 					for ($i = 0; $i < strlen($val); $i++)
 					{
 						$x[] = "|".ord(substr($val, $i, 1));
@@ -363,7 +363,7 @@ if ( ! function_exists('safe_mailto'))
  *
  * Automatically links URL and Email addresses.
  * Note: There's a bit of extra code here to deal with
- * URLs or emails that end in a period.  We'll strip these
+ * URLs or emails that end in a period. We'll strip these
  * off and add them after the link.
  *
  * @access	public

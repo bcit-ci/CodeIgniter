@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright  Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -37,8 +37,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * so we have to use what amounts to a hack.
 	 *
 	 *
-	 * @access  public
-	 * @return  integer
+	 * @access public
+	 * @return integer
 	 */
 	function num_rows()
 	{
@@ -58,8 +58,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access  public
-	 * @return  integer
+	 * @access public
+	 * @return integer
 	 */
 	function num_fields()
 	{
@@ -102,8 +102,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access  public
-	 * @return  array
+	 * @access public
+	 * @return array
 	 */
 	function field_data()
 	{
@@ -114,7 +114,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 			$F				= new stdClass();
 			$F->name		= ocicolumnname($this->stmt_id, $c);
 			$F->type		= ocicolumntype($this->stmt_id, $c);
-			$F->max_length  = ocicolumnsize($this->stmt_id, $c);
+			$F->max_length = ocicolumnsize($this->stmt_id, $c);
 
 			$retval[] = $F;
 		}
@@ -145,8 +145,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access  private
-	 * @return  array
+	 * @access private
+	 * @return array
 	 */
 	function _fetch_assoc(&$row)
 	{
@@ -162,8 +162,8 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access  private
-	 * @return  object
+	 * @access private
+	 * @return object
 	 */
 	function _fetch_object()
 	{
@@ -202,10 +202,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result.  "array" version.
+	 * Query result. "array" version.
 	 *
-	 * @access  public
-	 * @return  array
+	 * @access public
+	 * @return array
 	 */
 	function result_array()
 	{
@@ -230,7 +230,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *

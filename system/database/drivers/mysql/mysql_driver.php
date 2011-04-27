@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -133,7 +133,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	function db_set_charset($charset, $collation)
 	{
 		static $use_set_names;
-		
+
 		if ( ! isset($use_set_names))
 		{
 			// mysql_set_charset() requires PHP >= 5.2.3 and MySQL >= 5.0.7, use SET NAMES as fallback
@@ -302,12 +302,12 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (is_array($str))
 		{
 			foreach ($str as $key => $val)
-	   		{
+	  		{
 				$str[$key] = $this->escape_str($val, $like);
-	   		}
+	  		}
 
-	   		return $str;
-	   	}
+	  		return $str;
+	  	}
 
 		if (function_exists('mysql_real_escape_string') AND is_resource($this->conn_id))
 		{
@@ -650,7 +650,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			{
 				if ($field != $index)
 				{
-					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

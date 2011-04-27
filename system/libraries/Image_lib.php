@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -26,7 +26,7 @@
  */
 class CI_Image_lib {
 
-	var $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
+	var $image_library		= 'gd2';	// Can be: imagemagick, netpbm, gd, gd2
 	var $library_path		= '';
 	var $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
 	var $source_image		= '';
@@ -37,28 +37,28 @@ class CI_Image_lib {
 	var $create_thumb		= FALSE;
 	var $thumb_marker		= '_thumb';
 	var $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
-	var $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
+	var $master_dim			= 'auto';	// auto, height, or width. Determines what to use as the master dimension
 	var $rotation_angle		= '';
 	var $x_axis				= '';
 	var	$y_axis				= '';
 
 	// Watermark Vars
 	var $wm_text			= '';			// Watermark text if graphic is not used
-	var $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
+	var $wm_type			= 'text';		// Type of watermarking. Options: text/overlay
 	var $wm_x_transp		= 4;
 	var $wm_y_transp		= 4;
 	var $wm_overlay_path	= '';			// Watermark image path
 	var $wm_font_path		= '';			// TT font
 	var $wm_font_size		= 17;			// Font size (different versions of GD will either use points or pixels)
-	var $wm_vrt_alignment	= 'B';			// Vertical alignment:   T M B
+	var $wm_vrt_alignment	= 'B';			// Vertical alignment:  T M B
 	var $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
 	var $wm_padding			= 0;			// Padding around text
 	var $wm_hor_offset		= 0;			// Lets you push text to the right
-	var $wm_vrt_offset		= 0;			// Lets you push  text down
+	var $wm_vrt_offset		= 0;			// Lets you push text down
 	var $wm_font_color		= '#ffffff';	// Text color
 	var $wm_shadow_color	= '';			// Dropshadow color
 	var $wm_shadow_distance	= 2;			// Dropshadow distance
-	var $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
+	var $wm_opacity			= 50;			// Image opacity: 1 - 100 Only works with image
 
 	// Private Vars
 	var $source_folder		= '';
@@ -146,14 +146,14 @@ class CI_Image_lib {
 		if ($this->source_image == '')
 		{
 			$this->set_error('imglib_source_image_required');
-			return FALSE;	
+			return FALSE;
 		}
 
 		/*
 		 * Is getimagesize() Available?
 		 *
 		 * We use it to determine the image properties (width/height).
-		 * Note:  We need to figure out how to determine image
+		 * Note: We need to figure out how to determine image
 		 * properties using ImageMagick and NetPBM
 		 *
 		 */
@@ -189,7 +189,7 @@ class CI_Image_lib {
 		// Set the Image Properties
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
-			return FALSE;	
+			return FALSE;
 		}
 
 		/*
@@ -197,7 +197,7 @@ class CI_Image_lib {
 		 *
 		 * If the user has set a "new_image" name it means
 		 * we are making a copy of the source image. If not
-		 * it means we are altering the original.  We'll
+		 * it means we are altering the original. We'll
 		 * set the destination filename and path accordingly.
 		 *
 		 */
@@ -267,7 +267,7 @@ class CI_Image_lib {
 		 *
 		 * When creating thumbs or copies, the target width/height
 		 * might not be in correct proportion with the source
-		 * image's width/height.  We'll recalculate it here.
+		 * image's width/height. We'll recalculate it here.
 		 *
 		 */
 		if ($this->maintain_ratio === TRUE && ($this->width != '' AND $this->height != ''))
@@ -399,7 +399,7 @@ class CI_Image_lib {
 		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs))
 		{
 			$this->set_error('imglib_rotation_angle_required');
-			return FALSE;	
+			return FALSE;
 		}
 
 		// Reassign the width and height
@@ -469,8 +469,8 @@ class CI_Image_lib {
 		// Let's set up our values based on the action
 		if ($action == 'crop')
 		{
-			//  Reassign the source width/height if cropping
-			$this->orig_width  = $this->width;
+			// Reassign the source width/height if cropping
+			$this->orig_width = $this->width;
 			$this->orig_height = $this->height;
 
 			// GD 2.0 has a cropping bug so we'll test for it
@@ -487,19 +487,19 @@ class CI_Image_lib {
 			$this->y_axis = 0;
 		}
 
-		//  Create the image handle
+		// Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
 			return FALSE;
 		}
 
-		//  Create The Image
+		// Create The Image
 		//
-		//  old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
-		//  it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
-		//  below should that ever prove inaccurate.
+		// old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
+		// it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
+		// below should that ever prove inaccurate.
 		//
-		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
+		// if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
 		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
 		{
 			$create	= 'imagecreatetruecolor';
@@ -521,7 +521,7 @@ class CI_Image_lib {
 
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
-		//  Show the image
+		// Show the image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($dst_img);
@@ -535,7 +535,7 @@ class CI_Image_lib {
 			}
 		}
 
-		//  Kill the file handles
+		// Kill the file handles
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
@@ -558,7 +558,7 @@ class CI_Image_lib {
 	 */
 	function image_process_imagemagick($action = 'resize')
 	{
-		//  Do we have a vaild library path?
+		// Do we have a vaild library path?
 		if ($this->library_path == '')
 		{
 			$this->set_error('imglib_libpath_invalid');
@@ -593,7 +593,7 @@ class CI_Image_lib {
 
 			$cmd .= " ".$angle." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
 		}
-		else  // Resize
+		else // Resize
 		{
 			$cmd .= " -resize ".$this->width."x".$this->height." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
 		}
@@ -634,7 +634,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Build the resizing command
+		// Build the resizing command
 		switch ($this->image_type)
 		{
 			case 1 :
@@ -684,7 +684,7 @@ class CI_Image_lib {
 
 		@exec($cmd, $output, $retval);
 
-		//  Did it work?
+		// Did it work?
 		if ($retval > 0)
 		{
 			$this->set_error('imglib_image_process_failed');
@@ -711,7 +711,7 @@ class CI_Image_lib {
 	 */
 	function image_rotate_gd()
 	{
-		//  Create the image handle
+		// Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
 			return FALSE;
@@ -724,10 +724,10 @@ class CI_Image_lib {
 
 		$white	= imagecolorallocate($src_img, 255, 255, 255);
 
-		//  Rotate it!
+		// Rotate it!
 		$dst_img = imagerotate($src_img, $this->rotation_angle, $white);
 
-		//  Save the Image
+		// Save the Image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($dst_img);
@@ -741,7 +741,7 @@ class CI_Image_lib {
 			}
 		}
 
-		//  Kill the file handles
+		// Kill the file handles
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
@@ -769,14 +769,14 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		$width  = $this->orig_width;
+		$width = $this->orig_width;
 		$height = $this->orig_height;
 
 		if ($this->rotation_angle == 'hor')
 		{
 			for ($i = 0; $i < $height; $i++)
 			{
-				$left  = 0;
+				$left = 0;
 				$right = $width-1;
 
 				while ($left < $right)
@@ -813,7 +813,7 @@ class CI_Image_lib {
 			}
 		}
 
-		//  Show the image
+		// Show the image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
@@ -827,7 +827,7 @@ class CI_Image_lib {
 			}
 		}
 
-		//  Kill the file handles
+		// Kill the file handles
 		imagedestroy($src_img);
 
 		// Set the file to 777
@@ -876,24 +876,24 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Fetch source image properties
+		// Fetch source image properties
 		$this->get_image_properties();
 
-		//  Fetch watermark image properties
+		// Fetch watermark image properties
 		$props			= $this->get_image_properties($this->wm_overlay_path, TRUE);
 		$wm_img_type	= $props['image_type'];
 		$wm_width		= $props['width'];
 		$wm_height		= $props['height'];
 
-		//  Create two image resources
-		$wm_img  = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
+		// Create two image resources
+		$wm_img = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
 		$src_img = $this->image_create_gd($this->full_src_path);
 
 		// Reverse the offset if necessary
 		// When the image is positioned at the bottom
 		// we don't want the vertical offset to push it
-		// further down.  We want the reverse, so we'll
-		// invert the offset.  Same with the horizontal
+		// further down. We want the reverse, so we'll
+		// invert the offset. Same with the horizontal
 		// offset when the image is at the right
 
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
@@ -905,11 +905,11 @@ class CI_Image_lib {
 		if ($this->wm_hor_alignment == 'R')
 			$this->wm_hor_offset = $this->wm_hor_offset * -1;
 
-		//  Set the base x and y axis values
+		// Set the base x and y axis values
 		$x_axis = $this->wm_hor_offset + $this->wm_padding;
 		$y_axis = $this->wm_vrt_offset + $this->wm_padding;
 
-		//  Set the vertical position
+		// Set the vertical position
 		switch ($this->wm_vrt_alignment)
 		{
 			case 'T':
@@ -920,7 +920,7 @@ class CI_Image_lib {
 				break;
 		}
 
-		//  Set the horizontal position
+		// Set the horizontal position
 		switch ($this->wm_hor_alignment)
 		{
 			case 'L':
@@ -931,7 +931,7 @@ class CI_Image_lib {
 				break;
 		}
 
-		//  Build the finalized image
+		// Build the finalized image
 		if ($wm_img_type == 3 AND function_exists('imagealphablending'))
 		{
 			@imagealphablending($src_img, TRUE);
@@ -954,7 +954,7 @@ class CI_Image_lib {
 			imagecopymerge($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height, $this->wm_opacity);
 		}
 
-		//  Output the image
+		// Output the image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
@@ -994,7 +994,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Fetch source image properties
+		// Fetch source image properties
 		$this->get_image_properties();
 
 		// Set RGB values for text and shadow
@@ -1015,8 +1015,8 @@ class CI_Image_lib {
 		// Reverse the vertical offset
 		// When the image is positioned at the bottom
 		// we don't want the vertical offset to push it
-		// further down.  We want the reverse, so we'll
-		// invert the offset.  Note: The horizontal
+		// further down. We want the reverse, so we'll
+		// invert the offset. Note: The horizontal
 		// offset flips itself automatically
 
 		if ($this->wm_vrt_alignment == 'B')
@@ -1033,13 +1033,13 @@ class CI_Image_lib {
 			if ($this->wm_font_size == '')
 				$this->wm_font_size = '17';
 
-			$fontwidth  = $this->wm_font_size-($this->wm_font_size/4);
+			$fontwidth = $this->wm_font_size-($this->wm_font_size/4);
 			$fontheight = $this->wm_font_size;
 			$this->wm_vrt_offset += $this->wm_font_size;
 		}
 		else
 		{
-			$fontwidth  = imagefontwidth($this->wm_font_size);
+			$fontwidth = imagefontwidth($this->wm_font_size);
 			$fontheight = imagefontheight($this->wm_font_size);
 		}
 
@@ -1080,11 +1080,11 @@ class CI_Image_lib {
 			case "C":
 						if ($this->wm_use_drop_shadow)
 							$x_shad += floor(($this->orig_width - $fontwidth*strlen($this->wm_text))/2);
-							$x_axis += floor(($this->orig_width  -$fontwidth*strlen($this->wm_text))/2);
+							$x_axis += floor(($this->orig_width -$fontwidth*strlen($this->wm_text))/2);
 				break;
 		}
 
-		//  Add the text to the source image
+		// Add the text to the source image
 		if ($this->wm_use_truetype)
 		{
 			if ($this->wm_use_drop_shadow)
@@ -1098,7 +1098,7 @@ class CI_Image_lib {
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 		}
 
-		//  Output the final image
+		// Output the final image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
@@ -1366,7 +1366,7 @@ class CI_Image_lib {
 	 * Size calculator
 	 *
 	 * This function takes a known width x height and
-	 * recalculates it to a new size.  Only one
+	 * recalculates it to a new size. Only one
 	 * new variable needs to be known
 	 *
 	 *	$props = array(
@@ -1374,7 +1374,7 @@ class CI_Image_lib {
 	 *					'height'		=> $height,
 	 *					'new_width'		=> 40,
 	 *					'new_height'	=> ''
-	 *				  );
+	 *				 );
 	 *
 	 * @access	public
 	 * @param	array
@@ -1418,10 +1418,10 @@ class CI_Image_lib {
 	 * Explode source_image
 	 *
 	 * This is a helper function that extracts the extension
-	 * from the source_image.  This function lets us deal with
-	 * source_images with multiple periods, like:  my.cool.jpg
+	 * from the source_image. This function lets us deal with
+	 * source_images with multiple periods, like: my.cool.jpg
 	 * It returns an associative array with two elements:
-	 * $array['ext']  = '.jpg';
+	 * $array['ext'] = '.jpg';
 	 * $array['name'] = 'my.cool';
 	 *
 	 * @access	public
