@@ -58,7 +58,7 @@ Config Class
 
 <h1>Config Class</h1>
 
-<p>The Config class provides a means to retrieve configuration preferences.  These preferences can
+<p>The Config class provides a means to retrieve configuration preferences. These preferences can
 come from the default config file (<samp>application/config/config.php</samp>) or from your own custom config files.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
@@ -66,7 +66,7 @@ come from the default config file (<samp>application/config/config.php</samp>) o
 
 <h2>Anatomy of a Config File</h2>
 
-<p>By default, CodeIgniter has one primary config file, located at <samp>application/config/config.php</samp>.  If you open the file using
+<p>By default, CodeIgniter has one primary config file, located at <samp>application/config/config.php</samp>. If you open the file using
 your text editor you'll see that config items are stored in an array called <var>$config</var>.</p>
 
 <p>You can add your own config items to
@@ -74,7 +74,7 @@ this file, or if you prefer to keep your configuration items separate (assuming 
 simply create your own file and save it in <dfn>config</dfn> folder.</p>
 
 <p><strong>Note:</strong> If you do create your own config files use the same format as the primary one, storing your items in
-an array called  <var>$config</var>. CodeIgniter will intelligently manage these files so there will be no conflict even though
+an array called <var>$config</var>. CodeIgniter will intelligently manage these files so there will be no conflict even though
 the array has the same name (assuming an array index is not named the same as another).</p>
 
 <h2>Loading a Config File</h2>
@@ -92,12 +92,12 @@ so you will only need to load a config file if you have created your own.</p>
 
 <p>Where <var>filename</var> is the name of your config file, without the .php file extension.</p>
 
-<p>If you need to load multiple config files normally they will be merged into one master config array.  Name collisions can occur, however, if
-you have identically named array indexes in different config files.  To avoid collisions you can set the second parameter to <kbd>TRUE</kbd>
+<p>If you need to load multiple config files normally they will be merged into one master config array. Name collisions can occur, however, if
+you have identically named array indexes in different config files. To avoid collisions you can set the second parameter to <kbd>TRUE</kbd>
 and each config file will be stored in an array index corresponding to the name of the config file. Example:</p>
 
 <code>
-// Stored in an array with this prototype:  $this->config['blog_settings'] = $config<br />
+// Stored in an array with this prototype: $this->config['blog_settings'] = $config<br />
 $this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);</code>
 
 <p>Please see the section entitled <dfn>Fetching Config Items</dfn> below to learn how to retrieve config items set this way.</p>
@@ -109,7 +109,7 @@ $this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);</code>
 </li>
 <li><strong>Auto-loading</strong>
 
-<p>If you find that you need a particular config file globally, you can have it loaded automatically by the system.  To do this,
+<p>If you find that you need a particular config file globally, you can have it loaded automatically by the system. To do this,
 open the <strong>autoload.php</strong> file, located at <samp>application/config/autoload.php</samp>, and add your config file as
 indicated in the file.</p>
 </li>
@@ -129,7 +129,7 @@ indicated in the file.</p>
 <p>The function returns FALSE (boolean) if the item you are trying to fetch does not exist.</p>
 
 <p>If you are using the second parameter of the <kbd>$this->config->load</kbd> function in order to assign your config items to a specific index
-you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function.  Example:</p>
+you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function. Example:</p>
 
 <code>
 // Loads a config file named blog_settings.php and assigns it to an index named "blog_settings"<br />
@@ -154,32 +154,32 @@ $site_name = $blog_config['site_name'];</code>
 <h2>Environments</h2>
 
 <p>
-    You may load different configuration files depending on the current environment.
-    The <kbd>ENVIRONMENT</kbd> constant is defined in index.php, and is described
-    in detail in the <a href="../general/environments.html">Handling Environments</a>
-    section.
+  You may load different configuration files depending on the current environment.
+  The <kbd>ENVIRONMENT</kbd> constant is defined in index.php, and is described
+  in detail in the <a href="../general/environments.html">Handling Environments</a>
+  section.
 </p>
 
 <p>
-    To create an environment-specific configuration file,
-    create or copy a configuration file in application/config/{ENVIRONMENT}/{FILENAME}.php
+  To create an environment-specific configuration file,
+  create or copy a configuration file in application/config/{ENVIRONMENT}/{FILENAME}.php
 </p>
 
 <p>For example, to create a production-only config.php, you would:</p>
 
 <ol>
-    <li>Create the directory application/config/production/</li>
-    <li>Copy your existing config.php into the above directory</li>
-    <li>Edit application/config/production/config.php so it contains your production settings</li>
+  <li>Create the directory application/config/production/</li>
+  <li>Copy your existing config.php into the above directory</li>
+  <li>Edit application/config/production/config.php so it contains your production settings</li>
 </ol>
 
 <p>
-    When you set the <kbd>ENVIRONMENT</kbd> constant to 'production', the settings
-    for your new production-only config.php will be loaded.
+  When you set the <kbd>ENVIRONMENT</kbd> constant to 'production', the settings
+  for your new production-only config.php will be loaded.
 </p>
 
 <p>You can place the following configuration files in environment-specific folders:</p>
-	
+
 <ul>
 <li>Default CodeIgniter configuration files</li>
 <li>Your own custom configuration files</li>

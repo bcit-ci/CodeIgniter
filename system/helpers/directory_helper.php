@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -31,7 +31,7 @@
  * Create a Directory Map
  *
  * Reads the specified directory and builds an array
- * representation of it.  Sub-folders contained with the
+ * representation of it. Sub-folders contained with the
  * directory will be mapped as well.
  *
  * @access	public

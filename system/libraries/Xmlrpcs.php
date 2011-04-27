@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -132,7 +132,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	function serve()
 	{
 		$r = $this->parseRequest();
-		$payload  = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?'.'>'."\n";
+		$payload = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?'.'>'."\n";
 		$payload .= $this->debug_msg;
 		$payload .= $r->prepare_response();
 
@@ -156,7 +156,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	function add_to_map($methodname, $function, $sig, $doc)
 	{
 		$this->methods[$methodname] = array(
-			'function'  => $function,
+			'function' => $function,
 			'signature' => $sig,
 			'docstring' => $doc
 		);
@@ -176,7 +176,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		global $HTTP_RAW_POST_DATA;
 
 		//-------------------------------------
-		//  Get Data
+		// Get Data
 		//-------------------------------------
 
 		if ($data == '')
@@ -185,7 +185,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Set up XML Parser
+		// Set up XML Parser
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
@@ -207,7 +207,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 
 		//-------------------------------------
-		//  PARSE + PROCESS XML DATA
+		// PARSE + PROCESS XML DATA
 		//-------------------------------------
 
 		if ( ! xml_parse($parser, $data, 1))
@@ -235,7 +235,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			{
 				if ($this->debug === TRUE)
 				{
-					$plist .= "$i - " .  print_r(get_object_vars($parser_object->xh[$parser]['params'][$i]), TRUE). ";\n";
+					$plist .= "$i - " . print_r(get_object_vars($parser_object->xh[$parser]['params'][$i]), TRUE). ";\n";
 				}
 
 				$m->addParam($parser_object->xh[$parser]['params'][$i]);
@@ -252,7 +252,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  SET DEBUGGING MESSAGE
+		// SET DEBUGGING MESSAGE
 		//-------------------------------------
 
 		if ($this->debug === TRUE)
@@ -285,7 +285,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Valid Method
+		// Valid Method
 		//-------------------------------------
 
 		if ( ! isset($this->methods[$methName]['function']))
@@ -294,7 +294,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Check for Method (and Object)
+		// Check for Method (and Object)
 		//-------------------------------------
 
 		$method_parts = explode(".", $this->methods[$methName]['function']);
@@ -320,7 +320,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Checking Methods Signature
+		// Checking Methods Signature
 		//-------------------------------------
 
 		if (isset($this->methods[$methName]['signature']))
@@ -353,7 +353,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Calls the Function
+		// Calls the Function
 		//-------------------------------------
 
 		if ($objectCall === TRUE)
@@ -381,11 +381,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return call_user_func($this->methods[$methName]['function'], $m);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Server Function:  List Methods
+	 * Server Function: List Methods
 	 *
 	 * @access	public
 	 * @param	mixed
@@ -409,11 +409,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$v->addArray($output);
 		return new XML_RPC_Response($v);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Server Function:  Return Signature for Method
+	 * Server Function: Return Signature for Method
 	 *
 	 * @access	public
 	 * @param	mixed
@@ -458,7 +458,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	// --------------------------------------------------------------------
 
 	/**
-	 * Server Function:  Doc String for Method
+	 * Server Function: Doc String for Method
 	 *
 	 * @access	public
 	 * @param	mixed
@@ -480,11 +480,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return new XML_RPC_Response(0, $this->xmlrpcerr['introspect_unknown'], $this->xmlrpcstr['introspect_unknown']);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Server Function:  Multi-call
+	 * Server Function: Multi-call
 	 *
 	 * @access	public
 	 * @param	mixed
@@ -528,7 +528,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Multi-call Function:  Error Handling
+	 * Multi-call Function: Error Handling
 	 *
 	 * @access	public
 	 * @param	mixed
@@ -536,7 +536,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 */
 	function multicall_error($err)
 	{
-		$str  = is_string($err) ? $this->xmlrpcstr["multicall_${err}"] : $err->faultString();
+		$str = is_string($err) ? $this->xmlrpcstr["multicall_${err}"] : $err->faultString();
 		$code = is_string($err) ? $this->xmlrpcerr["multicall_${err}"] : $err->faultCode();
 
 		$struct['faultCode'] = new XML_RPC_Values($code, 'int');
@@ -548,7 +548,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Multi-call Function:  Processes method
+	 * Multi-call Function: Processes method
 	 *
 	 * @access	public
 	 * @param	mixed

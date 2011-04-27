@@ -69,8 +69,8 @@ Upgrading from 1.7.2 to 2.0.0
 
 <h2>Step 2: Adjust get_dir_file_info() where necessary</h2>
 
-<p>Version 2.0.0 brings a non-backwards compatible change to <kbd>get_dir_file_info()</kbd> in the <a href="../helpers/file_helper.html">File Helper</a>.  Non-backwards compatible changes are extremely rare
-	in CodeIgniter, but this one we feel was warranted due to how easy it was to create serious server performance issues.  If you <em>need</em>
+<p>Version 2.0.0 brings a non-backwards compatible change to <kbd>get_dir_file_info()</kbd> in the <a href="../helpers/file_helper.html">File Helper</a>. Non-backwards compatible changes are extremely rare
+	in CodeIgniter, but this one we feel was warranted due to how easy it was to create serious server performance issues. If you <em>need</em>
 	recursiveness where you are using this helper function, change such instances, setting the second parameter, <kbd>$top_level_only</kbd> to FALSE:</p>
 
 <code>get_dir_file_info('/path/to/directory', <kbd>FALSE</kbd>);</code>
@@ -79,7 +79,7 @@ Upgrading from 1.7.2 to 2.0.0
 
 <h2>Step 3: Convert your Plugins to Helpers</h2>
 
-<p>2.0.0 gets rid of the "Plugin" system as their functionality was identical to Helpers, but non-extensible.  You will need to rename your plugin files from <var>filename_pi.php</var> to <var>filename_helper.php</var>, move them to your <kbd>helpers</kbd> folder, and change all instances of:
+<p>2.0.0 gets rid of the "Plugin" system as their functionality was identical to Helpers, but non-extensible. You will need to rename your plugin files from <var>filename_pi.php</var> to <var>filename_helper.php</var>, move them to your <kbd>helpers</kbd> folder, and change all instances of:
 
 	<code>$this->load->plugin('foo');</code>
 
@@ -94,7 +94,7 @@ to
 <p class="important"><strong>Note:</strong> If your application does not use the Encryption library, does not store Encrypted data permanently, or is on an environment that does not support Mcrypt, you may skip this step.</p>
 
 <p>The Encryption library has had a number of improvements, some for encryption strength and some for performance, that has an unavoidable consequence of
-	making it no longer possible to decode encrypted data produced by the original version of this library.  To help with the transition, a new method has
+	making it no longer possible to decode encrypted data produced by the original version of this library. To help with the transition, a new method has
 	been added, <kbd>encode_from_legacy()</kbd> that will decode the data with the original algorithm and return a re-encoded string using the improved methods.
 	This will enable you to easily replace stale encrypted data with fresh in your applications, either on the fly or en masse.</p>
 
@@ -104,7 +104,7 @@ to
 <p>The compatibility helper has been removed from the CodeIgniter core. All methods in it should be natively available in supported PHP versions.</p>
 
 <h2>Step 6: Update Class extension</h2>
-<p>All core classes are now prefixed with <kbd>CI_</kbd>.  Update Models and Controllers to extend CI_Model and CI_Controller, respectively.</p> 
+<p>All core classes are now prefixed with <kbd>CI_</kbd>. Update Models and Controllers to extend CI_Model and CI_Controller, respectively.</p>
 
 <h2>Step 7: Update Parent Constructor calls</h2>
 <p>All native CodeIgniter classes now use the PHP 5 <kbd>__construct()</kbd> convention. Please update extended libraries to call <kbd>parent::__construct()</kbd>.</p>

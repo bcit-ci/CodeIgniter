@@ -92,7 +92,7 @@ $test_name = 'Adds one plus one';<br />
 <br />
 $this->unit->run($test, $expected_result, $test_name);</code>
 
-<p>The expected result you supply can either be a literal match, or a data type match.  Here's an example of a literal:</p>
+<p>The expected result you supply can either be a literal match, or a data type match. Here's an example of a literal:</p>
 
 <code>$this->unit->run('Foo', 'Foo');</code>
 
@@ -100,8 +100,8 @@ $this->unit->run($test, $expected_result, $test_name);</code>
 
 <code>$this->unit->run('Foo', 'is_string');</code>
 
-<p>Notice the use of "is_string" in the second parameter?  This tells the function to evaluate whether your test is producing a string
-as the result.  Here is a list of allowed comparison types:</p>
+<p>Notice the use of "is_string" in the second parameter? This tells the function to evaluate whether your test is producing a string
+as the result. Here is a list of allowed comparison types:</p>
 
 <ul>
 <li>is_object</li>
@@ -129,18 +129,18 @@ To show a report directly simply echo or return the <var>run</var> function:</p>
 
 <code>echo $this->unit->report();</code>
 
-<p>The report will be formatted in an HTML table for viewing.  If you prefer the raw data you can retrieve an array using:</p>
+<p>The report will be formatted in an HTML table for viewing. If you prefer the raw data you can retrieve an array using:</p>
 
 <code>echo $this->unit->result();</code>
 
 
 <h2>Strict Mode</h2>
 
-<p>By default the unit test class evaluates literal matches loosely.  Consider this example:</p>
+<p>By default the unit test class evaluates literal matches loosely. Consider this example:</p>
 
 <code>$this->unit->run(1, TRUE);</code>
 
-<p>The test is evaluating an integer, but the expected result is a boolean.  PHP, however, due to it's loose data-typing
+<p>The test is evaluating an integer, but the expected result is a boolean. PHP, however, due to it's loose data-typing
 will evaluate the above code as TRUE using a normal equality test:</p>
 
 <code>if (1 == TRUE) echo 'This evaluates as true';</code>
@@ -184,8 +184,8 @@ You can customize which of these items get displayed by using <kbd>$this->unit->
 
 <h3>Creating a Template</h3>
 
-<p>If you would like your test results formatted differently then the default you can set your own template.  Here is an
-example of a simple template.  Note the required pseudo-variables:</p>
+<p>If you would like your test results formatted differently then the default you can set your own template. Here is an
+example of a simple template. Note the required pseudo-variables:</p>
 
 <code>
 $str = '<br />

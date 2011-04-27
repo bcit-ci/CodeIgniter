@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -40,7 +40,7 @@ class CI_Loader {
 	protected $_ci_loaded_files		= array();
 	protected $_ci_models			= array();
 	protected $_ci_helpers			= array();
-	protected $_ci_varmap			= array('unit_test' => 'unit', 
+	protected $_ci_varmap			= array('unit_test' => 'unit',
 											'user_agent' => 'agent');
 
 	/**
@@ -50,29 +50,29 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_library_paths = array(APPPATH, BASEPATH);
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
 		$this->_ci_view_paths = array(APPPATH.'views/'	=> TRUE);
-		
+
 		log_message('debug', "Loader Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Set _base_classes variable
 	 *
 	 * This method is called once in CI_Controller.
 	 *
-	 * @param 	array 	
+	 * @param 	array
 	 * @return 	object
 	 */
 	public function set_base_classes()
 	{
 		$this->_base_classes =& is_loaded();
-		
+
 		return $this;
 	}
 
@@ -96,7 +96,7 @@ class CI_Loader {
 		{
 			return $this->_ci_classes[$class];
 		}
-				
+
 		return FALSE;
 	}
 
@@ -260,7 +260,7 @@ class CI_Loader {
 			return DB($params, $active_record);
 		}
 
-		// Initialize the db variable.  Needed to prevent
+		// Initialize the db variable. Needed to prevent
 		// reference errors with some configurations
 		$CI->db = '';
 
@@ -323,11 +323,11 @@ class CI_Loader {
 	/**
 	 * Load View
 	 *
-	 * This function is used to load a "view" file.  It has three parameters:
+	 * This function is used to load a "view" file. It has three parameters:
 	 *
 	 * 1. The name of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
-	 * 3. TRUE/FALSE - whether to return the data or load it.  In
+	 * 3. TRUE/FALSE - whether to return the data or load it. In
 	 * some cases it's advantageous to be able to return data so that
 	 * a developer can process it in some way.
 	 *
@@ -538,13 +538,13 @@ class CI_Loader {
 	 * Prepends a parent path to the library, model, helper, and config path arrays
 	 *
 	 * @param	string
-	 * @param 	boolean 	
+	 * @param 	boolean
 	 * @return	void
 	 */
 	public function add_package_path($path, $view_cascade=TRUE)
 	{
 		$path = rtrim($path, '/').'/';
-		
+
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
@@ -604,7 +604,7 @@ class CI_Loader {
 					unset($this->{$var}[$key]);
 				}
 			}
-			
+
 			if (isset($this->_ci_view_paths[$path.'views/']))
 			{
 				unset($this->_ci_view_paths[$path.'views/']);
@@ -643,7 +643,7 @@ class CI_Loader {
 		{
 			$$_ci_val = ( ! isset($_ci_data[$_ci_val])) ? FALSE : $_ci_data[$_ci_val];
 		}
-		
+
 		$file_exists = FALSE;
 
 		// Set the path to the requested file
@@ -665,11 +665,11 @@ class CI_Loader {
 					$file_exists = TRUE;
 					break;
 				}
-				
+
 				if ( ! $cascade)
 				{
 					break;
-				}				
+				}
 			}
 		}
 
@@ -710,9 +710,9 @@ class CI_Loader {
 		 * We buffer the output for two reasons:
 		 * 1. Speed. You get a significant speed boost.
 		 * 2. So that the final rendered template can be
-		 * post-processed by the output class.  Why do we
-		 * need post processing?  For one thing, in order to
-		 * show the elapsed page load time.  Unless we
+		 * post-processed by the output class. Why do we
+		 * need post processing? For one thing, in order to
+		 * show the elapsed page load time. Unless we
 		 * can intercept the content right before it's sent to
 		 * the browser and then stop the timer it won't be accurate.
 		 */
@@ -809,11 +809,11 @@ class CI_Loader {
 					show_error("Unable to load the requested class: ".$class);
 				}
 
-				// Safety:  Was the class already loaded by a previous call?
+				// Safety: Was the class already loaded by a previous call?
 				if (in_array($subclass, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied.  If so, we'll
+					// if a custom object name is being supplied. If so, we'll
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
@@ -842,17 +842,17 @@ class CI_Loader {
 			{
 				$filepath = $path.'libraries/'.$subdir.$class.'.php';
 
-				// Does the file exist?  No?  Bummer...
+				// Does the file exist? No? Bummer...
 				if ( ! file_exists($filepath))
 				{
 					continue;
 				}
 
-				// Safety:  Was the class already loaded by a previous call?
+				// Safety: Was the class already loaded by a previous call?
 				if (in_array($filepath, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied.  If so, we'll
+					// if a custom object name is being supplied. If so, we'll
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
@@ -875,7 +875,7 @@ class CI_Loader {
 
 		} // END FOREACH
 
-		// One last attempt.  Maybe the library is in a subdirectory, but it wasn't specified?
+		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
 		if ($subdir == '')
 		{
 			$path = strtolower($class).'/'.$class;
@@ -903,7 +903,7 @@ class CI_Loader {
 	 */
 	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{
-		// Is there an associated config file for this class?  Note: these should always be lowercase
+		// Is there an associated config file for this class? Note: these should always be lowercase
 		if ($config === NULL)
 		{
 			// Fetch the config paths containing any package paths
@@ -970,7 +970,7 @@ class CI_Loader {
 		}
 
 		// Set the variable name we will assign the class to
-		// Was a custom class name supplied?  If so we'll use it
+		// Was a custom class name supplied? If so we'll use it
 		$class = strtolower($class);
 
 		if (is_null($object_name))
@@ -1005,7 +1005,7 @@ class CI_Loader {
 	 * The config/autoload.php file contains an array that permits sub-systems,
 	 * libraries, and helpers to be loaded automatically.
 	 *
-	 * This function is public, as it's used in the CI_Controller class.  
+	 * This function is public, as it's used in the CI_Controller class.
 	 * However, there is no reason you should ever needs to use it.
 	 *
 	 * @param	array
@@ -1021,7 +1021,7 @@ class CI_Loader {
 		{
 			include_once(APPPATH.'config/autoload.php');
 		}
-		
+
 
 		if ( ! isset($autoload))
 		{

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -74,10 +74,10 @@ class CI_SHA1 {
 
 		$x[$n * 16 - 1] = strlen($str) * 8;
 
-		$a =  1732584193;
+		$a = 1732584193;
 		$b = -271733879;
 		$c = -1732584194;
-		$d =  271733878;
+		$d = 271733878;
 		$e = -1009589776;
 
 		for ($i = 0; $i < count($x); $i += 16)
@@ -142,7 +142,7 @@ class CI_SHA1 {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Return result based on iteration
+	 * Return result based on iteration
 	 *
 	 * @access	private
 	 * @return	string

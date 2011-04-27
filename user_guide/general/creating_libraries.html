@@ -58,7 +58,7 @@ Creating Libraries
 <h1>Creating Libraries</h1>
 
 <p>When we use the term "Libraries" we are normally referring to the classes that are located in the <kbd>libraries</kbd>
-directory and described in the Class Reference of this user guide.  In this case, however, we will instead describe how you can create
+directory and described in the Class Reference of this user guide. In this case, however, we will instead describe how you can create
 your own libraries within your <dfn>application/libraries</dfn> directory in order to maintain separation between your local resources
 and the global framework resources.</p>
 
@@ -75,7 +75,7 @@ to an existing library. Or you can even replace native libraries just by placing
 
 <p>The page below explains these three concepts in detail.</p>
 
-<p class="important"><strong>Note:</strong> The Database classes can not be extended or replaced with your own classes.  All other classes are able to be replaced/extended.</p>
+<p class="important"><strong>Note:</strong> The Database classes can not be extended or replaced with your own classes. All other classes are able to be replaced/extended.</p>
 
 
 <h2>Storage</h2>
@@ -88,16 +88,16 @@ they are initialized.</p>
 
 <ul>
 <li>File names must be capitalized. For example:&nbsp; <dfn>Myclass.php</dfn></li>
-<li>Class declarations must be capitalized. For example:&nbsp;  <kbd>class Myclass</kbd></li>
+<li>Class declarations must be capitalized. For example:&nbsp; <kbd>class Myclass</kbd></li>
 <li>Class names and file names must match.</li>
 </ul>
 
 
 <h2>The Class File</h2>
 
-<p>Classes should have this basic prototype (Note:  We are using the name <kbd>Someclass</kbd> purely as an example):</p>
+<p>Classes should have this basic prototype (Note: We are using the name <kbd>Someclass</kbd> purely as an example):</p>
 
-<code>&lt;?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<code>&lt;?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <br /><br />
 class Someclass {<br />
 <br />
@@ -136,7 +136,7 @@ $this->load->library('Someclass', <kbd>$params</kbd>);</code>
 
 <p>If you use this feature you must set up your class constructor to expect data:</p>
 
-<code>&lt;?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');<br />
+<code>&lt;?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');<br />
 <br />
 class Someclass {<br />
 <br />
@@ -147,8 +147,8 @@ class Someclass {<br />
 }<br /><br />
 ?&gt;</code>
 
-<p class="important">You can also pass parameters stored in a config file.  Simply create a config file named identically to the class <kbd>file name</kbd>
-and store it in your <dfn>application/config/</dfn> folder.  Note that if you dynamically pass parameters as described above,
+<p class="important">You can also pass parameters stored in a config file. Simply create a config file named identically to the class <kbd>file name</kbd>
+and store it in your <dfn>application/config/</dfn> folder. Note that if you dynamically pass parameters as described above,
 the config file option will not be available.</p>
 
 
@@ -202,7 +202,7 @@ etc.
 <h2>Replacing Native Libraries with Your Versions</h2>
 
 <p>Simply by naming your class files identically to a native library will cause CodeIgniter to use it instead of the native one. To use this
-feature you must name the file and the class declaration exactly the same as the native library.  For example, to replace the native <kbd>Email</kbd> library
+feature you must name the file and the class declaration exactly the same as the native library. For example, to replace the native <kbd>Email</kbd> library
 you'll create a file named <dfn>application/libraries/Email.php</dfn>, and declare your class with:</p>
 
 <code>
@@ -222,12 +222,12 @@ class CI_Email {<br /><br />
 <h2>Extending Native Libraries</h2>
 
 <p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
-it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.
+it's overkill to replace the entire library with your version. In this case it's better to simply extend the class.
 Extending a class is nearly identical to replacing a class with a couple exceptions:</p>
 
 <ul>
 <li>The class declaration must extend the parent class.</li>
-<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li>
+<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable. See below.).</li>
 </ul>
 
 <p>For example, to extend the native <kbd>Email</kbd> class you'll create a file named <dfn>application/libraries/</dfn><kbd>MY_Email.php</kbd>, and declare your class with:</p>
@@ -252,12 +252,12 @@ class MY_Email extends CI_Email {<br />
 
 <h3>Loading Your Sub-class</h3>
 
-<p>To load your sub-class you'll use the standard syntax normally used.  DO NOT include your prefix.  For example,
+<p>To load your sub-class you'll use the standard syntax normally used. DO NOT include your prefix. For example,
 to load the example above, which extends the Email class, you will use:</p>
 
 <code>$this->load->library('<kbd>email</kbd>');</code>
 
-<p>Once loaded you will use the class variable as you normally would for the class you are extending.  In the case of
+<p>Once loaded you will use the class variable as you normally would for the class you are extending. In the case of
 the email class all calls will use:</p>
 
 

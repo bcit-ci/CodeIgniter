@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -46,7 +46,7 @@ class CI_Xmlrpc {
 	var $xmlrpcTypes	= array();
 	var $valid_parents	= array();
 	var $xmlrpcerr		= array();	// Response numbers
-	var $xmlrpcstr		= array();  // Response strings
+	var $xmlrpcstr		= array(); // Response strings
 
 	var $xmlrpc_defencoding = 'UTF-8';
 	var $xmlrpcName			= 'XML-RPC for CodeIgniter';
@@ -61,12 +61,12 @@ class CI_Xmlrpc {
 	var $message			= '';
 	var $error				= '';		// Error string for request
 	var $result;
-	var $response			= array();  // Response from remote server
+	var $response			= array(); // Response from remote server
 
 	var $xss_clean			= TRUE;
 
 	//-------------------------------------
-	//  VALUES THAT MULTIPLE CLASSES NEED
+	// VALUES THAT MULTIPLE CLASSES NEED
 	//-------------------------------------
 
 	public function __construct($config = array())
@@ -112,7 +112,7 @@ class CI_Xmlrpc {
 		$this->xmlrpcerr['unknown_method'] = '1';
 		$this->xmlrpcstr['unknown_method'] = 'This is not a known method for this XML-RPC Server';
 		$this->xmlrpcerr['invalid_return'] = '2';
-		$this->xmlrpcstr['invalid_return'] = 'The XML data received was either invalid or not in the correct form for XML-RPC.  Turn on debugging to examine the XML data further.';
+		$this->xmlrpcstr['invalid_return'] = 'The XML data received was either invalid or not in the correct form for XML-RPC. Turn on debugging to examine the XML data further.';
 		$this->xmlrpcerr['incorrect_params'] = '3';
 		$this->xmlrpcstr['incorrect_params'] = 'Incorrect parameters were passed to method';
 		$this->xmlrpcerr['introspect_unknown'] = '4';
@@ -129,7 +129,7 @@ class CI_Xmlrpc {
 
 
 	//-------------------------------------
-	//  Initialize Prefs
+	// Initialize Prefs
 	//-------------------------------------
 
 	function initialize($config = array())
@@ -148,7 +148,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Take URL and parse it
+	// Take URL and parse it
 	//-------------------------------------
 
 	function server($url, $port=80)
@@ -172,7 +172,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Set Timeout
+	// Set Timeout
 	//-------------------------------------
 
 	function timeout($seconds=5)
@@ -185,7 +185,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Set Methods
+	// Set Methods
 	//-------------------------------------
 
 	function method($function)
@@ -195,7 +195,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Take Array of Data and Create Objects
+	// Take Array of Data and Create Objects
 	//-------------------------------------
 
 	function request($incoming)
@@ -216,7 +216,7 @@ class CI_Xmlrpc {
 
 
 	//-------------------------------------
-	//  Set Debug
+	// Set Debug
 	//-------------------------------------
 
 	function set_debug($flag = TRUE)
@@ -225,7 +225,7 @@ class CI_Xmlrpc {
 	}
 
 	//-------------------------------------
-	//  Values Parsing
+	// Values Parsing
 	//-------------------------------------
 
 	function values_parsing($value, $return = FALSE)
@@ -268,7 +268,7 @@ class CI_Xmlrpc {
 
 
 	//-------------------------------------
-	//  Sends XML-RPC Request
+	// Sends XML-RPC Request
 	//-------------------------------------
 
 	function send_request()
@@ -294,7 +294,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Returns Error
+	// Returns Error
 	//-------------------------------------
 
 	function display_error()
@@ -304,7 +304,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Returns Remote Server Response
+	// Returns Remote Server Response
 	//-------------------------------------
 
 	function display_response()
@@ -314,7 +314,7 @@ class CI_Xmlrpc {
 	// END
 
 	//-------------------------------------
-	//  Sends an Error Message for Server Request
+	// Sends an Error Message for Server Request
 	//-------------------------------------
 
 	function send_error_message($number, $message)
@@ -325,7 +325,7 @@ class CI_Xmlrpc {
 
 
 	//-------------------------------------
-	//  Send Response for Server Request
+	// Send Response for Server Request
 	//-------------------------------------
 
 	function send_response($response)
@@ -399,7 +399,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 		}
 
 		$r = "\r\n";
-		$op  = "POST {$this->path} HTTP/1.0$r";
+		$op = "POST {$this->path} HTTP/1.0$r";
 		$op .= "Host: {$this->server}$r";
 		$op .= "Content-Type: text/xml$r";
 		$op .= "User-Agent: {$this->xmlrpcName}$r";
@@ -447,7 +447,7 @@ class XML_RPC_Response
 		else if ( ! is_object($val))
 		{
 			// programmer error, not an object
-			error_log("Invalid type '" . gettype($val) . "' (value: $val) passed to XML_RPC_Response.  Defaulting to empty value.");
+			error_log("Invalid type '" . gettype($val) . "' (value: $val) passed to XML_RPC_Response. Defaulting to empty value.");
 			$this->val = new XML_RPC_Values();
 		}
 		else
@@ -504,7 +504,7 @@ class XML_RPC_Response
 	function decode($array=FALSE)
 	{
 		$CI =& get_instance();
-		
+
 		if ($array !== FALSE && is_array($array))
 		{
 			while (list($key) = each($array))
@@ -541,7 +541,7 @@ class XML_RPC_Response
 
 
 	//-------------------------------------
-	//  XML-RPC Object to PHP Types
+	// XML-RPC Object to PHP Types
 	//-------------------------------------
 
 	function xmlrpc_decoder($xmlrpc_val)
@@ -581,7 +581,7 @@ class XML_RPC_Response
 
 
 	//-------------------------------------
-	//  ISO-8601 time to server or UTC time
+	// ISO-8601 time to server or UTC time
 	//-------------------------------------
 
 	function iso8601_decode($time, $utc=0)
@@ -630,7 +630,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	}
 
 	//-------------------------------------
-	//  Create Payload to Send
+	// Create Payload to Send
 	//-------------------------------------
 
 	function createPayload()
@@ -650,7 +650,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	}
 
 	//-------------------------------------
-	//  Parse External XML-RPC Server's Response
+	// Parse External XML-RPC Server's Response
 	//-------------------------------------
 
 	function parseResponse($fp)
@@ -663,7 +663,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  DISPLAY HTTP CONTENT for DEBUGGING
+		// DISPLAY HTTP CONTENT for DEBUGGING
 		//-------------------------------------
 
 		if ($this->debug === TRUE)
@@ -674,7 +674,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Check for data
+		// Check for data
 		//-------------------------------------
 
 		if ($data == "")
@@ -686,7 +686,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 
 		//-------------------------------------
-		//  Check for HTTP 200 Response
+		// Check for HTTP 200 Response
 		//-------------------------------------
 
 		if (strncmp($data, 'HTTP', 4) == 0 && ! preg_match('/^HTTP\/[0-9\.]+ 200 /', $data))
@@ -697,7 +697,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Create and Set Up XML Parser
+		// Create and Set Up XML Parser
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
@@ -718,7 +718,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 
 		//-------------------------------------
-		//  GET HEADERS
+		// GET HEADERS
 		//-------------------------------------
 
 		$lines = explode("\r\n", $data);
@@ -734,7 +734,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 
 		//-------------------------------------
-		//  PARSE XML DATA
+		// PARSE XML DATA
 		//-------------------------------------
 
 		if ( ! xml_parse($parser, $data, count($data)))
@@ -750,7 +750,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		xml_parser_free($parser);
 
 		// ---------------------------------------
-		//  Got Ourselves Some Badness, It Seems
+		// Got Ourselves Some Badness, It Seems
 		// ---------------------------------------
 
 		if ($this->xh[$parser]['isf'] > 1)
@@ -772,7 +772,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  DISPLAY XML CONTENT for DEBUGGING
+		// DISPLAY XML CONTENT for DEBUGGING
 		//-------------------------------------
 
 		if ($this->debug === TRUE)
@@ -797,7 +797,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  SEND RESPONSE
+		// SEND RESPONSE
 		//-------------------------------------
 
 		$v = $this->xh[$parser]['value'];
@@ -826,21 +826,21 @@ class XML_RPC_Message extends CI_Xmlrpc
 	}
 
 	// ------------------------------------
-	//  Begin Return Message Parsing section
+	// Begin Return Message Parsing section
 	// ------------------------------------
 
 	// quick explanation of components:
-	//   ac - used to accumulate values
-	//   isf - used to indicate a fault
-	//   lv - used to indicate "looking for a value": implements
+	//  ac - used to accumulate values
+	//  isf - used to indicate a fault
+	//  lv - used to indicate "looking for a value": implements
 	//		the logic to allow values with no types to be strings
-	//   params - used to store parameters in method calls
-	//   method - used to store method name
+	//  params - used to store parameters in method calls
+	//  method - used to store method name
 	//	 stack - array with parent tree of the xml element,
 	//			 used to validate the nesting of elements
 
 	//-------------------------------------
-	//  Start Element Handler
+	// Start Element Handler
 	//-------------------------------------
 
 	function open_tag($the_parser, $name, $attrs)
@@ -942,7 +942,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 
 	//-------------------------------------
-	//  End Element Handler
+	// End Element Handler
 	//-------------------------------------
 
 	function closing_tag($the_parser, $name)
@@ -951,7 +951,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 		// Remove current element from stack and set variable
 		// NOTE: If the XML validates, then we do not have to worry about
-		// the opening and closing of elements.  Nesting is checked on the opening
+		// the opening and closing of elements. Nesting is checked on the opening
 		// tag so we be safe there as well.
 
 		$curr_elem = array_shift($this->xh[$the_parser]['stack']);
@@ -1080,13 +1080,13 @@ class XML_RPC_Message extends CI_Xmlrpc
 				// We're all good kids with nuthin' to do
 			break;
 			default:
-				// End of an Invalid Element.  Taken care of during the opening tag though
+				// End of an Invalid Element. Taken care of during the opening tag though
 			break;
 		}
 	}
 
 	//-------------------------------------
-	//  Parses Character Data
+	// Parses Character Data
 	//-------------------------------------
 
 	function character_data($the_parser, $data)
@@ -1116,7 +1116,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	function output_parameters($array=FALSE)
 	{
 		$CI =& get_instance();
-		
+
 		if ($array !== FALSE && is_array($array))
 		{
 			while (list($key) = each($array))

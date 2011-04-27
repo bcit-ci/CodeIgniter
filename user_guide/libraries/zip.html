@@ -81,7 +81,7 @@ $this->zip->add_data($name, $data);<br />
 // Write the zip file to a folder on your server. Name it "my_backup.zip"<br />
 $this->zip->archive('/path/to/directory/my_backup.zip');
 <br /><br />
- // Download the file to your desktop.  Name it "my_backup.zip"<br />
+ // Download the file to your desktop. Name it "my_backup.zip"<br />
 $this->zip->download('my_backup.zip');
 </code>
 
@@ -100,7 +100,7 @@ $this->zip->add_data($name, $data);
 </code>
 
 <p>You are allowed multiple calls to this function in order to
-add several files to your archive.  Example:</p>
+add several files to your archive. Example:</p>
 
 <code>
 $name = 'mydata1.txt';<br />
@@ -139,8 +139,8 @@ $this->zip->add_data($name, $data);
 
 <h2>$this->zip->add_dir()</h2>
 
-<p>Permits you to add a directory.  Usually this function is unnecessary since you can place your data into folders when
-using <dfn>$this->zip->add_data()</dfn>, but if you would like to create an empty folder you can do so.  Example:</p>
+<p>Permits you to add a directory. Usually this function is unnecessary since you can place your data into folders when
+using <dfn>$this->zip->add_data()</dfn>, but if you would like to create an empty folder you can do so. Example:</p>
 
 <code>$this->zip->add_dir('myfolder'); // Creates a folder called "myfolder"</code>
 
@@ -148,49 +148,49 @@ using <dfn>$this->zip->add_data()</dfn>, but if you would like to create an empt
 
 <h2>$this->zip->read_file()</h2>
 
-<p>Permits you to compress a file that already exists somewhere on your server.  Supply a file path and the zip class will
+<p>Permits you to compress a file that already exists somewhere on your server. Supply a file path and the zip class will
 read it and add it to the archive:</p>
 
 <code>
 $path = '/path/to/photo.jpg';<br /><br />
 $this->zip->read_file($path);
 <br /><br />
- // Download the file to your desktop.  Name it "my_backup.zip"<br />
+ // Download the file to your desktop. Name it "my_backup.zip"<br />
 $this->zip->download('my_backup.zip');
 </code>
 
 <p>If you would like the Zip archive to maintain the directory structure of the file in it, pass <kbd>TRUE</kbd> (boolean) in the
-second parameter.  Example:</p>
+second parameter. Example:</p>
 
 
 <code>
 $path = '/path/to/photo.jpg';<br /><br />
 $this->zip->read_file($path, <kbd>TRUE</kbd>);
 <br /><br />
- // Download the file to your desktop.  Name it "my_backup.zip"<br />
+ // Download the file to your desktop. Name it "my_backup.zip"<br />
 $this->zip->download('my_backup.zip');
 </code>
 
-<p>In the above example, <dfn>photo.jpg</dfn> will be placed inside two folders:  <kbd>path/to/</kbd></p>
+<p>In the above example, <dfn>photo.jpg</dfn> will be placed inside two folders: <kbd>path/to/</kbd></p>
 
 
 
 <h2>$this->zip->read_dir()</h2>
 
-<p>Permits you to compress a folder (and its contents) that already exists somewhere on your server.  Supply a file path to the
-directory and the zip class will recursively read it and recreate it as a Zip archive.  All files contained within the
-supplied path will be encoded, as will any sub-folders contained within it.  Example:</p>
+<p>Permits you to compress a folder (and its contents) that already exists somewhere on your server. Supply a file path to the
+directory and the zip class will recursively read it and recreate it as a Zip archive. All files contained within the
+supplied path will be encoded, as will any sub-folders contained within it. Example:</p>
 
 <code>
 $path = '/path/to/your/directory/';<br /><br />
 $this->zip->read_dir($path);
 <br /><br />
- // Download the file to your desktop.  Name it "my_backup.zip"<br />
+ // Download the file to your desktop. Name it "my_backup.zip"<br />
 $this->zip->download('my_backup.zip');
 </code>
 
 <p>By default the Zip archive will place all directories listed in the first parameter inside the zip. If you want the tree preceding the target folder to be ignored
-you can pass <kbd>FALSE</kbd> (boolean) in the second parameter.  Example:</p>
+you can pass <kbd>FALSE</kbd> (boolean) in the second parameter. Example:</p>
 
 <code>
 $path = '/path/to/your/directory/';<br /><br />
@@ -204,7 +204,7 @@ $this->zip->read_dir($path, FALSE);
 
 <h2>$this->zip->archive()</h2>
 
-<p>Writes the Zip-encoded file to a directory on your server.  Submit a valid server path ending in the file name.  Make sure the
+<p>Writes the Zip-encoded file to a directory on your server. Submit a valid server path ending in the file name. Make sure the
 directory is writable (666 or 777 is usually OK). Example:</p>
 
 <code>$this->zip->archive('/path/to/folder/myarchive.zip'); // Creates a file named myarchive.zip</code>
@@ -223,7 +223,7 @@ that cause the download to happen and the file to be treated as binary.</p>
 
 <h2>$this->zip->get_zip()</h2>
 
-<p>Returns the Zip-compressed file data.  Generally you will not need this function unless you want to do something unique with the data.
+<p>Returns the Zip-compressed file data. Generally you will not need this function unless you want to do something unique with the data.
 Example:</p>
 
 <code>
@@ -279,7 +279,7 @@ Previous Topic:&nbsp;&nbsp;<a href="xmlrpc.html"> XML-RPC Class</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="../helpers/array_helper.html">Array Helper</a>
+Next Topic:&nbsp;&nbsp;<a href="caching.html">Caching Class</a>
 </p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -67,7 +67,7 @@ class CI_Hooks {
 
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+		  include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
 		}
 		elseif (is_file(APPPATH.'config/hooks.php'))
 		{
