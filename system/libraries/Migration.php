@@ -33,7 +33,7 @@ class CI_Migration {
 	protected $_migration_path = NULL;
 	protected $_migration_version = 0;
 
-	public $error = '';
+	protected $_error_string = '';
 
 	public function __construct($config = array())
 	{
@@ -124,7 +124,7 @@ class CI_Migration {
 			// Only one migration per step is permitted
 			if (count($f) > 1)
 			{
-				$this->error = sprintf($this->lang->line('migration_multiple_version'), $i);
+				$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $i);
 				return FALSE;
 			}
 
@@ -140,7 +140,7 @@ class CI_Migration {
 
 				// If trying to migrate down but we're missing a step,
 				// something must definitely be wrong.
-				$this->error = sprintf($this->lang->line('migration_not_found'), $i);
+				$this->_error_string = sprintf($this->lang->line('migration_not_found'), $i);
 				return FALSE;
 			}
 
@@ -155,7 +155,7 @@ class CI_Migration {
 				// Cannot repeat a migration at different steps
 				if (in_array($match[1], $migrations))
 				{
-					$this->error = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
+					$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
 					return FALSE;
 				}
 
@@ -164,13 +164,13 @@ class CI_Migration {
 
 				if ( ! class_exists($class))
 				{
-					$this->error = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
+					$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 					return FALSE;
 				}
 
 				if ( ! is_callable(array($class, $method)))
 				{
-					$this->error = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
+					$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 					return FALSE;
 				}
 
@@ -178,8 +178,7 @@ class CI_Migration {
 			}
 			else
 			{
-				exit('313');
-				$this->error = sprintf($this->lang->line('migration_invalid_filename'), $file);
+				$this->_error_string = sprintf($this->lang->line('migration_invalid_filename'), $file);
 				return FALSE;
 			}
 		}
@@ -224,7 +223,7 @@ class CI_Migration {
 	{
 		if ( ! $migrations = $this->find_migrations())
 		{
-			$this->error = $this->line->lang('migration_none_found');
+			$this->_error_string = $this->line->lang('migration_none_found');
 			return false;
 		}
 
@@ -258,7 +257,7 @@ class CI_Migration {
 	 */
 	public function error_string()
 	{
-		return $this->error;
+		return $this->_error_string;
 	}
 
 	// --------------------------------------------------------------------
