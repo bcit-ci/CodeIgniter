@@ -29,13 +29,13 @@
  */
 class CI_Migration {
 
-	private $_migration_enabled = FALSE;
-	private $_migration_path = NULL;
-	private $_migration_version = 0;
+	protected $_migration_enabled = FALSE;
+	protected $_migration_path = NULL;
+	protected $_migration_version = 0;
 
 	public $error = '';
 
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		# Only run this constructor on main library load
 		if (get_parent_class($this) !== FALSE)
@@ -61,6 +61,9 @@ class CI_Migration {
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
+
+		// Load migration language
+		$this->lang->load('migration');
 
 		// They'll probably be using dbforge
 		$this->load->dbforge();
@@ -90,7 +93,7 @@ class CI_Migration {
 	 * @param $version integer	Target schema version
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
-	function version($target_version)
+	public function version($target_version)
 	{
 		$start = $current_version = $this->_get_version();
 		$stop = $target_version;
@@ -108,7 +111,7 @@ class CI_Migration {
 			// Moving Down
 			$step = -1;
 		}
-
+		
 		$method = $step === 1 ? 'up' : 'down';
 		$migrations = array();
 
@@ -121,7 +124,7 @@ class CI_Migration {
 			// Only one migration per step is permitted
 			if (count($f) > 1)
 			{
-				$this->error = sprintf($this->lang->line('multiple_migration_version'), $i);
+				$this->error = sprintf($this->lang->line('migration_multiple_version'), $i);
 				return FALSE;
 			}
 
@@ -152,7 +155,7 @@ class CI_Migration {
 				// Cannot repeat a migration at different steps
 				if (in_array($match[1], $migrations))
 				{
-					$this->error = sprintf($this->lang->line('multiple_migrations_name'), $match[1]);
+					$this->error = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
 					return FALSE;
 				}
 
@@ -165,9 +168,9 @@ class CI_Migration {
 					return FALSE;
 				}
 
-				if ( ! is_callable(array($class, 'up')) || ! is_callable(array($class, 'down')))
+				if ( ! is_callable(array($class, $method)))
 				{
-					$this->error = sprintf($this->lang->line('wrong_migration_interface'), $class);
+					$this->error = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 					return FALSE;
 				}
 
@@ -175,12 +178,13 @@ class CI_Migration {
 			}
 			else
 			{
-				$this->error = sprintf($this->lang->line('invalid_migration_filename'), $file);
+				exit('313');
+				$this->error = sprintf($this->lang->line('migration_invalid_filename'), $file);
 				return FALSE;
 			}
 		}
 
-		$this->log('Current schema version: ' . $current_version);
+		log_message('debug', 'Current migration: ' . $current_version);
 
 		$version = $i + ($step == 1 ? -1 : 0);
 
@@ -190,7 +194,7 @@ class CI_Migration {
 			return TRUE;
 		}
 
-		$this->log('Moving ' . $method . ' to version ' . $version);
+		log_message('debug', 'Migrating from ' . $method . ' to version ' . $version);
 
 		// Loop through the migrations
 		foreach ($migrations AS $migration)
@@ -203,7 +207,7 @@ class CI_Migration {
 			$this->_update_version($current_version);
 		}
 
-		$this->log('All done. Schema is at version '.$current_version);
+		log_message('debug', 'Finished migrating to '.$current_version);
 
 		return $current_version;
 	}
@@ -220,16 +224,15 @@ class CI_Migration {
 	{
 		if ( ! $migrations = $this->find_migrations())
 		{
-			throw new Exception('no_migrations_found');
+			$this->error = $this->line->lang('migration_none_found');
 			return false;
 		}
 
 		$last_migration = basename(end($migrations));
-
+		
 		// Calculate the last migration step from existing migration
 		// filenames and procceed to the standard version migration
-		$last_version = intval(substr($last_migration, 0, 3));
-		return $this->version($last_version);
+		return $this->version((int) substr($last_migration, 0, 3));
 	}
 
 	// --------------------------------------------------------------------
@@ -242,8 +245,20 @@ class CI_Migration {
 	 */
 	public function current()
 	{
-		$version = $this->_migration_version;
-		return $this->version($version);
+		return $this->version($this->_migration_version);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Error string
+	 *
+	 * @access	public
+	 * @return	string	Error message returned as a string
+	 */
+	public function error_string()
+	{
+		return $this->error;
 	}
 
 	// --------------------------------------------------------------------
@@ -251,16 +266,15 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the latest migration
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @return	mixed	true if already latest, false if failed, int if upgraded
 	 */
-
-	protected static function find_migrations()
+	protected function find_migrations()
 	{
 		// Load all *_*.php files in the migrations path
 		$files = glob($this->_migration_path . '*_*.php');
 		$file_count = count($files);
-
+		
 		for ($i = 0; $i < $file_count; $i++)
 		{
 			// Mark wrongly formatted files as false for later filtering
@@ -270,7 +284,7 @@ class CI_Migration {
 				$files[$i] = FALSE;
 			}
 		}
-
+		
 		sort($files);
 
 		return $files;
@@ -281,10 +295,10 @@ class CI_Migration {
 	/**
 	 * Retrieves current schema version
 	 *
-	 * @access	private
-	 * @return	integer	Current Schema version
+	 * @access	protected
+	 * @return	integer	Current Migration
 	 */
-	private function _get_version()
+	protected function _get_version()
 	{
 		$row = $this->db->get('migrations')->row();
 		return $row ? $row->version : 0;
@@ -295,29 +309,15 @@ class CI_Migration {
 	/**
 	 * Stores the current schema version
 	 *
-	 * @access	private
-	 * @param $migrations integer	Schema version reached
+	 * @access	protected
+	 * @param $migrations integer	Migration reached
 	 * @return	void					Outputs a report of the migration
 	 */
-	private function _update_version($migrations)
+	protected function _update_version($migrations)
 	{
 		return $this->db->update('migrations', array(
 			'version' => $migrations
 		));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Stores the current schema version
-	 *
-	 * @access	private
-	 * @param $migrations integer	Schema version reached
-	 * @return	void					Outputs a report of the migration
-	 */
-	private function log($text)
-	{
-		echo $text.'<br/>';
 	}
 
 	// --------------------------------------------------------------------
@@ -334,3 +334,6 @@ class CI_Migration {
 		return get_instance()->$var;
 	}
 }
+
+/* End of file Migration.php */
+/* Location: ./system/libraries/Migration.php */
