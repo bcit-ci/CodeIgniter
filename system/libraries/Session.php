@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -81,14 +81,14 @@ class CI_Session {
 			$this->CI->load->library('encrypt');
 		}
 
-		// Are we using a database?  If so, load it
+		// Are we using a database? If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
 			$this->CI->load->database();
 		}
 
-		// Set the "now" time.  Can either be GMT or server time, based on the
-		// config prefs.  We use this to set the "last activity" time
+		// Set the "now" time. Can either be GMT or server time, based on the
+		// config prefs. We use this to set the "last activity" time
 		$this->now = $this->_get_time();
 
 		// Set the session length. If the session expiration is
@@ -97,12 +97,12 @@ class CI_Session {
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
-		
+
 		// Set the cookie name
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
 
 		// Run the Session routine. If a session doesn't exist we'll
-		// create a new one.  If it does, we'll update it.
+		// create a new one. If it does, we'll update it.
 		if ( ! $this->sess_read())
 		{
 			$this->sess_create();
@@ -137,7 +137,7 @@ class CI_Session {
 		// Fetch the cookie
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
 
-		// No cookie?  Goodbye cruel world!...
+		// No cookie? Goodbye cruel world!...
 		if ($session === FALSE)
 		{
 			log_message('debug', 'A session cookie was not found.');
@@ -155,8 +155,8 @@ class CI_Session {
 			$hash	 = substr($session, strlen($session)-32); // get last 32 chars
 			$session = substr($session, 0, strlen($session)-32);
 
-			// Does the md5 hash match?  This is to prevent manipulation of session data in userspace
-			if ($hash !==  md5($session.$this->encryption_key))
+			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
+			if ($hash !== md5($session.$this->encryption_key))
 			{
 				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
 				$this->sess_destroy();
@@ -189,7 +189,7 @@ class CI_Session {
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 50)))
+		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -212,14 +212,14 @@ class CI_Session {
 
 			$query = $this->CI->db->get($this->sess_table_name);
 
-			// No result?  Kill it!
+			// No result? Kill it!
 			if ($query->num_rows() == 0)
 			{
 				$this->sess_destroy();
 				return FALSE;
 			}
 
-			// Is there custom data?  If so, add it to the main session array
+			// Is there custom data? If so, add it to the main session array
 			$row = $query->row();
 			if (isset($row->user_data) AND $row->user_data != '')
 			{
@@ -252,7 +252,7 @@ class CI_Session {
 	 */
 	function sess_write()
 	{
-		// Are we saving custom data to the DB?  If not, all we do is update the cookie
+		// Are we saving custom data to the DB? If not, all we do is update the cookie
 		if ($this->sess_use_database === FALSE)
 		{
 			$this->_set_cookie();
@@ -272,7 +272,7 @@ class CI_Session {
 			$cookie_userdata[$val] = $this->userdata[$val];
 		}
 
-		// Did we find any custom data?  If not, we turn the empty array into a string
+		// Did we find any custom data? If not, we turn the empty array into a string
 		// since there's no reason to serialize and store an empty array in the DB
 		if (count($custom_userdata) === 0)
 		{
@@ -288,7 +288,7 @@ class CI_Session {
 		$this->CI->db->where('session_id', $this->userdata['session_id']);
 		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
 
-		// Write the cookie.  Notice that we manually pass the cookie data array to the
+		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
 		$this->_set_cookie($cookie_userdata);
@@ -316,7 +316,7 @@ class CI_Session {
 		$this->userdata = array(
 							'session_id'	=> md5(uniqid($sessid, TRUE)),
 							'ip_address'	=> $this->CI->input->ip_address(),
-							'user_agent'	=> substr($this->CI->input->user_agent(), 0, 50),
+							'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 							'last_activity'	=> $this->now
 							);
 
@@ -435,11 +435,11 @@ class CI_Session {
 	 * Fetch all session data
 	 *
 	 * @access	public
-	 * @return	mixed
+	 * @return	array
 	 */
 	function all_userdata()
 	{
-		return ( ! isset($this->userdata)) ? FALSE : $this->userdata;
+		return $this->userdata;
 	}
 
 	// --------------------------------------------------------------------
@@ -535,7 +535,7 @@ class CI_Session {
 	 */
 	function keep_flashdata($key)
 	{
-		// 'old' flashdata gets removed.  Here we mark all
+		// 'old' flashdata gets removed. Here we mark all
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
 		// Note the function will return FALSE if the $key
 		// provided cannot be found

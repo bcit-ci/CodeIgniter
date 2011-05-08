@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -524,7 +524,7 @@ class CI_Encrypt {
 		{
 			if ( ! function_exists('mhash'))
 			{
-				require_once(BASEPATH.'libraries/Sha1'.EXT);
+				require_once(BASEPATH.'libraries/Sha1.php');
 				$SH = new CI_SHA;
 				return $SH->generate($str);
 			}

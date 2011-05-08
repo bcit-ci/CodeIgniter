@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -53,7 +53,7 @@ class CI_Typography {
 	 *	- Converts single and double quotes into correctly facing curly quote entities.
 	 *	- Converts three dots into ellipsis.
 	 *	- Converts double dashes into em-dashes.
-	 *  - Converts two spaces into entities
+	 * - Converts two spaces into entities
 	 *
 	 * @access	public
 	 * @param	string
@@ -73,7 +73,7 @@ class CI_Typography {
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
 
-		// Reduce line breaks.  If there are more than two consecutive linebreaks
+		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
 		if ($reduce_linebreaks === TRUE)
 		{
@@ -94,7 +94,7 @@ class CI_Typography {
 			}
 		}
 
-		// match and yank <pre> tags if they exist.  It's cheaper to do this separately since most content will
+		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== FALSE)
 		{
@@ -110,12 +110,12 @@ class CI_Typography {
 			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protect_characters'), $str);
 		}
 
-		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag
-		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be
+		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
+		// it encounters. Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
 		$str = preg_replace("#<(/*)(".$this->inline_elements.")([ >])#i", "{@TAG}\\1\\2\\3", $str);
 
-		// Split the string at every tag.  This expression creates an array with this prototype:
+		// Split the string at every tag. This expression creates an array with this prototype:
 		//
 		//	[array]
 		//	{
@@ -126,7 +126,7 @@ class CI_Typography {
 		//	}
 		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 
-		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text
+		// Build our finalized string. We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
 		$process = TRUE;
 		$paragraph = FALSE;
@@ -143,7 +143,7 @@ class CI_Typography {
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
-					$process =  ($match[1] == '/') ? TRUE : FALSE;
+					$process = ($match[1] == '/') ? TRUE : FALSE;
 				}
 
 				if ($match[1] == '')
@@ -161,17 +161,17 @@ class CI_Typography {
 				continue;
 			}
 
-			//  Force a newline to make sure end tags get processed by _format_newlines()
+			// Force a newline to make sure end tags get processed by _format_newlines()
 			if ($current_chunk == $total_chunks)
 			{
 				$chunk .= "\n";
 			}
 
-			//  Convert Newlines into <p> and <br /> tags
+			// Convert Newlines into <p> and <br /> tags
 			$str .= $this->_format_newlines($chunk);
 		}
 
-		// No opening block level tag?  Add it if needed.
+		// No opening block level tag? Add it if needed.
 		if ( ! preg_match("/^\s*<(?:".$this->block_elements.")/i", $str))
 		{
 			$str = preg_replace("/^(.*?)<(".$this->block_elements.")/i", '<p>$1</p><$2', $str);
@@ -204,14 +204,14 @@ class CI_Typography {
 						'#<p></p><('.$this->block_elements.')#'	=> '<$1',
 
 						// Clean up stray non-breaking spaces preceeding block elements
-						'#(&nbsp;\s*)+<('.$this->block_elements.')#'	=> '  <$2',
+						'#(&nbsp;\s*)+<('.$this->block_elements.')#'	=> ' <$2',
 
 						// Replace the temporary markers we added earlier
 						'/\{@TAG\}/'		=> '<',
 						'/\{@DQ\}/'			=> '"',
 						'/\{@SQ\}/'			=> "'",
 						'/\{@DD\}/'			=> '--',
-						'/\{@NBS\}/'		=> '  ',
+						'/\{@NBS\}/'		=> ' ',
 
 						// An unintended consequence of the _format_newlines function is that
 						// some of the newlines get truncated, resulting in <p> tags
@@ -296,7 +296,7 @@ class CI_Typography {
 							'/(\w)\.{3}/'					=> '$1&#8230;',
 
 							// double space after sentences
-							'/(\W)  /'						=> '$1&nbsp; ',
+							'/(\W) /'						=> '$1&nbsp; ',
 
 							// ampersands, if not a character entity
 							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
@@ -324,7 +324,7 @@ class CI_Typography {
 			return $str;
 		}
 
-		if (strpos($str, "\n") === FALSE  && ! in_array($this->last_block_element, $this->inner_block_required))
+		if (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required))
 		{
 			return $str;
 		}
@@ -341,7 +341,7 @@ class CI_Typography {
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching
 			// the behavior of the opening <p> tag
-			$str =  '<p>'.rtrim($str).'</p>';
+			$str = '<p>'.rtrim($str).'</p>';
 		}
 
 		// Remove empty paragraphs if they are on the first line, as this
@@ -367,7 +367,7 @@ class CI_Typography {
 	 */
 	function _protect_characters($match)
 	{
-		return str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
+		return str_replace(array("'",'"','--',' '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
 	}
 
 	// --------------------------------------------------------------------

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,11 +37,11 @@ class CI_Config {
 	 *
 	 * Sets the $config data from the primary config.php file as a class variable
 	 *
-	 * @access   public
-	 * @param   string	the config file name
-	 * @param   boolean  if configuration values should be loaded into their own section
-	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
-	 * @return  boolean  if the file was successfully loaded or not
+	 * @access  public
+	 * @param  string	the config file name
+	 * @param  boolean if configuration values should be loaded into their own section
+	 * @param  boolean true if errors should just return false, false if an error message should be displayed
+	 * @return boolean if the file was successfully loaded or not
 	 */
 	function __construct()
 	{
@@ -74,13 +74,13 @@ class CI_Config {
 	 *
 	 * @access	public
 	 * @param	string	the config file name
-	 * @param   boolean  if configuration values should be loaded into their own section
-	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
+	 * @param  boolean if configuration values should be loaded into their own section
+	 * @param  boolean true if errors should just return false, false if an error message should be displayed
 	 * @return	boolean	if the file was loaded correctly
 	 */
 	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
-		$file = ($file == '') ? 'config' : str_replace(EXT, '', $file);
+		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
 		$found = FALSE;
 		$loaded = FALSE;
 
@@ -92,7 +92,7 @@ class CI_Config {
 
 			foreach ($check_locations as $location)
 			{
-				$file_path = $path.'config/'.$location.EXT;
+				$file_path = $path.'config/'.$location.'.php';
 
 				if (in_array($file_path, $this->is_loaded, TRUE))
 				{
@@ -144,6 +144,7 @@ class CI_Config {
 
 			$loaded = TRUE;
 			log_message('debug', 'Config file loaded: '.$file_path);
+			break;
 		}
 
 		if ($loaded === FALSE)
@@ -152,7 +153,7 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.$file.EXT.' does not exist.');
+			show_error('The configuration file '.$file.'.php'.' does not exist.');
 		}
 
 		return TRUE;
@@ -304,7 +305,7 @@ class CI_Config {
 	 * Assign to Config
 	 *
 	 * This function is called by the front controller (CodeIgniter.php)
-	 * after the Config class is instantiated.  It permits config items
+	 * after the Config class is instantiated. It permits config items
 	 * to be assigned or overriden by variables contained in the index.php file
 	 *
 	 * @access	private
