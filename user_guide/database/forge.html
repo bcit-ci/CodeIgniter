@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -151,7 +151,7 @@ already be running, since the forge class relies on it.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
 </code></p>
-<p>After the fields have been defined, they can  be added  using <dfn>$this-&gt;dbforge-&gt;add_field($fields);</dfn> followed by a call to the <dfn>create_table()</dfn> function.</p>
+<p>After the fields have been defined, they can be added using <dfn>$this-&gt;dbforge-&gt;add_field($fields);</dfn> followed by a call to the <dfn>create_table()</dfn> function.</p>
 <h3>$this-&gt;dbforge-&gt;add_field()</h3>
 <p>The add fields function will accept the above array.</p>
 <h3>Passing strings as fields</h3>
@@ -164,7 +164,7 @@ already be running, since the forge class relies on it.</p>
 	// gives id INT(9) NOT NULL AUTO_INCREMENT</code></p>
 <h2><a name="add_key" id="add_key"></a>Adding Keys</h2>
 <p>Generally speaking, you'll want your table to have Keys. This is accomplished with <dfn>$this-&gt;dbforge-&gt;add_key('field')</dfn>. An optional second parameter set to TRUE will make it a primary key. Note that <dfn>add_key()</dfn> must be followed by a call to <dfn>create_table()</dfn>.</p>
-<p>Multiple column non-primary keys must be sent as an array.  Sample output below is for MySQL.</p>
+<p>Multiple column non-primary keys must be sent as an array. Sample output below is for MySQL.</p>
 <p><code>$this-&gt;dbforge-&gt;add_key('blog_id', TRUE);<br />
 	// gives PRIMARY KEY `blog_id` (`blog_id`)<br />
 	<br />
@@ -187,7 +187,7 @@ already be running, since the forge class relies on it.</p>
 <h2><a name="drop_table" id="drop_table"></a>Dropping a table</h2>
 <p>Executes a DROP TABLE sql</p>
 <p><code>$this-&gt;dbforge-&gt;drop_table('table_name');<br />
-	// gives DROP TABLE IF EXISTS  table_name</code></p>
+	// gives DROP TABLE IF EXISTS table_name</code></p>
 <h2><a name="rename_table" id="rename_table"></a>Renaming a table</h2>
 <p>Executes a TABLE rename</p>
 <p><code>$this-&gt;dbforge-&gt;rename_table('old_table_name', 'new_table_name');<br />
@@ -200,7 +200,7 @@ already be running, since the forge class relies on it.</p>
 );<br />
 $this-&gt;dbforge-&gt;add_column('table_name', $fields);<br />
 <br />
-// gives ALTER TABLE table_name ADD   	preferences TEXT</code></p>
+// gives ALTER TABLE table_name ADD  	preferences TEXT</code></p>
 <h2>$this-&gt;dbforge-&gt;drop_column()</h2>
 <p>Used to remove a column from a table. </p>
 <p><code>$this-&gt;dbforge-&gt;drop_column('table_name', 'column_to_drop');</code></p>
@@ -214,7 +214,7 @@ $this-&gt;dbforge-&gt;add_column('table_name', $fields);<br />
 );<br />
 $this-&gt;dbforge-&gt;modify_column('table_name', $fields);<br />
 	<br />
-	// gives ALTER TABLE table_name CHANGE   	old_name new_name TEXT </code></p>
+	// gives ALTER TABLE table_name CHANGE  	old_name new_name TEXT </code></p>
 <p>&nbsp;</p>
 </div>
 <!-- END CONTENT -->

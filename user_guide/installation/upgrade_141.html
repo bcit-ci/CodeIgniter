@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -56,7 +56,7 @@ Upgrading from 1.4.0 to 1.4.1 </td>
 
 <h1>Upgrading from 1.4.0 to 1.4.1</h1>
 
-<p class="important"><strong>Note:</strong> The instructions on this page assume you are running version 1.4.0.  If you
+<p class="important"><strong>Note:</strong> The instructions on this page assume you are running version 1.4.0. If you
 have not upgraded to that version please do so first.</p>
 
 <p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
@@ -88,16 +88,16 @@ have not upgraded to that version please do so first.</p>
 | Output Compression
 |--------------------------------------------------------------------------
 |
-| Enables Gzip output compression for faster page loads.  When enabled,
+| Enables Gzip output compression for faster page loads. When enabled,
 | the output class will test whether your server supports Gzip.
 | Even if it does, however, not all browsers support compression
 | so enable only if you are reasonably sure your visitors can handle it.
 |
-| VERY IMPORTANT:  If you are getting a blank page when compression is enabled it
+| VERY IMPORTANT: If you are getting a blank page when compression is enabled it
 | means you are prematurely outputting something to your browser. It could
-| even be a line of whitespace at the end of one of your scripts.  For
+| even be a line of whitespace at the end of one of your scripts. For
 | compression to work, nothing can be sent before the output buffer is called
-| by the output class.  Do not "echo" any values with compression enabled.
+| by the output class. Do not "echo" any values with compression enabled.
 |
 */
 $config['compress_output'] = FALSE;

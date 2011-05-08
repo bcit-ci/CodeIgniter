@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -69,11 +69,11 @@ File Helper
 
 <h2>read_file('<var>path</var>')</h2>
 
-<p>Returns the data contained in the file specified in the path.  Example:</p>
+<p>Returns the data contained in the file specified in the path. Example:</p>
 
 <code>$string = read_file('./path/to/file.php');</code>
 
-<p>The path can be a relative or full server path.  Returns FALSE (boolean) on failure.</p>
+<p>The path can be a relative or full server path. Returns FALSE (boolean) on failure.</p>
 
 <p class="important"><strong>Note:</strong> The path is relative to your main site index.php file, NOT your controller or view files.
 CodeIgniter uses a front controller so paths are always relative to the main site index.</p>
@@ -83,7 +83,7 @@ might not work if you are trying to access a file above the calling script.</p>
 
 <h2>write_file('<var>path</var>', <kbd>$data</kbd>)</h2>
 
-<p>Writes data to the file specified in the path.  If the file does not exist the function will create it. Example:</p>
+<p>Writes data to the file specified in the path. If the file does not exist the function will create it. Example:</p>
 
 <code>
 $data = 'Some file data';<br />
@@ -101,7 +101,7 @@ else<br />
 
 <code>write_file('./path/to/file.php', $data, <var>'r+'</var>);</code>
 
-<p>The default mode is <kbd>wb</kbd>.  Please see the <a href="http://php.net/fopen">PHP user guide</a> for mode options.</p>
+<p>The default mode is <kbd>wb</kbd>. Please see the <a href="http://php.net/fopen">PHP user guide</a> for mode options.</p>
 
 <p>Note: In order for this function to write data to a file its file permissions must be set such that it is writable (666, 777, etc.).
 If the file does not already exist, the directory containing it must be writable.</p>
@@ -111,7 +111,7 @@ CodeIgniter uses a front controller so paths are always relative to the main sit
 
 <h2>delete_files('<var>path</var>')</h2>
 
-<p>Deletes ALL files contained in the supplied path.  Example:</p>
+<p>Deletes ALL files contained in the supplied path. Example:</p>
 <code>delete_files('./path/to/directory/');</code>
 
 <p>If the second parameter is set to <kbd>true</kbd>, any directories contained within the supplied root path will be deleted as well. Example:</p>
@@ -127,12 +127,12 @@ can optionally be added to the file names by setting the second parameter to TRU
 
 <h2>get_dir_file_info('<var>path/to/directory/</var>', <kbd>$top_level_only</kbd> = TRUE)</h2>
 
-<p>Reads the specified directory and builds an array containing the filenames, filesize, dates, and permissions.  Sub-folders contained within the specified path are only read if forced
+<p>Reads the specified directory and builds an array containing the filenames, filesize, dates, and permissions. Sub-folders contained within the specified path are only read if forced
 	by sending the second parameter, <kbd>$top_level_only</kbd> to <samp>FALSE</samp>, as this can be an intensive operation.</p>
 
 <h2>get_file_info('<var>path/to/file</var>', <kbd>$file_information</kbd>)</h2>
 
-<p>Given a file and path, returns the name, path, size, date modified. Second parameter allows you to explicitly declare what information you want returned; options are: name, server_path, size, date, readable, writable, executable, fileperms.  Returns FALSE if the file cannot be found.</p>
+<p>Given a file and path, returns the name, path, size, date modified. Second parameter allows you to explicitly declare what information you want returned; options are: name, server_path, size, date, readable, writable, executable, fileperms. Returns FALSE if the file cannot be found.</p>
 
 <p class="important"><strong>Note:</strong> The &quot;writable&quot; uses the PHP function is_writable() which is known to have issues on the IIS webserver. Consider using fileperms instead, which returns information from PHP's fileperms() function.</p>
 <h2>get_mime_by_extension('<var>file</var>')</h2>
@@ -142,7 +142,7 @@ can optionally be added to the file names by setting the second parameter to TRU
 <code>$file = &quot;somefile.png&quot;;<br />
 echo $file . ' is has a mime type of ' . get_mime_by_extension($file);</code>
 </p>
-<p class="critical"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be  used for security.</p>
+<p class="critical"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be used for security.</p>
 
 <h2>symbolic_permissions(<kbd>$perms</kbd>)</h2>
 

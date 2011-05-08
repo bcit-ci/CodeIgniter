@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -113,10 +113,10 @@ along with an error message describing the problem.</li>
 <ol>
 <li>Check for required data.</li>
 <li>Verify that the data is of the correct type, and meets the correct criteria. For example, if a username is submitted
-it must be validated to contain only permitted characters.  It must be of a minimum length,
+it must be validated to contain only permitted characters. It must be of a minimum length,
 and not exceed a maximum length. The username can't be someone else's existing username, or perhaps even a reserved word. Etc.</li>
 <li>Sanitize the data for security.</li>
-<li>Pre-format the data if needed (Does the data need to be trimmed?  HTML encoded?  Etc.)</li>
+<li>Pre-format the data if needed (Does the data need to be trimmed? HTML encoded? Etc.)</li>
 <li>Prep the data for insertion in the database.</li>
 </ol>
 
@@ -150,7 +150,7 @@ Form validation, while simple to create, is generally very messy and tedious to 
 
 <h2>The Form</h2>
 
-<p>Using a text editor, create a form called <dfn>myform.php</dfn>.  In it, place this code and save it to your <samp>applications/views/</samp>
+<p>Using a text editor, create a form called <dfn>myform.php</dfn>. In it, place this code and save it to your <samp>applications/views/</samp>
 folder:</p>
 
 
@@ -191,7 +191,7 @@ folder:</p>
 <h2>The Success Page</h2>
 
 
-<p>Using a text editor, create a form called <dfn>formsuccess.php</dfn>.  In it, place this code and save it to your <samp>applications/views/</samp>
+<p>Using a text editor, create a form called <dfn>formsuccess.php</dfn>. In it, place this code and save it to your <samp>applications/views/</samp>
 folder:</p>
 
 
@@ -215,7 +215,7 @@ folder:</p>
 <a name="thecontroller"></a>
 <h2>The Controller</h2>
 
-<p>Using a text editor, create a controller called <dfn>form.php</dfn>.  In it, place this code and save it to your <samp>applications/controllers/</samp>
+<p>Using a text editor, create a controller called <dfn>form.php</dfn>. In it, place this code and save it to your <samp>applications/controllers/</samp>
 folder:</p>
 
 
@@ -248,10 +248,10 @@ class Form extends CI_Controller {
 
 <code>example.com/index.php/<var>form</var>/</code>
 
-<p><dfn>If you submit the form you should simply see the form reload.  That's because you haven't set up any validation
+<p><dfn>If you submit the form you should simply see the form reload. That's because you haven't set up any validation
 rules yet.</dfn></p>
 
-<p><strong>Since you haven't told the Form Validation class to validate anything yet, it returns <kbd>FALSE</kbd> (boolean false) by default.  The <samp>run()</samp>
+<p><strong>Since you haven't told the Form Validation class to validate anything yet, it returns <kbd>FALSE</kbd> (boolean false) by default. The <samp>run()</samp>
 function only returns <kbd>TRUE</kbd> if it has successfully applied your rules without any of them failing.</strong></p>
 
 
@@ -263,8 +263,8 @@ function only returns <kbd>TRUE</kbd> if it has successfully applied your rules 
 
 <ol>
 <li>It uses a <dfn>form helper</dfn> to create the form opening.
-Technically, this isn't necessary.  You could create the form using standard HTML.  However, the benefit of using the helper
-is that it generates the action URL for you, based on the URL in your config file.  This makes your application more portable in the event your URLs change.</li>
+Technically, this isn't necessary. You could create the form using standard HTML. However, the benefit of using the helper
+is that it generates the action URL for you, based on the URL in your config file. This makes your application more portable in the event your URLs change.</li>
 
 <li>At the top of the form you'll notice the following function call:
 <code>&lt;?php echo validation_errors(); ?&gt;</code>
@@ -341,7 +341,7 @@ class Form extends CI_Controller {
 If you submit the form with all the fields populated you'll see your success page.</dfn></p>
 
 <p class="important"><strong>Note:</strong> The form fields are not yet being re-populated with the data when
-there is an error.  We'll get to that shortly.</p>
+there is an error. We'll get to that shortly.</p>
 
 
 
@@ -387,7 +387,7 @@ $this->form_validation->set_rules($config);
 <a name="cascadingrules"></a>
 <h2>Cascading Rules</h2>
 
-<p>CodeIgniter lets you pipe multiple rules together.  Let's try it. Change your rules in the third parameter of rule setting function, like this:</p>
+<p>CodeIgniter lets you pipe multiple rules together. Let's try it. Change your rules in the third parameter of rule setting function, like this:</p>
 
 <code>
 $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]');<br />
@@ -427,7 +427,7 @@ $this->form_validation->set_rules('email', 'Email', '<kbd>trim</kbd>|required|va
 the "xss_clean" function, which removes malicious data.</p>
 
 <p><strong>Any native PHP function that accepts one parameter can be used as a rule, like <dfn>htmlspecialchars</dfn>,
-<dfn>trim</dfn>,  <dfn>MD5</dfn>, etc.</strong></p>
+<dfn>trim</dfn>, <dfn>MD5</dfn>, etc.</strong></p>
 
 <p><strong>Note:</strong> You will generally want to use the prepping functions <strong>after</strong>
 the validation rules so if there is an error, the original data will be shown in the form.</p>
@@ -438,7 +438,7 @@ the validation rules so if there is an error, the original data will be shown in
 <a name="repopulatingform"></a>
 <h2>Re-populating the form</h2>
 
-<p>Thus far we have only been dealing with errors.  It's time to repopulate the form field with the submitted data. CodeIgniter offers several helper functions
+<p>Thus far we have only been dealing with errors. It's time to repopulate the form field with the submitted data. CodeIgniter offers several helper functions
 that permit you to do this. The one you will use most commonly is:</p>
 
 <code>set_value('field name')</code>
@@ -481,13 +481,13 @@ that permit you to do this. The one you will use most commonly is:</p>
 </textarea>
 
 
-<p><dfn>Now reload your page and submit the form so that it triggers an error.  Your form fields should now be re-populated</dfn></p>
+<p><dfn>Now reload your page and submit the form so that it triggers an error. Your form fields should now be re-populated</dfn></p>
 
 <p class="important"><strong>Note:</strong> The <a href="#functionreference">Function Reference</a> section below contains functions that
 permit you to re-populate &lt;select> menus, radio buttons, and checkboxes.</p>
 
 
-<p><strong>Important Note:</strong> If you use an array as the name of a form field, you must supply it as an array to the function.  Example:</p>
+<p><strong>Important Note:</strong> If you use an array as the name of a form field, you must supply it as an array to the function. Example:</p>
 
 <code>&lt;input type="text" name="<kbd>colors[]</kbd>" value="&lt;?php echo set_value('<kbd>colors[]</kbd>'); ?>" size="50" /></code>
 
@@ -500,16 +500,16 @@ permit you to re-populate &lt;select> menus, radio buttons, and checkboxes.</p>
 <a name="callbacks"></a>
 <h2>Callbacks: Your own Validation Functions</h2>
 
-<p>The validation system supports callbacks to your own validation functions.  This permits you to extend the validation class
-to meet your needs.  For example, if you need to run a database query to see if the user is choosing a unique username, you can
-create a callback function that does that.  Let's create a example of this.</p>
+<p>The validation system supports callbacks to your own validation functions. This permits you to extend the validation class
+to meet your needs. For example, if you need to run a database query to see if the user is choosing a unique username, you can
+create a callback function that does that. Let's create a example of this.</p>
 
 <p>In your controller, change the "username" rule to this:</p>
 
 <code>$this->form_validation->set_rules('username', 'Username', '<kbd>callback_username_check</kbd>');</code>
 
 
-<p>Then add a new function called <dfn>username_check</dfn> to your controller.  Here's how your controller should now look:</p>
+<p>Then add a new function called <dfn>username_check</dfn> to your controller. Here's how your controller should now look:</p>
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="44">&lt;?php
@@ -553,12 +553,12 @@ class Form extends CI_Controller {
 }
 ?></textarea>
 
-<p><dfn>Reload your form and submit it with the word "test" as the username.  You can see that the form field data was passed to your
+<p><dfn>Reload your form and submit it with the word "test" as the username. You can see that the form field data was passed to your
 callback function for you to process.</dfn></p>
 
 <p><strong>To invoke a callback just put the function name in a rule, with "callback_" as the rule prefix.</strong></p>
 
-<p>You can also process the form data that is passed to your callback and return it.  If your callback returns anything other than a boolean TRUE/FALSE
+<p>You can also process the form data that is passed to your callback and return it. If your callback returns anything other than a boolean TRUE/FALSE
 it is assumed that the data is your newly processed form data.</p>
 
 
@@ -568,7 +568,7 @@ it is assumed that the data is your newly processed form data.</p>
 <h2>Setting Error Messages</h2>
 
 
-<p>All of the native error messages are located in the following language file:  <dfn>language/english/form_validation_lang.php</dfn></p>
+<p>All of the native error messages are located in the following language file: <dfn>language/english/form_validation_lang.php</dfn></p>
 
 <p>To set your own custom message you can either edit that file, or use the following function:</p>
 
@@ -582,7 +582,7 @@ it is assumed that the data is your newly processed form data.</p>
 
 <code>$this->form_validation->set_message('username_check')</code>
 
-<p>You can also override any error message found in the language file.  For example, to change the message for the "required" rule you will do this:</p>
+<p>You can also override any error message found in the language file. For example, to change the message for the "required" rule you will do this:</p>
 
 <code>$this->form_validation->set_message('required', 'Your custom message here');</code>
 
@@ -669,9 +669,9 @@ individually.</p>
 &lt;input type="text" name="email" value="&lt;?php echo set_value('email'); ?>" size="50" />
 </textarea>
 
-<p>If there are no errors, nothing will be shown.  If there is an error, the message will appear.</p>
+<p>If there are no errors, nothing will be shown. If there is an error, the message will appear.</p>
 
-<p><strong>Important Note:</strong> If you use an array as the name of a form field, you must supply it as an array to the function.  Example:</p>
+<p><strong>Important Note:</strong> If you use an array as the name of a form field, you must supply it as an array to the function. Example:</p>
 
 <code>&lt;?php echo form_error('<kbd>options[size]</kbd>'); ?><br />
 &lt;input type="text" name="<kbd>options[size]</kbd>" value="&lt;?php echo set_value("<kbd>options[size]</kbd>"); ?>" size="50" />
@@ -688,8 +688,8 @@ individually.</p>
 <a name="savingtoconfig"></a>
 <h1>Saving Sets of Validation Rules to a Config File</h1>
 
-<p>A nice feature of the Form Validation class is that it permits you to store all your validation rules for your entire application in a config file.  You
-can organize these rules into "groups".  These groups can either be loaded automatically when a matching controller/function is called, or
+<p>A nice feature of the Form Validation class is that it permits you to store all your validation rules for your entire application in a config file. You
+can organize these rules into "groups". These groups can either be loaded automatically when a matching controller/function is called, or
 you can manually call each set as needed.</p>
 
 <h3>How to save your rules</h3>
@@ -728,8 +728,8 @@ $config = array(<br />
 
 <h3>Creating Sets of Rules</h3>
 
-<p>In order to organize your rules into "sets" requires that you place them into "sub arrays".  Consider the following example, showing two sets of rules.
-We've arbitrarily called these two rules "signup" and "email".  You can name your rules anything you want:</p>
+<p>In order to organize your rules into "sets" requires that you place them into "sub arrays". Consider the following example, showing two sets of rules.
+We've arbitrarily called these two rules "signup" and "email". You can name your rules anything you want:</p>
 
 
 <code>$config = array(<br />
@@ -783,7 +783,7 @@ We've arbitrarily called these two rules "signup" and "email".  You can name you
 
 <h3>Calling a Specific Rule Group</h3>
 
-<p>In order to call a specific group you will pass its name to the <kbd>run()</kbd> function.  For example, to call the <kbd>signup</kbd> rule you will do this:</p>
+<p>In order to call a specific group you will pass its name to the <kbd>run()</kbd> function. For example, to call the <kbd>signup</kbd> rule you will do this:</p>
 
 <code>
 if ($this->form_validation->run('<kbd>signup</kbd>') == FALSE)<br />
@@ -800,8 +800,8 @@ else<br />
 
 <h3>Associating a Controller Function with a Rule Group</h3>
 
-<p>An alternate (and more automatic) method of calling a rule group is to name it according to the controller class/function you intend to use it with.  For example, let's say you
-have a controller named <kbd>Member</kbd> and a function named <kbd>signup</kbd>.  Here's what your class might look like:</p>
+<p>An alternate (and more automatic) method of calling a rule group is to name it according to the controller class/function you intend to use it with. For example, let's say you
+have a controller named <kbd>Member</kbd> and a function named <kbd>signup</kbd>. Here's what your class might look like:</p>
 
 <code>
 &lt;?php<br /><br />
@@ -860,7 +860,7 @@ class <kbd>Member</kbd> extends CI_Controller {<br />
 <a name="arraysasfields"></a>
 <h1>Using Arrays as Field Names</h1>
 
-<p>The Form Validation class supports the use of arrays as field names.  Consider this example:</p>
+<p>The Form Validation class supports the use of arrays as field names. Consider this example:</p>
 
 <code>&lt;input type="text" name="<kbd>options[]</kbd>" value="" size="50" /></code>
 
@@ -1147,13 +1147,13 @@ like <kbd>trim</kbd>, <kbd>htmlspecialchars</kbd>, <kbd>urldecode</kbd>, etc.</p
 
 <h2>$this->form_validation->run();</h2>
 
-<p>Runs the validation routines.  Returns boolean TRUE on success and FALSE on failure. You can optionally pass the name of the validation
+<p>Runs the validation routines. Returns boolean TRUE on success and FALSE on failure. You can optionally pass the name of the validation
 group via the function, as described in: <a href="#savingtoconfig">Saving Groups of Validation Rules to a Config File</a>.</p>
 
 
 <h2>$this->form_validation->set_message();</h2>
 
-<p>Permits you to set custom error messages.  See <a href="#settingerrors">Setting Error Messages</a> above.</p>
+<p>Permits you to set custom error messages. See <a href="#settingerrors">Setting Error Messages</a> above.</p>
 
 
 <p>&nbsp;</p>
@@ -1161,25 +1161,25 @@ group via the function, as described in: <a href="#savingtoconfig">Saving Groups
 <a name="helperreference"></a>
 <h1>Helper Reference</h1>
 
-<p>The following helper functions are available for use in the view files containing your forms.  Note that these are procedural functions, so they
+<p>The following helper functions are available for use in the view files containing your forms. Note that these are procedural functions, so they
 <strong>do not</strong> require you to prepend them with $this->form_validation.</p>
 
 <h2>form_error()</h2>
 
-<p>Shows an individual error message associated with the field name supplied to the function.  Example:</p>
+<p>Shows an individual error message associated with the field name supplied to the function. Example:</p>
 
 <code>&lt;?php echo form_error('username'); ?></code>
 
-<p>The error delimiters can be optionally specified.  See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
+<p>The error delimiters can be optionally specified. See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
 
 
 
 <h2>validation_errors()</h2>
-<p>Shows all error messages as a string:  Example:</p>
+<p>Shows all error messages as a string: Example:</p>
 
 <code>&lt;?php echo validation_errors(); ?></code>
 
-<p>The error delimiters can be optionally specified.  See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
+<p>The error delimiters can be optionally specified. See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
 
 
 
@@ -1194,7 +1194,7 @@ The second (optional) parameter allows you to set a default value for the form. 
 
 <h2>set_select()</h2>
 
-<p>If you use a <dfn>&lt;select></dfn> menu, this function permits you to display the menu item that was selected.  The first parameter
+<p>If you use a <dfn>&lt;select></dfn> menu, this function permits you to display the menu item that was selected. The first parameter
 must contain the name of the select menu, the second parameter must contain the value of
 each item, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE).</p>
 
@@ -1202,16 +1202,16 @@ each item, and the third (optional) parameter lets you set an item as the defaul
 
 <code>
 &lt;select name="myselect"><br />
-&lt;option value="one" <dfn>&lt;?php echo  set_select('myselect', 'one', TRUE); ?></dfn> >One&lt;/option><br />
-&lt;option value="two" <dfn>&lt;?php echo  set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
-&lt;option value="three" <dfn>&lt;?php echo  set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
+&lt;option value="one" <dfn>&lt;?php echo set_select('myselect', 'one', TRUE); ?></dfn> >One&lt;/option><br />
+&lt;option value="two" <dfn>&lt;?php echo set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
+&lt;option value="three" <dfn>&lt;?php echo set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
 &lt;/select>
 </code>
 
 
 <h2>set_checkbox()</h2>
 
-<p>Permits you to display a checkbox in the state it was submitted.  The first parameter
+<p>Permits you to display a checkbox in the state it was submitted. The first parameter
 must contain the name of the checkbox, the second parameter must contain its value, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE). Example:</p>
 
 <code>&lt;input type="checkbox" name="mycheck[]" value="1" <dfn>&lt;?php echo set_checkbox('mycheck[]', '1'); ?></dfn> /><br />
@@ -1222,8 +1222,8 @@ must contain the name of the checkbox, the second parameter must contain its val
 
 <p>Permits you to display radio buttons in the state they were submitted. This function is identical to the <strong>set_checkbox()</strong> function above.</p>
 
-<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo  set_radio('myradio', '1', TRUE); ?></dfn> /><br />
-&lt;input type="radio" name="myradio" value="2" <dfn>&lt;?php echo  set_radio('myradio', '2'); ?></dfn> /></code>
+<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo set_radio('myradio', '1', TRUE); ?></dfn> /><br />
+&lt;input type="radio" name="myradio" value="2" <dfn>&lt;?php echo set_radio('myradio', '2'); ?></dfn> /></code>
 
 
 

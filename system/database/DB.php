@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,14 +28,14 @@ function &DB($params = '', $active_record_override = NULL)
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database'.EXT))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
 		{
-			if ( ! file_exists($file_path = APPPATH.'config/database'.EXT))
+			if ( ! file_exists($file_path = APPPATH.'config/database.php'))
 			{
-				show_error('The configuration file database'.EXT.' does not exist.');
+				show_error('The configuration file database.php does not exist.');
 			}
 		}
-		
+
 		include($file_path);
 
 		if ( ! isset($db) OR count($db) == 0)
@@ -59,10 +59,10 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 
 		/* parse the URL from the DSN string
-		 *  Database settings can be passed as discreet
-		 *  parameters or as a data source name in the first
-		 *  parameter. DSNs must have this prototype:
-		 *  $dsn = 'driver://username:password@hostname/database';
+		 * Database settings can be passed as discreet
+		 * parameters or as a data source name in the first
+		 * parameter. DSNs must have this prototype:
+		 * $dsn = 'driver://username:password@hostname/database';
 		 */
 
 		if (($dns = @parse_url($params)) === FALSE)
@@ -100,13 +100,13 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 	}
 
-	// No DB specified yet?  Beat them senseless...
+	// No DB specified yet? Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
 
-	// Load the DB classes.  Note: Since the active record class is optional
+	// Load the DB classes. Note: Since the active record class is optional
 	// we need to dynamically create a class that extends proper parent class
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
@@ -116,11 +116,11 @@ function &DB($params = '', $active_record_override = NULL)
 		$active_record = $active_record_override;
 	}
 
-	require_once(BASEPATH.'database/DB_driver'.EXT);
+	require_once(BASEPATH.'database/DB_driver.php');
 
 	if ( ! isset($active_record) OR $active_record == TRUE)
 	{
-		require_once(BASEPATH.'database/DB_active_rec'.EXT);
+		require_once(BASEPATH.'database/DB_active_rec.php');
 
 		if ( ! class_exists('CI_DB'))
 		{
@@ -135,7 +135,7 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 	}
 
-	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver'.EXT);
+	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';

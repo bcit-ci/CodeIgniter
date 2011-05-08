@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -84,13 +84,18 @@ HTML Helper
 <p>The above would produce: &lt;br />&lt;br />&lt;br /></p>
 
 <h2><a name="heading"></a>heading()</h2>
-<p>Lets you create HTML &lt;h1> tags.  The first parameter will contain the data, the
-second the size of the heading.  Example:</p>
+<p>Lets you create HTML &lt;h1> tags. The first parameter will contain the data, the
+second the size of the heading. Example:</p>
 <code>echo heading('Welcome!', 3);</code>
-<p>The above would produce:  &lt;h3>Welcome!&lt;/h3></p>
+<p>The above would produce: &lt;h3>Welcome!&lt;/h3></p>
+
+<p>Additionally, in order to add attributes to the heading tag such as HTML classes, ids or inline styles, a third parameter is available.</p>
+<code>echo heading('Welcome!', 3, 'class="pink"')</code>
+<p>The above code produces: &lt;h3 class="pink">Welcome!<&lt;h3></p>
+
 
 <h2><a name="img"></a>img()</h2>
-<p>Lets you create HTML &lt;img /&gt; tags.  The first parameter  contains the image source. Example:</p>
+<p>Lets you create HTML &lt;img /&gt; tags. The first parameter contains the image source. Example:</p>
 <code>echo img('images/picture.jpg');<br />
 // gives &lt;img src=&quot;http://site.com/images/picture.jpg&quot; /&gt;</code>
 <p>There is an optional second parameter that is a TRUE/FALSE value that specifics if the src should have the page specified by $config['index_page'] added to the address it creates. Presumably, this would be if you were using a media controller.</p>
@@ -111,7 +116,7 @@ second the size of the heading.  Example:</p>
 	// &lt;img src=&quot;http://site.com/index.php/images/picture.jpg&quot; alt=&quot;Me, demonstrating how to eat 4 slices of pizza at one time&quot; class=&quot;post_images&quot; width=&quot;200&quot; height=&quot;200&quot; title=&quot;That was quite a night&quot; rel=&quot;lightbox&quot; /&gt;</code></p>
 
 <h2><a name="link_tag"></a>link_tag()</h2>
-<p>Lets you create HTML &lt;link /> tags.  This is useful for stylesheet links, as well as other links. The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.<code>
+<p>Lets you create HTML &lt;link /> tags. This is useful for stylesheet links, as well as other links. The parameters are href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates.<code>
 echo link_tag('css/mystyles.css');<br />
 // gives &lt;link href=&quot;http://site.com/css/mystyles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></p>
 <p>Further examples:</p>
@@ -266,20 +271,20 @@ echo ul($list, $attributes);</code>
 
 <h2><a name="meta"></a>meta()</h2>
 
-<p>Helps you generate meta tags.  You can pass strings to the function, or simple arrays, or multidimensional ones. Examples:</p>
+<p>Helps you generate meta tags. You can pass strings to the function, or simple arrays, or multidimensional ones. Examples:</p>
 
 <code>
 echo meta('description', 'My Great site');<br />
-// Generates:  &lt;meta name="description" content="My Great Site" /><br />
+// Generates: &lt;meta name="description" content="My Great Site" /><br />
 <br /><br />
 
-echo meta('Content-type', 'text/html; charset=utf-8', 'equiv'); // Note the third parameter.  Can be "equiv" or "name"<br />
-// Generates:  &lt;meta http-equiv="Content-type" content="text/html; charset=utf-8" /><br />
+echo meta('Content-type', 'text/html; charset=utf-8', 'equiv'); // Note the third parameter. Can be "equiv" or "name"<br />
+// Generates: &lt;meta http-equiv="Content-type" content="text/html; charset=utf-8" /><br />
 
 <br /><br />
 
 echo meta(array('name' => 'robots', 'content' => 'no-cache'));<br />
-// Generates:  &lt;meta name="robots" content="no-cache" /><br />
+// Generates: &lt;meta name="robots" content="no-cache" /><br />
 
 <br /><br />
 
@@ -293,7 +298,7 @@ $meta = array(<br />
 <br />
 echo meta($meta);
 <br />
-// Generates:  <br />
+// Generates: <br />
 // &lt;meta name="robots" content="no-cache" /><br />
 // &lt;meta name="description" content="My Great Site" /><br />
 // &lt;meta name="keywords" content="love, passion, intrigue, deception" /><br />
@@ -314,7 +319,7 @@ echo doctype('html4-trans');<br />
 // &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;
 </code>
 
-<p>The following is a list of doctype choices.  These are configurable, and pulled from <samp>application/config/doctypes.php</samp></p>
+<p>The following is a list of doctype choices. These are configurable, and pulled from <samp>application/config/doctypes.php</samp></p>
 
 <table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
 	<tr>

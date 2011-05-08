@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-<title>CodeIgniter User Guide : JavaScript Class</title>
+<title>JavaScript Class : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -65,11 +65,11 @@ JavaScript Driver
 
 <code>$this-&gt;load-&gt;library('javascript');</code>
 
-<p>The Javascript class also accepts parameters, <dfn>js_library_driver (string) default 'jquery'</dfn> and <dfn>autoload (bool) default TRUE</dfn>.  You may override the defaults if you wish by sending an associative array:</p>
+<p>The Javascript class also accepts parameters, <dfn>js_library_driver (string) default 'jquery'</dfn> and <dfn>autoload (bool) default TRUE</dfn>. You may override the defaults if you wish by sending an associative array:</p>
 
 <code>$this-&gt;load-&gt;library('javascript', array('js_library_driver' =&gt; 'scripto', 'autoload' =&gt; FALSE));</code>
 
-<p>Again, presently only 'jquery' is available.  You may wish to set <dfn>autoload</dfn> to FALSE, though, if you do not want the jQuery library to automatically include a script tag for the main jQuery script file.  This is useful if you are loading it from a location outside of CodeIgniter, or already have the script tag in your markup.</p>
+<p>Again, presently only 'jquery' is available. You may wish to set <dfn>autoload</dfn> to FALSE, though, if you do not want the jQuery library to automatically include a script tag for the main jQuery script file. This is useful if you are loading it from a location outside of CodeIgniter, or already have the script tag in your markup.</p>
 
 <p>Once loaded, the jQuery library object will be available using: <dfn>$this-&gt;javascript</dfn></p>
 <h2>Setup and Configuration</h2>
@@ -93,7 +93,7 @@ JavaScript Driver
 
 <code>$this-&gt;load-&gt;library('jquery');</code>
 
-<p>You may send an optional parameter to determine whether or not a script tag for the main jQuery file will be automatically included when loading the library.  It will be created by default.  To prevent this, load the library as follows:</p>
+<p>You may send an optional parameter to determine whether or not a script tag for the main jQuery file will be automatically included when loading the library. It will be created by default. To prevent this, load the library as follows:</p>
 
 <code>$this-&gt;load-&gt;library('jquery', FALSE);</code>
 
@@ -115,7 +115,7 @@ JavaScript Driver
 
 <h2>Effects</h2>
 
-<p>The query library supports a powerful <a href="http://docs.jquery.com/Effects">Effects</a> repertoire.  Before an effect can be used, it must be loaded:</p>
+<p>The query library supports a powerful <a href="http://docs.jquery.com/Effects">Effects</a> repertoire. Before an effect can be used, it must be loaded:</p>
 
 <p><code>$this->jquery->effect([optional path] plugin name);
 // for example
@@ -125,8 +125,8 @@ $this->jquery->effect('bounce');
 <h3>hide() / show()</h3>
 
 <p>Each of this functions will affect the visibility of an item on your page. hide() will set an item invisible, show() will reveal it.</p>
-<p><code>$this-&gt;jquery-&gt;hide(target,  optional speed, optional extra information);<br />
-	$this-&gt;jquery-&gt;show(target,  optional speed, optional extra information);</code></p>
+<p><code>$this-&gt;jquery-&gt;hide(target, optional speed, optional extra information);<br />
+	$this-&gt;jquery-&gt;show(target, optional speed, optional extra information);</code></p>
 
 <ul>
 	<li>&quot;target&quot; will be any valid jQuery selector or selectors.</li>
@@ -162,8 +162,8 @@ $this-&gt;jquery-&gt;click('#trigger', $this-&gt;jquery-&gt;animate('#note', $pa
 
 <h3>fadeIn() / fadeOut()</h3>
 
-<p><code>$this-&gt;jquery-&gt;fadeIn(target,  optional speed, optional extra information);<br />
-	$this-&gt;jquery-&gt;fadeOut(target,  optional speed, optional extra information);</code></p>
+<p><code>$this-&gt;jquery-&gt;fadeIn(target, optional speed, optional extra information);<br />
+	$this-&gt;jquery-&gt;fadeOut(target, optional speed, optional extra information);</code></p>
 <ul>
 	<li>&quot;target&quot; will be any valid jQuery selector or selectors.</li>
 	<li>&quot;speed&quot; is optional, and is set to either slow, normal, fast, or alternatively a number of milliseconds.</li>
@@ -182,8 +182,8 @@ $this-&gt;jquery-&gt;click('#trigger', $this-&gt;jquery-&gt;animate('#note', $pa
 <h3>fadeIn() / fadeOut()</h3>
 
 <p>These effects cause an element(s) to disappear or reappear over time.</p>
-<p><code>$this-&gt;jquery-&gt;fadeIn(target,  optional speed, optional extra information);<br />
-	$this-&gt;jquery-&gt;fadeOut(target,  optional speed, optional extra information);</code></p>
+<p><code>$this-&gt;jquery-&gt;fadeIn(target, optional speed, optional extra information);<br />
+	$this-&gt;jquery-&gt;fadeOut(target, optional speed, optional extra information);</code></p>
 <ul>
 	<li>&quot;target&quot; will be any valid jQuery selector or selectors.</li>
 	<li>&quot;speed&quot; is optional, and is set to either slow, normal, fast, or alternatively a number of milliseconds.</li>
@@ -193,9 +193,9 @@ $this-&gt;jquery-&gt;click('#trigger', $this-&gt;jquery-&gt;animate('#note', $pa
 <h3>slideUp() / slideDown() / slideToggle()</h3>
 
 <p>These effects cause an element(s) to slide.</p>
-<p><code>$this-&gt;jquery-&gt;slideUp(target,  optional speed, optional extra information);<br />
-	$this-&gt;jquery-&gt;slideDown(target,  optional speed, optional extra information);<br />
-$this-&gt;jquery-&gt;slideToggle(target,  optional speed, optional extra information);</code></p>
+<p><code>$this-&gt;jquery-&gt;slideUp(target, optional speed, optional extra information);<br />
+	$this-&gt;jquery-&gt;slideDown(target, optional speed, optional extra information);<br />
+$this-&gt;jquery-&gt;slideToggle(target, optional speed, optional extra information);</code></p>
 <ul>
 	<li>&quot;target&quot; will be any valid jQuery selector or selectors.</li>
 	<li>&quot;speed&quot; is optional, and is set to either slow, normal, fast, or alternatively a number of milliseconds.</li>
@@ -235,11 +235,11 @@ $this-&gt;jquery-&gt;slideToggle(target,  optional speed, optional extra informa
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="input.html">Input Class</a>
+Previous Topic:&nbsp;&nbsp;<a href="../database/index.html">Database Class</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="language.html">Language Class</a></p>
+Next Topic:&nbsp;&nbsp;<a href="../helpers/array_helper.html">Array Helper</a></p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 

@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -71,22 +71,22 @@ Text Helper
 
 <h2>word_limiter()</h2>
 
-<p>Truncates a string to the number of <strong>words</strong> specified.  Example:</p>
+<p>Truncates a string to the number of <strong>words</strong> specified. Example:</p>
 
 <code>
 $string = "Here is a nice text string consisting of eleven words.";<br />
 <br />
 $string = word_limiter($string, 4);<br /><br />
 
-// Returns:  Here is a nice&#8230;
+// Returns: Here is a nice&#8230;
 </code>
 
-<p>The third parameter is an optional suffix added to the string.  By default it adds an ellipsis.</p>
+<p>The third parameter is an optional suffix added to the string. By default it adds an ellipsis.</p>
 
 
 <h2>character_limiter()</h2>
 
-<p>Truncates a string to the number of <strong>characters</strong> specified.  It maintains the integrity
+<p>Truncates a string to the number of <strong>characters</strong> specified. It maintains the integrity
 of words so the character count may be slightly more or less then what you specify. Example:</p>
 
 <code>
@@ -94,7 +94,7 @@ $string = "Here is a nice text string consisting of eleven words.";<br />
 <br />
 $string = character_limiter($string, 20);<br /><br />
 
-// Returns:  Here is a nice text string&#8230;
+// Returns: Here is a nice text string&#8230;
 </code>
 
 <p>The third parameter is an optional suffix added to the string, if undeclared this helper uses an ellipsis.</p>
@@ -125,9 +125,9 @@ part it should correctly identify characters outside the normal range (like acce
 
 <h2>word_censor()</h2>
 
-<p>Enables you to censor words within a text string.  The first parameter will contain the original string.  The
-second will contain an array of words which you disallow.  The third (optional) parameter can contain a replacement value
-for the words.  If not specified they are replaced with pound signs: ####.  Example:</p>
+<p>Enables you to censor words within a text string. The first parameter will contain the original string. The
+second will contain an array of words which you disallow. The third (optional) parameter can contain a replacement value
+for the words. If not specified they are replaced with pound signs: ####. Example:</p>
 
 <code>
 $disallowed = array('darn', 'shucks', 'golly', 'phooey');<br />
@@ -137,7 +137,7 @@ $string = word_censor($string, $disallowed, 'Beep!');</code>
 
 <h2>highlight_code()</h2>
 
-<p>Colorizes a string of code (PHP, HTML, etc.).  Example:</p>
+<p>Colorizes a string of code (PHP, HTML, etc.). Example:</p>
 
 <code>$string = highlight_code($string);</code>
 
@@ -146,9 +146,9 @@ $string = word_censor($string, $disallowed, 'Beep!');</code>
 
 <h2>highlight_phrase()</h2>
 
-<p>Will highlight a phrase within a text string.  The first parameter will contain the original string, the second will
-contain the phrase you wish to highlight.  The third and fourth parameters will contain the opening/closing HTML tags
-you would like the phrase wrapped in.  Example:</p>
+<p>Will highlight a phrase within a text string. The first parameter will contain the original string, the second will
+contain the phrase you wish to highlight. The third and fourth parameters will contain the opening/closing HTML tags
+you would like the phrase wrapped in. Example:</p>
 
 <code>
 $string = "Here is a nice text string about nothing in particular.";<br />
@@ -164,7 +164,7 @@ $string = highlight_phrase($string, "nice text", '&lt;span style="color:#990000"
 
 <h2>word_wrap()</h2>
 
-<p>Wraps text at the specified <strong>character</strong> count while maintaining complete words.  Example:</p>
+<p>Wraps text at the specified <strong>character</strong> count while maintaining complete words. Example:</p>
 
 <code>$string = "Here is a simple string of text that will help us demonstrate this function.";<br />
 <br />
@@ -180,8 +180,8 @@ function</code>
 <h2>ellipsize()</h2>
 
 <p>This function will strip tags from a string, split it at a defined maximum length, and insert an ellipsis.</p>
-<p>The first parameter is the string to ellipsize, the second is the number of characters in the final string. The third parameter is where in the string the ellipsis should appear from 0 - 1, left to right.  For example.  a value of 1 will place the ellipsis at the right of the string, .5 in the middle, and 0 at the left.</p>
-<p>An optional forth parameter is the kind of ellipsis.  By default, <samp>&amp;hellip;</samp> will be inserted.</p>
+<p>The first parameter is the string to ellipsize, the second is the number of characters in the final string. The third parameter is where in the string the ellipsis should appear from 0 - 1, left to right. For example. a value of 1 will place the ellipsis at the right of the string, .5 in the middle, and 0 at the left.</p>
+<p>An optional forth parameter is the kind of ellipsis. By default, <samp>&amp;hellip;</samp> will be inserted.</p>
 
 <code>$str = 'this_string_is_entirely_too_long_and_might_break_my_design.jpg';<br />
 <br />

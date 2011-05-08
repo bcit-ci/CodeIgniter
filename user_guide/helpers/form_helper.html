@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -72,7 +72,7 @@ Form Helper
 
 <h2>form_open()</h2>
 
-<p>Creates an opening form tag with a base URL <strong>built from your config preferences</strong>.  It will optionally let you
+<p>Creates an opening form tag with a base URL <strong>built from your config preferences</strong>. It will optionally let you
 add form attributes and hidden input fields, and will always add the attribute <kbd>accept-charset</kbd> based on the charset value in your config file.</p>
 
 <p>The main benefit of using this tag rather than hard coding your own HTML is that it permits your site to be more portable
@@ -122,7 +122,7 @@ which is necessary if you would like to use the form to upload files with.</p>
 
 <h2>form_hidden()</h2>
 
-<p>Lets you generate hidden input fields.  You can either submit a name/value string to create one field:</p>
+<p>Lets you generate hidden input fields. You can either submit a name/value string to create one field:</p>
 
 <code>form_hidden('username', 'johndoe');<br />
 <br />
@@ -149,7 +149,7 @@ echo form_hidden($data);<br />
 
 <h2>form_input()</h2>
 
-<p>Lets you generate a standard text input field.  You can minimally pass the field name and value in the first
+<p>Lets you generate a standard text input field. You can minimally pass the field name and value in the first
 and second parameter:</p>
 
 <code>echo form_input('username', 'johndoe');</code>
@@ -196,9 +196,9 @@ example, you will instead specify "rows" and "cols".</p>
 
 <h2>form_dropdown()</h2>
 
-<p>Lets you create a standard drop-down field.  The first parameter will contain the name of the field,
+<p>Lets you create a standard drop-down field. The first parameter will contain the name of the field,
 the second parameter will contain an associative array of options, and the third parameter will contain the
-value you wish to be selected.  You can also pass an array of multiple items through the third parameter, and CodeIgniter will create a multiple select for you. Example:</p>
+value you wish to be selected. You can also pass an array of multiple items through the third parameter, and CodeIgniter will create a multiple select for you. Example:</p>
 
 <code>$options = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'small'&nbsp;&nbsp;=> 'Small Shirt',<br />
@@ -215,7 +215,7 @@ echo form_dropdown('shirts', $options, 'large');<br />
 <br />
 &lt;select name=&quot;shirts&quot;&gt;<br />
 &lt;option value=&quot;small&quot;&gt;Small Shirt&lt;/option&gt;<br />
-&lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;med&quot;&gt;Medium Shirt&lt;/option&gt;<br />
 &lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;<br />
 &lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;<br />
 &lt;/select&gt;<br />
@@ -226,7 +226,7 @@ echo form_dropdown('shirts', $options, $shirts_on_sale);<br />
 <br />
 &lt;select name=&quot;shirts&quot; multiple=&quot;multiple&quot;&gt;<br />
 &lt;option value=&quot;small&quot; selected=&quot;selected&quot;&gt;Small Shirt&lt;/option&gt;<br />
-&lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;<br />
+&lt;option value=&quot;med&quot;&gt;Medium Shirt&lt;/option&gt;<br />
 &lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;<br />
 &lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;<br />
 &lt;/select&gt;</code>
@@ -243,9 +243,9 @@ echo form_dropdown('shirts', $options, 'large', $js);</code>
 
 <h2>form_multiselect()</h2>
 
-<p>Lets you create a standard multiselect field.  The first parameter will contain the name of the field,
+<p>Lets you create a standard multiselect field. The first parameter will contain the name of the field,
 the second parameter will contain an associative array of options, and the third parameter will contain the
-value or values you wish to be selected.  The parameter usage is identical to using <kbd>form_dropdown()</kbd> above,
+value or values you wish to be selected. The parameter usage is identical to using <kbd>form_dropdown()</kbd> above,
 except of course that the name of the field will need to use POST array syntax, e.g. <samp>foo[]</samp>.</p>
 
 
@@ -267,7 +267,7 @@ echo form_fieldset_close();
 &lt;/fieldset&gt;</code>
 <p>Similar to other functions, you can submit an associative array in the second parameter if you prefer to set additional attributes. </p>
 <p><code>$attributes = array('id' =&gt; 'address_info', 'class' =&gt; 'address_info');<br />
-    echo form_fieldset('Address Information', $attributes);<br />
+  echo form_fieldset('Address Information', $attributes);<br />
 echo &quot;&lt;p&gt;fieldset content here&lt;/p&gt;\n&quot;;<br />
 echo form_fieldset_close(); <br />
 <br />
@@ -277,11 +277,11 @@ echo form_fieldset_close(); <br />
 &lt;p&gt;form content here&lt;/p&gt; <br />
 &lt;/fieldset&gt;</code></p>
 <h2>form_fieldset_close()</h2>
-<p>Produces a closing &lt;/fieldset&gt; tag.  The only advantage to using this function is it permits you to pass data to it
-    which will be added below the tag.  For example:</p>
+<p>Produces a closing &lt;/fieldset&gt; tag. The only advantage to using this function is it permits you to pass data to it
+  which will be added below the tag. For example:</p>
 <code>$string = &quot;&lt;/div&gt;&lt;/div&gt;&quot;;<br />
 <br />
-echo fieldset_close($string);<br />
+echo form_fieldset_close($string);<br />
 <br />
 // Would produce:<br />
 &lt;/fieldset&gt;<br />
@@ -309,7 +309,7 @@ echo form_checkbox($data);<br />
 // Would produce:<br /><br />
 &lt;input type="checkbox" name="newsletter" id="newsletter" value="accept" checked="checked" style="margin:10px" /></code>
 
-<p>As with other functions, if you would like the tag to contain  additional data, like JavaScript, you can pass it as a string in the
+<p>As with other functions, if you would like the tag to contain additional data, like JavaScript, you can pass it as a string in the
 fourth parameter:</p>
 
 <code>$js = 'onClick="some_function()"';<br />
@@ -330,7 +330,7 @@ fourth parameter:</p>
 <br />
 &lt;input type=&quot;submit&quot; name=&quot;mysubmit&quot; value=&quot;Submit Post!&quot; /&gt;</code>
 <p>Similar to other functions, you can submit an associative array in the first parameter if you prefer to set your own attributes.
-    The third parameter lets you add extra data to your form, like JavaScript.</p>
+  The third parameter lets you add extra data to your form, like JavaScript.</p>
 <h2>form_label()</h2>
 <p>Lets you generate a &lt;label&gt;. Simple example:</p>
 <code>echo form_label('What is your Name', 'username');<br />
@@ -338,13 +338,13 @@ fourth parameter:</p>
 // Would produce:
 <br />
 &lt;label for=&quot;username&quot;&gt;What is your Name&lt;/label&gt;</code>
-<p>Similar to other functions, you can submit an associative array in the third parameter if you prefer to set additional attributes.    </p>
+<p>Similar to other functions, you can submit an associative array in the third parameter if you prefer to set additional attributes.  </p>
 <p><code>$attributes = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;'class' =&gt; 'mycustomclass',<br />
 &nbsp;&nbsp;&nbsp;&nbsp;'style' =&gt; 'color: #000;',<br />
 );<br />
-    echo form_label('What is your Name', 'username', $attributes);<br />
-        <br />
+  echo form_label('What is your Name', 'username', $attributes);<br />
+    <br />
 // Would produce: <br />
 &lt;label for=&quot;username&quot; class=&quot;mycustomclass&quot; style=&quot;color: #000;&quot;&gt;What is your Name&lt;/label&gt;</code></p>
 <h2>form_reset()</h2>
@@ -386,8 +386,8 @@ echo form_button('mybutton', 'Click Me', $js);
 
 <h2>form_close()</h2>
 
-<p>Produces a closing &lt;/form> tag.  The only advantage to using this function is it permits you to pass data to it
-which will be added below the tag.  For example:</p>
+<p>Produces a closing &lt;/form> tag. The only advantage to using this function is it permits you to pass data to it
+which will be added below the tag. For example:</p>
 
 <code>$string = "&lt;/div>&lt;/div>";<br />
 <br />
@@ -404,7 +404,7 @@ echo form_close($string);<br />
 
 <h2>form_prep()</h2>
 
-<p>Allows you to safely use HTML and characters such as quotes within form elements without breaking out of the form.  Consider this example:</p>
+<p>Allows you to safely use HTML and characters such as quotes within form elements without breaking out of the form. Consider this example:</p>
 
 <code>$string = 'Here is a string containing <strong>"quoted"</strong> text.';<br />
 <br />
@@ -431,7 +431,7 @@ The second (optional) parameter allows you to set a default value for the form. 
 
 <h2>set_select()</h2>
 
-<p>If you use a <dfn>&lt;select></dfn> menu, this function permits you to display the menu item that was selected.  The first parameter
+<p>If you use a <dfn>&lt;select></dfn> menu, this function permits you to display the menu item that was selected. The first parameter
 must contain the name of the select menu, the second parameter must contain the value of
 each item, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE).</p>
 
@@ -439,16 +439,16 @@ each item, and the third (optional) parameter lets you set an item as the defaul
 
 <code>
 &lt;select name="myselect"><br />
-&lt;option value="one" <dfn>&lt;?php echo  set_select('myselect', 'one', TRUE); ?></dfn> >One&lt;/option><br />
-&lt;option value="two" <dfn>&lt;?php echo  set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
-&lt;option value="three" <dfn>&lt;?php echo  set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
+&lt;option value="one" <dfn>&lt;?php echo set_select('myselect', 'one', TRUE); ?></dfn> >One&lt;/option><br />
+&lt;option value="two" <dfn>&lt;?php echo set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
+&lt;option value="three" <dfn>&lt;?php echo set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
 &lt;/select>
 </code>
 
 
 <h2>set_checkbox()</h2>
 
-<p>Permits you to display a checkbox in the state it was submitted.  The first parameter
+<p>Permits you to display a checkbox in the state it was submitted. The first parameter
 must contain the name of the checkbox, the second parameter must contain its value, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE). Example:</p>
 
 <code>&lt;input type="checkbox" name="mycheck" value="1" <dfn>&lt;?php echo set_checkbox('mycheck', '1'); ?></dfn> /><br />
@@ -459,8 +459,8 @@ must contain the name of the checkbox, the second parameter must contain its val
 
 <p>Permits you to display radio buttons in the state they were submitted. This function is identical to the <strong>set_checkbox()</strong> function above.</p>
 
-<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo  set_radio('myradio', '1', TRUE); ?></dfn> /><br />
-&lt;input type="radio" name="myradio" value="2" <dfn>&lt;?php echo  set_radio('myradio', '2'); ?></dfn> /></code>
+<code>&lt;input type="radio" name="myradio" value="1" <dfn>&lt;?php echo set_radio('myradio', '1', TRUE); ?></dfn> /><br />
+&lt;input type="radio" name="myradio" value="2" <dfn>&lt;?php echo set_radio('myradio', '2'); ?></dfn> /></code>
 
 
 

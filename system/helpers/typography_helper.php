@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -84,9 +84,8 @@ if ( ! function_exists('entity_decode'))
 {
 	function entity_decode($str, $charset='UTF-8')
 	{
-		$CI =& get_instance();
-		$CI->load->library('security');
-		return $CI->security->entity_decode($str, $charset);
+		global $SEC;
+		return $SEC->entity_decode($str, $charset);
 	}
 }
 

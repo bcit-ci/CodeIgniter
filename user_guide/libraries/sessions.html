@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.1</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -61,7 +61,7 @@ Session Class
 <p>The Session class permits you maintain a user's "state" and track their activity while they browse your site.
 The Session class stores session information for each user as serialized (and optionally encrypted) data in a cookie.
 It can also store the session data in a database table for added security, as this permits the session ID in the
-user's cookie to be matched against the stored session ID. By default only the cookie is saved.  If you choose to
+user's cookie to be matched against the stored session ID. By default only the cookie is saved. If you choose to
 use the database option you'll need to create the session table as indicated below.
 </p>
 
@@ -93,8 +93,8 @@ will cause it to read, create, and update sessions.</p>
 If sessions data does <strong>not</strong> exist (or if it has expired) a new session will be created and saved in the cookie.
 If a session does exist, its information will be updated and the cookie will be updated. With each update, the session_id will be regenerated.</p>
 
-<p>It's important for you to understand that once initialized, the Session class runs automatically.  There is nothing
-you need to do to cause the above behavior to happen.  You can, as you'll see below, work with session data or
+<p>It's important for you to understand that once initialized, the Session class runs automatically. There is nothing
+you need to do to cause the above behavior to happen. You can, as you'll see below, work with session data or
 even add your own data to a user's session, but the process of reading, writing, and updating a session is automatic.</p>
 
 
@@ -106,7 +106,7 @@ even add your own data to a user's session, but the process of reading, writing,
 <li>The user's unique Session ID (this is a statistically random string with very strong entropy, hashed with MD5 for portability, and regenerated (by default) every five minutes)</li>
 <li>The user's IP Address</li>
 <li>The user's User Agent data (the first 50 characters of the browser data string)</li>
-<li>The "last activity"  time stamp.</li>
+<li>The "last activity" time stamp.</li>
 </ul>
 
 <p>The above data is stored in a cookie as a serialized array with this prototype:</p>
@@ -124,7 +124,7 @@ making the data highly secure and impervious to being read or altered by someone
 can be <a href="encryption.html">found here</a>, although the Session class will take care of initializing
 and encrypting the data automatically.</p>
 
-<p>Note: Session cookies are only updated every five minutes by default to reduce processor load.  If you repeatedly reload a page
+<p>Note: Session cookies are only updated every five minutes by default to reduce processor load. If you repeatedly reload a page
 you'll notice that the "last activity" time only updates if five minutes or more has passed since the last time
 the cookie was written. This time is configurable by changing the $config['sess_time_to_update'] line in your system/config/config.php file.</p>
 
@@ -134,7 +134,7 @@ the cookie was written. This time is configurable by changing the $config['sess_
 
 <code>$this->session->userdata('<samp>item</samp>');</code>
 
-<p>Where <samp>item</samp> is the array index corresponding to the item you wish to fetch.  For example, to fetch the session ID you
+<p>Where <samp>item</samp> is the array index corresponding to the item you wish to fetch. For example, to fetch the session ID you
 will do this:</p>
 
 <code>$session_id = $this->session->userdata('<samp>session_id</samp>');</code>
@@ -145,7 +145,7 @@ will do this:</p>
 <h2>Adding Custom Session Data</h2>
 
 <p>A useful aspect of the session array is that you can add your own data to it and it will be stored in the user's cookie.
-Why would you want to do this?  Here's one example:</p>
+Why would you want to do this? Here's one example:</p>
 
 <p>Let's say a particular user logs into your site. Once authenticated,
 you could add their username and email address to the session cookie, making that data globally available to you without
@@ -155,7 +155,7 @@ having to run a database query when you need it.</p>
 
 <code>$this->session->set_userdata(<samp>$array</samp>);</code>
 
-<p>Where <samp>$array</samp> is an associative array containing your new data.  Here's an example:</p>
+<p>Where <samp>$array</samp> is an associative array containing your new data. Here's an example:</p>
 
 
 <p><code>$newdata = array(<br />
@@ -167,8 +167,25 @@ having to run a database query when you need it.</p>
 	$this->session->set_userdata(<samp>$newdata</samp>);</code></p>
 <p>If you want to add userdata one value at a time, set_userdata() also supports this syntax. </p>
 <p><code>$this-&gt;session-&gt;set_userdata('some_name', 'some_value');</code></p>
-<p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity.  The
+<p class="important"><strong>Note:</strong> Cookies can only hold 4KB of data, so be careful not to exceed the capacity. The
 encryption process in particular produces a longer data string than the original so keep careful track of how much data you are storing.</p>
+
+<h2>Retrieving All Session Data</h2>
+<p>An array of all userdata can be retrieved as follows:</p>
+<code>$this-&gt;session-&gt;all_userdata()</code>
+
+<p>And returns an associative array like the following:</p>
+
+<pre>
+Array
+(
+  [session_id] => 4a5a5dca22728fb0a84364eeb405b601
+  [ip_address] => 127.0.0.1
+  [user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
+  [last_activity] => 1303142623
+)
+</pre>
+
 
 <h2>Removing Session Data</h2>
 <p>Just as set_userdata() can be used to add information into a session, unset_userdata() can be used to remove it, by passing the session key. For example, if you wanted to remove 'some_name' from your session information: </p>
@@ -189,27 +206,29 @@ $this-&gt;session-&gt;unset_userdata(<samp>$array_items</samp>);</code></p>
 <p><code>$this-&gt;session-&gt;keep_flashdata('item');</code></p>
 <h2>Saving Session Data to a Database</h2>
 <p>While the session data array stored in the user's cookie contains a Session ID,
-unless you store session data in a database there is no way to validate it.  For some applications that require little or no
-security, session ID validation may not be needed, but if your application requires security, validation is mandatory.  Otherwise, an old session
+unless you store session data in a database there is no way to validate it. For some applications that require little or no
+security, session ID validation may not be needed, but if your application requires security, validation is mandatory. Otherwise, an old session
 could be restored by a user modifying their cookies.</p>
 
 <p>When session data is available in a database, every time a valid session is found in the user's cookie, a database
-query is performed to match it.  If the session ID does not match, the session is destroyed.  Session IDs can never
+query is performed to match it. If the session ID does not match, the session is destroyed. Session IDs can never
 be updated, they can only be generated when a new session is created.</p>
 
 
-<p>In order to store sessions, you must first create a database table for this purpose.  Here is the basic
+<p>In order to store sessions, you must first create a database table for this purpose. Here is the basic
 prototype (for MySQL) required by the session class:</p>
 
-<textarea class="textarea" style="width:100%" cols="50" rows="8">
-CREATE TABLE IF NOT EXISTS  `ci_sessions` (
-session_id varchar(40) DEFAULT '0' NOT NULL,
-ip_address varchar(16) DEFAULT '0' NOT NULL,
-user_agent varchar(50) NOT NULL,
-last_activity int(10) unsigned DEFAULT 0 NOT NULL,
-user_data text DEFAULT '' NOT NULL,
-PRIMARY KEY (session_id)
-);</textarea>
+<textarea class="textarea" style="width:100%" cols="50" rows="10">
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+	session_id varchar(40) DEFAULT '0' NOT NULL,
+	ip_address varchar(16) DEFAULT '0' NOT NULL,
+	user_agent varchar(120) NOT NULL,
+	last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+	user_data text NOT NULL,
+	PRIMARY KEY (session_id),
+	KEY `last_activity_idx` (`last_activity`)
+);
+</textarea>
 
 <p><strong>Note:</strong> By default the table is called <dfn>ci_sessions</dfn>, but you can name it anything you want
 as long as you update the <kbd>application/config/config.php</kbd> file so that it contains the name you have chosen.
@@ -230,7 +249,7 @@ do not need to write your own routine to do it.</p>
 <h2>Destroying a Session </h2>
 <p>To clear the current session: </p>
 <code>$this-&gt;session-&gt;sess_destroy();</code>
-<p class="important"><strong>Note:</strong> This function should be the last one called, and even flash variables will no longer be available.  If you only want some items destroyed and not all, use <dfn>unset_userdata()</dfn>.</p>
+<p class="important"><strong>Note:</strong> This function should be the last one called, and even flash variables will no longer be available. If you only want some items destroyed and not all, use <dfn>unset_userdata()</dfn>.</p>
 
 
 
@@ -273,7 +292,7 @@ do not need to write your own routine to do it.</p>
 	<td class="td"><strong>sess_use_database</strong></td>
 	<td class="td">FALSE</td>
 	<td class="td">TRUE/FALSE (boolean)</td>
-	<td class="td">Whether to save the session data to a database.  You must create the table before enabling this option.</td>
+	<td class="td">Whether to save the session data to a database. You must create the table before enabling this option.</td>
 </tr>
 <tr>
 	<td class="td"><strong>sess_table_name</strong></td>
@@ -291,7 +310,7 @@ do not need to write your own routine to do it.</p>
 	<td class="td"><strong>sess_match_ip</strong></td>
 	<td class="td">FALSE</td>
 	<td class="td">TRUE/FALSE (boolean)</td>
-	<td class="td">Whether to match the user's IP address when reading the session data.  Note that some ISPs dynamically
+	<td class="td">Whether to match the user's IP address when reading the session data. Note that some ISPs dynamically
 	changes the IP, so if you want a non-expiring session you will likely set this to FALSE.</td>
 </tr>
 <tr>
