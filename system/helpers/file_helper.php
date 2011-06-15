@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -311,7 +311,7 @@ if ( ! function_exists('get_file_info'))
 					$fileinfo['readable'] = is_readable($file);
 					break;
 				case 'writable':
-					// There are known problems using is_weritable on IIS.  It may not be reliable - consider fileperms()
+					// There are known problems using is_weritable on IIS. It may not be reliable - consider fileperms()
 					$fileinfo['writable'] = is_writable($file);
 					break;
 				case 'executable':
@@ -352,7 +352,16 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if ( ! require_once(APPPATH.'config/mimes.php'))
+			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (is_file(APPPATH.'config/mimes.php'))
+			{
+				include(APPPATH.'config/mimes.php');
+			}
+
+			if ( ! is_array($mimes))
 			{
 				return FALSE;
 			}

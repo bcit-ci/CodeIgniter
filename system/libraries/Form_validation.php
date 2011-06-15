@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -102,7 +102,7 @@ class CI_Form_validation {
 		}
 
 		// No fields? Nothing to do...
-		if ( ! is_string($field) OR  ! is_string($rules) OR $field == '')
+		if ( ! is_string($field) OR ! is_string($rules) OR $field == '')
 		{
 			return $this;
 		}
@@ -110,8 +110,8 @@ class CI_Form_validation {
 		// If the field label wasn't passed we use the field name
 		$label = ($label == '') ? $field : $label;
 
-		// Is the field name an array?  We test for the existence of a bracket "[" in
-		// the field name to determine this.  If it is an array, we break it apart
+		// Is the field name an array? We test for the existence of a bracket "[" in
+		// the field name to determine this. If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
 		if (strpos($field, '[') !== FALSE AND preg_match_all('/\[(.*?)\]/', $field, $matches))
 		{
@@ -155,8 +155,8 @@ class CI_Form_validation {
 	/**
 	 * Set Error Message
 	 *
-	 * Lets users set their own error messages on the fly.  Note:  The key
-	 * name has to match the  function name that it corresponds to.
+	 * Lets users set their own error messages on the fly. Note: The key
+	 * name has to match the function name that it corresponds to.
 	 *
 	 * @access	public
 	 * @param	string
@@ -281,7 +281,7 @@ class CI_Form_validation {
 	 */
 	function run($group = '')
 	{
-		// Do we even have any data to process?  Mm?
+		// Do we even have any data to process? Mm?
 		if (count($_POST) == 0)
 		{
 			return FALSE;
@@ -291,7 +291,7 @@ class CI_Form_validation {
 		// If not, we look to see if they were assigned via a config file
 		if (count($this->_field_data) == 0)
 		{
-			// No validation rules?  We're done...
+			// No validation rules? We're done...
 			if (count($this->_config_rules) == 0)
 			{
 				return FALSE;
@@ -628,6 +628,10 @@ class CI_Form_validation {
 							$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
 						}
 					}
+					else
+					{
+						log_message('debug', "Unable to find validation rule: ".$rule);
+					}
 
 					continue;
 				}
@@ -644,7 +648,7 @@ class CI_Form_validation {
 				}
 			}
 
-			// Did the rule test negatively?  If so, grab the error.
+			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
 				if ( ! isset($this->_error_messages[$rule]))
@@ -660,7 +664,7 @@ class CI_Form_validation {
 				}
 
 				// Is the parameter we are inserting into the error message the name
-				// of another field?  If so we need to grab its "field label"
+				// of another field? If so we need to grab its "field label"
 				if (isset($this->_field_data[$param]) AND isset($this->_field_data[$param]['label']))
 				{
 					$param = $this->_translate_fieldname($this->_field_data[$param]['label']);
@@ -700,7 +704,7 @@ class CI_Form_validation {
 			// Grab the variable
 			$line = substr($fieldname, 5);
 
-			// Were we able to translate the field name?  If not we use $line
+			// Were we able to translate the field name? If not we use $line
 			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
 			{
 				return $line;
@@ -731,7 +735,7 @@ class CI_Form_validation {
 		}
 
 		// If the data is an array output them one at a time.
-		//     E.g: form_input('name[]', set_value('name[]');
+		//   E.g: form_input('name[]', set_value('name[]');
 		if (is_array($this->_field_data[$field]['postdata']))
 		{
 			return array_shift($this->_field_data[$field]['postdata']);
@@ -910,7 +914,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return  TRUE;
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1203,7 +1207,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Is a Natural number  (0,1,2,3, etc.)
+	 * Is a Natural number (0,1,2,3, etc.)
 	 *
 	 * @access	public
 	 * @param	string
@@ -1217,7 +1221,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Is a Natural number, but not a zero  (1,2,3, etc.)
+	 * Is a Natural number, but not a zero (1,2,3, etc.)
 	 *
 	 * @access	public
 	 * @param	string
@@ -1336,11 +1340,6 @@ class CI_Form_validation {
 	 */
 	function xss_clean($str)
 	{
-		if ( ! isset($this->CI->security))
-		{
-			$this->CI->load->library('security');
-		}
-
 		return $this->CI->security->xss_clean($str);
 	}
 
@@ -1355,7 +1354,7 @@ class CI_Form_validation {
 	 */
 	function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?php', '<?PHP', '<?', '?>'), array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -58,7 +58,14 @@ if ( ! function_exists('force_download'))
 		$extension = end($x);
 
 		// Load the mime types
-		@include(APPPATH.'config/mimes'.EXT);
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+		}
+		elseif (is_file(APPPATH.'config/mimes.php'))
+		{
+			include(APPPATH.'config/mimes.php');
+		}
 
 		// Set a default mime if we can't find it
 		if ( ! isset($mimes[$extension]))

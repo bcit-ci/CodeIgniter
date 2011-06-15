@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,7 +30,7 @@
 /**
  * Smiley Javascript
  *
- * Returns the javascript required for the smiley insertion.  Optionally takes
+ * Returns the javascript required for the smiley insertion. Optionally takes
  * an array of aliases to loosely couple the smiley array to the view.
  *
  * @access	public
@@ -157,7 +157,7 @@ if ( ! function_exists('get_clickable_smileys'))
 		foreach ($smileys as $key => $val)
 		{
 			// Keep duplicates from being used, which can happen if the
-			// mapping array contains multiple identical replacements.  For example:
+			// mapping array contains multiple identical replacements. For example:
 			// :-) and :) might be replaced with the same image so both smileys
 			// will be in the array.
 			if (isset($used[$smileys[$key][0]]))
@@ -204,7 +204,7 @@ if ( ! function_exists('parse_smileys'))
 		}
 
 		// Add a trailing slash to the file path if needed
-		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+		$image_url = preg_replace("/(.+?)\/*$/", "\\1/", $image_url);
 
 		foreach ($smileys as $key => $val)
 		{
@@ -229,19 +229,21 @@ if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if ( ! file_exists(APPPATH.'config/smileys'.EXT))
+		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 		{
-			return FALSE;
+		  include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
+		}
+		elseif (file_exists(APPPATH.'config/smileys.php'))
+		{
+			include(APPPATH.'config/smileys.php');
 		}
 
-		include(APPPATH.'config/smileys'.EXT);
-
-		if ( ! isset($smileys) OR ! is_array($smileys))
+		if (isset($smileys) AND is_array($smileys))
 		{
-			return FALSE;
+			return $smileys;
 		}
 
-		return $smileys;
+		return FALSE;
 	}
 }
 
