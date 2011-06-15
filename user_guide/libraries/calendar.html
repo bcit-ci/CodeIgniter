@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -86,13 +86,13 @@ To show a calendar for a specific month and year you will pass this information 
 <br />
 echo $this->calendar->generate(<kbd>2006</kbd>, <kbd>6</kbd>);</code>
 
-<p>The above code will generate a calendar showing the month of June in 2006.  The first parameter specifies the year, the second parameter specifies the month.</p>
+<p>The above code will generate a calendar showing the month of June in 2006. The first parameter specifies the year, the second parameter specifies the month.</p>
 
 <h2>Passing Data to your Calendar Cells</h2>
 
 <p>To add data to your calendar cells involves creating an associative array in which the keys correspond to the days
-you wish to populate and the array value contains the data.  The array is passed to the third parameter of the calendar
-generating function.  Consider this example:</p>
+you wish to populate and the array value contains the data. The array is passed to the third parameter of the calendar
+generating function. Consider this example:</p>
 
 <code>$this->load->library('calendar');<br />
 <br />
@@ -114,7 +114,7 @@ how data passed to your cells is handled so you can pass different types of info
 
 <h2>Setting Display Preferences</h2>
 
-<p>There are seven preferences you can set to control various aspects of the calendar.  Preferences are set by passing an
+<p>There are seven preferences you can set to control various aspects of the calendar. Preferences are set by passing an
 array of preferences in the second parameter of the loading function. Here is an example:</p>
 
 
@@ -129,7 +129,7 @@ $this->load->library('calendar', $prefs);<br />
 <br />
 echo $this->calendar->generate();</code>
 
-<p>The above code would start the calendar on saturday, use the "long" month heading, and the "short" day names.  More information
+<p>The above code would start the calendar on saturday, use the "long" month heading, and the "short" day names. More information
 regarding preferences below.</p>
 
 
@@ -180,7 +180,7 @@ echo $this->calendar->generate(<var>$this->uri->segment(3)</var>, <var>$this->ur
 <ul>
 <li>You must set the "show_next_prev" to TRUE.</li>
 <li>You must supply the URL to the controller containing your calendar in the "next_prev_url" preference.</li>
-<li>You must supply the "year" and "month" to the calendar generating function via the URI segments where they appear (Note:  The calendar class automatically adds the year/month to the base URL you provide.).</li>
+<li>You must supply the "year" and "month" to the calendar generating function via the URI segments where they appear (Note: The calendar class automatically adds the year/month to the base URL you provide.).</li>
 </ul>
 
 

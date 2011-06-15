@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -58,7 +58,7 @@ URLS
 
 <h1>CodeIgniter URLs</h1>
 
-<p>By default, URLs in CodeIgniter are designed to be search-engine and human friendly.  Rather than using the standard "query string"
+<p>By default, URLs in CodeIgniter are designed to be search-engine and human friendly. Rather than using the standard "query string"
 approach to URLs that is synonymous with dynamic systems, CodeIgniter uses a <strong>segment-based</strong> approach:</p>
 
 <code>example.com/<var>news</var>/<dfn>article</dfn>/<samp>my_article</samp></code>
@@ -78,7 +78,7 @@ approach to URLs that is synonymous with dynamic systems, CodeIgniter uses a <st
 </ol>
 
 <p>The <a href="../libraries/uri.html">URI Class</a> and the <a href="../helpers/url_helper.html">URL Helper</a>
-contain functions that make it easy to work with your URI data.  In addition, your URLs can be remapped using the
+contain functions that make it easy to work with your URI data. In addition, your URLs can be remapped using the
 <a href="routing.html">URI Routing</a> feature for more flexibility.</p>
 
 
@@ -103,7 +103,7 @@ a request for your index.php file.</p>
 <h2>Adding a URL Suffix</h2>
 
 <p>In your <dfn>config/config.php</dfn> file you can specify a suffix that will be added to all URLs generated
-by CodeIgniter.  For example, if a URL is this:</p>
+by CodeIgniter. For example, if a URL is this:</p>
 
 <code>example.com/index.php/products/view/shoes</code>
 
@@ -125,7 +125,7 @@ open your config file you'll see these items:</p>
 $config['controller_trigger'] = 'c';<br />
 $config['function_trigger'] = 'm';</code>
 
-<p>If you change "enable_query_strings" to TRUE this feature will become active.  Your controllers and functions will then
+<p>If you change "enable_query_strings" to TRUE this feature will become active. Your controllers and functions will then
 be accessible using the "trigger" words you've set to invoke your controllers and methods:</p>
 
 <code>index.php?c=controller&amp;m=method</code>

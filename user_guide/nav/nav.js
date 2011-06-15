@@ -50,6 +50,8 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/helpers.html">Helpers</a></li>' +
 			'<li><a href="'+base+'general/libraries.html">Using CodeIgniter Libraries</a></li>' +
 			'<li><a href="'+base+'general/creating_libraries.html">Creating Your Own Libraries</a></li>' +
+			'<li><a href="'+base+'general/drivers.html">Using CodeIgniter Drivers</a></li>' +
+			'<li><a href="'+base+'general/creating_drivers.html">Creating Your Own Drivers</a></li>' +
 			'<li><a href="'+base+'general/core_classes.html">Creating Core Classes</a></li>' +
 			'<li><a href="'+base+'general/hooks.html">Hooks - Extending the Core</a></li>' +
 			'<li><a href="'+base+'general/autoloader.html">Auto-loading Resources</a></li>' +
@@ -58,6 +60,7 @@ function create_menu(basepath)
 			'<li><a href="'+base+'general/errors.html">Error Handling</a></li>' +
 			'<li><a href="'+base+'general/caching.html">Caching</a></li>' +
 			'<li><a href="'+base+'general/profiling.html">Profiling Your Application</a></li>' +
+			'<li><a href="'+base+'general/cli.html">Running via the CLI</a></li>' +
 			'<li><a href="'+base+'general/managing_apps.html">Managing Applications</a></li>' +
 			'<li><a href="'+base+'general/environments.html">Handling Multiple Environments</a></li>' +
 			'<li><a href="'+base+'general/alternative_php.html">Alternative PHP Syntax</a></li>' +

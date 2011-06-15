@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -33,19 +33,27 @@ class CI_Output {
 	protected $headers			= array();
 	protected $mime_types			= array();
 	protected $enable_profiler	= FALSE;
-	protected $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
-
 	protected $_zlib_oc			= FALSE;
 	protected $_profiler_sections = array();
+	protected $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
 
 	function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		include APPPATH.'config/mimes'.EXT;
+		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		{
+		  include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+		}
+		else
+		{
+			include APPPATH.'config/mimes.php';
+		}
+
+
 		$this->mime_types = $mimes;
-		
+
 		log_message('debug', "Output Class Initialized");
 	}
 
@@ -78,7 +86,7 @@ class CI_Output {
 	function set_output($output)
 	{
 		$this->final_output = $output;
-		
+
 		return $this;
 	}
 
@@ -114,7 +122,7 @@ class CI_Output {
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
 	 *
-	 * Note:  If a file is cached, headers will not be sent.  We need to figure out
+	 * Note: If a file is cached, headers will not be sent. We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
 	 * @access	public
@@ -168,7 +176,7 @@ class CI_Output {
 		$header = 'Content-Type: '.$mime_type;
 
 		$this->headers[] = array($header, TRUE);
-		
+
 		return $this;
 	}
 
@@ -253,7 +261,7 @@ class CI_Output {
 	 * $this->final_output
 	 *
 	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data.  It also stops the
+	 * with any server headers and profile data. It also stops the
 	 * benchmark timer so the page rendering speed and memory usage can be shown.
 	 *
 	 * @access	public
@@ -261,7 +269,7 @@ class CI_Output {
 	 */
 	function _display($output = '')
 	{
-		// Note:  We use globals because we can't use $CI =& get_instance()
+		// Note: We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
@@ -282,7 +290,7 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 
-		// Do we need to write a cache file?  Only if the controller does not have its
+		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $CI object above
 		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
@@ -360,7 +368,7 @@ class CI_Output {
 			// we will remove them and add them back after we insert the profile data
 			if (preg_match("|</body>.*?</html>|is", $output))
 			{
-				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
+				$output = preg_replace("|</body>.*?</html>|is", '', $output);
 				$output .= $CI->profiler->run();
 				$output .= '</body></html>';
 			}
@@ -373,14 +381,14 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Does the controller contain a function named _output()?
-		// If so send the output there.  Otherwise, echo it.
+		// If so send the output there. Otherwise, echo it.
 		if (method_exists($CI, '_output'))
 		{
 			$CI->_output($output);
 		}
 		else
 		{
-			echo $output;  // Send it to the browser!
+			echo $output; // Send it to the browser!
 		}
 
 		log_message('debug', "Final output sent to browser");
@@ -450,7 +458,7 @@ class CI_Output {
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
-		// Build the file path.  The file name is an MD5 hash of the full URI
+		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
 				$URI->uri_string;

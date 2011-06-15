@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -70,8 +70,8 @@ Array Helper
 
 <h2>element()</h2>
 
-<p>Lets you fetch an item from an array.  The function tests whether the array index is set and whether it has a value.  If
-a value exists it is returned.  If a value does not exist it returns FALSE, or whatever you've specified as the default value via the third parameter.  Example:</p>
+<p>Lets you fetch an item from an array. The function tests whether the array index is set and whether it has a value. If
+a value exists it is returned. If a value does not exist it returns FALSE, or whatever you've specified as the default value via the third parameter. Example:</p>
 
 <code>
 $array = array('color' => 'red', 'shape' => 'round', 'size' => '');<br />
@@ -86,7 +86,7 @@ echo element('size', $array, NULL);
 
 <h2>random_element()</h2>
 
-<p>Takes an array as input and returns a random element from it.  Usage example:</p>
+<p>Takes an array as input and returns a random element from it. Usage example:</p>
 
 <code>$quotes = array(<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I find that the harder I work, the more luck I seem to have. - Thomas Jefferson",<br />
@@ -102,8 +102,8 @@ echo random_element($quotes);</code>
 
 <h2>elements()</h2>
 
-<p>Lets you fetch a number of items from an array.  The function tests whether each of the array indices is set.  If an index does not exist
-it is set to FALSE, or whatever you've specified as the default value via the third parameter.  Example:</p>
+<p>Lets you fetch a number of items from an array. The function tests whether each of the array indices is set. If an index does not exist
+it is set to FALSE, or whatever you've specified as the default value via the third parameter. Example:</p>
 
 <code>
 $array = array(<br />
@@ -142,7 +142,7 @@ array(<br />
 );
 </code>
 
-<p>This is useful when sending the <kbd>$_POST</kbd> array to one of your Models.  This prevents users from
+<p>This is useful when sending the <kbd>$_POST</kbd> array to one of your Models. This prevents users from
 sending additional POST data to be entered into your tables:</p>
 
 <code>
@@ -159,10 +159,10 @@ $this->post_model->update(elements(array('id', 'title', 'content'), $_POST));
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp; <a href="../libraries/zip.html">Zip Encoding Class</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Previous Topic:&nbsp;&nbsp; <a href="../libraries/javascript.html">Javascript Class</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="compatibility_helper.html">Compatibility Helper</a></p>
+Next Topic:&nbsp;&nbsp;<a href="captcha_helper.html">CAPTCHA Helper</a></p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 

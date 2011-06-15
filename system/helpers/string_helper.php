@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -150,7 +150,7 @@ if ( ! function_exists('reduce_double_slashes'))
 /**
  * Reduce Multiples
  *
- * Reduces multiple instances of a particular character.  Example:
+ * Reduces multiple instances of a particular character. Example:
  *
  * Fred, Bill,, Joe, Jimmy
  *
@@ -187,7 +187,7 @@ if ( ! function_exists('reduce_multiples'))
  * Useful for generating passwords or hashes.
  *
  * @access	public
- * @param	string	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
+ * @param	string	type of random string. basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
  * @param	integer	number of characters
  * @return	string
  */
@@ -245,7 +245,7 @@ if ( ! function_exists('random_string'))
 /**
  * Alternator
  *
- * Allows strings to be alternated.  See docs...
+ * Allows strings to be alternated. See docs...
  *
  * @access	public
  * @param	string (as many parameters as needed)

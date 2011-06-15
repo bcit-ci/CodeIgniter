@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -130,11 +130,11 @@ echo $this->table->generate();
 
 <h2>Changing the Look of Your Table</h2>
 
-<p>The Table Class permits you to set a table template with which you can specify the design of your layout.  Here is the template
+<p>The Table Class permits you to set a table template with which you can specify the design of your layout. Here is the template
 prototype:</p>
 
 <code>
-$tmpl =  array (<br />
+$tmpl = array (<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'table_open'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '&lt;table border="0" cellpadding="4" cellspacing="0">',<br />
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'heading_row_start'&nbsp;&nbsp;&nbsp;=> '&lt;tr>',<br />
@@ -159,14 +159,14 @@ $tmpl =  array (<br />
 $this->table->set_template($tmpl);
 </code>
 
-<p class="important"><strong>Note:</strong>&nbsp; You'll notice there are two sets of "row" blocks in the template.  These permit you to create alternating row colors or design elements that alternate with each
+<p class="important"><strong>Note:</strong>&nbsp; You'll notice there are two sets of "row" blocks in the template. These permit you to create alternating row colors or design elements that alternate with each
 iteration of the row data.</p>
 
-<p>You are NOT required to submit a complete template.  If you only need to change parts of the layout you can simply submit those elements.
+<p>You are NOT required to submit a complete template. If you only need to change parts of the layout you can simply submit those elements.
 In this example, only the table opening tag is being changed:</p>
 
 <code>
-$tmpl =  array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
+$tmpl = array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
 
 <br />
 $this->table->set_template($tmpl);
@@ -176,7 +176,7 @@ $this->table->set_template($tmpl);
 <h1>Function Reference</h1>
 
 <h2>$this->table->generate()</h2>
-<p>Returns a string containing the generated table.  Accepts an optional parameter which can be an array or a database result object.</p>
+<p>Returns a string containing the generated table. Accepts an optional parameter which can be an array or a database result object.</p>
 
 <h2>$this->table->set_caption()</h2>
 
@@ -186,19 +186,19 @@ $this->table->set_template($tmpl);
 
 <h2>$this->table->set_heading()</h2>
 
-<p>Permits you to set the table heading.  You can submit an array or discrete params:</p>
+<p>Permits you to set the table heading. You can submit an array or discrete params:</p>
 
 <code>$this->table->set_heading('Name', 'Color', 'Size');</code>
 <code>$this->table->set_heading(array('Name', 'Color', 'Size'));</code>
 
 <h2>$this->table->add_row()</h2>
 
-<p>Permits you to add a row to your table.  You can submit an array or discrete params:</p>
+<p>Permits you to add a row to your table. You can submit an array or discrete params:</p>
 
 <code>$this->table->add_row('Blue', 'Red', 'Green');</code>
 <code>$this->table->add_row(array('Blue', 'Red', 'Green'));</code>
 
-<p>If you would like to set an individual cell's tag attributes, you can use an associative array for that cell.  The associative key <dfn>'data'</dfn> defines the cell's data.  Any other key =&gt; val pairs are added as <dfn>key='val'</dfn> attributes to the tag:</p>
+<p>If you would like to set an individual cell's tag attributes, you can use an associative array for that cell. The associative key <dfn>'data'</dfn> defines the cell's data. Any other key =&gt; val pairs are added as <dfn>key='val'</dfn> attributes to the tag:</p>
 
 <code>$cell = array('data' => 'Blue', 'class' => 'highlight', 'colspan' => 2);<br />
 $this->table->add_row($cell, 'Red', 'Green');<br />
@@ -211,8 +211,8 @@ $this->table->add_row($cell, 'Red', 'Green');<br />
 
 <p>This function takes a one-dimensional array as input and creates
 a multi-dimensional array with a depth equal to the number of
-columns desired.  This allows a single array with many elements to  be
-displayed in a table that has a fixed column count.  Consider this example:</p>
+columns desired. This allows a single array with many elements to be
+displayed in a table that has a fixed column count. Consider this example:</p>
 
 <code>
 $list = array('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve');<br />
@@ -241,7 +241,7 @@ $this->table->generate($new_list);<br />
 <p>Permits you to set your template. You can submit a full or partial template.</p>
 
 <code>
-$tmpl =  array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
+$tmpl = array ( 'table_open'&nbsp;&nbsp;=> '&lt;table border="1" cellpadding="2" cellspacing="1" class="mytable">' );<br />
 
 <br />
 $this->table->set_template($tmpl);
@@ -250,7 +250,7 @@ $this->table->set_template($tmpl);
 
 <h2>$this->table->set_empty()</h2>
 
-<p>Let's you set a default value for use in any table cells that are empty.  You might, for example, set a non-breaking space:</p>
+<p>Let's you set a default value for use in any table cells that are empty. You might, for example, set a non-breaking space:</p>
 
 <code>
 $this->table->set_empty("&amp;nbsp;");
@@ -258,7 +258,7 @@ $this->table->set_empty("&amp;nbsp;");
 
 <h2>$this->table->clear()</h2>
 
-<p>Lets you clear the table heading and row data.  If you need to show multiple tables with different data you should
+<p>Lets you clear the table heading and row data. If you need to show multiple tables with different data you should
 to call this function after each table has been generated to empty the previous table information. Example:</p>
 
 <code>

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -63,7 +63,7 @@ if ( ! function_exists('word_limiter'))
 /**
  * Character Limiter
  *
- * Limits the string based on the character count.  Preserves complete words
+ * Limits the string based on the character count. Preserves complete words
  * so the character count may not be exactly as specified.
  *
  * @access	public
@@ -133,7 +133,7 @@ if ( ! function_exists('ascii_to_entities'))
 				*/
 				if (count($temp) == 1)
 				{
-					$out  .= '&#'.array_shift($temp).';';
+					$out .= '&#'.array_shift($temp).';';
 					$count = 1;
 				}
 
@@ -366,12 +366,14 @@ if ( ! function_exists('convert_accented_characters'))
 {
 	function convert_accented_characters($str)
 	{
-		if ( ! file_exists(APPPATH.'config/foreign_chars'.EXT))
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 		{
-			return $str;
+			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
 		}
-
-		include APPPATH.'config/foreign_chars'.EXT;
+		elseif (is_file(APPPATH.'config/foreign_chars.php'))
+		{
+			include(APPPATH.'config/foreign_chars.php');
+		}
 
 		if ( ! isset($foreign_characters))
 		{
@@ -387,7 +389,7 @@ if ( ! function_exists('convert_accented_characters'))
 /**
  * Word Wrap
  *
- * Wraps text at the specified character.  Maintains the integrity of words.
+ * Wraps text at the specified character. Maintains the integrity of words.
  * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
  * will URLs.
  *
@@ -427,7 +429,7 @@ if ( ! function_exists('word_wrap'))
 
 		// Use PHP's native function to do the initial wordwrap.
 		// We set the cut flag to FALSE so that any individual words that are
-		// too long get left alone.  In the next step we'll deal with them.
+		// too long get left alone. In the next step we'll deal with them.
 		$str = wordwrap($str, $charlim, "\n", FALSE);
 
 		// Split the string into individual lines of text and cycle through them

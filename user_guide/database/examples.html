@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -61,7 +61,7 @@ Database Example Code
 
 <h1>Database Quick Start: Example Code</h1>
 
-<p>The following page contains example code showing how the database class is used.  For complete details please
+<p>The following page contains example code showing how the database class is used. For complete details please
 read the individual pages describing each function.</p>
 
 
@@ -73,7 +73,7 @@ read the individual pages describing each function.</p>
 
 <p>Once loaded the class is ready to be used as described below.</p>
 
-<p>Note: If all your pages require database access you can connect automatically.  See the <a href="connecting.html">connecting</a> page for details.</p>
+<p>Note: If all your pages require database access you can connect automatically. See the <a href="connecting.html">connecting</a> page for details.</p>
 
 
 <h2>Standard Query With Multiple Results (Object Version)</h2>
@@ -90,7 +90,7 @@ foreach ($query->result() as $row)<br />
 echo 'Total Results: ' . $query->num_rows();
 </code>
 
-<p>The above <dfn>result()</dfn> function returns an array of <strong>objects</strong>.  Example:  $row->title</p>
+<p>The above <dfn>result()</dfn> function returns an array of <strong>objects</strong>. Example: $row->title</p>
 
 
 <h2>Standard Query With Multiple Results (Array Version)</h2>
@@ -104,7 +104,7 @@ foreach ($query->result_array() as $row)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $row['email'];<br />
 }</code>
 
-<p>The above <dfn>result_array()</dfn> function returns an array of standard array indexes.  Example:  $row['title']</p>
+<p>The above <dfn>result_array()</dfn> function returns an array of standard array indexes. Example: $row['title']</p>
 
 
 <h2>Testing for Results</h2>
@@ -137,7 +137,7 @@ $row = $query->row();<br />
 echo $row->name;<br />
 </code>
 
-<p>The above <dfn>row()</dfn> function returns an <strong>object</strong>.  Example:  $row->name</p>
+<p>The above <dfn>row()</dfn> function returns an <strong>object</strong>. Example: $row->name</p>
 
 
 <h2>Standard Query With Single Result (Array version)</h2>
@@ -148,7 +148,7 @@ $row = $query->row_array();<br />
 echo $row['name'];<br />
 </code>
 
-<p>The above <dfn>row_array()</dfn> function returns an <strong>array</strong>.  Example:  $row['name']</p>
+<p>The above <dfn>row_array()</dfn> function returns an <strong>array</strong>. Example: $row['name']</p>
 
 
 <h2>Standard Insert</h2>

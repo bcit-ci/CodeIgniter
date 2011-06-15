@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -72,7 +72,7 @@ Date Helper
 <h2>now()</h2>
 
 <p>Returns the current time as a Unix timestamp, referenced either to your server's local time or GMT, based on the "time reference"
-setting in your config file.  If you do not intend to set your master time reference to GMT (which you'll typically do if you
+setting in your config file. If you do not intend to set your master time reference to GMT (which you'll typically do if you
 run a site that lets each user set their own timezone settings) there is no benefit to using this function over PHP's time() function.
 </p>
 
@@ -82,10 +82,10 @@ run a site that lets each user set their own timezone settings) there is no bene
 <h2>mdate()</h2>
 
 <p>This function is identical to PHPs <a href="http://www.php.net/date">date()</a> function, except that it lets you
-use MySQL style date codes, where each code letter is preceded with a percent sign:  %Y %m %d etc.</p>
+use MySQL style date codes, where each code letter is preceded with a percent sign: %Y %m %d etc.</p>
 
 <p>The benefit of doing dates this way is that you don't have to worry about escaping any characters that
-are not date codes, as you would normally have to do with the date() function.  Example:</p>
+are not date codes, as you would normally have to do with the date() function. Example:</p>
 
 <code>$datestring = "Year: %Y Month: %m Day: %d - %h:%i %a";<br />
 $time = time();<br />
@@ -149,7 +149,7 @@ echo standard_date($format, $time);
 	<tr>
 		<td>DATE_RFC1123</td>
 		<td>RFC 1123</td>
-		<td>Sun, 14 Aug 2005 16:13:03 UTC</td>	
+		<td>Sun, 14 Aug 2005 16:13:03 UTC</td>
 	</tr>
 	<tr>
 		<td>DATE_RFC2822</td>
@@ -170,7 +170,7 @@ echo standard_date($format, $time);
 
 <h2>local_to_gmt()</h2>
 
-<p>Takes a Unix timestamp as input and returns it as GMT.  Example:</p>
+<p>Takes a Unix timestamp as input and returns it as GMT. Example:</p>
 
 <code>$now = time();<br />
 <br />
@@ -180,11 +180,11 @@ $gmt = local_to_gmt($now);</code>
 <h2>gmt_to_local()</h2>
 
 <p>Takes a Unix timestamp (referenced to GMT) as input, and converts it to a localized timestamp based on the
-timezone and Daylight Saving time submitted.  Example:</p>
+timezone and Daylight Saving time submitted. Example:</p>
 
 <code>
 $timestamp = '1140153693';<br />
-$timezone  = 'UM8';<br />
+$timezone = 'UM8';<br />
 $daylight_saving = TRUE;<br />
 <br />
 echo gmt_to_local($timestamp, $timezone, $daylight_saving);</code>
@@ -208,7 +208,7 @@ $unix = mysql_to_unix($mysql);</code>
 
 <p>This can be useful if you need to display a date in a form field for submission.</p>
 
-<p>The time can be formatted with or without seconds, and it can be set to European or US format.  If only
+<p>The time can be formatted with or without seconds, and it can be set to European or US format. If only
 the timestamp is submitted it will return the time without seconds formatted for the U.S. Examples:</p>
 
 <code>$now = time();<br />
@@ -222,9 +222,9 @@ echo unix_to_human($now, TRUE, 'eu'); // Euro time with seconds</code>
 
 <h2>human_to_unix()</h2>
 
-<p>The opposite of the above function.  Takes a "human" time as input and returns it as Unix.  This function is
-useful if you accept "human" formatted dates submitted via a form.  Returns FALSE (boolean) if
-the date string passed to it is not formatted as indicated above.  Example:</p>
+<p>The opposite of the above function. Takes a "human" time as input and returns it as Unix. This function is
+useful if you accept "human" formatted dates submitted via a form. Returns FALSE (boolean) if
+the date string passed to it is not formatted as indicated above. Example:</p>
 
 <code>$now = time();<br />
 <br />
@@ -242,9 +242,9 @@ $unix = human_to_unix($human);</code>
 
 <code>1 Year, 10 Months, 2 Weeks, 5 Days, 10 Hours, 16 Minutes</code>
 
-<p>The first parameter must contain a Unix timestamp.  The second parameter must contain a
-timestamp that is greater that the first timestamp.  If the second parameter empty, the current time will be used.  The most common purpose
-for this function is to show how much time has elapsed from some point in time in the past to now.  Example:</p>
+<p>The first parameter must contain a Unix timestamp. The second parameter must contain a
+timestamp that is greater that the first timestamp. If the second parameter empty, the current time will be used. The most common purpose
+for this function is to show how much time has elapsed from some point in time in the past to now. Example:</p>
 
 <code>$post_date = '1079621429';<br />
 $now = time();<br />
@@ -256,7 +256,7 @@ echo timespan($post_date, $now);</code>
 
 <h2>days_in_month()</h2>
 
-<p>Returns the number of days in a given month/year. Takes leap years into account.  Example:</p>
+<p>Returns the number of days in a given month/year. Takes leap years into account. Example:</p>
 <code>echo days_in_month(06, 2005);</code>
 
 <p>If the second parameter is empty, the current year will be used.</p>
@@ -304,7 +304,7 @@ echo timespan($post_date, $now);</code>
 
 <p>This menu is useful if you run a membership site in which your users are allowed to set their local timezone value.</p>
 
-<p>The first parameter lets you set the "selected" state of the menu.  For example, to set Pacific time as the default you will do this:</p>
+<p>The first parameter lets you set the "selected" state of the menu. For example, to set Pacific time as the default you will do this:</p>
 
 <code>echo timezone_menu('UM8');</code>
 

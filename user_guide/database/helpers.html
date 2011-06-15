@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -67,12 +67,12 @@ Query Helpers
 
 <h2>$this->db->affected_rows()</h2>
 <p>Displays the number of affected rows, when doing "write" type queries (insert, update, etc.).</p>
-<p>Note:  In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the
-correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
+<p>Note: In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the
+correct number of affected rows. By default this hack is enabled but it can be turned off in the database driver file.</p>
 
 
 <h2>$this->db->count_all();</h2>
-<p>Permits you to determine the number of rows in a particular table.  Submit the table name in the first parameter. Example:</p>
+<p>Permits you to determine the number of rows in a particular table. Submit the table name in the first parameter. Example:</p>
 <code>echo $this->db->count_all('<var>my_table</var>');<br />
 <br />
 // Produces an integer, like 25
@@ -90,11 +90,11 @@ correct number of affected rows.  By default this hack is enabled but it can be 
 
 
 <h2>$this->db->last_query();</h2>
-<p>Returns the last query that was run (the query string, not the result).  Example:</p>
+<p>Returns the last query that was run (the query string, not the result). Example:</p>
 
 <code>$str = $this->db->last_query();<br />
 <br />
-// Produces:  SELECT * FROM sometable....
+// Produces: SELECT * FROM sometable....
 </code>
 
 
@@ -109,7 +109,7 @@ correct number of affected rows.  By default this hack is enabled but it can be 
 $str = $this->db->insert_string('table_name', $data);
 </code>
 
-<p>The first parameter is the table name, the second is an associative array with the data to be inserted.  The above example produces:</p>
+<p>The first parameter is the table name, the second is an associative array with the data to be inserted. The above example produces:</p>
 <code>INSERT INTO table_name (name, email, url) VALUES ('Rick', 'rick@example.com', 'example.com')</code>
 
 <p class="important">Note: Values are automatically escaped, producing safer queries.</p>

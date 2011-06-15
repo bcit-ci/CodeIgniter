@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -61,18 +61,18 @@ Transactions
 
 <h1>Transactions</h1>
 
-<p>CodeIgniter's database abstraction allows you to use <dfn>transactions</dfn> with databases that support transaction-safe table types.  In MySQL, you'll need
-to be running InnoDB or BDB table types rather than the more common MyISAM.  Most other database platforms support transactions natively.</p>
+<p>CodeIgniter's database abstraction allows you to use <dfn>transactions</dfn> with databases that support transaction-safe table types. In MySQL, you'll need
+to be running InnoDB or BDB table types rather than the more common MyISAM. Most other database platforms support transactions natively.</p>
 
 <p>If you are not familiar with
-transactions we recommend you find a good online resource to learn about them for your particular database.  The information below assumes you
+transactions we recommend you find a good online resource to learn about them for your particular database. The information below assumes you
 have a basic understanding of transactions.
 </p>
 
 <h2>CodeIgniter's Approach to Transactions</h2>
 
-<p>CodeIgniter utilizes an approach to transactions that is very similar to the process used by the popular database class ADODB.  We've chosen that approach
-because it greatly simplifies the process of running transactions.  In most cases all that is required are two lines of code.</p>
+<p>CodeIgniter utilizes an approach to transactions that is very similar to the process used by the popular database class ADODB. We've chosen that approach
+because it greatly simplifies the process of running transactions. In most cases all that is required are two lines of code.</p>
 
 <p>Traditionally, transactions have required a fair amount of work to implement since they demand that you to keep track of your queries
 and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. This is particularly cumbersome with
@@ -98,7 +98,7 @@ of any given query.</p>
 
 <h2>Strict Mode</h2>
 
-<p>By default CodeIgniter runs all transactions in <dfn>Strict Mode</dfn>.  When strict mode is enabled, if you are running multiple groups of
+<p>By default CodeIgniter runs all transactions in <dfn>Strict Mode</dfn>. When strict mode is enabled, if you are running multiple groups of
 transactions, if one group fails all groups will be rolled back. If strict mode is disabled, each group is treated independently, meaning
 a failure of one group will not affect any others.</p>
 
@@ -127,7 +127,7 @@ if (<kbd>$this->db->trans_status()</kbd> === FALSE)<br />
 
 <h2>Enabling Transactions</h2>
 
-<p>Transactions are enabled automatically the moment you use <dfn>$this->db->trans_start()</dfn>.  If you would like to disable transactions you
+<p>Transactions are enabled automatically the moment you use <dfn>$this->db->trans_start()</dfn>. If you would like to disable transactions you
 can do so using <dfn>$this->db->trans_off()</dfn>:</p>
 
 <code>

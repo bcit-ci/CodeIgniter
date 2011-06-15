@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -58,15 +58,15 @@ Using CodeIgniter Drivers
 <h1>Using CodeIgniter Drivers</h1>
 
 
-<p>Drivers are a special type of Library that has a parent class and any number of potential child classes.  Child classes have access to the parent class, but not their siblings.  Drivers provide an elegant syntax  in your <a href="controllers.html">controllers</a> for libraries that benefit from or require being broken down into discrete classes.</p>
+<p>Drivers are a special type of Library that has a parent class and any number of potential child classes. Child classes have access to the parent class, but not their siblings. Drivers provide an elegant syntax in your <a href="controllers.html">controllers</a> for libraries that benefit from or require being broken down into discrete classes.</p>
 
-<p>Drivers are found in the <dfn>system/libraries</dfn> folder, in their own folder which is identically named to the parent library class.  Also inside that folder is a subfolder named <kbd>drivers</kbd>, which contains all of the possible child class files.</p>
+<p>Drivers are found in the <dfn>system/libraries</dfn> folder, in their own folder which is identically named to the parent library class. Also inside that folder is a subfolder named <kbd>drivers</kbd>, which contains all of the possible child class files.</p>
 
 <p>To use a driver you will initialize it within a controller using the following initialization function:</p>
 
 <code>$this->load->driver('<var>class name</var>'); </code>
 
-<p>Where <var>class name</var> is the name of the driver class you want to invoke.  For example, to load a driver named "Some Parent" you would do this:</p>
+<p>Where <var>class name</var> is the name of the driver class you want to invoke. For example, to load a driver named "Some Parent" you would do this:</p>
 
 <code>$this->load->driver('<var>some_parent</var>');</code>
 

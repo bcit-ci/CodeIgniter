@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.0</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -68,7 +68,7 @@ CAPTCHA Helper
 
 <p>The following functions are available:</p>
 
-<h2>captcha_create(<var>$data</var>)</h2>
+<h2>create_captcha(<var>$data</var>)</h2>
 
 <p>Takes an array of information to generate the CAPTCHA as input and creates the image to your specifications, returning an array of associative data about the image.</p>
 
@@ -83,7 +83,7 @@ CAPTCHA Helper
 <code>&lt;img src=&quot;http://example.com/captcha/12345.jpg&quot; width=&quot;140&quot; height=&quot;50&quot; /&gt;</code></p>
 
 	<p>The "time" is the micro timestamp used as the image name without the file
-	extension.  It will be a number like this:  1139612155.3422</p>
+	extension. It will be a number like this: 1139612155.3422</p>
 
 	<p>The "word" is the word that appears in the captcha image, which if not
 	supplied to the function, will be a random string.</p>
@@ -109,13 +109,13 @@ echo $cap['image'];</code>
 		<li>The captcha function requires the GD image library.</li>
 		<li>Only the img_path and img_url are required.</li>
 		<li>If a "word" is not supplied, the function will generate a random
-		ASCII string.  You might put together your own word library that
+		ASCII string. You might put together your own word library that
 		you can draw randomly from.</li>
 		<li>If you do not specify a path to a TRUE TYPE font, the native ugly GD
 		font will be used.</li>
 		<li>The "captcha" folder must be writable (666, or 777)</li>
 		<li>The "expiration" (in seconds) signifies how long an image will
-		remain in the captcha folder before it will be deleted.  The default
+		remain in the captcha folder before it will be deleted. The default
 		is two hours.</li>
 	</ul>
 
@@ -137,7 +137,7 @@ echo $cap['image'];</code>
 &nbsp;KEY `word` (`word`)<br />
 );</code>
 
-	<p>Here is an example of usage with a database.  On the page where the CAPTCHA will be shown you'll have something like this:</p>
+	<p>Here is an example of usage with a database. On the page where the CAPTCHA will be shown you'll have something like this:</p>
 
 <code>$this-&gt;load-&gt;helper(&#x27;captcha&#x27;);<br />
 $vals = array(<br />
@@ -167,7 +167,7 @@ $expiration = time()-7200; // Two hour limit<br />
 $this-&gt;db-&gt;query(&quot;DELETE FROM captcha WHERE captcha_time &lt; &quot;.$expiration);	<br />
 <br />
 // Then see if a captcha exists:<br />
-$sql = &quot;SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date &gt; ?&quot;;<br />
+$sql = &quot;SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND captcha_time &gt; ?&quot;;<br />
 $binds = array($_POST[&#x27;captcha&#x27;], $this-&gt;input-&gt;ip_address(), $expiration);<br />
 $query = $this-&gt;db-&gt;query($sql, $binds);<br />
 $row = $query-&gt;row();<br />
@@ -183,11 +183,11 @@ if ($row-&gt;count == 0)<br />
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="url_helper.html">URL Helper</a>
+Previous Topic:&nbsp;&nbsp;<a href="array_helper.html">Array Helper</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-<a href="../index.html">User Guide Home</a>
-</p>
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="cookie_helper.html">Cookie Helper</a></p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
