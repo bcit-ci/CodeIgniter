@@ -390,10 +390,10 @@ $this->form_validation->set_rules($config);
 <p>CodeIgniter lets you pipe multiple rules together.  Let's try it. Change your rules in the third parameter of rule setting function, like this:</p>
 
 <code>
-$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]');<br />
+$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');<br />
 $this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');<br />
 $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');<br />
-$this->form_validation->set_rules('email', 'Email', 'required|valid_email');<br />
+$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');<br />
 </code>
 
 <p>The above code sets the following rules:</p>
@@ -516,7 +516,7 @@ create a callback function that does that.  Let's create a example of this.</p>
 
 class Form extends CI_Controller {
 
-	function index()
+	public function index()
 	{
 		$this->load->helper(array('form', 'url'));
 
@@ -525,7 +525,7 @@ class Form extends CI_Controller {
 		$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -537,7 +537,7 @@ class Form extends CI_Controller {
 		}
 	}
 
-	function username_check($str)
+	public function username_check($str)
 	{
 		if ($str == 'test')
 		{
@@ -944,6 +944,13 @@ POST array:</p>
 		<td class="td">Yes</td>
 		<td class="td">Returns FALSE if the form element does not match the one in the parameter.</td>
 		<td class="td">matches[form_item]</td>
+	</tr>
+
+	<tr>
+		<td class="td"><strong>is_unique</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is not unique to the table and field name in the parameter.</td>
+		<td class="td">is_unique[table.field]</td>
 	</tr>
 
 	<tr>

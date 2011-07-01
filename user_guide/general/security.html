@@ -76,15 +76,9 @@ minimize the possibility that malicious data can be passed to your application. 
 <li>Dash: -</li>
 </ul>
 
-<h2>GET, POST, and COOKIE Data</h2>
-
-<p>GET data is simply disallowed by CodeIgniter since the system utilizes URI segments rather than traditional URL query strings (unless
-you have the query string option enabled in your config file).  The global GET
-array is <strong>unset</strong> by the Input class during system initialization.</p>
-
 <h2>Register_globals</h2>
 
-<p>During system initialization all global variables are unset, except those found in the $_POST and $_COOKIE arrays. The unsetting
+<p>During system initialization all global variables are unset, except those found in the $_GET, $_POST, and $_COOKIE arrays. The unsetting
 routine is effectively the same as register_globals = off.</p>
 
 <a name="error_reporting"></a>

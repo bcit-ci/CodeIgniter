@@ -105,8 +105,8 @@ even add your own data to a user's session, but the process of reading, writing,
 <ul>
 <li>The user's unique Session ID (this is a statistically random string with very strong entropy, hashed with MD5 for portability, and regenerated (by default) every five minutes)</li>
 <li>The user's IP Address</li>
-<li>The user's User Agent data (the first 50 characters of the browser data string)</li>
-<li>The "last activity"  time stamp.</li>
+<li>The user's User Agent data (the first 120 characters of the browser data string)</li>
+<li>The "last activity" time stamp.</li>
 </ul>
 
 <p>The above data is stored in a cookie as a serialized array with this prototype:</p>

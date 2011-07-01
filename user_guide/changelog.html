@@ -67,12 +67,14 @@ Change Log
 		<ul>
 			<li>An improvement was made to the MySQL and MySQLi drivers to prevent exposing a potential vector for SQL injection on sites using multi-byte character sets in the database client connection.  <p>An incompatibility in PHP versions &lt; 5.2.3 and MySQL &lt; 5.0.7 with <em>mysql_set_charset()</em> creates a situation where using multi-byte  character sets on these environments may potentially expose a SQL injection attack vector.  Latin-1, UTF-8, and other "low ASCII" character sets are unaffected on all environments.</p>  <p class="critical">If you are running or considering running a multi-byte character set for your database connection, please pay close attention to the server environment you are deploying on to ensure you are not vulnerable.</p></li>
 		</ul>
+	</li>
 	<li>General Changes
 		<ul>
 			<li>Fixed a bug where there was a misspelling within a code comment in the index.php file.</li>
 			<li>Added Session Class userdata to the output profiler.  Additionally, added a show/hide toggle on HTTP Headers, Session Data and Config Variables.</li>
 			<li>Removed internal usage of the <samp>EXT</samp> constant.</li>
-			<li>Visual updates to the welcome_message view file and default error templates.  Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
+			<li>Visual updates to the welcome_message view file and default error templates. Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
+			<li>Added <samp>insert_batch()</samp> function to the PostgreSQL database driver. Thanks to epallerols for the patch.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -83,6 +85,7 @@ Change Log
 	<li>Libraries
 		<ul>
 			<li>Altered Session to use a longer match against the user_agent string. See upgrade notes if using database sessions.</li>
+			<li class="reactor">Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 		</ul>
 	</li>
 </ul>
