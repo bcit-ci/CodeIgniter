@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,18 +28,18 @@
  */
 class CI_DB_result {
 
-	var $conn_id		  = NULL;
-	var $result_id		  = NULL;
-	var $result_array	  = array();
-	var $result_object	  = array();
- var $custom_result_object = array();
-	var $current_row	  = 0;
-	var $num_rows		  = 0;
-	var $row_data		  = NULL;
+	var $conn_id		      = NULL;
+	var $result_id		      = NULL;
+	var $result_array	      = array();
+	var $result_object	      = array();
+    var $custom_result_object = array();
+	var $current_row	      = 0;
+	var $num_rows		      = 0;
+	var $row_data		      = NULL;
 
 
 	/**
-	 * Query result. Acts as a wrapper function for the following functions.
+	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
@@ -47,50 +47,50 @@ class CI_DB_result {
 	 */
 	function result($type = 'object')
 	{
-  if ($type == 'array') return $this->result_array();
-  else if ($type == 'object') return $this->result_object();
-  else return $this->custom_result_object($type);
+        if ($type == 'array') return $this->result_array();
+        else if ($type == 'object') return $this->result_object();
+        else return $this->custom_result_object($type);
 	}
 
 	// --------------------------------------------------------------------
 
- /**
-  * Custom query result.
-  *
-  * @param class_name A string that represents the type of object you want back
-  * @return array of objects
-  */
- function custom_result_object($class_name)
- {
-  if (array_key_exists($class_name, $this->custom_result_object))
-  {
-   return $this->custom_result_object[$class_name];
-  }
+    /**
+     * Custom query result.
+     *
+     * @param  class_name  A string that represents the type of object you want back
+     * @return array of objects
+     */
+    function custom_result_object($class_name)
+    {
+        if (array_key_exists($class_name, $this->custom_result_object))
+        {
+            return $this->custom_result_object[$class_name];
+        }
+        
+        if ($this->result_id === FALSE OR $this->num_rows() == 0)
+        {
+            return array();
+        }
 
-  if ($this->result_id === FALSE OR $this->num_rows() == 0)
-  {
-   return array();
-  }
-
-  // add the data to the object
-  $this->_data_seek(0);
-  $result_object = array();
+        // add the data to the object
+        $this->_data_seek(0);
+        $result_object = array();
 		while ($row = $this->_fetch_object())
-  {
-   $object = new $class_name();
-   foreach ($row as $key => $value)
-   {
-    $object->$key = $value;
-   }
+        {
+            $object = new $class_name();
+            foreach ($row as $key => $value)
+            {
+                $object->$key = $value;
+            }
 			$result_object[] = $object;
 		}
 
-  // return the array
-  return $this->custom_result_object[$class_name] = $result_object;
- }
+        // return the array
+        return $this->custom_result_object[$class_name] = $result_object;
+    }
 
 	/**
-	 * Query result. "object" version.
+	 * Query result.  "object" version.
 	 *
 	 * @access	public
 	 * @return	object
@@ -122,7 +122,7 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. "array" version.
+	 * Query result.  "array" version.
 	 *
 	 * @access	public
 	 * @return	array
@@ -154,7 +154,7 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. Acts as a wrapper function for the following functions.
+	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
 	 * @access	public
 	 * @param	string
@@ -180,9 +180,9 @@ class CI_DB_result {
 			$n = 0;
 		}
 
-  if ($type == 'object') return $this->row_object($n);
-  else if ($type == 'array') return $this->row_array($n);
-  else return $this->custom_row_object($n, $type);
+        if ($type == 'object') return $this->row_object($n);
+        else if ($type == 'array') return $this->row_array($n);
+        else return $this->custom_row_object($n, $type);
 	}
 
 	// --------------------------------------------------------------------
@@ -219,7 +219,7 @@ class CI_DB_result {
 
 	// --------------------------------------------------------------------
 
- /**
+    /**
 	 * Returns a single result row - custom object version
 	 *
 	 * @access	public
@@ -242,7 +242,7 @@ class CI_DB_result {
 		return $result[$this->current_row];
 	}
 
- /**
+    /**
 	 * Returns a single result row - object version
 	 *
 	 * @access	public
@@ -383,9 +383,9 @@ class CI_DB_result {
 	/**
 	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
-	 * is used. When caching is enabled we do not load the other driver.
+	 * is used.  When caching is enabled we do not load the other driver.
 	 * These functions are primarily here to prevent undefined function errors
-	 * when a cached result object is in use. They are not otherwise fully
+	 * when a cached result object is in use.  They are not otherwise fully
 	 * operational due to the unavailability of the database resource IDs with
 	 * cached results.
 	 */

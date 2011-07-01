@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -100,7 +100,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
-				$sql .= ' '.$attributes['TYPE'];
+				$sql .=  ' '.$attributes['TYPE'];
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
@@ -172,7 +172,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * Unsupported feature in SQLite
+	 *  Unsupported feature in SQLite
 	 *
 	 * @access	private
 	 * @return	bool

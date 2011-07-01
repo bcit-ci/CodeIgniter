@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -86,7 +86,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 				if (array_key_exists('TYPE', $attributes))
 				{
-					$sql .= ' '.$attributes['TYPE'];
+					$sql .=  ' '.$attributes['TYPE'];
 				}
 
 				if (array_key_exists('CONSTRAINT', $attributes))

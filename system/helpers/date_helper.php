@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -69,7 +69,7 @@ if ( ! function_exists('now'))
  * This function is identical to PHPs date() function,
  * except that it allows date codes to be formatted using
  * the MySQL style, where each code letter is preceded
- * with a percent sign: %Y %m %d etc...
+ * with a percent sign:  %Y %m %d etc...
  *
  * The benefit of doing dates this way is that you don't
  * have to worry about escaping your text letters that
@@ -366,7 +366,7 @@ if ( ! function_exists('mysql_to_unix'))
 		$time = str_replace(' ', '', $time);
 
 		// YYYYMMDDHHMMSS
-		return mktime(
+		return  mktime(
 						substr($time, 8, 2),
 						substr($time, 10, 2),
 						substr($time, 12, 2),
@@ -394,7 +394,7 @@ if ( ! function_exists('unix_to_human'))
 {
 	function unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
 	{
-		$r = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
+		$r  = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
 
 		if ($fmt == 'us')
 		{
@@ -451,18 +451,18 @@ if ( ! function_exists('human_to_unix'))
 
 		$ex = explode("-", $split['0']);
 
-		$year = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
-		$month = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
-		$day  = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
+		$year  = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
+		$month = (strlen($ex['1']) == 1) ? '0'.$ex['1']  : $ex['1'];
+		$day   = (strlen($ex['2']) == 1) ? '0'.$ex['2']  : $ex['2'];
 
 		$ex = explode(":", $split['1']);
 
 		$hour = (strlen($ex['0']) == 1) ? '0'.$ex['0'] : $ex['0'];
-		$min = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
+		$min  = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
 
 		if (isset($ex['2']) && preg_match('/[0-9]{1,2}/', $ex['2']))
 		{
-			$sec = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
+			$sec  = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
 		}
 		else
 		{
@@ -478,7 +478,7 @@ if ( ! function_exists('human_to_unix'))
 				$hour = $hour + 12;
 
 			if (substr($ampm, 0, 1) == 'a' AND $hour == 12)
-				$hour = '00';
+				$hour =  '00';
 
 			if (strlen($hour) == 1)
 				$hour = '0'.$hour;
@@ -537,7 +537,7 @@ if ( ! function_exists('timezone_menu'))
 /**
  * Timezones
  *
- * Returns an array of timezones. This is a helper function
+ * Returns an array of timezones.  This is a helper function
  * for various other ones in this library
  *
  * @access	public
