@@ -61,13 +61,13 @@ Shopping Cart Class
 <p>The Cart Class permits items to be added to a session that stays active while a user is browsing your site.
 These items can be retrieved and displayed in a standard "shopping cart" format, allowing the user to update the quantity or remove items from the cart.</p>
 
-<p>Please note that the Cart Class ONLY provides the core "cart" functionality. It does not provide shipping, credit card authorization, or other processing components.</p>
+<p>Please note that the Cart Class ONLY provides the core "cart" functionality.  It does not provide shipping, credit card authorization, or other processing components.</p>
 
 
 <h2>Initializing the Shopping Cart Class</h2>
 
 <p><strong>Important:</strong> The Cart class utilizes CodeIgniter's
-<a href="sessions.html">Session Class</a> to save the cart information to a database, so before using the Cart class you must set up a database table
+<a href="sessions.html">Session Class</a>  to save the cart information to a database, so before using the Cart class you must set up a database table
 as indicated in the <a href="sessions.html">Session Documentation</a> , and set the session preferences in your <kbd>application/config/config.php</kbd> file to utilize a database.</p>
 
 <p>To initialize the Shopping Cart Class in your controller constructor, use the <dfn>$this->load->library</dfn> function:</p>
@@ -106,19 +106,19 @@ It is intended to be used in cases where your product has options associated wit
 <li><strong>qty</strong> - The quantity being purchased.
 <li><strong>price</strong> - The price of the item.
 <li><strong>name</strong> - The name of the item.
-<li><strong>options</strong> - Any additional attributes that are needed to identify the product. These must be passed via an array.
+<li><strong>options</strong> - Any additional attributes that are needed to identify the product.  These must be passed via an array.
 </ul>
 
-<p>In addition to the five indexes above, there are two reserved words: <dfn>rowid</dfn> and <dfn>subtotal</dfn>. These are used internally by the Cart class, so
+<p>In addition to the five indexes above, there are two reserved words: <dfn>rowid</dfn> and <dfn>subtotal</dfn>.  These are used internally by the Cart class, so
 please do NOT use those words as index names when inserting data into the cart.</p>
 
-<p>Your array may contain additional data. Anything you include in your array will be stored in the session. However, it is best to standardize your data among
+<p>Your array may contain additional data.  Anything you include in your array will be stored in the session.  However, it is best to standardize your data among
 all your products in order to make displaying the information in a table easier.</p>
 
 
 <h2>Adding Multiple Items to The Cart</h2>
 
-<p>By using a multi-dimensional array, as shown below, it is possible to add multiple products to the cart in one action. This is useful in cases where you wish to allow
+<p>By using a multi-dimensional array, as shown below, it is possible to add multiple products to the cart in one action.  This is useful in cases where you wish to allow
 people to select from among several items on the same page.</p>
 
 
@@ -170,10 +170,10 @@ $this->cart->insert($data);
 &lt;table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
 &lt;tr>
- &lt;th>QTY&lt;/th>
- &lt;th>Item Description&lt;/th>
- &lt;th style="text-align:right">Item Price&lt;/th>
- &lt;th style="text-align:right">Sub-Total&lt;/th>
+  &lt;th>QTY&lt;/th>
+  &lt;th>Item Description&lt;/th>
+  &lt;th style="text-align:right">Item Price&lt;/th>
+  &lt;th style="text-align:right">Sub-Total&lt;/th>
 &lt;/tr>
 
 &lt;?php $i = 1; ?>
@@ -183,8 +183,8 @@ $this->cart->insert($data);
 	&lt;?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
 	&lt;tr>
-	 &lt;td>&lt;?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?>&lt;/td>
-	 &lt;td>
+	  &lt;td>&lt;?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?>&lt;/td>
+	  &lt;td>
 		&lt;?php echo $items['name']; ?>
 
 			&lt;?php if ($this->cart->has_options($items['rowid']) == TRUE): ?>
@@ -199,9 +199,9 @@ $this->cart->insert($data);
 
 			&lt;?php endif; ?>
 
-	 &lt;/td>
-	 &lt;td style="text-align:right">&lt;?php echo $this->cart->format_number($items['price']); ?>&lt;/td>
-	 &lt;td style="text-align:right">$&lt;?php echo $this->cart->format_number($items['subtotal']); ?>&lt;/td>
+	  &lt;/td>
+	  &lt;td style="text-align:right">&lt;?php echo $this->cart->format_number($items['price']); ?>&lt;/td>
+	  &lt;td style="text-align:right">$&lt;?php echo $this->cart->format_number($items['subtotal']); ?>&lt;/td>
 	&lt;/tr>
 
 &lt;?php $i++; ?>
@@ -209,9 +209,9 @@ $this->cart->insert($data);
 &lt;?php endforeach; ?>
 
 &lt;tr>
- &lt;td colspan="2">&nbsp;&lt;/td>
- &lt;td class="right">&lt;strong>Total&lt;/strong>&lt;/td>
- &lt;td class="right">$&lt;?php echo $this->cart->format_number($this->cart->total()); ?>&lt;/td>
+  &lt;td colspan="2">&nbsp;&lt;/td>
+  &lt;td class="right">&lt;strong>Total&lt;/strong>&lt;/td>
+  &lt;td class="right">$&lt;?php echo $this->cart->format_number($this->cart->total()); ?>&lt;/td>
 &lt;/tr>
 
 &lt;/table>
@@ -265,11 +265,11 @@ $this->cart->update($data);
 
 </code>
 
-<p><strong>What is a Row ID?</strong>&nbsp; The <kbd>row ID</kbd> is a unique identifier that is generated by the cart code when an item is added to the cart. The reason a
+<p><strong>What is a Row ID?</strong>&nbsp; The <kbd>row ID</kbd> is a unique identifier that is generated by the cart code when an item is added to the cart.  The reason a
 unique ID is created is so that identical products with different options can be managed by the cart.</p>
 
-<p>For example, let's say someone buys two identical t-shirts (same product ID), but in different sizes. The product ID (and other attributes) will be
-identical for both sizes because it's the same shirt. The only difference will be the size. The cart must therefore have a means of identifying this
+<p>For example, let's say someone buys two identical t-shirts (same product ID), but in different sizes.  The product ID (and other attributes) will be
+identical for both sizes because it's the same shirt. The only difference will be the size.  The cart must therefore have a means of identifying this
 difference so that the two sizes of shirts can be managed independently. It does so by creating a unique "row ID" based on the product ID and any options associated with it.</p>
 
 <p>In nearly all cases, updating the cart will be something the user does via the "view cart" page, so as a developer, it is unlikely that you will ever have to concern yourself
@@ -311,7 +311,7 @@ function when the update form is submitted. Please examine the construction of t
 
 <h2>$this->cart->has_options(rowid);</h2>
 
-<p>Returns TRUE (boolean) if a particular row in the cart contains options. This function is designed to be used in a loop with <dfn>$this->cart->contents()</dfn>, since you must pass the <kbd>rowid</kbd> to this function, as shown in the <dfn>Displaying the Cart</dfn> example above.</p>
+<p>Returns TRUE (boolean) if a particular row in the cart contains options.  This function is designed to be used in a loop with <dfn>$this->cart->contents()</dfn>, since you must pass the <kbd>rowid</kbd> to this function, as shown in the <dfn>Displaying the Cart</dfn> example above.</p>
 
 
 <h2>$this->cart->product_options(rowid);</h2>
@@ -322,7 +322,7 @@ function when the update form is submitted. Please examine the construction of t
 
 <h2>$this->cart->destroy();</h2>
 
-<p>Permits you to destroy the cart. This function will likely be called when you are finished processing the customer's order.</p>
+<p>Permits you to destroy the cart.  This function will likely be called when you are finished processing the customer's order.</p>
 
 
 

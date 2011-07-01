@@ -58,7 +58,7 @@ File Uploading Class
 
 <h1>File Uploading Class</h1>
 
-<p>CodeIgniter's File Uploading Class permits files to be uploaded. You can set various
+<p>CodeIgniter's File Uploading Class permits files to be uploaded.  You can set various
 preferences, restricting the type and size of the files.</p>
 
 
@@ -80,7 +80,7 @@ preferences, restricting the type and size of the files.</p>
 
 
 
-<p>Using a text editor, create a form called <dfn>upload_form.php</dfn>. In it, place this code and save it to your <samp>applications/views/</samp>
+<p>Using a text editor, create a form called <dfn>upload_form.php</dfn>.  In it, place this code and save it to your <samp>applications/views/</samp>
 folder:</p>
 
 
@@ -106,8 +106,8 @@ folder:</p>
 &lt;/body>
 &lt;/html></textarea>
 
-<p>You'll notice we are using a form helper to create the opening form tag. File uploads require a multipart form, so the helper
-creates the proper syntax for you. You'll also notice we have an $error variable. This is so we can show error messages in the event
+<p>You'll notice we are using a form helper to create the opening form tag.  File uploads require a multipart form, so the helper
+creates the proper syntax for you.  You'll also notice we have an $error variable.  This is so we can show error messages in the event
 the user does something wrong.</p>
 
 
@@ -138,7 +138,7 @@ In it, place this code and save it to your <samp>applications/views/</samp> fold
 
 <h2>The Controller</h2>
 
-<p>Using a text editor, create a controller called <dfn>upload.php</dfn>. In it, place this code and save it to your <samp>applications/controllers/</samp>
+<p>Using a text editor, create a controller called <dfn>upload.php</dfn>.  In it, place this code and save it to your <samp>applications/controllers/</samp>
 folder:</p>
 
 
@@ -162,8 +162,8 @@ class Upload extends CI_Controller {
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '100';
-		$config['max_width'] = '1024';
-		$config['max_height'] = '768';
+		$config['max_width']  = '1024';
+		$config['max_height']  = '768';
 
 		$this->load->library('upload', $config);
 
@@ -186,7 +186,7 @@ class Upload extends CI_Controller {
 
 <h2>The Upload Folder</h2>
 
-<p>You'll need a destination folder for your uploaded images. Create a folder at the root of your CodeIgniter installation called
+<p>You'll need a destination folder for your uploaded images.  Create a folder at the root of your CodeIgniter installation called
 <dfn>uploads</dfn> and set its file permissions to 777.</p>
 
 
@@ -215,26 +215,26 @@ controller is correct it should work.</p>
 
 <h2>Setting Preferences</h2>
 
-<p>Similar to other libraries, you'll control what is allowed to be upload based on your preferences. In the controller you
+<p>Similar to other libraries, you'll control what is allowed to be upload based on your preferences.  In the controller you
 built above you set the following preferences:</p>
 
 <code>$config['upload_path'] = './uploads/';<br />
 $config['allowed_types'] = 'gif|jpg|png';<br />
 $config['max_size']	= '100';<br />
-$config['max_width'] = '1024';<br />
-$config['max_height'] = '768';<br />
+$config['max_width']  = '1024';<br />
+$config['max_height']  = '768';<br />
 <br />
 $this->load->library('upload', $config);<br /><br />
 
-// Alternately you can set preferences by calling the initialize function. Useful if you auto-load the class:<br />
+// Alternately you can set preferences by calling the initialize function.  Useful if you auto-load the class:<br />
 $this->upload->initialize($config);</code>
 
-<p>The above preferences should be fairly self-explanatory. Below is a table describing all available preferences.</p>
+<p>The above preferences should be fairly self-explanatory.  Below is a table describing all available preferences.</p>
 
 
 <h2>Preferences</h2>
 
-<p>The following preferences are available. The default value indicates what will be used if you do not specify that preference.</p>
+<p>The following preferences are available.  The default value indicates what will be used if you do not specify that preference.</p>
 
 <table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
 <tr>
@@ -248,14 +248,14 @@ $this->upload->initialize($config);</code>
 <td class="td"><strong>upload_path</strong></td>
 <td class="td">None</td>
 <td class="td">None</td>
-<td class="td">The path to the folder where the upload should be placed. The folder must be writable and the path can be absolute or relative.</td>
+<td class="td">The path to the folder where the upload should be placed.  The folder must be writable and the path can be absolute or relative.</td>
 </tr>
 
 <tr>
 <td class="td"><strong>allowed_types</strong></td>
 <td class="td">None</td>
 <td class="td">None</td>
-<td class="td">The mime types corresponding to the types of files you allow to be uploaded. Usually the file extension can be used as the mime type. Separate multiple types with a pipe.</td>
+<td class="td">The mime types corresponding to the types of files you allow to be uploaded.  Usually the file extension can be used as the mime type.  Separate multiple types with a pipe.</td>
 </tr>
 
 
@@ -264,7 +264,7 @@ $this->upload->initialize($config);</code>
 <td class="td">None</td>
 <td class="td">Desired file name</td>
 <td class="td">
-	<p>If set CodeIgniter will rename the uploaded file to this name. The extension provided in the file name must also be an allowed file type.</p>
+	<p>If set CodeIgniter will rename the uploaded file to this name.  The extension provided in the file name must also be an allowed file type.</p>
 </td>
 </tr>
 
@@ -280,28 +280,28 @@ $this->upload->initialize($config);</code>
 <td class="td"><strong>max_size</strong></td>
 <td class="td">0</td>
 <td class="td">None</td>
-<td class="td">The maximum size (in kilobytes) that the file can be. Set to zero for no limit. Note: Most PHP installations have their own limit, as specified in the php.ini file. Usually 2 MB (or 2048 KB) by default.</td>
+<td class="td">The maximum size (in kilobytes) that the file can be.  Set to zero for no limit. Note:  Most PHP installations have their own limit, as specified in the php.ini file.  Usually 2 MB (or 2048 KB) by default.</td>
 </tr>
 
 <tr>
 <td class="td"><strong>max_width</strong></td>
 <td class="td">0</td>
 <td class="td">None</td>
-<td class="td">The maximum width (in pixels) that the file can be. Set to zero for no limit.</td>
+<td class="td">The maximum width (in pixels) that the file can be.  Set to zero for no limit.</td>
 </tr>
 
 <tr>
 <td class="td"><strong>max_height</strong></td>
 <td class="td">0</td>
 <td class="td">None</td>
-<td class="td">The maximum height (in pixels) that the file can be. Set to zero for no limit.</td>
+<td class="td">The maximum height (in pixels) that the file can be.  Set to zero for no limit.</td>
 </tr>
 
 <tr>
 <td class="td"><strong>max_filename</strong></td>
 <td class="td">0</td>
 <td class="td">None</td>
-<td class="td">The maximum length that a file name can be. Set to zero for no limit.</td>
+<td class="td">The maximum length that a file name can be.  Set to zero for no limit.</td>
 </tr>
 
 <tr>
@@ -323,7 +323,7 @@ $this->upload->initialize($config);</code>
 <h2>Setting preferences in a config file</h2>
 
 <p>If you prefer not to set preferences using the above method, you can instead put them into a config file.
-Simply create a new file called the <var>upload.php</var>, add the <var>$config</var>
+Simply create a new file called the <var>upload.php</var>,  add the <var>$config</var>
 array in that file. Then save the file in: <var>config/upload.php</var> and it will be used automatically. You
 will NOT need to use the <dfn>$this->upload->initialize</dfn> function if you save your preferences in a config file.</p>
 
@@ -335,7 +335,7 @@ will NOT need to use the <dfn>$this->upload->initialize</dfn> function if you sa
 
 <h2>$this->upload->do_upload()</h2>
 
-<p>Performs the upload based on the preferences you've set. Note: By default the upload routine expects the file to come from a form field
+<p>Performs the upload based on the preferences you've set.  Note:  By default the upload routine expects the file to come from a form field
 called <dfn>userfile</dfn>, and the form must be a "multipart type:</p>
 
 <code>&lt;form method="post" action="some_action" enctype="multipart/form-data" /></code>
@@ -349,11 +349,11 @@ $this->upload->do_upload($field_name)</code>
 
 <h2>$this->upload->display_errors()</h2>
 
-<p>Retrieves any error messages if the <dfn>do_upload()</dfn> function returned false. The function does not echo automatically, it
+<p>Retrieves any error messages if the <dfn>do_upload()</dfn> function returned false.  The function does not echo automatically, it
 returns the data so you can assign it however you need.</p>
 
 <h3>Formatting Errors</h3>
-<p>By default the above function wraps any errors within &lt;p> tags. You can set your own delimiters like this:</p>
+<p>By default the above function wraps any errors within &lt;p> tags.  You can set your own delimiters like this:</p>
 
 <code>$this->upload->display_errors('<var>&lt;p></var>', '<var>&lt;/p></var>');</code>
 
@@ -403,7 +403,7 @@ Here is the array prototype:</p>
 <td class="td">The file name without the extension</td></tr>
 
 <tr><td class="td"><strong>orig_name</strong></td>
-<td class="td">The original file name. This is only useful if you use the encrypted name option.</td></tr>
+<td class="td">The original file name.  This is only useful if you use the encrypted name option.</td></tr>
 
 <tr><td class="td"><strong>client_name</strong></td>
 <td class="td">The file name as supplied by the client user agent, prior to any file name preparation or incrementing.</td></tr>
@@ -415,7 +415,7 @@ Here is the array prototype:</p>
 <td class="td">The file size in kilobytes</td></tr>
 
 <tr><td class="td"><strong>is_image</strong></td>
-<td class="td">Whether the file is an image or not. 1 = image. 0 = not.</td></tr>
+<td class="td">Whether the file is an image or not.  1 = image. 0 = not.</td></tr>
 
 <tr><td class="td"><strong>image_width</strong></td>
 <td class="td">Image width.</td></tr>
@@ -424,10 +424,10 @@ Here is the array prototype:</p>
 <td class="td">Image height</td></tr>
 
 <tr><td class="td"><strong>image_type</strong></td>
-<td class="td">Image type. Typically the file extension without the period.</td></tr>
+<td class="td">Image type.  Typically the file extension without the period.</td></tr>
 
 <tr><td class="td"><strong>image_size_str</strong></td>
-<td class="td">A string containing the width and height. Useful to put into an image tag.</td></tr>
+<td class="td">A string containing the width and height.  Useful to put into an image tag.</td></tr>
 
 
 </table>

@@ -91,7 +91,7 @@ Controllers
 <a name="hello"></a>
 <h2>Let's try it:&nbsp; Hello World!</h2>
 
-<p>Let's create a simple controller so you can see it in action. Using your text editor, create a file called <dfn>blog.php</dfn>, and put the following code in it:</p>
+<p>Let's create a simple controller so you can see it in action.  Using your text editor, create a file called <dfn>blog.php</dfn>, and put the following code in it:</p>
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="10">
@@ -116,7 +116,7 @@ class Blog extends CI_Controller {
 
 <p>If you did it right, you should see <samp>Hello World!</samp>.</p>
 
-<p>Note: Class names must start with an uppercase letter. In other words, this is valid:</p>
+<p>Note: Class names must start with an uppercase letter.  In other words, this is valid:</p>
 
 <code>&lt;?php<br />
 class <var>Blog</var> extends CI_Controller {<br />
@@ -139,14 +139,14 @@ class <var>blog</var> extends CI_Controller {<br />
 <a name="functions"></a>
 <h2>Functions</h2>
 
-<p>In the above example the function name is <dfn>index()</dfn>. The "index" function is always loaded by default if the
-<strong>second segment</strong> of the URI is empty. Another way to show your "Hello World" message would be this:</p>
+<p>In the above example the function name is <dfn>index()</dfn>.  The "index" function is always loaded by default if the
+<strong>second segment</strong> of the URI is empty.  Another way to show your "Hello World" message would be this:</p>
 
 <code>example.com/index.php/<var>blog</var>/<samp>index</samp>/</code>
 
 <p><strong>The second segment of the URI determines which function in the controller gets called.</strong></p>
 
-<p>Let's try it. Add a new function to your controller:</p>
+<p>Let's try it.  Add a new function to your controller:</p>
 
 
 <textarea class="textarea" style="width:100%" cols="50" rows="15">
@@ -204,7 +204,7 @@ passed to your function will be the re-routed ones.</p>
 <h2>Defining a Default Controller</h2>
 
 <p>CodeIgniter can be told to load a default controller when a URI is not present,
-as will be the case when only your site root URL is requested. To specify a default controller, open
+as will be the case when only your site root URL is requested.  To specify a default controller, open
 your <dfn>application/config/routes.php</dfn> file and set this variable:</p>
 
 <code>$route['default_controller'] = '<var>Blog</var>';</code>
@@ -226,7 +226,7 @@ CodeIgniter permits you to override this behavior through the use of the <kbd>_r
 }</code>
 
 <p class="important"><strong>Important:</strong>&nbsp; If your controller contains a function named <kbd>_remap()</kbd>, it will <strong>always</strong>
-get called regardless of what your URI contains. It overrides the normal behavior in which the URI determines which function is called,
+get called regardless of what your URI contains.  It overrides the normal behavior in which the URI determines which function is called,
 allowing you to define your own function routing rules.</p>
 
 <p>The overridden function call (typically the second segment of the URI) will be passed as a parameter to the <kbd>_remap()</kbd> function:</p>
@@ -259,9 +259,9 @@ allowing you to define your own function routing rules.</p>
 <a name="output"></a>
 <h2>Processing Output</h2>
 
-<p>CodeIgniter has an output class that takes care of sending your final rendered data to the web browser automatically. More information on this can be found in the
-<a href="views.html">Views</a> and <a href="../libraries/output.html">Output class</a> pages. In some cases, however, you might want to
-post-process the finalized data in some way and send it to the browser yourself. CodeIgniter permits you to
+<p>CodeIgniter has an output class that takes care of sending your final rendered data to the web browser automatically.  More information on this can be found in the
+<a href="views.html">Views</a> and <a href="../libraries/output.html">Output class</a> pages.  In some cases, however, you might want to
+post-process the finalized data in some way and send it to the browser yourself.  CodeIgniter permits you to
 add a function named <dfn>_output()</dfn> to your controller that will receive the finalized output data.</p>
 
 <p><strong>Important:</strong>&nbsp; If your controller contains a function named <kbd>_output()</kbd>, it will <strong>always</strong>
@@ -275,7 +275,7 @@ public function _output($output)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;echo $output;<br />
 }</code>
 
-<p class="important">Please note that your <dfn>_output()</dfn> function will receive the data in its finalized state. Benchmark and memory usage data will be rendered,
+<p class="important">Please note that your <dfn>_output()</dfn> function will receive the data in its finalized state.  Benchmark and memory usage data will be rendered,
 cache files written (if you have caching enabled), and headers will be sent (if you use that <a href="../libraries/output.html">feature</a>)
 before it is handed off to the _output() function.<br />
 <br />
@@ -287,14 +287,14 @@ To have your controller's output cached properly, its <dfn>_output()</dfn> metho
 }</code>
 
 If you are using this feature the page execution timer and memory usage stats might not be perfectly accurate
-since they will not take into acccount any further processing you do. For an alternate way to control output <em>before</em> any of the final processing is done, please see
+since they will not take into acccount any further processing you do.  For an alternate way to control output <em>before</em> any of the final processing is done, please see
 the available methods in the <a href="../libraries/output.html">Output Class</a>.</p>
 
 <a name="private"></a>
 <h2>Private Functions</h2>
 
 
-<p>In some cases you may want certain functions hidden from public access. To make a function private, simply add an
+<p>In some cases you may want certain functions hidden from public access.  To make a function private, simply add an
 underscore as the name prefix and it will not be served via a URL request. For example, if you were to have a function like this:</p>
 
 <code>
@@ -312,11 +312,11 @@ private function _utility()<br />
 <a name="subfolders"></a>
 <h2>Organizing Your Controllers into Sub-folders</h2>
 
-<p>If you are building a large application you might find it convenient to organize your controllers into sub-folders. CodeIgniter permits you to do this.</p>
+<p>If you are building a large application you might find it convenient to organize your controllers into sub-folders.  CodeIgniter permits you to do this.</p>
 
 <p>Simply create folders within your <dfn>application/controllers</dfn> directory and place your controller classes within them.</p>
 
-<p><strong>Note:</strong>&nbsp; When using this feature the first segment of your URI must specify the folder. For example, lets say you have a controller
+<p><strong>Note:</strong>&nbsp; When using this feature the first segment of your URI must specify the folder.  For example, lets say you have a controller
 located here:</p>
 
 <code>application/controllers/<kbd>products</kbd>/shoes.php</code>
@@ -326,7 +326,7 @@ located here:</p>
 <code>example.com/index.php/products/shoes/show/123</code>
 
 <p>Each of your sub-folders may contain a default controller which will be
-called if the URL contains only the sub-folder. Simply name your default controller as specified in your
+called if the URL contains only the sub-folder.  Simply name your default controller as specified in your
 <dfn>application/config/routes.php</dfn> file</p>
 
 

@@ -112,7 +112,7 @@ Query Results
 
 	<h2>result_array()</h2>
 
-	<p>This function returns the query result as a pure array, or an empty array when no result is produced. Typically you'll use this in a foreach loop, like this:</p>
+	<p>This function returns the query result as a pure array, or an empty array when no result is produced.  Typically you'll use this in a foreach loop, like this:</p>
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
 	<br />
@@ -126,8 +126,8 @@ Query Results
 
 	<h2>row()</h2>
 
-	<p>This function returns a single result row. If your query has more than one row, it returns only the first row.
-	The result is returned as an <strong>object</strong>. Here's a usage example:</p>
+	<p>This function returns a single result row.  If your query has more than one row, it returns only the first row.
+	The result is returned as an <strong>object</strong>.  Here's a usage example:</p>
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
 	<br />
@@ -157,7 +157,7 @@ Query Results
 
 	<h2>row_array()</h2>
 
-	<p>Identical to the above <var>row()</var> function, except it returns an array. Example:</p>
+	<p>Identical to the above <var>row()</var> function, except it returns an array.  Example:</p>
 
 	<code>
 	$query = $this->db->query("YOUR QUERY");<br />
@@ -209,7 +209,7 @@ echo $query->num_rows();
 </code>
 
 <h2>$query->num_fields()</h2>
-<p>The number of FIELDS (columns) returned by the query. Make sure to call the function using your query result object:</p>
+<p>The number of FIELDS (columns) returned by the query.  Make sure to call the function using your query result object:</p>
 
 <code>$query = $this->db->query('SELECT * FROM my_table');<br /><br />
 echo $query->num_fields();
@@ -218,9 +218,9 @@ echo $query->num_fields();
 
 
 <h2>$query->free_result()</h2>
-<p>It frees the memory associated with the result and deletes the result resource ID. Normally PHP frees its memory automatically at the end of script
-execution. However, if you are running a lot of queries in a particular script you might want to free the result after each query result has been
-generated in order to cut down on memory consumptions. Example:
+<p>It frees the memory associated with the result and deletes the result resource ID.  Normally PHP frees its memory automatically at the end of script
+execution.  However, if you are running a lot of queries in a particular script you might want to free the result after each query result has been
+generated in order to cut down on memory consumptions.  Example:
 </p>
 
 <code>$query = $this->db->query('SELECT title FROM my_table');<br /><br />
@@ -228,12 +228,12 @@ foreach ($query->result() as $row)<br />
 {<br />
 &nbsp;&nbsp;&nbsp;echo $row->title;<br />
 }<br />
-$query->free_result(); // The $query result object will no longer be available<br />
+$query->free_result();  // The $query result object will no longer be available<br />
 <br />
 $query2 = $this->db->query('SELECT name FROM some_table');<br /><br />
 $row = $query2->row();<br />
 echo $row->name;<br />
-$query2->free_result(); // The $query2 result object will no longer be available
+$query2->free_result();  // The $query2 result object will no longer be available
 </code>
 
 

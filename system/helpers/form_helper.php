@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -114,7 +114,7 @@ if ( ! function_exists('form_open_multipart'))
 /**
  * Hidden Input Field
  *
- * Generates hidden fields. You can pass a simple key/value string or an associative
+ * Generates hidden fields.  You can pass a simple key/value string or an associative
  * array with multiple values.
  *
  * @access	public
@@ -540,7 +540,7 @@ if ( ! function_exists('form_label'))
 /**
  * Fieldset Tag
  *
- * Used to produce <fieldset><legend>text</legend>. To close fieldset
+ * Used to produce <fieldset><legend>text</legend>.  To close fieldset
  * use form_fieldset_close()
  *
  * @access	public
@@ -663,7 +663,7 @@ if ( ! function_exists('form_prep'))
  * Form Value
  *
  * Grabs a value from the POST array for the specified field so you can
- * re-populate an input field or textarea. If Form Validation
+ * re-populate an input field or textarea.  If Form Validation
  * is active it retrieves the info from the validation class
  *
  * @access	public
@@ -858,7 +858,7 @@ if ( ! function_exists('set_radio'))
 /**
  * Form Error
  *
- * Returns the error for a specific form field. This is a helper for the
+ * Returns the error for a specific form field.  This is a helper for the
  * form validation class.
  *
  * @access	public
@@ -885,7 +885,7 @@ if ( ! function_exists('form_error'))
 /**
  * Validation Error String
  *
- * Returns all the errors associated with a form submission. This is a helper
+ * Returns all the errors associated with a form submission.  This is a helper
  * function for the form validation class.
  *
  * @access	public
@@ -1034,17 +1034,17 @@ if ( ! function_exists('_get_validation_object'))
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-
+		
 		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
 		{
 			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
 			{
 				return $return;
 			}
-
+			
 			return $CI->$object;
 		}
-
+		
 		return $return;
 	}
 }

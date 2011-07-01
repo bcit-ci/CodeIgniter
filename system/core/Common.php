@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -58,7 +58,7 @@
  * Tests for file writability
  *
  * is_writable() returns TRUE on Windows servers when you really can't write to
- * the file, based on the read-only attribute. is_writable() is also unreliable
+ * the file, based on the read-only attribute.  is_writable() is also unreliable
  * on Unix servers if safe_mode is on.
  *
  * @access	private
@@ -73,7 +73,7 @@
 		}
 
 		// For windows servers and safe_mode "on" installations we'll actually
-		// write a file then read it. Bah...
+		// write a file then read it.  Bah...
 		if (is_dir($file))
 		{
 			$file = rtrim($file, '/').'/'.md5(mt_rand(1,100).mt_rand(1,100));
@@ -102,8 +102,8 @@
 /**
 * Class registry
 *
-* This function acts as a singleton. If the requested class does not
-* exist it is instantiated and set to a static variable. If it has
+* This function acts as a singleton.  If the requested class does not
+* exist it is instantiated and set to a static variable.  If it has
 * previously been instantiated the variable is returned.
 *
 * @access	public
@@ -116,7 +116,7 @@
 	{
 		static $_classes = array();
 
-		// Does the class exist? If so, we're done...
+		// Does the class exist?  If so, we're done...
 		if (isset($_classes[$class]))
 		{
 			return $_classes[$class];
@@ -141,7 +141,7 @@
 			}
 		}
 
-		// Is the request a class extension? If so we load it too
+		// Is the request a class extension?  If so we load it too
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
@@ -170,7 +170,7 @@
 // --------------------------------------------------------------------
 
 /**
-* Keeps track of which libraries have been loaded. This function is
+* Keeps track of which libraries have been loaded.  This function is
 * called by the load_class() function above
 *
 * @access	public
@@ -399,7 +399,7 @@
 
 		if ($text == '')
 		{
-			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
+			show_error('No status text available.  Please check your status code number or supply your own message text.', 500);
 		}
 
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
@@ -424,7 +424,7 @@
 * Exception Handler
 *
 * This is the custom exception handler that is declaired at the top
-* of Codeigniter.php. The main reason we use this is to permit
+* of Codeigniter.php.  The main reason we use this is to permit
 * PHP errors to be logged in our own log files since the user may
 * not have access to server logs. Since this function
 * effectively intercepts PHP errors, however, we also need
@@ -455,7 +455,7 @@
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
-		// Should we log the error? No? We're done...
+		// Should we log the error?  No?  We're done...
 		if (config_item('log_threshold') == 0)
 		{
 			return;
@@ -479,16 +479,16 @@
 	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
 		$non_displayables = array();
-
+		
 		// every control character except newline (dec 10)
 		// carriage return (dec 13), and horizontal tab (dec 09)
-
+		
 		if ($url_encoded)
 		{
 			$non_displayables[] = '/%0[0-8bcef]/';	// url encoded 00-08, 11, 12, 14, 15
 			$non_displayables[] = '/%1[0-9a-f]/';	// url encoded 16-31
 		}
-
+		
 		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
 
 		do
