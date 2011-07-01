@@ -83,7 +83,7 @@ timing of the entire system execution to be shown.</p>
 <a name="using"></a>
 <h2>Using the Benchmark Class</h2>
 
-<p>The Benchmark class can be used within your <a href="../general/controllers.html">controllers</a>, <a href="../general/views.html">views</a>, or your <a href="../general/models.html">models</a>. The process for usage is this:</p>
+<p>The Benchmark class can be used within your <a href="../general/controllers.html">controllers</a>,  <a href="../general/views.html">views</a>, or your  <a href="../general/models.html">models</a>.  The process for usage is this:</p>
 
 <ol>
 <li>Mark a start point</li>
@@ -101,7 +101,7 @@ $this->benchmark->mark('code_end');<br />
 <br />
 echo $this->benchmark->elapsed_time('code_start', 'code_end');</code>
 
-<p class="important"><strong>Note:</strong> The words "code_start" and "code_end" are arbitrary. They are simply words used to set two markers. You can
+<p class="important"><strong>Note:</strong> The words "code_start" and "code_end" are arbitrary.  They are simply words used to set two markers.  You can
 use any words you want, and you can set multiple sets of markers. Consider this example:</p>
 
 <code>$this->benchmark->mark('dog');<br />
@@ -154,8 +154,8 @@ is sent to the browser, simply place this in one of your view templates:</p>
 <code>&lt;?php echo $this->benchmark->elapsed_time();?&gt;</code>
 
 <p>You'll notice that it's the same function used in the examples above to calculate the time between two point, except you are
-<strong>not</strong> using any parameters. When the parameters are absent, CodeIgniter does not stop the benchmark until right before the final
-output is sent to the browser. It doesn't matter where you use the function call, the timer will continue to run until the very end.</p>
+<strong>not</strong> using any parameters.  When the parameters are absent, CodeIgniter does not stop the benchmark until right before the final
+output is sent to the browser.  It doesn't matter where you use the function call, the timer will continue to run until the very end.</p>
 
 <p>An alternate way to show your elapsed time in your view files is to use this pseudo-variable, if you prefer not to use the pure PHP:</p>
 <code>{elapsed_time}</code>

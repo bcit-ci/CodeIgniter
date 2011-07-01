@@ -106,7 +106,7 @@ re-routed URI in the event you are using CodeIgniter's <a href="../general/routi
 <h2>$this->uri->slash_segment(<var>n</var>)</h2>
 
 <p>This function is almost identical to <dfn>$this->uri->segment()</dfn>, except it adds a trailing and/or leading slash based on the second
-parameter. If the parameter is not used, a trailing slash added. Examples:</p>
+parameter.  If the parameter is not used, a trailing slash added.  Examples:</p>
 
 <code>$this->uri->slash_segment(<var>3</var>);<br />
 $this->uri->slash_segment(<var>3</var>, 'leading');<br />
@@ -130,7 +130,7 @@ re-routed URI in the event you are using CodeIgniter's <a href="../general/routi
 
 <h2>$this->uri->uri_to_assoc(<var>n</var>)</h2>
 
-<p>This function lets you turn URI segments into and associative array of key/value pairs. Consider this URI:</p>
+<p>This function lets you turn URI segments into and associative array of key/value pairs.  Consider this URI:</p>
 
 <code>index.php/user/search/name/joe/location/UK/gender/male</code>
 
@@ -143,7 +143,7 @@ re-routed URI in the event you are using CodeIgniter's <a href="../general/routi
 &nbsp;&nbsp;&nbsp;&nbsp;'gender'	=> 'male'<br />
 )</code>
 
-<p>The first parameter of the function lets you set an offset. By default it is set to <kbd>3</kbd> since your
+<p>The first parameter of the function lets you set an offset.  By default it is set to <kbd>3</kbd> since your
 URI will normally contain a controller/function in the first and second segments. Example:</p>
 
 <code>
@@ -173,19 +173,19 @@ re-routed URI in the event you are using CodeIgniter's <a href="../general/routi
 
 <h2>$this->uri->assoc_to_uri()</h2>
 
-<p>Takes an associative array as input and generates a URI string from it. The array keys will be included in the string. Example:</p>
+<p>Takes an associative array as input and generates a URI string from it.  The array keys will be included in the string.  Example:</p>
 
 <code>$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');<br />
 <br />
 $str = $this->uri->assoc_to_uri($array);<br />
 <br />
-// Produces: product/shoes/size/large/color/red
+// Produces:  product/shoes/size/large/color/red
 </code>
 
 
 <h2>$this->uri->uri_string()</h2>
 
-<p>Returns a string with the complete URI. For example, if this is your full URL:</p>
+<p>Returns a string with the complete URI.  For example, if this is your full URL:</p>
 
 <code>http://example.com/index.php/news/local/345</code>
 
@@ -215,7 +215,7 @@ re-routed URI in the event you are using CodeIgniter's <a href="../general/routi
 
 <h2>$this->uri->segment_array()</h2>
 
-<p>Returns an array containing the URI segments. For example:</p>
+<p>Returns an array containing the URI segments.  For example:</p>
 
 <code>
 $segs = $this->uri->segment_array();<br />

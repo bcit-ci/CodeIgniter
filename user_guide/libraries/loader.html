@@ -58,7 +58,7 @@ Loader Class
 
 <h1>Loader Class</h1>
 
-<p>Loader, as the name suggests, is used to load elements. These elements can be libraries (classes) <a href="../general/views.html">View files</a>,
+<p>Loader, as the name suggests, is used to load elements.  These elements can be libraries (classes) <a href="../general/views.html">View files</a>,
 <a href="../general/helpers.html">Helpers</a>, <a href="../general/models.html">Models</a>, or your own files.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
@@ -69,7 +69,7 @@ Loader Class
 <h2>$this->load->library('<var>class_name</var>', <samp>$config</samp>, <kbd>'object name'</kbd>)</h2>
 
 
-<p>This function is used to load core classes. Where <var>class_name</var> is the name of the class you want to load.
+<p>This function is used to load core classes.  Where <var>class_name</var> is the name of the class you want to load.
 Note: We use the terms "class" and "library" interchangeably.</p>
 
 <p>For example, if you would like to send email with CodeIgniter, the first step is to load the email class within your controller:</p>
@@ -96,7 +96,7 @@ For example, if you have file located at:</p>
 
 <h3>Setting options</h3>
 
-<p>The second (optional) parameter allows you to optionally pass configuration setting. You will typically pass these as an array:</p>
+<p>The second (optional) parameter allows you to optionally pass configuration setting.  You will typically pass these as an array:</p>
 
 <code>
 $config = array (<br />
@@ -113,7 +113,7 @@ $this->load->library('email', $config);</code>
 
 <h3>Assigning a Library to a different object name</h3>
 
-<p>If the third (optional) parameter is blank, the library will usually be assigned to an object with the same name as the library. For example, if the library is named <dfn>Session</dfn>, it
+<p>If the third (optional) parameter is blank, the library will usually be assigned to an object with the same name as the library.  For example, if the library is named <dfn>Session</dfn>, it
 will be assigned to a variable named <dfn>$this->session</dfn>.</p>
 
 <p>If you prefer to set your own class names you can pass its value to the third parameter:</p>
@@ -131,20 +131,20 @@ $this->my_session
 
 <h2>$this->load->view('<var>file_name</var>', <samp>$data</samp>, <kbd>true/false</kbd>)</h2>
 
-<p>This function is used to load your View files. If you haven't read the <a href="../general/views.html">Views</a> section of the
+<p>This function is used to load your View files.  If you haven't read the <a href="../general/views.html">Views</a> section of the
 user guide it is recommended that you do since it shows you how this function is typically used.</p>
 
-<p>The first parameter is required. It is the name of the view file you would like to load. &nbsp;Note: The .php file extension does not need to be specified unless you use something other than <kbd>.php</kbd>.</p>
+<p>The first parameter is required.  It is the name of the view file you would like to load. &nbsp;Note: The .php file extension does not need to be specified unless you use something other than <kbd>.php</kbd>.</p>
 
 <p>The second <strong>optional</strong> parameter can take
 an associative array or an object as input, which it runs through the PHP <a href="http://www.php.net/extract">extract</a> function to
-convert to variables that can be used in your view files. Again, read the <a href="../general/views.html">Views</a> page to learn
+convert to variables that can be used in your view files.  Again, read the <a href="../general/views.html">Views</a> page to learn
 how this might be useful.</p>
 
 <p>The third <strong>optional</strong> parameter lets you change the behavior of the function so that it returns data as a string
-rather than sending it to your browser. This can be useful if you want to process the data in some way. If you
-set the parameter to <kbd>true</kbd> (boolean) it will return data. The default behavior is <kbd>false</kbd>, which sends it
-to your browser. Remember to assign it to a variable if you want the data returned:</p>
+rather than sending it to your browser.  This can be useful if you want to process the data in some way.  If you
+set the parameter to <kbd>true</kbd> (boolean) it will return data.  The default behavior is <kbd>false</kbd>, which sends it
+to your browser.  Remember to assign it to a variable if you want the data returned:</p>
 
 <code>$string = $this->load->view('<var>myfile</var>', '', <kbd>true</kbd>);</code>
 
@@ -159,7 +159,7 @@ to your browser. Remember to assign it to a variable if you want the data return
 <br />
 $this-&gt;<kbd>fubar</kbd>-&gt;function();</code>
 <h2>$this->load->database('<var>options</var>', <kbd>true/false</kbd>)</h2>
-<p>This function lets you load the database class. The two parameters are <strong>optional</strong>. Please see the
+<p>This function lets you load the database class.  The two parameters are <strong>optional</strong>.  Please see the
 <a href="../database/index.html">database</a> section for more info.</p>
 
 
@@ -168,9 +168,9 @@ $this-&gt;<kbd>fubar</kbd>-&gt;function();</code>
 <h2>$this->load->vars(<samp>$array</samp>)</h2>
 
 <p>This function takes an associative array as input and generates variables using the PHP <a href="http://www.php.net/extract">extract</a> function.
-This function produces the same result as using the second parameter of the <dfn>$this->load->view()</dfn> function above. The reason you might
+This function produces the same result as using the second parameter of the <dfn>$this->load->view()</dfn> function above.  The reason you might
 want to use this function independently is if you would like to set some global variables in the constructor of your controller
-and have them become available in any view file loaded from any function. You can have multiple calls to this function. The data get cached
+and have them become available in any view file loaded from any function.  You can have multiple calls to this function.  The data get cached
 and merged into one array for conversion to variables.
 </p>
 
@@ -180,7 +180,7 @@ and merged into one array for conversion to variables.
 
 
 <h2>$this->load->file('<var>filepath/filename</var>', <kbd>true/false</kbd>)</h2>
-<p>This is a generic file loading function. Supply the filepath and name in the first parameter and it will open and read the file.
+<p>This is a generic file loading function.  Supply the filepath and name in the first parameter and it will open and read the file.
 By default the data is sent to your browser, just like a View file, but if you set the second parameter to <kbd>true</kbd> (boolean)
 it will instead return the data as a string.</p>
 
@@ -194,7 +194,7 @@ it will instead return the data as a string.</p>
 
 <h2>Application "Packages"</h2>
 
-<p>An application package allows for the easy distribution of complete sets of resources in a single directory, complete with its own libraries, models, helpers, config, and language files. It is recommended that these packages be placed in the <dfn>application/third_party</dfn> folder. Below is a sample map of an package directory</p>
+<p>An application package allows for the easy distribution of complete sets of resources in a single directory, complete with its own libraries, models, helpers, config, and language files.  It is recommended that these packages be placed in the <dfn>application/third_party</dfn> folder.  Below is a sample map of an package directory</p>
 
 
 <h2>Sample Package "Foo Bar" Directory Map</h2>
@@ -210,18 +210,18 @@ libraries/<br />
 models/<br />
 </code>
 
-<p>Whatever the purpose of the "Foo Bar" application package, it has its own config files, helpers, language files, libraries, and models. To use these resources in your controllers, you first need to tell the Loader that you are going to be loading resources from a package, by adding the package path.</p>
+<p>Whatever the purpose of the "Foo Bar" application package, it has its own config files, helpers, language files, libraries, and models.  To use these resources in your controllers, you first need to tell the Loader that you are going to be loading resources from a package, by adding the package path.</p>
 
 <h3>$this->load->add_package_path()</h3>
 
-<p>Adding a package path instructs the Loader class to prepend a given path for subsequent requests for resources. As an example, the "Foo Bar" application package above has a library named <dfn>Foo_bar.php</dfn>. In our controller, we'd do the following:</p>
+<p>Adding a package path instructs the Loader class to prepend a given path for subsequent requests for resources.  As an example, the "Foo Bar" application package above has a library named <dfn>Foo_bar.php</dfn>. In our controller, we'd do the following:</p>
 
 <code>$this->load->add_package_path(<var>APPPATH</var>.'third_party/<var>foo_bar</var>/');<br />
 $this->load->library('foo_bar');</code>
 
 <h3>$this->load->remove_package_path()</h3>
 
-<p>When your controller is finished using resources from an application package, and particularly if you have other application packages you want to work with, you may wish to remove the package path so the Loader no longer looks in that folder for resources. To remove the last path added, simply call the method with no parameters.</p>
+<p>When your controller is finished using resources from an application package, and particularly if you have other application packages you want to work with, you may wish to remove the package path so the Loader no longer looks in that folder for resources.  To remove the last path added, simply call the method with no parameters.</p>
 
 <h3>$this->load->remove_package_path()</h3>
 
@@ -231,8 +231,8 @@ $this->load->library('foo_bar');</code>
 
 <h3>Package view files</h3>
 
-<p>By Default, package view files paths are set when <samp>add_package_path()</samp> is called. View paths are looped through, and once a match is encountered that view is loaded.</p>
-<p>In this instance, it is possible for view naming collisions within packages to occur, and possibly the incorrect package being loaded. To ensure against this, set an optional second parameter of <var>FALSE</var> when calling <samp>add_package_path()</samp>.</p>
+<p>By Default, package view files paths are set when <samp>add_package_path()</samp> is called.  View paths are looped through, and once a match is encountered that view is loaded.</p>
+<p>In this instance, it is possible for view naming collisions within packages to occur, and possibly the incorrect package being loaded.  To ensure against this, set an optional second parameter of <var>FALSE</var> when calling <samp>add_package_path()</samp>.</p>
 
 <code>
 $this->load->add_package_path(APPPATH.'my_app', TRUE);<br>

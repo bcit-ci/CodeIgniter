@@ -64,7 +64,7 @@ CodeIgniter's internal security features.</p>
 <h2>URI Security</h2>
 
 <p>CodeIgniter is fairly restrictive regarding which characters it allows in your URI strings in order to help
-minimize the possibility that malicious data can be passed to your application. URIs may only contain the following:
+minimize the possibility that malicious data can be passed to your application.  URIs may only contain the following:
 </p>
 
 <ul>
@@ -85,18 +85,18 @@ routine is effectively the same as register_globals = off.</p>
 <h2>error_reporting</h2>
 
 <p>
-  In production environments, it is typically desirable to disable PHP's
-  error reporting by setting the internal error_reporting flag to a value of 0. This disables native PHP
-  errors from being rendered as output, which may potentially contain
-  sensitive information.
+    In production environments, it is typically desirable to disable PHP's 
+    error reporting by setting the internal error_reporting flag to a value of 0. This disables native PHP
+    errors from being rendered as output, which may potentially contain
+    sensitive information.
 </p>
 
 <p>
-  Setting CodeIgniter's <kbd>ENVIRONMENT</kbd> constant in index.php to a
-  value of '<kbd>production</kbd>' will turn off these errors. In development
-  mode, it is recommended that a value of '<kbd>development</kbd>' is used.
-  More information about differentiating between environments can be found
-  on the <a href="environments.html">Handling Environments</a> page.
+    Setting CodeIgniter's <kbd>ENVIRONMENT</kbd> constant in index.php to a
+    value of '<kbd>production</kbd>' will turn off these errors. In development
+    mode, it is recommended that a value of '<kbd>development</kbd>' is used.
+    More information about differentiating between environments can be found
+    on the <a href="environments.html">Handling Environments</a> page.
 </p>
 
 <h2>magic_quotes_runtime</h2>
@@ -111,7 +111,7 @@ XML-RPC data, or even data from the SERVER array, you are encouraged to practice
 
 <ol>
 <li>Filter the data as if it were tainted.</li>
-<li>Validate the data to ensure it conforms to the correct type, length, size, etc. (sometimes this step can replace step one)</li>
+<li>Validate the data to ensure it conforms to the correct  type, length, size, etc. (sometimes this step can replace step one)</li>
 <li>Escape the data before submitting it into your database.</li>
 </ol>
 
@@ -121,7 +121,7 @@ XML-RPC data, or even data from the SERVER array, you are encouraged to practice
 
 <li><h2>XSS Filtering</h2>
 
-<p>CodeIgniter comes with a Cross Site Scripting filter. This filter looks for commonly
+<p>CodeIgniter comes with a Cross Site Scripting filter.  This filter looks for commonly
 used techniques to embed malicious Javascript into your data, or other types of code that attempt to hijack cookies
 or do other malicious things. The XSS Filter is described <a href="../libraries/security.html">here</a>.
 </p>
