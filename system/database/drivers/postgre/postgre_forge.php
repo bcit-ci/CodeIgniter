@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -128,14 +128,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				}
 
 				// If this is an auto-incrementing primary key, use the serial data type instead
-				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes)
+				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes) 
 					&& $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' SERIAL';
 				}
 				else
 				{
-					$sql .= ' '.$attributes['TYPE'];
+					$sql .=  ' '.$attributes['TYPE'];
 				}
 
 				// Modified to prevent constraints with integer data types
@@ -213,8 +213,8 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access  private
-	 * @return  bool
+	 * @access    private
+	 * @return    bool
 	 */
 	function _drop_table($table)
 	{

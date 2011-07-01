@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,18 +28,18 @@
  */
 class CI_DB_result {
 
-	var $conn_id		  = NULL;
-	var $result_id		  = NULL;
-	var $result_array	  = array();
-	var $result_object	  = array();
-	var $custom_result_object = array();
-	var $current_row	  = 0;
-	var $num_rows		  = 0;
-	var $row_data		  = NULL;
+	var $conn_id				= NULL;
+	var $result_id				= NULL;
+	var $result_array			= array();
+	var $result_object			= array();
+	var $custom_result_object	= array();
+	var $current_row			= 0;
+	var $num_rows				= 0;
+	var $row_data				= NULL;
 
 
 	/**
-	 * Query result. Acts as a wrapper function for the following functions.
+	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
@@ -95,7 +95,7 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. "object" version.
+	 * Query result.  "object" version.
 	 *
 	 * @access	public
 	 * @return	object
@@ -127,7 +127,7 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. "array" version.
+	 * Query result.  "array" version.
 	 *
 	 * @access	public
 	 * @return	array
@@ -159,7 +159,7 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. Acts as a wrapper function for the following functions.
+	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
 	 * @access	public
 	 * @param	string
@@ -388,9 +388,9 @@ class CI_DB_result {
 	/**
 	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
-	 * is used. When caching is enabled we do not load the other driver.
+	 * is used.  When caching is enabled we do not load the other driver.
 	 * These functions are primarily here to prevent undefined function errors
-	 * when a cached result object is in use. They are not otherwise fully
+	 * when a cached result object is in use.  They are not otherwise fully
 	 * operational due to the unavailability of the database resource IDs with
 	 * cached results.
 	 */

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -137,7 +137,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Fetch the field names and determine if the field is an
-			// integer type. We use this info to decide whether to
+			// integer type.  We use this info to decide whether to
 			// surround the data with quotes or not
 
 			$i = 0;

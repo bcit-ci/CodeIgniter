@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,7 +30,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/zip.html
  */
-class CI_Zip {
+class CI_Zip  {
 
 	var $zipdata	= '';
 	var $directory	= '';
@@ -150,7 +150,7 @@ class CI_Zip {
 	 * Add Data to Zip
 	 *
 	 * Lets you add files to the archive. If the path is included
-	 * in the filename it will be placed within a directory. Make
+	 * in the filename it will be placed within a directory.  Make
 	 * sure you use add_dir() first to create the folder.
 	 *
 	 * @access	public
@@ -192,7 +192,7 @@ class CI_Zip {
 		$filepath = str_replace("\\", "/", $filepath);
 
 		$uncompressed_size = strlen($data);
-		$crc32 = crc32($data);
+		$crc32  = crc32($data);
 
 		$gzdata = gzcompress($data);
 		$gzdata = substr($gzdata, 2, -4);
@@ -267,7 +267,7 @@ class CI_Zip {
 	 * Read a directory and add it to the zip.
 	 *
 	 * This function recursively reads a folder and everything it contains (including
-	 * sub-folders) and creates a zip based on it. Whatever directory structure
+	 * sub-folders) and creates a zip based on it.  Whatever directory structure
 	 * is in the original file path will be recreated in the zip file.
 	 *
 	 * @access	public
@@ -402,7 +402,7 @@ class CI_Zip {
 	/**
 	 * Initialize Data
 	 *
-	 * Lets you clear current zip data. Useful if you need to create
+	 * Lets you clear current zip data.  Useful if you need to create
 	 * multiple zips with different data.
 	 *
 	 * @access	public
