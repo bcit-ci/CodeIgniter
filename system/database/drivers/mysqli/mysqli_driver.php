@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -133,7 +133,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	function _db_set_charset($charset, $collation)
 	{
 		static $use_set_names;
-
+		
 		if ( ! isset($use_set_names))
 		{
 			// mysqli_set_charset() requires MySQL >= 5.0.7, use SET NAMES as fallback
@@ -568,7 +568,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -630,7 +630,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			{
 				if ($field != $index)
 				{
-					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -79,7 +79,7 @@ if ( ! function_exists('random_element'))
 /**
  * Elements
  *
- * Returns only the array items specified. Will return a default value if
+ * Returns only the array items specified.  Will return a default value if
  * it is not set.
  *
  * @access	public
@@ -93,12 +93,12 @@ if ( ! function_exists('elements'))
 	function elements($items, $array, $default = FALSE)
 	{
 		$return = array();
-
+		
 		if ( ! is_array($items))
 		{
 			$items = array($items);
 		}
-
+		
 		foreach ($items as $item)
 		{
 			if (isset($array[$item]))

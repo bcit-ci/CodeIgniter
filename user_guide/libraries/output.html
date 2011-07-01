@@ -58,7 +58,7 @@ Output Class
 
 <h1>Output Class</h1>
 
-<p>The Output class is a small class with one main function: To send the finalized web page to the requesting browser. It is
+<p>The Output class is a small class with one main function:  To send the finalized web page to the requesting browser.  It is
 also responsible for <a href="../general/caching.html">caching</a> your web pages, if you use that feature.</p>
 
 <p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
@@ -70,7 +70,7 @@ It is possible, however, for you to manually intervene with the output if you ne
 
 <h2>$this->output->set_output();</h2>
 
-<p>Permits you to manually set the final output string. Usage example:</p>
+<p>Permits you to manually set the final output string.  Usage example:</p>
 
 <code>$this->output->set_output($data);</code>
 
@@ -95,7 +95,7 @@ $this->output<br/>
 
 <h2>$this->output->get_output();</h2>
 
-<p>Permits you to manually retrieve any output that has been sent for storage in the output class. Usage example:</p>
+<p>Permits you to manually retrieve any output that has been sent for storage in the output class.  Usage example:</p>
 <code>$string = $this->output->get_output();</code>
 
 <p>Note that data will only be retrievable from this function if it has been previously sent to the output class by one of the
@@ -104,7 +104,7 @@ CodeIgniter functions like <var>$this->load->view()</var>.</p>
 
 <h2>$this->output->append_output();</h2>
 
-<p>Appends data onto the output string. Usage example:</p>
+<p>Appends data onto the output string.  Usage example:</p>
 
 <code>$this->output->append_output($data);</code>
 
@@ -112,7 +112,7 @@ CodeIgniter functions like <var>$this->load->view()</var>.</p>
 
 <h2>$this->output->set_header();</h2>
 
-<p>Permits you to manually set server headers, which the output class will send for you when outputting the final rendered display. Example:</p>
+<p>Permits you to manually set server headers, which the output class will send for you when outputting the final rendered display.  Example:</p>
 
 <code>
 $this->output->set_header("HTTP/1.0 200 OK");<br />
@@ -125,10 +125,10 @@ $this->output->set_header("Pragma: no-cache");	</code>
 
 <h2>$this->output->set_status_header(<var>code</var>, '<var>text</var>');</h2>
 
-<p>Permits you to manually set a server status header. Example:</p>
+<p>Permits you to manually set a server status header.  Example:</p>
 
 <code>$this->output->set_status_header('401');<br />
-// Sets the header as: Unauthorized</code>
+// Sets the header as:  Unauthorized</code>
 
 <p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">See here</a> for a full list of headers.</p>
 
@@ -147,14 +147,14 @@ at the bottom of your pages for debugging and optimization purposes.</p>
 
 <h2>$this->output->set_profiler_sections();</h2>
 
-<p>Permits you to enable/disable specific sections of the Profiler when enabled. Please refer to the <a href="../general/profiling.html">Profiler</a> documentation for further information.</p>
+<p>Permits you to enable/disable specific sections of the Profiler when enabled.  Please refer to the <a href="../general/profiling.html">Profiler</a> documentation for further information.</p>
 
 <h2>$this->output->cache();</h2>
-<p>The CodeIgniter output library also controls caching. For more information, please see the <a href="../general/caching.html">caching documentation</a>.</p>
+<p>The CodeIgniter output library also controls caching.  For more information, please see the <a href="../general/caching.html">caching documentation</a>.</p>
 
 <h2>Parsing Execution Variables</h2>
 
-	<p>CodeIgniter will parse the pseudo-variables <var>{elapsed_time}</var> and <var>{memory_usage}</var> in your output by default. To disable this, set the <var>$parse_exec_vars</var> class property to <var>FALSE</var> in your controller.
+	<p>CodeIgniter will parse the pseudo-variables <var>{elapsed_time}</var> and <var>{memory_usage}</var> in your output by default.  To disable this, set the <var>$parse_exec_vars</var> class property to <var>FALSE</var> in your controller.
 
 	<code>$this->output->parse_exec_vars = FALSE;</code>
 
