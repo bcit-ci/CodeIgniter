@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -64,7 +64,7 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace("/(.+?)\/*$/", "\\1/", $path);
+		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
@@ -162,7 +162,7 @@ class CI_DB_Cache {
 	{
 		if ($segment_one == '')
 		{
-			$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
+			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
 
 		if ($segment_two == '')

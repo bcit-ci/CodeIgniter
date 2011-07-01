@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -30,7 +30,7 @@ class CI_Cart {
 	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
 	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
 
-	// Private variables. Do not change!
+	// Private variables.  Do not change!
 	var $CI;
 	var $_cart_contents	= array();
 
@@ -45,7 +45,7 @@ class CI_Cart {
 		// Set the super object to a local variable for use later
 		$this->CI =& get_instance();
 
-		// Are any config settings being passed manually? If so, set them
+		// Are any config settings being passed manually?  If so, set them
 		$config = array();
 		if (count($params) > 0)
 		{
@@ -148,7 +148,7 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Does the $items array contain an id, quantity, price, and name? These are required
+		// Does the $items array contain an id, quantity, price, and name?  These are required
 		if ( ! isset($items['id']) OR ! isset($items['qty']) OR ! isset($items['price']) OR ! isset($items['name']))
 		{
 			log_message('error', 'The cart array must contain a product ID, quantity, price, and name.');
@@ -157,7 +157,7 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the quantity. It can only be a number. Duh...
+		// Prep the quantity. It can only be a number.  Duh...
 		$items['qty'] = trim(preg_replace('/([^0-9])/i', '', $items['qty']));
 		// Trim any leading zeros
 		$items['qty'] = trim(preg_replace('/(^[0]+)/i', '', $items['qty']));
@@ -175,7 +175,7 @@ class CI_Cart {
 		// Note: These can be user-specified by setting the $this->product_id_rules variable.
 		if ( ! preg_match("/^[".$this->product_id_rules."]+$/i", $items['id']))
 		{
-			log_message('error', 'Invalid product ID. The product ID can only contain alpha-numeric characters, dashes, and underscores');
+			log_message('error', 'Invalid product ID.  The product ID can only contain alpha-numeric characters, dashes, and underscores');
 			return FALSE;
 		}
 
@@ -191,7 +191,7 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the price. Remove anything that isn't a number or decimal point.
+		// Prep the price.  Remove anything that isn't a number or decimal point.
 		$items['price'] = trim(preg_replace('/([^0-9\.])/i', '', $items['price']));
 		// Trim any leading zeros
 		$items['price'] = trim(preg_replace('/(^[0]+)/i', '', $items['price']));
@@ -210,7 +210,7 @@ class CI_Cart {
 		// Each row in the cart array, however, must have a unique index that identifies not only
 		// a particular product, but makes it possible to store identical products with different options.
 		// For example, what if someone buys two identical t-shirts (same product ID), but in
-		// different sizes? The product ID (and other attributes, like the name) will be identical for
+		// different sizes?  The product ID (and other attributes, like the name) will be identical for
 		// both sizes because it's the same shirt. The only difference will be the size.
 		// Internally, we need to treat identical submissions, but with different options, as a unique product.
 		// Our solution is to convert the options array to a string and MD5 it along with the product ID.
@@ -271,7 +271,7 @@ class CI_Cart {
 		}
 
 		// You can either update a single product using a one-dimensional array,
-		// or multiple products using a multi-dimensional one. The way we
+		// or multiple products using a multi-dimensional one.  The way we
 		// determine the array type is by looking for a required array key named "id".
 		// If it's not found we assume it's a multi-dimensional array
 		$save_cart = FALSE;
@@ -344,7 +344,7 @@ class CI_Cart {
 			return FALSE;
 		}
 
-		// Is the quantity zero? If so we will remove the item from the cart.
+		// Is the quantity zero?  If so we will remove the item from the cart.
 		// If the quantity is greater than zero we are updating
 		if ($items['qty'] == 0)
 		{
@@ -392,7 +392,7 @@ class CI_Cart {
 		$this->_cart_contents['total_items'] = count($this->_cart_contents);
 		$this->_cart_contents['cart_total'] = $total;
 
-		// Is our cart empty? If so we delete it from the session
+		// Is our cart empty?  If so we delete it from the session
 		if (count($this->_cart_contents) <= 2)
 		{
 			$this->CI->session->unset_userdata('cart_contents');
