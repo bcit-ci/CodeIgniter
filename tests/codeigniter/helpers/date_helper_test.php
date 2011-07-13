@@ -26,7 +26,7 @@ class Date_helper_test extends CI_TestCase
 	{
 		$time = time();
 		$format = 'DATE_RFC822';
-		$expected = date("D, d F y G:i:s O", $time);
+		$expected = date("D, d M y H:i:s O", $time);
 		$this->assertEquals($expected, standard_date($format, $time));
 	}
 
@@ -158,7 +158,7 @@ class Date_helper_test extends CI_TestCase
 
 	public function test_mysql_to_unix()
 	{
-		$this->assertEquals(1164378225, mysql_to_unix(20061124092345));
+		$this->assertEquals(1344708680, mysql_to_unix(date("YYYY-MM-DD HH:MM:SS")));
 	}
 
 	// ------------------------------------------------------------------------
