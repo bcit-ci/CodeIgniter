@@ -80,10 +80,15 @@ It DOES NOT return a database result set, nor does it set the query timer, or co
 It simply lets you submit a query. Most users will rarely use this function.</p>
 
 
-<h1>Adding Database prefixes manually</h1>
-<p>If you have configured a database prefix and would like to add it in manually for, you can use the following.</p>
+<h1>Working with Database prefixes manually</h1>
+<p>If you have configured a database prefix and would like to prepend it to a table name for use in a native SQL query for example, then you can use the following:</p>
 <p><code>$this-&gt;db-&gt;dbprefix('tablename');<br />
 // outputs prefix_tablename</code></p>
+
+<p>If for any reason you would like to change the prefix programatically without needing to create a new connection, you can use this method:</p>
+<p><code>$this-&gt;db-&gt;set_dbprefix('newprefix');<br /><br />
+$this-&gt;db-&gt;dbprefix('tablename');<br />
+// outputs newprefix_tablename</code></p>
 
 
 <h1>Protecting identifiers</h1>
