@@ -1599,6 +1599,21 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set DB Prefix
+	 *
+	 * Set's the DB Prefix to something new without needing to reconnect
+	 *
+	 * @param	string	the prefix
+	 * @return	string
+	 */
+	public function set_dbprefix($prefix = '')
+	{
+		return $this->dbprefix = $prefix;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Track Aliases
 	 *
 	 * Used to track SQL statements written with aliased tables.
