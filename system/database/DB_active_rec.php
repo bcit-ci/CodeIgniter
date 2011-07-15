@@ -69,11 +69,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates the SELECT portion of the query
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	object
 	 */
-	function select($select = '*', $escape = NULL)
+	public function select($select = '*', $escape = NULL)
 	{
 		if (is_string($select))
 		{
@@ -107,12 +106,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a SELECT MAX(field) portion of a query
 	 *
-	 * @access	public
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	function select_max($select = '', $alias = '')
+	public function select_max($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'MAX');
 	}
@@ -124,12 +122,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a SELECT MIN(field) portion of a query
 	 *
-	 * @access	public
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	function select_min($select = '', $alias = '')
+	public function select_min($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'MIN');
 	}
@@ -141,12 +138,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a SELECT AVG(field) portion of a query
 	 *
-	 * @access	public
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	function select_avg($select = '', $alias = '')
+	public function select_avg($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'AVG');
 	}
@@ -158,12 +154,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a SELECT SUM(field) portion of a query
 	 *
-	 * @access	public
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	function select_sum($select = '', $alias = '')
+	public function select_sum($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'SUM');
 	}
@@ -178,12 +173,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *	select_avg()
 	 *  select_sum()
 	 *
-	 * @access	public
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
+	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
 	{
 		if ( ! is_string($select) OR $select == '')
 		{
@@ -220,11 +214,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Determines the alias name based on the table
 	 *
-	 * @access	private
 	 * @param	string
 	 * @return	string
 	 */
-	function _create_alias_from_table($item)
+	protected function _create_alias_from_table($item)
 	{
 		if (strpos($item, '.') !== FALSE)
 		{
@@ -241,11 +234,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Sets a flag which tells the query string compiler to add DISTINCT
 	 *
-	 * @access	public
 	 * @param	bool
 	 * @return	object
 	 */
-	function distinct($val = TRUE)
+	public function distinct($val = TRUE)
 	{
 		$this->ar_distinct = (is_bool($val)) ? $val : TRUE;
 		return $this;
@@ -258,11 +250,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates the FROM portion of the query
 	 *
-	 * @access	public
 	 * @param	mixed	can be a string or array
 	 * @return	object
 	 */
-	function from($from)
+	public function from($from)
 	{
 		foreach ((array)$from as $val)
 		{
@@ -311,13 +302,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates the JOIN portion of the query
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string	the join condition
 	 * @param	string	the type of join
 	 * @return	object
 	 */
-	function join($table, $cond, $type = '')
+	public function join($table, $cond, $type = '')
 	{
 		if ($type != '')
 		{
@@ -367,12 +357,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates the WHERE portion of the query. Separates
 	 * multiple calls with AND
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function where($key, $value = NULL, $escape = TRUE)
+	public function where($key, $value = NULL, $escape = TRUE)
 	{
 		return $this->_where($key, $value, 'AND ', $escape);
 	}
@@ -385,12 +374,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates the WHERE portion of the query. Separates
 	 * multiple calls with OR
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function or_where($key, $value = NULL, $escape = TRUE)
+	public function or_where($key, $value = NULL, $escape = TRUE)
 	{
 		return $this->_where($key, $value, 'OR ', $escape);
 	}
@@ -400,15 +388,14 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Where
 	 *
-	 * Called by where() or orwhere()
+	 * Called by where() or or_where()
 	 *
-	 * @access	private
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
 	 * @return	object
 	 */
-	function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
+	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
 		if ( ! is_array($key))
 		{
@@ -471,12 +458,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
 	 * AND if appropriate
 	 *
-	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
 	 * @return	object
 	 */
-	function where_in($key = NULL, $values = NULL)
+	public function where_in($key = NULL, $values = NULL)
 	{
 		return $this->_where_in($key, $values);
 	}
@@ -489,12 +475,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
 	 * OR if appropriate
 	 *
-	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
 	 * @return	object
 	 */
-	function or_where_in($key = NULL, $values = NULL)
+	public function or_where_in($key = NULL, $values = NULL)
 	{
 		return $this->_where_in($key, $values, FALSE, 'OR ');
 	}
@@ -507,12 +492,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
 	 * with AND if appropriate
 	 *
-	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
 	 * @return	object
 	 */
-	function where_not_in($key = NULL, $values = NULL)
+	public function where_not_in($key = NULL, $values = NULL)
 	{
 		return $this->_where_in($key, $values, TRUE);
 	}
@@ -525,12 +509,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
 	 * with OR if appropriate
 	 *
-	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
 	 * @return	object
 	 */
-	function or_where_not_in($key = NULL, $values = NULL)
+	public function or_where_not_in($key = NULL, $values = NULL)
 	{
 		return $this->_where_in($key, $values, TRUE, 'OR ');
 	}
@@ -542,14 +525,13 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Called by where_in, where_in_or, where_not_in, where_not_in_or
 	 *
-	 * @access	public
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
 	 * @param	boolean	If the statement would be IN or NOT IN
 	 * @param	string
 	 * @return	object
 	 */
-	function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ')
+	protected function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ')
 	{
 		if ($key === NULL OR $values === NULL)
 		{
@@ -592,12 +574,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a %LIKE% portion of the query. Separates
 	 * multiple calls with AND
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function like($field, $match = '', $side = 'both')
+	public function like($field, $match = '', $side = 'both')
 	{
 		return $this->_like($field, $match, 'AND ', $side);
 	}
@@ -610,12 +591,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a NOT LIKE portion of the query. Separates
 	 * multiple calls with AND
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function not_like($field, $match = '', $side = 'both')
+	public function not_like($field, $match = '', $side = 'both')
 	{
 		return $this->_like($field, $match, 'AND ', $side, 'NOT');
 	}
@@ -628,12 +608,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a %LIKE% portion of the query. Separates
 	 * multiple calls with OR
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function or_like($field, $match = '', $side = 'both')
+	public function or_like($field, $match = '', $side = 'both')
 	{
 		return $this->_like($field, $match, 'OR ', $side);
 	}
@@ -646,12 +625,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a NOT LIKE portion of the query. Separates
 	 * multiple calls with OR
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @return	object
 	 */
-	function or_not_like($field, $match = '', $side = 'both')
+	public function or_not_like($field, $match = '', $side = 'both')
 	{
 		return $this->_like($field, $match, 'OR ', $side, 'NOT');
 	}
@@ -663,13 +641,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Called by like() or orlike()
 	 *
-	 * @access	private
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
 	 * @return	object
 	 */
-	function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
+	protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
 	{
 		if ( ! is_array($field))
 		{
@@ -719,11 +696,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * GROUP BY
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	object
 	 */
-	function group_by($by)
+	public function group_by($by)
 	{
 		if (is_string($by))
 		{
@@ -755,12 +731,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Separates multiple calls with AND
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	object
 	 */
-	function having($key, $value = '', $escape = TRUE)
+	public function having($key, $value = '', $escape = TRUE)
 	{
 		return $this->_having($key, $value, 'AND ', $escape);
 	}
@@ -772,12 +747,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Separates multiple calls with OR
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	object
 	 */
-	function or_having($key, $value = '', $escape = TRUE)
+	public function or_having($key, $value = '', $escape = TRUE)
 	{
 		return $this->_having($key, $value, 'OR ', $escape);
 	}
@@ -789,12 +763,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Called by having() or or_having()
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	string
 	 * @return	object
 	 */
-	function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
+	protected function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
 	{
 		if ( ! is_array($key))
 		{
@@ -836,12 +809,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the ORDER BY value
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string	direction: asc or desc
 	 * @return	object
 	 */
-	function order_by($orderby, $direction = '')
+	public function order_by($orderby, $direction = '')
 	{
 		if (strtolower($direction) == 'random')
 		{
@@ -892,12 +864,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the LIMIT value
 	 *
-	 * @access	public
 	 * @param	integer	the limit value
 	 * @param	integer	the offset value
 	 * @return	object
 	 */
-	function limit($value, $offset = '')
+	public function limit($value, $offset = '')
 	{
 		$this->ar_limit = $value;
 
@@ -914,11 +885,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the OFFSET value
 	 *
-	 * @access	public
 	 * @param	integer	the offset value
 	 * @return	object
 	 */
-	function offset($offset)
+	public function offset($offset)
 	{
 		$this->ar_offset = $offset;
 		return $this;
@@ -929,13 +899,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * The "set" function.  Allows key/value pairs to be set for inserting or updating
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @param	boolean
 	 * @return	object
 	 */
-	function set($key, $value = '', $escape = TRUE)
+	public function set($key, $value = '', $escape = TRUE)
 	{
 		$key = $this->_object_to_array($key);
 
@@ -967,13 +936,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Compiles the select statement based on the other functions called
 	 * and runs the query
 	 *
-	 * @access	public
 	 * @param	string	the table
 	 * @param	string	the limit clause
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	function get($table = '', $limit = null, $offset = null)
+	public function get($table = '', $limit = null, $offset = null)
 	{
 		if ($table != '')
 		{
@@ -999,11 +967,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a platform-specific query string that counts all records
 	 * returned by an Active Record query.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	function count_all_results($table = '')
+	public function count_all_results($table = '')
 	{
 		if ($table != '')
 		{
@@ -1032,13 +999,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Allows the where clause, limit and offset to be added directly
 	 *
-	 * @access	public
 	 * @param	string	the where clause
 	 * @param	string	the limit clause
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	function get_where($table = '', $where = null, $limit = null, $offset = null)
+	public function get_where($table = '', $where = null, $limit = null, $offset = null)
 	{
 		if ($table != '')
 		{
@@ -1069,12 +1035,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles batch insert strings and runs the queries
 	 *
-	 * @access	public
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of insert values
 	 * @return	object
 	 */
-	function insert_batch($table = '', $set = NULL)
+	public function insert_batch($table = '', $set = NULL)
 	{
 		if ( ! is_null($set))
 		{
@@ -1127,14 +1092,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @param	boolean
 	 * @return	object
 	 */
-
-	function set_insert_batch($key, $value = '', $escape = TRUE)
+	public function set_insert_batch($key, $value = '', $escape = TRUE)
 	{
 		$key = $this->_object_to_array_batch($key);
 
@@ -1189,8 +1152,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an insert string and runs the query
 	 *
-	 * @access	public
-	 * @param	string	the table to retrieve the results from
+	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
 	 * @return	object
 	 */
@@ -1230,7 +1192,18 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $this->query($sql);
 	}
 
-	function replace($table = '', $set = NULL)
+	// --------------------------------------------------------------------
+
+	/**
+	 * Replace
+	 *
+	 * Compiles an replace into string and runs the query
+	 *
+	 * @param	string	the table to replace data into
+	 * @param	array	an associative array of insert values
+	 * @return	object
+	 */
+	public function replace($table = '', $set = NULL)
 	{
 		if ( ! is_null($set))
 		{
@@ -1273,13 +1246,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an update string and runs the query
 	 *
-	 * @access	public
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of update values
 	 * @param	mixed	the where clause
 	 * @return	object
 	 */
-	function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
+	public function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1336,13 +1308,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an update string and runs the query
 	 *
-	 * @access	public
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of update values
 	 * @param	string	the where key
 	 * @return	object
 	 */
-	function update_batch($table = '', $set = NULL, $index = NULL)
+	public function update_batch($table = '', $set = NULL, $index = NULL)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1402,14 +1373,12 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * The "set_update_batch" function.  Allows key/value pairs to be set for batch updating
 	 *
-	 * @access	public
 	 * @param	array
 	 * @param	string
 	 * @param	boolean
 	 * @return	object
 	 */
-
-	function set_update_batch($key, $index = '', $escape = TRUE)
+	public function set_update_batch($key, $index = '', $escape = TRUE)
 	{
 		$key = $this->_object_to_array_batch($key);
 
@@ -1462,11 +1431,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles a delete string and runs "DELETE FROM table"
 	 *
-	 * @access	public
 	 * @param	string	the table to empty
 	 * @return	object
 	 */
-	function empty_table($table = '')
+	public function empty_table($table = '')
 	{
 		if ($table == '')
 		{
@@ -1502,11 +1470,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @access	public
 	 * @param	string	the table to truncate
 	 * @return	object
 	 */
-	function truncate($table = '')
+	public function truncate($table = '')
 	{
 		if ($table == '')
 		{
@@ -1540,14 +1507,13 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles a delete string and runs the query
 	 *
-	 * @access	public
 	 * @param	mixed	the table(s) to delete from. String or array
 	 * @param	mixed	the where clause
 	 * @param	mixed	the limit clause
 	 * @param	boolean
 	 * @return	object
 	 */
-	function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
+	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1617,11 +1583,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Prepends a database prefix if one exists in configuration
 	 *
-	 * @access	public
 	 * @param	string	the table
 	 * @return	string
 	 */
-	function dbprefix($table = '')
+	public function dbprefix($table = '')
 	{
 		if ($table == '')
 		{
@@ -1638,11 +1603,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Used to track SQL statements written with aliased tables.
 	 *
-	 * @access	private
 	 * @param	string	The table to inspect
 	 * @return	string
 	 */
-	function _track_aliases($table)
+	protected function _track_aliases($table)
 	{
 		if (is_array($table))
 		{
@@ -1685,10 +1649,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates a query string based on which functions were used.
 	 * Should not be called directly.  The get() function calls it.
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _compile_select($select_override = FALSE)
+	protected function _compile_select($select_override = FALSE)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1826,11 +1789,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
 	 *
-	 * @access	public
 	 * @param	object
 	 * @return	array
 	 */
-	function _object_to_array($object)
+	public function _object_to_array($object)
 	{
 		if ( ! is_object($object))
 		{
@@ -1857,11 +1819,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
 	 *
-	 * @access	public
 	 * @param	object
 	 * @return	array
 	 */
-	function _object_to_array_batch($object)
+	public function _object_to_array_batch($object)
 	{
 		if ( ! is_object($object))
 		{
@@ -1897,10 +1858,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Starts AR caching
 	 *
-	 * @access	public
 	 * @return	void
 	 */
-	function start_cache()
+	public function start_cache()
 	{
 		$this->ar_caching = TRUE;
 	}
@@ -1912,10 +1872,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Stops AR caching
 	 *
-	 * @access	public
 	 * @return	void
 	 */
-	function stop_cache()
+	public function stop_cache()
 	{
 		$this->ar_caching = FALSE;
 	}
@@ -1930,23 +1889,21 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @access	public
 	 * @return	void
 	 */
-	function flush_cache()
+	public function flush_cache()
 	{
-		$this->_reset_run(
-							array(
-									'ar_cache_select'		=> array(),
-									'ar_cache_from'			=> array(),
-									'ar_cache_join'			=> array(),
-									'ar_cache_where'		=> array(),
-									'ar_cache_like'			=> array(),
-									'ar_cache_groupby'		=> array(),
-									'ar_cache_having'		=> array(),
-									'ar_cache_orderby'		=> array(),
-									'ar_cache_set'			=> array(),
-									'ar_cache_exists'		=> array(),
-									'ar_cache_no_escape'	=> array()
-								)
-							);
+		$this->_reset_run(array(
+			'ar_cache_select'		=> array(),
+			'ar_cache_from'			=> array(),
+			'ar_cache_join'			=> array(),
+			'ar_cache_where'		=> array(),
+			'ar_cache_like'			=> array(),
+			'ar_cache_groupby'		=> array(),
+			'ar_cache_having'		=> array(),
+			'ar_cache_orderby'		=> array(),
+			'ar_cache_set'			=> array(),
+			'ar_cache_exists'		=> array(),
+			'ar_cache_no_escape'	=> array()
+		));
 	}
 
 	// --------------------------------------------------------------------
@@ -1957,10 +1914,9 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * When called, this function merges any cached AR arrays with
 	 * locally called ones.
 	 *
-	 * @access	private
 	 * @return	void
 	 */
-	function _merge_cache()
+	protected function _merge_cache()
 	{
 		if (count($this->ar_cache_exists) == 0)
 		{
@@ -1995,11 +1951,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Resets the active record values.  Called by the get() function
 	 *
-	 * @access	private
 	 * @param	array	An array of fields to reset
 	 * @return	void
 	 */
-	function _reset_run($ar_reset_items)
+	protected function _reset_run($ar_reset_items)
 	{
 		foreach ($ar_reset_items as $item => $default_value)
 		{
@@ -2015,28 +1970,27 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Resets the active record values.  Called by the get() function
 	 *
-	 * @access	private
 	 * @return	void
 	 */
-	function _reset_select()
+	protected function _reset_select()
 	{
 		$ar_reset_items = array(
-								'ar_select'			=> array(),
-								'ar_from'			=> array(),
-								'ar_join'			=> array(),
-								'ar_where'			=> array(),
-								'ar_like'			=> array(),
-								'ar_groupby'		=> array(),
-								'ar_having'			=> array(),
-								'ar_orderby'		=> array(),
-								'ar_wherein'		=> array(),
-								'ar_aliased_tables'	=> array(),
-								'ar_no_escape'		=> array(),
-								'ar_distinct'		=> FALSE,
-								'ar_limit'			=> FALSE,
-								'ar_offset'			=> FALSE,
-								'ar_order'			=> FALSE,
-							);
+			'ar_select'			=> array(),
+			'ar_from'			=> array(),
+			'ar_join'			=> array(),
+			'ar_where'			=> array(),
+			'ar_like'			=> array(),
+			'ar_groupby'		=> array(),
+			'ar_having'			=> array(),
+			'ar_orderby'		=> array(),
+			'ar_wherein'		=> array(),
+			'ar_aliased_tables'	=> array(),
+			'ar_no_escape'		=> array(),
+			'ar_distinct'		=> FALSE,
+			'ar_limit'			=> FALSE,
+			'ar_offset'			=> FALSE,
+			'ar_order'			=> FALSE,
+		);
 
 		$this->_reset_run($ar_reset_items);
 	}
@@ -2048,25 +2002,23 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Called by the insert() update() insert_batch() update_batch() and delete() functions
 	 *
-	 * @access	private
 	 * @return	void
 	 */
-	function _reset_write()
+	protected function _reset_write()
 	{
 		$ar_reset_items = array(
-								'ar_set'		=> array(),
-								'ar_from'		=> array(),
-								'ar_where'		=> array(),
-								'ar_like'		=> array(),
-								'ar_orderby'	=> array(),
-								'ar_keys'		=> array(),
-								'ar_limit'		=> FALSE,
-								'ar_order'		=> FALSE
-								);
+			'ar_set'		=> array(),
+			'ar_from'		=> array(),
+			'ar_where'		=> array(),
+			'ar_like'		=> array(),
+			'ar_orderby'	=> array(),
+			'ar_keys'		=> array(),
+			'ar_limit'		=> FALSE,
+			'ar_order'		=> FALSE
+		);
 
 		$this->_reset_run($ar_reset_items);
 	}
-
 }
 
 /* End of file DB_active_rec.php */
