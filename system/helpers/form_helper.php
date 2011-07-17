@@ -64,8 +64,8 @@ if ( ! function_exists('form_open'))
 
 		$form .= '>';
 
-		// CSRF
-		if ($CI->config->item('csrf_protection') === TRUE)
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))	
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
