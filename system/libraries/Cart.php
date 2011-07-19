@@ -374,6 +374,7 @@ class CI_Cart {
 
 		// Lets add up the individual prices and set the cart sub-total
 		$total = 0;
+		$items = 0;
 		foreach ($this->_cart_contents as $key => $val)
 		{
 			// We make sure the array contains the proper indexes
@@ -383,13 +384,14 @@ class CI_Cart {
 			}
 
 			$total += ($val['price'] * $val['qty']);
+			$items += $val['qty'];
 
 			// Set the subtotal
 			$this->_cart_contents[$key]['subtotal'] = ($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
 		}
 
 		// Set the cart total and total items.
-		$this->_cart_contents['total_items'] = count($this->_cart_contents);
+		$this->_cart_contents['total_items'] = $items;
 		$this->_cart_contents['cart_total'] = $total;
 
 		// Is our cart empty?  If so we delete it from the session
