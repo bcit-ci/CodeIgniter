@@ -180,6 +180,65 @@ if ( ! function_exists('form_input'))
 	}
 }
 
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Input Type
+ * 
+ * Create an html5 input field.
+ *
+ * @access	public
+ * @param mixed string $type The input type or array of values
+ * @param string $data The input name
+ * @param string $value The input value
+ * @param string $extra Any extra attributes
+ */
+if ( ! function_exists('form_input_type'))
+{
+	function form_input_type($type = '', $data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+			'type' => (( ! empty($type)) ? $type : 'text'),
+			'name' => (( ! is_array($data)) ? $data : ''),
+			'value' => $value
+		);
+
+		return "<input "._parse_form_attributes($type, $defaults).$extra." />";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Input Range
+ * 
+ * Create an html5 input range field.
+ *
+ * @access	public
+ * @param string $data The input name
+ * @param string $min The min value
+ * @param string $max The max value
+ * @param string $step The step value
+ * @param string $value The input value
+ * @param string $extra Any extra attributes
+ */
+if ( ! function_exists('form_input_range'))
+{
+	function form_input_range($data = '', $min = 0, $max = 0, $step = 0, $value = '', $extra = '')
+	{
+		$defaults = array(
+			'type' => 'time',
+			'name' => (( ! is_array($data)) ? $data : ''),
+			'value' => $value
+		);
+		
+		$extra = 'min="'.$min.'" max="'.$max.'" step="'.$step.'" '.$extra;
+
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+	}
+}
+
 // ------------------------------------------------------------------------
 
 /**

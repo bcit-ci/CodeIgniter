@@ -177,6 +177,33 @@ third parameter:</p>
 <br />
 echo form_input('username', 'johndoe', $js);</code>
 
+<h2 id="form_input_type">form_input_type()</h2>
+
+<p>This function is used to create most types of html5 input fields. You can minimally pass the field name and value in the first and second parameter:</p>
+
+<code>echo form_input_type('tel', 'phone');</code>
+
+Would produce: 
+<code>&lt;input type=&quot;tel&quot; name=&quot;phone&quot; value=&quot;&quot; /&gt;</code>
+
+It also two additional params: 
+
+<code>echo form_input_type('tel', 'phone', '8675309', 'id="phone"');</code>
+
+Would produce:
+<code>&lt;input type=&quot;tel&quot; name=&quot;phone&quot; value=&quot;8675309&quot; id=&quot;phone&quot; /&gt;</code>
+
+<h2 id="form_input_range">form_input_range()</h2>
+
+<p>This function is used to create an html5 range field:</p>
+
+<code>echo form_input_range('year', '2005', '2011', '1');</code>
+
+Would produce: 
+<code>&lt;input type=&quot;time&quot; name=&quot;year&quot; value=&quot;&quot; min=&quot;2005&quot; max=&quot;2011&quot; step=&quot;1&quot;  /&gt;</code>
+
+<p>The optional fifth and sixth parameters are a default value and a string of any extra attributes such as id, class, style.</p>
+
 <h2>form_password()</h2>
 
 <p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
