@@ -101,6 +101,7 @@ Change Log
 	<li>Fixed a bug (Reactor #231) where Sessions Library database table example SQL did not contain an index on last_activity. See <a href="installation/upgrade_203.html">Upgrade Notes</a>.</li>
 	<li>Fixed a bug (Reactor #229) where the Sessions Library example SQL in the documentation contained incorrect SQL.</li>
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
+	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
