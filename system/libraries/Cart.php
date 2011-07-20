@@ -99,7 +99,7 @@ class CI_Cart {
 		$save_cart = FALSE;
 		if (isset($items['id']))
 		{
-			if ($this->_insert($items) == TRUE)
+			if (($rowid = $this->_insert($items)))
 			{
 				$save_cart = TRUE;
 			}
@@ -110,7 +110,7 @@ class CI_Cart {
 			{
 				if (is_array($val) AND isset($val['id']))
 				{
-					if ($this->_insert($val) == TRUE)
+					if ($this->_insert($val))
 					{
 						$save_cart = TRUE;
 					}
@@ -122,7 +122,7 @@ class CI_Cart {
 		if ($save_cart == TRUE)
 		{
 			$this->_save_cart();
-			return TRUE;
+			return isset($rowid) ? $rowid : TRUE;
 		}
 
 		return FALSE;
@@ -244,7 +244,7 @@ class CI_Cart {
 		}
 
 		// Woot!
-		return TRUE;
+		return $rowid;
 	}
 
 	// --------------------------------------------------------------------
