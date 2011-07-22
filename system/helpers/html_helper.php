@@ -124,6 +124,10 @@ if ( ! function_exists('_list'))
 			}
 			$attributes = $atts;
 		}
+		elseif (is_string($attributes) AND strlen($attributes) > 0)
+		{
+			$attributes = ' '. $attributes;
+		}
 
 		// Write the opening list tag
 		$out .= "<".$type.$attributes.">\n";
