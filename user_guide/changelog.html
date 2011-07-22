@@ -86,6 +86,8 @@ Change Log
 			<li>Altered Session to use a longer match against the user_agent string. See upgrade notes if using database sessions.</li>
 			<li class="reactor">Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 			<li class="reactor">Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
+			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li class="reactor">Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>
 		</ul>
 	</li>
 </ul>

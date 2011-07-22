@@ -389,6 +389,21 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Variable
+	 *
+	 * Check if a variable is set and retrieve it.
+	 *
+	 * @param	array
+	 * @return	void
+	 */
+	public function get_var($key)
+	{
+		return isset($this->_ci_cached_vars[$key]) ? $this->_ci_cached_vars[$key] : NULL;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Load Helper
 	 *
 	 * This function loads the specified helper file.
