@@ -91,6 +91,7 @@ Change Log
 			<li class="reactor">Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
 			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
 			<li class="reactor">Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>
+			<li>Changed <kbd>$this->db->having()</kbd> to insert quotes using escape() rather than escape_str().</li>
 		</ul>
 	</li>
 </ul>

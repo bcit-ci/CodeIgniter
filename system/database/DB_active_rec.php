@@ -790,7 +790,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			if ($v != '')
 			{
-				$v = ' '.$this->escape_str($v);
+				$v = ' '.$this->escape($v);
 			}
 
 			$this->ar_having[] = $prefix.$k.$v;
