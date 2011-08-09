@@ -106,6 +106,7 @@ Change Log
 	<li>Fixed a bug (Reactor #229) where the Sessions Library example SQL in the documentation contained incorrect SQL.</li>
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
 	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
+	<li>Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
