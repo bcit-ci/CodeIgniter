@@ -1694,7 +1694,8 @@ class CI_DB_active_record extends CI_DB_driver {
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->ar_select as $key => $val)
 				{
-					$this->ar_select[$key] = $this->_protect_identifiers($val, FALSE, $this->ar_no_escape[$key]);
+					$no_escape = isset($this->ar_no_escape[$key]) ? $this->ar_no_escape[$key] : NULL;
+					$this->ar_select[$key] = $this->_protect_identifiers($val, FALSE, $no_escape);
 				}
 
 				$sql .= implode(', ', $this->ar_select);
