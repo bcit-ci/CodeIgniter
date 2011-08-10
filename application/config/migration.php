@@ -9,7 +9,7 @@
 | and disable it back when you're done.
 |
 */
-$config['migration_enabled'] = TRUE;
+$config['migration_enabled'] = FALSE;
 
 
 /*
