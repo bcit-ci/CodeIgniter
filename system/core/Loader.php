@@ -62,17 +62,22 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Set _base_classes variable
+	 * Initialize the Loader
 	 *
 	 * This method is called once in CI_Controller.
 	 *
 	 * @param 	array 	
 	 * @return 	object
 	 */
-	public function set_base_classes()
+	public function initialize()
 	{
+		$this->_ci_classes = array();
+		$this->_ci_loaded_files = array();
+		$this->_ci_models = array();
 		$this->_base_classes =& is_loaded();
-		
+
+		$this->_ci_autoloader();
+
 		return $this;
 	}
 
@@ -1020,23 +1025,19 @@ class CI_Loader {
 	 * The config/autoload.php file contains an array that permits sub-systems,
 	 * libraries, and helpers to be loaded automatically.
 	 *
-	 * This function is public, as it's used in the CI_Controller class.  
-	 * However, there is no reason you should ever needs to use it.
-	 *
 	 * @param	array
 	 * @return	void
 	 */
-	public function ci_autoloader()
+	private function _ci_autoloader()
 	{
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
-			include_once(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
 		}
 		else
 		{
-			include_once(APPPATH.'config/autoload.php');
+			include(APPPATH.'config/autoload.php');
 		}
-		
 
 		if ( ! isset($autoload))
 		{
