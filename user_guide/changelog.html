@@ -108,6 +108,7 @@ Change Log
 	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
 	<li>Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
 	<li>Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
+	<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
