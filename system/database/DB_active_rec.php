@@ -1322,7 +1322,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			if ($this->db_debug)
 			{
-				return $this->display_error('db_myst_use_index');
+				return $this->display_error('db_must_use_index');
 			}
 
 			return FALSE;
