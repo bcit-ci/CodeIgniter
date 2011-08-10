@@ -75,7 +75,7 @@ Change Log
 			<li>Visual updates to the welcome_message view file and default error templates. Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
 			<li class="reactor">Added <samp>insert_batch()</samp> function to the PostgreSQL database driver.  Thanks to epallerols for the patch.</li>
 			<li class="reactor">Added "application/x-csv" to mimes.php.</li>
-			
+			<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -105,9 +105,15 @@ Change Log
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
 	<li class="reactor">Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
 	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
+<<<<<<< HEAD
 	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
 	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
 	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
+=======
+	<li>Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
+	<li>Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
+	<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
+>>>>>>> 0aaf42b... Fixed a bug where Email library attachments with a . in the name would using invalid MIME-types.
 </ul>
 
 <h2>Version 2.0.2</h2>
