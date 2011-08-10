@@ -870,11 +870,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function limit($value, $offset = '')
 	{
-		$this->ar_limit = $value;
+		$this->ar_limit = (int) $value;
 
 		if ($offset != '')
 		{
-			$this->ar_offset = $offset;
+			$this->ar_offset = (int) $offset;
 		}
 
 		return $this;
