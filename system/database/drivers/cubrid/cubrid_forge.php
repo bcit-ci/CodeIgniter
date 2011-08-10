@@ -81,7 +81,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field);
+				$sql .= "\n\t\"".$this->db->_protect_identifiers($field) . "\"";
 
 				if (array_key_exists('NAME', $attributes))
 				{
@@ -203,7 +203,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 					$key = array($key_name);
 				}
 				
-				$sql .= ",\n\tKEY {$key_name} (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ")";
 			}
 		}
 
