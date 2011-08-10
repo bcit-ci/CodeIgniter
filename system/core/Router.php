@@ -244,7 +244,20 @@ class CI_Router {
 				// Does the requested controller exist in the sub-folder?
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
-					show_404($this->fetch_directory().$segments[0]);
+					if ( ! empty($this->routes['404_override']))
+					{
+						$x = explode('/', $this->routes['404_override']);
+
+						$this->set_directory('');
+						$this->set_class($x[0]);
+						$this->set_method(isset($x[1]) ? $x[1] : 'index');
+					
+						return $x;
+					}
+					else
+					{
+						show_404($this->fetch_directory().$segments[0]);
+					}
 				}
 			}
 			else
