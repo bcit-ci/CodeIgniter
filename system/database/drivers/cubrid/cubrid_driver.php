@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -25,15 +25,15 @@
  * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_cubrid_driver extends CI_DB
-{
-    // Default CUBRID Broker port. Will be used unless user
-    // explicitly specifies another one.
-    const DEFAULT_PORT = 33000;
-        
+class CI_DB_cubrid_driver extends CI_DB {
+
+	// Default CUBRID Broker port. Will be used unless user
+	// explicitly specifies another one.
+	const DEFAULT_PORT = 33000;
+
 	var $dbdriver = 'cubrid';
 
 	// The character used for escaping - no need in CUBRID
@@ -59,24 +59,30 @@ class CI_DB_cubrid_driver extends CI_DB
 	 */
 	function db_connect()
 	{
+		// If no port is defined by the user, use the default value
 		if ($this->port == '')
 		{
 			$this->port = self::DEFAULT_PORT;
-        }
+		}
 
-        $conn = cubrid_connect($this->hostname, $this->port, $this->database, $this->username, $this->password);
+		$conn = cubrid_connect($this->hostname, $this->port, $this->database, $this->username, $this->password);
 
-        if ($conn){
-            if (isset($this->auto_commit) && !$this->auto_commit){
-                cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_FALSE);
-            }
-            else{
-                cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_TRUE);
-                $this->auto_commit = TRUE;
-            }
-        }
-        
-        return $conn;
+		if ($conn)
+		{
+			// Check if a user wants to run queries in dry, i.e. run the
+			// queries but not commit them.
+			if (isset($this->auto_commit) && ! $this->auto_commit)
+			{
+				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_FALSE);
+			}
+			else
+			{
+				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_TRUE);
+				$this->auto_commit = TRUE;
+			}
+		}
+
+		return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -131,8 +137,7 @@ class CI_DB_cubrid_driver extends CI_DB
 		// In CUBRID there is no need to select a database as the database
 		// is chosen at the connection time.
 		// So, to determine if the database is "selected", all we have to
-		// do is return the connection identifier which can be later
-		// checked if it has been established or not.
+		// do is ping the server and return that value.
 		return cubrid_ping($this->conn_id);
 	}
 
@@ -155,7 +160,7 @@ class CI_DB_cubrid_driver extends CI_DB
 	}
 
 	// --------------------------------------------------------------------
-    
+
 	/**
 	 * Version number query string
 	 *
@@ -164,6 +169,11 @@ class CI_DB_cubrid_driver extends CI_DB
 	 */
 	function _version()
 	{
+		// To obtain the CUBRID Server version, no need to run the SQL query.
+		// CUBRID PHP API provides a function to determin this value.
+		// This is why we also need to add 'cubrid' value to the list of
+		// $driver_version_exceptions array in DB_driver class in
+		// version() function.
 		return cubrid_get_server_info($this->conn_id);
 	}
 
@@ -195,6 +205,7 @@ class CI_DB_cubrid_driver extends CI_DB
 	 */
 	function _prep_query($sql)
 	{
+		// No need to prepare
 		return $sql;
 	}
 
@@ -224,8 +235,10 @@ class CI_DB_cubrid_driver extends CI_DB
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-        if (cubrid_get_autocommit($this->conn_id))
-            cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_FALSE);
+		if (cubrid_get_autocommit($this->conn_id))
+		{
+			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_FALSE);
+		}
 
 		return TRUE;
 	}
@@ -253,9 +266,11 @@ class CI_DB_cubrid_driver extends CI_DB
 
 		cubrid_commit($this->conn_id);
 
-        if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id))
-            cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
-        
+		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
+		{
+			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
+		}
+
 		return TRUE;
 	}
 
@@ -282,9 +297,11 @@ class CI_DB_cubrid_driver extends CI_DB
 
 		cubrid_rollback($this->conn_id);
 
-        if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id))
-            cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
-        
+		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
+		{
+			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
+		}
+
 		return TRUE;
 	}
 
@@ -303,12 +320,12 @@ class CI_DB_cubrid_driver extends CI_DB
 		if (is_array($str))
 		{
 			foreach ($str as $key => $val)
-	   		{
+			{
 				$str[$key] = $this->escape_str($val, $like);
-	   		}
+			}
 
-	   		return $str;
-	   	}
+			return $str;
+		}
 
 		if (function_exists('cubrid_real_escape_string') AND is_resource($this->conn_id))
 		{
@@ -322,7 +339,6 @@ class CI_DB_cubrid_driver extends CI_DB
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			//TODO: check this
 			$str = str_replace(array('%', '_'), array('\\%', '\\_'), $str);
 		}
 
@@ -545,7 +561,7 @@ class CI_DB_cubrid_driver extends CI_DB
 	 */
 	function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (\"".implode('\", \"', $keys)."\") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO ".$table." (\"".implode('", "', $keys)."\") VALUES (".implode(', ', $values).")";
 	}
 
 	// --------------------------------------------------------------------
@@ -648,7 +664,7 @@ class CI_DB_cubrid_driver extends CI_DB
 			{
 				if ($field != $index)
 				{
-					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

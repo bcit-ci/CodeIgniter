@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,7 +21,7 @@
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_cubrid_result extends CI_DB_result {
@@ -113,7 +113,8 @@ class CI_DB_cubrid_result extends CI_DB_result {
 				$row = cubrid_fetch_array($res, CUBRID_NUM);
 				$F->primary_key = ($row[0] > 0 ? 1 : null);
 			}
-			else{
+			else
+			{
 				$F->primary_key = null;
 			}
 
@@ -138,9 +139,9 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	function free_result()
 	{
-        if(is_resource($this->result_id) ||
-                get_resource_type($this->result_id) == "Unknown" &&
-                preg_match('/Resource id #/', strval($this->result_id)))
+		if(is_resource($this->result_id) ||
+			get_resource_type($this->result_id) == "Unknown" &&
+			preg_match('/Resource id #/', strval($this->result_id)))
 		{
 			cubrid_close_request($this->result_id);
 			$this->result_id = FALSE;
@@ -152,7 +153,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *

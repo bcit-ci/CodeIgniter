@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -19,7 +19,7 @@
  * CUBRID Forge Class
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_cubrid_forge extends CI_DB_forge {
@@ -81,7 +81,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t\"".$this->db->_protect_identifiers($field) . "\"";
+				$sql .= "\n\t\"" . $this->db->_protect_identifiers($field) . "\"";
 
 				if (array_key_exists('NAME', $attributes))
 				{
@@ -90,7 +90,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 
 				if (array_key_exists('TYPE', $attributes))
 				{
-					$sql .=  ' '.$attributes['TYPE'];
+					$sql .= ' '.$attributes['TYPE'];
 
 					if (array_key_exists('CONSTRAINT', $attributes))
 					{
@@ -125,17 +125,21 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
 				}
 
-				if (array_key_exists('NULL', $attributes))
+				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
 				{
-					$sql .= ($attributes['NULL'] === TRUE) ? '' : ' NOT NULL';
+					$sql .= ' NULL';
+				}
+				else
+				{
+					$sql .= ' NOT NULL';
 				}
 
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' AUTO_INCREMENT';
 				}
-                
-                if (array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE)
+
+				if (array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE)
 				{
 					$sql .= ' UNIQUE';
 				}
