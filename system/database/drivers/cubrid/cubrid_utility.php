@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -19,7 +19,7 @@
  * CUBRID Utility Class
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_cubrid_utility extends CI_DB_utility {
@@ -41,7 +41,8 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 		{
 			return "SELECT '" . $this->database . "'";
 		}
-		else{
+		else
+		{
 			return FALSE;
 		}
 	}
