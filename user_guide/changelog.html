@@ -112,6 +112,7 @@ Change Log
 	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
 	<li class="reactor">Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
 	<li class="reactor">Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
+	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
