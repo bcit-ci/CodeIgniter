@@ -70,7 +70,7 @@ URL Helper
 <h2>site_url()</h2>
 
 <p>Returns your site URL, as specified in your config file.  The index.php file (or whatever you have set as your
-site <dfn>index_page</dfn> in your config file) will be added to the URL, as will any URI segments you pass to the function.</p>
+site <dfn>index_page</dfn> in your config file) will be added to the URL, as will any URI segments you pass to the function, and the <dfn>url_suffix</dfn> as set in your config file.</p>
 
 <p>You are encouraged to use this function any time you need to generate a local URL so that your pages become more portable
 in the event your URL changes.</p>
@@ -92,6 +92,20 @@ echo site_url($segments);</code>
 <h2>base_url()</h2>
 <p>Returns your site base URL, as specified in your config file.  Example:</p>
 <code>echo base_url();</code>
+
+<p>This function returns the same thing as site_url, without the <dfn>index_page</dfn> or <dfn>url_suffix</dfn> being appended.</p>
+
+<p>Also like site_url, you can supply segments as a string or an array.  Here is a string example:</p>
+
+<code>echo base_url("blog/post/123");</code>
+
+<p>The above example would return something like: http://example.com/blog/post/123</p>
+
+<p>This is useful because unlike site_url(), you can supply a string to a file, such as an image or stylesheet.  For example:</p>
+
+<code>echo base_url("images/icons/edit.png");</code>
+
+<p>This would give you something like: http://example.com/images/icons/edit.png</p>
 
 
 <h2>current_url()</h2>
