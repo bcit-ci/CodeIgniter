@@ -50,18 +50,21 @@ if ( ! function_exists('site_url'))
 
 /**
  * Base URL
- *
- * Returns the "base_url" item from your config file
+ * 
+ * Create a local URL based on your basepath.
+ * Segments can be passed in as a string or an array, same as site_url
+ * or a URL to a file can be passed in, e.g. to an image file.
  *
  * @access	public
+ * @param string
  * @return	string
  */
 if ( ! function_exists('base_url'))
 {
-	function base_url()
+	function base_url($uri = '')
 	{
 		$CI =& get_instance();
-		return $CI->config->slash_item('base_url');
+		return $CI->config->base_url($uri);
 	}
 }
 
