@@ -935,22 +935,22 @@ class CI_Loader {
 					// first, global next
 					if (defined('ENVIRONMENT') AND file_exists($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
 					{
-						include_once($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
+						include($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
 						break;
 					}
 					elseif (defined('ENVIRONMENT') AND file_exists($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
 					{
-						include_once($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
+						include($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
 						break;
 					}
 					elseif (file_exists($path .'config/'.strtolower($class).'.php'))
 					{
-						include_once($path .'config/'.strtolower($class).'.php');
+						include($path .'config/'.strtolower($class).'.php');
 						break;
 					}
 					elseif (file_exists($path .'config/'.ucfirst(strtolower($class)).'.php'))
 					{
-						include_once($path .'config/'.ucfirst(strtolower($class)).'.php');
+						include($path .'config/'.ucfirst(strtolower($class)).'.php');
 						break;
 					}
 				}
