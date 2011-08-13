@@ -73,7 +73,7 @@ Change Log
 			<li>Added Session Class userdata to the output profiler.  Additionally, added a show/hide toggle on HTTP Headers, Session Data and Config Variables.</li>
 			<li>Removed internal usage of the <samp>EXT</samp> constant.</li>
 			<li>Visual updates to the welcome_message view file and default error templates. Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
-			<li>Added <samp>insert_batch()</samp> function to the PostgreSQL database driver.  Thanks to epallerols for the patch.</li>
+			<li class="reactor">Added <samp>insert_batch()</samp> function to the PostgreSQL database driver.  Thanks to epallerols for the patch.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -100,6 +100,7 @@ Change Log
 	<li>Fixed a bug (Reactor #231) where Sessions Library database table example SQL did not contain an index on last_activity. See <a href="installation/upgrade_203.html">Upgrade Notes</a>.</li>
 	<li>Fixed a bug (Reactor #229) where the Sessions Library example SQL in the documentation contained incorrect SQL.</li>
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
+	<li class="reactor">Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
