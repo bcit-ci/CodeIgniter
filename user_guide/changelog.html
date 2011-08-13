@@ -114,6 +114,7 @@ Change Log
 	<li class="reactor">Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
 	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
+	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
