@@ -29,18 +29,91 @@
 class CI_Loader {
 
 	// All these are set automatically. Don't mess with them.
+	/**
+	 * Nesting level of the output buffering mechanism
+	 *
+	 * @var int
+	 * @access protected
+	 */
 	protected $_ci_ob_level;
+	/**
+	 * List of paths to load views from
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_view_paths		= array();
+	/**
+	 * List of paths to load libraries from
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_library_paths	= array();
+	/**
+	 * List of paths to load models from
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_model_paths		= array();
+	/**
+	 * List of paths to load helpers from
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_helper_paths		= array();
+	/**
+	 * List of loaded base classes
+	 * Set by the controller class
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_base_classes		= array(); // Set by the controller class
+	/**
+	 * List of cached variables
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_cached_vars		= array();
+	/**
+	 * List of loaded classes
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_classes			= array();
+	/**
+	 * List of loaded files
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_loaded_files		= array();
+	/**
+	 * List of loaded models
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_models			= array();
+	/**
+	 * List of loaded helpers
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_ci_helpers			= array();
-	protected $_ci_varmap			= array('unit_test' => 'unit', 
+	/**
+	 * List of class name mappings
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $_ci_varmap			= array('unit_test' => 'unit',
 											'user_agent' => 'agent');
 
 	/**
@@ -55,18 +128,18 @@ class CI_Loader {
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
 		$this->_ci_view_paths = array(APPPATH.'views/'	=> TRUE);
-		
+
 		log_message('debug', "Loader Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Initialize the Loader
 	 *
 	 * This method is called once in CI_Controller.
 	 *
-	 * @param 	array 	
+	 * @param 	array
 	 * @return 	object
 	 */
 	public function initialize()
@@ -101,7 +174,7 @@ class CI_Loader {
 		{
 			return $this->_ci_classes[$class];
 		}
-				
+
 		return FALSE;
 	}
 
@@ -371,6 +444,7 @@ class CI_Loader {
 	 * the controller class and its "view" files.
 	 *
 	 * @param	array
+	 * @param 	string
 	 * @return	void
 	 */
 	public function vars($vars = array(), $val = '')
@@ -512,6 +586,8 @@ class CI_Loader {
 	 * Loads a config file
 	 *
 	 * @param	string
+	 * @param	bool
+	 * @param 	bool
 	 * @return	void
 	 */
 	public function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
@@ -558,13 +634,13 @@ class CI_Loader {
 	 * Prepends a parent path to the library, model, helper, and config path arrays
 	 *
 	 * @param	string
-	 * @param 	boolean 	
+	 * @param 	boolean
 	 * @return	void
 	 */
 	public function add_package_path($path, $view_cascade=TRUE)
 	{
 		$path = rtrim($path, '/').'/';
-		
+
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
@@ -600,6 +676,7 @@ class CI_Loader {
 	 * If no path is provided, the most recently added path is removed.
 	 *
 	 * @param	type
+	 * @param 	bool
 	 * @return	type
 	 */
 	public function remove_package_path($path = '', $remove_config_path = TRUE)
@@ -624,7 +701,7 @@ class CI_Loader {
 					unset($this->{$var}[$key]);
 				}
 			}
-			
+
 			if (isset($this->_ci_view_paths[$path.'views/']))
 			{
 				unset($this->_ci_view_paths[$path.'views/']);
@@ -663,7 +740,7 @@ class CI_Loader {
 		{
 			$$_ci_val = ( ! isset($_ci_data[$_ci_val])) ? FALSE : $_ci_data[$_ci_val];
 		}
-		
+
 		$file_exists = FALSE;
 
 		// Set the path to the requested file
@@ -685,11 +762,11 @@ class CI_Loader {
 					$file_exists = TRUE;
 					break;
 				}
-				
+
 				if ( ! $cascade)
 				{
 					break;
-				}				
+				}
 			}
 		}
 
@@ -918,6 +995,7 @@ class CI_Loader {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @param	string	an optional object name
 	 * @return	null
 	 */
@@ -1123,6 +1201,7 @@ class CI_Loader {
 	/**
 	 * Get a reference to a specific library or model
 	 *
+	 * @param 	string
 	 * @return	bool
 	 */
 	protected function &_ci_get_component($component)
@@ -1139,6 +1218,7 @@ class CI_Loader {
 	 * This function preps the name of various items to make loading them more reliable.
 	 *
 	 * @param	mixed
+	 * @param 	string
 	 * @return	array
 	 */
 	protected function _ci_prep_filename($filename, $extension)
