@@ -618,6 +618,8 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
+	 * @param	bool XSS cleaning
+	 *
 	 * @return array
 	 */
 	public function request_headers($xss_clean = FALSE)

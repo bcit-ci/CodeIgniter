@@ -33,7 +33,6 @@ class CI_Exceptions {
 
 	/**
 	 * Nesting level of the output buffering mechanism
-	 * Used to
 	 *
 	 * @var int
 	 * @access public
@@ -98,7 +97,8 @@ class CI_Exceptions {
 	 * 404 Page Not Found Handler
 	 *
 	 * @access	private
-	 * @param	string
+	 * @param	string	the page
+	 * @param 	bool	log error yes/no
 	 * @return	string
 	 */
 	function show_404($page = '', $log_error = TRUE)
@@ -129,6 +129,7 @@ class CI_Exceptions {
 	 * @param	string	the heading
 	 * @param	string	the message
 	 * @param	string	the template name
+	 * @param 	int		the status code
 	 * @return	string
 	 */
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
