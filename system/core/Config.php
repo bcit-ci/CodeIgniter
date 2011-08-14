@@ -28,8 +28,23 @@
  */
 class CI_Config {
 
+	/**
+	 * List of all loaded config values
+	 *
+	 * @var array
+	 */
 	var $config = array();
+	/**
+	 * List of all loaded config files
+	 *
+	 * @var array
+	 */
 	var $is_loaded = array();
+	/**
+	 * List of paths to search when trying to load a config file
+	 *
+	 * @var array
+	 */
 	var $_config_paths = array(APPPATH);
 
 	/**
