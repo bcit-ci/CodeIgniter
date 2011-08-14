@@ -28,8 +28,23 @@
  */
 class CI_Config {
 
+	/**
+	 * List of all loaded config values
+	 *
+	 * @var array
+	 */
 	var $config = array();
+	/**
+	 * List of all loaded config files
+	 *
+	 * @var array
+	 */
 	var $is_loaded = array();
+	/**
+	 * List of paths to search when trying to load a config file
+	 *
+	 * @var array
+	 */
 	var $_config_paths = array(APPPATH);
 
 	/**
@@ -251,13 +266,13 @@ class CI_Config {
 			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
 		}
 	}
-	
+
 	// -------------------------------------------------------------
-	
+
 	/**
 	 * Base URL
 	 * Returns base_url [. uri_string]
-	 * 
+	 *
 	 * @access public
 	 * @param string $uri
 	 * @return string
@@ -266,12 +281,12 @@ class CI_Config {
 	{
 		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
 	}
-	
+
 	// -------------------------------------------------------------
-	
+
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
-	 * 
+	 *
 	 * @access protected
 	 * @param  $uri
 	 * @return string
@@ -305,7 +320,7 @@ class CI_Config {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * System URL
 	 *
