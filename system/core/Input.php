@@ -28,15 +28,51 @@
  */
 class CI_Input {
 
+	/**
+	 * IP address of the current user
+	 *
+	 * @var string
+	 */
 	var $ip_address				= FALSE;
+	/**
+	 * user agent (web browser) being used by the current user
+	 *
+	 * @var string
+	 */
 	var $user_agent				= FALSE;
+	/**
+	 * If FALSE, then $_GET will be set to an empty array
+	 *
+	 * @var bool
+	 */
 	var $_allow_get_array		= TRUE;
+	/**
+	 * If TRUE, then newlines are standardized
+	 *
+	 * @var bool
+	 */
 	var $_standardize_newlines	= TRUE;
-	var $_enable_xss			= FALSE; // Set automatically based on config setting
-	var $_enable_csrf			= FALSE; // Set automatically based on config setting
-
+	/**
+	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
+	 * Set automatically based on config setting
+	 *
+	 * @var bool
+	 */
+	var $_enable_xss			= FALSE;
+	/**
+	 * Enables a CSRF cookie token to be set.
+	 * Set automatically based on config setting
+	 *
+	 * @var bool
+	 */
+	var $_enable_csrf			= FALSE;
+	/**
+	 * List of all HTTP request headers
+	 *
+	 * @var array
+	 */
 	protected $headers			= array();
-	
+
 
 	/**
 	 * Constructor
@@ -147,7 +183,7 @@ class CI_Input {
 			}
 			return $post;
 		}
-		
+
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
@@ -402,9 +438,9 @@ class CI_Input {
 	function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', 
+		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
 							'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
-							'system_folder', 'application_folder', 'BM', 'EXT', 
+							'system_folder', 'application_folder', 'BM', 'EXT',
 							'CFG', 'URI', 'RTR', 'OUT', 'IN');
 
 		// Unset globals for securiy.
@@ -523,7 +559,7 @@ class CI_Input {
 		{
 			$str = $this->uni->clean_string($str);
 		}
-		
+
 		// Remove control characters
 		$str = remove_invisible_characters($str);
 
@@ -579,7 +615,7 @@ class CI_Input {
 	/**
 	 * Request Headers
 	 *
-	 * In Apache, you can simply call apache_request_headers(), however for 
+	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
 	 * @return array
@@ -609,10 +645,10 @@ class CI_Input {
 		{
 			$key = str_replace('_', ' ', strtolower($key));
 			$key = str_replace(' ', '-', ucwords($key));
-			
+
 			$this->headers[$key] = $val;
 		}
-		
+
 		return $this->headers;
 	}
 
@@ -633,7 +669,7 @@ class CI_Input {
 		{
 			$this->request_headers();
 		}
-		
+
 		if ( ! isset($this->headers[$index]))
 		{
 			return FALSE;
@@ -644,7 +680,7 @@ class CI_Input {
 			return $this->security->xss_clean($this->headers[$index]);
 		}
 
-		return $this->headers[$index];		
+		return $this->headers[$index];
 	}
 
 	// --------------------------------------------------------------------
