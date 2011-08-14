@@ -30,8 +30,22 @@ class CI_Exceptions {
 	var $message;
 	var $filename;
 	var $line;
+
+	/**
+	 * Nesting level of the output buffering mechanism
+	 * Used to
+	 *
+	 * @var int
+	 * @access public
+	 */
 	var $ob_level;
 
+	/**
+	 * List if available error levels
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $levels = array(
 						E_ERROR				=>	'Error',
 						E_WARNING			=>	'Warning',
