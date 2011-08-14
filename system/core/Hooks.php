@@ -28,8 +28,23 @@
  */
 class CI_Hooks {
 
+	/**
+	 * Determines wether hooks are enabled
+	 *
+	 * @var bool
+	 */
 	var $enabled		= FALSE;
+	/**
+	 * List of all hooks set in config/hooks.php
+	 *
+	 * @var array
+	 */
 	var $hooks			= array();
+	/**
+	 * Determines wether hook is in progress, used to prevent infinte loops
+	 *
+	 * @var bool
+	 */
 	var $in_progress	= FALSE;
 
 	/**
