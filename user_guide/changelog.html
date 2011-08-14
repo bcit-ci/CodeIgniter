@@ -81,8 +81,8 @@ Change Log
 	<li>Libraries
 		<ul>
 			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
-			<li class="reactor">Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
-			<li class="reactor">Added a <a href="libraries/migration.html">Migration library</a> to assist with applying incremental updates to your database schema.</li>
+			<li class="reactor">Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
+			<li class="reactor">Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
 		</ul>
 	</li>
 </ul>
@@ -92,6 +92,7 @@ Change Log
 	<li class="reactor">Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
 	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
+	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
@@ -142,7 +143,7 @@ Change Log
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
 	<li class="reactor">Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
 	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
-	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
+	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for MySQL and MySQLi drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
 	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
 	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
 	<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
