@@ -28,12 +28,54 @@
  */
 class CI_Router {
 
+	/**
+	 * Config class
+	 *
+	 * @var object
+	 * @access public
+	 */
 	var $config;
+	/**
+	 * List of routes
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $routes			= array();
+	/**
+	 * List of error routes
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $error_routes	= array();
+	/**
+	 * Current class name
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $class			= '';
+	/**
+	 * Current method name
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $method			= 'index';
+	/**
+	 * Sub-directory that contains the requested controller class
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $directory		= '';
+	/**
+	 * Default controller (and method if specific)
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $default_controller;
 
 	/**
@@ -95,7 +137,7 @@ class CI_Router {
 		{
 			include(APPPATH.'config/routes.php');
 		}
-		
+
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
@@ -251,7 +293,7 @@ class CI_Router {
 						$this->set_directory('');
 						$this->set_class($x[0]);
 						$this->set_method(isset($x[1]) ? $x[1] : 'index');
-					
+
 						return $x;
 					}
 					else
