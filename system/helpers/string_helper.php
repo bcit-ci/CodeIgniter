@@ -243,6 +243,21 @@ if ( ! function_exists('random_string'))
 // ------------------------------------------------------------------------
 
 /**
+ * Add's _1 to a string or increment the ending number to allow _2, _3, etc
+ *
+ * @param   string  $str  required
+ * @return  string
+ */
+function increment_string($str, $first = 1, $separator = '_')
+{
+	preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
+
+	return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+}
+
+// ------------------------------------------------------------------------
+
+/**
  * Alternator
  *
  * Allows strings to be alternated.  See docs...
