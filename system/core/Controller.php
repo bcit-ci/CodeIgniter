@@ -48,7 +48,7 @@ class CI_Controller {
 
 		$this->load =& load_class('Loader', 'core');
 
-		$this->load->set_base_classes()->ci_autoloader();
+		$this->load->initialize();
 		
 		log_message('debug', "Controller Class Initialized");
 	}
