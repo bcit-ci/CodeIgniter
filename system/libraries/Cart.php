@@ -59,9 +59,9 @@ class CI_Cart {
 		$this->CI->load->library('session', $config);
 
 		// Grab the shopping cart array from the session table, if it exists
-		if ($this->CI->session->userdata('cart_contents') !== FALSE)
+		if ($this->CI->session->get('cart_contents') !== FALSE)
 		{
-			$this->_cart_contents = $this->CI->session->userdata('cart_contents');
+			$this->_cart_contents = $this->CI->session->get('cart_contents');
 		}
 		else
 		{
@@ -397,7 +397,7 @@ class CI_Cart {
 		// Is our cart empty?  If so we delete it from the session
 		if (count($this->_cart_contents) <= 2)
 		{
-			$this->CI->session->unset_userdata('cart_contents');
+			$this->CI->session->rm('cart_contents');
 
 			// Nothing more to do... coffee time!
 			return FALSE;
@@ -405,7 +405,7 @@ class CI_Cart {
 
 		// If we made it this far it means that our cart has data.
 		// Let's pass it to the Session class so it can be stored
-		$this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
+		$this->CI->session->set(array('cart_contents' => $this->_cart_contents));
 
 		// Woot!
 		return TRUE;
@@ -541,7 +541,7 @@ class CI_Cart {
 		$this->_cart_contents['cart_total'] = 0;
 		$this->_cart_contents['total_items'] = 0;
 
-		$this->CI->session->unset_userdata('cart_contents');
+		$this->CI->session->rm('cart_contents');
 	}
 
 
