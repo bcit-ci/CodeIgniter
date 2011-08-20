@@ -165,8 +165,8 @@ class CI_Cache_file extends CI_Driver {
 			}
 
 			return array(
-				'expire' 	=> $mtime + $data['data']['ttl'],
-				'mtime'		=> $mtime
+				'expire' => $mtime + $data['data']['ttl'],
+				'mtime'	 => $mtime
 			);
 		}
 		
