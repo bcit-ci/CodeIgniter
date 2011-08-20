@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,15 +28,67 @@
  */
 class CI_Output {
 
+	/**
+	 * Current output string
+	 *
+	 * @var string
+	 * @access 	protected
+	 */
 	protected $final_output;
+	/**
+	 * Cache expiration time
+	 *
+	 * @var int
+	 * @access 	protected
+	 */
 	protected $cache_expiration	= 0;
+	/**
+	 * List of server headers
+	 *
+	 * @var array
+	 * @access 	protected
+	 */
 	protected $headers			= array();
-	protected $mime_types			= array();
+	/**
+	 * List of mime types
+	 *
+	 * @var array
+	 * @access 	protected
+	 */
+	protected $mime_types		= array();
+	/**
+	 * Determines wether profiler is enabled
+	 *
+	 * @var book
+	 * @access 	protected
+	 */
 	protected $enable_profiler	= FALSE;
+	/**
+	 * Determines if output compression is enabled
+	 *
+	 * @var bool
+	 * @access 	protected
+	 */
 	protected $_zlib_oc			= FALSE;
+	/**
+	 * List of profiler sections
+	 *
+	 * @var array
+	 * @access 	protected
+	 */
 	protected $_profiler_sections = array();
-	protected $parse_exec_vars	= TRUE;	// whether or not to parse variables like {elapsed_time} and {memory_usage}
+	/**
+	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
+	 *
+	 * @var bool
+	 * @access 	protected
+	 */
+	protected $parse_exec_vars	= TRUE;
 
+	/**
+	 * Constructor
+	 *
+	 */
 	function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
@@ -44,7 +96,7 @@ class CI_Output {
 		// Get mime types for later
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-		  include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
@@ -122,11 +174,12 @@ class CI_Output {
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
 	 *
-	 * Note: If a file is cached, headers will not be sent. We need to figure out
+	 * Note:  If a file is cached, headers will not be sent.  We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param 	bool
 	 * @return	void
 	 */
 	function set_header($header, $replace = TRUE)
@@ -261,15 +314,16 @@ class CI_Output {
 	 * $this->final_output
 	 *
 	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data. It also stops the
+	 * with any server headers and profile data.  It also stops the
 	 * benchmark timer so the page rendering speed and memory usage can be shown.
 	 *
 	 * @access	public
+	 * @param 	string
 	 * @return	mixed
 	 */
 	function _display($output = '')
 	{
-		// Note: We use globals because we can't use $CI =& get_instance()
+		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
@@ -290,7 +344,7 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 
-		// Do we need to write a cache file? Only if the controller does not have its
+		// Do we need to write a cache file?  Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $CI object above
 		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
@@ -368,7 +422,7 @@ class CI_Output {
 			// we will remove them and add them back after we insert the profile data
 			if (preg_match("|</body>.*?</html>|is", $output))
 			{
-				$output = preg_replace("|</body>.*?</html>|is", '', $output);
+				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
 				$output .= $CI->profiler->run();
 				$output .= '</body></html>';
 			}
@@ -381,14 +435,14 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Does the controller contain a function named _output()?
-		// If so send the output there. Otherwise, echo it.
+		// If so send the output there.  Otherwise, echo it.
 		if (method_exists($CI, '_output'))
 		{
 			$CI->_output($output);
 		}
 		else
 		{
-			echo $output; // Send it to the browser!
+			echo $output;  // Send it to the browser!
 		}
 
 		log_message('debug', "Final output sent to browser");
@@ -401,6 +455,7 @@ class CI_Output {
 	 * Write a Cache File
 	 *
 	 * @access	public
+	 * @param 	string
 	 * @return	void
 	 */
 	function _write_cache($output)
@@ -452,13 +507,15 @@ class CI_Output {
 	 * Update/serve a cached file
 	 *
 	 * @access	public
+	 * @param 	object	config class
+	 * @param 	object	uri class
 	 * @return	void
 	 */
 	function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
-		// Build the file path. The file name is an MD5 hash of the full URI
+		// Build the file path.  The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
 				$URI->uri_string;

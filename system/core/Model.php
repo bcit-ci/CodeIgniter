@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -42,6 +42,7 @@ class CI_Model {
 	 * Allows models to access CI's loaded classes using the same
 	 * syntax as controllers.
 	 *
+	 * @param	string
 	 * @access private
 	 */
 	function __get($key)

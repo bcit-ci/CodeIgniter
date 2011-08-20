@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -99,7 +99,7 @@ class CI_Calendar {
 	{
 		// Set and validate the supplied month/year
 		if ($year == '')
-			$year = date("Y", $this->local_time);
+			$year  = date("Y", $this->local_time);
 
 		if ($month == '')
 			$month = date("m", $this->local_time);
@@ -128,7 +128,7 @@ class CI_Calendar {
 		// Set the starting day number
 		$local_date = mktime(12, 0, 0, $month, 1, $year);
 		$date = getdate($local_date);
-		$day = $start_day + 1 - $date["wday"];
+		$day  = $start_day + 1 - $date["wday"];
 
 		while ($day > 1)
 		{
@@ -157,8 +157,8 @@ class CI_Calendar {
 		// "previous" month link
 		if ($this->show_next_prev == TRUE)
 		{
-			// Add a trailing slash to the URL if needed
-			$this->next_prev_url = preg_replace("/(.+?)\/*$/", "\\1/", $this->next_prev_url);
+			// Add a trailing slash to the  URL if needed
+			$this->next_prev_url = preg_replace("/(.+?)\/*$/", "\\1/",  $this->next_prev_url);
 
 			$adjusted_date = $this->adjust_date($month - 1, $year);
 			$out .= str_replace('{previous_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_previous_cell']);
@@ -233,7 +233,7 @@ class CI_Calendar {
 					$out .= $this->temp['cal_cell_blank'];
 				}
 
-				$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
+				$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];					
 				$day++;
 			}
 
@@ -287,7 +287,7 @@ class CI_Calendar {
 	 * Get Day Names
 	 *
 	 * Returns an array of day names (Sunday, Monday, etc.) based
-	 * on the type. Options: long, short, abrev
+	 * on the type.  Options: long, short, abrev
 	 *
 	 * @access	public
 	 * @param	string
@@ -404,7 +404,7 @@ class CI_Calendar {
 	 */
 	function default_template()
 	{
-		return array (
+		return  array (
 						'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
 						'heading_row_start'			=> '<tr>',
 						'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
@@ -451,7 +451,7 @@ class CI_Calendar {
 
 		$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
 
-		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today') as $val)
+		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content',  'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today') as $val)
 		{
 			if (preg_match("/\{".$val."\}(.*?)\{\/".$val."\}/si", $this->template, $match))
 			{

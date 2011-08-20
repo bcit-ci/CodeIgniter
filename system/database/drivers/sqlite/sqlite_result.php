@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -116,7 +116,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset. We call
+	 * Moves the internal pointer to the desired offset.  We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *

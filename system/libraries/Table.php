@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -81,9 +81,9 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set columns. Takes a one-dimensional array as input and creates
+	 * Set columns.  Takes a one-dimensional array as input and creates
 	 * a multi-dimensional array with a depth equal to the number of
-	 * columns. This allows a single array with many elements to be
+	 * columns.  This allows a single array with many elements to  be
 	 * displayed in a table that has a fixed column count.
 	 *
 	 * @access	public
@@ -247,7 +247,7 @@ class CI_Table {
 			}
 		}
 
-		// Is there anything to display? No? Smite them!
+		// Is there anything to display?  No?  Smite them!
 		if (count($this->heading) == 0 AND count($this->rows) == 0)
 		{
 			return 'Undefined table data';
@@ -376,7 +376,7 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Clears the table arrays. Useful if multiple tables are being generated
+	 * Clears the table arrays.  Useful if multiple tables are being generated
 	 *
 	 * @access	public
 	 * @return	void
@@ -495,7 +495,7 @@ class CI_Table {
 	 */
 	function _default_template()
 	{
-		return array (
+		return  array (
 						'table_open'			=> '<table border="0" cellpadding="4" cellspacing="0">',
 
 						'thead_open'			=> '<thead>',

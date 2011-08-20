@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -158,7 +158,7 @@ class CI_FTP {
 	 *
 	 * The second parameter lets us momentarily turn off debugging so that
 	 * this function can be used to test for the existence of a folder
-	 * without throwing an error. There's no FTP equivalent to is_dir()
+	 * without throwing an error.  There's no FTP equivalent to is_dir()
 	 * so we do it by trying to change to a particular directory.
 	 * Internally, this parameter is only used by the "mirror" function below.
 	 *
@@ -417,7 +417,7 @@ class CI_FTP {
 		}
 
 		// Add a trailing slash to the file path if needed
-		$filepath = preg_replace("/(.+?)\/*$/", "\\1/", $filepath);
+		$filepath = preg_replace("/(.+?)\/*$/", "\\1/",  $filepath);
 
 		$list = $this->list_files($filepath);
 
@@ -513,7 +513,7 @@ class CI_FTP {
 	 * Read a directory and recreate it remotely
 	 *
 	 * This function recursively reads a folder and everything it contains (including
-	 * sub-folders) and creates a mirror via FTP based on it. Whatever the directory structure
+	 * sub-folders) and creates a mirror via FTP based on it.  Whatever the directory structure
 	 * of the original file path will be recreated on the server.
 	 *
 	 * @access	public

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,13 +28,49 @@
  */
 class CI_Input {
 
+	/**
+	 * IP address of the current user
+	 *
+	 * @var string
+	 */
 	var $ip_address				= FALSE;
+	/**
+	 * user agent (web browser) being used by the current user
+	 *
+	 * @var string
+	 */
 	var $user_agent				= FALSE;
+	/**
+	 * If FALSE, then $_GET will be set to an empty array
+	 *
+	 * @var bool
+	 */
 	var $_allow_get_array		= TRUE;
+	/**
+	 * If TRUE, then newlines are standardized
+	 *
+	 * @var bool
+	 */
 	var $_standardize_newlines	= TRUE;
-	var $_enable_xss			= FALSE; // Set automatically based on config setting
-	var $_enable_csrf			= FALSE; // Set automatically based on config setting
-
+	/**
+	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
+	 * Set automatically based on config setting
+	 *
+	 * @var bool
+	 */
+	var $_enable_xss			= FALSE;
+	/**
+	 * Enables a CSRF cookie token to be set.
+	 * Set automatically based on config setting
+	 *
+	 * @var bool
+	 */
+	var $_enable_csrf			= FALSE;
+	/**
+	 * List of all HTTP request headers
+	 *
+	 * @var array
+	 */
 	protected $headers			= array();
 
 
@@ -201,7 +237,7 @@ class CI_Input {
 	* @param	mixed
 	* @param	string	the value of the cookie
 	* @param	string	the number of seconds until expiration
-	* @param	string	the cookie domain. Usually: .yourdomain.com
+	* @param	string	the cookie domain.  Usually:  .yourdomain.com
 	* @param	string	the cookie path
 	* @param	string	the cookie prefix
 	* @param	bool	true makes the cookie secure
@@ -582,6 +618,8 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
+	 * @param	bool XSS cleaning
+	 *
 	 * @return array
 	 */
 	public function request_headers($xss_clean = FALSE)
@@ -672,7 +710,7 @@ class CI_Input {
 	 */
 	public function is_cli_request()
 	{
-		return (bool) defined('STDIN');
+		return (php_sapi_name() == 'cli') or defined('STDIN');
 	}
 
 }

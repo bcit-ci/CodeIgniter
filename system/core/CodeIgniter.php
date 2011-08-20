@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -27,30 +27,44 @@
  * @link		http://codeigniter.com/user_guide/
  */
 
-/*
- * ------------------------------------------------------
- * Define the CodeIgniter Version
- * ------------------------------------------------------
+/**
+ * CodeIgniter Version
+ *
+ * @var string
+ *
  */
+	/**
+	 * CodeIgniter Version
+	 *
+	 * @var string
+	 *
+	 */
 	define('CI_VERSION', '2.0.2');
 
-/*
- * ------------------------------------------------------
- * Define the CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
- * ------------------------------------------------------
+/**
+ * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
+ *
+ * @var boolean
+ *
  */
+	/**
+	 * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
+	 *
+	 * @var string
+	 *
+	 */
 	define('CI_CORE', FALSE);
 
 /*
  * ------------------------------------------------------
- * Load the global functions
+ *  Load the global functions
  * ------------------------------------------------------
  */
 	require(BASEPATH.'core/Common.php');
 
 /*
  * ------------------------------------------------------
- * Load the framework constants
+ *  Load the framework constants
  * ------------------------------------------------------
  */
 	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
@@ -64,7 +78,7 @@
 
 /*
  * ------------------------------------------------------
- * Define a custom error handler so we can log PHP errors
+ *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
@@ -76,7 +90,7 @@
 
 /*
  * ------------------------------------------------------
- * Set the subclass_prefix
+ *  Set the subclass_prefix
  * ------------------------------------------------------
  *
  * Normally the "subclass_prefix" is set in the config file.
@@ -85,7 +99,7 @@
  * "libraries" folder. Since CI allows config items to be
  * overriden via data set in the main index. php file,
  * before proceeding we need to know if a subclass_prefix
- * override exists. If so, we will set this value now,
+ * override exists.  If so, we will set this value now,
  * before any classes are loaded
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
@@ -97,7 +111,7 @@
 
 /*
  * ------------------------------------------------------
- * Set a liberal script execution time limit
+ *  Set a liberal script execution time limit
  * ------------------------------------------------------
  */
 	if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
@@ -107,7 +121,7 @@
 
 /*
  * ------------------------------------------------------
- * Start the timer... tick tock tick tock...
+ *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
 	$BM =& load_class('Benchmark', 'core');
@@ -116,21 +130,21 @@
 
 /*
  * ------------------------------------------------------
- * Instantiate the hooks class
+ *  Instantiate the hooks class
  * ------------------------------------------------------
  */
 	$EXT =& load_class('Hooks', 'core');
 
 /*
  * ------------------------------------------------------
- * Is there a "pre_system" hook?
+ *  Is there a "pre_system" hook?
  * ------------------------------------------------------
  */
 	$EXT->_call_hook('pre_system');
 
 /*
  * ------------------------------------------------------
- * Instantiate the config class
+ *  Instantiate the config class
  * ------------------------------------------------------
  */
 	$CFG =& load_class('Config', 'core');
@@ -143,7 +157,7 @@
 
 /*
  * ------------------------------------------------------
- * Instantiate the UTF-8 class
+ *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  *
  * Note: Order here is rather important as the UTF-8
@@ -157,14 +171,14 @@
 
 /*
  * ------------------------------------------------------
- * Instantiate the URI class
+ *  Instantiate the URI class
  * ------------------------------------------------------
  */
 	$URI =& load_class('URI', 'core');
 
 /*
  * ------------------------------------------------------
- * Instantiate the routing class and set the routing
+ *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
 	$RTR =& load_class('Router', 'core');
@@ -178,14 +192,14 @@
 
 /*
  * ------------------------------------------------------
- * Instantiate the output class
+ *  Instantiate the output class
  * ------------------------------------------------------
  */
 	$OUT =& load_class('Output', 'core');
 
 /*
  * ------------------------------------------------------
- *	Is there a valid cache file? If so, we're done...
+ *	Is there a valid cache file?  If so, we're done...
  * ------------------------------------------------------
  */
 	if ($EXT->_call_hook('cache_override') === FALSE)
@@ -205,21 +219,21 @@
 
 /*
  * ------------------------------------------------------
- * Load the Input class and sanitize globals
+ *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
 	$IN	=& load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
- * Load the Language class
+ *  Load the Language class
  * ------------------------------------------------------
  */
 	$LANG =& load_class('Lang', 'core');
 
 /*
  * ------------------------------------------------------
- * Load the app controller and local controller
+ *  Load the app controller and local controller
  * ------------------------------------------------------
  *
  */
@@ -252,14 +266,14 @@
 
 /*
  * ------------------------------------------------------
- * Security check
+ *  Security check
  * ------------------------------------------------------
  *
- * None of the functions in the app controller or the
- * loader class can be called via the URI, nor can
- * controller functions that begin with an underscore
+ *  None of the functions in the app controller or the
+ *  loader class can be called via the URI, nor can
+ *  controller functions that begin with an underscore
  */
-	$class = $RTR->fetch_class();
+	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
 
 	if ( ! class_exists($class)
@@ -267,19 +281,37 @@
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
 	{
-		show_404("{$class}/{$method}");
+		if ( ! empty($RTR->routes['404_override']))
+		{
+			$x = explode('/', $RTR->routes['404_override']);
+			$class = $x[0];
+			$method = (isset($x[1]) ? $x[1] : 'index');
+			if ( ! class_exists($class))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404("{$class}/{$method}");
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+		}
+		else
+		{
+			show_404("{$class}/{$method}");
+		}
 	}
 
 /*
  * ------------------------------------------------------
- * Is there a "pre_controller" hook?
+ *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
 	$EXT->_call_hook('pre_controller');
 
 /*
  * ------------------------------------------------------
- * Instantiate the requested controller
+ *  Instantiate the requested controller
  * ------------------------------------------------------
  */
 	// Mark a start point so we can benchmark the controller
@@ -289,14 +321,14 @@
 
 /*
  * ------------------------------------------------------
- * Is there a "post_controller_constructor" hook?
+ *  Is there a "post_controller_constructor" hook?
  * ------------------------------------------------------
  */
 	$EXT->_call_hook('post_controller_constructor');
 
 /*
  * ------------------------------------------------------
- * Call the requested method
+ *  Call the requested method
  * ------------------------------------------------------
  */
 	// Is there a "remap" function? If so, we call it instead
@@ -345,14 +377,14 @@
 
 /*
  * ------------------------------------------------------
- * Is there a "post_controller" hook?
+ *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
 	$EXT->_call_hook('post_controller');
 
 /*
  * ------------------------------------------------------
- * Send the final rendered output to the browser
+ *  Send the final rendered output to the browser
  * ------------------------------------------------------
  */
 	if ($EXT->_call_hook('display_override') === FALSE)
@@ -362,14 +394,14 @@
 
 /*
  * ------------------------------------------------------
- * Is there a "post_system" hook?
+ *  Is there a "post_system" hook?
  * ------------------------------------------------------
  */
 	$EXT->_call_hook('post_system');
 
 /*
  * ------------------------------------------------------
- * Close the DB connection if one exists
+ *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
 	if (class_exists('CI_DB') AND isset($CI->db))
