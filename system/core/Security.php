@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -26,13 +26,48 @@
  */
 class CI_Security {
 
+	/**
+	 * Random Hash for protecting URLs
+	 *
+	 * @var string
+	 * @access protected
+	 */
 	protected $_xss_hash			= '';
+	/**
+	 * Random Hash for Cross Site Request Forgery Protection Cookie
+	 *
+	 * @var string
+	 * @access protected
+	 */
 	protected $_csrf_hash			= '';
-	protected $_csrf_expire			= 7200; // Two hours (in seconds)
+	/**
+	 * Expiration time for Cross Site Request Forgery Protection Cookie
+	 * Defaults to two hours (in seconds)
+	 *
+	 * @var int
+	 * @access protected
+	 */
+	protected $_csrf_expire			= 7200;
+	/**
+	 * Token name for Cross Site Request Forgery Protection Cookie
+	 *
+	 * @var string
+	 * @access protected
+	 */
 	protected $_csrf_token_name		= 'ci_csrf_token';
+	/**
+	 * Cookie name for Cross Site Request Forgery Protection Cookie
+	 *
+	 * @var string
+	 * @access protected
+	 */
 	protected $_csrf_cookie_name	= 'ci_csrf_token';
-
-	/* never allowed, string replacement */
+	/**
+	 * List of never allowed strings
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_never_allowed_str = array(
 					'document.cookie'	=> '[removed]',
 					'document.write'	=> '[removed]',
@@ -46,6 +81,12 @@ class CI_Security {
 	);
 
 	/* never allowed, regex replacement */
+	/**
+	 * List of never allowed regex replacement
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $_never_allowed_regex = array(
 					"javascript\s*:"			=> '[removed]',
 					"expression\s*(\(|&\#40;)"	=> '[removed]', // CSS and IE
@@ -196,14 +237,14 @@ class CI_Security {
 	 * XSS Clean
 	 *
 	 * Sanitizes data so that Cross Site Scripting Hacks can be
-	 * prevented. This function does a fair amount of work but
+	 * prevented.  This function does a fair amount of work but
 	 * it is extremely thorough, designed to prevent even the
-	 * most obscure XSS attempts. Nothing is ever 100% foolproof,
+	 * most obscure XSS attempts.  Nothing is ever 100% foolproof,
 	 * of course, but I haven't been able to get anything passed
 	 * the filter.
 	 *
 	 * Note: This function should only be used to deal with data
-	 * upon submission. It's not something that should
+	 * upon submission.  It's not something that should
 	 * be used for general runtime processing.
 	 *
 	 * This function was based in part on some code and ideas I
@@ -215,6 +256,7 @@ class CI_Security {
 	 * http://ha.ckers.org/xss.html
 	 *
 	 * @param	mixed	string or array
+	 * @param 	bool
 	 * @return	string
 	 */
 	public function xss_clean($str, $is_image = FALSE)
@@ -311,13 +353,13 @@ class CI_Security {
 		}
 		else
 		{
-			$str = str_replace(array('<?', '?'.'>'), array('&lt;?', '?&gt;'), $str);
+			$str = str_replace(array('<?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
 		}
 
 		/*
 		 * Compact any exploded words
 		 *
-		 * This corrects words like: j a v a s c r i p t
+		 * This corrects words like:  j a v a s c r i p t
 		 * These words are compacted back to their correct state.
 		 */
 		$words = array(
@@ -388,7 +430,7 @@ class CI_Security {
 		 *
 		 * Similar to above, only instead of looking for
 		 * tags it looks for PHP and JavaScript commands
-		 * that are disallowed. Rather than removing the
+		 * that are disallowed.  Rather than removing the
 		 * code, it simply converts the parenthesis to entities
 		 * rendering the code un-executable.
 		 *
@@ -457,7 +499,7 @@ class CI_Security {
 	 *
 	 * In some versions of PHP the native function does not work
 	 * when UTF-8 is the specified character set, so this gives us
-	 * a work-around. More info here:
+	 * a work-around.  More info here:
 	 * http://bugs.php.net/bug.php?id=25670
 	 *
 	 * NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the
@@ -475,7 +517,7 @@ class CI_Security {
 		// The reason we are not using html_entity_decode() by itself is because
 		// while it is not technically correct to leave out the semicolon
 		// at the end of an entity most browsers will still interpret the entity
-		// correctly. html_entity_decode() does not convert entities without
+		// correctly.  html_entity_decode() does not convert entities without
 		// semicolons, so we are left with our own little solution here. Bummer.
 
 		if (function_exists('html_entity_decode') &&
@@ -505,6 +547,7 @@ class CI_Security {
 	 * Filename Security
 	 *
 	 * @param	string
+	 * @param 	bool
 	 * @return	string
 	 */
 	public function sanitize_filename($str, $relative_path = FALSE)
@@ -751,7 +794,7 @@ class CI_Security {
 		/*
 		 * Validate standard character entities
 		 *
-		 * Add a semicolon if missing. We do this to enable
+		 * Add a semicolon if missing.  We do this to enable
 		 * the conversion of entities to ASCII later.
 		 *
 		 */

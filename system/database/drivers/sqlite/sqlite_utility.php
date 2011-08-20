@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,7 +28,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 * List databases
 	 *
 	 * I don't believe you can do a database listing with SQLite
-	 * since each database is its own file. I suppose we could
+	 * since each database is its own file.  I suppose we could
 	 * try reading a directory looking for SQLite files, but
 	 * that doesn't seem like a terribly good idea
 	 *

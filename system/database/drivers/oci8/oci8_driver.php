@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright  Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -23,7 +23,7 @@
  * class is being used or not.
  *
  * @package		CodeIgniter
- * @subpackage Drivers
+ * @subpackage  Drivers
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
@@ -37,7 +37,7 @@
  *
  * NOTE: this uses the PHP 4 oci methods
  *
- * @author	 Kelly McArdle
+ * @author	  Kelly McArdle
  *
  */
 
@@ -74,8 +74,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @access private called by the base class
-	 * @return resource
+	 * @access  private called by the base class
+	 * @return  resource
 	 */
 	function db_connect()
 	{
@@ -87,8 +87,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @access private called by the base class
-	 * @return resource
+	 * @access  private called by the base class
+	 * @return  resource
 	 */
 	function db_pconnect()
 	{
@@ -116,8 +116,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access private called by the base class
-	 * @return resource
+	 * @access  private called by the base class
+	 * @return  resource
 	 */
 	function db_select()
 	{
@@ -145,8 +145,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access public
-	 * @return string
+	 * @access  public
+	 * @return  string
 	 */
 	function _version()
 	{
@@ -158,9 +158,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access private called by the base class
-	 * @param  string an SQL query
-	 * @return resource
+	 * @access  private called by the base class
+	 * @param   string  an SQL query
+	 * @return  resource
 	 */
 	function _execute($sql)
 	{
@@ -175,9 +175,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Generate a statement ID
 	 *
-	 * @access private
-	 * @param  string an SQL query
-	 * @return none
+	 * @access  private
+	 * @param   string  an SQL query
+	 * @return  none
 	 */
 	function _set_stmt_id($sql)
 	{
@@ -194,9 +194,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
-	 * @access private called by execute()
-	 * @param  string an SQL query
-	 * @return string
+	 * @access  private called by execute()
+	 * @param   string  an SQL query
+	 * @return  string
 	 */
 	function _prep_query($sql)
 	{
@@ -206,10 +206,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * getCursor. Returns a cursor from the datbase
+	 * getCursor.  Returns a cursor from the datbase
 	 *
-	 * @access public
-	 * @return cursor id
+	 * @access  public
+	 * @return  cursor id
 	 */
 	function get_cursor()
 	{
@@ -220,19 +220,19 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Stored Procedure. Executes a stored procedure
+	 * Stored Procedure.  Executes a stored procedure
 	 *
-	 * @access public
-	 * @param  package	 package stored procedure is in
-	 * @param  procedure  stored procedure to execute
-	 * @param  params	 array of parameters
-	 * @return array
+	 * @access  public
+	 * @param   package	 package stored procedure is in
+	 * @param   procedure   stored procedure to execute
+	 * @param   params	  array of parameters
+	 * @return  array
 	 *
 	 * params array keys
 	 *
-	 * KEY	 OPTIONAL	NOTES
+	 * KEY	  OPTIONAL	NOTES
 	 * name		no		the name of the parameter should be in :<param_name> format
-	 * value	no		the value of the parameter. If this is an OUT or IN OUT parameter,
+	 * value	no		the value of the parameter.  If this is an OUT or IN OUT parameter,
 	 *					this should be a reference to a variable
 	 * type		yes		the type of the parameter
 	 * length	yes		the max size of the parameter
@@ -275,8 +275,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Bind parameters
 	 *
-	 * @access private
-	 * @return none
+	 * @access  private
+	 * @return  none
 	 */
 	function _bind_params($params)
 	{
@@ -386,10 +386,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access public
-	 * @param  string
+	 * @access  public
+	 * @param   string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return string
+	 * @return  string
 	 */
 	function escape_str($str, $like = FALSE)
 	{
@@ -421,8 +421,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access public
-	 * @return integer
+	 * @access  public
+	 * @return  integer
 	 */
 	function affected_rows()
 	{
@@ -434,8 +434,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @access public
-	 * @return integer
+	 * @access  public
+	 * @return  integer
 	 */
 	function insert_id()
 	{
@@ -451,9 +451,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @access public
-	 * @param  string
-	 * @return string
+	 * @access  public
+	 * @param   string
+	 * @return  string
 	 */
 	function count_all($table = '')
 	{
@@ -480,9 +480,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access private
+	 * @access  private
 	 * @param	boolean
-	 * @return string
+	 * @return  string
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
@@ -503,9 +503,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access public
-	 * @param  string the table name
-	 * @return string
+	 * @access  public
+	 * @param   string  the table name
+	 * @return  string
 	 */
 	function _list_columns($table = '')
 	{
@@ -519,9 +519,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access public
-	 * @param  string the table name
-	 * @return object
+	 * @access  public
+	 * @param   string  the table name
+	 * @return  object
 	 */
 	function _field_data($table)
 	{
@@ -533,8 +533,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access private
-	 * @return string
+	 * @access  private
+	 * @return  string
 	 */
 	function _error_message()
 	{
@@ -547,8 +547,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access private
-	 * @return integer
+	 * @access  private
+	 * @return  integer
 	 */
 	function _error_number()
 	{
@@ -627,11 +627,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access public
-	 * @param  string the table name
-	 * @param  array  the insert keys
-	 * @param  array  the insert values
-	 * @return string
+	 * @access  public
+	 * @param   string  the table name
+	 * @param   array   the insert keys
+	 * @param   array   the insert values
+	 * @return  string
 	 */
 	function _insert($table, $keys, $values)
 	{
@@ -732,11 +732,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access public
-	 * @param  string the sql query string
-	 * @param  integer the number of rows to limit the query to
-	 * @param  integer the offset value
-	 * @return string
+	 * @access  public
+	 * @param   string  the sql query string
+	 * @param   integer the number of rows to limit the query to
+	 * @param   integer the offset value
+	 * @return  string
 	 */
 	function _limit($sql, $limit, $offset)
 	{
@@ -759,9 +759,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access public
-	 * @param  resource
-	 * @return void
+	 * @access  public
+	 * @param   resource
+	 * @return  void
 	 */
 	function _close($conn_id)
 	{

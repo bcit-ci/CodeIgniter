@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -54,6 +54,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	var $delete_hack = TRUE;
 
+	// whether SET NAMES must be used to set the character set
+	var $use_set_names;
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -132,15 +135,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _db_set_charset($charset, $collation)
 	{
-		static $use_set_names;
-
-		if ( ! isset($use_set_names))
+		if ( ! isset($this->use_set_names))
 		{
 			// mysqli_set_charset() requires MySQL >= 5.0.7, use SET NAMES as fallback
-			$use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
+			$this->use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
 		}
 
-		if ($use_set_names)
+		if ($this->use_set_names === TRUE)
 		{
 			return @mysqli_query($this->conn_id, "SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'");
 		}
@@ -568,7 +569,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -630,7 +631,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			{
 				if ($field != $index)
 				{
-					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

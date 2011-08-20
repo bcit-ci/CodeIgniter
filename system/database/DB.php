@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,6 +21,8 @@
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @param 	string
+ * @param 	bool	Determines if active record should be used or not
  */
 function &DB($params = '', $active_record_override = NULL)
 {
@@ -59,10 +61,10 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 
 		/* parse the URL from the DSN string
-		 * Database settings can be passed as discreet
-		 * parameters or as a data source name in the first
-		 * parameter. DSNs must have this prototype:
-		 * $dsn = 'driver://username:password@hostname/database';
+		 *  Database settings can be passed as discreet
+		 *  parameters or as a data source name in the first
+		 *  parameter. DSNs must have this prototype:
+		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
 
 		if (($dns = @parse_url($params)) === FALSE)
@@ -100,13 +102,13 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 	}
 
-	// No DB specified yet? Beat them senseless...
+	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
 
-	// Load the DB classes. Note: Since the active record class is optional
+	// Load the DB classes.  Note: Since the active record class is optional
 	// we need to dynamically create a class that extends proper parent class
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()

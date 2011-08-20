@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -54,7 +54,7 @@ class CI_Driver_Library {
 			if ( ! class_exists($child_class))
 			{
 				// check application path first
-				foreach (array(APPPATH, BASEPATH) as $path)
+				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
 				{
 					// loves me some nesting!
 					foreach (array(ucfirst($driver_name), $driver_name) as $class)

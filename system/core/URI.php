@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -28,15 +28,40 @@
  */
 class CI_URI {
 
+	/**
+	 * List of cached uri segments
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var	$keyval			= array();
+	/**
+	 * Current uri string
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $uri_string;
+	/**
+	 * List of uri segments
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $segments		= array();
+	/**
+	 * Re-indexed list of uri segments
+	 * Starts at 1 instead of 0
+	 *
+	 * @var array
+	 * @access public
+	 */
 	var $rsegments		= array();
 
 	/**
 	 * Constructor
 	 *
-	 * Simply globalizes the $RTR object. The front
+	 * Simply globalizes the $RTR object.  The front
 	 * loads the Router class early on so it's not available
 	 * normally as other classes are.
 	 *
@@ -62,7 +87,7 @@ class CI_URI {
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if (defined('STDIN'))
+			if (php_sapi_name() == 'cli' or defined('STDIN'))
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
@@ -85,7 +110,7 @@ class CI_URI {
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
 			if (trim($path, '/') != '')
 			{
 				$this->_set_uri_string($path);
@@ -127,6 +152,7 @@ class CI_URI {
 	 * Set the URI String
 	 *
 	 * @access	public
+	 * @param 	string
 	 * @return	string
 	 */
 	function _set_uri_string($str)
@@ -251,7 +277,7 @@ class CI_URI {
 	 */
 	function _remove_url_suffix()
 	{
-		if ($this->config->item('url_suffix') != "")
+		if  ($this->config->item('url_suffix') != "")
 		{
 			$this->uri_string = preg_replace("|".preg_quote($this->config->item('url_suffix'))."$|", "", $this->uri_string);
 		}
@@ -285,7 +311,7 @@ class CI_URI {
 	 * Re-index Segments
 	 *
 	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather than 0. Doing so makes it simpler to
+	 * starts at 1 rather than 0.  Doing so makes it simpler to
 	 * use functions like $this->uri->segment(n) since there is
 	 * a 1:1 relationship between the segment array and the actual segments.
 	 *
@@ -323,7 +349,7 @@ class CI_URI {
 	 * Fetch a URI "routed" Segment
 	 *
 	 * This function returns the re-routed URI segment (assuming routing rules are used)
-	 * based on the number provided. If there is no routing this function returns the
+	 * based on the number provided.  If there is no routing this function returns the
 	 * same result as $this->segment()
 	 *
 	 * @access	public
@@ -365,6 +391,11 @@ class CI_URI {
 	}
 	/**
 	 * Identical to above only it uses the re-routed segment array
+	 *
+	 * @access 	public
+	 * @param 	integer	the starting segment number
+	 * @param 	array	an array of default values
+	 * @return 	array
 	 *
 	 */
 	function ruri_to_assoc($n = 3, $default = array())
@@ -425,7 +456,7 @@ class CI_URI {
 
 		$i = 0;
 		$lastval = '';
-		$retval = array();
+		$retval  = array();
 		foreach ($segments as $seg)
 		{
 			if ($i % 2)
