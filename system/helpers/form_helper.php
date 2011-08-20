@@ -94,7 +94,7 @@ if ( ! function_exists('form_open'))
  */
 if ( ! function_exists('form_open_multipart'))
 {
-	function form_open_multipart($action, $attributes = array(), $hidden = array())
+	function form_open_multipart($action = '', $attributes = array(), $hidden = array())
 	{
 		if (is_string($attributes))
 		{
