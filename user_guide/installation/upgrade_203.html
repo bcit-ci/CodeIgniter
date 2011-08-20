@@ -65,25 +65,21 @@ Upgrading from 2.0.2 to 2.1.0
 <p>Replace all files and directories in your "system" folder and replace your index.php file. If any modifications were made to your index.php they will need to be made fresh in this new one.</p>
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
-
-<h2>Step 2: Update CodeIgniter files</h2>
-
-<p>Replace the files and directories in your "system" folder with the new versions:</p>
 	
-<h2>Step 3: Update your main index.php file</h2>
+<h2>Step 2: Update your main index.php file</h2>
 
 <p>If you are running a stock <dfn>index.php</dfn> file simply replace your version with the new one.</p>
 
 <p>If your <dfn>index.php</dfn> file has internal modifications, please add your modifications to the new file and use it.</p>
 
-<h2>Step 4: Replace config/user_agents.php</h2>
+<h2>Step 3: Replace config/user_agents.php</h2>
 
 <p>This config file has been updated to contain more user agent types, please copy it to <kbd>application/config/user_agents.php</kbd>.</p>
 
-<h2>Step 5: Change references of the EXT constant to ".php"</h2>
+<h2>Step 4: Change references of the EXT constant to ".php"</h2>
 <p class="important"><strong>Note:</strong> The EXT Constant has been marked as deprecated, but has not been removed from the application.  You are encouraged to make the changes sooner rather than later.</p>
 
-<h2>Step 6: Remove APPPATH.'third_party' from autoload.php</h2>
+<h2>Step 5: Remove APPPATH.'third_party' from autoload.php</h2>
 
 <p>Open application/autoload.php, and look for the following:</p>
 
