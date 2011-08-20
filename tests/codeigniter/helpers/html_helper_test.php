@@ -51,7 +51,7 @@ EOH;
 
 		$list = array('foo', 'bar');
 
-		$this->assertEquals($expect, ul($list, ' class="test"'));
+		$this->assertEquals($expect, ul($list, 'class="test"'));
 
 		$this->assertEquals($expect, ul($list, array('class' => 'test')));
 	}
