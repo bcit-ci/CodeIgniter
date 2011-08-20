@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -172,6 +172,12 @@ This function produces the same result as using the second parameter of the <dfn
 want to use this function independently is if you would like to set some global variables in the constructor of your controller
 and have them become available in any view file loaded from any function.  You can have multiple calls to this function.  The data get cached
 and merged into one array for conversion to variables.
+</p>
+
+
+<h2>$this->load->get_var(<samp>$key</samp>)</h2>
+
+<p>This function checks the associative array of variables available to your views. This is useful if for any reason a var is set in a library or another controller method using $this->load->vars().
 </p>
 
 
