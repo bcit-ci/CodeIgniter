@@ -81,7 +81,7 @@ class CI_Cache_file extends CI_Driver {
          * @param       raw             boolean value to save raw object
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60, $raw)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{		
 		$contents = array(
 				'time'		=> time(),

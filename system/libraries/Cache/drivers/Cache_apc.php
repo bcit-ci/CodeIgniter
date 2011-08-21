@@ -55,9 +55,9 @@ class CI_Cache_apc extends CI_Driver {
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60, $raw)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-                if (FALSE == $raw) 
+                if ($raw == FALSE)
                 {
                         return apc_store($id, array($data, time(), $ttl), $ttl);
                 }

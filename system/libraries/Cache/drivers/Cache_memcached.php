@@ -63,9 +63,9 @@ class CI_Cache_memcached extends CI_Driver {
          * @param       raw             boolean value to store raw object
 	 * @return 	boolean 	true on success, false on failure
 	 */
-	public function save($id, $data, $ttl = 60, $raw)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-                if (FALSE == $raw) 
+                if ($raw == FALSE)
                 {
                         return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
                 }
