@@ -470,6 +470,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 
 		$row = $query->row();
+		$this->_reset_select();
 		return (int) $row->numrows;
 	}
 
