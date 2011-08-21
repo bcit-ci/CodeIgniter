@@ -243,7 +243,7 @@ class CI_Router {
 			{
 				$segments[$i] = str_replace('-', '_', $segments[$i]);
 			}
-		} 	
+		} 
 				
 		$segments = $this->_validate_request($segments);
 
