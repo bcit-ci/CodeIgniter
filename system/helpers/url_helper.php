@@ -509,7 +509,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim(stripslashes($str));
+		return trim(trim(stripslashes($str)), $replace);
 	}
 }
 
