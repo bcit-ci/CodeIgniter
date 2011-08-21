@@ -81,6 +81,8 @@ Change Log
 			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
 			<li>Added a <a href="http://www.php.net/manual/en/intro.pdo.php" target="_blank">PDO</a> driver to the <a href="libraries/database.html">Database Driver</a>.</li>
 			<li>Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
+			<li>Added additional option 'none' for the optional third argument for <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database Driver</a>.
+			</li>
 		</ul>
 	</li>
 	<li>Libraries
@@ -124,6 +126,7 @@ Change Log
 	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
 	<li>Fixed a bug (#537) - Support for all wav type in browser.</li>
 	<li>Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.</li>
+	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
