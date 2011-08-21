@@ -45,11 +45,12 @@ class CI_Lang {
 	 * Load a language file
 	 *
 	 * @access	public
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
-	 * @param	string	the language (english, etc.)
+	 * @param	mixed           the name of the language file to be loaded. Can be an array
+	 * @param	string          the language (english, etc.)
+         * @param       fallback        fallback to english if boolean value is true
 	 * @return	mixed
 	 */
-	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '', $fallback = FALSE)
 	{
 		$langfile = str_replace('.php', '', $langfile);
 
@@ -94,7 +95,17 @@ class CI_Lang {
 
 			if ($found !== TRUE)
 			{
-				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
+                                // If this boolean variable is set attempt to fall back to english language.
+                                if ($fallback == TRUE)
+                                {
+                                        log_message('error', 'Unable to load the requested language file: language/'.$idiom.'/'.$langfile);     
+
+                                        return $this->load($langfile, "english", $return, FALSE, '', FALSE);
+                                }
+                                else
+                                {
+                                        show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);     
+                                }       
 			}
 		}
 
