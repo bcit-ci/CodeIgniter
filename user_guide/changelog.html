@@ -71,12 +71,16 @@ Change Log
 	<li>Helpers
 		<ul>
 			<li class="reactor">Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+        	<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
 		</ul>
 	</li>
 	<li>Database
 		<ul>
 			<li class="reactor">Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
 			<li class="reactor">Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
+			<li class="reactor">
+				Added additional option 'none' for the optional third argument for  <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database Driver</a>.
+			</li>
 		</ul>
 	</li>
 	<li>Libraries
@@ -97,6 +101,7 @@ Change Log
 	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
     <li class="reactor">Fixed a bug (#200) where MySQL queries would be malformed after calling <samp>count_all()</samp> then <samp>db->get()</samp></li>
     <li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
+	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
