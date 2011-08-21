@@ -218,9 +218,8 @@ class CI_Cache_memcached extends CI_Driver {
 			
 			return FALSE;
 		}
-		
-		$this->_setup_memcached();
-		return TRUE;
+
+		return $this->_setup_memcached();
 	}
 
 	// ------------------------------------------------------------------------
