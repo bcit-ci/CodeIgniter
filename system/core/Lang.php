@@ -47,6 +47,9 @@ class CI_Lang {
 	 * @access	public
 	 * @param	mixed           the name of the language file to be loaded. Can be an array
 	 * @param	string          the language (english, etc.)
+         * @param       return          return language hash value if true/otherwise returns true on success
+         * @param       add_suffix      add suffix to language files automagically
+         * @param       alt_path        string of alternate path to load language from
          * @param       fallback        fallback to english if boolean value is true
 	 * @return	mixed
 	 */
@@ -95,7 +98,6 @@ class CI_Lang {
 
 			if ($found !== TRUE)
 			{
-                                // If this boolean variable is set attempt to fall back to english language.
                                 if ($fallback == TRUE)
                                 {
                                         log_message('error', 'Unable to load the requested language file: language/'.$idiom.'/'.$langfile);     
