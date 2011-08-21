@@ -189,7 +189,7 @@ class CI_Cache_memcached extends CI_Driver {
                         {
                                 // Third parameter is persistance and defaults to TRUE.
                                 $this->_memcached->addServer(
-					$cache_server['hostname'], 
+                                        $cache_server['hostname'], 
                                         $cache_server['port'], 
                                         TRUE, 
                                         $cache_server['weight'] 
@@ -198,7 +198,7 @@ class CI_Cache_memcached extends CI_Driver {
                         else 
                         {
                                 $this->_memcached->addServer(
-					$cache_server['hostname'], 
+                                        $cache_server['hostname'], 
                                         $cache_server['port'], 
                                         $cache_server['weight'] 
                                 );
