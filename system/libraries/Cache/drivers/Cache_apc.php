@@ -40,7 +40,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		$data = apc_fetch($id);
 
-		return (is_array($data)) ? $data[0] : FALSE;
+		return (is_array($data)) ? $data[0] : $data;
 	}
 
 	// ------------------------------------------------------------------------	
@@ -51,12 +51,17 @@ class CI_Cache_apc extends CI_Driver {
 	 * @param 	string		Unique Key
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
+         * @param       raw             boolean value to save raw object
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw)
 	{
-		return apc_store($id, array($data, time(), $ttl), $ttl);
+               if (FALSE == $raw) {
+                        return apc_store($id, array($data, time(), $ttl), $ttl);
+               }
+       
+               return apc_store($id, $raw, $ttl);
 	}
 	
 	// ------------------------------------------------------------------------

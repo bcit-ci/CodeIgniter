@@ -73,12 +73,13 @@ class CI_Cache extends CI_Driver_Library {
 	 * @param 	string		Unique Key
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
+         * @param       raw             boolean value to save raw object
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return $this->{$this->_adapter}->save($id, $data, $ttl);
+                return $this->{$this->_adapter}->save($id, $data, $ttl, $raw);
 	}
 
 	// ------------------------------------------------------------------------

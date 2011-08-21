@@ -78,9 +78,10 @@ class CI_Cache_file extends CI_Driver {
 	 * @param 	mixed		data to store
 	 * @param 	int			length of time (in seconds) the cache is valid 
 	 *						- Default is 60 seconds
+         * @param       raw             boolean value to save raw object
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw)
 	{		
 		$contents = array(
 				'time'		=> time(),

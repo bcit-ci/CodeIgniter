@@ -19,6 +19,11 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+            $this->load->driver('cache', array('adapter' => 'memcached'));
+            $this->cache->save('foo', 100, 10, TRUE);
+            var_dump($this->cache->get('foo'));
+            var_dump($this->cache->increment('foo', 1));
+            var_dump($this->cache->get('foo'));
 		$this->load->view('welcome_message');
 	}
 }
