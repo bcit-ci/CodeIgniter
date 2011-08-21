@@ -98,7 +98,7 @@ class CI_Lang {
 
 			if ($found !== TRUE)
 			{
-            	if ($fallback == TRUE)
+				if ($fallback == TRUE)
 				{
 					log_message('error', 'Unable to load the requested language file: language/'.$idiom.'/'.$langfile);     
 					
