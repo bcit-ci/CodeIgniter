@@ -78,9 +78,10 @@ class CI_Cache_file extends CI_Driver {
 	 * @param 	mixed		data to store
 	 * @param 	int			length of time (in seconds) the cache is valid 
 	 *						- Default is 60 seconds
+         * @param       raw             boolean value to save raw object
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{		
 		$contents = array(
 				'time'		=> time(),
@@ -97,7 +98,39 @@ class CI_Cache_file extends CI_Driver {
 		return FALSE;
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         FALSE
+         */
+        public function increment($id, $offset)
+        {
+                $data = $this->get($id);
+
+                return (is_array($data)) ? FALSE : ($data + $offset);
+        }
+
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         FALSE
+         */
+        public function decrement($id, $offset)
+        {
+                $data = $this->get($id);
+
+                return (is_array($data)) ? FALSE : ($data - $offset);
+        }
+
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Delete from Cache

@@ -49,7 +49,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{	
 		$data = $this->_memcached->get($id);
 		
-		return (is_array($data)) ? $data[0] : FALSE;
+		return (is_array($data)) ? $data[0] : $data;
 	}
 
 	// ------------------------------------------------------------------------
@@ -60,14 +60,20 @@ class CI_Cache_memcached extends CI_Driver {
 	 * @param 	string		unique identifier
 	 * @param 	mixed		data being cached
 	 * @param 	int			time to live
+         * @param       raw             boolean value to store raw object
 	 * @return 	boolean 	true on success, false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
+                if ($raw == FALSE)
+                {
+                        return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
+                }
+
+                return $this->_memcached->add($id, $data, $ttl);
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 	
 	/**
 	 * Delete from Cache
@@ -79,6 +85,34 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		return $this->_memcached->delete($id);
 	}
+
+	// ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function increment($id, $offset)
+        {
+                 return $this->_memcached->increment($id, $offset);
+        }
+
+	// ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function decrement($id, $offset)
+        {
+                return $this->_memcached->decrement($id, $offset);
+        }
 
 	// ------------------------------------------------------------------------
 	

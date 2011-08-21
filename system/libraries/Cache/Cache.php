@@ -73,12 +73,13 @@ class CI_Cache extends CI_Driver_Library {
 	 * @param 	string		Unique Key
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
+         * @param       raw             boolean value to save raw object
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return $this->{$this->_adapter}->save($id, $data, $ttl);
+                return $this->{$this->_adapter}->save($id, $data, $ttl, $raw);
 	}
 
 	// ------------------------------------------------------------------------
@@ -94,7 +95,35 @@ class CI_Cache extends CI_Driver_Library {
 		return $this->{$this->_adapter}->delete($id);
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function increment($id, $offset = 1)
+        {
+                return $this->{$this->_adapter}->increment($id, $offset);
+        }
+
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function decrement($id, $offset = 1)
+        {
+                return $this->{$this->_adapter}->decrement($id, $offset);
+        }
+
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache

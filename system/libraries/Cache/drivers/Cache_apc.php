@@ -40,7 +40,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		$data = apc_fetch($id);
 
-		return (is_array($data)) ? $data[0] : FALSE;
+		return (is_array($data)) ? $data[0] : $data;
 	}
 
 	// ------------------------------------------------------------------------	
@@ -51,12 +51,18 @@ class CI_Cache_apc extends CI_Driver {
 	 * @param 	string		Unique Key
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
+         * @param       raw             boolean value to save raw object
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return apc_store($id, array($data, time(), $ttl), $ttl);
+                if ($raw == FALSE)
+                {
+                        return apc_store($id, array($data, time(), $ttl), $ttl);
+                }
+       
+                return apc_store($id, $data, $ttl);
 	}
 	
 	// ------------------------------------------------------------------------
@@ -72,7 +78,35 @@ class CI_Cache_apc extends CI_Driver {
 		return apc_delete($id);
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function increment($id, $offset)
+        {
+                return apc_inc($id, $offset);
+        }
+
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function decrement($id, $offset)
+        {
+                return apc_dec($id, $offset);
+        }
+
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache

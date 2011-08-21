@@ -48,10 +48,11 @@ class CI_Cache_dummy extends CI_Driver {
 	 * @param 	string		Unique Key
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
+         * @param       raw             boolean value to save raw object
 	 *
 	 * @return 	boolean		TRUE, Simulating success
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
 		return TRUE;
 	}
@@ -69,7 +70,35 @@ class CI_Cache_dummy extends CI_Driver {
 		return TRUE;
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         FALSE
+         */
+        public function increment($id, $offset)
+        {
+                return FALSE;
+        }
+
+        // ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         FALSE
+         */
+        public function decrement($id, $offset)
+        {
+                return FALSE;
+        }
+
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache
