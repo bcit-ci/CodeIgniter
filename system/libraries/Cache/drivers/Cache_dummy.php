@@ -69,6 +69,30 @@ class CI_Cache_dummy extends CI_Driver {
 		return TRUE;
 	}
 
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         true on success/false on failure
+         */
+        public function increment($id, $offset)
+        {
+                return TRUE;
+        }
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         true on success/false on failure
+         */
+        public function decrement($id, $offset)
+        {
+                return TRUE;
+        }
+
 	// ------------------------------------------------------------------------
 
 	/**
