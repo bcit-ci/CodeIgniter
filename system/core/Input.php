@@ -287,13 +287,13 @@ class CI_Input {
 
 			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
+		elseif ($this->server('REMOTE_ADDR') AND ! $this->server('HTTP_CLIENT_IP'))
+		{
+			$this->ip_address = $_SERVER['REMOTE_ADDR'];
+		}
 		elseif ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
-		}
-		elseif ($this->server('REMOTE_ADDR'))
-		{
-			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
 		elseif ($this->server('HTTP_CLIENT_IP'))
 		{
