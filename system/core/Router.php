@@ -224,12 +224,28 @@ class CI_Router {
 	 */
 	function _set_request($segments = array())
 	{
-		$segments = $this->_validate_request($segments);
-
+		// Check if you actually have any segments first
+		// and if you don't just go straight to the 
+		// default controller
 		if (count($segments) == 0)
 		{
 			return $this->_set_default_controller();
-		}
+		}			
+		
+		// Convert dashes "-" in the uri to underscores "_" 
+		// which are used for function name delienation in PHP
+		// this needs to happen before we validate any requests
+		// and we ONLY check the first 2 segments so we don't
+		// blow up any variables
+		for ($i = 0; $i < 2; $i++) 
+		{
+			if (isset($segments[$i]))
+			{
+				$segments[$i] = str_replace('-', '_', $segments[$i]);
+			}
+		} 	
+				
+		$segments = $this->_validate_request($segments);
 
 		$this->set_class($segments[0]);
 
