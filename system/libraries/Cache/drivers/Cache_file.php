@@ -99,6 +99,34 @@ class CI_Cache_file extends CI_Driver {
 
 	// ------------------------------------------------------------------------
 
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         FALSE
+         */
+        public function increment($id, $offset)
+        {
+                return FALSE;
+        }
+
+	// ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         FALSE
+         */
+        public function decrement($id, $offset)
+        {
+                return FALSE;
+        }
+
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Delete from Cache
 	 *

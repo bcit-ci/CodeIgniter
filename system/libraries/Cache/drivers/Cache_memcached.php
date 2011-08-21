@@ -81,6 +81,34 @@ class CI_Cache_memcached extends CI_Driver {
 	}
 
 	// ------------------------------------------------------------------------
+
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function increment($id, $offset)
+        {
+                 return $this->_memcached->($id, $offset);
+        }
+
+	// ------------------------------------------------------------------------
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         new value on success/false on failure
+         */
+        public function decrement($id, $offset)
+        {
+                return $this->_memcached->($id, $offset);
+        }
+
+	// ------------------------------------------------------------------------
 	
 	/**
 	 * Clean the Cache

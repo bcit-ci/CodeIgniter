@@ -99,7 +99,7 @@ class CI_Cache extends CI_Driver_Library {
          * 
          * @param       key             unique identifier of the item in the cache
          * @param       offset          offset increment to perform
-         * @return      boolean         true on success/false on failure
+         * @return      boolean         new value on success/false on failure
          */
         public function increment($id, $offset = 1)
         {
@@ -111,7 +111,7 @@ class CI_Cache extends CI_Driver_Library {
          * 
          * @param       key             unique identifier of the item in the cache
          * @param       offset          offset decrement to perform
-         * @return      boolean         true on success/false on failure
+         * @return      boolean         new value on success/false on failure
          */
         public function decrement($id, $offset = 1)
         {
