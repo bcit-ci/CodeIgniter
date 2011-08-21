@@ -95,6 +95,8 @@ class CI_Cache extends CI_Driver_Library {
 		return $this->{$this->_adapter}->delete($id);
 	}
 
+        // ------------------------------------------------------------------------
+
         /**
          * Perform increment on key.
          * 
@@ -104,8 +106,10 @@ class CI_Cache extends CI_Driver_Library {
          */
         public function increment($id, $offset = 1)
         {
-            return $this->{$this->_adapter}->increment($id, $offset);
+                return $this->{$this->_adapter}->increment($id, $offset);
         }
+
+        // ------------------------------------------------------------------------
 
         /**
          * Perform decrement on key.
@@ -116,10 +120,10 @@ class CI_Cache extends CI_Driver_Library {
          */
         public function decrement($id, $offset = 1)
         {
-            return $this->{$this->_adapter}->decrement($id, $offset);
+                return $this->{$this->_adapter}->decrement($id, $offset);
         }
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache

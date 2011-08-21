@@ -57,11 +57,12 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60, $raw)
 	{
-               if (FALSE == $raw) {
+                if (FALSE == $raw) 
+                {
                         return apc_store($id, array($data, time(), $ttl), $ttl);
-               }
+                }
        
-               return apc_store($id, $raw, $ttl);
+                return apc_store($id, $raw, $ttl);
 	}
 	
 	// ------------------------------------------------------------------------
@@ -77,7 +78,7 @@ class CI_Cache_apc extends CI_Driver {
 		return apc_delete($id);
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 
         /**
          * Perform increment on key.
@@ -88,10 +89,10 @@ class CI_Cache_apc extends CI_Driver {
          */
         public function increment($id, $offset)
         {
-                 return apc_inc($id, $offset);
+                return apc_inc($id, $offset);
         }
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 
         /**
          * Perform decrement on key.
@@ -105,7 +106,7 @@ class CI_Cache_apc extends CI_Driver {
                 return apc_dec($id, $offset);
         }
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache

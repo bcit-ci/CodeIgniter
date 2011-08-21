@@ -65,13 +65,15 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60, $raw)
 	{
-                if (FALSE == $raw) {
+                if (FALSE == $raw) 
+                {
                         return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
                 }
+
                 return $this->_memcached->add($id, $data, $ttl);
 	}
 
-	// ------------------------------------------------------------------------
+        // ------------------------------------------------------------------------
 	
 	/**
 	 * Delete from Cache
