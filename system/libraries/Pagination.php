@@ -71,13 +71,6 @@ class CI_Pagination {
 		{
 			$this->initialize($params);
 		}
-
-		if ($this->anchor_class != '')
-		{
-			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
-		}
-
-		log_message('debug', "Pagination Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
@@ -101,6 +94,13 @@ class CI_Pagination {
 				}
 			}
 		}
+
+		if ($this->anchor_class != '')
+		{
+			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
+		}
+
+		log_message('debug', "Pagination Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
