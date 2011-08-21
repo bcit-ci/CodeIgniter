@@ -107,7 +107,8 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function delete($id)
 	{
-                if (! file_exists($this->_cache_path.$id)) {
+                if (! file_exists($this->_cache_path.$id)) 
+                {
                         return FALSE;
                 }
 
