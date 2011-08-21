@@ -153,13 +153,16 @@ class CI_Cache_memcached extends CI_Driver {
 			}			
 		}
 
-                if (class_exists('Memcached')) {
+                if (class_exists('Memcached')) 
+                {
                         $this->_memcached = new Memcached();
                 }
-                else if (class_exists('Memcache')) {
+                else if (class_exists('Memcache')) 
+                {
                         $this->_memcached = new Memcache();
                 }
-                else {
+                else 
+                {
                         log_message('error', 'Failed to create object for Memcached Cache; extension not loaded?');
 
                         return FALSE;        
@@ -182,7 +185,8 @@ class CI_Cache_memcached extends CI_Driver {
 				$cache_server['weight'] = $this->_default_options['default_weight'];
 			}
 	
-                        if (get_class($this->_memcached) == 'Memcache') {
+                        if (get_class($this->_memcached) == 'Memcache') 
+                        {
                                 // Third parameter is persistance and defaults to TRUE.
                                 $this->_memcached->addServer(
 					$cache_server['hostname'], 
@@ -191,7 +195,8 @@ class CI_Cache_memcached extends CI_Driver {
                                         $cache_server['weight'] 
                                 );
                         }
-                        else {
+                        else 
+                        {
                                 $this->_memcached->addServer(
 					$cache_server['hostname'], 
                                         $cache_server['port'], 
