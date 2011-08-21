@@ -72,7 +72,9 @@ variables at the top of the file with the new name you've chosen.</p>
 
 <p>For the best security, both the <dfn>system</dfn> and any <dfn>application</dfn> folders should be placed above web root so that they are not directly accessible via a browser.  By default, .htaccess files are included in each folder to help prevent direct access, but it is best to remove them from public access entirely in case the web server configuration changes or doesn't abide by the .htaccess.</p>
 
-<p>After moving them, open your main <kdb>index.php</kbd> file and set the <samp>$system_folder</samp> and <samp>$application_folder</samp> variables, preferably with a full path, e.g. '<dfn>/www/MyUser/system</dfn>'.</p>
+<p>If you would like to keep your views public it is also possible to move the <dfn>views</dfn> folder out of your application folder.</p>
+
+<p>After moving them, open your main <kdb>index.php</kbd> file and set the <samp>$system_folder</samp>, <samp>$application_folder</samp> and <samp>$view_folder</samp> variables, preferably with a full path, e.g. '<dfn>/www/MyUser/system</dfn>'.</p>
 
 <p>
     One additional measure to take in production environments is to disable
