@@ -39,30 +39,35 @@
 |							- good for ensuring strict SQL while developing
 |
 | The $active_group variable lets you choose which connection group to
-| make active.  By default there is only one group (the 'default' group).
+| make active.  By default there is only one group (the 'development' group).
 |
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
 
-$active_group = 'default';
+if (defined('ENVIRONMENT')) 
+{
+	$active_group = ENVIRONMENT;
+} else {
+	$active_group = 'development';
+}
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
-$db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['development']['hostname'] = 'localhost';
+$db['development']['username'] = '';
+$db['development']['password'] = '';
+$db['development']['database'] = '';
+$db['development']['dbdriver'] = 'mysql';
+$db['development']['dbprefix'] = '';
+$db['development']['pconnect'] = FALSE;
+$db['development']['db_debug'] = TRUE;
+$db['development']['cache_on'] = FALSE;
+$db['development']['cachedir'] = '';
+$db['development']['char_set'] = 'utf8';
+$db['development']['dbcollat'] = 'utf8_general_ci';
+$db['development']['swap_pre'] = '';
+$db['development']['autoinit'] = TRUE;
+$db['development']['stricton'] = FALSE;
 
 
 /* End of file database.php */
