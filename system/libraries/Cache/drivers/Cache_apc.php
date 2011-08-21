@@ -62,7 +62,7 @@ class CI_Cache_apc extends CI_Driver {
                         return apc_store($id, array($data, time(), $ttl), $ttl);
                 }
        
-                return apc_store($id, $raw, $ttl);
+                return apc_store($id, $data, $ttl);
 	}
 	
 	// ------------------------------------------------------------------------
