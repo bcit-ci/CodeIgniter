@@ -39,13 +39,18 @@
 |							- good for ensuring strict SQL while developing
 |
 | The $active_group variable lets you choose which connection group to
-| make active.  By default there is only one group (the 'default' group).
+| make active.  By default there is only one group (the 'development' group).
 |
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
 
-$active_group = ENVIRONMENT;
+if (defined('ENVIRONMENT')) 
+{
+	$active_group = ENVIRONMENT;
+} else {
+	$active_group = 'development';
+}
 $active_record = TRUE;
 
 $db['development']['hostname'] = 'localhost';
