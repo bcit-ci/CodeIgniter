@@ -152,7 +152,7 @@ class CI_Cache_memcached extends CI_Driver {
 				}				
 			}			
 		}
-		
+
                 if (class_exists('Memcached')) {
                         $this->_memcached = new Memcached();
                 }
@@ -160,9 +160,9 @@ class CI_Cache_memcached extends CI_Driver {
                         $this->_memcached = new Memcache();
                 }
                 else {
-                    log_message('error', 'Failed to create object for Memcached Cache; extension not loaded?');
+                        log_message('error', 'Failed to create object for Memcached Cache; extension not loaded?');
 
-                    return FALSE;        
+                        return FALSE;        
                 }
 
 		foreach ($this->_memcache_conf as $name => $cache_server)
