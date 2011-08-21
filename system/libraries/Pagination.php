@@ -71,6 +71,8 @@ class CI_Pagination {
 		{
 			$this->initialize($params);
 		}
+
+		log_message('debug', "Pagination Class Constructed");
 	}
 
 	// --------------------------------------------------------------------
