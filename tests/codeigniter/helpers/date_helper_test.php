@@ -158,7 +158,9 @@ class Date_helper_test extends CI_TestCase
 
 	public function test_mysql_to_unix()
 	{
-		$this->assertEquals(1344708680, mysql_to_unix(date("YYYY-MM-DD HH:MM:SS")));
+		$time = time();
+		$this->assertEquals($time, 
+				mysql_to_unix(date("Y-m-d H:i:s", $time)));
 	}
 
 	// ------------------------------------------------------------------------
@@ -166,9 +168,9 @@ class Date_helper_test extends CI_TestCase
 	public function test_unix_to_human()
 	{
 		$time = time();
-		$this->assertEquals(date("Y-m-d h:i A"), unix_to_human($time));
-		$this->assertEquals(date("Y-m-d h:i:s A"), unix_to_human($time, TRUE, 'us'));
-		$this->assertEquals(date("Y-m-d H:i:s"), unix_to_human($time, TRUE, 'eu'));
+		$this->assertEquals(date("Y-m-d h:i A", $time), unix_to_human($time));
+		$this->assertEquals(date("Y-m-d h:i:s A", $time), unix_to_human($time, TRUE, 'us'));
+		$this->assertEquals(date("Y-m-d H:i:s", $time), unix_to_human($time, TRUE, 'eu'));
 	}
 
 	// ------------------------------------------------------------------------
