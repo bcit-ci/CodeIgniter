@@ -452,7 +452,7 @@ class CI_Email {
 	 */
 	public function set_alt_message($str = '')
 	{
-		$this->alt_message = $str;
+		$this->alt_message = (string) $str;
 		return $this;
 	}
 
