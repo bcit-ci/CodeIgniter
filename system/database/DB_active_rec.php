@@ -196,7 +196,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-		$sql = $type.'('.$this->_protect_identifiers(trim($select)).') AS '.$alias;
+		$sql = $type.'('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
 
 		$this->ar_select[] = $sql;
 		$this->ar_no_escape[] = NULL;
