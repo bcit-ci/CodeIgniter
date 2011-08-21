@@ -441,7 +441,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return "DESCRIBE ".$table;
 	}
 
 	// --------------------------------------------------------------------
