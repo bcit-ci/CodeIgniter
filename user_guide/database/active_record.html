@@ -334,6 +334,13 @@ $this->db->or_where('id >', $id);
 	$this-&gt;db-&gt;like('title', 'match', 'both'); <br />
 // Produces: WHERE title LIKE '%match%' </code>	</li>
 
+If you do not want to use the wildcard (%) you can pass to the optional third argument the option 'none'.
+
+<code>
+	$this-&gt;db-&gt;like('title', 'match', 'none'); <br />
+// Produces: WHERE title LIKE 'match'
+</code>
+
 	<li><strong>Associative array method:</strong>
 
 	<code>
