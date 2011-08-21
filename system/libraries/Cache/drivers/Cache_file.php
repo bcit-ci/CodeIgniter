@@ -109,7 +109,9 @@ class CI_Cache_file extends CI_Driver {
          */
         public function increment($id, $offset)
         {
-                return FALSE;
+                $data = $this->get($id);
+
+                return (is_array($data)) ? FALSE : ($data + $offset);
         }
 
         // ------------------------------------------------------------------------
@@ -123,7 +125,9 @@ class CI_Cache_file extends CI_Driver {
          */
         public function decrement($id, $offset)
         {
-                return FALSE;
+                $data = $this->get($id);
+
+                return (is_array($data)) ? FALSE : ($data - $offset);
         }
 
         // ------------------------------------------------------------------------
