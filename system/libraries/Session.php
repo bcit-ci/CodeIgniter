@@ -395,7 +395,7 @@ class CI_Session {
 	 * @access	public
 	 * @return	void
 	 */
-	function destroy()
+	function sess_destroy()
 	{
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE AND isset($this->userdata['session_id']))
@@ -424,7 +424,7 @@ class CI_Session {
 	 * @param	string
 	 * @return	string
 	 */
-	function get($item)
+	function userdata($item)
 	{
 		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 	}
@@ -437,7 +437,7 @@ class CI_Session {
 	 * @access	public
 	 * @return	array
 	 */
-	function get_all()
+	function all_userdata()
 	{
 		return $this->userdata;
 	}
@@ -452,7 +452,7 @@ class CI_Session {
 	 * @param	string
 	 * @return	void
 	 */
-	function set($newdata = array(), $newval = '')
+	function set_userdata($newdata = array(), $newval = '')
 	{
 		if (is_string($newdata))
 		{
@@ -478,7 +478,7 @@ class CI_Session {
 	 * @access	array
 	 * @return	void
 	 */
-	function rm($newdata = array())
+	function unset_userdata($newdata = array())
 	{
 		if (is_string($newdata))
 		{
@@ -519,7 +519,7 @@ class CI_Session {
 			foreach ($newdata as $key => $val)
 			{
 				$flashdata_key = $this->flashdata_key.':new:'.$key;
-				$this->set($flashdata_key, $val);
+				$this->set_userdata($flashdata_key, $val);
 			}
 		}
 	}
@@ -540,10 +540,10 @@ class CI_Session {
 		// Note the function will return FALSE if the $key
 		// provided cannot be found
 		$old_flashdata_key = $this->flashdata_key.':old:'.$key;
-		$value = $this->get($old_flashdata_key);
+		$value = $this->userdata($old_flashdata_key);
 
 		$new_flashdata_key = $this->flashdata_key.':new:'.$key;
-		$this->set($new_flashdata_key, $value);
+		$this->set_userdata($new_flashdata_key, $value);
 	}
 
 	// ------------------------------------------------------------------------
@@ -558,7 +558,7 @@ class CI_Session {
 	function flashdata($key)
 	{
 		$flashdata_key = $this->flashdata_key.':old:'.$key;
-		return $this->get($flashdata_key);
+		return $this->userdata($flashdata_key);
 	}
 
 	// ------------------------------------------------------------------------
@@ -572,15 +572,15 @@ class CI_Session {
 	 */
 	function _flashdata_mark()
 	{
-		$userdata = $this->get_all();
+		$userdata = $this->all_userdata();
 		foreach ($userdata as $name => $value)
 		{
 			$parts = explode(':new:', $name);
 			if (is_array($parts) && count($parts) === 2)
 			{
 				$new_name = $this->flashdata_key.':old:'.$parts[1];
-				$this->set($new_name, $value);
-				$this->unset($name);
+				$this->set_userdata($new_name, $value);
+				$this->unset_userdata($name);
 			}
 		}
 	}
@@ -596,12 +596,12 @@ class CI_Session {
 
 	function _flashdata_sweep()
 	{
-		$userdata = $this->get_all();
+		$userdata = $this->all_userdata();
 		foreach ($userdata as $key => $value)
 		{
 			if (strpos($key, ':old:'))
 			{
-				$this->unset($key);
+				$this->unset_userdata($key);
 			}
 		}
 
@@ -767,37 +767,6 @@ class CI_Session {
 			log_message('debug', 'Session garbage collection performed.');
 		}
 	}
-	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Backwards compatible functions
-	 */
-	 
-	 function userdata($item)
-	 {
-	 	return $this->get($item);
-	 }
-	 
-	 function all_userdata()
-	 {
-	 	return $this->get_all();
-	 }
-	 
-	 function set_userdata($newdata)
-	 {
-	 	$this->set($newdata);
-	 }
-	 
-	 function unset_userdata($newdata)
-	 {
-	 	$this->rm($newdata);
-	 }
-	 
-	 function sess_destroy()
-	 {
-	 	$this->destroy(); 
-	 }
 
 
 }
