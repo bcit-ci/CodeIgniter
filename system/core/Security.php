@@ -93,6 +93,16 @@ class CI_Security {
 		{
 			return $this->csrf_set_cookie();
 		}
+		
+		// Check if URI has been whitelisted from CSRF checks
+		if ($exclude_uris = config_item('csrf_exclude_uris'))
+		{
+			$uri = load_class('URI', 'core');
+			if (in_array($uri->uri_string(), $exclude_uris))
+			{
+				return $this;
+			}
+		}
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name]) OR 
@@ -116,7 +126,7 @@ class CI_Security {
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
 
-		log_message('debug', "CSRF token verified ");
+		log_message('debug', "CSRF token verified");
 		
 		return $this;
 	}
