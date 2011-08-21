@@ -1013,6 +1013,71 @@ class CI_Form_validation {
 
 		return (strlen($str) != $val) ? FALSE : TRUE;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Tests against the values in the provided array delimited by commas.
+	 * Escape wanted commas with a backslash.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param   string
+	 * @return	bool
+	 */
+	public function in_set($str, $set) 
+	{
+        $set = str_replace('\,','$@$',$set);
+        $set = explode(',',$set);
+        if(empty($set))
+        {
+            return FALSE;
+        }
+        foreach($set as $key=>&$item) {
+            $item = str_replace('$@$',',',$item);
+        }
+        return in_array($str,$set);
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Tests to verify that the form date comes after the supplied date.
+	 * -----
+	 * @param	String    
+	 * @param	String 
+	 * @return  bool    
+	 */
+	public function after_date($item, $field) 
+	{
+        $check_date = strtotime($item);
+        $lesser_date = strtotime($field);
+        if((empty($check_date) || empty($greater_date)))
+        {
+            return FALSE;
+        }
+        return $check_date > $lesser_date;
+	}
+    
+    // --------------------------------------------------------------------
+	
+	/**
+	 * Tests to verify that the form date comes after the supplied date.
+	 * -----
+	 * @param	String    
+	 * @param	String 
+	 * @return  bool    
+	 */
+	public function before_date($item, $field) 
+	{
+        $check_date = strtotime($item);
+        $greater_date = strtotime($field);
+        if((empty($check_date) || empty($greater_date)))
+        {
+            return FALSE;
+        }
+        return $check_date < $greater_date;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -1025,7 +1090,20 @@ class CI_Form_validation {
 	 */
 	function valid_email($str)
 	{
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+		if( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
+		{
+		    return FALSE;	
+		}
+	    
+	    $email_parts = explode('@', $email);
+    	$domain = array_pop($email_parts);
+		
+		if (checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A'))
+		{
+			return TRUE;
+		}
+		
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1067,6 +1145,34 @@ class CI_Form_validation {
 	function valid_ip($ip)
 	{
 		return $this->CI->input->valid_ip($ip);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Validate URL
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function valid_url($str)
+	{
+        $url_regex ='/^(https?):\/\/'.                                         // protocol
+                    '(([a-z0-9$_\.\+!\*\'\(\),;\?&=-]|%[0-9a-f]{2})+'.         // username
+                    '(:([a-z0-9$_\.\+!\*\'\(\),;\?&=-]|%[0-9a-f]{2})+)?'.      // password
+                    '@)?(?#'.                                                  // auth requires @
+                    ')((([a-z0-9][a-z0-9-]*[a-z0-9]\.)*'.                      // domain segments AND
+                    '[a-z][a-z0-9-]*[a-z0-9]'.                                 // top level domain  OR
+                    '|((\d|[1-9]\d|1\d{2}|2[0-4][0-9]|25[0-5])\.){3}'.
+                    '(\d|[1-9]\d|1\d{2}|2[0-4][0-9]|25[0-5])'.                 // IP address
+                    ')(:\d+)?'.                                                // port
+                    ')(((\/+([a-z0-9$_\.\+!\*\'\(\),;:@&=-]|%[0-9a-f]{2})*)*'. // path
+                    '(\?([a-z0-9$_\.\+!\*\'\(\),;:@&=-]|%[0-9a-f]{2})*)'.      // query string
+                    '?)?)?'.                                                   // path and query string optional
+                    '(#([a-z0-9$_\.\+!\*\'\(\),;:@&=-]|%[0-9a-f]{2})*)?'.      // fragment
+                    '$/i';
+        return preg_match($url_regex,$str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1203,6 +1309,42 @@ class CI_Form_validation {
 		}
 		return $str < $max;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Less than or equal to
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function less_than_equal_to($str, $max)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str <= $max;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Greater than or equal to
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function greater_than_equal_to($str, $min)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str >= $max;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -1257,6 +1399,57 @@ class CI_Form_validation {
 	function valid_base64($str)
 	{
 		return (bool) ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Test for US Social Security number format: 111-11-1111
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function ssn($str) 
+	{
+        return preg_match('/^\(\d{3}\)\-\(\d{2}\)\-\(\d{4}\)$/',$str);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+     * Test for various types of phone number formats... This will match any of:
+     *
+     * (555) 555-5555, 555-555-5555, 5-555-555-5555, 555.555.5555, 555 555 5555
+     * 55555555555, 5555555555, +1 555 555-5555, "(0295) 416,72,16", +44 07700 954 321 
+     *
+     * ... and any other variation of characters as long as the total number count 
+     * is between 9 and 12.
+     *
+     * @access	public
+     * @param   string
+     * @return  bool
+     */
+    public function phone($str) {
+        if(!preg_match('/^[\d\(\)\s\+\.-]+$/'))
+        {
+            return FALSE;
+        }
+        $phone = preg_replace('/\D/','',$str);
+        if(strlen($phone) <= 12 && strlen($phone) >= 10) return true;
+    }
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Tests to see if there are no characters that are ~usually~ part of a name.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function name($item) {
+        return preg_match("/^(?:\p{L}|[\s'-])+$/",$item);
 	}
 
 	// --------------------------------------------------------------------

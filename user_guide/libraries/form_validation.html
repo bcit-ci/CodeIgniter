@@ -945,6 +945,13 @@ POST array:</p>
 		<td class="td">Returns FALSE if the form element does not match the one in the parameter.</td>
 		<td class="td">matches[form_item]</td>
 	</tr>
+	
+	<tr>
+		<td class="td"><strong>in_set</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element does not match one of the items in the comma-separated parameter values. Escape commas with a backslash.</td>
+		<td class="td">in_set[Yes,No,Man\, Who Cares?]</td>
+	</tr>
 
 	<tr>
 		<td class="td"><strong>min_length</strong></td>
@@ -973,12 +980,26 @@ POST array:</p>
 		<td class="td">Returns FALSE if the form element is less than the parameter value or not numeric.</td>
 		<td class="td">greater_than[8]</td>
 	</tr>
+	
+	<tr>
+		<td class="td"><strong>greater_than_equal_to</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is less than or not equal to the parameter value or not numeric.</td>
+		<td class="td">greater_than_equal_to[8]</td>
+	</tr>
 
 	<tr>
 		<td class="td"><strong>less_than</strong></td>
 		<td class="td">Yes</td>
 		<td class="td">Returns FALSE if the form element is greater than the parameter value or not numeric.</td>
 		<td class="td">less_than[8]</td>
+	</tr>
+	
+	<tr>
+		<td class="td"><strong>less_than_equal_to</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is greater than or not equal to the parameter value or not numeric.</td>
+		<td class="td">less_than_equal_to[8]</td>
 	</tr>
 
 	<tr>
@@ -1036,6 +1057,20 @@ POST array:</p>
 		<td class="td">Returns FALSE if the form element contains anything other than a natural number, but not zero: 1, 2, 3, etc.</td>
 		<td class="td">&nbsp;</td>
 	</tr>
+	
+	<tr>
+		<td class="td"><strong>after_date</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is a date that does not fall after the date provided in the parameter.</td>
+		<td class="td">after_date[2011-08-21]</td>
+	</tr>
+	
+	<tr>
+		<td class="td"><strong>before_date</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is a date that does not fall before the date provided in the parameter.</td>
+		<td class="td">before_date[2011-08-21]</td>
+	</tr>
 
 	<tr>
 		<td class="td"><strong>valid_email</strong></td>
@@ -1057,11 +1092,39 @@ POST array:</p>
 		<td class="td">Returns FALSE if the supplied IP is not valid.</td>
 		<td class="td">&nbsp;</td>
 	</tr>
+	
+	<tr>
+		<td class="td"><strong>valid_url</strong></td>
+		<td class="td">No</td>
+		<td class="td">Returns FALSE if the supplied URL is not well-formed.</td>
+		<td class="td">&nbsp;</td>
+	</tr>
 
 	<tr>
 		<td class="td"><strong>valid_base64</strong></td>
 		<td class="td">No</td>
 		<td class="td">Returns FALSE if the supplied string contains anything other than valid Base64 characters.</td>
+		<td class="td">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td class="td"><strong>name</strong></td>
+		<td class="td">No</td>
+		<td class="td">Returns FALSE if the supplied string contains characters that are usually never part of a name (ex. %,*,#, etc...).</td>
+		<td class="td">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td class="td"><strong>ssn</strong></td>
+		<td class="td">No</td>
+		<td class="td">Returns FALSE if the supplied string is not a valid US Social Security number (format: 111-11-1111).</td>
+		<td class="td">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td class="td"><strong>phone</strong></td>
+		<td class="td">No</td>
+		<td class="td">Returns FALSE if the supplied string is not a valid telephone number (between 9 and 12 numbers long).</td>
 		<td class="td">&nbsp;</td>
 	</tr>
 
