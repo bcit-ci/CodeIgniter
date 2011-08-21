@@ -49,7 +49,17 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		$data = $this->_memcached->get($id);
 		
-		return (is_array($data)) ? $data[0] : FALSE;
+		if (is_array($data))
+		{
+			if (time() >  $data[1] + $data[2])
+			{
+				return FALSE;
+			}
+
+			return $data[0];
+		}
+		
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
