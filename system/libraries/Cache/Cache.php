@@ -94,6 +94,30 @@ class CI_Cache extends CI_Driver_Library {
 		return $this->{$this->_adapter}->delete($id);
 	}
 
+        /**
+         * Perform increment on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset increment to perform
+         * @return      boolean         true on success/false on failure
+         */
+        public function increment($id, $offset = 1)
+        {
+            return $this->{$this->_adapter}->increment($id, $offset);
+        }
+
+        /**
+         * Perform decrement on key.
+         * 
+         * @param       key             unique identifier of the item in the cache
+         * @param       offset          offset decrement to perform
+         * @return      boolean         true on success/false on failure
+         */
+        public function decrement($id, $offset = 1)
+        {
+            return $this->{$this->_adapter}->decrement($id, $offset);
+        }
+
 	// ------------------------------------------------------------------------
 
 	/**
