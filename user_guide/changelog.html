@@ -59,6 +59,44 @@ Change Log
 
 <p>The <img src="images/reactor-bullet.png" width="16" height="16" alt="Reactor Marker" /> indicates items that were contributed to CodeIgniter via CodeIgniter Reactor.</p>
 
+<h2>Version 2.1.0 (planned)</h2>
+<p>Release Date: Not Released</p>
+
+<ul>
+	<li>General Changes
+		<ul>
+			<li class="reactor">Callback validation rules can now accept parameters like any other validation rule.</li>
+		</ul>
+	</li>
+	<li>Helpers
+		<ul>
+			<li class="reactor">Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+		</ul>
+	</li>
+	<li>Database
+		<ul>
+			<li class="reactor">Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
+			<li class="reactor">Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
+		</ul>
+	</li>
+	<li>Libraries
+		<ul>
+			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li class="reactor">Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
+			<li class="reactor">Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
+			<li class="reactor">Driver children can be located in any package path.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for 2.1.0</h3>
+<ul>
+	<li class="reactor">Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
+	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
+	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
+	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
+</ul>
+
 <h2>Version 2.0.3</h2>
 <p>Release Date: August 20, 2011</p>
 
@@ -67,6 +105,7 @@ Change Log
 		<ul>
 			<li>An improvement was made to the MySQL and MySQLi drivers to prevent exposing a potential vector for SQL injection on sites using multi-byte character sets in the database client connection.  <p>An incompatibility in PHP versions &lt; 5.2.3 and MySQL &lt; 5.0.7 with <em>mysql_set_charset()</em> creates a situation where using multi-byte  character sets on these environments may potentially expose a SQL injection attack vector.  Latin-1, UTF-8, and other "low ASCII" character sets are unaffected on all environments.</p>  <p class="critical">If you are running or considering running a multi-byte character set for your database connection, please pay close attention to the server environment you are deploying on to ensure you are not vulnerable.</p></li>
 		</ul>
+	</li>
 	<li>General Changes
 		<ul>
 			<li>Fixed a bug where there was a misspelling within a code comment in the index.php file.</li>
@@ -81,6 +120,8 @@ Change Log
 	<li>Helpers
 		<ul>
 			<li>Added an optional third parameter to <samp>heading()</samp> which allows adding html attributes to the rendered heading tag.</li>
+			<li class="reactor"><kbd>form_open()</kbd> now only adds a hidden (Cross-site Reference Forgery) protection field when the form's action is internal and is set to the post method. (Reactor #165)</li>
+			<li class="reactor">Re-worked <samp>plural()</samp> and <samp>singular()</samp> functions in the <a href="helpers/inflector_helper.html">Inflector helper</a> to support considerably more words.</li>
 		</ul>
 	</li>
 	<li>Libraries
@@ -90,7 +131,7 @@ Change Log
 			<li class="reactor">Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
 			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
 			<li class="reactor">Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>
-			<li>Changed <kbd>$this->db->having()</kbd> to insert quotes using escape() rather than escape_str().</li>
+			<li class="reactor">Changed <kbd>$this->db->having()</kbd> to insert quotes using escape() rather than escape_str().</li>
 		</ul>
 	</li>
 </ul>
