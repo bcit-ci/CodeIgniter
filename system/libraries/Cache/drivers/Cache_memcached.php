@@ -48,8 +48,18 @@ class CI_Cache_memcached extends CI_Driver {
 	public function get($id)
 	{
 		$data = $this->_memcached->get($id);
+		
+		if (is_array($data))
+		{
+			if (time() >  $data[1] + $data[2])
+			{
+				return FALSE;
+			}
 
-		return (is_array($data)) ? $data[0] : FALSE;
+			return $data[0];
+		}
+		
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -173,17 +183,24 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			if ( ! array_key_exists('hostname', $cache_server))
 			{
-				$cache_server['hostname'] = $this->_default_options['default_host'];
+				$cache_server['hostname'] = $cache_server['default_host'];
 			}
 
 			if ( ! array_key_exists('port', $cache_server))
 			{
-				$cache_server['port'] = $this->_default_options['default_port'];
+				$cache_server['port'] = $cache_server['default_port'];
 			}
 
 			if ( ! array_key_exists('weight', $cache_server))
 			{
-				$cache_server['weight'] = $this->_default_options['default_weight'];
+				$cache_server['weight'] = $cache_server['default_weight'];
+			}
+			
+			// Unset the defaults
+			
+			foreach (array('host', 'weight', 'port') as $key)
+			{
+				unset($cache_server["default_{$key}"]);
 			}
 
 			if (get_class($this->_memcached) == 'Memcache')
