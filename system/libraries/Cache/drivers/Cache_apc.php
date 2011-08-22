@@ -78,35 +78,35 @@ class CI_Cache_apc extends CI_Driver {
 		return apc_delete($id);
 	}
 
-        // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-        /**
-         * Perform increment on key.
-         * 
-         * @param       key             unique identifier of the item in the cache
-         * @param       offset          offset increment to perform
-         * @return      boolean         new value on success/false on failure
-         */
-        public function increment($id, $offset)
-        {
-                return apc_inc($id, $offset);
-        }
+    /**
+     * Perform increment on key.
+     * 
+     * @param       key             unique identifier of the item in the cache
+     * @param       offset          offset increment to perform
+     * @return      boolean         new value on success/false on failure
+     */
+    public function increment($id, $offset)
+    {
+            return apc_inc($id, $offset);
+    }
 
-        // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-        /**
-         * Perform decrement on key.
-         * 
-         * @param       key             unique identifier of the item in the cache
-         * @param       offset          offset decrement to perform
-         * @return      boolean         new value on success/false on failure
-         */
-        public function decrement($id, $offset)
-        {
-                return apc_dec($id, $offset);
-        }
+    /**
+     * Perform decrement on key.
+     * 
+     * @param       key             unique identifier of the item in the cache
+     * @param       offset          offset decrement to perform
+     * @return      boolean         new value on success/false on failure
+     */
+    public function decrement($id, $offset)
+    {
+            return apc_dec($id, $offset);
+    }
 
-        // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
 	/**
 	 * Clean the cache
