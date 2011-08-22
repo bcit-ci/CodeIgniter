@@ -223,9 +223,9 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = CONFPATH.ENVIRONMENT.'/config.php'))
 		{
-			$file_path = APPPATH.'config/config.php';
+			$file_path = CONFPATH.'/config.php';
 		}
 
 		// Fetch the config file

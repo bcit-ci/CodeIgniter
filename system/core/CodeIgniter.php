@@ -67,13 +67,13 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (defined('ENVIRONMENT') AND file_exists(CONFPATH.ENVIRONMENT.'/constants.php'))
 	{
-		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+		require(CONFPATH.ENVIRONMENT.'/constants.php');
 	}
 	else
 	{
-		require(APPPATH.'config/constants.php');
+		require(CONFPATH.'/constants.php');
 	}
 
 /*
