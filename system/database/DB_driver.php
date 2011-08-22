@@ -1171,13 +1171,13 @@ class CI_DB_driver {
 
 		// Find the most likely culprit of the error by going through
 		// the backtrace until the source file is no longer in the
-		// database folder.
+		// database folder or equal to the Loader class.
 
 		$trace = debug_backtrace();
 
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
+			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['file'], BASEPATH.'core/Loader.php') === FALSE )
 			{
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(BASEPATH, APPPATH), '', $call['file']);
