@@ -493,7 +493,7 @@ class CI_Profiler {
 	 *
 	 * @return 	string
 	 */
-	private function _compile_session_data()
+	protected function _compile_session_data()
 	{
 		if ( ! isset($this->CI->session))
 		{
