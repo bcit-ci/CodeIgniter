@@ -729,7 +729,7 @@ class CI_Form_validation {
 	 */
 	function set_value($field = '', $default = '')
 	{
-		if ( ! isset($this->_field_data[$field]))
+		if ( ! isset($this->_field_data[$field]) OR $this->_field_data[$field]['postdata'] === NULL)
 		{
 			return $default;
 		}
