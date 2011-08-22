@@ -84,11 +84,19 @@ class CI_Utf8 {
 	 */
 	function clean_string($str)
 	{
-		if ($this->_is_ascii($str) === FALSE)
-		{
-			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
-		}
-
+            if ($this->_is_ascii($str) === FALSE)
+            {
+                if (MB_ENABLED) {
+                // use mb_ function to detect input encoding and recode to UTF-8 string
+                    $input_encoding = mb_detect_encoding($str);
+                    $str = @mb_convert_encoding($str, 'UTF-8', $input_encoding);
+                }
+                else
+                {
+                    //Fallback to iconv
+                    $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+                }
+            }
 		return $str;
 	}
 
