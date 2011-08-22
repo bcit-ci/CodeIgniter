@@ -102,7 +102,7 @@ class CI_Lang {
 				{
 					log_message('error', 'Unable to load the requested language file: language/'.$idiom.'/'.$langfile);     
 					
-                    return $this->load($langfile, "english", $return, FALSE, '', FALSE);
+					return $this->load($langfile, "english", $return, FALSE, '', FALSE);
 				}
 				else
 				{
