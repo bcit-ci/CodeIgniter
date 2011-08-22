@@ -1106,7 +1106,7 @@ class CI_Loader {
 	 * @param	array
 	 * @return	void
 	 */
-	private function _ci_autoloader()
+	protected function _ci_autoloader()
 	{
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
