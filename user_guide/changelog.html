@@ -110,7 +110,7 @@ Change Log
 	<li>Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
 	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
 	<li>Fixed a bug (#150) - <samp>field_data()</samp> now correctly returns column length.</li>
-	<li>Fixed a bug (#8) - Look for core classes in <samp>APPPATH</samp> first.</li>
+	<li>Fixed a bug (#8) - <samp>load_class()</samp> now looks for core classes in <samp>APPPATH</samp> first, allowing them to be replaced.</li>
 	<li>Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().</li>
 	<li>Fixed a bug (#85) - OCI8 (Oracle) database <kbd>escape_str()</kbd> function did not escape correct.</li>
 	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
