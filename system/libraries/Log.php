@@ -105,7 +105,9 @@ class CI_Log {
 		}
 		else
 		{
-			fwrite($fp, $message);
+			fclose($fp);
+			
+			return FALSE;
 		}
 
 		fclose($fp);
