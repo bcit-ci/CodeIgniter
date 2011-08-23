@@ -1078,16 +1078,16 @@ POST array:</p>
 
 	<tr>
 		<td class="td"><strong>valid_email</strong></td>
-		<td class="td">No</td>
-		<td class="td">Returns FALSE if the form element does not contain a valid email address.</td>
-		<td class="td">&nbsp;</td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element does not contain a valid email address. Optionally, you can check if the email domain is valid by passing 'a', 'mx', or 'both'.</td>
+		<td class="td">valid_email[both]</td>
 	</tr>
 
 	<tr>
 		<td class="td"><strong>valid_emails</strong></td>
 		<td class="td">No</td>
-		<td class="td">Returns FALSE if any value provided in a comma separated list is not a valid email.</td>
-		<td class="td">&nbsp;</td>
+		<td class="td">Returns FALSE if any value provided in a comma separated list is not a valid email. Domain checks work the same as the above rule.</td>
+		<td class="td">valid_emails[mx]</td>
 	</tr>
 
 	<tr>
