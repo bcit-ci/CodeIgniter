@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Managing Configurations : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Managing Configurations
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Managing  Configurations</h1>
+
+<p>By default CodeIgniter store configuration files into<dfn> application/config/</dfn> directory.  However, it is possible, to rename or relocate your <dfn>config</dfn> folder, even you can have different sets of specific configurations directories.</p>
+
+<h2>Renaming the Config Folder</h2>
+
+<p>If you would like to rename your <dfn>config</dfn> folder for add security or create a more manageable directory structure you may do so as long as you open your main <kbd>index.php</kbd>
+file and set its name using the <samp>$config_folder</samp> variable:</p>
+
+<code>$config_folder = "config";</code>
+
+<h2>Relocating your Config Folder</h2>
+
+<p>It is possible to move your <dfn>config</dfn> folder to a different location on your server than your <kbd>application</kbd> folder.
+To do so open your main <kbd>index.php</kbd> and set a <em>full server path</em> in the <samp>$config_folder</samp> variable.</p>
+
+
+<code>$config_folder = "/path/to/your/config";</code>
+
+
+<h2>Running Multiple Instances for a single CodeIgniter Application</h2>
+
+<p> If you would like to reuse an application installation to manage different instances but with a different configuration, simply
+create copy of the config directory located inside your <kbd>application</kbd> folder and rename it or change their path.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; Each of your instances will need its own <dfn>index.php</dfn> file which
+calls the application.  The index.php file can be named anything you want.</p>
+
+<p>For example, let's say you want to run two instances of a warehouse control application because, for any reason their data cannot be mixed and needs to store to a diferent database.</p>
+<p>You can avoid to write more code or create an entire copy of your application by sharing a single installation of your application.  To accomplish this you could structure your
+  application like this:</p>
+<code>application/config/<br />
+ application/controllers/<br />
+application/errors/<br />
+application/libraries/<br />
+application/models/<br />
+application/views/<br />
+config/<var>foo</var>/<br />
+config/<samp>bar</samp>/<br />
+index.php<br />
+<samp>bar</samp>/index.php</code>
+
+
+<p>To select a particular configuration directory for use requires that you open the <kbd>index.php</kbd> file for each instance you created and set the <dfn>$config_folder</dfn>
+variable.  For the preceding example you should do this:</p>
+
+<code>On <var>index.php</var><br /><br />
+$config_folder = "config/foo";</code>
+<code>On <samp>bar/index.php</samp><br />
+<br />
+$system_path = &quot;../system&quot;;<br />
+<br />
+$application_folder = "../application";<br />
+<br />
+$config_folder = &quot;../config/bar&quot;;</code>
+
+<p>Now you can set a custom configuration for each instance as usual. You can still use the  <var>ENVIROMENT</var> configuration files and folders. This is described in more detail in the environment section of the <a href="../libraries/config.html#environments">Config Class</a> documentation. </p>
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="profiling.html">Profiling Your Application</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="alternative_php.html">Alternative PHP Syntax</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

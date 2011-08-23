@@ -352,13 +352,13 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') AND is_file(CONFPATH.ENVIRONMENT.'/mimes.php'))
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+				include(CONFPATH.ENVIRONMENT.'/mimes.php');
 			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
+			elseif (is_file(CONFPATH.'/mimes.php'))
 			{
-				include(APPPATH.'config/mimes.php');
+				include(CONFPATH.'/mimes.php');
 			}
 
 			if ( ! is_array($mimes))

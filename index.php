@@ -92,6 +92,23 @@ if (defined('ENVIRONMENT'))
 
 
 /*
+ *---------------------------------------------------------------
+ * CONFIG FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * If you want to put your configuration folder into a diferent
+ * folder than the default one you can set its name here. The folder
+ * can also be renamed or relocated anywhere on your server.  If
+ * you do, use a full server path. For more info please see the user guide:
+ * http://codeigniter.com/user_guide/general/managing_apps.html
+ *
+ * NO TRAILING SLASH!
+ *
+ */
+	$config_folder = 'config';
+	
+
+/*
  * --------------------------------------------------------------------
  * DEFAULT CONTROLLER
  * --------------------------------------------------------------------
@@ -224,6 +241,20 @@ if (defined('ENVIRONMENT'))
 	}
 	
 
+	// The path to the "config" folder
+	if (is_dir($config_folder))
+	{
+		define('CONFPATH', $config_folder .'/');
+	}
+	else
+	{
+		if ( ! is_dir(APPPATH.$config_folder.'/'))
+		{
+			exit("Your configuration folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
+		}
+
+		define ('CONFPATH', APPPATH.$config_folder );
+	}
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

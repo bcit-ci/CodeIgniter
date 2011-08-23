@@ -94,13 +94,13 @@ class CI_Output {
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (defined('ENVIRONMENT') AND file_exists(CONFPATH.ENVIRONMENT.'/mimes.php'))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+		    include CONFPATH.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
-			include APPPATH.'config/mimes.php';
+			include CONFPATH.'/mimes.php';
 		}
 
 
