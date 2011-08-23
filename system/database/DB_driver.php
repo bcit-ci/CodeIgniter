@@ -1256,8 +1256,8 @@ class CI_DB_driver {
 			return $escaped_array;
 		}
 
-		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/[\t ]+/', ' ', $item);
+		// Convert tabs into single spaces
+		$item = preg_replace('/[\t]+/', ' ', $item);
 
 		// If the item has an alias declaration we remove it and set it aside.
 		// Basically we remove everything to the right of the first space
