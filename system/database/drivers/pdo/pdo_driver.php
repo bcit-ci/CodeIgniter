@@ -632,7 +632,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _close($conn_id)
 	{
-		@pdo_close($conn_id);
+		$this->conn_id = null;
 	}
 
 
