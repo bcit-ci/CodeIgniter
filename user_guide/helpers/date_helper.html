@@ -71,11 +71,15 @@ Date Helper
 
 <h2>now()</h2>
 
-<p>Returns the current time as a Unix timestamp, referenced either to your server's local time or GMT, based on the "time reference"
-setting in your config file.  If you do not intend to set your master time reference to GMT (which you'll typically do if you
-run a site that lets each user set their own timezone settings) there is no benefit to using this function over PHP's time() function.
+<p>Returns the current time as a Unix timestamp, based on the <kbd>timezone</kbd> parameter. You can set a master timezone in the
+<samp>application/config/config.php</samp> file, and if you don't supply the <kbd>timezone</kbd> parameter, this master reference
+will be used. It supports all <a href="http://php.net/manual/en/timezones.php">PHP supported timezones</a>.
+The timestamp returned won't be affected by the server's timezone.
 </p>
-
+<code>
+$timezone	= 'Europe/Dublin';<br />
+echo now($timezone);
+</code>
 
 
 
@@ -149,7 +153,7 @@ echo standard_date($format, $time);
 	<tr>
 		<td>DATE_RFC1123</td>
 		<td>RFC 1123</td>
-		<td>Sun, 14 Aug 2005 16:13:03 UTC</td>	
+		<td>Sun, 14 Aug 2005 16:13:03 UTC</td>
 	</tr>
 	<tr>
 		<td>DATE_RFC2822</td>
@@ -236,7 +240,7 @@ $unix = human_to_unix($human);</code>
 
 <h2>nice_date()</h2>
 
-<p>This function can take a number poorly-formed date formats and convert them into something useful. It also accepts well-formed dates.</p> 
+<p>This function can take a number poorly-formed date formats and convert them into something useful. It also accepts well-formed dates.</p>
 <p>The function will return a Unix timestamp by default. You can, optionally, pass a format string (the same type as the PHP date function accepts) as the second parameter. Example:</p>
 
 <code>$bad_time = 199605<br />
