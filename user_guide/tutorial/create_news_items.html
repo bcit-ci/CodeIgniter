@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -85,7 +85,7 @@ Create news items
 
 <p>There are only two things here that probably look unfamiliar to you: the <dfn>form_open()</dfn> function and the <dfn>validation_errors()</dfn> function.</p>
 
-<p>The first function is provided by the <a href="../helpers/form_helper.html">form helper</a> and renders the form element and adds extra functionality, like adding a hidden <a href="../ibraries/security.html">CSFR prevention field</a>. The latter is used to report errors related to from validation.</p>
+<p>The first function is provided by the <a href="../helpers/form_helper.html">form helper</a> and renders the form element and adds extra functionality, like adding a hidden <a href="../libraries/security.html">CSFR prevention field</a>. The latter is used to report errors related to form validation.</p>
 
 <p>Go back to your news controller. You're going to do two things here, check whether the form was submitted and whether the submitted data passed the validation rules. You'll use the <a href="../libraries/form_validation.html">form validation</a> library to do this.</p>
 
@@ -150,7 +150,7 @@ function set_news()
 
 <h2>Routing</h2>
 
-<p>Before you can start adding news items into your CodeIgniter application you have to add an extra rule to <dfn>config/routes.php</dfn> file. Make sure your file contains the following. This makes sure CodeIgniter sees 'update' as a method instead of a news item's slug.</p>
+<p>Before you can start adding news items into your CodeIgniter application you have to add an extra rule to <dfn>config/routes.php</dfn> file. Make sure your file contains the following. This makes sure CodeIgniter sees 'create' as a method instead of a news item's slug.</p>
 	
 <pre>
 $route['news/create'] = 'news/create';
