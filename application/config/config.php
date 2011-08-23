@@ -177,7 +177,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 |	4 = All Messages
 |
 | You can also pass in a array with threshold levels to show individual error types
-| 
+|
 | 	array(2) = Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
@@ -323,16 +323,14 @@ $config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Master Time Reference
+| Master Timezone
 |--------------------------------------------------------------------------
 |
-| Options are 'local' or 'gmt'.  This pref tells the system whether to use
-| your server's local time as the master 'now' reference, or convert it to
-| GMT.  See the 'date helper' page of the user guide for information
-| regarding date handling.
+| You can set any PHP supported timezones to be the master timezone when
+| you call th now() function.
 |
 */
-$config['time_reference'] = 'local';
+$config['timezone'] = 'UTC';
 
 
 /*
