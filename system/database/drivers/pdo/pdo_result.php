@@ -34,7 +34,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return @pdo_num_rows($this->result_id);
+		return $this->result_id->rowCount();
 	}
 
 	// --------------------------------------------------------------------
@@ -47,7 +47,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_fields()
 	{
-		return @pdo_num_fields($this->result_id);
+		return $this->result_id->columnCount();
 	}
 
 	// --------------------------------------------------------------------
@@ -62,13 +62,11 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function list_fields()
 	{
-		$field_names = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		if ($this->db->db_debug)
 		{
-			$field_names[]	= pdo_field_name($this->result_id, $i);
+			return $this->db->display_error('db_unsuported_feature');
 		}
-
-		return $field_names;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -83,20 +81,25 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function field_data()
 	{
-		$retval = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		$data = array();
+	
+		try
 		{
-			$F				= new stdClass();
-			$F->name		= pdo_field_name($this->result_id, $i);
-			$F->type		= pdo_field_type($this->result_id, $i);
-			$F->max_length	= pdo_field_len($this->result_id, $i);
-			$F->primary_key = 0;
-			$F->default		= '';
-
-			$retval[] = $F;
+			for($i = 0; $i < $this->num_fields(); $i++)
+			{
+				$data[] = $this->result_id->getColumnMeta($i);
+			}
+			
+			return $data;
 		}
-
-		return $retval;
+		catch (Exception $e)
+		{
+			if ($this->db->db_debug)
+			{
+				return $this->db->display_error('db_unsuported_feature');
+			}
+			return FALSE;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -144,14 +147,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function _fetch_assoc()
 	{
-		if (function_exists('pdo_fetch_object'))
-		{
-			return pdo_fetch_array($this->result_id);
-		}
-		else
-		{
-			return $this->_pdo_fetch_array($this->result_id);
-		}
+		return $this->result_id->fetch(PDO::FETCH_ASSOC);
 	}
 
 	// --------------------------------------------------------------------
@@ -165,60 +161,8 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 * @return	object
 	 */
 	function _fetch_object()
-	{
-		if (function_exists('pdo_fetch_object'))
-		{
-			return pdo_fetch_object($this->result_id);
-		}
-		else
-		{
-			return $this->_pdo_fetch_object($this->result_id);
-		}
-	}
-
-
-	/**
-	 * Result - object
-	 *
-	 * subsititutes the pdo_fetch_object function when
-	 * not available (pdo_fetch_object requires unixPDO)
-	 *
-	 * @access	private
-	 * @return	object
-	 */
-	function _pdo_fetch_object(& $pdo_result) {
-		$rs = array();
-		$rs_obj = FALSE;
-		if (pdo_fetch_into($pdo_result, $rs)) {
-			foreach ($rs as $k=>$v) {
-				$field_name= pdo_field_name($pdo_result, $k+1);
-				$rs_obj->$field_name = $v;
-			}
-		}
-		return $rs_obj;
-	}
-
-
-	/**
-	 * Result - array
-	 *
-	 * subsititutes the pdo_fetch_array function when
-	 * not available (pdo_fetch_array requires unixPDO)
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _pdo_fetch_array(& $pdo_result) {
-		$rs = array();
-		$rs_assoc = FALSE;
-		if (pdo_fetch_into($pdo_result, $rs)) {
-			$rs_assoc=array();
-			foreach ($rs as $k=>$v) {
-				$field_name= pdo_field_name($pdo_result, $k+1);
-				$rs_assoc[$field_name] = $v;
-			}
-		}
-		return $rs_assoc;
+	{	
+		return $this->result_id->fetchObject();
 	}
 
 }
