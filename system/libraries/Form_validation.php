@@ -1069,7 +1069,7 @@ class CI_Form_validation {
 	{
 		$check_date = strtotime($item);
 		$lesser_date = strtotime($field);
-		if((empty($check_date) || empty($greater_date)))
+		if((empty($check_date) || empty($lesser_date)))
 		{
 			return FALSE;
 		}
@@ -1079,7 +1079,7 @@ class CI_Form_validation {
     	// --------------------------------------------------------------------
 	
 	/**
-	 * Tests to verify that the form date comes after the supplied date.
+	 * Tests to verify that the form date comes before the supplied date.
 	 * -----
 	 * @param	String    
 	 * @param	String 
@@ -1103,21 +1103,33 @@ class CI_Form_validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	string	DNS checks (options: a,mx,both,none; default: none)
 	 * @return	bool
 	 */
-	public function valid_email($str)
+	public function valid_email($str,$options='')
 	{
 		if( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
 		{
 		    return FALSE;	
 		}
 	    
-	    	$email_parts = explode('@', $email);
-    		$domain = array_pop($email_parts);
+	    $email_parts = explode('@', $email);
+    	$domain = array_pop($email_parts);
 		
-		if (checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A'))
-		{
-			return TRUE;
+		$options = strtolower($options);
+		
+		if($options == 'mx' || $options == 'both') {
+			if (!checkdnsrr($domain, 'MX'))
+			{
+				return FALSE;
+			}
+		}
+		
+		if($options == 'a' || $options == 'both') {
+			if (!checkdnsrr($domain, 'A'))
+			{
+				return FALSE;
+			}
 		}
 		
 		return FALSE;
@@ -1130,18 +1142,20 @@ class CI_Form_validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	string	DNS checks (options: a,mx,both; default: none)
 	 * @return	bool
 	 */
-	public function valid_emails($str)
+	public function valid_emails($str,$options='')
 	{
 		if (strpos($str, ',') === FALSE)
 		{
-			return $this->valid_email(trim($str));
+			return $this->valid_email(trim($str),$options);
 		}
-
-		foreach (explode(',', $str) as $email)
+		
+		$emails = explode(',', $str);
+		foreach ($emails as $email)
 		{
-			if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE)
+			if (trim($email) != '' && $this->valid_email(trim($email),$otpions) === FALSE)
 			{
 				return FALSE;
 			}
@@ -1169,6 +1183,9 @@ class CI_Form_validation {
 	/**
 	 * Validate URL
 	 *
+	 * Credit goes to Matt JC on Stack Overflow for this (tests included): 
+	 * http://stackoverflow.com/questions/161738
+	 *
 	 * @access	public
 	 * @param	string
 	 * @return	string
@@ -1189,6 +1206,7 @@ class CI_Form_validation {
 					'?)?)?'.                                                   // path and query string optional
 					'(#([a-z0-9$_\.\+!\*\'\(\),;:@&=-]|%[0-9a-f]{2})*)?'.      // fragment
 					'$/i';
+					
 		return preg_match($url_regex,$str);
 	}
 
@@ -1463,7 +1481,10 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Tests to see if there are no characters that are ~usually~ part of a name.
+	 * Tests to see if there are only characters that are ~usually~ part of a name.
+	 * 
+	 * For instance, the following characters are usually not: 
+	 * !@#$%^&*()_+=|{}[]:;/?\><    etc...
 	 *
 	 * @access	public
 	 * @param	string
