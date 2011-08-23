@@ -105,12 +105,9 @@ function get_news($slug = FALSE)
 		return $query->result_array();
 
 	}
-	else
-	{
-		$query = $this->db->get_where('news', array('slug' => $slug));
-		return $query->row_array();
-
-	}
+	
+	$query = $this->db->get_where('news', array('slug' => $slug));
+	return $query->row_array();
 
 }
 </pre>
