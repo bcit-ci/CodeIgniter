@@ -51,6 +51,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	function CI_DB_pdo_driver($params)
 	{
 		parent::CI_DB($params);
+		
+		$this->hostname = $this->hostname . ";dbname=".$this->database;
+		$this->trans_enabled = FALSE;
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
@@ -63,7 +66,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		return new PDO($this->hostname, $this->username, $this->password, array(
+		return new PDO($this->hostname,$this->username,$this->password, array(
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT
 		));
 	}
 
@@ -77,7 +81,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		return new PDO($this->hostname, $this->username, $this->password, array(
+		return new PDO($this->hostname,$this->username,$this->password, array(
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+			PDO::ATTR_PERSISTENT => true
 		));
 	}
 
@@ -152,7 +158,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		return @pdo_exec($this->conn_id, $sql);
+		return $this->conn_id->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -197,7 +203,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		return pdo_autocommit($this->conn_id, FALSE);
+		return $this->conn_id->beginTransaction();
 	}
 
 	// --------------------------------------------------------------------
@@ -221,8 +227,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$ret = pdo_commit($this->conn_id);
-		pdo_autocommit($this->conn_id, TRUE);
+		$ret = $this->conn->commit();
 		return $ret;
 	}
 
@@ -247,8 +252,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$ret = pdo_rollback($this->conn_id);
-		pdo_autocommit($this->conn_id, TRUE);
+		$ret = $this->conn_id->rollBack();
 		return $ret;
 	}
 
@@ -311,7 +315,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function insert_id()
 	{
-		return @pdo_insert_id($this->conn_id);
+		return $this->conn_id->lastInsertId();
 	}
 
 	// --------------------------------------------------------------------
@@ -411,7 +415,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		return pdo_errormsg($this->conn_id);
+		$error_array = $this->conn_id->errorInfo();
+		return $error_array[2];
 	}
 
 	// --------------------------------------------------------------------
@@ -424,7 +429,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		return pdo_error($this->conn_id);
+		return $this->conn_id->errorCode();
 	}
 
 	// --------------------------------------------------------------------
@@ -488,7 +493,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return '('.implode(', ', $tables).')';
+		return (count($tables) == 1) ? $tables[0] : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
