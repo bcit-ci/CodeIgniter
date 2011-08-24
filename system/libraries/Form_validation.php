@@ -1048,11 +1048,7 @@ class CI_Form_validation {
 			return filter_var($str, FILTER_VALIDATE_EMAIL);
 		}
 		//this doesn't adhere to RFC822, but is close enough.
-		if (preg_match("/^([\w+-]+)(\.[\w+-]+)*@([\w-]+\.)+[a-zA-Z]{2,6}$/", $str))
-		{
-			return TRUE;
-		}
-		return FALSE;
+		return preg_match("/^([\w+-]+)(\.[\w+-]+)*@([\w-]+\.)+[a-zA-Z]{2,6}$/", $str);
 	}
 
 	// --------------------------------------------------------------------
