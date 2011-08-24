@@ -109,9 +109,18 @@ class CI_Log {
 
 		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
 
-		flock($fp, LOCK_EX);
-		fwrite($fp, $message);
-		flock($fp, LOCK_UN);
+		if (flock($fp, LOCK_EX | LOCK_NB))
+		{
+			fwrite($fp, $message);
+			flock($fp, LOCK_UN);
+		}
+		else
+		{
+			fclose($fp);
+			
+			return FALSE;
+		}
+
 		fclose($fp);
 
 		@chmod($filepath, FILE_WRITE_MODE);
