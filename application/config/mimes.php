@@ -8,7 +8,7 @@
 |
 */
 
-$mimes = array( 'hqx'   =>      array('application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'),
+$mimes = array('hqx'   =>      array('application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'),
 				'cpt'	=>	'application/mac-compactpro',
 				'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'),
 				'bin'	=>	array('application/macbinary', 'application/mac-binary', 'application/octet-stream', 'application/x-binary', 'application/x-macbinary'),
@@ -39,7 +39,7 @@ $mimes = array( 'hqx'   =>      array('application/mac-binhex40', 'application/m
 				'dvi'	=>	'application/x-dvi',
 				'gtar'	=>	'application/x-gtar',
 				'gz'	=>	'application/x-gzip',
-                                'gzip'  =>  	'application/x-gzip',
+				'gzip'  =>	'application/x-gzip',
 				'php'	=>	'application/x-httpd-php',
 				'php4'	=>	'application/x-httpd-php',
 				'php3'	=>	'application/x-httpd-php',
@@ -52,7 +52,7 @@ $mimes = array( 'hqx'   =>      array('application/mac-binhex40', 'application/m
 				'tgz'	=>	array('application/x-tar', 'application/x-gzip-compressed'),
 				'xhtml'	=>	'application/xhtml+xml',
 				'xht'	=>	'application/xhtml+xml',
-				'zip'	=>  	array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
+				'zip'	=>	array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
 				'mid'	=>	'audio/midi',
 				'midi'	=>	'audio/midi',
 				'mpga'	=>	'audio/mpeg',
@@ -99,8 +99,8 @@ $mimes = array( 'hqx'   =>      array('application/mac-binhex40', 'application/m
 				'word'	=>	array('application/msword', 'application/octet-stream'),
 				'xl'	=>	'application/excel',
 				'eml'	=>	'message/rfc822',
-				'json'  => 	array('application/json', 'text/json'),
-				'pem'   =>  	array('application/x-x509-user-cert', 'application/x-pem-file', 'application/octet-stream'),
+				'json'  =>	array('application/json', 'text/json'),
+				'pem'   =>	array('application/x-x509-user-cert', 'application/x-pem-file', 'application/octet-stream'),
 				'p10'   =>	array('application/x-pkcs10', 'application/pkcs10'),
 				'p12'   =>	'application/x-pkcs12',
 				'p7a'   =>	'application/x-pkcs7-signature',
