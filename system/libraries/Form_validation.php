@@ -1042,11 +1042,17 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
+		//this is only available in 5.2 and greater
 		if ( function_exists( 'filter_var' ) )
 		{
 			return filter_var( $str, FILTER_VALIDATE_EMAIL );
 		}
-		return ( ! preg_match("/^([\w+-]+)(\.[\w+-]+)*@([\w-]+\.)+[a-z]{2,6}$/", $str)) ? FALSE : TRUE;
+		//this doesn't adhere to RFC822, but is close enough.
+		if ( preg_match("/^([\w+-]+)(\.[\w+-]+)*@([\w-]+\.)+[a-zA-Z]{2,6}$/", $str) )
+		{
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
