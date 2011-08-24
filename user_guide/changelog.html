@@ -66,6 +66,7 @@ Change Log
 	<li>General Changes
 		<ul>
 			<li class="reactor">Callback validation rules can now accept parameters like any other validation rule.</li>
+			<li class="reactor">Form validation library can now, optionally, check for A, MX, or both DNS records when validating emails if passed 'a','mx','both' in your rule definitions.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -85,6 +86,7 @@ Change Log
 			<li class="reactor">Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
 			<li class="reactor">Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
 			<li class="reactor">Driver children can be located in any package path.</li>
+			<li class="reactor">New new rules to <a href="libraries/form_validation.html">Form_validation Library</a>: <samp>in_set</samp>, <samp>valid_url</samp>, <samp>name</samp>, <samp>ssn</samp>, <samp>phone</samp>, <samp>after_date</samp>, <samp>before_date</samp>, <samp>after_date</samp>, <samp>greater_than_equal_to</samp>, <samp>less_than_equal_to</samp>.
 		</ul>
 	</li>
 </ul>
