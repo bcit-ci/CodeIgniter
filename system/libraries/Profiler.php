@@ -319,7 +319,7 @@ class CI_Profiler {
 					$key = "'".$key."'";
 				}
 
-				$output .= "<tr><td style='padding:5px;width:50%;background-color:#ddd;color:#000;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td style='padding:5px;width:50%;background-color:#dddcolor:#009900;font-weight:normal;'>";
+				$output .= "<tr><td style='padding:5px;width:50%;background-color:#ddd;color:#000;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td style='padding:5px;width:50%;background-color:#ddd;color:#009900;font-weight:normal;'>";
 				if (is_array($val))
 				{
 					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>";
