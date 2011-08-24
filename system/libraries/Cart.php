@@ -459,6 +459,26 @@ class CI_Cart {
 
 		return $cart;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Cart Item
+	 *
+	 * Returns the details of a specific cart item.
+	 *
+	 * @access	public
+	 * @param	integer	ID of the cart item to get details of
+	 * @return	array
+	 */
+	public function item($row_id = FALSE)
+	{
+		if (empty($row_id))
+		{
+			return array();
+		}
+		return $this->_cart_contents[$rowid];
+    	}
 
 	// --------------------------------------------------------------------
 
