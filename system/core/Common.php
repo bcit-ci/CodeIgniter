@@ -433,7 +433,7 @@ if ( ! function_exists('set_status_header'))
 
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
-		if (preg_match('/cgi/', php_sapi_name()))
+		if (substr(php_sapi_name(), 0, 3) == 'cgi')
 		{
 			header("Status: {$code} {$text}", TRUE);
 		}
