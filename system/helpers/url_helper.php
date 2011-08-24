@@ -527,7 +527,7 @@ if ( ! function_exists('url_title'))
  *
  * @access	public
  * @param	string	the URL
- * @param	string	the method: location or redirect
+ * @param	string	the method: location or refresh
  * @return	string
  */
 if ( ! function_exists('redirect'))
