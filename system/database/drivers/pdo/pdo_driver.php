@@ -16,7 +16,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * ODBC Database Adapter Class
+ * PDO Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the active record
@@ -100,7 +100,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function reconnect()
 	{
-		// not implemented in pdo
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
