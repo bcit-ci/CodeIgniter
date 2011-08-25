@@ -385,6 +385,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		$row = $query->row();
+		$this->_reset_select();
 		return (int) $row->numrows;
 	}
 
@@ -440,7 +441,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return "DESCRIBE ".$table;
 	}
 
 	// --------------------------------------------------------------------
