@@ -112,7 +112,7 @@ class CI_Lang {
 		}
 
 
-		if ( ! isset($lang))
+		if ( ! isset($lang) || ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;
@@ -124,7 +124,7 @@ class CI_Lang {
 		}
 
 		$this->is_loaded[] = $langfile;
-		$this->language = array_merge($this->language, $lang);
+		$this->language = $this->language + $lang;
 		unset($lang);
 
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
