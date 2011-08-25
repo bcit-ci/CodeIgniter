@@ -112,7 +112,7 @@ class CI_Lang {
 		}
 
 
-		if ( ! isset($lang) || ! is_array($lang))
+		if ( ! isset($lang) OR ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;
