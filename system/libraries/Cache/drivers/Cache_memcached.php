@@ -10,19 +10,19 @@
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.0
- * @filesource	
+ * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * CodeIgniter Memcached Caching Class 
+ * CodeIgniter Memcached Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
  * @author		ExpressionEngine Dev Team
- * @link		
+ * @link
  */
 
 class CI_Cache_memcached extends CI_Driver {
@@ -37,18 +37,18 @@ class CI_Cache_memcached extends CI_Driver {
 					)
 				);
 
-	// ------------------------------------------------------------------------	
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Fetch from cache
 	 *
 	 * @param 	mixed		unique key id
 	 * @return 	mixed		data on success/false on failure
-	 */	
+	 */
 	public function get($id)
-	{	
+	{
 		$data = $this->_memcached->get($id);
-		
+
 		return (is_array($data)) ? $data[0] : FALSE;
 	}
 
@@ -64,11 +64,11 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
+		return $this->_memcached->set($id, array($data, time(), $ttl), $ttl);
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Delete from Cache
 	 *
@@ -81,7 +81,7 @@ class CI_Cache_memcached extends CI_Driver {
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Clean the Cache
 	 *
@@ -106,7 +106,7 @@ class CI_Cache_memcached extends CI_Driver {
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Get Cache Metadata
 	 *
@@ -140,6 +140,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		// Try to load memcached server info from the config file.
 		$CI =& get_instance();
+
 		if ($CI->config->load('memcached', TRUE, TRUE))
 		{
 			if (is_array($CI->config->config['memcached']))
@@ -149,11 +150,24 @@ class CI_Cache_memcached extends CI_Driver {
 				foreach ($CI->config->config['memcached'] as $name => $conf)
 				{
 					$this->_memcache_conf[$name] = $conf;
-				}				
-			}			
+				}
+			}
 		}
-		
-		$this->_memcached = new Memcached();
+
+		if (class_exists('Memcached'))
+		{
+			$this->_memcached = new Memcached();
+		}
+		else if (class_exists('Memcache'))
+		{
+			$this->_memcached = new Memcache();
+		}
+		else
+		{
+			log_message('error', 'Failed to create object for Memcached Cache; extension not loaded?');
+
+			return FALSE;
+		}
 
 		foreach ($this->_memcache_conf as $name => $cache_server)
 		{
@@ -161,25 +175,41 @@ class CI_Cache_memcached extends CI_Driver {
 			{
 				$cache_server['hostname'] = $this->_default_options['default_host'];
 			}
-	
+
 			if ( ! array_key_exists('port', $cache_server))
 			{
 				$cache_server['port'] = $this->_default_options['default_port'];
 			}
-	
+
 			if ( ! array_key_exists('weight', $cache_server))
 			{
 				$cache_server['weight'] = $this->_default_options['default_weight'];
 			}
-	
-			$this->_memcached->addServer(
-					$cache_server['hostname'], $cache_server['port'], $cache_server['weight']
-			);
+
+			if (get_class($this->_memcached) == 'Memcache')
+			{
+				// Third parameter is persistance and defaults to TRUE.
+				$this->_memcached->addServer(
+					$cache_server['hostname'],
+					$cache_server['port'],
+					TRUE,
+					$cache_server['weight']
+				);
+			}
+			else
+			{
+				$this->_memcached->addServer(
+					$cache_server['hostname'],
+					$cache_server['port'],
+					$cache_server['weight']
+				);
+			}
 		}
+
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
-
 
 	/**
 	 * Is supported
@@ -189,15 +219,14 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function is_supported()
 	{
-		if ( ! extension_loaded('memcached'))
+		if ( ! extension_loaded('memcached') && ! extension_loaded('memcache'))
 		{
 			log_message('error', 'The Memcached Extension must be loaded to use Memcached Cache.');
-			
+
 			return FALSE;
 		}
-		
-		$this->_setup_memcached();
-		return TRUE;
+
+		return $this->_setup_memcached();
 	}
 
 	// ------------------------------------------------------------------------

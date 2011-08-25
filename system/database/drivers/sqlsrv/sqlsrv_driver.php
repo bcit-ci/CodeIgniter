@@ -344,6 +344,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			return '0';
 
 		$row = $query->row();
+		$this->_reset_select();
 		return $row->numrows;
 	}
 
