@@ -424,6 +424,47 @@ class CI_Session {
 	 * @param	string
 	 * @return	string
 	 */
+	function data($item = NULL, $value = NULL)
+	{
+		if (is_null($value) && ! is_array($item)) // getting
+		{
+			if (is_null($item)) // get all
+			{
+				return $this->userdata;
+			}
+			else //get item
+			{
+				return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+			}
+		}
+		else // setting
+		{
+			
+			if (is_array($item))
+			{
+				foreach ($item as $key => $val)
+				{
+					$this->userdata[$key] = $val;
+				}
+			}
+			else
+			{
+				$this->userdata[$item] = $value;
+			}
+
+			$this->sess_write();
+		}
+
+	}
+
+		/**
+	 * Fetch a specific item from the session array
+	 *
+	 * @deprecated 2.0.2
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
 	function userdata($item)
 	{
 		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
@@ -434,8 +475,9 @@ class CI_Session {
 	/**
 	 * Fetch all session data
 	 *
-	 * @access	public
-	 * @return	array
+	 * @deprecated 2.0.2
+	 * @access	   public
+	 * @return	   array
 	 */
 	function all_userdata()
 	{
@@ -447,10 +489,11 @@ class CI_Session {
 	/**
 	 * Add or change data in the "userdata" array
 	 *
-	 * @access	public
-	 * @param	mixed
-	 * @param	string
-	 * @return	void
+ 	 * @deprecated 2.0.2
+	 * @access	   public
+	 * @param	   mixed
+	 * @param	   string
+	 * @return	   void
 	 */
 	function set_userdata($newdata = array(), $newval = '')
 	{
@@ -502,10 +545,11 @@ class CI_Session {
 	 * Add or change flashdata, only available
 	 * until the next request
 	 *
-	 * @access	public
-	 * @param	mixed
-	 * @param	string
-	 * @return	void
+	 * @deprecated 2.0.2
+	 * @access	   public
+	 * @param	   mixed
+	 * @param	   string
+	 * @return	   void
 	 */
 	function set_flashdata($newdata = array(), $newval = '')
 	{
@@ -555,10 +599,33 @@ class CI_Session {
 	 * @param	string
 	 * @return	string
 	 */
-	function flashdata($key)
+	function flashdata($key, $value = NULL)
 	{
-		$flashdata_key = $this->flashdata_key.':old:'.$key;
-		return $this->userdata($flashdata_key);
+		
+		if (is_null($value) && ! is_array($key)) // getting
+		{
+			$flashdata_key = $this->flashdata_key.':old:'.$key;
+			return $this->userdata($flashdata_key);
+		}
+		else // setting
+		{
+			if (is_array($key))
+			{
+				foreach ($key as $key => $val)
+				{
+					$flashdata_key = $this->flashdata_key.':new:'.$key;
+					$this->userdata($flashdata_key, $val);
+				}
+			}
+			else
+			{
+				$flashdata_key = $this->flashdata_key.':new:'.$key;
+				$this->userdata($flashdata_key, $value);
+			}
+
+		}
+		
+
 	}
 
 	// ------------------------------------------------------------------------
