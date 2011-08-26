@@ -947,7 +947,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	public function get_compiled_select($table = '', $reset = TRUE) 
 	{
 		if ($table != '')
-        {
+		{
 			$this->_track_aliases($table);
 			$this->from($table);
 		}
