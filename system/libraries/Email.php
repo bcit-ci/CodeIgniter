@@ -452,7 +452,7 @@ class CI_Email {
 	 */
 	public function set_alt_message($str = '')
 	{
-		$this->alt_message = $str;
+		$this->alt_message = (string) $str;
 		return $this;
 	}
 
@@ -477,12 +477,12 @@ class CI_Email {
 	 * Set Wordwrap
 	 *
 	 * @access	public
-	 * @param	string
+	 * @param	bool
 	 * @return	void
 	 */
 	public function set_wordwrap($wordwrap = TRUE)
 	{
-		$this->wordwrap = ($wordwrap === FALSE) ? FALSE : TRUE;
+		$this->wordwrap = (bool) $wordwrap;
 		return $this;
 	}
 
