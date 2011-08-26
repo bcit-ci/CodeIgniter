@@ -518,10 +518,35 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
+	 * @deprecated 2.0.2
 	 * @access	array
 	 * @return	void
 	 */
 	function unset_userdata($newdata = array())
+	{
+		if (is_string($newdata))
+		{
+			$newdata = array($newdata => '');
+		}
+
+		if (count($newdata) > 0)
+		{
+			foreach ($newdata as $key => $val)
+			{
+				unset($this->userdata[$key]);
+			}
+		}
+
+		$this->sess_write();
+	}
+
+	/**
+	 * Delete a session variable from the "userdata" array
+	 *
+	 * @access	array
+	 * @return	void
+	 */
+	function unset_data($newdata = array())
 	{
 		if (is_string($newdata))
 		{
