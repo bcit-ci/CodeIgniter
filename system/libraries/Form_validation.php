@@ -35,6 +35,7 @@ class CI_Form_validation {
 	protected $_error_suffix		= '</p>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
+	protected $_rules_sets          = array();
 
 	/**
 	 * Constructor
@@ -190,6 +191,31 @@ class CI_Form_validation {
 	{
 		$this->_error_prefix = $prefix;
 		$this->_error_suffix = $suffix;
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add Rule Set
+	 * 
+	 * This method lets you add a custom rule set to attending the validations
+	 * defined from your rules (callback), it is useful when you need use a rule
+	 * from a library or another object that isn't instance of CI_Controller,
+	 * in other words, you could keep off or use callback rules that are not
+	 * directly in your controllers.
+	 * 
+	 * @access public
+	 * @param object
+	 * @return this
+	 */
+	public function add_rule_set($object = NULL)
+	{
+		if (is_object($object))
+		{
+			$this->_rules_sets[] = $object;
+		}
 
 		return $this;
 	}
@@ -586,11 +612,26 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
-					continue;
-				}
+					foreach ($this->_rules_sets as $rule_set)
+					{
+						if (method_exists($rule_set, $rule))
+						{
+							$result = $rule_set->$rule($postdata, $param);
 
-				// Run the function and grab the result
-				$result = $this->CI->$rule($postdata, $param);
+							break;
+						}
+					}
+
+					if ( ! isset($result))
+					{
+						continue;
+					}
+				}
+				else
+				{
+					// Run the function and grab the result
+					$result = $this->CI->$rule($postdata, $param);
+				}
 
 				// Re-assign the result to the master data array
 				if ($_in_array == TRUE)

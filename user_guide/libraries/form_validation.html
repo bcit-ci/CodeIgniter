@@ -561,6 +561,62 @@ as in: "callback_foo<strong>[bar]</strong>", then it will be passed as the secon
 <p><strong>Note:</strong> You can also process the form data that is passed to your callback and return it.  If your callback returns anything other than a boolean TRUE/FALSE
 it is assumed that the data is your newly processed form data.</p>
 
+<p>You can also keep off or use callback rules that are not directly in your controllers.  As in the following sample:</p>
+
+<p>In your model:</p>
+
+<textarea class="textarea" style="width:100%" cols="50" rows="20">&lt;?php
+
+class User_m extends CI_Model {
+
+	public function username_check($str)
+	{
+		if ($str == 'test')
+		{
+			$this->form_validation->set_message('username_check', 'The %s field can not be the word "test"');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+}
+?></textarea>
+
+<p>In your controller:</p>
+
+<textarea class="textarea" style="width:100%" cols="50" rows="30">&lt;?php
+
+class Form extends CI_Controller {
+
+	public function index()
+	{
+		$this->load->helper(array('form', 'url'));
+
+		$this->load->library('form_validation');
+
+		$this->load->model('user_m');
+		$this->form_validation->add_rule_set($this->user_m);
+
+		$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->load->view('myform');
+		}
+		else
+		{
+			$this->load->view('formsuccess');
+		}
+	}
+}
+?></textarea>
+
 <a name="settingerrors"></a>
 <h2>Setting Error Messages</h2>
 
@@ -1166,6 +1222,9 @@ group via the function, as described in: <a href="#savingtoconfig">Saving Groups
 
 <p>Permits you to set custom error messages.  See <a href="#settingerrors">Setting Error Messages</a> above.</p>
 
+<h2>$this->form_validation->add_rule_set();</h2>
+
+<p>This method lets you add a custom rule set to attending the validations defined from your rules (callback). See <a href="#callbacks">Callbacks</a> above.</p>
 
 <p>&nbsp;</p>
 
