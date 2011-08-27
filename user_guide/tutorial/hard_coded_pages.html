@@ -68,7 +68,7 @@ Features
 &lt;?php
 class Pages extends CI_Controller {
 
-	function view($page = 'home')
+	public function view($page = 'home')
 	{
 
 	}
@@ -104,7 +104,7 @@ class Pages extends CI_Controller {
 <p>In order to load these pages we'll have to check whether these page actually exists. When the page does exist, we load the view for that pages, including the header and footer and display it to the user. If it doesn't, we show a "404 Page not found" error.</p>
 
 <textarea class="textarea" style="width:100%" cols="50" rows="16">
-function view($page = 'home')
+public function view($page = 'home')
 {
 			
 	if ( ! file_exists('application/views/pages/' . $page . EXT))
@@ -115,9 +115,8 @@ function view($page = 'home')
 	$data['title'] = ucfirst($page);
 	
 	$this->load->view('templates/header', $data);
-	$this->load->view('pages/' . $page);	
+	$this->load->view('pages/'.$page);
 	$this->load->view('templates/footer');
-	
 }	
 </textarea>
 

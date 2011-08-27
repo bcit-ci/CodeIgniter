@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-<a href="introduction.html">Tutorial</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Tutorial</a> &nbsp;&#8250;&nbsp;
 Static pages
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
@@ -79,7 +79,7 @@ As URL schemes become more complex, this may change. But for now, this is all we
 
 class Pages extends CI_Controller {
 
-	function view($page = 'home')
+	public function view($page = 'home')
 	{
 
 	}
@@ -134,10 +134,10 @@ If you like to be particularly un-original, try &quot;Hello World!&quot;.</p>
 <p>In order to load those pages, you'll have to check whether the requested page actually exists:</p>
 
 <pre>
-function view($page = 'home')
+public function view($page = 'home')
 {
 			
-	if ( ! file_exists('application/views/pages/' . $page . '.php'))
+	if ( ! file_exists('application/views/pages/'.$page.'.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
@@ -146,10 +146,10 @@ function view($page = 'home')
 	$data['title'] = ucfirst($page); // Capitalize the first letter
 	
 	$this->load->view('templates/header', $data);
-	$this->load->view('pages/' . $page, $data);
+	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
-	
-}	
+
+}
 </pre>
 
 <p>Now, when the page does exist, it is loaded, including the header and footer, and displayed to the user. If the page doesn't exist, a "404 Page not found" error is shown.</p>
@@ -193,7 +193,7 @@ in the pages controller? Awesome!</p>
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="introduction.html">Introduction</a>
+Previous Topic:&nbsp;&nbsp;<a href="index.html">Introduction</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;

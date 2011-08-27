@@ -40,7 +40,7 @@ function create_menu(basepath)
 		
 		'<h3>Tutorial</h3>' +
 		'<ul>' +
-			'<li><a href="'+base+'tutorial/introduction.html">Introduction</a></li>' +
+			'<li><a href="'+base+'tutorial/index.html">Introduction</a></li>' +
 			'<li><a href="'+base+'tutorial/static_pages.html">Static pages</a></li>' +
 			'<li><a href="'+base+'tutorial/news_section.html">News section</a></li>' +
 			'<li><a href="'+base+'tutorial/create_news_items.html">Create news items</a></li>' +
