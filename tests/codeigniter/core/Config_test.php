@@ -61,26 +61,26 @@ class Config_test extends CI_TestCase {
 		
 		$base_url = $this->config->item('base_url');
 		
-		$this->config->set_item('base_url', '');
+		$this->config->set_item('base_url', 'http://example.com/');
 		
 		$q_string = $this->config->item('enable_query_strings');
 		
 		$this->config->set_item('enable_query_strings', FALSE);
 
-		$this->assertEquals('/index.php/test', $this->config->site_url('test'));
-		$this->assertEquals('/index.php/test/1', $this->config->site_url(array('test', '1')));
+		$this->assertEquals('http://example.com/index.php/test', $this->config->site_url('test'));
+		$this->assertEquals('http://example.com/index.php/test/1', $this->config->site_url(array('test', '1')));
 		
 		$this->config->set_item('enable_query_strings', TRUE);
 
-		$this->assertEquals('/index.php?test', $this->config->site_url('test'));
-		$this->assertEquals('/index.php?0=test&1=1', $this->config->site_url(array('test', '1')));
+		$this->assertEquals('http://example.com/index.php?test', $this->config->site_url('test'));
+		$this->assertEquals('http://example.com/index.php?0=test&1=1', $this->config->site_url(array('test', '1')));
 		
 		$this->config->set_item('base_url', $base_url);
 
 		$this->assertEquals('http://example.com/index.php?test', $this->config->site_url('test'));
 		
 		// back to home base
-		$this->config->set_item('enable_query_strings', $q_string);				
+		$this->config->set_item('enable_query_strings', $q_string);
 	}
 
 	// --------------------------------------------------------------------
