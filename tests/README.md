@@ -18,13 +18,15 @@ format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 
 ### Requirements
 
-1. PHP Unit >= 3.5.6
-    - pear channel-discover pear.phpunit.de
-    - pear install phpunit/PHPUnit
+PHP Unit >= 3.5.6
 
-2. vfsStream
-    - pear channel-discover pear.php-tools.net
-    - pear install pat/vfsStream-alpha
+	pear channel-discover pear.phpunit.de
+	pear install phpunit/PHPUnit
+
+vfsStream
+
+	pear channel-discover pear.php-tools.net
+	pear install pat/vfsStream-alpha
 
 #### Installation of PEAR and PHPUnit on Ubuntu
 
@@ -32,21 +34,21 @@ format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
   need to use 'sudo' to install these. Mileage may vary but these steps are a
   good start.
 
-- Install the pear package
-  sudo apt-get install php-pear
+	# Install the PEAR package
+	sudo apt-get install php-pear
 
-- Add a few sources to PEAR
-  pear channel-discover pear.phpunit.de
-  pear channel-discover pear.symfony-project.com
-  pear channel-discover components.ez.no
-  pear channel-discover pear.symfony-project.com
+	# Add a few sources to PEAR
+	pear channel-discover pear.phpunit.de
+	pear channel-discover pear.symfony-project.com
+	pear channel-discover components.ez.no
+	pear channel-discover pear.symfony-project.com
 
-- Finally install PHPUnit and vfsStream (including dependencies)
-  pear install --alldeps phpunit/PHPUnit
-  pear install --alldeps pat/vfsStream-alpha
+	# Finally install PHPUnit and vfsStream (including dependencies)
+	pear install --alldeps phpunit/PHPUnit
+	pear install --alldeps pat/vfsStream-alpha
 
-- Finally, run 'phpunit' from within the ./tests directory
-  and you should be on your way!
+	# Finally, run 'phpunit' from within the ./tests directory
+	# and you should be on your way!
 
 ## Test Suites:
 
