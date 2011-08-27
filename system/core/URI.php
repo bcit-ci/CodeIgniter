@@ -87,11 +87,12 @@ class CI_URI {
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if (php_sapi_name() == 'cli' or defined('STDIN'))
+			if ($this->_is_cli_request())
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
 			}
+			
 
 			// Let's try the REQUEST_URI first, this will work in most situations
 			if ($uri = $this->_detect_uri())
@@ -105,22 +106,22 @@ class CI_URI {
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
 			if (trim($path, '/') != '' && $path != "/".SELF)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string( trim($path, "/") );
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
 			if (trim($path, '/') != '')
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string( trim($path, "/") );
 				return;
 			}
 
 			// As a last ditch effort lets try using the $_GET array
 			if (is_array($_GET) && count($_GET) == 1 && trim(key($_GET), '/') != '')
 			{
-				$this->_set_uri_string(key($_GET));
+				$this->_set_uri_string( trim(key($_GET), "/") );
 				return;
 			}
 
@@ -175,7 +176,7 @@ class CI_URI {
 	 * @access	private
 	 * @return	string
 	 */
-	private function _detect_uri()
+	protected function _detect_uri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI']) OR ! isset($_SERVER['SCRIPT_NAME']))
 		{
@@ -223,7 +224,21 @@ class CI_URI {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Is cli Request?
+	 *
+	 * Duplicate of function from Input to test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	protected function _is_cli_request()
+	{
+		return (php_sapi_name() == 'cli') or defined('STDIN');
+	}
 
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Parse cli arguments
 	 *
@@ -232,11 +247,11 @@ class CI_URI {
 	 * @access	private
 	 * @return	string
 	 */
-	private function _parse_cli_args()
+	protected function _parse_cli_args()
 	{
 		$args = array_slice($_SERVER['argv'], 1);
 
-		return $args ? '/' . implode('/', $args) : '';
+		return $args ? implode('/', $args) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -254,6 +269,7 @@ class CI_URI {
 		{
 			// preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards
 			// compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
+
 			if ( ! preg_match("|^[".str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-'))."]+$|i", $str))
 			{
 				show_error('The URI you submitted has disallowed characters.', 400);
@@ -506,8 +522,9 @@ class CI_URI {
 			$temp[] = $key;
 			$temp[] = $val;
 		}
-
-		return implode('/', $temp);
+		
+		$where = $this->config->item('uri_string_slashes');
+		return $this->_slash_string( implode('/', $temp), $where);
 	}
 
 	// --------------------------------------------------------------------
@@ -553,6 +570,20 @@ class CI_URI {
 	 */
 	function _slash_segment($n, $where = 'trailing', $which = 'segment')
 	{
+		return $this->_slash_string($this->$which($n), $where);
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Format slashes of a string - helper function
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 */
+	function _slash_string($str, $where = 'none')
+	{
 		$leading	= '/';
 		$trailing	= '/';
 
@@ -564,10 +595,39 @@ class CI_URI {
 		{
 			$trailing	= '';
 		}
+		
+		if($where == 'both')
+		{
+			$leading = $trailing = '/';
+		}
+		
+		if($where == 'none')
+		{
+			$leading = $trailing = '';
+		}
 
-		return $leading.$this->$which($n).$trailing;
+		return $leading.trim($str, '/').$trailing;
 	}
-
+	
+	/**
+	 * Format slashes of a string - uses config
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	string
+	 */
+	function slash_string($str)
+	{
+		$slashes = $this->config->item('uri_string_slashes');
+		
+		if( ! in_array($slashes, array('both', 'leading','trailing', 'none')))
+		{
+			$slashes = 'none';
+		}		
+		
+		return $this->_slash_string($str, $slashes);
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -630,7 +690,7 @@ class CI_URI {
 	 */
 	function uri_string()
 	{
-		return $this->uri_string;
+		return $this->slash_string($this->uri_string);
 	}
 
 
@@ -644,7 +704,9 @@ class CI_URI {
 	 */
 	function ruri_string()
 	{
-		return '/'.implode('/', $this->rsegment_array());
+		$ruri = implode('/', $this->rsegment_array());
+		
+		return $this->slash_string($ruri);
 	}
 
 }
