@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-<a href="introduction.html">Tutorial</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Tutorial</a> &nbsp;&#8250;&nbsp;
 Create news items
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
@@ -90,7 +90,7 @@ Create news items
 <p>Go back to your news controller. You're going to do two things here, check whether the form was submitted and whether the submitted data passed the validation rules. You'll use the <a href="../libraries/form_validation.html">form validation</a> library to do this.</p>
 
 <pre>
-function create()
+public function create()
 {
 	$this->load->helper('form');
 	$this->load->library('form_validation');
@@ -112,7 +112,6 @@ function create()
 		$this->news_model->set_news();
 		$this->load->view('news/success');
 	}
-	
 }
 </pre>
 
@@ -127,7 +126,7 @@ function create()
 <p>The only thing that remains is writing a method that writes the data to the database. You'll use the Active Record class to insert the information and use the input library to get the posted data. Open up the model created earlier and add the following:</p>
 
 <pre>
-function set_news()
+public function set_news()
 {
 	$this->load->helper('url');
 	
@@ -140,7 +139,6 @@ function set_news()
 	);
 	
 	return $this->db->insert('news', $data);
-	
 }
 </pre>
 

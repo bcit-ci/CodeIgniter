@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-<a href="introduction.html">Tutorial</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Tutorial</a> &nbsp;&#8250;&nbsp;
 News section
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
@@ -71,10 +71,9 @@ News section
 &lt;?php
 class News_model extends CI_Model {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->load->database();
-
 	}
 }
 </pre>
@@ -97,18 +96,16 @@ CREATE TABLE news (
 <p>Now that the database and a model have been set up, you'll need a method to get all of our posts from our database. To do this, the database abstraction layer that is included with CodeIgniter — <a href="../database/active_record.html">Active Record</a> — is used. This makes it possible to write your 'queries' once and make them work on <a href="../general/requirements.html">all supported database systems</a>. Add the following code to your model.</p>
 
 <pre>
-function get_news($slug = FALSE)
+public function get_news($slug = FALSE)
 {
 	if ($slug === FALSE)
 	{
 		$query = $this->db->get('news');
 		return $query->result_array();
-
 	}
 	
 	$query = $this->db->get_where('news', array('slug' => $slug));
 	return $query->row_array();
-
 }
 </pre>
 
@@ -120,27 +117,23 @@ function get_news($slug = FALSE)
 
 <pre>
 &lt;?php
-class News extends CI_Controller{
+class News extends CI_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('news_model');
-
 	}
 
-	function index()
+	public function index()
 	{
 		$data['news'] = $this->news_model->get_news();
-
 	}
 
-	function view($slug)
+	public function view($slug)
 	{
 		$data['news'] = $this->news_model->get_news($slug);
-
 	}
-
 }
 </pre>
 
@@ -151,7 +144,7 @@ class News extends CI_Controller{
 <p>Now the data is retrieved by the controller through our model, but nothing is displayed yet. The next thing to do is passing this data to the views.</p>
 
 <pre>
-function index()
+public function index()
 {
 	$data['news'] = $this->news_model->get_news();
 	$data['title'] = 'News archive';
@@ -159,7 +152,6 @@ function index()
 	$this->load->view('templates/header', $data);
 	$this->load->view('news/index', $data);
 	$this->load->view('templates/footer');
-
 }
 </pre>
 
@@ -182,7 +174,7 @@ function index()
 <p>The news overview page is now done, but a page to display individual news items is still absent. The model created earlier is made in such way that it can easily be used for this functionality. You only need to add some code to the controller and create a new view. Go back to the news controller and add the following lines to the file.</p>
 
 <pre>
-function view($slug)
+public function view($slug)
 {
 	$data['news_item'] = $this->news_model->get_news($slug);
 
@@ -196,7 +188,6 @@ function view($slug)
 	$this->load->view('templates/header', $data);
 	$this->load->view('news/view', $data);
 	$this->load->view('templates/footer');
-
 }
 </pre>
 
@@ -204,7 +195,7 @@ function view($slug)
 
 <pre>
 &lt;?php
-echo '&lt;h2&gt;' . $news_item['title'] . '&lt;/h2&gt;';
+echo '&lt;h2&gt;'.$news_item['title'].'&lt;/h2&gt;';
 echo $news_item['text'];
 </pre>
 
