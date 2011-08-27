@@ -126,6 +126,7 @@ $mobiles = array(
 					'sendo'				=> "Sendo",
 
 					// Operating Systems
+					'android'				=> "Android",
 					'symbian'				=> "Symbian",
 					'SymbianOS'				=> "SymbianOS",
 					'elaine'				=> "Palm",
