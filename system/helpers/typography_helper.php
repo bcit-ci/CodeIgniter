@@ -82,9 +82,12 @@ if ( ! function_exists('auto_typography'))
  */
 if ( ! function_exists('entity_decode'))
 {
-	function entity_decode($str, $charset='UTF-8')
+	function entity_decode($str, $charset = NULL)
 	{
 		global $SEC;
+		
+		if (empty($charset)) $charset = config_item('charset');
+		
 		return $SEC->entity_decode($str, $charset);
 	}
 }
