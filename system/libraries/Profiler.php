@@ -92,6 +92,10 @@ class CI_Profiler {
 			{
 				$this->_compile_{$method} = ($enable !== FALSE) ? TRUE : FALSE;
 			}
+			elseif ($method === 'query_toggle_count')
+			{
+				$this->_query_toggle_count = (is_int($enable)) ? $enable : $this->_query_toggle_count;
+			}
 		}
 	}
 
