@@ -231,22 +231,29 @@ class CI_Router {
 		{
 			return $this->_set_default_controller();
 		}			
-		
-		// Convert dashes "-" in the uri to underscores "_" 
-		// which are used for function name delienation in PHP
-		// this needs to happen before we validate any requests
-		// and we ONLY check the first 2 segments so we don't
-		// blow up any variables
-		for ($i = 0; $i < 2; $i++) 
+
+		// Lets check and see if you're using dashes instead of underscores
+		if ($this->config->item('use_dashes') === TRUE)
 		{
-			if (isset($segments[$i]))
+			// We only care about the first 2 segments, the controller and
+			// if set the function name 
+			$loop_length = (count($segments) < 2) ? count($segments) : 2; 
+			
+			for ($i=0; $i < $loop_length; $i++)
 			{
-				$segments[$i] = str_replace('-', '_', $segments[$i]);
-			}
-		} 
+				// If any of the segments use dashes we throw a 404 so that
+				// we don't have an issue with 2 URLs pointing to the same page
+				if (strpos($segments[$i], '_') !== FALSE)
+				{
+					show_404($segments);
+				}
+				
+				$segments[$i] = str_replace('-', '_', $segments[$i]);						
+			}	
+		}
 				
 		$segments = $this->_validate_request($segments);
-
+				
 		$this->set_class($segments[0]);
 
 		if (isset($segments[1]))
