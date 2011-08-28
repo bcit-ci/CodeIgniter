@@ -472,7 +472,7 @@ class CI_Profiler {
 
 		foreach ($this->CI->config->config as $config=>$val)
 		{
-			if (is_array($val))
+			if (is_array($val) || is_object($val))
 			{
 				$val = print_r($val, TRUE);
 			}
