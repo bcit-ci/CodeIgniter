@@ -39,9 +39,7 @@ if ( ! function_exists('nl2br_except_pre'))
 	function nl2br_except_pre($str)
 	{
 		$CI =& get_instance();
-
 		$CI->load->library('typography');
-
 		return $CI->typography->nl2br_except_pre($str);
 	}
 }
@@ -86,7 +84,10 @@ if ( ! function_exists('entity_decode'))
 	{
 		global $SEC;
 		
-		if (empty($charset)) $charset = config_item('charset');
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
 		
 		return $SEC->entity_decode($str, $charset);
 	}

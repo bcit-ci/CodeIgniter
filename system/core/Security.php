@@ -527,8 +527,15 @@ class CI_Security {
 	 */
 	public function entity_decode($str, $charset = NULL)
 	{
-		if (stristr($str, '&') === FALSE) return $str;
-		if (empty($charset)) $charset = config_item('charset');
+		if (stristr($str, '&') === FALSE)
+		{
+			return $str;
+		}
+		
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
 
 		// The reason we are not using html_entity_decode() by itself is because
 		// while it is not technically correct to leave out the semicolon
