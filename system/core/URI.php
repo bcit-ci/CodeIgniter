@@ -87,7 +87,7 @@ class CI_URI {
 		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if (php_sapi_name() == 'cli' or defined('STDIN'))
+			if ($this->_is_cli_request())
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
@@ -222,6 +222,21 @@ class CI_URI {
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
 	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Is cli Request?
+	 *
+	 * Duplicate of function from the Input class to test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	protected function _is_cli_request()
+	{
+		return (php_sapi_name() == 'cli') OR defined('STDIN');
+	}
+
+	
 	// --------------------------------------------------------------------
 
 	/**
