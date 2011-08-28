@@ -65,6 +65,7 @@ class CI_Driver_Library {
 
 						if (is_file($baseclass))
 						{
+							$child_class = str_replace('CI_', config_item('subclass_prefix'), $child_class);
 							include_once $baseclass;
 							include_once $subclass;
 							break;
