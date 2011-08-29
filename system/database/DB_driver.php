@@ -1177,7 +1177,7 @@ class CI_DB_driver {
 
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['file'], BASEPATH.'core/Loader.php') === FALSE )
+			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['file'], BASEPATH.'core/Loader') === FALSE )
 			{
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(BASEPATH, APPPATH), '', $call['file']);
