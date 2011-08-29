@@ -84,14 +84,19 @@ class CI_DB_mysql_result extends CI_DB_result {
 	function field_data()
 	{
 		$retval = array();
-		while ($field = mysql_fetch_field($this->result_id))
+		while ($field = mysql_fetch_object($this->result_id))
 		{
+			preg_match('/([a-zA-Z]+)(\((\d+)\))?/i', $field->Type, $matches);
+
+			$type = $matches[1];
+			$length = isset($matches[3]) ? (int) $matches[3] : NULL;
+
 			$F				= new stdClass();
-			$F->name		= $field->name;
-			$F->type		= $field->type;
-			$F->default		= $field->def;
-			$F->max_length	= $field->max_length;
-			$F->primary_key = $field->primary_key;
+			$F->name		= $field->Field;
+			$F->type		= $type;
+			$F->default		= $field->Default;
+			$F->max_length	= $length;
+			$F->primary_key = ( $field->Key == 'PRI' ? 1 : 0 );
 
 			$retval[] = $F;
 		}
