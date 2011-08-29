@@ -67,13 +67,13 @@ class Config_test extends CI_TestCase {
 		
 		$this->config->set_item('enable_query_strings', FALSE);
 
-		$this->assertEquals('/index.php/test', $this->config->site_url('test'));
-		$this->assertEquals('/index.php/test/1', $this->config->site_url(array('test', '1')));
+		$this->assertEquals('index.php/test', $this->config->site_url('test'));
+		$this->assertEquals('index.php/test/1', $this->config->site_url(array('test', '1')));
 		
 		$this->config->set_item('enable_query_strings', TRUE);
 
-		$this->assertEquals('/index.php?test', $this->config->site_url('test'));
-		$this->assertEquals('/index.php?0=test&1=1', $this->config->site_url(array('test', '1')));
+		$this->assertEquals('index.php?test', $this->config->site_url('test'));
+		$this->assertEquals('index.php?0=test&1=1', $this->config->site_url(array('test', '1')));
 		
 		$this->config->set_item('base_url', $base_url);
 
