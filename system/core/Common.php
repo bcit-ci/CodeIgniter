@@ -493,6 +493,12 @@ if ( ! function_exists('_exception_handler'))
 			return;
 		}
 
+		// Is this a suppressed error? Yes? Let's deal with it...
+		if (0 === error_reporting())
+		{
+			$severity = 'SCREAM';
+		}
+
 		$_error->log_exception($severity, $message, $filepath, $line);
 	}
 }
