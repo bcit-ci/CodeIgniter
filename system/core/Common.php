@@ -386,7 +386,7 @@ if ( ! function_exists('set_status_header'))
 							300	=> 'Multiple Choices',
 							301	=> 'Moved Permanently',
 							302	=> 'Found',
-							303 => 'See Other',
+							303	=> 'See Other',
 							304	=> 'Not Modified',
 							305	=> 'Use Proxy',
 							307	=> 'Temporary Redirect',
