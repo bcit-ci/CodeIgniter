@@ -39,18 +39,20 @@ class CI_Log {
 	 */
 	public function __construct()
 	{
-		$config =& get_config();
+		$CI =& get_instance();
 
-		$this->_log_path = ($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs/';
+		$log_path = $CI->config->item('log_path');
+		$this->_log_path = ($log_path != '') ? $log_path : APPPATH.'logs/';
 
-		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
+		if ( ! is_dir($this->_log_path) OR ! $CI->is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 
-		if (is_numeric($config['log_threshold']))
+		$threshold = $CI->config->item('log_threshold');
+		if (is_numeric($threshold))
 		{
-			$this->_threshold = $config['log_threshold'];
+			$this->_threshold = $threshold;
 		}
 		elseif (is_array($config['log_threshold']))
 		{
@@ -58,9 +60,10 @@ class CI_Log {
 			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
-		if ($config['log_date_format'] != '')
+		$format = $CI->config->item('log_date_format');
+		if ($format != '')
 		{
-			$this->_date_fmt = $config['log_date_format'];
+			$this->_date_fmt = $format;
 		}
 	}
 

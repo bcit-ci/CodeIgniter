@@ -11,9 +11,9 @@
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ *	 development
+ *	 testing
+ *	 production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  *
@@ -34,13 +34,11 @@ if (defined('ENVIRONMENT'))
 	{
 		case 'development':
 			error_reporting(-1);
-		break;
-	
+			break;
 		case 'testing':
 		case 'production':
 			error_reporting(0);
-		break;
-
+			break;
 		default:
 			exit('The application environment is not set correctly.');
 	}
@@ -166,9 +164,27 @@ if (defined('ENVIRONMENT'))
 	$system_path = rtrim($system_path, '/').'/';
 
 	// Is the system path correct?
-	if ( ! is_dir($system_path))
+	if (!is_dir($system_path))
 	{
-		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
+		// Try include directories for a central system folder
+		$found = FALSE;
+		foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
+		{
+			$path = rtrim($path, '\/').'/'.$system_path;
+			if (is_dir($path))
+			{
+				$system_path = $path;
+				$found = TRUE;
+				break;
+			}
+		}
+
+		// If we didn't find it, quit
+		if (!$found)
+		{
+			exit('Your system folder path does not appear to be set correctly. Please open the following file '.
+				'and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
+		}
 	}
 
 /*
@@ -184,14 +200,13 @@ if (defined('ENVIRONMENT'))
 	define('EXT', '.php');
 
 	// Path to the system folder
-	define('BASEPATH', str_replace("\\", "/", $system_path));
+	define('BASEPATH', str_replace('\\', '/', $system_path));
 
 	// Path to the front controller (this file)
 	define('FCPATH', str_replace(SELF, '', __FILE__));
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
 
 	// The path to the "application" folder
 	if (is_dir($application_folder))
@@ -200,9 +215,10 @@ if (defined('ENVIRONMENT'))
 	}
 	else
 	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
+		if (!is_dir(BASEPATH.$application_folder.'/'))
 		{
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
+			exit('Your application folder path does not appear to be set correctly. Please open the following file '.
+				'and correct this: '.SELF);
 		}
 
 		define('APPPATH', BASEPATH.$application_folder.'/');
@@ -217,7 +233,7 @@ if (defined('ENVIRONMENT'))
 	{
 		if ( ! is_dir(APPPATH.'views/'))
 		{
-			exit("Your view folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
+			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 				
 		define ('VIEWPATH', APPPATH.'views/' );	

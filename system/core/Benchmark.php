@@ -13,13 +13,11 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Benchmark Class
  *
  * This class enables you to mark points and calculate the time difference
- * between them.  Memory consumption can also be displayed.
+ * between them. Memory consumption can also be displayed.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -28,15 +26,23 @@
  * @link		http://codeigniter.com/user_guide/libraries/benchmark.html
  */
 class CI_Benchmark {
-
 	/**
 	 * List of all benchmark markers and when they were added
 	 *
 	 * @var array
 	 */
-	var $marker = array();
+	public $marker = array();
 
-	// --------------------------------------------------------------------
+	/**
+	 * Constructor
+	 *
+	 * @param	object	parent reference
+	 */
+	public function __construct(CodeIgniter $CI)
+	{
+		// No need for the parent reference - just log initialized
+		$CI->log_message('debug', 'Benchmark Class Initialized');
+	}
 
 	/**
 	 * Set a benchmark marker
@@ -44,16 +50,13 @@ class CI_Benchmark {
 	 * Multiple calls to this function can be made so that several
 	 * execution points can be timed
 	 *
-	 * @access	public
-	 * @param	string	$name	name of the marker
+	 * @param	string	name of the marker
 	 * @return	void
 	 */
-	function mark($name)
+	public function mark($name)
 	{
 		$this->marker[$name] = microtime();
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Calculates the time difference between two marked points.
@@ -63,13 +66,12 @@ class CI_Benchmark {
 	 * execution time to be shown in a template. The output class will
 	 * swap the real value for this variable.
 	 *
-	 * @access	public
 	 * @param	string	a particular marked point
 	 * @param	string	a particular marked point
 	 * @param	integer	the number of decimal places
 	 * @return	mixed
 	 */
-	function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
+	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
 	{
 		if ($point1 == '')
 		{
@@ -92,8 +94,6 @@ class CI_Benchmark {
 		return number_format(($em + $es) - ($sm + $ss), $decimals);
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Memory Usage
 	 *
@@ -102,16 +102,13 @@ class CI_Benchmark {
 	 * without the memory being calculated until the end.
 	 * The output class will swap the real value for this variable.
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function memory_usage()
+	public function memory_usage()
 	{
 		return '{memory_usage}';
 	}
-
 }
-
 // END CI_Benchmark class
 
 /* End of file Benchmark.php */

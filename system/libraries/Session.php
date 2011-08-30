@@ -69,7 +69,7 @@ class CI_Session {
 
 		if ($this->encryption_key == '')
 		{
-			show_error('In order to use the Session class you are required to set an encryption key in your config file.');
+			throw new CI_ShowError('In order to use the Session class you are required to set an encryption key in your config file.');
 		}
 
 		// Load the string helper so we can use the strip_slashes() function

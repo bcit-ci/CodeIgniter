@@ -70,9 +70,9 @@ if ( ! function_exists('get_cookie'))
 
 		$prefix = '';
 
-		if ( ! isset($_COOKIE[$index]) && config_item('cookie_prefix') != '')
+		if ( ! isset($_COOKIE[$index]) && $CI->config->item('cookie_prefix') != '')
 		{
-			$prefix = config_item('cookie_prefix');
+			$prefix = $CI->config->item('cookie_prefix');
 		}
 
 		return $CI->input->cookie($prefix.$index, $xss_clean);

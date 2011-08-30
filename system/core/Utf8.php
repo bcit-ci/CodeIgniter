@@ -13,8 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Utf8 Class
  *
@@ -27,27 +25,34 @@
  * @link		http://codeigniter.com/user_guide/libraries/utf8.html
  */
 class CI_Utf8 {
+	/**
+	 * Reference to CodeIgniter object
+	 *
+	 * @var object
+	 * @access	protected
+	 */
+	protected $CI = NULL;
 
 	/**
 	 * Constructor
 	 *
 	 * Determines if UTF-8 support is to be enabled
 	 *
+	 * @param	object	parent reference
 	 */
-	function __construct()
+	public function __construct(CodeIgniter $CI)
 	{
-		log_message('debug', "Utf8 Class Initialized");
+		// Attach parent reference
+		$this->CI =& $CI;
 
-		global $CFG;
+		$CI->log_message('debug', 'Utf8 Class Initialized');
 
-		if (
-			preg_match('/./u', 'é') === 1					// PCRE must support UTF-8
-			AND function_exists('iconv')					// iconv must be installed
-			AND ini_get('mbstring.func_overload') != 1		// Multibyte string function overloading cannot be enabled
-			AND $CFG->item('charset') == 'UTF-8'			// Application charset must be UTF-8
-			)
+		// PCRE must support UTF-8, iconv must be installed,
+		// Multibyte string function overloading cannot be enabled, and Application charset must be UTF-8
+		if (preg_match('/./u', 'é') === 1 && function_exists('iconv') &&
+		ini_get('mbstring.func_overload') != 1 && $CI->config->item('charset') == 'UTF-8')
 		{
-			log_message('debug', "UTF-8 Support Enabled");
+			$CI->log_message('debug', 'UTF-8 Support Enabled');
 
 			define('UTF8_ENABLED', TRUE);
 
@@ -66,23 +71,20 @@ class CI_Utf8 {
 		}
 		else
 		{
-			log_message('debug', "UTF-8 Support Disabled");
+			$CI->log_message('debug', 'UTF-8 Support Disabled');
 			define('UTF8_ENABLED', FALSE);
 		}
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Clean UTF-8 strings
 	 *
 	 * Ensures strings are UTF-8
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	function clean_string($str)
+	public function clean_string($str)
 	{
 		if ($this->_is_ascii($str) === FALSE)
 		{
@@ -92,8 +94,6 @@ class CI_Utf8 {
 		return $str;
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Remove ASCII control characters
 	 *
@@ -101,34 +101,30 @@ class CI_Utf8 {
 	 * line feeds, and carriage returns, as all others can cause
 	 * problems in XML
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	function safe_ascii_for_xml($str)
+	public function safe_ascii_for_xml($str)
 	{
-		return remove_invisible_characters($str, FALSE);
+		return $this->CI->remove_invisible_characters($str, FALSE);
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Convert to UTF-8
 	 *
 	 * Attempts to convert a string to UTF-8
 	 *
-	 * @access	public
 	 * @param	string
-	 * @param	string	- input encoding
+	 * @param	string	input encoding
 	 * @return	string
 	 */
-	function convert_to_utf8($str, $encoding)
+	public function convert_to_utf8($str, $encoding)
 	{
 		if (function_exists('iconv'))
 		{
 			$str = @iconv($encoding, 'UTF-8', $str);
 		}
-		elseif (function_exists('mb_convert_encoding'))
+		else if (function_exists('mb_convert_encoding'))
 		{
 			$str = @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
@@ -140,24 +136,19 @@ class CI_Utf8 {
 		return $str;
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Is ASCII?
 	 *
 	 * Tests if a string is standard 7-bit ASCII or not
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string
 	 * @return	bool
 	 */
-	function _is_ascii($str)
+	protected function _is_ascii($str)
 	{
 		return (preg_match('/[^\x00-\x7F]/S', $str) == 0);
 	}
-
-	// --------------------------------------------------------------------
-
 }
 // End Utf8 Class
 

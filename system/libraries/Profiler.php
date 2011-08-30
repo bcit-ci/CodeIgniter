@@ -353,13 +353,14 @@ class CI_Profiler {
 		$output .= '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_uri_string').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
 
-		if ($this->CI->uri->uri_string == '')
+		$uri = $this->CI->uri->uri_string();
+		if ($uri == '')
 		{
 			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_uri')."</div>";
 		}
 		else
 		{
-			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->uri->uri_string."</div>";
+			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$uri."</div>";
 		}
 
 		$output .= "</fieldset>";

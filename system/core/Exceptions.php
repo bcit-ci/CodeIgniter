@@ -13,10 +13,11 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Exceptions Class
+ *
+ * The base class, CI_CoreShare, is defined in CodeIgniter.php and allows
+ * Loader access to protected loading methods in CodeIgniter.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -24,168 +25,119 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
  */
-class CI_Exceptions {
-	var $action;
-	var $severity;
-	var $message;
-	var $filename;
-	var $line;
+class CI_Exceptions extends CI_CoreShare {
+	/**
+	 * Reference to CodeIgniter object
+	 *
+	 * @var object
+	 * @access	protected
+	 */
+	protected $CI		= NULL;
 
 	/**
-	 * Nesting level of the output buffering mechanism
+	 * Initial output buffer level
 	 *
-	 * @var int
-	 * @access public
+	 * @var	int
+	 * @access	protected
 	 */
-	var $ob_level;
-
-	/**
-	 * List if available error levels
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $levels = array(
-						E_ERROR				=>	'Error',
-						E_WARNING			=>	'Warning',
-						E_PARSE				=>	'Parsing Error',
-						E_NOTICE			=>	'Notice',
-						E_CORE_ERROR		=>	'Core Error',
-						E_CORE_WARNING		=>	'Core Warning',
-						E_COMPILE_ERROR		=>	'Compile Error',
-						E_COMPILE_WARNING	=>	'Compile Warning',
-						E_USER_ERROR		=>	'User Error',
-						E_USER_WARNING		=>	'User Warning',
-						E_USER_NOTICE		=>	'User Notice',
-						E_STRICT			=>	'Runtime Notice'
-					);
-
+	protected $ob_level	= 0;
 
 	/**
 	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->ob_level = ob_get_level();
-		// Note:  Do not log messages from this constructor.
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Exception Logger
 	 *
-	 * This function logs PHP generated error messages
-	 *
-	 * @access	private
-	 * @param	string	the error severity
-	 * @param	string	the error string
-	 * @param	string	the error filepath
-	 * @param	string	the error line number
-	 * @return	string
+	 * @param	object	parent reference
+	 * @param	int		initial output buffer level
 	 */
-	function log_exception($severity, $message, $filepath, $line)
+	public function __construct(CodeIgniter $CI, $ob_level)
 	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
-
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
+		// Attach parent reference
+		$this->CI =& $CI;
+		$this->ob_level = $ob_level;
+		// Note: Do not log messages from this constructor.
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * 404 Page Not Found Handler
-	 *
-	 * @access	private
-	 * @param	string	the page
-	 * @param 	bool	log error yes/no
-	 * @return	string
-	 */
-	function show_404($page = '', $log_error = TRUE)
-	{
-		$heading = "404 Page Not Found";
-		$message = "The page you requested was not found.";
-
-		// By default we log this, but allow a dev to skip it
-		if ($log_error)
-		{
-			log_message('error', '404 Page Not Found --> '.$page);
-		}
-
-		echo $this->show_error($heading, $message, 'error_404', 404);
-		exit;
-	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * General Error Page
 	 *
-	 * This function takes an error message as input
-	 * (either as a string or an array) and displays
-	 * it using the specified template.
+	 * This function displays an error using the specified template unless an override is found.
+	 * The override method will get the exception as its first argument,
+	 * followed by any trailing segments of the override route. So, if the override
+	 * route was "errclass/method/one/two", the effect would be to call:
+	 *	errclass->method($exception, "one", "two");
+	 * The CodeIgniter object calls this protected function via CI_CoreShare.
 	 *
-	 * @access	private
-	 * @param	string	the heading
-	 * @param	string	the message
-	 * @param	string	the template name
-	 * @param 	int		the status code
-	 * @return	string
+	 * @access	protected
+	 * @param	object	ShowError exception
+	 * @return	void
 	 */
-	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+	protected function _show_error(CI_ShowError $error)
 	{
-		set_status_header($status_code);
+		// Get template
+		$template = $error->getTemplate();
 
-		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
-
-		if (ob_get_level() > $this->ob_level + 1)
+		try
 		{
-			ob_end_flush();
+			// Ensure Output is loaded and set status header
+			if (!isset($this->CI->output))
+			{
+				$this->_call_core($this->CI, '_load', 'core', 'Output');
+			}
+			$this->CI->output->set_status_header($error->getCode());
+
+			// Clear any output buffering
+			if (ob_get_level() > $this->ob_level + 1)
+			{
+				ob_end_flush();
+			}
+
+			// Ensure Router is loaded
+			if (!isset($this->CI->router))
+			{
+				$this->_call_core($this->CI, '_load', 'core', 'Router');
+			}
+
+			// Check Router for an override
+			$route = $this->CI->router->get_error_route(str_replace('error_', '', $template));
+			if ($route !== FALSE)
+			{
+				// Extract segment parts
+				$path = array_shift($route);
+				$subdir = array_shift($route);
+				$class = array_shift($route);
+				$method = array_shift($route);
+
+				// Prepend exception to any remaining args
+				array_unshift($route, $error);
+
+				// Load object in core as routed
+				if (isset($this->CI->routed))
+				{
+					unset($this->CI->routed);
+				}
+				$this->_call_core($this->CI, '_load', 'controller', $class, 'routed', NULL, $subdir, $path);
+
+				// Call controller method
+				if ($this->_call_core($this->CI, '_call_controller', 'routed', $method, $route))
+				{
+					// Display the output and exit
+					$this->_call_core($this->CI->output, '_display');
+					return;
+				}
+			}
 		}
+		catch (CI_ShowError $ex)
+		{
+			// Just add the failure to the existing messages and move on
+			$error->addMessage($ex->getMessage());
+		}
+
+		// If the override didn't exit above, just display the generic error template
+		// The output buffering here prevents displaying any partially buffered output
+		// from the pre-error operation
 		ob_start();
 		include(APPPATH.'errors/'.$template.'.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
+		echo ob_get_clean();
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Native PHP error handler
-	 *
-	 * @access	private
-	 * @param	string	the error severity
-	 * @param	string	the error string
-	 * @param	string	the error filepath
-	 * @param	string	the error line number
-	 * @return	string
-	 */
-	function show_php_error($severity, $message, $filepath, $line)
-	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
-
-		$filepath = str_replace("\\", "/", $filepath);
-
-		// For safety reasons we do not show the full file path
-		if (FALSE !== strpos($filepath, '/'))
-		{
-			$x = explode('/', $filepath);
-			$filepath = $x[count($x)-2].'/'.end($x);
-		}
-
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-		ob_start();
-		include(APPPATH.'errors/error_php.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		echo $buffer;
-	}
-
-
 }
 // END Exceptions Class
 
