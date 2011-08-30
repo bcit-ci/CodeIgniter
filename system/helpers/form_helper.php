@@ -174,7 +174,8 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$name = 'name' => (( ! is_array($data)) ? $data : '');
+		$defaults = array('type' => 'text', 'id' => $name, 'name' => $name, 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
@@ -199,7 +200,7 @@ if ( ! function_exists('form_password'))
 	{
 		if ( ! is_array($data))
 		{
-			$data = array('name' => $data);
+			$data = array('name' => $data, 'id' => $data);
 		}
 
 		$data['type'] = 'password';
@@ -226,7 +227,7 @@ if ( ! function_exists('form_upload'))
 	{
 		if ( ! is_array($data))
 		{
-			$data = array('name' => $data);
+			$data = array('name' => $data, 'id' => $data);
 		}
 
 		$data['type'] = 'file';
@@ -249,7 +250,8 @@ if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
+		$name = (( ! is_array($data)) ? $data : '');
+		$defaults = array('id' => $name, 'name' => $name, 'cols' => '40', 'rows' => '10');
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -326,7 +328,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select id="'.$name,'" name="'.$name.'"'.$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
