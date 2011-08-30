@@ -13,8 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Driver Library Class
  *
@@ -27,72 +25,74 @@
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Driver_Library {
-
+class CI_Driver_Library extends CI_CoreShare {
 	protected $valid_drivers	= array();
-	protected static $lib_name;
+	protected $lib_name;
 
-	// The first time a child is used it won't exist, so we instantiate it
-	// subsequents calls will go straight to the proper child.
-	function __get($child)
-	{
-		if ( ! isset($this->lib_name))
-		{
+	/**
+	 * Driver loader
+	 *
+	 * Loads a validated driver object and attaches it to the library
+	 *
+	 * @param	string	driver name
+	 * @return	object	driver object
+	 */
+	public function load_driver($driver) {
+		// Set parent library name first time
+		if ( ! isset($this->lib_name)) {
 			$this->lib_name = get_class($this);
 		}
 
+		// Get root instance
+		$CI =& get_instance();
+
 		// The class will be prefixed with the parent lib
-		$child_class = $this->lib_name.'_'.$child;
-	
+		$driver_class = $this->lib_name.'_'.$driver;
+
 		// Remove the CI_ prefix and lowercase
 		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-		
-		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
-		{
-			// check and see if the driver is in a separate file
-			if ( ! class_exists($child_class))
-			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
-				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+		$driver_name = strtolower(str_replace('CI_', '', $driver_class));
 
-						if (file_exists($filepath))
-						{
-							include_once $filepath;
-							break;
-						}
-					}
-				}
-
-				// it's a valid driver, but the file simply can't be found
-				if ( ! class_exists($child_class))
-				{
-					log_message('error', "Unable to load the requested driver: ".$child_class);
-					show_error("Unable to load the requested driver: ".$child_class);
-				}
-			}
-
-			$obj = new $child_class;
-			$obj->decorate($this);
-			$this->$child = $obj;
-			return $this->$child;
+		// Determine if driver is allowed
+		if (!in_array($driver_name, array_map('strtolower', $this->valid_drivers))) {
+			// The requested driver isn't valid!
+			$msg = 'Invalid driver requested: '.$driver_class;
+			throw new CI_ShowError($msg, '', 0, $msg);
 		}
 
-		// The requested driver isn't valid!
-		log_message('error', "Invalid driver requested: ".$child_class);
-		show_error("Invalid driver requested: ".$child_class);
+		// Check if driver is already defined
+		if (!class_exists($driver_class)) {
+			// Load driver as a library, but don't attach to CodeIgniter
+			$this->_call_core($CI, '_load', 'library', $driver_name, '', NULL, $lib_name.'/drivers/');
+
+			// See if the driver class was found
+			if (!class_exists($driver_class)) {
+				$msg = 'Unable to load the requested driver: '.$driver_class;
+				throw new CI_ShowError($msg, '', 0, $msg);
+			}
+		}
+
+		// Instantiate, attach, and return driver object
+		$this->$driver = new $driver_class;
+		$this->$driver->decorate($this);
+		return $this->$driver;
 	}
 
-	// --------------------------------------------------------------------
-
+	/**
+	 * Get magic method
+	 *
+	 * Loads a driver object when not found attached to the library
+	 *
+	 * @param	string	driver name
+	 * @return void
+	 */
+	public function __get($driver) {
+		// The first time a child is used it won't exist, so we instantiate it
+		// subsequents calls will go straight to the proper child.
+		$this->load_driver($driver);
+	}
 }
 // END CI_Driver_Library CLASS
-
 
 /**
  * CodeIgniter Driver Class
@@ -122,44 +122,34 @@ class CI_Driver {
 	 * @param	object
 	 * @return	void
 	 */
-	public function decorate($parent)
-	{
+	public function decorate($parent) {
 		$this->parent = $parent;
 
 		// Lock down attributes to what is defined in the class
 		// and speed up references in magic methods
-
 		$class_name = get_class($parent);
 
-		if ( ! isset(self::$reflections[$class_name]))
-		{
+		if ( ! isset(self::$reflections[$class_name])) {
 			$r = new ReflectionObject($parent);
 
-			foreach ($r->getMethods() as $method)
-			{
-				if ($method->isPublic())
-				{
+			foreach ($r->getMethods() as $method) {
+				if ($method->isPublic()) {
 					$this->methods[] = $method->getName();
 				}
 			}
 
-			foreach ($r->getProperties() as $prop)
-			{
-				if ($prop->isPublic())
-				{
+			foreach ($r->getProperties() as $prop) {
+				if ($prop->isPublic()) {
 					$this->properties[] = $prop->getName();
 				}
 			}
 
 			self::$reflections[$class_name] = array($this->methods, $this->properties);
 		}
-		else
-		{
+		else {
 			list($this->methods, $this->properties) = self::$reflections[$class_name];
 		}
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * __call magic method
@@ -171,19 +161,16 @@ class CI_Driver {
 	 * @param	array
 	 * @return	mixed
 	 */
-	public function __call($method, $args = array())
-	{
-		if (in_array($method, $this->methods))
-		{
+	public function __call($method, $args = array()) {
+		if (in_array($method, $this->methods)) {
 			return call_user_func_array(array($this->parent, $method), $args);
 		}
 
 		$trace = debug_backtrace();
-		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
+		$CI =& get_instance();
+		$CI->_exception_handler(E_ERROR, 'No such method \''.$method.'\'', $trace[1]['file'], $trace[1]['line']);
 		exit;
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * __get magic method
@@ -193,15 +180,11 @@ class CI_Driver {
 	 * @param	string
 	 * @return	mixed
 	 */
-	public function __get($var)
-	{
-		if (in_array($var, $this->properties))
-		{
+	public function __get($var) {
+		if (in_array($var, $this->properties)) {
 			return $this->parent->$var;
 		}
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * __set magic method
@@ -212,16 +195,11 @@ class CI_Driver {
 	 * @param	array
 	 * @return	mixed
 	 */
-	public function __set($var, $val)
-	{
-		if (in_array($var, $this->properties))
-		{
+	public function __set($var, $val) {
+		if (in_array($var, $this->properties)) {
 			$this->parent->$var = $val;
 		}
 	}
-
-	// --------------------------------------------------------------------
-
 }
 // END CI_Driver CLASS
 

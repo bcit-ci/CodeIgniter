@@ -15,12 +15,12 @@
 
 if ( ! function_exists('xml_parser_create'))
 {
-	show_error('Your PHP installation does not support XML');
+	throw new CI_ShowError('Your PHP installation does not support XML');
 }
 
 if ( ! class_exists('CI_Xmlrpc'))
 {
-	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
+	throw new CI_ShowError('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
 
 // ------------------------------------------------------------------------

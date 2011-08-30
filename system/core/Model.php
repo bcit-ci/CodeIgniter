@@ -13,8 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Model Class
  *
@@ -25,15 +23,23 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Model {
+	/**
+	 * Reference to CodeIgniter object
+	 *
+	 * @var object
+	 * @access	protected
+	 */
+	protected $CI;
 
 	/**
 	 * Constructor
 	 *
-	 * @access public
+	 * @param	object	parent reference
 	 */
-	function __construct()
-	{
-		log_message('debug', "Model Class Initialized");
+	public function __construct(CodeIgniter $CI) {
+		// Attach parent reference
+		$this->CI =& $CI;
+		$CI->log_message('debug', get_class($this).' Model Class Initialized');
 	}
 
 	/**
@@ -43,12 +49,10 @@ class CI_Model {
 	 * syntax as controllers.
 	 *
 	 * @param	string
-	 * @access private
+	 * @access	private
 	 */
-	function __get($key)
-	{
-		$CI =& get_instance();
-		return $CI->$key;
+	public function __get($key) {
+		return $this->CI->$key;
 	}
 }
 // END Model Class

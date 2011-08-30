@@ -783,7 +783,7 @@ class CI_Javascript {
 
 		if ( ! is_array($json_result) AND empty($json_result))
 		{
-			show_error("Generate JSON Failed - Illegal key, value pair.");
+			throw new CI_ShowError('Generate JSON Failed - Illegal key, value pair.');
 		}
 		elseif ($match_array_type)
 		{

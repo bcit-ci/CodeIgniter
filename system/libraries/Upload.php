@@ -717,7 +717,8 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if ( ! is_really_writable($this->upload_path))
+		$CI =& get_instance();
+		if ( ! $CI->is_really_writable($this->upload_path))
 		{
 			$this->set_error('upload_not_writable');
 			return FALSE;

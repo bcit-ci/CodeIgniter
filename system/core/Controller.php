@@ -13,13 +13,10 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Application Controller Class
  *
- * This class object is the super class that every library in
- * CodeIgniter will be assigned to.
+ * This class object is the base class that connects each controller to the core object
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -28,34 +25,91 @@
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class CI_Controller {
-
-	private static $instance;
+	/**
+	 * Reference to CodeIgniter object
+	 *
+	 * @var object
+	 * @access	protected
+	 */
+	protected $CI;
 
 	/**
 	 * Constructor
+	 *
+	 * @param	object	parent reference
 	 */
-	public function __construct()
-	{
-		self::$instance =& $this;
-		
-		// Assign all the class objects that were instantiated by the
-		// bootstrap file (CodeIgniter.php) to local class variables
-		// so that CI can run as one big super object.
-		foreach (is_loaded() as $var => $class)
-		{
-			$this->$var =& load_class($class);
-		}
-
-		$this->load =& load_class('Loader', 'core');
-
-		$this->load->initialize();
-		
-		log_message('debug', "Controller Class Initialized");
+	public function __construct(CodeIgniter $CI) {
+		// Attach parent reference
+		$this->CI =& $CI;
+		$CI->log_message('debug', get_class($this).' Controller Class Initialized');
 	}
 
-	public static function &get_instance()
-	{
-		return self::$instance;
+	/**
+	 * Show 404
+	 *
+	 * This function exits Controller operation and informs the user that the
+	 * requested page could not be found. It is mainly for use inside _remap().
+	 *
+	 * @param	string	requested page
+	 * @param	boolean	FALSE to skip logging
+	 * @return	void
+	 */
+	public function show_404($page = '', $log_error = TRUE) {
+		// Just throw the exception - CodeIgniter will catch it
+		$log_msg = ($page && $log_error) ? '404 Page Not Found --> '.$page : '';
+		throw new CI_ShowError('The page you requested was not found.', '404 Page Not Found', 404, $log_msg,
+			'error_404');
+	}
+
+	/**
+	 * End operation
+	 *
+	 * This function exits Controller operation and goes directly to
+	 * the final hooks and output display in CodeIgniter.
+	 *
+	 * @return void
+	 */
+	public function end_run() {
+		// Just throw the exception - CodeIgniter will catch it
+		throw new CI_EndRun();
+	}
+
+	/**
+	 * Get magic method
+	 *
+	 * Exposes core object members
+	 *
+	 * @param	string	member name
+	 * @return	mixed
+	 */
+	public function __get($key) {
+		if (isset($this->CI->$key)) {
+			return $this->CI->$key;
+		}
+	}
+
+	/**
+	 * Isset magic method
+	 *
+	 * Tests core object member existence
+	 *
+	 * @param	string	member name
+	 * @return	boolean
+	 */
+	public function __isset($key) {
+		return isset($this->CI->$key);
+	}
+
+	/**
+	 * Get instance
+	 *
+	 * Returns reference to core object
+	 *
+	 * @return object	Core instance
+	 */
+	public static function &instance() {
+		// Return core instance
+		return CodeIgniter::instance();
 	}
 }
 // END Controller class

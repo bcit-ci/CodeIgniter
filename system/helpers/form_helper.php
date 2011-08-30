@@ -971,6 +971,7 @@ if ( ! function_exists('_attributes_to_string'))
 {
 	function _attributes_to_string($attributes, $formtag = FALSE)
 	{
+		$CI =& get_instance();
 		if (is_string($attributes) AND strlen($attributes) > 0)
 		{
 			if ($formtag == TRUE AND strpos($attributes, 'method=') === FALSE)
@@ -980,7 +981,7 @@ if ( ! function_exists('_attributes_to_string'))
 
 			if ($formtag == TRUE AND strpos($attributes, 'accept-charset=') === FALSE)
 			{
-				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+				$attributes .= ' accept-charset="'.strtolower($CI->config->item('charset')).'"';
 			}
 
 		return ' '.$attributes;
@@ -1002,7 +1003,7 @@ if ( ! function_exists('_attributes_to_string'))
 
 			if ( ! isset($attributes['accept-charset']) AND $formtag === TRUE)
 			{
-				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+				$atts .= ' accept-charset="'.strtolower($CI->config->item('charset')).'"';
 			}
 
 			foreach ($attributes as $key => $val)
@@ -1035,7 +1036,7 @@ if ( ! function_exists('_get_validation_object'))
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
 		
-		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
+		if (FALSE !== ($object = $CI->is_loaded('form_validation')))
 		{
 			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
 			{

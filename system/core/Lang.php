@@ -13,8 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Language Class
  *
@@ -25,134 +23,120 @@
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
 class CI_Lang {
+	/**
+	 * Reference to CodeIgniter object
+	 *
+	 * @var object
+	 * @access	protected
+	 */
+	protected $CI		= NULL;
 
 	/**
 	 * List of translations
 	 *
 	 * @var array
+	 * @access	protected
 	 */
-	var $language	= array();
+	protected $language	= array();
+
 	/**
 	 * List of loaded language files
 	 *
 	 * @var array
+	 * @access	protected
 	 */
-	var $is_loaded	= array();
+	protected $is_loaded	= array();
 
 	/**
 	 * Constructor
 	 *
-	 * @access	public
+	 * @param	object	parent reference
 	 */
-	function __construct()
-	{
-		log_message('debug', "Language Class Initialized");
+	public function __construct(CodeIgniter $CI) {
+		// Attach parent reference
+		$this->CI =& $CI;
+		$CI->log_message('debug', 'Language Class Initialized');
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Load a language file
 	 *
-	 * @access	public
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
-	 * @param	string	the language (english, etc.)
-	 * @param	bool	return loaded array of translations
-	 * @param 	bool	add suffix to $langfile
-	 * @param 	string	alternative path to look for language file
+	 * @throws	CI_ShowError	if language file is not found
+	 * @param	mixed	the	name of the language file to be loaded. Can be an array
+	 * @param	string	the	language (english, etc.)
 	 * @return	mixed
 	 */
-	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
-	{
+	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '') {
 		$langfile = str_replace('.php', '', $langfile);
 
-		if ($add_suffix == TRUE)
-		{
+		if ($add_suffix == TRUE) {
 			$langfile = str_replace('_lang.', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
-		{
+		if (in_array($langfile, $this->is_loaded, TRUE)) {
 			return;
 		}
 
-		$config =& get_config();
-
-		if ($idiom == '')
-		{
-			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
+		if ($idiom == '') {
+			$cfg_lang = $this->CI->config->item('language');
+			$deft_lang = $cfg_lang ? $cfg_lang : 'english';
 			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
 		}
 
 		// Determine where the language file is and load it
-		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
-		{
+		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile)) {
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
 		}
-		else
-		{
+		else {
 			$found = FALSE;
 
-			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
-			{
-				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
-				{
+			foreach ($this->CI->get_package_paths(TRUE) as $package_path) {
+				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile)) {
 					include($package_path.'language/'.$idiom.'/'.$langfile);
 					$found = TRUE;
 					break;
 				}
 			}
 
-			if ($found !== TRUE)
-			{
-				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
+			if ($found !== TRUE) {
+				throw new CI_ShowError('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
 		}
 
-
-		if ( ! isset($lang) OR ! is_array($lang))
-		{
-			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+		if (!isset($lang) || !is_array($lang)) {
+			$this->CI->log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;
 		}
 
-		if ($return == TRUE)
-		{
+		if ($return == TRUE) {
 			return $lang;
 		}
 
 		$this->is_loaded[] = $langfile;
-		$this->language = $this->language + $lang;
+		$this->language = array_merge($this->language, $lang);
 		unset($lang);
 
-		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
+		$this->CI->log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Fetch a single line of text from the language array
 	 *
-	 * @access	public
-	 * @param	string	$line	the language line
+	 * @param	string	$line	the	language line
 	 * @return	string
 	 */
-	function line($line = '')
-	{
-		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
-
-		// Because killer robots like unicorns!
-		if ($value === FALSE)
-		{
-			log_message('error', 'Could not find the language line "'.$line.'"');
+	public function line($line = '') {
+		// Validate line
+		if ($line == '' || ! isset($this->language[$line])) {
+			$this->CI->log_message('error', 'Could not find the language line "'.$line.'"');
 		}
 
-		return $value;
+		// Return line
+		return $this->language[$line];
 	}
-
 }
 // END Language Class
 

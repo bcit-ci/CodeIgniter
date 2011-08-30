@@ -403,7 +403,8 @@ class CI_DB_oci8_driver extends CI_DB {
 			return $str;
 		}
 
-		$str = remove_invisible_characters($str);
+		$CI =& get_instance();
+		$str = $CI->remove_invisible_characters($str);
 		$str = str_replace("'", "''", $str);
 
 		// escape LIKE condition wildcards
