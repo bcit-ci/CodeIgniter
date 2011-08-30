@@ -33,6 +33,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_xss_hash			= '';
+	
 	/**
 	 * Random Hash for Cross Site Request Forgery Protection Cookie
 	 *
@@ -40,6 +41,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_hash			= '';
+	
 	/**
 	 * Expiration time for Cross Site Request Forgery Protection Cookie
 	 * Defaults to two hours (in seconds)
@@ -48,6 +50,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_expire			= 7200;
+	
 	/**
 	 * Token name for Cross Site Request Forgery Protection Cookie
 	 *
@@ -55,6 +58,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_token_name		= 'ci_csrf_token';
+	
 	/**
 	 * Cookie name for Cross Site Request Forgery Protection Cookie
 	 *
@@ -62,12 +66,14 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_cookie_name	= 'ci_csrf_token';
+	
 	/**
 	 * List of never allowed strings
 	 *
 	 * @var array
 	 * @access protected
 	 */
+	
 	protected $_never_allowed_str = array(
 					'document.cookie'	=> '[removed]',
 					'document.write'	=> '[removed]',
@@ -80,7 +86,6 @@ class CI_Security {
 					'<![CDATA['			=> '&lt;![CDATA['
 	);
 
-	/* never allowed, regex replacement */
 	/**
 	 * List of never allowed regex replacement
 	 *
@@ -134,6 +139,16 @@ class CI_Security {
 		{
 			return $this->csrf_set_cookie();
 		}
+		
+		// Check if URI has been whitelisted from CSRF checks
+		if ($exclude_uris = config_item('csrf_exclude_uris'))
+		{
+			$uri = load_class('URI', 'core');
+			if (in_array($uri->uri_string(), $exclude_uris))
+			{
+				return $this;
+			}
+		}
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name]) OR
@@ -156,9 +171,9 @@ class CI_Security {
 		unset($_COOKIE[$this->_csrf_cookie_name]);
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
-
-		log_message('debug', "CSRF token verified ");
-
+		
+		log_message('debug', "CSRF token verified");
+		
 		return $this;
 	}
 
@@ -510,9 +525,17 @@ class CI_Security {
 	 * @param	string
 	 * @return	string
 	 */
-	public function entity_decode($str, $charset='UTF-8')
+	public function entity_decode($str, $charset = NULL)
 	{
-		if (stristr($str, '&') === FALSE) return $str;
+		if (stristr($str, '&') === FALSE)
+		{
+			return $str;
+		}
+		
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
 
 		// The reason we are not using html_entity_decode() by itself is because
 		// while it is not technically correct to leave out the semicolon
@@ -869,7 +892,6 @@ class CI_Security {
 	}
 
 }
-// END Security Class
 
 /* End of file Security.php */
 /* Location: ./system/libraries/Security.php */

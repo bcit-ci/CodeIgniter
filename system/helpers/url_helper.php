@@ -512,7 +512,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim(stripslashes($str));
+		return trim(trim(stripslashes($str)), $replace);
 	}
 }
 
@@ -527,7 +527,7 @@ if ( ! function_exists('url_title'))
  *
  * @access	public
  * @param	string	the URL
- * @param	string	the method: location or redirect
+ * @param	string	the method: location or refresh
  * @return	string
  */
 if ( ! function_exists('redirect'))
