@@ -30,11 +30,32 @@
 class CI_Driver_Library {
 
 	protected $valid_drivers	= array();
-	protected static $lib_name;
+	protected $lib_name;
 
-	// The first time a child is used it won't exist, so we instantiate it
-	// subsequents calls will go straight to the proper child.
-	function __get($child)
+    /**
+     * Get magic method
+     *
+	 * The first time a child is used it won't exist, so we instantiate it
+	 * subsequents calls will go straight to the proper child.
+     *
+     * @param   string  Child class name
+     * @return  object  Child class
+     */
+	public function __get($child)
+	{
+        // Try to load the driver
+		return load_driver($child);
+    }
+
+    /**
+     * Load driver
+     *
+	 * Separate load_driver call to support explicit driver load by library or user
+     *
+     * @param   string  Child class name
+     * @return  object  Child class
+     */
+	public function load_driver($child)
 	{
 		if ( ! isset($this->lib_name))
 		{
@@ -64,7 +85,7 @@ class CI_Driver_Library {
 						if (file_exists($filepath))
 						{
 							include_once $filepath;
-							break;
+							break 2;
 						}
 					}
 				}
@@ -84,12 +105,9 @@ class CI_Driver_Library {
 		}
 
 		// The requested driver isn't valid!
-		log_message('error', "Invalid driver requested: ".$child_class);
-		show_error("Invalid driver requested: ".$child_class);
+		log_message('error', 'Invalid driver requested: '.$child_class);
+		show_error('Invalid driver requested: '.$child_class);
 	}
-
-	// --------------------------------------------------------------------
-
 }
 // END CI_Driver_Library CLASS
 
