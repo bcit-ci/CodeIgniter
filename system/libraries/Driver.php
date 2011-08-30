@@ -37,9 +37,11 @@ class CI_Driver_Library extends CI_CoreShare {
 	 * @param	string	driver name
 	 * @return	object	driver object
 	 */
-	public function load_driver($driver) {
+	public function load_driver($driver)
+	{
 		// Set parent library name first time
-		if ( ! isset($this->lib_name)) {
+		if ( ! isset($this->lib_name))
+		{
 			$this->lib_name = get_class($this);
 		}
 
@@ -54,19 +56,22 @@ class CI_Driver_Library extends CI_CoreShare {
 		$driver_name = strtolower(str_replace('CI_', '', $driver_class));
 
 		// Determine if driver is allowed
-		if (!in_array($driver_name, array_map('strtolower', $this->valid_drivers))) {
+		if (!in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
+		{
 			// The requested driver isn't valid!
 			$msg = 'Invalid driver requested: '.$driver_class;
 			throw new CI_ShowError($msg, '', 0, $msg);
 		}
 
 		// Check if driver is already defined
-		if (!class_exists($driver_class)) {
+		if (!class_exists($driver_class))
+		{
 			// Load driver as a library, but don't attach to CodeIgniter
 			$this->_call_core($CI, '_load', 'library', $driver_name, '', NULL, $lib_name.'/drivers/');
 
 			// See if the driver class was found
-			if (!class_exists($driver_class)) {
+			if (!class_exists($driver_class))
+			{
 				$msg = 'Unable to load the requested driver: '.$driver_class;
 				throw new CI_ShowError($msg, '', 0, $msg);
 			}
@@ -86,7 +91,8 @@ class CI_Driver_Library extends CI_CoreShare {
 	 * @param	string	driver name
 	 * @return void
 	 */
-	public function __get($driver) {
+	public function __get($driver)
+	{
 		// The first time a child is used it won't exist, so we instantiate it
 		// subsequents calls will go straight to the proper child.
 		$this->load_driver($driver);
@@ -122,31 +128,38 @@ class CI_Driver {
 	 * @param	object
 	 * @return	void
 	 */
-	public function decorate($parent) {
+	public function decorate($parent)
+	{
 		$this->parent = $parent;
 
 		// Lock down attributes to what is defined in the class
 		// and speed up references in magic methods
 		$class_name = get_class($parent);
 
-		if ( ! isset(self::$reflections[$class_name])) {
+		if ( ! isset(self::$reflections[$class_name]))
+		{
 			$r = new ReflectionObject($parent);
 
-			foreach ($r->getMethods() as $method) {
-				if ($method->isPublic()) {
+			foreach ($r->getMethods() as $method)
+			{
+				if ($method->isPublic())
+				{
 					$this->methods[] = $method->getName();
 				}
 			}
 
-			foreach ($r->getProperties() as $prop) {
-				if ($prop->isPublic()) {
+			foreach ($r->getProperties() as $prop)
+			{
+				if ($prop->isPublic())
+				{
 					$this->properties[] = $prop->getName();
 				}
 			}
 
 			self::$reflections[$class_name] = array($this->methods, $this->properties);
 		}
-		else {
+		else
+		{
 			list($this->methods, $this->properties) = self::$reflections[$class_name];
 		}
 	}
@@ -161,8 +174,10 @@ class CI_Driver {
 	 * @param	array
 	 * @return	mixed
 	 */
-	public function __call($method, $args = array()) {
-		if (in_array($method, $this->methods)) {
+	public function __call($method, $args = array())
+	{
+		if (in_array($method, $this->methods))
+		{
 			return call_user_func_array(array($this->parent, $method), $args);
 		}
 
@@ -180,8 +195,10 @@ class CI_Driver {
 	 * @param	string
 	 * @return	mixed
 	 */
-	public function __get($var) {
-		if (in_array($var, $this->properties)) {
+	public function __get($var)
+	{
+		if (in_array($var, $this->properties))
+		{
 			return $this->parent->$var;
 		}
 	}
@@ -195,8 +212,10 @@ class CI_Driver {
 	 * @param	array
 	 * @return	mixed
 	 */
-	public function __set($var, $val) {
-		if (in_array($var, $this->properties)) {
+	public function __set($var, $val)
+	{
+		if (in_array($var, $this->properties))
+		{
 			$this->parent->$var = $val;
 		}
 	}

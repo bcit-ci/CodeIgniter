@@ -38,7 +38,8 @@ class CI_Controller {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$CI->log_message('debug', get_class($this).' Controller Class Initialized');
@@ -54,7 +55,8 @@ class CI_Controller {
 	 * @param	boolean	FALSE to skip logging
 	 * @return	void
 	 */
-	public function show_404($page = '', $log_error = TRUE) {
+	public function show_404($page = '', $log_error = TRUE)
+	{
 		// Just throw the exception - CodeIgniter will catch it
 		$log_msg = ($page && $log_error) ? '404 Page Not Found --> '.$page : '';
 		throw new CI_ShowError('The page you requested was not found.', '404 Page Not Found', 404, $log_msg,
@@ -69,7 +71,8 @@ class CI_Controller {
 	 *
 	 * @return void
 	 */
-	public function end_run() {
+	public function end_run()
+	{
 		// Just throw the exception - CodeIgniter will catch it
 		throw new CI_EndRun();
 	}
@@ -82,8 +85,10 @@ class CI_Controller {
 	 * @param	string	member name
 	 * @return	mixed
 	 */
-	public function __get($key) {
-		if (isset($this->CI->$key)) {
+	public function __get($key)
+	{
+		if (isset($this->CI->$key))
+		{
 			return $this->CI->$key;
 		}
 	}
@@ -96,7 +101,8 @@ class CI_Controller {
 	 * @param	string	member name
 	 * @return	boolean
 	 */
-	public function __isset($key) {
+	public function __isset($key)
+	{
 		return isset($this->CI->$key);
 	}
 
@@ -107,7 +113,8 @@ class CI_Controller {
 	 *
 	 * @return object	Core instance
 	 */
-	public static function &instance() {
+	public static function &instance()
+	{
 		// Return core instance
 		return CodeIgniter::instance();
 	}

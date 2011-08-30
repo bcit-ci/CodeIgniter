@@ -49,7 +49,8 @@ class CI_Hooks extends CI_CoreShare {
 	 * @param	object	parent reference
 	 * @param	array	hooks config
 	 */
-	public function __construct(CodeIgniter $CI, array $hooks) {
+	public function __construct(CodeIgniter $CI, array $hooks)
+	{
 		// No need for parent reference - just install hooks
 		$this->hooks = $hooks;
 		$CI->log_message('debug', 'Hooks Class Initialized');
@@ -65,17 +66,22 @@ class CI_Hooks extends CI_CoreShare {
 	 * @param	string	the hook name
 	 * @return	mixed
 	 */
-	protected function _call_hook($which = '') {
-		if (!isset($this->hooks[$which])) {
+	protected function _call_hook($which = '')
+	{
+		if (!isset($this->hooks[$which]))
+		{
 			return FALSE;
 		}
 
-		if (isset($this->hooks[$which][0]) && is_array($this->hooks[$which][0])) {
-			foreach ($this->hooks[$which] as $val) {
+		if (isset($this->hooks[$which][0]) && is_array($this->hooks[$which][0]))
+		{
+			foreach ($this->hooks[$which] as $val)
+			{
 				$this->_run_hook($val);
 			}
 		}
-		else {
+		else
+		{
 			$this->_run_hook($this->hooks[$which]);
 		}
 
@@ -92,24 +98,29 @@ class CI_Hooks extends CI_CoreShare {
 	 * @param	array	the hook details
 	 * @return	bool
 	 */
-	protected function _run_hook($data) {
-		if (!is_array($data)) {
+	protected function _run_hook($data)
+	{
+		if (!is_array($data))
+		{
 			return FALSE;
 		}
 
 		// Safety - Prevents run-away loops
 		// If the script being called happens to have the same hook call within it a loop can happen
-		if ($this->in_progress == TRUE) {
+		if ($this->in_progress == TRUE)
+		{
 			return;
 		}
 
 		// Set file path
-		if (!isset($data['filepath']) || !isset($data['filename'])) {
+		if (!isset($data['filepath']) || !isset($data['filename']))
+		{
 			return FALSE;
 		}
 		$filepath = APPPATH.$data['filepath'].'/'.$data['filename'];
 
-		if (!file_exists($filepath)) {
+		if (!file_exists($filepath))
+		{
 			return FALSE;
 		}
 
@@ -117,19 +128,23 @@ class CI_Hooks extends CI_CoreShare {
 		$class = FALSE;
 		$function = FALSE;
 		$params = '';
-		if (isset($data['class']) AND $data['class'] != '') {
+		if (isset($data['class']) AND $data['class'] != '')
+		{
 			$class = $data['class'];
 		}
 
-		if (isset($data['function'])) {
+		if (isset($data['function']))
+		{
 			$function = $data['function'];
 		}
 
-		if (isset($data['params'])) {
+		if (isset($data['params']))
+		{
 			$params = $data['params'];
 		}
 
-		if ($class === FALSE && $function === FALSE) {
+		if ($class === FALSE && $function === FALSE)
+		{
 			return FALSE;
 		}
 
@@ -137,16 +152,20 @@ class CI_Hooks extends CI_CoreShare {
 		$this->in_progress = TRUE;
 
 		// Call the requested class and/or function
-		if ($class !== FALSE) {
-			if (!class_exists($class)) {
+		if ($class !== FALSE)
+		{
+			if (!class_exists($class))
+			{
 				require($filepath);
 			}
 
 			$HOOK = new $class;
 			$HOOK->$function($params);
 		}
-		else {
-			if (!function_exists($function)) {
+		else
+		{
+			if (!function_exists($function))
+			{
 				require($filepath);
 			}
 

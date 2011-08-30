@@ -59,7 +59,8 @@ class CI_Loader extends CI_CoreShare {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$CI->log_message('debug', 'Loader Class Initialized');
@@ -75,15 +76,19 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	string	an optional object name
 	 * @return	void
 	 */
-	public function library($class, array $params = NULL, $obj_name = NULL) {
+	public function library($class, array $params = NULL, $obj_name = NULL)
+	{
 		// Check for missing class
-		if (empty($class)) {
+		if (empty($class))
+		{
 			return FALSE;
 		}
 
 		// Delegate multiples
-		if (is_array($class)) {
-			foreach ($class as $class) {
+		if (is_array($class))
+		{
+			foreach ($class as $class)
+			{
 				$this->library($class, $params);
 			}
 
@@ -94,7 +99,8 @@ class CI_Loader extends CI_CoreShare {
 		$subdir = $this->_get_path($class);
 
 		// Set object name if not provided
-		if (is_null($obj_name)) {
+		if (is_null($obj_name))
+		{
 			$obj_name = isset($this->varmap[$class]) ? $this->varmap[$class] : strtolower($class);
 		}
 
@@ -112,15 +118,18 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	string	an optional object name
 	 * @return	void
 	 */
-	public function driver($class, array $params = NULL, $obj_name = NULL) {
-		if (!class_exists('CI_Driver_Library')) {
+	public function driver($class, array $params = NULL, $obj_name = NULL)
+	{
+		if (!class_exists('CI_Driver_Library'))
+		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
 			require BASEPATH.'libraries/Driver.php';
 		}
 
 		// We can save the loader some time since Drivers will *always* be in a subfolder,
 		// and typically identically named to the library
-		if (!strpos($class, '/')) {
+		if (!strpos($class, '/'))
+		{
 			$class = ucfirst($class).'/'.$class;
 		}
 
@@ -135,15 +144,19 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	mixed	the name of the helper or an array of names
 	 * @return	void
 	 */
-	public function helper($helper) {
+	public function helper($helper)
+	{
 		// Check for missing name
-		if (empty($helper)) {
+		if (empty($helper))
+		{
 			return FALSE;
 		}
 
 		// Delegate multiples
-		if (is_array($helper)) {
-			foreach ($helper as $help) {
+		if (is_array($helper))
+		{
+			foreach ($helper as $help)
+			{
 				$this->helper($help);
 			}
 			return;
@@ -151,7 +164,8 @@ class CI_Loader extends CI_CoreShare {
 
 		// Parse out the filename and path and make sure _helper suffix is attached
 		$subdir = $this->_get_path($helper);
-		if (substr($helper, -7) != '_helper') {
+		if (substr($helper, -7) != '_helper')
+		{
 			$helper .= '_helper';
 		}
 
@@ -168,7 +182,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	array
 	 * @return	void
 	 */
-	public function helpers($helpers = array()) {
+	public function helpers($helpers = array())
+	{
 		$this->helper($helpers);
 	}
 
@@ -186,23 +201,29 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	boolean	FALSE to skip calling controller method
 	 * @return	boolean TRUE on success, otherwise FALSE
 	 */
-	public function controller($route, $obj_name = '', $call = TRUE) {
+	public function controller($route, $obj_name = '', $call = TRUE)
+	{
 		// Check for missing route
-		if (empty($route)) {
+		if (empty($route))
+		{
 			return FALSE;
 		}
 
 		// Get instance and establish route stack
-		if (is_array($route)) {
+		if (is_array($route))
+		{
 			// Assume segments have been pre-parsed by CI_Router::validate_route() - make sure there's 4
-			if (count($route) < 4) {
+			if (count($route) < 4)
+			{
 				return FALSE;
 			}
 		}
-		else {
+		else
+		{
 			// Call validate_route() to break URI into segments
 			$route = $this->CI->router->validate_route(explode('/', $route));
-			if ($route === FALSE) {
+			if ($route === FALSE)
+			{
 				return FALSE;
 			}
 		}
@@ -217,7 +238,8 @@ class CI_Loader extends CI_CoreShare {
 		$this->_call_core($this->CI, '_load', 'controller', $class, $obj_name, NULL, $subdir, $path);
 
 		// Check if call is disabled
-		if ($call) {
+		if ($call)
+		{
 			// Pass any remaining route segments as arguments to the call
 			return $this->_call_core($this->CI, '_call_controller', $class, $method, $route, $obj_name);
 		}
@@ -235,15 +257,19 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	mixed	database connection name or TRUE to load default
 	 * @return	void
 	 */
-	public function model($class, $obj_name = '', $db_conn = FALSE) {
+	public function model($class, $obj_name = '', $db_conn = FALSE)
+	{
 		// Check for missing class
-		if ($class == '') {
+		if ($class == '')
+		{
 			return;
 		}
 
 		// Delegate multiples
-		if (is_array($class)) {
-			foreach ($class as $babe) {
+		if (is_array($class))
+		{
+			foreach ($class as $babe)
+			{
 				$this->model($babe);
 			}
 			return;
@@ -253,8 +279,10 @@ class CI_Loader extends CI_CoreShare {
 		$subdir = $this->_get_path($class);
 
 		// Load database if needed
-		if ($db_conn !== FALSE && !class_exists('CI_DB')) {
-			if ($db_conn === TRUE) {
+		if ($db_conn !== FALSE && !class_exists('CI_DB'))
+		{
+			if ($db_conn === TRUE)
+			{
 				$db_conn = '';
 			}
 
@@ -279,9 +307,11 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	bool	TRUE to return the output
 	 * @return	mixed	output if $return is TRUE, otherwise void
 	 */
-	public function view($view, array $vars = array(), $return = FALSE) {
+	public function view($view, array $vars = array(), $return = FALSE)
+	{
 		// Append any vars to cache
-		if (!empty($vars)) {
+		if (!empty($vars))
+		{
 			$this->vars($vars);
 		}
 
@@ -296,14 +326,17 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	string	language name
 	 * @return	void
 	 */
-	public function language($file, $lang = '') {
+	public function language($file, $lang = '')
+	{
 		// Force file to array
-		if (!is_array($file)) {
+		if (!is_array($file))
+		{
 			$file = array($file);
 		}
 
 		// Load each file via Lang
-		foreach ($file as $langfile) {
+		foreach ($file as $langfile)
+		{
 			$this->CI->lang->load($langfile, $lang);
 		}
 	}
@@ -316,14 +349,17 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	boolean	TRUE if errors should just return FALSE, otherwise an error message is displayed
 	 * @return	void
 	 */
-	public function config($file, $use_sections = FALSE, $fail_gracefully = FALSE) {
+	public function config($file, $use_sections = FALSE, $fail_gracefully = FALSE)
+	{
 		// Force file to array
-		if (!is_array($file)) {
+		if (!is_array($file))
+		{
 			$file = array($file);
 		}
 
 		// Load each file via Config
-		foreach ($file as $config) {
+		foreach ($file as $config)
+		{
 			$this->CI->config->load($config, $use_sections, $fail_gracefully);
 		}
 	}
@@ -336,16 +372,19 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	bool	whether to enable active record (this allows us to override the config setting)
 	 * @return	object
 	 */
-	public function database($params = '', $return = FALSE, $active_record = NULL) {
+	public function database($params = '', $return = FALSE, $active_record = NULL)
+	{
 		// Do we even need to load the database class?
 		if (class_exists('CI_DB') && $return == FALSE && $active_record == NULL && isset($this->CI->db) &&
-		is_object($this->CI->db)) {
+		is_object($this->CI->db))
+		{
 			return FALSE;
 		}
 
 		require_once(BASEPATH.'database/DB.php');
 
-		if ($return === TRUE) {
+		if ($return === TRUE)
+		{
 			return DB($params, $active_record);
 		}
 
@@ -362,8 +401,10 @@ class CI_Loader extends CI_CoreShare {
 	 *
 	 * @return	void
 	 */
-	public function dbutil() {
-		if (!class_exists('CI_DB')) {
+	public function dbutil()
+	{
+		if (!class_exists('CI_DB'))
+		{
 			$this->database();
 		}
 
@@ -384,8 +425,10 @@ class CI_Loader extends CI_CoreShare {
 	 *
 	 * @return	void
 	 */
-	public function dbforge() {
-		if (!class_exists('CI_DB')) {
+	public function dbforge()
+	{
+		if (!class_exists('CI_DB'))
+		{
 			$this->database();
 		}
 
@@ -406,7 +449,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	bool	TRUE to return output
 	 * @return	mixed	output if $return is TRUE, otherwise void
 	 */
-	public function file($path, $return = FALSE) {
+	public function file($path, $return = FALSE)
+	{
 		// Run file in core context
 		return $this->_call_core($this->CI, '_run_file', $path, FALSE, $return);
 	}
@@ -421,18 +465,23 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	mixed	variable value
 	 * @return	void
 	 */
-	public function vars($vars = array(), $val = NULL) {
+	public function vars($vars = array(), $val = NULL)
+	{
 		// Handle non-array arguments
-		if ($val != NULL && is_string($vars)) {
+		if ($val != NULL && is_string($vars))
+		{
 			$vars = array($vars => $val);
 		}
-		else if (is_object($vars)) {
+		else if (is_object($vars))
+		{
 			$vars = get_object_vars($vars);
 		}
 
 		// Set values into cached vars
-		if (is_array($vars) && count($vars) > 0) {
-			foreach ($vars as $key => $val) {
+		if (is_array($vars) && count($vars) > 0)
+		{
+			foreach ($vars as $key => $val)
+			{
 				$this->cached_vars[$key] = $val;
 			}
 		}
@@ -446,7 +495,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	string	var key
 	 * @return	mixed	var value
 	 */
-	public function get_var($key) {
+	public function get_var($key)
+	{
 		// Return cached variable or NULL
 		return isset($this->cached_vars[$key]) ? $this->cached_vars[$key] : NULL;
 	}
@@ -461,7 +511,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	boolean	add to config path flag
 	 * @return	void
 	 */
-	public function add_package_path($path, $view_cascade = TRUE, $add_config_path = TRUE) {
+	public function add_package_path($path, $view_cascade = TRUE, $add_config_path = TRUE)
+	{
 		// Pass arguments to core method
 		$this->CI->add_package_path($path, $view_cascade, $add_config_path);
 	}
@@ -476,7 +527,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	boolean remove from config path flag
 	 * @return	void
 	 */
-	public function remove_package_path($path = '', $remove_config_path = TRUE) {
+	public function remove_package_path($path = '', $remove_config_path = TRUE)
+	{
 		// Pass arguments to core method
 		$this->CI->remove_packate_path($path, $remove_config_path);
 	}
@@ -489,7 +541,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	boolean include base path flag
 	 * @return	void
 	 */
-	public function get_package_paths($include_base = FALSE) {
+	public function get_package_paths($include_base = FALSE)
+	{
 		// Pass arguments to core method
 		return $this->CI->get_package_paths($include_base);
 	}
@@ -505,38 +558,47 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	array	autoload array
 	 * @return	void
 	 */
-	protected function _autoloader($autoload) {
+	protected function _autoloader($autoload)
+	{
 		// Autoload languages
-		if (isset($autoload['language']) && count($autoload['language']) > 0) {
+		if (isset($autoload['language']) && count($autoload['language']) > 0)
+		{
 			$this->language($autoload['language']);
 		}
 
 		// A little tweak to remain backward compatible
 		// The $autoload['core'] item was deprecated
-		if (!isset($autoload['libraries']) && isset($autoload['core'])) {
+		if (!isset($autoload['libraries']) && isset($autoload['core']))
+		{
 			$autoload['libraries'] = $autoload['core'];
 		}
 
 		// Load libraries
-		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0) {
+		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
+		{
 			// Load the database driver.
-			if (in_array('database', $autoload['libraries'])) {
+			if (in_array('database', $autoload['libraries']))
+			{
 				$this->database();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
 
 			// Load all other libraries
-			foreach ($autoload['libraries'] as $item) {
+			foreach ($autoload['libraries'] as $item)
+			{
 				$this->library($item);
 			}
 		}
 
 		// Autoload controllers and models
-		foreach (array('helper', 'controller', 'model') as $type) {
-			if (isset($autoload[$type])) {
+		foreach (array('helper', 'controller', 'model') as $type)
+		{
+			if (isset($autoload[$type]))
+			{
 				// Force item to array
 				$items = is_array($autoload[$type]) ? $autoload[$type] : array($autoload[$type]);
-				foreach ($items as $item) {
+				foreach ($items as $item)
+				{
 					$this->$type($item);
 				}
 			}
@@ -553,7 +615,8 @@ class CI_Loader extends CI_CoreShare {
 	 * @param	string	reference to filename (to be modified)
 	 * @return	string	path name
 	 */
-	protected function _get_path(&$file) {
+	protected function _get_path(&$file)
+	{
 		// Get any leading dirname without a leading slash
 		$path = dirname(ltrim($file, '/'));
 

@@ -52,7 +52,8 @@ class CI_Lang {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$CI->log_message('debug', 'Language Class Initialized');
@@ -66,51 +67,62 @@ class CI_Lang {
 	 * @param	string	the	language (english, etc.)
 	 * @return	mixed
 	 */
-	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '') {
+	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	{
 		$langfile = str_replace('.php', '', $langfile);
 
-		if ($add_suffix == TRUE) {
+		if ($add_suffix == TRUE)
+		{
 			$langfile = str_replace('_lang.', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE)) {
+		if (in_array($langfile, $this->is_loaded, TRUE))
+		{
 			return;
 		}
 
-		if ($idiom == '') {
+		if ($idiom == '')
+		{
 			$cfg_lang = $this->CI->config->item('language');
 			$deft_lang = $cfg_lang ? $cfg_lang : 'english';
 			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
 		}
 
 		// Determine where the language file is and load it
-		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile)) {
+		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
+		{
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
 		}
-		else {
+		else
+		{
 			$found = FALSE;
 
-			foreach ($this->CI->get_package_paths(TRUE) as $package_path) {
-				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile)) {
+			foreach ($this->CI->get_package_paths(TRUE) as $package_path)
+			{
+				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
+				{
 					include($package_path.'language/'.$idiom.'/'.$langfile);
 					$found = TRUE;
 					break;
 				}
 			}
 
-			if ($found !== TRUE) {
+			if ($found !== TRUE)
+			{
 				throw new CI_ShowError('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
 		}
 
-		if (!isset($lang) || !is_array($lang)) {
+		if (!isset($lang) || !is_array($lang))
+		{
 			$this->CI->log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 			return;
 		}
 
-		if ($return == TRUE) {
+		if ($return == TRUE)
+		{
 			return $lang;
 		}
 
@@ -128,9 +140,11 @@ class CI_Lang {
 	 * @param	string	$line	the	language line
 	 * @return	string
 	 */
-	public function line($line = '') {
+	public function line($line = '')
+	{
 		// Validate line
-		if ($line == '' || ! isset($this->language[$line])) {
+		if ($line == '' || ! isset($this->language[$line]))
+		{
 			$this->CI->log_message('error', 'Could not find the language line "'.$line.'"');
 		}
 

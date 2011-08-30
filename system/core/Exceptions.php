@@ -48,7 +48,8 @@ class CI_Exceptions extends CI_CoreShare {
 	 * @param	object	parent reference
 	 * @param	int		initial output buffer level
 	 */
-	public function __construct(CodeIgniter $CI, $ob_level) {
+	public function __construct(CodeIgniter $CI, $ob_level)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$this->ob_level = $ob_level;
@@ -69,30 +70,36 @@ class CI_Exceptions extends CI_CoreShare {
 	 * @param	object	ShowError exception
 	 * @return	void
 	 */
-	protected function _show_error(CI_ShowError $error) {
+	protected function _show_error(CI_ShowError $error)
+	{
 		// Get template
 		$template = $error->getTemplate();
 
-		try {
+		try
+		{
 			// Ensure Output is loaded and set status header
-			if (!isset($this->CI->output)) {
+			if (!isset($this->CI->output))
+			{
 				$this->_call_core($this->CI, '_load', 'core', 'Output');
 			}
 			$this->CI->output->set_status_header($error->getCode());
 
 			// Clear any output buffering
-			if (ob_get_level() > $this->ob_level + 1) {
+			if (ob_get_level() > $this->ob_level + 1)
+			{
 				ob_end_flush();
 			}
 
 			// Ensure Router is loaded
-			if (!isset($this->CI->router)) {
+			if (!isset($this->CI->router))
+			{
 				$this->_call_core($this->CI, '_load', 'core', 'Router');
 			}
 
 			// Check Router for an override
 			$route = $this->CI->router->get_error_route(str_replace('error_', '', $template));
-			if ($route !== FALSE) {
+			if ($route !== FALSE)
+			{
 				// Extract segment parts
 				$path = array_shift($route);
 				$subdir = array_shift($route);
@@ -103,20 +110,23 @@ class CI_Exceptions extends CI_CoreShare {
 				array_unshift($route, $error);
 
 				// Load object in core as routed
-				if (isset($this->CI->routed)) {
+				if (isset($this->CI->routed))
+				{
 					unset($this->CI->routed);
 				}
 				$this->_call_core($this->CI, '_load', 'controller', $class, 'routed', NULL, $subdir, $path);
 
 				// Call controller method
-				if ($this->_call_core($this->CI, '_call_controller', 'routed', $method, $route)) {
+				if ($this->_call_core($this->CI, '_call_controller', 'routed', $method, $route))
+				{
 					// Display the output and exit
 					$this->_call_core($this->CI->output, '_display');
 					return;
 				}
 			}
 		}
-		catch (CI_ShowError $ex) {
+		catch (CI_ShowError $ex)
+		{
 			// Just add the failure to the existing messages and move on
 			$error->addMessage($ex->getMessage());
 		}

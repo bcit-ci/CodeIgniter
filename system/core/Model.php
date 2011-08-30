@@ -36,7 +36,8 @@ class CI_Model {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$CI->log_message('debug', get_class($this).' Model Class Initialized');
@@ -51,7 +52,8 @@ class CI_Model {
 	 * @param	string
 	 * @access	private
 	 */
-	public function __get($key) {
+	public function __get($key)
+	{
 		return $this->CI->$key;
 	}
 }

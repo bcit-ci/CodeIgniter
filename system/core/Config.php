@@ -60,7 +60,8 @@ class CI_Config {
 	 * @param	object	parent reference
 	 * @param	array	configuration
 	 */
-	public function __construct(CodeIgniter $CI, array $config) {
+	public function __construct(CodeIgniter $CI, array $config)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 
@@ -68,13 +69,16 @@ class CI_Config {
 		$this->config =& $config;
 
 		// Set the base_url automatically if none was provided
-		if ($this->config['base_url'] == '') {
-			if (isset($_SERVER['HTTP_HOST'])) {
+		if ($this->config['base_url'] == '')
+		{
+			if (isset($_SERVER['HTTP_HOST']))
+			{
 				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
 				$base_url .= '://'. $_SERVER['HTTP_HOST'];
 				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
-			else {
+			else
+			{
 				$base_url = 'http://localhost/';
 			}
 
@@ -93,42 +97,52 @@ class CI_Config {
 	 * @param	boolean	TRUE if errors should just return FALSE, otherwise an error message is displayed
 	 * @return	boolean	TRUE if the file was loaded correctly, otherwise FALSE
 	 */
-	public function load($file, $use_sections = FALSE, $fail_gracefully = FALSE) {
+	public function load($file, $use_sections = FALSE, $fail_gracefully = FALSE)
+	{
 		// Strip .php from file
 		$file = str_replace('.php', '', $file);
 
 		// Make sure file isn't already loaded
-		if (in_array($file, $this->is_loaded)) {
+		if (in_array($file, $this->is_loaded))
+		{
 			return TRUE;
 		}
 
 		// Get config array and check result
 		$config = CodeIgniter::get_config($file.'.php', 'config');
-		if ($config === FALSE) {
-			if ($fail_gracefully) {
+		if ($config === FALSE)
+		{
+			if ($fail_gracefully)
+			{
 				return FALSE;
 			}
 			throw new CI_ShowError('The configuration file '.$file.'.php does not exist.');
 		}
-		else if (is_string($config)) {
+		else if (is_string($config))
+		{
 			$this->CI->log_message('debug', 'Invalid config file: '.$config);
-			if ($fail_gracefully === TRUE) {
+			if ($fail_gracefully === TRUE)
+			{
 				return FALSE;
 			}
 			throw new CI_ShowError('Your '.$config.' file does not appear to contain a valid configuration array.');
 		}
 
 		// Check for sections
-		if ($use_sections === TRUE) {
+		if ($use_sections === TRUE)
+		{
 			// Merge or set section
-			if (isset($this->config[$file])) {
+			if (isset($this->config[$file]))
+			{
 				$this->config[$file] = array_merge($this->config[$file], $config);
 			}
-			else {
+			else
+			{
 				$this->config[$file] = $config;
 			}
 		}
-		else {
+		else
+		{
 			// Merge config
 			$this->config = array_replace_recursive($this->config, $config);
 		}
@@ -148,13 +162,16 @@ class CI_Config {
 	 * @param	string	array name
 	 * @return	mixed	merged config if found, otherwise FALSE
 	 */
-	public function get($file, $name) {
+	public function get($file, $name)
+	{
 		// Load file(s) and check result
 		$config = CodeIgniter::get_config($file.'.php', $name);
-		if ($config === FALSE) {
+		if ($config === FALSE)
+		{
 			return FALSE;
 		}
-		else if (is_string($config)) {
+		else if (is_string($config))
+		{
 			$this->CI->log_message('debug', 'Invalid config file: '.$config);
 			return FALSE;
 		}
@@ -170,19 +187,24 @@ class CI_Config {
 	 * @param	string	the section name
 	 * @return	string
 	 */
-	public function item($item, $section = '') {
+	public function item($item, $section = '')
+	{
 		// Check for section
-		if ($section == '') {
+		if ($section == '')
+		{
 			// Check for item
-			if (!isset($this->config[$item])) {
+			if (!isset($this->config[$item]))
+			{
 				return FALSE;
 			}
 
 			return $this->config[$item];
 		}
-		else {
+		else
+		{
 			// Check for item within section
-			if (!isset($this->config[$section][$item])) {
+			if (!isset($this->config[$section][$item]))
+			{
 				return FALSE;
 			}
 
@@ -196,12 +218,15 @@ class CI_Config {
 	 * @param	string	the config item name
 	 * @return	string
 	 */
-	public function slash_item($item) {
+	public function slash_item($item)
+	{
 		// Check for item
-		if (!isset($this->config[$item])) {
+		if (!isset($this->config[$item]))
+		{
 			return FALSE;
 		}
-		if (trim($this->config[$item]) == '') {
+		if (trim($this->config[$item]) == '')
+		{
 			return '';
 		}
 
@@ -216,18 +241,22 @@ class CI_Config {
 	 * @param	string	the URI string
 	 * @return	string
 	 */
-	public function site_url($uri = '') {
+	public function site_url($uri = '')
+	{
 		// Check for URI
-		if ($uri == '') {
+		if ($uri == '')
+		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
 		// Check for query string support
-		if ($this->item('enable_query_strings') == FALSE) {
+		if ($this->item('enable_query_strings') == FALSE)
+		{
 			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
 			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
 		}
-		else {
+		else
+		{
 			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
 		}
 	}
@@ -239,7 +268,8 @@ class CI_Config {
 	 * @param	string	the URI string
 	 * @return	string
 	 */
-	public function base_url($uri = '') {
+	public function base_url($uri = '')
+	{
 		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
 	}
 
@@ -250,20 +280,26 @@ class CI_Config {
 	 * @param  $uri
 	 * @return string
 	 */
-	protected function _uri_string($uri) {
+	protected function _uri_string($uri)
+	{
 		// Check for query string support
-		if ($this->item('enable_query_strings') == FALSE) {
+		if ($this->item('enable_query_strings') == FALSE)
+		{
 			// Implode multiple URIs
-			if (is_array($uri)) {
+			if (is_array($uri))
+			{
  				$uri = implode('/', $uri);
  			}
 			$uri = trim($uri, '/');
 		}
-		else if (is_array($uri)) {
+		else if (is_array($uri))
+		{
 			// Combine multiple URIs with keys
 			$str = '';
-			foreach ($uri as $key => $val) {
-				if ($str != '') {
+			foreach ($uri as $key => $val)
+			{
+				if ($str != '')
+				{
 					$str .= '&';
 				}
 				$str .= $key.'='.$val;
@@ -279,7 +315,8 @@ class CI_Config {
 	 *
 	 * @return	string
 	 */
-	public function system_url() {
+	public function system_url()
+	{
 		$x = explode('/', preg_replace('|/*(.+?)/*$|', '\\1', BASEPATH));
 		return $this->slash_item('base_url').end($x).'/';
 	}
@@ -291,7 +328,8 @@ class CI_Config {
 	 * @param	string	the config item value
 	 * @return	void
 	 */
-	public function set_item($item, $value) {
+	public function set_item($item, $value)
+	{
 		$this->config[$item] = $value;
 	}
 }

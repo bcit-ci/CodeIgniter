@@ -104,7 +104,8 @@ class CI_Output extends CI_CoreShare {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 
@@ -113,7 +114,8 @@ class CI_Output extends CI_CoreShare {
 
 		// Get mime types for later
 		$mimes = CodeIgniter::get_config('mimes.php', 'mimes');
-		if (is_array($mimes)) {
+		if (is_array($mimes))
+		{
 			$this->mime_types = $mimes;
 		}
 
@@ -127,7 +129,8 @@ class CI_Output extends CI_CoreShare {
 	 *
 	 * @return	string
 	 */
-	public function get_output() {
+	public function get_output()
+	{
 		return $this->final_output;
 	}
 
@@ -139,7 +142,8 @@ class CI_Output extends CI_CoreShare {
 	 * @param	string
 	 * @return	void
 	 */
-	public function set_output($output) {
+	public function set_output($output)
+	{
 		$this->final_output = $output;
 		return $this;
 	}
@@ -152,7 +156,8 @@ class CI_Output extends CI_CoreShare {
 	 * @param	string
 	 * @return	void
 	 */
-	public function append_output($output) {
+	public function append_output($output)
+	{
 		$this->final_output .= $output;
 		return $this;
 	}
@@ -169,12 +174,14 @@ class CI_Output extends CI_CoreShare {
 	 * @param 	bool
 	 * @return	void
 	 */
-	public function set_header($header, $replace = TRUE) {
+	public function set_header($header, $replace = TRUE)
+	{
 		// If zlib.output_compression is enabled it will compress the output,
 		// but it will not modify the content-length header to compensate for
 		// the reduction, causing the browser to hang waiting for more data.
 		// We'll just skip content-length in those cases.
-		if ($this->zlib_oc && strncasecmp($header, 'content-length', 14) == 0) {
+		if ($this->zlib_oc && strncasecmp($header, 'content-length', 14) == 0)
+		{
 			return;
 		}
 
@@ -189,15 +196,19 @@ class CI_Output extends CI_CoreShare {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	public function set_content_type($mime_type) {
-		if (strpos($mime_type, '/') === FALSE) {
+	public function set_content_type($mime_type)
+	{
+		if (strpos($mime_type, '/') === FALSE)
+		{
 			$extension = ltrim($mime_type, '.');
 
 			// Is this extension supported?
-			if (isset($this->mime_types[$extension])) {
+			if (isset($this->mime_types[$extension]))
+			{
 				$mime_type =& $this->mime_types[$extension];
 
-				if (is_array($mime_type)) {
+				if (is_array($mime_type))
+				{
 					$mime_type = current($mime_type);
 				}
 			}
@@ -216,7 +227,8 @@ class CI_Output extends CI_CoreShare {
 	 * @param	string
 	 * @return	void
 	 */
-	public function set_status_header($code = 200, $text = '') {
+	public function set_status_header($code = 200, $text = '')
+	{
 		// Define status codes
 		$stati = array(
 			200	=> 'OK',
@@ -261,29 +273,36 @@ class CI_Output extends CI_CoreShare {
 		);
 
 		// Validate code
-		if ($code == '' || ! is_numeric($code)) {
+		if ($code == '' || ! is_numeric($code))
+		{
 			throw new CI_ShowError('Status codes must be numeric');
 		}
 
 		// Load text if necessary
-		if ($text == '') {
-			if (isset($stati[$code])) {
+		if ($text == '')
+		{
+			if (isset($stati[$code]))
+			{
 				$text = $stati[$code];
 			}
-			else {
+			else
+			{
 				throw new CI_ShowError('No status text available. Please check your status code number or '.
 					'supply your own message text.');
 			}
 		}
 
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
-		if (substr(php_sapi_name(), 0, 3) == 'cgi') {
+		if (substr(php_sapi_name(), 0, 3) == 'cgi')
+		{
 			header('Status: '.$code.' '.$text, TRUE);
 		}
-		else if ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0') {
+		else if ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0')
+		{
 			header($server_protocol.' '.$code.' '.$text, TRUE, $code);
 		}
-		else {
+		else
+		{
 			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
 		}
 
@@ -296,7 +315,8 @@ class CI_Output extends CI_CoreShare {
 	 * @param	bool
 	 * @return	void
 	 */
-	public function enable_profiler($val = TRUE) {
+	public function enable_profiler($val = TRUE)
+	{
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
 		return $this;
 	}
@@ -309,8 +329,10 @@ class CI_Output extends CI_CoreShare {
 	 * @param	array
 	 * @return	void
 	 */
-	public function setprofiler_sects($sections) {
-		foreach ($sections as $section => $enable) {
+	public function setprofiler_sects($sections)
+	{
+		foreach ($sections as $section => $enable)
+		{
 			$this->profiler_sects[$section] = ($enable !== FALSE) ? TRUE : FALSE;
 		}
 
@@ -323,7 +345,8 @@ class CI_Output extends CI_CoreShare {
 	 * @param	integer
 	 * @return	void
 	 */
-	public function cache($time) {
+	public function cache($time)
+	{
 		$this->cache_expiration = is_numeric($time) ? $time : 0;
 		return $this;
 	}
@@ -344,9 +367,11 @@ class CI_Output extends CI_CoreShare {
 	 * @param 	string
 	 * @return	mixed
 	 */
-	protected function _display($output = '') {
+	protected function _display($output = '')
+	{
 		// Set the output data
-		if ($output == '') {
+		if ($output == '')
+		{
 			$output =& $this->final_output;
 		}
 
@@ -354,7 +379,8 @@ class CI_Output extends CI_CoreShare {
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $CI->routed object
 		if ($this->cache_expiration > 0 && isset($this->CI->routed) &&
-		!$this->CI->is_callable($this->CI->routed, '_output')) {
+		!$this->CI->is_callable($this->CI->routed, '_output'))
+		{
 			$this->_write_cache($output);
 		}
 
@@ -363,25 +389,31 @@ class CI_Output extends CI_CoreShare {
 		$elapsed = isset($this->CI->benchmark) ?
 			$this->CI->benchmark->elapsed_time('total_execution_time_start', 'total_execution_time_end') : '';
 
-		if ($this->parse_exec_vars === TRUE) {
+		if ($this->parse_exec_vars === TRUE)
+		{
 			$memory	 = function_exists('memory_get_usage') ? round(memory_get_usage()/1024/1024, 2).'MB' : '0';
 			$output = str_replace('{elapsed_time}', $elapsed, $output);
 			$output = str_replace('{memory_usage}', $memory, $output);
 		}
 
 		// Is compression requested?
-		if ($this->CI->config->item('compress_output') === TRUE && $this->zlib_oc == FALSE) {
-			if (extension_loaded('zlib')) {
+		if ($this->CI->config->item('compress_output') === TRUE && $this->zlib_oc == FALSE)
+		{
+			if (extension_loaded('zlib'))
+			{
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) &&
-				strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
+				strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
+				{
 					ob_start('ob_gzhandler');
 				}
 			}
 		}
 
 		// Are there any server headers to send?
-		if (count($this->headers) > 0) {
-			foreach ($this->headers as $header) {
+		if (count($this->headers) > 0)
+		{
+			foreach ($this->headers as $header)
+			{
 				@header($header[0], $header[1]);
 			}
 		}
@@ -389,10 +421,12 @@ class CI_Output extends CI_CoreShare {
 		// Does the routed controller object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if (!isset($this->CI->routed)) {
+		if (!isset($this->CI->routed))
+		{
 			echo $output;
 			$this->CI->log_message('debug', 'Final output sent to browser');
-			if ($elapsed != '') {
+			if ($elapsed != '')
+			{
 				$this->CI->log_message('debug', 'Total execution time: '.$elapsed);
 			}
 			return TRUE;
@@ -400,35 +434,42 @@ class CI_Output extends CI_CoreShare {
 
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
-		if ($this->enable_profiler == TRUE) {
+		if ($this->enable_profiler == TRUE)
+		{
 			$this->CI->load->library('profiler');
 
-			if (!empty($this->profiler_sects)) {
+			if (!empty($this->profiler_sects))
+			{
 				$this->CI->profiler->set_sects($this->profiler_sects);
 			}
 
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
-			if (preg_match('|</body>.*?</html>|is', $output)) {
+			if (preg_match('|</body>.*?</html>|is', $output))
+			{
 				$output = preg_replace('|</body>.*?</html>|is', '', $output).$this->CI->profiler->run().
 					'</body></html>';
 			}
-			else {
+			else
+			{
 				$output .= $this->CI->profiler->run();
 			}
 		}
 
 		// Does the controller contain a function named _output()?
 		// If so send the output there. Otherwise, echo it.
-		if ($this->CI->is_callable($this->CI->routed, '_output')) {
+		if ($this->CI->is_callable($this->CI->routed, '_output'))
+		{
 			$this->CI->routed->_output($output);
 		}
-		else {
+		else
+		{
 			echo $output; // Send it to the browser!
 		}
 
 		$this->CI->log_message('debug', 'Final output sent to browser');
-		if ($elapsed != '') {
+		if ($elapsed != '')
+		{
 			$this->CI->log_message('debug', 'Total execution time: '.$elapsed);
 		}
 	}
@@ -442,7 +483,8 @@ class CI_Output extends CI_CoreShare {
 	 * @access	protected
 	 * @return	boolean	TRUE if cache displayed, otherwise FALSE
 	 */
-	protected function _display_cache() {
+	protected function _display_cache()
+	{
 		$cache_path = ($this->CI->config->item('cache_path') == '') ? APPPATH.'cache/' :
 			$this->CI->config->item('cache_path');
 
@@ -450,18 +492,21 @@ class CI_Output extends CI_CoreShare {
 		$uri =	$this->CI->config->item('base_url').$this->CI->config->item('index_page').$this->CI->uri->uri_string();
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath)) {
+		if ( ! @file_exists($filepath))
+		{
 			return FALSE;
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_READ)) {
+		if ( ! $fp = @fopen($filepath, FOPEN_READ))
+		{
 			return FALSE;
 		}
 
 		flock($fp, LOCK_SH);
 
 		$cache = '';
-		if (filesize($filepath) > 0) {
+		if (filesize($filepath) > 0)
+		{
 			$cache = fread($fp, filesize($filepath));
 		}
 
@@ -469,13 +514,16 @@ class CI_Output extends CI_CoreShare {
 		fclose($fp);
 
 		// Strip out the embedded timestamp
-		if (!preg_match('/(\d+TS--->)/', $cache, $match)) {
+		if (!preg_match('/(\d+TS--->)/', $cache, $match))
+		{
 			return FALSE;
 		}
 
 		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match['1']))) {
-			if ($this->CI->is_really_writable($cache_path)) {
+		if (time() >= trim(str_replace('TS--->', '', $match['1'])))
+		{
+			if ($this->CI->is_really_writable($cache_path))
+			{
 				@unlink($filepath);
 				$this->CI->log_message('debug', 'Cache file has expired. File deleted');
 				return FALSE;
@@ -497,12 +545,14 @@ class CI_Output extends CI_CoreShare {
 	 * @access	protected
 	 * @return	void
 	 */
-	protected function _write_cache($output) {
+	protected function _write_cache($output)
+	{
 		$path = $this->CI->config->item('cache_path');
 
 		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
 
-		if (!is_dir($cache_path) || !$this->CI->is_really_writable($cache_path)) {
+		if (!is_dir($cache_path) || !$this->CI->is_really_writable($cache_path))
+		{
 			$this->CI->log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
 		}
@@ -511,18 +561,21 @@ class CI_Output extends CI_CoreShare {
 
 		$cache_path .= md5($uri);
 
-		if (!($fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))) {
+		if (!($fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
+		{
 			$this->CI->log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
 		}
 
 		$expire = time() + ($this->cache_expiration * 60);
 
-		if (flock($fp, LOCK_EX)) {
+		if (flock($fp, LOCK_EX))
+		{
 			fwrite($fp, $expire.'TS--->'.$output);
 			flock($fp, LOCK_UN);
 		}
-		else {
+		else
+		{
 			$this->CI->log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
 			return;
 		}

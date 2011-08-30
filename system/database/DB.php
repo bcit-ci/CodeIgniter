@@ -27,36 +27,45 @@ function &DB($params = '', $active_record_override = NULL) {
 	$CI =& get_instance();
 
 	// Load the DB config file if a DSN string wasn't passed
-	if (is_string($params)) {
-		if (strpos($params, '://') === FALSE) {
+	if (is_string($params))
+	{
+		if (strpos($params, '://') === FALSE)
+		{
 			// Is the config file in the environment folder?
 			$db = CodeIgniter::get_config_ext('database.php', 'db', $args);
-			if ($db === FALSE) {
+			if ($db === FALSE)
+			{
 				throw new CI_ShowError('The configuration file database.php does not exist.');
 			}
-			else if (!is_array($db) || empty($db)) {
+			else if (!is_array($db) || empty($db))
+			{
 				throw new CI_ShowError('No database connection settings were found in the database config file.');
 			}
 
-			if ($params != '') {
+			if ($params != '')
+			{
 				$active_group = $params;
 			}
-			else if (isset($args['active_group'])) {
+			else if (isset($args['active_group']))
+			{
 				$active_group = $args['active_group'];
 			}
 
-			if ( ! isset($active_group) || ! isset($db[$active_group])) {
+			if ( ! isset($active_group) || ! isset($db[$active_group]))
+			{
 				throw new CI_ShowError('You have specified an invalid database connection group.');
 			}
 
 			$params = $db[$active_group];
 		}
-		else {
+		else
+		{
 			// parse the URL from the DSN string
 			// Database settings can be passed as discreet parameters or as a data
 			// source name in the first parameter. DSNs must have this prototype:
 			// $dsn = 'driver://username:password@hostname/database';
-			if (($dns = @parse_url($params)) === FALSE) {
+			if (($dns = @parse_url($params)) === FALSE)
+			{
 				throw new CI_ShowError('Invalid DB Connection String');
 			}
 
@@ -69,15 +78,19 @@ function &DB($params = '', $active_record_override = NULL) {
 			);
 
 			// were additional config items set?
-			if (isset($dns['query'])) {
+			if (isset($dns['query']))
+			{
 				parse_str($dns['query'], $extra);
 
-				foreach ($extra as $key => $val) {
+				foreach ($extra as $key => $val)
+				{
 					// booleans please
-					if (strtoupper($val) == "TRUE") {
+					if (strtoupper($val) == "TRUE")
+					{
 						$val = TRUE;
 					}
-					elseif (strtoupper($val) == "FALSE") {
+					elseif (strtoupper($val) == "FALSE")
+					{
 						$val = FALSE;
 					}
 
@@ -88,7 +101,8 @@ function &DB($params = '', $active_record_override = NULL) {
 	}
 
 	// No DB specified yet? Beat them senseless...
-	if (!isset($params['dbdriver']) || $params['dbdriver'] == '') {
+	if (!isset($params['dbdriver']) || $params['dbdriver'] == '')
+	{
 		throw new CI_ShowError('You have not selected a database type to connect to.');
 	}
 
@@ -96,24 +110,30 @@ function &DB($params = '', $active_record_override = NULL) {
 	// we need to dynamically create a class that extends proper parent class
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
-	if ($active_record_override !== NULL) {
+	if ($active_record_override !== NULL)
+	{
 		$active_record = $active_record_override;
 	}
-	else if (isset($args['active_record'])) {
+	else if (isset($args['active_record']))
+	{
 		$active_record = $args['active_record'];
 	}
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
-	if (!isset($active_record) || $active_record == TRUE) {
+	if (!isset($active_record) || $active_record == TRUE)
+	{
 		require_once(BASEPATH.'database/DB_active_rec.php');
 
-		if (!class_exists('CI_DB')) {
+		if (!class_exists('CI_DB'))
+		{
 			eval('class CI_DB extends CI_DB_active_record { }');
 		}
 	}
-	else {
-		if (!class_exists('CI_DB')) {
+	else
+	{
+		if (!class_exists('CI_DB'))
+		{
 			eval('class CI_DB extends CI_DB_driver { }');
 		}
 	}
@@ -124,11 +144,13 @@ function &DB($params = '', $active_record_override = NULL) {
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
-	if ($DB->autoinit == TRUE) {
+	if ($DB->autoinit == TRUE)
+	{
 		$DB->initialize();
 	}
 
-	if (isset($params['stricton']) && $params['stricton'] == TRUE) {
+	if (isset($params['stricton']) && $params['stricton'] == TRUE)
+	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
 

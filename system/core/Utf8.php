@@ -40,7 +40,8 @@ class CI_Utf8 {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 
@@ -49,7 +50,8 @@ class CI_Utf8 {
 		// PCRE must support UTF-8, iconv must be installed,
 		// Multibyte string function overloading cannot be enabled, and Application charset must be UTF-8
 		if (preg_match('/./u', 'é') === 1 && function_exists('iconv') &&
-		ini_get('mbstring.func_overload') != 1 && $CI->config->item('charset') == 'UTF-8') {
+		ini_get('mbstring.func_overload') != 1 && $CI->config->item('charset') == 'UTF-8')
+		{
 			$CI->log_message('debug', 'UTF-8 Support Enabled');
 
 			define('UTF8_ENABLED', TRUE);
@@ -57,15 +59,18 @@ class CI_Utf8 {
 			// set internal encoding for multibyte string functions if necessary
 			// and set a flag so we don't have to repeatedly use extension_loaded()
 			// or function_exists()
-			if (extension_loaded('mbstring')) {
+			if (extension_loaded('mbstring'))
+			{
 				define('MB_ENABLED', TRUE);
 				mb_internal_encoding('UTF-8');
 			}
-			else {
+			else
+			{
 				define('MB_ENABLED', FALSE);
 			}
 		}
-		else {
+		else
+		{
 			$CI->log_message('debug', 'UTF-8 Support Disabled');
 			define('UTF8_ENABLED', FALSE);
 		}
@@ -79,8 +84,10 @@ class CI_Utf8 {
 	 * @param	string
 	 * @return	string
 	 */
-	public function clean_string($str) {
-		if ($this->_is_ascii($str) === FALSE) {
+	public function clean_string($str)
+	{
+		if ($this->_is_ascii($str) === FALSE)
+		{
 			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 		}
 
@@ -97,7 +104,8 @@ class CI_Utf8 {
 	 * @param	string
 	 * @return	string
 	 */
-	public function safe_ascii_for_xml($str) {
+	public function safe_ascii_for_xml($str)
+	{
 		return $this->CI->remove_invisible_characters($str, FALSE);
 	}
 
@@ -110,14 +118,18 @@ class CI_Utf8 {
 	 * @param	string	input encoding
 	 * @return	string
 	 */
-	public function convert_to_utf8($str, $encoding) {
-		if (function_exists('iconv')) {
+	public function convert_to_utf8($str, $encoding)
+	{
+		if (function_exists('iconv'))
+		{
 			$str = @iconv($encoding, 'UTF-8', $str);
 		}
-		else if (function_exists('mb_convert_encoding')) {
+		else if (function_exists('mb_convert_encoding'))
+		{
 			$str = @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
-		else {
+		else
+		{
 			return FALSE;
 		}
 
@@ -133,7 +145,8 @@ class CI_Utf8 {
 	 * @param	string
 	 * @return	bool
 	 */
-	protected function _is_ascii($str) {
+	protected function _is_ascii($str)
+	{
 		return (preg_match('/[^\x00-\x7F]/S', $str) == 0);
 	}
 }

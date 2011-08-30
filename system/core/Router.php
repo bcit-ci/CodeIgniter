@@ -73,7 +73,8 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
+	public function __construct(CodeIgniter $CI)
+	{
 		// Attach parent reference
 		$this->CI =& $CI;
 		$CI->log_message('debug', 'Router Class Initialized');
@@ -96,18 +97,22 @@ class CI_Router extends CI_CoreShare {
 	 * @param	mixed	route URI string or array of route segments
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
-	public function validate_route($route) {
+	public function validate_route($route)
+	{
 		// If we don't have any segments, the default will have to do
-		if (empty($route)) {
+		if (empty($route))
+		{
 			$route = $this->_default_segments();
-			if (empty($route)) {
+			if (empty($route))
+			{
 				// No default - fail
 				return FALSE;
 			}
 		}
 
 		// Explode route if not already segmented
-		if (!is_array($route)) {
+		if (!is_array($route))
+		{
 			$route = explode('/', $route);
 		}
 
@@ -116,15 +121,19 @@ class CI_Router extends CI_CoreShare {
 		$names = array(ucfirst($name), $name);
 
 		// Search paths for controller
-		foreach ($this->CI->get_package_paths() as $path) {
+		foreach ($this->CI->get_package_paths() as $path)
+		{
 			// Append subdirectory
 			$file_path = $path.'controllers/';
 
-			foreach ($names as $name) {
+			foreach ($names as $name)
+			{
 				// Does the requested controller exist in the base folder?
-				if (file_exists($file_path.$name.'.php')) {
+				if (file_exists($file_path.$name.'.php'))
+				{
 					// Found it - append method if missing
-					if (!isset($route[1])) {
+					if (!isset($route[1]))
+					{
 						$route[] = 'index';
 					}
 
@@ -133,17 +142,21 @@ class CI_Router extends CI_CoreShare {
 				}
 
 				// Is the controller in a sub-folder?
-				if (is_dir($file_path.$name)) {
+				if (is_dir($file_path.$name))
+				{
 					// Found a sub-folder - is there a controller name?
-					if (isset($route[1])) {
+					if (isset($route[1]))
+					{
 						// Yes - get class and method
 						$class = $route[1];
 						$method = isset($route[2]) ? $route[2] : 'index';
 					}
-					else {
+					else
+					{
 						// Get default controller segments
 						$default = $this->_default_segments();
-						if (empty($default)) {
+						if (empty($default))
+						{
 							// No default controller to apply - carry on
 							unset($default);
 							continue;
@@ -155,15 +168,19 @@ class CI_Router extends CI_CoreShare {
 					}
 
 					// Does the requested controller exist in the sub-folder?
-					if (file_exists($file_path.$name.$class.'.php')) {
+					if (file_exists($file_path.$name.$class.'.php'))
+					{
 						// Found it - assemble segments
-						if (!isset($route[1])) {
+						if (!isset($route[1]))
+						{
 							$route[] = $class;
 						}
-						if (!isset($route[2])) {
+						if (!isset($route[2]))
+						{
 							$route[] = $method;
 						}
-						if (isset($default) && count($default) > 0) {
+						if (isset($default) && count($default) > 0)
+						{
 							$route = array_merge($route, $default);
 						}
 
@@ -185,7 +202,8 @@ class CI_Router extends CI_CoreShare {
 	 * @param	string	package path
 	 * @return	void
 	 */
-	public function set_path($path) {
+	public function set_path($path)
+	{
 		$this->route_stack[self::SEG_PATH] = $path;
 	}
 
@@ -194,7 +212,8 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @return	string	package path
 	 */
-	public function fetch_path() {
+	public function fetch_path()
+	{
 		return $this->route_stack[self::SEG_PATH];
 	}
 
@@ -204,7 +223,8 @@ class CI_Router extends CI_CoreShare {
 	 * @param	string	directory name
 	 * @return	void
 	 */
-	public function set_directory($dir) {
+	public function set_directory($dir)
+	{
 		$this->route_stack[self::SEG_SUBDIR] = $dir == '' ? '' : str_replace(array('/', '.'), '', $dir).'/';
 	}
 
@@ -213,7 +233,8 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @return	string	directory name
 	 */
-	public function fetch_directory() {
+	public function fetch_directory()
+	{
 		return $this->route_stack[self::SEG_SUBDIR];
 	}
 
@@ -223,7 +244,8 @@ class CI_Router extends CI_CoreShare {
 	 * @param	string	class name
 	 * @return	void
 	 */
-	public function set_class($class) {
+	public function set_class($class)
+	{
 		$this->route_stack[self::SEG_CLASS] = str_replace(array('/', '.'), '', $class);
 	}
 
@@ -232,7 +254,8 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @return	string	class name
 	 */
-	public function fetch_class() {
+	public function fetch_class()
+	{
 		return $this->route_stack[self::SEG_CLASS];
 	}
 
@@ -242,7 +265,8 @@ class CI_Router extends CI_CoreShare {
 	 * @param	string	method name
 	 * @return	void
 	 */
-	public function set_method($method) {
+	public function set_method($method)
+	{
 		$this->route_stack[self::SEG_METHOD] = ($method == '' ? 'index' : $method);
 	}
 
@@ -251,9 +275,11 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @return	string	method name
 	 */
-	public function fetch_method() {
+	public function fetch_method()
+	{
 		$method = $this->route_stack[self::SEG_METHOD];
-		if ($method == $this->fetch_class()) {
+		if ($method == $this->fetch_class())
+		{
 			return 'index';
 		}
 
@@ -265,7 +291,8 @@ class CI_Router extends CI_CoreShare {
 	 *
 	 * @return	array	route stack
 	 */
-	public function fetch_route() {
+	public function fetch_route()
+	{
 		return $this->route_stack;
 	}
 
@@ -277,12 +304,14 @@ class CI_Router extends CI_CoreShare {
 	 * @param	string	error template name ('general', '404', 'php')
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
-	public function get_error_route($template) {
+	public function get_error_route($template)
+	{
 		// Select route
 		$route = ($template == 'general' ? 'error' : $template).'_override';
 
 		// See if override is defined
-		if (empty($this->routes[$route])) {
+		if (empty($this->routes[$route]))
+		{
 			// No override to apply
 			return FALSE;
 		}
@@ -302,15 +331,18 @@ class CI_Router extends CI_CoreShare {
 	 * @param	array	route overrides
 	 * @return	void
 	 */
-	protected function _set_routing($overrides) {
+	protected function _set_routing($overrides)
+	{
 		// Force overrides to array
-		if (!is_array($overrides)) {
+		if (!is_array($overrides))
+		{
 			$overrides = array();
 		}
 
 		// Load the routes.php file.
 		$route = CodeIgniter::get_config('routes.php', 'route');
-		if (is_array($route)) {
+		if (is_array($route))
+		{
 			$this->routes = $route;
 		}
 
@@ -324,19 +356,23 @@ class CI_Router extends CI_CoreShare {
 		$uri = implode('/', $segments);
 
 		// Is there a literal route match? If so we're done
-		if (isset($this->routes[$uri])) {
+		if (isset($this->routes[$uri]))
+		{
 			return $this->_set_route($this->routes[$uri], $overrides);
 		}
 
 		// Loop through the route array looking for wild-cards
-		foreach ($this->routes as $key => $val) {
+		foreach ($this->routes as $key => $val)
+		{
 			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
 			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri)) {
+			if (preg_match('#^'.$key.'$#', $uri))
+			{
 				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE) {
+				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
+				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
@@ -360,13 +396,15 @@ class CI_Router extends CI_CoreShare {
 	 * @param	array	routing	overrides
 	 * @return	void
 	 */
-	protected function _set_route($route, array $overrides) {
+	protected function _set_route($route, array $overrides)
+	{
 		// Save original request in case of 404
 		$uri = is_array($route) ? implode('/', $route) : $route;
 
 		// Determine if route is valid
 		$route = $this->validate_route($route);
-		if ($route === FALSE) {
+		if ($route === FALSE)
+		{
 			// Invalid request - show a 404
 			throw new CI_ShowError('The page you requested was not found.', '404 Page Not Found', 404,
 				'404 Page Not Found --> '.$uri, 'error_404');
@@ -374,23 +412,28 @@ class CI_Router extends CI_CoreShare {
 
 		// Set route stack and process
 		$this->route_stack = $route;
-		if (isset($overrides['directory'])) {
+		if (isset($overrides['directory']))
+		{
 			// Override directory
 			$this->set_directory($overrides['directory']);
 		}
-		else {
+		else
+		{
 			// Clean directory entry
 			$this->set_directory($route[self::SEG_SUBDIR]);
 		}
-		if (isset($overrides['controller'])) {
+		if (isset($overrides['controller']))
+		{
 			// Override class
 			$this->set_class($overrides['controller']);
 		}
-		else {
+		else
+		{
 			// Clean class entry
 			$this->set_class($route[self::SEG_CLASS]);
 		}
-		if (isset($overrides['function'])) {
+		if (isset($overrides['function']))
+		{
 			// Override method
 			$this->set_method($overrides['function']);
 		}
@@ -409,16 +452,19 @@ class CI_Router extends CI_CoreShare {
 	 * @access	protected
 	 * @return	array	array of segments
 	 */
-	protected function _default_segments() {
+	protected function _default_segments()
+	{
 		// Check for default controller
-		if (empty($this->default_controller)) {
+		if (empty($this->default_controller))
+		{
 			// Return empty array
 			return array();
 		}
 
 		// Break out default controller
 		$default = explode('/', $this->default_controller);
-		if (!isset($default[1])) {
+		if (!isset($default[1]))
+		{
 			// Add default method
 			$default[] = 'index';
 		}

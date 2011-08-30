@@ -38,8 +38,9 @@ class CI_Benchmark {
 	 *
 	 * @param	object	parent reference
 	 */
-	public function __construct(CodeIgniter $CI) {
-        // No need for the parent reference - just log initialized
+	public function __construct(CodeIgniter $CI)
+	{
+		// No need for the parent reference - just log initialized
 		$CI->log_message('debug', 'Benchmark Class Initialized');
 	}
 
@@ -52,7 +53,8 @@ class CI_Benchmark {
 	 * @param	string	name of the marker
 	 * @return	void
 	 */
-	public function mark($name) {
+	public function mark($name)
+	{
 		$this->marker[$name] = microtime();
 	}
 
@@ -69,16 +71,20 @@ class CI_Benchmark {
 	 * @param	integer	the number of decimal places
 	 * @return	mixed
 	 */
-	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4) {
-		if ($point1 == '') {
+	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
+	{
+		if ($point1 == '')
+		{
 			return '{elapsed_time}';
 		}
 
-		if ( ! isset($this->marker[$point1])) {
+		if ( ! isset($this->marker[$point1]))
+		{
 			return '';
 		}
 
-		if ( ! isset($this->marker[$point2])) {
+		if ( ! isset($this->marker[$point2]))
+		{
 			$this->marker[$point2] = microtime();
 		}
 
@@ -98,7 +104,8 @@ class CI_Benchmark {
 	 *
 	 * @return	string
 	 */
-	public function memory_usage() {
+	public function memory_usage()
+	{
 		return '{memory_usage}';
 	}
 }
