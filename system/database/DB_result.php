@@ -150,11 +150,11 @@ class CI_DB_result {
 
 		$this->_data_seek(0);
 		
-		$key_exists = FALSE;
+		$key_exists = false;
 		if ($key!='')
 		{
 			$row = $this->_fetch_assoc();
-			if (isset($row[$key])) $key_exists = TRUE;
+			if (isset($row[$key])) $key_exists = true;
 			$this->_data_seek(0);
 		}
 		
