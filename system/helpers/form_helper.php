@@ -174,7 +174,7 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$name = 'name' => (( ! is_array($data)) ? $data : '');
+		$name = ( ! is_array($data)) ? $data : '';
 		$defaults = array('type' => 'text', 'id' => $name, 'name' => $name, 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
@@ -250,7 +250,7 @@ if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$name = (( ! is_array($data)) ? $data : '');
+		$name = ( ! is_array($data)) ? $data : '';
 		$defaults = array('id' => $name, 'name' => $name, 'cols' => '40', 'rows' => '10');
 
 		if ( ! is_array($data) OR ! isset($data['value']))
@@ -377,7 +377,8 @@ if ( ! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$name = ( ! is_array($data)) ? $data : '';
+		$defaults = array('type' => 'checkbox', 'id' => $name, 'name' => $name, 'value' => $value);
 
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
