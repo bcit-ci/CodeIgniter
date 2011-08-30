@@ -130,9 +130,10 @@ class CI_DB_result {
 	 * Query result.  "array" version.
 	 *
 	 * @access	public
+	 * @param	string
 	 * @return	array
 	 */
-	function result_array()
+	function result_array($key='')
 	{
 		if (count($this->result_array) > 0)
 		{
@@ -147,10 +148,24 @@ class CI_DB_result {
 			return array();
 		}
 
-		$this->_data_seek(0);
-		while ($row = $this->_fetch_assoc())
+		$key_exists = FALSE;
+		if ($key!='')
 		{
-			$this->result_array[] = $row;
+			$row = $this->_fetch_assoc();
+			if (isset($row[$key])) $key_exists = TRUE;
+			$this->_data_seek(0);
+		}
+
+		if ($key_exists) {
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[$row[$key]] = $row;
+			}
+		} else {
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[] = $row;
+			}
 		}
 
 		return $this->result_array;
