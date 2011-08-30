@@ -132,9 +132,9 @@ if ( ! function_exists('load_class'))
 
 		$name = FALSE;
 
-		// Look for the class first in the native system/libraries folder
-		// thenin the local application/libraries folder
-		foreach (array(BASEPATH, APPPATH) as $path)
+		// Look for the class first in the local application/libraries folder
+		// then in the native system/libraries folder
+		foreach (array(APPPATH, BASEPATH) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
@@ -533,6 +533,30 @@ if ( ! function_exists('remove_invisible_characters'))
 		while ($count);
 
 		return $str;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+* Returns HTML escaped variable
+*
+* @access	public
+* @param	mixed
+* @return	mixed
+*/
+if ( ! function_exists('html_escape'))
+{
+	function html_escape($var)
+	{
+		if (is_array($var))
+		{
+			return array_map('html_escape', $var);
+		}
+		else
+		{
+			return htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
+		}
 	}
 }
 
