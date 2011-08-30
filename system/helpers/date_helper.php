@@ -85,12 +85,20 @@ if ( ! function_exists('mdate'))
 	function mdate($datestr = '', $time = '')
 	{
 		if ($datestr == '')
-			return '';
+		{
+			return '';			
+		}
 
 		if ($time == '')
-			$time = now();
+		{
+			$time = now();			
+		}
 
-		$datestr = str_replace('%\\', '', preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr));
+		$datestr = str_replace(
+			'%\\', 
+			'', 
+			preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr)
+		);
 		return date($datestr, $time);
 	}
 }
@@ -162,14 +170,7 @@ if ( ! function_exists('timespan'))
 			$time = time();
 		}
 
-		if ($time <= $seconds)
-		{
-			$seconds = 1;
-		}
-		else
-		{
-			$seconds = $time - $seconds;
-		}
+		$seconds = ($time <= $seconds) ? 1 : $time - $seconds;
 
 		$str = '';
 		$years = floor($seconds / 31536000);
@@ -303,9 +304,18 @@ if ( ! function_exists('local_to_gmt'))
 	function local_to_gmt($time = '')
 	{
 		if ($time == '')
+		{
 			$time = time();
-
-		return mktime( gmdate("H", $time), gmdate("i", $time), gmdate("s", $time), gmdate("m", $time), gmdate("d", $time), gmdate("Y", $time));
+		}
+		
+		return mktime(
+			gmdate("H", $time), 
+			gmdate("i", $time), 
+			gmdate("s", $time), 
+			gmdate("m", $time), 
+			gmdate("d", $time), 
+			gmdate("Y", $time)
+		);
 	}
 }
 
@@ -475,13 +485,19 @@ if ( ! function_exists('human_to_unix'))
 			$ampm = strtolower($split['2']);
 
 			if (substr($ampm, 0, 1) == 'p' AND $hour < 12)
-				$hour = $hour + 12;
+			{
+				$hour = $hour + 12;				
+			}
 
 			if (substr($ampm, 0, 1) == 'a' AND $hour == 12)
+			{
 				$hour =  '00';
-
+			}
+			
 			if (strlen($hour) == 1)
-				$hour = '0'.$hour;
+			{
+				$hour = '0'.$hour;				
+			}
 		}
 
 		return mktime($hour, $min, $sec, $month, $day, $year);
@@ -501,16 +517,16 @@ if ( ! function_exists('human_to_unix'))
  */
 if ( ! function_exists('nice_date'))
 {
-	function nice_date($bad_date='', $format=false) 
+	function nice_date($bad_date = '', $format = FALSE) 
 	{
 		if (empty($bad_date))
 		{
 			return 'Unknown';
 		}
+
 		// Date like: YYYYMM
-		if (preg_match('/^\d{6}$/',$bad_date)) 
+		if (preg_match('/^\d{6}$/', $bad_date)) 
 		{
-			//echo $bad_date." ";
 			if (in_array(substr($bad_date, 0, 2),array('19', '20'))) 
 			{
 				$year  = substr($bad_date, 0, 4);
@@ -521,8 +537,8 @@ if ( ! function_exists('nice_date'))
 				$month  = substr($bad_date, 0, 2);
 				$year   = substr($bad_date, 2, 4);
 			}
+			
 			return date($format, strtotime($year . '-' . $month . '-01'));
-		    
 		}
 		
 		// Date Like: YYYYMMDD
@@ -531,6 +547,7 @@ if ( ! function_exists('nice_date'))
 			$month = substr($bad_date, 0, 2);
 			$day   = substr($bad_date, 2, 2);
 			$year  = substr($bad_date, 4, 4);
+			
 			return date($format, strtotime($month . '/01/' . $year));
 		}
 		
@@ -664,14 +681,12 @@ if ( ! function_exists('timezones'))
 		{
 			return $zones;
 		}
-
-		if ($tz == 'GMT')
-			$tz = 'UTC';
-
+		
+		$tz = ($tz == 'GMT') ? 'UTC' : $tz;
+		
 		return ( ! isset($zones[$tz])) ? 0 : $zones[$tz];
 	}
 }
-
 
 /* End of file date_helper.php */
 /* Location: ./system/helpers/date_helper.php */
