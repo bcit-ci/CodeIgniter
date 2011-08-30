@@ -54,10 +54,8 @@ if ( ! function_exists('now'))
 
 			return $system_time;
 		}
-		else
-		{
-			return time();
-		}
+
+		return time();
 	}
 }
 
@@ -89,16 +87,14 @@ if ( ! function_exists('mdate'))
 			return '';			
 		}
 
-		if ($time == '')
-		{
-			$time = now();			
-		}
+		$time = ($time == '') ? now() : $time;
 
 		$datestr = str_replace(
 			'%\\', 
 			'', 
 			preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr)
 		);
+
 		return date($datestr, $time);
 	}
 }
@@ -376,14 +372,14 @@ if ( ! function_exists('mysql_to_unix'))
 		$time = str_replace(' ', '', $time);
 
 		// YYYYMMDDHHMMSS
-		return  mktime(
-						substr($time, 8, 2),
-						substr($time, 10, 2),
-						substr($time, 12, 2),
-						substr($time, 4, 2),
-						substr($time, 6, 2),
-						substr($time, 0, 4)
-						);
+		return mktime(
+			substr($time, 8, 2),
+			substr($time, 10, 2),
+			substr($time, 12, 2),
+			substr($time, 4, 2),
+			substr($time, 6, 2),
+			substr($time, 0, 4)
+		);
 	}
 }
 
@@ -591,8 +587,7 @@ if ( ! function_exists('timezone_menu'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		if ($default == 'GMT')
-			$default = 'UTC';
+		$default = ($default == 'GMT') ? 'UTC' : $default;
 
 		$menu = '<select name="'.$name.'"';
 
@@ -635,47 +630,47 @@ if ( ! function_exists('timezones'))
 		// some items appear to be in the wrong order
 
 		$zones = array(
-						'UM12'		=> -12,
-						'UM11'		=> -11,
-						'UM10'		=> -10,
-						'UM95'		=> -9.5,
-						'UM9'		=> -9,
-						'UM8'		=> -8,
-						'UM7'		=> -7,
-						'UM6'		=> -6,
-						'UM5'		=> -5,
-						'UM45'		=> -4.5,
-						'UM4'		=> -4,
-						'UM35'		=> -3.5,
-						'UM3'		=> -3,
-						'UM2'		=> -2,
-						'UM1'		=> -1,
-						'UTC'		=> 0,
-						'UP1'		=> +1,
-						'UP2'		=> +2,
-						'UP3'		=> +3,
-						'UP35'		=> +3.5,
-						'UP4'		=> +4,
-						'UP45'		=> +4.5,
-						'UP5'		=> +5,
-						'UP55'		=> +5.5,
-						'UP575'		=> +5.75,
-						'UP6'		=> +6,
-						'UP65'		=> +6.5,
-						'UP7'		=> +7,
-						'UP8'		=> +8,
-						'UP875'		=> +8.75,
-						'UP9'		=> +9,
-						'UP95'		=> +9.5,
-						'UP10'		=> +10,
-						'UP105'		=> +10.5,
-						'UP11'		=> +11,
-						'UP115'		=> +11.5,
-						'UP12'		=> +12,
-						'UP1275'	=> +12.75,
-						'UP13'		=> +13,
-						'UP14'		=> +14
-					);
+			'UM12'		=> -12,
+			'UM11'		=> -11,
+			'UM10'		=> -10,
+			'UM95'		=> -9.5,
+			'UM9'		=> -9,
+			'UM8'		=> -8,
+			'UM7'		=> -7,
+			'UM6'		=> -6,
+			'UM5'		=> -5,
+			'UM45'		=> -4.5,
+			'UM4'		=> -4,
+			'UM35'		=> -3.5,
+			'UM3'		=> -3,
+			'UM2'		=> -2,
+			'UM1'		=> -1,
+			'UTC'		=> 0,
+			'UP1'		=> +1,
+			'UP2'		=> +2,
+			'UP3'		=> +3,
+			'UP35'		=> +3.5,
+			'UP4'		=> +4,
+			'UP45'		=> +4.5,
+			'UP5'		=> +5,
+			'UP55'		=> +5.5,
+			'UP575'		=> +5.75,
+			'UP6'		=> +6,
+			'UP65'		=> +6.5,
+			'UP7'		=> +7,
+			'UP8'		=> +8,
+			'UP875'		=> +8.75,
+			'UP9'		=> +9,
+			'UP95'		=> +9.5,
+			'UP10'		=> +10,
+			'UP105'		=> +10.5,
+			'UP11'		=> +11,
+			'UP115'		=> +11.5,
+			'UP12'		=> +12,
+			'UP1275'	=> +12.75,
+			'UP13'		=> +13,
+			'UP14'		=> +14
+		);
 
 		if ($tz == '')
 		{
