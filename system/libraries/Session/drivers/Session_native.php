@@ -22,9 +22,9 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		Darren Hill (DChill)
+ * @author		ExpressionEngine Dev Team
  */
-class Session_Native extends SessionDriver {
+class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Initialize session driver object
 	 *
@@ -182,9 +182,9 @@ class Session_Native extends SessionDriver {
 		return $_SESSION;
 	}
 }
-// END Session_Native Class
+// END CI_Session_native Class
 
 
 /* End of file Session_native.php */
-/* Location: ./system/libraries/Session/Session.php */
+/* Location: ./system/libraries/Session/drivers/Session_native.php */
 ?>
