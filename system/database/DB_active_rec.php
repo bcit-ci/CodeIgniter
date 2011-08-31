@@ -28,42 +28,42 @@
  */
 class CI_DB_active_record extends CI_DB_driver {
 
-	private $return_delete_sql	= FALSE;
-	private $reset_delete_data	= FALSE;
+	protected $return_delete_sql	= FALSE;
+	protected $reset_delete_data	= FALSE;
 	
-	var $ar_select				= array();
-	var $ar_distinct			= FALSE;
-	var $ar_from				= array();
-	var $ar_join				= array();
-	var $ar_where				= array();
-	var $ar_like				= array();
-	var $ar_groupby				= array();
-	var $ar_having				= array();
-	var $ar_keys				= array();
-	var $ar_limit				= FALSE;
-	var $ar_offset				= FALSE;
-	var $ar_order				= FALSE;
-	var $ar_orderby				= array();
-	var $ar_set					= array();
-	var $ar_wherein				= array();
-	var $ar_aliased_tables		= array();
-	var $ar_store_array			= array();
+	protected $ar_select			= array();
+	protected $ar_distinct			= FALSE;
+	protected $ar_from				= array();
+	protected $ar_join				= array();
+	protected $ar_where				= array();
+	protected $ar_like				= array();
+	protected $ar_groupby			= array();
+	protected $ar_having			= array();
+	protected $ar_keys				= array();
+	protected $ar_limit				= FALSE;
+	protected $ar_offset			= FALSE;
+	protected $ar_order				= FALSE;
+	protected $ar_orderby			= array();
+	protected $ar_set				= array();
+	protected $ar_wherein			= array();
+	protected $ar_aliased_tables	= array();
+	protected $ar_store_array		= array();
 
 	// Active Record Caching variables
-	var $ar_caching				= FALSE;
-	var $ar_cache_exists		= array();
-	var $ar_cache_select		= array();
-	var $ar_cache_from			= array();
-	var $ar_cache_join			= array();
-	var $ar_cache_where			= array();
-	var $ar_cache_like			= array();
-	var $ar_cache_groupby		= array();
-	var $ar_cache_having		= array();
-	var $ar_cache_orderby		= array();
-	var $ar_cache_set			= array();
+	protected $ar_caching			= FALSE;
+	protected $ar_cache_exists		= array();
+	protected $ar_cache_select		= array();
+	protected $ar_cache_from		= array();
+	protected $ar_cache_join		= array();
+	protected $ar_cache_where		= array();
+	protected $ar_cache_like		= array();
+	protected $ar_cache_groupby		= array();
+	protected $ar_cache_having		= array();
+	protected $ar_cache_orderby		= array();
+	protected $ar_cache_set			= array();
 	
-	var $ar_no_escape 			= array();
-	var $ar_cache_no_escape     = array();
+	protected $ar_no_escape 		= array();
+	protected $ar_cache_no_escape    = array();
 
 	// --------------------------------------------------------------------
 
@@ -873,11 +873,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function limit($value, $offset = '')
 	{
-		$this->ar_limit = $value;
+		$this->ar_limit = (int) $value;
 
 		if ($offset != '')
 		{
-			$this->ar_offset = $offset;
+			$this->ar_offset = (int) $offset;
 		}
 
 		return $this;
@@ -931,7 +931,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $this;
 	}
 	
-		
 	// --------------------------------------------------------------------
 
 	/**
@@ -962,7 +961,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $select;
 	}
 	
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -1199,7 +1197,13 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 		
-		$sql = $this->_insert($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), array_keys($this->ar_set), array_values($this->ar_set));
+		$sql = $this->_insert(
+			$this->_protect_identifiers(
+				$this->ar_from[0], TRUE, NULL, FALSE
+			),
+			array_keys($this->ar_set), 
+			array_values($this->ar_set)
+		);
 		
 		if ($reset === TRUE)
 		{
@@ -1208,7 +1212,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		
 		return $sql;
 	}
-	
 
 	// --------------------------------------------------------------------
 
@@ -1234,12 +1237,17 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 		
-		$sql = $this->_insert($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), array_keys($this->ar_set), array_values($this->ar_set));
+		$sql = $this->_insert(
+			$this->_protect_identifiers(
+				$this->ar_from[0], TRUE, NULL, FALSE
+			), 
+			array_keys($this->ar_set), 
+			array_values($this->ar_set)
+		);
 
 		$this->_reset_write();
 		return $this->query($sql);
 	}
-	
 	
 	// --------------------------------------------------------------------
 
@@ -1331,7 +1339,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $this->query($sql);
 	}
 	
-	
 	// --------------------------------------------------------------------
 
 	/**
@@ -1363,7 +1370,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		
 		return $sql;
 	}
-	
 	
 	// --------------------------------------------------------------------
 
@@ -1407,7 +1413,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->_reset_write();
 		return $this->query($sql);
 	}
-	
 		
 	// --------------------------------------------------------------------
 
@@ -1449,8 +1454,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->ar_from[0] = $table;
 		}
 	}
-
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -1751,7 +1755,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		return $this->query($sql);
 	}
 	
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -1832,7 +1835,6 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 	}
 	
-
 	// --------------------------------------------------------------------
 
 	/**
