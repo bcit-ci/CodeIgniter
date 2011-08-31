@@ -339,7 +339,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select id="'.$name,'" name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select id="'.$name.'" name="'.$name.'"'.$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
