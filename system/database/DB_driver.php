@@ -328,7 +328,7 @@ class CI_DB_driver {
 										array(
 												'Error Number: '.$error_no,
 												$error_msg,
-												$sql
+												"<code>$sql</code>"
 											)
 										);
 			}
