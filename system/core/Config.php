@@ -346,6 +346,9 @@ class CI_Config {
 	function set_item($item, $value)
 	{
 		$this->config[$item] = $value;
+
+		// update config_item() function's static variable
+		config_item('', array($item => $value));
 	}
 
 	// --------------------------------------------------------------------

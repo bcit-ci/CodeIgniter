@@ -268,9 +268,20 @@ if ( ! function_exists('get_config'))
 */
 if ( ! function_exists('config_item'))
 {
-	function config_item($item)
+	function config_item($item, $replace = array())
 	{
 		static $_config_item = array();
+
+		// dynamically replace values
+		if (count($replace) > 0)
+		{
+			foreach ($replace as $key => $val)
+			{
+				$_config_item[$key] = $val;
+			}
+
+			return TRUE;
+		}
 
 		if ( ! isset($_config_item[$item]))
 		{
