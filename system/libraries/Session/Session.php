@@ -15,15 +15,15 @@
 
 
 /**
- * Session Class
+ * CI_Session Class
  *
  * The user interface defined by EllisLabs, now with puggable drivers to manage different storage mechanisms.
- * By default, the Native PHP session driver will load, but the 'sess_driver' config/param item (see above) can be
- * used to specify the 'Cookie' driver, or any other you might create.
+ * By default, the native PHP session driver will load, but the 'sess_driver' config/param item (see above) can be
+ * used to specify the 'cookie' driver, or any other you might create.
  * Once loaded, this driver setup is a drop-in replacement for the former CI_Session library, taking its place as the
  * 'session' member of the global controller framework (e.g.: $CI->session or $this->session).
  * In keeping with the CI_Driver methodology, multiple drivers may be loaded, although this might be a bit confusing.
- * The Session library class keeps track of the most recently loaded driver as "current" to call for driver methods.
+ * The CI_Session library class keeps track of the most recently loaded driver as "current" to call for driver methods.
  * Ideally, one driver is loaded and all calls go directly through the main library interface. However, any methods
  * called through the specific driver will switch the "current" driver to itself before invoking the library method
  * (which will then call back into the driver for low-level operations). So, alternation between two drivers can be
@@ -35,10 +35,10 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		Darren Hill (DChill)
+ * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/sessions.html
  */
-final class Session extends CI_Driver_Library {
+final class CI_Session extends CI_Driver_Library {
 	public $params = array();
 	private $current = null;
 	private $userdata = array();
@@ -51,20 +51,20 @@ final class Session extends CI_Driver_Library {
 	const TEMP_EXP_DEF = 300;
 
 	/**
-	 * Session constructor
+	 * CI_Session constructor
 	 *
 	 * The constructor loads the configured driver ('sess_driver' in config.php or as a parameter), running
 	 * routines in its constructor, and manages flashdata aging.
 	 *
-	 * @param   array	Configuration parameters
+	 * @param	array	Configuration parameters
 	 */
 	public function __construct(array $params = array())
 	{
-		log_message('debug', 'Session Class Initialized');
+		log_message('debug', 'CI_Session Class Initialized');
 
 		// Get valid drivers list
 		$CI =& get_instance();
-		$this->valid_drivers = array('Session_Native', 'Session_Cookie');
+		$this->valid_drivers = array('CI_Session_native', 'CI_Session_cookie');
 		$key = 'sess_valid_drivers';
 		$drivers = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
@@ -84,7 +84,7 @@ final class Session extends CI_Driver_Library {
 		// Get driver to load
 		$key = 'sess_driver';
 		$driver = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
-		if (!$driver) $driver = 'Native';
+		if (!$driver) $driver = 'native';
 		if (!in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 		{
 			$this->valid_drivers[] = 'Session_'.$driver;
@@ -106,14 +106,14 @@ final class Session extends CI_Driver_Library {
 		// Delete expired tempdata
 		$this->_tempdata_sweep();
 
-		log_message('debug', 'Session routines successfully run');
+		log_message('debug', 'CI_Session routines successfully run');
 	}
 
 	/**
 	 * Loads session storage driver
 	 *
-	 * @param   string	Driver classname
-	 * @return  object	Loaded driver object
+	 * @param	string	Driver classname
+	 * @return	object	Loaded driver object
 	 */
 	public function load_driver($driver)
 	{
@@ -125,8 +125,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Select default session storage driver
 	 *
-	 * @param   string	Driver classname
-	 * @return  void
+	 * @param	string	Driver classname
+	 * @return	void
 	 */
 	public function select_driver($driver)
 	{
@@ -153,7 +153,7 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Destroy the current session
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function sess_destroy()
 	{
@@ -164,8 +164,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Regenerate the current session
 	 *
-	 * @param   boolean	Destroy session data flag (default: false)
-	 * @return  void
+	 * @param	boolean	Destroy session data flag (default: false)
+	 * @return	void
 	 */
 	public function sess_regenerate($destroy = false)
 	{
@@ -176,8 +176,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Fetch a specific item from the session array
 	 *
-	 * @param   string	Item key
-	 * @return  string	Item value
+	 * @param	string	Item key
+	 * @return	string	Item value
 	 */
 	public function userdata($item)
 	{
@@ -199,9 +199,9 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Add or change data in the "userdata" array
 	 *
-	 * @param   mixed	Item name or array of items
-	 * @param   string	Item value or empty string
-	 * @return  void
+	 * @param	mixed	Item name or array of items
+	 * @param	string	Item value or empty string
+	 * @return	void
 	 */
 	public function set_userdata($newdata = array(), $newval = '')
 	{
@@ -227,8 +227,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
-	 * @param   mixed	Item name or array of item names
-	 * @return  void
+	 * @param	mixed	Item name or array of item names
+	 * @return	void
 	 */
 	public function unset_userdata($newdata = array())
 	{
@@ -254,8 +254,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Determine if an item exists
 	 *
-	 * @param   string	Item name
-	 * @return  boolean
+	 * @param	string	Item name
+	 * @return	boolean
 	 */
 	public function has_userdata($item)
 	{
@@ -266,9 +266,9 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Add or change flashdata, only available until the next request
 	 *
-	 * @param   mixed	Item name or array of items
-	 * @param   string	Item value or empty string
-	 * @return  void
+	 * @param	mixed	Item name or array of items
+	 * @param	string	Item value or empty string
+	 * @return	void
 	 */
 	public function set_flashdata($newdata = array(), $newval = '')
 	{
@@ -292,12 +292,12 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Keeps existing flashdata available to next request.
 	 *
-	 * @param   string	Item key
-	 * @return  void
+	 * @param	string	Item key
+	 * @return	void
 	 */
 	public function keep_flashdata($key)
 	{
-		// 'old' flashdata gets removed.  Here we mark all
+		// 'old' flashdata gets removed. Here we mark all
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
 		$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
 		$value = $this->userdata($old_flashdata_key);
@@ -309,8 +309,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Fetch a specific flashdata item from the session array
 	 *
-	 * @param   string	Item key
-	 * @return  string
+	 * @param	string	Item key
+	 * @return	string
 	 */
 	public function flashdata($key)
 	{
@@ -323,10 +323,10 @@ final class Session extends CI_Driver_Library {
 	 * Add or change tempdata, only available
 	 * until expiration
 	 *
-	 * @param   mixed	Item name or array of items
-	 * @param   string	Item value or empty string
-	 * @param   int		Item lifetime in seconds or 0 for default
-	 * @return  void
+	 * @param	mixed	Item name or array of items
+	 * @param	string	Item value or empty string
+	 * @param	int		Item lifetime in seconds or 0 for default
+	 * @return	void
 	 */
 	public function set_tempdata($newdata = array(), $newval = '', $expire = 0)
 	{
@@ -364,8 +364,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Delete a temporary session variable from the "userdata" array
 	 *
-	 * @param   mixed	Item name or array of item names
-	 * @return  void
+	 * @param	mixed	Item name or array of item names
+	 * @return	void
 	 */
 	public function unset_tempdata($newdata = array())
 	{
@@ -401,8 +401,8 @@ final class Session extends CI_Driver_Library {
 	/**
 	 * Fetch a specific tempdata item from the session array
 	 *
-	 * @param   string	Item key
-	 * @return  string
+	 * @param	string	Item key
+	 * @return	string
 	 */
 	public function tempdata($key)
 	{
@@ -483,32 +483,32 @@ final class Session extends CI_Driver_Library {
 		$this->set_userdata(self::EXPIRATION_KEY, $expirations);
 	}
 }
-// END Session Class
+// END CI_Session Class
 
 
 /**
- * SessionDriver Class
+ * CI_Session_driver Class
  *
- * Extend this class to make a new Session driver.
- * A Session driver basically manages an array of name/value pairs with some sort of storage mechanism.
- * To make a new driver, derive from (extend) SessionDriver. Overload the initialize method and read or create
+ * Extend this class to make a new CI_Session driver.
+ * A CI_Session driver basically manages an array of name/value pairs with some sort of storage mechanism.
+ * To make a new driver, derive from (extend) CI_Session_driver. Overload the initialize method and read or create
  * session data. Then implement a save handler to write changed data to storage (sess_save), a destroy handler
  * to remove deleted data (sess_destroy), and an access handler to expose the data (get_userdata).
- * Put your driver in the libraries/Session/drivers folder anywhere in the loader paths. This includes the application
- * directory, the system directory, or any path you add with $CI->load->add_package_path().
- * Your driver must be named Session_<name>, where <name> is capitalized, and your filename must be Session_<name>.EXT,
- * preferably also capitalized. (e.g.: Session_Foo in libraries/Session/drivers/Session_Foo.php)
- * Then specify the driver by setting 'sess_driver' in your config file or as a parameter when loading the Session
+ * Put your driver in the libraries/Session/drivers folder anywhere in the loader paths. This includes the
+ * application directory, the system directory, or any path you add with $CI->load->add_package_path().
+ * Your driver must be named CI_Session_<name>, and your filename must be Session_<name>.php,
+ * preferably also capitalized. (e.g.: CI_Session_foo in libraries/Session/drivers/Session_foo.php)
+ * Then specify the driver by setting 'sess_driver' in your config file or as a parameter when loading the CI_Session
  * object. (e.g.: $config['sess_driver'] = 'foo'; OR $CI->load->driver('session', array('sess_driver' => 'foo')); )
  * Already provided are the Native driver, which manages the native PHP $_SESSION array, and
  * the Cookie driver, which manages the data in a browser cookie, with optional extra storage in a database table.
  *
- * @package	 CodeIgniter
- * @subpackage  Libraries
+ * @package		CodeIgniter
+ * @subpackage	Libraries
  * @category	Sessions
- * @author	  Darren Hill (DChill)
+ * @author		ExpressionEngine Dev Team
  */
-abstract class SessionDriver extends CI_Driver {
+abstract class CI_Session_driver extends CI_Driver {
 	/**
 	 * Decorate
 	 *
@@ -531,8 +531,8 @@ abstract class SessionDriver extends CI_Driver {
 	 *
 	 * Handles access to the parent driver library's methods
 	 *
-	 * @param   string	Library method name
-	 * @param   array	Method arguments (default: none)
+	 * @param	string	Library method name
+	 * @param	array	Method arguments (default: none)
 	 * @return	mixed
 	 */
 	public function __call($method, $args = array())
@@ -545,7 +545,7 @@ abstract class SessionDriver extends CI_Driver {
 	/**
 	 * Initialize driver
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function initialize()
 	{
@@ -558,7 +558,7 @@ abstract class SessionDriver extends CI_Driver {
 	 * Data in the array has changed - perform any storage synchronization necessary
 	 * The child class MUST implement this abstract method!
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	abstract public function sess_save();
 
@@ -568,7 +568,7 @@ abstract class SessionDriver extends CI_Driver {
 	 * Clean up storage for this session - it has been terminated
 	 * The child class MUST implement this abstract method!
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	abstract public function sess_destroy();
 
@@ -578,22 +578,22 @@ abstract class SessionDriver extends CI_Driver {
 	 * Regenerate the session id
 	 * The child class MUST implement this abstract method!
 	 *
-	 * @param   boolean	Destroy session data flag (default: false)
-	 * @return  void
+	 * @param	boolean	Destroy session data flag (default: false)
+	 * @return	void
 	 */
 	abstract public function sess_regenerate($destroy = false);
 
 	/**
 	 * Get a reference to user data array
 	 *
-	 * Give array access to the main Session object
+	 * Give array access to the main CI_Session object
 	 * The child class MUST implement this abstract method!
 	 *
-	 * @return  array	Reference to userdata
+	 * @return	array	Reference to userdata
 	 */
 	abstract public function &get_userdata();
 }
-// END SessionDriver Class
+// END CI_Session_driver Class
 
 
 /* End of file Session.php */

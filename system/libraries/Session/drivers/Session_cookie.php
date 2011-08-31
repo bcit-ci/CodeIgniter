@@ -24,9 +24,9 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine Dev Team and Darren Hill (DChill42)
+ * @author		ExpressionEngine Dev Team
  */
-class Session_Cookie extends SessionDriver {
+class CI_Session_cookie extends CI_Session_driver {
 	private $sess_encrypt_cookie	= FALSE;
 	private $sess_use_database		= FALSE;
 	private $sess_table_name		= '';
@@ -576,8 +576,8 @@ class Session_Cookie extends SessionDriver {
 		}
 	}
 }
-// END Session_Cookie Class
+// END CI_Session_cookie Class
 
 /* End of file Session_cookie.php */
-/* Location: ./system/libraries/Session/Session.php */
+/* Location: ./system/libraries/Session/drivers/Session_cookie.php */
 ?>
