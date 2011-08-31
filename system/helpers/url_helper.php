@@ -534,8 +534,8 @@ if ( ! function_exists('redirect'))
 {
 	function redirect($uri = '', $method = 'location', $http_response_code = NULL)
 	{
-	    	if (NULL === $http_response_code)
-	    	{
+		if (NULL === $http_response_code)
+		{
 			$is_http11_post =
 			(
 				isset ($_SERVER['REQUEST_METHOD'])
@@ -545,7 +545,7 @@ if ( ! function_exists('redirect'))
 			);
 
 			$http_response_code = $is_http11_post ? 303 : 302;
-	    	}
+		}
 
 		if ( ! preg_match('#^https?://#i', $uri))
 		{
