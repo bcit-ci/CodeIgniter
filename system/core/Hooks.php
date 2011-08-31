@@ -27,23 +27,24 @@
  * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Hooks {
-
 	/**
 	 * Determines wether hooks are enabled
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $enabled		= FALSE;
+
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	var $hooks			= array();
+
 	/**
 	 * Determines wether hook is in progress, used to prevent infinte loops
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $in_progress	= FALSE;
 
@@ -54,7 +55,7 @@ class CI_Hooks {
 	function __construct()
 	{
 		$this->_initialize();
-		log_message('debug', "Hooks Class Initialized");
+		log_message('debug', 'Hooks Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -67,36 +68,23 @@ class CI_Hooks {
 	 */
 	function _initialize()
 	{
-		$CFG =& load_class('Config', 'core');
+		$CI =& CodeIgniter::instance();
 
 		// If hooks are not enabled in the config file
 		// there is nothing else to do
-
-		if ($CFG->item('enable_hooks') == FALSE)
+		if ($CI->config->item('enable_hooks') == FALSE)
 		{
 			return;
 		}
 
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
-
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
+		$hook = $CI->config->get('hooks.php', 'hooks');
+		if (is_array($hook))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			$this->hooks =& $hook;
+			$this->enabled = TRUE;
 		}
-		elseif (is_file(APPPATH.'config/hooks.php'))
-		{
-			include(APPPATH.'config/hooks.php');
-		}
-
-
-		if ( ! isset($hook) OR ! is_array($hook))
-		{
-			return;
-		}
-
-		$this->hooks =& $hook;
-		$this->enabled = TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -239,7 +227,6 @@ class CI_Hooks {
 		$this->in_progress = FALSE;
 		return TRUE;
 	}
-
 }
 
 // END CI_Hooks class

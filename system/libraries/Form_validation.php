@@ -168,6 +168,15 @@ class CI_Form_validation {
 		{
 			$lang = array($lang => $val);
 		}
+		else 
+		{
+			$new_lang = array();
+			foreach($lang as $l) 
+			{
+				$new_lang[$l['rule']] = $l['message'];
+			}
+			$lang = $new_lang;
+		}
 
 		$this->_error_messages = array_merge($this->_error_messages, $lang);
 
@@ -266,6 +275,21 @@ class CI_Form_validation {
 		}
 
 		return $str;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Error Array
+	 *
+	 * Returns the array of error messages
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
 	}
 
 	// --------------------------------------------------------------------
@@ -584,13 +608,13 @@ class CI_Form_validation {
 			// Call the function that corresponds to the rule
 			if ($callback === TRUE)
 			{
-				if ( ! method_exists($this->CI, $rule))
+				if ( ! method_exists($this->CI->routed, $rule))
 				{
 					continue;
 				}
 
 				// Run the function and grab the result
-				$result = $this->CI->$rule($postdata, $param);
+				$result = $this->CI->routed->$rule($postdata, $param);
 
 				// Re-assign the result to the master data array
 				if ($_in_array == TRUE)
@@ -1372,6 +1396,56 @@ class CI_Form_validation {
 	public function encode_php_tags($str)
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+	}
+	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Check date format and validity
+	 *
+	 * @access public
+	 * @param  string  (date)
+	 * @param  string  (format)
+	 * @return string
+	 * @author jondavidjohn
+	 */
+	function valid_date($str, $format = 'y-m-d')
+	{
+		$search = array(
+			'/[yY]/',
+			'/[mM]/',
+			'/[dD]/',
+		);
+
+		$replace = array(
+			'(?P<year>[0-9]{4})',
+			'(?P<month>[0-9]{1,2})',
+			'(?P<day>[0-9]{1,2})',
+		);
+
+		$pattern = preg_replace($search, $replace, $format);
+		$pattern = str_replace('/','\/',$pattern);
+
+		if (preg_match('/^' . $pattern . '$/', $str, $match))
+		{
+			$year  = $match['year'];
+			$month = $match['month'];
+			$day   = $match['day'];
+
+			if (checkdate($month,$day,$year)) 
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		} 
+		else
+		{
+			return FALSE;
+		}
 	}
 
 }

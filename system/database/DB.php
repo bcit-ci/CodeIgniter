@@ -21,34 +21,27 @@
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/
- * @param 	string
- * @param 	bool	Determines if active record should be used or not
+ * @param 		string
+ * @param 		bool	Determines if active record should be used or not
  */
 function &DB($params = '', $active_record_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		// Get database config
+		$CI =& CodeIgniter::instance();
+		$db = $CI->config->get_ext('database.php', 'db', $args);
+		if ($db === FALSE)
 		{
-			if ( ! file_exists($file_path = APPPATH.'config/database.php'))
-			{
-				show_error('The configuration file database.php does not exist.');
-			}
+			show_error('No database config file was found.');
 		}
-
-		include($file_path);
-
-		if ( ! isset($db) OR count($db) == 0)
+		else if ( ! is_array($db) || count($db) == 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
 
-		if ($params != '')
-		{
-			$active_group = $params;
-		}
+		$active_group = ($params == '') ? $args['active_group'] : $params;
 
 		if ( ! isset($active_group) OR ! isset($db[$active_group]))
 		{
@@ -59,7 +52,6 @@ function &DB($params = '', $active_record_override = NULL)
 	}
 	elseif (is_string($params))
 	{
-
 		/* parse the URL from the DSN string
 		 *  Database settings can be passed as discreet
 		 *  parameters or as a data source name in the first
@@ -113,10 +105,7 @@ function &DB($params = '', $active_record_override = NULL)
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
 
-	if ($active_record_override !== NULL)
-	{
-		$active_record = $active_record_override;
-	}
+	$active_record = $active_record_override === NULL ? $args['active_record'] : $active_record_override;
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
@@ -155,8 +144,6 @@ function &DB($params = '', $active_record_override = NULL)
 
 	return $DB;
 }
-
-
 
 /* End of file DB.php */
 /* Location: ./system/database/DB.php */

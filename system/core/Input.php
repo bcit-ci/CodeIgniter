@@ -27,52 +27,56 @@
  * @link		http://codeigniter.com/user_guide/libraries/input.html
  */
 class CI_Input {
-
 	/**
 	 * IP address of the current user
 	 *
-	 * @var string
+	 * @var		string
 	 */
 	var $ip_address				= FALSE;
+
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
-	 * @var string
+	 * @var		string
 	 */
 	var $user_agent				= FALSE;
+
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $_allow_get_array		= TRUE;
+
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $_standardize_newlines	= TRUE;
+
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $_enable_xss			= FALSE;
+
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
 	 *
-	 * @var bool
+	 * @var		bool
 	 */
 	var $_enable_csrf			= FALSE;
+
 	/**
 	 * List of all HTTP request headers
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	protected $headers			= array();
-
 
 	/**
 	 * Constructor
@@ -83,20 +87,19 @@ class CI_Input {
 	 */
 	public function __construct()
 	{
-		log_message('debug', "Input Class Initialized");
+		log_message('debug', 'Input Class Initialized');
 
 		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
-		global $SEC;
-		$this->security =& $SEC;
+		$CI =& CodeIgniter::instance();
+		$this->security =& $CI->security;
 
 		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
 		{
-			global $UNI;
-			$this->uni =& $UNI;
+			$this->uni =& $CI->utf8;
 		}
 
 		// Sanitize global arrays
@@ -237,7 +240,7 @@ class CI_Input {
 	* @param	mixed
 	* @param	string	the value of the cookie
 	* @param	string	the number of seconds until expiration
-	* @param	string	the cookie domain.  Usually:  .yourdomain.com
+	* @param	string	the cookie domain. Usually: .yourdomain.com
 	* @param	string	the cookie path
 	* @param	string	the cookie prefix
 	* @param	bool	true makes the cookie secure
@@ -619,7 +622,6 @@ class CI_Input {
 	 * people running other webservers the function is undefined.
 	 *
 	 * @param	bool XSS cleaning
-	 *
 	 * @return array
 	 */
 	public function request_headers($xss_clean = FALSE)
@@ -712,7 +714,6 @@ class CI_Input {
 	{
 		return (php_sapi_name() == 'cli') or defined('STDIN');
 	}
-
 }
 // END Input class
 

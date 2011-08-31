@@ -25,7 +25,6 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Model {
-
 	/**
 	 * Constructor
 	 *
@@ -33,7 +32,7 @@ class CI_Model {
 	 */
 	function __construct()
 	{
-		log_message('debug', "Model Class Initialized");
+		log_message('debug', 'Model Class Initialized');
 	}
 
 	/**
@@ -47,7 +46,7 @@ class CI_Model {
 	 */
 	function __get($key)
 	{
-		$CI =& get_instance();
+		$CI =& CodeIgniter::instance();
 		return $CI->$key;
 	}
 }
