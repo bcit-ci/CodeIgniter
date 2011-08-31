@@ -32,29 +32,29 @@ class CI_Driver_Library {
 	protected $valid_drivers	= array();
 	protected $lib_name;
 
-	/**
-	 * Get magic method
-	 *
+    /**
+     * Get magic method
+     *
 	 * The first time a child is used it won't exist, so we instantiate it
 	 * subsequents calls will go straight to the proper child.
-	 *
-	 * @param   string  Child class name
-	 * @return  object  Child class
-	 */
+     *
+     * @param   string  Child class name
+     * @return  object  Child class
+     */
 	public function __get($child)
 	{
-		// Try to load the driver
+        // Try to load the driver
 		return load_driver($child);
-	}
+    }
 
-	/**
-	 * Load driver
-	 *
+    /**
+     * Load driver
+     *
 	 * Separate load_driver call to support explicit driver load by library or user
-	 *
-	 * @param   string  Child class name
-	 * @return  object  Child class
-	 */
+     *
+     * @param   string  Child class name
+     * @return  object  Child class
+     */
 	public function load_driver($child)
 	{
 		if ( ! isset($this->lib_name))
@@ -66,8 +66,8 @@ class CI_Driver_Library {
 		$child_class = $this->lib_name.'_'.$child;
 	
 		// Remove the CI_ prefix and lowercase
-		$lib_name = strtolower(preg_replace('/^CI_/', '', $this->lib_name));
-		$driver_name = strtolower(preg_replace('/^CI_/', '', $child_class));
+		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
+		$driver_name = strtolower(str_replace('CI_', '', $child_class));
 		
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
