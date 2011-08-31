@@ -68,13 +68,14 @@ Change Log
 			<li class="reactor">Added Android to the list of user agents.</li>
 			<li class="reactor">Callback validation rules can now accept parameters like any other validation rule.</li>
 			<li class="reactor">Ability to log certain error types, not all under a threshold.</li>
-			<li class="reactor">Added html_escape() to <a href="general/common_functions.html">Common functions</a> to escape HTML output for preventing XSS.</li>
+			<li class="reactor">Added <samp>html_escape()</samp> to <a href="general/common_functions.html">Common functions</a> to escape HTML output for preventing XSS.</li>
+			<li class="reactor">Added 303 status code text "See Other" and status code class sanitization to <samp>set_status_header()</samp> (#341).</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
 			<li class="reactor">Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
-        	<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
+			<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
 			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
 		</ul>
 	</li>
