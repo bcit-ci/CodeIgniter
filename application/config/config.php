@@ -79,6 +79,8 @@ $config['language']	= 'english';
 | This determines which character set is used by default in various methods
 | that require a character set to be provided.
 |
+| See http://php.net/htmlspecialchars for a list of supported charsets.
+|
 */
 $config['charset'] = 'UTF-8';
 
