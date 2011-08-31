@@ -418,9 +418,10 @@ class CI_Session {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a specific item from the session array
+	 * Get or Set specific item in the session array
 	 *
 	 * @access	public
+	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
@@ -540,7 +541,7 @@ class CI_Session {
 	 */
 	function unset_data($data = array())
 	{
-		if (is_string($data))
+		if (is_string($newdata))
 		{
 			$newdata = array($newdata => '');
 		}
@@ -607,9 +608,10 @@ class CI_Session {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Fetch a specific flashdata item from the session array
+	 * Add or Retrieve flashdata, only available until the next request
 	 *
 	 * @access	public
+	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
