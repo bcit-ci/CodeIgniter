@@ -424,7 +424,7 @@ class CI_Session {
 	 * @param	string
 	 * @return	string
 	 */
-	function data($item = NULL, $value = NULL)
+	public function data($item = NULL, $value = NULL)
 	{
 		if (is_null($value) && ! is_array($item)) // getting
 		{
@@ -432,14 +432,10 @@ class CI_Session {
 			{
 				return $this->userdata;
 			}
-			else //get item
-			{
-				return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
-			}
+			return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 		}
 		else // setting
 		{
-			
 			if (is_array($item))
 			{
 				foreach ($item as $key => $val)
@@ -451,16 +447,14 @@ class CI_Session {
 			{
 				$this->userdata[$item] = $value;
 			}
-
 			$this->sess_write();
 		}
-
 	}
 
-		/**
+	/**
 	 * Fetch a specific item from the session array
 	 *
-	 * @deprecated 2.0.2
+	 * @deprecated 2.1.0
 	 * @access	public
 	 * @param	string
 	 * @return	string
@@ -475,7 +469,7 @@ class CI_Session {
 	/**
 	 * Fetch all session data
 	 *
-	 * @deprecated 2.0.2
+	 * @deprecated 2.1.0
 	 * @access	   public
 	 * @return	   array
 	 */
@@ -489,7 +483,7 @@ class CI_Session {
 	/**
 	 * Add or change data in the "userdata" array
 	 *
- 	 * @deprecated 2.0.2
+ 	 * @deprecated 2.1.0
 	 * @access	   public
 	 * @param	   mixed
 	 * @param	   string
@@ -501,7 +495,6 @@ class CI_Session {
 		{
 			$newdata = array($newdata => $newval);
 		}
-
 		if (count($newdata) > 0)
 		{
 			foreach ($newdata as $key => $val)
@@ -509,7 +502,6 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
-
 		$this->sess_write();
 	}
 
@@ -518,7 +510,7 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
-	 * @deprecated 2.0.2
+	 * @deprecated 2.1.0
 	 * @access	array
 	 * @return	void
 	 */
@@ -570,7 +562,7 @@ class CI_Session {
 	 * Add or change flashdata, only available
 	 * until the next request
 	 *
-	 * @deprecated 2.0.2
+	 * @deprecated 2.1.0
 	 * @access	   public
 	 * @param	   mixed
 	 * @param	   string
@@ -626,7 +618,6 @@ class CI_Session {
 	 */
 	function flashdata($key, $value = NULL)
 	{
-		
 		if (is_null($value) && ! is_array($key)) // getting
 		{
 			$flashdata_key = $this->flashdata_key.':old:'.$key;
@@ -647,10 +638,7 @@ class CI_Session {
 				$flashdata_key = $this->flashdata_key.':new:'.$key;
 				$this->userdata($flashdata_key, $value);
 			}
-
 		}
-		
-
 	}
 
 	// ------------------------------------------------------------------------
