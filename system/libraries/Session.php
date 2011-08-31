@@ -538,19 +538,16 @@ class CI_Session {
 	 * @access	array
 	 * @return	void
 	 */
-	function unset_data($newdata = array())
+	function unset_data($data = array())
 	{
-		if (is_string($newdata))
+		if (is_string($data))
 		{
 			$newdata = array($newdata => '');
 		}
 
-		if (count($newdata) > 0)
+		foreach ($newdata as $key => $val)
 		{
-			foreach ($newdata as $key => $val)
-			{
-				unset($this->userdata[$key]);
-			}
+			unset($this->userdata[$key]);
 		}
 
 		$this->sess_write();
