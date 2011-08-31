@@ -1207,7 +1207,7 @@ The second (optional) parameter allows you to set a default value for the form. 
 
 <p>If you use a <dfn>&lt;select></dfn> menu, this function permits you to display the menu item that was selected.  The first parameter
 must contain the name of the select menu, the second parameter must contain the value of
-each item, and the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE).</p>
+each item, the third (optional) parameter lets you set an item as the default (use boolean TRUE/FALSE), the fourth (optional) parameter is used for re-population when using arrays as field names (see below).</p>
 
 <p>Example:</p>
 
@@ -1216,6 +1216,38 @@ each item, and the third (optional) parameter lets you set an item as the defaul
 &lt;option value="one" <dfn>&lt;?php echo  set_select('myselect', 'one', TRUE); ?></dfn> >One&lt;/option><br />
 &lt;option value="two" <dfn>&lt;?php echo  set_select('myselect', 'two'); ?></dfn> >Two&lt;/option><br />
 &lt;option value="three" <dfn>&lt;?php echo  set_select('myselect', 'three'); ?></dfn> >Three&lt;/option><br />
+&lt;/select>
+</code>
+
+<h2>set_select() with arrays as field names:</h2>
+
+<p>The POST-array from a <dfn>&lt;select></dfn> menu with an array as field name looks like this:</p>
+
+<code>
+Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[0] => value1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[1] => value2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[2] => value3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[3] => value4<br />
+)<br />
+</code>
+
+<p>Key 0 contains the selected value from the first <dfn>&lt;select></dfn> menu, key 1 the second, and so on. Without some extra information the set_select function will not know which key to use for the re-population. You can pass an integer as a fourth parameter to the set_select function. This integer equals a POST-array key. An example:</p>
+
+<code>
+&lt;!-- First select menu, equals with POST-array key 0, so 0 is passed as fourth parameter !--><br />
+&lt;select name="myselect[]"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="one" <dfn>&lt;?php echo set_select('myselect[]', 'one', TRUE, 0); ?></dfn> >One&lt;/option><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="two" <dfn>&lt;?php echo set_select('myselect[]', 'two', FALSE, 0); ?></dfn> >Two&lt;/option><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="three" <dfn>&lt;?php echo set_select('myselect[]', 'three', FALSE, 0); ?></dfn> >Three&lt;/option><br />
+&lt;/select><br />
+<br />
+&lt;!-- Second select menu, equals with POST-array key 1, so 1 is passed as fourth parameter !--><br />
+&lt;select name="myselect[]"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="one" <dfn>&lt;?php echo set_select('myselect[]', 'one', TRUE, 1); ?></dfn> >One&lt;/option><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="two" <dfn>&lt;?php echo set_select('myselect[]', 'two', FALSE, 1); ?></dfn> >Two&lt;/option><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="three" <dfn>&lt;?php echo set_select('myselect[]', 'three', FALSE, 1); ?></dfn> >Three&lt;/option><br />
 &lt;/select>
 </code>
 

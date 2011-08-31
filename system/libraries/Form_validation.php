@@ -756,7 +756,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	string
 	 */
-	public function set_select($field = '', $value = '', $default = FALSE)
+	function set_select($field = '', $value = '', $default = FALSE, $array_key = '')
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
@@ -771,9 +771,19 @@ class CI_Form_validation {
 
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			if (isset($array_key))
 			{
-				return '';
+				if ( $value != $field[$array_key])
+				{
+					return '';
+				}
+			}
+			else
+			{
+				if ( ! in_array($value, $field))
+				{
+					return '';
+				}
 			}
 		}
 		else

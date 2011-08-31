@@ -701,7 +701,7 @@ if ( ! function_exists('set_value'))
  */
 if ( ! function_exists('set_select'))
 {
-	function set_select($field = '', $value = '', $default = FALSE)
+	function set_select($field = '', $value = '', $default = FALSE, $array_key = '')
 	{
 		$OBJ =& _get_validation_object();
 
@@ -720,9 +720,19 @@ if ( ! function_exists('set_select'))
 
 			if (is_array($field))
 			{
-				if ( ! in_array($value, $field))
+				if (isset($array_key))
 				{
-					return '';
+					if ( $value != $field[$array_key])
+					{
+						return '';
+					}
+				}
+				else
+				{
+					if ( ! in_array($value, $field))
+					{
+						return '';
+					}
 				}
 			}
 			else
@@ -736,7 +746,7 @@ if ( ! function_exists('set_select'))
 			return ' selected="selected"';
 		}
 
-		return $OBJ->set_select($field, $value, $default);
+		return $OBJ->set_select($field, $value, $default, $array_key);
 	}
 }
 
