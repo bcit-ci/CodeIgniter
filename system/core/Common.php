@@ -386,12 +386,14 @@ if ( ! function_exists('set_status_header'))
 							300	=> 'Multiple Choices',
 							301	=> 'Moved Permanently',
 							302	=> 'Found',
+							303	=> 'See Other',
 							304	=> 'Not Modified',
 							305	=> 'Use Proxy',
 							307	=> 'Temporary Redirect',
 
 							400	=> 'Bad Request',
 							401	=> 'Unauthorized',
+
 							403	=> 'Forbidden',
 							404	=> 'Not Found',
 							405	=> 'Method Not Allowed',
@@ -416,9 +418,16 @@ if ( ! function_exists('set_status_header'))
 							505	=> 'HTTP Version Not Supported'
 						);
 
-		if ($code == '' OR ! is_numeric($code))
+		if ($code != (string) max(0, $code))
 		{
 			show_error('Status codes must be numeric', 500);
+		}
+
+		$code = (int) $code;
+
+		if ( $code < 100 || $code > 599)
+		{
+			show_error('Status codes must be within a class', 500);
 		}
 
 		if (isset($stati[$code]) AND $text == '')
