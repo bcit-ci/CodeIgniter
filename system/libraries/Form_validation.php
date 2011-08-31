@@ -271,6 +271,21 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Error Array
+	 *
+	 * Returns the error messages as an array
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Run the Validator
 	 *
 	 * This function does all the work.
