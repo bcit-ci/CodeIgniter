@@ -112,6 +112,7 @@ Change Log
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
 	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
     <li class="reactor">Fixed a bug (#200) where MySQL queries would be malformed after calling <samp>count_all()</samp> then <samp>db->get()</samp></li>
+    <li class="reactor">Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
     <li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
 	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
 	<li>Fixed a bug (#150) - <samp>field_data()</samp> now correctly returns column length.</li>
