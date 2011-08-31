@@ -337,7 +337,6 @@ $this->db->or_where('id >', $id);
 	<li><strong>Simple key/value method:</strong>
 
 	<code>$this->db->like('title', 'match');
-	<br /><br />// Produces: WHERE title LIKE '%match%'	</code>
 
 	<p>If you use multiple function calls they will be chained together with <var>AND</var> between them:</p>
 
@@ -355,6 +354,13 @@ $this->db->or_where('id >', $id);
 <br />
 	$this-&gt;db-&gt;like('title', 'match', 'both'); <br />
 // Produces: WHERE title LIKE '%match%' </code>	</li>
+
+If you do not want to use the wildcard (%) you can pass to the optional third argument the option 'none'.
+
+<code>
+	$this-&gt;db-&gt;like('title', 'match', 'none'); <br />
+// Produces: WHERE title LIKE 'match'
+</code>
 
 	<li><strong>Associative array method:</strong>
 
@@ -794,7 +800,6 @@ $query = $this->db->get();</code>
 <p class="important"><strong>Note:</strong> Method chaining only works with PHP 5.</p>
 
 <a name="caching">&nbsp;</a>
-
 <h1>Active Record Caching</h1>
 
 <p>While not &quot;true&quot; caching, Active Record enables you to save (or &quot;cache&quot;) certain parts of your queries for reuse at a later point in your script's execution. Normally, when an Active Record call is completed, all stored information is reset for the next call. With caching, you can prevent this reset, and reuse information easily.</p>
