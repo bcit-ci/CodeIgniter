@@ -178,6 +178,7 @@ Change Log
 	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
 	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
 	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
+	<li class="reactor">Fixed issue #75: Moved anchor_class check out of constructor and into initialize method. This should be performed every time the public method initialize is invoked.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
