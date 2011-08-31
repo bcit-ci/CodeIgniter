@@ -425,7 +425,7 @@ if ( ! function_exists('set_status_header'))
 
 		$code = (int) $code;
 
-		if ( $code < 100 || $code > 599)
+		if ($code < 100 OR $code > 599)
 		{
 			show_error('Status codes must be within a class', 500);
 		}
