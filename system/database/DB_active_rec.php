@@ -895,7 +895,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function offset($offset)
 	{
-		$this->ar_offset = $offset;
+		$this->ar_offset = (int) $offset;
 		return $this;
 	}
 
