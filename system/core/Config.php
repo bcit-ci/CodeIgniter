@@ -467,17 +467,9 @@ class CI_Config {
 		// Iterate values of new array
 		foreach ($new as $key => &$value)
 		{
-			// Check for sub-arrays to merge
-			if (is_array($value) && isset($main[$key]) && is_array($main[$key]))
-			{
-				// Merge new sub-array with main sub-array
-				$main[$key] = $this->_merge_arrays($main[$key], $value);
-			}
-			else
-			{
-				// Add/replace value in main array
-				$main[$key] = $value;
-			}
+			// Merge sub-arrays recursively, add/replace all others
+			$main[$key] = (is_array($value) && isset($main[$key]) && is_array($main[$key])) ?
+				$this->_merge_arrays($main[$key], $value) : $value;
 		}
 
 		// Return merged array
