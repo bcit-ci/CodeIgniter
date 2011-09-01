@@ -8,4 +8,4 @@ CodeIgniter is an Application Development Framework - a toolkit - for people who
  * [Community Forums](http://codeigniter.com/forums/)
  * [User Voice](http://codeigniter.uservoice.com/forums/40508-codeigniter-reactor)
  * [Community Wiki](http://codeigniter.com/wiki/)
- * [Community IRC](http://webchat.freenode.net/?channels=codeigniter&uio=d4)
+ * [Community IRC](http://codeigniter.com/irc/)
