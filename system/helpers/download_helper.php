@@ -35,17 +35,24 @@
  * @access	public
  * @param	string	filename
  * @param	mixed	the data to be downloaded
+ * @param	bool	determines wether data is a filepath to the actual data
  * @return	void
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '')
+	function force_download($filename = '', $data = '', $is_filepath = FALSE)
 	{
 		if ($filename == '' OR $data == '')
 		{
 			return FALSE;
 		}
-
+		
+		// Test if the file exists if we are trying to use filepath
+		if ($is_filepath === TRUE AND file_exists($data) === FALSE)
+		{
+			return FALSE;
+		}
+		
 		// Try to determine if the filename includes a file extension.
 		// We need it in order to set the MIME type
 		if (FALSE === strpos($filename, '.'))
@@ -76,7 +83,10 @@ if ( ! function_exists('force_download'))
 		{
 			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 		}
-
+		
+		// Get content length
+		$length = ($is_filepath === TRUE) ? filesize($data) : strlen($data);
+		
 		// Generate the server headers
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
 		{
@@ -86,7 +96,7 @@ if ( ! function_exists('force_download'))
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header("Content-Transfer-Encoding: binary");
 			header('Pragma: public');
-			header("Content-Length: ".strlen($data));
+			header("Content-Length: ".$length);
 		}
 		else
 		{
@@ -95,10 +105,21 @@ if ( ! function_exists('force_download'))
 			header("Content-Transfer-Encoding: binary");
 			header('Expires: 0');
 			header('Pragma: no-cache');
-			header("Content-Length: ".strlen($data));
+			header("Content-Length: ".$length);
 		}
 
-		exit($data);
+		// Flush headers so browser can response immediately
+		flush();
+		
+		// Push thru download content
+		if ($is_filepath === TRUE)
+		{
+			readfile($filepath, FALSE);
+		}
+		else
+		{
+			exit($data);
+		}
 	}
 }
 
