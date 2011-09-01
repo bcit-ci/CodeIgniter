@@ -5,11 +5,11 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
+ * @author		ExpressionEngine	Dev Team
+ * @copyright	Copyright	(c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
- * @since		Version 2.0
+ * @since		Version	2.0
  * @filesource
  */
 
@@ -22,13 +22,13 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine Dev Team
+ * @author		ExpressionEngine	Dev Team
  */
 class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Initialize session driver object
 	 *
-	 * @access  protected
+	 * @access	protected
 	 * @return	void
 	 */
 	protected function initialize()
@@ -126,8 +126,8 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Save the session data
 	 *
-	 * @access  public
-	 * @return  void
+	 * @access	public
+	 * @return	void
 	 */
 	public function sess_save()
 	{
@@ -137,8 +137,8 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Destroy the current session
 	 *
-	 * @access  public
-	 * @return  void
+	 * @access	public
+	 * @return	void
 	 */
 	public function sess_destroy()
 	{
@@ -160,9 +160,9 @@ class CI_Session_native extends CI_Session_driver {
 	 *
 	 * Regenerate the session id
 	 *
-	 * @access  public
-	 * @param   boolean	Destroy session data flag (default: false)
-	 * @return  void
+	 * @access	public
+	 * @param	boolean	Destroy session data flag (default: false)
+	 * @return	void
 	 */
 	public function sess_regenerate($destroy = false)
 	{
@@ -173,8 +173,8 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Get a reference to user data array
 	 *
-	 * @access  public
-	 * @return  array	Reference to userdata
+	 * @access	public
+	 * @return	array	Reference to userdata
 	 */
 	public function &get_userdata()
 	{

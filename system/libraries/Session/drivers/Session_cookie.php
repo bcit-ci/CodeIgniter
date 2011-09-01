@@ -27,23 +27,23 @@
  * @author		ExpressionEngine Dev Team
  */
 class CI_Session_cookie extends CI_Session_driver {
-	private $sess_encrypt_cookie	= FALSE;
-	private $sess_use_database		= FALSE;
-	private $sess_table_name		= '';
-	private $sess_expiration		= 7200;
-	private $sess_expire_on_close	= FALSE;
-	private $sess_match_ip			= FALSE;
-	private $sess_match_useragent	= TRUE;
-	private $sess_cookie_name		= 'ci_session';
-	private $cookie_prefix			= '';
-	private $cookie_path			= '';
-	private $cookie_domain			= '';
-	private $sess_time_to_update	= 300;
-	private $encryption_key		 	= '';
-	private $time_reference		 	= 'time';
-	private $userdata				= array();
-	private $CI					 	= null;
-	private $now					= 0;
+	protected $sess_encrypt_cookie	= FALSE;
+	protected $sess_use_database		= FALSE;
+	protected $sess_table_name		= '';
+	protected $sess_expiration		= 7200;
+	protected $sess_expire_on_close	= FALSE;
+	protected $sess_match_ip			= FALSE;
+	protected $sess_match_useragent	= TRUE;
+	protected $sess_cookie_name		= 'ci_session';
+	protected $cookie_prefix			= '';
+	protected $cookie_path			= '';
+	protected $cookie_domain			= '';
+	protected $sess_time_to_update	= 300;
+	protected $encryption_key		 	= '';
+	protected $time_reference		 	= 'time';
+	protected $userdata				= array();
+	protected $CI					 	= null;
+	protected $now					= 0;
 
 	const gc_probability			= 5;
 
@@ -224,10 +224,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Fetch the current session data if it exists
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _sess_read()
+	protected function _sess_read()
 	{
 		// Fetch the cookie
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
@@ -343,10 +343,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Create a new session
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _sess_create()
+	protected function _sess_create()
 	{
 		$sessid = '';
 		while (strlen($sessid) < 32)
@@ -376,11 +376,11 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Update an existing session
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	boolean	Force update flag (default: false)
 	 * @return	void
 	 */
-	private function _sess_update($force = false)
+	protected function _sess_update($force = false)
 	{
 		// We only update the session every five minutes by default (unless forced)
 		if (!$force && ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now())
@@ -433,10 +433,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Get the "now" time
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	int
 	 */
-	private function _get_time()
+	protected function _get_time()
 	{
 		if (strtolower($this->time_reference) == 'gmt')
 		{
@@ -455,11 +455,11 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Write the session cookie
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array	Cookie name/value pairs
 	 * @return	void
 	 */
-	private function _set_cookie(array $cookie_data = NULL)
+	protected function _set_cookie(array $cookie_data = NULL)
 	{
 		if (is_null($cookie_data))
 		{
@@ -491,11 +491,11 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * This function first converts any slashes found in the array to a temporary
 	 * marker, so when it gets unserialized the slashes will be preserved
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	mixed	Data to serialize
 	 * @return	string
 	 */
-	private function _serialize($data)
+	protected function _serialize($data)
 	{
 		if (is_array($data))
 		{
@@ -524,11 +524,11 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * This function unserializes a data string, then converts any
 	 * temporary slash markers back to actual slashes
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string	Data to unserialize
 	 * @return	mixed
 	 */
-	private function _unserialize($data)
+	protected function _unserialize($data)
 	{
 		$data = @unserialize(strip_slashes($data));
 
@@ -554,10 +554,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * This deletes expired session rows from database
 	 * if the probability percentage is met
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _sess_gc()
+	protected function _sess_gc()
 	{
 		if ($this->sess_use_database != TRUE)
 		{
