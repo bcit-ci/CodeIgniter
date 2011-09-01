@@ -185,9 +185,18 @@ class CI_DB_Cache {
 	 */
 	function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE);
-	}
+		$cache_dirs = get_dir_file_info($this->db->cachedir);
+		foreach ($cache_dirs as $cache_dir)
+		{
+			$path = $this->db->cachedir.$cache_dir['name'];
 
+			if(is_dir($path))
+			{
+				delete_files($path, TRUE);
+				rmdir($path);
+			}
+		}
+	}
 }
 
 
