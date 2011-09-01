@@ -114,7 +114,8 @@ if ( ! function_exists('force_download'))
 		// Push thru download content
 		if ($is_filepath === TRUE)
 		{
-			readfile($filepath, FALSE);
+			readfile($data, FALSE);
+			exit();
 		}
 		else
 		{
