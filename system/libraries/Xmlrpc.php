@@ -381,7 +381,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 		return $this->sendPayload($msg);
 	}
 
-	public function sendPayload($msg)
+	function sendPayload($msg)
 	{
 		if(empty($msg->payload))
 		{
