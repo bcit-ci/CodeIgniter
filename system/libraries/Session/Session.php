@@ -38,10 +38,10 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/sessions.html
  */
-final class CI_Session extends CI_Driver_Library {
+class CI_Session extends CI_Driver_Library {
 	public $params = array();
-	private $current = null;
-	private $userdata = array();
+	protected $current = null;
+	protected $userdata = array();
 
 	const FLASHDATA_KEY = 'flash';
 	const FLASHDATA_NEW = ':new:';
@@ -415,10 +415,10 @@ final class CI_Session extends CI_Driver_Library {
 	 * Identifies flashdata as 'old' for removal
 	 * when _flashdata_sweep() runs.
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _flashdata_mark()
+	protected function _flashdata_mark()
 	{
 		$userdata = $this->all_userdata();
 		foreach ($userdata as $name => $value)
@@ -436,10 +436,10 @@ final class CI_Session extends CI_Driver_Library {
 	/**
 	 * Removes all flashdata marked as 'old'
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _flashdata_sweep()
+	protected function _flashdata_sweep()
 	{
 		$userdata = $this->all_userdata();
 		foreach ($userdata as $key => $value)
@@ -454,10 +454,10 @@ final class CI_Session extends CI_Driver_Library {
 	/**
 	 * Removes all expired tempdata
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _tempdata_sweep()
+	protected function _tempdata_sweep()
 	{
 		// Get expirations list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);
