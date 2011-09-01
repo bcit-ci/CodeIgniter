@@ -381,41 +381,60 @@ class XML_RPC_Client extends CI_Xmlrpc
 		return $this->sendPayload($msg);
 	}
 
-	function sendPayload($msg)
+	public function sendPayload($msg)
 	{
-		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstr, $this->timeout);
+		if(empty($msg->payload))
+		{
+			// $msg = XML_RPC_Messages
+			$msg->createPayload();
+		}
 
-		if ( ! is_resource($fp))
+		$ch = curl_init();
+
+		if( ! is_resource( $ch ) )
 		{
 			error_log($this->xmlrpcstr['http_error']);
 			$r = new XML_RPC_Response(0, $this->xmlrpcerr['http_error'],$this->xmlrpcstr['http_error']);
 			return $r;
 		}
 
-		if (empty($msg->payload))
+		$header = array(
+			'POST ' . $this->path,
+			'Host: ' . $this->server,
+			'Content-Type: text/xml',
+			'User-Agent: ' . $this->xmlrpcName,
+			'Content-Length: ' . strlen($msg->payload)
+		);
+
+		if( isset( $_SERVER['HTTPS'] ) )
 		{
-			// $msg = XML_RPC_Messages
-			$msg->createPayload();
+			$pre = 'https://';
+			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
+		}
+		else
+		{
+			$pre = 'http://';
 		}
 
-		$r = "\r\n";
-		$op  = "POST {$this->path} HTTP/1.0$r";
-		$op .= "Host: {$this->server}$r";
-		$op .= "Content-Type: text/xml$r";
-		$op .= "User-Agent: {$this->xmlrpcName}$r";
-		$op .= "Content-Length: ".strlen($msg->payload). "$r$r";
-		$op .= $msg->payload;
+		curl_setopt( $ch, CURLOPT_URL, $pre . $this->server . $this->path );
+		curl_setopt( $ch, CURLOPT_PORT, $this->port );
+		curl_setopt( $ch, CURLOPT_HEADER, 1 );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $msg->payload ); 
+		curl_setopt( $ch, CURLOPT_HTTPHEADER, $header );
 
-
-		if ( ! fputs($fp, $op, strlen($op)))
+		if( $resp = curl_exec( $ch ) )
+		{
+			return $msg->parseResponse( $resp );
+		}
+		else
 		{
 			error_log($this->xmlrpcstr['http_error']);
 			$r = new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error']);
 			return $r;
 		}
-		$resp = $msg->parseResponse($fp);
-		fclose($fp);
-		return $resp;
+
+		curl_close($ch);
 	}
 
 } // end class XML_RPC_Client
@@ -653,15 +672,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 	//  Parse External XML-RPC Server's Response
 	//-------------------------------------
 
-	function parseResponse($fp)
+	function parseResponse($data)
 	{
-		$data = '';
-
-		while ($datum = fread($fp, 4096))
-		{
-			$data .= $datum;
-		}
-
 		//-------------------------------------
 		//  DISPLAY HTTP CONTENT for DEBUGGING
 		//-------------------------------------
