@@ -44,6 +44,14 @@ class CI_Config {
 	protected $is_loaded = array();
 
 	/**
+	 * Callback to array merging function
+	 *
+	 * @var		callback
+	 * @access	protected
+	 */
+	protected $merge_arrays;
+
+	/**
 	 * List of paths to search when trying to load a config file
 	 *
 	 * @var		array
@@ -59,6 +67,9 @@ class CI_Config {
 	{
 		$this->config =& get_config();
 		log_message('debug', 'Config Class Initialized');
+
+		// Determine array merge function
+		$this->merge_arrays = is_php('5.3') ? 'array_replace_recursive' : array($this, '_merge_arrays');
 
 		// Set the base_url automatically if none was provided
 		if ($this->config['base_url'] == '')
@@ -227,7 +238,7 @@ class CI_Config {
 					}
 
 					// Merge config and unset local
-					$_merged = array_replace_recursive($_merged, $$_name);
+					$_merged = call_user_func($this->merge_arrays, $_merged, &$$_name);
 					unset($$_name);
 				}
 			}
@@ -340,11 +351,10 @@ class CI_Config {
 	 * Base URL
 	 * Returns base_url [. uri_string]
 	 *
-	 * @access public
 	 * @param string $uri
 	 * @return string
 	 */
-	function base_url($uri = '')
+	public function base_url($uri = '')
 	{
 		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
 	}
@@ -435,6 +445,43 @@ class CI_Config {
 				$this->set_item($key, $val);
 			}
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Merge config arrays recursively
+	 *
+	 * This function recursively merges the values from a new array into an existing array.
+	 * It is a substitute for array_replace_recursive() in PHP < 5.3; accepting only two arrays.
+	 * The main (existing) array is copied as a parameter, modified with the contents of
+	 * the new array (which is referenced), and returned.
+	 *
+	 * @access	protected
+	 * @param	array	main array
+	 * @param	array	new array of values to merge in
+	 * @return	array	merged array
+	 */
+	protected function _merge_arrays(array $main, array &$new)
+	{
+		// Iterate values of new array
+		foreach ($new as $key => &$value)
+		{
+			// Check for sub-arrays to merge
+			if (is_array($value) && isset($main[$key]) && is_array($main[$key]))
+			{
+				// Merge new sub-array with main sub-array
+				$main[$key] = $this->_merge_arrays($main[$key], $value);
+			}
+			else
+			{
+				// Add/replace value in main array
+				$main[$key] = $value;
+			}
+		}
+
+		// Return merged array
+		return $main;
 	}
 }
 
