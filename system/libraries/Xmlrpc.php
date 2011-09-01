@@ -389,7 +389,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			$msg->createPayload();
 		}
 
-		$ch = curl_init();
+		$ch = @curl_init();
 
 		if( ! is_resource( $ch ) )
 		{
