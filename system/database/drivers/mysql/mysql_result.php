@@ -86,10 +86,10 @@ class CI_DB_mysql_result extends CI_DB_result {
 		$retval = array();
 		while ($field = mysql_fetch_object($this->result_id))
 		{
-			preg_match('/([a-zA-Z]+)\((\d+)\)/', $field->Type, $matches);
+			preg_match('/([a-zA-Z]+)(\((\d+)\))?/i', $field->Type, $matches);
 
 			$type = $matches[1];
-			$length = (int)$matches[2];
+			$length = isset($matches[3]) ? (int) $matches[3] : NULL;
 
 			$F				= new stdClass();
 			$F->name		= $field->Field;
