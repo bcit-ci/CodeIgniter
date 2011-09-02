@@ -93,9 +93,7 @@ class CI_Utf8 {
 			}
 			elseif (function_exists('mb_convert_encoding'))
 			{
-				$encodings = array('UTF-8', 'ISO-8859-1');
-				
-				$str = @mb_convert_encoding($str, 'UTF-8', $encodings);
+				$str = @mb_convert_encoding($str, 'UTF-8', 'UTF-8');
 			}
 		}
 		
