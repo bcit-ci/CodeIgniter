@@ -327,11 +327,11 @@ class CI_Input {
 		{
 			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
-		elseif (config_item('trust_clent_ip') && $this->server('REMOTE_ADDR') && $this->server('HTTP_CLIENT_IP'))
+		elseif (config_item('trust_client_ip') && $this->server('REMOTE_ADDR') && $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		}
-		elseif (config_item('trust_clent_ip') && $this->server('HTTP_CLIENT_IP'))
+		elseif (config_item('trust_client_ip') && $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		}
