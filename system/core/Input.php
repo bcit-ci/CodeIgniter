@@ -323,21 +323,21 @@ class CI_Input {
 
 			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
-		elseif (! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
+		elseif (! $this->server('HTTP_CLIENT_IP') && $this->server('REMOTE_ADDR'))
 		{
 			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
-		elseif ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
+		elseif (config_item('trust_clent_ip') && $this->server('REMOTE_ADDR') && $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		}
-		elseif ($this->server('HTTP_CLIENT_IP'))
+		elseif (config_item('trust_clent_ip') && $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		}
-		elseif ($this->server('HTTP_X_FORWARDED_FOR'))
+		elseif ($this->server('REMOTE_ADDR'))
 		{
-			$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
 
 		if ($this->ip_address === FALSE)

@@ -365,6 +365,17 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+/*
+|--------------------------------------------------------------------------
+| Trust CLIENT-IP Header
+|--------------------------------------------------------------------------
+|
+| If you can trust CLIENT-IP header, set TRUE, then $this->input->ip_address()
+| returns CLIENT-IP's IP address. Before setting TRUE, you should check
+| the header could not be spoofed in your environment.
+|
+*/
+$config['trust_client_ip'] = FALSE;
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
