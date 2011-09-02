@@ -87,7 +87,7 @@ class CI_Utf8 {
 		
 		if (defined('ICONV_IMPL') && ICONV_IMPL == 'libiconv')
 		{
-			parent::clean_string($str);
+			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 		}
 		elseif (function_exists('mb_convert_encoding'))
 		{
