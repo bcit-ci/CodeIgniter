@@ -7,3 +7,12 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
+.settings/org.eclipse.php.core.prefs
+
+.project
+
+.buildpath
+
+.gitignore
+
+.gitignore
