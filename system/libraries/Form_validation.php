@@ -33,6 +33,8 @@ class CI_Form_validation {
 	protected $_error_messages		= array();
 	protected $_error_prefix		= '<p>';
 	protected $_error_suffix		= '</p>';
+	protected $_errors_wrap_open    		= '<div class="errors">';
+ 	protected $_errors_wrap_close    		= '</div>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
 
@@ -196,6 +198,27 @@ class CI_Form_validation {
 
 	// --------------------------------------------------------------------
 
+   /**
+    * Set The Error Wrap
+    *
+    * Allows for the wrapping of all errors by a containing element
+    *
+    * @access  public
+    * @param  string
+    * @param  string
+    * @return  void
+    */
+   function set_error_wrap($open = '<div class="errors">', $close = '</div>')
+   {
+     $this->_errors_wrap_open = $open;
+     $this->_errors_wrap_close = $close;
+ 
+     return $this;
+   }    
+
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Get Error Message
 	 *
@@ -235,9 +258,12 @@ class CI_Form_validation {
 	 * @access	public
 	 * @param	string
 	 * @param	string
+	 * @param	string
+	 * @param	string
+     * @param	string
 	 * @return	str
 	 */
-	public function error_string($prefix = '', $suffix = '')
+	public function error_string($prefix = '', $suffix = '', $wrap_open = '', $wrap_close = '', $group = '')
 	{
 		// No errrors, validation passes!
 		if (count($this->_error_array) === 0)
@@ -254,16 +280,48 @@ class CI_Form_validation {
 		{
 			$suffix = $this->_error_suffix;
 		}
+		
+		if ($wrap_open == '')
+		{
+			$wrap_open = $this->_errors_wrap_open;
+		}
+ 	
+		if ($wrap_close == '')
+		{
+			$wrap_close = $this->_errors_wrap_close;
+		}
 
 		// Generate the error string
 		$str = '';
-		foreach ($this->_error_array as $val)
+		$errcount = 0;
+		foreach ($this->_error_array as $error)
 		{
-			if ($val != '')
+
+
+			if($group == '')
 			{
+				if ($error['message'] != '')
+				{
+					$str .= $prefix.$error['message'].$suffix."\n";
+				}
+			} else {
+				if ($error['group'] == $group AND $error['message'] != '')
+				{
+					$str .= $prefix.$error['message'].$suffix."\n";
+					$errcount++;
+				} 
+
 				$str .= $prefix.$val.$suffix."\n";
 			}
 		}
+
+
+		if($group != '' AND $errcount === 0) 
+		{
+			return false;	
+		}
+
+		$str = $wrap_open . $str . $wrap_close;
 
 		return $str;
 	}
@@ -275,6 +333,7 @@ class CI_Form_validation {
 	 *
 	 * This function does all the work.
 	 *
+	 * @param	string
 	 * @access	public
 	 * @return	bool
 	 */
@@ -338,7 +397,7 @@ class CI_Form_validation {
 				}
 			}
 
-			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
+			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata'], 0, $group);
 		}
 
 		// Did we end up with any errors?
@@ -467,14 +526,14 @@ class CI_Form_validation {
 	 * @param	integer
 	 * @return	mixed
 	 */
-	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
+	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0, $group = '')
 	{
 		// If the $_POST data is an array we will run a recursive call
 		if (is_array($postdata))
 		{
 			foreach ($postdata as $key => $val)
 			{
-				$this->_execute($row, $rules, $val, $cycles);
+				$this->_execute($row, $rules, $val, $cycles, $group);
 				$cycles++;
 			}
 
@@ -529,7 +588,7 @@ class CI_Form_validation {
 
 				if ( ! isset($this->_error_array[$row['field']]))
 				{
-					$this->_error_array[$row['field']] = $message;
+					$this->_error_array[$row['field']] = array('message' => $message, 'group' => $group);
 				}
 			}
 
@@ -677,7 +736,7 @@ class CI_Form_validation {
 
 				if ( ! isset($this->_error_array[$row['field']]))
 				{
-					$this->_error_array[$row['field']] = $message;
+					$this->_error_array[$row['field']] = array('message' => $message, 'group' => $group);
 				}
 
 				return;

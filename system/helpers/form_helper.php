@@ -909,7 +909,7 @@ if ( ! function_exists('validation_errors'))
  *
  * As per Validation Error String above, however this call will
  * display the errors for a specific group. 
- * In order to use this call, you must have your validarion 
+ * In order to use this call, you must have your validation 
  * rules in a form_validation file in your config folder as 
  * per the user guide
  *
@@ -930,7 +930,7 @@ if ( ! function_exists('validation_group_errors'))
 			return '';
 		}
 
-		return $OBJ->error_string($prefix, $suffix);
+		return $OBJ->error_string($prefix, $suffix, $wrap_open, $wrap_close, $group);
 	}
 }
 
