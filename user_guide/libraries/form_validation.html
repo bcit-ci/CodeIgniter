@@ -619,9 +619,11 @@ individually.</p>
 
 <p>To globally change the error delimiters, in your controller function, just after loading the Form Validation class, add this:</p>
 
-<code>$this->form_validation->set_error_delimiters('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>');</code>
+<code>$this->form_validation->set_error_delimiters('<kbd>&lt;li></kbd>', '<kbd>&lt;/li></kbd>');</code>
 
-<p>In this example, we've switched to using div tags.</p>
+<p>In this example, we've switched to using li tags, useful in conjunction with an optional wrapper such as:</p>
+
+<code>$this->form_validation->set_error_wrap('<kbd>&lt;ul class="errors"></kbd>', '<kbd>&lt;/ul></kbd>');</code>
 
 </li>
 
@@ -634,6 +636,10 @@ individually.</p>
 <p>Or:</p>
 
 <code>&lt;?php echo validation_errors('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>'); ?></code>
+
+<p>Or with a wrapper:</p>
+
+<code>&lt;?php echo validation_errors('<kbd>&lt;div class="error"></kbd>', '<kbd>&lt;/div></kbd>', '<kbd>&lt;div class="error_wrap"></kbd>', '<kbd>&lt;/div></kbd>'); ?></code>
 
 </li>
 </ol>
@@ -1191,6 +1197,25 @@ group via the function, as described in: <a href="#savingtoconfig">Saving Groups
 <code>&lt;?php echo validation_errors(); ?></code>
 
 <p>The error delimiters can be optionally specified.  See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
+
+
+<h2>validation_group_errors()</h2>
+<p>As with validation_errors() above, this shows all the error messages as a string however it limits the output to only the specified validation rule group.</p>
+<p>This is useful when there are multiple forms on a single page, so a specific groups errors can be displayed independently of other error groups.</p>
+
+<code>&lt;?php echo validation_group_errors('<kbd>group_name</kbd>'); ?></code>
+
+<p>To be able to use this helper, you must save your validation rules in the validation config file in groups, and run the validation on that specific rule group</p> 
+
+<p>e.g.,</p>
+
+<code>
+$this->form_validation->run('<kbd>group_name</kbd>');
+</code>
+
+<p>See the <a href="#savingtoconfig">Saving Sets of Validation Rules to a Config File</a> section above for details on how to set your rules and run a specific rule group.</p>
+
+<p>Again, the error delimiters can be optionally specified.  See the <a href="#errordelimiters">Changing the Error Delimiters</a> section above.</p>
 
 
 

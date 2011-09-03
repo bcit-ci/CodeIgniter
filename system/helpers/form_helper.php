@@ -887,12 +887,43 @@ if ( ! function_exists('form_error'))
  *
  * @access	public
  * @param	string
- * @param	string
- * @return	string
+ * @return  string
  */
 if ( ! function_exists('validation_errors'))
 {
-	function validation_errors($prefix = '', $suffix = '')
+  function validation_errors($prefix = '', $suffix = '', $wrap_open = '', $wrap_close = '')
+  {
+    if (FALSE === ($OBJ =& _get_validation_object()))
+    {
+      return '';
+    }
+
+    return $OBJ->error_string($prefix, $suffix, $wrap_open, $wrap_close);
+  }
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Validation Group Error String
+ *
+ * As per Validation Error String above, however this call will
+ * display the errors for a specific group. 
+ * In order to use this call, you must have your validarion 
+ * rules in a form_validation file in your config folder as 
+ * per the user guide
+ *
+ * @access  public
+ * @param  string
+ * @param  string
+ * @param  string
+ * @param  string
+ * @param	string
+ * @return	string
+ */
+if ( ! function_exists('validation_group_errors'))
+{
+	function validation_group_errors($group = '', $prefix = '', $suffix = '', $wrap_open = '', $wrap_close = '')
 	{
 		if (FALSE === ($OBJ =& _get_validation_object()))
 		{
