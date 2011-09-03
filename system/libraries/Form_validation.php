@@ -296,8 +296,6 @@ class CI_Form_validation {
 		$errcount = 0;
 		foreach ($this->_error_array as $error)
 		{
-
-
 			if($group == '')
 			{
 				if ($error['message'] != '')
@@ -309,9 +307,9 @@ class CI_Form_validation {
 				{
 					$str .= $prefix.$error['message'].$suffix."\n";
 					$errcount++;
-				} 
-
-				$str .= $prefix.$val.$suffix."\n";
+				} else {
+					$str .= $prefix.$error.$suffix."\n";
+				}
 			}
 		}
 
