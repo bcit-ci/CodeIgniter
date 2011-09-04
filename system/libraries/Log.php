@@ -31,6 +31,7 @@ class CI_Log {
 	protected $_date_fmt	= 'Y-m-d H:i:s';
 	protected $_enabled	= TRUE;
 	protected $_levels	= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+	protected $_seperate = false;
 
 	/**
 	 * Constructor
@@ -54,6 +55,11 @@ class CI_Log {
 		if ($config['log_date_format'] != '')
 		{
 			$this->_date_fmt = $config['log_date_format'];
+		}
+
+		if ($config['log_seperate'] != 0)
+		{
+			$this->_seperate = TRUE;
 		}
 	}
 
@@ -83,7 +89,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
+		$filepath = $this->_log_path.(!$this->_seperate ?:strtolower($level).'-').'log-'.date('Y-m-d').'.php';
 		$message  = '';
 
 		if ( ! file_exists($filepath))
