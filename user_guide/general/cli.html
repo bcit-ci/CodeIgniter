@@ -83,7 +83,7 @@ Running via the CLI
 
 <ul>
 	<li>Run your cron-jobs without needing to use wget or curl</li>
-	<li>Make your cron-jobs inaccessible from being loaded in the URL by checking for <kbd>IS_CLI</kbd></li>
+	<li>Make your cron-jobs inaccessible from being loaded in the URL by checking for <kbd>$this->input->is_cli_request()</kbd></li>
 	<li>Make interactive "tasks" that can do things like set permissions, prune cache folders, run backups, etc.</li>
 	<li>Integrate with other applications in other languages. For example, a random C++ script could call one command and run code in your models!</li>
 </ul>
