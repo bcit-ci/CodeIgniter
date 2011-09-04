@@ -238,7 +238,7 @@ class CI_Config {
 					}
 
 					// Merge config and unset local
-					$_merged = call_user_func($this->merge_arrays, $_merged, &$$_name);
+					$_merged = call_user_func_array($this->merge_arrays, array($_merged, &$$_name));
 					unset($$_name);
 				}
 			}
