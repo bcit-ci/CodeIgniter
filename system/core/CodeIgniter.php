@@ -196,6 +196,25 @@
  * ------------------------------------------------------
  */
 	$OUT =& load_class('Output', 'core');
+	
+	
+/*
+ * ------------------------------------------------------
+ *  Load the app controller and local controller
+ * ------------------------------------------------------
+ *
+ */
+	// Load the base controller class
+	require BASEPATH.'core/Controller.php';
+
+	function &get_instance()
+	{
+		return CI_Controller::get_instance();
+	}
+	
+	
+	//dummy version
+	$CI = new CI_Controller();
 
 /*
  * ------------------------------------------------------
@@ -230,20 +249,6 @@
  * ------------------------------------------------------
  */
 	$LANG =& load_class('Lang', 'core');
-
-/*
- * ------------------------------------------------------
- *  Load the app controller and local controller
- * ------------------------------------------------------
- *
- */
-	// Load the base controller class
-	require BASEPATH.'core/Controller.php';
-
-	function &get_instance()
-	{
-		return CI_Controller::get_instance();
-	}
 
 
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
