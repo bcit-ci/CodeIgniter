@@ -92,7 +92,7 @@ class CI_Parser {
 
 		foreach ($data as $key => $val)
 		{
-			if (is_array($val))
+			if (is_array($val) || is_object($val))
 			{
 				$template = $this->_parse_pair($key, $val, $template);
 			}
