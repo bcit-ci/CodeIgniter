@@ -1155,7 +1155,7 @@ class CI_Form_validation {
 		$emails = explode(',', $str);
 		foreach ($emails as $email)
 		{
-			if (trim($email) != '' && $this->valid_email(trim($email),$otpions) === FALSE)
+			if (trim($email) != '' && $this->valid_email(trim($email),$options) === FALSE)
 			{
 				return FALSE;
 			}
