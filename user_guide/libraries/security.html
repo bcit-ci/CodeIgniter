@@ -116,6 +116,9 @@ Note: This function should only be used to deal with data upon submission. It's 
 
 <p>If you use the <a href="../helpers/form_helper.html">form helper</a> the <var>form_open()</var> function will automatically insert a hidden csrf field in your forms.</p>
 
+<p>Select URIs can be whitelisted from csrf protection (for example API endpoints expecting externally POSTed content). You can add these URIs by editing the 'csrf_exclude_uris' config parameter:</p>
+<code>$config['csrf_exclude_uris'] = array('api/person/add');</code>
+
 </div>
 <!-- END CONTENT -->
 
