@@ -133,6 +133,14 @@ $this->load->database(<samp>$dsn</samp>);</code>
 <br />
 $this->load->database(<samp>$dsn</samp>);</code>
 
+<p>To avoid making several entries in your database configuration with the same connection information and/or peppering your models with the same DSN strings, you can switch to a database that shares the same connection information as your current connection using:</p>
+
+<code>$this->db->query("use database_name");</code>
+
+<p>However, when using certain database utilities like <kbd>$this->dbutil->list_tables()</kbd>, the above query is not sufficient. You must use:
+
+<code>$this->db->switch_db("database_name");</code> 
+
 <h2>Connecting to Multiple Databases</h2>
 
 <p>If you need to connect to more than one database simultaneously you can do so as follows:</p>
