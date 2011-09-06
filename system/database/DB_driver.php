@@ -1144,6 +1144,34 @@ class CI_DB_driver {
 		}
 		$this->conn_id = FALSE;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Switch the active database. The database must share the same
+	 * connection settings as the default connection.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	resource
+	 */
+	public function switch_db($db_name = '')
+	{
+		if (empty($db_name))
+		{
+			log_message('error', 'You did not provide a database name to switch to.');
+
+			if ($this->db_debug)
+			{
+				$this->display_error('db_bad_switch');
+			}
+		}
+		$this->database = $db_name;
+		$this->db_select();
+		// Must clear the cache to prevent things like $this->list_tables()
+		// from showing the wrong items.
+		$this->data_cache = array();
+	}
 
 	// --------------------------------------------------------------------
 
