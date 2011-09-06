@@ -215,12 +215,9 @@ if ( ! function_exists('random_string'))
 						case 'nozero'	:	$pool = '123456789';
 							break;
 					}
-
-					$str = '';
-					for ($i=0; $i < $len; $i++)
-					{
-						$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
-					}
+					
+					$str = substr(str_shuffle(str_repeat($pool, ceil($len/strlen($pool)))),0,$len);
+					
 					return $str;
 				break;
 			case 'unique'	:
