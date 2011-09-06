@@ -1234,14 +1234,14 @@ class CI_Loader {
 			// See if there's a config file for the class
 			$file = strtolower($class);
 			$data = $this->CI->config->get($file.'.php', 'config');
-			if ($data === FALSE)
+			if (!is_array($data))
 			{
 				// Try uppercase
 				$data = $this->CI->config->get(ucfirst($file).'.php', 'config');
 			}
 
 			// Set config if found
-			if ($data !== FALSE)
+			if (is_array($data))
 			{
 				$config = $data;
 			}
