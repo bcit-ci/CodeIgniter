@@ -171,7 +171,7 @@ The second parameter in the <var>view()</var> method is used to pass values to t
 <p>Let's do that. Open the routing file located at <dfn>application/config/routes.php</dfn> and add the following two lines. Remove all other code that sets any element in the <var>$route</var> array.</p>
 	
 <pre>
-$route['default_controller'] = 'pages';
+$route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';
 </pre>
 
