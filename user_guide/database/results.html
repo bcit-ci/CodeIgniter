@@ -105,8 +105,8 @@ Query Results
 	<br />
 	foreach ($query->result('User') as $user)<br />
 	{<br />
-	&nbsp;&nbsp;&nbsp;echo $row->name; // call attributes<br />
-	&nbsp;&nbsp;&nbsp;echo $row->reverse_name(); // or methods defined on the 'User' class<br />
+	&nbsp;&nbsp;&nbsp;echo $user->name; // call attributes<br />
+	&nbsp;&nbsp;&nbsp;echo $user->reverse_name(); // or methods defined on the 'User' class<br />
 	}
 	</code>
 
