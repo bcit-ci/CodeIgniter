@@ -81,7 +81,7 @@
 		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
 	</div>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. CodeIgniter Version <?php echo CI_VERSION; ?></p>
+	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php if (ENVIRONMENT == "development") { echo "CodeIgniter Version " . CI_VERSION; } ?></p>
 </div>
 
 </body>
