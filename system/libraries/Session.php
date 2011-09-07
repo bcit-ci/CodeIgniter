@@ -462,6 +462,7 @@ class CI_Session {
 	 */
 	function userdata($item)
 	{
+		log_message('info','userdata DEPRECATED as of 2.1.0');
 		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
 	}
 
@@ -476,6 +477,7 @@ class CI_Session {
 	 */
 	function all_userdata()
 	{
+		log_message('info','all_userdata DEPRECATED as of 2.1.0');
 		return $this->userdata;
 	}
 
@@ -492,6 +494,7 @@ class CI_Session {
 	 */
 	function set_userdata($newdata = array(), $newval = '')
 	{
+		log_message('info','set_userdata DEPRECATED as of 2.1.0');
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => $newval);
@@ -517,6 +520,7 @@ class CI_Session {
 	 */
 	function unset_userdata($newdata = array())
 	{
+		log_message('info','unset_userdata DEPRECATED as of 2.1.0');
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => '');
@@ -568,6 +572,7 @@ class CI_Session {
 	 */
 	function set_flashdata($newdata = array(), $newval = '')
 	{
+		log_message('info','set_flashdata DEPRECATED as of 2.1.0');
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => $newval);
