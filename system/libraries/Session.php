@@ -29,6 +29,7 @@ class CI_Session {
 	var $sess_encrypt_cookie		= FALSE;
 	var $sess_use_database			= FALSE;
 	var $sess_table_name			= '';
+	var $sess_cookie_fallback		= FALSE;
 	var $sess_expiration			= 7200;
 	var $sess_expire_on_close		= FALSE;
 	var $sess_match_ip				= FALSE;
@@ -85,6 +86,12 @@ class CI_Session {
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
 			$this->CI->load->database();
+
+			// Should we revert to cookies if the session table doesn't exist?
+			if ($this->sess_cookie_fallback && ! $this->CI->db->table_exists($this->sess_table_name))
+			{
+				$this->sess_use_database = FALSE;
+			}
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the

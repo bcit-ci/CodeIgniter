@@ -292,13 +292,20 @@ do not need to write your own routine to do it.</p>
 	<td class="td"><strong>sess_use_database</strong></td>
 	<td class="td">FALSE</td>
 	<td class="td">TRUE/FALSE (boolean)</td>
-	<td class="td">Whether to save the session data to a database.  You must create the table before enabling this option.</td>
+	<td class="td">Whether to save the session data to a database.  You must create the table before enabling this option, or set sess_cookie_fallback to TRUE.</td>
 </tr>
 <tr>
 	<td class="td"><strong>sess_table_name</strong></td>
 	<td class="td">ci_sessions</td>
 	<td class="td">Any valid SQL table name</td>
 	<td class="td">The name of the session database table.</td>
+</tr>
+</tr>
+<tr>
+	<td class="td"><strong>sess_cookie_fallback</strong></td>
+	<td class="td">FALSE</td>
+	<td class="td">TRUE/FALSE (boolean)</td>
+	<td class="td">Setting this to TRUE will revert sess_use_database back to FALSE if it was set to true but the session database table doesn't exist.</td>
 </tr>
 <tr>
 	<td class="td"><strong>sess_time_to_update</strong></td>
