@@ -418,8 +418,44 @@ class CI_Session {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get or Set specific item in the session array
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	public function data($item = NULL, $value = NULL)
+	{
+		if (is_null($value) && ! is_array($item)) // getting
+		{
+			if (is_null($item)) // get all
+			{
+				return $this->userdata;
+			}
+			return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+		}
+		else // setting
+		{
+			if (is_array($item))
+			{
+				foreach ($item as $key => $val)
+				{
+					$this->userdata[$key] = $val;
+				}
+			}
+			else
+			{
+				$this->userdata[$item] = $value;
+			}
+			$this->sess_write();
+		}
+	}
+
+	/**
 	 * Fetch a specific item from the session array
 	 *
+	 * @deprecated 2.1.0
 	 * @access	public
 	 * @param	string
 	 * @return	string
@@ -434,8 +470,9 @@ class CI_Session {
 	/**
 	 * Fetch all session data
 	 *
-	 * @access	public
-	 * @return	array
+	 * @deprecated 2.1.0
+	 * @access	   public
+	 * @return	   array
 	 */
 	function all_userdata()
 	{
@@ -447,10 +484,11 @@ class CI_Session {
 	/**
 	 * Add or change data in the "userdata" array
 	 *
-	 * @access	public
-	 * @param	mixed
-	 * @param	string
-	 * @return	void
+ 	 * @deprecated 2.1.0
+	 * @access	   public
+	 * @param	   mixed
+	 * @param	   string
+	 * @return	   void
 	 */
 	function set_userdata($newdata = array(), $newval = '')
 	{
@@ -458,7 +496,6 @@ class CI_Session {
 		{
 			$newdata = array($newdata => $newval);
 		}
-
 		if (count($newdata) > 0)
 		{
 			foreach ($newdata as $key => $val)
@@ -466,7 +503,6 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
-
 		$this->sess_write();
 	}
 
@@ -475,6 +511,7 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
+	 * @deprecated 2.1.0
 	 * @access	array
 	 * @return	void
 	 */
@@ -496,16 +533,38 @@ class CI_Session {
 		$this->sess_write();
 	}
 
+	/**
+	 * Delete a session variable from the "userdata" array
+	 *
+	 * @access	array
+	 * @return	void
+	 */
+	function unset_data($data = array())
+	{
+		if (is_string($newdata))
+		{
+			$newdata = array($newdata => '');
+		}
+
+		foreach ($newdata as $key => $val)
+		{
+			unset($this->userdata[$key]);
+		}
+
+		$this->sess_write();
+	}
+
 	// ------------------------------------------------------------------------
 
 	/**
 	 * Add or change flashdata, only available
 	 * until the next request
 	 *
-	 * @access	public
-	 * @param	mixed
-	 * @param	string
-	 * @return	void
+	 * @deprecated 2.1.0
+	 * @access	   public
+	 * @param	   mixed
+	 * @param	   string
+	 * @return	   void
 	 */
 	function set_flashdata($newdata = array(), $newval = '')
 	{
@@ -549,16 +608,36 @@ class CI_Session {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Fetch a specific flashdata item from the session array
+	 * Add or Retrieve flashdata, only available until the next request
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	string
 	 * @return	string
 	 */
-	function flashdata($key)
+	function flashdata($key, $value = NULL)
 	{
-		$flashdata_key = $this->flashdata_key.':old:'.$key;
-		return $this->userdata($flashdata_key);
+		if (is_null($value) && ! is_array($key)) // getting
+		{
+			$flashdata_key = $this->flashdata_key.':old:'.$key;
+			return $this->userdata($flashdata_key);
+		}
+		else // setting
+		{
+			if (is_array($key))
+			{
+				foreach ($key as $key => $val)
+				{
+					$flashdata_key = $this->flashdata_key.':new:'.$key;
+					$this->userdata($flashdata_key, $val);
+				}
+			}
+			else
+			{
+				$flashdata_key = $this->flashdata_key.':new:'.$key;
+				$this->userdata($flashdata_key, $value);
+			}
+		}
 	}
 
 	// ------------------------------------------------------------------------
