@@ -9,7 +9,7 @@
  * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 
@@ -468,6 +468,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		if (strpos($item, '.') !== FALSE)
 		{
 			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
+			
 		}
 		else
 		{
