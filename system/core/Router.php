@@ -43,6 +43,13 @@ class CI_Router {
 	 */
 	var $routes			= array();
 	/**
+	 * Matched rule from routes.php
+	 *
+	 * @var string
+	 * @access public
+	 */
+	var $matched_rule;
+	/**
 	 * List of error routes
 	 *
 	 * @var array
@@ -374,6 +381,9 @@ class CI_Router {
 		// Loop through the route array looking for wild-cards
 		foreach ($this->routes as $key => $val)
 		{
+			// Save the raw routes key for matched route rule
+			$rule = $key;
+			
 			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
@@ -385,7 +395,11 @@ class CI_Router {
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
-
+				
+				// Make matched rule available via : $this->router->matched_rule (on Controller scope)
+				$this->matched_rule = $rule;
+				
+				//$key_matched = 
 				return $this->_set_request(explode('/', $val));
 			}
 		}
