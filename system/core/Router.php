@@ -375,14 +375,16 @@ class CI_Router {
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
 		{
+			// Make matched rule available via : $this->router->matched_rule (on Controller scope)
+			$this->matched_rule = $uri;
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
 
 		// Loop through the route array looking for wild-cards
 		foreach ($this->routes as $key => $val)
 		{
-			// Save the raw routes key for matched route rule
-			$rule = $key;
+			// Make matched rule available via : $this->router->matched_rule (on Controller scope)
+			$this->matched_rule = $key;
 			
 			// Convert wild-cards to RegEx
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
@@ -396,10 +398,6 @@ class CI_Router {
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 				
-				// Make matched rule available via : $this->router->matched_rule (on Controller scope)
-				$this->matched_rule = $rule;
-				
-				//$key_matched = 
 				return $this->_set_request(explode('/', $val));
 			}
 		}
