@@ -27,10 +27,12 @@
 class CI_Log {
 
 	protected $_log_path;
-	protected $_threshold	= 1;
-	protected $_date_fmt	= 'Y-m-d H:i:s';
-	protected $_enabled	= TRUE;
-	protected $_levels	= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+	protected $_threshold		= 1;
+	protected $_threshold_max	= 0;
+	protected $_threshold_array	= array();
+	protected $_date_fmt		= 'Y-m-d H:i:s';
+	protected $_enabled			= TRUE;
+	protected $_levels			= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
 
 	/**
 	 * Constructor
@@ -49,6 +51,11 @@ class CI_Log {
 		if (is_numeric($config['log_threshold']))
 		{
 			$this->_threshold = $config['log_threshold'];
+		}
+		elseif (is_array($config['log_threshold']))
+		{
+			$this->_threshold = $this->_threshold_max;
+			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
 		if ($config['log_date_format'] != '')
@@ -80,8 +87,12 @@ class CI_Log {
 
 		if ( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
 		{
-			return FALSE;
+			if (empty($this->_threshold_array) OR ! isset($this->_threshold_array[$this->_levels[$level]]))
+			{
+				return FALSE;
+			}
 		}
+
 
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
 		$message  = '';

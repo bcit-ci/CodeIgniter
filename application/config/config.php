@@ -79,6 +79,8 @@ $config['language']	= 'english';
 | This determines which character set is used by default in various methods
 | that require a character set to be provided.
 |
+| See http://php.net/htmlspecialchars for a list of supported charsets.
+|
 */
 $config['charset'] = 'UTF-8';
 
@@ -175,6 +177,10 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 |	2 = Debug Messages
 |	3 = Informational Messages
 |	4 = All Messages
+|
+| You can also pass in a array with threshold levels to show individual error types
+| 
+| 	array(2) = Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -292,11 +298,13 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_token_name' = The token name
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
+| 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
 $config['csrf_protection'] = FALSE;
 $config['csrf_token_name'] = 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
+$config['csrf_exclude_uris'] = array();
 
 /*
 |--------------------------------------------------------------------------
