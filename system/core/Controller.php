@@ -57,6 +57,161 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
+	
+	/**
+	 * Debug
+	 *
+	 * @access	public
+	 * @param	mixed	the variable to dump
+	 * @param   int     length
+	 * @param   int     depth level
+	 * @return	string  HTML chunk
+	 */
+	public static function debug( & $var, $length = 128, $level = 0)
+	{
+		if ($var === NULL)
+		{
+			return '<small>NULL</small>';
+		}
+		elseif (is_bool($var))
+		{
+			return '<small>bool</small> '.($var ? 'TRUE' : 'FALSE');
+		}
+		elseif (is_float($var))
+		{
+			return '<small>float</small> '.$var;
+		}
+		elseif (is_resource($var))
+		{
+			return '<small>resource</small><span>('.$type.')</span>';
+		}
+		elseif (is_string($var))
+		{
+			if (strlen($var) > $length)
+			{
+				// Encode the truncated string
+				$str = htmlspecialchars(substr($var, 0, $length), ENT_NOQUOTES, 'utf-8').'&nbsp;&hellip;';
+			}
+			else
+			{
+				// Encode the string
+				$str = htmlspecialchars($var, ENT_NOQUOTES, 'utf-8');
+			}
+
+			return '<small>string</small><span>('.strlen($var).')</span> "'.$str.'"';
+		}
+		elseif (is_array($var))
+		{
+			$output = array();
+
+			// Indentation for this variable
+			$space = str_repeat($s = '    ', $level);
+
+			static $marker;
+
+			if ($marker === NULL)
+			{
+				// Make a unique marker
+				$marker = uniqid("\x00");
+			}
+
+			if (empty($var))
+			{
+				// Do nothing
+			}
+			elseif (isset($var[$marker]))
+			{
+				$output[] = "(\n$space$s*RECURSION*\n$space)";
+			}
+			elseif ($level < 5)
+			{
+				$output[] = "<span>(";
+
+				$var[$marker] = TRUE;
+				foreach ($var as $key => & $val)
+				{
+					if ($key === $marker) continue;
+					if ( ! is_int($key))
+					{
+						$key = '"'.htmlspecialchars($key, ENT_NOQUOTES, 'utf-8').'"';
+					}
+
+					$output[] = "$space$s$key => ".self::debug($val, $length, $level + 1);
+				}
+				unset($var[$marker]);
+
+				$output[] = "$space)</span>";
+			}
+			else
+			{
+				// Depth too great
+				$output[] = "(\n$space$s...\n$space)";
+			}
+
+			return '<small>array</small><span>('.count($var).')</span> '.implode("\n", $output);
+		}
+		elseif (is_object($var))
+		{
+			// Copy the object as an array
+			$array = (array) $var;
+
+			$output = array();
+
+			// Indentation for this variable
+			$space = str_repeat($s = '    ', $level);
+
+			$hash = spl_object_hash($var);
+
+			// Objects that are being dumped
+			static $objects = array();
+
+			if (empty($var))
+			{
+				// Do nothing
+			}
+			elseif (isset($objects[$hash]))
+			{
+				$output[] = "{\n$space$s*RECURSION*\n$space}";
+			}
+			elseif ($level < 10)
+			{
+				$output[] = "<code>{";
+
+				$objects[$hash] = TRUE;
+				foreach ($array as $key => & $val)
+				{
+					if ($key[0] === "\x00")
+					{
+						// Determine if the access is protected or protected
+						$access = '<small>'.($key[1] === '*' ? 'protected' : 'private').'</small>';
+
+						// Remove the access level from the variable name
+						$key = substr($key, strrpos($key, "\x00") + 1);
+					}
+					else
+					{
+						$access = '<small>public</small>';
+					}
+
+					$output[] = "$space$s$access $key => ".self::debug($val, $length, $level + 1);
+				}
+				unset($objects[$hash]);
+
+				$output[] = "$space}</code>";
+			}
+			else
+			{
+				// Depth too great
+				$output[] = "{\n$space$s...\n$space}";
+			}
+
+			return '<small>object</small> <span>'.get_class($var).'('.count($array).')</span> '.implode("\n", $output);
+		}
+		else
+		{
+			return '<small>'.gettype($var).'</small> '.htmlspecialchars(print_r($var, TRUE), ENT_NOQUOTES, 'utf-8');
+		}
+	}
 }
 // END Controller class
 
