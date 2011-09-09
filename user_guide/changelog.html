@@ -65,44 +65,31 @@ Change Log
 <ul>
 	<li>General Changes
 		<ul>
-			<li>Added Android to the list of user agents.</li>
-			<li>Added Windows 7 to the list of user platforms.</li>
-			<li>Callback validation rules can now accept parameters like any other validation rule.</li>
-			<li>Ability to log certain error types, not all under a threshold.</li>
-			<li>Added html_escape() to <a href="general/common_functions.html">Common functions</a> to escape HTML output for preventing XSS.</li>
+			<li class="reactor">Callback validation rules can now accept parameters like any other validation rule.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
-			<li>Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
-        		<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
-			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
-			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
+			<li class="reactor">Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+        	<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
 		</ul>
 	</li>
 	<li>Database
 		<ul>
-			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="database/index.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
-			<li>Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
-			<li>
+			<li class="reactor">Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
+			<li class="reactor">Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
+			<li class="reactor">
 				Added additional option 'none' for the optional third argument for  <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database Driver</a>.
 			</li>
 		</ul>
 	</li>
 	<li>Libraries
 		<ul>
-			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
-			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
-			<li>Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
-			<li>Driver children can be located in any package path.</li>
-			<li>Added max_filename_increment config setting for Upload library.</li>
-			<li><samp>CI_Loader::_ci_autoloader()</samp> is now a protected method.</li>
-			<li>Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
-		</ul>
-	</li>
-	<li>Core
-		<ul>
-			<li>Changed private functions in CI_URI to protected so MY_URI can override them.</li>
+			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li class="reactor">Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
+			<li class="reactor">Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
+			<li class="reactor">Driver children can be located in any package path.</li>
+			<li class="reactor"><a href="libraries/session.html">Session Library</a> now has a config option to auto create the database table if it doesn't exist.</li>
 		</ul>
 	</li>
 </ul>
@@ -114,14 +101,8 @@ Change Log
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
 	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
     <li class="reactor">Fixed a bug (#200) where MySQL queries would be malformed after calling <samp>count_all()</samp> then <samp>db->get()</samp></li>
-    <li class="reactor">Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
     <li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
 	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
-	<li>Fixed a bug (#150) - <samp>field_data()</samp> now correctly returns column length.</li>
-	<li>Fixed a bug (#8) - <samp>load_class()</samp> now looks for core classes in <samp>APPPATH</samp> first, allowing them to be replaced.</li>
-	<li>Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().</li>
-	<li>Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did not escape correct.</li>
-	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
@@ -141,13 +122,7 @@ Change Log
 			<li>Visual updates to the welcome_message view file and default error templates. Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
 			<li class="reactor">Added <samp>insert_batch()</samp> function to the PostgreSQL database driver.  Thanks to epallerols for the patch.</li>
 			<li class="reactor">Added "application/x-csv" to mimes.php.</li>
-			<li class="reactor">Added CSRF protection URI whitelisting.</li>
 			<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
-            <li>Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.</li>
-            <li>Added support pgp,gpg to mimes.php.</li>
-            <li>Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.</li>
-            <li>Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.</li>
-
 		</ul>
 	</li>
 	<li>Helpers
@@ -160,6 +135,7 @@ Change Log
 	<li>Libraries
 		<ul>
 			<li>Altered Session to use a longer match against the user_agent string. See upgrade notes if using database sessions.</li>
+			<li class="reactor">Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 			<li class="reactor">Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
 			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
 			<li class="reactor">Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>

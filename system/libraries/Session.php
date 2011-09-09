@@ -29,6 +29,7 @@ class CI_Session {
 	var $sess_encrypt_cookie		= FALSE;
 	var $sess_use_database			= FALSE;
 	var $sess_table_name			= '';
+	var $sess_table_auto_create		= FALSE;
 	var $sess_expiration			= 7200;
 	var $sess_expire_on_close		= FALSE;
 	var $sess_match_ip				= FALSE;
@@ -85,6 +86,28 @@ class CI_Session {
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
 			$this->CI->load->database();
+
+			// Does the table exist? If not, should we create it automatically?
+			if ($this->sess_table_auto_create === TRUE && ! $this->CI->db->table_exists($this->sess_table_name))
+			{
+				$this->CI->load->dbforge();
+
+				// Create the fields, keys and table
+				$this->CI->dbforge->add_field(
+					array(
+						'session_id'	=> array('type' => 'varchar', 'constraint' => 40, 'null' => FALSE),
+						'ip_address'	=> array('type' => 'varchar', 'constraint' => 16, 'null' => FALSE),
+						'user_agent'	=> array('type' => 'varchar', 'constraint' => 120, 'null' => FALSE),
+						'last_activity'	=> array('type' => 'int', 'constraint' => 10, 'null' => FALSE, 'unsigned' => TRUE),
+						'user_data'		=> array('type' => 'text', 'null' => FALSE)
+					)
+				);
+
+				$this->CI->dbforge->add_key('session_id', TRUE);
+				$this->CI->dbforge->add_key('last_activity');
+
+				$this->CI->dbforge->create_table($this->sess_table_name, TRUE);
+			}
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
