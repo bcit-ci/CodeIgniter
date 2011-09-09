@@ -70,6 +70,10 @@ Change Log
 			<li>Callback validation rules can now accept parameters like any other validation rule.</li>
 			<li>Ability to log certain error types, not all under a threshold.</li>
 			<li>Added html_escape() to <a href="general/common_functions.html">Common functions</a> to escape HTML output for preventing XSS.</li>
+			<li>Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.</li>
+			<li>Added support pgp,gpg to mimes.php.</li>
+			<li>Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.</li>
+			<li>Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -143,11 +147,6 @@ Change Log
 			<li class="reactor">Added "application/x-csv" to mimes.php.</li>
 			<li class="reactor">Added CSRF protection URI whitelisting.</li>
 			<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
-            <li>Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.</li>
-            <li>Added support pgp,gpg to mimes.php.</li>
-            <li>Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.</li>
-            <li>Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.</li>
-
 		</ul>
 	</li>
 	<li>Helpers
@@ -179,7 +178,7 @@ Change Log
 	<li class="reactor">Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
 	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
 	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
-	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
+	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kbd>, <kbd>$this->db->select_min()</kbd>, etc could throw notices. Thanks to w43l for the patch.</li>
 	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
 </ul>
 
