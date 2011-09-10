@@ -4,10 +4,7 @@ CodeIgniter is an Application Development Framework - a toolkit - for people who
 
 ## Release Information
 
-CodeIgniter 2.1.0 Dev
-
-THIS RELASE IS A DEVELOPMENT REALEASE AND NOT INTENDED FOR PRODUCTION USE.
-PLASE USE AT YOUR OWN RISK
+This repo contains in development code for future releases. To download the latest stable release please visit the [CodeIgniter Downloads](http://codeigniter.com/downloads/) page. 
 
 ## Changelog and New Feature
 
@@ -16,11 +13,10 @@ You can find it on [user_guide/changelog.html](https://github.com/EllisLab/CodeI
 ## Server Requirements
 
 * PHP version 5.1.6 or newer.
-* A Database is required for most web application programming. Current supported databases are MySQL (4.1+), MySQLi, MS SQL, Postgres, Oracle, SQLite, ODBC and CUBRID.
 
 ## Installation 
 
-Please see file on [CodeIgniter User Guide](http://codeigniter.com/user_guide/installation/index.html)
+Please see the installation section of the [CodeIgniter User Guide](http://codeigniter.com/user_guide/installation/index.html)
 
 ## Contributing
 
@@ -88,8 +84,7 @@ Now your fork is up to date. This should be done regularly, or before you send a
 
 ## License
 
-The files in this archive are released under the EllisLab's license.
-You can find a copy of this license in license.txt.
+Please see the [license agreement](http://codeigniter.com/user_guide/license.html)
 
 ## Resources
 
@@ -101,5 +96,4 @@ You can find a copy of this license in license.txt.
 
 ## Acknowledgement
 
-The EllisLab's team and The Reactor Engineers would like to thank all the contributors to the CodeIgniter project, our corporate sponsor, and you, the CodeIgniter user.
-Please visit us sometime soon at [CodeIgniter](http://codeigniter.com)
+The EllisLab team and The Reactor Engineers would like to thank all the contributors to the CodeIgniter project and you, the CodeIgniter user.
