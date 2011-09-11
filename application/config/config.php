@@ -205,15 +205,15 @@ $config['log_path'] = '';
 $config['log_date_format'] = 'Y-m-d H:i:s';
 
 /*
- |--------------------------------------------------------------------------
-| Error Logging Threshold
+|--------------------------------------------------------------------------
+| Seperate Logfiles
 |--------------------------------------------------------------------------
 |
-| For a live site you'll usually only enable Errors (1) to be logged otherwise
-| your log files will fill up very fast.
+| Each Logging type had an own log file
+| Default: 0 
 |
 */
-$config['log_seperate'] = 1;
+$config['log_seperate'] = 0;
 
 /*
 |--------------------------------------------------------------------------
