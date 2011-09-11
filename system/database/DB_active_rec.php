@@ -872,11 +872,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	integer	the offset value
 	 * @return	object
 	 */
-	public function limit($value, $offset = '')
+	public function limit($value, $offset = NULL)
 	{
 		$this->ar_limit = (int) $value;
 
-		if ($offset != '')
+		if ( ! is_null($offset))
 		{
 			$this->ar_offset = (int) $offset;
 		}
@@ -894,7 +894,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function offset($offset)
 	{
-		$this->ar_offset = $offset;
+		$this->ar_offset = (int) $offset;
 		return $this;
 	}
 
