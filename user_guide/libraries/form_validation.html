@@ -558,6 +558,10 @@ callback function for you to process.</dfn></p>
 to receive an extra parameter in your callback function, just add it normally after the function name between square brackets,
 as in: "callback_foo<strong>[bar]</strong>", then it will be passed as the second argument of your callback function.</p>
 
+<p>If you need to access the name of the field that's being checked by your callback, you can use the <dfn>$current_validation_field</dfn> property of the Form Validation library:</p>
+
+<code>$this->form_validation->current_validation_field;</code>
+
 <p><strong>Note:</strong> You can also process the form data that is passed to your callback and return it.  If your callback returns anything other than a boolean TRUE/FALSE
 it is assumed that the data is your newly processed form data.</p>
 
