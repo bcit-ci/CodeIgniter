@@ -91,6 +91,11 @@ Change Log
 			<li>
 				Added additional option 'none' for the optional third argument for  <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database Driver</a>.
 			</li>
+			<li>
+				<kbd>result_array()</kbd> and <kbd>result_object()</kbd> now accepts an optional argument to specify which field in the query result to use as array key.<br />
+				One generally specifies the primary key field because it contains unique values.<br />
+				<kbd>result()</kbd> also accepts this value, but as a second argument.
+			</li>
 		</ul>
 	</li>
 	<li>Libraries
