@@ -374,7 +374,7 @@ class CI_Input {
 	public function valid_ip($ip)
 	{
 		// if php version >= 5.2, use filter_var to check validate ip.
-		if(is_php('5.2'))
+		if(function_exists('filter_var'))
 		{
 			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 		}
