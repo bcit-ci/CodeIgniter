@@ -22,7 +22,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine	Dev Team
+ * @author		ExpressionEngine Dev Team
  */
 class CI_Session_native extends CI_Session_driver {
 	/**
