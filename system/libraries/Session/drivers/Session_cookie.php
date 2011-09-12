@@ -28,21 +28,22 @@
  */
 class CI_Session_cookie extends CI_Session_driver {
 	protected $sess_encrypt_cookie	= FALSE;
-	protected $sess_use_database		= FALSE;
+	protected $sess_use_database	= FALSE;
 	protected $sess_table_name		= '';
 	protected $sess_expiration		= 7200;
 	protected $sess_expire_on_close	= FALSE;
-	protected $sess_match_ip			= FALSE;
+	protected $sess_match_ip		= FALSE;
 	protected $sess_match_useragent	= TRUE;
 	protected $sess_cookie_name		= 'ci_session';
-	protected $cookie_prefix			= '';
+	protected $cookie_prefix		= '';
 	protected $cookie_path			= '';
-	protected $cookie_domain			= '';
+	protected $cookie_domain		= '';
+	protected $cookie_secure		= FALSE;
 	protected $sess_time_to_update	= 300;
-	protected $encryption_key		 	= '';
-	protected $time_reference		 	= 'time';
+	protected $encryption_key	 	= '';
+	protected $time_reference	 	= 'time';
 	protected $userdata				= array();
-	protected $CI					 	= null;
+	protected $CI				 	= null;
 	protected $now					= 0;
 
 	const gc_probability			= 5;
@@ -62,7 +63,8 @@ class CI_Session_cookie extends CI_Session_driver {
 		// manually via the $params array above or via the config file
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration',
 		'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path',
-		'cookie_domain', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
+		'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key')
+		as $key)
 		{
 			$this->$key = (isset($this->parent->params[$key])) ? $this->parent->params[$key] : $this->CI->config->item($key);
 		}
@@ -482,7 +484,8 @@ class CI_Session_cookie extends CI_Session_driver {
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
 		// Set the cookie
-		setcookie($this->sess_cookie_name, $cookie_data, $expire, $this->cookie_path, $this->cookie_domain, 0);
+		setcookie($this->sess_cookie_name, $cookie_data, $expire, $this->cookie_path, $this->cookie_domain,
+			$this->cookie_secure);
 	}
 
 	/**
