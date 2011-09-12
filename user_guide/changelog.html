@@ -85,7 +85,6 @@ Change Log
 		</ul>
 	</li>
 	<li>Database
-x
 		<ul>
 			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="database/index.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
 			<li>Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
@@ -96,20 +95,20 @@ x
 	</li>
 	<li>Libraries
 		<ul>
-            <li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
-            <li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
-            <li>Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
-            <li>Driver children can be located in any package path.</li>
-            <li>Added max_filename_increment config setting for Upload library.</li>
-            <li><samp>CI_Loader::_ci_autoloader()</samp> is now a protected method.</li>
-            <li>Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
-            <li class="reactor">Modified valid_email() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.</li>
+			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
+			<li>Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
+			<li>Driver children can be located in any package path.</li>
+			<li>Added max_filename_increment config setting for Upload library.</li>
+			<li><samp>CI_Loader::_ci_autoloader()</samp> is now a protected method.</li>
+			<li>Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
+			<li class="reactor">Modified valid_email() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.</li>
 		</ul>
-    </li>
-    <li>Core
-        <ul>
-            <li>Changed private functions in CI_URI to protected so MY_URI can override them.</li>
-        </ul>
+	</li>
+	<li>Core
+		<ul>
+			<li>Changed private functions in CI_URI to protected so MY_URI can override them.</li>
+		</ul>
 	</li>
 </ul>
 
@@ -119,9 +118,9 @@ x
 	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
 	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
-    <li class="reactor">Fixed a bug (#200) where MySQL queries would be malformed after calling <samp>count_all()</samp> then <samp>db->get()</samp></li>
-    <li class="reactor">Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
-    <li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
+	<li class="reactor">Fixed a bug (#200) where MySQL queries would be malformed after calling <samp>count_all()</samp> then <samp>db->get()</samp></li>
+	<li class="reactor">Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
+	<li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
 	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
 	<li>Fixed a bug (#150) - <samp>field_data()</samp> now correctly returns column length.</li>
 	<li>Fixed a bug (#8) - <samp>load_class()</samp> now looks for core classes in <samp>APPPATH</samp> first, allowing them to be replaced.</li>
