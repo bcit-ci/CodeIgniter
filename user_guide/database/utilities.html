@@ -183,14 +183,15 @@ $query = $this->db->query("SELECT * FROM mytable");<br />
 echo $this->dbutil->csv_from_result($query);
 </code>
 
-<p>The second and third parameters allows you to
-set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:</p>
+<p>The second, third, and fourth parameters allow you to
+set the delimiter, newline, and enclosure characters respectively.  By default tabs are used as the delimiter, "\n" is used as a new line, and a double-quote is used as the enclosure.  Example:</p>
 
 <code>
 $delimiter = ",";<br />
 $newline = "\r\n";<br />
+$enclosure = '"';<br />
 <br />
-echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
+echo $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure);
 </code>
 
 <p><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
