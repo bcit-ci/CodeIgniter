@@ -45,11 +45,11 @@ class CI_DB_result {
 	 * @param	string	can be "object" or "array"
 	 * @return	mixed	either a result object or array
 	 */
-	function result($type = 'object')
+	function result($type = 'object', $key = '')
 	{
-		if ($type == 'array') return $this->result_array();
-		else if ($type == 'object') return $this->result_object();
-		else return $this->custom_result_object($type);
+		if ($type == 'array') return $this->result_array($key);
+		else if ($type == 'object') return $this->result_object($key);
+		else return $this->custom_result_object($type, $key);
 	}
 
 	// --------------------------------------------------------------------
@@ -58,9 +58,10 @@ class CI_DB_result {
 	 * Custom query result.
 	 *
 	 * @param class_name A string that represents the type of object you want back
+	 * @param string Name of field you want to use as the $result_object's array key
 	 * @return array of objects
 	 */
-	function custom_result_object($class_name)
+	function custom_result_object($class_name, $object_key = '')
 	{
 		if (array_key_exists($class_name, $this->custom_result_object))
 		{
@@ -76,18 +77,41 @@ class CI_DB_result {
 		$this->_data_seek(0);
 		$result_object = array();
 
-		while ($row = $this->_fetch_object())
+		$key_exists = FALSE;
+		if ($object_key!='')
 		{
-			$object = new $class_name();
-			
-			foreach ($row as $key => $value)
-			{
-				$object->$key = $value;
-			}
-			
-			$result_object[] = $object;
+			$row = $this->_fetch_object();
+			if (isset($row->$object_key)) $key_exists = TRUE;
+			$this->_data_seek(0);
 		}
 
+		if ($key_exists) {
+			while ($row = $this->_fetch_object())
+			{
+				$object = new $class_name();
+
+				foreach ($row as $key => $value)
+				{
+					$object->$key = $value;
+				}
+
+				$result_object[$row->$object_key] = $object;
+			}
+		}
+		else
+		{
+			while ($row = $this->_fetch_object())
+			{
+				$object = new $class_name();
+
+				foreach ($row as $key => $value)
+				{
+					$object->$key = $value;
+				}
+
+				$result_object[] = $object;
+			}
+		}
 		// return the array
 		return $this->custom_result_object[$class_name] = $result_object;
 	}
@@ -100,7 +124,7 @@ class CI_DB_result {
 	 * @access	public
 	 * @return	object
 	 */
-	function result_object()
+	function result_object($key = '')
 	{
 		if (count($this->result_object) > 0)
 		{
@@ -116,9 +140,27 @@ class CI_DB_result {
 		}
 
 		$this->_data_seek(0);
-		while ($row = $this->_fetch_object())
+
+		$key_exists = FALSE;
+		if ($key!='')
 		{
-			$this->result_object[] = $row;
+			$row = $this->_fetch_object();
+			if (isset($row->$key)) $key_exists = TRUE;
+			$this->_data_seek(0);
+		}
+
+		if ($key_exists) {
+			while ($row = $this->_fetch_object())
+			{
+				$this->result_object[$row->$key] = $row;
+			}
+		}
+		else
+		{
+			while ($row = $this->_fetch_object())
+			{
+				$this->result_object[] = $row;
+			}
 		}
 
 		return $this->result_object;
@@ -132,7 +174,7 @@ class CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function result_array()
+	function result_array($key = '')
 	{
 		if (count($this->result_array) > 0)
 		{
@@ -148,9 +190,27 @@ class CI_DB_result {
 		}
 
 		$this->_data_seek(0);
-		while ($row = $this->_fetch_assoc())
+
+		$key_exists = FALSE;
+		if ($key!='')
 		{
-			$this->result_array[] = $row;
+			$row = $this->_fetch_assoc();
+			if (isset($row[$key])) $key_exists = TRUE;
+			$this->_data_seek(0);
+		}
+
+		if ($key_exists) {
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[$row[$key]] = $row;
+			}
+		}
+		else
+		{
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[] = $row;
+			}
 		}
 
 		return $this->result_array;
