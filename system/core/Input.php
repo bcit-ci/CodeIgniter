@@ -373,6 +373,12 @@ class CI_Input {
 	*/
 	function valid_ip($ip)
 	{
+		// if php version >= 5.2, use filter_var to check validate ip.
+		if(is_php('5.2'))
+		{
+			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		}
+
 		$ip_segments = explode('.', $ip);
 
 		// Always 4 segments needed
