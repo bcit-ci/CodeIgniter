@@ -582,7 +582,7 @@ if ( ! function_exists('nice_date'))
  */
 if ( ! function_exists('timezone_menu'))
 {
-	function timezone_menu($default = 'UTC', $class = "", $id = "timezones", $name = 'timezones')
+	function timezone_menu($default = 'UTC', $class = "", $name = 'timezones', $id = "timezones")
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
