@@ -582,7 +582,7 @@ if ( ! function_exists('nice_date'))
  */
 if ( ! function_exists('timezone_menu'))
 {
-	function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
+	function timezone_menu($default = 'UTC', $class = "", $id = "timezones", $name = 'timezones')
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
@@ -603,7 +603,9 @@ if ( ! function_exists('timezone_menu'))
 			$selected = ($default == $key) ? " selected='selected'" : '';
 			$menu .= "<option value='{$key}'{$selected}>".$CI->lang->line($key)."</option>\n";
 		}
-
+		
+		$menu .= ' id="'.$id.'"';
+		
 		$menu .= "</select>";
 
 		return $menu;
