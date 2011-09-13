@@ -110,13 +110,13 @@ class CI_Input {
 	 *
 	 * This is a helper function to retrieve values from global arrays
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @param	string
 	 * @param	bool
 	 * @return	string
 	 */
-	private function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
 		if ( ! isset($array[$index]))
 		{
@@ -374,7 +374,7 @@ class CI_Input {
 	public function valid_ip($ip)
 	{
 		// if php version >= 5.2, use filter_var to check validate ip.
-		if(function_exists('filter_var'))
+		if (function_exists('filter_var'))
 		{
 			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 		}
