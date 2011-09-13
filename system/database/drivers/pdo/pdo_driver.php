@@ -48,7 +48,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_random_keyword;
 
 
-	function CI_DB_pdo_driver($params)
+	function __construct($params)
 	{
 		parent::CI_DB($params);
 		
