@@ -121,6 +121,8 @@ $this->load->database(<samp>$config</samp>);</code>
 
 <p>For information on each of these values please see the <a href="configuration.html">configuration page</a>.</p>
 
+<p class="important"><strong>Note:</strong> For the PDO driver, $config['hostname'] should look like this: 'mysql:host=localhost'</p>
+
 <p>Or you can submit your database values as a Data Source Name. DSNs must have this prototype:</p>
 
 <code>$dsn = 'dbdriver://username:password@hostname/database';<br />
