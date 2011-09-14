@@ -546,7 +546,7 @@ $data = array(<br/>
 &nbsp;&nbsp;&nbsp;)<br/>
 );<br />
 <br />
-$this->db->update_batch('mytable', $data);
+$this->db->insert_batch('mytable', $data);
 <br /><br />
 // Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date'),  ('Another title', 'Another name', 'Another date')</code>
 
@@ -668,6 +668,41 @@ You can optionally pass this information directly into the update function as a 
 <code>$this->db->update('mytable', $data, array('id' => $id));</code>
 
 <p>You may also use the <dfn>$this->db->set()</dfn> function described above when performing updates.</p>
+
+<h2>$this->db->update_batch();</h2>
+<p>Generates an update string based on the data you supply, and runs the query. You can either pass an
+<strong>array</strong> or an <strong>object</strong> to the function.  Here is an example using an array:</p>
+
+<code>
+$data = array(<br/>
+&nbsp;&nbsp;&nbsp;array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title' => 'My title' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name' => 'My Name 2' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'date' => 'My date 2'<br />
+&nbsp;&nbsp;&nbsp;),<br />
+&nbsp;&nbsp;&nbsp;array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title' => 'Another title' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name' => 'Another Name 2' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'date' => 'Another date 2'<br />
+&nbsp;&nbsp;&nbsp;)<br/>
+);<br />
+<br />
+$this->db->update_batch('mytable', $data, 'title');
+<br /><br />
+// Produces: <br />
+// UPDATE `mytable` SET `name` = CASE<br />
+// WHEN `title` = 'My title' THEN 'My Name 2'<br />
+// WHEN `title` = 'Another title' THEN 'Another Name 2'<br />
+// ELSE `name` END,<br />
+// `date` = CASE <br />
+// WHEN `title` = 'My title' THEN 'My date 2'<br />
+// WHEN `title` = 'Another title' THEN 'Another date 2'<br />
+// ELSE `date` END<br />
+// WHERE `title` IN ('My title','Another title')</code>
+
+<p>The first parameter will contain the table name, the second is an associative array of values, the third parameter is the where key.</p>
+
+<p class="important"><strong>Note:</strong> All values are escaped automatically producing safer queries.</p>
 
 
 <a name="delete">&nbsp;</a>
