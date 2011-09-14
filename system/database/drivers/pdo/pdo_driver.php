@@ -333,7 +333,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	/**
 	 * Insert ID
-	 *
+	 * 
 	 * @access	public
 	 * @return	integer
 	 */
