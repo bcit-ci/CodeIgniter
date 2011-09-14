@@ -1079,7 +1079,7 @@ class CI_Form_validation {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	string
+	 * @return	bool
 	 */
 	public function valid_ip($ip)
 	{
