@@ -260,7 +260,7 @@ class CI_Router {
 	 * @access	private
 	 * @param	array
 	 * @param 	bool
-	 * <code>$flag = FA</code>
+	 * <code>$flag = FALSE</code>
 	 * @return	array
 	 */
 	function _validate_request(&$segments , $flag = FALSE)
@@ -287,7 +287,7 @@ class CI_Router {
 			if (count($segments) > 0)
 			{
 				// check sub-folder
-				if(is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
+				if (is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
 				{			
 					$this->set_directory($this->directory.$segments[0],TRUE);
 					$segments = array_slice($segments, 1);
@@ -342,7 +342,7 @@ class CI_Router {
 		}
 		else
 		{
-			if ( file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
+			if  (file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
 			{
 				return $segments;
 			}
