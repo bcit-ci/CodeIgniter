@@ -510,7 +510,7 @@ class CI_Profiler {
 
 		foreach ($this->CI->session->all_userdata() as $key => $val)
 		{
-			if (is_array($val))
+			if (is_array($val) || is_object($val))
 			{
 				$val = print_r($val, TRUE);
 			}
