@@ -479,11 +479,15 @@ class CI_Router {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param 	bool
 	 * @return	void
 	 */
-	function set_directory($dir)
+	function set_directory($dir , $flag = FALSE)
 	{
-		$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		if (!$flag)
+			$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		else
+			$this->directory = str_replace('.', '', $dir).'/';
 	}
 
 	// --------------------------------------------------------------------
