@@ -64,6 +64,7 @@ Query Helpers
 
 <h2>$this->db->insert_id()</h2>
 <p>The insert ID number when performing database inserts.</p>
+<p class="important"><strong>Note:</strong> If using the PDO driver with PostgreSQL, this function requires a $name parameter, which specifies the appropriate sequence to check for the insert id.</p>
 
 <h2>$this->db->affected_rows()</h2>
 <p>Displays the number of affected rows, when doing "write" type queries (insert, update, etc.).</p>

@@ -173,12 +173,16 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @access	private called by the base class
 	 * @param	string	an SQL query
-	 * @return	resource
+	 * @return	object
 	 */
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		return $this->conn_id->query($sql);
+		$result_id = $this->conn_id->query($sql);
+		
+		$this->affect_rows = $result_id->rowCount();
+		
+		return $result_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -322,11 +326,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function affected_rows()
 	{
-		if ($this->db_debug)
-		{
-			return $this->display_error('db_unsuported_feature');
-		}
-		return FALSE;
+		return $this->affect_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -337,9 +337,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @access	public
 	 * @return	integer
 	 */
-	function insert_id()
+	function insert_id($name=NULL)
 	{
-		return $this->conn_id->lastInsertId();
+		return $this->conn_id->lastInsertId($name);
 	}
 
 	// --------------------------------------------------------------------
