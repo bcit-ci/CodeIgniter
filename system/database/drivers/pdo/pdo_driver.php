@@ -306,7 +306,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function affected_rows()
 	{
-		return @pdo_num_rows($this->conn_id);
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
