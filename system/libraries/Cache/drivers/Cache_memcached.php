@@ -47,6 +47,8 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function get($id)
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
+		
 		$data = $this->_memcached->get($id);
 
 		return (is_array($data)) ? $data[0] : FALSE;
@@ -64,6 +66,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
 		return $this->_memcached->set($id, array($data, time(), $ttl), $ttl);
 	}
 
@@ -77,6 +80,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function delete($id)
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
 		return $this->_memcached->delete($id);
 	}
 
@@ -89,6 +93,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function clean()
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
 		return $this->_memcached->flush();
 	}
 
@@ -102,6 +107,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function cache_info($type = NULL)
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
 		return $this->_memcached->getStats();
 	}
 
@@ -115,6 +121,8 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function get_metadata($id)
 	{
+		if ($this->_memcached == null) $this->_setup_memcached();
+		
 		$stored = $this->_memcached->get($id);
 
 		if (count($stored) !== 3)

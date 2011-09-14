@@ -463,42 +463,23 @@ class CI_Output {
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
 
-		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
-
-		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
-		{
-			log_message('error', "Unable to write cache file: ".$cache_path);
-			return;
-		}
-
 		$uri =	$CI->config->item('base_url').
 				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+				$CI->uri->uri_string().
+				serialize($_GET);
 
-		$cache_path .= md5($uri);
+		$cache_key = md5($uri);
 
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
-		{
-			log_message('error', "Unable to write cache file: ".$cache_path);
-			return;
-		}
+		$CI->load->library('cache', $CI->config->item('output'));
 
-		$expire = time() + ($this->cache_expiration * 60);
+		$cache_payload = array(
+			'content' => $output,
+			'headers' => $this->headers
+			);
 
-		if (flock($fp, LOCK_EX))
-		{
-			fwrite($fp, $expire.'TS--->'.$output);
-			flock($fp, LOCK_UN);
-		}
-		else
-		{
-			log_message('error', "Unable to secure a file lock for file at: ".$cache_path);
-			return;
-		}
-		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
+		$CI->cache->save($cache_key, $cache_payload, $this->cache_expiration * 60);
 
-		log_message('debug', "Cache file written: ".$cache_path);
+		log_message('debug', "Cache written: ".$cache_key);
 	}
 
 	// --------------------------------------------------------------------
@@ -513,57 +494,42 @@ class CI_Output {
 	 */
 	function _display_cache(&$CFG, &$URI)
 	{
-		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
-
 		// Build the file path.  The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
-				$URI->uri_string;
+				$URI->uri_string.
+				serialize($_GET);
+		
+		$cache_key = md5($uri);
 
-		$filepath = $cache_path.md5($uri);
+		$CI = get_instance();
+		
+		load_class('Driver', 'libraries');
+		
+		$CFG->load('output', true, true);
 
-		if ( ! @file_exists($filepath))
+		$CI->load->library('cache', $CFG->item('output'));
+
+		$cache_payload = $CI->cache->get( $cache_key );
+
+		if ($cache_payload && isset($cache_payload['content']))
 		{
-			return FALSE;
-		}
-
-		if ( ! $fp = @fopen($filepath, FOPEN_READ))
-		{
-			return FALSE;
-		}
-
-		flock($fp, LOCK_SH);
-
-		$cache = '';
-		if (filesize($filepath) > 0)
-		{
-			$cache = fread($fp, filesize($filepath));
-		}
-
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
-		// Strip out the embedded timestamp
-		if ( ! preg_match("/(\d+TS--->)/", $cache, $match))
-		{
-			return FALSE;
-		}
-
-		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match['1'])))
-		{
-			if (is_really_writable($cache_path))
+			if ( isset($cache_payload['headers'])) 
 			{
-				@unlink($filepath);
-				log_message('debug', "Cache file has expired. File deleted");
-				return FALSE;
+				$this->headers = $cache_payload['headers'];
 			}
+			
+			$this->_display( $cache_payload['content'] );
+			
+			log_message('debug', "Cache is current. Sending it to browser.");
+			return TRUE;
+		}
+		else
+		{
+			log_message('debug', "Cache has expired.");
+			return FALSE;
 		}
 
-		// Display the cache
-		$this->_display(str_replace($match['0'], '', $cache));
-		log_message('debug', "Cache file is current. Sending it to browser.");
-		return TRUE;
 	}
 
 
