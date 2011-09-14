@@ -232,10 +232,14 @@ class CI_Cart {
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
 
 		// let's unset this first, just to make sure our index contains only the data from this submission
-		unset($this->_cart_contents[$rowid]);
-
-		// Create a new index with our new row ID
-		$this->_cart_contents[$rowid]['rowid'] = $rowid;
+		if(isset($this->_cart_contents[$rowid])){
+			$items['qty']+=$this->_cart_contents[$rowid]['qty'];
+		}else{
+			unset($this->_cart_contents[$rowid]);
+	
+			// Create a new index with our new row ID
+			$this->_cart_contents[$rowid]['rowid'] = $rowid;
+		}
 
 		// And add the new items to the cart array
 		foreach ($items as $key => $val)
