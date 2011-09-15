@@ -484,7 +484,7 @@ class CI_Router {
 	 */
 	function set_directory($dir , $flag = FALSE)
 	{
-		if (!$flag)
+		if ( ! $flag)
 			$this->directory = str_replace(array('/', '.'), '', $dir).'/';
 		else
 			$this->directory = str_replace('.', '', $dir).'/';
