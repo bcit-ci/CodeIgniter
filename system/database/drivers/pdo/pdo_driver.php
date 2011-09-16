@@ -642,7 +642,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if(strpos('cubrid', $this->hostname) !== FALSE || strpos('sqlite', $this->hostname) !== FALSE)
+		if(strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
 		{
 			if ($offset == 0)
 			{
