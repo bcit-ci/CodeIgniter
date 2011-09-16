@@ -642,8 +642,30 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		// Does PDO doesn't use the LIMIT clause?
-		return $sql;
+		if(strpos('cubrid', $this->hostname) !== FALSE || strpos('sqlite', $this->hostname) !== FALSE)
+		{
+			if ($offset == 0)
+			{
+				$offset = '';
+			}
+			else
+			{
+				$offset .= ", ";
+			}
+
+			return $sql."LIMIT ".$offset.$limit;
+		}
+		else
+		{
+			$sql .= "LIMIT ".$limit;
+
+			if ($offset > 0)
+			{
+				$sql .= " OFFSET ".$offset;
+			}
+			
+			return $sql;
+		}
 	}
 
 	// --------------------------------------------------------------------
