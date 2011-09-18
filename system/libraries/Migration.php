@@ -33,6 +33,7 @@ class CI_Migration {
 	protected $_migration_path = NULL;
 	protected $_migration_version = 0;
 	protected $_migration_table = 'migrations';
+	protected $_migration_auto_latest = FALSE;
 	
 	protected $_error_string = '';
 
@@ -85,6 +86,15 @@ class CI_Migration {
 			$this->dbforge->create_table($this->_migration_table, TRUE);
 
 			$this->db->insert($this->_migration_table, array('version' => 0));
+		}
+		
+		// Do we auto migrate to the latest migration?
+		if ( $this->_migration_auto_latest == TRUE )
+		{
+			if ( ! $this->latest() )
+			{
+				show_error($this->error_string());
+			}
 		}
 	}
 
