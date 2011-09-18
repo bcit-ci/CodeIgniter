@@ -79,7 +79,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		return @ocilogon($this->username, $this->password, $this->hostname);
+		return @ocilogon($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -92,7 +92,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		return @ociplogon($this->username, $this->password, $this->hostname);
+		return @ociplogon($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -136,7 +136,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		// @todo - add support if needed
+		// this is done upon connect
 		return TRUE;
 	}
 
