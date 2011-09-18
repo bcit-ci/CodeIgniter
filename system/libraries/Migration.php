@@ -32,7 +32,8 @@ class CI_Migration {
 	protected $_migration_enabled = FALSE;
 	protected $_migration_path = NULL;
 	protected $_migration_version = 0;
-
+	protected $_migration_table = 'migrations';
+	
 	protected $_error_string = '';
 
 	public function __construct($config = array())
@@ -68,16 +69,22 @@ class CI_Migration {
 		// They'll probably be using dbforge
 		$this->load->dbforge();
 
+		// Make sure the migration table name was set.
+		if ( (! isset($this->_migration_table)) OR (empty($this->_migration_table)))
+		{
+			show_error('Migrations configuration file (migration.php) must have "migration_table" set.');			
+		}
+
 		// If the migrations table is missing, make it
-		if ( ! $this->db->table_exists('migrations'))
+		if ( ! $this->db->table_exists($this->_migration_table))
 		{
 			$this->dbforge->add_field(array(
 				'version' => array('type' => 'INT', 'constraint' => 3),
 			));
 
-			$this->dbforge->create_table('migrations', TRUE);
+			$this->dbforge->create_table($this->_migration_table, TRUE);
 
-			$this->db->insert('migrations', array('version' => 0));
+			$this->db->insert($this->_migration_table, array('version' => 0));
 		}
 	}
 
@@ -299,7 +306,7 @@ class CI_Migration {
 	 */
 	protected function _get_version()
 	{
-		$row = $this->db->get('migrations')->row();
+		$row = $this->db->get($this->_migration_table)->row();
 		return $row ? $row->version : 0;
 	}
 
@@ -314,7 +321,7 @@ class CI_Migration {
 	 */
 	protected function _update_version($migrations)
 	{
-		return $this->db->update('migrations', array(
+		return $this->db->update($this->_migration_table, array(
 			'version' => $migrations
 		));
 	}

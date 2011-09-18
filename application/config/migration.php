@@ -11,6 +11,19 @@
 */
 $config['migration_enabled'] = FALSE;
 
+/*
+|--------------------------------------------------------------------------
+| Migrations table
+|--------------------------------------------------------------------------
+|
+| This is the name of the table that will store the current migrations state.
+| When migrations runs it will store in a database table which migration 
+| level the system is at. It then compares the migration level in the this
+| table to the $config['migration_version'] if they are not the same it
+| will migrate up. This must be set.
+|
+*/
+$config['migration_table'] = 'migrations';
 
 /*
 |--------------------------------------------------------------------------
