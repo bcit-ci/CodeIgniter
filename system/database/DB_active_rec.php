@@ -1825,7 +1825,10 @@ class CI_DB_active_record extends CI_DB_driver {
 			// There are some built in keys we need to ignore for this conversion
 			if ( ! is_object($val) && ! is_array($val) && $key != '_parent_name')
 			{
-				$array[$key] = $val;
+				if($val!==null){
+					$array[$key] = $val;
+				}
+				
 			}
 		}
 
