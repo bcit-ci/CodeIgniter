@@ -71,7 +71,7 @@ class CI_Migration {
 		$this->load->dbforge();
 
 		// Make sure the migration table name was set.
-		if ( (! isset($this->_migration_table)) OR (empty($this->_migration_table)))
+		if (empty($this->_migration_table))
 		{
 			show_error('Migrations configuration file (migration.php) must have "migration_table" set.');			
 		}
