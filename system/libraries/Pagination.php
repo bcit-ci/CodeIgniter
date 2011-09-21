@@ -229,7 +229,7 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if (($i == 0 OR ($this->use_page_numbers && $i == 1)) AND $this->first_url != '')
+			if (($i == 0 OR ($this->use_page_numbers AND $i == 1)) AND $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
