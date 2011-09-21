@@ -52,7 +52,7 @@ class CI_Upload {
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
-	public $not_file_system			= FALSE;
+	public $no_file_system_save		= FALSE;
 
 	protected $_file_name_override	= '';
 
@@ -108,7 +108,7 @@ class CI_Upload {
 							'xss_clean'					=> FALSE,
 							'temp_prefix'				=> "temp_file_",
 							'client_name'				=> ''
-							'not_file_system'			=> FALSE
+							'no_file_system_save'		=> FALSE
 						);
 
 
@@ -155,7 +155,7 @@ class CI_Upload {
 		}
 
 		// Is the upload path valid? (only applies if file system is final destination
-		if ( $this->not_file_system === FALSE )
+		if ( $this->no_file_system_save === FALSE )
 		{
 			if ( ! $this->validate_upload_path())
 			{
@@ -314,7 +314,7 @@ class CI_Upload {
 		 * Copy/move the file if file system is final destination,
 		 * otherwise, just do nothing.
 		 */
-		if ( $this->not_file_system === FALSE )
+		if ( $this->no_file_system_save === FALSE )
 		{
 			/*
 			 * To deal with different server configurations
