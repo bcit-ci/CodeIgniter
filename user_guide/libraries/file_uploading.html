@@ -69,7 +69,7 @@ preferences, restricting the type and size of the files.</p>
 
 <ul>
 <li>An upload form is displayed, allowing a user to select a file and upload it.</li>
-<li>When the form is submitted, the file is uploaded to the destination you specify.</li>
+<li>When the form is submitted, the file is uploaded to the destination you specify, unless file in tmp location will be used without saving to a destination on the file system.</li>
 <li>Along the way, the file is validated to make sure it is allowed to be uploaded based on the preferences you set.</li>
 <li>Once uploaded, the user will be shown a success message.</li>
 </ul>
@@ -324,6 +324,13 @@ $this->upload->initialize($config);</code>
 <td class="td">TRUE/FALSE (boolean)</td>
 <td class="td">If set to TRUE, any spaces in the file name will be converted to underscores. This is recommended.</td>
 </tr>
+
+<tr>
+<td class="td"><strong>no_file_system_save</strong></td>
+<td class="td">FALSE</td>
+<td class="td">TRUE/FALSE (boolean)</td>
+<td class="td">If set to TRUE, the file is not saved to the file system. You will have the opportunity to use the file in the temporary directory for something such as saving it to the database, or sending it to another server via FTP.</td>
+</tr>
 </table>
 
 
@@ -333,6 +340,19 @@ $this->upload->initialize($config);</code>
 Simply create a new file called the <var>upload.php</var>,  add the <var>$config</var>
 array in that file. Then save the file in: <var>config/upload.php</var> and it will be used automatically. You
 will NOT need to use the <dfn>$this->upload->initialize</dfn> function if you save your preferences in a config file.</p>
+
+<h2>File destination may include a database or another server</h2>
+
+<p>If you prefer to store your file in a database, or send it to another server via FTP, simply set the <dfn>no_file_system_save</dfn> preference to TRUE. Doing so allows you to take advantage of the File Uploading Class' features, but lets the File Uploading Class know that you intend to do something other than save the file to the file system. An example is as follows:</p>
+
+<textarea class="textarea" style="width:100%" cols="50" rows="8">$config['no_file_system_save'] = TRUE;
+
+if ( $this->upload->do_upload())
+{
+	// file available through the file_temp class property
+	$this->_some_private_function( $this->upload->file_temp );
+}
+</textarea>
 
 
 <h2>Function Reference</h2>

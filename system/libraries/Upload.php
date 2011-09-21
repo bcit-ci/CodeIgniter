@@ -52,6 +52,7 @@ class CI_Upload {
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
+	public $no_file_system_save		= FALSE;
 
 	protected $_file_name_override	= '';
 
@@ -107,6 +108,7 @@ class CI_Upload {
 							'xss_clean'					=> FALSE,
 							'temp_prefix'				=> "temp_file_",
 							'client_name'				=> ''
+							'no_file_system_save'		=> FALSE
 						);
 
 
@@ -152,11 +154,14 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		// Is the upload path valid?
-		if ( ! $this->validate_upload_path())
+		// Is the upload path valid? (only applies if file system is final destination
+		if ( $this->no_file_system_save === FALSE )
 		{
-			// errors will already be set by validate_upload_path() so just return FALSE
-			return FALSE;
+			if ( ! $this->validate_upload_path())
+			{
+				// errors will already be set by validate_upload_path() so just return FALSE
+				return FALSE;
+			}
 		}
 
 		// Was the file able to be uploaded? If not, determine the reason why.
@@ -305,28 +310,48 @@ class CI_Upload {
 		}
 
 		/*
-		 * Move the file to the final destination
-		 * To deal with different server configurations
-		 * we'll attempt to use copy() first.  If that fails
-		 * we'll use move_uploaded_file().  One of the two should
-		 * reliably work in most environments
+		 * Move the file to the final destination.
+		 * Copy/move the file if file system is final destination,
+		 * otherwise, just do nothing.
 		 */
-		if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
+		if ( $this->no_file_system_save === FALSE )
 		{
-			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
+			/*
+			 * To deal with different server configurations
+			 * we'll attempt to use copy() first.  If that fails
+			 * we'll use move_uploaded_file().  One of the two should
+			 * reliably work in most environments
+			 */
+			if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
 			{
-				$this->set_error('upload_destination_error');
-				return FALSE;
+				if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
+				{
+					$this->set_error('upload_destination_error');
+					return FALSE;
+				}
 			}
-		}
 
-		/*
-		 * Set the finalized image dimensions
-		 * This sets the image width/height (assuming the
-		 * file was an image).  We use this information
-		 * in the "data" function.
-		 */
-		$this->set_image_properties($this->upload_path.$this->file_name);
+			/*
+			 * Set the finalized image dimensions for 
+			 * files saved to the file system.
+			 * This sets the image width/height (assuming the
+			 * file was an image).  We use this information
+			 * in the "data" function.
+			 */
+			$this->set_image_properties($this->upload_path.$this->file_name);
+		}
+		else
+		{
+			/*
+			 * Set the finalized image dimensions for 
+			 * files that were not saved to the file system.
+			 * This sets the image width/height (assuming the
+			 * file was an image).  We use this information
+			 * in the "data" function.
+			 */
+
+			$this->set_image_properties( $this->file_temp );
+		}
 
 		return TRUE;
 	}
