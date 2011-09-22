@@ -41,7 +41,7 @@ vfsStream
 	pear channel-discover pear.phpunit.de
 	pear channel-discover pear.symfony-project.com
 	pear channel-discover components.ez.no
-	pear channel-discover pear.symfony-project.com
+	pear channel-discover pear.php-tools.net 
 
 	# Finally install PHPUnit and vfsStream (including dependencies)
 	pear install --alldeps phpunit/PHPUnit
