@@ -192,9 +192,8 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 
 		// Prep the price.  Remove anything that isn't a number or decimal point.
-		$items['price'] = trim(preg_replace('/([^0-9\.])/i', '', $items['price']));
 		// Trim any leading zeros
-		$items['price'] = trim(preg_replace('/(^[0]+)/i', '', $items['price']));
+		$items['price'] = floatval($items['price']);
 
 		// Is the price a valid number?
 		if ( ! is_numeric($items['price']))

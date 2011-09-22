@@ -1033,9 +1033,12 @@ class CI_Image_lib {
 			if ($this->wm_font_size == '')
 				$this->wm_font_size = '17';
 
-			$fontwidth  = $this->wm_font_size-($this->wm_font_size/4);
-			$fontheight = $this->wm_font_size;
-			$this->wm_vrt_offset += $this->wm_font_size;
+                        $wm_text_box         = imagettfbbox($this->wm_font_size, 0, $this->wm_font_path, $this->wm_text);
+                        $wm_text_width       = $wm_text_box[2] - $wm_text_box[0];
+                        $wm_text_height      = $wm_text_box[1] - $wm_text_box[7];
+                        $fontheight          = $wm_text_height;
+			$fontwidth           = $wm_text_width;
+			$this->wm_vrt_offset += $fontheight;
 		}
 		else
 		{
