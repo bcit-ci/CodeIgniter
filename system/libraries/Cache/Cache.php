@@ -27,7 +27,7 @@
 class CI_Cache extends CI_Driver_Library {
 	
 	protected $valid_drivers 	= array(
-		'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy'
+		'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy', 'cache_xcache'
 	);
 
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
