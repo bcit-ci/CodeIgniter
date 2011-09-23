@@ -659,7 +659,9 @@ class CI_DB_oci8_driver extends CI_DB {
 		$sql = "INSERT ALL\n";
 
 		for ($i = 0, $c = count($values); $i < $c; $i++)
+		{
 			$sql .= '	INTO ' . $table . ' (' . $keys . ') VALUES ' . $values[$i] . "\n";
+		}
 
 		$sql .= 'SELECT * FROM dual';
 
