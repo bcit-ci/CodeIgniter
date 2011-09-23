@@ -643,6 +643,32 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert_batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @access      public
+	 * @param       string  the table name
+	 * @param       array   the insert keys
+	 * @param       array   the insert values
+	 * @return      string
+	 */
+	function _insert_batch($table, $keys, $values)
+	{
+		$keys = implode(', ', $keys);
+		$sql = "INSERT ALL\n";
+
+		for ($i = 0, $c = count($values); $i < $c; $i++)
+			$sql .= '	INTO ' . $table . ' (' . $keys . ') VALUES ' . $values[$i] . "\n";
+
+		$sql .= 'SELECT * FROM dual';
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Update statement
 	 *
 	 * Generates a platform-specific update string from the supplied data
