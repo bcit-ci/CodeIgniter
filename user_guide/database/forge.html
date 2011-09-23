@@ -201,6 +201,10 @@ already be running, since the forge class relies on it.</p>
 $this-&gt;dbforge-&gt;add_column('table_name', $fields);<br />
 <br />
 // gives ALTER TABLE table_name ADD   	preferences TEXT</code></p>
+<p>An optional third parameter can be used to specify which existing column to add the new column after.</p>
+<p><code>
+$this-&gt;dbforge-&gt;add_column('table_name', $fields, 'after_field');
+</code></p>
 <h2>$this-&gt;dbforge-&gt;drop_column()</h2>
 <p>Used to remove a column from a table. </p>
 <p><code>$this-&gt;dbforge-&gt;drop_column('table_name', 'column_to_drop');</code></p>
