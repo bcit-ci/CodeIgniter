@@ -64,7 +64,16 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return $this->_memcached->add($id, array($data, time(), $ttl), $ttl);
+		if (get_class($this->_memcached) == 'Memcached')
+		{
+			return $this->_memcached->set($id, array($data, time(), $ttl), $ttl);
+		}
+		else if (get_class($this->_memcached) == 'Memcache')
+		{
+			return $this->_memcached->set($id, array($data, time(), $ttl), 0, $ttl);
+		}
+		
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
