@@ -445,6 +445,9 @@ The second parameter lets you set the direction of the result.  Options are <kbd
 	</code></p>
 <p class="important">Note: order_by() was formerly known as orderby(), which has been removed.</p>
 <p class="important">Note: random ordering is not currently supported in Oracle or MSSQL drivers. These will default to 'ASC'.</p>
+<p>$this-&gt;db-&gt;order_by() accepts an optional third parameter. If you set it to FALSE, CodeIgniter will not try to protect your field or table names with backticks.</p>
+<p><code>		$this-&gt;db-&gt;order_by("DATE_FORMAT(date_column, '%Y')", 'ASC', FALSE);<br />
+</code></p>
 <h2>$this->db->limit();</h2>
 <p>Lets you limit the number of rows you would like returned by the query:</p>
 

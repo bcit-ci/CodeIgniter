@@ -70,6 +70,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * Generates the SELECT portion of the query
 	 *
 	 * @param	string
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function select($select = '*', $escape = NULL)
@@ -359,6 +360,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	mixed
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function where($key, $value = NULL, $escape = TRUE)
@@ -376,6 +378,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	mixed
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function or_where($key, $value = NULL, $escape = TRUE)
@@ -393,6 +396,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
@@ -737,6 +741,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function having($key, $value = '', $escape = TRUE)
@@ -753,6 +758,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function or_having($key, $value = '', $escape = TRUE)
@@ -769,6 +775,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param 	string
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	protected function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
@@ -815,9 +823,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string	direction: asc or desc
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
-	public function order_by($orderby, $direction = '')
+	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
 		if (strtolower($direction) == 'random')
 		{
@@ -829,6 +838,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 
+		// If the escape value was not set will will base it on the global setting
+		if ( ! is_bool($escape))
+		{
+			$escape = $this->_protect_identifiers;
+		}
+
 
 		if (strpos($orderby, ',') !== FALSE)
 		{
@@ -838,7 +853,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				$part = trim($part);
 				if ( ! in_array($part, $this->ar_aliased_tables))
 				{
-					$part = $this->_protect_identifiers(trim($part));
+					$part = $this->_protect_identifiers(trim($part), FALSE, $escape);
 				}
 
 				$temp[] = $part;
@@ -848,7 +863,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else if ($direction != $this->_random_keyword)
 		{
-			$orderby = $this->_protect_identifiers($orderby);
+			$orderby = $this->_protect_identifiers($orderby, FALSE, $escape);
 		}
 
 		$orderby_statement = $orderby.$direction;
@@ -905,7 +920,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function set($key, $value = '', $escape = TRUE)
@@ -1098,7 +1113,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function set_insert_batch($key, $value = '', $escape = TRUE)
@@ -1379,7 +1394,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @param	boolean
+	 * @param 	mixed 	escape identifiers or not
 	 * @return	object
 	 */
 	public function set_update_batch($key, $index = '', $escape = TRUE)
