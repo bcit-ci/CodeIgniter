@@ -1028,11 +1028,11 @@ class CI_Upload {
 
 				/* According to the comments section of the PHP manual page,
 				 * it is possible that this function returns an empty string
-				 * for some files (e.g. if they don't exist in the magic MIME database.
+				 * for some files (e.g. if they don't exist in the magic MIME database)
 				 */
 				if (strlen($file_type) > 1)
 				{
-					$this->file_type = $file_info;
+					$this->file_type = $file_type;
 					return;
 				}
 			}
