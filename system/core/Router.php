@@ -43,6 +43,13 @@ class CI_Router {
 	 */
 	var $routes			= array();
 	/**
+ 	* Matched rule from routes configuration
+	*
+	* @var array
+	* @access public
+	*/
+	var $matched_rule   = array();
+	/**
 	 * List of error routes
 	 *
 	 * @var array
@@ -187,6 +194,10 @@ class CI_Router {
 		{
 			show_error("Unable to determine what should be displayed. A default route has not been specified in the routing file.");
 		}
+		
+		// Save matched rule
+		$this->matched_rule = array('default_controller' => $this->default_controller);
+			
 		// Is the method being specified?
 		if (strpos($this->default_controller, '/') !== FALSE)
 		{
@@ -286,6 +297,9 @@ class CI_Router {
 				// Does the requested controller exist in the sub-folder?
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
+					// Save matched rule
+					$this->matched_rule = array('404_override' => $this->routes['404_override']);
+						
 					if ( ! empty($this->routes['404_override']))
 					{
 						$x = explode('/', $this->routes['404_override']);
@@ -324,6 +338,9 @@ class CI_Router {
 					$this->directory = '';
 					return array();
 				}
+				
+				// Save matched rule
+				$this->matched_rule = array('default_controller' => $this->default_controller);
 
 			}
 
@@ -333,6 +350,10 @@ class CI_Router {
 
 		// If we've gotten this far it means that the URI does not correlate to a valid
 		// controller class.  We will now see if there is an override
+		
+		// Save matched rule
+		$this->matched_rule = array('404_override' => $this->routes['404_override']);
+			
 		if ( ! empty($this->routes['404_override']))
 		{
 			$x = explode('/', $this->routes['404_override']);
@@ -368,6 +389,9 @@ class CI_Router {
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
 		{
+			// Save matched rule
+			$this->matched_rule = array($uri, $this->routes[$uri]);
+			
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
 
@@ -375,15 +399,18 @@ class CI_Router {
 		foreach ($this->routes as $key => $val)
 		{
 			// Convert wild-cards to RegEx
-			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
+			$pattern = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
 			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
+			if (preg_match('#^'.$pattern.'$#', $uri))
 			{
+				// Save matched rule
+				$this->matched_rule = array($key => $val);
+			
 				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				if (strpos($val, '$') !== FALSE AND strpos($pattern, '(') !== FALSE)
 				{
-					$val = preg_replace('#^'.$key.'$#', $val, $uri);
+					$val = preg_replace('#^'.$pattern.'$#', $val, $uri);
 				}
 
 				return $this->_set_request(explode('/', $val));
