@@ -1058,7 +1058,7 @@ class CI_Upload {
 			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_path']), $output, $return_code);
 			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
 			{
-                        	$this->file_type = rtrim($output[0]);
+				$this->file_type = rtrim($output[0]);
 				return;
 			}
 		}
