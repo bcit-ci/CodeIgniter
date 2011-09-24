@@ -555,7 +555,7 @@ class CI_Input {
 		}
 
 		// We strip slashes if magic quotes is on to keep things consistent
-		if (function_exists('get_magic_quotes_gpc') AND get_magic_quotes_gpc())
+		if (function_exists('get_magic_quotes_gpc') AND @get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
 		}
