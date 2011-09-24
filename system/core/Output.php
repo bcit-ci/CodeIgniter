@@ -119,9 +119,25 @@ class CI_Output {
 	 * @access	public
 	 * @return	string
 	 */
-	function get_output()
+	function get_output($enable_profiler = FALSE, $parse_exec_vars = TRUE)
 	{
-		return $this->final_output;
+		$output = $this->final_output;
+		
+		// Do we need to parse out the elapsed time and memory usage,
+		// then swap the pseudo-variables with the data?
+		if ($this->parse_exec_vars && $parse_exec_vars)
+		{
+			$output = $this->_parse_exec_vars($output);
+		}
+		
+		// Do we need to generate profile data?
+		// If so, load the Profile class and run it.
+		if ($this->enable_profiler && $enable_profiler)
+		{
+			$output = $this->_generate_profiler($output);
+		}
+		
+		return $output;
 	}
 
 	// --------------------------------------------------------------------
@@ -303,7 +319,87 @@ class CI_Output {
 
 		return $this;
 	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Get Elapsed Time
+	 *
+	 * Returns the elapsed time
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function get_elapsed_time()
+	{
+		global $BM;
+		
+		return $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');
+	}
+	
+	/**
+	 * Get Memory Usage
+	 *
+	 * Returns the memory usage
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function get_memory_usage()
+	{
+		return ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+	}
+
+	/**
+	 * Parse the execution vars
+	 *
+	 * @access	public
+	 * @param 	string
+	 * @return	string
+	 */
+	function _parse_exec_vars($output = '', $elapsed_time = NULL)
+	{
+		$elapsed_time = (is_null($elapsed_time)) ? $this->get_elapsed_time() : $elapsed_time;
+		$memory_usage = $this->get_memory_usage();
+
+		return str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed_time, $memory_usage), $output);
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Generate the profiler data
+	 *
+	 * @access	public
+	 * @param 	string
+	 * @return	string
+	 */
+	function _generate_profiler($output = '')
+	{
+		$CI =& get_instance();
+		$CI->load->library('profiler');
+	
+		if ( ! empty($this->_profiler_sections))
+		{
+			$CI->profiler->set_sections($this->_profiler_sections);
+		}
+		
+		// If the output data contains closing </body> and </html> tags
+		// we will remove them and add them back after we insert the profile data
+		if (preg_match("|</body>.*?</html>|is", $output))
+		{
+			$output  = preg_replace("|</body>.*?</html>|is", '', $output);
+			$output .= $CI->profiler->run();
+			$output .= '</body></html>';
+		}
+		else
+		{
+			$output .= $CI->profiler->run();
+		}
+
+		return $output;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -326,7 +422,7 @@ class CI_Output {
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
-		global $BM, $CFG;
+		global $CFG;
 
 		// Grab the super object if we can.
 		if (class_exists('CI_Controller'))
@@ -356,15 +452,11 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-
-		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');
+		$elapsed = $this->get_elapsed_time();
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
-
-			$output = str_replace('{elapsed_time}', $elapsed, $output);
-			$output = str_replace('{memory_usage}', $memory, $output);
+			$output = $this->_parse_exec_vars($output, $elapsed);
 		}
 
 		// --------------------------------------------------------------------
@@ -411,25 +503,7 @@ class CI_Output {
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler == TRUE)
 		{
-			$CI->load->library('profiler');
-
-			if ( ! empty($this->_profiler_sections))
-			{
-				$CI->profiler->set_sections($this->_profiler_sections);
-			}
-
-			// If the output data contains closing </body> and </html> tags
-			// we will remove them and add them back after we insert the profile data
-			if (preg_match("|</body>.*?</html>|is", $output))
-			{
-				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
-				$output .= $CI->profiler->run();
-				$output .= '</body></html>';
-			}
-			else
-			{
-				$output .= $CI->profiler->run();
-			}
+			$output = $this->_generate_profiler($output);
 		}
 
 		// --------------------------------------------------------------------

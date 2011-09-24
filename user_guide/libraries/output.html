@@ -96,7 +96,20 @@ $this->output<br />
 <h2>$this->output->get_output();</h2>
 
 <p>Permits you to manually retrieve any output that has been sent for storage in the output class.  Usage example:</p>
+
 <code>$string = $this->output->get_output();</code>
+
+<p>By default, this method will prevent the profiler data to be generated in your output. 
+If you already enable profiler in your controller, and you want to generate profile data, you will use:</p>
+
+<code>$string = $this->output->get_output(TRUE);</code>
+
+<p>If what you need is just the raw output, you will use:</p>
+
+<code>$string = $this->output->get_output(FALSE, FALSE);</code>
+
+<p>If you passed <var>FALSE</var> as second parameter, it will not parse the pseudo-variables <var>{elapsed_time}</var> and <var>{memory_usage}</var> 
+in your output string. By default, the first parameter is <var>FALSE</var> and the second parameter is <var>TRUE</var>.</p>
 
 <p>Note that data will only be retrievable from this function if it has been previously sent to the output class by one of the
 CodeIgniter functions like <var>$this->load->view()</var>.</p>
@@ -138,18 +151,33 @@ $this->output->set_header("Pragma: no-cache");	</code>
 at the bottom of your pages for debugging and optimization purposes.</p>
 
 <p>To enable the profiler place the following function anywhere within your <a href="../general/controllers.html">Controller</a> functions:</p>
+
 <code>$this->output->enable_profiler(TRUE);</code>
 
 <p>When enabled a report will be generated and inserted at the bottom of your pages.</p>
 
 <p>To disable the profiler you will use:</p>
+
 <code>$this->output->enable_profiler(FALSE);</code>
 
 <h2>$this->output->set_profiler_sections();</h2>
 
 <p>Permits you to enable/disable specific sections of the Profiler when enabled.  Please refer to the <a href="../general/profiling.html">Profiler</a> documentation for further information.</p>
 
+<h2>$this->output->get_elapsed_time();</h2>
+
+<p>Permits you to retrieve total execution time. Usage example:</p>
+
+<code>$elapsed = $this->output->get_elapsed_time();</code>
+
+<h2>$this->output->get_memory_usage();</h2>
+
+<p>Permits you to retrieve total memory usage. Usage example:</p>
+
+<code>$memory_usage = $this->output->get_memory_usage();</code>
+
 <h2>$this->output->cache();</h2>
+
 <p>The CodeIgniter output library also controls caching.  For more information, please see the <a href="../general/caching.html">caching documentation</a>.</p>
 
 <h2>Parsing Execution Variables</h2>
