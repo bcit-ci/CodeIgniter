@@ -132,6 +132,7 @@ Change Log
 	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
 	<li>Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.</li>
 	<li>Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.</li>
+	<li>Fixed a bug (#82) - WHERE clause field names in the DB <samp>update_string()</samp> method were not escaped, resulting in failed queries in some cases.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
