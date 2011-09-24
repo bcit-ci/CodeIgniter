@@ -24,7 +24,7 @@
  * @subpackage	Libraries
  * @category	UnitTesting
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/uri.html
+ * @link		http://codeigniter.com/user_guide/libraries/unit_testing.html
  */
 class CI_Unit_test {
 
