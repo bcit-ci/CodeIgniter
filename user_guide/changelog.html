@@ -70,7 +70,10 @@ Change Log
 	</li>
 	<li>Helpers
 		<ul>
-			<li class="reactor">Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+			<li>Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+			<li>Altered form helper - made action on form_open_multipart helper function call optional. Fixes (#65)</li>
+			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
+			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
 		</ul>
 	</li>
 	<li>Database
