@@ -79,7 +79,7 @@ Change Log
 	<li>Helpers
 		<ul>
 			<li>Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
-			<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
+			<li>Altered form helper - made action on form_open_multipart helper function call optional. Fixes (#65)</li>
 			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
 			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
 		</ul>
@@ -132,6 +132,7 @@ Change Log
 	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
 	<li>Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.</li>
 	<li>Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.</li>
+	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
