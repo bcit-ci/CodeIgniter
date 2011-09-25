@@ -21,8 +21,8 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		Slawomir Jasinski
- * @link		http://www.spidersoft.com.au/projects/xcache-driver-codeigniter/
+ * @author	Slawomir Jasinski
+ * @link	http://www.spidersoft.com.au/projects/xcache-driver-codeigniter/
  */
 
 class CI_Cache_xcache extends CI_Driver {
