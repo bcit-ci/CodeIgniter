@@ -247,21 +247,11 @@
 
 	// Low level debug helper/function for easier debug/trace.
 	// Returns an HTML string of debugging information about a variables.
-	function debug($vars, $exit = FALSE)
+	function debug($vars = NULL, $exit = FALSE)
 	{
-		if (func_num_args() === 0)
-			return;
-
-		// Get all passed variables
-		$output = array();
-		foreach ($vars as $var)
-		{
-			$output[] = CI_Controller::debug($var, 1024);
-		}
-
-		// Output all variable(s) debug information.
-		echo '<pre class="debug">'.implode("\n", $output).'</pre>';
+		$output = CI_Controller::debug($vars, 1024);
 		
+		echo '<pre class="debug">'."\n".$output.'</pre>';
 		if($exit === TRUE) exit();
 	}
 	
