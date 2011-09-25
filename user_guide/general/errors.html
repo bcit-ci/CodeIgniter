@@ -85,6 +85,19 @@ Note that CodeIgniter automatically shows 404 messages if controllers are not fo
 
 <p>CodeIgniter automatically logs any show_404() calls. Setting the optional second parameter to FALSE will skip logging.</p>
 
+<h2>debug(mixed <var>$vars</var> [, bool <var>$exit</var>= FALSE ] )</h2>
+
+<p>This function lets you display any number of variables, similar to var_dump or print_r, but using HTML for extra formatting. Example:</p>
+
+<code>
+$foo = array('a','b','c');<br />
+debug($foo);<br />
+<br />
+$CI =& get_instance();<br />
+debug($CI->router, TRUE);<br />
+</code>
+
+<p>The optional parameter $exit determines whether to exiting the script or not after this function executed.</p>
 
 <h2>log_message('<var>level</var>', '<samp>message</samp>')</h2>
 

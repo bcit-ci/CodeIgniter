@@ -244,28 +244,27 @@
 	{
 		return CI_Controller::get_instance();
 	}
-	
+
 	// Low level debug helper/function for easier debug/trace.
-	// Returns an HTML string of debugging information about any number of
-	// variables, each wrapped in a "pre" tag. 
-	function debug()
+	// Returns an HTML string of debugging information about a variables.
+	function debug($vars, $exit = FALSE)
 	{
 		if (func_num_args() === 0)
 			return;
 
 		// Get all passed variables
-		$variables = func_get_args();
-
 		$output = array();
-		foreach ($variables as $var)
+		foreach ($vars as $var)
 		{
 			$output[] = CI_Controller::debug($var, 1024);
 		}
 
+		// Output all variable(s) debug information.
 		echo '<pre class="debug">'.implode("\n", $output).'</pre>';
+		
+		if($exit === TRUE) exit();
 	}
-
-
+	
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
 		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
