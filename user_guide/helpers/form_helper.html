@@ -84,7 +84,7 @@ in the event your URLs ever change.</p>
 
 <p>The above example would create a form that points to your base URL plus the "email/send" URI segments, like this:</p>
 
-<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send" /></code>
+<code>&lt;form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" /></code>
 
 <h4>Adding Attributes</h4>
 
@@ -97,7 +97,7 @@ echo form_open('email/send', $attributes);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
+<code>&lt;form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" &nbsp;class="email" &nbsp;id="myform" /></code>
 
 <h4>Adding Hidden Input Fields</h4>
 
@@ -110,7 +110,7 @@ echo form_open('email/send', '', $hidden);</code>
 
 <p>The above example would create a form similar to this:</p>
 
-<code>&lt;form method="post" accept-charset="utf-8" action="http:/example.com/index.php/email/send"><br />
+<code>&lt;form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send"><br />
 &lt;input type="hidden" name="username" value="Joe" /><br />
 &lt;input type="hidden" name="member_id" value="234" /></code>
 
@@ -180,12 +180,12 @@ echo form_input('username', 'johndoe', $js);</code>
 <h2>form_password()</h2>
 
 <p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
-except that is sets it as a "password" type.</p>
+except that it uses the "password" input type.</p>
 
 <h2>form_upload()</h2>
 
 <p>This function is identical in all respects to the <dfn>form_input()</dfn> function above
-except that is sets it as a "file" type, allowing it to be used to upload files.</p>
+except that it uses the "file" input type, allowing it to be used to upload files.</p>
 
 <h2>form_textarea()</h2>
 
@@ -318,7 +318,7 @@ fourth parameter:</p>
 
 
 <h2>form_radio()</h2>
-<p>This function is identical in all respects to the <dfn>form_checkbox()</dfn> function above except that is sets it as a "radio" type.</p>
+<p>This function is identical in all respects to the <dfn>form_checkbox()</dfn> function above except that it uses the "radio" input type.</p>
 
 
 <h2>form_submit()</h2>
