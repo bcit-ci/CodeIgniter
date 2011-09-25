@@ -57,7 +57,7 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Debug
 	 *
@@ -83,7 +83,7 @@ class CI_Controller {
 		}
 		elseif (is_resource($var))
 		{
-			return '<small>resource</small><span>('.$type.')</span>';
+			return '<small>resource</small><span>('.$var.')</span>';
 		}
 		elseif (is_string($var))
 		{
