@@ -7,9 +7,3 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
-
-application/core/*
-
-.htaccess
-
-sparks/*
