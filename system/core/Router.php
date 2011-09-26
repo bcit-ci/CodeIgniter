@@ -398,9 +398,6 @@ class CI_Router {
 		// Loop through the route array looking for wild-cards
 		foreach ($this->routes as $key => $val)
 		{
-			// Make matched rule available via : $this->router->matched_rule (on Controller scope)
-			$this->matched_rule = $key;
-			
 			// Convert wild-cards to RegEx
 			$pattern = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
