@@ -34,6 +34,8 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
+		if(!is_resource($this->result_id))
+			return false;
 		return @mysql_num_rows($this->result_id);
 	}
 
