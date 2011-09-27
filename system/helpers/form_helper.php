@@ -297,7 +297,7 @@ if ( ! function_exists('form_multiselect'))
  * Drop-down Menu
  *
  * @access	public
- * @param	string
+ * @param	mixed
  * @param	array
  * @param	string
  * @param	string
@@ -305,8 +305,15 @@ if ( ! function_exists('form_multiselect'))
  */
 if ( ! function_exists('form_dropdown'))
 {
-	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
+	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
 	{
+		if ( ! is_array($data))
+		{
+			$data = array('name' => $data);
+		}
+		
+		$defaults = array('name' => $data['name']);
+		
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
@@ -316,9 +323,9 @@ if ( ! function_exists('form_dropdown'))
 		if (count($selected) === 0)
 		{
 			// If the form name appears in the $_POST array we have a winner!
-			if (isset($_POST[$name]))
+			if (isset($_POST[$data['name']]))
 			{
-				$selected = array($_POST[$name]);
+				$selected = array($_POST[$data['name']]);
 			}
 		}
 
@@ -326,7 +333,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select '._parse_form_attributes($data, $defaults).$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
