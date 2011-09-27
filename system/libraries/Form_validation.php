@@ -74,7 +74,7 @@ class CI_Form_validation {
 	public function set_rules($field, $label = '', $rules = '')
 	{
 		// No reason to set rules if we have no POST data
-		if (count($_POST) == 0)
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
 			return $this;
 		}
