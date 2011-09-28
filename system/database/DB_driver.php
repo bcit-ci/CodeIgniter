@@ -950,6 +950,7 @@ class CI_DB_driver {
 			foreach ($where as $key => $val)
 			{
 				$prefix = (count($dest) == 0) ? '' : ' AND ';
+				$key = $this->_protect_identifiers($key);
 
 				if ($val !== '')
 				{
@@ -1165,7 +1166,7 @@ class CI_DB_driver {
 
 		if ($native == TRUE)
 		{
-			$message = $error;
+			$message = (array) $error;
 		}
 		else
 		{
