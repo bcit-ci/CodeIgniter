@@ -36,6 +36,7 @@ class CI_Email {
 	var	$smtp_pass		= "";		// SMTP Password
 	var	$smtp_port		= "25";		// SMTP Port
 	var	$smtp_timeout	= 5;		// SMTP Timeout in seconds
+	var	$smtp_crypto	= "";		// SMTP Encryption. Can be null, tls or ssl.
 	var	$wordwrap		= TRUE;		// TRUE/FALSE  Turns word-wrap on/off
 	var	$wrapchars		= "76";		// Number of characters to wrap at.
 	var	$mailtype		= "text";	// text/html  Defines email formatting
@@ -1678,7 +1679,10 @@ class CI_Email {
 	 */
 	protected function _smtp_connect()
 	{
-		$this->_smtp_connect = fsockopen($this->smtp_host,
+		$ssl = NULL;
+		if ($this->smtp_crypto == 'ssl')
+			$ssl = 'ssl://';
+		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 										$this->smtp_port,
 										$errno,
 										$errstr,
@@ -1691,6 +1695,14 @@ class CI_Email {
 		}
 
 		$this->_set_error_message($this->_get_smtp_data());
+
+		if ($this->smtp_crypto == 'tls')
+		{
+			$this->_send_command('hello');
+			$this->_send_command('starttls');
+			stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+		}
+
 		return $this->_send_command('hello');
 	}
 
@@ -1716,6 +1728,12 @@ class CI_Email {
 						$this->_send_data('HELO '.$this->_get_hostname());
 
 						$resp = 250;
+			break;
+			case 'starttls'	:
+
+						$this->_send_data('STARTTLS');
+
+						$resp = 220;
 			break;
 			case 'from' :
 
