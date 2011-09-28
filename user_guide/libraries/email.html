@@ -63,6 +63,7 @@ Email Class
 
 <ul>
 <li>Multiple Protocols: Mail, Sendmail, and SMTP</li>
+<li>TLS and SSL Encryption for SMTP</li>
 <li>Multiple recipients</li>
 <li>CC and BCCs</li>
 <li>HTML or Plaintext email</li>
@@ -151,6 +152,8 @@ will NOT need to use the <dfn>$this->email->initialize()</dfn> function if you s
 <td class="td"><strong>smtp_port</strong></td><td class="td">25</td><td class="td">None</td><td class="td">SMTP Port.</td>
 </tr><tr>
 <td class="td"><strong>smtp_timeout</strong></td><td class="td">5</td><td class="td">None</td><td class="td">SMTP Timeout (in seconds).</td>
+</tr><tr>
+<td class="td"><strong>smtp_crypto</strong></td><td class="td">No Default</td><td class="td">tls or ssl</td><td class="td">SMTP Encryption.</td>
 </tr><tr>
 <td class="td"><strong>wordwrap</strong></td><td class="td">TRUE</td><td class="td">TRUE or FALSE (boolean)</td><td class="td">Enable word-wrap.</td>
 </tr><tr>
