@@ -223,46 +223,72 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Stored Procedure.  Executes a stored procedure
 	 *
 	 * @access  public
-	 * @param   package	 package stored procedure is in
-	 * @param   procedure   stored procedure to execute
-	 * @param   params	  array of parameters
+	 * @param   package	package stored procedure is in
+	 * @param   procedure	array of parameters; a valid string will also be acceped
+	 * @param   params	array of parameters
 	 * @return  array
+	 *
+	 * procedure array keys
+	 *
+	 * KEY		OPTIONAL	NOTES
+	 * procedure	no		procedure to execute
+	 * package	yes		package containing the stored procedure
 	 *
 	 * params array keys
 	 *
-	 * KEY	  OPTIONAL	NOTES
+	 * KEY		OPTIONAL	NOTES
 	 * name		no		the name of the parameter should be in :<param_name> format
 	 * value	no		the value of the parameter.  If this is an OUT or IN OUT parameter,
 	 *					this should be a reference to a variable
 	 * type		yes		the type of the parameter
 	 * length	yes		the max size of the parameter
 	 */
-	function stored_procedure($package, $procedure, $params)
+	function stored_procedure($procedure, $params)
 	{
-		if ($package == '' OR $procedure == '' OR ! is_array($params))
+		if (is_object($procedure))
+		{
+			$procedure = (array) $procedure;
+		}
+		elseif ( ! is_array($procedure))
+		{
+			$pos = strripos( (string) $procedure, '.');
+			if ($pos !== FALSE)
+			{
+				$package = trim(substr($procedure, 0, $pos));
+				$procedure = trim(substr($procedure, 0, $pos + 1));
+				$procedure = array('procedure' => $procedure, 'package' => $package);
+			}
+			else
+			{
+				$procedure = array('procedure' => trim($procedure));
+			}
+		}
+
+		if ( ! isset($procedure['procedure']) OR strlen(trim($procedure['procedure'])) < 1 OR ! is_array($params))
 		{
 			if ($this->db_debug)
 			{
-				log_message('error', 'Invalid query: '.$package.'.'.$procedure);
+				log_message('error', 'Invalid stored procedure parameters');
 				return $this->display_error('db_invalid_query');
 			}
 			return FALSE;
 		}
 
 		// build the query string
-		$sql = "begin $package.$procedure(";
+		$sql = 'BEGIN ' . ((isset($procedure['package']) && strlen(trim($procedure['package']))) ? trim($procedure['package']) . '.' : NULL)
+			. trim($procedure['procedure']) . '(';
 
 		$have_cursor = FALSE;
 		foreach ($params as $param)
 		{
-			$sql .= $param['name'] . ",";
+			$sql .= $param['name'] . ',';
 
 			if (array_key_exists('type', $param) && ($param['type'] == OCI_B_CURSOR))
 			{
 				$have_cursor = TRUE;
 			}
 		}
-		$sql = trim($sql, ",") . "); end;";
+		$sql = trim($sql, ',') . '); END;';
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
