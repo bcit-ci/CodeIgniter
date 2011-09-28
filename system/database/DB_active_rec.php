@@ -995,6 +995,41 @@ class CI_DB_active_record extends CI_DB_driver {
 		$row = $query->row();
 		return (int) $row->numrows;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * "Count All Where" query
+	 *
+	 * Allows a where clause to be specified when counting all records
+	 *
+	 * @param  string  the table to count
+	 * @param  array   the where clause
+	 * @return int 
+	 */
+	public function count_all_where($table = '', $where = NULL)
+	{
+		if ( ! is_array($where))
+		{
+			return $this->count_all_results($table);
+		}
+		else
+		{
+			foreach ($where as $key => $value)
+			{
+				if (is_array($value))
+				{
+					$this->where_in($key, $value);
+				}
+				else
+				{
+					$this->where($key, $value);
+				}
+			}
+			
+			return $this->count_all_results($table);
+		}
+	}
 
 	// --------------------------------------------------------------------
 
