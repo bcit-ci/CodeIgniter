@@ -1669,8 +1669,12 @@ class CI_Email {
 	protected function _smtp_connect()
 	{
 		$ssl = NULL;
+
 		if ($this->smtp_crypto == 'ssl')
+		{
 			$ssl = 'ssl://';
+		}
+
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 										$this->smtp_port,
 										$errno,
@@ -1689,7 +1693,13 @@ class CI_Email {
 		{
 			$this->_send_command('hello');
 			$this->_send_command('starttls');
-			stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+		}
+
+		if ($crypto !== TRUE)
+		{
+			$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
+			return FALSE;
 		}
 
 		return $this->_send_command('hello');
