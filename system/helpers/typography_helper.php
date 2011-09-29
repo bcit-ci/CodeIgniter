@@ -76,6 +76,7 @@ if ( ! function_exists('auto_typography'))
  *
  * @access	public
  * @param	string
+ * @param   string
  * @return	string
  */
 if ( ! function_exists('entity_decode'))
