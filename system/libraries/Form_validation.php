@@ -586,26 +586,33 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
-					continue;
-				}
-
-				// Run the function and grab the result
-				$result = $this->CI->$rule($postdata, $param);
-
-				// Re-assign the result to the master data array
-				if ($_in_array == TRUE)
-				{
-					$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+					// callback doesn't exist - fail and change rule so that
+					// error message can be used from lang file
+					$rule = 'rule_not_found';
+					$result = FALSE;
+					
+					log_message('debug', 'Unable to find callback: ' . $rule);
 				}
 				else
 				{
-					$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
-				}
+					// Run the function and grab the result
+					$result = $this->CI->$rule($postdata, $param);
 
-				// If the field isn't required and we just processed a callback we'll move on...
-				if ( ! in_array('required', $rules, TRUE) AND $result !== FALSE)
-				{
-					continue;
+					// Re-assign the result to the master data array
+					if ($_in_array == TRUE)
+					{
+						$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+					}
+					else
+					{
+						$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+					}
+
+					// If the field isn't required and we just processed a callback we'll move on...
+					if ( ! in_array('required', $rules, TRUE) AND $result !== FALSE)
+					{
+						continue;
+					}
 				}
 			}
 			else
@@ -629,7 +636,12 @@ class CI_Form_validation {
 					}
 					else
 					{
-						log_message('debug', "Unable to find validation rule: ".$rule);
+						// rule doesn't exist - fail and change rule so that
+						// error message can be used from lang file
+						$rule = 'rule_not_found';
+						$result = FALSE;
+						
+						log_message('debug', 'Unable to find validation rule: ' . $rule);
 					}
 
 					continue;
