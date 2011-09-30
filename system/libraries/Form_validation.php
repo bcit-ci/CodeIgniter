@@ -643,8 +643,6 @@ class CI_Form_validation {
 						
 						log_message('debug', 'Unable to find validation rule: ' . $rule);
 					}
-
-					continue;
 				}
 
 				$result = $this->$rule($postdata, $param);
