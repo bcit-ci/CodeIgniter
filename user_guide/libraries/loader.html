@@ -241,9 +241,9 @@ $this->load->library('foo_bar');</code>
 <p>In this instance, it is possible for view naming collisions within packages to occur, and possibly the incorrect package being loaded.  To ensure against this, set an optional second parameter of <var>FALSE</var> when calling <samp>add_package_path()</samp>.</p>
 
 <code>
-$this->load->add_package_path(APPPATH.'my_app', TRUE);<br>
+$this->load->add_package_path(APPPATH.'my_app', FALSE);<br>
 $this->load->view('my_app_index'); // Loads<br>
-$this->load->view('welcome_message'); // Will not load the default welcome_message b/c the second param to add_package_path is TRUE<br>
+$this->load->view('welcome_message'); // Will not load the default welcome_message b/c the second param to add_package_path is FALSE<br>
 <br>
 // Reset things<br>
 $this->load->remove_package_path(APPPATH.'my_app');<br>

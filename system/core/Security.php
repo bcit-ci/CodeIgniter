@@ -169,6 +169,7 @@ class CI_Security {
 
 		// Nothing should last forever
 		unset($_COOKIE[$this->_csrf_cookie_name]);
+                $this->_csrf_hash = '';
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
 		
@@ -885,7 +886,8 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			return $this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->csrf_set_cookie();
 		}
 
 		return $this->_csrf_hash;

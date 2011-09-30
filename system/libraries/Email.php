@@ -138,6 +138,7 @@ class CI_Email {
 	 * Initialize the Email Data
 	 *
 	 * @access	public
+	 * @param	bool
 	 * @return	void
 	 */
 	public function clear($clear_attachments = FALSE)

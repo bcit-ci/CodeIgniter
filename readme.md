@@ -6,9 +6,9 @@ CodeIgniter is an Application Development Framework - a toolkit - for people who
 
 This repo contains in development code for future releases. To download the latest stable release please visit the [CodeIgniter Downloads](http://codeigniter.com/downloads/) page. 
 
-## Changelog and New Feature
+## Changelog and New Features
 
-You can find it on [user_guide/changelog.html](https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide/changelog.html)
+You can find a list of all changes for each release in the [user guide](https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide/changelog.html).
 
 ## Server Requirements
 
