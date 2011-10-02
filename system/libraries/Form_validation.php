@@ -586,12 +586,12 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
+					log_message('debug', 'Unable to find callback: ' . $rule);
+					
 					// callback doesn't exist - fail and change rule so that
 					// error message can be used from lang file
 					$rule = 'rule_not_found';
 					$result = FALSE;
-					
-					log_message('debug', 'Unable to find callback: ' . $rule);
 				}
 				else
 				{
@@ -636,12 +636,12 @@ class CI_Form_validation {
 					}
 					else
 					{
+						log_message('debug', 'Unable to find validation rule: ' . $rule);
+						
 						// rule doesn't exist - fail and change rule so that
 						// error message can be used from lang file
 						$rule = 'rule_not_found';
 						$result = FALSE;
-						
-						log_message('debug', 'Unable to find validation rule: ' . $rule);
 					}
 				}
 				else
