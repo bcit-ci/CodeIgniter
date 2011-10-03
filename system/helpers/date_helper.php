@@ -513,7 +513,7 @@ if ( ! function_exists('human_to_unix'))
  */
 if ( ! function_exists('nice_date'))
 {
-	function nice_date($bad_date = '', $format = FALSE) 
+	function nice_date($bad_date = '', $format = 'Y-m-d')
 	{
 		if (empty($bad_date))
 		{
