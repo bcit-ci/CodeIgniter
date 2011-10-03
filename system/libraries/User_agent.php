@@ -542,6 +542,8 @@ class CI_User_agent {
 		return (in_array(strtolower($charset), $this->charsets(), TRUE));
 	}
 	
+	// --------------------------------------------------------------------
+	
 	/**
  	* Is real Browser
  	*
