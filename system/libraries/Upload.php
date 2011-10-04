@@ -1052,7 +1052,7 @@ class CI_Upload {
 		 *	- a 'W' in the substr() expression bellow, would mean that we're using Windows
 		 *	- many system admins would disable the exec() function due to security concerns, hence the function_exists() check
 		 */
-		if (substr(PHP_OS, 0, 1) !== 'W' && function_exists('exec'))
+		if (DIRECTORY_SEPARATOR !== '\\' && function_exists('exec'))
 		{
 			$output = array();
 			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_path']), $output, $return_code);
