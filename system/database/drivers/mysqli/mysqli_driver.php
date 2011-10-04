@@ -56,7 +56,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	// whether SET NAMES must be used to set the character set
 	var $use_set_names;
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -135,20 +135,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _db_set_charset($charset, $collation)
 	{
-		if ( ! isset($this->use_set_names))
-		{
-			// mysqli_set_charset() requires MySQL >= 5.0.7, use SET NAMES as fallback
-			$this->use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
-		}
-
-		if ($this->use_set_names === TRUE)
-		{
-			return @mysqli_query($this->conn_id, "SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'");
-		}
-		else
-		{
-			return @mysqli_set_charset($this->conn_id, $charset);
-		}
+		return function_exists('mysqli_set_charset')
+			? @mysqli_set_charset($this->conn_id, $charset)
+			: @mysqli_query($this->conn_id, "SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'");
 	}
 
 	// --------------------------------------------------------------------
@@ -570,7 +559,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
