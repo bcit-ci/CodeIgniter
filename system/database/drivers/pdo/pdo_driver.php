@@ -49,7 +49,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	function __construct($params)
 	{
-		parent::CI_DB($params);
+		parent::__construct($params);
 		
 		// clause and character used for LIKE escape sequences
 		if(strpos($this->hostname, 'mysql') !== FALSE)
@@ -180,7 +180,14 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->query($sql);
 		
-		$this->affect_rows = $result_id->rowCount();
+		if(is_object($result_id))
+		{
+			$this->affect_rows = $result_id->rowCount();
+		}
+		else
+		{
+			$this->affect_rows = 0;
+		}
 		
 		return $result_id;
 	}
@@ -302,8 +309,18 @@ class CI_DB_pdo_driver extends CI_DB {
 			return $str;
 		}
 
-		// PDO doesn't require escaping
+		// Remove invisible characters
 		$str = remove_invisible_characters($str);
+		
+		//Make sure to escape slashes and quotes
+		$replace = array(
+			"\\"	=> "\\\\",
+			"'"		=> "\\'",
+			"\""	=> "\\\"",
+		);
+					
+		$str = strtr($str, $replace);
+		
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
@@ -538,6 +555,24 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert_batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @access  public
+	 * @param   string  the table name
+	 * @param   array   the insert keys
+	 * @param   array   the insert values
+	 * @return  string
+	 */
+	function _insert_batch($table, $keys, $values)
+	{
+		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
+	}
 
 	// --------------------------------------------------------------------
 
@@ -570,6 +605,58 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
+
+		return $sql;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Update_Batch statement
+	 *
+	 * Generates a platform-specific batch update string from the supplied data
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @return	string
+	 */
+	function _update_batch($table, $values, $index, $where = NULL)
+	{
+		$ids = array();
+		$where = ($where != '' AND count($where) >=1) ? implode(" ", $where).' AND ' : '';
+
+		foreach ($values as $key => $val)
+		{
+			$ids[] = $val[$index];
+
+			foreach (array_keys($val) as $field)
+			{
+				if ($field != $index)
+				{
+					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+				}
+			}
+		}
+
+		$sql = "UPDATE ".$table." SET ";
+		$cases = '';
+
+		foreach ($final as $k => $v)
+		{
+			$cases .= $k.' = CASE '."\n";
+			foreach ($v as $row)
+			{
+				$cases .= $row."\n";
+			}
+
+			$cases .= 'ELSE '.$k.' END, ';
+		}
+
+		$sql .= substr($cases, 0, -2);
+
+		$sql .= ' WHERE '.$where.$index.' IN ('.implode(',', $ids).')';
 
 		return $sql;
 	}
