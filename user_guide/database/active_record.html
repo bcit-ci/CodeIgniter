@@ -474,6 +474,19 @@ $this-&gt;db-&gt;from('<var>my_table</var>');<br />
 echo $this-&gt;db-&gt;count_all_results();<br />
 // Produces an integer, like 17 </code>
 
+<h2>$this->db->count_all_where();</h2>
+
+<p>Similar to the <strong>$this->db->count_all_results()</strong> function except that it permits you to add a "where" clause in the second parameter, instead of using the db->where() function:</p>
+
+<code>
+echo $this->db->count_all_where('<var>users</var>');<br />
+// Produces an integer, like 25<br />
+</code>
+The second parameter can be passed as an associative array:
+<code>
+echo $this->db->count_all_where('<var>users</var>', array('first_name' => 'John', 'last_name' => 'Smith'));<br />
+// Produces an integer, like 3</code>
+
 <h2>$this->db->count_all();</h2>
 
 <p>Permits you to determine the number of rows in a particular table.  Submit the table name in the first parameter. Example:</p>
@@ -481,8 +494,6 @@ echo $this-&gt;db-&gt;count_all_results();<br />
 <code>echo $this->db->count_all('<var>my_table</var>');<br />
 <br />
 // Produces an integer, like 25</code>
-
-
 
 <a name="insert">&nbsp;</a>
 <h1>Inserting Data</h1>
