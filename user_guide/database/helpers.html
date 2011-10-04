@@ -64,11 +64,11 @@ Query Helpers
 
 <h2>$this->db->insert_id()</h2>
 <p>The insert ID number when performing database inserts.</p>
+<p class="important"><strong>Note:</strong> If using the PDO driver with PostgreSQL, this function requires a $name parameter, which specifies the appropriate sequence to check for the insert id.</p>
 
 <h2>$this->db->affected_rows()</h2>
 <p>Displays the number of affected rows, when doing "write" type queries (insert, update, etc.).</p>
-<p>Note:  In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the
-correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
+<p>Note:  In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
 
 
 <h2>$this->db->count_all();</h2>
