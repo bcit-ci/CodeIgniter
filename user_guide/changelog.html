@@ -82,6 +82,7 @@ Change Log
 			<li>Altered form helper - made action on form_open_multipart helper function call optional. Fixes (#65)</li>
 			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
 			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
+			<li>Added XHTML Basic 1.1 doctype to <a href="helpers/html_helper.html">HTML Helper</a>.</li>
 		</ul>
 	</li>
 	<li>Database
@@ -105,11 +106,13 @@ Change Log
 			<li>Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 			<li>Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.</li>
 			<li>Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.</li>
+			<li>Added TLS and SSL Encryption for SMTP.</li>
 		</ul>
 	</li>
 	<li>Core
 		<ul>
 			<li>Changed private functions in CI_URI to protected so MY_URI can override them.</li>
+			<li>Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).</li>
 		</ul>
 	</li>
 </ul>
@@ -132,7 +135,10 @@ Change Log
 	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
 	<li>Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.</li>
 	<li>Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.</li>
-	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection.</li>
+	<li>Fixed a bug (#82) - WHERE clause field names in the DB <samp>update_string()</samp> method were not escaped, resulting in failed queries in some cases.</li>
+	<li>Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.</li>
+	<li>Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)</li>
+	<li>Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
