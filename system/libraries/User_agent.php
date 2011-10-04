@@ -553,7 +553,7 @@ class CI_User_agent {
  	* @return bool
  	*
  	*/
- 	public function is_Real_browser($key = NULL)
+ 	public function is_Real_browser()
  	{
  		 if ($this->is_browser())
   		{
