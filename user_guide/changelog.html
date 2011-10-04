@@ -98,6 +98,7 @@ Change Log
 	<li class="reactor">If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li class="reactor">Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
 	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
+	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
