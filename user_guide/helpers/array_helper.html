@@ -153,6 +153,21 @@ $this->post_model->update(elements(array('id', 'title', 'content'), $_POST));
 
 <p>This ensures that only the id, title and content fields are sent to be updated.</p>
 
+
+<h2>array_to_str()</h2>
+
+<p>It's the same function as the implode native function, but let's you define an other separator for the last element.</p>
+
+<code>
+$array = array('red', 'green', 'blue');<br />
+<br />
+// returns "red, green, blue"<br />
+echo array_to_str($array);<br />
+<br />
+// returns red, green and blue"<br />
+echo array_to_str($array, ', ', ' and ');
+</code>
+
 </div>
 <!-- END CONTENT -->
 
