@@ -7,7 +7,20 @@ contained within your view files. It can parse simple variables or
 variable tag pairs. If you've never used a template engine,
 pseudo-variables look like this::
 
-	<html> <head> <title>{blog_title}</title> </head> <body>  <h3>{blog_heading}</h3>  {blog_entries} <h5>{title}</h5> <p>{body}</p> {/blog_entries}  </body> </html>
+	<html>
+	<head>
+	<title>{blog_title}</title>
+	</head>
+	<body>
+
+	<h3>{blog_heading}</h3>
+
+	{blog_entries}
+	<h5>{title}</h5>
+	<p>{body}</p>
+	{/blog_entries}
+	</body>
+	</html>
 
 These variables are not actual PHP variables, but rather plain text
 representations that allow you to eliminate PHP from your templates
@@ -41,7 +54,14 @@ $this->parser->parse()
 This method accepts a template name and data array as input, and it
 generates a parsed version. Example::
 
-	$this->load->library('parser');  $data = array(             'blog_title' => 'My Blog Title',             'blog_heading' => 'My Blog Heading'             );  $this->parser->parse('blog_template', $data);
+	$this->load->library('parser');
+
+	$data = array(
+	            'blog_title' => 'My Blog Title',
+	            'blog_heading' => 'My Blog Heading'
+	            );
+
+	$this->parser->parse('blog_template', $data);
 
 The first parameter contains the name of the :doc:`view
 file <../general/views>` (in this example the file would be called
@@ -71,7 +91,20 @@ you would like an entire block of variables to be repeated, with each
 iteration containing new values? Consider the template example we showed
 at the top of the page::
 
-	<html> <head> <title>{blog_title}</title> </head> <body>  <h3>{blog_heading}</h3>  {blog_entries} <h5>{title}</h5> <p>{body}</p> {/blog_entries}  </body> </html>
+	<html>
+	<head>
+	<title>{blog_title}</title>
+	</head>
+	<body>
+
+	<h3>{blog_heading}</h3>
+
+	{blog_entries}
+	<h5>{title}</h5>
+	<p>{body}</p>
+	{/blog_entries}
+	</body>
+	</html>
 
 In the above code you'll notice a pair of variables: {blog_entries}
 data... {/blog_entries}. In a case like this, the entire chunk of data
@@ -82,11 +115,35 @@ Parsing variable pairs is done using the identical code shown above to
 parse single variables, except, you will add a multi-dimensional array
 corresponding to your variable pair data. Consider this example::
 
-	$this->load->library('parser');  $data = array(               'blog_title'   => 'My Blog Title',               'blog_heading' => 'My Blog Heading',               'blog_entries' => array(                                       array('title' => 'Title 1', 'body' => 'Body 1'),                                       array('title' => 'Title 2', 'body' => 'Body 2'),                                       array('title' => 'Title 3', 'body' => 'Body 3'),                                       array('title' => 'Title 4', 'body' => 'Body 4'),                                       array('title' => 'Title 5', 'body' => 'Body 5')                                       )             );  $this->parser->parse('blog_template', $data);
+	$this->load->library('parser');
+
+	$data = array(
+	              'blog_title'   => 'My Blog Title',
+	              'blog_heading' => 'My Blog Heading',
+	              'blog_entries' => array(
+	                                      array('title' => 'Title 1', 'body' => 'Body 1'),
+	                                      array('title' => 'Title 2', 'body' => 'Body 2'),
+	                                      array('title' => 'Title 3', 'body' => 'Body 3'),
+	                                      array('title' => 'Title 4', 'body' => 'Body 4'),
+	                                      array('title' => 'Title 5', 'body' => 'Body 5')
+	                                      )
+	            );
+
+	$this->parser->parse('blog_template', $data);
 
 If your "pair" data is coming from a database result, which is already a
 multi-dimensional array, you can simply use the database result_array()
 function::
 
-	 $query = $this->db->query("SELECT * FROM blog");  $this->load->library('parser');  $data = array(               'blog_title'   => 'My Blog Title',               'blog_heading' => 'My Blog Heading',               'blog_entries' => $query->result_array()             );  $this->parser->parse('blog_template', $data);
+	$query = $this->db->query("SELECT * FROM blog");
+
+	$this->load->library('parser');
+
+	$data = array(
+	              'blog_title'   => 'My Blog Title',
+	              'blog_heading' => 'My Blog Heading',
+	              'blog_entries' => $query->result_array()
+	            );
+
+	$this->parser->parse('blog_template', $data);
 

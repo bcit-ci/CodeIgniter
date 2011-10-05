@@ -50,7 +50,10 @@ browser may attempt to execute.
 
 ::
 
-	if ($this->security->xss_clean($file, TRUE) === FALSE) {     // file failed the XSS test }
+	if ($this->security->xss_clean($file, TRUE) === FALSE)
+	{
+	    // file failed the XSS test
+	}
 
 $this->security->sanitize_filename()
 =====================================
