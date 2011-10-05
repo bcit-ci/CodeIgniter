@@ -54,9 +54,22 @@ PHP tag, and instead use a comment block to mark the end of file and
 it's location relative to the application root. This allows you to still
 identify a file as being complete and not truncated.
 
-::
+**INCORRECT**::
 
-	INCORRECT: <?php  echo "Here's my code!";  ?>  CORRECT: <?php  echo "Here's my code!";  /* End of file myfile.php */ /* Location: ./system/modules/mymodule/myfile.php */
+	<?php
+
+	echo "Here's my code!";
+
+	?>
+
+**CORRECT**::
+
+	<?php
+
+	echo "Here's my code!";
+
+	/* End of file myfile.php */
+	/* Location: ./system/modules/mymodule/myfile.php */
 
 Class and Method Naming
 =======================
@@ -67,17 +80,38 @@ class methods should be entirely lowercased and named to clearly
 indicate their function, preferably including a verb. Try to avoid
 overly long and verbose names.
 
+**INCORRECT**::
+
+	class superclass
+	class SuperClass
+
+**CORRECT**::
+
+	class Super_class
+
 ::
 
-	INCORRECT: class superclass class SuperClass  CORRECT: class Super_class
+	class Super_class {
 
-::
+		function __construct()
+		{
 
-	class Super_class {      function __construct()     {      } }
+		}
+	}
 
-Examples of improper and proper method naming::
+Examples of improper and proper method naming:
 
-	INCORRECT: function fileproperties()       // not descriptive and needs underscore separator function fileProperties()       // not descriptive and uses CamelCase function getfileproperties()        // Better!  But still missing underscore separator function getFileProperties()        // uses CamelCase function get_the_file_properties_from_the_file()    // wordy  CORRECT: function get_file_properties()  // descriptive, underscore separator, and all lowercase letters
+**INCORRECT**::
+
+	function fileproperties()		// not descriptive and needs underscore separator
+	function fileProperties()		// not descriptive and uses CamelCase
+	function getfileproperties()		// Better!  But still missing underscore separator
+	function getFileProperties()		// uses CamelCase
+	function get_the_file_properties_from_the_file()	// wordy
+
+**CORRECT**::
+
+	function get_file_properties()	// descriptive, underscore separator, and all lowercase letters
 
 Variable Names
 ==============
@@ -88,9 +122,21 @@ use underscore separators, and be reasonably named to indicate their
 purpose and contents. Very short, non-word variables should only be used
 as iterators in for() loops.
 
-::
+**INCORRECT**::
 
-	INCORRECT: $j = 'foo';       // single letter variables should only be used in for() loops $Str            // contains uppercase letters $bufferedText       // uses CamelCasing, and could be shortened without losing semantic meaning $groupid        // multiple words, needs underscore separator $name_of_last_city_used // too long  CORRECT: for ($j = 0; $j < 10; $j++) $str $buffer $group_id $last_city
+	$j = 'foo';		// single letter variables should only be used in for() loops
+	$Str			// contains uppercase letters
+	$bufferedText		// uses CamelCasing, and could be shortened without losing semantic meaning
+	$groupid		// multiple words, needs underscore separator
+	$name_of_last_city_used	// too long
+
+**CORRECT**::
+
+	for ($j = 0; $j < 10; $j++)
+	$str
+	$buffer
+	$group_id
+	$last_city
 
 Commenting
 ==========
@@ -105,18 +151,45 @@ the following are recommended.
 style comments preceding class and method declarations so they can be
 picked up by IDEs::
 
-	/**  * Super Class  *  * @package Package Name  * @subpackage  Subpackage  * @category    Category  * @author  Author Name  * @link    http://example.com  */ class Super_class {
+	/**
+	 * Super Class
+	 *
+	 * @package	Package Name
+	 * @subpackage	Subpackage
+	 * @category	Category
+	 * @author	Author Name
+	 * @link	http://example.com
+	 */
+	class Super_class {
 
 ::
 
-	/**  * Encodes string for use in XML  *  * @access  public  * @param   string  * @return  string  */ function xml_encode($str)
+	/**
+	 * Encodes string for use in XML
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function xml_encode($str)
 
 Use single line comments within code, leaving a blank line between large
 comment blocks and code.
 
 ::
 
-	// break up the string by newlines $parts = explode("\n", $str);  // A longer comment that needs to give greater detail on what is // occurring and why can use multiple single-line comments.  Try to // keep the width reasonable, around 70 characters is the easiest to // read.  Don't hesitate to link to permanent external resources // that may provide greater detail: // // http://example.com/information_about_something/in_particular/  $parts = $this->foo($parts);
+	// break up the string by newlines
+	$parts = explode("\n", $str);
+
+	// A longer comment that needs to give greater detail on what is
+	// occurring and why can use multiple single-line comments.  Try to
+	// keep the width reasonable, around 70 characters is the easiest to
+	// read.  Don't hesitate to link to permanent external resources
+	// that may provide greater detail:
+	//
+	// http://example.com/information_about_something/in_particular/
+
+	$parts = $this->foo($parts);
 
 Constants
 =========
@@ -125,9 +198,19 @@ Constants follow the same guidelines as do variables, except constants
 should always be fully uppercase. *Always use CodeIgniter constants when
 appropriate, i.e. SLASH, LD, RD, PATH_CACHE, etc.*
 
-::
+**INCORRECT**::
 
-	INCORRECT: myConstant  // missing underscore separator and not fully uppercase N       // no single-letter constants S_C_VER     // not descriptive $str = str_replace('{foo}', 'bar', $str);   // should use LD and RD constants  CORRECT: MY_CONSTANT NEWLINE SUPER_CLASS_VERSION $str = str_replace(LD.'foo'.RD, 'bar', $str);
+	myConstant	// missing underscore separator and not fully uppercase
+	N		// no single-letter constants
+	S_C_VER		// not descriptive
+	$str = str_replace('{foo}', 'bar', $str);	// should use LD and RD constants
+
+**CORRECT**::
+
+	MY_CONSTANT
+	NEWLINE
+	SUPER_CLASS_VERSION
+	$str = str_replace(LD.'foo'.RD, 'bar', $str);
 
 TRUE, FALSE, and NULL
 =====================
@@ -135,9 +218,17 @@ TRUE, FALSE, and NULL
 **TRUE**, **FALSE**, and **NULL** keywords should always be fully
 uppercase.
 
-::
+**INCORRECT**::
 
-	INCORRECT: if ($foo == true) $bar = false; function foo($bar = null)  CORRECT: if ($foo == TRUE) $bar = FALSE; function foo($bar = NULL)
+	if ($foo == true)
+	$bar = false;
+	function foo($bar = null)
+
+**CORRECT**::
+
+	if ($foo == TRUE)
+	$bar = FALSE;
+	function foo($bar = NULL)
 
 Logical Operators
 =================
@@ -147,9 +238,20 @@ low (looking like the number 11 for instance). **&&** is preferred over
 **AND** but either are acceptable, and a space should always precede and
 follow **!**.
 
-::
+**INCORRECT**::
 
-	INCORRECT: if ($foo || $bar) if ($foo AND $bar)  // okay but not recommended for common syntax highlighting applications if (!$foo) if (! is_array($foo))  CORRECT: if ($foo OR $bar) if ($foo && $bar) // recommended if ( ! $foo) if ( ! is_array($foo))
+	if ($foo || $bar)
+	if ($foo AND $bar)  // okay but not recommended for common syntax highlighting applications
+	if (!$foo)
+	if (! is_array($foo))
+
+**CORRECT**::
+
+	if ($foo OR $bar)
+	if ($foo && $bar) // recommended
+	if ( ! $foo)
+	if ( ! is_array($foo))
+	
 
 Comparing Return Values and Typecasting
 =======================================
@@ -163,13 +265,36 @@ evaluation.
 
 Use the same stringency in returning and checking your own variables.
 Use **===** and **!==** as necessary.
-::
 
-	INCORRECT: // If 'foo' is at the beginning of the string, strpos will return a 0, // resulting in this conditional evaluating as TRUE if (strpos($str, 'foo') == FALSE)  CORRECT: if (strpos($str, 'foo') === FALSE)
+**INCORRECT**::
 
-::
+	// If 'foo' is at the beginning of the string, strpos will return a 0,
+	// resulting in this conditional evaluating as TRUE
+	if (strpos($str, 'foo') == FALSE)
 
-	INCORRECT: function build_string($str = "") {     if ($str == "") // uh-oh!  What if FALSE or the integer 0 is passed as an argument?     {      } }  CORRECT: function build_string($str = "") {     if ($str === "")     {      } }
+**CORRECT**::
+
+	if (strpos($str, 'foo') === FALSE)
+
+**INCORRECT**::
+
+	function build_string($str = "")
+	{
+		if ($str == "")	// uh-oh!  What if FALSE or the integer 0 is passed as an argument?
+		{
+
+		}
+	}
+
+**CORRECT**::
+
+	function build_string($str = "")
+	{
+		if ($str === "")
+		{
+
+		}
+	}
 
 
 See also information regarding
@@ -202,13 +327,6 @@ begin before CodeIgniter outputs its content, leading to errors and an
 inability for CodeIgniter to send proper headers. In the examples below,
 select the text with your mouse to reveal the incorrect whitespace.
 
-**INCORRECT**::
-
-	 <?php     // ...there is whitespace and a linebreak above the opening PHP tag     // as well as whitespace after the closing PHP tag ?>
-
-**CORRECT**::
-
-	<?php     // this sample has no whitespace before or after the opening and closing PHP tags ?>
 
 Compatibility
 =============
@@ -228,9 +346,17 @@ prevent collision. Always realize that your end users may be running
 other add-ons or third party PHP scripts. Choose a prefix that is unique
 to your identity as a developer or company.
 
-::
+**INCORRECT**::
 
-	INCORRECT: class Email     pi.email.php class Xml       ext.xml.php class Import        mod.import.php  CORRECT: class Pre_email     pi.pre_email.php class Pre_xml       ext.pre_xml.php class Pre_import    mod.pre_import.php
+	class Email		pi.email.php
+	class Xml		ext.xml.php
+	class Import	mod.import.php
+
+**CORRECT**::
+
+	class Pre_email		pi.pre_email.php
+	class Pre_xml		ext.pre_xml.php
+	class Pre_import	mod.pre_import.php
 
 Database Table Names
 ====================
@@ -242,15 +368,22 @@ concerned about the database prefix being used on the user's
 installation, as CodeIgniter's database class will automatically convert
 'exp\_' to what is actually being used.
 
-::
+**INCORRECT**::
 
-	INCORRECT: email_addresses     // missing both prefixes pre_email_addresses // missing exp_ prefix exp_email_addresses // missing unique prefix  CORRECT: exp_pre_email_addresses
+	email_addresses		// missing both prefixes
+	pre_email_addresses	// missing exp_ prefix
+	exp_email_addresses	// missing unique prefix
 
-**NOTE:** Be mindful that MySQL has a limit of 64 characters for table
-names. This should not be an issue as table names that would exceed this
-would likely have unreasonable names. For instance, the following table
-name exceeds this limitation by one character. Silly, no?
-**exp_pre_email_addresses_of_registered_users_in_seattle_washington**
+**CORRECT**::
+
+	exp_pre_email_addresses
+
+.. note:: Be mindful that MySQL has a limit of 64 characters for table
+	names. This should not be an issue as table names that would exceed this
+	would likely have unreasonable names. For instance, the following table
+	name exceeds this limitation by one character. Silly, no?
+	**exp_pre_email_addresses_of_registered_users_in_seattle_washington**
+
 One File per Class
 ==================
 
@@ -284,9 +417,58 @@ Use Allman style indenting. With the exception of Class declarations,
 braces are always placed on a line by themselves, and indented at the
 same level as the control statement that "owns" them.
 
-::
+**INCORRECT**::
 
-	INCORRECT: function foo($bar) {     // ... }  foreach ($arr as $key => $val) {     // ... }  if ($foo == $bar) {     // ... } else {     // ... }  for ($i = 0; $i < 10; $i++)     {     for ($j = 0; $j < 10; $j++)         {         // ...         }     }  CORRECT: function foo($bar) {     // ... }  foreach ($arr as $key => $val) {     // ... }  if ($foo == $bar) {     // ... } else {     // ... }  for ($i = 0; $i < 10; $i++) {     for ($j = 0; $j < 10; $j++)     {         // ...     } }
+	function foo($bar) {
+		// ...
+	}
+
+	foreach ($arr as $key => $val) {
+		// ...
+	}
+
+	if ($foo == $bar) {
+		// ...
+	} else {
+		// ...
+	}
+
+	for ($i = 0; $i < 10; $i++)
+		{
+		for ($j = 0; $j < 10; $j++)
+			{
+			// ...
+			}
+		}
+
+**CORRECT**::
+
+	function foo($bar)
+	{
+		// ...
+	}
+
+	foreach ($arr as $key => $val)
+	{
+		// ...
+	}
+
+	if ($foo == $bar)
+	{
+		// ...
+	}
+	else
+	{
+		// ...
+	}
+
+	for ($i = 0; $i < 10; $i++)
+	{
+		for ($j = 0; $j < 10; $j++)
+		{
+			// ...
+		}
+	}
 
 Bracket and Parenthetic Spacing
 ===============================
@@ -297,9 +479,35 @@ structures that accept arguments with parenthesis (declare, do-while,
 elseif, for, foreach, if, switch, while), to help distinguish them from
 functions and increase readability.
 
-::
+**INCORRECT**::
 
-	INCORRECT: $arr[ $foo ] = 'foo';  CORRECT: $arr[$foo] = 'foo'; // no spaces around array keys   INCORRECT: function foo ( $bar ) {  }  CORRECT: function foo($bar) // no spaces around parenthesis in function declarations {  }   INCORRECT: foreach( $query->result() as $row )  CORRECT: foreach ($query->result() as $row) // single space following PHP control structures, but not in interior parenthesis
+	$arr[ $foo ] = 'foo';
+
+**CORRECT**::
+
+	$arr[$foo] = 'foo'; // no spaces around array keys
+
+**INCORRECT**::
+
+	function foo ( $bar )
+	{
+
+	}
+
+**CORRECT**::
+
+	function foo($bar) // no spaces around parenthesis in function declarations
+	{
+
+	}
+
+**INCORRECT**::
+
+	foreach( $query->result() as $row )
+
+**CORRECT**::
+
+	foreach ($query->result() as $row) // single space following PHP control structures, but not in interior parenthesis
 
 Localized Text
 ==============
@@ -307,9 +515,13 @@ Localized Text
 Any text that is output in the control panel should use language
 variables in your lang file to allow localization.
 
-::
+**INCORRECT**::
 
-	INCORRECT: return "Invalid Selection";  CORRECT: return $this->lang->line('invalid_selection');
+	return "Invalid Selection";
+
+**CORRECT**::
+
+	return $this->lang->line('invalid_selection');
 
 Private Methods and Variables
 =============================
@@ -320,7 +532,8 @@ code abstraction, should be prefixed with an underscore.
 
 ::
 
-	convert_text()        // public method _convert_text()     // private method
+	convert_text()		// public method
+	_convert_text()		// private method
 
 PHP Errors
 ==========
@@ -334,7 +547,10 @@ Make sure that while developing your add-on, error reporting is enabled
 for ALL users, and that display_errors is enabled in the PHP
 environment. You can check this setting with::
 
-	if (ini_get('display_errors') == 1) {     exit "Enabled"; }
+	if (ini_get('display_errors') == 1)
+	{
+		exit "Enabled";
+	}
 
 On some servers where display_errors is disabled, and you do not have
 the ability to change this in the php.ini, you can often enable it with::
@@ -353,18 +569,30 @@ Short Open Tags
 Always use full PHP opening tags, in case a server does not have
 short_open_tag enabled.
 
-::
+**INCORRECT**::
 
-	INCORRECT: <? echo $foo; ?>  <?=$foo?>  CORRECT: <?php echo $foo; ?>
+	<? echo $foo; ?>
+
+	<?=$foo?>
+
+**CORRECT**::
+
+	<?php echo $foo; ?>
 
 One Statement Per Line
 ======================
 
 Never combine statements on one line.
 
-::
+**INCORRECT**::
 
-	INCORRECT: $foo = 'this'; $bar = 'that'; $bat = str_replace($foo, $bar, $bag);  CORRECT: $foo = 'this'; $bar = 'that'; $bat = str_replace($foo, $bar, $bag);
+	$foo = 'this'; $bar = 'that'; $bat = str_replace($foo, $bar, $bag);
+
+**CORRECT**::
+
+	$foo = 'this';
+	$bar = 'that';
+	$bat = str_replace($foo, $bar, $bag);
 
 Strings
 =======
@@ -375,9 +603,17 @@ greedy token parsing. You may also use double-quoted strings if the
 string contains single quotes, so you do not have to use escape
 characters.
 
-::
+**INCORRECT**::
 
-	INCORRECT: "My String"                 // no variable parsing, so no use for double quotes "My string $foo"                // needs braces 'SELECT foo FROM bar WHERE baz = \'bag\''   // ugly  CORRECT: 'My String' "My string {$foo}" "SELECT foo FROM bar WHERE baz = 'bag'"
+	"My String"					// no variable parsing, so no use for double quotes
+	"My string $foo"				// needs braces
+	'SELECT foo FROM bar WHERE baz = \'bag\''	// ugly
+
+**CORRECT**::
+
+	'My String'
+	"My string {$foo}"
+	"SELECT foo FROM bar WHERE baz = 'bag'"
 
 SQL Queries
 ===========
@@ -388,9 +624,21 @@ AS, JOIN, ON, IN, etc.
 Break up long queries into multiple lines for legibility, preferably
 breaking for each clause.
 
-::
+**INCORRECT**::
 
-	INCORRECT: // keywords are lowercase and query is too long for // a single line (... indicates continuation of line) $query = $this->db->query("select foo, bar, baz, foofoo, foobar as raboof, foobaz from exp_pre_email_addresses ...where foo != 'oof' and baz != 'zab' order by foobaz limit 5, 100");  CORRECT: $query = $this->db->query("SELECT foo, bar, baz, foofoo, foobar AS raboof, foobaz                 FROM exp_pre_email_addresses                 WHERE foo != 'oof'                 AND baz != 'zab'                 ORDER BY foobaz                 LIMIT 5, 100");
+	// keywords are lowercase and query is too long for
+	// a single line (... indicates continuation of line)
+	$query = $this->db->query("select foo, bar, baz, foofoo, foobar as raboof, foobaz from exp_pre_email_addresses
+	...where foo != 'oof' and baz != 'zab' order by foobaz limit 5, 100");
+
+**CORRECT**::
+
+	$query = $this->db->query("SELECT foo, bar, baz, foofoo, foobar AS raboof, foobaz
+					FROM exp_pre_email_addresses
+					WHERE foo != 'oof'
+					AND baz != 'zab'
+					ORDER BY foobaz
+					LIMIT 5, 100");
 
 Default Function Arguments
 ==========================
