@@ -140,6 +140,7 @@ Change Log
 	<li>Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.</li>
 	<li>Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)</li>
 	<li>Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).</li>
+	<li>Fixed a bug (#7) - join() will now escape all table/column names when using multiple conditions</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
