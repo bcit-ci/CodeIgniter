@@ -1342,42 +1342,6 @@ class CI_Form_validation {
 		}
 		return $str < $max;
 	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Less than or equal to
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	bool
-	 */
-	public function less_than_equal_to($str, $max)
-	{
-		if ( ! is_numeric($str))
-		{
-			return FALSE;
-		}
-		return $str <= $max;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Greater than or equal to
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	bool
-	 */
-	public function greater_than_equal_to($str, $min)
-	{
-		if ( ! is_numeric($str))
-		{
-			return FALSE;
-		}
-		return $str >= $max;
-	}
 
 	// --------------------------------------------------------------------
 
