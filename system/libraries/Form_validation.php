@@ -1110,11 +1110,10 @@ class CI_Form_validation {
 	{
 		if( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
 		{
-		    return FALSE;	
+			return FALSE;	
 		}
-	    
-	    $email_parts = explode('@', $email);
-    	$domain = array_pop($email_parts);
+		$email_parts = explode('@', $email);
+		$domain = array_pop($email_parts);
 		
 		$options = strtolower($options);
 		
