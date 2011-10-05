@@ -50,7 +50,9 @@ instead of the one normally used.
 Please note that your class must use CI as a prefix. For example, if
 your file is named Input.php the class will be named::
 
-	 class CI_Input {  }
+	class CI_Input {
+
+	}
 
 Extending Core Class
 ====================
@@ -68,12 +70,20 @@ couple exceptions:
 For example, to extend the native Input class you'll create a file named
 application/core/MY_Input.php, and declare your class with::
 
-	 class MY_Input extends CI_Input {  }
+	class MY_Input extends CI_Input {
+
+	}
 
 Note: If you need to use a constructor in your class make sure you
 extend the parent constructor::
 
-	 class MY_Input extends CI_Input {      function __construct()     {         parent::__construct();     } }
+	class MY_Input extends CI_Input {
+
+	    function __construct()
+	    {
+	        parent::__construct();
+	    }
+	}
 
 **Tip:** Any functions in your class that are named identically to the
 functions in the parent class will be used instead of the native ones
@@ -85,7 +95,18 @@ your new class in your application controller's constructors.
 
 ::
 
-	class Welcome extends MY_Controller {      function __construct()     {         parent::__construct();     }      function index()     {         $this->load->view('welcome_message');     } }
+	class Welcome extends MY_Controller {
+
+	    function __construct()
+	    {
+	        parent::__construct();
+	    }
+
+	    function index()
+	    {
+	        $this->load->view('welcome_message');
+	    }
+	}
 
 Setting Your Own Prefix
 -----------------------
