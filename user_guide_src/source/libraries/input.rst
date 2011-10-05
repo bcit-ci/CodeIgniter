@@ -53,7 +53,14 @@ false (boolean) if not. This lets you conveniently use data without
 having to test whether an item exists first. In other words, normally
 you might do something like this::
 
-	 if ( ! isset($_POST['something'])) {     $something = FALSE; } else {     $something = $_POST['something']; }
+	if ( ! isset($_POST['something']))
+	{
+	    $something = FALSE;
+	}
+	else
+	{
+	    $something = $_POST['something'];
+	}
 
 With CodeIgniter's built in functions you can simply do this::
 
@@ -92,7 +99,8 @@ The function returns FALSE (boolean) if there are no items in the POST.
 
 ::
 
-	     $this->input->post(NULL, TRUE); // returns all POST items with XSS filter          $this->input->post(); // returns all POST items without XSS filter
+	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter 
+	$this->input->post(); // returns all POST items without XSS filter
 
 $this->input->get()
 ===================
@@ -111,7 +119,9 @@ The function returns FALSE (boolean) if there are no items in the GET.
 
 ::
 
-	     $this->input->get(NULL, TRUE); // returns all GET items with XSS filter          $this->input->get(); // returns all GET items without XSS filtering
+	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter 
+	$this->input->get(); // returns all GET items without XSS filtering
+	
 
 $this->input->get_post()
 =========================
@@ -150,7 +160,17 @@ Array Method
 Using this method, an associative array is passed to the first
 parameter::
 
-	$cookie = array(     'name'   => 'The Cookie Name',     'value'  => 'The Value',     'expire' => '86500',     'domain' => '.some-domain.com',     'path'   => '/',     'prefix' => 'myprefix_',     'secure' => TRUE );  $this->input->set_cookie($cookie);
+	$cookie = array(
+	    'name'   => 'The Cookie Name',
+	    'value'  => 'The Value',
+	    'expire' => '86500',
+	    'domain' => '.some-domain.com',
+	    'path'   => '/',
+	    'prefix' => 'myprefix_',
+	    'secure' => TRUE
+	);
+
+	$this->input->set_cookie($cookie);
 
 **Notes:**
 
@@ -220,7 +240,14 @@ validates the IP automatically.
 
 ::
 
-	if ( ! $this->input->valid_ip($ip)) {      echo 'Not Valid'; } else {      echo 'Valid'; }
+	if ( ! $this->input->valid_ip($ip))
+	{
+	     echo 'Not Valid';
+	}
+	else
+	{
+	     echo 'Valid';
+	}
 
 $this->input->user_agent()
 ===========================
