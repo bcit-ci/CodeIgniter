@@ -20,10 +20,46 @@ blog. You might have a model class that contains functions to insert,
 update, and retrieve your blog data. Here is an example of what such a
 model class might look like::
 
-	 class Blogmodel extends CI_Model {      var $title   = '';     var $content = '';     var $date    = '';      function __construct()     {         // Call the Model constructor         parent::__construct();     }          function get_last_ten_entries()     {         $query = $this->db->get('entries', 10);         return $query->result();     }      function insert_entry()     {         $this->title   = $_POST['title']; // please read the below note         $this->content = $_POST['content'];         $this->date    = time();          $this->db->insert('entries', $this);     }      function update_entry()     {         $this->title   = $_POST['title'];         $this->content = $_POST['content'];         $this->date    = time();          $this->db->update('entries', $this, array('id' => $_POST['id']));     }  }
+	class Blogmodel extends CI_Model {
 
-Note: The functions in the above example use the :doc:`Active
-Record <../database/active_record>` database functions.
+	    var $title   = '';
+	    var $content = '';
+	    var $date    = '';
+
+	    function __construct()
+	    {
+	        // Call the Model constructor
+	        parent::__construct();
+	    }
+
+	    function get_last_ten_entries()
+	    {
+	        $query = $this->db->get('entries', 10);
+	        return $query->result();
+	    }
+
+	    function insert_entry()
+	    {
+	        $this->title   = $_POST['title']; // please read the below note
+	        $this->content = $_POST['content'];
+	        $this->date    = time();
+
+	        $this->db->insert('entries', $this);
+	    }
+
+	    function update_entry()
+	    {
+	        $this->title   = $_POST['title'];
+	        $this->content = $_POST['content'];
+	        $this->date    = time();
+
+	        $this->db->update('entries', $this, array('id' => $_POST['id']));
+	    }
+
+	}
+
+.. note:: The functions in the above example use the :doc:`Active
+	Record <../database/active_record>` database functions.
 
 .. note:: For the sake of simplicity in this example we're using $_POST
 	directly. This is generally bad practice, and a more common approach
@@ -38,7 +74,13 @@ nested within sub-folders if you want this type of organization.
 
 The basic prototype for a model class is this::
 
-	 class Model_name extends CI_Model {      function __construct()     {         parent::__construct();     } }
+	class Model_name extends CI_Model {
+
+	    function __construct()
+	    {
+	        parent::__construct();
+	    }
+	}
 
 Where Model_name is the name of your class. Class names **must** have
 the first letter capitalized with the rest of the name lowercase. Make
@@ -47,7 +89,13 @@ sure your class extends the base Model class.
 The file name will be a lower case version of your class name. For
 example, if your class is this::
 
-	 class User_model extends CI_Model {      function __construct()     {         parent::__construct();     } }
+	class User_model extends CI_Model {
+
+	    function __construct()
+	    {
+	        parent::__construct();
+	    }
+	}
 
 Your file will be this::
 
@@ -71,17 +119,32 @@ application/models/blog/queries.php you'll load it using::
 Once loaded, you will access your model functions using an object with
 the same name as your class::
 
-	 $this->load->model('Model_name');  $this->Model_name->function();
+	$this->load->model('Model_name');
+
+	$this->Model_name->function();
 
 If you would like your model assigned to a different object name you can
 specify it via the second parameter of the loading function::
 
-	 $this->load->model('Model_name', 'fubar');  $this->fubar->function();
+	$this->load->model('Model_name', 'fubar');
+
+	$this->fubar->function();
 
 Here is an example of a controller, that loads a model, then serves a
 view::
 
-	 class Blog_controller extends CI_Controller {      function blog()     {         $this->load->model('Blog');          $data['query'] = $this->Blog->get_last_ten_entries();         $this->load->view('blog', $data);     } }
+	class Blog_controller extends CI_Controller {
+
+	    function blog()
+	    {
+	        $this->load->model('Blog');
+
+	        $data['query'] = $this->Blog->get_last_ten_entries();
+
+	        $this->load->view('blog', $data);
+	    }
+	}
+	
 
 Auto-loading Models
 ===================
@@ -109,9 +172,17 @@ database. The following options for connecting are available to you:
 	$this->load->model('Model_name', '', TRUE);
 
 -  You can manually pass database connectivity settings via the third
-   parameter:
-   ::
+   parameter::
 
-	$config['hostname'] = "localhost";         $config['username'] = "myusername";         $config['password'] = "mypassword";         $config['database'] = "mydatabase";         $config['dbdriver'] = "mysql";         $config['dbprefix'] = "";         $config['pconnect'] = FALSE;         $config['db_debug'] = TRUE;                  $this->load->model('Model_name', '', $config);
+	$config['hostname'] = "localhost";
+	$config['username'] = "myusername";
+	$config['password'] = "mypassword";
+	$config['database'] = "mydatabase";
+	$config['dbdriver'] = "mysql";
+	$config['dbprefix'] = "";
+	$config['pconnect'] = FALSE;
+	$config['db_debug'] = TRUE;
+
+	$this->load->model('Model_name', '', $config);
 
 

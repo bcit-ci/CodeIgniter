@@ -26,7 +26,13 @@ Defining a Hook
 Hooks are defined in application/config/hooks.php file. Each hook is
 specified as an array with this prototype::
 
-	 $hook['pre_controller'] = array(                                 'class'    => 'MyClass',                                 'function' => 'Myfunction',                                 'filename' => 'Myclass.php',                                 'filepath' => 'hooks',                                 'params'   => array('beer', 'wine', 'snacks')                                 );
+	$hook['pre_controller'] = array(
+	                                'class'    => 'MyClass',
+	                                'function' => 'Myfunction',
+	                                'filename' => 'Myclass.php',
+	                                'filepath' => 'hooks',
+	                                'params'   => array('beer', 'wine', 'snacks')
+	                                );
 
 **Notes:**
 The array index correlates to the name of the particular hook point you
@@ -54,7 +60,21 @@ Multiple Calls to the Same Hook
 If want to use the same hook point with more then one script, simply
 make your array declaration multi-dimensional, like this::
 
-	 $hook['pre_controller'][] = array(                                 'class'    => 'MyClass',                                 'function' => 'Myfunction',                                 'filename' => 'Myclass.php',                                 'filepath' => 'hooks',                                 'params'   => array('beer', 'wine', 'snacks')                                 );  $hook['pre_controller'][] = array(                                 'class'    => 'MyOtherClass',                                 'function' => 'MyOtherfunction',                                 'filename' => 'Myotherclass.php',                                 'filepath' => 'hooks',                                 'params'   => array('red', 'yellow', 'blue')                                 );
+	$hook['pre_controller'][] = array(
+	                                'class'    => 'MyClass',
+	                                'function' => 'Myfunction',
+	                                'filename' => 'Myclass.php',
+	                                'filepath' => 'hooks',
+	                                'params'   => array('beer', 'wine', 'snacks')
+	                                );
+
+	$hook['pre_controller'][] = array(
+	                                'class'    => 'MyOtherClass',
+	                                'function' => 'MyOtherfunction',
+	                                'filename' => 'Myotherclass.php',
+	                                'filepath' => 'hooks',
+	                                'params'   => array('red', 'yellow', 'blue')
+	                                );
 
 Notice the brackets after each array index::
 

@@ -48,13 +48,19 @@ application/config/profiler.php config file.
 
 ::
 
-	$config['config']          = FALSE;     $config['queries']         = FALSE;
+	$config['config']          = FALSE;
+	$config['queries']         = FALSE;
 
 In your controllers, you can override the defaults and config file
 values by calling the set_profiler_sections() method of the :doc:`Output
 class <../libraries/output>`::
 
-	$sections = array(         'config'  => TRUE,         'queries' => TRUE         );          $this->output->set_profiler_sections($sections);
+	$sections = array(
+	    'config'  => TRUE,
+	    'queries' => TRUE
+	    );
+
+	$this->output->set_profiler_sections($sections);
 
 Available sections and the array key used to access them are described
 in the table below.
