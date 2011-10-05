@@ -87,38 +87,83 @@ The Form
 ========
 
 Using a text editor, create a form called myform.php. In it, place this
-code and save it to your applications/views/ folder:
+code and save it to your applications/views/ folder::
 
-<html> <head> <title>My Form</title> </head> <body> <?php echo
-validation_errors(); ?> <?php echo form_open('form'); ?>
-<h5>Username</h5> <input type="text" name="username" value="" size="50"
-/> <h5>Password</h5> <input type="text" name="password" value=""
-size="50" /> <h5>Password Confirm</h5> <input type="text"
-name="passconf" value="" size="50" /> <h5>Email Address</h5> <input
-type="text" name="email" value="" size="50" /> <div><input type="submit"
-value="Submit" /></div> </form> </body> </html>
+	<html>
+	<head>
+	<title>My Form</title>
+	</head>
+	<body>
+
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open('form'); ?>
+
+	<h5>Username</h5>
+	<input type="text" name="username" value="" size="50" />
+
+	<h5>Password</h5>
+	<input type="text" name="password" value="" size="50" />
+
+	<h5>Password Confirm</h5>
+	<input type="text" name="passconf" value="" size="50" />
+
+	<h5>Email Address</h5>
+	<input type="text" name="email" value="" size="50" />
+
+	<div><input type="submit" value="Submit" /></div>
+
+	</form>
+
+	</body>
+	</html>
 
 The Success Page
 ================
 
 Using a text editor, create a form called formsuccess.php. In it, place
-this code and save it to your applications/views/ folder:
+this code and save it to your applications/views/ folder::
 
-<html> <head> <title>My Form</title> </head> <body> <h3>Your form was
-successfully submitted!</h3> <p><?php echo anchor('form', 'Try it
-again!'); ?></p> </body> </html>
+	<html>
+	<head>
+	<title>My Form</title>
+	</head>
+	<body>
+
+	<h3>Your form was successfully submitted!</h3>
+
+	<p><?php echo anchor('form', 'Try it again!'); ?></p>
+
+	</body>
+	</html>
 
 The Controller
 ==============
 
 Using a text editor, create a controller called form.php. In it, place
-this code and save it to your applications/controllers/ folder:
+this code and save it to your applications/controllers/ folder::
 
-<?php class Form extends CI_Controller { function index() {
-$this->load->helper(array('form', 'url'));
-$this->load->library('form_validation'); if
-($this->form_validation->run() == FALSE) { $this->load->view('myform');
-} else { $this->load->view('formsuccess'); } } } ?>
+	<?php
+
+	class Form extends CI_Controller {
+
+		function index()
+		{
+			$this->load->helper(array('form', 'url'));
+
+			$this->load->library('form_validation');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->load->view('myform');
+			}
+			else
+			{
+				$this->load->view('formsuccess');
+			}
+		}
+	}
+	?>
 
 Try it!
 =======
@@ -186,20 +231,39 @@ The above function takes **three** parameters as input:
 Here is an example. In your controller (form.php), add this code just
 below the validation initialization function::
 
-	 $this->form_validation->set_rules('username', 'Username', 'required'); $this->form_validation->set_rules('password', 'Password', 'required'); $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required'); $this->form_validation->set_rules('email', 'Email', 'required');
+	$this->form_validation->set_rules('username', 'Username', 'required');
+	$this->form_validation->set_rules('password', 'Password', 'required');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+	$this->form_validation->set_rules('email', 'Email', 'required');
 
-Your controller should now look like this:
+Your controller should now look like this::
 
-<?php class Form extends CI_Controller { function index() {
-$this->load->helper(array('form', 'url'));
-$this->load->library('form_validation');
-$this->form_validation->set_rules('username', 'Username', 'required');
-$this->form_validation->set_rules('password', 'Password', 'required');
-$this->form_validation->set_rules('passconf', 'Password Confirmation',
-'required'); $this->form_validation->set_rules('email', 'Email',
-'required'); if ($this->form_validation->run() == FALSE) {
-$this->load->view('myform'); } else { $this->load->view('formsuccess');
-} } } ?>
+	<?php
+
+	class Form extends CI_Controller {
+
+		function index()
+		{
+			$this->load->helper(array('form', 'url'));
+
+			$this->load->library('form_validation');
+
+			$this->form_validation->set_rules('username', 'Username', 'required');
+			$this->form_validation->set_rules('password', 'Password', 'required');
+			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+			$this->form_validation->set_rules('email', 'Email', 'required');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->load->view('myform');
+			}
+			else
+			{
+				$this->load->view('formsuccess');
+			}
+		}
+	}
+	?>
 
 Now submit the form with the fields blank and you should see the error
 messages. If you submit the form with all the fields populated you'll
@@ -215,7 +279,30 @@ Before moving on it should be noted that the rule setting function can
 be passed an array if you prefer to set all your rules in one action. If
 you use this approach you must name your array keys as indicated::
 
-	 $config = array(                array(                      'field'   => 'username',                       'label'   => 'Username',                       'rules'   => 'required'                   ),                array(                      'field'   => 'password',                       'label'   => 'Password',                       'rules'   => 'required'                   ),                array(                      'field'   => 'passconf',                       'label'   => 'Password Confirmation',                       'rules'   => 'required'                   ),                   array(                      'field'   => 'email',                       'label'   => 'Email',                       'rules'   => 'required'                   )             );  $this->form_validation->set_rules($config);
+	$config = array(
+	               array(
+	                     'field'   => 'username', 
+	                     'label'   => 'Username', 
+	                     'rules'   => 'required'
+	                  ),
+	               array(
+	                     'field'   => 'password', 
+	                     'label'   => 'Password', 
+	                     'rules'   => 'required'
+	                  ),
+	               array(
+	                     'field'   => 'passconf', 
+	                     'label'   => 'Password Confirmation', 
+	                     'rules'   => 'required'
+	                  ),   
+	               array(
+	                     'field'   => 'email', 
+	                     'label'   => 'Email', 
+	                     'rules'   => 'required'
+	                  )
+	            );
+
+	$this->form_validation->set_rules($config);
 
 Cascading Rules
 ===============
@@ -223,7 +310,11 @@ Cascading Rules
 CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting function, like this::
 
-	 $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]'); $this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]'); $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required'); $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');
+	$this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+	
 
 The above code sets the following rules:
 
@@ -243,7 +334,10 @@ In addition to the validation functions like the ones we used above, you
 can also prep your data in various ways. For example, you can set up
 rules like this::
 
-	 $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean'); $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[passconf]|md5'); $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required'); $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[passconf]|md5');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required');
+	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
 In the above example, we are "trimming" the fields, converting the
 password to MD5, and running the username through the "xss_clean"
@@ -272,16 +366,37 @@ using the set_value() function:
 **Don't forget to include each field name in the set_value()
 functions!**
 
-<html> <head> <title>My Form</title> </head> <body> <?php echo
-validation_errors(); ?> <?php echo form_open('form'); ?>
-<h5>Username</h5> <input type="text" name="username" value="<?php echo
-set_value('username'); ?>" size="50" /> <h5>Password</h5> <input
-type="text" name="password" value="<?php echo set_value('password');
-?>" size="50" /> <h5>Password Confirm</h5> <input type="text"
-name="passconf" value="<?php echo set_value('passconf'); ?>" size="50"
-/> <h5>Email Address</h5> <input type="text" name="email" value="<?php
-echo set_value('email'); ?>" size="50" /> <div><input type="submit"
-value="Submit" /></div> </form> </body> </html>
+::
+
+	<html>
+	<head>
+	<title>My Form</title>
+	</head>
+	<body>
+
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open('form'); ?>
+
+	<h5>Username</h5>
+	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
+
+	<h5>Password</h5>
+	<input type="text" name="password" value="<?php echo set_value('password'); ?>" size="50" />
+
+	<h5>Password Confirm</h5>
+	<input type="text" name="passconf" value="<?php echo set_value('passconf'); ?>" size="50" />
+
+	<h5>Email Address</h5>
+	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
+
+	<div><input type="submit" value="Submit" /></div>
+
+	</form>
+
+	</body>
+	</html>
+
 Now reload your page and submit the form so that it triggers an error.
 Your form fields should now be re-populated
 
@@ -311,23 +426,49 @@ In your controller, change the "username" rule to this::
 	$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
 
 Then add a new function called username_check to your controller.
-Here's how your controller should now look:
+Here's how your controller should now look::
 
-<?php class Form extends CI_Controller { public function index() {
-$this->load->helper(array('form', 'url'));
-$this->load->library('form_validation');
-$this->form_validation->set_rules('username', 'Username',
-'callback_username_check');
-$this->form_validation->set_rules('password', 'Password', 'required');
-$this->form_validation->set_rules('passconf', 'Password Confirmation',
-'required'); $this->form_validation->set_rules('email', 'Email',
-'required\|is_unique[users.email]'); if ($this->form_validation->run()
-== FALSE) { $this->load->view('myform'); } else {
-$this->load->view('formsuccess'); } } public function
-username_check($str) { if ($str == 'test') {
-$this->form_validation->set_message('username_check', 'The %s field
-can not be the word "test"'); return FALSE; } else { return TRUE; } } }
-?>
+	<?php
+
+	class Form extends CI_Controller {
+
+		public function index()
+		{
+			$this->load->helper(array('form', 'url'));
+
+			$this->load->library('form_validation');
+
+			$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
+			$this->form_validation->set_rules('password', 'Password', 'required');
+			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+			$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->load->view('myform');
+			}
+			else
+			{
+				$this->load->view('formsuccess');
+			}
+		}
+
+		public function username_check($str)
+		{
+			if ($str == 'test')
+			{
+				$this->form_validation->set_message('username_check', 'The %s field can not be the word "test"');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+
+	}
+	?>
+
 Reload your form and submit it with the word "test" as the username. You
 can see that the form field data was passed to your callback function
 for you to process.
@@ -404,27 +545,21 @@ globally or individually.
 
 #. **Changing delimiters Globally**
    To globally change the error delimiters, in your controller function,
-   just after loading the Form Validation class, add this:
+   just after loading the Form Validation class, add this::
 
-   ::
-
-	$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+      $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
    In this example, we've switched to using div tags.
 
 #. **Changing delimiters Individually**
    Each of the two error generating functions shown in this tutorial can
-   be supplied their own delimiters as follows:
+   be supplied their own delimiters as follows::
 
-   ::
+      <?php echo form_error('field name', '<div class="error">', '</div>'); ?>
 
-	<?php echo form_error('field name', '<div class="error">', '</div>'); ?>
+   Or::
 
-   Or:
-
-   ::
-
-	<?php echo validation_errors('<div class="error">', '</div>'); ?>
+      <?php echo validation_errors('<div class="error">', '</div>'); ?>
 
 
 Showing Errors Individually
@@ -433,24 +568,32 @@ Showing Errors Individually
 If you prefer to show an error message next to each form field, rather
 than as a list, you can use the form_error() function.
 
-Try it! Change your form so that it looks like this:
+Try it! Change your form so that it looks like this::
 
-<h5>Username</h5> <?php echo form_error('username'); ?> <input
-type="text" name="username" value="<?php echo set_value('username');
-?>" size="50" /> <h5>Password</h5> <?php echo form_error('password');
-?> <input type="text" name="password" value="<?php echo
-set_value('password'); ?>" size="50" /> <h5>Password Confirm</h5> <?php
-echo form_error('passconf'); ?> <input type="text" name="passconf"
-value="<?php echo set_value('passconf'); ?>" size="50" /> <h5>Email
-Address</h5> <?php echo form_error('email'); ?> <input type="text"
-name="email" value="<?php echo set_value('email'); ?>" size="50" />
+	<h5>Username</h5>
+	<?php echo form_error('username'); ?>
+	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
+
+	<h5>Password</h5>
+	<?php echo form_error('password'); ?>
+	<input type="text" name="password" value="<?php echo set_value('password'); ?>" size="50" />
+
+	<h5>Password Confirm</h5>
+	<?php echo form_error('passconf'); ?>
+	<input type="text" name="passconf" value="<?php echo set_value('passconf'); ?>" size="50" />
+
+	<h5>Email Address</h5>
+	<?php echo form_error('email'); ?>
+	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
+
 If there are no errors, nothing will be shown. If there is an error, the
 message will appear.
 
 **Important Note:** If you use an array as the name of a form field, you
 must supply it as an array to the function. Example::
 
-	<?php echo form_error('options[size]'); ?> <input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
+	<?php echo form_error('options[size]'); ?>
+	<input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
 
 For more info please see the `Using Arrays as Field
 Names <#arraysasfields>`_ section below.
@@ -473,7 +616,28 @@ form_validation.php in your application/config/ folder. In that file
 you will place an array named $config with your rules. As shown earlier,
 the validation array will have this prototype::
 
-	 $config = array(                array(                      'field'   => 'username',                       'label'   => 'Username',                       'rules'   => 'required'                   ),                array(                      'field'   => 'password',                       'label'   => 'Password',                       'rules'   => 'required'                   ),                array(                      'field'   => 'passconf',                       'label'   => 'Password Confirmation',                       'rules'   => 'required'                   ),                   array(                      'field'   => 'email',                       'label'   => 'Email',                       'rules'   => 'required'                   )             );
+	$config = array(
+	               array(
+	                     'field'   => 'username', 
+	                     'label'   => 'Username', 
+	                     'rules'   => 'required'
+	                  ),
+	               array(
+	                     'field'   => 'password', 
+	                     'label'   => 'Password', 
+	                     'rules'   => 'required'
+	                  ),
+	               array(
+	                     'field'   => 'passconf', 
+	                     'label'   => 'Password Confirmation', 
+	                     'rules'   => 'required'
+	                  ),   
+	               array(
+	                     'field'   => 'email', 
+	                     'label'   => 'Email', 
+	                     'rules'   => 'required'
+	                  )
+	            );
 
 Your validation rule file will be loaded automatically and used when you
 call the run() function.
@@ -488,7 +652,52 @@ into "sub arrays". Consider the following example, showing two sets of
 rules. We've arbitrarily called these two rules "signup" and "email".
 You can name your rules anything you want::
 
-	$config = array(                  'signup' => array(                                     array(                                             'field' => 'username',                                             'label' => 'Username',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'password',                                             'label' => 'Password',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'passconf',                                             'label' => 'PasswordConfirmation',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'email',                                             'label' => 'Email',                                             'rules' => 'required'                                          )                                     ),                  'email' => array(                                     array(                                             'field' => 'emailaddress',                                             'label' => 'EmailAddress',                                             'rules' => 'required|valid_email'                                          ),                                     array(                                             'field' => 'name',                                             'label' => 'Name',                                             'rules' => 'required|alpha'                                          ),                                     array(                                             'field' => 'title',                                             'label' => 'Title',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'message',                                             'label' => 'MessageBody',                                             'rules' => 'required'                                          )                                     )                                          );
+	$config = array(
+	                 'signup' => array(
+	                                    array(
+	                                            'field' => 'username',
+	                                            'label' => 'Username',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'password',
+	                                            'label' => 'Password',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'passconf',
+	                                            'label' => 'PasswordConfirmation',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'email',
+	                                            'label' => 'Email',
+	                                            'rules' => 'required'
+	                                         )
+	                                    ),
+	                 'email' => array(
+	                                    array(
+	                                            'field' => 'emailaddress',
+	                                            'label' => 'EmailAddress',
+	                                            'rules' => 'required|valid_email'
+	                                         ),
+	                                    array(
+	                                            'field' => 'name',
+	                                            'label' => 'Name',
+	                                            'rules' => 'required|alpha'
+	                                         ),
+	                                    array(
+	                                            'field' => 'title',
+	                                            'label' => 'Title',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'message',
+	                                            'label' => 'MessageBody',
+	                                            'rules' => 'required'
+	                                         )
+	                                    )                          
+	               );
 
 Calling a Specific Rule Group
 =============================
@@ -496,7 +705,14 @@ Calling a Specific Rule Group
 In order to call a specific group you will pass its name to the run()
 function. For example, to call the signup rule you will do this::
 
-	 if ($this->form_validation->run('signup') == FALSE) {    $this->load->view('myform'); } else {    $this->load->view('formsuccess'); }
+	if ($this->form_validation->run('signup') == FALSE)
+	{
+	   $this->load->view('myform');
+	}
+	else
+	{
+	   $this->load->view('formsuccess');
+	}
 
 Associating a Controller Function with a Rule Group
 ===================================================
@@ -506,12 +722,53 @@ name it according to the controller class/function you intend to use it
 with. For example, let's say you have a controller named Member and a
 function named signup. Here's what your class might look like::
 
-	 <?php class Member extends CI_Controller {     function signup()    {             $this->load->library('form_validation');                    if ($this->form_validation->run() == FALSE)       {          $this->load->view('myform');       }       else       {          $this->load->view('formsuccess');       }    } } ?>
+	<?php
+
+	class Member extends CI_Controller {
+
+	   function signup()
+	   {      
+	      $this->load->library('form_validation');
+
+	      if ($this->form_validation->run() == FALSE)
+	      {
+	         $this->load->view('myform');
+	      }
+	      else
+	      {
+	         $this->load->view('formsuccess');
+	      }
+	   }
+	}
+	?>
 
 In your validation config file, you will name your rule group
 member/signup::
 
-	$config = array(            'member/signup' => array(                                     array(                                             'field' => 'username',                                             'label' => 'Username',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'password',                                             'label' => 'Password',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'passconf',                                             'label' => 'PasswordConfirmation',                                             'rules' => 'required'                                          ),                                     array(                                             'field' => 'email',                                             'label' => 'Email',                                             'rules' => 'required'                                          )                                     )                );
+	$config = array(
+	           'member/signup' => array(
+	                                    array(
+	                                            'field' => 'username',
+	                                            'label' => 'Username',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'password',
+	                                            'label' => 'Password',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'passconf',
+	                                            'label' => 'PasswordConfirmation',
+	                                            'rules' => 'required'
+	                                         ),
+	                                    array(
+	                                            'field' => 'email',
+	                                            'label' => 'Email',
+	                                            'rules' => 'required'
+	                                         )
+	                                    )
+	               );
 
 When a rule group is named identically to a controller class/function it
 will be used automatically when the run() function is invoked from that
@@ -559,11 +816,15 @@ If you are using checkboxes (or other fields) that have multiple
 options, don't forget to leave an empty bracket after each option, so
 that all selections will be added to the POST array::
 
-	 <input type="checkbox" name="options[]" value="red" /> <input type="checkbox" name="options[]" value="blue" /> <input type="checkbox" name="options[]" value="green" />
+	<input type="checkbox" name="options[]" value="red" />
+	<input type="checkbox" name="options[]" value="blue" />
+	<input type="checkbox" name="options[]" value="green" />
 
 Or if you use a multidimensional array::
 
-	 <input type="checkbox" name="options[color][]" value="red" /> <input type="checkbox" name="options[color][]" value="blue" /> <input type="checkbox" name="options[color][]" value="green" />
+	<input type="checkbox" name="options[color][]" value="red" />
+	<input type="checkbox" name="options[color][]" value="blue" />
+	<input type="checkbox" name="options[color][]" value="green" />
 
 When you use a helper function you'll include the bracket as well::
 
@@ -789,7 +1050,11 @@ default (use boolean TRUE/FALSE).
 
 Example::
 
-	 <select name="myselect"> <option value="one" <?php echo  set_select('myselect', 'one', TRUE); ?> >One</option> <option value="two" <?php echo  set_select('myselect', 'two'); ?> >Two</option> <option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option> </select>
+	<select name="myselect">
+	<option value="one" <?php echo set_select('myselect', 'one', TRUE); ?> >One</option>
+	<option value="two" <?php echo set_select('myselect', 'two'); ?> >Two</option>
+	<option value="three" <?php echo set_select('myselect', 'three'); ?> >Three</option>
+	</select>
 
 set_checkbox()
 ===============
@@ -799,7 +1064,8 @@ first parameter must contain the name of the checkbox, the second
 parameter must contain its value, and the third (optional) parameter
 lets you set an item as the default (use boolean TRUE/FALSE). Example::
 
-	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck[]', '1'); ?> /> <input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
+	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck[]', '1'); ?> />
+	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
 
 set_radio()
 ============
@@ -809,5 +1075,6 @@ This function is identical to the **set_checkbox()** function above.
 
 ::
 
-	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> /> <input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
+	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
+	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
 
