@@ -308,19 +308,12 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return $str;
 		}
-
-		// Remove invisible characters
-		$str = remove_invisible_characters($str);
 		
-		//Make sure to escape slashes and quotes
-		$replace = array(
-			"\\"	=> "\\\\",
-			"'"		=> "\\'",
-			"\""	=> "\\\"",
-		);
-					
-		$str = strtr($str, $replace);
+		//Escape the string
+		$str = $this->conn_id->quote($str);
 		
+		//If there are duplicated quotes, trim them away
+		$str = substr($str, 1, -1);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
