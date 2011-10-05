@@ -106,6 +106,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.
 -  Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
+-  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 
 Version 2.0.3
 =============
