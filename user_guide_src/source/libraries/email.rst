@@ -28,7 +28,19 @@ This example assumes you are sending the email from one of your
 
 ::
 
-	$this->load->library('email');  $this->email->from('your@example.com', 'Your Name'); $this->email->to('someone@example.com');  $this->email->cc('another@another-example.com');  $this->email->bcc('them@their-example.com');   $this->email->subject('Email Test'); $this->email->message('Testing the email class.');    $this->email->send();  echo $this->email->print_debugger();
+	$this->load->library('email');
+
+	$this->email->from('your@example.com', 'Your Name');
+	$this->email->to('someone@example.com'); 
+	$this->email->cc('another@another-example.com'); 
+	$this->email->bcc('them@their-example.com'); 
+
+	$this->email->subject('Email Test');
+	$this->email->message('Testing the email class.');	
+
+	$this->email->send();
+
+	echo $this->email->print_debugger();
 
 Setting Email Preferences
 =========================
@@ -42,7 +54,12 @@ Preferences are set by passing an array of preference values to the
 email initialize function. Here is an example of how you might set some
 preferences::
 
-	$config['protocol'] = 'sendmail'; $config['mailpath'] = '/usr/sbin/sendmail'; $config['charset'] = 'iso-8859-1'; $config['wordwrap'] = TRUE;  $this->email->initialize($config);
+	$config['protocol'] = 'sendmail';
+	$config['mailpath'] = '/usr/sbin/sendmail';
+	$config['charset'] = 'iso-8859-1';
+	$config['wordwrap'] = TRUE;
+
+	$this->email->initialize($config);
 
 .. note:: Most of the preferences have default values that will be used
 	if you do not set them.
@@ -175,7 +192,9 @@ comma-delimited list or an array::
 
 ::
 
-	$list = array('one@example.com', 'two@example.com', 'three@example.com');  $this->email->to($list);
+	$list = array('one@example.com', 'two@example.com', 'three@example.com');
+
+	$this->email->to($list);
 
 $this->email->cc()
 ------------------
@@ -225,7 +244,16 @@ permitting the data to be reset between cycles.
 
 ::
 
-	foreach ($list as $name => $address) {     $this->email->clear();      $this->email->to($address);     $this->email->from('your@example.com');     $this->email->subject('Here is your info '.$name);     $this->email->message('Hi '.$name.' Here is the info you requested.');     $this->email->send(); }
+	foreach ($list as $name => $address)
+	{
+	    $this->email->clear();
+
+	    $this->email->to($address);
+	    $this->email->from('your@example.com');
+	    $this->email->subject('Here is your info '.$name);
+	    $this->email->message('Hi '.$name.' Here is the info you requested.');
+	    $this->email->send();
+	}
 
 If you set the parameter to TRUE any attachments will be cleared as
 well::
@@ -238,7 +266,10 @@ $this->email->send()
 The Email sending function. Returns boolean TRUE or FALSE based on
 success or failure, enabling it to be used conditionally::
 
-	if ( ! $this->email->send()) {     // Generate error }
+	if ( ! $this->email->send())
+	{
+	    // Generate error
+	}
 
 $this->email->attach()
 ----------------------
@@ -247,7 +278,11 @@ Enables you to send an attachment. Put the file path/name in the first
 parameter. Note: Use a file path, not a URL. For multiple attachments
 use the function multiple times. For example::
 
-	$this->email->attach('/path/to/photo1.jpg'); $this->email->attach('/path/to/photo2.jpg'); $this->email->attach('/path/to/photo3.jpg');  $this->email->send();
+	$this->email->attach('/path/to/photo1.jpg');
+	$this->email->attach('/path/to/photo2.jpg');
+	$this->email->attach('/path/to/photo3.jpg');
+
+	$this->email->send();
 
 $this->email->print_debugger()
 -------------------------------
@@ -264,6 +299,13 @@ causing it to become un-clickable by the person receiving it.
 CodeIgniter lets you manually override word wrapping within part of your
 message like this::
 
-	The text of your email that gets wrapped normally.  {unwrap}http://example.com/a_long_link_that_should_not_be_wrapped.html{/unwrap}  More text that will be wrapped normally.
+	The text of your email that
+	gets wrapped normally.
+
+	{unwrap}http://example.com/a_long_link_that_should_not_be_wrapped.html{/unwrap}
+
+	More text that will be
+	wrapped normally.
+	
 
 Place the item you do not want word-wrapped between: {unwrap} {/unwrap}
