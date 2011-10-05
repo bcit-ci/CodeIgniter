@@ -883,26 +883,15 @@ Prepping Reference
 The following is a list of all the prepping functions that are available
 to use:
 
-Name
-Parameter
-Description
-**xss_clean**
-No
-Runs the data through the XSS filtering function, described in the
-:doc:`Input Class <input>` page.
-**prep_for_form**
-No
-Converts special characters so that HTML data can be shown in a form
-field without breaking it.
-**prep_url**
-No
-Adds "http://" to URLs if missing.
-**strip_image_tags**
-No
-Strips the HTML from image tags leaving the raw URL.
-**encode_php_tags**
-No
-Converts PHP tags to entities.
+==================== ========= ===================================================================================================
+Name                 Parameter Description
+============================== ===================================================================================================
+**xss_clean**        No        Runs the data through the XSS filtering function, described in the :doc:`Input Class <input>` page.
+**prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
+**prep_url**         No        Adds "http://" to URLs if missing.
+**strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
+**encode_php_tags**  No        Converts PHP tags to entities.
+==================== ========= ===================================================================================================
 
 .. note:: You can also use any native PHP functions that permit one
 	parameter, like trim, htmlspecialchars, urldecode, etc.
