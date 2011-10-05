@@ -100,5 +100,6 @@ protect_braced_quotes class property to TRUE.
 
 Usage example::
 
-	$this->load->library('typography'); $this->typography->protect_braced_quotes = TRUE;
+	$this->load->library('typography');
+	$this->typography->protect_braced_quotes = TRUE;
 
