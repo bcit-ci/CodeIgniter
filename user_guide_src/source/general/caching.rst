@@ -41,9 +41,9 @@ The above tag can go anywhere within a function. It is not affected by
 the order that it appears, so place it wherever it seems most logical to
 you. Once the tag is in place, your pages will begin being cached.
 
-**Warning:** Because of the way CodeIgniter stores content for output,
-caching will only work if you are generating display for your controller
-with a :doc:`view <./views>`.
+.. important:: Because of the way CodeIgniter stores content for output,
+	caching will only work if you are generating display for your controller
+	with a :doc:`view <./views>`.
 
 .. note:: Before the cache files can be written you must set the file
 	permissions on your application/cache folder such that it is writable.
