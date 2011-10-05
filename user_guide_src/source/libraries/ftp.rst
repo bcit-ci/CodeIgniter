@@ -30,19 +30,54 @@ file is read and uploaded in ASCII mode. The file permissions are set to
 
 ::
 
-	 $this->load->library('ftp');  $config['hostname'] = 'ftp.example.com'; $config['username'] = 'your-username'; $config['password'] = 'your-password'; $config['debug']    = TRUE;  $this->ftp->connect($config);  $this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);  $this->ftp->close(); 
+	$this->load->library('ftp');
+
+	$config['hostname'] = 'ftp.example.com';
+	$config['username'] = 'your-username';
+	$config['password'] = 'your-password';
+	$config['debug']	= TRUE;
+
+	$this->ftp->connect($config);
+
+	$this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);
+
+	$this->ftp->close();
 
 In this example a list of files is retrieved from the server.
 
 ::
 
-	 $this->load->library('ftp');  $config['hostname'] = 'ftp.example.com'; $config['username'] = 'your-username'; $config['password'] = 'your-password'; $config['debug']    = TRUE;  $this->ftp->connect($config);  $list = $this->ftp->list_files('/public_html/');  print_r($list);  $this->ftp->close();
+	$this->load->library('ftp');
+
+	$config['hostname'] = 'ftp.example.com';
+	$config['username'] = 'your-username';
+	$config['password'] = 'your-password';
+	$config['debug']	= TRUE;
+
+	$this->ftp->connect($config);
+
+	$list = $this->ftp->list_files('/public_html/');
+
+	print_r($list);
+
+	$this->ftp->close();
 
 In this example a local directory is mirrored on the server.
 
 ::
 
-	 $this->load->library('ftp');  $config['hostname'] = 'ftp.example.com'; $config['username'] = 'your-username'; $config['password'] = 'your-password'; $config['debug']    = TRUE;  $this->ftp->connect($config);  $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');  $this->ftp->close();
+	$this->load->library('ftp');
+
+	$config['hostname'] = 'ftp.example.com';
+	$config['username'] = 'your-username';
+	$config['password'] = 'your-password';
+	$config['debug']	= TRUE;
+
+	$this->ftp->connect($config);
+
+	$this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
+
+	$this->ftp->close();
 
 ******************
 Function Reference
@@ -57,7 +92,16 @@ file.
 
 Here is an example showing how you set preferences manually::
 
-	 $this->load->library('ftp');  $config['hostname'] = 'ftp.example.com'; $config['username'] = 'your-username'; $config['password'] = 'your-password'; $config['port']     = 21; $config['passive']  = FALSE; $config['debug']    = TRUE;  $this->ftp->connect($config);
+	$this->load->library('ftp');
+
+	$config['hostname'] = 'ftp.example.com';
+	$config['username'] = 'your-username';
+	$config['password'] = 'your-password';
+	$config['port']     = 21;
+	$config['passive']  = FALSE;
+	$config['debug']    = TRUE;
+
+	$this->ftp->connect($config);
 
 Setting FTP Preferences in a Config File
 ****************************************
@@ -117,14 +161,16 @@ new file name/path.
 
 ::
 
-	 // Renames green.html to blue.html $this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
+	// Renames green.html to blue.html
+	$this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
 
 $this->ftp->move()
 ==================
 
 Lets you move a file. Supply the source and destination paths::
 
-	 // Moves blog.html from "joe" to "fred" $this->ftp->move('/public_html/joe/blog.html', '/public_html/fred/blog.html');
+	// Moves blog.html from "joe" to "fred"
+	$this->ftp->move('/public_html/joe/blog.html', '/public_html/fred/blog.html');
 
 Note: if the destination file name is different the file will be
 renamed.
@@ -161,7 +207,9 @@ array. You must supply the path to the desired directory.
 
 ::
 
-	 $list = $this->ftp->list_files('/public_html/');  print_r($list);
+	$list = $this->ftp->list_files('/public_html/');
+
+	print_r($list);
 
 $this->ftp->mirror()
 ====================
@@ -183,7 +231,8 @@ running PHP 5).
 
 ::
 
-	 // Creates a folder named "bar" $this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
+	// Creates a folder named "bar"
+	$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
 
 $this->ftp->chmod()
 ===================
@@ -191,7 +240,8 @@ $this->ftp->chmod()
 Permits you to set file permissions. Supply the path to the file or
 folder you wish to alter permissions on::
 
-	 // Chmod "bar" to 777 $this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
+	// Chmod "bar" to 777
+	$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
 
 $this->ftp->close();
 ====================
