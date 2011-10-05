@@ -35,7 +35,14 @@ failure::
 
 It helps avoid having to write code like this::
 
-	if ($this->uri->segment(3) === FALSE) {     $product_id = 0; } else {     $product_id = $this->uri->segment(3); }
+	if ($this->uri->segment(3) === FALSE)
+	{
+	    $product_id = 0;
+	}
+	else
+	{
+	    $product_id = $this->uri->segment(3);
+	}
 
 $this->uri->rsegment(n)
 =======================
@@ -51,7 +58,9 @@ This function is almost identical to $this->uri->segment(), except it
 adds a trailing and/or leading slash based on the second parameter. If
 the parameter is not used, a trailing slash added. Examples::
 
-	$this->uri->slash_segment(3); $this->uri->slash_segment(3, 'leading'); $this->uri->slash_segment(3, 'both');
+	$this->uri->slash_segment(3);
+	$this->uri->slash_segment(3, 'leading');
+	$this->uri->slash_segment(3, 'both');
 
 Returns:
 
@@ -78,19 +87,28 @@ key/value pairs. Consider this URI::
 Using this function you can turn the URI into an associative array with
 this prototype::
 
-	[array] (     'name' => 'joe'     'location'  => 'UK'     'gender'    => 'male' )
+	[array]
+	(
+	    'name' => 'joe'
+	    'location'	=> 'UK'
+	    'gender'	=> 'male'
+	)
 
 The first parameter of the function lets you set an offset. By default
 it is set to 3 since your URI will normally contain a
 controller/function in the first and second segments. Example::
 
-	 $array = $this->uri->uri_to_assoc(3);  echo $array['name'];
+	$array = $this->uri->uri_to_assoc(3);
+
+	echo $array['name'];
 
 The second parameter lets you set default key names, so that the array
 returned by the function will always contain expected indexes, even if
 missing from the URI. Example::
 
-	 $default = array('name', 'gender', 'location', 'type', 'sort');  $array = $this->uri->uri_to_assoc(3, $default);
+	$default = array('name', 'gender', 'location', 'type', 'sort');
+
+	$array = $this->uri->uri_to_assoc(3, $default);
 
 If the URI does not contain a value in your default, an array index will
 be set to that name, with a value of FALSE.
@@ -112,7 +130,11 @@ $this->uri->assoc_to_uri()
 Takes an associative array as input and generates a URI string from it.
 The array keys will be included in the string. Example::
 
-	$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');  $str = $this->uri->assoc_to_uri($array);  // Produces:  product/shoes/size/large/color/red
+	$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');
+
+	$str = $this->uri->assoc_to_uri($array);
+
+	// Produces: product/shoes/size/large/color/red
 
 $this->uri->uri_string()
 =========================
@@ -150,7 +172,13 @@ $this->uri->segment_array()
 
 Returns an array containing the URI segments. For example::
 
-	 $segs = $this->uri->segment_array();  foreach ($segs as $segment) {     echo $segment;     echo '<br />'; }
+	$segs = $this->uri->segment_array();
+
+	foreach ($segs as $segment)
+	{
+	    echo $segment;
+	    echo '<br />';
+	}
 
 $this->uri->rsegment_array()
 =============================
