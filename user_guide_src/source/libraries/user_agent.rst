@@ -34,7 +34,28 @@ is available.
 
 ::
 
-	 $this->load->library('user_agent');  if ($this->agent->is_browser()) {     $agent  = $this->agent->browser().' '.$this->agent->version(); } elseif ($this->agent->is_robot()) {     $agent = $this->agent->robot(); } elseif ($this->agent->is_mobile()) {     $agent = $this->agent->mobile(); } else {     $agent = 'Unidentified User Agent'; }  echo $agent;  echo $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.)
+	$this->load->library('user_agent');
+
+	if ($this->agent->is_browser())
+	{
+	    $agent = $this->agent->browser().' '.$this->agent->version();
+	}
+	elseif ($this->agent->is_robot())
+	{
+	    $agent = $this->agent->robot();
+	}
+	elseif ($this->agent->is_mobile())
+	{
+	    $agent = $this->agent->mobile();
+	}
+	else
+	{
+	    $agent = 'Unidentified User Agent';
+	}
+
+	echo $agent;
+
+	echo $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.)
 
 ******************
 Function Reference
@@ -47,7 +68,15 @@ Returns TRUE/FALSE (boolean) if the user agent is a known web browser.
 
 ::
 
-	 if ($this->agent->is_browser('Safari')) {     echo 'You are using Safari.'; } else if ($this->agent->is_browser()) {     echo 'You are using a browser.'; }
+	if ($this->agent->is_browser('Safari'))
+	{
+	    echo 'You are using Safari.';
+	}
+	else if ($this->agent->is_browser())
+	{
+	    echo 'You are using a browser.';
+	}
+	
 
 .. note:: The string "Safari" in this example is an array key in the
 	list of browser definitions. You can find this list in
@@ -61,7 +90,19 @@ Returns TRUE/FALSE (boolean) if the user agent is a known mobile device.
 
 ::
 
-	 if ($this->agent->is_mobile('iphone')) {     $this->load->view('iphone/home'); } else if ($this->agent->is_mobile()) {     $this->load->view('mobile/home'); } else {     $this->load->view('web/home'); }
+	if ($this->agent->is_mobile('iphone'))
+	{
+	    $this->load->view('iphone/home');
+	}
+	else if ($this->agent->is_mobile())
+	{
+	    $this->load->view('mobile/home');
+	}
+	else
+	{
+	    $this->load->view('web/home');
+	}
+	
 
 $this->agent->is_robot()
 =========================
@@ -115,7 +156,10 @@ $this->agent->referrer()
 The referrer, if the user agent was referred from another site.
 Typically you'll test for this as follows::
 
-	 if ($this->agent->is_referral()) {     echo $this->agent->referrer(); }
+	if ($this->agent->is_referral())
+	{
+	    echo $this->agent->referrer();
+	}
 
 $this->agent->agent_string()
 =============================
@@ -131,7 +175,10 @@ $this->agent->accept_lang()
 Lets you determine if the user agent accepts a particular language.
 Example::
 
-	if ($this->agent->accept_lang('en')) {     echo 'You accept English!'; }
+	if ($this->agent->accept_lang('en'))
+	{
+	    echo 'You accept English!';
+	}
 
 .. note:: This function is not typically very reliable since some
 	browsers do not provide language info, and even among those that do, it
@@ -143,7 +190,10 @@ $this->agent->accept_charset()
 Lets you determine if the user agent accepts a particular character set.
 Example::
 
-	if ($this->agent->accept_charset('utf-8')) {     echo 'You browser supports UTF-8!'; }
+	if ($this->agent->accept_charset('utf-8'))
+	{
+	    echo 'You browser supports UTF-8!';
+	}
 
 .. note:: This function is not typically very reliable since some
 	browsers do not provide character-set info, and even among those that
