@@ -34,7 +34,13 @@ Where test is the result of the code you wish to test, expected result
 is the data type you expect, test name is an optional name you can give
 your test, and notes are optional notes. Example::
 
-	$test = 1 + 1;  $expected_result = 2;  $test_name = 'Adds one plus one';  $this->unit->run($test, $expected_result, $test_name);
+	$test = 1 + 1;
+
+	$expected_result = 2;
+
+	$test_name = 'Adds one plus one';
+
+	$this->unit->run($test, $expected_result, $test_name);
 
 The expected result you supply can either be a literal match, or a data
 type match. Here's an example of a literal::
@@ -127,12 +133,13 @@ default:
 You can customize which of these items get displayed by using
 $this->unit->set_items(). For example, if you only wanted the test name
 and the result displayed:
+
 Customizing displayed tests
 ---------------------------
 
 ::
 
-	     $this->unit->set_test_items(array('test_name', 'result'));
+	$this->unit->set_test_items(array('test_name', 'result'));
 
 Creating a Template
 -------------------
@@ -141,7 +148,17 @@ If you would like your test results formatted differently then the
 default you can set your own template. Here is an example of a simple
 template. Note the required pseudo-variables::
 
-	 $str = ' <table border="0" cellpadding="4" cellspacing="1">     {rows}         <tr>         <td>{item}</td>         <td>{result}</td>         </tr>     {/rows} </table>';  $this->unit->set_template($str);
+	$str = '
+	<table border="0" cellpadding="4" cellspacing="1">
+	    {rows}
+	        <tr>
+	        <td>{item}</td>
+	        <td>{result}</td>
+	        </tr>
+	    {/rows}
+	</table>';
+
+	$this->unit->set_template($str);
 
 .. note:: Your template must be declared **before** running the unit
 	test process.
