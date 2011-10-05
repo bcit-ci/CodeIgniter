@@ -79,7 +79,7 @@ Change Log
 	<li>Helpers
 		<ul>
 			<li>Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
-			<li>Altered form helper - made action on form_open_multipart helper function call optional.  Fixes (#65)</li>
+			<li>Altered form helper - made action on form_open_multipart helper function call optional. Fixes (#65)</li>
 			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
 			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
 			<li>Added XHTML Basic 1.1 doctype to <a href="helpers/html_helper.html">HTML Helper</a>.</li>
@@ -140,6 +140,7 @@ Change Log
 	<li>Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.</li>
 	<li>Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)</li>
 	<li>Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).</li>
+	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
