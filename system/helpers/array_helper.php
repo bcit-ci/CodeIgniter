@@ -128,11 +128,11 @@ if ( ! function_exists('elements'))
  */
 if ( ! function_exists('array_to_str'))
 {
-	function array_to_str($array, $sep = ', ', $sep_last = '')
+	function array_to_str($array = array(), $sep = ', ', $sep_last = '')
 	{
 		$return = '';
 		
-		if ( ! $array)
+		if (empty($array) OR ! is_array($array))
 		{
 			return '';
 		}
