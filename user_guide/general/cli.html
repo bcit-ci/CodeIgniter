@@ -83,7 +83,7 @@ Running via the CLI
 
 <ul>
 	<li>Run your cron-jobs without needing to use wget or curl</li>
-	<li>Make your cron-jobs inaccessible from being loaded in the URL by checking for <kbd>IS_CLI</kbd></li>
+	<li>Make your cron-jobs inaccessible from being loaded in the URL by checking for <kbd>$this->input->is_cli_request()</kbd></li>
 	<li>Make interactive "tasks" that can do things like set permissions, prune cache folders, run backups, etc.</li>
 	<li>Integrate with other applications in other languages. For example, a random C++ script could call one command and run code in your models!</li>
 </ul>
@@ -114,7 +114,7 @@ class Tools extends CI_Controller {
 <p>Instead, we are going to open Terminal in Mac/Lunix or go to Run > "cmd" in Windows and navigate to our CodeIgniter project.</p>
 
 <blockquote>
-	$ cd /path/to/project;<br/>
+	$ cd /path/to/project;<br />
 	$ php index.php tools message
 </blockquote>
 
@@ -138,11 +138,11 @@ class Tools extends CI_Controller {
 
 <div id="footer">
 <p>
-Previous Topic:&nbsp;&nbsp;<a href="urls.html">CodeIgniter URLs</a>
+Previous Topic:&nbsp;&nbsp;<a href="profiling.html">Profiling Your Application</a>
 &nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-Next Topic:&nbsp;&nbsp;<a href="reserved_names.html">Reserved Names</a></p>
+Next Topic:&nbsp;&nbsp;<a href="managing_apps.html">Managing Applications</a></p>
 <p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
