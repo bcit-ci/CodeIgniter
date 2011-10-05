@@ -54,7 +54,13 @@ Setting options
 The second (optional) parameter allows you to optionally pass
 configuration setting. You will typically pass these as an array::
 
-	 $config = array (                   'mailtype' => 'html',                   'charset'  => 'utf-8,                   'priority' => '1'                );  $this->load->library('email', $config);
+	$config = array (
+	                  'mailtype' => 'html',
+	                  'charset'  => 'utf-8,
+	                  'priority' => '1'
+	               );
+
+	$this->load->library('email', $config);
 
 Config options can usually also be set via a config file. Each library
 is explained in detail in its own page, so please read the information
@@ -74,7 +80,11 @@ $this->session.
 If you prefer to set your own class names you can pass its value to the
 third parameter::
 
-	$this->load->library('session', '', 'my_session');  // Session class is now accessed using:  $this->my_session 
+	$this->load->library('session', '', 'my_session');
+
+	// Session class is now accessed using:
+
+	$this->my_session
 
 Please take note, when multiple libraries are supplied in an array for
 the first parameter, this parameter is discarded.
@@ -124,7 +134,9 @@ application/models/blog/queries.php you'll load it using::
 If you would like your model assigned to a different object name you can
 specify it via the second parameter of the loading function::
 
-	 $this->load->model('Model_name', 'fubar');  $this->fubar->function();
+	$this->load->model('Model_name', 'fubar');
+
+	$this->fubar->function();
 
 $this->load->database('options', true/false)
 ============================================
@@ -197,7 +209,13 @@ named "Foo Bar".
 
 ::
 
-	/application/third_party/foo_bar  config/ helpers/ language/ libraries/ models/
+	/application/third_party/foo_bar
+
+	config/
+	helpers/
+	language/
+	libraries/
+	models/
 
 Whatever the purpose of the "Foo Bar" application package, it has its
 own config files, helpers, language files, libraries, and models. To use
@@ -213,7 +231,8 @@ for subsequent requests for resources. As an example, the "Foo Bar"
 application package above has a library named Foo_bar.php. In our
 controller, we'd do the following::
 
-	$this->load->add_package_path(APPPATH.'third_party/foo_bar/'); $this->load->library('foo_bar');
+	$this->load->add_package_path(APPPATH.'third_party/foo_bar/');
+	$this->load->library('foo_bar');
 
 $this->load->remove_package_path()
 ------------------------------------

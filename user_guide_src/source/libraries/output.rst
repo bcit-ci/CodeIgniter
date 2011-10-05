@@ -74,14 +74,20 @@ $this->output->set_header();
 Permits you to manually set server headers, which the output class will
 send for you when outputting the final rendered display. Example::
 
-	 $this->output->set_header("HTTP/1.0 200 OK"); $this->output->set_header("HTTP/1.1 200 OK"); $this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', $last_update).' GMT'); $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate"); $this->output->set_header("Cache-Control: post-check=0, pre-check=0"); $this->output->set_header("Pragma: no-cache");  
+	$this->output->set_header("HTTP/1.0 200 OK");
+	$this->output->set_header("HTTP/1.1 200 OK");
+	$this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', $last_update).' GMT');
+	$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
+	$this->output->set_header("Cache-Control: post-check=0, pre-check=0");
+	$this->output->set_header("Pragma: no-cache");
 
 $this->output->set_status_header(code, 'text');
 =================================================
 
 Permits you to manually set a server status header. Example::
 
-	$this->output->set_status_header('401'); // Sets the header as:  Unauthorized
+	$this->output->set_status_header('401');
+	// Sets the header as:  Unauthorized
 
 `See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 a full list of headers.
