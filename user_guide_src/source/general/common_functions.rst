@@ -14,7 +14,10 @@ supplied version_number.
 
 ::
 
-	if (is_php('5.3.0')) {     $str = quoted_printable_encode($str); }
+	if (is_php('5.3.0'))
+	{
+	    $str = quoted_printable_encode($str);
+	}
 
 Returns boolean TRUE if the installed version of PHP is equal to or
 greater than the supplied version number. Returns FALSE if the installed
@@ -31,7 +34,14 @@ recommended on platforms where this information may be unreliable.
 
 ::
 
-	if (is_really_writable('file.txt')) {     echo "I could write to this if I wanted to"; } else {     echo "File is not writable"; }
+	if (is_really_writable('file.txt'))
+	{
+	    echo "I could write to this if I wanted to";
+	}
+	else
+	{
+	    echo "File is not writable";
+	}
 
 config_item('item_key')
 =========================
@@ -41,18 +51,18 @@ accessing configuration information, however config_item() can be used
 to retrieve single keys. See Config library documentation for more
 information.
 
-show_error('message'), show_404('page'), log_message('level',
-'message')
-==========
+show_error('message'), show_404('page'), log_message('level', 'message')
+========================================================================
 
 These are each outlined on the :doc:`Error Handling <errors>` page.
 
 set_status_header(code, 'text');
-==================================
+================================
 
 Permits you to manually set a server status header. Example::
 
-	set_status_header(401); // Sets the header as:  Unauthorized
+	set_status_header(401);
+	// Sets the header as:  Unauthorized
 
 `See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 a full list of headers.
