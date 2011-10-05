@@ -39,7 +39,20 @@ inside your application folder into their own sub-folder.
 For example, let's say you want to create two applications, "foo" and
 "bar". You could structure your application folders like this::
 
-	applications/foo/ applications/foo/config/ applications/foo/controllers/ applications/foo/errors/ applications/foo/libraries/ applications/foo/models/ applications/foo/views/ applications/bar/ applications/bar/config/ applications/bar/controllers/ applications/bar/errors/ applications/bar/libraries/ applications/bar/models/ applications/bar/views/
+	applications/foo/
+	applications/foo/config/
+	applications/foo/controllers/
+	applications/foo/errors/
+	applications/foo/libraries/
+	applications/foo/models/
+	applications/foo/views/
+	applications/bar/
+	applications/bar/config/
+	applications/bar/controllers/
+	applications/bar/errors/
+	applications/bar/libraries/
+	applications/bar/models/
+	applications/bar/views/
 
 To select a particular application for use requires that you open your
 main index.php file and set the $application_folder variable. For
