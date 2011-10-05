@@ -69,24 +69,35 @@ $this->encrypt->encode()
 
 Performs the data encryption and returns it as a string. Example::
 
-	 $msg = 'My secret message';  $encrypted_string = $this->encrypt->encode($msg);
+	$msg = 'My secret message';
+
+	$encrypted_string = $this->encrypt->encode($msg);
+	
 
 You can optionally pass your encryption key via the second parameter if
 you don't want to use the one in your config file::
 
-	 $msg = 'My secret message'; $key = 'super-secret-key';  $encrypted_string = $this->encrypt->encode($msg, $key);
+	$msg = 'My secret message';
+	$key = 'super-secret-key';
+
+	$encrypted_string = $this->encrypt->encode($msg, $key);
 
 $this->encrypt->decode()
 ========================
 
 Decrypts an encoded string. Example::
 
-	 $encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';  $plaintext_string = $this->encrypt->decode($encrypted_string);
+	$encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';
+
+	$plaintext_string = $this->encrypt->decode($encrypted_string);
 
 You can optionally pass your encryption key via the second parameter if
 you don't want to use the one in your config file::
 
-	 $msg = 'My secret message'; $key = 'super-secret-key';  $encrypted_string = $this->encrypt->decode($msg, $key);
+	$msg = 'My secret message';
+	$key = 'super-secret-key';
+
+	$encrypted_string = $this->encrypt->decode($msg, $key);
 
 $this->encrypt->set_cipher();
 ==============================
@@ -130,9 +141,8 @@ is to encode a hash it's simpler to use the native function::
 
 If your server does not support SHA1 you can use the provided function.
 
-$this->encrypt->encode_from_legacy($orig_data, $legacy_mode =
-MCRYPT_MODE_ECB, $key = '');
-==============================
+$this->encrypt->encode_from_legacy($orig_data, $legacy_mode = MCRYPT_MODE_ECB, $key = '');
+==========================================================================================
 
 Enables you to re-encode data that was originally encrypted with
 CodeIgniter 1.x to be compatible with the Encryption library in
@@ -143,7 +153,7 @@ encrypted session data or transitory encrypted flashdata require no
 intervention on your part. However, existing encrypted Sessions will be
 destroyed since data encrypted prior to 2.x will not be decoded.
 
-**Why only a method to re-encode the data instead of maintaining legacy
+..important:: **Why only a method to re-encode the data instead of maintaining legacy
 methods for both encoding and decoding?** The algorithms in the
 Encryption library have improved in CodeIgniter 2.x both for performance
 and security, and we do not wish to encourage continued use of the older
