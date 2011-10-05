@@ -52,7 +52,8 @@ your output.
 
 ::
 
-	<?php echo $library_src;?> <?php echo $script_head;?>
+	<?php echo $library_src;?>
+	<?php echo $script_head;?>
 
 
 $library_src, is where the actual library file will be loaded, as well
@@ -73,8 +74,8 @@ need to be made.
 
 ::
 
-	$config['javascript_location'] = 'http://localhost/codeigniter/themes/js/jquery/';         $config['javascript_ajax_img'] = 'images/ajax-loader.gif';
-
+	$config['javascript_location'] = 'http://localhost/codeigniter/themes/js/jquery/';
+	$config['javascript_ajax_img'] = 'images/ajax-loader.gif';
 
 If you keep your files in the same directories they were downloaded
 from, then you need not set this configuration items.
@@ -139,7 +140,8 @@ page. hide() will set an item invisible, show() will reveal it.
 
 ::
 
-	$this->jquery->hide(target,  optional speed, optional extra information);     $this->jquery->show(target,  optional speed, optional extra information);
+	$this->jquery->hide(target, optional speed, optional extra information);
+	$this->jquery->show(target, optional speed, optional extra information);
 
 
 -  "target" will be any valid jQuery selector or selectors.
@@ -185,15 +187,20 @@ and triggered by a click using the jQuery library's click() event.
 
 ::
 
-	 $params = array(     'height' => 80,     'width' => '50%',     'marginLeft' => 125 ); $this->jquery->click('#trigger', $this->jquery->animate('#note', $params, normal));
-
+	$params = array(
+	'height' => 80,
+	'width' => '50%',
+	'marginLeft' => 125
+	);
+	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, normal));
 
 fadeIn() / fadeOut()
 --------------------
 
 ::
 
-	$this->jquery->fadeIn(target,  optional speed, optional extra information);     $this->jquery->fadeOut(target,  optional speed, optional extra information);
+	$this->jquery->fadeIn(target,  optional speed, optional extra information);
+	$this->jquery->fadeOut(target,  optional speed, optional extra information);
 
 
 -  "target" will be any valid jQuery selector or selectors.
@@ -223,7 +230,8 @@ These effects cause an element(s) to disappear or reappear over time.
 
 ::
 
-	$this->jquery->fadeIn(target,  optional speed, optional extra information);     $this->jquery->fadeOut(target,  optional speed, optional extra information);
+	$this->jquery->fadeIn(target,  optional speed, optional extra information);
+	$this->jquery->fadeOut(target,  optional speed, optional extra information);
 
 
 -  "target" will be any valid jQuery selector or selectors.
@@ -239,7 +247,9 @@ These effects cause an element(s) to slide.
 
 ::
 
-	$this->jquery->slideUp(target,  optional speed, optional extra information);     $this->jquery->slideDown(target,  optional speed, optional extra information); $this->jquery->slideToggle(target,  optional speed, optional extra information);
+	$this->jquery->slideUp(target,  optional speed, optional extra information);
+	$this->jquery->slideDown(target,  optional speed, optional extra information);
+	$this->jquery->slideToggle(target,  optional speed, optional extra information);
 
 
 -  "target" will be any valid jQuery selector or selectors.
