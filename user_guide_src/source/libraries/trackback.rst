@@ -25,7 +25,25 @@ Sending Trackbacks
 A Trackback can be sent from any of your controller functions using code
 similar to this example::
 
-	$this->load->library('trackback');  $tb_data = array(                 'ping_url'  => 'http://example.com/trackback/456',                 'url'       => 'http://www.my-example.com/blog/entry/123',                 'title'     => 'The Title of My Entry',                 'excerpt'   => 'The entry content.',                 'blog_name' => 'My Blog Name',                 'charset'   => 'utf-8'                 );  if ( ! $this->trackback->send($tb_data)) {      echo $this->trackback->display_errors(); } else {      echo 'Trackback was sent!'; }
+	$this->load->library('trackback');
+
+	$tb_data = array(
+	                'ping_url'  => 'http://example.com/trackback/456',
+	                'url'       => 'http://www.my-example.com/blog/entry/123',
+	                'title'     => 'The Title of My Entry',
+	                'excerpt'   => 'The entry content.',
+	                'blog_name' => 'My Blog Name',
+	                'charset'   => 'utf-8'
+	                );
+
+	if ( ! $this->trackback->send($tb_data))
+	{
+	     echo $this->trackback->display_errors();
+	}
+	else
+	{
+	     echo 'Trackback was sent!';
+	}
 
 Description of array data:
 
@@ -86,14 +104,21 @@ Creating a Trackback Table
 ==========================
 
 Before you can receive Trackbacks you must create a table in which to
-store them. Here is a basic prototype for such a table:
+store them. Here is a basic prototype for such a table::
 
-CREATE TABLE trackbacks ( tb_id int(10) unsigned NOT NULL
-auto_increment, entry_id int(10) unsigned NOT NULL default 0, url
-varchar(200) NOT NULL, title varchar(100) NOT NULL, excerpt text NOT
-NULL, blog_name varchar(100) NOT NULL, tb_date int(10) NOT NULL,
-ip_address varchar(16) NOT NULL, PRIMARY KEY \`tb_id\` (\`tb_id\`),
-KEY \`entry_id\` (\`entry_id\`) );
+	CREATE TABLE trackbacks (
+	 tb_id int(10) unsigned NOT NULL auto_increment,
+	 entry_id int(10) unsigned NOT NULL default 0,
+	 url varchar(200) NOT NULL,
+	 title varchar(100) NOT NULL,
+	 excerpt text NOT NULL,
+	 blog_name varchar(100) NOT NULL,
+	 tb_date int(10) NOT NULL,
+	 ip_address varchar(16) NOT NULL,
+	 PRIMARY KEY `tb_id` (`tb_id`),
+	 KEY `entry_id` (`entry_id`)
+	);
+
 The Trackback specification only requires four pieces of information to
 be sent in a Trackback (url, title, excerpt, blog_name), but to make
 the data more useful we've added a few more fields in the above table
@@ -108,7 +133,34 @@ where you expect to receive Trackbacks.
 
 ::
 
-	$this->load->library('trackback'); $this->load->database();  if ($this->uri->segment(3) == FALSE) {     $this->trackback->send_error("Unable to determine the entry ID"); }  if ( ! $this->trackback->receive()) {     $this->trackback->send_error("The Trackback did not contain valid data"); }  $data = array(                 'tb_id'      => '',                 'entry_id'   => $this->uri->segment(3),                 'url'        => $this->trackback->data('url'),                 'title'      => $this->trackback->data('title'),                 'excerpt'    => $this->trackback->data('excerpt'),                 'blog_name'  => $this->trackback->data('blog_name'),                 'tb_date'    => time(),                 'ip_address' => $this->input->ip_address()                 );  $sql = $this->db->insert_string('trackbacks', $data); $this->db->query($sql);  $this->trackback->send_success();
+	$this->load->library('trackback');
+	$this->load->database();
+
+	if ($this->uri->segment(3) == FALSE)
+	{
+	    $this->trackback->send_error("Unable to determine the entry ID");
+	}
+
+	if ( ! $this->trackback->receive())
+	{
+	    $this->trackback->send_error("The Trackback did not contain valid data");
+	}
+
+	$data = array(
+	                'tb_id'      => '',
+	                'entry_id'   => $this->uri->segment(3),
+	                'url'        => $this->trackback->data('url'),
+	                'title'      => $this->trackback->data('title'),
+	                'excerpt'    => $this->trackback->data('excerpt'),
+	                'blog_name'  => $this->trackback->data('blog_name'),
+	                'tb_date'    => time(),
+	                'ip_address' => $this->input->ip_address()
+	                );
+
+	$sql = $this->db->insert_string('trackbacks', $data);
+	$this->db->query($sql);
+
+	$this->trackback->send_success();
 
 Notes:
 ^^^^^^
