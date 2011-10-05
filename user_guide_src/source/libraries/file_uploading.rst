@@ -26,12 +26,29 @@ Creating the Upload Form
 ========================
 
 Using a text editor, create a form called upload_form.php. In it, place
-this code and save it to your applications/views/ folder:
+this code and save it to your applications/views/ folder::
 
-<html> <head> <title>Upload Form</title> </head> <body> <?php echo
-$error;?> <?php echo form_open_multipart('upload/do_upload');?>
-<input type="file" name="userfile" size="20" /> <br /><br /> <input
-type="submit" value="upload" /> </form> </body> </html>
+	<html>
+	<head>
+	<title>Upload Form</title>
+	</head>
+	<body>
+
+	<?php echo $error;?>
+
+	<?php echo form_open_multipart('upload/do_upload');?>
+
+	<input type="file" name="userfile" size="20" />
+
+	<br /><br />
+
+	<input type="submit" value="upload" />
+
+	</form>
+
+	</body>
+	</html>
+
 You'll notice we are using a form helper to create the opening form tag.
 File uploads require a multipart form, so the helper creates the proper
 syntax for you. You'll also notice we have an $error variable. This is
@@ -42,31 +59,73 @@ The Success Page
 ================
 
 Using a text editor, create a form called upload_success.php. In it,
-place this code and save it to your applications/views/ folder:
+place this code and save it to your applications/views/ folder::
 
-<html> <head> <title>Upload Form</title> </head> <body> <h3>Your file
-was successfully uploaded!</h3> <ul> <?php foreach ($upload_data as
-$item => $value):?> <li><?php echo $item;?>: <?php echo $value;?></li>
-<?php endforeach; ?> </ul> <p><?php echo anchor('upload', 'Upload
-Another File!'); ?></p> </body> </html>
+	<html>
+	<head>
+	<title>Upload Form</title>
+	</head>
+	<body>
+
+	<h3>Your file was successfully uploaded!</h3>
+
+	<ul>
+	<?php foreach ($upload_data as $item => $value):?>
+	<li><?php echo $item;?>: <?php echo $value;?></li>
+	<?php endforeach; ?>
+	</ul>
+
+	<p><?php echo anchor('upload', 'Upload Another File!'); ?></p>
+
+	</body>
+	</html>
+
 The Controller
 ==============
 
 Using a text editor, create a controller called upload.php. In it, place
-this code and save it to your applications/controllers/ folder:
+this code and save it to your applications/controllers/ folder::
 
-<?php class Upload extends CI_Controller { function \__construct() {
-parent::\__construct(); $this->load->helper(array('form', 'url')); }
-function index() { $this->load->view('upload_form', array('error' => '
-' )); } function do_upload() { $config['upload_path'] = './uploads/';
-$config['allowed_types'] = 'gif\|jpg\|png'; $config['max_size'] =
-'100'; $config['max_width'] = '1024'; $config['max_height'] = '768';
-$this->load->library('upload', $config); if ( !
-$this->upload->do_upload()) { $error = array('error' =>
-$this->upload->display_errors()); $this->load->view('upload_form',
-$error); } else { $data = array('upload_data' =>
-$this->upload->data()); $this->load->view('upload_success', $data); } }
-} ?>
+	<?php
+
+	class Upload extends CI_Controller {
+
+		function __construct()
+		{
+			parent::__construct();
+			$this->load->helper(array('form', 'url'));
+		}
+
+		function index()
+		{
+			$this->load->view('upload_form', array('error' => ' ' ));
+		}
+
+		function do_upload()
+		{
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['max_size']	= '100';
+			$config['max_width']  = '1024';
+			$config['max_height']  = '768';
+
+			$this->load->library('upload', $config);
+
+			if ( ! $this->upload->do_upload())
+			{
+				$error = array('error' => $this->upload->display_errors());
+
+				$this->load->view('upload_form', $error);
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+
+				$this->load->view('upload_success', $data);
+			}
+		}
+	}
+	?>
 
 The Upload Folder
 =================
@@ -108,7 +167,16 @@ Similar to other libraries, you'll control what is allowed to be upload
 based on your preferences. In the controller you built above you set the
 following preferences::
 
-	$config['upload_path'] = './uploads/'; $config['allowed_types'] = 'gif|jpg|png'; $config['max_size'] = '100'; $config['max_width']  = '1024'; $config['max_height']  = '768';  $this->load->library('upload', $config);  // Alternately you can set preferences by calling the initialize function.  Useful if you auto-load the class: $this->upload->initialize($config);
+	$config['upload_path'] = './uploads/';
+	$config['allowed_types'] = 'gif|jpg|png';
+	$config['max_size']	= '100';
+	$config['max_width'] = '1024';
+	$config['max_height'] = '768';
+
+	$this->load->library('upload', $config);
+
+	// Alternately you can set preferences by calling the initialize function. Useful if you auto-load the class:
+	$this->upload->initialize($config);
 
 The above preferences should be fairly self-explanatory. Below is a
 table describing all available preferences.
@@ -211,7 +279,8 @@ called userfile, and the form must be a "multipart type::
 If you would like to set your own field name simply pass its value to
 the do_upload function::
 
-	 $field_name = "some_field_name"; $this->upload->do_upload($field_name)
+	$field_name = "some_field_name";
+	$this->upload->do_upload($field_name);
 
 $this->upload->display_errors()
 ================================
@@ -234,7 +303,23 @@ $this->upload->data()
 This is a helper function that returns an array containing all of the
 data related to the file you uploaded. Here is the array prototype::
 
-	Array (     [file_name]    => mypic.jpg     [file_type]    => image/jpeg     [file_path]    => /path/to/your/upload/     [full_path]    => /path/to/your/upload/jpg.jpg     [raw_name]     => mypic     [orig_name]    => mypic.jpg     [client_name]  => mypic.jpg     [file_ext]     => .jpg     [file_size]    => 22.2     [is_image]     => 1     [image_width]  => 800     [image_height] => 600     [image_type]   => jpeg     [image_size_str] => width="800" height="200" )
+	Array
+	(
+	    [file_name]    => mypic.jpg
+	    [file_type]    => image/jpeg
+	    [file_path]    => /path/to/your/upload/
+	    [full_path]    => /path/to/your/upload/jpg.jpg
+	    [raw_name]     => mypic
+	    [orig_name]    => mypic.jpg
+	    [client_name]  => mypic.jpg
+	    [file_ext]     => .jpg
+	    [file_size]    => 22.2
+	    [is_image]     => 1
+	    [image_width]  => 800
+	    [image_height] => 600
+	    [image_type]   => jpeg
+	    [image_size_str] => width="800" height="200"
+	)
 
 Explanation
 ***********
