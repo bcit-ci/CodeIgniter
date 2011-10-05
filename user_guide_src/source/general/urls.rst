@@ -42,9 +42,13 @@ By default, the **index.php** file will be included in your URLs::
 
 You can easily remove this file by using a .htaccess file with some
 simple rules. Here is an example of such a file, using the "negative"
-method in which everything is redirected except the specified items::
+method in which everything is redirected except the specified items:
 
-	RewriteEngine on RewriteCond $1 !^(index\.php|images|robots\.txt) RewriteRule ^(.*)$ /index.php/$1 [L]
+::
+	
+	RewriteEngine on
+	RewriteCond $1 !^(index\.php|images|robots\.txt)
+	RewriteRule ^(.*)$ /index.php/$1 [L]
 
 In the above example, any HTTP request other than those for index.php,
 images, and robots.txt is treated as a request for your index.php file.
@@ -74,7 +78,9 @@ CodeIgniter optionally supports this capability, which can be enabled in
 your application/config.php file. If you open your config file you'll
 see these items::
 
-	$config['enable_query_strings'] = FALSE; $config['controller_trigger'] = 'c'; $config['function_trigger'] = 'm';
+	$config['enable_query_strings'] = FALSE;
+	$config['controller_trigger'] = 'c';
+	$config['function_trigger'] = 'm';
 
 If you change "enable_query_strings" to TRUE this feature will become
 active. Your controllers and functions will then be accessible using the
@@ -82,7 +88,7 @@ active. Your controllers and functions will then be accessible using the
 
 	index.php?c=controller&m=method
 
-**Please note:** If you are using query strings you will have to build
-your own URLs, rather than utilizing the URL helpers (and other helpers
-that generate URLs, like some of the form helpers) as these are designed
-to work with segment based URLs.
+..note:: If you are using query strings you will have to build
+	your own URLs, rather than utilizing the URL helpers (and other helpers
+	that generate URLs, like some of the form helpers) as these are designed
+	to work with segment based URLs.
