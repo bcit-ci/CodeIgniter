@@ -28,7 +28,16 @@ Add the following to application/config/config.php
 
 ::
 
-	/*     |--------------------------------------------------------------------------     | Default Character Set     |--------------------------------------------------------------------------     |     | This determines which character set is used by default in various methods     | that require a character set to be provided.     |     */     $config['charset'] = "UTF-8";
+	/*
+	|--------------------------------------------------------------------------
+	| Default Character Set
+	|--------------------------------------------------------------------------
+	|
+	| This determines which character set is used by default in various methods
+	| that require a character set to be provided.
+	|
+	*/
+	$config['charset'] = "UTF-8";
 
 Step 3: Autoloading language files
 ==================================
