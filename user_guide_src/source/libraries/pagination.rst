@@ -17,7 +17,15 @@ Example
 Here is a simple example showing how to create pagination in one of your
 :doc:`controller <../general/controllers>` functions::
 
-	 $this->load->library('pagination'); $config['base_url'] = 'http://example.com/index.php/test/page/'; $config['total_rows'] = 200; $config['per_page']  = 20;  $this->pagination->initialize($config);   echo  $this->pagination->create_links();
+	$this->load->library('pagination');
+
+	$config['base_url'] = 'http://example.com/index.php/test/page/';
+	$config['total_rows'] = 200;
+	$config['per_page'] = 20; 
+
+	$this->pagination->initialize($config); 
+
+	echo $this->pagination->create_links();
 
 Notes
 =====
