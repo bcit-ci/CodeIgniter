@@ -71,7 +71,13 @@ containing the following information:
 The above data is stored in a cookie as a serialized array with this
 prototype::
 
-	[array] (      'session_id'    => random hash,      'ip_address'    => 'string - user IP address',      'user_agent'    => 'string - user agent data',      'last_activity' => timestamp )
+	[array]
+	(
+	     'session_id'    => random hash,
+	     'ip_address'    => 'string - user IP address',
+	     'user_agent'    => 'string - user agent data',
+	     'last_activity' => timestamp
+	)
 
 If you have the encryption option enabled, the serialized array will be
 encrypted before being stored in the cookie, making the data highly
@@ -123,8 +129,13 @@ containing your new data to this function::
 Where $array is an associative array containing your new data. Here's an
 example::
 
-	$newdata = array(                        'username'  => 'johndoe',                        'email'     => 'johndoe@some-site.com',                        'logged_in' => TRUE                    );          $this->session->set_userdata($newdata);
+	$newdata = array(
+	                   'username'  => 'johndoe',
+	                   'email'     => 'johndoe@some-site.com',
+	                   'logged_in' => TRUE
+	               );
 
+	$this->session->set_userdata($newdata);
 
 If you want to add userdata one value at a time, set_userdata() also
 supports this syntax.
@@ -148,14 +159,13 @@ An array of all userdata can be retrieved as follows::
 
 And returns an associative array like the following::
 
-
-    Array
-    (
-        [session_id] => 4a5a5dca22728fb0a84364eeb405b601
-        [ip_address] => 127.0.0.1
-        [user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
-        [last_activity] => 1303142623
-    )
+	Array
+	(
+	    [session_id] => 4a5a5dca22728fb0a84364eeb405b601
+	    [ip_address] => 127.0.0.1
+	    [user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
+	    [last_activity] => 1303142623
+	)
 
 Removing Session Data
 =====================
@@ -172,7 +182,9 @@ This function can also be passed an associative array of items to unset.
 
 ::
 
-	$array_items = array('username' => '', 'email' => '');  $this->session->unset_userdata($array_items);
+	$array_items = array('username' => '', 'email' => '');
+
+	$this->session->unset_userdata($array_items);
 
 
 Flashdata
@@ -225,13 +237,17 @@ is created.
 
 In order to store sessions, you must first create a database table for
 this purpose. Here is the basic prototype (for MySQL) required by the
-session class:
+session class::
 
-CREATE TABLE IF NOT EXISTS \`ci_sessions\` ( session_id varchar(40)
-DEFAULT '0' NOT NULL, ip_address varchar(16) DEFAULT '0' NOT NULL,
-user_agent varchar(120) NOT NULL, last_activity int(10) unsigned
-DEFAULT 0 NOT NULL, user_data text NOT NULL, PRIMARY KEY (session_id),
-KEY \`last_activity_idx\` (\`last_activity\`) );
+	CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+		session_id varchar(40) DEFAULT '0' NOT NULL,
+		ip_address varchar(16) DEFAULT '0' NOT NULL,
+		user_agent varchar(120) NOT NULL,
+		last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+		user_data text NOT NULL,
+		PRIMARY KEY (session_id),
+		KEY `last_activity_idx` (`last_activity`)
+	);
 
 .. note:: By default the table is called ci_sessions, but you can name
 	it anything you want as long as you update the
