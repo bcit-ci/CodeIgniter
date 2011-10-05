@@ -80,11 +80,19 @@ simply can not match the performance of native PHP, and the syntax that
 must be learned to use a template engine is usually only marginally
 easier than learning the basics of PHP. Consider this block of PHP code::
 
-	<ul>  <?php foreach ($addressbook as $name):?>  <li><?=$name?></li>  <?php endforeach; ?>  </ul>
+	<ul>
+	<?php foreach ($addressbook as $name):?>
+		<li><?=$name?></li>
+	<?php endforeach; ?>
+	</ul>
 
 Contrast this with the pseudo-code used by a template engine::
 
-	<ul>  {foreach from=$addressbook item="name"}  <li>{$name}</li>  {/foreach}  </ul>
+	<ul>
+	{foreach from=$addressbook item="name"}
+		<li>{$name}</li>
+	{/foreach}
+	</ul>
 
 Yes, the template engine example is a bit cleaner, but it comes at the
 price of performance, as the pseudo-code must be converted back into PHP
