@@ -44,14 +44,35 @@ Step 5: Edit your config file
 The original application/config/config.php file has a typo in it Open
 the file and look for the items related to cookies::
 
-	$conf['cookie_prefix']    = ""; $conf['cookie_domain']  = ""; $conf['cookie_path']    = "/";
+	$conf['cookie_prefix']	= "";
+	$conf['cookie_domain']	= "";
+	$conf['cookie_path']	= "/";
 
 Change the array name from $conf to $config, like this::
 
-	$config['cookie_prefix']  = ""; $config['cookie_domain']    = ""; $config['cookie_path']  = "/";
+	$config['cookie_prefix']	= "";
+	$config['cookie_domain']	= "";
+	$config['cookie_path']	= "/";
 
 Lastly, add the following new item to the config file (and edit the
 option if needed)::
 
-	 /* |------------------------------------------------ | URI PROTOCOL |------------------------------------------------ | | This item determines which server global  | should be used to retrieve the URI string.  The  | default setting of "auto" works for most servers. | If your links do not seem to work, try one of  | the other delicious flavors: |  | 'auto'            Default - auto detects | 'path_info'       Uses the PATH_INFO  | 'query_string'    Uses the QUERY_STRING */  $config['uri_protocol'] = "auto";
+	
+	/*
+	|------------------------------------------------
+	| URI PROTOCOL
+	|------------------------------------------------
+	|
+	| This item determines which server global 
+	| should be used to retrieve the URI string. The 
+	| default setting of "auto" works for most servers.
+	| If your links do not seem to work, try one of 
+	| the other delicious flavors:
+	| 
+	| 'auto'	 Default - auto detects
+	| 'path_info'	 Uses the PATH_INFO 
+	| 'query_string'	Uses the QUERY_STRING
+	*/
+
+	$config['uri_protocol']	= "auto";
 

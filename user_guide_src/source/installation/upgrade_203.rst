@@ -58,5 +58,6 @@ Update Sessions Database Tables
 If you are using database sessions with the CI Session Library, please
 update your ci_sessions database table as follows::
 
-	     CREATE INDEX last_activity_idx ON ci_sessions(last_activity);     ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
+	CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
+	ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
 

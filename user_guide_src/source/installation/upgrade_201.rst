@@ -34,5 +34,6 @@ need to be changed from::
 
 to use either a / or base_url()::
 
-	echo form_open('/'); //<form action="http://example.com/index.php/" method="post" accept-charset="utf-8"> echo form_open(base_url()); //<form action="http://example.com/" method="post" accept-charset="utf-8">
+	echo form_open('/'); //<form action="http://example.com/index.php/" method="post" accept-charset="utf-8">
+	echo form_open(base_url()); //<form action="http://example.com/" method="post" accept-charset="utf-8">
 

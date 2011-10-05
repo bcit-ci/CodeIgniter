@@ -39,7 +39,17 @@ Add the following to application/config/autoload.php
 
 ::
 
-	 /*     | -------------------------------------------------------------------     |  Auto-load Model files     | -------------------------------------------------------------------     | Prototype:     |     |  $autoload['model'] = array('my_model');     |     */          $autoload['model'] = array();
+	/*
+	| -------------------------------------------------------------------
+	| Auto-load Model files
+	| -------------------------------------------------------------------
+	| Prototype:
+	|
+	| $autoload['model'] = array('my_model');
+	|
+	*/
+
+	$autoload['model'] = array();
 
 
 Step 4: Add to your database.php
@@ -66,7 +76,8 @@ Add the following to your database configuration options
 
 ::
 
-	$db['default']['char_set'] = "utf8"; $db['default']['dbcollat'] = "utf8_general_ci";
+	$db['default']['char_set'] = "utf8";
+	$db['default']['dbcollat'] = "utf8_general_ci";
 
 
 Step 5: Update your user guide
