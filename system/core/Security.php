@@ -33,7 +33,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_xss_hash			= '';
-	
+
 	/**
 	 * Random Hash for Cross Site Request Forgery Protection Cookie
 	 *
@@ -41,7 +41,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_hash			= '';
-	
+
 	/**
 	 * Expiration time for Cross Site Request Forgery Protection Cookie
 	 * Defaults to two hours (in seconds)
@@ -50,7 +50,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_expire			= 7200;
-	
+
 	/**
 	 * Token name for Cross Site Request Forgery Protection Cookie
 	 *
@@ -58,7 +58,7 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_token_name		= 'ci_csrf_token';
-	
+
 	/**
 	 * Cookie name for Cross Site Request Forgery Protection Cookie
 	 *
@@ -66,14 +66,14 @@ class CI_Security {
 	 * @access protected
 	 */
 	protected $_csrf_cookie_name	= 'ci_csrf_token';
-	
+
 	/**
 	 * List of never allowed strings
 	 *
 	 * @var array
 	 * @access protected
 	 */
-	
+
 	protected $_never_allowed_str = array(
 					'document.cookie'	=> '[removed]',
 					'document.write'	=> '[removed]',
@@ -139,7 +139,7 @@ class CI_Security {
 		{
 			return $this->csrf_set_cookie();
 		}
-		
+
 		// Check if URI has been whitelisted from CSRF checks
 		if ($exclude_uris = config_item('csrf_exclude_uris'))
 		{
@@ -172,9 +172,9 @@ class CI_Security {
                 $this->_csrf_hash = '';
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
-		
+
 		log_message('debug', "CSRF token verified");
-		
+
 		return $this;
 	}
 
@@ -188,7 +188,7 @@ class CI_Security {
 	public function csrf_set_cookie()
 	{
 		$expire = time() + $this->_csrf_expire;
-		$secure_cookie = (config_item('cookie_secure') === TRUE) ? 1 : 0;
+		$secure_cookie = (bool) config_item('cookie_secure');
 
 		if ($secure_cookie)
 		{
@@ -385,16 +385,11 @@ class CI_Security {
 
 		foreach ($words as $word)
 		{
-			$temp = '';
-
-			for ($i = 0, $wordlen = strlen($word); $i < $wordlen; $i++)
-			{
-				$temp .= substr($word, $i, 1)."\s*";
-			}
+			$word = implode("\s*", str_split($word)) . "\s*";
 
 			// We only want to do this when it is followed by a non-word character
 			// That way valid stuff like "dealer to" does not become "dealerto"
-			$str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
+			$str = preg_replace_callback('#('.substr($word, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
 		}
 
 		/*
@@ -473,7 +468,7 @@ class CI_Security {
 
 		if ($is_image === TRUE)
 		{
-			return ($str == $converted_string) ? TRUE: FALSE;
+			return ($str === $converted_string) ? TRUE : FALSE;
 		}
 
 		log_message('debug', "XSS Filtering completed");
@@ -513,26 +508,17 @@ class CI_Security {
 	 *
 	 * This function is a replacement for html_entity_decode()
 	 *
-	 * In some versions of PHP the native function does not work
-	 * when UTF-8 is the specified character set, so this gives us
-	 * a work-around.  More info here:
-	 * http://bugs.php.net/bug.php?id=25670
-	 *
-	 * NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the
-	 * character set, and the PHP developers said they were not back porting the
-	 * fix to versions other than PHP 5.x.
-	 *
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
 	public function entity_decode($str, $charset = NULL)
 	{
-		if (stristr($str, '&') === FALSE)
+		if (strpos($str, '&') === FALSE)
 		{
 			return $str;
 		}
-		
+
 		if (empty($charset))
 		{
 			$charset = config_item('charset');
@@ -543,26 +529,9 @@ class CI_Security {
 		// at the end of an entity most browsers will still interpret the entity
 		// correctly.  html_entity_decode() does not convert entities without
 		// semicolons, so we are left with our own little solution here. Bummer.
-
-		if (function_exists('html_entity_decode') &&
-			(strtolower($charset) != 'utf-8'))
-		{
-			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
-			return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
-		}
-
-		// Numeric Entities
-		$str = preg_replace('~&#x(0*[0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
-		$str = preg_replace('~&#([0-9]{2,4});{0,1}~e', 'chr(\\1)', $str);
-
-		// Literal Entities - Slightly slow so we do another check
-		if (stristr($str, '&') === FALSE)
-		{
-			$str = strtr($str, array_flip(get_html_translation_table(HTML_ENTITIES)));
-		}
-
-		return $str;
+		$str = html_entity_decode($str, ENT_COMPAT, $charset);
+		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
+		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -896,4 +865,4 @@ class CI_Security {
 }
 
 /* End of file Security.php */
-/* Location: ./system/libraries/Security.php */
+/* Location: ./system/core/Security.php */
