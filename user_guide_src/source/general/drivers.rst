@@ -30,7 +30,8 @@ Methods of that class can then be invoked with::
 The child classes, the drivers themselves, can then be called directly
 through the parent class, without initializing them::
 
-	$this->some_parent->child_one->some_method(); $this->some_parent->child_two->another_method();
+	$this->some_parent->child_one->some_method();
+	$this->some_parent->child_two->another_method();
 
 Creating Your Own Drivers
 =========================

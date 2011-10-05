@@ -54,7 +54,16 @@ one of three "levels" in the first parameter, indicating what type of
 message it is (debug, error, info), with the message itself in the
 second parameter. Example::
 
-	 if ($some_var == "") {     log_message('error', 'Some variable did not contain a value.'); } else {     log_message('debug', 'Some variable was correctly set'); }  log_message('info', 'The purpose of some variable is to provide some value.');
+	if ($some_var == "")
+	{
+	    log_message('error', 'Some variable did not contain a value.');
+	}
+	else
+	{
+	    log_message('debug', 'Some variable was correctly set');
+	}
+
+	log_message('info', 'The purpose of some variable is to provide some value.');
 
 There are three message types:
 

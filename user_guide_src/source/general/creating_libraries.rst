@@ -45,7 +45,16 @@ The Class File
 Classes should have this basic prototype (Note: We are using the name
 Someclass purely as an example)::
 
-	<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');  class Someclass {      public function some_function()     {     } } /* End of file Someclass.php */
+	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+
+	class Someclass {
+
+	    public function some_function()
+	    {
+	    }
+	}
+
+	/* End of file Someclass.php */
 
 Using Your Class
 ================
@@ -70,12 +79,24 @@ In the library loading function you can dynamically pass data as an
 array via the second parameter and it will be passed to your class
 constructor::
 
-	 $params = array('type' => 'large', 'color' => 'red');  $this->load->library('Someclass', $params);
+	$params = array('type' => 'large', 'color' => 'red');
+
+	$this->load->library('Someclass', $params);
 
 If you use this feature you must set up your class constructor to expect
 data::
 
-	<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');  class Someclass {      public function __construct($params)     {         // Do something with $params     } } ?>
+	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+	class Someclass {
+
+	    public function __construct($params)
+	    {
+	        // Do something with $params
+	    }
+	}
+
+	?>
 
 You can also pass parameters stored in a config file. Simply create a
 config file named identically to the class file name and store it in
@@ -93,7 +114,10 @@ object.
 Normally from within your controller functions you will call any of the
 available CodeIgniter functions using the $this construct::
 
-	 $this->load->helper('url'); $this->load->library('session'); $this->config->item('base_url'); etc.
+	$this->load->helper('url');
+	$this->load->library('session');
+	$this->config->item('base_url');
+	// etc.
 
 $this, however, only works directly within your controllers, your
 models, or your views. If you would like to use CodeIgniter's classes
@@ -106,7 +130,12 @@ First, assign the CodeIgniter object to a variable::
 Once you've assigned the object to a variable, you'll use that variable
 *instead* of $this::
 
-	 $CI =& get_instance();  $CI->load->helper('url'); $CI->load->library('session'); $CI->config->item('base_url'); etc.
+	$CI =& get_instance();
+
+	$CI->load->helper('url');
+	$CI->load->library('session');
+	$CI->config->item('base_url');
+	// etc.
 
 .. note:: You'll notice that the above get_instance() function is being
 	passed by reference::
@@ -126,7 +155,9 @@ same as the native library. For example, to replace the native Email
 library you'll create a file named application/libraries/Email.php, and
 declare your class with::
 
-	 class CI_Email {  }
+	class CI_Email {
+	
+	}
 
 Note that most native classes are prefixed with CI\_.
 
@@ -153,12 +184,20 @@ couple exceptions:
 For example, to extend the native Email class you'll create a file named
 application/libraries/MY_Email.php, and declare your class with::
 
-	 class MY_Email extends CI_Email {  }
+	class MY_Email extends CI_Email {
+
+	}
 
 Note: If you need to use a constructor in your class make sure you
 extend the parent constructor::
 
-	 class MY_Email extends CI_Email {      public function __construct()     {         parent::__construct();     } }
+	class MY_Email extends CI_Email {
+
+	    public function __construct()
+	    {
+	        parent::__construct();
+	    }
+	}
 
 Loading Your Sub-class
 ----------------------
