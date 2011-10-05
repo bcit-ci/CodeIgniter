@@ -36,10 +36,18 @@ Let's try it: Hello World!
 
 Let's create a simple controller so you can see it in action. Using your
 text editor, create a file called tools.php, and put the following code
-in it:
+in it::
 
-<?php class Tools extends CI_Controller { public function message($to =
-'World') { echo "Hello {$to}!".PHP_EOL; } } ?>
+	<?php
+	class Tools extends CI_Controller {
+
+		public function message($to = 'World')
+		{
+			echo "Hello {$to}!".PHP_EOL;
+		}
+	}
+	?>
+
 Then save the file to your application/controllers/ folder.
 
 Now normally you would visit the your site using a URL similar to this::
@@ -49,10 +57,14 @@ Now normally you would visit the your site using a URL similar to this::
 Instead, we are going to open Terminal in Mac/Lunix or go to Run > "cmd"
 in Windows and navigate to our CodeIgniter project.
 
+.. code-block:: bash
+
 	$ cd /path/to/project;
 	$ php index.php tools message
 
 If you did it right, you should see Hello World!.
+
+.. code-block:: bash
 
 	$ php index.php tools message "John Smith"
 
