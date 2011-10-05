@@ -1106,32 +1106,31 @@ class CI_Form_validation {
 	 * @param	string	DNS checks (options: a,mx,both,none; default: none)
 	 * @return	bool
 	 */
-	public function valid_email($str,$options='')
+	public function valid_email($str, $options = '')
 	{
-		if( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
-		{
-			return FALSE;	
-		}
-		$email_parts = explode('@', $email);
-		$domain = array_pop($email_parts);
-		
-		$options = strtolower($options);
-		
-		if($options == 'mx' || $options == 'both') {
-			if (!checkdnsrr($domain, 'MX'))
-			{
-				return FALSE;
-			}
-		}
-		
-		if($options == 'a' || $options == 'both') {
-			if (!checkdnsrr($domain, 'A'))
-			{
-				return FALSE;
-			}
-		}
-		
-		return FALSE;
+	    if ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
+	    {
+	        return FALSE;  
+	    }
+	    elseif (empty($options) // No further checks needed in this case ...
+	        OR ! function_exists('checkdnsrr')) // Might not exist under Windows, prior to PHP 5.3
+	    {
+	        return TRUE;
+	    }
+	
+	    sscanf('name@domain.com', '%s@%s', &$name, &$domain);
+	    $options = strtolower($options);
+	
+	    if ( ($options === 'both' OR $options === 'mx') && ! checkdnsrr($domain))
+	    {
+	        return FALSE;
+	    }
+	    elseif ( ($options === 'both' OR $options === 'a') && ! checkdnsrr($domain))
+	    {
+	        return FALSE;
+	    }
+	
+	    return TRUE;
 	}
 
 	// --------------------------------------------------------------------
