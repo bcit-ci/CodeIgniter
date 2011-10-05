@@ -40,7 +40,16 @@ identical. You will set some preferences corresponding to the action you
 intend to perform, then call one of four available processing functions.
 For example, to create an image thumbnail you'll do this::
 
-	$config['image_library'] = 'gd2'; $config['source_image'] = '/path/to/image/mypic.jpg'; $config['create_thumb'] = TRUE; $config['maintain_ratio'] = TRUE; $config['width']        = 75; $config['height']   = 50;  $this->load->library('image_lib', $config);   $this->image_lib->resize();
+	$config['image_library'] = 'gd2';
+	$config['source_image']	= '/path/to/image/mypic.jpg';
+	$config['create_thumb'] = TRUE;
+	$config['maintain_ratio'] = TRUE;
+	$config['width']	 = 75;
+	$config['height']	= 50;
+
+	$this->load->library('image_lib', $config); 
+
+	$this->image_lib->resize();
 
 The above code tells the image_resize function to look for an image
 called *mypic.jpg* located in the source_image folder, then create a
@@ -77,7 +86,10 @@ If they fail you can retrieve the error message using this function::
 A good practice is use the processing function conditionally, showing an
 error upon failure, like this::
 
-	if ( ! $this->image_lib->resize()) {     echo $this->image_lib->display_errors(); }
+	if ( ! $this->image_lib->resize())
+	{
+	    echo $this->image_lib->display_errors();
+	}
 
 Note: You can optionally specify the HTML formatting to be applied to
 the errors, by submitting the opening/closing tags in the function, like
@@ -269,7 +281,8 @@ The cropping function works nearly identically to the resizing function
 except it requires that you set preferences for the X and Y axis (in
 pixels) specifying where to crop, like this::
 
-	$config['x_axis'] = '100'; $config['y_axis'] = '40';
+	$config['x_axis'] = '100';
+	$config['y_axis'] = '40';
 
 All preferences listed in the table above are available for this
 function except these: rotation_angle, width, height, create_thumb,
@@ -277,7 +290,18 @@ new_image.
 
 Here's an example showing how you might crop an image::
 
-	$config['image_library'] = 'imagemagick'; $config['library_path'] = '/usr/X11R6/bin/'; $config['source_image'] = '/path/to/image/mypic.jpg'; $config['x_axis'] = '100'; $config['y_axis'] = '60';  $this->image_lib->initialize($config);   if ( ! $this->image_lib->crop()) {     echo $this->image_lib->display_errors(); }
+	$config['image_library'] = 'imagemagick';
+	$config['library_path'] = '/usr/X11R6/bin/';
+	$config['source_image']	= '/path/to/image/mypic.jpg';
+	$config['x_axis'] = '100';
+	$config['y_axis'] = '60';
+
+	$this->image_lib->initialize($config); 
+
+	if ( ! $this->image_lib->crop())
+	{
+	    echo $this->image_lib->display_errors();
+	}
 
 Note: Without a visual interface it is difficult to crop images, so this
 function is not very useful unless you intend to build such an
@@ -303,7 +327,17 @@ There are 5 rotation options:
 
 Here's an example showing how you might rotate an image::
 
-	$config['image_library'] = 'netpbm'; $config['library_path'] = '/usr/bin/'; $config['source_image'] = '/path/to/image/mypic.jpg'; $config['rotation_angle'] = 'hor';  $this->image_lib->initialize($config);   if ( ! $this->image_lib->rotate()) {     echo $this->image_lib->display_errors(); }
+	$config['image_library'] = 'netpbm';
+	$config['library_path'] = '/usr/bin/';
+	$config['source_image']	= '/path/to/image/mypic.jpg';
+	$config['rotation_angle'] = 'hor';
+
+	$this->image_lib->initialize($config); 
+
+	if ( ! $this->image_lib->rotate())
+	{
+	    echo $this->image_lib->display_errors();
+	}
 
 $this->image_lib->clear()
 ==========================
@@ -345,7 +379,19 @@ general process for watermarking involves setting the preferences
 corresponding to the action you intend to perform, then calling the
 watermark function. Here is an example::
 
-	 $config['source_image'] = '/path/to/image/mypic.jpg'; $config['wm_text'] = 'Copyright 2006 - John Doe'; $config['wm_type'] = 'text'; $config['wm_font_path'] = './system/fonts/texb.ttf'; $config['wm_font_size'] = '16'; $config['wm_font_color'] = 'ffffff'; $config['wm_vrt_alignment']  = 'bottom'; $config['wm_hor_alignment']  = 'center'; $config['wm_padding']  = '20';  $this->image_lib->initialize($config);   $this->image_lib->watermark();
+	$config['source_image']	= '/path/to/image/mypic.jpg';
+	$config['wm_text'] = 'Copyright 2006 - John Doe';
+	$config['wm_type'] = 'text';
+	$config['wm_font_path'] = './system/fonts/texb.ttf';
+	$config['wm_font_size']	= '16';
+	$config['wm_font_color'] = 'ffffff';
+	$config['wm_vrt_alignment'] = 'bottom';
+	$config['wm_hor_alignment'] = 'center';
+	$config['wm_padding'] = '20';
+
+	$this->image_lib->initialize($config); 
+
+	$this->image_lib->watermark();
 
 The above example will use a 16 pixel True Type font to create the text
 "Copyright 2006 - John Doe". The watermark will be positioned at the
