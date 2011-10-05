@@ -44,12 +44,12 @@ product information to the $this->cart->insert() function, as shown
 below::
 
 	$data = array(
-		'id'		=> 'sku_123ABC',
-		'qty'	=> 1,
-		'price'	=> 39.95,
-		'name'	=> 'T-Shirt',
-		'options'	=> array('Size' => 'L', 'Color' => 'Red')
-	);
+	               'id'      => 'sku_123ABC',
+	               'qty'     => 1,
+	               'price'   => 39.95,
+	               'name'    => 'T-Shirt',
+	               'options' => array('Size' => 'L', 'Color' => 'Red')
+	            );
 
 	$this->cart->insert($data);
 
@@ -93,26 +93,26 @@ same page.
 ::
 
 	$data = array(
-		 array(
-			'id'	  => 'sku_123ABC',
-			'qty'	 => 1,
-			'price'   => 39.95,
-			'name'	=> 'T-Shirt',
-			'options' => array('Size' => 'L', 'Color' => 'Red')
-		),
-		 array(
-			'id'	  => 'sku_567ZYX',
-			'qty'	 => 1,
-			'price'   => 9.95,
-			'name'	=> 'Coffee Mug'
-		),
-		 array(
-			'id'	  => 'sku_965QRS',
-			'qty'	 => 1,
-			'price'   => 29.95,
-			'name'	=> 'Shot Glass'
-		)
-	);
+	               array(
+	                       'id'      => 'sku_123ABC',
+	                       'qty'     => 1,
+	                       'price'   => 39.95,
+	                       'name'    => 'T-Shirt',
+	                       'options' => array('Size' => 'L', 'Color' => 'Red')
+	                    ),
+	               array(
+	                       'id'      => 'sku_567ZYX',
+	                       'qty'     => 1,
+	                       'price'   => 9.95,
+	                       'name'    => 'Coffee Mug'
+	                    ),
+	               array(
+	                       'id'      => 'sku_965QRS',
+	                       'qty'     => 1,
+	                       'price'   => 29.95,
+	                       'name'    => 'Shot Glass'
+	                    )
+	            );
 
 	$this->cart->insert($data);
 
@@ -193,30 +193,30 @@ function:
 ::
 
 	$data = array(
-		'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
-		'qty'   => 3
-	);
+	               'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
+	               'qty'   => 3
+	            );
 
 	$this->cart->update($data); 
 
 	// Or a multi-dimensional array
 
 	$data = array(
-		array(
-		   'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
-		   'qty'     => 3
-		),
-		array(
-		   'rowid'   => 'xw82g9q3r495893iajdh473990rikw23',
-		   'qty'     => 4
-		),
-		array(
-		   'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
-		   'qty'     => 2
-		)
-	);
+	               array(
+	                       'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
+	                       'qty'     => 3
+	                    ),
+	               array(
+	                       'rowid'   => 'xw82g9q3r495893iajdh473990rikw23',
+	                       'qty'     => 4
+	                    ),
+	               array(
+	                       'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
+	                       'qty'     => 2
+	                    )
+	            );
 
-	$this->cart->update($data); 
+	$this->cart->update($data);
 
 What is a Row ID?
 *****************
