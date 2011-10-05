@@ -30,11 +30,11 @@ The process for usage is this:
 Here's an example using real code::
 
 	$this->benchmark->mark('code_start');
-	
+
 	// Some code happens here
-	
+
 	$this->benchmark->mark('code_end');
-	
+
 	echo $this->benchmark->elapsed_time('code_start', 'code_end');
 
 .. note:: The words "code_start" and "code_end" are arbitrary. They
@@ -42,15 +42,15 @@ Here's an example using real code::
 	want, and you can set multiple sets of markers. Consider this example::
 
 		$this->benchmark->mark('dog');
-	
+
 		// Some code happens here
-	
+
 		$this->benchmark->mark('cat');
-	
+
 		// More code happens here
-	
+
 		$this->benchmark->mark('bird');
-	
+
 		echo $this->benchmark->elapsed_time('dog', 'cat');
 		echo $this->benchmark->elapsed_time('cat', 'bird');
 		echo $this->benchmark->elapsed_time('dog', 'bird');
@@ -64,16 +64,16 @@ If you want your benchmark data to be available to the
 be set up in pairs, and each mark point name must end with _start and
 _end. Each pair of points must otherwise be named identically. Example::
 
-	 $this->benchmark->mark('my_mark_start');
-	
+	$this->benchmark->mark('my_mark_start');
+
 	// Some code happens here...
-	
-	$this->benchmark->mark('my_mark_end');
-	
+
+	$this->benchmark->mark('my_mark_end'); 
+
 	$this->benchmark->mark('another_mark_start');
-	
+
 	// Some more code happens here...
-	
+
 	$this->benchmark->mark('another_mark_end');
 
 Please read the :doc:`Profiler page </general/profiling>` for more
