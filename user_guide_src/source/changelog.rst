@@ -107,6 +107,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
 -  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
+-  Fixed a bug (#501) - Form_validation::set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST).
 
 Version 2.0.3
 =============
