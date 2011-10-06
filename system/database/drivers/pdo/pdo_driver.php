@@ -349,7 +349,25 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function insert_id($name=NULL)
 	{
-		return $this->conn_id->lastInsertId($name);
+		//Convenience method for postgres insertid
+		if(strpos($this->hostname, 'pgsql') !== FALSE)
+		{
+			$v = $this->_version();
+
+			$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
+
+			if ($table == NULL && $v >= '8.1')
+			{
+				$sql='SELECT LASTVAL() as ins_id';
+			}
+			$query = $this->query($sql);
+			$row = $query->row();
+			return $row->ins_id;
+		}
+		else
+		{
+			return $this->conn_id->lastInsertId($name);
+		}
 	}
 
 	// --------------------------------------------------------------------
