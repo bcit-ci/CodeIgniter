@@ -65,7 +65,7 @@ model class might look like::
 Anatomy of a Model
 ==================
 
-Model classes are stored in your application/models/ folder. They can be
+Model classes are stored in your **application/models/ folder**. They can be
 nested within sub-folders if you want this type of organization.
 
 The basic prototype for a model class is this::
@@ -78,7 +78,7 @@ The basic prototype for a model class is this::
 	    }
 	}
 
-Where Model_name is the name of your class. Class names **must** have
+Where **Model_name** is the name of your class. Class names **must** have
 the first letter capitalized with the rest of the name lowercase. Make
 sure your class extends the base Model class.
 
@@ -148,7 +148,7 @@ Auto-loading Models
 If you find that you need a particular model globally throughout your
 application, you can tell CodeIgniter to auto-load it during system
 initialization. This is done by opening the
-application/config/autoload.php file and adding the model to the
+**application/config/autoload.php** file and adding the model to the
 autoload array.
 
 Connecting to your Database
