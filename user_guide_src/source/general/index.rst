@@ -1,0 +1,6 @@
+.. toctree::
+	:glob:
+	:hidden:
+	:titlesonly:
+	
+	*
