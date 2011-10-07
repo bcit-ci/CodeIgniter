@@ -186,8 +186,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 			return $this->result_array;
 		}
 
-		// oracle's fetch functions do not return arrays.
-		// The information is returned in reference parameters
 		$row = NULL;
 		while ($row = $this->_fetch_assoc())
 		{
