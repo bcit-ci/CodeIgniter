@@ -10,8 +10,8 @@ HTTP requests should be handled.
 What is a Controller?
 =====================
 
-A Controller is simply a class file that is named in a way that can be
-associated with a URI.
+**A Controller is simply a class file that is named in a way that can be
+associated with a URI.**
 
 Consider this URI::
 
@@ -136,7 +136,7 @@ Defining a Default Controller
 
 CodeIgniter can be told to load a default controller when a URI is not
 present, as will be the case when only your site root URL is requested.
-To specify a default controller, open your application/config/routes.php
+To specify a default controller, open your **application/config/routes.php**
 file and set this variable::
 
 	$route['default_controller'] = 'Blog';
@@ -199,8 +199,7 @@ Processing Output
 
 CodeIgniter has an output class that takes care of sending your final
 rendered data to the web browser automatically. More information on this
-can be found in the :doc::doc:`Views <views>` and `Output
-class <../libraries/output>` pages. In some cases, however, you
+can be found in the :doc:`Views <views>` and :doc:`Output class <../libraries/output>` pages. In some cases, however, you
 might want to post-process the finalized data in some way and send it to
 the browser yourself. CodeIgniter permits you to add a function named
 _output() to your controller that will receive the finalized output

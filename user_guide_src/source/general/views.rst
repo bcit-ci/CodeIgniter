@@ -24,7 +24,7 @@ in it::
 
 	<html>
 	<head>
-	<title>My Blog</title>
+		<title>My Blog</title>
 	</head>
 	<body>
 		<h1>Welcome to my Blog!</h1>
@@ -141,7 +141,7 @@ to the array keys in your data::
 
 	<html>
 	<head>
-	<title><?php echo $title;?></title>
+		<title><?php echo $title;?></title>
 	</head>
 	<body>
 		<h1><?php echo $heading;?></h1>
@@ -180,27 +180,27 @@ Now open your view file and create a loop::
 
 	<html>
 	<head>
-	<title><?php echo $title;?></title>
+		<title><?php echo $title;?></title>
 	</head>
 	<body>
-	<h1><?php echo $heading;?></h1>
+		<h1><?php echo $heading;?></h1>
+	
+		<h3>My Todo List</h3>
 
-	<h3>My Todo List</h3>
-
-	<ul>
-	<?php foreach ($todo_list as $item):?>
-
-	<li><?php echo $item;?></li>
-
-	<?php endforeach;?>
-	</ul>
+		<ul>
+		<?php foreach ($todo_list as $item):?>
+	
+			<li><?php echo $item;?></li>
+	
+		<?php endforeach;?>
+		</ul>
 
 	</body>
 	</html>
 
 .. note:: You'll notice that in the example above we are using PHP's
 	alternative syntax. If you are not familiar with it you can read about
-	it `here </general/alternative_php>`.
+	it :doc:`here </general/alternative_php>`.
 
 Returning views as data
 =======================
