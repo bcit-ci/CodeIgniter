@@ -66,7 +66,7 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'rpm'	=>	'audio/x-pn-realaudio-plugin',
 				'ra'	=>	'audio/x-realaudio',
 				'rv'	=>	'video/vnd.rn-realvideo',
-				'wav'	=>	'audio/x-wav',
+				'wav'	=>	array('audio/x-wav', 'audio/wave', 'audio/wav'),
 				'bmp'	=>	array('image/bmp', 'image/x-windows-bmp'),
 				'gif'	=>	'image/gif',
 				'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
