@@ -65,40 +65,19 @@ class <../libraries/output>`::
 Available sections and the array key used to access them are described
 in the table below.
 
-Key
-Description
-Default
-**benchmarks**
-Elapsed time of Benchmark points and total execution time
-TRUE
-**config**
-CodeIgniter Config variables
-TRUE
-**controller_info**
-The Controller class and method requested
-TRUE
-**get**
-Any GET data passed in the request
-TRUE
-**http_headers**
-The HTTP headers for the current request
-TRUE
-**memory_usage**
-Amount of memory consumed by the current request, in bytes
-TRUE
-**post**
-Any POST data passed in the request
-TRUE
-**queries**
-Listing of all database queries executed, including execution time
-TRUE
-**uri_string**
-The URI of the current request
-TRUE
-**session_data**
-Data stored in the current session
-TRUE
-**query_toggle_count**
-The number of queries after which the query block will default to
-hidden.
-25
+======================= =================================================================== ========
+Key                     Description                                                         Default
+======================= =================================================================== ========
+**benchmarks**          Elapsed time of Benchmark points and total execution time           TRUE
+**config**              CodeIgniter Config variables                                        TRUE
+**controller_info**     The Controller class and method requested                           TRUE
+**get**                 Any GET data passed in the request                                  TRUE
+**http_headers**        The HTTP headers for the current request                            TRUE
+**memory_usage**        Amount of memory consumed by the current request, in bytes          TRUE
+**post**                Any POST data passed in the request                                 TRUE
+**queries**             Listing of all database queries executed, including execution time  TRUE
+**uri_string**          The URI of the current request                                      TRUE
+**session_data**        Data stored in the current session                                  TRUE
+**query_toggle_count**  The number of queries after which the query block will default to   25
+                        hidden.
+======================= =================================================================== ========
