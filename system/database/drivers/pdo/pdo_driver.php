@@ -52,12 +52,12 @@ class CI_DB_pdo_driver extends CI_DB {
 		parent::__construct($params);
 		
 		// clause and character used for LIKE escape sequences
-		if(strpos($this->hostname, 'mysql') !== FALSE)
+		if (strpos($this->hostname, 'mysql') !== FALSE)
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
-		else if(strpos($this->hostname, 'odbc') !== FALSE)
+		else if (strpos($this->hostname, 'odbc') !== FALSE)
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 			$this->_like_escape_chr = '!';
@@ -180,7 +180,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->query($sql);
 		
-		if(is_object($result_id))
+		if (is_object($result_id))
 		{
 			$this->affect_rows = $result_id->rowCount();
 		}
@@ -313,7 +313,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$str = $this->conn_id->quote($str);
 		
 		//If there are duplicated quotes, trim them away
-		if(strpos($str, "'") === 0)
+		if (strpos($str, "'") === 0)
 		{
 			$str = substr($str, 1, -1);
 		}
@@ -353,7 +353,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function insert_id($name=NULL)
 	{
 		//Convenience method for postgres insertid
-		if(strpos($this->hostname, 'pgsql') !== FALSE)
+		if (strpos($this->hostname, 'pgsql') !== FALSE)
 		{
 			$v = $this->_version();
 
@@ -743,7 +743,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if(strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
+		if (strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
 		{
 			if ($offset == 0)
 			{
