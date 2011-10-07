@@ -35,7 +35,7 @@ class CI_DB_forge {
 	 * Grabs the CI super object instance so we can access it.
 	 *
 	 */
-	function __construct()
+	function CI_DB_forge()
 	{
 		// Assign the main database object to $this->db
 		$CI =& get_instance();

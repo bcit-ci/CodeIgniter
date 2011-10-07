@@ -78,7 +78,7 @@ class CI_DB_driver {
 	 *
 	 * @param array
 	 */
-	function __construct($params)
+	function CI_DB_driver($params)
 	{
 		if (is_array($params))
 		{

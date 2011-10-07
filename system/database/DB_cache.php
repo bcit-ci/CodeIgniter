@@ -33,7 +33,7 @@ class CI_DB_Cache {
 	 * Grabs the CI super object instance so we can access it.
 	 *
 	 */
-	function __construct(&$db)
+	function CI_DB_Cache(&$db)
 	{
 		// Assign the main CI object to $this->CI
 		// and load the file helper since we use it a lot
