@@ -51,27 +51,27 @@ when the database classes are initialized.
 Explanation of Values:
 ----------------------
 
--  **hostname** - The hostname of your database server. Often this is
+-	**hostname** - The hostname of your database server. Often this is
 	"localhost".
--  **username** - The username used to connect to the database.
--  **password** - The password used to connect to the database.
--  **database** - The name of the database you want to connect to.
--  **dbdriver** - The database type. ie: mysql, postgres, odbc, etc.
+-	**username** - The username used to connect to the database.
+-	**password** - The password used to connect to the database.
+-	**database** - The name of the database you want to connect to.
+-	**dbdriver** - The database type. ie: mysql, postgres, odbc, etc.
 	Must be specified in lower case.
--  **dbprefix** - An optional table prefix which will added to the table
+-	**dbprefix** - An optional table prefix which will added to the table
 	name when running :doc:`Active Record <active_record>` queries. This
 	permits multiple CodeIgniter installations to share one database.
--  **pconnect** - TRUE/FALSE (boolean) - Whether to use a persistent
+-	**pconnect** - TRUE/FALSE (boolean) - Whether to use a persistent
 	connection.
--  **db_debug** - TRUE/FALSE (boolean) - Whether database errors should
+-	**db_debug** - TRUE/FALSE (boolean) - Whether database errors should
 	be displayed.
--  **cache_on** - TRUE/FALSE (boolean) - Whether database query caching
+-	**cache_on** - TRUE/FALSE (boolean) - Whether database query caching
 	is enabled, see also :doc:`Database Caching Class <caching>`.
--  **cachedir** - The absolute server path to your database query cache
+-	**cachedir** - The absolute server path to your database query cache
 	directory.
--  **char_set** - The character set used in communicating with the
+-	**char_set** - The character set used in communicating with the
 	database.
--  **dbcollat** - The character collation used in communicating with the
+-	**dbcollat** - The character collation used in communicating with the
 	database.
 
 .. note:: For MySQL and MySQLi databases, this setting is only used
@@ -83,19 +83,21 @@ Explanation of Values:
 	Sites using Latin-1 or UTF-8 database character set and collation are
 	unaffected.
 
--  **swap_pre** - A default table prefix that should be swapped with
+-	**swap_pre** - A default table prefix that should be swapped with
 	dbprefix. This is useful for distributed applications where you might
 	run manually written queries, and need the prefix to still be
 	customizable by the end user.
--  **autoinit** - Whether or not to automatically connect to the
+-	**autoinit** - Whether or not to automatically connect to the
 	database when the library loads. If set to false, the connection will
 	take place prior to executing the first query.
--  **stricton** - TRUE/FALSE (boolean) - Whether to force "Strict Mode"
+-	**stricton** - TRUE/FALSE (boolean) - Whether to force "Strict Mode"
 	connections, good for ensuring strict SQL while developing an
 	application.
--  **port** - The database port number. To use this value you have to
+-	**port** - The database port number. To use this value you have to
 	add a line to the database config
-	array.::
+	array.
+
+::
 
 	$db['default']['port'] =  5432;
 
