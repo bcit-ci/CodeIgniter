@@ -92,19 +92,20 @@ as indicated above).
 By setting the second parameter to TRUE (boolean) the function will
 return the database object.
 
-When you connect this way, you will use your object name to issue
-commands rather than the syntax used throughout this guide. In other
-words, rather than issuing commands with:
-
-$this->db->query();
-$this->db->result();
-etc...
-
-You will instead use:
-
-$DB1->query();
-$DB1->result();
-etc...
+.. note:: When you connect this way, you will use your object name to issue
+	commands rather than the syntax used throughout this guide. In other
+	words, rather than issuing commands with:
+	
+	|
+	| $this->db->query();
+	| $this->db->result();
+	| etc...
+	|
+	| You will instead use:
+	|
+	| $DB1->query();
+	| $DB1->result();
+	| etc...
 
 Reconnecting / Keeping the Connection Alive
 ===========================================
