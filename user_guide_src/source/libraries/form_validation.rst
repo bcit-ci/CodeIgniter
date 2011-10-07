@@ -5,31 +5,7 @@ Form Validation
 CodeIgniter provides a comprehensive form validation and data prepping
 class that helps minimize the amount of code you'll write.
 
--  `Overview <#overview>`_
--  `Form Validation Tutorial <#tutorial>`_
-
-   -  `The Form <#theform>`_
-   -  `The Success Page <#thesuccesspage>`_
-   -  `The Controller <#thecontroller>`_
-   -  `Setting Validation Rules <#validationrules>`_
-   -  `Setting Validation Rules Using an
-      Array <#validationrulesasarray>`_
-   -  `Cascading Rules <#cascadingrules>`_
-   -  `Prepping Data <#preppingdata>`_
-   -  `Re-populating the Form <#repopulatingform>`_
-   -  `Callbacks <#callbacks>`_
-   -  `Setting Error Messages <#settingerrors>`_
-   -  `Changing the Error Delimiters <#errordelimiters>`_
-   -  `Translating Field Names <#translatingfn>`_
-   -  `Showing Errors Individually <#individualerrors>`_
-   -  `Saving Sets of Validation Rules to a Config
-      File <#savingtoconfig>`_
-   -  `Using Arrays as Field Names <#arraysasfields>`_
-
--  `Rule Reference <#rulereference>`_
--  `Prepping Reference <#preppingreference>`_
--  `Function Reference <#functionreference>`_
--  `Helper Reference <#helperreference>`_
+.. contents:: Page Contents
 
 ********
 Overview
@@ -888,7 +864,7 @@ Name                 Parameter Description
 ==================== ========= ===================================================================================================
 **xss_clean**        No        Runs the data through the XSS filtering function, described in the :doc:`Input Class <input>` page.
 **prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
-**prep_url**         No        Adds "http://" to URLs if missing.
+**prep_url**         No        Adds "\http://" to URLs if missing.
 **strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
 **encode_php_tags**  No        Converts PHP tags to entities.
 ==================== ========= ===================================================================================================

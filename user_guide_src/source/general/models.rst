@@ -5,11 +5,7 @@ Models
 Models are **optionally** available for those who want to use a more
 traditional MVC approach.
 
--  `What is a Model? <#what>`_
--  `Anatomy of a Model <#anatomy>`_
--  `Loading a Model <#loading>`_
--  `Auto-Loading a Model <#auto_load_model>`_
--  `Connecting to your Database <#conn>`_
+.. contents:: Page Contents
 
 What is a Model?
 ================
