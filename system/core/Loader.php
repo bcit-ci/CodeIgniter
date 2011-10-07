@@ -616,6 +616,11 @@ class CI_Loader {
 			require BASEPATH.'libraries/Driver.php';
 		}
 
+		if ($library == '')
+		{
+			return FALSE;
+		}
+
 		// We can save the loader some time since Drivers will *always* be in a subfolder,
 		// and typically identically named to the library
 		if ( ! strpos($library, '/'))
