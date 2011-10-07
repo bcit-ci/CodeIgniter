@@ -29,7 +29,10 @@ $this->dbforge->create_database('db_name')
 Permits you to create the database specified in the first parameter.
 Returns TRUE/FALSE based on success or failure::
 
-	if ($this->dbforge->create_database('my_db')) {     echo 'Database created!'; }
+	if ($this->dbforge->create_database('my_db'))
+	{
+		echo 'Database created!';
+	}
 
 $this->dbforge->drop_database('db_name')
 ==========================================
@@ -37,7 +40,10 @@ $this->dbforge->drop_database('db_name')
 Permits you to drop the database specified in the first parameter.
 Returns TRUE/FALSE based on success or failure::
 
-	if ($this->dbforge->drop_database('my_db')) {     echo 'Database deleted!'; }
+	if ($this->dbforge->drop_database('my_db'))
+	{
+		echo 'Database deleted!';
+	}
 
 ****************************
 Creating and Dropping Tables
@@ -57,7 +63,13 @@ also require a 'constraint' key.
 
 ::
 
-	$fields = array(                         'users' => array(                                                      'type' => 'VARCHAR',                                                      'constraint' => '100',                                               ),                     );      // will translate to "users VARCHAR(100)" when the field is added.
+	$fields = array(
+		'users' => array(
+			'type' => 'VARCHAR',
+			'constraint' => '100',
+		),
+	);
+	// will translate to "users VARCHAR(100)" when the field is added.
 
 
 Additionally, the following key/values can be used:
@@ -72,7 +84,27 @@ Additionally, the following key/values can be used:
 
 ::
 
-	$fields = array(                             'blog_id' => array(                                                      'type' => 'INT',                                                      'constraint' => 5,                                                       'unsigned' => TRUE,                                                      'auto_increment' => TRUE                                               ),                             'blog_title' => array(                                                  'type' => 'VARCHAR',                                                  'constraint' => '100',                                           ),                         'blog_author' => array(                                                  'type' =>'VARCHAR',                                                  'constraint' => '100',                                                  'default' => 'King of Town',                                           ),                         'blog_description' => array(                                                  'type' => 'TEXT',                                                  'null' => TRUE,                                           ),                 );
+	$fields = array(
+		'blog_id' => array(
+			'type' => 'INT',
+			'constraint' => 5,
+			'unsigned' => TRUE,
+			'auto_increment' => TRUE
+		),
+		'blog_title' => array(
+			'type' => 'VARCHAR',
+			'constraint' => '100',
+		),
+		'blog_author' => array(
+			'type' =>'VARCHAR',
+			'constraint' => '100',
+			'default' => 'King of Town',
+		),
+		'blog_description' => array(
+			'type' => 'TEXT',
+			'null' => TRUE,
+		),
+	);
 
 
 After the fields have been defined, they can be added using
@@ -95,7 +127,7 @@ string into the field definitions with add_field()
 	$this->dbforge->add_field("label varchar(100) NOT NULL DEFAULT 'default label'");
 
 
-Note: Multiple calls to add_field() are cumulative.
+.. note:: Multiple calls to add_field() are cumulative.
 
 Creating an id field
 --------------------
@@ -106,7 +138,8 @@ Primary Key.
 
 ::
 
-	$this->dbforge->add_field('id');     // gives id INT(9) NOT NULL AUTO_INCREMENT
+	$this->dbforge->add_field('id');
+	// gives id INT(9) NOT NULL AUTO_INCREMENT
 
 
 Adding Keys
@@ -122,7 +155,18 @@ below is for MySQL.
 
 ::
 
-	$this->dbforge->add_key('blog_id', TRUE);     // gives PRIMARY KEY `blog_id` (`blog_id`)          $this->dbforge->add_key('blog_id', TRUE);     $this->dbforge->add_key('site_id', TRUE);     // gives PRIMARY KEY `blog_id_site_id` (`blog_id`, `site_id`)          $this->dbforge->add_key('blog_name');     // gives KEY `blog_name` (`blog_name`)          $this->dbforge->add_key(array('blog_name', 'blog_label'));     // gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
+	$this->dbforge->add_key('blog_id', TRUE);
+	// gives PRIMARY KEY `blog_id` (`blog_id`)
+	
+	$this->dbforge->add_key('blog_id', TRUE);
+	$this->dbforge->add_key('site_id', TRUE);
+	// gives PRIMARY KEY `blog_id_site_id` (`blog_id`, `site_id`)
+	
+	$this->dbforge->add_key('blog_name');
+	// gives KEY `blog_name` (`blog_name`)
+	
+	$this->dbforge->add_key(array('blog_name', 'blog_label'));
+	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
 
 Creating a table
@@ -133,7 +177,8 @@ with
 
 ::
 
-	$this->dbforge->create_table('table_name'); // gives CREATE TABLE table_name
+	$this->dbforge->create_table('table_name');
+	// gives CREATE TABLE table_name
 
 
 An optional second parameter set to TRUE adds an "IF NOT EXISTS" clause
@@ -141,7 +186,8 @@ into the definition
 
 ::
 
-	$this->dbforge->create_table('table_name', TRUE); // gives CREATE TABLE IF NOT EXISTS table_name
+	$this->dbforge->create_table('table_name', TRUE);
+	// gives CREATE TABLE IF NOT EXISTS table_name
 
 
 Dropping a table
@@ -151,7 +197,8 @@ Executes a DROP TABLE sql
 
 ::
 
-	$this->dbforge->drop_table('table_name');     // gives DROP TABLE IF EXISTS  table_name
+	$this->dbforge->drop_table('table_name');
+	// gives DROP TABLE IF EXISTS  table_name
 
 
 Renaming a table
@@ -161,7 +208,8 @@ Executes a TABLE rename
 
 ::
 
-	$this->dbforge->rename_table('old_table_name', 'new_table_name');     // gives ALTER TABLE old_table_name RENAME TO new_table_name
+	$this->dbforge->rename_table('old_table_name', 'new_table_name');
+	// gives ALTER TABLE old_table_name RENAME TO new_table_name
 
 
 ****************
@@ -177,7 +225,11 @@ number of additional fields.
 
 ::
 
-	$fields = array(                             'preferences' => array('type' => 'TEXT') ); $this->dbforge->add_column('table_name', $fields);  // gives ALTER TABLE table_name ADD     preferences TEXT
+	$fields = array(
+		'preferences' => array('type' => 'TEXT')
+	);
+	$this->dbforge->add_column('table_name', $fields); 
+	// gives ALTER TABLE table_name ADD preferences TEXT
 
 An optional third parameter can be used to specify which existing column
 to add the new column after.
@@ -206,7 +258,11 @@ change the name you can add a "name" key into the field defining array.
 
 ::
 
-	$fields = array(                         'old_name' => array(                                                          'name' => 'new_name',                                                          'type' => 'TEXT',                                                 ), ); $this->dbforge->modify_column('table_name', $fields);          // gives ALTER TABLE table_name CHANGE      old_name new_name TEXT 
-
-
-
+	$fields = array(
+		'old_name' => array(
+			'name' => 'new_name',
+			'type' => 'TEXT',
+		),
+	);
+	$this->dbforge->modify_column('table_name', $fields);
+	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
