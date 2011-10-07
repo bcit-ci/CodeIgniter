@@ -207,7 +207,7 @@ class CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$separator = strstr($this->base_url, '?') ? '&amp;' : '?';
+			$separator = (strpos($this->base_url, '?') !== FALSE) ? '&amp;' : '?';
 			$this->base_url = rtrim($this->base_url).$separator.$this->query_string_segment.'=';
 		}
 		else
@@ -230,7 +230,7 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if (($i == 0 OR ($this->use_page_numbers AND $i == 1)) AND $this->first_url != '')
+			if (($i == 0 OR ($this->use_page_numbers AND $i === 1)) AND $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
