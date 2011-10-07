@@ -182,6 +182,8 @@ helper used by your view files. It also runs the validation routine.
 Based on whether the validation was successful it either presents the
 form or the success page.
 
+.. _setting-validation-rules:
+
 Setting Validation Rules
 ========================
 
@@ -201,8 +203,7 @@ The above function takes **three** parameters as input:
 #. The validation rules for this form field.
 
 .. note:: If you would like the field
-	name to be stored in a language file, please see `Translating Field
-	Names <#translatingfn>`_.
+	name to be stored in a language file, please see :ref:`translating-field-names`.
 
 Here is an example. In your controller (form.php), add this code just
 below the validation initialization function::
@@ -376,7 +377,7 @@ functions!**
 Now reload your page and submit the form so that it triggers an error.
 Your form fields should now be re-populated
 
-.. note:: The `Function Reference <#functionreference>`_ section below
+.. note:: The :ref:`function-reference` section below
 	contains functions that permit you to re-populate <select> menus, radio
 	buttons, and checkboxes.
 
@@ -385,8 +386,7 @@ must supply it as an array to the function. Example::
 
 	<input type="text" name="colors[]" value="<?php echo set_value('colors[]'); ?>" size="50" />
 
-For more info please see the `Using Arrays as Field
-Names <#arraysasfields>`_ section below.
+For more info please see the :ref:`using-arrays-as-field-names` section below.
 
 Callbacks: Your own Validation Functions
 ========================================
@@ -460,6 +460,8 @@ then it will be passed as the second argument of your callback function.
 	boolean TRUE/FALSE it is assumed that the data is your newly processed
 	form data.
 
+.. _setting-error-messages:
+
 Setting Error Messages
 ======================
 
@@ -487,6 +489,8 @@ example, to change the message for the "required" rule you will do this::
 
 	$this->form_validation->set_message('required', 'Your custom message here');
 
+.. _translating-field-names:
+
 Translating Field Names
 =======================
 
@@ -511,6 +515,8 @@ prefix)::
 
 See the :doc:`Language Class <language>` page for more info regarding
 language files.
+
+.. _changing-delimiters:
 
 Changing the Error Delimiters
 =============================
@@ -571,8 +577,9 @@ must supply it as an array to the function. Example::
 	<?php echo form_error('options[size]'); ?>
 	<input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
 
-For more info please see the `Using Arrays as Field
-Names <#arraysasfields>`_ section below.
+For more info please see the :ref:`using-arrays-as-field-names` section below.
+
+.. _saving-groups:
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -750,6 +757,8 @@ When a rule group is named identically to a controller class/function it
 will be used automatically when the run() function is invoked from that
 class/function.
 
+.. _using-arrays-as-field-names:
+
 ***************************
 Using Arrays as Field Names
 ***************************
@@ -760,7 +769,7 @@ Consider this example::
 	<input type="text" name="options[]" value="" size="50" />
 
 If you do use an array as a field name, you must use the EXACT array
-name in the `Helper Functions <#helperreference>`_ that require the
+name in the :ref:`Helper Functions <helper-functions>` that require the
 field name, and as your Validation Rule field name.
 
 For example, to set a rule for the above field you would use::
@@ -872,9 +881,13 @@ Name                 Parameter Description
 .. note:: You can also use any native PHP functions that permit one
 	parameter, like trim, htmlspecialchars, urldecode, etc.
 
+.. _function-reference:
+
 ******************
 Function Reference
 ******************
+
+.. php:class:: Form_validation
 
 The following functions are intended for use in your controller
 functions.
@@ -882,26 +895,43 @@ functions.
 $this->form_validation->set_rules();
 ======================================
 
-Permits you to set validation rules, as described in the tutorial
-sections above:
+	.. php:method:: set_rules ($field, $label = '', $rules = '')
 
--  `Setting Validation Rules <#validationrules>`_
--  `Saving Groups of Validation Rules to a Config
-   File <#savingtoconfig>`_
+		:param string $field: The field name
+		:param string $label: The field label
+		:param string $rules: The rules, seperated by a pipe "|"
+		:rtype: Object
+	
+		Permits you to set validation rules, as described in the tutorial
+		sections above:
+
+	-  :ref:`setting-validation-rules`
+	-  :ref:`saving-groups`
 
 $this->form_validation->run();
 ===============================
+	
+	.. php:method:: run ($group = '')
 
-Runs the validation routines. Returns boolean TRUE on success and FALSE
-on failure. You can optionally pass the name of the validation group via
-the function, as described in: `Saving Groups of Validation Rules to a
-Config File <#savingtoconfig>`_.
+		:param string $group: The name of the validation group to run
+		:rtype: Boolean
+	
+		Runs the validation routines. Returns boolean TRUE on success and FALSE
+		on failure. You can optionally pass the name of the validation group via
+		the function, as described in: :ref:`saving-groups`
 
 $this->form_validation->set_message();
 ========================================
+	
+	.. php:method:: set_message ($lang, $val = '')
 
-Permits you to set custom error messages. See `Setting Error
-Messages <#settingerrors>`_ above.
+		:param string $lang: The rule the message is for
+		:param string $val: The message
+		:rtype: Object
+
+		Permits you to set custom error messages. See :ref:`setting-error-messages`
+
+.. _helper-functions:
 
 ****************
 Helper Reference
@@ -919,8 +949,8 @@ supplied to the function. Example::
 
 	<?php echo form_error('username'); ?>
 
-The error delimiters can be optionally specified. See the `Changing the
-Error Delimiters <#errordelimiters>`_ section above.
+The error delimiters can be optionally specified. See the
+:ref:`changing-delimiters` section above.
 
 validation_errors()
 ====================
@@ -929,8 +959,8 @@ Shows all error messages as a string: Example::
 
 	<?php echo validation_errors(); ?>
 
-The error delimiters can be optionally specified. See the `Changing the
-Error Delimiters <#errordelimiters>`_ section above.
+The error delimiters can be optionally specified. See the 
+:ref:`changing-delimiters` section above.
 
 set_value()
 ============
