@@ -5,17 +5,7 @@ Controllers
 Controllers are the heart of your application, as they determine how
 HTTP requests should be handled.
 
--  `What is a Controller? <#what>`_
--  `Hello World <#hello>`_
--  `Functions <#functions>`_
--  `Passing URI Segments to Your Functions <#passinguri>`_
--  `Defining a Default Controller <#default>`_
--  `Remapping Function Calls <#remapping>`_
--  `Controlling Output Data <#output>`_
--  `Private Functions <#private>`_
--  `Organizing Controllers into Sub-folders <#subfolders>`_
--  `Class Constructors <#constructors>`_
--  `Reserved Function Names <#reserved>`_
+.. contents:: Page Contents
 
 What is a Controller?
 =====================
