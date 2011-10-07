@@ -313,8 +313,11 @@ class CI_DB_pdo_driver extends CI_DB {
 		$str = $this->conn_id->quote($str);
 		
 		//If there are duplicated quotes, trim them away
-		$str = substr($str, 1, -1);
-
+		if(strpos($str, "'") === 0)
+		{
+			$str = substr($str, 1, -1);
+		}
+		
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
