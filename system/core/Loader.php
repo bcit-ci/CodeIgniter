@@ -873,6 +873,9 @@ class CI_Loader {
 	 */
 	protected function _ci_load_class($class, $params = NULL, $object_name = NULL)
 	{
+		// Store the passed parameter value of $class
+		$class_param = $class;
+
 		// Get the class name, and while we're at it trim any slashes.
 		// The directory path can be included as part of the class name,
 		// but we don't want a leading slash
@@ -976,7 +979,9 @@ class CI_Loader {
 		if ($subdir == '')
 		{
 			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params);
+			// only do this recursive, it's not this functions input.
+			if ($class_param != $path)
+				return $this->_ci_load_class($path, $params);
 		}
 
 		// If we got this far we were unable to find the requested class.
