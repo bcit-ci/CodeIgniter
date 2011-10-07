@@ -35,8 +35,8 @@ error reporting by setting the internal error_reporting flag to a value
 of 0. This disables native PHP errors from being rendered as output,
 which may potentially contain sensitive information.
 
-Setting CodeIgniter's ENVIRONMENT constant in index.php to a value of
-'production' will turn off these errors. In development mode, it is
+Setting CodeIgniter's **ENVIRONMENT** constant in index.php to a value of
+**\'production\'** will turn off these errors. In development mode, it is
 recommended that a value of 'development' is used. More information
 about differentiating between environments can be found on the :doc:`Handling
 Environments <environments>` page.
