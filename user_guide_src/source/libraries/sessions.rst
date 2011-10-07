@@ -284,50 +284,23 @@ Session Preferences
 You'll find the following Session related preferences in your
 application/config/config.php file:
 
-Preference
-Default
-Options
-Description
-**sess_cookie_name**
-ci_session
-None
-The name you want the session cookie saved as.
-**sess_expiration**
-7200
-None
-The number of seconds you would like the session to last. The default
-value is 2 hours (7200 seconds). If you would like a non-expiring
-session set the value to zero: 0
-**sess_expire_on_close**
-FALSE
-TRUE/FALSE (boolean)
-Whether to cause the session to expire automatically when the browser
-window is closed.
-**sess_encrypt_cookie**
-FALSE
-TRUE/FALSE (boolean)
-Whether to encrypt the session data.
-**sess_use_database**
-FALSE
-TRUE/FALSE (boolean)
-Whether to save the session data to a database. You must create the
-table before enabling this option.
-**sess_table_name**
-ci_sessions
-Any valid SQL table name
-The name of the session database table.
-**sess_time_to_update**
-300
-Time in seconds
-This options controls how often the session class will regenerate itself
-and create a new session id.
-**sess_match_ip**
-FALSE
-TRUE/FALSE (boolean)
-Whether to match the user's IP address when reading the session data.
-Note that some ISPs dynamically changes the IP, so if you want a
-non-expiring session you will likely set this to FALSE.
-**sess_match_useragent**
-TRUE
-TRUE/FALSE (boolean)
-Whether to match the User Agent when reading the session data.
+=========================== =============== =========================== ==========================================================================
+Preference                  Default         Options                     Description
+=========================== =============== =========================== ==========================================================================
+**sess_cookie_name**        ci_session      None                        The name you want the session cookie saved as.
+**sess_expiration**         7200            None                        The number of seconds you would like the session to last. The default
+                                                                        value is 2 hours (7200 seconds). If you would like a non-expiring
+                                                                        session set the value to zero: 0
+**sess_expire_on_close**    FALSE           TRUE/FALSE (boolean)        Whether to cause the session to expire automatically when the browser
+                                                                        window is closed.
+**sess_encrypt_cookie**     FALSE           TRUE/FALSE (boolean)        Whether to encrypt the session data.
+**sess_use_database**       FALSE           TRUE/FALSE (boolean)        Whether to save the session data to a database. You must create the
+                                                                        table before enabling this option.
+**sess_table_name**         ci_sessions     Any valid SQL table name    The name of the session database table.
+**sess_time_to_update**     300             Time in seconds             This options controls how often the session class will regenerate itself
+                                                                        and create a new session id.
+**sess_match_ip**           FALSE           TRUE/FALSE (boolean)        Whether to match the user's IP address when reading the session data.
+                                                                        Note that some ISPs dynamically changes the IP, so if you want a
+                                                                        non-expiring session you will likely set this to FALSE.
+**sess_match_useragent**    TRUE            TRUE/FALSE (boolean)        Whether to match the User Agent when reading the session data.
+=========================== =============== =========================== ==========================================================================
