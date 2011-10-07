@@ -32,7 +32,12 @@ $this->dbutil->list_databases()
 
 Returns an array of database names::
 
-	 $dbs = $this->dbutil->list_databases();  foreach ($dbs as $db) {     echo $db; }
+	$dbs = $this->dbutil->list_databases();
+	
+	foreach ($dbs as $db)
+	{
+ 		echo $db;
+	}
 
 $this->dbutil->database_exists();
 ==================================
@@ -40,7 +45,10 @@ $this->dbutil->database_exists();
 Sometimes it's helpful to know whether a particular database exists.
 Returns a boolean TRUE/FALSE. Usage example::
 
-	 if ($this->dbutil->database_exists('database_name')) {    // some code... }
+	if ($this->dbutil->database_exists('database_name'))
+	{
+		// some code...
+	}
 
 Note: Replace *database_name* with the name of the table you are
 looking for. This function is case sensitive.
@@ -53,7 +61,10 @@ $this->dbutil->optimize_table('table_name');
 Permits you to optimize a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
 
-	 if ($this->dbutil->optimize_table('table_name')) {     echo 'Success!'; }
+	if ($this->dbutil->optimize_table('table_name'))
+	{
+		echo 'Success!';
+	}
 
 .. note:: Not all database platforms support table optimization.
 
@@ -65,7 +76,10 @@ $this->dbutil->repair_table('table_name');
 Permits you to repair a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
 
-	 if ($this->dbutil->repair_table('table_name')) {     echo 'Success!'; }
+	if ($this->dbutil->repair_table('table_name'))
+	{
+		echo 'Success!';
+	}
 
 .. note:: Not all database platforms support table repairs.
 
@@ -80,7 +94,12 @@ FALSE on failure.
 
 ::
 
-	 $result = $this->dbutil->optimize_database();  if ($result !== FALSE) {     print_r($result); }
+	$result = $this->dbutil->optimize_database();
+	
+	if ($result !== FALSE)
+	{
+		print_r($result);
+	}
 
 .. note:: Not all database platforms support table optimization.
 
@@ -91,7 +110,11 @@ Permits you to generate a CSV file from a query result. The first
 parameter of the function must contain the result object from your
 query. Example::
 
-	 $this->load->dbutil();  $query = $this->db->query("SELECT * FROM mytable");  echo $this->dbutil->csv_from_result($query);
+	$this->load->dbutil();
+	
+	$query = $this->db->query("SELECT * FROM mytable");
+	
+	echo $this->dbutil->csv_from_result($query);
 
 The second, third, and fourth parameters allow you to set the delimiter
 newline, and enclosure characters respectively. By default tabs are
@@ -115,7 +138,18 @@ Permits you to generate an XML file from a query result. The first
 parameter expects a query result object, the second may contain an
 optional array of config parameters. Example::
 
-	 $this->load->dbutil();  $query = $this->db->query("SELECT * FROM mytable");  $config = array (                   'root'    => 'root',                   'element' => 'element',                    'newline' => "\n",                    'tab'    => "\t"                 );  echo $this->dbutil->xml_from_result($query, $config);
+	$this->load->dbutil();
+	
+	$query = $this->db->query("SELECT * FROM mytable");
+	
+	$config = array (
+		'root'		=> 'root',
+		'element'	=> 'element',
+		'newline'	=> "\n",
+		'tab'		=> "\t" 
+	);
+	
+	echo $this->dbutil->xml_from_result($query, $config);
 
 .. important:: This function will NOT write the XML file for you. It
 	simply creates the XML layout. If you need to write the file
@@ -140,7 +174,19 @@ Usage Example
 
 ::
 
-	 // Load the DB utility class $this->load->dbutil();  // Backup your entire database and assign it to a variable $backup =& $this->dbutil->backup();   // Load the file helper and write the file to your server $this->load->helper('file'); write_file('/path/to/mybackup.gz', $backup);   // Load the download helper and send the file to your desktop $this->load->helper('download'); force_download('mybackup.gz', $backup);
+	// Load the DB utility class
+	$this->load->dbutil();
+	
+	// Backup your entire database and assign it to a variable
+	$backup =& $this->dbutil->backup();
+	
+	// Load the file helper and write the file to your server
+	$this->load->helper('file');
+	write_file('/path/to/mybackup.gz', $backup);
+	
+	// Load the download helper and send the file to your desktop
+	$this->load->helper('download');
+	force_download('mybackup.gz', $backup);
 
 Setting Backup Preferences
 --------------------------
@@ -148,7 +194,17 @@ Setting Backup Preferences
 Backup preferences are set by submitting an array of values to the first
 parameter of the backup function. Example::
 
-	$prefs = array(                 'tables'      => array('table1', 'table2'),  // Array of tables to backup.                 'ignore'      => array(),           // List of tables to omit from the backup                 'format'      => 'txt',             // gzip, zip, txt                 'filename'    => 'mybackup.sql',    // File name - NEEDED ONLY WITH ZIP FILES                 'add_drop'    => TRUE,              // Whether to add DROP TABLE statements to backup file                 'add_insert'  => TRUE,              // Whether to add INSERT data to backup file                 'newline'     => "\n"               // Newline character used in backup file               );  $this->dbutil->backup($prefs);
+	$prefs = array(
+		'tables'		=> array('table1', 'table2'),	// Array of tables to backup.
+		'ignore'		=> array(),						// List of tables to omit from the backup
+		'format'		=> 'txt',						// gzip, zip, txt
+		'filename'		=> 'mybackup.sql',				// File name - NEEDED ONLY WITH ZIP FILES
+		'add_drop'		=> TRUE,						// Whether to add DROP TABLE statements to backup file
+		'add_insert'	=> TRUE,						// Whether to add INSERT data to backup file
+		'newline'		=> "\n"							// Newline character used in backup file
+	);
+	
+	$this->dbutil->backup($prefs);
 
 Description of Backup Preferences
 ---------------------------------
