@@ -313,10 +313,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$str = $this->conn_id->quote($str);
 		
 		//If there are duplicated quotes, trim them away
-		if(strpos($str, "'") === 0)
-		{
-			$str = substr($str, 1, -1);
-		}
+		$str = substr($str, 1, -1);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
@@ -352,7 +349,25 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function insert_id($name=NULL)
 	{
-		return $this->conn_id->lastInsertId($name);
+		//Convenience method for postgres insertid
+		if(strpos($this->hostname, 'pgsql') !== FALSE)
+		{
+			$v = $this->_version();
+
+			$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
+
+			if ($table == NULL && $v >= '8.1')
+			{
+				$sql='SELECT LASTVAL() as ins_id';
+			}
+			$query = $this->query($sql);
+			$row = $query->row();
+			return $row->ins_id;
+		}
+		else
+		{
+			return $this->conn_id->lastInsertId($name);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -403,6 +418,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
 		{
+			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			return FALSE; // not currently supported
 		}
 
