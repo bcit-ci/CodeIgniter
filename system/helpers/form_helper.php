@@ -968,7 +968,7 @@ if ( ! function_exists('_attributes_to_string'))
 {
 	function _attributes_to_string($attributes, $formtag = FALSE)
 	{
-		if (is_string($attributes) AND strlen($attributes) > 0)
+		if (is_string($attributes))	
 		{
 			if ($formtag == TRUE AND strpos($attributes, 'method=') === FALSE)
 			{
@@ -980,7 +980,7 @@ if ( ! function_exists('_attributes_to_string'))
 				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
 
-		return ' '.$attributes;
+			return ' '.$attributes;
 		}
 
 		if (is_object($attributes) AND count($attributes) > 0)
@@ -988,7 +988,7 @@ if ( ! function_exists('_attributes_to_string'))
 			$attributes = (array)$attributes;
 		}
 
-		if (is_array($attributes) AND count($attributes) > 0)
+		if (is_array($attributes))
 		{
 			$atts = '';
 
@@ -1001,12 +1001,15 @@ if ( ! function_exists('_attributes_to_string'))
 			{
 				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
-
-			foreach ($attributes as $key => $val)
+			
+			if (count($attributes) > 0)
 			{
-				$atts .= ' '.$key.'="'.$val.'"';
+				foreach ($attributes as $key => $val)
+				{
+					$atts .= ' '.$key.'="'.$val.'"';
+				}
 			}
-
+			
 			return $atts;
 		}
 	}
