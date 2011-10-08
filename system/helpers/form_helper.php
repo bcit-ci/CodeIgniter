@@ -980,7 +980,7 @@ if ( ! function_exists('_attributes_to_string'))
 				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
 
-			return ' '.$attributes;
+			return strlen($attributes) > 0 ? ' '.$attributes : '';
 		}
 
 		if (is_object($attributes) AND count($attributes) > 0)
