@@ -511,7 +511,7 @@ class CI_Form_validation {
 
 				if ( ! isset($this->_error_messages[$type]))
 				{
-					if (FALSE === ($line = $this->CI->lang->line($type)))
+					if (FALSE === ($line = $this->_line($type)))
 					{
 						$line = 'The field was not set';
 					}
@@ -652,7 +652,7 @@ class CI_Form_validation {
 			{
 				if ( ! isset($this->_error_messages[$rule]))
 				{
-					if (FALSE === ($line = $this->CI->lang->line($rule)))
+					if (FALSE === ($line = $this->_line($rule)))
 					{
 						$line = 'Unable to access an error message corresponding to your field name.';
 					}
@@ -704,13 +704,32 @@ class CI_Form_validation {
 			$line = substr($fieldname, 5);
 
 			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
+			if (FALSE === ($fieldname = $this->_line($line)))
 			{
 				return $line;
 			}
 		}
 
 		return $fieldname;
+	}
+	
+	/**
+	 * Acts as a proxy to line method on Lang class. Used to handle deprecated
+	 * non-namespaced keys in lang file.
+	 * 
+	 * @access	protected
+	 * @param 	string
+	 * @return 	string
+	 */
+	protected function _line($line)
+	{
+		$ret = $this->CI->lang->line('form_validation_' . $line);
+		if (FALSE === $ret)
+		{
+			$ret = $this->CI->lang->line($line);
+		}
+		
+		return $ret;
 	}
 
 	// --------------------------------------------------------------------
