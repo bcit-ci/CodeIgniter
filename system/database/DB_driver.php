@@ -218,7 +218,7 @@ class CI_DB_driver {
 
 		// Some DBs have functions that return the version, and don't run special
 		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid');
+		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo');
 
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
@@ -251,9 +251,10 @@ class CI_DB_driver {
 	{
 		if ($sql == '')
 		{
+			log_message('error', 'Invalid query: '.$sql);
+
 			if ($this->db_debug)
 			{
-				log_message('error', 'Invalid query: '.$sql);
 				return $this->display_error('db_invalid_query');
 			}
 			return FALSE;
@@ -306,21 +307,23 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
+			// Grab the error number and message now, as we might run some
+			// additional queries before displaying the error
+			$error_no = $this->_error_number();
+			$error_msg = $this->_error_message();
+
+			// Log errors
+			log_message('error', 'Query error: '.$error_msg);
+
 			if ($this->db_debug)
 			{
-				// grab the error number and message now, as we might run some
-				// additional queries before displaying the error
-				$error_no = $this->_error_number();
-				$error_msg = $this->_error_message();
-
 				// We call this function in order to roll-back queries
 				// if transactions are enabled.  If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
 				$this->trans_complete();
 
-				// Log and display errors
-				log_message('error', 'Query error: '.$error_msg);
+				// Display errors
 				return $this->display_error(
 										array(
 												'Error Number: '.$error_no,
@@ -947,6 +950,7 @@ class CI_DB_driver {
 			foreach ($where as $key => $val)
 			{
 				$prefix = (count($dest) == 0) ? '' : ' AND ';
+				$key = $this->_protect_identifiers($key);
 
 				if ($val !== '')
 				{
@@ -1162,7 +1166,7 @@ class CI_DB_driver {
 
 		if ($native == TRUE)
 		{
-			$message = $error;
+			$message = (array) $error;
 		}
 		else
 		{
