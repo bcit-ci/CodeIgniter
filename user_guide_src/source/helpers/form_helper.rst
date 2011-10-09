@@ -1,0 +1,506 @@
+###########
+Form Helper
+###########
+
+The Form Helper file contains functions that assist in working with
+forms.
+
+.. contents:: Page Contents
+
+Loading this Helper
+===================
+
+This helper is loaded using the following code
+
+::
+
+	$this->load->helper('form');
+
+The following functions are available:
+
+form_open()
+===========
+
+Creates an opening form tag with a base URL **built from your config preferences**. It will optionally let you add form attributes and hidden input fields, and will always add the attribute accept-charset based on the charset value in your config file.
+
+The main benefit of using this tag rather than hard coding your own HTML is that it permits your site to be more portable in the event your URLs ever change.
+
+Here's a simple example
+
+::
+
+	echo form_open('email/send');
+
+The above example would create a form that points to your base URL plus the "email/send" URI segments, like this
+
+::
+
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" />
+
+Adding Attributes
+^^^^^^^^^^^^^^^^^
+
+Attributes can be added by passing an associative array to the second
+parameter, like this
+
+::
+
+	$attributes = array('class' => 'email', 'id' => 'myform');  
+	echo form_open('email/send', $attributes);
+
+The above example would create a form similar to this
+
+::
+
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform" />
+
+Adding Hidden Input Fields
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Hidden fields can be added by passing an associative array to the third parameter, like this
+
+::
+
+	 $hidden = array('username' => 'Joe', 'member_id' => '234');  
+	echo form_open('email/send', '', $hidden);
+
+The above example would create a form similar to this
+
+::
+
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send"> 
+		<input type="hidden" name="username" value="Joe" /> 
+		<input type="hidden" name="member_id" value="234" />
+
+form_open_multipart()
+=====================
+
+This function is absolutely identical to the `form_open()` tag above
+except that it adds a multipart attribute, which is necessary if you
+would like to use the form to upload files with.
+
+form_hidden()
+=============
+
+Lets you generate hidden input fields. You can either submit a
+name/value string to create one field
+
+::
+
+	form_hidden('username', 'johndoe');  
+	// Would produce: <input type="hidden" name="username" value="johndoe" />
+
+Or you can submit an associative array to create multiple fields
+
+::
+
+	$data = array(               
+		'name'  => 'John Doe',               
+		'email' => 'john@example.com',               
+		'url'   => 'http://example.com'             
+	);  
+	
+	echo form_hidden($data);  
+	
+	/*
+		Would produce: 
+		<input type="hidden" name="name" value="John Doe" /> 
+		<input type="hidden" name="email" value="john@example.com" /> 
+		<input type="hidden" name="url" value="http://example.com" />
+	*/
+
+form_input()
+============
+
+Lets you generate a standard text input field. You can minimally pass
+the field name and value in the first and second parameter
+
+::
+
+	echo form_input('username', 'johndoe');
+
+Or you can pass an associative array containing any data you wish your
+form to contain
+
+::
+
+	$data = array(               
+		'name'        => 'username',               
+		'id'          => 'username',               
+		'value'       => 'johndoe',               
+		'maxlength'   => '100',               
+		'size'        => '50',               
+		'style'       => 'width:50%',             
+	);  
+	
+	echo form_input($data);
+	
+	/*
+		Would produce:
+		
+		<input type="text" name="username" id="username" value="johndoe" maxlength="100" size="50" style="width:50%" />
+	*/
+
+If you would like your form to contain some additional data, like
+Javascript, you can pass it as a string in the third parameter
+
+::
+
+	$js = 'onClick="some_function()"';  
+	echo form_input('username', 'johndoe', $js);
+
+form_password()
+===============
+
+This function is identical in all respects to the `form_input()` function above except that it uses the "password" input type.
+
+form_upload()
+=============
+
+This function is identical in all respects to the `form_input()` function above except that it uses the "file" input type, allowing it to be used to upload files.
+
+form_textarea()
+===============
+
+This function is identical in all respects to the `form_input()` function above except that it generates a "textarea" type. Note: Instead of the "maxlength" and "size" attributes in the above example, you will instead specify "rows" and "cols".
+
+form_dropdown()
+===============
+
+Lets you create a standard drop-down field. The first parameter will
+contain the name of the field, the second parameter will contain an
+associative array of options, and the third parameter will contain the
+value you wish to be selected. You can also pass an array of multiple
+items through the third parameter, and CodeIgniter will create a
+multiple select for you. Example
+
+::
+
+	$options = array(                   
+		'small'  => 'Small Shirt',                   
+		'med'    => 'Medium Shirt',                   
+		'large'   => 'Large Shirt',                   
+		'xlarge' => 'Extra Large Shirt',                 
+	);  
+	
+	$shirts_on_sale = array('small', 'large');  
+	echo form_dropdown('shirts', $options, 'large');  
+	
+	/*
+		Would produce:  
+		
+		<select name="shirts"> 
+			<option value="small">Small Shirt</option> 
+			<option value="med">Medium  Shirt</option> 
+			<option value="large" selected="selected">Large Shirt</option> 
+			<option value="xlarge">Extra Large Shirt</option> 
+		</select>
+	*/
+	
+	echo form_dropdown('shirts', $options, $shirts_on_sale);
+	
+	/*
+		Would produce:  
+	
+		<select name="shirts" multiple="multiple"> 
+			<option value="small" selected="selected">Small Shirt</option> 
+			<option value="med">Medium  Shirt</option> 
+			<option value="large" selected="selected">Large Shirt</option> 	
+			<option value="xlarge">Extra Large Shirt</option> 
+		</select>
+	*/
+
+If you would like the opening <select> to contain additional data, like
+an id attribute or JavaScript, you can pass it as a string in the fourth
+parameter
+
+::
+
+	$js = 'id="shirts" onChange="some_function();"';  
+	echo form_dropdown('shirts', $options, 'large', $js);
+
+If the array passed as $options is a multidimensional array,
+`form_dropdown()` will produce an <optgroup> with the array key as the
+label.
+
+form_multiselect()
+==================
+
+Lets you create a standard multiselect field. The first parameter will
+contain the name of the field, the second parameter will contain an
+associative array of options, and the third parameter will contain the
+value or values you wish to be selected. The parameter usage is
+identical to using form_dropdown() above, except of course that the
+name of the field will need to use POST array syntax, e.g. foo[].
+
+form_fieldset()
+================
+
+Lets you generate fieldset/legend fields.
+
+::
+
+	echo form_fieldset('Address Information'); 
+	echo "<p>fieldset content here</p>\n"; 
+	echo form_fieldset_close();
+	
+	/*
+		Produces:
+			<fieldset>  
+				<legend>Address Information</legend>  
+					<p>form content here</p>  
+			</fieldset>
+	*/
+	
+Similar to other functions, you can submit an associative array in the
+second parameter if you prefer to set additional attributes.
+
+::
+
+	$attributes = array(
+		'id' => 'address_info', 
+		'class' => 'address_info'
+	);     
+	
+	echo form_fieldset('Address Information', $attributes); 
+	echo "<p>fieldset content here</p>\n"; 
+	echo form_fieldset_close();   
+	
+	/*
+		Produces: 
+		
+		<fieldset id="address_info" class="address_info">  
+			<legend>Address Information</legend>  
+			<p>form content here</p>  
+		</fieldset>
+	*/
+
+form_fieldset_close()
+=====================
+
+Produces a closing </fieldset> tag. The only advantage to using this
+function is it permits you to pass data to it which will be added below
+the tag. For example
+
+::
+
+	$string = "</div></div>";  
+	echo form_fieldset_close($string);  
+	// Would produce: </fieldset> </div></div>
+
+form_checkbox()
+===============
+
+Lets you generate a checkbox field. Simple example
+
+::
+
+	echo form_checkbox('newsletter', 'accept', TRUE);  
+	// Would produce:  <input type="checkbox" name="newsletter" value="accept" checked="checked" />
+
+The third parameter contains a boolean TRUE/FALSE to determine whether
+the box should be checked or not.
+
+Similar to the other form functions in this helper, you can also pass an
+array of attributes to the function
+
+::
+
+	$data = array(     
+		'name'        => 'newsletter',     
+		'id'          => 'newsletter',     
+		'value'       => 'accept',     
+		'checked'     => TRUE,     
+		'style'       => 'margin:10px',     
+	);  
+	
+	echo form_checkbox($data);  
+	// Would produce: <input type="checkbox" name="newsletter" id="newsletter" value="accept" checked="checked" style="margin:10px" />
+
+As with other functions, if you would like the tag to contain additional
+data, like JavaScript, you can pass it as a string in the fourth
+parameter
+
+::
+
+	$js = 'onClick="some_function()"';   
+	echo form_checkbox('newsletter', 'accept', TRUE, $js)
+
+form_radio()
+============
+
+This function is identical in all respects to the `form_checkbox()`
+function above except that it uses the "radio" input type.
+
+form_submit()
+=============
+
+Lets you generate a standard submit button. Simple example
+
+::
+
+	echo form_submit('mysubmit', 'Submit Post!');  
+	// Would produce:  <input type="submit" name="mysubmit" value="Submit Post!" />
+
+Similar to other functions, you can submit an associative array in the
+first parameter if you prefer to set your own attributes. The third
+parameter lets you add extra data to your form, like JavaScript.
+
+form_label()
+============
+
+Lets you generate a <label>. Simple example
+
+::
+
+	echo form_label('What is your Name', 'username');  
+	// Would produce:  <label for="username">What is your Name</label>
+
+Similar to other functions, you can submit an associative array in the
+third parameter if you prefer to set additional attributes.
+
+::
+
+	$attributes = array(     
+		'class' => 'mycustomclass',     
+		'style' => 'color: #000;'
+	);     
+	
+	echo form_label('What is your Name', 'username', $attributes);          
+	// Would produce:  <label for="username" class="mycustomclass" style="color: #000;">What is your Name</label>
+
+
+form_reset()
+============
+
+Lets you generate a standard reset button. Use is identical to
+`form_submit()`.
+
+form_button()
+=============
+
+Lets you generate a standard button element. You can minimally pass the
+button name and content in the first and second parameter
+
+::
+
+	 echo form_button('name','content');  
+	// Would produce <button name="name" type="button">Content</button>
+
+Or you can pass an associative array containing any data you wish your
+form to contain:
+
+::
+
+	$data = array(     
+		'name' 		=> 'button',     
+		'id' 		=> 'button',     
+		'value' 	=> 'true',     
+		'type' 		=> 'reset',     
+		'content' 	=> 'Reset' 
+	);  
+	
+	echo form_button($data);  
+	// Would produce: <button name="button" id="button" value="true" type="reset">Reset</button>
+
+If you would like your form to contain some additional data, like
+JavaScript, you can pass it as a string in the third parameter:
+
+::
+
+	 $js = 'onClick="some_function()"'; 
+	echo form_button('mybutton', 'Click Me', $js);
+
+form_close()
+============
+
+Produces a closing </form> tag. The only advantage to using this
+function is it permits you to pass data to it which will be added below
+the tag. For example
+
+::
+
+	$string = "</div></div>";  
+	echo form_close($string);  
+	// Would produce:  </form> </div></div>
+
+form_prep()
+===========
+
+Allows you to safely use HTML and characters such as quotes within form
+elements without breaking out of the form. Consider this example
+
+::
+
+	$string = 'Here is a string containing "quoted" text.';  
+	<input type="text" name="myform" value="$string" />
+
+Since the above string contains a set of quotes it will cause the form
+to break. The `form_prep()` function converts HTML so that it can be used
+safely
+
+::
+
+	<input type="text" name="myform" value="<?php echo form_prep($string); ?>" />
+
+.. note:: If you use any of the form helper functions listed in this page the form
+	values will be prepped automatically, so there is no need to call this
+	function. Use it only if you are creating your own form elements.
+
+set_value()
+===========
+
+Permits you to set the value of an input form or textarea. You must
+supply the field name via the first parameter of the function. The
+second (optional) parameter allows you to set a default value for the
+form. Example
+
+::
+
+	<input type="text" name="quantity" value="<?php echo set_value('quantity', '0'); ?>" size="50" />
+
+The above form will show "0" when loaded for the first time.
+
+set_select()
+============
+
+If you use a <select> menu, this function permits you to display the
+menu item that was selected. The first parameter must contain the name
+of the select menu, the second parameter must contain the value of each
+item, and the third (optional) parameter lets you set an item as the
+default (use boolean TRUE/FALSE).
+
+Example
+
+::
+
+	<select name="myselect">
+		<option value="one" <?php echo  set_select('myselect', 'one', TRUE); ?> >One</option> 
+		<option value="two" <?php echo  set_select('myselect', 'two'); ?> >Two</option> 
+		<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option> 
+	</select>
+
+set_checkbox()
+==============
+
+Permits you to display a checkbox in the state it was submitted. The
+first parameter must contain the name of the checkbox, the second
+parameter must contain its value, and the third (optional) parameter
+lets you set an item as the default (use boolean TRUE/FALSE). Example
+
+::
+
+	<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> /> 
+	<input type="checkbox" name="mycheck" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
+
+set_radio()
+===========
+
+Permits you to display radio buttons in the state they were submitted.
+This function is identical to the **set_checkbox()** function above.
+
+::
+
+	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> /> 
+	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
+
