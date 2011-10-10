@@ -30,8 +30,7 @@ Release Date: Not Released
    -  Altered form helper - made action on form_open_multipart helper
       function call optional. Fixes (#65)
    -  url_title() will now trim extra dashes from beginning and end.
-   -  Improved speed of :doc:`String
-      Helper <helpers/string_helper>`'s random_string() method
+   -  Improved speed of :doc:`String Helper <helpers/string_helper>`'s random_string() method
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
 
 -  Database
