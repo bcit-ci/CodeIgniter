@@ -30,6 +30,7 @@ class CI_Upload {
 	public $max_width				= 0;
 	public $max_height				= 0;
 	public $max_filename			= 0;
+	public $max_filename_increment 	= 100;
 	public $allowed_types			= "";
 	public $file_temp				= "";
 	public $file_name				= "";
@@ -80,31 +81,32 @@ class CI_Upload {
 	public function initialize($config = array())
 	{
 		$defaults = array(
-							'max_size'			=> 0,
-							'max_width'			=> 0,
-							'max_height'		=> 0,
-							'max_filename'		=> 0,
-							'allowed_types'		=> "",
-							'file_temp'			=> "",
-							'file_name'			=> "",
-							'orig_name'			=> "",
-							'file_type'			=> "",
-							'file_size'			=> "",
-							'file_ext'			=> "",
-							'upload_path'		=> "",
-							'overwrite'			=> FALSE,
-							'encrypt_name'		=> FALSE,
-							'is_image'			=> FALSE,
-							'image_width'		=> '',
-							'image_height'		=> '',
-							'image_type'		=> '',
-							'image_size_str'	=> '',
-							'error_msg'			=> array(),
-							'mimes'				=> array(),
-							'remove_spaces'		=> TRUE,
-							'xss_clean'			=> FALSE,
-							'temp_prefix'		=> "temp_file_",
-							'client_name'		=> ''
+							'max_size'					=> 0,
+							'max_width'					=> 0,
+							'max_height'				=> 0,
+							'max_filename'				=> 0,
+							'max_filename_increment'	=> 100,
+							'allowed_types'				=> "",
+							'file_temp'					=> "",
+							'file_name'					=> "",
+							'orig_name'					=> "",
+							'file_type'					=> "",
+							'file_size'					=> "",
+							'file_ext'					=> "",
+							'upload_path'				=> "",
+							'overwrite'					=> FALSE,
+							'encrypt_name'				=> FALSE,
+							'is_image'					=> FALSE,
+							'image_width'				=> '',
+							'image_height'				=> '',
+							'image_type'				=> '',
+							'image_size_str'			=> '',
+							'error_msg'					=> array(),
+							'mimes'						=> array(),
+							'remove_spaces'				=> TRUE,
+							'xss_clean'					=> FALSE,
+							'temp_prefix'				=> "temp_file_",
+							'client_name'				=> ''
 						);
 
 
@@ -196,7 +198,8 @@ class CI_Upload {
 		// Set the uploaded data as class variables
 		$this->file_temp = $_FILES[$field]['tmp_name'];
 		$this->file_size = $_FILES[$field]['size'];
-		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $_FILES[$field]['type']);
+		$this->_file_mime_type($_FILES[$field]);
+		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
 		$this->file_ext	 = $this->get_extension($this->file_name);
@@ -402,7 +405,7 @@ class CI_Upload {
 		$filename = str_replace($this->file_ext, '', $filename);
 
 		$new_filename = '';
-		for ($i = 1; $i < 100; $i++)
+		for ($i = 1; $i < $this->max_filename_increment; $i++)
 		{
 			if ( ! file_exists($path.$filename.$i.$this->file_ext))
 			{
@@ -1002,6 +1005,67 @@ class CI_Upload {
 		$filename .= '.'.$ext;
 
 		return $filename;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * File MIME type
+	 *
+	 * Detects the (actual) MIME type of the uploaded file, if possible.
+	 * The input array is expected to be $_FILES[$field]
+	 *
+	 * @param	array
+	 * @return	void
+	 */
+	protected function _file_mime_type($file)
+	{
+		// Use if the Fileinfo extension, if available (only versions above 5.3 support the FILEINFO_MIME_TYPE flag)
+		if (is_php('5.3') && function_exists('finfo_file'))
+		{
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+			if ($finfo !== FALSE) // This is possible, if there is no magic MIME database file found on the system
+			{
+				$file_type = $finfo->file($file['tmp_name']);
+
+				/* According to the comments section of the PHP manual page,
+				 * it is possible that this function returns an empty string
+				 * for some files (e.g. if they don't exist in the magic MIME database)
+				 */
+				if (strlen($file_type) > 1)
+				{
+					$this->file_type = $file_type;
+					return;
+				}
+			}
+		}
+
+		// Fall back to the deprecated mime_content_type(), if available
+		if (function_exists('mime_content_type'))
+		{
+			$this->file_type = @mime_content_type($file['tmp_name']);
+			return;
+		}
+
+		/* This is an ugly hack, but UNIX-type systems provide a native way to detect the file type,
+		 * which is still more secure than depending on the value of $_FILES[$field]['type'].
+		 *
+		 * Notes:
+		 *	- a 'W' in the substr() expression bellow, would mean that we're using Windows
+		 *	- many system admins would disable the exec() function due to security concerns, hence the function_exists() check
+		 */
+		if (DIRECTORY_SEPARATOR !== '\\' && function_exists('exec'))
+		{
+			$output = array();
+			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_path']), $output, $return_code);
+			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
+			{
+				$this->file_type = rtrim($output[0]);
+				return;
+			}
+		}
+
+		$this->file_type = $file['type'];
 	}
 
 	// --------------------------------------------------------------------

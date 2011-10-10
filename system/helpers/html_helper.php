@@ -365,7 +365,7 @@ if ( ! function_exists('link_tag'))
 
 			$link .= '/>';
 		}
-
+		$link .= "\n";
 
 		return $link;
 	}
