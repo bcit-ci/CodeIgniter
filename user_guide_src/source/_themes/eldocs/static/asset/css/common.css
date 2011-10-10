@@ -134,10 +134,6 @@ fieldset{ border: 0; }
 	padding: 10px 10px 8px; 
 }
 
-.highlight-ci{
-	background:none;
-}
-
 	.highlight-ci,
 	.highlight-ee,
 	.highlight-rst,
