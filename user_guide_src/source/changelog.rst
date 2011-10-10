@@ -1,0 +1,2179 @@
+##########
+Change Log
+##########
+
+Version 2.1.0 (planned)
+=======================
+
+Release Date: Not Released
+
+-  General Changes
+
+   -  Added Android to the list of user agents.
+   -  Added Windows 7 to the list of user platforms.
+   -  Callback validation rules can now accept parameters like any other
+      validation rule.
+   -  Ability to log certain error types, not all under a threshold.
+   -  Added html_escape() to :doc:`Common
+      functions <general/common_functions>` to escape HTML output
+      for preventing XSS.
+   -  Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.
+   -  Added support pgp,gpg to mimes.php.
+   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
+   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+
+-  Helpers
+
+   -  Added increment_string() to :doc:`String
+      Helper <helpers/string_helper>` to turn "foo" into "foo-1"
+      or "foo-1" into "foo-2".
+   -  Altered form helper - made action on form_open_multipart helper
+      function call optional. Fixes (#65)
+   -  url_title() will now trim extra dashes from beginning and end.
+   -  Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method
+   -  Added XHTML Basic 1.1 doctype to <a href="helpers/html_helper.html">HTML Helper</a>.
+
+-  Database
+
+   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the `Database
+      Driver <database/index>`. Thanks to the CUBRID team for
+      supplying this patch.
+   -  Added a PDO driver to the <a href="database/index.html">Database Driver</a>.
+   -  Typecast limit and offset in the :doc:`Database
+      Driver <database/queries>` to integers to avoid possible
+      injection.
+   -  Added additional option 'none' for the optional third argument for
+      $this->db->like() in the :doc:`Database
+      Driver <database/active_record>`.
+   -  Added <kbd>$this->db->insert_batch()</kbd> support to the OCI8 (Oracle) driver.
+
+-  Libraries
+
+   -  Changed $this->cart->insert() in the :doc:`Cart
+      Library <libraries/cart>` to return the Row ID if a single
+      item was inserted successfully.
+   -  Added support to set an optional parameter in your callback rules
+      of validation using the :doc:`Form Validation
+      Library <libraries/form_validation>`.
+   -  Driver children can be located in any package path.
+   -  Added max_filename_increment config setting for Upload library.
+   -  CI_Loader::_ci_autoloader() is now a protected method.
+   -  Added is_unique to the :doc:`Form Validation
+      library <libraries/form_validation>`.
+   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.
+   -  Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.
+   -  Added TLS and SSL Encryption for SMTP.
+
+-  Core
+
+   -  Changed private functions in CI_URI to protected so MY_URI can
+      override them.
+   -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+
+Bug fixes for 2.1.0
+-------------------
+
+-  Unlink raised an error if cache file did not exist when you try to delete it.
+-  Fixed #378 Robots identified as regular browsers by the User Agent
+   class.
+-  If a config class was loaded first then a library with the same name
+   is loaded, the config would be ignored.
+-  Fixed a bug (Reactor #19) where 1) the 404_override route was being
+   ignored in some cases, and 2) auto-loaded libraries were not
+   available to the 404_override controller when a controller existed
+   but the requested method did not.
+-  Fixed a bug (Reactor #89) where MySQL export would fail if the table
+   had hyphens or other non alphanumeric/underscore characters.
+-  Fixed a bug (#200) where MySQL queries would be malformed after
+   calling count_all() then db->get()
+-  Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled
+-  Fixed a bug (#181) where a mis-spelling was in the form validation
+   language file.
+-  Fixed a bug (#160) - Removed unneeded array copy in the file cache
+   driver.
+-  Fixed a bug (#150) - field_data() now correctly returns column
+   length.
+-  Fixed a bug (#8) - load_class() now looks for core classes in
+   APPPATH first, allowing them to be replaced.
+-  Fixed a bug (#24) - ODBC database driver called incorrect parent in
+   __construct().
+-  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did
+   not escape correct.
+-  Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.
+-  Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.
+-  Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.
+-  Fixed a bug (#82) - WHERE clause field names in the DB <samp>update_string()</samp> method were not escaped, resulting in failed queries in some cases.
+-  Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.
+-  Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)
+-  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
+-  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
+-  Fixed a bug (#537) - Support for all wav type in browser.
+
+Version 2.0.3
+=============
+
+Release Date: August 20, 2011
+
+-  Security
+
+   -  An improvement was made to the MySQL and MySQLi drivers to prevent
+      exposing a potential vector for SQL injection on sites using
+      multi-byte character sets in the database client connection.
+      An incompatibility in PHP versions < 5.2.3 and MySQL < 5.0.7 with
+      *mysql_set_charset()* creates a situation where using multi-byte
+      character sets on these environments may potentially expose a SQL
+      injection attack vector. Latin-1, UTF-8, and other "low ASCII"
+      character sets are unaffected on all environments.
+
+      If you are running or considering running a multi-byte character
+      set for your database connection, please pay close attention to
+      the server environment you are deploying on to ensure you are not
+      vulnerable.
+
+-  General Changes
+
+   -  Fixed a bug where there was a misspelling within a code comment in
+      the index.php file.
+   -  Added Session Class userdata to the output profiler. Additionally,
+      added a show/hide toggle on HTTP Headers, Session Data and Config
+      Variables.
+   -  Removed internal usage of the EXT constant.
+   -  Visual updates to the welcome_message view file and default error
+      templates. Thanks to `danijelb <https://bitbucket.org/danijelb>`_
+      for the pull request.
+   -  Added insert_batch() function to the PostgreSQL database driver.
+      Thanks to epallerols for the patch.
+   -  Added "application/x-csv" to mimes.php.
+   -  Added CSRF protection URI whitelisting.
+   -  Fixed a bug where `Email library <libraries/email>`
+      attachments with a "." in the name would using invalid MIME-types.
+   -  Added support for
+      pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr
+      Certs to mimes.php.
+   -  Added support pgp,gpg to mimes.php.
+   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to
+      mimes.php.
+   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files
+      to mimes.php.
+
+-  Helpers
+
+   -  Added an optional third parameter to heading() which allows adding
+      html attributes to the rendered heading tag.
+   -  form_open() now only adds a hidden (Cross-site Reference Forgery)
+      protection field when the form's action is internal and is set to
+      the post method. (Reactor #165)
+   -  Re-worked plural() and singular() functions in the :doc:`Inflector
+      helper <helpers/inflector_helper>` to support considerably
+      more words.
+
+-  Libraries
+
+   -  Altered Session to use a longer match against the user_agent
+      string. See upgrade notes if using database sessions.
+   -  Added $this->db->set_dbprefix() to the :doc:`Database
+      Driver <database/queries>`.
+   -  Changed $this->cart->insert() in the :doc:`Cart
+      Library <libraries/cart>` to return the Row ID if a single
+      item was inserted successfully.
+   -  Added $this->load->get_var() to the :doc:`Loader
+      library <libraries/loader>` to retrieve global vars set with
+      $this->load->view() and $this->load->vars().
+   -  Changed $this->db->having() to insert quotes using escape() rather
+      than escape_str().
+
+Bug fixes for 2.0.3
+-------------------
+
+-  Added ENVIRONMENT to reserved constants. (Reactor #196)
+-  Changed server check to ensure SCRIPT_NAME is defined. (Reactor #57)
+-  Removed APPPATH.'third_party' from the packages autoloader to negate
+   needless file stats if no packages exist or if the developer does not
+   load any other packages by default.
+-  Fixed a bug (Reactor #231) where Sessions Library database table
+   example SQL did not contain an index on last_activity. See :doc:`Upgrade
+   Notes <installation/upgrade_203>`.
+-  Fixed a bug (Reactor #229) where the Sessions Library example SQL in
+   the documentation contained incorrect SQL.
+-  Fixed a bug (Core #340) where when passing in the second parameter to
+   $this->db->select(), column names in subsequent queries would not be
+   properly escaped.
+-  Fixed issue #199 - Attributes passed as string does not include a
+   space between it and the opening tag.
+-  Fixed a bug where the method $this->cart->total_items() from :doc:`Cart
+   Library <libraries/cart>` now returns the sum of the quantity
+   of all items in the cart instead of your total count.
+-  Fixed a bug where not setting 'null' when adding fields in db_forge
+   for mysql and mysqli drivers would default to NULL instead of NOT
+   NULL as the docs suggest.
+-  Fixed a bug where using $this->db->select_max(),
+   $this->db->select_min(), etc could throw notices. Thanks to w43l for
+   the patch.
+-  Replace checks for STDIN with php_sapi_name() == 'cli' which on the
+   whole is more reliable. This should get parameters in crontab
+   working.
+
+Version 2.0.2
+=============
+
+Release Date: April 7, 2011
+Hg Tag: v2.0.2
+
+-  General changes
+
+   -  The :doc:`Security library <./libraries/security>` was moved to
+      the core and is now loaded automatically. Please remove your
+      loading calls.
+   -  The CI_SHA class is now deprecated. All supported versions of PHP
+      provide a sha1() function.
+   -  constants.php will now be loaded from the environment folder if
+      available.
+   -  Added language key error logging
+   -  Made Environment Support optional. Comment out or delete the
+      constant to stop environment checks.
+   -  Added Environment Support for Hooks.
+   -  Added CI\_ Prefix to the :doc:`Cache driver <libraries/caching>`.
+   -  Added :doc:`CLI usage <./general/cli>` documentation.
+
+-  Helpers
+
+   -  Removed the previously deprecated dohash() from the :doc:`Security
+      helper <./helpers/security_helper>`; use do_hash() instead.
+   -  Changed the 'plural' function so that it doesn't ruin the
+      captalization of your string. It also take into consideration
+      acronyms which are all caps.
+
+-  Database
+
+   -  $this->db->count_all_results() will now return an integer
+      instead of a string.
+
+Bug fixes for 2.0.2
+-------------------
+
+-  Fixed a bug (Reactor #145) where the Output Library had
+   parse_exec_vars set to protected.
+-  Fixed a bug (Reactor #80) where is_really_writable would create an
+   empty file when on Windows or with safe_mode enabled.
+-  Fixed various bugs with User Guide.
+-  Added is_cli_request() method to documentation for :doc:`Input
+   class <libraries/input>`.
+-  Added form_validation_lang entries for decimal, less_than and
+   greater_than.
+-  `Fixed issue
+   #153 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/153/escape-str-bug-in-mssql-driver>`_
+   Escape Str Bug in MSSQL driver.
+-  `Fixed issue
+   #172 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/172/bug-in-chrome-and-form_open-in-201>`_
+   Google Chrome 11 posts incorrectly when action is empty.
+
+Version 2.0.1
+=============
+
+Release Date: March 15, 2011
+Hg Tag: v2.0.1
+
+-  General changes
+
+   -  Added $config['cookie_secure'] to the config file to allow
+      requiring a secure (HTTPS) in order to set cookies.
+   -  Added the constant CI_CORE to help differentiate between Core:
+      TRUE and Reactor: FALSE.
+   -  Added an ENVIRONMENT constant in index.php, which affects PHP
+      error reporting settings, and optionally, which configuration
+      files are loaded (see below). Read more on the `Handling
+      Environments <general/environments>` page.
+   -  Added support for
+      :ref:`environment-specific <config-environments>`
+      configuration files.
+
+-  Libraries
+
+   -  Added decimal, less_than and greater_than rules to the `Form
+      validation Class <libraries/form_validation>`.
+   -  :doc:`Input Class <libraries/input>` methods post() and get()
+      will now return a full array if the first argument is not
+      provided.
+   -  Secure cookies can now be made with the set_cookie() helper and
+      :doc:`Input Class <libraries/input>` method.
+   -  Added set_content_type() to :doc:`Output
+      Class <libraries/output>` to set the output Content-Type
+      HTTP header based on a MIME Type or a config/mimes.php array key.
+   -  :doc:`Output Class <libraries/output>` will now support method
+      chaining.
+
+-  Helpers
+
+   -  Changed the logic for form_open() in :doc:`Form
+      helper <helpers/form_helper>`. If no value is passed it will
+      submit to the current URL.
+
+Bug fixes for 2.0.1
+-------------------
+
+-  CLI requests can now be run from any folder, not just when CD'ed next
+   to index.php.
+-  Fixed issue #41: Added audio/mp3 mime type to mp3.
+-  Fixed a bug (Core #329) where the file caching driver referenced the
+   incorrect cache directory.
+-  Fixed a bug (Reactor #69) where the SHA1 library was named
+   incorrectly.
+
+Version 2.0.0
+=============
+
+Release Date: January 28, 2011
+Hg Tag: v2.0.0
+
+-  General changes
+
+   -  PHP 4 support is removed. CodeIgniter now requires PHP 5.1.6.
+   -  Scaffolding, having been deprecated for a number of versions, has
+      been removed.
+   -  Plugins have been removed, in favor of Helpers. The CAPTCHA plugin
+      has been converted to a Helper and
+      :doc:`documented <./helpers/captcha_helper>`. The JavaScript
+      calendar plugin was removed due to the ready availability of great
+      JavaScript calendars, particularly with jQuery.
+   -  Added new special Library type:
+      :doc:`Drivers <./general/drivers>`.
+   -  Added full query-string support. See the config file for details.
+   -  Moved the application folder outside of the system folder.
+   -  Moved system/cache and system/logs directories to the application
+      directory.
+   -  Added routing overrides to the main index.php file, enabling the
+      normal routing to be overridden on a per "index" file basis.
+   -  Added the ability to set config values (or override config values)
+      directly from data set in the main index.php file. This allows a
+      single application to be used with multiple front controllers,
+      each having its own config values.
+   -  Added $config['directory_trigger'] to the config file so that a
+      controller sub-directory can be specified when running _GET
+      strings instead of URI segments.
+   -  Added ability to set "Package" paths - specific paths where the
+      Loader and Config classes should try to look first for a requested
+      file. This allows distribution of sub-applications with their own
+      libraries, models, config files, etc. in a single "package"
+      directory. See the :doc:`Loader class <libraries/loader>`
+      documentation for more details.
+   -  In-development code is now hosted at
+      `BitBucket <http://bitbucket.org/ellislab/codeigniter-reactor/>`_.
+   -  Removed the deprecated Validation Class.
+   -  Added CI\_ Prefix to all core classes.
+   -  Package paths can now be set in application/config/autoload.php.
+   -  `Upload library <libraries/file_uploading>` file_name can
+      now be set without an extension, the extension will be taken from
+      the uploaded file instead of the given name.
+   -  In :doc:`Database Forge <database/forge>` the name can be omitted
+      from $this->dbforge->modify_column()'s 2nd param if you aren't
+      changing the name.
+   -  $config['base_url'] is now empty by default and will guess what
+      it should be.
+   -  Enabled full Command Line Interface compatibility with
+      config['uri_protocol'] = 'CLI';.
+
+-  Libraries
+
+   -  Added a :doc:`Cache driver <libraries/caching>` with APC,
+      memcached, and file-based support.
+   -  Added $prefix, $suffix and $first_url properties to :doc:`Pagination
+      library <./libraries/pagination>`.
+   -  Added the ability to suppress first, previous, next, last, and
+      page links by setting their values to FALSE in the :doc:`Pagination
+      library <./libraries/pagination>`.
+   -  Added :doc:`Security library <./libraries/security>`, which now
+      contains the xss_clean function, filename_security function and
+      other security related functions.
+   -  Added CSRF (Cross-site Reference Forgery) protection to the
+      :doc:`Security library <./libraries/security>`.
+   -  Added $parse_exec_vars property to Output library.
+   -  Added ability to enable / disable individual sections of the
+      :doc:`Profiler <general/profiling>`
+   -  Added a wildcard option $config['allowed_types'] = '\*' to the
+      :doc:`File Uploading Class <./libraries/file_uploading>`.
+   -  Added an 'object' config variable to the XML-RPC Server library so
+      that one can specify the object to look for requested methods,
+      instead of assuming it is in the $CI superobject.
+   -  Added "is_object" into the list of unit tests capable of being
+      run.
+   -  Table library will generate an empty cell with a blank string, or
+      NULL value.
+   -  Added ability to set tag attributes for individual cells in the
+      Table library
+   -  Added a parse_string() method to the :doc:`Parser
+      Class <libraries/parser>`.
+   -  Added HTTP headers and Config information to the
+      :doc:`Profiler <general/profiling>` output.
+   -  Added Chrome and Flock to the list of detectable browsers by
+      browser() in the :doc:`User Agent Class <libraries/user_agent>`.
+   -  The :doc:`Unit Test Class <libraries/unit_testing>` now has an
+      optional "notes" field available to it, and allows for discrete
+      display of test result items using
+      $this->unit->set_test_items().
+   -  Added a $xss_clean class variable to the XMLRPC library, enabling
+      control over the use of the Security library's xss_clean()
+      method.
+   -  Added a download() method to the :doc:`FTP
+      library <libraries/ftp>`
+   -  Changed do_xss_clean() to return FALSE if the uploaded file
+      fails XSS checks.
+   -  Added stripslashes() and trim()ing of double quotes from $_FILES
+      type value to standardize input in Upload library.
+   -  Added a second parameter (boolean) to
+      $this->zip->read_dir('/path/to/directory', FALSE) to remove the
+      preceding trail of empty folders when creating a Zip archive. This
+      example would contain a zip with "directory" and all of its
+      contents.
+   -  Added ability in the Image Library to handle PNG transparency for
+      resize operations when using the GD lib.
+   -  Modified the Session class to prevent use if no encryption key is
+      set in the config file.
+   -  Added a new config item to the Session class
+      sess_expire_on_close to allow sessions to auto-expire when the
+      browser window is closed.
+   -  Improved performance of the Encryption library on servers where
+      Mcrypt is available.
+   -  Changed the default encryption mode in the Encryption library to
+      CBC.
+   -  Added an encode_from_legacy() method to provide a way to
+      transition encrypted data from CodeIgniter 1.x to CodeIgniter 2.x.
+      Please see the :doc:`upgrade
+      instructions <./installation/upgrade_200>` for details.
+   -  Altered Form_Validation library to allow for method chaining on
+      set_rules(), set_message() and set_error_delimiters()
+      functions.
+   -  Altered Email Library to allow for method chaining.
+   -  Added request_headers(), get_request_header() and
+      is_ajax_request() to the input class.
+   -  Altered :doc:`User agent library <libraries/user_agent>` so that
+      is_browser(), is_mobile() and is_robot() can optionally check
+      for a specific browser or mobile device.
+   -  Altered :doc:`Input library <libraries/input>` so that post() and
+      get() will return all POST and GET items (respectively) if there
+      are no parameters passed in.
+
+-  Database
+
+   -  :doc:`database configuration <./database/configuration>`.
+   -  Added autoinit value to :doc:`database
+      configuration <./database/configuration>`.
+   -  Added stricton value to :doc:`database
+      configuration <./database/configuration>`.
+   -  Added database_exists() to the :doc:`Database Utilities
+      Class <database/utilities>`.
+   -  Semantic change to db->version() function to allow a list of
+      exceptions for databases with functions to return version string
+      instead of specially formed SQL queries. Currently this list only
+      includes Oracle and SQLite.
+   -  Fixed a bug where driver specific table identifier protection
+      could lead to malformed queries in the field_data() functions.
+   -  Fixed a bug where an undefined class variable was referenced in
+      database drivers.
+   -  Modified the database errors to show the filename and line number
+      of the problematic query.
+   -  Removed the following deprecated functions: orwhere, orlike,
+      groupby, orhaving, orderby, getwhere.
+   -  Removed deprecated _drop_database() and _create_database()
+      functions from the db utility drivers.
+   -  Improved dbforge create_table() function for the Postgres driver.
+
+-  Helpers
+
+   -  Added convert_accented_characters() function to :doc:`text
+      helper <./helpers/text_helper>`.
+   -  Added accept-charset to the list of inserted attributes of
+      form_open() in the :doc:`Form Helper <helpers/form_helper>`.
+   -  Deprecated the dohash() function in favour of do_hash() for
+      naming consistency.
+   -  Non-backwards compatible change made to get_dir_file_info() in
+      the :doc:`File Helper <helpers/file_helper>`. No longer recurses
+      by default so as to encourage responsible use (this function can
+      cause server performance issues when used without caution).
+   -  Modified the second parameter of directory_map() in the
+      :doc:`Directory Helper <helpers/directory_helper>` to accept an
+      integer to specify recursion depth.
+   -  Modified delete_files() in the :doc:`File
+      Helper <helpers/file_helper>` to return FALSE on failure.
+   -  Added an optional second parameter to byte_format() in the
+      :doc:`Number Helper <helpers/number_helper>` to allow for decimal
+      precision.
+   -  Added alpha, and sha1 string types to random_string() in the
+      :doc:`String Helper <helpers/string_helper>`.
+   -  Modified prep_url() so as to not prepend http:// if the supplied
+      string already has a scheme.
+   -  Modified get_file_info in the file helper, changing filectime()
+      to filemtime() for dates.
+   -  Modified smiley_js() to add optional third parameter to return
+      only the javascript with no script tags.
+   -  The img() function of the :doc:`HTML
+      helper <./helpers/html_helper>` will now generate an empty
+      string as an alt attribute if one is not provided.
+   -  If CSRF is enabled in the application config file, form_open()
+      will automatically insert it as a hidden field.
+   -  Added sanitize_filename() into the :doc:`Security
+      helper <./helpers/security_helper>`.
+   -  Added ellipsize() to the :doc:`Text
+      Helper <./helpers/text_helper>`
+   -  Added elements() to the :doc:`Array
+      Helper <./helpers/array_helper>`
+
+-  Other Changes
+
+   -  Added an optional second parameter to show_404() to disable
+      logging.
+   -  Updated loader to automatically apply the sub-class prefix as an
+      option when loading classes. Class names can be prefixed with the
+      standard "CI\_" or the same prefix as the subclass prefix, or no
+      prefix at all.
+   -  Increased randomness with is_really_writable() to avoid file
+      collisions when hundreds or thousands of requests occur at once.
+   -  Switched some DIR_WRITE_MODE constant uses to FILE_WRITE_MODE
+      where files and not directories are being operated on.
+   -  get_mime_by_extension() is now case insensitive.
+   -  Added "default" to the list :doc:`Reserved
+      Names <general/reserved_names>`.
+   -  Added 'application/x-msdownload' for .exe files and
+      ''application/x-gzip-compressed' for .tgz files to
+      config/mimes.php.
+   -  Updated the output library to no longer compress output or send
+      content-length headers if the server runs with
+      zlib.output_compression enabled.
+   -  Eliminated a call to is_really_writable() on each request unless
+      it is really needed (Output caching)
+   -  Documented append_output() in the :doc:`Output
+      Class <libraries/output>`.
+   -  Documented a second argument in the decode() function for the
+      :doc:`Encryption Class <libraries/encryption>`.
+   -  Documented db->close().
+   -  Updated the router to support a default route with any number of
+      segments.
+   -  Moved _remove_invisible_characters() function from the
+      :doc:`Security Library <libraries/security>` to :doc:`common
+      functions. <general/common_functions>`
+   -  Added audio/mpeg3 as a valid mime type for MP3.
+
+Bug fixes for 2.0.0
+-------------------
+
+-  Fixed a bug where you could not change the User-Agent when sending
+   email.
+-  Fixed a bug where the Output class would send incorrect cached output
+   for controllers implementing their own _output() method.
+-  Fixed a bug where a failed query would not have a saved query
+   execution time causing errors in the Profiler
+-  Fixed a bug that was writing log entries when multiple identical
+   helpers and plugins were loaded.
+-  Fixed assorted user guide typos or examples (#10693, #8951, #7825,
+   #8660, #7883, #6771, #10656).
+-  Fixed a language key in the profiler: "profiler_no_memory_usage"
+   to "profiler_no_memory".
+-  Fixed an error in the Zip library that didn't allow downloading on
+   PHP 4 servers.
+-  Fixed a bug in the Form Validation library where fields passed as
+   rule parameters were not being translated (#9132)
+-  Modified inflector helper to properly pluralize words that end in
+   'ch' or 'sh'
+-  Fixed a bug in xss_clean() that was not allowing hyphens in query
+   strings of submitted URLs.
+-  Fixed bugs in get_dir_file_info() and get_file_info() in the
+   File Helper with recursion, and file paths on Windows.
+-  Fixed a bug where Active Record override parameter would not let you
+   disable Active Record if it was enabled in your database config file.
+-  Fixed a bug in reduce_double_slashes() in the String Helper to
+   properly remove duplicate leading slashes (#7585)
+-  Fixed a bug in values_parsing() of the XML-RPC library which
+   prevented NULL variables typed as 'string' from being handled
+   properly.
+-  Fixed a bug were form_open_multipart() didn't accept string
+   attribute arguments (#10930).
+-  Fixed a bug (#10470) where get_mime_by_extension() was case
+   sensitive.
+-  Fixed a bug where some error messages for the SQLite and Oracle
+   drivers would not display.
+-  Fixed a bug where files created with the Zip Library would result in
+   file creation dates of 1980.
+-  Fixed a bug in the Session library that would result in PHP error
+   when attempting to store values with objects.
+-  Fixed a bug where extending the Controller class would result in a
+   fatal PHP error.
+-  Fixed a PHP Strict Standards Error in the index.php file.
+-  Fixed a bug where getimagesize() was being needlessly checked on
+   non-image files in is_allowed_type().
+-  Fixed a bug in the Encryption library where an empty key was not
+   triggering an error.
+-  Fixed a bug in the Email library where CC and BCC recipients were not
+   reset when using the clear() method (#109).
+-  Fixed a bug in the URL Helper where prep_url() could cause a PHP
+   error on PHP versions < 5.1.2.
+-  Added a log message in core/output if the cache directory config
+   value was not found.
+-  Fixed a bug where multiple libraries could not be loaded by passing
+   an array to load->library()
+-  Fixed a bug in the html helper where too much white space was
+   rendered between the src and alt tags in the img() function.
+-  Fixed a bug in the profilers _compile_queries() function.
+-  Fixed a bug in the date helper where the DATE_ISO8601 variable was
+   returning an incorrectly formatted date string.
+
+Version 1.7.2
+=============
+
+Release Date: September 11, 2009
+Hg Tag: v1.7.2
+
+-  Libraries
+
+   -  Added a new :doc:`Cart Class <libraries/cart>`.
+   -  Added the ability to pass $config['file_name'] for the :doc:`File
+      Uploading Class <libraries/file_uploading>` and rename the
+      uploaded file.
+   -  Changed order of listed user-agents so Safari would more
+      accurately report itself. (#6844)
+
+-  Database
+
+   -  Switched from using gettype() in escape() to is\_* methods, since
+      future PHP versions might change its output.
+   -  Updated all database drivers to handle arrays in escape_str()
+   -  Added escape_like_str() method for escaping strings to be used
+      in LIKE conditions
+   -  Updated Active Record to utilize the new LIKE escaping mechanism.
+   -  Added reconnect() method to DB drivers to try to keep alive /
+      reestablish a connection after a long idle.
+   -  Modified MSSQL driver to use mssql_get_last_message() for error
+      messages.
+
+-  Helpers
+
+   -  Added form_multiselect() to the :doc:`Form
+      helper <helpers/form_helper>`.
+   -  Modified form_hidden() in the :doc:`Form
+      helper <helpers/form_helper>` to accept multi-dimensional
+      arrays.
+   -  Modified form_prep() in the :doc:`Form
+      helper <helpers/form_helper>` to keep track of prepped
+      fields to avoid multiple prep/mutation from subsequent calls which
+      can occur when using Form Validation and form helper functions to
+      output form fields.
+   -  Modified directory_map() in the :doc:`Directory
+      helper <helpers/directory_helper>` to allow the inclusion of
+      hidden files, and to return FALSE on failure to read directory.
+   -  Modified the :doc:`Smiley helper <helpers/smiley_helper>` to work
+      with multiple fields and insert the smiley at the last known
+      cursor position.
+
+-  General
+
+   -  Compatible with PHP 5.3.0
+   -  Modified :doc:`show_error() <general/errors>` to allow sending
+      of HTTP server response codes.
+   -  Modified :doc:`show_404() <general/errors>` to send 404 status
+      code, removing non-CGI compatible header() statement from
+      error_404.php template.
+   -  Added set_status_header() to the :doc:`Common
+      functions <general/common_functions>` to allow use when the
+      Output class is unavailable.
+   -  Added is_php() to :doc:`Common
+      functions <general/common_functions>` to facilitate PHP
+      version comparisons.
+   -  Added 2 CodeIgniter "cheatsheets" (thanks to DesignFellow.com for
+      this contribution).
+
+Bug fixes for 1.7.2
+-------------------
+
+-  Fixed assorted user guide typos or examples (#6743, #7214, #7516,
+   #7287, #7852, #8224, #8324, #8349).
+-  Fixed a bug in the Form Validation library where multiple callbacks
+   weren't working (#6110)
+-  doctype helper default value was missing a "1".
+-  Fixed a bug in the language class when outputting an error for an
+   unfound file.
+-  Fixed a bug in the Calendar library where the shortname was output
+   for "May".
+-  Fixed a bug with ORIG_PATH_INFO that was allowing URIs of just a
+   slash through.
+-  Fixed a fatal error in the Oracle and ODBC drivers (#6752)
+-  Fixed a bug where xml_from_result() was checking for a nonexistent
+   method.
+-  Fixed a bug where Database Forge's add_column and modify_column
+   were not looping through when sent multiple fields.
+-  Fixed a bug where the File Helper was using '/' instead of the
+   DIRECTORY_SEPARATOR constant.
+-  Fixed a bug to prevent PHP errors when attempting to use sendmail on
+   servers that have manually disabled the PHP popen() function.
+-  Fixed a bug that would cause PHP errors in XML-RPC data if the PHP
+   data type did not match the specified XML-RPC type.
+-  Fixed a bug in the XML-RPC class with parsing dateTime.iso8601 data
+   types.
+-  Fixed a case sensitive string replacement in xss_clean()
+-  Fixed a bug in form_textarea() where form data was not prepped
+   correctly.
+-  Fixed a bug in form_prep() causing it to not preserve entities in
+   the user's original input when called back into a form element
+-  Fixed a bug in _protect_identifiers() where the swap prefix
+   ($swap_pre) was not being observed.
+-  Fixed a bug where the 400 status header sent with the 'disallowed URI
+   characters' was not compatible with CGI environments.
+-  Fixed a bug in the typography class where heading tags could have
+   paragraph tags inserted when using auto_typography().
+
+Version 1.7.1
+=============
+
+Release Date: February 10, 2009
+Hg Tag: 1.7.1
+
+-  Libraries
+
+   -  Fixed an arbitrary script execution security flaw (#6068) in the
+      Form Validation library (thanks to hkk)
+   -  Changed default current page indicator in the Pagination library
+      to use <strong> instead of <b>
+   -  A "HTTP/1.1 400 Bad Request" header is now sent when disallowed
+      characters are encountered.
+   -  Added <big>, <small>, <q>, and <tt> to the Typography parser's
+      inline elements.
+   -  Added more accurate error reporting for the Email library when
+      using sendmail.
+   -  Removed a strict type check from the rotate() function of the
+      :doc:`Image Manipulation Class <libraries/image_lib>`.
+   -  Added enhanced error checking in file saving in the Image library
+      when using the GD lib.
+   -  Added an additional newline between multipart email headers and
+      the MIME message text for better compatibility with a variety of
+      MUAs.
+   -  Made modest improvements to efficiency and accuracy of
+      explode_name() in the Image lib.
+
+-  Database
+
+   -  Added where_in to the list of expected arguments received by
+      delete().
+
+-  Helpers
+
+   -  Added the ability to have optgroups in form_dropdown() within the
+      :doc:`form helper <helpers/form_helper>`.
+   -  Added a doctype() function to the :doc:`HTML
+      helper <helpers/html_helper>`.
+   -  Added ability to force lowercase for url_title() in the :doc:`URL
+      helper <helpers/url_helper>`.
+   -  Changed the default "type" of form_button() to "button" from
+      "submit" in the :doc:`form helper <helpers/form_helper>`.
+   -  Changed redirect() in the URL helper to allow redirections to URLs
+      outside of the CI site.
+   -  Updated get_cookie() to try to fetch the cookie using the global
+      cookie prefix if the requested cookie name doesn't exist.
+
+-  Other Changes
+
+   -  Improved security in xss_clean() to help prevent attacks
+      targeting Internet Explorer.
+   -  Added 'application/msexcel' to config/mimes.php for .xls files.
+   -  Added 'proxy_ips' config item to whitelist reverse proxy servers
+      from which to trust the HTTP_X_FORWARDED_FOR header to to
+      determine the visitor's IP address.
+   -  Improved accuracy of Upload::is_allowed_filetype() for images
+      (#6715)
+
+Bug fixes for 1.7.1
+-------------------
+
+-  Database
+
+   -  Fixed a bug when doing 'random' on order_by() (#5706).
+   -  Fixed a bug where adding a primary key through Forge could fail
+      (#5731).
+   -  Fixed a bug when using DB cache on multiple databases (#5737).
+   -  Fixed a bug where TRUNCATE was not considered a "write" query
+      (#6619).
+   -  Fixed a bug where csv_from_result() was checking for a
+      nonexistent method.
+   -  Fixed a bug _protect_identifiers() where it was improperly
+      removing all pipe symbols from items
+
+-  Fixed assorted user guide typos or examples (#5998, #6093, #6259,
+   #6339, #6432, #6521).
+-  Fixed a bug in the MySQLi driver when no port is specified
+-  Fixed a bug (#5702), in which the field label was not being fetched
+   properly, when "matching" one field to another.
+-  Fixed a bug in which identifers were not being escaped properly when
+   reserved characters were used.
+-  Fixed a bug with the regular expression used to protect submitted
+   paragraph tags in auto typography.
+-  Fixed a bug where double dashes within tag attributes were being
+   converted to em dash entities.
+-  Fixed a bug where double spaces within tag attributes were being
+   converted to non-breaking space entities.
+-  Fixed some accuracy issues with curly quotes in
+   Typography::format_characters()
+-  Changed a few docblock comments to reflect actual return values.
+-  Fixed a bug with high ascii characters in subject and from email
+   headers.
+-  Fixed a bug in xss_clean() where whitespace following a validated
+   character entity would not be preserved.
+-  Fixed a bug where HTML comments and <pre> tags were being parsed in
+   Typography::auto_typography().
+-  Fixed a bug with non-breaking space cleanup in
+   Typography::auto_typography().
+-  Fixed a bug in database escaping where a compound statement (ie:
+   SUM()) wasn't handled correctly with database prefixes.
+-  Fixed a bug when an opening quote is preceded by a paragraph tag and
+   immediately followed by another tag.
+-  Fixed a bug in the Text Helper affecting some locales where
+   word_censor() would not work on words beginning or ending with an
+   accented character.
+-  Fixed a bug in the Text Helper character limiter where the provided
+   limit intersects the last word of the string.
+-  Fixed a bug (#6342) with plural() in the Inflection helper with words
+   ending in "y".
+-  Fixed bug (#6517) where Routed URI segments returned by
+   URI::rsegment() method were incorrect for the default controller.
+-  Fixed a bug (#6706) in the Security Helper where xss_clean() was
+   using a deprecated second argument.
+-  Fixed a bug in the URL helper url_title() function where trailing
+   periods were allowed at the end of a URL.
+-  Fixed a bug (#6669) in the Email class when CRLF's are used for the
+   newline character with headers when used with the "mail" protocol.
+-  Fixed a bug (#6500) where URI::A_filter_uri() was exit()ing an
+   error instead of using show_error().
+-  Fixed a bug (#6592) in the File Helper where get_dir_file_info()
+   where recursion was not occurring properly.
+-  Tweaked Typography::auto_typography() for some edge-cases.
+
+Version 1.7
+===========
+
+Release Date: October 23, 2008
+Hg Tag: 1.7.0
+
+-  Libraries
+
+   -  Added a new :doc:`Form Validation
+      Class <libraries/form_validation>`. It simplifies setting
+      rules and field names, supports arrays as field names, allows
+      groups of validation rules to be saved in a config file, and adds
+      some helper functions for use in view files. **Please note that
+      the old Validation class is now deprecated**. We will leave it in
+      the library folder for some time so that existing applications
+      that use it will not break, but you are encouraged to migrate to
+      the new version.
+   -  Updated the :doc:`Sessions class <libraries/sessions>` so that
+      any custom data being saved gets stored to a database rather than
+      the session cookie (assuming you are using a database to store
+      session data), permitting much more data to be saved.
+   -  Added the ability to store libraries in subdirectories within
+      either the main "libraries" or the local application "libraries"
+      folder. Please see the :doc:`Loader class <libraries/loader>` for
+      more info.
+   -  Added the ability to assign library objects to your own variable
+      names when you use $this->load->library(). Please see the :doc:`Loader
+      class <libraries/loader>` for more info.
+   -  Added controller class/method info to :doc:`Profiler
+      class <general/profiling>` and support for multiple database
+      connections.
+   -  Improved the "auto typography" feature and moved it out of the
+      helper into its own :doc:`Typography
+      Class <libraries/typography>`.
+   -  Improved performance and accuracy of xss_clean(), including
+      reduction of false positives on image/file tests.
+   -  Improved :doc:`Parser class <./libraries/parser>` to allow
+      multiple calls to the parse() function. The output of each is
+      appended in the output.
+   -  Added max_filename option to set a file name length limit in the
+      :doc:`File Upload Class <libraries/file_uploading>`.
+   -  Added set_status_header() function to :doc:`Output
+      class <libraries/output>`.
+   -  Modified :doc:`Pagination <libraries/pagination>` class to only
+      output the "First" link when the link for page one would not be
+      shown.
+   -  Added support for mb_strlen in the :doc:`Form
+      Validation <libraries/form_validation>` class so that
+      multi-byte languages will calculate string lengths properly.
+
+-  Database
+
+   -  Improved Active Record class to allow full path column and table
+      names: hostname.database.table.column. Also improved the alias
+      handling.
+   -  Improved how table and column names are escaped and prefixed. It
+      now honors full path names when adding prefixes and escaping.
+   -  Added Active Record caching feature to "update" and "delete"
+      functions.
+   -  Added removal of non-printing control characters in escape_str()
+      of DB drivers that do not have native PHP escaping mechanisms
+      (mssql, oci8, odbc), to avoid potential SQL errors, and possible
+      sources of SQL injection.
+   -  Added port support to MySQL, MySQLi, and MS SQL database drivers.
+   -  Added driver name variable in each DB driver, based on bug report
+      #4436.
+
+-  Helpers
+
+   -  Added several new "setting" functions to the :doc:`Form
+      helper <helpers/form_helper>` that allow POST data to be
+      retrieved and set into forms. These are intended to be used on
+      their own, or with the new :doc:`Form Validation
+      Class <libraries/form_validation>`.
+   -  Added current_url() and uri_segments() to :doc:`URL
+      helper <helpers/url_helper>`.
+   -  Altered auto_link() in the :doc:`URL
+      helper <helpers/url_helper>` so that email addresses with
+      "+" included will be linked.
+   -  Added meta() function to :doc:`HTML
+      helper <helpers/html_helper>`.
+   -  Improved accuracy of calculations in :doc:`Number
+      helper <helpers/number_helper>`.
+   -  Removed added newlines ("\\n") from most form and html helper
+      functions.
+   -  Tightened up validation in the :doc:`Date
+      helper <helpers/date_helper>` function human_to_unix(),
+      and eliminated the POSIX regex.
+   -  Updated :doc:`Date helper <helpers/date_helper>` to match the
+      world's current time zones and offsets.
+   -  Modified url_title() in the :doc:`URL
+      helper <helpers/url_helper>` to remove characters and digits
+      that are part of character entities, to allow dashes, underscores,
+      and periods regardless of the $separator, and to allow uppercase
+      characters.
+   -  Added support for arbitrary attributes in anchor_popup() of the
+      :doc:`URL helper <helpers/url_helper>`.
+
+-  Other Changes
+
+   -  Added :doc:`PHP Style Guide <./general/styleguide>` to docs.
+   -  Added sanitization in xss_clean() for a deprecated HTML tag that
+      could be abused in user input in Internet Explorer.
+   -  Added a few openxml document mime types, and an additional mobile
+      agent to mimes.php and user_agents.php respectively.
+   -  Added a file lock check during caching, before trying to write to
+      the file.
+   -  Modified Cookie key cleaning to unset a few troublesome key names
+      that can be present in certain environments, preventing CI from
+      halting execution.
+   -  Changed the output of the profiler to use style attribute rather
+      than clear, and added the id "codeigniter_profiler" to the
+      container div.
+
+Bug fixes for 1.7.0
+-------------------
+
+-  Fixed bug in xss_clean() that could remove some desirable tag
+   attributes.
+-  Fixed assorted user guide typos or examples (#4807, #4812, #4840,
+   #4862, #4864, #4899, #4930, #5006, #5071, #5158, #5229, #5254,
+   #5351).
+-  Fixed an edit from 1.6.3 that made the $robots array in
+   user_agents.php go poof.
+-  Fixed a bug in the :doc:`Email library <libraries/email>` with
+   quoted-printable encoding improperly encoding space and tab
+   characters.
+-  Modified XSS sanitization to no longer add semicolons after &[single
+   letter], such as in M&M's, B&B, etc.
+-  Modified XSS sanitization to no longer strip XHTML image tags of
+   closing slashes.
+-  Fixed a bug in the Session class when database sessions are used
+   where upon session update all userdata would be errantly written to
+   the session cookie.
+-  Fixed a bug (#4536) in backups with the MySQL driver where some
+   legacy code was causing certain characters to be double escaped.
+-  Fixed a routing bug (#4661) that occurred when the default route
+   pointed to a subfolder.
+-  Fixed the spelling of "Dhaka" in the timezone_menu() function of the
+   :doc:`Date helper. <helpers/date_helper>`
+-  Fixed the spelling of "raspberry" in config/smileys.php.
+-  Fixed incorrect parenthesis in form_open() function (#5135).
+-  Fixed a bug that was ignoring case when comparing controller methods
+   (#4560).
+-  Fixed a bug (#4615) that was not setting SMTP authorization settings
+   when using the initialize function.
+-  Fixed a bug in highlight_code() in the :doc:`Text
+   helper <helpers/text_helper>` that would leave a stray </span>
+   in certain cases.
+-  Fixed Oracle bug (#3306) that was preventing multiple queries in one
+   action.
+-  Fixed ODBC bug that was ignoring connection params due to its use of
+   a constructor.
+-  Fixed a DB driver bug with num_rows() that would cause an error with
+   the Oracle driver.
+-  Fixed MS SQL bug (#4915). Added brackets around database name in MS
+   SQL driver when selecting the database, in the event that reserved
+   characters are used in the name.
+-  Fixed a DB caching bug (4718) in which the path was incorrect when no
+   URI segments were present.
+-  Fixed Image_lib class bug #4562. A path was not defined for NetPBM.
+-  Fixed Image_lib class bug #4532. When cropping an image with
+   identical height/width settings on output, a copy is made.
+-  Fixed DB_driver bug (4900), in which a database error was not being
+   logged correctly.
+-  Fixed DB backup bug in which field names were not being escaped.
+-  Fixed a DB Active Record caching bug in which multiple calls to
+   cached data were not being honored.
+-  Fixed a bug in the Session class that was disallowing slashes in the
+   serialized array.
+-  Fixed a Form Validation bug in which the "isset" error message was
+   being trigged by the "required" rule.
+-  Fixed a spelling error in a Loader error message.
+-  Fixed a bug (5050) with IP validation with empty segments.
+-  Fixed a bug in which the parser was being greedy if multiple
+   identical sets of tags were encountered.
+
+Version 1.6.3
+=============
+
+Release Date: June 26, 2008
+Hg Tag: v1.6.3
+
+Version 1.6.3 is a security and maintenance release and is recommended
+for all users.
+
+-  Database
+
+   -  Modified MySQL/MySQLi Forge class to give explicit names to keys
+   -  Added ability to set multiple column non-primary keys to the
+      :doc:`Forge class <database/forge>`
+   -  Added ability to set additional database config values in :doc:`DSN
+      connections <database/connecting>` via the query string.
+
+-  Libraries
+
+   -  Set the mime type check in the :doc:`Upload
+      class <libraries/file_uploading>` to reference the global
+      mimes variable.
+   -  Added support for query strings to the :doc:`Pagination
+      class <libraries/pagination>`, automatically detected or
+      explicitly declared.
+   -  Added get_post() to the :doc:`Input class <libraries/input>`.
+   -  Documented get() in the :doc:`Input class <libraries/input>`.
+   -  Added the ability to automatically output language items as form
+      labels in the :doc:`Language class <libraries/language>`.
+
+-  Helpers
+
+   -  Added a :doc:`Language helper <helpers/language_helper>`.
+   -  Added a :doc:`Number helper <helpers/number_helper>`.
+   -  :doc:`Form helper <helpers/form_helper>` refactored to allow
+      form_open() and form_fieldset() to accept arrays or strings as
+      arguments.
+
+-  Other changes
+
+   -  Improved security in xss_clean().
+   -  Removed an unused Router reference in _display_cache().
+   -  Added ability to :doc:`use xss_clean() to test
+      images <libraries/input>` for XSS, useful for upload
+      security.
+   -  Considerably expanded list of mobile user-agents in
+      config/user_agents.php.
+   -  Charset information in the userguide has been moved above title
+      for internationalization purposes (#4614).
+   -  Added "Using Associative Arrays In a Request Parameter" example to
+      the :doc:`XMLRPC userguide page <libraries/xmlrpc>`.
+   -  Removed maxlength and size as automatically added attributes of
+      form_input() in the :doc:`form helper <helpers/form_helper>`.
+   -  Documented the language file use of byte_format() in the :doc:`number
+      helper <helpers/number_helper>`.
+
+Bug fixes for 1.6.3
+-------------------
+
+-  Added a language key for valid_emails in validation_lang.php.
+-  Amended fixes for bug (#3419) with parsing DSN database connections.
+-  Moved the _has_operators() function (#4535) into DB_driver from
+   DB_active_rec.
+-  Fixed a syntax error in upload_lang.php.
+-  Fixed a bug (#4542) with a regular expression in the Image library.
+-  Fixed a bug (#4561) where orhaving() wasn't properly passing values.
+-  Removed some unused variables from the code (#4563).
+-  Fixed a bug where having() was not adding an = into the statement
+   (#4568).
+-  Fixed assorted user guide typos or examples (#4574, #4706).
+-  Added quoted-printable headers to Email class when the multi-part
+   override is used.
+-  Fixed a double opening <p> tag in the index pages of each system
+   directory.
+
+Version 1.6.2
+=============
+
+Release Date: May 13, 2008
+Hg Tag: 1.6.2
+
+-  Active Record
+
+   -  Added the ability to prevent escaping in having() clauses.
+   -  Added rename_table() into :doc:`DBForge <./database/forge>`.
+   -  Fixed a bug that wasn't allowing escaping to be turned off if the
+      value of a query was NULL.
+   -  DB Forge is now assigned to any models that exist after loading
+      (#3457).
+
+-  Database
+
+   -  Added :doc:`Strict Mode <./database/transactions>` to database
+      transactions.
+   -  Escape behaviour in where() clauses has changed; values in those
+      with the "FALSE" argument are no longer escaped (ie: quoted).
+
+-  Config
+
+   -  Added 'application/vnd.ms-powerpoint' to list of mime types.
+   -  Added 'audio/mpg' to list of mime types.
+   -  Added new user-modifiable file constants.php containing file mode
+      and fopen constants.
+   -  Added the ability to set CRLF settings via config in the
+      :doc:`Email <libraries/email>` class.
+
+-  Libraries
+
+   -  Added increased security for filename handling in the Upload
+      library.
+   -  Added increased security for sessions for client-side data
+      tampering.
+   -  The MySQLi forge class is now in sync with MySQL forge.
+   -  Added the ability to set CRLF settings via config in the
+      :doc:`Email <libraries/email>` class.
+   -  :doc:`Unit Testing <libraries/unit_testing>` results are now
+      colour coded, and a change was made to the default template of
+      results.
+   -  Added a valid_emails rule to the Validation class.
+   -  The :doc:`Zip class <libraries/zip>` now exits within download().
+   -  The :doc:`Zip class <libraries/zip>` has undergone a substantial
+      re-write for speed and clarity (thanks stanleyxu for the hard work
+      and code contribution in bug report #3425!)
+
+-  Helpers
+
+   -  Added a Compatibility
+      Helper for using some common
+      PHP 5 functions safely in applications that might run on PHP 4
+      servers (thanks Seppo for the hard work and code contribution!)
+   -  Added form_button() in the :doc:`Form
+      helper <helpers/form_helper>`.
+   -  Changed the radio() and checkbox() functions to default to not
+      checked by default.
+   -  Added the ability to include an optional HTTP Response Code in the
+      redirect() function of the :doc:`URL
+      Helper <helpers/url_helper>`.
+   -  Modified img() in the :doc:`HTML Helper <helpers/html_helper>` to
+      remove an unneeded space (#4208).
+   -  Modified anchor() in the :doc:`URL helper <helpers/url_helper>`
+      to no longer add a default title= attribute (#4209).
+   -  The :doc:`Download helper <helpers/download_helper>` now exits
+      within force_download().
+   -  Added get_dir_file_info(), get_file_info(), and
+      get_mime_by_extension() to the :doc:`File
+      Helper <helpers/file_helper>`.
+   -  Added symbolic_permissions() and octal_permissions() to the
+      :doc:`File helper <helpers/file_helper>`.
+
+-  Plugins
+
+   -  Modified captcha generation to first look for the function
+      imagecreatetruecolor, and fallback to imagecreate if it isn't
+      available (#4226).
+
+-  Other Changes
+
+   -  Added ability for :doc:`xss_clean() <libraries/input>` to accept
+      arrays.
+   -  Removed closing PHP tags from all PHP files to avoid accidental
+      output and potential 'cannot modify headers' errors.
+   -  Removed "scripts" from the auto-load search path. Scripts were
+      deprecated in Version 1.4.1 (September 21, 2006). If you still
+      need to use them for legacy reasons, they must now be manually
+      loaded in each Controller.
+   -  Added a :doc:`Reserved Names <general/reserved_names>` page to
+      the userguide, and migrated reserved controller names into it.
+   -  Added a :doc:`Common Functions <general/common_functions>` page
+      to the userguide for globally available functions.
+   -  Improved security and performance of xss_clean().
+
+Bugfixes for 1.6.2
+------------------
+
+-  Fixed a bug where SET queries were not being handled as "write"
+   queries.
+-  Fixed a bug (#3191) with ORIG_PATH_INFO URI parsing.
+-  Fixed a bug in DB Forge, when inserting an id field (#3456).
+-  Fixed a bug in the table library that could cause identically
+   constructed rows to be dropped (#3459).
+-  Fixed DB Driver and MySQLi result driver checking for resources
+   instead of objects (#3461).
+-  Fixed an AR_caching error where it wasn't tracking table aliases
+   (#3463).
+-  Fixed a bug in AR compiling, where select statements with arguments
+   got incorrectly escaped (#3478).
+-  Fixed an incorrect documentation of $this->load->language (#3520).
+-  Fixed bugs (#3523, #4350) in get_filenames() with recursion and
+   problems with Windows when $include_path is used.
+-  Fixed a bug (#4153) in the XML-RPC class preventing dateTime.iso8601
+   from being used.
+-  Fixed an AR bug with or_where_not_in() (#4171).
+-  Fixed a bug with :doc:`xss_clean() <libraries/input>` that would
+   add semicolons to GET URI variable strings.
+-  Fixed a bug (#4206) in the Directory Helper where the directory
+   resource was not being closed, and minor improvements.
+-  Fixed a bug in the FTP library where delete_dir() was not working
+   recursively (#4215).
+-  Fixed a Validation bug when set_rules() is used with a non-array
+   field name and rule (#4220).
+-  Fixed a bug (#4223) where DB caching would not work for returned DB
+   objects or multiple DB connections.
+-  Fixed a bug in the Upload library that might output the same error
+   twice (#4390).
+-  Fixed an AR bug when joining with a table alias and table prefix
+   (#4400).
+-  Fixed a bug in the DB class testing the $params argument.
+-  Fixed a bug in the Table library where the integer 0 in cell data
+   would be displayed as a blank cell.
+-  Fixed a bug in link_tag() of the :doc:`URL
+   helper <helpers/url_helper>` where a key was passed instead of
+   a value.
+-  Fixed a bug in DB_result::row() that prevented it from returning
+   individual fields with MySQL NULL values.
+-  Fixed a bug where SMTP emails were not having dot transformation
+   performed on lines that begin with a dot.
+-  Fixed a bug in display_error() in the DB driver that was
+   instantiating new Language and Exception objects, and not using the
+   error heading.
+-  Fixed a bug (#4413) where a URI containing slashes only e.g.
+   'http://example.com/index.php?//' would result in PHP errors
+-  Fixed an array to string conversion error in the Validation library
+   (#4425)
+-  Fixed bug (#4451, #4299, #4339) where failed transactions will not
+   rollback when debug mode is enabled.
+-  Fixed a bug (#4506) with overlay_watermark() in the Image library
+   preventing support for PNG-24s with alpha transparency
+-  Fixed assorted user guide typos (#3453, #4364, #4379, #4399, #4408,
+   #4412, #4448, #4488).
+
+Version 1.6.1
+=============
+
+Release Date: February 12, 2008
+Hg Tag: 1.6.1
+
+-  Active Record
+
+   -  Added :ref:`Active Record
+      Caching <ar-caching>`.
+   -  Made Active Record fully database-prefix aware.
+
+-  Database drivers
+
+   -  Added support for setting client character set and collation for
+      MySQLi.
+
+-  Core Changes
+
+   -  Modified xss_clean() to be more intelligent with its handling of
+      URL encoded strings.
+   -  Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization
+      of globals.
+   -  Added a `Path Helper <./helpers/path_helper>`.
+   -  Simplified _reindex_segments() in the URI class.
+   -  Escaped the '-' in the default 'permitted_uri_chars' config
+      item, to prevent errors if developers just try to add additional
+      characters to the end of the default expression.
+   -  Modified method calling to controllers to show a 404 when a
+      private or protected method is accessed via a URL.
+   -  Modified framework initiated 404s to log the controller and method
+      for invalid requests.
+
+-  Helpers
+
+   -  Modified get_filenames() in the File Helper to return FALSE if
+      the $source_dir is not readable.
+
+Bugfixes for 1.6.1
+------------------
+
+-  Deprecated is_numeric as a validation rule. Use of numeric and
+   integer are preferred.
+-  Fixed bug (#3379) in DBForge with SQLite for table creation.
+-  Made Active Record fully database prefix aware (#3384).
+-  Fixed a bug where DBForge was outputting invalid SQL in Postgres by
+   adding brackets around the tables in FROM.
+-  Changed the behaviour of Active Record's update() to make the WHERE
+   clause optional (#3395).
+-  Fixed a bug (#3396) where certain POST variables would cause a PHP
+   warning.
+-  Fixed a bug in query binding (#3402).
+-  Changed order of SQL keywords in the Profiler $highlight array so OR
+   would not be highlighted before ORDER BY.
+-  Fixed a bug (#3404) where the MySQLi driver was testing if
+   $this->conn_id was a resource instead of an object.
+-  Fixed a bug (#3419) connecting to a database via a DSN string.
+-  Fixed a bug (#3445) where the routed segment array was not re-indexed
+   to begin with 1 when the default controller is used.
+-  Fixed assorted user guide typos.
+
+Version 1.6.0
+=============
+
+Release Date: January 30, 2008
+
+-  DBForge
+
+   -  Added :doc:`DBForge <./database/forge>` to the database tools.
+   -  Moved create_database() and drop_database() into
+      :doc:`DBForge <./database/forge>`.
+   -  Added add_field(), add_key(), create_table(), drop_table(),
+      add_column(), drop_column(), modify_column() into
+      :doc:`DBForge <./database/forge>`.
+
+-  Active Record
+
+   -  Added protect_identifiers() in :doc:`Active
+      Record <./database/active_record>`.
+   -  All AR queries are backticked if appropriate to the database.
+   -  Added where_in(), or_where_in(), where_not_in(),
+      or_where_not_in(), not_like() and or_not_like() to :doc:`Active
+      Record <./database/active_record>`.
+   -  Added support for limit() into update() and delete() statements in
+      :doc:`Active Record <./database/active_record>`.
+   -  Added empty_table() and truncate_table() to :doc:`Active
+      Record <./database/active_record>`.
+   -  Added the ability to pass an array of tables to the delete()
+      statement in :doc:`Active Record <./database/active_record>`.
+   -  Added count_all_results() function to :doc:`Active
+      Record <./database/active_record>`.
+   -  Added select_max(), select_min(), select_avg() and
+      select_sum() to :doc:`Active Record <./database/active_record>`.
+   -  Added the ability to use aliases with joins in :doc:`Active
+      Record <./database/active_record>`.
+   -  Added a third parameter to Active Record's like() clause to
+      control where the wildcard goes.
+   -  Added a third parameter to set() in :doc:`Active
+      Record <./database/active_record>` that withholds escaping
+      data.
+   -  Changed the behaviour of variables submitted to the where() clause
+      with no values to auto set "IS NULL"
+
+-  Other Database Related
+
+   -  MySQL driver now requires MySQL 4.1+
+   -  Added $this->DB->save_queries variable to DB driver, enabling
+      queries to get saved or not. Previously they were always saved.
+   -  Added $this->db->dbprefix() to manually add database prefixes.
+   -  Added 'random' as an order_by() option , and removed "rand()" as
+      a listed option as it was MySQL only.
+   -  Added a check for NULL fields in the MySQL database backup
+      utility.
+   -  Added "constrain_by_prefix" parameter to db->list_table()
+      function. If set to TRUE it will limit the result to only table
+      names with the current prefix.
+   -  Deprecated from Active Record; getwhere() for get_where();
+      groupby() for group_by(); havingor() for having_or(); orderby()
+      for order_by; orwhere() for or_where(); and orlike() for
+      or_like().
+   -  Modified csv_from_result() to output CSV data more in the spirit
+      of basic rules of RFC 4180.
+   -  Added 'char_set' and 'dbcollat' database configuration settings,
+      to explicitly set the client communication properly.
+   -  Removed 'active_r' configuration setting and replaced with a
+      global $active_record setting, which is more in harmony with the
+      global nature of the behavior (#1834).
+
+-  Core changes
+
+   -  Added ability to load multiple views, whose content will be
+      appended to the output in the order loaded.
+   -  Added the ability to :doc:`auto-load <./general/autoloader>`
+      :doc:`Models <./general/models>`.
+   -  Reorganized the URI and Routes classes for better clarity.
+   -  Added Compat.php to allow function overrides for older versions of
+      PHP or PHP environments missing certain extensions / libraries
+   -  Added memory usage, GET, URI string data, and individual query
+      execution time to Profiler output.
+   -  Deprecated Scaffolding.
+   -  Added is_really_writable() to Common.php to provide a
+      cross-platform reliable method of testing file/folder writability.
+
+-  Libraries
+
+   -  Changed the load protocol of Models to allow for extension.
+   -  Strengthened the Encryption library to help protect against man in
+      the middle attacks when MCRYPT_MODE_CBC mode is used.
+   -  Added Flashdata variables, session_id regeneration and
+      configurable session update times to the :doc:`Session
+      class. <./libraries/sessions>`
+   -  Removed 'last_visit' from the Session class.
+   -  Added a language entry for valid_ip validation error.
+   -  Modified prep_for_form() in the Validation class to accept
+      arrays, adding support for POST array validation (via callbacks
+      only)
+   -  Added an "integer" rule into the Validation library.
+   -  Added valid_base64() to the Validation library.
+   -  Documented clear() in the :doc:`Image
+      Processing <../libraries/image_lib>` library.
+   -  Changed the behaviour of custom callbacks so that they no longer
+      trigger the "required" rule.
+   -  Modified Upload class $_FILES error messages to be more precise.
+   -  Moved the safe mode and auth checks for the Email library into the
+      constructor.
+   -  Modified variable names in _ci_load() method of Loader class to
+      avoid conflicts with view variables.
+   -  Added a few additional mime type variations for CSV.
+   -  Enabled the 'system' methods for the XML-RPC Server library,
+      except for 'system.multicall' which is still disabled.
+
+-  Helpers & Plugins
+
+   -  Added link_tag() to the :doc:`HTML
+      helper. <./helpers/html_helper>`
+   -  Added img() to the :doc:`HTML helper. <./helpers/html_helper>`
+   -  Added ability to :doc:`"extend" Helpers <./general/helpers>`.
+   -  Added an :doc:`email helper <./helpers/email_helper>` into core
+      helpers.
+   -  Added strip_quotes() function to :doc:`string
+      helper <./helpers/string_helper>`.
+   -  Added reduce_multiples() function to :doc:`string
+      helper <./helpers/string_helper>`.
+   -  Added quotes_to_entities() function to :doc:`string
+      helper <./helpers/string_helper>`.
+   -  Added form_fieldset(), form_fieldset_close(), form_label(),
+      and form_reset() function to :doc:`form
+      helper <./helpers/form_helper>`.
+   -  Added support for external urls in form_open().
+   -  Removed support for db_backup in MySQLi due to incompatible
+      functions.
+   -  Javascript Calendar plugin now uses the months and days from the
+      calendar language file, instead of hard-coded values,
+      internationalizing it.
+
+-  Documentation Changes
+
+   -  Added Writing Documentation section
+      for the community to use in writing their own documentation.
+   -  Added titles to all user manual pages.
+   -  Added attributes into <html> of userguide for valid html.
+   -  Added `Zip Encoding
+      Class <http://codeigniter.com/user_guide/libraries/zip>`_ to
+      the table of contents of the userguide.
+   -  Moved part of the userguide menu javascript to an external file.
+   -  Documented distinct() in :doc:`Active
+      Record <./database/active_record>`.
+   -  Documented the timezones() function in the :doc:`Date
+      Helper <./helpers/date_helper>`.
+   -  Documented unset_userdata in the :doc:`Session
+      class <./libraries/sessions>`.
+   -  Documented 2 config options to the :doc:`Database
+      configuration <./database/configuration>` page.
+
+Bug fixes for Version 1.6.0
+---------------------------
+
+-  Fixed a bug (#1813) preventing using $CI->db in the same application
+   with returned database objects.
+-  Fixed a bug (#1842) where the $this->uri->rsegments array would not
+   include the 'index' method if routed to the controller without an
+   implicit method.
+-  Fixed a bug (#1872) where word_limiter() was not retaining
+   whitespace.
+-  Fixed a bug (#1890) in csv_from_result() where content that
+   included the delimiter would break the file.
+-  Fixed a bug (#2542)in the clean_email() method of the Email class to
+   allow for non-numeric / non-sequential array keys.
+-  Fixed a bug (#2545) in _html_entity_decode_callback() when
+   'global_xss_filtering' is enabled.
+-  Fixed a bug (#2668) in the :doc:`parser class <./libraries/parser>`
+   where numeric data was ignored.
+-  Fixed a bug (#2679) where the "previous" pagination link would get
+   drawn on the first page.
+-  Fixed a bug (#2702) in _object_to_array that broke some types of
+   inserts and updates.
+-  Fixed a bug (#2732) in the SQLite driver for PHP 4.
+-  Fixed a bug (#2754) in Pagination to scan for non-positive
+   num_links.
+-  Fixed a bug (#2762) in the :doc:`Session
+   library <./libraries/sessions>` where user agent matching would
+   fail on user agents ending with a space.
+-  Fixed a bug (#2784) $field_names[] vs $Ffield_names[] in postgres
+   and sqlite drivers.
+-  Fixed a bug (#2810) in the typography helper causing extraneous
+   paragraph tags when string contains tags.
+-  Fixed a bug (#2849) where arguments passed to a subfolder controller
+   method would be incorrectly shifted, dropping the 3rd segment value.
+-  Fixed a bug (#2858) which referenced a wrong variable in the Image
+   class.
+-  Fixed a bug (#2875)when loading plugin files as _plugin. and not
+   _pi.
+-  Fixed a bug (#2912) in get_filenames() in the :doc:`File
+   Helper <helpers/file_helper>` where the array wasn't cleared
+   after each call.
+-  Fixed a bug (#2974) in highlight_phrase() that caused an error with
+   slashes.
+-  Fixed a bug (#3003) in the Encryption Library to support modes other
+   than MCRYPT_MODE_ECB
+-  Fixed a bug (#3015) in the :doc:`User Agent
+   library <./libraries/user_agent>` where more then 2 languages
+   where not reported with languages().
+-  Fixed a bug (#3017) in the :doc:`Email <./libraries/email>` library
+   where some timezones were calculated incorrectly.
+-  Fixed a bug (#3024) in which master_dim wasn't getting reset by
+   clear() in the Image library.
+-  Fixed a bug (#3156) in Text Helper highlight_code() causing PHP tags
+   to be handled incorrectly.
+-  Fixed a bug (#3166) that prevented num_rows from working in Oracle.
+-  Fixed a bug (#3175) preventing certain libraries from working
+   properly when autoloaded in PHP 4.
+-  Fixed a bug (#3267) in the Typography Helper where unordered list was
+   listed "un.
+-  Fixed a bug (#3268) where the Router could leave '/' as the path.
+-  Fixed a bug (#3279) where the Email class was sending the wrong
+   Content-Transfer-Encoding for some character sets.
+-  Fixed a bug (#3284) where the rsegment array would not be set
+   properly if the requested URI contained more segments than the routed
+   URI.
+-  Removed extraneous load of $CFG in _display_cache() of the Output
+   class (#3285).
+-  Removed an extraneous call to loading models (#3286).
+-  Fixed a bug (#3310) with sanitization of globals in the Input class
+   that could unset CI's global variables.
+-  Fixed a bug (#3314) which would cause the top level path to be
+   deleted in delete_files() of the File helper.
+-  Fixed a bug (#3328) where the smiley helper might return an undefined
+   variable.
+-  Fixed a bug (#3330) in the FTP class where a comparison wasn't
+   getting made.
+-  Removed an unused parameter from Profiler (#3332).
+-  Fixed a bug in database driver where num_rows property wasn't
+   getting updated.
+-  Fixed a bug in the :doc:`upload
+   library <./libraries/file_uploading>` when allowed_files
+   wasn't defined.
+-  Fixed a bug in word_wrap() of the Text Helper that incorrectly
+   referenced an object.
+-  Fixed a bug in Validation where valid_ip() wasn't called properly.
+-  Fixed a bug in Validation where individual error messages for
+   checkboxes wasn't supported.
+-  Fixed a bug in captcha calling an invalid PHP function.
+-  Fixed a bug in the cookie helper "set_cookie" function. It was not
+   honoring the config settings.
+-  Fixed a bug that was making validation callbacks required even when
+   not set as such.
+-  Fixed a bug in the XML-RPC library so if a type is specified, a more
+   intelligent decision is made as to the default type.
+-  Fixed an example of comma-separated emails in the email library
+   documentation.
+-  Fixed an example in the Calendar library for Showing Next/Previous
+   Month Links.
+-  Fixed a typo in the database language file.
+-  Fixed a typo in the image language file "suppor" to "support".
+-  Fixed an example for XML RPC.
+-  Fixed an example of accept_charset() in the :doc:`User Agent
+   Library <./libraries/user_agent>`.
+-  Fixed a typo in the docblock comments that had CodeIgniter spelled
+   CodeIgnitor.
+-  Fixed a typo in the :doc:`String Helper <./helpers/string_helper>`
+   (uniquid changed to uniqid).
+-  Fixed typos in the email Language class
+   (email_attachment_unredable, email_filed_smtp_login), and FTP
+   Class (ftp_unable_to_remame).
+-  Added a stripslashes() into the Upload Library.
+-  Fixed a series of grammatical and spelling errors in the language
+   files.
+-  Fixed assorted user guide typos.
+
+Version 1.5.4
+=============
+
+Release Date: July 12, 2007
+
+-  Added :doc:`custom Language files <./libraries/language>` to the
+   :doc:`autoload <./general/autoloader>` options.
+-  Added stripslashes() to the _clean_input_data() function in the
+   :doc:`Input class <./libraries/input>` when magic quotes is on so
+   that data will always be un-slashed within the framework.
+-  Added array to string into the :doc:`profiler <general/profiling>`.
+-  Added some additional mime types in application/config/mimes.php.
+-  Added filename_security() method to :doc:`Input
+   library <./libraries/input>`.
+-  Added some additional arguments to the :doc:`Inflection
+   helper <./helpers/inflector_helper>` singular() to compensate
+   for words ending in "s". Also added a force parameter to pluralize().
+-  Added $config['charset'] to the config file. Default value is
+   'UTF-8', used in some string handling functions.
+-  Fixed MSSQL insert_id().
+-  Fixed a logic error in the DB trans_status() function. It was
+   incorrectly returning TRUE on failure and FALSE on success.
+-  Fixed a bug that was allowing multiple load attempts on extended
+   classes.
+-  Fixed a bug in the bootstrap file that was incorrectly attempting to
+   discern the full server path even when it was explicity set by the
+   user.
+-  Fixed a bug in the escape_str() function in the MySQL driver.
+-  Fixed a typo in the :doc:`Calendar library <./libraries/calendar>`
+-  Fixed a typo in rpcs.php library
+-  Fixed a bug in the :doc:`Zip library <./libraries/zip>`, providing
+   PC Zip file compatibility with Mac OS X
+-  Fixed a bug in router that was ignoring the scaffolding route for
+   optimization
+-  Fixed an IP validation bug.
+-  Fixed a bug in display of POST keys in the
+   :doc:`Profiler <./general/profiling>` output
+-  Fixed a bug in display of queries with characters that would be
+   interpreted as HTML in the :doc:`Profiler <./general/profiling>`
+   output
+-  Fixed a bug in display of Email class print debugger with characters
+   that would be interpreted as HTML in the debugging output
+-  Fixed a bug in the Content-Transfer-Encoding of HTML emails with the
+   quoted-printable MIME type
+-  Fixed a bug where one could unset certain PHP superglobals by setting
+   them via GET or POST data
+-  Fixed an undefined function error in the insert_id() function of the
+   PostgreSQL driver
+-  Fixed various doc typos.
+-  Documented two functions from the :doc:`String
+   helper <./helpers/string_helper>` that were missing from the
+   user guide: trim_slashes() and reduce_double_slashes().
+-  Docs now validate to XHTML 1 transitional
+-  Updated the XSS Filtering to take into account the IE expression()
+   ability and improved certain deletions to prevent possible exploits
+-  Modified the Router so that when Query Strings are Enabled, the
+   controller trigger and function trigger values are sanitized for
+   filename include security.
+-  Modified the is_image() method in the Upload library to take into
+   account Windows IE 6/7 eccentricities when dealing with MIMEs
+-  Modified XSS Cleaning routine to be more performance friendly and
+   compatible with PHP 5.2's new PCRE backtrack and recursion limits.
+-  Modified the :doc:`URL Helper <./helpers/url_helper>` to type cast
+   the $title as a string in case a numeric value is supplied
+-  Modified Form Helper form_dropdown() to type cast the keys and
+   values of the options array as strings, allowing numeric values to be
+   properly set as 'selected'
+-  Deprecated the use if is_numeric() in various places since it allows
+   periods. Due to compatibility problems with ctype_digit(), making it
+   unreliable in some installations, the following regular expression
+   was used instead: preg_match("/[^0-9]/", $n)
+-  Deprecated: APPVER has been deprecated and replaced with CI_VERSION
+   for clarity.
+
+Version 1.5.3
+=============
+
+Release Date: April 15, 2007
+
+-  Added array to string into the profiler
+-  Code Igniter references updated to CodeIgniter
+-  pMachine references updated to EllisLab
+-  Fixed a bug in the repeater function of :doc:`string
+   helper <./helpers/string_helper>`.
+-  Fixed a bug in ODBC driver
+-  Fixed a bug in result_array() that was returning an empty array when
+   no result is produced.
+-  Fixed a bug in the redirect function of the :doc:`url
+   helper <./helpers/url_helper>`.
+-  Fixed an undefined variable in Loader
+-  Fixed a version bug in the Postgres driver
+-  Fixed a bug in the textarea function of the form helper for use with
+   strings
+-  Fixed doc typos.
+
+Version 1.5.2
+=============
+
+Release Date: February 13, 2007
+
+-  Added subversion information
+   to the `downloads <installation/downloads>` page.
+-  Added support for captions in the :doc:`Table
+   Library <./libraries/table>`
+-  Fixed a bug in the
+   :doc:`download_helper <helpers/download_helper>` that was causing
+   Internet Explorer to load rather than download
+-  Fixed a bug in the Active Record Join function that was not taking
+   table prefixes into consideration.
+-  Removed unescaped variables in error messages of Input and Router
+   classes
+-  Fixed a bug in the Loader that was causing errors on Libraries loaded
+   twice. A debug message is now silently made in the log.
+-  Fixed a bug in the :doc:`form helper <helpers/form_helper>` that
+   gave textarea a value attribute
+-  Fixed a bug in the :doc:`Image Library <libraries/image_lib>` that
+   was ignoring resizing the same size image
+-  Fixed some doc typos.
+
+Version 1.5.1
+=============
+
+Release Date: November 23, 2006
+
+-  Added support for submitting arrays of libraries in the
+   $this->load->library function.
+-  Added support for naming custom library files in lower or uppercase.
+-  Fixed a bug related to output buffering.
+-  Fixed a bug in the active record class that was not resetting query
+   data after a completed query.
+-  Fixed a bug that was suppressing errors in controllers.
+-  Fixed a problem that can cause a loop to occur when the config file
+   is missing.
+-  Fixed a bug that occurred when multiple models were loaded with the
+   third parameter set to TRUE.
+-  Fixed an oversight that was not unsetting globals properly in the
+   input sanitize function.
+-  Fixed some bugs in the Oracle DB driver.
+-  Fixed an incorrectly named variable in the MySQLi result driver.
+-  Fixed some doc typos.
+
+Version 1.5.0.1
+===============
+
+Release Date: October 31, 2006
+
+-  Fixed a problem in which duplicate attempts to load helpers and
+   classes were not being stopped.
+-  Fixed a bug in the word_wrap() helper function.
+-  Fixed an invalid color Hex number in the Profiler class.
+-  Fixed a corrupted image in the user guide.
+
+Version 1.5.0
+=============
+
+Release Date: October 30, 2006
+
+-  Added `DB utility class <./database/utilities>`, permitting DB
+   backups, CVS or XML files from DB results, and various other
+   functions.
+-  Added :doc:`Database Caching Class <./database/caching>`.
+-  Added :doc:`transaction support <./database/transactions>` to the
+   database classes.
+-  Added :doc:`Profiler Class <./general/profiling>` which generates a
+   report of Benchmark execution times, queries, and POST data at the
+   bottom of your pages.
+-  Added :doc:`User Agent Library <./libraries/user_agent>` which
+   allows browsers, robots, and mobile devises to be identified.
+-  Added :doc:`HTML Table Class <./libraries/table>` , enabling tables
+   to be generated from arrays or database results.
+-  Added :doc:`Zip Encoding Library <./libraries/zip>`.
+-  Added :doc:`FTP Library <./libraries/ftp>`.
+-  Added the ability to :doc:`extend
+   libraries <./general/creating_libraries>` and :doc:`extend core
+   classes <./general/core_classes>`, in addition to being able to
+   replace them.
+-  Added support for storing :doc:`models within
+   sub-folders <./general/models>`.
+-  Added :doc:`Download Helper <./helpers/download_helper>`.
+-  Added :doc:`simple_query() <./database/queries>` function to the
+   database classes
+-  Added :doc:`standard_date() <./helpers/date_helper>` function to
+   the Date Helper.
+-  Added :doc:`$query->free_result() <./database/results>` to database
+   class.
+-  Added :doc:`$query->list_fields() <./database/fields>` function to
+   database class
+-  Added :doc:`$this->db->platform() <./database/helpers>` function
+-  Added new :doc:`File Helper <./helpers/file_helper>`:
+   get_filenames()
+-  Added new helper: :doc:`Smiley Helper <./helpers/smiley_helper>`
+-  Added support for <ul> and <ol> lists in the :doc:`HTML
+   Helper <./helpers/html_helper>`
+-  Added the ability to rewrite :doc:`short
+   tags <./general/alternative_php>` on-the-fly, converting them
+   to standard PHP statements, for those servers that do not support
+   short tags. This allows the cleaner syntax to be used regardless of
+   whether it's supported by the server.
+-  Added the ability to :doc:`rename or relocate the "application"
+   folder <./general/managing_apps>`.
+-  Added more thorough initialization in the upload class so that all
+   class variables are reset.
+-  Added "is_numeric" to validation, which uses the native PHP
+   is_numeric function.
+-  Improved the URI handler to make it more reliable when the
+   $config['uri_protocol'] item is set to AUTO.
+-  Moved most of the functions in the Controller class into the Loader
+   class, allowing fewer reserved function names for controllers when
+   running under PHP 5.
+-  Updated the DB Result class to return an empty array when
+   $query->result() doesn't produce a result.
+-  Updated the input->cookie() and input->post() functions in :doc:`Input
+   Class <./libraries/input>` to permit arrays contained cookies
+   that are arrays to be run through the XSS filter.
+-  Documented three functions from the Validation
+   class that were missing from the user
+   guide: set_select(), set_radio(), and set_checkbox().
+-  Fixed a bug in the Email class related to SMTP Helo data.
+-  Fixed a bug in the word wrapping helper and function in the email
+   class.
+-  Fixed a bug in the validation class.
+-  Fixed a bug in the typography helper that was incorrectly wrapping
+   block level elements in paragraph tags.
+-  Fixed a problem in the form_prep() function that was double encoding
+   entities.
+-  Fixed a bug that affects some versions of PHP when output buffering
+   is nested.
+-  Fixed a bug that caused CI to stop working when the PHP magic
+   __get() or __set() functions were used within models or
+   controllers.
+-  Fixed a pagination bug that was permitting negative values in the
+   URL.
+-  Fixed an oversight in which the Loader class was not allowed to be
+   extended.
+-  Changed _get_config() to get_config() since the function is not a
+   private one.
+-  **Deprecated "init" folder**. Initialization happens automatically
+   now. :doc:`Please see documentation <./general/creating_libraries>`.
+-  **Deprecated** $this->db->field_names() USE
+   $this->db->list_fields()
+-  **Deprecated** the $config['log_errors'] item from the config.php
+   file. Instead, $config['log_threshold'] can be set to "0" to turn it
+   off.
+
+Version 1.4.1
+=============
+
+Release Date: September 21, 2006
+
+-  Added a new feature that passes URI segments directly to your
+   function calls as parameters. See the
+   :doc:`Controllers <general/controllers>` page for more info.
+-  Added support for a function named _output(), which when used in
+   your controllers will received the final rendered output from the
+   output class. More info in the :doc:`Controllers <general/controllers>`
+   page.
+-  Added several new functions in the :doc:`URI
+   Class <./libraries/uri>` to let you retrieve and manipulate URI
+   segments that have been re-routed using the :doc:`URI
+   Routing <general/routing>` feature. Previously, the URI class did not
+   permit you to access any re-routed URI segments, but now it does.
+-  Added :doc:`$this->output->set_header() <./libraries/output>`
+   function, which allows you to set server headers.
+-  Updated plugins, helpers, and language classes to allow your
+   application folder to contain its own plugins, helpers, and language
+   folders. Previously they were always treated as global for your
+   entire installation. If your application folder contains any of these
+   resources they will be used *instead* the global ones.
+-  Added :doc:`Inflector helper <./helpers/inflector_helper>`.
+-  Added element() function in the :doc:`array
+   helper <./helpers/array_helper>`.
+-  Added RAND() to active record orderby() function.
+-  Added delete_cookie() and get_cookie() to :doc:`Cookie
+   helper <./helpers/cookie_helper>`, even though the input class
+   has a cookie fetching function.
+-  Added Oracle database driver (still undergoing testing so it might
+   have some bugs).
+-  Added the ability to combine pseudo-variables and php variables in
+   the template parser class.
+-  Added output compression option to the config file.
+-  Removed the is_numeric test from the db->escape() function.
+-  Fixed a MySQLi bug that was causing error messages not to contain
+   proper error data.
+-  Fixed a bug in the email class which was causing it to ignore
+   explicitly set alternative headers.
+-  Fixed a bug that was causing a PHP error when the Exceptions class
+   was called within the get_config() function since it was causing
+   problems.
+-  Fixed an oversight in the cookie helper in which the config file
+   cookie settings were not being honored.
+-  Fixed an oversight in the upload class. An item mentioned in the 1.4
+   changelog was missing.
+-  Added some code to allow email attachments to be reset when sending
+   batches of email.
+-  Deprecated the application/scripts folder. It will continue to work
+   for legacy users, but it is recommended that you create your own
+   :doc:`libraries <./general/libraries>` or
+   :doc:`models <./general/models>` instead. It was originally added
+   before CI had user libraries or models, but it's not needed anymore.
+-  Deprecated the $autoload['core'] item from the autoload.php file.
+   Instead, please now use: $autoload['libraries']
+-  Deprecated the following database functions:
+   $this->db->smart_escape_str() and $this->db->fields().
+
+Version 1.4.0
+=============
+
+Release Date: September 17, 2006
+
+-  Added :doc:`Hooks <./general/hooks>` feature, enabling you to tap
+   into and modify the inner workings of the framework without hacking
+   the core files.
+-  Added the ability to organize controller files :doc:`into
+   sub-folders <general/controllers>`. Kudos to Marco for
+   `suggesting <http://codeigniter.com/forums/viewthread/627/>`_ this
+   (and the next two) feature.
+-  Added regular expressions support for `routing
+   rules <./general/routing>`.
+-  Added the ability to :doc:`remap function
+   calls <./general/controllers>` within your controllers.
+-  Added the ability to :doc:`replace core system
+   classes <./general/core_classes>` with your own classes.
+-  Added support for % character in URL.
+-  Added the ability to supply full URLs using the
+   :doc:`anchor() <./helpers/url_helper>` helper function.
+-  Added mode parameter to :doc:`file_write() <./helpers/file_helper>`
+   helper.
+-  Added support for changing the port number in the :doc:`Postgres
+   driver <./database/configuration>`.
+-  Moved the list of "allowed URI characters" out of the Router class
+   and into the config file.
+-  Moved the MIME type array out of the Upload class and into its own
+   file in the applications/config/ folder.
+-  Updated the Upload class to allow the upload field name to be set
+   when calling :doc:`do_upload() <./libraries/file_uploading>`.
+-  Updated the :doc:`Config Library <./libraries/config>` to be able to
+   load config files silently, and to be able to assign config files to
+   their own index (to avoid collisions if you use multiple config
+   files).
+-  Updated the URI Protocol code to allow more options so that URLs will
+   work more reliably in different environments.
+-  Updated the form_open() helper to allow the GET method to be used.
+-  Updated the MySQLi execute() function with some code to help prevent
+   lost connection errors.
+-  Updated the SQLite Driver to check for object support before
+   attempting to return results as objects. If unsupported it returns an
+   array.
+-  Updated the Models loader function to allow multiple loads of the
+   same model.
+-  Updated the MS SQL driver so that single quotes are escaped.
+-  Updated the Postgres and ODBC drivers for better compatibility.
+-  Removed a strtolower() call that was changing URL segments to lower
+   case.
+-  Removed some references that were interfering with PHP 4.4.1
+   compatibility.
+-  Removed backticks from Postgres class since these are not needed.
+-  Renamed display() to _display() in the Output class to make it clear
+   that it's a private function.
+-  Deprecated the hash() function due to a naming conflict with a native
+   PHP function with the same name. Please use dohash() instead.
+-  Fixed an bug that was preventing the input class from unsetting GET
+   variables.
+-  Fixed a router bug that was making it too greedy when matching end
+   segments.
+-  Fixed a bug that was preventing multiple discrete database calls.
+-  Fixed a bug in which loading a language file was producing a "file
+   contains no data" message.
+-  Fixed a session bug caused by the XSS Filtering feature inadvertently
+   changing the case of certain words.
+-  Fixed some missing prefixes when using the database prefix feature.
+-  Fixed a typo in the Calendar class (cal_november).
+-  Fixed a bug in the form_checkbox() helper.
+-  Fixed a bug that was allowing the second segment of the URI to be
+   identical to the class name.
+-  Fixed an evaluation bug in the database initialization function.
+-  Fixed a minor bug in one of the error messages in the language class.
+-  Fixed a bug in the date helper timespan function.
+-  Fixed an undefined variable in the DB Driver class.
+-  Fixed a bug in which dollar signs used as binding replacement values
+   in the DB class would be treated as RegEx back-references.
+-  Fixed a bug in the set_hash() function which was preventing MD5 from
+   being used.
+-  Fixed a couple bugs in the Unit Testing class.
+-  Fixed an incorrectly named variable in the Validation class.
+-  Fixed an incorrectly named variable in the URI class.
+-  Fixed a bug in the config class that was preventing the base URL from
+   being called properly.
+-  Fixed a bug in the validation class that was not permitting callbacks
+   if the form field was empty.
+-  Fixed a problem that was preventing scaffolding from working properly
+   with MySQLi.
+-  Fixed some MS SQL bugs.
+-  Fixed some doc typos.
+
+Version 1.3.3
+=============
+
+Release Date: June 1, 2006
+
+-  Models do **not** connect automatically to the database as of this
+   version. :doc:`More info here <./general/models>`.
+-  Updated the Sessions class to utilize the active record class when
+   running session related queries. Previously the queries assumed MySQL
+   syntax.
+-  Updated alternator() function to re-initialize when called with no
+   arguments, allowing multiple calls.
+-  Fixed a bug in the active record "having" function.
+-  Fixed a problem in the validation class which was making checkboxes
+   be ignored when required.
+-  Fixed a bug in the word_limiter() helper function. It was cutting
+   off the fist word.
+-  Fixed a bug in the xss_clean function due to a PHP bug that affects
+   some versions of html_entity_decode.
+-  Fixed a validation bug that was preventing rules from being set twice
+   in one controller.
+-  Fixed a calendar bug that was not letting it use dynamically loaded
+   languages.
+-  Fixed a bug in the active record class when using WHERE clauses with
+   LIKE
+-  Fixed a bug in the hash() security helper.
+-  Fixed some typos.
+
+Version 1.3.2
+=============
+
+Release Date: April 17, 2006
+
+-  Changed the behavior of the validation class such that if a
+   "required" rule is NOT explicitly stated for a field then all other
+   tests get ignored.
+-  Fixed a bug in the Controller class that was causing it to look in
+   the local "init" folder instead of the main system one.
+-  Fixed a bug in the init_pagination file. The $config item was not
+   being set correctly.
+-  Fixed a bug in the auto typography helper that was causing
+   inconsistent behavior.
+-  Fixed a couple bugs in the Model class.
+-  Fixed some documentation typos and errata.
+
+Version 1.3.1
+=============
+
+Release Date: April 11, 2006
+
+-  Added a :doc:`Unit Testing Library <./libraries/unit_testing>`.
+-  Added the ability to pass objects to the **insert()** and
+   **update()** database functions. This feature enables you to (among
+   other things) use your :doc:`Model class <./general/models>`
+   variables to run queries with. See the Models page for details.
+-  Added the ability to pass objects to the :doc:`view loading
+   function <./general/views>`: $this->load->view('my_view',
+   $object);
+-  Added getwhere function to :doc:`Active Record
+   class <./database/active_record>`.
+-  Added count_all function to :doc:`Active Record
+   class <./database/active_record>`.
+-  Added language file for scaffolding and fixed a scaffolding bug that
+   occurs when there are no rows in the specified table.
+-  Added :doc:`$this->db->last_query() <./database/queries>`, which
+   allows you to view your last query that was run.
+-  Added a new mime type to the upload class for better compatibility.
+-  Changed how cache files are read to prevent PHP errors if the cache
+   file contains an XML tag, which PHP wants to interpret as a short
+   tag.
+-  Fixed a bug in a couple of the active record functions (where and
+   orderby).
+-  Fixed a bug in the image library when realpath() returns false.
+-  Fixed a bug in the Models that was preventing libraries from being
+   used within them.
+-  Fixed a bug in the "exact_length" function of the validation class.
+-  Fixed some typos in the user guide
+
+Version 1.3
+===========
+
+Release Date: April 3, 2006
+
+-  Added support for :doc:`Models <general/models>`.
+-  Redesigned the database libraries to support additional RDBMs
+   (Postgres, MySQLi, etc.).
+-  Redesigned the :doc:`Active Record class <./database/active_record>`
+   to enable more varied types of queries with simpler syntax, and
+   advanced features like JOINs.
+-  Added a feature to the database class that lets you run :doc:`custom
+   function calls <./database/call_function>`.
+-  Added support for :doc:`private functions <general/controllers>` in your
+   controllers. Any controller function name that starts with an
+   underscore will not be served by a URI request.
+-  Added the ability to pass your own initialization parameters to your
+   :doc:`custom core libraries <general/creating_libraries>` when using
+   $this->load->library()
+-  Added support for running standard :doc:`query string URLs <general/urls>`.
+   These can be optionally enabled in your config file.
+-  Added the ability to :doc:`specify a "suffix" <general/urls>`, which will be
+   appended to your URLs. For example, you could add .html to your URLs,
+   making them appear static. This feature is enabled in your config
+   file.
+-  Added a new error template for use with native PHP errors.
+-  Added "alternator" function in the :doc:`string
+   helpers <./helpers/string_helper>`.
+-  Removed slashing from the input class. After much debate we decided
+   to kill this feature.
+-  Change the commenting style in the scripts to the PEAR standard so
+   that IDEs and tools like phpDocumenter can harvest the comments.
+-  Added better class and function name-spacing to avoid collisions with
+   user developed classes. All CodeIgniter classes are now prefixed with
+   CI\_ and all controller methods are prefixed with _ci to avoid
+   controller collisions. A list of reserved function names can be
+   :doc:`found here <general/controllers>`.
+-  Redesigned how the "CI" super object is referenced, depending on
+   whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful
+   way to manage objects that utilizes a bit less resources.
+-  Deprecated: $this->db->use_table() has been deprecated. Please read
+   the :doc:`Active Record <./database/active_record>` page for
+   information.
+-  Deprecated: $this->db->smart_escape_str() has been deprecated.
+   Please use this instead: $this->db->escape()
+-  Fixed a bug in the exception handler which was preventing some PHP
+   errors from showing up.
+-  Fixed a typo in the URI class. $this->total_segment() should be
+   plural: $this->total_segments()
+-  Fixed some typos in the default calendar template
+-  Fixed some typos in the user guide
+
+Version 1.2
+===========
+
+Release Date: March 21, 2006
+
+-  Redesigned some internal aspects of the framework to resolve scoping
+   problems that surfaced during the beta tests. The problem was most
+   notable when instantiating classes in your constructors, particularly
+   if those classes in turn did work in their constructors.
+-  Added a global function named
+   :doc:`get_instance() <general/ancillary_classes>` allowing the main
+   CodeIgniter object to be accessible throughout your own classes.
+-  Added new :doc:`File Helper <./helpers/file_helper>`:
+   delete_files()
+-  Added new :doc:`URL Helpers <./helpers/url_helper>`: base_url(),
+   index_page()
+-  Added the ability to create your own :doc:`core
+   libraries <general/creating_libraries>` and store them in your local
+   application directory.
+-  Added an overwrite option to the :doc:`Upload
+   class <./libraries/file_uploading>`, enabling files to be
+   overwritten rather than having the file name appended.
+-  Added Javascript Calendar plugin.
+-  Added search feature to user guide. Note: This is done using Google,
+   which at the time of this writing has not crawled all the pages of
+   the docs.
+-  Updated the parser class so that it allows tag pars within other tag
+   pairs.
+-  Fixed a bug in the DB "where" function.
+-  Fixed a bug that was preventing custom config files to be
+   auto-loaded.
+-  Fixed a bug in the mysql class bind feature that prevented question
+   marks in the replacement data.
+-  Fixed some bugs in the xss_clean function
+
+Version Beta 1.1
+================
+
+Release Date: March 10, 2006
+
+-  Added a :doc:`Calendaring class <./libraries/calendar>`.
+-  Added support for running :doc:`multiple
+   applications <general/managing_apps>` that share a common CodeIgniter
+   backend.
+-  Moved the "uri protocol" variable from the index.php file into the
+   config.php file
+-  Fixed a problem that was preventing certain function calls from
+   working within constructors.
+-  Fixed a problem that was preventing the $this->load->library function
+   from working in constructors.
+-  Fixed a bug that occurred when the session class was loaded using the
+   auto-load routine.
+-  Fixed a bug that can happen with PHP versions that do not support the
+   E_STRICT constant
+-  Fixed a data type error in the form_radio function (form helper)
+-  Fixed a bug that was preventing the xss_clean function from being
+   called from the validation class.
+-  Fixed the cookie related config names, which were incorrectly
+   specified as $conf rather than $config
+-  Fixed a pagination problem in the scaffolding.
+-  Fixed a bug in the mysql class "where" function.
+-  Fixed a regex problem in some code that trimmed duplicate slashes.
+-  Fixed a bug in the br() function in the HTML helper
+-  Fixed a syntax mistake in the form_dropdown function in the Form
+   Helper.
+-  Removed the "style" attributes form the form helpers.
+-  Updated the documentation. Added "next/previous" links to each page
+   and fixed various typos.
+
+Version Beta 1.0
+================
+
+Release Date: February 28, 2006
+
+First publicly released version.
