@@ -1,5 +1,6 @@
-Tutorial − Introduction
-=======================
+########
+Tutorial
+########
 
 This tutorial is intended to introduce you to the CodeIgniter framework
 and the basic principles of MVC architecture. It will show you how a
@@ -33,3 +34,14 @@ through the following pages:
    further reading and other resources.
 
 Enjoy your exploration of the CodeIgniter framework.
+
+.. toctree::
+	:glob:
+	:hidden:
+	:titlesonly:
+	
+	index
+	static_pages
+	news_section
+	create_news_items
+	conclusion

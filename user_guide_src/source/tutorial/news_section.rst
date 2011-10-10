@@ -1,5 +1,6 @@
-Tutorial − News section
-=======================
+############
+News section
+############
 
 In the last section, we went over some basic concepts of the framework
 by writing a class that includes static pages. We cleaned up the URI by
@@ -15,7 +16,7 @@ are the place where you retrieve, insert, and update information in your
 database or other data stores. They represent your data.
 
 Open up the application/models directory and create a new file called
-news\_model.php and add the following code. Make sure you've configured
+news_model.php and add the following code. Make sure you've configured
 your database properly as described
 `here <../database/configuration.html>`_.
 

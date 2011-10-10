@@ -1,5 +1,6 @@
-Tutorial − Static pages
-=======================
+############
+Static pages
+############
 
 **Note:** This tutorial assumes you've downloaded CodeIgniter and
 `installed the framework <../installation/index.html>`_ in your
@@ -22,13 +23,22 @@ is all we will need to know.
 Create a file at application/controllers/pages.php with the following
 code.
 
-<?php class Pages extends CI\_Controller { public function view($page =
-'home') { } }
+::
+
+    <?php 
+    class Pages extends CI_Controller { 
+
+        public function view($page == 'home') 
+        {
+	
+        }
+		 
+    }
 
 You have created a class named "pages", with a view method that accepts
 one argument named $page. The pages class is extending the
-CI\_Controller class. This means that the new pages class can access the
-methods and variables defined in the CI\_Controller class
+CI_Controller class. This means that the new pages class can access the
+methods and variables defined in the CI_Controller class
 (system/core/Controller.php).
 
 The **controller is what will become the center of every request** to
@@ -44,8 +54,15 @@ our page footer and header.
 Create the header at application/views/templates/header.php and add the
 following code.
 
-CodeIgniter 2 Tutorial
-======================
+::
+
+    <html>
+        <head>
+            <title>CodeIgniter 2 Tutorial</title>
+        </head>
+        <body>
+
+            <h1>CodeIgniter 2 Tutorial<h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also
@@ -53,7 +70,11 @@ output the $title variable, which we'll define later in the controller.
 Now create a footer at application/views/templates/footer.php that
 includes the following code:
 
-**&copy; 2011**
+::
+
+            <em>&copy; 2011</em>
+        </body>
+    <html>
 
 Adding logic to the controller
 ------------------------------
@@ -72,6 +93,7 @@ page actually exists:
 
 ::
 
+    <?php 
     public function view($page = 'home')
     {
                 

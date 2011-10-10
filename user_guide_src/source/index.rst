@@ -43,3 +43,4 @@ CodeIgniter is right for you if:
 	database/index
 	helpers/index
 	documentation/index
+	tutorial/index
