@@ -30,22 +30,23 @@ Release Date: Not Released
    -  Altered form helper - made action on form_open_multipart helper
       function call optional. Fixes (#65)
    -  url_title() will now trim extra dashes from beginning and end.
-   -  Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method
-   -  Added XHTML Basic 1.1 doctype to <a href="helpers/html_helper.html">HTML Helper</a>.
+   -  Improved speed of :doc:`String
+      Helper <helpers/string_helper>`'s random_string() method
+   -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
 
 -  Database
 
-   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the `Database
+   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the :doc:`Database
       Driver <database/index>`. Thanks to the CUBRID team for
       supplying this patch.
-   -  Added a PDO driver to the <a href="database/index.html">Database Driver</a>.
+   -  Added a PDO driver to the :doc:`Database Driver <database/index>`.
    -  Typecast limit and offset in the :doc:`Database
       Driver <database/queries>` to integers to avoid possible
       injection.
    -  Added additional option 'none' for the optional third argument for
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
-   -  Added <kbd>$this->db->insert_batch()</kbd> support to the OCI8 (Oracle) driver.
+   -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
 
 -  Libraries
 
@@ -61,7 +62,7 @@ Release Date: Not Released
    -  Added is_unique to the :doc:`Form Validation
       library <libraries/form_validation>`.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.
-   -  Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.
+   -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
 
 -  Core
@@ -145,7 +146,7 @@ Release Date: August 20, 2011
       Thanks to epallerols for the patch.
    -  Added "application/x-csv" to mimes.php.
    -  Added CSRF protection URI whitelisting.
-   -  Fixed a bug where `Email library <libraries/email>`
+   -  Fixed a bug where :doc:`Email library <libraries/email>`
       attachments with a "." in the name would using invalid MIME-types.
    -  Added support for
       pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr
