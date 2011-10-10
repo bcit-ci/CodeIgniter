@@ -4,7 +4,6 @@ General Topics
 
 .. toctree::
 	:titlesonly:
-	:hidden:
 	
 	urls
 	controllers
