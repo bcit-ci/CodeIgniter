@@ -37,10 +37,13 @@ CodeIgniter is right for you if:
 	
 	*
 	overview/index
+	general/requirements
 	installation/index
 	general/index
 	libraries/index
-	database/index
 	helpers/index
+	database/index
 	documentation/index
 	tutorial/index
+	general/quick_reference
+	general/credits
