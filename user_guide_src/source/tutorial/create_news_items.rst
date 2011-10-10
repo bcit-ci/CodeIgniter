@@ -1,5 +1,6 @@
-Tutorial - Create news items
-============================
+#################
+Create news items
+#################
 
 You now know how you can read data from a database using CodeIgnite, but
 you haven't written any information to the database yet. In this section
@@ -15,16 +16,26 @@ with two fields, one for the title and one for the text. You'll derive
 the slug from our title in the model. Create the new view at
 application/views/news/create.php.
 
-Create a news item
-------------------
+::
 
-<?php echo validation\_errors(); ?> <?php echo form\_open('news/create')
-?> Title
- Text </textarea>
- </form>
+    <h2>Create a news item</h2>
+
+    <?php echo validation_errors(); ?>
+
+    <?php echo form_open('news/create') ?>
+
+        <label for="title">Title</label> 
+        <input type="input" name="title" /><br />
+
+        <label for="text">Text</label>
+        <textarea name="text"></textarea><br />
+
+        <input type="submit" name="submit" value="Create news item" /> 
+
+    </form>
 
 There are only two things here that probably look unfamiliar to you: the
-form\_open() function and the validation\_errors() function.
+form_open() function and the validation_errors() function.
 
 The first function is provided by the `form
 helper <../helpers/form_helper.html>`_ and renders the form element and
