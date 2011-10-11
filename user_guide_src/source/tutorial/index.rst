@@ -40,7 +40,6 @@ Enjoy your exploration of the CodeIgniter framework.
 	:hidden:
 	:titlesonly:
 	
-	index
 	static_pages
 	news_section
 	create_news_items
