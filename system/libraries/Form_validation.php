@@ -271,6 +271,21 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Error Array
+	 *
+	 * Returns the error messages as an array
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Run the Validator
 	 *
 	 * This function does all the work.
@@ -584,13 +599,13 @@ class CI_Form_validation {
 			// Call the function that corresponds to the rule
 			if ($callback === TRUE)
 			{
-				if ( ! method_exists($this->CI, $rule))
+				if ( ! method_exists($this->CI->routed, $rule))
 				{
 					continue;
 				}
 
 				// Run the function and grab the result
-				$result = $this->CI->$rule($postdata, $param);
+				$result = $this->CI->routed->$rule($postdata, $param);
 
 				// Re-assign the result to the master data array
 				if ($_in_array == TRUE)

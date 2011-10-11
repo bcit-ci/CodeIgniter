@@ -168,7 +168,23 @@ if (defined('ENVIRONMENT'))
 	// Is the system path correct?
 	if ( ! is_dir($system_path))
 	{
-		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
+		// Try include directories for a centralized system path
+		$found = FALSE;
+		foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
+		{
+			$path = rtrim($path.'\/').'/'.$system_path;
+			if (is_dir($path)) {
+				$system_path = $path;
+				$found = TRUE;
+				break;
+			}
+		}
+
+		if (!$found)
+		{
+			exit('Your system folder path does not appear to be set correctly. Please open the following file '.
+				'and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
+		}
 	}
 
 /*
