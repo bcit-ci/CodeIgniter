@@ -41,7 +41,8 @@ the following::
 If for any reason you would like to change the prefix programatically
 without needing to create a new connection, you can use this method::
 
-	$this->db->set_dbprefix('newprefix'); $this->db->dbprefix('tablename'); // outputs newprefix_tablename
+	$this->db->set_dbprefix('newprefix');
+	$this->db->dbprefix('tablename'); // outputs newprefix_tablename
 
 
 **********************
@@ -101,7 +102,8 @@ Query Bindings
 Bindings enable you to simplify your query syntax by letting the system
 put the queries together for you. Consider the following example::
 
-	 $sql = "SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?";  $this->db->query($sql, array(3, 'live', 'Rick'));
+	$sql = "SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?";
+	$this->db->query($sql, array(3, 'live', 'Rick'));
 
 The question marks in the query are automatically replaced with the
 values in the array in the second parameter of the query function.
