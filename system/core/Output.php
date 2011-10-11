@@ -41,7 +41,23 @@ class CI_Output {
 	 * @var		string
 	 * @access	protected
 	 */
-	protected $final_output;
+	protected $final_output		= '';
+
+	/**
+	 * Forked output string
+	 *
+	 * @var		string
+	 * @access	protected
+	 */
+	protected $forked_output	= '';
+
+	/**
+	 * Forked output flag
+	 *
+	 * @var		bool
+	 * @access	protected
+	 */
+	protected $forked			= FALSE;
 
 	/**
 	 * Cache expiration time
@@ -70,7 +86,7 @@ class CI_Output {
 	/**
 	 * Determines wether profiler is enabled
 	 *
-	 * @var		book
+	 * @var		bool
 	 * @access	protected
 	 */
 	protected $enable_profiler	= FALSE;
@@ -102,7 +118,7 @@ class CI_Output {
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		// Get parent reference
 		$this->CI =& CodeIgniter::instance();
@@ -129,7 +145,7 @@ class CI_Output {
 	 * @access	public
 	 * @return	string
 	 */
-	function get_output()
+	public function get_output()
 	{
 		return $this->final_output;
 	}
@@ -145,9 +161,16 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_output($output)
+	public function set_output($output)
 	{
-		$this->final_output = $output;
+		if ($this->forked)
+		{
+			$this->forked_output = $output;
+		}
+		else
+		{
+			$this->final_output = $output;
+		}
 
 		return $this;
 	}
@@ -163,11 +186,11 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function append_output($output)
+	public function append_output($output)
 	{
-		if ($this->final_output == '')
+		if ($this->forked)
 		{
-			$this->final_output = $output;
+			$this->forked_output .= $output;
 		}
 		else
 		{
@@ -175,6 +198,43 @@ class CI_Output {
 		}
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fork Output
+	 *
+	 * Redirects output to the forked output string until get_fork() is called
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public function fork_output()
+	{
+		// Set forked flag and clear forked output
+		$this->forked = TRUE;
+		$this->forked_output = '';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Forked Output
+	 *
+	 * Returns forked output and ends forking, unless $continue is TRUE
+	 * In order to capture the forked output and continue with an empty buffer, call:
+	 *	$this->CI->output->get_forked(TRUE);
+	 *	$this->CI->output->set_output('');
+	 *
+	 * @access	public
+	 * @param	bool	TRUE to continue fork
+	 * @return	string
+	 */
+	public function get_forked($continue = FALSE)
+	{
+		$this->forked = $continue;
+		return $this->forked_output;
 	}
 
 	// --------------------------------------------------------------------
@@ -192,7 +252,7 @@ class CI_Output {
 	 * @param 	bool
 	 * @return	void
 	 */
-	function set_header($header, $replace = TRUE)
+	public function set_header($header, $replace = TRUE)
 	{
 		// If zlib.output_compression is enabled it will compress the output,
 		// but it will not modify the content-length header to compensate for
@@ -217,7 +277,7 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	function set_content_type($mime_type)
+	public function set_content_type($mime_type)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
@@ -253,7 +313,7 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_status_header($code = 200, $text = '')
+	public function set_status_header($code = 200, $text = '')
 	{
 		set_status_header($code, $text);
 
@@ -269,7 +329,7 @@ class CI_Output {
 	 * @param	bool
 	 * @return	void
 	 */
-	function enable_profiler($val = TRUE)
+	public function enable_profiler($val = TRUE)
 	{
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
 
@@ -287,7 +347,7 @@ class CI_Output {
 	 * @param	array
 	 * @return	void
 	 */
-	function set_profiler_sections($sections)
+	public function set_profiler_sections($sections)
 	{
 		foreach ($sections as $section => $enable)
 		{
@@ -306,7 +366,7 @@ class CI_Output {
 	 * @param	integer
 	 * @return	void
 	 */
-	function cache($time)
+	public function cache($time)
 	{
 		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 
@@ -330,7 +390,7 @@ class CI_Output {
 	 * @param 	string
 	 * @return	mixed
 	 */
-	function _display($output = '')
+	public function _display($output = '')
 	{
 		// Set the output data
 		if ($output == '')
@@ -454,7 +514,7 @@ class CI_Output {
 	 * @param 	string
 	 * @return	void
 	 */
-	function _write_cache($output)
+	public function _write_cache($output)
 	{
 		$path = $this->CI->config->item('cache_path');
 
@@ -506,7 +566,7 @@ class CI_Output {
 	 * @param 	object	uri class
 	 * @return	void
 	 */
-	function _display_cache(&$CFG, &$URI)
+	public function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 

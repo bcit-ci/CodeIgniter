@@ -249,10 +249,11 @@ class CI_Loader {
 	 * @access	public
 	 * @param	string	the name of the class
 	 * @param	string	name for the controller
-	 * @param	boolean	FALSE to skip calling controller method
-	 * @return	boolean TRUE on success, otherwise FALSE
+	 * @param	bool	FALSE to skip calling controller method
+	 * @param	bool	TRUE to return output (depends on $call == TRUE)
+	 * @return	mixed	Output if $return, TRUE on success, otherwise FALSE
 	 */
-	public function controller($route, $name = NULL, $call = TRUE)
+	public function controller($route, $name = NULL, $call = TRUE, $return = FALSE)
 	{
 		// Check for missing class
 		if (empty($route))
@@ -352,7 +353,7 @@ class CI_Loader {
 		// Call method unless disabled
 		if ($call)
 		{
-			return $this->CI->call_controller($class, $method, $route, $name);
+			return $this->CI->call_controller($class, $method, $route, $name, $return);
 		}
 
 		return TRUE;
