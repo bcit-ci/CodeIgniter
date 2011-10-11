@@ -206,19 +206,6 @@ class CodeIgniter {
 	 */
 	define('CI_VERSION', '2.1.0-dev');
 
-/**
- * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
- *
- * @var boolean
- *
- */
-	/**
-	 * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
-	 *
-	 * @var string
-	 */
-	define('CI_CORE', FALSE);
-
 /*
  * ------------------------------------------------------
  *  Load the global functions
