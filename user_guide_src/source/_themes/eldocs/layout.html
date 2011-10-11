@@ -124,7 +124,15 @@
 	
 	{%- block footer %}			
 		<div id="footer">
-			<p class="top"><a href="#header" title="Return to top">Return to top</a></p>
+			<p class="top">
+				{% if prev %}
+				<span class="prev">Previous Topic: <a href="{{ prev.link }}">{{ prev.title }}</a></span>
+				{% endif %}
+				{% if next %}
+				<span class="next">Next Topic: <a href="{{ next.link }}">{{ next.title }}</a></span>
+				{% endif %}
+				<a href="#header" title="Return to top">Return to top</a>
+			</p>
 			<p><a href="{{ project_url }}">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a> &ndash; Last updated: {{ last_updated }}</p>
 		</div><!-- /#footer -->
 	{%- endblock %}
