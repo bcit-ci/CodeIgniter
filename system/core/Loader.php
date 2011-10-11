@@ -252,7 +252,7 @@ class CI_Loader {
 	 * @param	boolean	FALSE to skip calling controller method
 	 * @return	boolean TRUE on success, otherwise FALSE
 	 */
-	public function controller($route, $name = '', $call = TRUE)
+	public function controller($route, $name = NULL, $call = TRUE)
 	{
 		// Check for missing class
 		if (empty($route))
@@ -317,14 +317,14 @@ class CI_Loader {
 					if (file_exists($file))
 					{
 						// Include class source
-						include($file);
+						include $file;
 						break;
 					}
 				}
 
 				// Check for subclass
 				$pre = $this->CI->config->item('subclass_prefix');
-				if (!empty($pre))
+				if ( ! empty($pre))
 				{
 					// Locate subclass
 					foreach ($this->_ci_mvc_paths as $mvc_path => $cascade)
