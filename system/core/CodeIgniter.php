@@ -116,9 +116,10 @@ class CodeIgniter {
 	 * @param	string	method
 	 * @param	array	arguments
 	 * @param	string	optional object name
-	 * @return	boolean	TRUE on success, otherwise FALSE
+	 * @param	bool	TRUE to return output
+	 * @return	mixed	Output if $return, TRUE on success, otherwise FALSE
 	 */
-	public function call_controller($class, $method, array $args = array(), $name = '')
+	public function call_controller($class, $method, array $args = array(), $name = '', $return = FALSE)
 	{
 		// Default name if not provided
 		if (empty($name))
@@ -133,15 +134,23 @@ class CodeIgniter {
 			// Check for _remap
 			if ($this->is_callable($class, '_remap'))
 			{
-				// Call _remap
+				// Call _remap, capturing output if requested
+				if ($return)
+				{
+					$this->output->fork_output();
+				}
 				$this->$name->_remap($method, $args);
-				return TRUE;
+				return $return ? $this->output->get_forked() : TRUE;
 			}
 			else if ($this->is_callable($class, $method))
 			{
-				// Call method
+				// Call method, capturing output if requested
+				if ($return)
+				{
+					$this->output->fork_output();
+				}
 				call_user_func_array(array(&$this->$name, $method), $args);
-				return TRUE;
+				return $return ? $this->output->get_forked() : TRUE;
 			}
 		}
 
@@ -199,11 +208,6 @@ class CodeIgniter {
  * @var string
  *
  */
-	/**
-	 * CodeIgniter Version
-	 *
-	 * @var string
-	 */
 	define('CI_VERSION', '2.1.0-dev');
 
 /*
