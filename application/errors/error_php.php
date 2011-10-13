@@ -8,7 +8,7 @@
 <p>Line Number: <?php echo $line; ?></p>
 <p>Backtrace: </p>
 <?php foreach(debug_backtrace() as $error): ?>
-<?php if(isset($error['file']) && !stristr($error['file'], SYSDIR)): ?>
+<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
 	<p>
 	File: <?php echo $error['file'] ?><br />
 	Line: <?php echo $error['line'] ?><br />
