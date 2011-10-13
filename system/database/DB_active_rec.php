@@ -30,6 +30,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	var $ar_select				= array();
 	var $ar_distinct			= FALSE;
+	var $ar_ignore              = FALSE;
 	var $ar_from				= array();
 	var $ar_join				= array();
 	var $ar_where				= array();
@@ -240,6 +241,21 @@ class CI_DB_active_record extends CI_DB_driver {
 	public function distinct($val = TRUE)
 	{
 		$this->ar_distinct = (is_bool($val)) ? $val : TRUE;
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * IGNORE
+	 *
+	 * Sets a flag which tells the query string compiler to add IGNORE
+	 *
+	 * @param	bool
+	 * @return	object
+	 */
+	public function ignore($val = TRUE) {
+		$this->ar_ignore = (is_bool($val)) ? $val : TRUE;
 		return $this;
 	}
 
@@ -2034,11 +2050,13 @@ class CI_DB_active_record extends CI_DB_driver {
 			'ar_orderby'	=> array(),
 			'ar_keys'		=> array(),
 			'ar_limit'		=> FALSE,
-			'ar_order'		=> FALSE
+			'ar_order'		=> FALSE,
+			'ar_ignore'     => FALSE
 		);
 
 		$this->_reset_run($ar_reset_items);
 	}
+
 }
 
 /* End of file DB_active_rec.php */
