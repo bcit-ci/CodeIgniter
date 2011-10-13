@@ -34,6 +34,7 @@ if (defined('ENVIRONMENT'))
 	{
 		case 'development':
 			error_reporting(-1);
+			define('SHOW_ERROR_BACKTRACE', TRUE);
 		break;
 	
 		case 'testing':
