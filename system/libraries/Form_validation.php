@@ -1118,7 +1118,7 @@ class CI_Form_validation {
 	        return TRUE;
 	    }
 	
-	    sscanf('name@domain.com', '%s@%s', &$name, &$domain);
+	    sscanf($str, '%s@%s', &$name, &$domain);
 	    $options = strtolower($options);
 	
 	    if ( ($options === 'both' OR $options === 'mx') && ! checkdnsrr($domain))
