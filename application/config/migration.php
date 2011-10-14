@@ -111,5 +111,4 @@ $config['migration_path'] = APPPATH . 'migrations/';
 
 
 /* End of file migration.php */
->>>>>>> a2125a5d830fd390b4cf35f77e9bb0558cfa2dd7:application/config/migration.php
 /* Location: ./application/config/migration.php */
