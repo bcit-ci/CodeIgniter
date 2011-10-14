@@ -606,7 +606,7 @@ will prevent data from being escaped if set to FALSE.
 
 ::
 
-	$this->db->set('field', 'field+1');
+	$this->db->set('field', 'field+1', FALSE);
 	$this->db->insert('mytable'); // Produces: INSERT INTO mytable (field) VALUES (field+1)
 
 
