@@ -46,6 +46,8 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added optional, third argument to order_by() in the Database Driver that allows escaping to be disabled.
+   -  Adjusted user guide to use correct examples and consistent language with regard to escaping.
 
 -  Libraries
 

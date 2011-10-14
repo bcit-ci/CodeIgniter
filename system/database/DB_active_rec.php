@@ -815,9 +815,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string	direction: asc or desc
+	 * @param	boolean escape values
 	 * @return	object
 	 */
-	public function order_by($orderby, $direction = '')
+	public function order_by($orderby, $direction = '', $escape = TRUE)
 	{
 		if (strtolower($direction) == 'random')
 		{
@@ -829,28 +830,30 @@ class CI_DB_active_record extends CI_DB_driver {
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
 
-
-		if (strpos($orderby, ',') !== FALSE)
+		if ($escape === TRUE) 
 		{
-			$temp = array();
-			foreach (explode(',', $orderby) as $part)
+			if (strpos($orderby, ',') !== FALSE)
 			{
-				$part = trim($part);
-				if ( ! in_array($part, $this->ar_aliased_tables))
+				$temp = array();
+				foreach (explode(',', $orderby) as $part)
 				{
-					$part = $this->_protect_identifiers(trim($part));
+					$part = trim($part);
+					if ( ! in_array($part, $this->ar_aliased_tables))
+					{
+						$part = $this->_protect_identifiers(trim($part));
+					}
+	
+					$temp[] = $part;
 				}
-
-				$temp[] = $part;
+	
+				$orderby = implode(', ', $temp);
 			}
-
-			$orderby = implode(', ', $temp);
+			else if ($direction != $this->_random_keyword)
+			{
+				$orderby = $this->_protect_identifiers($orderby);
+			}
 		}
-		else if ($direction != $this->_random_keyword)
-		{
-			$orderby = $this->_protect_identifiers($orderby);
-		}
-
+		
 		$orderby_statement = $orderby.$direction;
 
 		$this->ar_orderby[] = $orderby_statement;
