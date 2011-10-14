@@ -46,6 +46,8 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Fixed a bug (#200) where MySQL queries would be malformed after calling 
+      `count_all()` then `db->get()`.
 
 -  Libraries
 
@@ -108,6 +110,8 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
 -  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
+-  Fixed a bug (#200) - MySQL queries would be malformed after calling
+   count_all() then db->get().
 
 Version 2.0.3
 =============
