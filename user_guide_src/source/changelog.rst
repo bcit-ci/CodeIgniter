@@ -46,6 +46,9 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added new :doc:`Active Record <database/active_record>` methods that return 
+      the SQL string of queries without executing them: get_compiled_select(), 
+      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
 
 -  Libraries
 
