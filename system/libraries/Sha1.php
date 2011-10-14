@@ -40,7 +40,7 @@
  * @subpackage	Libraries
  * @category	Encryption
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/general/encryption.html
+ * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_SHA1 {
 

@@ -78,7 +78,7 @@ class CI_DB_driver {
 	 *
 	 * @param array
 	 */
-	function CI_DB_driver($params)
+	function __construct($params)
 	{
 		if (is_array($params))
 		{
@@ -218,7 +218,7 @@ class CI_DB_driver {
 
 		// Some DBs have functions that return the version, and don't run special
 		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid');
+		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo');
 
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
@@ -950,6 +950,7 @@ class CI_DB_driver {
 			foreach ($where as $key => $val)
 			{
 				$prefix = (count($dest) == 0) ? '' : ' AND ';
+				$key = $this->_protect_identifiers($key);
 
 				if ($val !== '')
 				{
@@ -1193,7 +1194,7 @@ class CI_DB_driver {
 
 		if ($native == TRUE)
 		{
-			$message = $error;
+			$message = (array) $error;
 		}
 		else
 		{
