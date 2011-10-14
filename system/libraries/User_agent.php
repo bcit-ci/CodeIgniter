@@ -18,7 +18,7 @@
 /**
  * User Agent Class
  *
- * Identifies the platform, browser, robot, or mobile devise of the browsing agent
+ * Identifies the platform, browser, robot, or mobile device of the browsing agent
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
