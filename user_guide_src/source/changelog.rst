@@ -46,6 +46,8 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added the ability to switch to a database that shares the same connection information 
+      as the current connection using $this->db->switch_db().
 
 -  Libraries
 
