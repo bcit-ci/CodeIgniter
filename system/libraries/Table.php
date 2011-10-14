@@ -24,7 +24,7 @@
  * @subpackage	Libraries
  * @category	HTML Tables
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/uri.html
+ * @link		http://codeigniter.com/user_guide/libraries/table.html
  */
 class CI_Table {
 
