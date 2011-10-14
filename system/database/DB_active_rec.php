@@ -199,7 +199,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-		$sql = $type.'('.$this->_protect_identifiers(trim($select)).') AS '.$this->_protect_identifiers(trim($alias));
+		$sql = $this->_protect_identifiers($type.'('.trim($select).')').' AS '.$this->_protect_identifiers(trim($alias));
 
 		$this->ar_select[] = $sql;
 
@@ -875,11 +875,11 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	integer	the offset value
 	 * @return	object
 	 */
-	public function limit($value, $offset = '')
+	public function limit($value, $offset = NULL)
 	{
 		$this->ar_limit = (int) $value;
 
-		if ($offset != '')
+		if ( ! is_null($offset))
 		{
 			$this->ar_offset = (int) $offset;
 		}
@@ -897,7 +897,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function offset($offset)
 	{
-		$this->ar_offset = $offset;
+		$this->ar_offset = (int) $offset;
 		return $this;
 	}
 

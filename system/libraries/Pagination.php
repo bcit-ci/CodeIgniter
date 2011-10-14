@@ -34,6 +34,7 @@ class CI_Pagination {
 	var $per_page			= 10; // Max number of items you want shown per page
 	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
 	var $cur_page			=  0; // The current page being viewed
+	var $use_page_numbers	= FALSE; // Use page number for segment instead of offset
 	var $first_link			= '&lsaquo; First';
 	var $next_link			= '&gt;';
 	var $prev_link			= '&lt;';
@@ -128,12 +129,15 @@ class CI_Pagination {
 			return '';
 		}
 
+		// Set the base page index for starting page number
+		$base_page = ($this->use_page_numbers) ? 1 : 0;
+
 		// Determine the current page number.
 		$CI =& get_instance();
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			if ($CI->input->get($this->query_string_segment) != 0)
+			if ($CI->input->get($this->query_string_segment) != $base_page)
 			{
 				$this->cur_page = $CI->input->get($this->query_string_segment);
 
@@ -143,13 +147,19 @@ class CI_Pagination {
 		}
 		else
 		{
-			if ($CI->uri->segment($this->uri_segment) != 0)
+			if ($CI->uri->segment($this->uri_segment) != $base_page)
 			{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
 
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
 			}
+		}
+		
+		// Set current page to 1 if using page numbers instead of offset
+		if ($this->use_page_numbers AND $this->cur_page == 0)
+		{
+			$this->cur_page = $base_page;
 		}
 
 		$this->num_links = (int)$this->num_links;
@@ -161,18 +171,32 @@ class CI_Pagination {
 
 		if ( ! is_numeric($this->cur_page))
 		{
-			$this->cur_page = 0;
+			$this->cur_page = $base_page;
 		}
 
 		// Is the page number beyond the result range?
 		// If so we show the last page
-		if ($this->cur_page > $this->total_rows)
+		if ($this->use_page_numbers)
 		{
-			$this->cur_page = ($num_pages - 1) * $this->per_page;
+			if ($this->cur_page > $num_pages)
+			{
+				$this->cur_page = $num_pages;
+			}
+		}
+		else
+		{
+			if ($this->cur_page > $this->total_rows)
+			{
+				$this->cur_page = ($num_pages - 1) * $this->per_page;
+			}
 		}
 
 		$uri_page_number = $this->cur_page;
-		$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
+		
+		if ( ! $this->use_page_numbers)
+		{
+			$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
+		}
 
 		// Calculate the start and end numbers. These determine
 		// which number to start and end the digit links with
@@ -203,9 +227,9 @@ class CI_Pagination {
 		// Render the "previous" link
 		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
 		{
-			$i = $uri_page_number - $this->per_page;
+			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if ($i == 0 && $this->first_url != '')
+			if (($i == 0 OR ($this->use_page_numbers && $i == 1)) AND $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
@@ -223,9 +247,9 @@ class CI_Pagination {
 			// Write the digit links
 			for ($loop = $start -1; $loop <= $end; $loop++)
 			{
-				$i = ($loop * $this->per_page) - $this->per_page;
+				$i = ($this->use_page_numbers) ? $loop : ($loop * $this->per_page) - $this->per_page;
 
-				if ($i >= 0)
+				if ($i >= $base_page)
 				{
 					if ($this->cur_page == $loop)
 					{
@@ -233,7 +257,7 @@ class CI_Pagination {
 					}
 					else
 					{
-						$n = ($i == 0) ? '' : $i;
+						$n = ($i == $base_page) ? '' : $i;
 
 						if ($n == '' && $this->first_url != '')
 						{
@@ -253,13 +277,16 @@ class CI_Pagination {
 		// Render the "next" link
 		if ($this->next_link !== FALSE AND $this->cur_page < $num_pages)
 		{
-			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.($this->cur_page * $this->per_page).$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
+
+			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
 		}
 
 		// Render the "Last" link
 		if ($this->last_link !== FALSE AND ($this->cur_page + $this->num_links) < $num_pages)
 		{
-			$i = (($num_pages * $this->per_page) - $this->per_page);
+			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
+			
 			$output .= $this->last_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->last_link.'</a>'.$this->last_tag_close;
 		}
 
