@@ -94,7 +94,7 @@ if ( ! function_exists('form_open'))
  */
 if ( ! function_exists('form_open_multipart'))
 {
-	function form_open_multipart($action, $attributes = array(), $hidden = array())
+	function form_open_multipart($action = '', $attributes = array(), $hidden = array())
 	{
 		if (is_string($attributes))
 		{
@@ -642,11 +642,8 @@ if ( ! function_exists('form_prep'))
 		{
 			return $str;
 		}
-
-		$str = htmlspecialchars($str);
-
-		// In case htmlspecialchars misses these.
-		$str = str_replace(array("'", '"'), array("&#39;", "&quot;"), $str);
+		
+		$str = html_escape($str);
 
 		if ($field_name != '')
 		{

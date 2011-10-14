@@ -79,7 +79,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		return @ocilogon($this->username, $this->password, $this->hostname);
+		return @ocilogon($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -92,7 +92,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		return @ociplogon($this->username, $this->password, $this->hostname);
+		return @ociplogon($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -136,7 +136,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		// @todo - add support if needed
+		// this is done upon connect
 		return TRUE;
 	}
 
@@ -404,6 +404,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 
 		$str = remove_invisible_characters($str);
+		$str = str_replace("'", "''", $str);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
@@ -470,6 +471,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 
 		$row = $query->row();
+		$this->_reset_select();
 		return (int) $row->numrows;
 	}
 
@@ -636,6 +638,34 @@ class CI_DB_oci8_driver extends CI_DB {
 	function _insert($table, $keys, $values)
 	{
 	return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert_batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @access      public
+	 * @param       string  the table name
+	 * @param       array   the insert keys
+	 * @param       array   the insert values
+	 * @return      string
+	 */
+	function _insert_batch($table, $keys, $values)
+	{
+		$keys = implode(', ', $keys);
+		$sql = "INSERT ALL\n";
+
+		for ($i = 0, $c = count($values); $i < $c; $i++)
+		{
+			$sql .= '	INTO ' . $table . ' (' . $keys . ') VALUES ' . $values[$i] . "\n";
+		}
+
+		$sql .= 'SELECT * FROM dual';
+
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------

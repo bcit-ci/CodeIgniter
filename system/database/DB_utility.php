@@ -33,7 +33,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Grabs the CI super object instance so we can access it.
 	 *
 	 */
-	function CI_DB_utility()
+	function __construct()
 	{
 		// Assign the main database object to $this->db
 		$CI =& get_instance();
