@@ -328,12 +328,16 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+		if (preg_match_all('/([\w\.]+)([\W\s]+)([\w\.\s]+)(AND\s|OR\s|$)/', $cond, $match))
 		{
-			$match[1] = $this->_protect_identifiers($match[1]);
-			$match[3] = $this->_protect_identifiers($match[3]);
-
-			$cond = $match[1].$match[2].$match[3];
+			$cond = '';
+			for ($i = 0, $c = count($match[1]); $i < $c; $i++)
+			{
+				$match[1][$i] = $this->_protect_identifiers($match[1][$i]);
+				$match[3][$i] = $this->_protect_identifiers($match[3][$i]);
+				
+				$cond .= $match[1][$i].$match[2][$i].$match[3][$i].$match[4][$i];
+			}
 		}
 
 		// Assemble the JOIN statement
