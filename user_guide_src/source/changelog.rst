@@ -63,6 +63,7 @@ Release Date: Not Released
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
+   -  Deprecated non-namespaced form validation language translations.
 
 -  Core
 
@@ -108,6 +109,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
 -  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
+-  Fixed a bug (#539) - Non-namespaced form validation language translations.
 
 Version 2.0.3
 =============
