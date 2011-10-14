@@ -206,7 +206,8 @@ class CI_Pagination {
 		// Is pagination being used over GET or POST?  If get, add a per_page query
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
-		{
+		{	//append pagination to existing query string
+			$qParam = preg_replace('/(?:&|(\?))' . $this->query_string_segment . '=[^&]*(?(1)&|)?/i', "$1", $_SERVER["QUERY_STRING"]);
 			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
 		}
 		else
