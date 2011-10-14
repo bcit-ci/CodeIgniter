@@ -828,8 +828,10 @@ Rule                    Parameter  Description                                  
 ======================= ========== ============================================================================================= =======================
 **required**            No         Returns FALSE if the form element is empty.                                                                          
 **matches**             Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
+**in_set**				Yes		   Returns FALSE if the form element does not match one of the items in the comma-separated 	 in_set[Yes,No,Meh\, OK]
+								   parameter values. Escape commas with a backslash.
 **is_unique**           Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                   table and field name in the parameter. is_unique[table.field]                                                        
+                                   table and field name in the parameter.                                                        
 **max_length**          Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**        Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**        Yes        Returns FALSE if the form element is less than the parameter value or not numeric.            greater_than[8]        
@@ -845,9 +847,20 @@ Rule                    Parameter  Description                                  
                                    0, 1, 2, 3, etc.
 **is_natural_no_zero**  No         Returns FALSE if the form element contains anything other than a natural
                                    number, but not zero: 1, 2, 3, etc.
-**is_unique**           Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
-**valid_email**         No         Returns FALSE if the form element does not contain a valid email address.
-**valid_emails**        No         Returns FALSE if any value provided in a comma separated list is not a valid email.
+**name**				No		   Returns FALSE if the supplied string contains characters that are usually never part of a 
+								   name (ex. %,*,#, etc...).
+**ssn**					No		   Returns FALSE if the supplied string is not a valid US Social Security number (format: 
+								   111-11-1111).
+**phone**				No		   Returns FALSE if the supplied string is not a valid telephone number (between 9 and 12 
+								   numbers long).
+**after_date**			Yes		   Returns FALSE if the form element is a date that does not fall after the date provided 		 after_date[2011-08-21]
+								   in the parameter.
+**before_date**			Yes		   Returns FALSE if the form element is a date that does not fall before the date provided 		 before_date[2011-08-21]
+								   in the parameter.
+**valid_email**         Yes        Returns FALSE if the form element does not contain a valid email address. Optionally, 		 valid_email[both]
+								   you can check if the email domain is valid by passing 'a', 'mx', or 'both'.
+**valid_emails**        Yes        Returns FALSE if any value provided in a comma separated list is not a valid email. 			 valid_emails[mx]
+								   Domain checks work the same as valid_email.
 **valid_ip**            No         Returns FALSE if the supplied IP is not valid.
 **valid_base64**        No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ======================= ========== ============================================================================================= =======================
