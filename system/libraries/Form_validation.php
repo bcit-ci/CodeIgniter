@@ -586,7 +586,7 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
-					continue;
+					show_error("Undefined callback rule specified for field {$row['field']}: {$rule}");
 				}
 
 				// Run the function and grab the result
@@ -629,21 +629,21 @@ class CI_Form_validation {
 					}
 					else
 					{
-						log_message('debug', "Unable to find validation rule: ".$rule);
+						show_error("Undefined rule specified for field {$row['field']}: {$rule}");
 					}
-
-					continue;
-				}
-
-				$result = $this->$rule($postdata, $param);
-
-				if ($_in_array == TRUE)
-				{
-					$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
 				}
 				else
 				{
-					$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+					$result = $this->$rule($postdata, $param);
+	
+					if ($_in_array == TRUE)
+					{
+						$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+					}
+					else
+					{
+						$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+					}
 				}
 			}
 
