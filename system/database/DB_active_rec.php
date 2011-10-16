@@ -819,6 +819,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function order_by($orderby, $direction = '')
 	{
+            
 		if (strtolower($direction) == 'random')
 		{
 			$orderby = ''; // Random results want or don't need a field name
@@ -1518,7 +1519,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @return	object
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
-	{
+	{          
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
@@ -1569,8 +1570,9 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			return FALSE;
 		}
+                
 
-		$sql = $this->_delete($table, $this->ar_where, $this->ar_like, $this->ar_limit);
+		$sql = $this->_delete($table, $this->ar_where, $this->ar_like, $this->ar_limit, $this->ar_orderby, $this->ar_order);
 
 		if ($reset_data)
 		{
