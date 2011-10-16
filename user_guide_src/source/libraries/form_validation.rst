@@ -320,12 +320,26 @@ In the above example, we are "trimming" the fields, converting the
 password to MD5, and running the username through the "xss_clean"
 function, which removes malicious data.
 
-**Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, MD5, etc.**
-
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the original
 	data will be shown in the form.
+
+PHP Functions as Rules
+======================
+
+Any standard PHP function can be used as a rule.  This may be for the purpose of prepping as in 
+htmlspecialchars or trim, or for validation as in is_numeric or is_float.  This is especially 
+helpful when you need custom rules that can be reused across an installation.  In such a case simply 
+create a helper that contains your rules and load it before running form validation.
+
+While a function may accept many parameters, the way in which data will be passed to the 
+function is static.  The first parameter will always be the value of the field as it exists in the 
+chain of rules.  As with other validation rules, any prepping functions that appear in the chain 
+before the rule will modify the value passed to the function.  The second parameter may optionally 
+be utilized by placing a value in brackets following the name of the rule and will be passed as a string.
+
+Functions requiring more than two parameters cannot be utilized as validation rules.  In such case it is
+recommended that you investigate writing your own rule that operates within the two parameter limit.
 
 Re-populating the form
 ======================
