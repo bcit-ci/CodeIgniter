@@ -688,13 +688,7 @@ class CI_Session {
 	{
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('\\', '{{slash}}', $val);
-				}
-			}
+			array_walk_recursive($data, array(&$this, '_escape_slashes'));
 		}
 		else
 		{
@@ -703,8 +697,22 @@ class CI_Session {
 				$data = str_replace('\\', '{{slash}}', $data);
 			}
 		}
-
 		return serialize($data);
+	}
+	
+	/**
+	 * Escape slashes
+	 *
+	 * This function converts any slashes found into a temporary marker
+	 *
+	 * @access	private
+	 */
+	function _escape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+			$val = str_replace('\\', '{{slash}}', $val);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -725,18 +733,23 @@ class CI_Session {
 
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('{{slash}}', '\\', $val);
-				}
-			}
-
+			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
 			return $data;
 		}
 
 		return (is_string($data)) ? str_replace('{{slash}}', '\\', $data) : $data;
+	}
+	
+	/**
+	 * Unescape slashes
+	 *
+	 * This function converts any slash markers back into actual slashes
+	 *
+	 * @access	private
+	 */
+	function _unescape_slashes(&$val, $key)
+	{
+	 	$val= str_replace('{{slash}}', '\\', $val);
 	}
 
 	// --------------------------------------------------------------------
