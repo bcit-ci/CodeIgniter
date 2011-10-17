@@ -8,7 +8,8 @@ Version 2.1.0 (planned)
 Release Date: Not Released
 
 -  General Changes
-   -  Added an optional backtrace to php-error template
+
+   -  Added an optional backtrace to php-error template,
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
    -  Callback validation rules can now accept parameters like any other
