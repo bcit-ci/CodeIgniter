@@ -68,7 +68,8 @@ page <configuration>`.
 Or you can submit your database values as a Data Source Name. DSNs must
 have this prototype::
 
-	$dsn = 'dbdriver://username:password@hostname/database';  $this->load->database($dsn);
+	$dsn = 'dbdriver://username:password@hostname/database';  
+	$this->load->database($dsn);
 
 To override default config values when connecting with a DSN string, add
 the config variables as a query string.
@@ -76,6 +77,19 @@ the config variables as a query string.
 ::
 
 	$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=/path/to/cache';  $this->load->database($dsn);
+	$this->load->database(<samp>$dsn</samp>);
+
+To avoid making several entries in your database configuration with the 
+same connection information and/or peppering your models with the same DSN 
+strings, you can switch to a database that shares the same connection 
+information as your current connection using::
+	
+	$this->db->query("use database_name");
+
+However, when using certain database utilities like ``$this->dbutil->list_tables()``, 
+the above query is not sufficient. You must use::
+
+	$this->db->switch_db("database_name");
 
 Connecting to Multiple Databases
 ================================
