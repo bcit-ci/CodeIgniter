@@ -749,7 +749,10 @@ class CI_Session {
 	 */
 	function _unescape_slashes(&$val, $key)
 	{
-	 	$val= str_replace('{{slash}}', '\\', $val);
+		if (is_string($val))
+		{
+	 		$val= str_replace('{{slash}}', '\\', $val);
+		}
 	}
 
 	// --------------------------------------------------------------------
