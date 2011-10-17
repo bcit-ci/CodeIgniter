@@ -64,6 +64,7 @@ Release Date: Not Released
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
    -  Form Validation class now allows native php functions to accept two parameters when used as a rule.
+   -  Form Validation class now triggers show_error() when rules do not exist.
 
 -  Core
 
