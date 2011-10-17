@@ -565,11 +565,14 @@ class CI_Form_validation {
 			// --------------------------------------------------------------------
 
 			// Is the rule a callback?
-			$callback = FALSE;
 			if (substr($rule, 0, 9) == 'callback_')
 			{
 				$rule = substr($rule, 9);
 				$callback = TRUE;
+			}
+			else
+			{
+				$callback = FALSE;
 			}
 
 			// Strip the parameter (if exists) from the rule
@@ -580,15 +583,12 @@ class CI_Form_validation {
 				$rule	= $match[1];
 				$param	= $match[2];
 			}
-
-			// Call the function that corresponds to the rule
-			if ($callback === TRUE)
+			
+			// --------------------------------------------------------------------
+			
+			// Callbacks
+			if ($callback === TRUE && method_exists($this->CI, $rule) === TRUE)
 			{
-				if ( ! method_exists($this->CI, $rule))
-				{
-					continue;
-				}
-
 				// Run the function and grab the result
 				$result = $this->CI->$rule($postdata, $param);
 
@@ -608,42 +608,42 @@ class CI_Form_validation {
 					continue;
 				}
 			}
-			else
+			// Form Validation Library
+			elseif (method_exists($this, $rule) === TRUE)
 			{
-				if (method_exists($this, $rule) === TRUE)
+				$result = $this->$rule($postdata, $param);
+				
+				if ($_in_array == TRUE)
 				{
-					$result = $this->$rule($postdata, $param);
-					
-					if ($_in_array == TRUE)
-					{
-						$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
-					}
-					else
-					{
-						$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
-					}
-				}
-				// If our own wrapper function doesn't exist we see if a native PHP function does.
-				// Users can use any native PHP function call that has one param.
-				elseif (function_exists($rule))
-				{
-					$result = $rule($postdata, $param);
-
-					if ($_in_array == TRUE)
-					{
-						$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
-					}
-					else
-					{
-						$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
-					}
+					$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
 				}
 				else
 				{
-					log_message('debug', "Unable to find validation rule: ".$rule);
+					$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
 				}
 			}
+			// PHP Functions
+			elseif (function_exists($rule))
+			{
+				$result = $rule($postdata, $param);
 
+				if ($_in_array == TRUE)
+				{
+					$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+				}
+				else
+				{
+					$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+				}
+			}
+			else
+			{
+				log_message('debug', "Unable to find validation rule: ".$rule);
+				show_error("Undefined rule specified for field {$row['field']}: {$rule}");
+			}
+			
+			// --------------------------------------------------------------------
+			
 			// Did the rule test negatively?  If so, grab the error.
 			if ($result === FALSE)
 			{
