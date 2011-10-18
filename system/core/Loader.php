@@ -472,12 +472,52 @@ class CI_Loader {
 	 *
 	 * Check if a variable is set and retrieve it.
 	 *
-	 * @param	array
+	 * @param	string
 	 * @return	void
 	 */
 	public function get_var($key)
 	{
 		return isset($this->_ci_cached_vars[$key]) ? $this->_ci_cached_vars[$key] : NULL;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Delete Variable
+	 *
+	 * Delete if a variable is set and retrieve it.
+	 *
+	 * @param	mixed
+	 * @return	void
+	 */
+	public function delete_var($vars = array())
+	{
+		if ($vars != '' AND is_string($vars))
+		{
+			unset($this->_ci_cached_vars[$vars]);
+		}
+
+		if (is_array($vars) AND count($vars) > 0)
+		{
+			foreach ($vars as $key)
+			{
+				unset($this->_ci_cached_vars[$key]);
+			}
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Clean Variable
+	 *
+	 * Clean all cached variables.
+	 *
+	 * @return	void
+	 */
+	public function clean_var()
+	{
+		$this->_ci_cached_vars = array();
 	}
 
 	// --------------------------------------------------------------------
