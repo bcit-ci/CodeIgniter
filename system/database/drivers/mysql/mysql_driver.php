@@ -699,7 +699,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	function _delete($table, $where = array(), $like = array(), $limit = FALSE, $order_by = array(), $order = FALSE)
 	{
 		$conditions = '';
 
@@ -713,6 +713,17 @@ class CI_DB_mysql_driver extends CI_DB {
 				$conditions .= " AND ";
 			}
 			$conditions .= implode("\n", $like);
+		}
+                
+                if (count($order_by) > 0)
+		{
+			$conditions .= "\nORDER BY ";
+			$conditions .= implode(', ', $order_by);
+
+			if ($order !== FALSE)
+			{
+				$conditions .= ($order == 'desc') ? ' DESC' : ' ASC';
+			}
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;

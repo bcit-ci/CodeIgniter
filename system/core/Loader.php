@@ -210,7 +210,7 @@ class CI_Loader {
 
 		if ( ! is_null($params) && ! is_array($params))
 		{
-			$params = NULL;
+			parse_str($params, $params);
 		}
 
 		$this->_ci_load_class($library, $params, $object_name);
