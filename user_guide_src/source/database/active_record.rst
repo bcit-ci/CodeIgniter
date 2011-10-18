@@ -54,6 +54,36 @@ $query, which can be used to show the results::
 Please visit the :doc:`result functions <results>` page for a full
 discussion regarding result generation.
 
+$this->db->get_compiled_select()
+================================
+
+Compiles the selection query just like `$this->db->get()`_ but does not *run* 
+the query. This method simply returns the SQL query as a string.
+
+Example::
+
+	$sql = $this->db->get_compiled_select('mytable');
+	echo $sql;
+	
+	// Produces string: SELECT * FROM mytable
+	
+The second parameter enables you to set whether or not the active record query 
+will be reset (by default it will be&mdash;just like `$this->db->get()`)::
+
+	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
+	// Produces string: SELECT * FROM mytable LIMIT 20, 10 
+	// (in MySQL. Other databases have slightly different syntax)
+	
+	echo $this->db->select('title, content, date')->get_compiled_select();
+
+	// Produces string: SELECT title, content, date FROM mytable
+	
+The key thing to notice in the above example is that the second query did not 
+utlize `$this->db->from()`_ and did not pass a table name into the first 
+parameter. The reason for this outcome is because the query has not been 
+executed using `$this->db->get()`_ which resets values or reset directly 
+using `$this-db->reset_query()`_.
+
 $this->db->get_where()
 ======================
 
@@ -540,6 +570,41 @@ object.
 
 .. note:: All values are escaped automatically producing safer queries.
 
+$this->db->get_compiled_insert()
+================================
+Compiles the insertion query just like `$this->db->insert()`_ but does not 
+*run* the query. This method simply returns the SQL query as a string.
+
+Example::
+
+	$data = array(
+		'title' => 'My title',
+		'name'  => 'My Name',
+		'date'  => 'My date'
+	);
+	
+	$sql = $this->db->set($data)->get_compiled_insert('mytable');
+	echo $sql;
+	
+	// Produces string: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
+
+The second parameter enables you to set whether or not the active record query 
+will be reset (by default it will be--just like `$this->db->insert()`_)::
+	
+	echo $this->db->set('title', 'My Title')->get_compiled_insert('mytable', FALSE);
+	
+	// Produces string: INSERT INTO mytable (title) VALUES ('My Title')
+	
+	echo $this->db->set('content', 'My Content')->get_compiled_insert();
+
+	// Produces string: INSERT INTO mytable (title, content) VALUES ('My Title', 'My Content')
+	
+The key thing to notice in the above example is that the second query did not 
+utlize `$this->db->from()`_ nor did it pass a table name into the first 
+parameter. The reason this worked is because the query has not been executed 
+using `$this->db->insert()`_ which resets values or reset directly using 
+`$this->db->reset_query()`_.
+
 $this->db->insert_batch()
 =========================
 
@@ -717,6 +782,14 @@ array of values, the third parameter is the where key.
 
 .. note:: All values are escaped automatically producing safer queries.
 
+$this->db->get_compiled_update()
+================================
+
+This works exactly the same way as ``$this->db->get_compiled_insert()`` except
+that it produces an UPDATE SQL string instead of an INSERT SQL string.
+
+For more information view documentation for `$this->get_compiled_insert()`_.
+
 
 *************
 Deleting Data
@@ -784,6 +857,13 @@ Generates a truncate SQL string and runs the query.
 
 .. note:: If the TRUNCATE command isn't available, truncate() will
 	execute as "DELETE FROM table".
+	
+$this->db->get_compiled_delete()
+================================
+This works exactly the same way as ``$this->db->get_compiled_insert()`` except
+that it produces a DELETE SQL string instead of an INSERT SQL string.
+
+For more information view documentation for `$this->get_compiled_insert()`_.
 
 ***************
 Method Chaining
@@ -854,3 +934,31 @@ Here's a usage example::
 	where, like, group_by, having, order_by, set
 
 
+
+*******************
+Reset Active Record
+*******************
+
+Resetting Active Record allows you to start fresh with your query without 
+executing it first using a method like $this->db->get() or $this->db->insert(). 
+Just like the methods that execute a query, this will *not* reset items you've 
+cached using `Active Record Caching`_.
+
+This is useful in situations where you are using Active Record to generate SQL 
+(ex. ``$this->db->get_compiled_select()``) but then choose to, for instance, 
+run the query::
+
+	// Note that the second parameter of the get_compiled_select method is FALSE
+	$sql = $this->db->select(array('field1','field2'))
+					->where('field3',5)
+					->get_compiled_select('mytable', FALSE);
+
+	// ...
+	// Do something crazy with the SQL code... like add it to a cron script for
+	// later execution or something...
+	// ...
+
+	$data = $this->db->get()->result_array();
+
+	// Would execute and return an array of results of the following query:
+	// SELECT field1, field1 from mytable where field3 = 5;
