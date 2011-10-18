@@ -58,6 +58,8 @@ Release Date: Not Released
    -  Added support to set an optional parameter in your callback rules
       of validation using the :doc:`Form Validation
       Library <libraries/form_validation>`.
+   -  Added a :doc:`Migration Library <libraries/migration>` to assist with applying
+      incremental updates to your database schema.
    -  Driver children can be located in any package path.
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
@@ -151,14 +153,6 @@ Release Date: August 20, 2011
    -  Added CSRF protection URI whitelisting.
    -  Fixed a bug where :doc:`Email library <libraries/email>`
       attachments with a "." in the name would using invalid MIME-types.
-   -  Added support for
-      pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr
-      Certs to mimes.php.
-   -  Added support pgp,gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to
-      mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files
-      to mimes.php.
 
 -  Helpers
 
