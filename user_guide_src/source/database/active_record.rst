@@ -79,10 +79,11 @@ will be reset (by default it will be&mdash;just like `$this->db->get()`)::
 	// Produces string: SELECT title, content, date FROM mytable
 	
 The key thing to notice in the above example is that the second query did not 
-utlize `$this->db->from()`_ and did not pass a table name into the first 
+utilize `$this->db->from()`_ and did not pass a table name into the first 
 parameter. The reason for this outcome is because the query has not been 
 executed using `$this->db->get()`_ which resets values or reset directly 
 using `$this-db->reset_query()`_.
+
 
 $this->db->get_where()
 ======================
