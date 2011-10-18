@@ -323,6 +323,8 @@ Bug fixes for 2.0.1
 -  Fixed a bug (Reactor #69) where the SHA1 library was named
    incorrectly.
 
+.. _2.0.0-changelog:
+
 Version 2.0.0
 =============
 
