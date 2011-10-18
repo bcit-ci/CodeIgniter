@@ -6,16 +6,21 @@
 <p>Message:  <?php echo $message; ?></p>
 <p>Filename: <?php echo $filepath; ?></p>
 <p>Line Number: <?php echo $line; ?></p>
+
 <?php if(defined('SHOW_ERROR_BACKTRACE') && SHOW_ERROR_BACKTRACE === TRUE): ?>
+	
 	<p>Backtrace: </p>
 	<?php foreach(debug_backtrace() as $error): ?>
-	<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
-		<p>
-		File: <?php echo $error['file'] ?><br />
-		Line: <?php echo $error['line'] ?><br />
-		Function: <?php echo $error['function'] ?>
-		</p>
-	<? endif ?>
+	
+		<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
+			<p>
+			File: <?php echo $error['file'] ?><br />
+			Line: <?php echo $error['line'] ?><br />
+			Function: <?php echo $error['function'] ?>
+			</p>
+		<? endif ?>
+	
 	<? endforeach ?></p>
+
 <?php endif ?>
 </div>

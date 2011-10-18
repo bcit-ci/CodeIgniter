@@ -41,7 +41,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 | Display Debug backtrace
 |--------------------------------------------------------------------------
 |
-| If set to true, a backtrace will be displayed along with php errors. If 
+| If set to TRUE, a backtrace will be displayed along with php errors. If 
 | error_reporting is disabled, the backtrace will not display, regardless 
 | of this setting
 |
