@@ -46,6 +46,9 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added new :doc:`Active Record <database/active_record>` methods that return 
+      the SQL string of queries without executing them: get_compiled_select(), 
+      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
 
 -  Libraries
 
@@ -108,6 +111,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
 -  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
+-  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
 
 Version 2.0.3
 =============
@@ -318,6 +322,8 @@ Bug fixes for 2.0.1
    incorrect cache directory.
 -  Fixed a bug (Reactor #69) where the SHA1 library was named
    incorrectly.
+
+.. _2.0.0-changelog:
 
 Version 2.0.0
 =============
