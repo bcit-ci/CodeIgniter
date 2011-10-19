@@ -383,10 +383,10 @@ class CI_Email {
 
 		//strip slashes only if magic quotes is ON
 		//if we do it with magic quotes OFF, it strips real, user-inputted chars.
-	        if (get_magic_quotes_gpc())
-	        {
+		if (get_magic_quotes_gpc())
+		{
 			$this->_body = stripslashes($this->_body);
-	        }
+		}
 
 		return $this;
 	}
