@@ -379,7 +379,15 @@ class CI_Email {
 	 */
 	public function message($body)
 	{
-		$this->_body = stripslashes(rtrim(str_replace("\r", "", $body)));
+		$this->_body = rtrim(str_replace("\r", "", $body));
+
+		//strip slashes only if magic quotes is ON
+		//if we do it with magic quotes OFF, it strips real, user-inputted chars.
+	        if (get_magic_quotes_gpc())
+	        {
+			$this->_body = stripslashes($this->_body);
+	        }
+
 		return $this;
 	}
 
