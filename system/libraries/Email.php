@@ -381,9 +381,13 @@ class CI_Email {
 	{
 		$this->_body = rtrim(str_replace("\r", "", $body));
 
-		//strip slashes only if magic quotes is ON
-		//if we do it with magic quotes OFF, it strips real, user-inputted chars.
-		if (get_magic_quotes_gpc())
+		/* strip slashes only if magic quotes is ON
+		   if we do it with magic quotes OFF, it strips real, user-inputted chars.
+
+		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
+			 it will probably not exist in future versions at all.
+		*/
+		if ( ! is_php('5.4') && get_magic_quotes_gpc())
 		{
 			$this->_body = stripslashes($this->_body);
 		}
