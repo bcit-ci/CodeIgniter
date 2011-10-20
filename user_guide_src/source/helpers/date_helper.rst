@@ -162,7 +162,8 @@ Example
 
 ::
 
-	$mysql = '20061124092345';  $unix = mysql_to_unix($mysql);
+	$mysql = '20061124092345';
+	$unix = mysql_to_unix($mysql);
 
 unix_to_human()
 ===============

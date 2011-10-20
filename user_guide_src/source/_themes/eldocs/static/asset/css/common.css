@@ -119,6 +119,8 @@ img{ display: block; max-width: 100%; }
 fieldset{ border: 0; }
 
 .top{ float: right; }
+.next{ padding: 0 20px 0 10px; }
+.prev{ padding-right: 10px; }
 
 .highlight-ci,
 .highlight-ee,
