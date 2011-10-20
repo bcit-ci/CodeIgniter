@@ -145,10 +145,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @return  string
 	 */
-	public function _version()
+	protected function _version()
 	{
 		return oci_server_version($this->conn_id);
 	}
@@ -158,11 +158,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access  public  called by the base class
+	 * @access  protected  called by the base class
 	 * @param   string  an SQL query
 	 * @return  resource
 	 */
-	public function _execute($sql)
+	protected function _execute($sql)
 	{
 		// oracle must parse the query before it is run. All of the actions with
 		// the query are based on the statement id returned by ociparse
@@ -482,11 +482,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	boolean
 	 * @return	string
 	 */
-	public function _list_tables($prefix_limit = FALSE)
+	protected function _list_tables($prefix_limit = FALSE)
 	{
 		$sql = "SELECT TABLE_NAME FROM ALL_TABLES";
 
@@ -505,11 +505,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the table name
 	 * @return  string
 	 */
-	public function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
 		return "SELECT COLUMN_NAME FROM all_tab_columns WHERE table_name = '$table'";
 	}
@@ -525,7 +525,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param   string  the table name
 	 * @return  object
 	 */
-	public function _field_data($table)
+	protected function _field_data($table)
 	{
 		return "SELECT * FROM ".$table." where rownum = 1";
 	}
@@ -535,10 +535,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @return  string
 	 */
-	public function _error_message()
+	protected function _error_message()
 	{
 		// If the error was during connection, no conn_id should be passed
 		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
@@ -550,10 +550,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @return  integer
 	 */
-	public function _error_number()
+	protected function _error_number()
 	{
 		// Same as _error_message()
 		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
@@ -567,11 +567,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
-	public function _escape_identifiers($item)
+	protected function _escape_identifiers($item)
 	{
 		if ($this->_escape_char == '')
 		{
@@ -610,11 +610,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
-	public function _from_tables($tables)
+	protected function _from_tables($tables)
 	{
 		if ( ! is_array($tables))
 		{
@@ -637,7 +637,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param   array   the insert values
 	 * @return  string
 	 */
-	public function _insert($table, $keys, $values)
+	protected function _insert($table, $keys, $values)
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
@@ -649,13 +649,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access      public
+	 * @access      protected
 	 * @param       string  the table name
 	 * @param       array   the insert keys
 	 * @param       array   the insert values
 	 * @return      string
 	 */
-	public function _insert_batch($table, $keys, $values)
+	protected function _insert_batch($table, $keys, $values)
 	{
 		$keys = implode(', ', $keys);
 		$sql = "INSERT ALL\n";
@@ -677,7 +677,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -685,7 +685,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach ($values as $key => $val)
 		{
@@ -714,11 +714,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _truncate($table)
+	protected function _truncate($table)
 	{
 		return "TRUNCATE TABLE ".$table;
 	}
@@ -730,13 +730,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
@@ -764,13 +764,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the sql query string
 	 * @param   integer the number of rows to limit the query to
 	 * @param   integer the offset value
 	 * @return  string
 	 */
-	public function _limit($sql, $limit, $offset)
+	protected function _limit($sql, $limit, $offset)
 	{
 		$limit = $offset + $limit;
 		$newsql = "SELECT * FROM (select inner_query.*, rownum rnum FROM ($sql) inner_query WHERE rownum < $limit)";
@@ -791,11 +791,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   resource
 	 * @return  void
 	 */
-	public function _close($conn_id)
+	protected function _close($conn_id)
 	{
 		@oci_close($conn_id);
 	}
