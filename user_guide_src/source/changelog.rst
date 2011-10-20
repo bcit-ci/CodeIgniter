@@ -2,10 +2,20 @@
 Change Log
 ##########
 
-Version 2.1.0 (planned)
+Version 3.0 (planned)
 =======================
 
 Release Date: Not Released
+
+-  License
+
+   -  CodeIgniter has been relicensed with the Open Software License (3.0),
+      eliminating its old proprietary licensing.
+
+      -  All system files are licensed with OSL 3.0.
+      -  Config, error, and sample files shipped in the application folder are
+         licensed with the Academic Free License (3.0) to allow you to retain
+         all licensing authority over your own application code.
 
 -  General Changes
 
