@@ -146,10 +146,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @return  array
 	 */
-	public function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
 		return oci_fetch_assoc($id);
@@ -162,10 +162,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @return  object
 	 */
-	public function _fetch_object()
+	protected function _fetch_object()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
 		return @oci_fetch_object($id);
@@ -204,10 +204,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @return	array
 	 */
-	public function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		return FALSE; // Not needed
 	}
