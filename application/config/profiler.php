@@ -8,7 +8,7 @@
  * 
  * Licensed under the Academic Free License version 3.0
  * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
+ * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
  * http://opensource.org/licenses/AFL-3.0
