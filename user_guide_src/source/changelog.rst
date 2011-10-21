@@ -2,10 +2,20 @@
 Change Log
 ##########
 
-Version 2.1.0 (planned)
+Version 3.0 (planned)
 =======================
 
 Release Date: Not Released
+
+-  License
+
+   -  CodeIgniter has been relicensed with the Open Software License (3.0),
+      eliminating its old proprietary licensing.
+
+      -  All system files are licensed with OSL 3.0.
+      -  Config, error, and sample files shipped in the application folder are
+         licensed with the Academic Free License (3.0) to allow you to retain
+         all licensing authority over your own application code.
 
 -  General Changes
 
@@ -67,7 +77,7 @@ Release Date: Not Released
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added is_unique to the :doc:`Form Validation
       library <libraries/form_validation>`.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.
+   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
 
@@ -106,14 +116,14 @@ Bug fixes for 2.1.0
    __construct().
 -  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did
    not escape correct.
--  Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.
+-  Fixed a bug (#344) - Using schema found in :doc:`Saving Session Data to a Database <libraries/sessions>`, system would throw error "user_data does not have a default value" when deleting then creating a session.
 -  Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.
 -  Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.
--  Fixed a bug (#82) - WHERE clause field names in the DB <samp>update_string()</samp> method were not escaped, resulting in failed queries in some cases.
--  Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.
+-  Fixed a bug (#82) - WHERE clause field names in the DB update_string() method were not escaped, resulting in failed queries in some cases.
+-  Fixed a bug (#89) - Fix a variable type mismatch in DB display_error() where an array is expected, but a string could be set instead.
 -  Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
--  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
+-  Fixed a bug (#60) - Added _file_mime_type() method to the :doc:`File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
 
@@ -281,7 +291,7 @@ Hg Tag: v2.0.1
       TRUE and Reactor: FALSE.
    -  Added an ENVIRONMENT constant in index.php, which affects PHP
       error reporting settings, and optionally, which configuration
-      files are loaded (see below). Read more on the `Handling
+      files are loaded (see below). Read more on the :doc:`Handling
       Environments <general/environments>` page.
    -  Added support for
       :ref:`environment-specific <config-environments>`
@@ -289,7 +299,7 @@ Hg Tag: v2.0.1
 
 -  Libraries
 
-   -  Added decimal, less_than and greater_than rules to the `Form
+   -  Added decimal, less_than and greater_than rules to the :doc:`Form
       validation Class <libraries/form_validation>`.
    -  :doc:`Input Class <libraries/input>` methods post() and get()
       will now return a full array if the first argument is not
@@ -363,7 +373,7 @@ Hg Tag: v2.0.0
    -  Removed the deprecated Validation Class.
    -  Added CI\_ Prefix to all core classes.
    -  Package paths can now be set in application/config/autoload.php.
-   -  `Upload library <libraries/file_uploading>` file_name can
+   -  :doc:`Upload library <libraries/file_uploading>` file_name can
       now be set without an extension, the extension will be taken from
       the uploaded file instead of the given name.
    -  In :doc:`Database Forge <database/forge>` the name can be omitted
@@ -535,7 +545,7 @@ Hg Tag: v2.0.0
    -  Added "default" to the list :doc:`Reserved
       Names <general/reserved_names>`.
    -  Added 'application/x-msdownload' for .exe files and
-      ''application/x-gzip-compressed' for .tgz files to
+      'application/x-gzip-compressed' for .tgz files to
       config/mimes.php.
    -  Updated the output library to no longer compress output or send
       content-length headers if the server runs with
@@ -666,7 +676,7 @@ Hg Tag: v1.7.2
 
 -  General
 
-   -  Compatible with PHP 5.3.0
+   -  Compatible with PHP 5.3.0.
    -  Modified :doc:`show_error() <general/errors>` to allow sending
       of HTTP server response codes.
    -  Modified :doc:`show_404() <general/errors>` to send 404 status
@@ -1274,7 +1284,7 @@ Hg Tag: 1.6.1
       URL encoded strings.
    -  Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization
       of globals.
-   -  Added a `Path Helper <./helpers/path_helper>`.
+   -  Added a :doc:`Path Helper <./helpers/path_helper>`.
    -  Simplified _reindex_segments() in the URI class.
    -  Escaped the '-' in the default 'permitted_uri_chars' config
       item, to prevent errors if developers just try to add additional
@@ -1681,7 +1691,7 @@ Version 1.5.2
 Release Date: February 13, 2007
 
 -  Added subversion information
-   to the `downloads <installation/downloads>` page.
+   to the :doc:`downloads <installation/downloads>` page.
 -  Added support for captions in the :doc:`Table
    Library <./libraries/table>`
 -  Fixed a bug in the
@@ -1737,7 +1747,7 @@ Version 1.5.0
 
 Release Date: October 30, 2006
 
--  Added `DB utility class <./database/utilities>`, permitting DB
+-  Added :doc:`DB utility class <./database/utilities>`, permitting DB
    backups, CVS or XML files from DB results, and various other
    functions.
 -  Added :doc:`Database Caching Class <./database/caching>`.
@@ -1896,7 +1906,7 @@ Release Date: September 17, 2006
    sub-folders <general/controllers>`. Kudos to Marco for
    `suggesting <http://codeigniter.com/forums/viewthread/627/>`_ this
    (and the next two) feature.
--  Added regular expressions support for `routing
+-  Added regular expressions support for :doc:`routing
    rules <./general/routing>`.
 -  Added the ability to :doc:`remap function
    calls <./general/controllers>` within your controllers.
