@@ -46,9 +46,9 @@
 			Line: <?php echo $error['line'] ?><br />
 			Function: <?php echo $error['function'] ?>
 			</p>
-		<? endif ?>
+		<?php endif ?>
 	
-	<? endforeach ?></p>
+	<?php endforeach ?></p>
 
 <?php endif ?>
 
