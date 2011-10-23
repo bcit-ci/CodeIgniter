@@ -24,7 +24,16 @@ Standard Query With Multiple Results (Object Version)
 
 ::
 
-	$query = $this->db->query('SELECT name, title, email FROM my_table');  foreach ($query->result() as $row) {     echo $row->title;     echo $row->name;     echo $row->email; }  echo 'Total Results: ' . $query->num_rows();
+	$query = $this->db->query('SELECT name, title, email FROM my_table');
+	
+	foreach ($query->result() as $row)
+	{
+		echo $row->title;
+		echo $row->name;
+		echo $row->email;
+	}
+	
+	echo 'Total Results: ' . $query->num_rows();
 
 The above result() function returns an array of **objects**. Example:
 $row->title
@@ -34,7 +43,14 @@ Standard Query With Multiple Results (Array Version)
 
 ::
 
-	$query = $this->db->query('SELECT name, title, email FROM my_table');  foreach ($query->result_array() as $row) {     echo $row['title'];     echo $row['name'];     echo $row['email']; }
+	$query = $this->db->query('SELECT name, title, email FROM my_table');
+	
+	foreach ($query->result_array() as $row)
+	{
+		echo $row['title'];
+		echo $row['name'];
+		echo $row['email'];
+	}
 
 The above result_array() function returns an array of standard array
 indexes. Example: $row['title']
@@ -45,14 +61,25 @@ Testing for Results
 If you run queries that might **not** produce a result, you are
 encouraged to test for a result first using the num_rows() function::
 
-	 $query = $this->db->query("YOUR QUERY");  if ($query->num_rows() > 0) {    foreach ($query->result() as $row)    {       echo $row->title;       echo $row->name;       echo $row->body;    } }
+	$query = $this->db->query("YOUR QUERY");
+	if ($query->num_rows() > 0)
+	{
+		foreach ($query->result() as $row)
+		{
+			echo $row->title;
+			echo $row->name;
+			echo $row->body;
+		}
+	}
 
 Standard Query With Single Result
 =================================
 
 ::
 
-	$query = $this->db->query('SELECT name FROM my_table LIMIT 1');  $row = $query->row(); echo $row->name;
+	$query = $this->db->query('SELECT name FROM my_table LIMIT 1'); 
+	$row = $query->row();
+	echo $row->name;
 
 The above row() function returns an **object**. Example: $row->name
 
@@ -61,7 +88,9 @@ Standard Query With Single Result (Array version)
 
 ::
 
-	$query = $this->db->query('SELECT name FROM my_table LIMIT 1');  $row = $query->row_array(); echo $row['name'];
+	$query = $this->db->query('SELECT name FROM my_table LIMIT 1');
+	$row = $query->row_array();
+	echo $row['name'];
 
 The above row_array() function returns an **array**. Example:
 $row['name']
@@ -71,7 +100,9 @@ Standard Insert
 
 ::
 
-	 $sql = "INSERT INTO mytable (title, name)          VALUES (".$this->db->escape($title).", ".$this->db->escape($name).")";  $this->db->query($sql);  echo $this->db->affected_rows();
+	$sql = "INSERT INTO mytable (title, name) VALUES (".$this->db->escape($title).", ".$this->db->escape($name).")";
+	$this->db->query($sql);
+	echo $this->db->affected_rows();
 
 Active Record Query
 ===================
@@ -79,7 +110,12 @@ Active Record Query
 The :doc:`Active Record Pattern <active_record>` gives you a simplified
 means of retrieving data::
 
-	 $query = $this->db->get('table_name');  foreach ($query->result() as $row) {     echo $row->title; }
+	$query = $this->db->get('table_name');
+	
+	foreach ($query->result() as $row)
+	{
+		echo $row->title;
+	}
 
 The above get() function retrieves all the results from the supplied
 table. The :doc:`Active Record <active_record>` class contains a full
@@ -90,5 +126,11 @@ Active Record Insert
 
 ::
 
-	 $data = array(                'title' => $title,                'name' => $name,                'date' => $date             );  $this->db->insert('mytable', $data);  // Produces: INSERT INTO mytable (title, name, date) VALUES ('{$title}', '{$name}', '{$date}')
+	$data = array(
+		'title' => $title,
+		'name' => $name,
+		'date' => $date
+	);
+	
+	$this->db->insert('mytable', $data);  // Produces: INSERT INTO mytable (title, name, date) VALUES ('{$title}', '{$name}', '{$date}')
 

@@ -6,9 +6,7 @@ As well as calling an applications :doc:`Controllers <./controllers>`
 via the URL in a browser they can also be loaded via the command-line
 interface (CLI).
 
--  `What is the CLI? <#what>`_
--  `Why use this method? <#why>`_
--  `How does it work? <#how>`_
+.. contents:: Page Contents
 
 What is the CLI?
 ================

@@ -118,16 +118,16 @@ ReST:
 		
 			::
 
-				$this->EE->load->library('some_class');
+				$this->load->library('some_class');
 
 				$bar = array(
 					'something'		=> 'Here is this parameter!',
 					'something_else'	=> 42
 				);
 
-				$bat = $this->EE->some_class->should_do_something();
+				$bat = $this->some_class->should_do_something();
 
-				if ($this->EE->some_class->some_method(4, $bar, $bat) === FALSE)
+				if ($this->some_class->some_method(4, $bar, $bat) === FALSE)
 				{
 					show_error('An Error Occurred Doing Some Method');
 				}
@@ -167,16 +167,16 @@ some_method()
 		
 		::
 
-			$this->EE->load->library('some_class');
+			$this->load->library('some_class');
 
 			$bar = array(
 				'something'		=> 'Here is this parameter!',
 				'something_else'	=> 42
 			);
 
-			$bat = $this->EE->some_class->should_do_something();
+			$bat = $this->some_class->should_do_something();
 
-			if ($this->EE->some_class->some_method(4, $bar, $bat) === FALSE)
+			if ($this->some_class->some_method(4, $bar, $bat) === FALSE)
 			{
 				show_error('An Error Occurred Doing Some Method');
 			}
