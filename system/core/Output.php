@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -101,14 +101,14 @@ class CI_Output {
 	 * Constructor
 	 *
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
@@ -131,7 +131,7 @@ class CI_Output {
 	 * @access	public
 	 * @return	string
 	 */
-	function get_output()
+	public function get_output()
 	{
 		return $this->final_output;
 	}
@@ -147,7 +147,7 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_output($output)
+	public function set_output($output)
 	{
 		$this->final_output = $output;
 
@@ -165,7 +165,7 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function append_output($output)
+	public function append_output($output)
 	{
 		if ($this->final_output == '')
 		{
@@ -194,7 +194,7 @@ class CI_Output {
 	 * @param 	bool
 	 * @return	void
 	 */
-	function set_header($header, $replace = TRUE)
+	public function set_header($header, $replace = TRUE)
 	{
 		// If zlib.output_compression is enabled it will compress the output,
 		// but it will not modify the content-length header to compensate for
@@ -220,7 +220,7 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	function set_content_type($mime_type)
+	public function set_content_type($mime_type)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
@@ -256,7 +256,7 @@ class CI_Output {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_status_header($code = 200, $text = '')
+	public function set_status_header($code = 200, $text = '')
 	{
 		set_status_header($code, $text);
 
@@ -272,7 +272,7 @@ class CI_Output {
 	 * @param	bool
 	 * @return	void
 	 */
-	function enable_profiler($val = TRUE)
+	public function enable_profiler($val = TRUE)
 	{
 		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
 
@@ -290,7 +290,7 @@ class CI_Output {
 	 * @param	array
 	 * @return	void
 	 */
-	function set_profiler_sections($sections)
+	public function set_profiler_sections($sections)
 	{
 		foreach ($sections as $section => $enable)
 		{
@@ -309,11 +309,26 @@ class CI_Output {
 	 * @param	integer
 	 * @return	void
 	 */
-	function cache($time)
+	public function cache($time)
 	{
 		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 
 		return $this;
+	}
+
+	/**
+	 * Delete Cache
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	void
+	 */
+	public function delete_cache($url = "")
+	{
+		$url = trim($url, "/");
+		$this->_delete_cache($url);
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +348,7 @@ class CI_Output {
 	 * @param 	string
 	 * @return	mixed
 	 */
-	function _display($output = '')
+	public function _display($output = '')
 	{
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
@@ -466,11 +481,11 @@ class CI_Output {
 	/**
 	 * Write a Cache File
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param 	string
 	 * @return	void
 	 */
-	function _write_cache($output)
+	protected function _write_cache($output)
 	{
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
@@ -513,6 +528,46 @@ class CI_Output {
 		log_message('debug', "Cache file written: ".$cache_path);
 	}
 
+	/**
+	 * Delete a Cache File
+	 *
+	 * @access	public
+	 * @param 	string
+	 * @return	void
+	 */
+	public function _delete_cache($url)
+	{
+		$CI =& get_instance();
+		$path = $CI->config->item('cache_path');
+
+		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+
+		$uri =	$CI->config->item('base_url').
+				$CI->config->item('index_page').
+				$url;
+
+		$filepath = $cache_path.md5($uri);
+
+		if ( ! @file_exists($filepath))
+		{
+			return FALSE;
+		}
+
+		if ( ! $fp = @fopen($filepath, FOPEN_READ))
+		{
+			return FALSE;
+		}
+
+		if (is_really_writable($cache_path))
+		{
+			@unlink($filepath);
+			log_message('debug', "Cache file has deleted.");
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -523,7 +578,7 @@ class CI_Output {
 	 * @param 	object	uri class
 	 * @return	void
 	 */
-	function _display_cache(&$CFG, &$URI)
+	public function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
