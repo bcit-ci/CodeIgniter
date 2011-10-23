@@ -321,14 +321,12 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	void
+	 * @return	bool
 	 */
 	public function delete_cache($url = "")
 	{
 		$url = trim($url, "/");
 		$this->_delete_cache($url);
-
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -533,7 +531,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param 	string
-	 * @return	void
+	 * @return	bool
 	 */
 	public function _delete_cache($url)
 	{
