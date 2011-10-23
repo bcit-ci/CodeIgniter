@@ -1,6 +1,7 @@
-########################
-General Style and Syntax
-########################
+###############
+PHP Style Guide
+###############
+
 
 The following page describes the use of coding rules adhered to when
 developing CodeIgniter.

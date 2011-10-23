@@ -31,11 +31,11 @@ string as you can concoct, with numbers and uppercase and lowercase
 letters. Your key should **not** be a simple text string. In order to be
 cryptographically secure it needs to be as random as possible.
 
-Your key can be either stored in your application/config/config.php, or
+Your key can be either stored in your **application/config/config.php**, or
 you can design your own storage mechanism and pass the key dynamically
 when encoding/decoding.
 
-To save your key to your application/config/config.php, open the file
+To save your key to your **application/config/config.php**, open the file
 and set::
 
 	$config['encryption_key'] = "YOUR KEY";
@@ -57,7 +57,7 @@ Initializing the Class
 ======================
 
 Like most other classes in CodeIgniter, the Encryption class is
-initialized in your controller using the $this->load->library function::
+initialized in your controller using the **$this->load->library** function::
 
 	$this->load->library('encrypt');
 
@@ -103,7 +103,7 @@ $this->encrypt->set_cipher();
 ==============================
 
 Permits you to set an Mcrypt cipher. By default it uses
-MCRYPT_RIJNDAEL_256. Example::
+**MCRYPT_RIJNDAEL_256**. Example::
 
 	$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
 
@@ -118,7 +118,7 @@ can use::
 $this->encrypt->set_mode();
 ============================
 
-Permits you to set an Mcrypt mode. By default it uses MCRYPT_MODE_CBC.
+Permits you to set an Mcrypt mode. By default it uses **MCRYPT_MODE_CBC**.
 Example::
 
 	$this->encrypt->set_mode(MCRYPT_MODE_CFB);
@@ -153,31 +153,27 @@ encrypted session data or transitory encrypted flashdata require no
 intervention on your part. However, existing encrypted Sessions will be
 destroyed since data encrypted prior to 2.x will not be decoded.
 
-..important:: **Why only a method to re-encode the data instead of maintaining legacy
-methods for both encoding and decoding?** The algorithms in the
-Encryption library have improved in CodeIgniter 2.x both for performance
-and security, and we do not wish to encourage continued use of the older
-methods. You can of course extend the Encryption library if you wish and
-replace the new methods with the old and retain seamless compatibility
-with CodeIgniter 1.x encrypted data, but this a decision that a
-developer should make cautiously and deliberately, if at all.
+.. important::
+	**Why only a method to re-encode the data instead of maintaining legacy
+	methods for both encoding and decoding?** The algorithms in the
+	Encryption library have improved in CodeIgniter 2.x both for performance
+	and security, and we do not wish to encourage continued use of the older
+	methods. You can of course extend the Encryption library if you wish and
+	replace the new methods with the old and retain seamless compatibility
+	with CodeIgniter 1.x encrypted data, but this a decision that a
+	developer should make cautiously and deliberately, if at all.
 
 ::
 
 	$new_data = $this->encrypt->encode_from_legacy($old_encrypted_string);
 
-Parameter
-Default
-Description
-**$orig_data**
-n/a
-The original encrypted data from CodeIgniter 1.x's Encryption library
-**$legacy_mode**
-MCRYPT_MODE_ECB
-The Mcrypt mode that was used to generate the original encrypted data.
-CodeIgniter 1.x's default was MCRYPT_MODE_ECB, and it will assume that
-to be the case unless overridden by this parameter.
-**$key**
-n/a
-The encryption key. This it typically specified in your config file as
-outlined above.
+======================	===============	 =======================================================================
+Parameter		 Default	  Description
+======================	===============  =======================================================================
+**$orig_data**		n/a 		 The original encrypted data from CodeIgniter 1.x's Encryption library
+**$legacy_mode**	MCRYPT_MODE_ECB	 The Mcrypt mode that was used to generate the original encrypted data.
+					 CodeIgniter 1.x's default was MCRYPT_MODE_ECB, and it will assume that
+					 to be the case unless overridden by this parameter.
+**$key**		n/a 		 The encryption key. This it typically specified in your config file as
+					 outlined above.
+======================	===============	 =======================================================================
