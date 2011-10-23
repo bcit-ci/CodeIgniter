@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -255,11 +255,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * type		yes		the type of the parameter
 	 * length	yes		the max size of the parameter
 	 */
-<<<<<<< HEAD
-	function stored_procedure($procedure, $params)
-=======
-	public function stored_procedure($package, $procedure, $params)
->>>>>>> upstream/develop
+	public function stored_procedure($procedure, $params)
 	{
 		if (is_object($procedure))
 		{
