@@ -1853,7 +1853,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	
 	/**
          * Get Compile SQL
-         * retruns compiled SQL
+         * returns compiled SQL
          * @return string
          */
 	public function __toString()
