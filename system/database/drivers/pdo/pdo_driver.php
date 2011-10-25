@@ -46,7 +46,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
-
+	
+	var $options = array();
 
 	function __construct($params)
 	{
@@ -57,6 +58,9 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
+
+			//Set the charset with the connection options
+			$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
 		}
 		else if (strpos($this->hostname, 'odbc') !== FALSE)
 		{
@@ -83,9 +87,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
-		return new PDO($this->hostname,$this->username,$this->password, array(
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT
-		));
+		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
+		return new PDO($this->hostname,$this->username,$this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
