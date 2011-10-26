@@ -78,8 +78,8 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_str = " ESCAPE '%s' ";
 			$this->_like_escape_chr = '!';
 		}
-
-		$this->hostname = $this->hostname . ";dbname=".$this->database;
+		
+		$this->hostname .= ";dbname=".$this->database;
 		$this->trans_enabled = FALSE;
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
@@ -94,7 +94,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	function db_connect()
 	{
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
-		return new PDO($this->hostname,$this->username,$this->password, $this->options);
+		
+		return new PDO($this->hostname, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
@@ -107,10 +108,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		return new PDO($this->hostname,$this->username,$this->password, array(
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
-			PDO::ATTR_PERSISTENT => true
-		));
+		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
+		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
+	
+		return new PDO($this->hostname, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
