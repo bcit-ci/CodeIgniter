@@ -70,6 +70,12 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 			
+			//Prior to this version, the charset can't be set in the dsn
+			if(is_php('5.3.6'))
+			{
+				$this->hostname .= ";charset={$this->char_set}";
+			}
+			
 			//Set the charset with the connection options
 			$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
 		}
