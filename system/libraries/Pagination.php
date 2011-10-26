@@ -114,6 +114,11 @@ class CI_Pagination {
 				}
 			}
 		}
+
+		if ($this->anchor_class != '')
+		{
+			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
+		}
 	}
 
 	// --------------------------------------------------------------------
