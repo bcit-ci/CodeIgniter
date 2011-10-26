@@ -96,7 +96,7 @@ function::
 
 Please read the about the where function below for more information.
 
-Note: get_where() was formerly known as getwhere(), which has been
+.. note:: get_where() was formerly known as getwhere(), which has been
 removed
 
 $this->db->select()
@@ -198,7 +198,7 @@ Permits you to write the JOIN portion of your query::
 	$query = $this->db->get();
 	
 	// Produces:
-	// SELECT * FROM blogs // JOIN comments ON comments.id = blogs.id
+	// SELECT * FROM blogs JOIN comments ON comments.id = blogs.id
 
 Multiple function calls can be made if you need several joins in one
 query.
@@ -836,7 +836,7 @@ $this->db->empty_table()
 Generates a delete SQL string and runs the
 query.::
 
-	  $this->db->empty_table('mytable'); // Produces // DELETE FROM mytable
+	  $this->db->empty_table('mytable'); // Produces: DELETE FROM mytable
 
 
 $this->db->truncate()
@@ -847,7 +847,7 @@ Generates a truncate SQL string and runs the query.
 ::
 
 	$this->db->from('mytable');
-	$this->db->truncate();  
+	$this->db->truncate();
 	
 	// or  
 	
@@ -877,8 +877,6 @@ multiple functions. Consider this example::
 				->where('id', $id)
 				->limit(10, 20)
 				->get('mytable');
-
-.. note:: Method chaining only works with PHP 5.
 
 .. _ar-caching:
 
