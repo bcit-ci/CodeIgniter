@@ -956,14 +956,13 @@ class CI_Upload {
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if ( ! is_array($this->mimes) OR ! $this->mimes)
+		if ( ! is_array($this->mimes) OR ! isset($this->mimes[0]))
 		{
 			$this->mimes = isset($GLOBALS['mimes']) ? $GLOBALS['mimes'] : FALSE;
 			
 			if ( ! $this->mimes)
 			{
+				log_message('error', 'core/upload/mime_types - missing mimes');
 				return FALSE;
 			}
 		}
