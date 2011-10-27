@@ -695,5 +695,41 @@ if ( ! function_exists('timezones'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Date Interval
+ *
+ * Returns an array of dates ordered by past date
+ * to future date.
+ *
+ * @access	public
+ * @param	string	date_start
+ * @param	string	date_end
+ * @param	int	interval
+ * @param	string	date_format
+ * @return	array
+ */
+if ( ! function_exists('date_interval'))
+{
+	public function date_interval($date_start, $date_end, $interval = 86400 ,$date_format = 'Y-m-d') 
+	{ 
+		$result = array(); 
+
+		$date_start = strtotime($date_start); 
+		$date_end 	= strtotime($date_end); 
+
+		$larger 	= ($date_start > $date_end) ? $date_start : $date_end;
+		$smaller 	= ($date_start < $date_end) ? $date_start : $date_end;
+
+		while ($smaller <= $larger) 
+		{ 
+			$result[] = date($date_format, $smaller); 
+			$smaller += $interval; 
+		}
+		return $result; 
+	}
+}
+
 /* End of file date_helper.php */
 /* Location: ./system/helpers/date_helper.php */
