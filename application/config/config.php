@@ -253,6 +253,9 @@ $config['cache_path'] = '';
 |
 | If you use the Encryption class or the Session class you
 | MUST set an encryption key.  See the user guide for info.
+|  
+| http://codeigniter.com/user_guide/libraries/encryption.html
+| http://codeigniter.com/user_guide/libraries/sessions.html
 |
 */
 $config['encryption_key'] = '';
