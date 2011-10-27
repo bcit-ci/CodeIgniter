@@ -79,6 +79,7 @@ Change Log
 	<li>Database
 		<ul>
 			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
+			<li>Added a <a href="http://www.php.net/manual/en/intro.pdo.php" target="_blank">PDO</a> driver to the <a href="libraries/database.html">Database Driver</a>.</li>
 			<li>Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
 		</ul>
 	</li>
@@ -88,6 +89,13 @@ Change Log
 			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
 			<li>Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
 			<li>Driver children can be located in any package path.</li>
+			
+		</ul>
+	</li>
+	<li>Core
+		<ul>
+			<li>Changed private functions in CI_URI to protected so MY_URI can override them.</li>
+			<li>Removed CI_CORE boolean constant from CodeIgniter.php (there are no longer Reactor and Core versions).</li>
 		</ul>
 	</li>
 </ul>
@@ -97,7 +105,22 @@ Change Log
 	<li>Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
 	<li>If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li>Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
-	<li class="rector">Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
+	<li>Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
+	<li>Fixed a bug (#200) where MySQL queries would be malformed after calling count_all() then db->get()</li>
+	<li>Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
+	<li>Fixed a bug (#181) where a mis-spelling was in the form validation language file.</li>
+	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
+	<li>Fixed a bug (#150) - field_data() now correctly returns column length.</li>
+	<li>Fixed a bug (#8) - load_class() now looks for core classes in APPPATH first, allowing them to be replaced.</li>
+	<li>Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().</li>
+	<li>Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did not escape correct.</li>
+	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
+	<li>Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.</li>
+	<li>Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.</li>
+	<li>Fixed a bug (#82) - WHERE clause field names in the DB update_string() method were not escaped, resulting in failed queries in some cases.</li>
+	<li>Fixed a bug (#89) - Fix a variable type mismatch in DB display_error() where an array is expected, but a string could be set instead.</li>
+	<li>Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)</li>
+	<li>Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).</li>
 	<li>Fixed a bug (#60) - Added _file_mime_type() method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
 	<li>Fixed a bug (#537) - Support for all wav type in browser.</li>
 	<li>Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.</li>
