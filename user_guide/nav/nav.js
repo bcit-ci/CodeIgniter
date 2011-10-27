@@ -103,6 +103,7 @@ function create_menu(basepath)
 		'<li><a href="'+base+'libraries/javascript.html">Javascript Class</a></li>' +
 		'<li><a href="'+base+'libraries/loader.html">Loader Class</a></li>' +
 		'<li><a href="'+base+'libraries/language.html">Language Class</a></li>' +
+		'<li><a href="'+base+'libraries/migration.html">Migration Class</a></li>' +
 		'<li><a href="'+base+'libraries/output.html">Output Class</a></li>' +
 		'<li><a href="'+base+'libraries/pagination.html">Pagination Class</a></li>' +
 		'<li><a href="'+base+'libraries/security.html">Security Class</a></li>' +

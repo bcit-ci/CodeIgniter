@@ -4,9 +4,8 @@
 | Enable/Disable Migrations
 |--------------------------------------------------------------------------
 |
-| Migrations are disabled by default for security reasons.
-| You should enable migrations whenever you intend to do a schema migration
-| and disable it back when you're done.
+| Migrations are disabled by default but should be enabled 
+| whenever you intend to do a schema migration.
 |
 */
 $config['migration_enabled'] = FALSE;
