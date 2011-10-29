@@ -42,14 +42,14 @@
 	
 		<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
 			<p style="margin-left:10px">
-			File: <?php echo $error['file'] ?><br />
-			Line: <?php echo $error['line'] ?><br />
-			Function: <?php echo $error['function'] ?>
+			File: <?php echo $error['file']; ?><br />
+			Line: <?php echo $error['line']; ?><br />
+			Function: <?php echo $error['function']; ?>
 			</p>
-		<? endif ?>
+		<?php endif; ?>
 	
-	<? endforeach ?></p>
+	<?php endforeach; ?></p>
 
-<?php endif ?>
+<?php endif; ?>
 
 </div>
