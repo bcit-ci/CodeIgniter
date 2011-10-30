@@ -207,6 +207,10 @@ Preference                   Default Value     Options                 Descripti
                                                                        limit.
 **max_height**               0                 None                    The maximum height (in pixels) that the file can be. Set to zero for no
                                                                        limit.
+**min_width**                0                 None                    The minimum width (in pixels) that the file can be. Set to zero for no
+                                                                       limit.
+**min_height**               0                 None                    The minimum height (in pixels) that the file can be. Set to zero for no
+                                                                       limit.
 **max_filename**             0                 None                    The maximum length that a file name can be. Set to zero for no limit.
 **max_filename_increment**   100               None                    When overwrite is set to FALSE, use this to set the maximum filename
                                                                        increment for CodeIgniter to append to the filename.

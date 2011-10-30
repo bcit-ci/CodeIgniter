@@ -41,6 +41,8 @@ class CI_Upload {
 	public $max_size				= 0;
 	public $max_width				= 0;
 	public $max_height				= 0;
+    public $min_width				= 0;
+    public $min_height				= 0;
 	public $max_filename			= 0;
 	public $max_filename_increment 	= 100;
 	public $allowed_types			= "";
@@ -96,6 +98,8 @@ class CI_Upload {
 							'max_size'					=> 0,
 							'max_width'					=> 0,
 							'max_height'				=> 0,
+                            'min_width'					=> 0,
+							'min_height'				=> 0,
 							'max_filename'				=> 0,
 							'max_filename_increment'	=> 100,
 							'allowed_types'				=> "",
@@ -489,6 +493,32 @@ class CI_Upload {
 		$this->max_height = ((int) $n < 0) ? 0: (int) $n;
 	}
 
+    // --------------------------------------------------------------------
+
+	/**
+	 * Set Minimum Image Width
+	 *
+	 * @param	integer
+	 * @return	void
+	 */
+	public function set_min_width($n)
+	{
+		$this->min_width = ((int) $n < 0) ? 0: (int) $n;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Minimum Image Height
+	 *
+	 * @param	integer
+	 * @return	void
+	 */
+	public function set_min_height($n)
+	{
+		$this->min_height = ((int) $n < 0) ? 0: (int) $n;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -691,6 +721,16 @@ class CI_Upload {
 			}
 
 			if ($this->max_height > 0 AND $D['1'] > $this->max_height)
+			{
+				return FALSE;
+			}
+
+            if ($this->min_width > 0 AND $D['0'] < $this->min_width)
+			{
+				return FALSE;
+			}
+
+			if ($this->min_height > 0 AND $D['1'] < $this->min_height)
 			{
 				return FALSE;
 			}

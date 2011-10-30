@@ -63,6 +63,7 @@ Release Date: Not Released
 
 -  Libraries
 
+   -  Added support to set the Minimum Width and Minimum Height of an image in the File Uploading Class.
    -  Changed $this->cart->insert() in the :doc:`Cart
       Library <libraries/cart>` to return the Row ID if a single
       item was inserted successfully.
