@@ -138,10 +138,10 @@ function &DB($params = '', $active_record_override = NULL)
 
 		if ( ! class_exists('CI_DB'))
 		{
-			if ( file_exists(APPPATH.'core/MY_DB_active_record') )
+			if ( file_exists(APPPATH.'core/MY_DB_active_record.php') )
 			{
 				require_once(APPPATH . 'core/MY_DB_active_record.php');
-				eval('class CI_DB extends MY_DB_active_record');
+				eval('class CI_DB extends MY_DB_active_record { }');
 			}
 			else
 			{
