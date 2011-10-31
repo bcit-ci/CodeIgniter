@@ -44,6 +44,8 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$this->load->model('example_model', 'Example');
+		$this->Example->show_tables();
 		$this->load->view('welcome_message');
 	}
 }
