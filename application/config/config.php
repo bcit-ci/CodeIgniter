@@ -86,6 +86,28 @@ $config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Use Dashes
+|--------------------------------------------------------------------------
+|
+| This option allows you to use dashes instead of underscores in the url
+| so your URLs would look like this:
+| http://test.com/my-controller/my-function
+| instead of this:
+| http://test.com/my_controller/my_function
+| variables are unaffected so setting this to TRUE does not mean you 
+| can't have a var with an underscore in it. 
+| This will really only look at folders, controllers and functions
+| 
+| NOTE: PHP does not support dashes as function names, so still use
+| underscores in your function name.  
+|
+| http://codeigniter.com/user_guide/general/urls.html
+*/
+$config['use_dashes'] = TRUE;
+
+
+/*
+|--------------------------------------------------------------------------
 | Default Language
 |--------------------------------------------------------------------------
 |

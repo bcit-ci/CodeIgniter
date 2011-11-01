@@ -223,6 +223,61 @@ class CI_Router {
 
 	// --------------------------------------------------------------------
 
+
+   /**
+    * Count the number of folders before the controller
+    * 
+    * This function will check if there are any folders
+    * before the controller and correctly sets
+    * the number of segments we need to check are using
+    * dashes
+    * 
+    * @access private
+    * @param array
+    * @return int 
+    */
+   function _get_folder_count($segments = array())
+   {
+   
+     /*
+      * Option's we're testing against here...
+      * /folder/folder/controller/function/var
+      * /folder/controller/funct/var
+      * /folder/folder/folder/controller/func
+      * /folder/folder/folder/folder/controller
+      * /controller/func/var
+      * /folder/controller
+      * /folder/controller/func
+      * /controller  
+      */
+      $segment_count = count($segments);
+      
+      // if it's less than 3 segments we 
+      // will naturally just look at all
+      // of them so we can just kick out
+      
+      $folder_count = 0;
+      $dir_check = APPPATH . '/controllers';
+      
+      for ($i = 0; $i < $segment_count; $i++)
+      {
+
+         $dir_check .= '/'.$segments[$i];
+
+         if (is_dir($dir_check) === TRUE) 
+         {
+            $folder_count++;
+         }
+      
+      }
+      
+      return $folder_count;
+
+   }
+
+   
+   // --------------------------------------------------------------------
+   
 	/**
 	 * Set the Route
 	 *
@@ -236,6 +291,45 @@ class CI_Router {
 	 */
 	function _set_request($segments = array())
 	{
+		// Check if you actually have any segments first
+		// and if you don't just go straight to the 
+		// default controller
+		if (count($segments) == 0)
+		{
+			return $this->_set_default_controller();
+		}			
+
+		// Lets check and see if you're using dashes instead of underscores
+		if ($this->config->item('use_dashes') === TRUE)
+		{
+			
+         $folder_count = $this->_get_folder_count($segments);
+         
+         //var_dump($folder_count);
+         $segment_count = count($segments);
+         //var_dump($segment_count);
+         
+         $segment_diff = $segment_count - $folder_count;
+         //var_dump($segment_diff);
+         $additional_segments = ($segment_diff > 2) ? 2 : $segment_diff;
+         
+         //var_dump($additional_segments);
+         $loop_length = $folder_count + $additional_segments;
+
+         //var_dump($loop_length);
+         //die();
+			for ($i=0; $i < $loop_length; $i++)
+			{
+			   
+				if (strpos($segments[$i], '_') !== FALSE)
+				{
+					show_404($segments);
+				}
+				
+				$segments[$i] = str_replace('-', '_', $segments[$i]);						
+			}	
+		}
+				
 		$segments = $this->_validate_request($segments);
 
 		if (count($segments) == 0)
