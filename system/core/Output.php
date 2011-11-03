@@ -182,6 +182,72 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Header
+	 *
+	 * Retrieve an individual header or an array of headers that have
+	 * already been sent via Output class or header() function.
+	 *
+	 * For an individual header, the value is returned. For an array
+	 * of headers, a key-value array is returned.
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	array|bool
+	 */
+	public function get_header($header = NULL)
+	{
+		$headers = array();
+
+		// Get headers that have already been sent
+		$sent_headers = headers_list();
+		if ( ! empty($sent_headers))
+		{
+			foreach ($sent_headers as $sent_header)
+			{
+				$header_array = explode(':', $sent_header);
+				$field = trim($header_array[0]);
+				$value = trim($header_array[1]);
+				$headers[$field] = $value;
+			}
+		}
+
+		// Get headers set via the Output class
+		$output_headers = $this->headers;
+		if ( ! empty($output_headers))
+		{
+			foreach ($output_headers as $output_header)
+			{
+				$header_array = explode(':', $output_header[0]);
+				$field = trim($header_array[0]);
+				$value = trim($header_array[1]);
+
+				// If the header has already been sent using the header()
+				// function, it cannot be replaced by the Output class
+
+				if ( ! isset($headers[$field]))
+				{
+					$headers[$field] = $value;
+				}
+			}
+		}
+
+		if ( ! empty($headers) AND empty($header))
+		{
+			return $headers;
+		}
+		elseif (isset($headers[$header]))
+		{
+			return $headers[$header];
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set Header
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
