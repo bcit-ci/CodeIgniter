@@ -221,10 +221,8 @@ class CI_Output {
 				$field = trim($header_array[0]);
 				$value = trim($header_array[1]);
 
-				// If the header has already been sent using the header()
-				// function, it cannot be replaced by the Output class
-
-				if ( ! isset($headers[$field]))
+				// Add new or replace existing when specified
+				if ( ! isset($headers[$field]) OR $output_header[1])
 				{
 					$headers[$field] = $value;
 				}
