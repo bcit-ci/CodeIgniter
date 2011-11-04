@@ -91,20 +91,41 @@ $config['url_suffix'] = '';
 |
 | This option allows you to use dashes instead of underscores in the url
 | so your URLs would look like this:
-| http://test.com/my-controller/my-function
+|
+| http://test.com/foo-controller/bar-function
+|
 | instead of this:
-| http://test.com/my_controller/my_function
-| variables are unaffected so setting this to TRUE does not mean you 
-| can't have a var with an underscore in it. 
+|
+| http://test.com/foo_controller/bar_function
+|
+| variables are unaffected so you're still able to do something like this
+| if it's necessary:
+|
+| http://test.com/foo-controller/bar-function/baz_var123
+|
 | This will really only look at folders, controllers and functions
 | 
-| NOTE: PHP does not support dashes as function names, so still use
-| underscores in your function name.  
+| NOTE: PHP does not support dashes as part of a function names, so still 
+| use underscores in your function name.  
 |
 | http://codeigniter.com/user_guide/general/urls.html
 */
 $config['use_dashes'] = TRUE;
 
+
+/*
+|--------------------------------------------------------------------------
+| Use Dashes Redirect
+|--------------------------------------------------------------------------
+|
+| Tells the system how to handle urls that have underscores in them if
+| you've turned use_dashes to true
+|
+| 301 - this will do a 301 redirect from the underscored url to the dashed one
+| 404 - will just deliver a 404 page not found error
+|
+*/
+$config['use_dashes_redirect'] = '301';
 
 /*
 |--------------------------------------------------------------------------

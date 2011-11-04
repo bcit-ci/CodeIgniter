@@ -32,6 +32,50 @@ The :doc:`URI Class <../libraries/uri>` and the :doc:`URL Helper <../helpers/url
 easy to work with your URI data. In addition, your URLs can be remapped
 using the :doc:`URI Routing <routing>` feature for more flexibility.
 
+Using dashes instead of underscores
+===================================
+
+The CodeIgniter coding convention for Controller and function names is to use
+underscores in between words::
+
+   class Foo_Bar_Controller {
+      
+      public function baz_function() { ... }
+   }
+   
+
+This translates into your urls as such::
+
+   http://example.com/foo_bar_controller/baz_function
+
+
+A lot of developers like to use dashes as separators between words in 
+their URLs.  If you like dashes better than underscores you can set the
+config variable use_dashes to TRUE::
+
+   $config['use_dashes'] = TRUE;
+   
+
+Now, controllers and functions that have underscores will be mapped to 
+URLs using dashes.  So the above example would now be::
+
+   http://example.com/foo-bar-controller/baz-function
+   
+
+Also, there are also two different ways to control what happens if someone
+types the wrong URL::
+
+   $config['use_dashes_redirect'] = '301|404';
+
+
+301 will perform a 301 redirect from all URLs that have underscores to URLs with dashes.
+
+404 throw a 404 error and redirect the user to your 404 error page.
+
+.. note:: this only effects functions and controllers, neither folders nor 
+   variables will be checked.
+
+
 Removing the index.php file
 ===========================
 

@@ -239,17 +239,6 @@ class CI_Router {
    function _get_folder_count($segments = array())
    {
    
-     /*
-      * Option's we're testing against here...
-      * /folder/folder/controller/function/var
-      * /folder/controller/funct/var
-      * /folder/folder/folder/controller/func
-      * /folder/folder/folder/folder/controller
-      * /controller/func/var
-      * /folder/controller
-      * /folder/controller/func
-      * /controller  
-      */
       $segment_count = count($segments);
       
       // if it's less than 3 segments we 
@@ -301,41 +290,51 @@ class CI_Router {
 
 		// Lets check and see if you're using dashes instead of underscores
 		if ($this->config->item('use_dashes') === TRUE)
-		{
-			
-         $folder_count = $this->_get_folder_count($segments);
+		{		   
+         $segment_temp = $segments;
+         $folder_count = $this->_get_folder_count($segment_temp); //1
+         		   
+		   for ($i = 0; $i < $folder_count; $i++)
+		   {
+		      unset($segment_temp[$i]);
+		   }
+		   		   
+         $loop_length = (count($segment_temp) > 2 ? 2 : count($segment_temp)) + $folder_count;
          
-         //var_dump($folder_count);
-         $segment_count = count($segments);
-         //var_dump($segment_count);
          
-         $segment_diff = $segment_count - $folder_count;
-         //var_dump($segment_diff);
-         $additional_segments = ($segment_diff > 2) ? 2 : $segment_diff;
+         $trigger_redirect = FALSE;
+         $full_uri = $_SERVER["REQUEST_URI"];
          
-         //var_dump($additional_segments);
-         $loop_length = $folder_count + $additional_segments;
+         for ($j = $folder_count; $j < $loop_length; $j++)
+         {
+            
+            if (strpos($segment_temp[$j], '_') !== FALSE)
+            {
+               if ($this->config->item('use_dashes_redirect') == '404')
+               {
+                  show_404($segments);
+               }
+               else if ($this->config->item('use_dashes_redirect') == '301')
+               {
+                  $trigger_redirect = TRUE;
 
-         //var_dump($loop_length);
-         //die();
-			for ($i=0; $i < $loop_length; $i++)
-			{
-			   
-				if (strpos($segments[$i], '_') !== FALSE)
-				{
-					show_404($segments);
-				}
-				
-				$segments[$i] = str_replace('-', '_', $segments[$i]);						
-			}	
+                  $replace = str_replace('_', '-', $segment_temp[$j]);
+
+                  $full_uri = str_replace($segment_temp[$j], $replace, $full_uri);
+               }               
+            }
+         
+            $segments[$j] = str_replace('-', '_', $segments[$j]);	
+         }
+         
+         if ($trigger_redirect === TRUE) 
+         {
+            header("Location: $full_uri", TRUE, 301);
+         }
+
 		}
 				
 		$segments = $this->_validate_request($segments);
-
-		if (count($segments) == 0)
-		{
-			return $this->_set_default_controller();
-		}
 
 		$this->set_class($segments[0]);
 
