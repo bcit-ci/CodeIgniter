@@ -151,7 +151,10 @@ $mobiles = array(
 					'spv'			=> "SPV",
 					'zte'			=> "ZTE",
 					'sendo'			=> "Sendo",
-
+					'dsi'                   => "Nintendo DSi",
+                                        'ds'                    => "Nintendo DS",
+                                        'wii'                   => "Nintendo Wii",
+                                        '3ds'                   => "Nintendo 3DS",
 // Operating Systems
 					'android'		=> "Android",
 					'symbian'		=> "Symbian",
