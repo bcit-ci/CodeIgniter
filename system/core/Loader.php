@@ -136,10 +136,10 @@ class CI_Loader {
 	public function __construct()
 	{
 		$this->_ci_ob_level  = ob_get_level();
-		$this->_ci_library_paths = array(APPPATH, BASEPATH);
-		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
-		$this->_ci_model_paths = array(APPPATH);
-		$this->_ci_view_paths = array(VIEWPATH	=> TRUE);
+		$this->_ci_library_paths = array(system_path('apppath'), system_path('basepath'));
+		$this->_ci_helper_paths = array(system_path('apppath'), system_path('basepath'));
+		$this->_ci_model_paths = array(system_path('apppath'));
+		$this->_ci_view_paths = array(system_path('viewpath') => TRUE);
 
 		log_message('debug', "Loader Class Initialized");
 	}
@@ -343,7 +343,7 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		require_once(BASEPATH.'database/DB.php');
+		require_once(system_path('basepath').'database/DB.php');
 
 		if ($return === TRUE)
 		{
@@ -378,8 +378,8 @@ class CI_Loader {
 		// this use is deprecated and strongly discouraged
 		$CI->load->dbforge();
 
-		require_once(BASEPATH.'database/DB_utility.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
+		require_once(system_path('basepath').'database/DB_utility.php');
+		require_once(system_path('basepath').'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
 		$CI->dbutil = new $class();
@@ -401,8 +401,8 @@ class CI_Loader {
 
 		$CI =& get_instance();
 
-		require_once(BASEPATH.'database/DB_forge.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
+		require_once(system_path('basepath').'database/DB_forge.php');
+		require_once(system_path('basepath').'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
 
 		$CI->dbforge = new $class();
@@ -511,12 +511,12 @@ class CI_Loader {
 				continue;
 			}
 
-			$ext_helper = APPPATH.'helpers/'.config_item('subclass_prefix').$helper.'.php';
+			$ext_helper = system_path('apppath').'helpers/'.config_item('subclass_prefix').$helper.'.php';
 
 			// Is this a helper extension request?
 			if (file_exists($ext_helper))
 			{
-				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
+				$base_helper = system_path('basepath').'helpers/'.$helper.'.php';
 
 				if ( ! file_exists($base_helper))
 				{
@@ -625,7 +625,7 @@ class CI_Loader {
 		if ( ! class_exists('CI_Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
+			require system_path('basepath').'libraries/Driver.php';
 		}
 
 		if ($library == '')
@@ -731,11 +731,11 @@ class CI_Loader {
 		}
 
 		// make sure the application default paths are still in the array
-		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(APPPATH)));
-		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
-		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH)));
+		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, array(system_path('apppath'), system_path('basepath'))));
+		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, array(system_path('apppath'), system_path('basepath'))));
+		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(system_path('apppath'))));
+		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(system_path('viewpath') => TRUE));
+		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(system_path('apppath'))));
 	}
 
 	// --------------------------------------------------------------------
@@ -910,12 +910,12 @@ class CI_Loader {
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
+			$subclass = system_path('apppath').'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
 
 			// Is this a class extension request?
 			if (file_exists($subclass))
 			{
-				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
+				$baseclass = system_path('basepath').'libraries/'.ucfirst($class).'.php';
 
 				if ( ! file_exists($baseclass))
 				{
@@ -1125,13 +1125,13 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+		if (defined('ENVIRONMENT') AND file_exists(system_path('apppath').'config/'.ENVIRONMENT.'/autoload.php'))
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+			include(system_path('apppath').'config/'.ENVIRONMENT.'/autoload.php');
 		}
 		else
 		{
-			include(APPPATH.'config/autoload.php');
+			include(system_path('apppath').'config/autoload.php');
 		}
 
 		if ( ! isset($autoload))

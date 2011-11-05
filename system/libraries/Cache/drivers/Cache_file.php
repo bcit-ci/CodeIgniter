@@ -51,7 +51,7 @@ class CI_Cache_file extends CI_Driver {
 		
 		$path = $CI->config->item('cache_path');
 	
-		$this->_cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$this->_cache_path = ($path == '') ? system_path('apppath').'cache/' : $path;
 	}
 
 	// ------------------------------------------------------------------------

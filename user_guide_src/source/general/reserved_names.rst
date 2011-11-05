@@ -28,6 +28,7 @@ Functions
 -  load_class()
 -  get_config()
 -  config_item()
+-  system_path()
 -  show_error()
 -  show_404()
 -  log_message()

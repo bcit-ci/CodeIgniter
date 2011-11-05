@@ -71,7 +71,7 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path == '' AND $this->_migration_path = APPPATH . 'migrations/';
+		$this->_migration_path == '' AND $this->_migration_path = system_path('apppath') . 'migrations/';
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';

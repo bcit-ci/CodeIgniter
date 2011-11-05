@@ -59,7 +59,7 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (defined('ENVIRONMENT') AND file_exists(system_path('apppath').'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
@@ -230,7 +230,7 @@
  *
  */
 	// Load the base controller class
-	require BASEPATH.'core/Controller.php';
+	require system_path('basepath').'core/Controller.php';
 
 	function &get_instance()
 	{
@@ -238,20 +238,20 @@
 	}
 
 
-	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
+	if (file_exists(system_path('apppath').'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
-		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+		require system_path('apppath').'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
 
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
+	if ( ! file_exists(system_path('apppath').'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
-	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+	include(system_path('apppath').'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -280,12 +280,12 @@
 			$method = (isset($x[1]) ? $x[1] : 'index');
 			if ( ! class_exists($class))
 			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				if ( ! file_exists(system_path('apppath').'controllers/'.$class.'.php'))
 				{
 					show_404("{$class}/{$method}");
 				}
 
-				include_once(APPPATH.'controllers/'.$class.'.php');
+				include_once(system_path('apppath').'controllers/'.$class.'.php');
 			}
 		}
 		else
@@ -342,12 +342,12 @@
 				$method = (isset($x[1]) ? $x[1] : 'index');
 				if ( ! class_exists($class))
 				{
-					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+					if ( ! file_exists(system_path('apppath').'controllers/'.$class.'.php'))
 					{
 						show_404("{$class}/{$method}");
 					}
 
-					include_once(APPPATH.'controllers/'.$class.'.php');
+					include_once(system_path('apppath').'controllers/'.$class.'.php');
 					unset($CI);
 					$CI = new $class();
 				}

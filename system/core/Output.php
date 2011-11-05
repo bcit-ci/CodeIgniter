@@ -106,13 +106,13 @@ class CI_Output {
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (defined('ENVIRONMENT') AND file_exists(system_path('apppath').'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+		    include system_path('apppath').'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
-			include APPPATH.'config/mimes.php';
+			include system_path('apppath').'config/mimes.php';
 		}
 
 
@@ -475,7 +475,7 @@ class CI_Output {
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
 
-		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$cache_path = ($path == '') ? system_path('apppath').'cache/' : $path;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
@@ -525,7 +525,7 @@ class CI_Output {
 	 */
 	function _display_cache(&$CFG, &$URI)
 	{
-		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		$cache_path = ($CFG->item('cache_path') == '') ? system_path('apppath').'cache/' : $CFG->item('cache_path');
 
 		// Build the file path.  The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').

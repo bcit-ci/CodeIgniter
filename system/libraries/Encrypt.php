@@ -536,7 +536,7 @@ class CI_Encrypt {
 		{
 			if ( ! function_exists('mhash'))
 			{
-				require_once(BASEPATH.'libraries/Sha1.php');
+				require_once(system_path('basepath').'libraries/Sha1.php');
 				$SH = new CI_SHA;
 				return $SH->generate($str);
 			}

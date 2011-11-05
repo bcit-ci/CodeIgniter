@@ -146,7 +146,7 @@ if ( ! function_exists('load_class'))
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
-		foreach (array(APPPATH, BASEPATH) as $path)
+		foreach (array(system_path('apppath'), system_path('basepath')) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
@@ -162,13 +162,13 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension?  If so we load it too
-		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
+		if (file_exists(system_path('apppath').$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
 
 			if (class_exists($name) === FALSE)
 			{
-				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
+				require(system_path('apppath').$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
 		}
 
@@ -212,6 +212,43 @@ if ( ! function_exists('is_loaded'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+/**
+* Keeps track of the various paths to system directories. Enables developers
+* to swap out paths to the application and view directories at runtime.
+*
+* @access	public
+* @return	mixed
+*/
+if ( ! function_exists('system_path'))
+{
+	function system_path($path = '', $new_path = '')
+	{
+		static $_system_paths = array(
+			'basepath' => BASEPATH,
+			'apppath' => APPPATH,
+			'viewpath' => VIEWPATH
+		);
+		
+		if ($path == '')
+		{
+			return $_system_paths;
+		}
+		else
+		{
+			if ($new_path == '')
+			{
+				return (isset($_system_paths[$path])) ? $_system_paths[$path] : $_system_paths;
+			}
+			else
+			{
+				$_system_paths[$path] = $new_path;
+			}
+		}
+	}
+}
+
 // ------------------------------------------------------------------------
 
 /**
@@ -235,9 +272,9 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = system_path('apppath').'config/'.ENVIRONMENT.'/config.php'))
 		{
-			$file_path = APPPATH.'config/config.php';
+			$file_path = system_path('apppath').'config/config.php';
 		}
 
 		// Fetch the config file

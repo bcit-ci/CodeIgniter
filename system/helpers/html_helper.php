@@ -275,13 +275,13 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($_doctypes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
+			if (defined('ENVIRONMENT') AND is_file(system_path('apppath').'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+				include(system_path('apppath').'config/'.ENVIRONMENT.'/doctypes.php');
 			}
-			elseif (is_file(APPPATH.'config/doctypes.php'))
+			elseif (is_file(system_path('apppath').'config/doctypes.php'))
 			{
-				include(APPPATH.'config/doctypes.php');
+				include(system_path('apppath').'config/doctypes.php');
 			}
 
 			if ( ! is_array($_doctypes))

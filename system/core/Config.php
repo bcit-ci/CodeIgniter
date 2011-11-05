@@ -57,7 +57,7 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	var $_config_paths = array(APPPATH);
+	var $_config_paths = array();
 
 	/**
 	 * Constructor
@@ -72,6 +72,7 @@ class CI_Config {
 	 */
 	function __construct()
 	{
+		$this->_config_paths = array(system_path('apppath'));
 		$this->config =& get_config();
 		log_message('debug', "Config Class Initialized");
 
@@ -341,7 +342,7 @@ class CI_Config {
 	 */
 	function system_url()
 	{
-		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", BASEPATH));
+		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", system_path('basepath')));
 		return $this->slash_item('base_url').end($x).'/';
 	}
 
