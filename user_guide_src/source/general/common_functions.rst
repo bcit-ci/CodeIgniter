@@ -51,6 +51,30 @@ accessing configuration information, however config_item() can be used
 to retrieve single keys. See Config library documentation for more
 information.
 
+system_path('path_name'), system_path('path_name', 'new_path')
+==============================================================
+
+Use system_path() to get a string of the path that you specify in the first
+parameter. These can be one of the following:
+
+- **basepath**, the path to the *system/* directory
+- **apppath**, the path to the *application/* directory
+- **viewpath**, the path to the *application/views/* directory
+
+Using this function instead of the older constants means that you can alter
+where the system is loading some of its core resources from at runtime. It
+also makes dynamically switching between application directories possible.
+
+You can not only use system_path() to retrieve the underlying paths, but
+change them too. Use the second parameter to specify a new path to change
+the path too.
+
+::
+
+  include system_path('apppath') . 'libraries/Secure_Controller.php';
+  
+  system_path('viewpath', system_path('basepath') . '../views');
+
 show_error('message'), show_404('page'), log_message('level', 'message')
 ========================================================================
 
