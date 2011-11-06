@@ -363,9 +363,10 @@ class CI_Loader {
 	/**
 	 * Load the Utilities Class
 	 *
-	 * @return	string
+	 * @param   mixed
+	 * @return  mixed
 	 */
-	public function dbutil()
+	public function dbutil($db = null)
 	{
 		if ( ! class_exists('CI_DB'))
 		{
@@ -373,6 +374,8 @@ class CI_Loader {
 		}
 
 		$CI =& get_instance();
+		
+		if ( ! is_null($db)) $CI->db = $this->_ci_get_driver($db);
 
 		// for backwards compatibility, load dbforge so we can extend dbutils off it
 		// this use is deprecated and strongly discouraged
@@ -382,6 +385,8 @@ class CI_Loader {
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
 
+		if ( ! is_null($db)) return new $class();
+
 		$CI->dbutil = new $class();
 	}
 
@@ -390,9 +395,10 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
-	 * @return	string
+	 * @param   mixed
+	 * @return  mixed
 	 */
-	public function dbforge()
+	public function dbforge($db = null)
 	{
 		if ( ! class_exists('CI_DB'))
 		{
@@ -400,10 +406,14 @@ class CI_Loader {
 		}
 
 		$CI =& get_instance();
+		
+		if ( ! is_null($db)) $CI->db = $this->_ci_get_driver($db);
 
 		require_once(BASEPATH.'database/DB_forge.php');
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
 		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+
+		if ( ! is_null($db)) return new $class();
 
 		$CI->dbforge = new $class();
 	}
@@ -1225,6 +1235,26 @@ class CI_Loader {
 	{
 		$CI =& get_instance();
 		return $CI->$component;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get database driver
+	 *
+	 * @param 	object
+	 * @return	object
+	 */
+	protected function _ci_get_driver($database)
+	{
+		$db_driver = get_class($database);
+
+		if (strpos($db_driver, 'CI_DB') !== 0) 
+		{
+			show_error('Invalid database driver: '.$db_driver);
+		}
+
+		return $database;
 	}
 
 	// --------------------------------------------------------------------
