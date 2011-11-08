@@ -284,23 +284,24 @@ redirect()
 ==========
 
 Does a "header redirect" to the URI specified. If you specify the full
-site URL that link will be build, but for local links simply providing
+site URL that link will be built, but for local links simply providing
 the URI segments to the controller you want to direct to will create the
 link. The function will build the URL based on your config file values.
 
-The optional second parameter allows you to choose between the
-"location" method (default) or the "refresh" method. Location is faster,
-but on Windows servers it can sometimes be a problem. The optional third
-parameter allows you to send a specific HTTP Response Code - this could
-be used for example to create 301 redirects for search engine purposes.
-The default Response Code is 302. The third parameter is *only*
-available with 'location' redirects, and not 'refresh'. Examples
+The optional second parameter allows you to force a particular redirection
+method. The available methods are "location" or "refresh", with location
+being faster but less reliable on Windows servers. The default is "auto",
+which will attempt to intelligently choose the method based on the server
+environment.
 
-::
+The optional third parameter allows you to send a specific HTTP Response
+Code - this could be used for example to create 301 redirects for search
+engine purposes. The default Response Code is 302. The third parameter is
+*only* available with 'location' redirects, and not 'refresh'. Examples::
 
 	if ($logged_in == FALSE)
 	{      
-		redirect('/login/form/', 'refresh');
+		redirect('/login/form/');
 	}
 
 	// with 301 redirect
