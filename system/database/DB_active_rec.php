@@ -348,11 +348,15 @@ class CI_DB_active_record extends CI_DB_driver {
 			$match[1] = $this->_protect_identifiers($match[1]);
 			$match[3] = $this->_protect_identifiers($match[3]);
 
-			$cond = $match[1].$match[2].$match[3];
+			$cond = ' ON '.$match[1].$match[2].$match[3];
+		}else{
+		// if cond is only one identifier
+			$cond = $this->_protect_identifiers($cond);
+			$cond = ' USING ('.$cond.')';
 		}
 
 		// Assemble the JOIN statement
-		$join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
+		$join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE).$cond;
 
 		$this->ar_join[] = $join;
 		if ($this->ar_caching === TRUE)
