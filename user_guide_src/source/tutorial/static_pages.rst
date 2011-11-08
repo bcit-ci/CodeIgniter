@@ -28,7 +28,7 @@ code.
     <?php 
     class Pages extends CI_Controller { 
 
-        public function view($page == 'home') 
+        public function view($page = 'home') 
         {
 	
         }
@@ -62,7 +62,7 @@ following code.
         </head>
         <body>
 
-            <h1>CodeIgniter 2 Tutorial<h1>
+            <h1>CodeIgniter 2 Tutorial</h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also
