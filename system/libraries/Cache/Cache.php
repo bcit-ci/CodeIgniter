@@ -177,6 +177,10 @@ class CI_Cache extends CI_Driver_Library {
 			{
 				$this->_backup_driver = $config['backup'];
 			}
+			
+			if(!$this->{$this->_adapter}->is_supported()) {
+				$this->_adapter = $this->_backup_driver;
+			}
 		}
 	}
 
