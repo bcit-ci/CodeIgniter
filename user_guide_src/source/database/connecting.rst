@@ -57,7 +57,19 @@ file.
 To connect manually to a desired database you can pass an array of
 values::
 
-	$config['hostname'] = "localhost"; $config['username'] = "myusername"; $config['password'] = "mypassword"; $config['database'] = "mydatabase"; $config['dbdriver'] = "mysql"; $config['dbprefix'] = ""; $config['pconnect'] = FALSE; $config['db_debug'] = TRUE; $config['cache_on'] = FALSE; $config['cachedir'] = ""; $config['char_set'] = "utf8"; $config['dbcollat'] = "utf8_general_ci";  $this->load->database($config);
+	$config['hostname'] = "localhost"; 
+	$config['username'] = "myusername"; 
+	$config['password'] = "mypassword"; 
+	$config['database'] = "mydatabase"; 
+	$config['dbdriver'] = "mysql"; 
+	$config['dbprefix'] = ""; 
+	$config['pconnect'] = FALSE; 
+	$config['db_debug'] = TRUE; 
+	$config['cache_on'] = FALSE; 
+	$config['cachedir'] = ""; 
+	$config['char_set'] = "utf8"; 
+	$config['dbcollat'] = "utf8_general_ci";  
+	$this->load->database($config);
 
 For information on each of these values please see the :doc:`configuration
 page <configuration>`.
@@ -68,14 +80,16 @@ page <configuration>`.
 Or you can submit your database values as a Data Source Name. DSNs must
 have this prototype::
 
-	$dsn = 'dbdriver://username:password@hostname/database';  $this->load->database($dsn);
+	$dsn = 'dbdriver://username:password@hostname/database';  
+	$this->load->database($dsn);
 
 To override default config values when connecting with a DSN string, add
 the config variables as a query string.
 
 ::
 
-	$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=/path/to/cache';  $this->load->database($dsn);
+	$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=/path/to/cache';  
+	$this->load->database($dsn);
 
 Connecting to Multiple Databases
 ================================
@@ -83,7 +97,8 @@ Connecting to Multiple Databases
 If you need to connect to more than one database simultaneously you can
 do so as follows::
 
-	$DB1 = $this->load->database('group_one', TRUE); $DB2 = $this->load->database('group_two', TRUE);
+	$DB1 = $this->load->database('group_one', TRUE); 
+	$DB2 = $this->load->database('group_two', TRUE);
 
 Note: Change the words "group_one" and "group_two" to the specific
 group names you are connecting to (or you can pass the connection values
