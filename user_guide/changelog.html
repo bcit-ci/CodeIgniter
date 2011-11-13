@@ -82,6 +82,7 @@ Change Log
 			<li>Typecast limit and offset in the <a href="database/queries.html">Database driver</a> to integers to avoid possible injection.</li>
 			<li>Added additional option 'none' for the optional third argument for <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database driver</a>.
 			</li>
+			<li>Added <kbd>$this->db->insert_batch()</kbd> support to the OCI8 (Oracle) driver.</li>
 		</ul>
 	</li>
 	<li>Libraries
@@ -90,7 +91,9 @@ Change Log
 			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 			<li>Added a <a href="libraries/migration.html">Migration library</a> to assist with applying incremental updates to your database schema.</li>
 			<li>Driver children can be located in any package path.</li>
+			<li>Added <samp>is_unique</samp> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
 			<li>Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.</li>
+			<li>Added TLS and SSL Encryption for SMTP.</li>
 		</ul>
 	</li>
 	<li>Core
