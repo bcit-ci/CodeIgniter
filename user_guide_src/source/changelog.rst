@@ -126,6 +126,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#60) - Added _file_mime_type() method to the :doc:`File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
+-  Fixed a bug (#501) - Form_validation::set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST).
 
 Version 2.0.3
 =============
