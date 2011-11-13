@@ -200,6 +200,7 @@ $mobiles = array(
 $robots = array(
 	'googlebot'		=> 'Googlebot',
 	'msnbot'		=> 'MSNBot',
+	'bingbot'		=> 'Bing',
 	'slurp'			=> 'Inktomi Slurp',
 	'yahoo'			=> 'Yahoo',
 	'askjeeves'		=> 'AskJeeves',
