@@ -22,16 +22,55 @@ Release Date: Not Released
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
+   -  Ability to log certain error types, not all under a threshold.
+   -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
+   -  Added support pgp and gpg to mimes.php.
+   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
+   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+
+-  Helpers
+
+   -  url_title() will now trim extra dashes from beginning and end.
+   -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
+
+-  Database
+
+   -  Added new :doc:`Active Record <database/active_record>` methods that return 
+      the SQL string of queries without executing them: get_compiled_select(), 
+      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+
+-  Libraries
+
+   -  Added max_filename_increment config setting for Upload library.
+   -  CI_Loader::_ci_autoloader() is now a protected method.
+   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
+
+-  Core
+
+   -  Changed private functions in CI_URI to protected so MY_URI can
+      override them.
+   -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+
+Bug fixes for 3.0
+------------------
+
+-  Unlink raised an error if cache file did not exist when you try to delete it.
+-  Fixed a bug (#181) where a mis-spelling was in the form validation
+   language file.
+
+
+Version 2.1.0
+=============
+
+Release Date: Not Released
+
+-  General Changes
+
    -  Callback validation rules can now accept parameters like any other
       validation rule.
-   -  Ability to log certain error types, not all under a threshold.
    -  Added html_escape() to :doc:`Common
       functions <general/common_functions>` to escape HTML output
       for preventing XSS.
-   -  Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.
-   -  Added support pgp,gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
 
 -  Helpers
 
@@ -42,7 +81,6 @@ Release Date: Not Released
       function call optional. Fixes (#65)
    -  url_title() will now trim extra dashes from beginning and end.
    -  Improved speed of :doc:`String Helper <helpers/string_helper>`'s random_string() method
-   -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
 
 -  Database
 
@@ -57,9 +95,6 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
-   -  Added new :doc:`Active Record <database/active_record>` methods that return 
-      the SQL string of queries without executing them: get_compiled_select(), 
-      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
 
 -  Libraries
 
@@ -69,14 +104,12 @@ Release Date: Not Released
    -  Added support to set an optional parameter in your callback rules
       of validation using the :doc:`Form Validation
       Library <libraries/form_validation>`.
-   -  Added a :doc:`Migration Library <libraries/migration>` to assist with applying
+   -  Added a :doc:`Migration library <libraries/migration>` to assist with applying
       incremental updates to your database schema.
    -  Driver children can be located in any package path.
    -  Added max_filename_increment config setting for Upload library.
-   -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added is_unique to the :doc:`Form Validation
       library <libraries/form_validation>`.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
 
@@ -86,10 +119,11 @@ Release Date: Not Released
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
 
+
 Bug fixes for 2.1.0
 -------------------
 
--  Unlink raised an error if cache file did not exist when you try to delete it.
+
 -  Fixed #378 Robots identified as regular browsers by the User Agent
    class.
 -  If a config class was loaded first then a library with the same name
@@ -100,21 +134,16 @@ Bug fixes for 2.1.0
    but the requested method did not.
 -  Fixed a bug (Reactor #89) where MySQL export would fail if the table
    had hyphens or other non alphanumeric/underscore characters.
--  Fixed a bug (#200) where MySQL queries would be malformed after
-   calling count_all() then db->get()
--  Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled
--  Fixed a bug (#181) where a mis-spelling was in the form validation
-   language file.
+-  Fixed a bug (#200) where MySQL queries would be malformed after calling $this->db->count_all() then $this->db->get()
+-  Fixed a bug (#105) that stopped query errors from being logged unless database debugging was enabled
 -  Fixed a bug (#160) - Removed unneeded array copy in the file cache
    driver.
 -  Fixed a bug (#150) - field_data() now correctly returns column
    length.
 -  Fixed a bug (#8) - load_class() now looks for core classes in
    APPPATH first, allowing them to be replaced.
--  Fixed a bug (#24) - ODBC database driver called incorrect parent in
-   __construct().
--  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did
-   not escape correct.
+-  Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().
+-  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did not escape correct.
 -  Fixed a bug (#344) - Using schema found in :doc:`Saving Session Data to a Database <libraries/sessions>`, system would throw error "user_data does not have a default value" when deleting then creating a session.
 -  Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.
 -  Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.
@@ -125,6 +154,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#60) - Added _file_mime_type() method to the :doc:`File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
+<li>Fixed invalid date time format in <a href="helpers/date_helper.html">Date helper</a> and <a href="libraries/xmlrpc.html">XMLRPC library</a>.</li>
 
 Version 2.0.3
 =============
