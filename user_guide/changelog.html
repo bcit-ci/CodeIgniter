@@ -77,25 +77,25 @@ Change Log
 	</li>
 	<li>Database
 		<ul>
-			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database Driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
-			<li>Added a <a href="http://www.php.net/manual/en/intro.pdo.php" target="_blank">PDO</a> driver to the <a href="libraries/database.html">Database Driver</a>.</li>
-			<li>Typecast limit and offset in the <a href="database/queries.html">Database Driver</a> to integers to avoid possible injection.</li>
-			<li>Added additional option 'none' for the optional third argument for <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database Driver</a>.
+			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
+			<li>Added a <a href="http://www.php.net/manual/en/intro.pdo.php" target="_blank">PDO</a> driver to the <a href="libraries/database.html">Database driver</a>.</li>
+			<li>Typecast limit and offset in the <a href="database/queries.html">Database driver</a> to integers to avoid possible injection.</li>
+			<li>Added additional option 'none' for the optional third argument for <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database driver</a>.
 			</li>
 		</ul>
 	</li>
 	<li>Libraries
 		<ul>
-			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
-			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
-			<li>Added a <a href="libraries/migration.html">Migration Library</a> to assist with applying incremental updates to your database schema.</li>
+			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
+			<li>Added a <a href="libraries/migration.html">Migration library</a> to assist with applying incremental updates to your database schema.</li>
 			<li>Driver children can be located in any package path.</li>
 			<li>Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.</li>
 		</ul>
 	</li>
 	<li>Core
 		<ul>
-			<li>Changed private functions in <a href="libraries/cart.html">URI Library</a> to protected so <kdb>MY_URI</kdb> can override them.</li>
+			<li>Changed private functions in <a href="libraries/cart.html">URI library</a> to protected so <kdb>MY_URI</kdb> can override them.</li>
 			<li>Removed <samp>CI_CORE</samp> boolean constant from CodeIgniter.php (there are no longer different Reactor and Core versions).</li>
 		</ul>
 	</li>
@@ -103,7 +103,7 @@ Change Log
 
 <h3>Bug fixes for 2.1.0</h3>
 <ul>
-	<li>Fixed #378 Robots identified as regular browsers by the User Agent class.</li>
+	<li>Fixed #378 Robots identified as regular browsers by the <a href="libraries/user_agent.html">User Agent class</a>.</li>
 	<li>If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
 	<li>Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
 	<li>Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
@@ -124,6 +124,7 @@ Change Log
 	<li>Fixed a bug (#60) - Added <kbd>_file_mime_type()</kbd> method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
 	<li>Fixed a bug (#537) - Support for all wav type in browser.</li>
 	<li>Fixed a bug (#576) - Using <kbd>ini_get()</kbd> function to detect if apc is enabled or not.</li>
+	<li>Fixed invalid date time format in <a href="helpers/date_helper.html">Date helper</a> and <a href="libraries/xmlrpc.html">XMLRPC library</a>.</li>
 </ul>
 
 <h2>Version 2.0.3</h2>
