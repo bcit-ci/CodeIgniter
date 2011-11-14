@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -73,11 +73,11 @@ Input Class
 <p>The security filtering function is called automatically when a new <a href="../general/controllers.html">controller</a> is invoked.  It does the following:</p>
 
 <ul>
-<li>Destroys the global GET array.  Since CodeIgniter does not utilize GET strings, there is no reason to allow it.</li>
+<li>If $config['allow_get_array'] is FALSE(default is TRUE), destroys the global GET array.</li>
 <li>Destroys all global variables in the event register_globals is turned on.</li>
-<li>Filters the POST/COOKIE array keys, permitting only alpha-numeric (and a few other) characters.</li>
+<li>Filters the GET/POST/COOKIE array keys, permitting only alpha-numeric (and a few other) characters.</li>
 <li>Provides XSS (Cross-site Scripting Hacks) filtering.  This can be enabled globally, or upon request.</li>
-<li>Standardizes newline characters to \n</li>
+<li>Standardizes newline characters to \n(In Windows \r\n)</li>
 </ul>
 
 
@@ -133,13 +133,13 @@ else<br />
 <code>$this->input->post('some_data', TRUE);</code>
 
 <p>To return an array of all POST items call without any parameters.</p>
-<p>To return all POST items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>To return all POST items and pass them through the XSS filter set the first parameter NULL while setting the second parameter to boolean;</p>
 <p>The function returns FALSE (boolean) if there are no items in the POST.</p>
 
 <code>
-	$this->input->post(); // returns all POST items with XSS filter
+	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 	<br />
-	$this->input->post(NULL, FALSE); // returns all POST items without XSS
+	$this->input->post(); // returns all POST items without XSS filter
 </code>
 
 <h2>$this->input->get()</h2>
@@ -149,13 +149,13 @@ else<br />
 <code>$this->input->get('some_data', TRUE);</code>
 
 <p>To return an array of all GET items call without any parameters.</p>
-<p>To return all GET items and pass them through the XSS filter leave the first parameter blank while setting the second parameter to boolean;</p>
+<p>To return all GET items and pass them through the XSS filter set the first parameter NULL while setting the second parameter to boolean;</p>
 <p>The function returns FALSE (boolean) if there are no items in the GET.</p>
 
 <code>
-	$this->input->get(); // returns all GET items with XSS filter
+	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 	<br />
-	$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
+	$this->input->get(); // returns all GET items without XSS filtering
 </code>
 
 <h2>$this->input->get_post()</h2>

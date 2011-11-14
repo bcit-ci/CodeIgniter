@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -57,7 +57,79 @@ Change Log
 
 <h1>Change Log</h1>
 
-<p>The <img src="images/reactor-bullet.png" width="16" height="16" alt="Reactor Marker" /> indicates items that were contributed to CodeIgniter via CodeIgniter Reactor.</p>
+<h2>Version 2.1.0</h2>
+<p>Release Date: November 14, 2011</p>
+
+<ul>
+	<li>General Changes
+		<ul>
+			<li>Fixed a potential parameter injection flaw in the <a href="libraries/security.html">Security Library</a> and strengthened the XSS filter for HTML5 vulnerabilites.</li>
+			<li>Callback validation rules can now accept parameters like any other validation rule.</li>
+			<li>Added html_escape() to the <a href="general/common_functions.html">Common functions</a> to escape HTML output for preventing XSS easliy.</li>
+		</ul>
+	</li>
+	<li>Helpers
+		<ul>
+			<li>Added <samp>increment_string()</samp> to <a href="helpers/string_helper.html">String Helper</a> to turn "foo" into "foo-1" or "foo-1" into "foo-2".</li>
+			<li>Altered form helper - made action on form_open_multipart helper function call optional. Fixes (#65)</li>
+			<li><samp>url_title()</samp> will now trim extra dashes from beginning and end.</li>
+			<li>Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method</li>
+		</ul>
+	</li>
+	<li>Database
+		<ul>
+			<li>Added a <a href="http://www.cubrid.org/" target="_blank">CUBRID</a> driver to the <a href="libraries/database.html">Database driver</a>. Thanks to the CUBRID team for supplying this patch.</li>
+			<li>Added a <a href="http://www.php.net/manual/en/intro.pdo.php" target="_blank">PDO</a> driver to the <a href="libraries/database.html">Database driver</a>.</li>
+			<li>Typecast limit and offset in the <a href="database/queries.html">Database driver</a> to integers to avoid possible injection.</li>
+			<li>Added additional option 'none' for the optional third argument for <kbd>$this->db->like()</kbd> in the <a href="database/active_record.html">Database driver</a>.
+			</li>
+			<li>Added <kbd>$this->db->insert_batch()</kbd> support to the OCI8 (Oracle) driver.</li>
+		</ul>
+	</li>
+	<li>Libraries
+		<ul>
+			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li>Added support to set an optional parameter in your callback rules of validation using the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
+			<li>Added a <a href="libraries/migration.html">Migration library</a> to assist with applying incremental updates to your database schema.</li>
+			<li>Driver children can be located in any package path.</li>
+			<li>Added <samp>is_unique</samp> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
+			<li>Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.</li>
+			<li>Added TLS and SSL Encryption for SMTP.</li>
+		</ul>
+	</li>
+	<li>Core
+		<ul>
+			<li>Changed private functions in <a href="libraries/cart.html">URI library</a> to protected so <kdb>MY_URI</kdb> can override them.</li>
+			<li>Removed <samp>CI_CORE</samp> boolean constant from CodeIgniter.php (there are no longer different Reactor and Core versions).</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for 2.1.0</h3>
+<ul>
+	<li>Fixed #378 Robots identified as regular browsers by the <a href="libraries/user_agent.html">User Agent class</a>.</li>
+	<li>If a config class was loaded first then a library with the same name is loaded, the config would be ignored.</li>
+	<li>Fixed a bug (Reactor #19) where 1) the 404_override route was being ignored in some cases, and 2) auto-loaded libraries were not available to the 404_override controller when a controller existed but the requested method did not.</li>
+	<li>Fixed a bug (Reactor #89) where MySQL export would fail if the table had hyphens or other non alphanumeric/underscore characters.</li>
+	<li>Fixed a bug (#200) where MySQL queries would be malformed after calling <kbd>$this->db->count_all()</kbd> then <kdb>$this->db->get()</kdb></li>
+	<li>Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled</li>
+	<li>Fixed a bug (#160) - Removed unneeded array copy in the file cache driver.</li>
+	<li>Fixed a bug (#150) - <samp>field_data()</samp> now correctly returns column length.</li>
+	<li>Fixed a bug (#8) - <samp>load_class()</samp> now looks for core classes in <samp>APPPATH</samp> first, allowing them to be replaced.</li>
+	<li>Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().</li>
+	<li>Fixed a bug (#85) - OCI8 (Oracle) database <kbd>escape_str()</kbd> function did not escape correct.</li>
+	<li>Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.</li>
+	<li>Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.</li>
+	<li>Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.</li>
+	<li>Fixed a bug (#82) - WHERE clause field names in the DB <kbd>update_string()</kbd> method were not escaped, resulting in failed queries in some cases.</li>
+	<li>Fixed a bug (#89) - Fix a variable type mismatch in DB <kbd>display_error()</kbd> where an array is expected, but a string could be set instead.</li>
+	<li>Fixed a bug (#467) - Suppress warnings generated from <kbd>get_magic_quotes_gpc()</kbd> (deprecated in PHP 5.4)</li>
+	<li>Fixed a bug (#484) - First time <kbd>_csrf_set_hash()</kbd> is called, hash is never set to the cookie (in Security.php).</li>
+	<li>Fixed a bug (#60) - Added <kbd>_file_mime_type()</kbd> method to the <a href="libraries/file_uploading.html">File Uploading Library</a> in order to fix a possible MIME-type injection (also fixes bug #394).</li>
+	<li>Fixed a bug (#537) - Support for all wav type in browser.</li>
+	<li>Fixed a bug (#576) - Using <kbd>ini_get()</kbd> function to detect if apc is enabled or not.</li>
+	<li>Fixed invalid date time format in <a href="helpers/date_helper.html">Date helper</a> and <a href="libraries/xmlrpc.html">XMLRPC library</a>.</li>
+</ul>
 
 <h2>Version 2.0.3</h2>
 <p>Release Date: August 20, 2011</p>
@@ -67,29 +139,32 @@ Change Log
 		<ul>
 			<li>An improvement was made to the MySQL and MySQLi drivers to prevent exposing a potential vector for SQL injection on sites using multi-byte character sets in the database client connection.  <p>An incompatibility in PHP versions &lt; 5.2.3 and MySQL &lt; 5.0.7 with <em>mysql_set_charset()</em> creates a situation where using multi-byte  character sets on these environments may potentially expose a SQL injection attack vector.  Latin-1, UTF-8, and other "low ASCII" character sets are unaffected on all environments.</p>  <p class="critical">If you are running or considering running a multi-byte character set for your database connection, please pay close attention to the server environment you are deploying on to ensure you are not vulnerable.</p></li>
 		</ul>
+	</li>
 	<li>General Changes
 		<ul>
 			<li>Fixed a bug where there was a misspelling within a code comment in the index.php file.</li>
 			<li>Added Session Class userdata to the output profiler.  Additionally, added a show/hide toggle on HTTP Headers, Session Data and Config Variables.</li>
 			<li>Removed internal usage of the <samp>EXT</samp> constant.</li>
 			<li>Visual updates to the welcome_message view file and default error templates. Thanks to <a href="https://bitbucket.org/danijelb">danijelb</a> for the pull request.</li>
-			<li class="reactor">Added <samp>insert_batch()</samp> function to the PostgreSQL database driver.  Thanks to epallerols for the patch.</li>
-			<li class="reactor">Added "application/x-csv" to mimes.php.</li>
+			<li>Added "application/x-csv" to mimes.php.</li>
 			<li>Fixed a bug where <a href="libraries/email.html">Email library</a> attachments with a "." in the name would using invalid MIME-types.</li>
+			<li>Callback validation rules can now accept parameters like any other validation rule.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
 			<li>Added an optional third parameter to <samp>heading()</samp> which allows adding html attributes to the rendered heading tag.</li>
+			<li><kbd>form_open()</kbd> now only adds a hidden (Cross-site Reference Forgery) protection field when the form's action is internal and is set to the post method. (Reactor #165)</li>
+			<li>Re-worked <samp>plural()</samp> and <samp>singular()</samp> functions in the <a href="helpers/inflector_helper.html">Inflector helper</a> to support considerably more words.</li>
 		</ul>
 	</li>
 	<li>Libraries
 		<ul>
 			<li>Altered Session to use a longer match against the user_agent string. See upgrade notes if using database sessions.</li>
-			<li class="reactor">Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
-			<li class="reactor">Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
-			<li class="reactor">Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
-			<li class="reactor">Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>
+			<li>Added <kbd>is_unique</kbd> to the <a href="libraries/form_validation.html">Form Validation library</a>.</li>
+			<li>Added <kbd>$this->db->set_dbprefix()</kbd> to the <a href="database/queries.html">Database Driver</a>.</li>
+			<li>Changed <kbd>$this->cart->insert()</kbd> in the <a href="libraries/cart.html">Cart Library</a> to return the Row ID if a single item was inserted successfully.</li>
+			<li>Added <kbd>$this->load->get_var()</kbd> to the <a href="libraries/loader.html">Loader library</a> to retrieve global vars set with <kbd>$this->load->view()</kbd> and <kbd>$this->load->vars()</kbd>.</li>
 			<li>Changed <kbd>$this->db->having()</kbd> to insert quotes using escape() rather than escape_str().</li>
 		</ul>
 	</li>
@@ -97,17 +172,17 @@ Change Log
 
 <h3>Bug fixes for 2.0.3</h3>
 <ul>
-	<li class="reactor">Added ENVIRONMENT to reserved constants. (Reactor #196)</li>
-	<li class="reactor">Changed server check to ensure SCRIPT_NAME is defined. (Reactor #57)</li>
-	<li class="reactor">Removed <samp>APPPATH.'third_party'</samp> from the packages autoloader to negate needless file stats if no packages exist or if the developer does not load any other packages by default.</li>
+	<li>Added ENVIRONMENT to reserved constants. (Reactor #196)</li>
+	<li>Changed server check to ensure SCRIPT_NAME is defined. (Reactor #57)</li>
+	<li>Removed <samp>APPPATH.'third_party'</samp> from the packages autoloader to negate needless file stats if no packages exist or if the developer does not load any other packages by default.</li>
 	<li>Fixed a bug (Reactor #231) where Sessions Library database table example SQL did not contain an index on last_activity. See <a href="installation/upgrade_203.html">Upgrade Notes</a>.</li>
 	<li>Fixed a bug (Reactor #229) where the Sessions Library example SQL in the documentation contained incorrect SQL.</li>
 	<li>Fixed a bug (Core #340) where when passing in the second parameter to $this->db->select(), column names in subsequent queries would not be properly escaped.</li>
-	<li class="reactor">Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
-	<li class="reactor">Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
-	<li class="reactor">Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
-	<li class="reactor">Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
-	<li class="reactor">Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
+	<li>Fixed issue #199 - Attributes passed as string does not include a space between it and the opening tag.</li>
+	<li>Fixed a bug where the method <kbd>$this->cart->total_items()</kbd> from <a href="libraries/cart.html">Cart Library</a> now returns the sum of the quantity of all items in the cart instead of your total count.</li>
+	<li>Fixed a bug where not setting 'null' when adding fields in db_forge for mysql and mysqli drivers would default to NULL instead of NOT NULL as the docs suggest.</li>
+	<li>Fixed a bug where using <kbd>$this->db->select_max()</kdb>, <kbd>$this->db->select_min()</kdb>, etc could throw notices. Thanks to w43l for the patch.</li>
+	<li>Replace checks for STDIN with php_sapi_name() == 'cli' which on the whole is more reliable. This should get parameters in crontab working.</li>
 </ul>
 
 <h2>Version 2.0.2</h2>
@@ -119,36 +194,36 @@ Hg Tag: v2.0.2</p>
 		<ul>
 			<li>The <a href="./libraries/security.html">Security library</a> was moved to the core and is now loaded automatically. Please remove your loading calls.</li>
 			<li>The CI_SHA class is now deprecated. All supported versions of PHP provide a <kbd>sha1()</kbd> function.</li>
-			<li class="reactor"><kbd>constants.php</kbd> will now be loaded from the environment folder if available.</li>
-			<li class="reactor">Added language key error logging</li>
-			<li class="reactor">Made Environment Support optional. Comment out or delete the constant to stop environment checks.</li>
-			<li class="reactor">Added Environment Support for Hooks.</li>
-			<li class="reactor">Added CI_ Prefix to the <a href="libraries/caching.html">Cache driver</a>.</li>
-			<li class="reactor">Added <a href="./general/cli.html">CLI usage</a> documentation.</li>
+			<li><kbd>constants.php</kbd> will now be loaded from the environment folder if available.</li>
+			<li>Added language key error logging</li>
+			<li>Made Environment Support optional. Comment out or delete the constant to stop environment checks.</li>
+			<li>Added Environment Support for Hooks.</li>
+			<li>Added CI_ Prefix to the <a href="libraries/caching.html">Cache driver</a>.</li>
+			<li>Added <a href="./general/cli.html">CLI usage</a> documentation.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
 			<li>Removed the previously deprecated <kbd>dohash()</kbd> from the <a href="./helpers/security_helper.html">Security helper</a>; use <kbd>do_hash()</kbd> instead.</li>
-			<li class="reactor">Changed the 'plural' function so that it doesn't ruin the captalization of your string. It also take into consideration acronyms which are all caps.</li>
+			<li>Changed the 'plural' function so that it doesn't ruin the captalization of your string. It also take into consideration acronyms which are all caps.</li>
 		</ul>
 	</li>
 	<li>Database
 		<ul>
-			<li class="reactor"><kbd>$this->db->count_all_results()</kbd> will now return an integer instead of a string.</li>
+			<li><kbd>$this->db->count_all_results()</kbd> will now return an integer instead of a string.</li>
 		</ul>
 	</li>
 </ul>
 
 <h3>Bug fixes for 2.0.2</h3>
 <ul>
-	<li class="reactor">Fixed a bug (Reactor #145) where the Output Library had parse_exec_vars set to protected.</li>
-	<li class="reactor">Fixed a bug (Reactor #80) where is_really_writable would create an empty file when on Windows or with safe_mode enabled.</li>
-	<li class="reactor">Fixed various bugs with User Guide.</li>
-	<li class="reactor">Added is_cli_request() method to documentation for <a href="libraries/input.html">Input class</a>.</li>
-	<li class="reactor">Added form_validation_lang entries for <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd>.</li>
-	<li class="reactor"><a href="https://bitbucket.org/ellislab/codeigniter-reactor/issue/153/escape-str-bug-in-mssql-driver">Fixed issue #153</a> Escape Str Bug in MSSQL driver.</li>
-	<li class="reactor"><a href="https://bitbucket.org/ellislab/codeigniter-reactor/issue/172/bug-in-chrome-and-form_open-in-201">Fixed issue #172</a> Google Chrome 11 posts incorrectly when action is empty.</li>
+	<li>Fixed a bug (Reactor #145) where the Output Library had parse_exec_vars set to protected.</li>
+	<li>Fixed a bug (Reactor #80) where is_really_writable would create an empty file when on Windows or with safe_mode enabled.</li>
+	<li>Fixed various bugs with User Guide.</li>
+	<li>Added is_cli_request() method to documentation for <a href="libraries/input.html">Input class</a>.</li>
+	<li>Added form_validation_lang entries for <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd>.</li>
+	<li><a href="https://bitbucket.org/ellislab/codeigniter-reactor/issue/153/escape-str-bug-in-mssql-driver">Fixed issue #153</a> Escape Str Bug in MSSQL driver.</li>
+	<li><a href="https://bitbucket.org/ellislab/codeigniter-reactor/issue/172/bug-in-chrome-and-form_open-in-201">Fixed issue #172</a> Google Chrome 11 posts incorrectly when action is empty.</li>
 
 </ul>
 
@@ -160,34 +235,34 @@ Hg Tag: v2.0.1</p>
 	<li>General changes
 		<ul>
 			<li>Added <kbd>$config['cookie_secure']</kbd> to the config file to allow requiring a secure (HTTPS) in order to set cookies.</li>
-			<li class="reactor">Added the constant <kbd>CI_CORE</kbd> to help differentiate between Core: TRUE and Reactor: FALSE.</li>
-			<li class="reactor">Added an <kbd>ENVIRONMENT</kbd> constant in index.php, which affects PHP error reporting settings, and optionally,
+			<li>Added the constant <kbd>CI_CORE</kbd> to help differentiate between Core: TRUE and Reactor: FALSE.</li>
+			<li>Added an <kbd>ENVIRONMENT</kbd> constant in index.php, which affects PHP error reporting settings, and optionally,
                 which configuration files are loaded (see below). Read more on the <a href="general/environments.html">Handling Environments</a> page.</li>
-			<li class="reactor">Added support for <a href="libraries/config.html#environments">environment-specific</a> configuration files.</li>
+			<li>Added support for <a href="libraries/config.html#environments">environment-specific</a> configuration files.</li>
 		</ul>
 	</li>
 	<li>Libraries
 		<ul>
-			<li class="reactor">Added <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd> rules to the <a href="libraries/form_validation.html">Form validation Class</a>.</li>
-			<li class="reactor"><a href="libraries/input.html">Input Class</a> methods <kbd>post()</kbd> and <kbd>get()</kbd> will now return a full array if the first argument is not provided.</li>
-			<li class="reactor">Secure cookies can now be made with the <kbd>set_cookie()</kbd> helper and <a href="libraries/input.html">Input Class</a> method.</li>
-			<li class="reactor">Added <kbd>set_content_type()</kbd> to <a href="libraries/output.html">Output Class</a> to set the output <kbd>Content-Type</kbd> HTTP header based on a MIME Type or a config/mimes.php array key.</li>
-			<li class="reactor"><a href="libraries/output.html">Output Class</a> will now support method chaining.</li>
+			<li>Added <kbd>decimal</kbd>, <kbd>less_than</kbd> and <kbd>greater_than</kbd> rules to the <a href="libraries/form_validation.html">Form validation Class</a>.</li>
+			<li><a href="libraries/input.html">Input Class</a> methods <kbd>post()</kbd> and <kbd>get()</kbd> will now return a full array if the first argument is not provided.</li>
+			<li>Secure cookies can now be made with the <kbd>set_cookie()</kbd> helper and <a href="libraries/input.html">Input Class</a> method.</li>
+			<li>Added <kbd>set_content_type()</kbd> to <a href="libraries/output.html">Output Class</a> to set the output <kbd>Content-Type</kbd> HTTP header based on a MIME Type or a config/mimes.php array key.</li>
+			<li><a href="libraries/output.html">Output Class</a> will now support method chaining.</li>
 		</ul>
 	</li>
 	<li>Helpers
 		<ul>
-			<li class="reactor">Changed the logic for <kbd>form_open()</kbd> in <a href="helpers/form_helper.html">Form helper</a>. If no value is passed it will submit to the current URL.</li>
+			<li>Changed the logic for <kbd>form_open()</kbd> in <a href="helpers/form_helper.html">Form helper</a>. If no value is passed it will submit to the current URL.</li>
 		</ul>
 	</li>
 </ul>
 
 <h3>Bug fixes for 2.0.1</h3>
 <ul>
-	<li class="reactor">CLI requests can now be run from any folder, not just when CD'ed next to index.php.</li>
-	<li class="reactor">Fixed issue #41: Added audio/mp3 mime type to mp3.</li>
-	<li class="reactor">Fixed a bug (Core #329) where the file caching driver referenced the incorrect cache directory.</li>
-	<li class="reactor">Fixed a bug (Reactor #69) where the SHA1 library was named incorrectly.</li>
+	<li>CLI requests can now be run from any folder, not just when CD'ed next to index.php.</li>
+	<li>Fixed issue #41: Added audio/mp3 mime type to mp3.</li>
+	<li>Fixed a bug (Core #329) where the file caching driver referenced the incorrect cache directory.</li>
+	<li>Fixed a bug (Reactor #69) where the SHA1 library was named incorrectly.</li>
 </ul>
 
 <h2>Version 2.0.0</h2>
@@ -201,7 +276,7 @@ Hg Tag: v2.0.0</p>
 			<li>Scaffolding, having been deprecated for a number of versions, has been removed.</li>
 			<li>Plugins have been removed, in favor of Helpers.  The CAPTCHA plugin has been converted to a Helper and <a href="./helpers/captcha_helper.html">documented</a>.  The JavaScript calendar plugin was removed due to the ready availability of great JavaScript calendars, particularly with jQuery.</li>
 			<li>Added new special Library type: <a href="./general/drivers.html">Drivers</a>.</li>
-			<li class="reactor">Added full query-string support.  See the config file for details.</li>
+			<li>Added full query-string support.  See the config file for details.</li>
 			<li>Moved the application folder outside of the system folder.</li>
 			<li>Moved system/cache and system/logs directories to the application directory.</li>
 			<li>Added routing overrides to the main index.php file, enabling the normal routing to be overridden on a per "index" file basis.</li>
@@ -211,15 +286,15 @@ Hg Tag: v2.0.0</p>
 			<li>In-development code is now hosted at <a href="http://bitbucket.org/ellislab/codeigniter-reactor/">BitBucket</a>.</li>
 			<li>Removed the deprecated Validation Class.</li>
 			<li>Added CI_ Prefix to all core classes.</li>
-			<li class="reactor">Package paths can now be set in application/config/autoload.php.</li>
-			<li class="reactor"><a href="libraries/file_uploading.html">Upload library</a> file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
-			<li class="reactor">In <a href="database/forge.html">Database Forge</a> the name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
-			<li class="reactor"><kbd>$config['base_url']</kbd> is now empty by default and will guess what it should be.</li>
-			<li class="reactor">Enabled full Command Line Interface compatibility with <kbd>config['uri_protocol'] = 'CLI';</kbd>.</li>
+			<li>Package paths can now be set in application/config/autoload.php.</li>
+			<li><a href="libraries/file_uploading.html">Upload library</a> file_name can now be set without an extension, the extension will be taken from the uploaded file instead of the given name.</li>
+			<li>In <a href="database/forge.html">Database Forge</a> the name can be omitted from $this->dbforge->modify_column()'s 2nd param if you aren't changing the name.</li>
+			<li><kbd>$config['base_url']</kbd> is now empty by default and will guess what it should be.</li>
+			<li>Enabled full Command Line Interface compatibility with <kbd>config['uri_protocol'] = 'CLI';</kbd>.</li>
 		</ul>
 	<li>Libraries
 		<ul>
-			<li class="reactor">Added a <a href="libraries/caching.html">Cache driver</a> with APC, memcached, and file-based support.</li>
+			<li>Added a <a href="libraries/caching.html">Cache driver</a> with APC, memcached, and file-based support.</li>
 			<li>Added <var>$prefix</var>, <var>$suffix</var> and <var>$first_url</var> properties to <a href="./libraries/pagination.html">Pagination library</a>.</li>
 			<li>Added the ability to suppress first, previous, next, last, and page links by setting their values to FALSE in the <a href="./libraries/pagination.html">Pagination library</a>.</li>
 			<li>Added <a href="./libraries/security.html">Security library</a>, which now contains the <dfn>xss_clean</dfn> function, <dfn>filename_security</dfn> function and other security related functions.</li>
@@ -250,8 +325,8 @@ Hg Tag: v2.0.0</p>
 			<li>Altered Form_Validation library to allow for method chaining on <kbd>set_rules()</kbd>, <kbd>set_message()</kbd> and <kbd>set_error_delimiters()</kbd> functions.</li>
 			<li>Altered Email Library to allow for method chaining.</li>
 			<li>Added <kbd>request_headers()</kbd>, <kbd>get_request_header()</kbd> and <kbd>is_ajax_request()</kbd> to the input class.</li>
-			<li class="reactor">Altered <a href="libraries/user_agent.html">User agent library</a> so that <kbd>is_browser()</kbd>, <kbd>is_mobile()</kbd> and <kbd>is_robot()</kbd> can optionally check for a specific browser or mobile device.</li>
-			<li class="reactor">Altered <a href="libraries/input.html">Input library</a> so that <kbd>post()</kbd> and <kbd>get()</kbd> will return all POST and GET items (respectively) if there are no parameters passed in.</li>
+			<li>Altered <a href="libraries/user_agent.html">User agent library</a> so that <kbd>is_browser()</kbd>, <kbd>is_mobile()</kbd> and <kbd>is_robot()</kbd> can optionally check for a specific browser or mobile device.</li>
+			<li>Altered <a href="libraries/input.html">Input library</a> so that <kbd>post()</kbd> and <kbd>get()</kbd> will return all POST and GET items (respectively) if there are no parameters passed in.</li>
 		</ul>
 	</li>
 	<li>Database
@@ -313,7 +388,7 @@ Hg Tag: v2.0.0</p>
 
 <h3>Bug fixes for 2.0.0</h3>
 <ul>
-	<li class="reactor">Fixed a bug where you could not change the User-Agent when sending email.</li>
+	<li>Fixed a bug where you could not change the User-Agent when sending email.</li>
 	<li>Fixed a bug where the Output class would send incorrect cached output for controllers implementing their own <dfn>_output()</dfn> method.</li>
 	<li>Fixed a bug where a failed query would not have a saved query execution time causing errors in the Profiler</li>
 	<li>Fixed a bug that was writing log entries when multiple identical helpers and plugins were loaded.</li>

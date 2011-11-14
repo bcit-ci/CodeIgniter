@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -132,8 +132,8 @@ for the primary connection, but it too can be renamed to something more relevant
 <li><strong>cache_on</strong> - TRUE/FALSE (boolean) - Whether database query caching is enabled, see also <a href="caching.html">Database Caching Class</a>.</li>
 <li><strong>cachedir</strong> - The absolute server path to your database query cache directory.</li>
 <li><strong>char_set</strong> - The character set used in communicating with the database.</li>
-<li><strong>dbcollat</strong> - The character collation used in communicating with the database. <p class="important"><strong>Note:</strong> For MySQL and MySQLi databases, this setting is only used as a backup if your server is running PHP &lt; 5.2.3 or MySQL &lt; 5.0.7.  There is an incompatibility in PHP with mysql_real_escape_string() which can make your site vulnerable to SQL injection if you are using a multi-byte character set and are running versions lower than these.  Sites using Latin-1 or UTF-8 database character set and collation are unaffected.</p></li>
-<li><strong>swap_pre</strong> - A default table prefix that should be swapped with <var>dbprefix</var>.  This is useful for distributed applications where you might run manually written queries, and need the prefix to still be customizable by the end user.</li>
+<li><strong>dbcollat</strong> - The character collation used in communicating with the database. <p class="important"><strong>Note:</strong> For MySQL and MySQLi databases, this setting is only used as a backup if your server is running PHP &lt; 5.2.3 or MySQL &lt; 5.0.7 (and in table creation queries made with DB Forge). There is an incompatibility in PHP with mysql_real_escape_string() which can make your site vulnerable to SQL injection if you are using a multi-byte character set and are running versions lower than these. Sites using Latin-1 or UTF-8 database character set and collation are unaffected.</p></li>
+<li><strong>swap_pre</strong> - A default table prefix that should be swapped with <var>dbprefix</var>. This is useful for distributed applications where you might run manually written queries, and need the prefix to still be customizable by the end user.</li>
 <li><strong>autoinit</strong> - Whether or not to automatically connect to the database when the library loads. If set to false, the connection will take place prior to executing the first query.</li>
 <li><strong>stricton</strong> - TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL while developing an application.</li>
 <li><strong>port</strong> - The database port number.  To use this value you have to add a line to the database config array.<code>$db['default']['port'] =  5432;</code>

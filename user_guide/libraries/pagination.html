@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -119,7 +119,11 @@ something different you can specify it.</p>
 
 <p>The number of &quot;digit&quot; links you would like before and after the selected page number. For example, the number 2
 	will place two digits on either side, as in the example links at the very top of this page.</p>
-<h4>$config['page_query_string'] = TRUE</h4>
+
+<h4>$config['use_page_numbers'] = TRUE;</h4>
+<p>By default, the URI segment will use the starting index for the items you are paginating. If you prefer to show the the actual page number, set this to TRUE.</p>
+
+<h4>$config['page_query_string'] = TRUE;</h4>
 <p>By default, the pagination library assume you are using <a href="../general/urls.html">URI Segments</a>, and constructs your links something like</p>
 <p><code>http://example.com/index.php/test/page/20</code></p>
 <p>If you have $config['enable_query_strings']  set to TRUE your links will automatically be re-written using Query Strings. This option can also be explictly set. Using $config['page_query_string'] set to TRUE, the pagination link will become.</p>

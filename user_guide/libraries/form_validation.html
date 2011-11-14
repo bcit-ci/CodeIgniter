@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -390,10 +390,10 @@ $this->form_validation->set_rules($config);
 <p>CodeIgniter lets you pipe multiple rules together.  Let's try it. Change your rules in the third parameter of rule setting function, like this:</p>
 
 <code>
-$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]');<br />
+$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');<br />
 $this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');<br />
 $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');<br />
-$this->form_validation->set_rules('email', 'Email', 'required|valid_email');<br />
+$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');<br />
 </code>
 
 <p>The above code sets the following rules:</p>
@@ -508,15 +508,13 @@ create a callback function that does that.  Let's create a example of this.</p>
 
 <code>$this->form_validation->set_rules('username', 'Username', '<kbd>callback_username_check</kbd>');</code>
 
-
 <p>Then add a new function called <dfn>username_check</dfn> to your controller.  Here's how your controller should now look:</p>
 
-
-<textarea class="textarea" style="width:100%" cols="50" rows="44">&lt;?php
+<textarea class="textarea" style="width:100%" cols="50" rows="40">&lt;?php
 
 class Form extends CI_Controller {
 
-	function index()
+	public function index()
 	{
 		$this->load->helper(array('form', 'url'));
 
@@ -525,7 +523,7 @@ class Form extends CI_Controller {
 		$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -537,7 +535,7 @@ class Form extends CI_Controller {
 		}
 	}
 
-	function username_check($str)
+	public function username_check($str)
 	{
 		if ($str == 'test')
 		{
@@ -556,13 +554,12 @@ class Form extends CI_Controller {
 <p><dfn>Reload your form and submit it with the word "test" as the username.  You can see that the form field data was passed to your
 callback function for you to process.</dfn></p>
 
-<p><strong>To invoke a callback just put the function name in a rule, with "callback_" as the rule prefix.</strong></p>
+<p>To invoke a callback just put the function name in a rule, with "callback_" as the rule <strong>prefix</strong>. If you need
+to receive an extra parameter in your callback function, just add it normally after the function name between square brackets,
+as in: "callback_foo<strong>[bar]</strong>", then it will be passed as the second argument of your callback function.</p>
 
-<p>You can also process the form data that is passed to your callback and return it.  If your callback returns anything other than a boolean TRUE/FALSE
+<p><strong>Note:</strong> You can also process the form data that is passed to your callback and return it.  If your callback returns anything other than a boolean TRUE/FALSE
 it is assumed that the data is your newly processed form data.</p>
-
-
-
 
 <a name="settingerrors"></a>
 <h2>Setting Error Messages</h2>
@@ -944,6 +941,13 @@ POST array:</p>
 		<td class="td">Yes</td>
 		<td class="td">Returns FALSE if the form element does not match the one in the parameter.</td>
 		<td class="td">matches[form_item]</td>
+	</tr>
+
+	<tr>
+		<td class="td"><strong>is_unique</strong></td>
+		<td class="td">Yes</td>
+		<td class="td">Returns FALSE if the form element is not unique to the table and field name in the parameter.</td>
+		<td class="td">is_unique[table.field]</td>
 	</tr>
 
 	<tr>

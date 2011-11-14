@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -74,7 +74,7 @@ and deleted.  The FTP class also includes a "mirroring" function that permits an
 <h2>Usage Examples</h2>
 
 <p>In this example a connection is opened to the FTP server, and a local file is read and uploaded in ASCII mode. The
-file permissions are set to 755.  Note: Setting permissions requires PHP 5.</p>
+file permissions are set to 755.</p>
 
 <code>
 $this->load->library('ftp');<br />
@@ -185,8 +185,7 @@ Example:</p>
 <p><strong>Mode options are:</strong>&nbsp; <kbd>ascii</kbd>, <kbd>binary</kbd>, and <kbd>auto</kbd> (the default). If
 <kbd>auto</kbd> is used it will base the mode on the file extension of the source file.</p>
 
-<p>Permissions are available if you are running PHP 5 and can be passed as an <kbd>octal</kbd> value in the fourth parameter.</p>
-
+<p>Permissions can be passed as an <kbd>octal</kbd> value in the fourth parameter.</p>
 
 <h2>$this->ftp->download()</h2>
 
@@ -267,7 +266,7 @@ $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
 <h2>$this->ftp->mkdir()</h2>
 
 <p>Lets you create a directory on your server.  Supply the path ending in the folder name you wish to create, with a trailing slash.
-Permissions can be set by passed an <kbd>octal</kbd> value in the second parameter (if you are running PHP 5).</p>
+Permissions can be set by passed an <kbd>octal</kbd> value in the second parameter.</p>
 
 <code>
 // Creates a folder named "bar"<br />

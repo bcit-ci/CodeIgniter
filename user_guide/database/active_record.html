@@ -27,7 +27,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.0.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -334,6 +334,13 @@ $this->db->or_where('id >', $id);
 	$this-&gt;db-&gt;like('title', 'match', 'both'); <br />
 // Produces: WHERE title LIKE '%match%' </code>	</li>
 
+If you do not want to use the wildcard (%) you can pass to the optional third argument the option 'none'.
+
+<code>
+	$this-&gt;db-&gt;like('title', 'match', 'none'); <br />
+// Produces: WHERE title LIKE 'match'
+</code>
+
 	<li><strong>Associative array method:</strong>
 
 	<code>
@@ -539,7 +546,7 @@ $data = array(<br/>
 &nbsp;&nbsp;&nbsp;)<br/>
 );<br />
 <br />
-$this->db->update_batch('mytable', $data);
+$this->db->insert_batch('mytable', $data);
 <br /><br />
 // Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date'),  ('Another title', 'Another name', 'Another date')</code>
 
@@ -661,6 +668,41 @@ You can optionally pass this information directly into the update function as a 
 <code>$this->db->update('mytable', $data, array('id' => $id));</code>
 
 <p>You may also use the <dfn>$this->db->set()</dfn> function described above when performing updates.</p>
+
+<h2>$this->db->update_batch();</h2>
+<p>Generates an update string based on the data you supply, and runs the query. You can either pass an
+<strong>array</strong> or an <strong>object</strong> to the function.  Here is an example using an array:</p>
+
+<code>
+$data = array(<br/>
+&nbsp;&nbsp;&nbsp;array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title' => 'My title' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name' => 'My Name 2' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'date' => 'My date 2'<br />
+&nbsp;&nbsp;&nbsp;),<br />
+&nbsp;&nbsp;&nbsp;array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title' => 'Another title' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name' => 'Another Name 2' ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'date' => 'Another date 2'<br />
+&nbsp;&nbsp;&nbsp;)<br/>
+);<br />
+<br />
+$this->db->update_batch('mytable', $data, 'title');
+<br /><br />
+// Produces: <br />
+// UPDATE `mytable` SET `name` = CASE<br />
+// WHEN `title` = 'My title' THEN 'My Name 2'<br />
+// WHEN `title` = 'Another title' THEN 'Another Name 2'<br />
+// ELSE `name` END,<br />
+// `date` = CASE <br />
+// WHEN `title` = 'My title' THEN 'My date 2'<br />
+// WHEN `title` = 'Another title' THEN 'Another date 2'<br />
+// ELSE `date` END<br />
+// WHERE `title` IN ('My title','Another title')</code>
+
+<p>The first parameter will contain the table name, the second is an associative array of values, the third parameter is the where key.</p>
+
+<p class="important"><strong>Note:</strong> All values are escaped automatically producing safer queries.</p>
 
 
 <a name="delete">&nbsp;</a>

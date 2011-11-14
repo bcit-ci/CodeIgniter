@@ -54,6 +54,9 @@ class CI_DB_mysql_driver extends CI_DB {
 	var $_count_string = 'SELECT COUNT(*) AS ';
 	var $_random_keyword = ' RAND()'; // database specific random keyword
 
+	// whether SET NAMES must be used to set the character set
+	var $use_set_names;
+	
 	/**
 	 * Non-persistent database connection
 	 *
@@ -132,15 +135,13 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		static $use_set_names;
-		
-		if ( ! isset($use_set_names))
+		if ( ! isset($this->use_set_names))
 		{
 			// mysql_set_charset() requires PHP >= 5.2.3 and MySQL >= 5.0.7, use SET NAMES as fallback
-			$use_set_names = (version_compare(PHP_VERSION, '5.2.3', '>=') && version_compare(mysql_get_server_info(), '5.0.7', '>=')) ? FALSE : TRUE;
+			$this->use_set_names = (version_compare(PHP_VERSION, '5.2.3', '>=') && version_compare(mysql_get_server_info(), '5.0.7', '>=')) ? FALSE : TRUE;
 		}
 
-		if ($use_set_names)
+		if ($this->use_set_names === TRUE)
 		{
 			return @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
 		}
@@ -384,6 +385,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		$row = $query->row();
+		$this->_reset_select();
 		return (int) $row->numrows;
 	}
 
@@ -439,7 +441,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return "DESCRIBE ".$table;
 	}
 
 	// --------------------------------------------------------------------
