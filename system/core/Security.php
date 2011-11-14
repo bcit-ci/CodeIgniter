@@ -77,7 +77,8 @@ class CI_Security {
 					'-moz-binding'		=> '[removed]',
 					'<!--'				=> '&lt;!--',
 					'-->'				=> '--&gt;',
-					'<![CDATA['			=> '&lt;![CDATA['
+					'<![CDATA['			=> '&lt;![CDATA[',
+					'<comment>'			=> '&lt;comment&gt;'
 	);
 
 	/* never allowed, regex replacement */
@@ -475,15 +476,7 @@ class CI_Security {
 	{
 		if ($this->_xss_hash == '')
 		{
-			if (phpversion() >= 4.2)
-			{
-				mt_srand();
-			}
-			else
-			{
-				mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-			}
-
+			mt_srand();
 			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
 		}
 
@@ -497,14 +490,11 @@ class CI_Security {
 	 *
 	 * This function is a replacement for html_entity_decode()
 	 *
-	 * In some versions of PHP the native function does not work
-	 * when UTF-8 is the specified character set, so this gives us
-	 * a work-around.  More info here:
-	 * http://bugs.php.net/bug.php?id=25670
-	 *
-	 * NOTE: html_entity_decode() has a bug in some PHP versions when UTF-8 is the
-	 * character set, and the PHP developers said they were not back porting the
-	 * fix to versions other than PHP 5.x.
+	 * The reason we are not using html_entity_decode() by itself is because
+	 * while it is not technically correct to leave out the semicolon
+	 * at the end of an entity most browsers will still interpret the entity
+	 * correctly.  html_entity_decode() does not convert entities without
+	 * semicolons, so we are left with our own little solution here. Bummer.
 	 *
 	 * @param	string
 	 * @param	string
@@ -512,33 +502,14 @@ class CI_Security {
 	 */
 	public function entity_decode($str, $charset='UTF-8')
 	{
-		if (stristr($str, '&') === FALSE) return $str;
-
-		// The reason we are not using html_entity_decode() by itself is because
-		// while it is not technically correct to leave out the semicolon
-		// at the end of an entity most browsers will still interpret the entity
-		// correctly.  html_entity_decode() does not convert entities without
-		// semicolons, so we are left with our own little solution here. Bummer.
-
-		if (function_exists('html_entity_decode') &&
-			(strtolower($charset) != 'utf-8'))
-		{
-			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
-			return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
-		}
-
-		// Numeric Entities
-		$str = preg_replace('~&#x(0*[0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
-		$str = preg_replace('~&#([0-9]{2,4});{0,1}~e', 'chr(\\1)', $str);
-
-		// Literal Entities - Slightly slow so we do another check
 		if (stristr($str, '&') === FALSE)
 		{
-			$str = strtr($str, array_flip(get_html_translation_table(HTML_ENTITIES)));
+			return $str;
 		}
 
-		return $str;
+		$str = html_entity_decode($str, ENT_COMPAT, $charset);
+		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
+		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -632,25 +603,45 @@ class CI_Security {
 	protected function _remove_evil_attributes($str, $is_image)
 	{
 		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns');
+		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
 			/*
-			 * Adobe Photoshop puts XML metadata into JFIF images,
+			 * Adobe Photoshop puts XML metadata into JFIF images, 
 			 * including namespacing, so we have to allow this for images.
 			 */
 			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
 		}
-
+		
 		do {
-			$str = preg_replace(
-				"#<(/?[^><]+?)([^A-Za-z\-])(".implode('|', $evil_attributes).")(\s*=\s*)([\"][^>]*?[\"]|[\'][^>]*?[\']|[^>]*?)([\s><])([><]*)#i",
-				"<$1$6",
-				$str, -1, $count
-			);
-		} while ($count);
+			$count = 0;
+			$attribs = array();
+			
+			// find occurrences of illegal attribute strings without quotes
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*([^\s]*)/is",  $str, $matches, PREG_SET_ORDER);
+			
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+			
+			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is",  $str, $matches, PREG_SET_ORDER);
 
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+
+			// replace illegal attribute strings that are inside an html tag
+			if (count($attribs) > 0)
+			{
+				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z\-])(".implode('|', $attribs).")([\s><])([><]*)/i", '<$1$2$4$5', $str, -1, $count);
+			}
+			
+		} while ($count);
+		
 		return $str;
 	}
 
