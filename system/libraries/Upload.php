@@ -960,13 +960,13 @@ class CI_Upload {
 
 		if (count($this->mimes) == 0)
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') AND is_file(system_path('apppath').'config/'.ENVIRONMENT.'/mimes.php'))
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+				include(system_path('apppath').'config/'.ENVIRONMENT.'/mimes.php');
 			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
+			elseif (is_file(system_path('apppath').'config/mimes.php'))
 			{
-				include(APPPATH.'config//mimes.php');
+				include(system_path('apppath').'config//mimes.php');
 			}
 			else
 			{

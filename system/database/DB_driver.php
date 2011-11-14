@@ -439,8 +439,8 @@ class CI_DB_driver {
 
 		if ( ! class_exists($driver))
 		{
-			include_once(BASEPATH.'database/DB_result.php');
-			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
+			include_once(system_path('basepath').'database/DB_result.php');
+			include_once(system_path('basepath').'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
 		}
 
 		return $driver;
@@ -1131,7 +1131,7 @@ class CI_DB_driver {
 
 		if ( ! class_exists('CI_DB_Cache'))
 		{
-			if ( ! @include(BASEPATH.'database/DB_cache.php'))
+			if ( ! @include(system_path('basepath').'database/DB_cache.php'))
 			{
 				return $this->cache_off();
 			}
@@ -1193,10 +1193,10 @@ class CI_DB_driver {
 
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
+			if (isset($call['file']) && strpos($call['file'], system_path('basepath').'database') === FALSE)
 			{
 				// Found it - use a relative path for safety
-				$message[] = 'Filename: '.str_replace(array(BASEPATH, APPPATH), '', $call['file']);
+				$message[] = 'Filename: '.str_replace(array(system_path('basepath'), system_path('apppath')), '', $call['file']);
 				$message[] = 'Line Number: '.$call['line'];
 
 				break;
