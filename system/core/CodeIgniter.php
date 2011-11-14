@@ -33,12 +33,6 @@
  * @var string
  *
  */
-	/**
-	 * CodeIgniter Version
-	 *
-	 * @var string
-	 *
-	 */
 	define('CI_VERSION', '2.1.0');
 
 /**
@@ -47,12 +41,6 @@
  * @var boolean
  *
  */
-	/**
-	 * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
-	 *
-	 * @var string
-	 *
-	 */
 	define('CI_CORE', FALSE);
 
 /*
