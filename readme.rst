@@ -132,17 +132,17 @@ your development area. That sounds like some jargon, but "forking" on GitHub
 means "making a copy of that repo to your account" and "cloning" means
 "copying that code to your environment so you can work on it".
 
-# Set up Git (Windows, Mac & Linux)
-# Go to the CodeIgniter repo
-# Fork it
-# Clone your CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git
-# Checkout the "develop" branch At this point you are ready to start making
+* Set up Git (Windows, Mac & Linux)
+* Go to the CodeIgniter repo
+* Fork it
+* Clone your CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git
+* Checkout the "develop" branch At this point you are ready to start making
   changes. 
-# Fix existing bugs on the Issue tracker after taking a look to see nobody
+* Fix existing bugs on the Issue tracker after taking a look to see nobody
   else is working on them.
-# Commit the files
-# Push your develop branch to your fork
-# Send a pull request http://help.github.com/send-pull-requests/
+* Commit the files
+* Push your develop branch to your fork
+* Send a pull request http://help.github.com/send-pull-requests/
 
 The Reactor Engineers will now be alerted about the change and at least one of
 the team will respond. If your change fails to meet the guidelines it will be
@@ -163,9 +163,9 @@ own.
 
 If you are using command-line you can do the following:
 
-# git remote add codeigniter git://github.com/EllisLab/CodeIgniter.git
-# git pull codeigniter develop
-# git push origin develop
+* git remote add codeigniter git://github.com/EllisLab/CodeIgniter.git
+* git pull codeigniter develop
+* git push origin develop
 
 Now your fork is up to date. This should be done regularly, or before you send
 a pull request at least.
