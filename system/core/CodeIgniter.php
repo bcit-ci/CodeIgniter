@@ -27,17 +27,19 @@
  * @link		http://codeigniter.com/user_guide/
  */
 
-/*
- * ------------------------------------------------------
- *  Define the CodeIgniter Version
- * ------------------------------------------------------
+/**
+ * CodeIgniter Version
+ *
+ * @var string
+ *
  */
-	define('CI_VERSION', '2.0.3');
+	define('CI_VERSION', '2.1.0');
 
-/*
- * ------------------------------------------------------
- *  Define the CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
- * ------------------------------------------------------
+/**
+ * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
+ *
+ * @var boolean
+ *
  */
 	define('CI_CORE', FALSE);
 
@@ -267,7 +269,25 @@
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
 	{
-		show_404("{$class}/{$method}");
+		if ( ! empty($RTR->routes['404_override']))
+		{
+			$x = explode('/', $RTR->routes['404_override']);
+			$class = $x[0];
+			$method = (isset($x[1]) ? $x[1] : 'index');
+			if ( ! class_exists($class))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404("{$class}/{$method}");
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+		}
+		else
+		{
+			show_404("{$class}/{$method}");
+		}
 	}
 
 /*

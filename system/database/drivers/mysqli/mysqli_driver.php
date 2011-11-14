@@ -54,6 +54,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	var $delete_hack = TRUE;
 
+	// whether SET NAMES must be used to set the character set
+	var $use_set_names;
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -132,15 +135,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _db_set_charset($charset, $collation)
 	{
-		static $use_set_names;
-		
-		if ( ! isset($use_set_names))
+		if ( ! isset($this->use_set_names))
 		{
 			// mysqli_set_charset() requires MySQL >= 5.0.7, use SET NAMES as fallback
-			$use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
+			$this->use_set_names = (version_compare(mysqli_get_server_info($this->conn_id), '5.0.7', '>=')) ? FALSE : TRUE;
 		}
 
-		if ($use_set_names)
+		if ($this->use_set_names === TRUE)
 		{
 			return @mysqli_query($this->conn_id, "SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'");
 		}
@@ -385,6 +386,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 
 		$row = $query->row();
+		$this->_reset_select();
 		return (int) $row->numrows;
 	}
 
@@ -440,7 +442,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return "DESCRIBE ".$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -567,6 +569,25 @@ class CI_DB_mysqli_driver extends CI_DB {
 	function _insert_batch($table, $keys, $values)
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
+	}
+
+	// --------------------------------------------------------------------
+
+
+	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	function _replace($table, $keys, $values)
+	{
+		return "REPLACE INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 	
 	// --------------------------------------------------------------------
