@@ -57,6 +57,20 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
+	
+	
+	/**
+	 *  Similar method kohana framework find_file
+	 */
+	function __autoload($class)
+	{
+	
+		if ( ! file_exists( APPPATH . 'libraries/'.strtolower($class).EXT))
+		{
+			return false;
+		}
+		require_once  APPPATH . 'libraries/'.strtolower($class).EXT;
+	}
 }
 // END Controller class
 
