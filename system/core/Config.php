@@ -78,16 +78,17 @@ class CI_Config {
 		// Set the base_url automatically if none was provided
 		if ($this->config['base_url'] == '')
 		{
+			$server_port = (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] != 80) ? ':' . $_SERVER['SERVER_PORT'] : '';
 			if (isset($_SERVER['HTTP_HOST']))
 			{
 				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-				$base_url .= '://'. $_SERVER['HTTP_HOST'];
+				$base_url .= '://'. $_SERVER['HTTP_HOST'] . $server_port;
 				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
 
 			else
 			{
-				$base_url = 'http://localhost/';
+				$base_url = 'http://localhost' . $server_port . '/';
 			}
 
 			$this->set_item('base_url', $base_url);
