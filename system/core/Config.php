@@ -88,7 +88,7 @@ class CI_Config {
 
 			else
 			{
-				$base_url = "http://localhost$server_port/";
+				$base_url = 'http://localhost' . $server_port . '/';
 			}
 
 			$this->set_item('base_url', $base_url);
