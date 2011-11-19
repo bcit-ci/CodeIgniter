@@ -495,6 +495,20 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Variables
+	 *
+	 * Retrieve all loaded variables
+	 *
+	 * @return	array
+	 */
+	public function get_vars()
+	{
+		return $this->_ci_cached_vars;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Load Helper
 	 *
 	 * This function loads the specified helper file.
