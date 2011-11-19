@@ -1193,7 +1193,7 @@ class CI_Loader {
 
 		if (isset($autoload['drivers']))
 		{
-			foreach($autoload['drivers'] as $driver)
+			foreach ($autoload['drivers'] as $driver)
 			{
 				$this->driver($driver);
 			}
