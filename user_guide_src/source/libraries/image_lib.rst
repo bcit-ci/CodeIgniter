@@ -360,7 +360,7 @@ Preference              Default Value       Options                 Description
                                                                     image headers.
 **quality**             90%                 1 - 100%                Sets the quality of the image. The higher the quality the larger the
                                                                     file size.
-**padding**             None                A number                The amount of padding, set in pixels, that will be applied to the
+**wm_padding**          None                A number                The amount of padding, set in pixels, that will be applied to the
                                                                     watermark to set it away from the edge of your images.
 **wm_vrt_alignment**    bottom              top, middle, bottom     Sets the vertical alignment for the watermark image.
 **wm_hor_alignment**    center              left, center, right     Sets the horizontal alignment for the watermark image.
