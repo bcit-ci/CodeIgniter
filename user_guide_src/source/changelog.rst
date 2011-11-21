@@ -154,7 +154,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#60) - Added _file_mime_type() method to the :doc:`File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
-<li>Fixed invalid date time format in <a href="helpers/date_helper.html">Date helper</a> and <a href="libraries/xmlrpc.html">XMLRPC library</a>.</li>
+-  Fixed invalid date time format in :doc:`Date helper <helpers/date_helper>` and :doc:`XMLRPC library <libraries/xmlrpc>`.
 
 Version 2.0.3
 =============
