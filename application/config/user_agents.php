@@ -174,6 +174,7 @@ $mobiles = array(
 	'mobilexplorer'	=> "Mobile Explorer",
 	'operamini'		=> "Opera Mini",
 	'opera mini'	=> "Opera Mini",
+	'opera mobi'	=> "Opera Mini",
 
 	// Other
 	'digital paths'	=> "Digital Paths",
