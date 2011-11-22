@@ -27,6 +27,7 @@ Release Date: Not Released
    -  Added support pgp and gpg to mimes.php.
    -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Fixed support for docx, xlsx files to mimes.php.
 
 -  Helpers
 
@@ -35,8 +36,8 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return 
-      the SQL string of queries without executing them: get_compiled_select(), 
+   -  Added new :doc:`Active Record <database/active_record>` methods that return
+      the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
 
 -  Libraries
@@ -57,6 +58,7 @@ Bug fixes for 3.0
 -  Unlink raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
+-  A wrong array key was used in de Upload library to check for mime-types.
 
 
 Version 2.1.0
