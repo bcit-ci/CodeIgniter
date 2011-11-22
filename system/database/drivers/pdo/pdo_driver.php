@@ -255,7 +255,11 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
+<<<<<<< HEAD
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+=======
+		$this->_trans_failure = (bool) ($test_mode === TRUE);
+>>>>>>> master
 
 		return $this->conn_id->beginTransaction();
 	}
