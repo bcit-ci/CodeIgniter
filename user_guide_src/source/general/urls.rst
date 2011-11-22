@@ -50,7 +50,7 @@ method in which everything is redirected except the specified items:
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^(.*)$ /index.php/$1 [L]
 
-In the above example, any HTTP request other than those for index.php, existing
+In the above example, any HTTP request other than those for existing
 directories and existing files is treated as a request for your index.php file.
 
 Adding a URL Suffix
