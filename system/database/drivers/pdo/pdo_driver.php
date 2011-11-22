@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com
  * @since		Version 2.1.0
  * @filesource
@@ -25,10 +25,9 @@
  * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-
 class CI_DB_pdo_driver extends CI_DB {
 
 	var $dbdriver = 'pdo';
@@ -37,7 +36,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_escape_char = '';
 	var $_like_escape_str;
 	var $_like_escape_chr;
-
+	
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -52,13 +51,13 @@ class CI_DB_pdo_driver extends CI_DB {
 	function __construct($params)
 	{
 		parent::__construct($params);
-
+		
 		// clause and character used for LIKE escape sequences
 		if (strpos($this->hostname, 'mysql') !== FALSE)
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
-
+			
 			//Prior to this version, the charset can't be set in the dsn
 			if(is_php('5.3.6'))
 			{
@@ -80,6 +79,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		
 		$this->hostname .= ";dbname=".$this->database;
+		
 		$this->trans_enabled = FALSE;
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
@@ -190,7 +190,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->query($sql);
-
+		
 		if (is_object($result_id))
 		{
 			$this->affect_rows = $result_id->rowCount();
@@ -199,7 +199,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->affect_rows = 0;
 		}
-
+		
 		return $result_id;
 	}
 
@@ -319,16 +319,16 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return $str;
 		}
-
+		
 		//Escape the string
 		$str = $this->conn_id->quote($str);
-
+		
 		//If there are duplicated quotes, trim them away
 		if (strpos($str, "'") === 0)
 		{
 			$str = substr($str, 1, -1);
 		}
-
+		
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
@@ -530,7 +530,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		if (strpos($item, '.') !== FALSE)
 		{
 			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-
+			
 		}
 		else
 		{
@@ -580,7 +580,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -633,7 +633,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		return $sql;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -775,7 +775,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			{
 				$sql .= " OFFSET ".$offset;
 			}
-
+			
 			return $sql;
 		}
 	}
