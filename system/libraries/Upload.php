@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -1069,7 +1069,7 @@ class CI_Upload {
 		if (DIRECTORY_SEPARATOR !== '\\' && function_exists('exec'))
 		{
 			$output = array();
-			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_path']), $output, $return_code);
+			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_name']), $output, $return_code);
 			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
 			{
 				$this->file_type = rtrim($output[0]);
