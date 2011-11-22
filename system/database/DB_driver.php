@@ -522,6 +522,7 @@ class CI_DB_driver {
 		}
 
 		$this->trans_begin($test_mode);
+		$this->_trans_depth += 1;
 	}
 
 	// --------------------------------------------------------------------
@@ -544,6 +545,10 @@ class CI_DB_driver {
 		{
 			$this->_trans_depth -= 1;
 			return TRUE;
+		}
+		else
+		{
+			$this->_trans_depth = 0;
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
