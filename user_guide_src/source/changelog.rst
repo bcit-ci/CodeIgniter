@@ -57,6 +57,7 @@ Bug fixes for 3.0
 -  Unlink raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
+-  Bug #419 - auto_link() now recognizes URLs that come after a word boundary.
 
 
 Version 2.1.0
