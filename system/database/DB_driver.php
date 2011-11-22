@@ -514,14 +514,13 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+    // When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth === 0)
 		{
-			$this->_trans_depth += 1;
-			return;
+      $this->trans_begin($test_mode);
 		}
 
-		$this->trans_begin($test_mode);
+    $this->_trans_depth += 1;
 	}
 
 	// --------------------------------------------------------------------
@@ -539,10 +538,11 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 1)
+		$this->_trans_depth -= 1;
+
+    // When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
 		{
-			$this->_trans_depth -= 1;
 			return TRUE;
 		}
 
