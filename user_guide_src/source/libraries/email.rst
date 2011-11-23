@@ -228,7 +228,7 @@ use the function multiple times. For example::
 	$this->email->attach('/path/to/photo2.jpg');
 	$this->email->attach('/path/to/photo3.jpg');
 
-If you'd like to change the disposition or add a custom file name, use the second and third paramaters. Leaving the second parameter blank will default to attachment::
+If you'd like to change the disposition or add a custom file name, you can use the second and third paramaters. To use the default disposition (attachment), leave the second parameter blank. Here's an example::
   
 	$this->email->attach('/path/to/photo1.jpg', 'inline');
 	$this->email->attach('/path/to/photo1.jpg', '', 'birthday.jpg');
