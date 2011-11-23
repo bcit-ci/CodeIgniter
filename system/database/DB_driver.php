@@ -1403,9 +1403,9 @@ class CI_DB_driver {
 		return $item.$alias;
 	}
 
-        // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
     
-        /**
+    /**
 	 * Dummy method that allows Active Record class to be disabled
 	 *
 	 * This function is used extensively by every db driver.
@@ -1413,10 +1413,10 @@ class CI_DB_driver {
 	 * @access	private
 	 * @return	void
 	 */
-        protected function _reset_select()
-        {
-
-        }
+    protected function _reset_select()
+    {
+        
+    }
 
 }
 
