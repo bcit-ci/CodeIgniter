@@ -418,8 +418,10 @@ class CI_Email {
 	 * @param	string
 	 * @return	void
 	 */
-	public function attach($filename, $disposition = 'attachment', $newname = NULL)
+	public function attach($filename, $disposition = '', $newname = NULL)
 	{
+		if(empty($disposition))
+			$disposition = 'attachment';
 		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
@@ -1152,7 +1154,7 @@ class CI_Email {
 		for ($i=0; $i < count($this->_attach_name); $i++)
 		{
 			$filename = $this->_attach_name[$i][0];
-			$basename = is_null($this->_attach_name[$i][1]) ? basename($filename) : $this->_attach_name[$i][1];
+			$basename = ( is_null($this->_attach_name[$i][1]) ? basename($filename) : $this->_attach_name[$i][1] );
 				
 			$ctype = $this->_attach_type[$i];
 
