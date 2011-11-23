@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/email.html
  */
-class CI_Email {
+class CI_Email{
 
 	var	$useragent		= "CodeIgniter";
 	var	$mailpath		= "/usr/sbin/sendmail";	// Sendmail path
@@ -418,9 +418,9 @@ class CI_Email {
 	 * @param	string
 	 * @return	void
 	 */
-	public function attach($filename, $disposition = 'attachment')
+	public function attach($filepath, $filename=NULL, $disposition = 'attachment')
 	{
-		$this->_attach_name[] = $filename;
+		$this->_attach_name[] = array($filepath, $filename);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
 		return $this;
@@ -1151,13 +1151,19 @@ class CI_Email {
 
 		for ($i=0; $i < count($this->_attach_name); $i++)
 		{
-			$filename = $this->_attach_name[$i];
-			$basename = basename($filename);
+			$filepath = $this->_attach_name[$i][0];
+			$basename = $this->_attach_name[$i][1];
+			
+			if( ! $basename)
+			{
+				$basename = basename($filename);
+			}
+				
 			$ctype = $this->_attach_type[$i];
 
-			if ( ! file_exists($filename))
+			if ( ! file_exists($filepath))
 			{
-				$this->_set_error_message('lang:email_attachment_missing', $filename);
+				$this->_set_error_message('lang:email_attachment_missing', $filepath);
 				return FALSE;
 			}
 
@@ -1168,11 +1174,11 @@ class CI_Email {
 			$h .= "Content-Transfer-Encoding: base64".$this->newline;
 
 			$attachment[$z++] = $h;
-			$file = filesize($filename) +1;
+			$file = filesize($filepath) +1;
 
-			if ( ! $fp = fopen($filename, FOPEN_READ))
+			if ( ! $fp = fopen($filepath, FOPEN_READ))
 			{
-				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
+				$this->_set_error_message('lang:email_attachment_unreadable', $filepath);
 				return FALSE;
 			}
 
