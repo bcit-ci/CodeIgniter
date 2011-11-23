@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/email.html
  */
-class CI_Email{
+class CI_Email {
 
 	var	$useragent		= "CodeIgniter";
 	var	$mailpath		= "/usr/sbin/sendmail";	// Sendmail path
