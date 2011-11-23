@@ -1156,7 +1156,7 @@ class CI_Email{
 			
 			if( ! $basename)
 			{
-				$basename = basename($filename);
+				$basename = basename($filepath);
 			}
 				
 			$ctype = $this->_attach_type[$i];
