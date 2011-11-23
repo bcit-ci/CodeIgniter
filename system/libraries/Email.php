@@ -418,7 +418,7 @@ class CI_Email{
 	 * @param	string
 	 * @return	void
 	 */
-	public function attach($filename, $newname=NULL, $disposition = 'attachment')
+	public function attach($filename, $disposition = 'attachment', $newname=NULL)
 	{
 		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
