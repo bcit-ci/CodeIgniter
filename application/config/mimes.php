@@ -160,8 +160,6 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'ac3'   =>	'audio/ac3',
 				'flac'  =>	'audio/x-flac',
 				'ogg'   =>	'audio/ogg',
-                'kml'   =>  'application/vnd.google-earth.kml+xml',
-                'kmz'   =>  'application/vnd.google-earth.kmz'
 			);
 
 
