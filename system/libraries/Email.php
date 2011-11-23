@@ -1692,12 +1692,7 @@ class CI_Email {
 	 */
 	protected function _smtp_connect()
 	{
-		$ssl = NULL;
-
-		if ($this->smtp_crypto == 'ssl')
-		{
-			$ssl = 'ssl://';
-		}
+		$ssl = ($this->smtp_crypto == 'ssl') ? 'ssl://' : NULL;
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 										$this->smtp_port,
@@ -1717,6 +1712,7 @@ class CI_Email {
 		{
 			$this->_send_command('hello');
 			$this->_send_command('starttls');
+
 			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 
 			if ($crypto !== TRUE)
