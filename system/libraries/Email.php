@@ -418,9 +418,9 @@ class CI_Email{
 	 * @param	string
 	 * @return	void
 	 */
-	public function attach($filepath, $filename=NULL, $disposition = 'attachment')
+	public function attach($filename, $newname=NULL, $disposition = 'attachment')
 	{
-		$this->_attach_name[] = array($filepath, $filename);
+		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
 		return $this;
