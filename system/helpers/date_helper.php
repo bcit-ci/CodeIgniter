@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/date_helper.html
  */
 
@@ -120,7 +132,7 @@ if ( ! function_exists('standard_date'))
 						'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
 						'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%Q',
 						'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
-						'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%m:%i UTC',
+						'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
 						'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
 						'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
 						'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',

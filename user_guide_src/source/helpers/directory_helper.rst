@@ -18,15 +18,20 @@ This helper is loaded using the following code
 
 The following functions are available:
 
-directory_map('source directory')
-=================================
+directory_map()
+===============
 
 This function reads the directory path specified in the first parameter
 and builds an array representation of it and all its contained files.
+	
+.. php:method:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
 
-Example
-
-::
+	:param string	$source_dir: path to the ource directory
+	:param integer	$directory_depth: depth of directories to traverse (0 =
+		fully recursive, 1 = current dir, etc)
+	:param boolean	$hidden: whether to include hidden directories
+	
+Examples::
 
 	$map = directory_map('./mydirectory/');
 
@@ -35,23 +40,17 @@ Example
 
 Sub-folders contained within the directory will be mapped as well. If
 you wish to control the recursion depth, you can do so using the second
-parameter (integer). A depth of 1 will only map the top level directory
-
-::
+parameter (integer). A depth of 1 will only map the top level directory::
 
 	$map = directory_map('./mydirectory/', 1);
 
 By default, hidden files will not be included in the returned array. To
-override this behavior, you may set a third parameter to true (boolean)
-
-::
+override this behavior, you may set a third parameter to true (boolean)::
 
 	$map = directory_map('./mydirectory/', FALSE, TRUE);
 
 Each folder name will be an array index, while its contained files will
-be numerically indexed. Here is an example of a typical array
-
-::
+be numerically indexed. Here is an example of a typical array::
 
 	Array (    
 		[libraries] => Array    

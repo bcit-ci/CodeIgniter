@@ -84,7 +84,7 @@
 
 		<div id="brand" class="{{ project_abbreviation }}">
 			<a href="http://{{ project_domain }}/"><img src="{{ pathto('_static/asset/img/' + project_abbreviation + '-logo.gif', 1) }}" alt="{{ project }}"></a>
-			<p>{{ version }} User Guide</p>
+			<p>{{ release }} User Guide</p>
 			{%- if show_source and has_source and sourcename %}
 		    <p><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
 			           rel="nofollow">{{ _('Show Source') }}</a></p>

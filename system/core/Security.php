@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Security
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/security.html
  */
 class CI_Security {
@@ -83,7 +95,8 @@ class CI_Security {
 					'-moz-binding'		=> '[removed]',
 					'<!--'				=> '&lt;!--',
 					'-->'				=> '--&gt;',
-					'<![CDATA['			=> '&lt;![CDATA['
+					'<![CDATA['			=> '&lt;![CDATA[',
+					'<comment>'			=> '&lt;comment&gt;'
 	);
 
 	/**
@@ -486,15 +499,7 @@ class CI_Security {
 	{
 		if ($this->_xss_hash == '')
 		{
-			if (phpversion() >= 4.2)
-			{
-				mt_srand();
-			}
-			else
-			{
-				mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-			}
-
+			mt_srand();
 			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
 		}
 
@@ -507,6 +512,12 @@ class CI_Security {
 	 * HTML Entities Decode
 	 *
 	 * This function is a replacement for html_entity_decode()
+	 *
+	 * The reason we are not using html_entity_decode() by itself is because
+	 * while it is not technically correct to leave out the semicolon
+	 * at the end of an entity most browsers will still interpret the entity
+	 * correctly.  html_entity_decode() does not convert entities without
+	 * semicolons, so we are left with our own little solution here. Bummer.
 	 *
 	 * @param	string
 	 * @param	string
@@ -524,11 +535,6 @@ class CI_Security {
 			$charset = config_item('charset');
 		}
 
-		// The reason we are not using html_entity_decode() by itself is because
-		// while it is not technically correct to leave out the semicolon
-		// at the end of an entity most browsers will still interpret the entity
-		// correctly.  html_entity_decode() does not convert entities without
-		// semicolons, so we are left with our own little solution here. Bummer.
 		$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
 		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
@@ -625,25 +631,45 @@ class CI_Security {
 	protected function _remove_evil_attributes($str, $is_image)
 	{
 		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns');
+		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
 			/*
-			 * Adobe Photoshop puts XML metadata into JFIF images,
+			 * Adobe Photoshop puts XML metadata into JFIF images, 
 			 * including namespacing, so we have to allow this for images.
 			 */
 			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
 		}
-
+		
 		do {
-			$str = preg_replace(
-				"#<(/?[^><]+?)([^A-Za-z\-])(".implode('|', $evil_attributes).")(\s*=\s*)([\"][^>]*?[\"]|[\'][^>]*?[\']|[^>]*?)([\s><])([><]*)#i",
-				"<$1$6",
-				$str, -1, $count
-			);
-		} while ($count);
+			$count = 0;
+			$attribs = array();
+			
+			// find occurrences of illegal attribute strings without quotes
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*([^\s]*)/is",  $str, $matches, PREG_SET_ORDER);
+			
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+			
+			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is",  $str, $matches, PREG_SET_ORDER);
 
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+
+			// replace illegal attribute strings that are inside an html tag
+			if (count($attribs) > 0)
+			{
+				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z\-])(".implode('|', $attribs).")([\s><])([><]*)/i", '<$1$2$4$5', $str, -1, $count);
+			}
+			
+		} while ($count);
+		
 		return $str;
 	}
 
