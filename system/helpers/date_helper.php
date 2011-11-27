@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/date_helper.html
  */
 
@@ -54,10 +66,8 @@ if ( ! function_exists('now'))
 
 			return $system_time;
 		}
-		else
-		{
-			return time();
-		}
+
+		return time();
 	}
 }
 
@@ -85,12 +95,18 @@ if ( ! function_exists('mdate'))
 	function mdate($datestr = '', $time = '')
 	{
 		if ($datestr == '')
-			return '';
+		{
+			return '';			
+		}
 
-		if ($time == '')
-			$time = now();
+		$time = ($time == '') ? now() : $time;
 
-		$datestr = str_replace('%\\', '', preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr));
+		$datestr = str_replace(
+			'%\\', 
+			'', 
+			preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr)
+		);
+
 		return date($datestr, $time);
 	}
 }
@@ -163,14 +179,7 @@ if ( ! function_exists('timespan'))
 			$time = time();
 		}
 
-		if ($time <= $seconds)
-		{
-			$seconds = 1;
-		}
-		else
-		{
-			$seconds = $time - $seconds;
-		}
+		$seconds = ($time <= $seconds) ? 1 : $time - $seconds;
 
 		$str = '';
 		$years = floor($seconds / 31536000);
@@ -304,9 +313,18 @@ if ( ! function_exists('local_to_gmt'))
 	function local_to_gmt($time = '')
 	{
 		if ($time == '')
+		{
 			$time = time();
-
-		return mktime( gmdate("H", $time), gmdate("i", $time), gmdate("s", $time), gmdate("m", $time), gmdate("d", $time), gmdate("Y", $time));
+		}
+		
+		return mktime(
+			gmdate("H", $time), 
+			gmdate("i", $time), 
+			gmdate("s", $time), 
+			gmdate("m", $time), 
+			gmdate("d", $time), 
+			gmdate("Y", $time)
+		);
 	}
 }
 
@@ -367,14 +385,14 @@ if ( ! function_exists('mysql_to_unix'))
 		$time = str_replace(' ', '', $time);
 
 		// YYYYMMDDHHMMSS
-		return  mktime(
-						substr($time, 8, 2),
-						substr($time, 10, 2),
-						substr($time, 12, 2),
-						substr($time, 4, 2),
-						substr($time, 6, 2),
-						substr($time, 0, 4)
-						);
+		return mktime(
+			substr($time, 8, 2),
+			substr($time, 10, 2),
+			substr($time, 12, 2),
+			substr($time, 4, 2),
+			substr($time, 6, 2),
+			substr($time, 0, 4)
+		);
 	}
 }
 
@@ -476,13 +494,19 @@ if ( ! function_exists('human_to_unix'))
 			$ampm = strtolower($split['2']);
 
 			if (substr($ampm, 0, 1) == 'p' AND $hour < 12)
-				$hour = $hour + 12;
+			{
+				$hour = $hour + 12;				
+			}
 
 			if (substr($ampm, 0, 1) == 'a' AND $hour == 12)
+			{
 				$hour =  '00';
-
+			}
+			
 			if (strlen($hour) == 1)
-				$hour = '0'.$hour;
+			{
+				$hour = '0'.$hour;				
+			}
 		}
 
 		return mktime($hour, $min, $sec, $month, $day, $year);
@@ -502,16 +526,16 @@ if ( ! function_exists('human_to_unix'))
  */
 if ( ! function_exists('nice_date'))
 {
-	function nice_date($bad_date='', $format=false) 
+	function nice_date($bad_date = '', $format = FALSE) 
 	{
 		if (empty($bad_date))
 		{
 			return 'Unknown';
 		}
+
 		// Date like: YYYYMM
-		if (preg_match('/^\d{6}$/',$bad_date)) 
+		if (preg_match('/^\d{6}$/', $bad_date)) 
 		{
-			//echo $bad_date." ";
 			if (in_array(substr($bad_date, 0, 2),array('19', '20'))) 
 			{
 				$year  = substr($bad_date, 0, 4);
@@ -522,8 +546,8 @@ if ( ! function_exists('nice_date'))
 				$month  = substr($bad_date, 0, 2);
 				$year   = substr($bad_date, 2, 4);
 			}
+			
 			return date($format, strtotime($year . '-' . $month . '-01'));
-		    
 		}
 		
 		// Date Like: YYYYMMDD
@@ -532,6 +556,7 @@ if ( ! function_exists('nice_date'))
 			$month = substr($bad_date, 0, 2);
 			$day   = substr($bad_date, 2, 2);
 			$year  = substr($bad_date, 4, 4);
+			
 			return date($format, strtotime($month . '/01/' . $year));
 		}
 		
@@ -575,8 +600,7 @@ if ( ! function_exists('timezone_menu'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		if ($default == 'GMT')
-			$default = 'UTC';
+		$default = ($default == 'GMT') ? 'UTC' : $default;
 
 		$menu = '<select name="'.$name.'"';
 
@@ -619,60 +643,58 @@ if ( ! function_exists('timezones'))
 		// some items appear to be in the wrong order
 
 		$zones = array(
-						'UM12'		=> -12,
-						'UM11'		=> -11,
-						'UM10'		=> -10,
-						'UM95'		=> -9.5,
-						'UM9'		=> -9,
-						'UM8'		=> -8,
-						'UM7'		=> -7,
-						'UM6'		=> -6,
-						'UM5'		=> -5,
-						'UM45'		=> -4.5,
-						'UM4'		=> -4,
-						'UM35'		=> -3.5,
-						'UM3'		=> -3,
-						'UM2'		=> -2,
-						'UM1'		=> -1,
-						'UTC'		=> 0,
-						'UP1'		=> +1,
-						'UP2'		=> +2,
-						'UP3'		=> +3,
-						'UP35'		=> +3.5,
-						'UP4'		=> +4,
-						'UP45'		=> +4.5,
-						'UP5'		=> +5,
-						'UP55'		=> +5.5,
-						'UP575'		=> +5.75,
-						'UP6'		=> +6,
-						'UP65'		=> +6.5,
-						'UP7'		=> +7,
-						'UP8'		=> +8,
-						'UP875'		=> +8.75,
-						'UP9'		=> +9,
-						'UP95'		=> +9.5,
-						'UP10'		=> +10,
-						'UP105'		=> +10.5,
-						'UP11'		=> +11,
-						'UP115'		=> +11.5,
-						'UP12'		=> +12,
-						'UP1275'	=> +12.75,
-						'UP13'		=> +13,
-						'UP14'		=> +14
-					);
+			'UM12'		=> -12,
+			'UM11'		=> -11,
+			'UM10'		=> -10,
+			'UM95'		=> -9.5,
+			'UM9'		=> -9,
+			'UM8'		=> -8,
+			'UM7'		=> -7,
+			'UM6'		=> -6,
+			'UM5'		=> -5,
+			'UM45'		=> -4.5,
+			'UM4'		=> -4,
+			'UM35'		=> -3.5,
+			'UM3'		=> -3,
+			'UM2'		=> -2,
+			'UM1'		=> -1,
+			'UTC'		=> 0,
+			'UP1'		=> +1,
+			'UP2'		=> +2,
+			'UP3'		=> +3,
+			'UP35'		=> +3.5,
+			'UP4'		=> +4,
+			'UP45'		=> +4.5,
+			'UP5'		=> +5,
+			'UP55'		=> +5.5,
+			'UP575'		=> +5.75,
+			'UP6'		=> +6,
+			'UP65'		=> +6.5,
+			'UP7'		=> +7,
+			'UP8'		=> +8,
+			'UP875'		=> +8.75,
+			'UP9'		=> +9,
+			'UP95'		=> +9.5,
+			'UP10'		=> +10,
+			'UP105'		=> +10.5,
+			'UP11'		=> +11,
+			'UP115'		=> +11.5,
+			'UP12'		=> +12,
+			'UP1275'	=> +12.75,
+			'UP13'		=> +13,
+			'UP14'		=> +14
+		);
 
 		if ($tz == '')
 		{
 			return $zones;
 		}
-
-		if ($tz == 'GMT')
-			$tz = 'UTC';
-
+		
+		$tz = ($tz == 'GMT') ? 'UTC' : $tz;
+		
 		return ( ! isset($zones[$tz])) ? 0 : $zones[$tz];
 	}
 }
-
 
 /* End of file date_helper.php */
 /* Location: ./system/helpers/date_helper.php */

@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session {
@@ -317,7 +329,8 @@ class CI_Session {
 							'session_id'	=> md5(uniqid($sessid, TRUE)),
 							'ip_address'	=> $this->CI->input->ip_address(),
 							'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
-							'last_activity'	=> $this->now
+							'last_activity'	=> $this->now,
+							'user_data'		=> ''
 							);
 
 
@@ -687,13 +700,7 @@ class CI_Session {
 	{
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('\\', '{{slash}}', $val);
-				}
-			}
+			array_walk_recursive($data, array(&$this, '_escape_slashes'));
 		}
 		else
 		{
@@ -702,8 +709,22 @@ class CI_Session {
 				$data = str_replace('\\', '{{slash}}', $data);
 			}
 		}
-
 		return serialize($data);
+	}
+	
+	/**
+	 * Escape slashes
+	 *
+	 * This function converts any slashes found into a temporary marker
+	 *
+	 * @access	private
+	 */
+	function _escape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+			$val = str_replace('\\', '{{slash}}', $val);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -724,18 +745,26 @@ class CI_Session {
 
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('{{slash}}', '\\', $val);
-				}
-			}
-
+			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
 			return $data;
 		}
 
 		return (is_string($data)) ? str_replace('{{slash}}', '\\', $data) : $data;
+	}
+	
+	/**
+	 * Unescape slashes
+	 *
+	 * This function converts any slash markers back into actual slashes
+	 *
+	 * @access	private
+	 */
+	function _unescape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+	 		$val= str_replace('{{slash}}', '\\', $val);
+		}
 	}
 
 	// --------------------------------------------------------------------
