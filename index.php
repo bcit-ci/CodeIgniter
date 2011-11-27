@@ -82,6 +82,9 @@ if (defined('ENVIRONMENT'))
  *
  */
 	$system_path = 'system';
+	// add by ftwbzhao
+	// http.conf    SetEnv CI_SYS_DIR /var/www/CI/system
+	// $system_path = $_SERVER['CI_SYS_DIR'];
 
 /*
  *---------------------------------------------------------------
