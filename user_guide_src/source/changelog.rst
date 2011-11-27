@@ -35,8 +35,8 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return 
-      the SQL string of queries without executing them: get_compiled_select(), 
+   -  Added new :doc:`Active Record <database/active_record>` methods that return
+      the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
 
 -  Libraries
@@ -45,7 +45,7 @@ Release Date: Not Released
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
 	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
-	 
+
 -  Core
 
    -  Changed private functions in CI_URI to protected so MY_URI can
@@ -59,7 +59,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
-
+-  Bug #419 - auto_link() now recognizes URLs that come after a word boundary.
 
 Version 2.1.0
 =============
