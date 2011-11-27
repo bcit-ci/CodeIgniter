@@ -393,7 +393,7 @@ if ( ! function_exists('auto_link'))
 	{
 		if ($type != 'email')
 		{
-			if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
+			if (preg_match_all("#(^|\s|\(|\b)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
 			{
 				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
 
