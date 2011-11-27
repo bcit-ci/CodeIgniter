@@ -47,6 +47,21 @@ class Url_helper_test extends CI_TestCase
 		$strings = array(
 			'www.codeigniter.com test' => '<a href="http://www.codeigniter.com">http://www.codeigniter.com</a> test',
 			'This is my noreply@codeigniter.com test' => 'This is my noreply@codeigniter.com test',
+			'<br />www.google.com' => '<br /><a href="http://www.google.com">http://www.google.com</a>',
+		);
+
+		foreach ($strings as $in => $out)
+		{
+			$this->assertEquals($out, auto_link($in, 'url'));
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_pull_675()
+	{
+		$strings = array(
+			'<br />www.google.com' => '<br /><a href="http://www.google.com">http://www.google.com</a>',
 		);
 
 		foreach ($strings as $in => $out)
