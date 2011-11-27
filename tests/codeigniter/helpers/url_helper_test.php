@@ -31,4 +31,27 @@ class Url_helper_test extends CI_TestCase
 			$this->assertEquals($out, url_title($in, 'underscore'));
 		}
 	}
+
+	// --------------------------------------------------------------------
+
+	public function test_prep_url()
+	{
+		$this->assertEquals('http://codeigniter.com', prep_url('codeigniter.com'));
+		$this->assertEquals('http://www.codeigniter.com', prep_url('www.codeigniter.com'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_auto_link_url()
+	{
+		$strings = array(
+			'www.codeigniter.com test' => '<a href="http://www.codeigniter.com">http://www.codeigniter.com</a> test',
+			'This is my noreply@codeigniter.com test' => 'This is my noreply@codeigniter.com test',
+		);
+
+		foreach ($strings as $in => $out)
+		{
+			$this->assertEquals($out, auto_link($in, 'url'));
+		}
+	}
 }
