@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -23,7 +35,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Input
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/input.html
  */
 class CI_Input {
@@ -110,13 +122,13 @@ class CI_Input {
 	 *
 	 * This is a helper function to retrieve values from global arrays
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @param	string
 	 * @param	bool
 	 * @return	string
 	 */
-	function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
 		if ( ! isset($array[$index]))
 		{
@@ -141,7 +153,7 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL AND ! empty($_GET))
@@ -169,7 +181,7 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL AND ! empty($_POST))
@@ -198,7 +210,7 @@ class CI_Input {
 	* @param	bool	XSS cleaning
 	* @return	string
 	*/
-	function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index = '', $xss_clean = FALSE)
 	{
 		if ( ! isset($_POST[$index]) )
 		{
@@ -220,7 +232,7 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function cookie($index = '', $xss_clean = FALSE)
+	public function cookie($index = '', $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
@@ -243,7 +255,7 @@ class CI_Input {
 	* @param	bool	true makes the cookie secure
 	* @return	void
 	*/
-	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
+	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
 	{
 		if (is_array($name))
 		{
@@ -296,7 +308,7 @@ class CI_Input {
 	* @param	bool
 	* @return	string
 	*/
-	function server($index = '', $xss_clean = FALSE)
+	public function server($index = '', $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
@@ -309,7 +321,7 @@ class CI_Input {
 	* @access	public
 	* @return	string
 	*/
-	function ip_address()
+	public function ip_address()
 	{
 		if ($this->ip_address !== FALSE)
 		{
@@ -369,10 +381,16 @@ class CI_Input {
 	*
 	* @access	public
 	* @param	string
-	* @return	string
+	* @return	bool
 	*/
-	function valid_ip($ip)
+	public function valid_ip($ip)
 	{
+		// if php version >= 5.2, use filter_var to check validate ip.
+		if (function_exists('filter_var'))
+		{
+			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		}
+
 		$ip_segments = explode('.', $ip);
 
 		// Always 4 segments needed
@@ -407,7 +425,7 @@ class CI_Input {
 	* @access	public
 	* @return	string
 	*/
-	function user_agent()
+	public function user_agent()
 	{
 		if ($this->user_agent !== FALSE)
 		{
@@ -435,7 +453,7 @@ class CI_Input {
 	* @access	private
 	* @return	void
 	*/
-	function _sanitize_globals()
+	private function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
 		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
@@ -536,7 +554,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	function _clean_input_data($str)
+	private function _clean_input_data($str)
 	{
 		if (is_array($str))
 		{
@@ -548,8 +566,12 @@ class CI_Input {
 			return $new_array;
 		}
 
-		// We strip slashes if magic quotes is on to keep things consistent
-		if (function_exists('get_magic_quotes_gpc') AND get_magic_quotes_gpc())
+		/* We strip slashes if magic quotes is on to keep things consistent
+
+		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
+			 it will probably not exist in future versions at all.
+		*/
+		if ( ! is_php('5.4') && get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
 		}
@@ -594,7 +616,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	function _clean_input_keys($str)
+	private function _clean_input_keys($str)
 	{
 		if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
 		{
@@ -618,6 +640,7 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
+	 * @access	public
 	 * @param	bool XSS cleaning
 	 *
 	 * @return array
@@ -661,6 +684,7 @@ class CI_Input {
 	 *
 	 * Returns the value of a single member of the headers class member
 	 *
+	 * @access	public
 	 * @param 	string		array key for $this->headers
 	 * @param	boolean		XSS Clean or not
 	 * @return 	mixed		FALSE on failure, string on success
@@ -692,6 +716,7 @@ class CI_Input {
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
+	 * @access	public
 	 * @return 	boolean
 	 */
 	public function is_ajax_request()
@@ -706,6 +731,7 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line
 	 *
+	 * @access	public
 	 * @return 	boolean
 	 */
 	public function is_cli_request()
@@ -714,7 +740,6 @@ class CI_Input {
 	}
 
 }
-// END Input class
 
 /* End of file Input.php */
 /* Location: ./system/core/Input.php */
