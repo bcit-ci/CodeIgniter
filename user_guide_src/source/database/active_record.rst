@@ -111,9 +111,8 @@ Permits you to write the SELECT portion of your query::
 .. note:: If you are selecting all (\*) from a table you do not need to
 	use this function. When omitted, CodeIgniter assumes you wish to SELECT *
 
-$this->db->select() accepts an optional second parameter. If you set it
-to FALSE, CodeIgniter will not try to protect your field or table names
-with backticks. This is useful if you need a compound select statement.
+**select()** will also accept an optional second parameter ($escape), that will prevent data 
+from being escaped if set to FALSE. This is useful if you need a compound select statement.
 
 ::
 
@@ -246,7 +245,8 @@ methods:
 	::
 
 		$this->db->where('name !=', $name);
-		$this->db->where('id <', $id); // Produces: WHERE name != 'Joe' AND id < 45    
+		$this->db->where('id <', $id); 
+		// Produces: WHERE name != 'Joe' AND id < 45    
 
 #. **Associative array method:**
 
@@ -254,7 +254,7 @@ methods:
 
 		$array = array('name' => $name, 'title' => $title, 'status' => $status);
 		$this->db->where($array);
-		// Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'    
+		// Produces: WHERE `name` = 'Joe' AND `title` = 'boss' AND `status` = 'active'    
 
 	You can include your own operators using this method as well:
 
@@ -269,10 +269,8 @@ methods:
 		$where = "name='Joe' AND status='boss' OR status='active'";
 		$this->db->where($where);
 
-
-$this->db->where() accepts an optional third parameter. If you set it to
-FALSE, CodeIgniter will not try to protect your field or table names
-with backticks.
+**where()** will also accept an optional third parameter ($escape), that
+will prevent data from being escaped if set to FALSE.
 
 ::
 
@@ -443,23 +441,22 @@ $this->db->having()
 Permits you to write the HAVING portion of your query. There are 2
 possible syntaxes, 1 argument or 2::
 
-	$this->db->having('user_id = 45');  // Produces: HAVING user_id = 45
-	$this->db->having('user_id',  45);  // Produces: HAVING user_id = 45 
+	$this->db->having('user_id = 45');  // Produces: HAVING `user_id` = 45
+	$this->db->having('user_id',  45);  // Produces: HAVING `user_id` = 45 
 
 You can also pass an array of multiple values as well::
 
 	$this->db->having(array('title =' => 'My Title', 'id <' => $id));
-	// Produces: HAVING title = 'My Title', id < 45
+	// Produces: HAVING `title` = 'My Title', `id` < 45
 
 
-If you are using a database that CodeIgniter escapes queries for, you
-can prevent escaping content by passing an optional third argument, and
-setting it to FALSE.
+**having()** will also accept an optional third parameter ($escape), that
+will prevent data from being escaped if set to FALSE.
 
 ::
 
-	$this->db->having('user_id',  45);  // Produces: HAVING `user_id` = 45 in some databases such as MySQL
-	$this->db->having('user_id',  45, FALSE);  // Produces: HAVING user_id = 45
+	$this->db->having('user_id',  45, FALSE);  
+	// Produces: HAVING user_id = 45
 
 
 $this->db->or_having()
@@ -476,19 +473,29 @@ set the direction of the result. Options are asc or desc, or random.
 
 ::
 
-	$this->db->order_by("title", "desc");  // Produces: ORDER BY title DESC
+	$this->db->order_by("title", "desc");  
+	// Produces: ORDER BY `title` DESC
 
 You can also pass your own string in the first parameter::
 
-	$this->db->order_by('title desc, name asc');  // Produces: ORDER BY title DESC, name ASC
+	$this->db->order_by('title desc, name asc');  
+	// Produces: ORDER BY `title` DESC, `name` ASC
 
 Or multiple function calls can be made if you need multiple fields.
 
 ::
 
 	$this->db->order_by("title", "desc");
-	$this->db->order_by("name", "asc"); // Produces: ORDER BY title DESC, name ASC     
+	$this->db->order_by("name", "asc"); 
+	// Produces: ORDER BY `title` DESC, `name` ASC     
 
+**order_by()** will also accept an optional third parameter ($escape), that
+will prevent data from being escaped if set to FALSE.
+
+::
+
+	$this->db->order_by("name", "asc", FALSE); 
+	// Produces: ORDER BY name ASC
 
 .. note:: order_by() was formerly known as orderby(), which has been
 	removed.
@@ -501,7 +508,8 @@ $this->db->limit()
 
 Lets you limit the number of rows you would like returned by the query::
 
-	$this->db->limit(10);  // Produces: LIMIT 10
+	$this->db->limit(10);  
+	// Produces: LIMIT 10
 
 The second parameter lets you set a result offset.
 
@@ -516,10 +524,13 @@ Permits you to determine the number of rows in a particular Active
 Record query. Queries will accept Active Record restrictors such as
 where(), or_where(), like(), or_like(), etc. Example::
 
-	echo $this->db->count_all_results('my_table');  // Produces an integer, like 25
+	echo $this->db->count_all_results('my_table');  
+	// Produces an integer, like 25
+	
 	$this->db->like('title', 'match');
 	$this->db->from('my_table');
-	echo $this->db->count_all_results(); // Produces an integer, like 17 
+	echo $this->db->count_all_results(); 
+	// Produces an integer, like 17 
 
 $this->db->count_all()
 ======================
@@ -527,7 +538,8 @@ $this->db->count_all()
 Permits you to determine the number of rows in a particular table.
 Submit the table name in the first parameter. Example::
 
-	echo $this->db->count_all('my_table');  // Produces an integer, like 25
+	echo $this->db->count_all('my_table');  
+	// Produces an integer, like 25
 
 **************
 Inserting Data
@@ -645,7 +657,7 @@ or update functions:**
 ::
 
 	$this->db->set('name', $name);
-	$this->db->insert('mytable');  // Produces: INSERT INTO mytable (name) VALUES ('{$name}')
+	$this->db->insert('mytable');  // Produces: INSERT INTO mytable (`name`) VALUES ('{$name}')
 
 If you use multiple function called they will be assembled properly
 based on whether you are doing an insert or an update::
@@ -656,16 +668,12 @@ based on whether you are doing an insert or an update::
 	$this->db->insert('mytable'); 
 
 **set()** will also accept an optional third parameter ($escape), that
-will prevent data from being escaped if set to FALSE. To illustrate the
-difference, here is set() used both with and without the escape
-parameter.
+will prevent data from being escaped if set to FALSE.
 
 ::
 
 	$this->db->set('field', 'field+1', FALSE);
-	$this->db->insert('mytable'); // gives INSERT INTO mytable (field) VALUES (field+1)
-	$this->db->set('field', 'field+1');
-	$this->db->insert('mytable'); // gives INSERT INTO mytable (field) VALUES ('field+1')
+	$this->db->insert('mytable'); // Produces: INSERT INTO mytable (field) VALUES (field+1)
 
 
 You can also pass an associative array to this function::
