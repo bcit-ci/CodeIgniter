@@ -97,9 +97,13 @@ class CI_Form_validation {
 		{
 			foreach ($field as $row)
 			{
-				// Houston, we have a problem...
+				// Houston, we (might) have a problem...
 				if ( ! isset($row['field']) OR ! isset($row['rules']))
 				{
+					if (count($row) === 3)
+					{
+						call_user_func_array(array($this, 'set_rules'), $row);
+					}
 					continue;
 				}
 

@@ -254,7 +254,7 @@ Setting Rules Using an Array
 
 Before moving on it should be noted that the rule setting function can
 be passed an array if you prefer to set all your rules in one action. If
-you use this approach you must name your array keys as indicated::
+you use this approach you can structure your array in one of two ways indicated below::
 
 	$config = array(
 	               array(
@@ -277,6 +277,18 @@ you use this approach you must name your array keys as indicated::
 	                     'label'   => 'Email', 
 	                     'rules'   => 'required'
 	                  )
+	            );
+
+	$this->form_validation->set_rules($config);
+
+Or by using a group of shorthand arrays, each with **three** parameters. 
+The syntax is identical to setting an individual rule::
+
+	$config = array(
+	               array('username', 'Username', 'required'),
+	               array('password', 'Password', 'required'),
+	               array('passconf', 'Password Confirmation', 'required'),
+	               array('email', 'Email', 'required')
 	            );
 
 	$this->form_validation->set_rules($config);
