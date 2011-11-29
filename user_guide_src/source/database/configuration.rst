@@ -48,7 +48,7 @@ These failovers can be specified by setting the failover for a connection like t
 	$db['default']['failover'][0]['stricton'] = FALSE;
 	$db['default']['failover'][0]['failover'] = array();
 
-You can specify as much failovers as you like.
+You can specify as many failovers as you like.
 
 The reason we use a multi-dimensional array rather than a more simple
 one is to permit you to optionally store multiple sets of connection
