@@ -28,6 +28,28 @@ prototype::
 	$db['default']['autoinit'] = TRUE;
 	$db['default']['stricton'] = FALSE;
 
+You can also specify failovers for the situation when the main connection cannot connect for some reason.
+These failovers can be specified by setting the failover for a connection like this::
+
+	$db['default']['failover'][0]['hostname'] = 'localhost1';
+	$db['default']['failover'][0]['username'] = '';
+	$db['default']['failover'][0]['password'] = '';
+	$db['default']['failover'][0]['database'] = '';
+	$db['default']['failover'][0]['dbdriver'] = 'mysql';
+	$db['default']['failover'][0]['dbprefix'] = '';
+	$db['default']['failover'][0]['pconnect'] = TRUE;
+	$db['default']['failover'][0]['db_debug'] = TRUE;
+	$db['default']['failover'][0]['cache_on'] = FALSE;
+	$db['default']['failover'][0]['cachedir'] = '';
+	$db['default']['failover'][0]['char_set'] = 'utf8';
+	$db['default']['failover'][0]['dbcollat'] = 'utf8_general_ci';
+	$db['default']['failover'][0]['swap_pre'] = '';
+	$db['default']['failover'][0]['autoinit'] = TRUE;
+	$db['default']['failover'][0]['stricton'] = FALSE;
+	$db['default']['failover'][0]['failover'] = array();
+
+You can specify as much failovers as you like.
+
 The reason we use a multi-dimensional array rather than a more simple
 one is to permit you to optionally store multiple sets of connection
 values. If, for example, you run multiple environments (development,
