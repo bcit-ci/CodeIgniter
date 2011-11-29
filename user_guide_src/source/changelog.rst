@@ -97,6 +97,7 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added failover if the main connections in the config should fail
 
 -  Libraries
 
