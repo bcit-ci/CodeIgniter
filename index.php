@@ -182,6 +182,7 @@ if (defined('ENVIRONMENT'))
 		chdir(dirname(__FILE__));
 	}
 
+	// Set the absolute path to the system folder
 	if (realpath($system_path) !== FALSE)
 	{
 		$system_path = realpath($system_path).'/';
@@ -194,6 +195,22 @@ if (defined('ENVIRONMENT'))
 	if ( ! is_dir($system_path))
 	{
 		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
+	}
+
+
+	// Set the absolute path to the application folder
+	if (realpath($application_folder) !== FALSE)
+	{
+		$application_folder = realpath($application_folder).'/';
+	}
+
+	// ensure there's a trailing slash
+	$application_folder = rtrim($application_folder, '/').'/';
+
+	// Is the application path correct?
+	if ( ! is_dir($application_folder))
+	{
+		exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
 	}
 
 /*
@@ -217,24 +234,8 @@ if (defined('ENVIRONMENT'))
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-	// Path to application folder
-	$app_path = realpath(dirname(__FILE__).'/'.$application_folder);
-
-
-	// The path to the "application" folder
-	if (is_dir($app_path))
-	{
-		define('APPPATH', $app_path.'/');
-	}
-	else
-	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
-		{
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
-		}
-
-		define('APPPATH', BASEPATH.$application_folder.'/');
-	}
+	// Path to the application folder
+	define('APPPATH', str_replace("\\", "/", $application_folder));
 
 	// The path to the "views" folder
 	if (is_dir($view_folder))
