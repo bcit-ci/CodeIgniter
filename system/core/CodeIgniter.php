@@ -109,7 +109,7 @@
 	if (function_exists("set_time_limit") AND @ini_get("safe_mode") == 0)
 	{
 		// Do not override the Time Limit value if running from Command Line
-		if(php_sapi_name() != 'cli' && ! empty($_SERVER['REMOTE_ADDR']))
+		if(php_sapi_name() != 'cli')
 		{
 			@set_time_limit(300);
 		}
