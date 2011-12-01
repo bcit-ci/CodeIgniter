@@ -90,8 +90,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 		
-		$this->hostname .= ";dbname=".$this->database;
-		
+		if (!empty($this->database)){
+			$this->hostname .= ";dbname=".$this->database;
+		}
+
 		$this->trans_enabled = FALSE;
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
