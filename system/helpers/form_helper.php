@@ -317,14 +317,16 @@ if ( ! function_exists('form_multiselect'))
  */
 if ( ! function_exists('form_dropdown'))
 {
-	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
+	function form_dropdown($attributes = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if ( ! is_array($data))
+		if ( ! is_array($attributes))
 		{
-			$data = array('name' => $data);
+			$attributes = array('name' => $attributes
+                         ,'id'   => $attributes
+                         );
 		}
 		
-		$defaults = array('name' => $data['name']);
+		$defaults = array('name' => $attributes['name']);
 		
 		if ( ! is_array($selected))
 		{
@@ -335,17 +337,19 @@ if ( ! function_exists('form_dropdown'))
 		if (count($selected) === 0)
 		{
 			// If the form name appears in the $_POST array we have a winner!
-			if (isset($_POST[$data['name']]))
+			if (isset($_POST[$attributes['name']]))
 			{
-				$selected = array($_POST[$data['name']]);
+				$selected = array($_POST[$attributes['name']]);
 			}
 		}
 
 		if ($extra != '') $extra = ' '.$extra;
 
-		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+    if (count($selected) > 1 && strpos($extra, 'multiple') === FALSE && !isset($attributes['multiple']) {
+      $attributes[' multiple'] = 'multiple';
+    }
 
-		$form = '<select '._parse_form_attributes($data, $defaults).$extra.$multiple.">\n";
+		$form = '<select '._parse_form_attributes($attributes, $defaults).$extra.">\n";
 
 		foreach ($options as $key => $val)
 		{
