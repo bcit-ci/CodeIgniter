@@ -90,7 +90,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 		
-		if (!empty($this->database))
+		if ( ! empty($this->database))
 		{
 			$this->hostname .= ";dbname=".$this->database;
 		}
