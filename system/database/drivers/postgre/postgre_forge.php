@@ -83,7 +83,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		{
 			if ($this->db->table_exists($table))
 			{
-				return "SELECT * FROM $table"; // Needs to return innocous but valid SQL statement
+				return "SELECT 1"; // Needs to return innocous but valid SQL statement
 			}
 		}
 
