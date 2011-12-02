@@ -1042,7 +1042,7 @@ class CI_Upload {
 		if (function_exists('mime_content_type'))
 		{
 			$this->file_type = @mime_content_type($file['tmp_name']);
-			if (strlen($this->file_type) > 0) // Turned out it's possible ...
+			if (strlen($this->file_type) > 0) // Turns out it's possible that mime_content_type() returns FALSE or an empty string
 			{
 				return;
 			}
