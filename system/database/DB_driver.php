@@ -1063,7 +1063,6 @@ class CI_DB_driver {
 		else
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
-
 			if (is_null($args))
 			{
 				return call_user_func($function);
