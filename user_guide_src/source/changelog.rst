@@ -61,10 +61,26 @@ Bug fixes for 3.0
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
 -  Bug #419 - auto_link() now recognizes URLs that come after a word boundary.
 
-Version 2.1.0
+Version 2.1.1
 =============
 
 Release Date: Not Released
+
+-  General Changes
+
+   - Fixed support for docx, xlsx files in mimes.php.
+
+Bug fixes for 2.1.1
+--------------------
+
+-  Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.
+-  Fixed a bug - form_open() compared $action against site_url() instead of base_url()
+-  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
+
+Version 2.1.0
+=============
+
+Release Date: November 14, 2011
 
 -  General Changes
 
