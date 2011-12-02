@@ -1056,20 +1056,23 @@ class CI_Upload {
 		if (function_exists('mime_content_type'))
 		{
 			$this->file_type = @mime_content_type($file['tmp_name']);
-			return;
+			if (strlen($this->file_type) > 0) // Turns out it's possible that mime_content_type() returns FALSE or an empty string
+			{
+				return;
+			}
 		}
 
 		/* This is an ugly hack, but UNIX-type systems provide a native way to detect the file type,
 		 * which is still more secure than depending on the value of $_FILES[$field]['type'].
 		 *
 		 * Notes:
-		 *	- a 'W' in the substr() expression bellow, would mean that we're using Windows
+		 *	- the DIRECTORY_SEPARATOR comparison ensures that we're not on a Windows system
 		 *	- many system admins would disable the exec() function due to security concerns, hence the function_exists() check
 		 */
 		if (DIRECTORY_SEPARATOR !== '\\' && function_exists('exec'))
 		{
 			$output = array();
-			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_path']), $output, $return_code);
+			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_name']), $output, $return_code);
 			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
 			{
 				$this->file_type = rtrim($output[0]);
