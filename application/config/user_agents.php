@@ -1,4 +1,30 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP 5.1.6 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Academic Free License version 3.0
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0) that is
+ * bundled with this package in the files license_afl.txt / license_afl.rst.
+ * It is also available through the world wide web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
+ * @filesource
+ */
+
 /*
 | -------------------------------------------------------------------
 | USER AGENT TYPES
@@ -11,170 +37,178 @@
 */
 
 $platforms = array (
-					'windows nt 6.1'	=> 'Windows 7',
-					'windows nt 6.0'	=> 'Windows Vista',
-					'windows nt 5.2'	=> 'Windows 2003',
-					'windows nt 5.1'	=> 'Windows XP',
-					'windows nt 5.0'	=> 'Windows 2000',
-					'windows nt 4.0'	=> 'Windows NT 4.0',
-					'winnt4.0'		=> 'Windows NT 4.0',
-					'winnt 4.0'		=> 'Windows NT',
-					'winnt'			=> 'Windows NT',
-					'windows 98'		=> 'Windows 98',
-					'win98'			=> 'Windows 98',
-					'windows 95'		=> 'Windows 95',
-					'win95'			=> 'Windows 95',
-					'windows'		=> 'Unknown Windows OS',
-					'os x'			=> 'Mac OS X',
-					'ppc mac'		=> 'Power PC Mac',
-					'freebsd'		=> 'FreeBSD',
-					'ppc'			=> 'Macintosh',
-					'linux'			=> 'Linux',
-					'debian'		=> 'Debian',
-					'sunos'			=> 'Sun Solaris',
-					'beos'			=> 'BeOS',
-					'apachebench'		=> 'ApacheBench',
-					'aix'			=> 'AIX',
-					'irix'			=> 'Irix',
-					'osf'			=> 'DEC OSF',
-					'hp-ux'			=> 'HP-UX',
-					'netbsd'		=> 'NetBSD',
-					'bsdi'			=> 'BSDi',
-					'openbsd'		=> 'OpenBSD',
-					'gnu'			=> 'GNU/Linux',
-					'unix'			=> 'Unknown Unix OS'
-				);
+	'windows nt 6.1'	=> 'Windows 7',
+	'windows nt 6.0'	=> 'Windows Vista',
+	'windows nt 5.2'	=> 'Windows 2003',
+	'windows nt 5.1'	=> 'Windows XP',
+	'windows nt 5.0'	=> 'Windows 2000',
+	'windows nt 4.0'	=> 'Windows NT 4.0',
+	'winnt4.0'			=> 'Windows NT 4.0',
+	'winnt 4.0'			=> 'Windows NT',
+	'winnt'				=> 'Windows NT',
+	'windows 98'		=> 'Windows 98',
+	'win98'				=> 'Windows 98',
+	'windows 95'		=> 'Windows 95',
+	'win95'				=> 'Windows 95',
+	'windows'			=> 'Unknown Windows OS',
+	'os x'				=> 'Mac OS X',
+	'ppc mac'			=> 'Power PC Mac',
+	'freebsd'			=> 'FreeBSD',
+	'ppc'				=> 'Macintosh',
+	'linux'				=> 'Linux',
+	'debian'			=> 'Debian',
+	'sunos'				=> 'Sun Solaris',
+	'beos'				=> 'BeOS',
+	'apachebench'		=> 'ApacheBench',
+	'aix'				=> 'AIX',
+	'irix'				=> 'Irix',
+	'osf'				=> 'DEC OSF',
+	'hp-ux'				=> 'HP-UX',
+	'netbsd'			=> 'NetBSD',
+	'bsdi'				=> 'BSDi',
+	'openbsd'			=> 'OpenBSD',
+	'gnu'				=> 'GNU/Linux',
+	'unix'				=> 'Unknown Unix OS'
+);
 
 
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
 $browsers = array(
-					'Flock'			=> 'Flock',
-					'Chrome'		=> 'Chrome',
-					'Opera'			=> 'Opera',
-					'MSIE'			=> 'Internet Explorer',
-					'Internet Explorer'	=> 'Internet Explorer',
-					'Shiira'		=> 'Shiira',
-					'Firefox'		=> 'Firefox',
-					'Chimera'		=> 'Chimera',
-					'Phoenix'		=> 'Phoenix',
-					'Firebird'		=> 'Firebird',
-					'Camino'		=> 'Camino',
-					'Netscape'		=> 'Netscape',
-					'OmniWeb'		=> 'OmniWeb',
-					'Safari'		=> 'Safari',
-					'Mozilla'		=> 'Mozilla',
-					'Konqueror'		=> 'Konqueror',
-					'icab'			=> 'iCab',
-					'Lynx'			=> 'Lynx',
-					'Links'			=> 'Links',
-					'hotjava'		=> 'HotJava',
-					'amaya'			=> 'Amaya',
-					'IBrowse'		=> 'IBrowse'
-				);
+	'Flock'			=> 'Flock',
+	'Chrome'		=> 'Chrome',
+	'Opera'			=> 'Opera',
+	'MSIE'			=> 'Internet Explorer',
+	'Internet Explorer'	=> 'Internet Explorer',
+	'Shiira'		=> 'Shiira',
+	'Firefox'		=> 'Firefox',
+	'Chimera'		=> 'Chimera',
+	'Phoenix'		=> 'Phoenix',
+	'Firebird'		=> 'Firebird',
+	'Camino'		=> 'Camino',
+	'Netscape'		=> 'Netscape',
+	'OmniWeb'		=> 'OmniWeb',
+	'Safari'		=> 'Safari',
+	'Mozilla'		=> 'Mozilla',
+	'Konqueror'		=> 'Konqueror',
+	'icab'			=> 'iCab',
+	'Lynx'			=> 'Lynx',
+	'Links'			=> 'Links',
+	'hotjava'		=> 'HotJava',
+	'amaya'			=> 'Amaya',
+	'IBrowse'		=> 'IBrowse'
+);
 
 $mobiles = array(
-					// legacy array, old values commented out
-					'mobileexplorer'	=> 'Mobile Explorer',
-//					'openwave'		=> 'Open Wave',
-//					'opera mini'		=> 'Opera Mini',
-//					'operamini'		=> 'Opera Mini',
-//					'elaine'		=> 'Palm',
-					'palmsource'		=> 'Palm',
-//					'digital paths'		=> 'Palm',
-//					'avantgo'		=> 'Avantgo',
-//					'xiino'			=> 'Xiino',
-					'palmscape'		=> 'Palmscape',
-//					'nokia'			=> 'Nokia',
-//					'ericsson'		=> 'Ericsson',
-//					'blackberry'		=> 'BlackBerry',
-//					'motorola'		=> 'Motorola'
+	// legacy array, old values commented out
+	'mobileexplorer'	=> 'Mobile Explorer',
+//  'openwave'			=> 'Open Wave',
+//	'opera mini'		=> 'Opera Mini',
+//	'operamini'			=> 'Opera Mini',
+//	'elaine'			=> 'Palm',
+	'palmsource'		=> 'Palm',
+//	'digital paths'		=> 'Palm',
+//	'avantgo'			=> 'Avantgo',
+//	'xiino'				=> 'Xiino',
+	'palmscape'			=> 'Palmscape',
+//	'nokia'				=> 'Nokia',
+//	'ericsson'			=> 'Ericsson',
+//	'blackberry'		=> 'BlackBerry',
+//	'motorola'			=> 'Motorola'
 
-					// Phones and Manufacturers
-					'motorola'		=> "Motorola",
-					'nokia'			=> "Nokia",
-					'palm'			=> "Palm",
-					'iphone'		=> "Apple iPhone",
-					'ipad'			=> "iPad",
-					'ipod'			=> "Apple iPod Touch",
-					'sony'			=> "Sony Ericsson",
-					'ericsson'		=> "Sony Ericsson",
-					'blackberry'		=> "BlackBerry",
-					'cocoon'		=> "O2 Cocoon",
-					'blazer'		=> "Treo",
-					'lg'			=> "LG",
-					'amoi'			=> "Amoi",
-					'xda'			=> "XDA",
-					'mda'			=> "MDA",
-					'vario'			=> "Vario",
-					'htc'			=> "HTC",
-					'samsung'		=> "Samsung",
-					'sharp'			=> "Sharp",
-					'sie-'			=> "Siemens",
-					'alcatel'		=> "Alcatel",
-					'benq'			=> "BenQ",
-					'ipaq'			=> "HP iPaq",
-					'mot-'			=> "Motorola",
-					'playstation portable'	=> "PlayStation Portable",
-					'hiptop'		=> "Danger Hiptop",
-					'nec-'			=> "NEC",
-					'panasonic'		=> "Panasonic",
-					'philips'		=> "Philips",
-					'sagem'			=> "Sagem",
-					'sanyo'			=> "Sanyo",
-					'spv'			=> "SPV",
-					'zte'			=> "ZTE",
-					'sendo'			=> "Sendo",
+	// Phones and Manufacturers
+	'motorola'		=> "Motorola",
+	'nokia'			=> "Nokia",
+	'palm'			=> "Palm",
+	'iphone'		=> "Apple iPhone",
+	'ipad'			=> "iPad",
+	'ipod'			=> "Apple iPod Touch",
+	'sony'			=> "Sony Ericsson",
+	'ericsson'		=> "Sony Ericsson",
+	'blackberry'	=> "BlackBerry",
+	'cocoon'		=> "O2 Cocoon",
+	'blazer'		=> "Treo",
+	'lg'			=> "LG",
+	'amoi'			=> "Amoi",
+	'xda'			=> "XDA",
+	'mda'			=> "MDA",
+	'vario'			=> "Vario",
+	'htc'			=> "HTC",
+	'samsung'		=> "Samsung",
+	'sharp'			=> "Sharp",
+	'sie-'			=> "Siemens",
+	'alcatel'		=> "Alcatel",
+	'benq'			=> "BenQ",
+	'ipaq'			=> "HP iPaq",
+	'mot-'			=> "Motorola",
+	'playstation portable'	=> "PlayStation Portable",
+	'hiptop'		=> "Danger Hiptop",
+	'nec-'			=> "NEC",
+	'panasonic'		=> "Panasonic",
+	'philips'		=> "Philips",
+	'sagem'			=> "Sagem",
+	'sanyo'			=> "Sanyo",
+	'spv'			=> "SPV",
+	'zte'			=> "ZTE",
+	'sendo'			=> "Sendo",
+	'dsi'			=> "Nintendo DSi",
+	'ds'			=> "Nintendo DS",
+	'wii'			=> "Nintendo Wii",
+	'3ds'			=> "Nintendo 3DS",
+	'open web'		=> "Open Web",
+	'openweb'		=> "OpenWeb",
 
-// Operating Systems
-					'android'		=> "Android",
-					'symbian'		=> "Symbian",
-					'SymbianOS'		=> "SymbianOS",
-					'elaine'		=> "Palm",
-					'palm'			=> "Palm",
-					'series60'		=> "Symbian S60",
-					'windows ce'		=> "Windows CE",
+	// Operating Systems
+	'android'		=> "Android",
+	'symbian'		=> "Symbian",
+	'SymbianOS'		=> "SymbianOS",
+	'elaine'		=> "Palm",
+	'palm'			=> "Palm",
+	'series60'		=> "Symbian S60",
+	'windows ce'	=> "Windows CE",
 
-					// Browsers
-					'obigo'			=> "Obigo",
-					'netfront'		=> "Netfront Browser",
-					'openwave'		=> "Openwave Browser",
-					'mobilexplorer'		=> "Mobile Explorer",
-					'operamini'		=> "Opera Mini",
-					'opera mini'		=> "Opera Mini",
+	// Browsers
+	'obigo'			=> "Obigo",
+	'netfront'		=> "Netfront Browser",
+	'openwave'		=> "Openwave Browser",
+	'mobilexplorer'	=> "Mobile Explorer",
+	'operamini'		=> "Opera Mini",
+	'opera mini'	=> "Opera Mini",
+	'opera mobi'	=> "Opera Mobile",
 
-					// Other
-					'digital paths'		=> "Digital Paths",
-					'avantgo'		=> "AvantGo",
-					'xiino'			=> "Xiino",
-					'novarra'		=> "Novarra Transcoder",
-					'vodafone'		=> "Vodafone",
-					'docomo'		=> "NTT DoCoMo",
-					'o2'			=> "O2",
+	// Other
+	'digital paths'	=> "Digital Paths",
+	'avantgo'		=> "AvantGo",
+	'xiino'			=> "Xiino",
+	'novarra'		=> "Novarra Transcoder",
+	'vodafone'		=> "Vodafone",
+	'docomo'		=> "NTT DoCoMo",
+	'o2'			=> "O2",
 
-					// Fallback
-					'mobile'		=> "Generic Mobile",
-					'wireless'		=> "Generic Mobile",
-					'j2me'			=> "Generic Mobile",
-					'midp'			=> "Generic Mobile",
-					'cldc'			=> "Generic Mobile",
-					'up.link'		=> "Generic Mobile",
-					'up.browser'		=> "Generic Mobile",
-					'smartphone'		=> "Generic Mobile",
-					'cellphone'		=> "Generic Mobile"
-				);
+	// Fallback
+	'mobile'		=> "Generic Mobile",
+	'wireless'		=> "Generic Mobile",
+	'j2me'			=> "Generic Mobile",
+	'midp'			=> "Generic Mobile",
+	'cldc'			=> "Generic Mobile",
+	'up.link'		=> "Generic Mobile",
+	'up.browser'	=> "Generic Mobile",
+	'smartphone'	=> "Generic Mobile",
+	'cellphone'		=> "Generic Mobile"
+);
 
 // There are hundreds of bots but these are the most common.
 $robots = array(
-					'googlebot'		=> 'Googlebot',
-					'msnbot'		=> 'MSNBot',
-					'slurp'			=> 'Inktomi Slurp',
-					'yahoo'			=> 'Yahoo',
-					'askjeeves'		=> 'AskJeeves',
-					'fastcrawler'		=> 'FastCrawler',
-					'infoseek'		=> 'InfoSeek Robot 1.0',
-					'lycos'			=> 'Lycos'
-				);
+	'googlebot'		=> 'Googlebot',
+	'msnbot'		=> 'MSNBot',
+	'bingbot'		=> 'Bing',
+	'slurp'			=> 'Inktomi Slurp',
+	'yahoo'			=> 'Yahoo',
+	'askjeeves'		=> 'AskJeeves',
+	'fastcrawler'	=> 'FastCrawler',
+	'infoseek'		=> 'InfoSeek Robot 1.0',
+	'lycos'			=> 'Lycos'
+);
 
 /* End of file user_agents.php */
 /* Location: ./application/config/user_agents.php */

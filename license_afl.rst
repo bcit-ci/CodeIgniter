@@ -1,13 +1,13 @@
 ###################################
-Open Software License ("OSL") v 3.0
+Academic Free License ("AFL") v 3.0
 ###################################
 
-This Open Software License (the "License") applies to any original work of
+This Academic Free License (the "License") applies to any original work of
 authorship (the "Original Work") whose owner (the "Licensor") has placed the
 following licensing notice adjacent to the copyright notice for the Original
 Work:
 
-*Licensed under the Open Software License version 3.0*
+*Licensed under the Academic Free License version 3.0*
 
 
 *****************************
@@ -25,9 +25,9 @@ license, for the duration of the copyright, to do the following:
 	based upon the Original Work;
 
 	*c)* to distribute or communicate copies of the Original Work and
-	Derivative Works to the public, *with the proviso that copies of Original
-	Work or Derivative Works that You distribute or communicate shall be
-	licensed under this Open Software License*;
+	Derivative Works to the public, *under any license of your choice that
+	does not contradict the terms and conditions, including Licensor's
+	reserved rights and remedies, in this Academic Free License*;
 
 	*d)* to perform the Original Work publicly; and
 
@@ -235,7 +235,7 @@ Work or to Derivative Works. However, You may modify the text of this License
 and copy, distribute or communicate your modified version (the "Modified
 License") and apply it to other original works of authorship subject to the
 following conditions: (i) You may not indicate in any way that your Modified
-License is the "Open Software License" or "OSL" and you may not use those
+License is the "Academic Free License" or "AFL" and you may not use those
 names in the name of your Modified License; (ii) You must replace the notice
 specified in the first paragraph above with the notice "Licensed under <insert
 your license name here>" or with a notice of your own that is not confusingly

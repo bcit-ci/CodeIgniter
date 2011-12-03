@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -23,7 +35,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/email.html
  */
 class CI_Email {
@@ -381,7 +393,19 @@ class CI_Email {
 	 */
 	public function message($body)
 	{
-		$this->_body = stripslashes(rtrim(str_replace("\r", "", $body)));
+		$this->_body = rtrim(str_replace("\r", "", $body));
+
+		/* strip slashes only if magic quotes is ON
+		   if we do it with magic quotes OFF, it strips real, user-inputted chars.
+
+		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
+			 it will probably not exist in future versions at all.
+		*/
+		if ( ! is_php('5.4') && get_magic_quotes_gpc())
+		{
+			$this->_body = stripslashes($this->_body);
+		}
+
 		return $this;
 	}
 
@@ -394,11 +418,11 @@ class CI_Email {
 	 * @param	string
 	 * @return	void
 	 */
-	public function attach($filename, $disposition = 'attachment')
+	public function attach($filename, $disposition = '', $newname = NULL)
 	{
-		$this->_attach_name[] = $filename;
+		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
+		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
 		return $this;
 	}
 
@@ -1127,8 +1151,9 @@ class CI_Email {
 
 		for ($i=0; $i < count($this->_attach_name); $i++)
 		{
-			$filename = $this->_attach_name[$i];
-			$basename = basename($filename);
+			$filename = $this->_attach_name[$i][0];
+			$basename = ( is_null($this->_attach_name[$i][1]) ? basename($filename) : $this->_attach_name[$i][1] );
+				
 			$ctype = $this->_attach_type[$i];
 
 			if ( ! file_exists($filename))
@@ -1668,12 +1693,7 @@ class CI_Email {
 	 */
 	protected function _smtp_connect()
 	{
-		$ssl = NULL;
-
-		if ($this->smtp_crypto == 'ssl')
-		{
-			$ssl = 'ssl://';
-		}
+		$ssl = ($this->smtp_crypto == 'ssl') ? 'ssl://' : NULL;
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 										$this->smtp_port,
@@ -1693,13 +1713,14 @@ class CI_Email {
 		{
 			$this->_send_command('hello');
 			$this->_send_command('starttls');
-			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-		}
 
-		if ($crypto !== TRUE)
-		{
-			$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
-			return FALSE;
+			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+
+			if ($crypto !== TRUE)
+			{
+				$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
+				return FALSE;
+			}
 		}
 
 		return $this->_send_command('hello');
