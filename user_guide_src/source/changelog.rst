@@ -59,7 +59,9 @@ Bug fixes for 3.0
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
+-  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
 -  Bug #419 - auto_link() now recognizes URLs that come after a word boundary.
+-  Bug #724 - is_unique in form validation now checks that you are connected to a database.
 
 Version 2.1.0
 =============
