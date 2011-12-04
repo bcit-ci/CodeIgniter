@@ -725,7 +725,7 @@ class CI_Upload {
 				return FALSE;
 			}
 
-            if ($this->min_width > 0 AND $D['0'] < $this->min_width)
+                        if ($this->min_width > 0 AND $D['0'] < $this->min_width)
 			{
 				return FALSE;
 			}
