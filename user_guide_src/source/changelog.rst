@@ -115,6 +115,11 @@ Release Date: Not Released
       library <libraries/form_validation>`.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
+   -  The :doc:`Form Validation Library <libraries/form_validation>`'s
+      valid_email() rule  can now, optionally, check for A, MX, or both 
+      DNS records when validating emails if passed 'a','mx','both' in 
+      your rule definitions.
+   -  New rules added to :doc:`Form Validation Library <libraries/form_validation>`: in_set, valid_url, name, ssn, phone, after_date, before_date.
 
 -  Core
 
