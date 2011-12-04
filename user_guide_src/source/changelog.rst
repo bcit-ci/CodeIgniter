@@ -27,6 +27,7 @@ Release Date: Not Released
    -  Added support pgp and gpg to mimes.php.
    -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Changed logger to only chmod when file is first created.
 
 -  Helpers
 
