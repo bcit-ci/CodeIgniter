@@ -45,12 +45,13 @@ method in which everything is redirected except the specified items:
 
 ::
 	
-	RewriteEngine on
-	RewriteCond $1 !^(index\.php|images|robots\.txt)
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^(.*)$ /index.php/$1 [L]
 
-In the above example, any HTTP request other than those for index.php,
-images, and robots.txt is treated as a request for your index.php file.
+In the above example, any HTTP request other than those for existing
+directories and existing files is treated as a request for your index.php file.
 
 Adding a URL Suffix
 ===================

@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -43,7 +43,7 @@ $config['migration_enabled'] = FALSE;
 |--------------------------------------------------------------------------
 |
 | This is the name of the table that will store the current migrations state.
-| When migrations runs it will store in a database table which migration 
+| When migrations runs it will store in a database table which migration
 | level the system is at. It then compares the migration level in the this
 | table to the $config['migration_version'] if they are not the same it
 | will migrate up. This must be set.
@@ -51,13 +51,12 @@ $config['migration_enabled'] = FALSE;
 */
 $config['migration_table'] = 'migrations';
 
-
 /*
 |--------------------------------------------------------------------------
 | Auto Migrate To Latest
 |--------------------------------------------------------------------------
 |
-| If this is set to TRUE when you load the migrations class and have 
+| If this is set to TRUE when you load the migrations class and have
 | $config['migration_enabled'] set to TRUE the system will auto migrate
 | to your latest migration (whatever $config['migration_version'] is
 | set to). This way you do not have to call migrations anywhere else
@@ -66,19 +65,17 @@ $config['migration_table'] = 'migrations';
 */
 $config['migration_auto_latest'] = FALSE;
 
-
 /*
 |--------------------------------------------------------------------------
 | Migrations version
 |--------------------------------------------------------------------------
 |
 | This is used to set migration version that the file system should be on.
-| If you run $this->migration->latest() this is the version that schema will
+| If you run $this->migration->current() this is the version that schema will
 | be upgraded / downgraded to.
 |
 */
 $config['migration_version'] = 0;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +91,3 @@ $config['migration_path'] = APPPATH . 'migrations/';
 
 
 /* End of file migration.php */
-/* Location: ./application/config/migration.php */

@@ -393,7 +393,7 @@ if ( ! function_exists('auto_link'))
 	{
 		if ($type != 'email')
 		{
-			if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
+			if (preg_match_all("#(^|\s|\(|\b)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
 			{
 				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
 
@@ -544,11 +544,17 @@ if ( ! function_exists('url_title'))
  */
 if ( ! function_exists('redirect'))
 {
-	function redirect($uri = '', $method = 'location', $http_response_code = 302)
+	function redirect($uri = '', $method = 'auto', $http_response_code = 302)
 	{
 		if ( ! preg_match('#^https?://#i', $uri))
 		{
 			$uri = site_url($uri);
+		}
+
+		// IIS environment likely? Use 'refresh' for better compatibility
+		if (DIRECTORY_SEPARATOR != '/' && $method == 'auto')
+		{
+			$method = 'refresh';
 		}
 
 		switch($method)
