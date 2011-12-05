@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Creating Core System Classes : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Creating Core System Classes
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Creating Core System Classes</h1>
+
+<p>Every time CodeIgniter runs there are several base classes that are initialized automatically as part of the core framework.
+It is possible, however, to swap any of the core system classes with your own versions or even extend the core versions.</p>
+
+<p><strong>Most users will never have any need to do this,
+but the option to replace or extend them does exist for those who would like to significantly alter the CodeIgniter core.</strong>
+</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; Messing with a core system class has a lot of implications, so make sure you
+know what you are doing before attempting it.</p>
+
+
+<h2>System Class List</h2>
+
+<p>The following is a list of the core system files that are invoked every time CodeIgniter runs:</p>
+
+<ul>
+<li>Benchmark</li>
+<li>Config</li>
+<li>Controller</li>
+<li>Exceptions</li>
+<li>Hooks</li>
+<li>Input</li>
+<li>Language</li>
+<li>Loader</li>
+<li>Log</li>
+<li>Output</li>
+<li>Router</li>
+<li>URI</li>
+<li>Utf8</li>
+</ul>
+
+<h2>Replacing Core Classes</h2>
+
+<p>To use one of your own system classes instead of a default one simply place your version inside your local <dfn>application/core</dfn> directory:</p>
+
+<code>application/core/<dfn>some-class.php</dfn></code>
+
+<p>If this directory does not exist you can create it.</p>
+
+<p>Any file named identically to one from the list above will be used instead of the one normally used.</p>
+
+<p>Please note that your class must use <kbd>CI</kbd> as a prefix. For example, if your file is named <kbd>Input.php</kbd> the class will be named:</p>
+
+<code>
+class CI_Input {<br /><br />
+
+}
+</code>
+
+
+
+<h2>Extending Core Class</h2>
+
+<p>If all you need to do is add some functionality to an existing library - perhaps add a function or two - then
+it's overkill to replace the entire library with your version.  In this case it's better to simply extend the class.
+Extending a class is nearly identical to replacing a class with a couple exceptions:</p>
+
+<ul>
+<li>The class declaration must extend the parent class.</li>
+<li>Your new class name and filename must be prefixed with <kbd>MY_</kbd> (this item is configurable.  See below.).</li>
+</ul>
+
+<p>For example, to extend the native <kbd>Input</kbd> class you'll create a file named <dfn>application/core/</dfn><kbd>MY_Input.php</kbd>, and declare your class with:</p>
+
+<code>
+class MY_Input extends CI_Input {<br /><br />
+
+}</code>
+
+<p>Note: If you need to use a constructor in your class make sure you extend the parent constructor:</p>
+
+<code>
+class MY_Input extends CI_Input {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
+
+<p class="important"><strong>Tip:</strong>&nbsp; Any functions in your class that are named identically to the functions in the parent class will be used instead of the native ones
+(this is known as "method overriding").
+This allows you to substantially alter the CodeIgniter core.</p>
+
+<p>If you are extending the Controller core class, then be sure to extend your new class in your application controller's constructors.</p>
+
+<code>class Welcome extends MY_Controller {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function __construct()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::__construct();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;function index()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->load->view('welcome_message');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}</code>
+
+<h3>Setting Your Own Prefix</h3>
+
+<p>To set your own sub-class prefix, open your <dfn>application/config/config.php</dfn> file and look for this item:</p>
+
+<code>$config['subclass_prefix'] = 'MY_';</code>
+
+<p>Please note that all native CodeIgniter libraries are prefixed with <kbd>CI_</kbd> so DO NOT use that as your prefix.</p>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="creating_libraries.html">Creating Your Own Libraries</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="hooks.html">Hooks - Extending the Core</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

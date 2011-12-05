@@ -326,13 +326,13 @@ class CI_Input {
 
 			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
-		elseif (! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
-		{
-			$this->ip_address = $_SERVER['REMOTE_ADDR'];
-		}
 		elseif ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
 		{
 			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
+		}
+		elseif ($this->server('REMOTE_ADDR'))
+		{
+			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
 		elseif ($this->server('HTTP_CLIENT_IP'))
 		{
@@ -557,8 +557,12 @@ class CI_Input {
 			return $new_array;
 		}
 
-		// We strip slashes if magic quotes is on to keep things consistent
-		if (function_exists('get_magic_quotes_gpc') AND @get_magic_quotes_gpc())
+		/* We strip slashes if magic quotes is on to keep things consistent
+
+		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
+			 it will probably not exist in future versions at all.
+		*/
+		if ( ! is_php('5.4') && get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
 		}

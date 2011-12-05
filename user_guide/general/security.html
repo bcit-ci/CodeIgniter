@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Security : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Security
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Security</h1>
+
+<p>This page describes some "best practices" regarding web security, and details
+CodeIgniter's internal security features.</p>
+
+
+<h2>URI Security</h2>
+
+<p>CodeIgniter is fairly restrictive regarding which characters it allows in your URI strings in order to help
+minimize the possibility that malicious data can be passed to your application.  URIs may only contain the following:
+</p>
+
+<ul>
+<li>Alpha-numeric text</li>
+<li>Tilde: ~ </li>
+<li>Period: .</li>
+<li>Colon: :</li>
+<li>Underscore: _</li>
+<li>Dash: -</li>
+</ul>
+
+<h2>Register_globals</h2>
+
+<p>During system initialization all global variables are unset, except those found in the $_GET, $_POST, and $_COOKIE arrays. The unsetting
+routine is effectively the same as register_globals = off.</p>
+
+<a name="error_reporting"></a>
+<h2>error_reporting</h2>
+
+<p>
+    In production environments, it is typically desirable to disable PHP's 
+    error reporting by setting the internal error_reporting flag to a value of 0. This disables native PHP
+    errors from being rendered as output, which may potentially contain
+    sensitive information.
+</p>
+
+<p>
+    Setting CodeIgniter's <kbd>ENVIRONMENT</kbd> constant in index.php to a
+    value of '<kbd>production</kbd>' will turn off these errors. In development
+    mode, it is recommended that a value of '<kbd>development</kbd>' is used.
+    More information about differentiating between environments can be found
+    on the <a href="environments.html">Handling Environments</a> page.
+</p>
+
+<h2>magic_quotes_runtime</h2>
+
+<p>The magic_quotes_runtime directive is turned off during system initialization so that you don't have to remove slashes when
+retrieving data from your database.</p>
+
+<h1>Best Practices</h1>
+
+<p>Before accepting any data into your application, whether it be POST data from a form submission, COOKIE data, URI data,
+XML-RPC data, or even data from the SERVER array, you are encouraged to practice this three step approach:</p>
+
+<ol>
+<li>Filter the data as if it were tainted.</li>
+<li>Validate the data to ensure it conforms to the correct  type, length, size, etc. (sometimes this step can replace step one)</li>
+<li>Escape the data before submitting it into your database.</li>
+</ol>
+
+<p>CodeIgniter provides the following functions to assist in this process:</p>
+
+<ul>
+
+<li><h2>XSS Filtering</h2>
+
+<p>CodeIgniter comes with a Cross Site Scripting filter.  This filter looks for commonly
+used techniques to embed malicious Javascript into your data, or other types of code that attempt to hijack cookies
+or do other malicious things. The XSS Filter is described <a href="../libraries/security.html">here</a>.
+</p>
+</li>
+
+<li><h2>Validate the data</h2>
+
+<p>CodeIgniter has a <a href="../libraries/form_validation.html">Form Validation Class</a> that assists you in validating, filtering, and prepping
+your data.</p>
+</li>
+
+<li><h2>Escape all data before database insertion</h2>
+
+<p>Never insert information into your database without escaping it. Please see the section that discusses
+<a href="../database/queries.html">queries</a> for more information.</p>
+
+</li>
+
+</ul>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="alternative_php.html">Alternative PHP</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="styleguide.html">PHP Style Guide</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

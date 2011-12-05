@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Pagination Class : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Pagination Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Pagination Class</h1>
+
+<p>CodeIgniter's Pagination class is very easy to use, and it is 100% customizable, either dynamically or via stored preferences.</p>
+
+<p>If you are not familiar with the term "pagination", it refers to links that allows you to navigate from page to page, like this:</p>
+
+<code><a href="#">&laquo; First</a>&nbsp;&nbsp;<a href="#">&lt;</a>&nbsp;<a href="#">1</a>&nbsp;<a href="#">2</a>&nbsp;<b>3</b>&nbsp;<a href="#">4</a>&nbsp;<a href="#">5</a>&nbsp;<a href="#">&gt;</a>&nbsp;&nbsp;<a href="#">Last &raquo;</a></code>
+
+<h2>Example</h2>
+
+<p>Here is a simple example showing how to create pagination in one of your <a href="../general/controllers.html">controller</a> functions:</p>
+
+<code>
+$this->load->library('pagination');<br /><br />
+$config['base_url'] = 'http://example.com/index.php/test/page/';<br />
+$config['total_rows'] = 200;<br />
+$config['per_page']  = 20;
+<br /><br />
+$this->pagination->initialize($config);
+
+<br /><br />
+echo  $this->pagination->create_links();</code>
+
+<h3>Notes:</h3>
+
+<p>The <var>$config</var> array contains your configuration variables.  It is passed to the <dfn>$this->pagination->initialize</dfn> function as shown above.  Although there are some twenty items you can configure, at
+minimum you need the three shown.  Here is a description of what those items represent:</p>
+
+<ul>
+	<li><strong>base_url</strong> This is the full URL to the controller class/function containing your pagination.  In the example
+	above, it is pointing to a controller called "Test" and a function called "page".  Keep in mind that you can
+	<a href="../general/routing.html">re-route your URI</a> if you need a different structure.</li>
+	<li><strong>total_rows</strong> This number represents the total rows in the result set you are creating pagination for.
+	Typically this number will be the total rows that your database query returned.
+	</li>
+	<li><strong>per_page</strong> The number of items you intend to show per page.  In the above example, you would be showing 20 items per page.</li>
+</ul>
+
+<p>The <var>create_links()</var> function returns an empty string when there is no pagination to show.</p>
+
+
+<h3>Setting preferences in a config file</h3>
+
+<p>If you prefer not to set preferences using the above method, you can instead put them into a config file.
+Simply create a new file called <var>pagination.php</var>,  add the <var>$config</var>
+array in that file. Then save the file in: <var>config/pagination.php</var> and it will be used automatically. You
+will NOT need to use the <dfn>$this->pagination->initialize</dfn> function if you save your preferences in a config file.</p>
+
+
+<h2>Customizing the Pagination</h2>
+
+<p>The following is a list of all the preferences you can pass to the initialization function to tailor the display.</p>
+
+
+<h4>$config['uri_segment'] = 3;</h4>
+
+<p>The pagination function automatically determines which segment of your URI contains the page number. If you need
+something different you can specify it.</p>
+
+<h4>$config['num_links'] = 2;</h4>
+
+<p>The number of &quot;digit&quot; links you would like before and after the selected page number. For example, the number 2
+	will place two digits on either side, as in the example links at the very top of this page.</p>
+
+<h4>$config['use_page_numbers'] = TRUE;</h4>
+<p>By default, the URI segment will use the starting index for the items you are paginating. If you prefer to show the the actual page number, set this to TRUE.</p>
+
+<h4>$config['page_query_string'] = TRUE;</h4>
+<p>By default, the pagination library assume you are using <a href="../general/urls.html">URI Segments</a>, and constructs your links something like</p>
+<p><code>http://example.com/index.php/test/page/20</code></p>
+<p>If you have $config['enable_query_strings']  set to TRUE your links will automatically be re-written using Query Strings. This option can also be explictly set. Using $config['page_query_string'] set to TRUE, the pagination link will become.</p>
+<p><code>http://example.com/index.php?c=test&amp;m=page&amp;per_page=20</code></p>
+<p>Note that &quot;per_page&quot; is the default query string  passed, however can be configured using $config['query_string_segment'] = 'your_string'</p>
+<h2>Adding Enclosing Markup</h2>
+
+<p>If you would like to surround the entire pagination with some markup you can do it with these two prefs:</p>
+
+<h4>$config['full_tag_open'] = '&lt;p>';</h4>
+<p>The opening tag placed on the left side of the entire result.</p>
+
+<h4>$config['full_tag_close'] = '&lt;/p>';</h4>
+<p>The closing tag placed on the right side of the entire result.</p>
+
+
+<h2>Customizing the First Link</h2>
+
+<h4>$config['first_link'] = 'First';</h4>
+<p>The text you would like shown in the "first" link on the left. If you do not want this link rendered, you can set its value to FALSE.</p>
+
+<h4>$config['first_tag_open'] = '&lt;div>';</h4>
+<p>The opening tag for the "first" link.</p>
+
+<h4>$config['first_tag_close'] = '&lt;/div>';</h4>
+<p>The closing tag for the "first" link.</p>
+
+<h2>Customizing the Last Link</h2>
+
+<h4>$config['last_link'] = 'Last';</h4>
+<p>The text you would like shown in the "last" link on the right. If you do not want this link rendered, you can set its value to FALSE.</p>
+
+<h4>$config['last_tag_open'] = '&lt;div>';</h4>
+<p>The opening tag for the "last" link.</p>
+
+<h4>$config['last_tag_close'] = '&lt;/div>';</h4>
+<p>The closing tag for the "last" link.</p>
+
+<h2>Customizing the "Next" Link</h2>
+
+<h4>$config['next_link'] = '&amp;gt;';</h4>
+<p>The text you would like shown in the "next" page link. If you do not want this link rendered, you can set its value to FALSE.</p>
+
+<h4>$config['next_tag_open'] = '&lt;div>';</h4>
+<p>The opening tag for the "next" link.</p>
+
+<h4>$config['next_tag_close'] = '&lt;/div>';</h4>
+<p>The closing tag for the "next" link.</p>
+
+<h2>Customizing the "Previous" Link</h2>
+
+<h4>$config['prev_link'] = '&amp;lt;';</h4>
+<p>The text you would like shown in the "previous" page link. If you do not want this link rendered, you can set its value to FALSE.</p>
+
+<h4>$config['prev_tag_open'] = '&lt;div>';</h4>
+<p>The opening tag for the "previous" link.</p>
+
+<h4>$config['prev_tag_close'] = '&lt;/div>';</h4>
+<p>The closing tag for the "previous" link.</p>
+
+<h2>Customizing the "Current Page" Link</h2>
+
+<h4>$config['cur_tag_open'] = '&lt;b>';</h4>
+<p>The opening tag for the "current" link.</p>
+
+<h4>$config['cur_tag_close'] = '&lt;/b>';</h4>
+<p>The closing tag for the "current" link.</p>
+
+
+<h2>Customizing the "Digit" Link</h2>
+
+<h4>$config['num_tag_open'] = '&lt;div>';</h4>
+<p>The opening tag for the "digit" link.</p>
+
+<h4>$config['num_tag_close'] = '&lt;/div>';</h4>
+<p>The closing tag for the "digit" link.</p>
+
+<h2>Hiding the Pages</h2>
+
+<p>If you wanted to not list the specific pages (for example, you only want "next" and "previous" links), you can suppress their rendering by adding:</p>
+
+<code>
+$config['display_pages'] = FALSE;
+</code>
+
+
+<h2>Adding a class to every anchor</h2>
+
+<p>If you want to add a class attribute to every link rendered by the pagination class, you can set the config "anchor_class" equal to the classname you want.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="output.html">Output Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="sessions.html">Session Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

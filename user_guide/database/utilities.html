@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Database Utility Class : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
+Database Utility Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Database Utility Class</h1>
+
+<p>The Database Utility Class contains functions that help you manage your database.</p>
+
+<h3>Table of Contents</h3>
+
+<ul>
+<li><a href="#init">Initializing the Utility Class</a></li>
+<li><a href="#list">Listing your Databases</a></li>
+<li><a href="#exists">Checking for a specific Database</a></li>
+<li><a href="#opttb">Optimizing your Tables</a></li>
+<li><a href="#repair">Repairing your Databases</a></li>
+<li><a href="#optdb">Optimizing your Database</a></li>
+<li><a href="#csv">CSV Files from a Database Result</a></li>
+<li><a href="#xml">XML Files from a Database Result</a></li>
+<li><a href="#backup">Backing up your Database</a></li>
+</ul>
+
+
+
+<h2><a name="init"></a>Initializing the Utility Class</h2>
+
+<p class="important"><strong>Important:</strong>&nbsp; In order to initialize the Utility class, your database driver must
+already be running, since the utilities class relies on it.</p>
+
+<p>Load the Utility Class as follows:</p>
+
+<code>$this->load->dbutil()</code>
+
+<p>Once initialized you will access the functions using the <dfn>$this->dbutil</dfn> object:</p>
+
+<code>$this->dbutil->some_function()</code>
+
+<h2><a name="list"></a>$this->dbutil->list_databases()</h2>
+<p>Returns an array of database names:</p>
+
+<code>
+$dbs = $this->dbutil->list_databases();<br />
+<br />
+foreach ($dbs as $db)<br />
+{<br />
+&nbsp;&nbsp;&nbsp; echo $db;<br />
+}</code>
+
+
+<h2><a name="exists"></a>$this->dbutil->database_exists();</h2>
+
+<p>Sometimes it's helpful to know whether a particular database exists.
+Returns a boolean TRUE/FALSE.  Usage example:</p>
+
+<code>
+if ($this->dbutil->database_exists('database_name'))<br />
+{<br />
+&nbsp;&nbsp; // some code...<br />
+}
+</code>
+
+<p>Note:  Replace <em>database_name</em> with the name of the table you are looking for. This function is case sensitive.</p>
+
+
+
+<h2><a name="opttb"></a>$this->dbutil->optimize_table('table_name');</h2>
+
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
+
+<p>Permits you to optimize a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
+
+<code>
+if ($this->dbutil->optimize_table('table_name'))<br />
+{<br />
+&nbsp;&nbsp;&nbsp; echo 'Success!';<br />
+}
+</code>
+
+<p><strong>Note:</strong> Not all database platforms support table optimization.</p>
+
+
+<h2><a name="repair"></a>$this->dbutil->repair_table('table_name');</h2>
+
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
+
+<p>Permits you to repair a table using the table name specified in the first parameter. Returns TRUE/FALSE based on success or failure:</p>
+
+<code>
+if ($this->dbutil->repair_table('table_name'))<br />
+{<br />
+&nbsp;&nbsp;&nbsp; echo 'Success!';<br />
+}
+</code>
+
+<p><strong>Note:</strong> Not all database platforms support table repairs.</p>
+
+
+<h2><a name="optdb"></a>$this->dbutil->optimize_database();</h2>
+
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL/MySQLi databases.</p>
+
+<p>Permits you to optimize the database your DB class is currently connected to. Returns an array containing the DB status messages or FALSE on failure.</p>
+
+<code>
+$result = $this->dbutil->optimize_database();<br />
+<br />
+if ($result !== FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp; print_r($result);<br />
+}
+</code>
+
+<p><strong>Note:</strong> Not all database platforms support table optimization.</p>
+
+
+<h2><a name="csv"></a>$this->dbutil->csv_from_result($db_result)</h2>
+
+<p>Permits you to generate a CSV file from a query result. The first parameter of the function must contain the result object from your query.
+Example:</p>
+
+<code>
+$this->load->dbutil();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+echo $this->dbutil->csv_from_result($query);
+</code>
+
+<p>The second and third parameters allows you to
+set the delimiter and newline character.  By default tabs are used as the delimiter and "\n" is used as a new line.  Example:</p>
+
+<code>
+$delimiter = ",";<br />
+$newline = "\r\n";<br />
+<br />
+echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
+</code>
+
+<p><strong>Important:</strong>&nbsp; This function will NOT write the CSV file for you.  It simply creates the CSV layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+<h2><a name="xml"></a>$this->dbutil->xml_from_result($db_result)</h2>
+
+<p>Permits you to generate an XML file from a query result. The first parameter expects a query result object, the second
+may contain an optional array of config parameters.  Example:</p>
+
+<code>
+$this->load->dbutil();<br />
+<br />
+$query = $this->db->query("SELECT * FROM mytable");<br />
+<br />
+$config = array (<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'root'&nbsp;&nbsp;&nbsp; => 'root',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'element' => 'element', <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline' => "\n", <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tab'&nbsp;&nbsp;&nbsp;&nbsp;=> "\t"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo $this->dbutil->xml_from_result($query, $config);
+</code>
+
+<p><strong>Important:</strong>&nbsp; This function will NOT write the XML file for you.  It simply creates the XML layout.
+If you need to write the file use the <a href="../helpers/file_helper.html">File Helper</a>.</p>
+
+
+<h2><a name="backup"></a>$this->dbutil->backup()</h2>
+
+<p>Permits you to backup your full database or individual tables.  The backup data can be compressed in either Zip or Gzip format.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; This features is only available for MySQL databases.</p>
+
+<p>Note: Due to the limited execution time and memory available to PHP, backing up very large
+databases may not be possible.  If your database is very large you might need to backup directly from your SQL server
+via the command line, or have your server admin do it for you if you do not have root privileges.</p>
+
+<h3>Usage Example</h3>
+
+<code>
+<dfn>// Load the DB utility class</dfn><br />
+$this->load->dbutil();<br /><br />
+
+<dfn>// Backup your entire database and assign it to a variable</dfn><br />
+$backup =& $this->dbutil->backup();
+
+<br /><br />
+<dfn>// Load the file helper and write the file to your server</dfn><br />
+$this->load->helper('file');<br />
+write_file('/path/to/mybackup.gz', $backup);
+
+<br /><br />
+<dfn>// Load the download helper and send the file to your desktop</dfn><br />
+$this->load->helper('download');<br />
+force_download('mybackup.gz', $backup);
+</code>
+
+<h3>Setting Backup Preferences</h3>
+
+<p>Backup preferences are set by submitting an array of values to the first parameter of the backup function. Example:</p>
+
+<code>$prefs = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tables'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> array('table1', 'table2'),&nbsp;&nbsp;// Array of tables to backup.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ignore'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> array(),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// List of tables to omit from the backup<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'format'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'txt',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// gzip, zip, txt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'filename'&nbsp;&nbsp;&nbsp;&nbsp;=> 'mybackup.sql',&nbsp;&nbsp;&nbsp;&nbsp;// File name - NEEDED ONLY WITH ZIP FILES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'add_drop'&nbsp;&nbsp;&nbsp;&nbsp;=> TRUE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Whether to add DROP TABLE statements to backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'add_insert'&nbsp;&nbsp;=> TRUE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Whether to add INSERT data to backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'newline'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> "\n"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Newline character used in backup file<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$this->dbutil->backup($prefs);
+</code>
+
+
+<h3>Description of Backup Preferences</h3>
+
+<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+<tr>
+<th>Preference</th>
+<th>Default&nbsp;Value</th>
+<th>Options</th>
+<th>Description</th>
+</tr><tr>
+<td class="td"><strong>tables</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you want backed up.  If left blank all tables will be exported.</td>
+</tr><tr>
+<td class="td"><strong>ignore</strong></td><td class="td">empty array</td><td class="td">None</td><td class="td">An array of tables you want the backup routine to ignore.</td>
+</tr><tr>
+<td class="td"><strong>format</strong></td><td class="td">gzip</td><td class="td">gzip, zip, txt</td><td class="td">The file format of the export file.</td>
+</tr><tr>
+<td class="td"><strong>filename</strong></td><td class="td">the current date/time</td><td class="td">None</td><td class="td">The name of the backed-up file. The name is needed only if you are using zip compression.</td>
+</tr><tr>
+<td class="td"><strong>add_drop</strong></td><td class="td">TRUE</td><td class="td">TRUE/FALSE</td><td class="td">Whether to include DROP TABLE statements in your SQL export file.</td>
+</tr><tr>
+<td class="td"><strong>add_insert</strong></td><td class="td">TRUE</td><td class="td">TRUE/FALSE</td><td class="td">Whether to include INSERT statements in your SQL export file.</td>
+</tr><tr>
+<td class="td"><strong>newline</strong></td><td class="td">"\n"</td><td class="td">"\n", "\r", "\r\n"</td><td class="td">Type of newline to use in your SQL export file.</td>
+
+</tr>
+</table>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="forge.html">DB Forge Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="../libraries/javascript.html">Javascript Class</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

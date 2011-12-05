@@ -83,7 +83,8 @@ class CI_Security {
 					'-moz-binding'		=> '[removed]',
 					'<!--'				=> '&lt;!--',
 					'-->'				=> '--&gt;',
-					'<![CDATA['			=> '&lt;![CDATA['
+					'<![CDATA['			=> '&lt;![CDATA[',
+					'<comment>'			=> '&lt;comment&gt;'
 	);
 
 	/**
@@ -486,15 +487,7 @@ class CI_Security {
 	{
 		if ($this->_xss_hash == '')
 		{
-			if (phpversion() >= 4.2)
-			{
-				mt_srand();
-			}
-			else
-			{
-				mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-			}
-
+			mt_srand();
 			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
 		}
 
@@ -508,27 +501,23 @@ class CI_Security {
 	 *
 	 * This function is a replacement for html_entity_decode()
 	 *
+	 * The reason we are not using html_entity_decode() by itself is because
+	 * while it is not technically correct to leave out the semicolon
+	 * at the end of an entity most browsers will still interpret the entity
+	 * correctly.  html_entity_decode() does not convert entities without
+	 * semicolons, so we are left with our own little solution here. Bummer.
+	 *
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	public function entity_decode($str, $charset = NULL)
+	public function entity_decode($str, $charset='UTF-8')
 	{
-		if (strpos($str, '&') === FALSE)
+		if (stristr($str, '&') === FALSE)
 		{
 			return $str;
 		}
 
-		if (empty($charset))
-		{
-			$charset = config_item('charset');
-		}
-
-		// The reason we are not using html_entity_decode() by itself is because
-		// while it is not technically correct to leave out the semicolon
-		// at the end of an entity most browsers will still interpret the entity
-		// correctly.  html_entity_decode() does not convert entities without
-		// semicolons, so we are left with our own little solution here. Bummer.
 		$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
 		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
@@ -625,7 +614,7 @@ class CI_Security {
 	protected function _remove_evil_attributes($str, $is_image)
 	{
 		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns');
+		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
@@ -637,11 +626,31 @@ class CI_Security {
 		}
 
 		do {
-			$str = preg_replace(
-				"#<(/?[^><]+?)([^A-Za-z\-])(".implode('|', $evil_attributes).")(\s*=\s*)([\"][^>]*?[\"]|[\'][^>]*?[\']|[^>]*?)([\s><])([><]*)#i",
-				"<$1$6",
-				$str, -1, $count
-			);
+			$count = 0;
+			$attribs = array();
+			
+			// find occurrences of illegal attribute strings without quotes
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*([^\s]*)/is",  $str, $matches, PREG_SET_ORDER);
+			
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+			
+			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is",  $str, $matches, PREG_SET_ORDER);
+
+			foreach ($matches as $attr)
+			{
+				$attribs[] = preg_quote($attr[0], '/');
+			}
+
+			// replace illegal attribute strings that are inside an html tag
+			if (count($attribs) > 0)
+			{
+				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z\-])(".implode('|', $attribs).")([\s><])([><]*)/i", '<$1$2$4$5', $str, -1, $count);
+			}
+			
 		} while ($count);
 
 		return $str;
@@ -855,14 +864,14 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
-			$this->csrf_set_cookie();
+			return $this->_csrf_hash = md5(uniqid(rand(), TRUE));
 		}
 
 		return $this->_csrf_hash;
 	}
 
 }
+// END Security Class
 
 /* End of file Security.php */
 /* Location: ./system/core/Security.php */

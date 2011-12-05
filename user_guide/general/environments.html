@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Handling Multiple Environments : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Handling Multiple Environments
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Handling Multiple Environments</h1>
+
+<p>
+    Developers often desire different system behavior depending on whether
+    an application is running in a development or production
+    environment. For example, verbose error output is something that would
+    be useful while developing an application, but it may also pose a security issue when "live".
+</p>
+
+<h2>The ENVIRONMENT Constant</h2>
+
+<p>
+    By default, CodeIgniter comes with the environment constant set to
+    '<kbd>development</kbd>'. At the top of index.php, you will see:
+</p>
+
+<code>
+define('<var>ENVIRONMENT</var>', '<var>development</var>');
+</code>
+
+<p>
+    In addition to affecting some basic framework behavior (see the next section),
+    you may use this constant in your own development to differentiate
+    between which environment you are running in.
+</p>
+
+<h2>Effects On Default Framework Behavior</h2>
+
+<p>
+    There are some places in the CodeIgniter system where the <kbd>ENVIRONMENT</kbd>
+    constant is used. This section describes how default framework behavior is
+    affected.
+</p>
+
+<h3>Error Reporting</h3>
+
+<p>
+    Setting the <kbd>ENVIRONMENT</kbd> constant to a value of '<kbd>development</kbd>' will
+    cause all PHP errors to be rendered to the browser when they occur. Conversely,
+    setting the constant to '<kbd>production</kbd>' will disable all error output. Disabling
+    error reporting in production is a <a href="security.html">good security practice</a>.
+</p>
+
+<h3>Configuration Files</h3>
+
+<p>
+    Optionally, you can have CodeIgniter load environment-specific
+    configuration files. This may be useful for managing things like differing API keys
+    across multiple environments. This is described in more detail in the
+    environment section of the <a href="../libraries/config.html#environments">Config Class</a> documentation.
+</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="managing_apps.html">Managing Applications</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="alternative_php.html">Alternative PHP Syntax</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

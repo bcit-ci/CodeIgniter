@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Transactions : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.0</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
+Transactions
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Transactions</h1>
+
+<p>CodeIgniter's database abstraction allows you to use <dfn>transactions</dfn> with databases that support transaction-safe table types.  In MySQL, you'll need
+to be running InnoDB or BDB table types rather than the more common MyISAM.  Most other database platforms support transactions natively.</p>
+
+<p>If you are not familiar with
+transactions we recommend you find a good online resource to learn about them for your particular database.  The information below assumes you
+have a basic understanding of transactions.
+</p>
+
+<h2>CodeIgniter's Approach to Transactions</h2>
+
+<p>CodeIgniter utilizes an approach to transactions that is very similar to the process used by the popular database class ADODB.  We've chosen that approach
+because it greatly simplifies the process of running transactions.  In most cases all that is required are two lines of code.</p>
+
+<p>Traditionally, transactions have required a fair amount of work to implement since they demand that you to keep track of your queries
+and determine whether to <dfn>commit</dfn> or <dfn>rollback</dfn> based on the success or failure of your queries. This is particularly cumbersome with
+nested queries. In contrast,
+we've implemented a smart transaction system that does all this for you automatically (you can also manage your transactions manually if you choose to,
+but there's really no benefit).</p>
+
+<h2>Running Transactions</h2>
+
+<p>To run your queries using transactions you will use the <dfn>$this->db->trans_start()</dfn> and <dfn>$this->db->trans_complete()</dfn> functions as follows:</p>
+
+<code>
+<kbd>$this->db->trans_start();</kbd><br />
+$this->db->query('AN SQL QUERY...');<br />
+$this->db->query('ANOTHER QUERY...');<br />
+$this->db->query('AND YET ANOTHER QUERY...');<br />
+<kbd>$this->db->trans_complete();</kbd>
+</code>
+
+<p>You can run as many queries as you want between the start/complete functions and they will all be committed or rolled back based on success or failure
+of any given query.</p>
+
+
+<h2>Strict Mode</h2>
+
+<p>By default CodeIgniter runs all transactions in <dfn>Strict Mode</dfn>.  When strict mode is enabled, if you are running multiple groups of
+transactions, if one group fails all groups will be rolled back. If strict mode is disabled, each group is treated independently, meaning
+a failure of one group will not affect any others.</p>
+
+<p>Strict Mode can be disabled as follows:</p>
+
+<code>$this->db->trans_strict(FALSE);</code>
+
+
+<h2>Managing Errors</h2>
+
+<p>If you have error reporting enabled in your <dfn>config/database.php</dfn> file you'll see a standard error message if the commit was unsuccessful. If debugging is turned off, you can
+manage your own errors like this:</p>
+
+<code>
+$this->db->trans_start();<br />
+$this->db->query('AN SQL QUERY...');<br />
+$this->db->query('ANOTHER QUERY...');<br />
+$this->db->trans_complete();<br />
+<br />
+if (<kbd>$this->db->trans_status()</kbd> === FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// generate an error... or use the log_message() function to log your error<br />
+}
+</code>
+
+
+<h2>Enabling Transactions</h2>
+
+<p>Transactions are enabled automatically the moment you use <dfn>$this->db->trans_start()</dfn>.  If you would like to disable transactions you
+can do so using <dfn>$this->db->trans_off()</dfn>:</p>
+
+<code>
+<kbd>$this->db->trans_off()</kbd><br /><br />
+
+$this->db->trans_start();<br />
+$this->db->query('AN SQL QUERY...');<br />
+$this->db->trans_complete();
+</code>
+
+<p class="important">When transactions are disabled, your queries will be auto-commited, just as they are when running queries without transactions.</p>
+
+
+<h2>Test Mode</h2>
+
+<p>You can optionally put the transaction system into "test mode", which will cause your queries to be rolled back -- even if the queries produce a valid result.
+To use test mode simply set the first parameter in the <dfn>$this->db->trans_start()</dfn> function to <samp>TRUE</samp>:</p>
+
+<code>
+$this->db->trans_start(<samp>TRUE</samp>); // Query will be rolled back<br />
+$this->db->query('AN SQL QUERY...');<br />
+$this->db->trans_complete();
+</code>
+
+
+<h2>Running Transactions Manually</h2>
+
+<p>If you would like to run transactions manually you can do so as follows:</p>
+
+<code>
+$this->db->trans_begin();<br /><br />
+
+$this->db->query('AN SQL QUERY...');<br />
+$this->db->query('ANOTHER QUERY...');<br />
+$this->db->query('AND YET ANOTHER QUERY...');<br />
+
+<br />
+
+if ($this->db->trans_status() === FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this->db->trans_rollback();<br />
+}<br />
+else<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this->db->trans_commit();<br />
+}<br />
+</code>
+
+<p class="important"><strong>Note:</strong> Make sure to use <kbd>$this->db->trans_begin()</kbd> when running manual transactions, <strong>NOT</strong>
+<dfn>$this->db->trans_start()</dfn>.</p>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp; <a href="fields.html">Field MetaData</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="table_data.html">Table Metadata</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>
