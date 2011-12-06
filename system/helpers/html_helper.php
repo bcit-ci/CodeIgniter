@@ -431,6 +431,38 @@ if ( ! function_exists('nbs'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Generates an HTML progress element
+ *
+ * @access	public
+ * @param	mixed 	value 	progress value or an array of attributes
+ * @param	string 	content
+ * @param	integer min
+ * @param	integer max
+ * @param	string  extra
+ * @return	string
+ */
+if ( ! function_exists('progress'))
+{
+	function progress($value='', $content='', $extra='')
+	{
+		if (is_array($value)) 
+		{
+			foreach ($value as $key=>$value) 
+			{
+				$data .= $key.'="'.$value.'" ';
+			}
+		}
+		else {
+			$data = 'value="'.$value.'"';
+		}
+		if ($extra) $extra = ' '.trim($extra);
+		return '<progress '.trim($data).$extra.'>'.$content.'</progress>';
+	}
+}
+
 
 /* End of file html_helper.php */
 /* Location: ./system/helpers/html_helper.php */
