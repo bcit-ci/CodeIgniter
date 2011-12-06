@@ -65,6 +65,7 @@ Bug fixes for 3.0
 -  Bug #724 - is_unique in form validation now checks that you are connected to a database.
 -  Bug #647 - _get_mod_time() in Zip library no longer generates stat failed errors
 -  Bug #608 - Fixes an issue with the Image_lib class not clearing properties completely
+-  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
 
 Version 2.1.0
 =============
