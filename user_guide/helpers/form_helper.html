@@ -221,6 +221,16 @@ except that it generates a "textarea" type. Note: Instead of the "maxlength" and
 example, you will instead specify "rows" and "cols".</p>
 
 
+<h2>form_datalist()</h2>
+
+<p>Let's you create an html5 datalist element. The first parameter will contain an array of options, the second parameter will be the id attribute, 
+and the third will be an optional string or associative array of other attributes</p>
+
+<code>$options = array('value 1', 'value 2');<br />
+echo form_datalist($options, 'mylist');
+</code>
+
+
 <h2>form_dropdown()</h2>
 
 <p>Lets you create a standard drop-down field.  The first parameter will contain the name of the field,

@@ -242,6 +242,54 @@ if ( ! function_exists('form_input_range'))
 // ------------------------------------------------------------------------
 
 /**
+ * Datalist
+ * 
+ * Create an html5 datalist.
+ *
+ * @access	public
+ * @param array $options
+ * @param mixed $attributes
+ */
+if ( ! function_exists('form_datalist')) {
+	function form_datalist($options, $id, $attributes = '') {
+		// If an array wasn't submitted there's nothing to do...
+		if ( ! is_array($options))
+		{
+			return $options;
+		}
+
+		// Were any other attributes submitted?  If so generate a string
+		if (is_array($attributes))
+		{
+			$atts = '';
+			foreach ($attributes as $key => $val)
+			{
+				$atts .= ' ' . $key . '="' . $val . '"';
+			}
+			$attributes = $atts;
+		}
+		elseif (is_string($attributes) AND strlen($attributes) > 0)
+		{
+			$attributes = ' '. $attributes;
+		}
+
+		$out = "<datalist id=\"$id\"$attributes>\n";
+		foreach ($options as $key => $val)
+		{
+			$out .= "	";
+			$out .= "<option>";
+			$out .= $val;
+			$out .= "</option>\n";
+		}
+		$out .= "</datalist>\n";
+
+		return $out;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
  * Password Field
  *
  * Identical to the input function but adds the "password" type
