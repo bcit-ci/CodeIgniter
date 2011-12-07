@@ -225,25 +225,25 @@ if ( ! function_exists('humanize'))
  * @return	str
  */
 
-if ( !function_exists( 'pluralize' ) )
+if ( !function_exists( 'resolve_case' ) )
 {
-	function pluralize($word, $count, $includeCount = false)
+	function resolve_case($word, $count, $include_count = false)
 	{
 		if ($count == 1)
 		{
-			$returnValue = singular($word);
+			$return_value = singular($word);
 		}
 		else
 		{
-			$returnValue = plural($word);
+			$return_value = plural($word);
 		}
 
-		if ($includeCount == true)
+		if ( $include_count == true)
 		{
-			$returnValue = $count . ' ' . $returnValue;
+			$return_value = $count . ' ' . $return_value;
 		}
 
-		return $returnValue;
+		return $return_value;
 	}
 }
 
