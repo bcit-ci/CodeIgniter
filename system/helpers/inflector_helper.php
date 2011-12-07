@@ -213,7 +213,7 @@ if ( ! function_exists('humanize'))
 // --------------------------------------------------------------------
 
 /**
- * Pluralize
+ * Resolve Case
  *
  * Takes a singular word and a count, and returns the word in the sigular or plural form based on the count
  * Optionally, will return the string including the count supplied appended to the start
