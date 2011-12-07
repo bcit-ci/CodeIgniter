@@ -385,7 +385,7 @@ class CodeIgniter {
 	// Get the parsed route and identify class, method, and arguments
 	$route = $CI->router->fetch_route();
 	$args = array_slice($route, CI_Router::SEG_CLASS);
-	$class = array_shift($args);
+	$class = strtolower(array_shift($args));
 	$method = array_shift($args);
 
 	// Mark a start point so we can benchmark the controller
@@ -398,7 +398,7 @@ class CodeIgniter {
 	}
 
 	// Set special "routed" reference to routed Controller
-	$CI->routed =& $CI->$class;
+	$CI->routed = $CI->$class;
 
 /*
  * ------------------------------------------------------
