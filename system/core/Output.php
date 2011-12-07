@@ -38,26 +38,10 @@ class CI_Output {
 	/**
 	 * Current output string
 	 *
-	 * @var		string
+	 * @var		array
 	 * @access	protected
 	 */
-	protected $final_output		= '';
-
-	/**
-	 * Forked output string
-	 *
-	 * @var		string
-	 * @access	protected
-	 */
-	protected $forked_output	= '';
-
-	/**
-	 * Forked output flag
-	 *
-	 * @var		bool
-	 * @access	protected
-	 */
-	protected $forked			= FALSE;
+	protected $final_output		= array('');
 
 	/**
 	 * Cache expiration time
@@ -147,7 +131,7 @@ class CI_Output {
 	 */
 	public function get_output()
 	{
-		return $this->final_output;
+		return end($this->final_output);
 	}
 
 	// --------------------------------------------------------------------
@@ -163,14 +147,10 @@ class CI_Output {
 	 */
 	public function set_output($output)
 	{
-		if ($this->forked)
-		{
-			$this->forked_output = $output;
-		}
-		else
-		{
-			$this->final_output = $output;
-		}
+		// Set buffer contents for current buffer in stack
+		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
+		$level = count($this->final_output) - 1;
+		$this->final_output[$level] = $output;
 
 		return $this;
 	}
@@ -188,14 +168,10 @@ class CI_Output {
 	 */
 	public function append_output($output)
 	{
-		if ($this->forked)
-		{
-			$this->forked_output .= $output;
-		}
-		else
-		{
-			$this->final_output .= $output;
-		}
+		// Append output to current buffer in stack
+		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
+		$level = count($this->final_output) - 1;
+		$this->final_output[$level] .= $output;
 
 		return $this;
 	}
@@ -203,38 +179,58 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fork Output
+	 * Stack Push
 	 *
-	 * Redirects output to the forked output string until get_fork() is called
+	 * Pushes a new output buffer onto the stack
 	 *
 	 * @access	public
-	 * @return	void
+	 * @param	string	Optional initial buffer contents
+	 * @return	int		New stack depth
 	 */
-	public function fork_output()
+	public function stack_push($output = '')
 	{
-		// Set forked flag and clear forked output
-		$this->forked = TRUE;
-		$this->forked_output = '';
+		// Add a buffer to the output stack
+		$this->final_output[] = $output;
+		return count($this->final_output);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get Forked Output
+	 * Get Stack Level
 	 *
-	 * Returns forked output and ends forking, unless $continue is TRUE
-	 * In order to capture the forked output and continue with an empty buffer, call:
-	 *	$this->CI->output->get_forked(TRUE);
-	 *	$this->CI->output->set_output('');
+	 * Returns number of buffer levels in final output stack
 	 *
 	 * @access	public
-	 * @param	bool	TRUE to continue fork
+	 * @return	int		Stack depth
+	 */
+	public function stack_level()
+	{
+		// Just return count of buffers
+		return count($this->final_output);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Stack Pop
+	 *
+	 * Pops current output buffer off the stack and returns it
+	 * Returns bottom buffer contents (without pop) if only one exists
+	 *
+	 * @access	public
 	 * @return	string
 	 */
-	public function get_forked($continue = FALSE)
+	public function stack_pop()
 	{
-		$this->forked = $continue;
-		return $this->forked_output;
+		if (count($this->final_output) > 1)
+		{
+			// Pop the topmost buffer and return it
+			return array_pop($this->final_output);
+		}
+
+		// Nothing to pop - just return contents of bottom buffer
+		return $this->final_output[0];
 	}
 
 	// --------------------------------------------------------------------
@@ -395,7 +391,8 @@ class CI_Output {
 		// Set the output data
 		if ($output == '')
 		{
-			$output =& $this->final_output;
+			// Collapse the output stack
+			$output = implode($this->final_output);
 		}
 
 		// --------------------------------------------------------------------
