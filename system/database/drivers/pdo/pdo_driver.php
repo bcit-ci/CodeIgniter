@@ -90,7 +90,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 		
-		$this->hostname .= ";dbname=".$this->database;
+		if (strpos($this->hostname, 'sqlite') === FALSE)
+		{
+			$this->hostname .= ";dbname=".$this->database;
+		}
 		
 		$this->trans_enabled = FALSE;
 
