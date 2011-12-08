@@ -800,7 +800,7 @@ class CI_Loader {
 	{
 		if ( ! class_exists('CI_Driver_Library'))
 		{
-			// we aren't instantiating an object here, that'll be done by the Library itself
+			// We aren't instantiating an object here, that'll be done by the Library itself
 			require BASEPATH.'libraries/Driver.php';
 		}
 
@@ -1198,11 +1198,17 @@ class CI_Loader {
 					return;
 				}
 
+                // If this looks like a driver, make sure the base class is loaded
+                if (strtolower($subdir) == strtolower($class).'/' && !class_exists('CI_Driver_Library'))
+                {
+                    // We aren't instantiating an object here, that'll be done by the Library itself
+                    require BASEPATH.'libraries/Driver.php';
+                }
+
 				include_once($filepath);
 				$this->_ci_loaded_files[] = $filepath;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
-
 		} // END FOREACH
 
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
