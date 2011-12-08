@@ -830,6 +830,7 @@ Rule                    Parameter  Description                                  
 **matches**             Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
 **is_unique**           Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
                                    table and field name in the parameter. is_unique[table.field]                                                        
+**empty**               No         Returns FALSE if the form element contains anything at all.
 **max_length**          Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**        Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**        Yes        Returns FALSE if the form element is less than the parameter value or not numeric.            greater_than[8]        

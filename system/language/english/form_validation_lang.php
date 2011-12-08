@@ -45,6 +45,7 @@ $lang['matches']			= "The %s field does not match the %s field.";
 $lang['is_unique'] 			= "The %s field must contain a unique value.";
 $lang['is_natural']			= "The %s field must contain only positive numbers.";
 $lang['is_natural_no_zero']	= "The %s field must contain a number greater than zero.";
+$lang['empty']				= "The %s field must be empty.";
 $lang['decimal']			= "The %s field must contain a decimal number.";
 $lang['less_than']			= "The %s field must contain a number less than %s.";
 $lang['greater_than']		= "The %s field must contain a number greater than %s.";
