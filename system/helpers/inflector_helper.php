@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -84,7 +84,7 @@ if ( ! function_exists('singular'))
 			'/(n)ews$/'             => '\1\2ews',
 			'/([^u])s$/'            => '\1',
 		);
-		
+
 		foreach ($singular_rules as $rule => $replacement)
 		{
 			if (preg_match($rule, $result))
@@ -115,7 +115,7 @@ if ( ! function_exists('plural'))
 	function plural($str, $force = FALSE)
 	{
 		$result = strval($str);
-	
+
 		$plural_rules = array(
 			'/^(ox)$/'                 => '\1\2en',     // ox
 			'/([m|l])ouse$/'           => '\1ice',      // mouse, louse
@@ -210,6 +210,42 @@ if ( ! function_exists('humanize'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+/**
+ * Resolve Case
+ *
+ * Takes a singular word and a count, and returns the word in the sigular or plural form based on the count
+ * Optionally, will return the string including the count supplied appended to the start
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	str
+ */
+
+if ( !function_exists( 'resolve_case' ) )
+{
+	function resolve_case($word, $count, $include_count = false)
+	{
+		if ($count == 1)
+		{
+			$return_value = singular($word);
+		}
+		else
+		{
+			$return_value = plural($word);
+		}
+
+		if ( $include_count == true)
+		{
+			$return_value = $count . ' ' . $return_value;
+		}
+
+		return $return_value;
+	}
+}
 
 /* End of file inflector_helper.php */
 /* Location: ./system/helpers/inflector_helper.php */

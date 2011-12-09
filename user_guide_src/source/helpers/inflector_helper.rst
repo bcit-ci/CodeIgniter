@@ -77,3 +77,13 @@ them. Each word is capitalized. Example
 	$word = "my_dog_spot";
 	echo humanize($word); // Returns "My Dog Spot"
 
+resolve_case()
+==========
+
+Takes a singular word and a count, and returns the word in the sigular or plural form based on the count
+Optionally, will return the string including the count supplied appended to the start. Example
+
+::
+
+	$time = 2;
+	echo resolve_case( 'second', $time, true ); // Returns "2 seconds"
