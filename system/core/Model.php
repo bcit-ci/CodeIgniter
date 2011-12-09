@@ -48,7 +48,12 @@ class CI_Model {
 	function __get($key)
 	{
 		$CI =& get_instance();
-		return $CI->$key;
+		if ( property_exists( $CI, $key ) )
+		{
+			return $CI->$key;
+		}
+
+		return;
 	}
 }
 // END Model Class
