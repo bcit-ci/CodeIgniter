@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -84,7 +84,7 @@ if ( ! function_exists('singular'))
 			'/(n)ews$/'             => '\1\2ews',
 			'/([^u])s$/'            => '\1',
 		);
-		
+
 		foreach ($singular_rules as $rule => $replacement)
 		{
 			if (preg_match($rule, $result))
@@ -115,7 +115,7 @@ if ( ! function_exists('plural'))
 	function plural($str, $force = FALSE)
 	{
 		$result = strval($str);
-	
+
 		$plural_rules = array(
 			'/^(ox)$/'                 => '\1\2en',     // ox
 			'/([m|l])ouse$/'           => '\1ice',      // mouse, louse
@@ -196,20 +196,20 @@ if ( ! function_exists('underscore'))
 /**
  * Humanize
  *
- * Takes multiple words separated by underscores and changes them to spaces
+ * Takes multiple words separated by the separator and changes them to spaces
  *
  * @access	public
- * @param	string
+ * @param	string $str
+ * @param 	string $separator
  * @return	str
  */
 if ( ! function_exists('humanize'))
 {
-	function humanize($str)
+	function humanize($str, $separator = '_')
 	{
-		return ucwords(preg_replace('/[_]+/', ' ', strtolower(trim($str))));
+		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
 	}
 }
-
 
 /* End of file inflector_helper.php */
 /* Location: ./system/helpers/inflector_helper.php */
