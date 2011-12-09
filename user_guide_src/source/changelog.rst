@@ -33,6 +33,7 @@ Release Date: Not Released
 
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
+   -  Changed humanize to include a second param for the separator.
 
 -  Database
 
