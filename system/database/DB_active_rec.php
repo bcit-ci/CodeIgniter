@@ -327,6 +327,10 @@ class CI_DB_active_record extends CI_DB_driver {
 		// in the _protect_identifiers to know whether to add a table prefix
 		$this->_track_aliases($table);
 
+		// Removes any break lines that might exist. This is used to stream
+		// the condition in a single line so the identifiers can be properly protected
+		$cond = str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $cond); 
+
 		// Strip apart the condition and protect the identifiers
 		if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
 		{
