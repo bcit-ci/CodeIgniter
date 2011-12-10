@@ -70,6 +70,7 @@ class CI_Pagination {
 	protected $query_string_segment = 'per_page';
 	protected $display_pages		= TRUE;
 	protected $anchor_class			= '';
+	protected $anchor_attributes	= array(); // attribute/value pairs array for very anchors
 
 	/**
 	 * Constructor
@@ -268,13 +269,13 @@ class CI_Pagination {
 
 						if ($n == '' && $this->first_url != '')
 						{
-							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'"'.$this->_format_anchor_attributes($loop).'>'.$loop.'</a>'.$this->num_tag_close;
 						}
 						else
 						{
 							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
 
-							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'"'.$this->_format_anchor_attributes($loop).'>'.$loop.'</a>'.$this->num_tag_close;
 						}
 					}
 				}
@@ -286,7 +287,7 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
 
-			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$this->_format_anchor_attributes($this->next_link).'>'.$this->next_link.'</a>'.$this->next_tag_close;
 		}
 
 		// Render the "Last" link
@@ -294,7 +295,7 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
-			$output .= $this->last_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->last_link.'</a>'.$this->last_tag_close;
+			$output .= $this->last_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$this->_format_anchor_attributes($this->last_link).'>'.$this->last_link.'</a>'.$this->last_tag_close;
 		}
 
 		// Kill double slashes. Note: Sometimes we can end up with a double slash
@@ -305,6 +306,30 @@ class CI_Pagination {
 		$output = $this->full_tag_open.$output.$this->full_tag_close;
 
 		return $output;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Gets a string representation of anchor_attributes, the class attribute/value pairs array for anchors
+	 * 
+	 * Example : array('target' => 'top', id => 'myAnchor') gives target="top" id="myAnchor"
+	 *
+	 * @access	private
+	 * @param	string	any string for macro replacement, if a macro %s is provided in the option value
+	 * @return	string a string representation of anchor_attributes, the class attribute/value pairs array for anchors
+	 */
+	private function _format_anchor_attributes($str = '')
+	{
+		$attributes = '';
+		if (is_array($this->anchor_attributes) === TRUE)
+		{
+			foreach ($this->anchor_attributes as $attribute=>$value)
+			{
+				$attributes .= ' '.$attribute.'="'.preg_replace('/(.*)%s(.*)/', '${1}'.$str.'$2', $value).'"';
+			}
+		}
+		return $attributes;
 	}
 }
 // END Pagination Class
