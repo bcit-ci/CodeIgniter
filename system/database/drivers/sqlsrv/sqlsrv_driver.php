@@ -158,7 +158,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		if(stripos($sql,'UPDATE') !== FALSE || stripos($sql,'INSERT') !== FALSE) {
+		if (stripos($sql,'UPDATE') !== FALSE || stripos($sql,'INSERT') !== FALSE)
+		{
 			return sqlsrv_query($this->conn_id, $sql, null, array());
 		}
 		return sqlsrv_query($this->conn_id, $sql, null, array(
