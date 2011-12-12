@@ -1,25 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
- *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006 - 2011 EllisLab, Inc.
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource	
@@ -33,19 +21,20 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		EllisLab Dev Team
+ * @author		ExpressionEngine Dev Team
  * @link		
  */
-class CI_Cache extends CI_Driver_Library {
+class Cache extends CI_Driver_Library {
 	
 	protected $valid_drivers 	= array(
-		'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy'
+			'cache_apc', 'cache_file', 'cache_memcached', 'cache_memcache', 'cache_dummy'
 	);
 
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
 	protected $_adapter			= 'dummy';
+	protected $_raw_mode 		= FALSE; 	// Store raw data, or array with metadata
 	protected $_backup_driver;
-	
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -74,7 +63,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function get($id)
 	{	
-		return $this->{$this->_adapter}->get($id);
+		return call_user_func_array(array($this->{$this->_adapter},'get'), func_get_args());
 	}
 
 	// ------------------------------------------------------------------------
@@ -90,7 +79,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return $this->{$this->_adapter}->save($id, $data, $ttl);
+		return call_user_func_array(array($this->{$this->_adapter},'save'), func_get_args());
 	}
 
 	// ------------------------------------------------------------------------
@@ -103,7 +92,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function delete($id)
 	{
-		return $this->{$this->_adapter}->delete($id);
+		return call_user_func_array(array($this->{$this->_adapter},'delete'), func_get_args());
 	}
 
 	// ------------------------------------------------------------------------
@@ -115,11 +104,35 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function clean()
 	{
-		return $this->{$this->_adapter}->clean();
+		return call_user_func_array(array($this->{$this->_adapter},'clean'), array());
 	}
 
 	// ------------------------------------------------------------------------
+	
+	/**
+	 * Increment a counter in cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function increment($id)
+	{
+		return call_user_func_array(array($this->{$this->_adapter},'increment'), $id);
+	}
+	
+	/**
+	 * Decrement a counter in cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function decrement($id)
+	{
+		return call_user_func_array(array($this->{$this->_adapter},'decrement'), func_get_args());
+	}
 
+	// ------------------------------------------------------------------------
+	
 	/**
 	 * Cache Info
 	 *
@@ -128,7 +141,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function cache_info($type = 'user')
 	{
-		return $this->{$this->_adapter}->cache_info($type);
+		return call_user_func_array(array($this->{$this->_adapter},'cache_info'), func_get_args());
 	}
 
 	// ------------------------------------------------------------------------
@@ -141,7 +154,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function get_metadata($id)
 	{
-		return $this->{$this->_adapter}->get_metadata($id);
+		return call_user_func_array(array($this->{$this->_adapter},'get_metadata'), func_get_args());
 	}
 	
 	// ------------------------------------------------------------------------
@@ -158,7 +171,7 @@ class CI_Cache extends CI_Driver_Library {
 	{        
 		$default_config = array(
 				'adapter',
-				'memcached'
+				'memcache'
 			);
 
 		foreach ($default_config as $key)

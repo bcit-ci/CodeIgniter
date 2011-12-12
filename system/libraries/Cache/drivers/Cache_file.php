@@ -40,6 +40,7 @@
 class CI_Cache_file extends CI_Driver {
 
 	protected $_cache_path;
+	protected $_raw_mode = FALSE; 	// Store raw data, or array with metadata
 
 	/**
 	 * Constructor
@@ -60,7 +61,7 @@ class CI_Cache_file extends CI_Driver {
 	 * Fetch from cache
 	 *
 	 * @param 	mixed		unique key id
-	 * @return 	mixed		data on success/false on failure
+	 * @return 	mixed		data on success/FALSE on failure
 	 */
 	public function get($id)
 	{
@@ -78,7 +79,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 		
-		return $data['data'];
+		return $this->_raw_mode ? $data : $data['data'];
 	}
 
 	// ------------------------------------------------------------------------
@@ -90,11 +91,11 @@ class CI_Cache_file extends CI_Driver {
 	 * @param 	mixed		data to store
 	 * @param 	int			length of time (in seconds) the cache is valid 
 	 *						- Default is 60 seconds
-	 * @return 	boolean		true on success/false on failure
+	 * @return 	boolean		true on success/FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{		
-		$contents = array(
+		$contents = $this->_raw_mode ? $data : array(
 				'time'		=> time(),
 				'ttl'		=> $ttl,			
 				'data'		=> $data
@@ -115,7 +116,7 @@ class CI_Cache_file extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param 	mixed		unique identifier of item in cache
-	 * @return 	boolean		true on success/false on failure
+	 * @return 	boolean		true on success/FALSE on failure
 	 */
 	public function delete($id)
 	{
@@ -134,7 +135,7 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Clean the Cache
 	 *
-	 * @return 	boolean		false on failure/true on success
+	 * @return 	boolean		FALSE on failure/true on success
 	 */	
 	public function clean()
 	{
@@ -143,6 +144,51 @@ class CI_Cache_file extends CI_Driver {
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Increment a counter in Cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function increment($id)
+	{
+		$value = $this->get($id);
+		$metadata = $this->get_metadata($id);
+
+		if(is_numeric($value))
+		{
+			if($this->save($id, ++$value, $metadata['ttl']))
+			{
+				return $value;
+			}
+		}
+
+		return FALSE;
+	}
+	
+	/**
+	 * Decrement a counter in Cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function decrement($id)
+	{
+		$value = $this->get($id);
+		$metadata = $this->get_metadata($id);
+
+		if(is_numeric($value))
+		{
+			if($this->save($id, --$value, $metadata['ttl']))
+			{
+				return $value;
+			}
+		}
+
+		return FALSE;
+	}
+
+	// ------------------------------------------------------------------------
 	/**
 	 * Cache Info
 	 *

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -37,7 +37,10 @@
  * @link		
  */
 
-class CI_Cache_apc extends CI_Driver {
+class CI_Cache_apc extends CI_Driver
+{
+
+	protected $_raw_mode = FALSE; 	// Store raw data, or array with metadata
 
 	/**
 	 * Get 
@@ -52,7 +55,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		$data = apc_fetch($id);
 
-		return (is_array($data)) ? $data[0] : FALSE;
+		return $this->_raw_mode ? $data : (is_array($data)) ? $data[0] : FALSE;
 	}
 
 	// ------------------------------------------------------------------------	
@@ -64,11 +67,11 @@ class CI_Cache_apc extends CI_Driver {
 	 * @param 	mixed		Data to store
 	 * @param 	int			Length of time (in seconds) to cache the data
 	 *
-	 * @return 	boolean		true on success/false on failure
+	 * @return 	boolean		true on success/FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return apc_store($id, array($data, time(), $ttl), $ttl);
+		return apc_store($id, $this->_raw_mode ? $data : array($data, time(), $ttl), FALSE, $ttl);
 	}
 	
 	// ------------------------------------------------------------------------
@@ -77,7 +80,7 @@ class CI_Cache_apc extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param 	mixed		unique identifier of the item in the cache
-	 * @param 	boolean		true on success/false on failure
+	 * @param 	boolean		true on success/FALSE on failure
 	 */
 	public function delete($id)
 	{
@@ -89,7 +92,7 @@ class CI_Cache_apc extends CI_Driver {
 	/**
 	 * Clean the cache
 	 *
-	 * @return 	boolean		false on failure/true on success
+	 * @return 	boolean		FALSE on failure/true on success
 	 */
 	public function clean()
 	{
@@ -99,10 +102,69 @@ class CI_Cache_apc extends CI_Driver {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Increment a counter in memcache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		incremented value
+	 */
+	public function increment($id)
+	{
+		if($this->_raw_mode)
+		{ 
+			return apc_inc($id);
+		}
+		else
+		{
+			$value = $this->get($id);
+			$metadata = $this->get_metadata($id);
+	
+			if(is_numeric($value))
+			{
+				if($this->save($id, ++$value, $metadata['ttl']))
+				{
+					return $value;
+				}
+			}
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Decrement a counter in memcache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		decremented value
+	 */
+	public function decrement($id)
+	{
+		if($this->_raw_mode)
+		{
+			return apc_dec($id);
+		}
+		else 
+		{
+			$value = $this->get($id);
+			$metadata = $this->get_metadata($id);
+	
+			if(is_numeric($value))
+			{
+				if($this->save($id, --$value, $metadata['ttl']))
+				{
+					return $value;
+				}
+			}
+		}
+		
+		return FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Cache Info
 	 *
 	 * @param 	string		user/filehits
-	 * @return 	mixed		array on success, false on failure	
+	 * @return 	mixed		array on success, FALSE on failure	
 	 */
 	 public function cache_info($type = NULL)
 	 {
@@ -115,10 +177,15 @@ class CI_Cache_apc extends CI_Driver {
 	 * Get Cache Metadata
 	 *
 	 * @param 	mixed		key to get cache metadata on
-	 * @return 	mixed		array on success/false on failure
+	 * @return 	mixed		array on success/FALSE on failure
 	 */
 	public function get_metadata($id)
 	{
+		if($this->_raw_mode)
+		{
+			return array(); // we don't have any data for raw keys
+		}
+
 		$stored = apc_fetch($id);
 
 		if (count($stored) !== 3)
