@@ -615,13 +615,13 @@ class CI_Security {
 		}
 		
 		// Parse tags, stripping evil attributes
-		// The subpattern (?:([\'"]).*?\2|[^>]) matches everything but >, unless it's in quotes
+		// The subpattern (?:([\'"]).*?\2|[^\'">]) matches everything but >, unless it's in quotes
 		// After the tag open, use this non-greedily (+?) to capture the tag name and non-evil attributes
 		// Then swallow as many evil attributes are found in a row
 		// Finally, use the special subpattern to capture any remaining attributes up to the end of the tag
-		$regex = '/<(\/?(?:([\'"]).*?\2|[^>])+?)'.	// Start open or close tag and capture safe attributes
-			'(?:\s+(?:'.implode('|', $evil_attributes).')\s*=\s*(?:([\'"]).*?\3|[^\s>]*))*'.	// Eat evil attributes
-			'((?:([\'"]).*?\5|[^>])*)>/';			// Capture remaining attributes until end of tag
+		$regex = '/<(\/?(?:([\'"]).*?\2|[^\'">])+?)'.	// Start open or close tag and capture safe attributes
+			'(?:\s+(?:'.implode('|', $evil_attributes).')\s*=\s*(?:([\'"]).*?\3|[^\s>]*))+'.	// Eat evil attributes
+			'((?:([\'"]).*?\5|[^\'">])*)>/';			// Capture remaining attributes until end of tag
 		// Wash, rinse, repeat...
 		do {
 			$str = preg_replace($regex, '<$1$4>', $str, -1, $count);
