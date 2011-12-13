@@ -1019,7 +1019,7 @@ class CI_Upload {
 	protected function _file_mime_type($file)
 	{
 		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
-		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+);\s.+$/';
+		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
 
 		/* Fileinfo extension - most reliable method
 		 *
