@@ -848,6 +848,9 @@ Rule                    Parameter  Description                                  
 **is_unique**           Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
 **valid_email**         No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**        No         Returns FALSE if any value provided in a comma separated list is not a valid email.
+**valid_us_phone**      No         Returns FALSE if the form element does not provide a valid U.S. phone number.
+**valid_us_phones**     No         Returns FALSE if any value procuded in a comma separated list is not a valid U.S.
+                                   phone number .
 **valid_ip**            No         Returns FALSE if the supplied IP is not valid.
 **valid_base64**        No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ======================= ========== ============================================================================================= =======================
