@@ -196,13 +196,10 @@ class CI_Cart {
 
 		// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
 		// Note: These can be user-specified by setting the $this->product_name_rules variable.
-		if($this->product_name_safe)
+		if ( $this->product_name_safe && ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
 		{
-			if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
-			{
-				log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
-				return FALSE;
-			}
+			log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
+			return FALSE;
 		}
 
 		// --------------------------------------------------------------------

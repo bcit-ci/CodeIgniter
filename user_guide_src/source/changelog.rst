@@ -48,6 +48,7 @@ Release Date: Not Released
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
 	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  The Cart library now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
+   -  Cart Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 
 -  Core
 
