@@ -244,7 +244,7 @@ class CI_Cart {
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
 		// grab quantity if it's already there and add it on
-		if( isset($this->_cart_contents[$rowid]['qty']))
+		if (isset($this->_cart_contents[$rowid]['qty']))
 		{
 			// set our old quantity
 			$old_quantity = (int)$this->_cart_contents[$rowid]['qty'];
