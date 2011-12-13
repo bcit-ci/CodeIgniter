@@ -279,7 +279,7 @@ class CI_Router {
 				}
 
 				// Does the requested controller exist in the sub-folder?
-				if (file_exists($path.'controllers/'.$route[0].$class.'.php'))
+				if (file_exists($path.'controllers/'.$route[0].'/'.$class.'.php'))
 				{
 					// Found it - assemble segments
 					if ( ! isset($route[1]))
