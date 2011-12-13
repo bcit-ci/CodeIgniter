@@ -476,9 +476,17 @@ class CI_Cart {
 	 * @access	public
 	 * @return	array
 	 */
-	function contents()
+	function contents($newest_first = false)
 	{
-		$cart = $this->_cart_contents;
+		// do we want the newest first?
+		if($newest_first)
+		{
+			// reverse the array
+			$cart = array_reverse($this->_cart_contents);
+		} else {
+			// just added first to last
+			$cart = $this->_cast_contents;
+		}
 
 		// Remove these so they don't create a problem when showing the cart table
 		unset($cart['total_items']);
