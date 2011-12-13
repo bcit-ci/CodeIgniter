@@ -1019,7 +1019,7 @@ class CI_Upload {
 		return $filename;
 	}
 
-	// --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
 	/**
 	 * File MIME type
@@ -1032,90 +1032,164 @@ class CI_Upload {
 	 */
 	protected function _file_mime_type($file)
 	{
-		// Use if the Fileinfo extension, if available (only versions above 5.3 support the FILEINFO_MIME_TYPE flag)
-		if ( (float) substr(phpversion(), 0, 3) >= 5.3 && function_exists('finfo_file'))
+		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
+		$regexp = '/^([a-z\-]+\/[a-z0-9\-]+);\s.+$/';
+		//get file extension without the preceding dot. We use this to get a list of a list of valid mimes 
+		$ext_without_dot = str_replace('.', '', $this->get_extension($file['name']));
+
+		/* Fileinfo extension - most reliable method
+		 *
+		 * Unfortunately, prior to PHP 5.3 - it's only available as a PECL extension and the
+		 * more convenient FILEINFO_MIME_TYPE flag doesn't exist.
+		 */
+		if (function_exists('finfo_file'))
 		{
-			$finfo = new finfo(FILEINFO_MIME_TYPE);
-			if ($finfo !== FALSE) // This is possible, if there is no magic MIME database file found on the system
+			$finfo = finfo_open(FILEINFO_MIME);
+			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
 			{
-				$file_type = $finfo->file($file['tmp_name']);
+				$mime = @finfo_file($finfo, $file['tmp_name']);
+				finfo_close($finfo);
 
 				/* According to the comments section of the PHP manual page,
 				 * it is possible that this function returns an empty string
 				 * for some files (e.g. if they don't exist in the magic MIME database)
 				 */
-				if (strlen($file_type) > 1)
+				if (is_string($mime) && preg_match($regexp, $mime, $matches))
 				{
-					$this->file_type = $file_type;
+					$this->file_type = $matches[1];
 					return;
 				}
 			}
 		}
 
-		// --------------------------------------------------------------------
-		// Backward Compatible Get MIME Types
-		// If you don't have PHP 5.3 or greater the script below will run
-		// --------------------------------------------------------------------
-		// Fall back to the deprecated mime_content_type(), if available
+		/* This is an ugly hack, but UNIX-type systems provide a "native" way to detect the file type,
+		 * which is still more secure than depending on the value of $_FILES[$field]['type'], and as it
+		 * was reported in issue #750 (https://github.com/EllisLab/CodeIgniter/issues/750) - it's better
+		 * than mime_content_type() as well, hence the attempts to try calling the command line with
+		 * three different functions.
+		 *
+		 * Notes:
+		 *	- the DIRECTORY_SEPARATOR comparison ensures that we're not on a Windows system
+		 *	- many system admins would disable the exec(), shell_exec(), popen() and similar functions
+		 *	  due to security concerns, hence the function_exists() checks
+		 */
+		if (DIRECTORY_SEPARATOR !== '\\')
+		{
+			$cmd = 'file --brief --mime ' . escapeshellarg($file['tmp_name']) . ' 2>&1';
+
+			if (function_exists('exec'))
+			{
+				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
+				 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
+				 * anything that could already be set for $mime previously. This effectively makes the second parameter a dummy
+				 * value, which is only put to allow us to get the return status code.
+				 */
+				$mime = @exec($cmd, $mime, $return_status);
+				if ($return_status === 0 && is_string($mime))
+				{
+					/* some servers only return the mime type without a semicolon and additional data. 
+					 * eg `image/png` as opposed to `image/png; charset=binary` This first if checks 
+					 * to see if the returned value is simply a mime_type that matches the current file
+					 * being uploaded, if not, run the preg_match
+					 */
+					 //valid_mimes can be either a array or just one string, handle both below
+					$valid_mimes = $this->mimes_types($ext_without_dot);
+					if(is_array($valid_mimes))
+					{
+						foreach ($valid_mimes as $valid_mime)
+						{
+							if($mime == $valid_mime)
+							{
+								$this->file_type = $mime;
+								return;
+							}
+						}
+					}elseif(is_string($valid_mimes))
+					{
+						if($mime == $valid_mimes)
+						{
+							$this->file_type = $mime;
+							return;
+						}
+					}
+
+					if (preg_match($regexp, $mime, $matches))
+					{
+						$this->file_type = $matches[1];
+						return;
+					}
+				}
+			}
+
+			if ( (bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec'))
+			{
+				$mime = @shell_exec($cmd);
+				if (strlen($mime) > 0)
+				{
+					/* some servers only return the mime type without a semicolon and additional data. 
+					 * eg `image/png` as opposed to `image/png; charset=binary` This first if checks 
+					 * to see if the returned value is simply a mime_type that matches the current file
+					 * being uploaded, if not, run the preg_match
+					 */
+					 //valid_mimes can be either a array or just one string, handle both below
+					$valid_mimes = $this->mimes_types($ext_without_dot);
+					if(is_array($valid_mimes))
+					{
+						foreach ($valid_mimes as $valid_mime)
+						{
+							if($mime == $valid_mime)
+							{
+								$this->file_type = $mime;
+								return;
+							}
+						}
+					}elseif(is_string($valid_mimes))
+					{
+						if($mime == $valid_mimes)
+						{
+							$this->file_type = $mime;
+							return;
+						}
+					}
+
+					if (preg_match($regexp, $mime[(count($mime) - 1)], $matches))
+					{
+						$this->file_type = $matches[1];
+						return;
+					}
+				}
+			}
+
+			if (function_exists('popen'))
+			{
+				$proc = @popen($cmd, 'r');
+				if (is_resource($proc))
+				{
+					$mime = @fread($test, 512);
+					@pclose($proc);
+					if ($mime !== FALSE)
+					{
+						$mime = explode("\n", trim($mime));
+						if (preg_match($regexp, $mime[(count($mime) - 1)], $matches))
+						{
+							$this->file_type = $matches[1];
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		// Fall back to the deprecated mime_content_type(), if available (still better than $_FILES[$field]['type'])
 		if (function_exists('mime_content_type'))
 		{
 			$this->file_type = @mime_content_type($file['tmp_name']);
-		}
-
-		/* On different systems mime_content_type is determined differently for certain file types and can be inaccurate. See issue #750 for a detailed description. 
-		 * https://github.com/EllisLab/CodeIgniter/issues/750
-		*/
-		if (strlen($this->file_type) > 0) // Turns out it's possible that mime_content_type() returns FALSE or an empty string
-		{
-			//compare the file_type the mime_content_type suggested with what you would expect of a file extention. If they don't match keep falling through the code for a possible better match.
-			if($this->file_type == $this->mimes_types($file['type']))
+			if (strlen($this->file_type) > 0) // It's possible that mime_content_type() returns FALSE or an empty string
 			{
 				return;
 			}
-			
 		}
 
-		/* This is an ugly hack, but UNIX-type systems provide a native way to detect the file type,
-		 * which is still more secure than depending on the value of $_FILES[$field]['type']. eg: the file extension
-		 *
-		 * Notes:
-		 *	- a 'W' in the substr() expression bellow, would mean that we're using Windows
-		 *	- many system admins would disable the exec() function due to security concerns, hence the function_exists() check
-		 */
-		if (DIRECTORY_SEPARATOR !== '\\' && function_exists('exec'))
-		{
-			//This command, specifically --mime-type works on some operating systems while not on others. If this fails, fall through to the next unix command.
-			$output = array();
-			@exec('file --brief --mime-type ' . escapeshellarg($file['tmp_name']), $output, $return_code);
-			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
-			{
-				$this->file_type = rtrim($output[0]);
-				//compare the file_type the mime_content_type suggested with what you would expect of a file extention. If they don't match keep falling through the code for a possible better match.
-				if($this->file_type == $this->mimes_types($file['type']))
-				{
-					return;
-				}
-			}
-
-			//This command, specifically --mime works on some operating systems while not on others.
-			$output = array();
-			@exec('file --brief --mime ' . escapeshellarg($file['tmp_name']), $output, $return_code);
-			if ($return_code === 0 && strlen($output[0]) > 0) // A return status code != 0 would mean failed execution
-			{
-				$this->file_type = rtrim($output[0]);
-				//compare the file_type the mime_content_type suggested with what you would expect of a file extention. If they don't match keep falling through the code for a possible better match.
-				if($this->file_type == $this->mimes_types($file['type']))
-				{
-					return;
-				}
-			}
-		}
-
-		// --------------------------------------------------------------------
-		// End Backward Compatible Get MIME Types
-		// --------------------------------------------------------------------
-
-		//If all attempts above failed to retrieve a proper mime, fall back to the insecure method of just returning the file extension.
 		$this->file_type = $file['type'];
 	}
 
