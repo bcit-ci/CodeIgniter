@@ -256,6 +256,11 @@ $this->cart->update();
 
 Permits you to update items in the shopping cart, as outlined above.
 
+$this->cart->remove(rowid);
+**********************
+
+Allows you to remove an item from the shopping cart by passing it the rowid.
+
 $this->cart->total();
 *********************
 
