@@ -256,6 +256,11 @@ $this->cart->update();
 
 Permits you to update items in the shopping cart, as outlined above.
 
+$this->cart->remove(rowid);
+**********************
+
+Allows you to remove an item from the shopping cart by passing it the rowid.
+
 $this->cart->total();
 *********************
 
@@ -266,10 +271,13 @@ $this->cart->total_items();
 
 Displays the total number of items in the cart.
 
-$this->cart->contents();
+$this->cart->contents(boolean);
 ************************
 
-Returns an array containing everything in the cart.
+Returns an array containing everything in the cart. You can sort the order,
+by which this is returned by passing it "true" where the contents will be sorted
+from newest to oldest, by leaving this function blank, you'll automatically just get
+first added to the basket to last added to the basket.
 
 $this->cart->has_options(rowid);
 *********************************
