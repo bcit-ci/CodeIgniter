@@ -450,7 +450,29 @@ class CI_Cart {
 	{
 		return $this->_cart_contents['cart_total'];
 	}
-
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Remove Item
+	 *
+	 * Removes an item from the cart
+	 *
+	 * @access	public
+	 * @return	boolean
+	 */
+	 public function remove($rowid)
+	 {
+		// just do an unset 
+		unset($this->_cart_contents[$rowid]);
+		
+		// we need to save the cart now we've made our changes
+		$this->_save_cart();
+		
+		// completed
+		return true;
+	 }
+	 
 	// --------------------------------------------------------------------
 
 	/**
