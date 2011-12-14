@@ -505,7 +505,9 @@ class CI_Cart {
 		{
 			// reverse the array
 			$cart = array_reverse($this->_cart_contents);
-		} else {
+		}
+		else
+		{
 			// just added first to last
 			$cart = $this->_cast_contents;
 		}
