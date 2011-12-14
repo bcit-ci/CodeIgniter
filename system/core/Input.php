@@ -727,6 +727,36 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Is POST Request?
+	 *
+	 * Test to see if a HTTP method is POST
+	 *
+	 * @access	public
+	 * @return 	boolean
+	 */
+	public function is_post_request()
+	{
+		return ('post' === strtolower($this->server('REQUEST_METHOD')));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is GET Request?
+	 *
+	 * Test to see if a HTTP method is GET
+	 *
+	 * @access	public
+	 * @return 	boolean
+	 */
+	public function is_get_request()
+	{
+		return ('get' === strtolower($this->server('REQUEST_METHOD')));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is cli Request?
 	 *
 	 * Test to see if a request was made from the command line
