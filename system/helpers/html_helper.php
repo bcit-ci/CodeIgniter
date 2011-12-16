@@ -40,6 +40,243 @@
 // ------------------------------------------------------------------------
 
 /**
+ * strong helper
+ *
+ * Generates <h1 VAR="VAL">CONTENT</h1>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('strong'))
+{
+	function strong($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'strong');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * h1 helper
+ *
+ * Generates <h1 VAR="VAL">CONTENT</h1>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('h1'))
+{
+	function h1($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'h1');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * h2 helper
+ *
+ * Generates <h2 VAR="VAL">CONTENT</h2>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('h2'))
+{
+	function h2($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'h2');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * h3 helper
+ *
+ * Generates <h3 VAR="VAL">CONTENT</h3>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('h3'))
+{
+	function h3($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'h3');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * iframe helper
+ *
+ * Generates <element VAR="VAL">CONTENT</element>
+ *
+ * @access	public
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('iframe'))
+{
+	function iframe($params)
+	{
+		if (is_array($params) == FALSE)
+		{
+			$params = array('src'=>$params);
+		}
+		
+		$CI =& get_instance();
+		
+		return element(p($CI->lang->line('iframe_nosupport')), $params, 'iframe');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * div helper
+ *
+ * Generates <div VAR="VAL">CONTENT</div>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('div'))
+{
+	function div($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'div');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * span helper
+ *
+ * Generates <span VAR="VAL">CONTENT</span>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('span'))
+{
+	function span($inner_html = '', $params = NULL)
+	{
+		return element($inner_html, $params, 'span');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * a helper
+ *
+ * Generates <a  href="" VAR="VAL">CONTENT</a>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('a'))
+{
+	function a($inner_html = '', $params = FALSE)
+	{
+		if ( ! is_array($params))
+		{
+			$params = array('href'=>$params);
+		}
+		
+		if ( ! isset($params['href']))
+		{
+			$params['href'] = '#';
+		}
+		
+		return element($inner_html, $params, 'a');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * P helper
+ *
+ * Generates <p VAR="VAL">CONTENT</p>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @return	string
+ */
+if ( ! function_exists('p'))
+{
+	function p($inner_html = '', $params = FALSE)
+	{
+		return element($inner_html, $params, 'p');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * element helper
+ *
+ * Generates <element VAR="VAL">CONTENT</element>
+ *
+ * @access	public
+ * @param	string
+ * @param	mixed
+ * @param	string
+ * @return	string
+ */
+if ( ! function_exists('element'))
+{
+	function element($inner_html, $params = FALSE,  $typ = 'div')
+	{
+		if (is_string($params))
+		{
+			$params = array('class'=>$params);
+		}
+		
+		if ( ! is_array($params))
+		{
+			$params = array();
+		}
+		
+		$html = "<$typ";
+		foreach ($params as $k=>$v)
+		{
+			if ($k != 'html')
+			{
+				$html .= " $k=\"$v\"";
+			}
+		}
+		$html .= ">$inner_html</$typ>";
+		
+		return $html;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
  * Heading
  *
  * Generates an HTML heading tag.  First param is the data.
@@ -153,8 +390,39 @@ if ( ! function_exists('_list'))
 			$_last_list_item = $key;
 
 			$out .= str_repeat(" ", $depth + 2);
-			$out .= "<li>";
 
+			// Determine any attribute for li or ul element
+			$attributes = array('li'=>NULL,'ul'=>NULL);
+			foreach ($attributes AS $att_key=>$att_val)
+			{
+				if (is_array($val) AND isset($val[$att_key.'_attributes']))
+				{
+					// Were any li attributes submitted?  If so generate a string
+					if (is_array($val[$att_key.'_attributes']))
+					{
+						$atts = '';
+						foreach ($val[$att_key.'_attributes'] as $key2 => $val2)
+						{
+							$atts .= ' ' . $key2 . '="' . $val2 . '"';
+						}
+						$attributes[$att_key] = $atts;
+					}
+					elseif (is_string($val[$att_key.'_attributes']) AND strlen($val[$att_key.'_attributes']) > 0)
+					{
+						$attributes[$att_key] = ' '. $val[$att_key.'_attributes'];
+					}
+				}
+			}
+			
+			// Was li_attribute or ul_attribute passed, if so as val
+			if ( ($attributes['li'] != NULL OR $attributes['ul'] != NULL) AND isset($val['contents']) )
+			{
+				$val = $val['contents'];
+			}
+			
+			// Write the opening list tag
+			$out .= "<li".$attributes['li'].">";
+			
 			if ( ! is_array($val))
 			{
 				$out .= $val;
@@ -162,7 +430,7 @@ if ( ! function_exists('_list'))
 			else
 			{
 				$out .= $_last_list_item."\n";
-				$out .= _list($type, $val, '', $depth + 4);
+				$out .= _list($type, $val, $attributes['ul'], $depth + 4);
 				$out .= str_repeat(" ", $depth + 2);
 			}
 
