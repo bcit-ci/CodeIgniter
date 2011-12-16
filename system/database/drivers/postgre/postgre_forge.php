@@ -81,9 +81,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 		if ($if_not_exists === TRUE)
 		{
+			// PostgreSQL doesn't support IF NOT EXISTS syntax so we check if table exists manually
 			if ($this->db->table_exists($table))
 			{
-				return "SELECT * FROM $table"; // Needs to return innocous but valid SQL statement
+				return TRUE;
 			}
 		}
 

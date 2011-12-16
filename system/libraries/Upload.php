@@ -1033,7 +1033,7 @@ class CI_Upload {
 	protected function _file_mime_type($file)
 	{
 		// Use if the Fileinfo extension, if available (only versions above 5.3 support the FILEINFO_MIME_TYPE flag)
-		if (is_php('5.3') && function_exists('finfo_file'))
+		if ( (float) substr(phpversion(), 0, 3) >= 5.3 && function_exists('finfo_file'))
 		{
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			if ($finfo !== FALSE) // This is possible, if there is no magic MIME database file found on the system

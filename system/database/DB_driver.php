@@ -126,16 +126,43 @@ class CI_DB_driver {
 		// Connect to the database and set the connection ID
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
-		// No connection resource?  Throw an error
+		// No connection resource?  Check if there is a failover else throw an error
 		if ( ! $this->conn_id)
 		{
-			log_message('error', 'Unable to connect to the database');
-
-			if ($this->db_debug)
+			// Check if there is a failover set
+			if ( ! empty($this->failover) && is_array($this->failover))
 			{
-				$this->display_error('db_unable_to_connect');
+				// Go over all the failovers
+				foreach ($this->failover as $failover)
+				{
+					// Replace the current settings with those of the failover
+					foreach ($failover as $key => $val)
+					{
+						$this->$key = $val;
+					}
+
+					// Try to connect
+					$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+
+					// If a connection is made break the foreach loop
+					if ($this->conn_id)
+					{
+						break;
+					}
+				}
 			}
-			return FALSE;
+
+			// We still don't have a connection?
+			if ( ! $this->conn_id)
+			{
+				log_message('error', 'Unable to connect to the database');
+
+				if ($this->db_debug)
+				{
+					$this->display_error('db_unable_to_connect');
+				}
+				return FALSE;
+			}
 		}
 
 		// ----------------------------------------------------------------
@@ -522,6 +549,7 @@ class CI_DB_driver {
 		}
 
 		$this->trans_begin($test_mode);
+		$this->_trans_depth += 1;
 	}
 
 	// --------------------------------------------------------------------
@@ -544,6 +572,10 @@ class CI_DB_driver {
 		{
 			$this->_trans_depth -= 1;
 			return TRUE;
+		}
+		else
+		{
+			$this->_trans_depth = 0;
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
@@ -1032,7 +1064,14 @@ class CI_DB_driver {
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
 
-			return call_user_func_array($function, $args);
+			if (is_null($args))
+			{
+				return call_user_func($function);
+			}
+			else
+			{
+				return call_user_func_array($function, $args);
+			}
 		}
 	}
 
