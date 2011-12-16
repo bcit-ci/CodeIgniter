@@ -43,7 +43,7 @@ class CI_Cache_apc extends CI_Driver
 	{
 		$data = apc_fetch($id);
 
-		return $this->_raw_mode ? $data : (is_array($data)) ? $data[0] : FALSE;
+		return $this->_raw_mode ? $data : (is_array($data) ? $data[0] : FALSE);
 	}
 
 	// ------------------------------------------------------------------------	

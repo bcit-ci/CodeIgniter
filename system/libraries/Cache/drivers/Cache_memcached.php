@@ -50,7 +50,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{	
 		$data = $this->_memcached->get($id);
 		
-		return $this->_raw_mode ? $data : (is_array($data)) ? $data[0] : FALSE;
+		return $this->_raw_mode ? $data : (is_array($data) ? $data[0] : FALSE);
 	}
 
 	// ------------------------------------------------------------------------
