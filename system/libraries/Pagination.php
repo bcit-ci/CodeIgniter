@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -38,39 +38,38 @@
  */
 class CI_Pagination {
 
-	var $base_url			= ''; // The page we are linking to
-	var $prefix				= ''; // A custom prefix added to the path.
-	var $suffix				= ''; // A custom suffix added to the path.
-
-	var $total_rows			=  0; // Total number of items (database results)
-	var $per_page			= 10; // Max number of items you want shown per page
-	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
-	var $cur_page			=  0; // The current page being viewed
-	var $use_page_numbers	= FALSE; // Use page number for segment instead of offset
-	var $first_link			= '&lsaquo; First';
-	var $next_link			= '&gt;';
-	var $prev_link			= '&lt;';
-	var $last_link			= 'Last &rsaquo;';
-	var $uri_segment		= 3;
-	var $full_tag_open		= '';
-	var $full_tag_close		= '';
-	var $first_tag_open		= '';
-	var $first_tag_close	= '&nbsp;';
-	var $last_tag_open		= '&nbsp;';
-	var $last_tag_close		= '';
-	var $first_url			= ''; // Alternative URL for the First Page.
-	var $cur_tag_open		= '&nbsp;<strong>';
-	var $cur_tag_close		= '</strong>';
-	var $next_tag_open		= '&nbsp;';
-	var $next_tag_close		= '&nbsp;';
-	var $prev_tag_open		= '&nbsp;';
-	var $prev_tag_close		= '';
-	var $num_tag_open		= '&nbsp;';
-	var $num_tag_close		= '';
-	var $page_query_string	= FALSE;
-	var $query_string_segment = 'per_page';
-	var $display_pages		= TRUE;
-	var $anchor_class		= '';
+	protected $base_url				= ''; // The page we are linking to
+	protected $prefix				= ''; // A custom prefix added to the path.
+	protected $suffix				= ''; // A custom suffix added to the path.
+	protected $total_rows			= 0; // Total number of items (database results)
+	protected $per_page				= 10; // Max number of items you want shown per page
+	protected $num_links			= 2; // Number of "digit" links to show before/after the currently viewed page
+	protected $cur_page				= 0; // The current page being viewed
+	protected $use_page_numbers		= FALSE; // Use page number for segment instead of offset
+	protected $first_link			= '&lsaquo; First';
+	protected $next_link			= '&gt;';
+	protected $prev_link			= '&lt;';
+	protected $last_link			= 'Last &rsaquo;';
+	protected $uri_segment			= 3;
+	protected $full_tag_open		= '';
+	protected $full_tag_close		= '';
+	protected $first_tag_open		= '';
+	protected $first_tag_close		= '&nbsp;';
+	protected $last_tag_open		= '&nbsp;';
+	protected $last_tag_close		= '';
+	protected $first_url			= ''; // Alternative URL for the First Page.
+	protected $cur_tag_open			= '&nbsp;<strong>';
+	protected $cur_tag_close		= '</strong>';
+	protected $next_tag_open		= '&nbsp;';
+	protected $next_tag_close		= '&nbsp;';
+	protected $prev_tag_open		= '&nbsp;';
+	protected $prev_tag_close		= '';
+	protected $num_tag_open			= '&nbsp;';
+	protected $num_tag_close		= '';
+	protected $page_query_string	= FALSE;
+	protected $query_string_segment = 'per_page';
+	protected $display_pages		= TRUE;
+	protected $anchor_class			= '';
 
 	/**
 	 * Constructor
@@ -80,16 +79,7 @@ class CI_Pagination {
 	 */
 	public function __construct($params = array())
 	{
-		if (count($params) > 0)
-		{
-			$this->initialize($params);
-		}
-
-		if ($this->anchor_class != '')
-		{
-			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
-		}
-
+		$this->initialize($params);
 		log_message('debug', "Pagination Class Initialized");
 	}
 
@@ -102,7 +92,7 @@ class CI_Pagination {
 	 * @param	array	initialization parameters
 	 * @return	void
 	 */
-	function initialize($params = array())
+	public function initialize($params = array())
 	{
 		if (count($params) > 0)
 		{
@@ -114,6 +104,11 @@ class CI_Pagination {
 				}
 			}
 		}
+
+		if ($this->anchor_class != '')
+		{
+			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -124,7 +119,7 @@ class CI_Pagination {
 	 * @access	public
 	 * @return	string
 	 */
-	function create_links()
+	public function create_links()
 	{
 		// If our item count or per-page total is zero there is no need to continue.
 		if ($this->total_rows == 0 OR $this->per_page == 0)
@@ -167,7 +162,7 @@ class CI_Pagination {
 				$this->cur_page = (int) $this->cur_page;
 			}
 		}
-		
+
 		// Set current page to 1 if using page numbers instead of offset
 		if ($this->use_page_numbers AND $this->cur_page == 0)
 		{
@@ -204,7 +199,7 @@ class CI_Pagination {
 		}
 
 		$uri_page_number = $this->cur_page;
-		
+
 		if ( ! $this->use_page_numbers)
 		{
 			$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);

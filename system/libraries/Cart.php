@@ -41,6 +41,7 @@ class CI_Cart {
 	// These are the regular expression rules that we use to validate the product ID and product name
 	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
 	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
+	var $product_name_safe  = true; // only allow safe product names
 
 	// Private variables.  Do not change!
 	var $CI;
@@ -195,7 +196,7 @@ class CI_Cart {
 
 		// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
 		// Note: These can be user-specified by setting the $this->product_name_rules variable.
-		if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
+		if ( $this->product_name_safe && ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
 		{
 			log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
 			return FALSE;
@@ -242,7 +243,18 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
-
+		// grab quantity if it's already there and add it on
+		if (isset($this->_cart_contents[$rowid]['qty']))
+		{
+			// set our old quantity
+			$old_quantity = (int)$this->_cart_contents[$rowid]['qty'];
+		}
+		else
+		{
+			// we have no old quantity but - we don't want to throw an error
+			$old_quantity = 0;
+		}
+		
 		// let's unset this first, just to make sure our index contains only the data from this submission
 		unset($this->_cart_contents[$rowid]);
 
@@ -254,7 +266,10 @@ class CI_Cart {
 		{
 			$this->_cart_contents[$rowid][$key] = $val;
 		}
-
+		
+		// add old quantity back in
+		$this->_cart_contents[$rowid]['qty'] = ($this->_cart_contents[$rowid]['qty'] + $old_quantity);
+		
 		// Woot!
 		return $rowid;
 	}
@@ -435,7 +450,29 @@ class CI_Cart {
 	{
 		return $this->_cart_contents['cart_total'];
 	}
-
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Remove Item
+	 *
+	 * Removes an item from the cart
+	 *
+	 * @access	public
+	 * @return	boolean
+	 */
+	 public function remove($rowid)
+	 {
+		// just do an unset 
+		unset($this->_cart_contents[$rowid]);
+		
+		// we need to save the cart now we've made our changes
+		$this->_save_cart();
+		
+		// completed
+		return true;
+	 }
+	 
 	// --------------------------------------------------------------------
 
 	/**
@@ -461,9 +498,19 @@ class CI_Cart {
 	 * @access	public
 	 * @return	array
 	 */
-	function contents()
+	function contents($newest_first = false)
 	{
-		$cart = $this->_cart_contents;
+		// do we want the newest first?
+		if($newest_first)
+		{
+			// reverse the array
+			$cart = array_reverse($this->_cart_contents);
+		}
+		else
+		{
+			// just added first to last
+			$cart = $this->_cast_contents;
+		}
 
 		// Remove these so they don't create a problem when showing the cart table
 		unset($cart['total_items']);

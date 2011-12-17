@@ -111,6 +111,7 @@ class CI_Log {
 
 		if ( ! file_exists($filepath))
 		{
+			$newfile = TRUE;
 			$message .= "<"."?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
@@ -126,7 +127,10 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		@chmod($filepath, FILE_WRITE_MODE);
+		if (isset($newfile) AND $newfile === TRUE)
+		{
+			@chmod($filepath, FILE_WRITE_MODE);
+		}
 		return TRUE;
 	}
 
