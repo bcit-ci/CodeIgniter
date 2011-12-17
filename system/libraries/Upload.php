@@ -64,6 +64,7 @@ class CI_Upload {
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
+	public $lowercase_ext 			= FALSE;
 
 	protected $_file_name_override	= '';
 
@@ -118,7 +119,8 @@ class CI_Upload {
 							'remove_spaces'				=> TRUE,
 							'xss_clean'					=> FALSE,
 							'temp_prefix'				=> "temp_file_",
-							'client_name'				=> ''
+							'client_name'				=> '',
+							'lowercase_ext'				=> FALSE
 						);
 
 
@@ -1013,8 +1015,8 @@ class CI_Upload {
 				$filename .= '.'.$part;
 			}
 		}
-
-		$filename .= '.'.$ext;
+		
+		$filename .= '.'.($this->lowercase_ext == TRUE ? strtolower($ext) : $ext);
 
 		return $filename;
 	}
