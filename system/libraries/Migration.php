@@ -100,6 +100,29 @@ class CI_Migration {
 			$this->db->insert($this->_migration_table, array('version' => 0));
 		}
 
+		// If use session using database
+		if ($this->config->item('sess_use_database') === TRUE AND $this->config->item('sess_table_name') != '' AND $this->_create_table_session)
+		{
+			// If the table session is missing, make it
+			if ( ! $this->db->table_exists($this->config->item('sess_table_name')))
+			{
+				// Create the fields, keys and table
+				$this->dbforge->add_field(array(
+						'session_id'	=> array('type' => 'VARCHAR', 'constraint' => 40),
+						'ip_address'	=> array('type' => 'VARCHAR', 'constraint' => 16),
+						'user_agent'	=> array('type' => 'VARCHAR', 'constraint' => 120),
+						'last_activity'	=> array('type' => 'INT', 'constraint' => 10, 'unsigned' => TRUE),
+						'user_data'		=> array('type' => 'TEXT')
+					)
+				);
+
+				$this->dbforge->add_key('session_id', TRUE);
+				$this->dbforge->add_key('last_activity');
+
+				$this->dbforge->create_table($this->config->item('sess_table_name'), TRUE);
+			}
+		}
+
 		// Do we auto migrate to the latest migration?
 		if ($this->_migration_auto_latest == TRUE)
 		{

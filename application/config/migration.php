@@ -89,5 +89,15 @@ $config['migration_version'] = 0;
 */
 $config['migration_path'] = APPPATH . 'migrations/';
 
+/*
+|--------------------------------------------------------------------------
+| Create Session Table
+|--------------------------------------------------------------------------
+|
+| Auto create session table if not found
+| Now support for MYSQL database
+|
+*/
+$config['create_table_session'] = 'FALSE';
 
 /* End of file migration.php */
