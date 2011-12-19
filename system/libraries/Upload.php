@@ -934,13 +934,7 @@ class CI_Upload {
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		$str = '';
-		foreach ($this->error_msg as $val)
-		{
-			$str .= $open.$val.$close;
-		}
-
-		return $str;
+		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
 	}
 
 	// --------------------------------------------------------------------
