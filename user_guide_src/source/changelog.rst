@@ -74,6 +74,7 @@ Bug fixes for 3.0
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
 -  Bug #795 - Fixed form method and accept-charset when passing an empty array.
 -  Bug #797 - timespan was using incorrect seconds for year and month.
+-  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 
 Version 2.1.0
 =============
