@@ -72,7 +72,7 @@ Bug fixes for 3.0
 -  Bug #608 - Fixes an issue with the Image_lib class not clearing properties completely
 -  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
-
+-  Bug #795 - Fixed form method and accept-charset when passing an empty array.
 
 Version 2.1.0
 =============
