@@ -114,7 +114,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	void
 	 */
-	function clear()
+	public function clear()
 	{
 		$props = array('library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path');
 
@@ -158,7 +158,7 @@ class CI_Image_lib {
 	 * @param	array
 	 * @return	bool
 	 */
-	function initialize($props = array())
+	public function initialize($props = array())
 	{
 		/*
 		 * Convert array elements into class variables
@@ -379,7 +379,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function resize()
+	public function resize()
 	{
 		$protocol = 'image_process_'.$this->image_library;
 
@@ -402,7 +402,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function crop()
+	public function crop()
 	{
 		$protocol = 'image_process_'.$this->image_library;
 
@@ -425,7 +425,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function rotate()
+	public function rotate()
 	{
 		// Allowed rotation values
 		$degs = array(90, 180, 270, 'vrt', 'hor');
@@ -478,7 +478,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	bool
 	 */
-	function image_process_gd($action = 'resize')
+	public function image_process_gd($action = 'resize')
 	{
 		$v2_override = FALSE;
 
@@ -590,7 +590,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	bool
 	 */
-	function image_process_imagemagick($action = 'resize')
+	public function image_process_imagemagick($action = 'resize')
 	{
 		//  Do we have a vaild library path?
 		if ($this->library_path == '')
@@ -660,7 +660,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	bool
 	 */
-	function image_process_netpbm($action = 'resize')
+	public function image_process_netpbm($action = 'resize')
 	{
 		if ($this->library_path == '')
 		{
@@ -743,7 +743,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function image_rotate_gd()
+	public function image_rotate_gd()
 	{
 		//  Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
@@ -796,7 +796,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function image_mirror_gd()
+	public function image_mirror_gd()
 	{
 		if ( ! $src_img = $this->image_create_gd())
 		{
@@ -882,7 +882,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	bool
 	 */
-	function watermark()
+	public function watermark()
 	{
 		if ($this->wm_type == 'overlay')
 		{
@@ -902,7 +902,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function overlay_watermark()
+	public function overlay_watermark()
 	{
 		if ( ! function_exists('imagecolortransparent'))
 		{
@@ -1015,7 +1015,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function text_watermark()
+	public function text_watermark()
 	{
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
@@ -1159,7 +1159,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	resource
 	 */
-	function image_create_gd($path = '', $image_type = '')
+	public function image_create_gd($path = '', $image_type = '')
 	{
 		if ($path == '')
 			$path = $this->full_src_path;
@@ -1216,7 +1216,7 @@ class CI_Image_lib {
 	 * @param	resource
 	 * @return	bool
 	 */
-	function image_save_gd($resource)
+	public function image_save_gd($resource)
 	{
 		switch ($this->image_type)
 		{
@@ -1277,7 +1277,7 @@ class CI_Image_lib {
 	 * @param	resource
 	 * @return	void
 	 */
-	function image_display_gd($resource)
+	public function image_display_gd($resource)
 	{
 		header("Content-Disposition: filename={$this->source_image};");
 		header("Content-Type: {$this->mime_type}");
@@ -1312,7 +1312,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	void
 	 */
-	function image_reproportion()
+	public function image_reproportion()
 	{
 		if ( ! is_numeric($this->width) OR ! is_numeric($this->height) OR $this->width == 0 OR $this->height == 0)
 			return;
@@ -1354,7 +1354,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	mixed
 	 */
-	function get_image_properties($path = '', $return = FALSE)
+	public function get_image_properties($path = '', $return = FALSE)
 	{
 		// For now we require GD but we should
 		// find a way to determine this using IM or NetPBM
@@ -1414,7 +1414,7 @@ class CI_Image_lib {
 	 * @param	array
 	 * @return	array
 	 */
-	function size_calculator($vals)
+	public function size_calculator($vals)
 	{
 		if ( ! is_array($vals))
 		{
@@ -1462,7 +1462,7 @@ class CI_Image_lib {
 	 * @param	array
 	 * @return	array
 	 */
-	function explode_name($source_image)
+	public function explode_name($source_image)
 	{
 		$ext = strrchr($source_image, '.');
 		$name = ($ext === FALSE) ? $source_image : substr($source_image, 0, -strlen($ext));
@@ -1478,7 +1478,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	bool
 	 */
-	function gd_loaded()
+	public function gd_loaded()
 	{
 		if ( ! extension_loaded('gd'))
 		{
@@ -1499,7 +1499,7 @@ class CI_Image_lib {
 	 * @access	public
 	 * @return	mixed
 	 */
-	function gd_version()
+	public function gd_version()
 	{
 		if (function_exists('gd_info'))
 		{
@@ -1521,7 +1521,7 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_error($msg)
+	public function set_error($msg)
 	{
 		$CI =& get_instance();
 		$CI->lang->load('imglib');
@@ -1553,15 +1553,9 @@ class CI_Image_lib {
 	 * @param	string
 	 * @return	string
 	 */
-	function display_errors($open = '<p>', $close = '</p>')
+	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		$str = '';
-		foreach ($this->error_msg as $val)
-		{
-			$str .= $open.$val.$close;
-		}
-
-		return $str;
+		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
 	}
 
 }
