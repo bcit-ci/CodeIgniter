@@ -621,12 +621,13 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
 		
-		if (count($like) > 0) {
+		if (count($like) > 0) 
+		{
 			$sql .= ($where == '' AND count($where) <1) ? " WHERE " : ' AND ';
-			foreach ($like as $st_like) {
-
-				$sql .= " " . $st_like;
-				
+			
+			foreach ($like as $st_like) 
+			{
+				$sql .= " " . $st_like;	
 			}
 		}
 
