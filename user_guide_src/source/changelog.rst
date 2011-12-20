@@ -40,6 +40,7 @@ Release Date: Not Released
    -  Added new :doc:`Active Record <database/active_record>` methods that return
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
 
 -  Libraries
 
@@ -73,6 +74,7 @@ Bug fixes for 3.0
 -  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
 -  Bug #795 - Fixed form method and accept-charset when passing an empty array.
+-  Bug #797 - timespan was using incorrect seconds for year and month.
 
 Version 2.1.0
 =============
