@@ -1424,7 +1424,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit);
+		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit, $this->ar_like);
 
 		$this->_reset_write();
 		return $this->query($sql);
