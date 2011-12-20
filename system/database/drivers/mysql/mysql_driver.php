@@ -606,7 +606,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
@@ -620,6 +620,16 @@ class CI_DB_mysql_driver extends CI_DB {
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
 		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		
+		if (count($like) > 0) 
+		{
+			$sql .= ($where == '' AND count($where) <1) ? " WHERE " : ' AND ';
+			
+			foreach ($like as $st_like) 
+			{
+				$sql .= " " . $st_like;	
+			}
+		}
 
 		$sql .= $orderby.$limit;
 
