@@ -40,12 +40,12 @@
  */
 class CI_Trackback {
 
-	var $time_format	= 'local';
-	var $charset		= 'UTF-8';
-	var $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
-	var $convert_ascii	= TRUE;
-	var $response		= '';
-	var $error_msg		= array();
+	public $time_format	= 'local';
+	public $charset		= 'UTF-8';
+	public $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+	public $convert_ascii	= TRUE;
+	public $response		= '';
+	public $error_msg		= array();
 
 	/**
 	 * Constructor
