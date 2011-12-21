@@ -40,7 +40,7 @@
  */
 class CI_Encrypt {
 
-	public $CI;
+	private $CI;
 	public $encryption_key	= '';
 	private $_hash_type	= 'sha1';
 	private $_mcrypt_exists = FALSE;
