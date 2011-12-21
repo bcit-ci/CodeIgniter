@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- *
+ * 
  * Licensed under the Open Software License version 3.0
- *
+ * 
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -39,13 +39,13 @@
 class CI_Cart {
 
 	// These are the regular expression rules that we use to validate the product ID and product name
-	public $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
-	public $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
-	public $product_name_safe  = true; // only allow safe product names
+	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
+	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
+	var $product_name_safe  = true; // only allow safe product names
 
 	// Private variables.  Do not change!
-	private $CI;
-	private $_cart_contents	= array();
+	var $CI;
+	var $_cart_contents	= array();
 
 
 	/**
@@ -95,10 +95,10 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	public function insert($items = array())
+	function insert($items = array())
 	{
 		// Was any cart data passed? No? Bah...
-		if ( ! is_array($items) OR count($items) === 0)
+		if ( ! is_array($items) OR count($items) == 0)
 		{
 			log_message('error', 'The insert method must be passed an array containing data.');
 			return FALSE;
@@ -132,7 +132,7 @@ class CI_Cart {
 		}
 
 		// Save the cart data if the insert was successful
-		if ($save_cart === TRUE)
+		if ($save_cart == TRUE)
 		{
 			$this->_save_cart();
 			return isset($rowid) ? $rowid : TRUE;
@@ -150,10 +150,10 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	private function _insert($items = array())
+	function _insert($items = array())
 	{
 		// Was any cart data passed? No? Bah...
-		if ( ! is_array($items) OR count($items) === 0)
+		if ( ! is_array($items) OR count($items) == 0)
 		{
 			log_message('error', 'The insert method must be passed an array containing data.');
 			return FALSE;
@@ -170,8 +170,10 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the quantity. It can only be a number.  Duh... also trim any leading zeros
-		$items['qty'] = ltrim(trim(preg_replace('/([^0-9])/i', '', $items['qty'])), '0');
+		// Prep the quantity. It can only be a number.  Duh...
+		$items['qty'] = trim(preg_replace('/([^0-9])/i', '', $items['qty']));
+		// Trim any leading zeros
+		$items['qty'] = trim(preg_replace('/(^[0]+)/i', '', $items['qty']));
 
 		// If the quantity is zero or blank there's nothing for us to do
 		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
@@ -184,7 +186,7 @@ class CI_Cart {
 		// Validate the product ID. It can only be alpha-numeric, dashes, underscores or periods
 		// Not totally sure we should impose this rule, but it seems prudent to standardize IDs.
 		// Note: These can be user-specified by setting the $this->product_id_rules variable.
-		if ( ! preg_match('/^['.$this->product_id_rules.']+$/i', $items['id']))
+		if ( ! preg_match("/^[".$this->product_id_rules."]+$/i", $items['id']))
 		{
 			log_message('error', 'Invalid product ID.  The product ID can only contain alpha-numeric characters, dashes, and underscores');
 			return FALSE;
@@ -194,7 +196,7 @@ class CI_Cart {
 
 		// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
 		// Note: These can be user-specified by setting the $this->product_name_rules variable.
-		if ($this->product_name_safe && ! preg_match('/^['.$this->product_name_rules.']+$/i', $items['name']))
+		if ( $this->product_name_safe && ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
 		{
 			log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
 			return FALSE;
@@ -202,8 +204,10 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the price. Remove leading zeros and anything that isn't a number or decimal point.
-		$items['price'] = lrtrim(trim(preg_replace('/([^0-9\.])/i', '', $items['price'])), '0');
+		// Prep the price.  Remove anything that isn't a number or decimal point.
+		$items['price'] = trim(preg_replace('/([^0-9\.])/i', '', $items['price']));
+		// Trim any leading zeros
+		$items['price'] = trim(preg_replace('/(^[0]+)/i', '', $items['price']));
 
 		// Is the price a valid number?
 		if ( ! is_numeric($items['price']))
@@ -240,13 +244,33 @@ class CI_Cart {
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
 		// grab quantity if it's already there and add it on
-		$old_quantity = isset($this->_cart_contents[$rowid]['qty']) ? (int) $this->_cart_contents[$rowid]['qty'] : 0;
+		if (isset($this->_cart_contents[$rowid]['qty']))
+		{
+			// set our old quantity
+			$old_quantity = (int)$this->_cart_contents[$rowid]['qty'];
+		}
+		else
+		{
+			// we have no old quantity but - we don't want to throw an error
+			$old_quantity = 0;
+		}
+		
+		// let's unset this first, just to make sure our index contains only the data from this submission
+		unset($this->_cart_contents[$rowid]);
 
-		// Re-create the entry, just to make sure our index contains only the data from this submission
-		$items['rowid'] = $rowid;
-		$items['qty'] += $old_quantity;
-		$this->_cart_contents[$rowid] = $items;
+		// Create a new index with our new row ID
+		$this->_cart_contents[$rowid]['rowid'] = $rowid;
 
+		// And add the new items to the cart array
+		foreach ($items as $key => $val)
+		{
+			$this->_cart_contents[$rowid][$key] = $val;
+		}
+		
+		// add old quantity back in
+		$this->_cart_contents[$rowid]['qty'] = ($this->_cart_contents[$rowid]['qty'] + $old_quantity);
+		
+		// Woot!
 		return $rowid;
 	}
 
