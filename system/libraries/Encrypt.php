@@ -506,7 +506,7 @@ class CI_Encrypt {
 		}
 
 		require_once(BASEPATH.'libraries/Sha1.php');
-		$SH = new CI_SHA;
+		$SH = new CI_SHA1;
 		return $SH->generate($str);
 	}
 
