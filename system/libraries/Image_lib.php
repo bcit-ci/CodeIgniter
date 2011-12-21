@@ -38,55 +38,55 @@
  */
 class CI_Image_lib {
 
-	var $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
-	var $library_path		= '';
-	var $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
-	var $source_image		= '';
-	var $new_image			= '';
-	var $width				= '';
-	var $height				= '';
-	var $quality			= '90';
-	var $create_thumb		= FALSE;
-	var $thumb_marker		= '_thumb';
-	var $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
-	var $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
-	var $rotation_angle		= '';
-	var $x_axis				= '';
-	var	$y_axis				= '';
+	public $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
+	public $library_path		= '';
+	public $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
+	public $source_image		= '';
+	public $new_image			= '';
+	public $width				= '';
+	public $height				= '';
+	public $quality			= '90';
+	public $create_thumb		= FALSE;
+	public $thumb_marker		= '_thumb';
+	public $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
+	public $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
+	public $rotation_angle		= '';
+	public $x_axis				= '';
+	public $y_axis				= '';
 
 	// Watermark Vars
-	var $wm_text			= '';			// Watermark text if graphic is not used
-	var $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
-	var $wm_x_transp		= 4;
-	var $wm_y_transp		= 4;
-	var $wm_overlay_path	= '';			// Watermark image path
-	var $wm_font_path		= '';			// TT font
-	var $wm_font_size		= 17;			// Font size (different versions of GD will either use points or pixels)
-	var $wm_vrt_alignment	= 'B';			// Vertical alignment:   T M B
-	var $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
-	var $wm_padding			= 0;			// Padding around text
-	var $wm_hor_offset		= 0;			// Lets you push text to the right
-	var $wm_vrt_offset		= 0;			// Lets you push  text down
-	var $wm_font_color		= '#ffffff';	// Text color
-	var $wm_shadow_color	= '';			// Dropshadow color
-	var $wm_shadow_distance	= 2;			// Dropshadow distance
-	var $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
+	public $wm_text			= '';			// Watermark text if graphic is not used
+	public $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
+	public $wm_x_transp		= 4;
+	public $wm_y_transp		= 4;
+	public $wm_overlay_path	= '';			// Watermark image path
+	public $wm_font_path		= '';			// TT font
+	public $wm_font_size		= 17;			// Font size (different versions of GD will either use points or pixels)
+	public $wm_vrt_alignment	= 'B';			// Vertical alignment:   T M B
+	public $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
+	public $wm_padding			= 0;			// Padding around text
+	public $wm_hor_offset		= 0;			// Lets you push text to the right
+	public $wm_vrt_offset		= 0;			// Lets you push  text down
+	public $wm_font_color		= '#ffffff';	// Text color
+	public $wm_shadow_color	= '';			// Dropshadow color
+	public $wm_shadow_distance	= 2;			// Dropshadow distance
+	public $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
 
 	// Private Vars
-	var $source_folder		= '';
-	var $dest_folder		= '';
-	var $mime_type			= '';
-	var $orig_width			= '';
-	var $orig_height		= '';
-	var $image_type			= '';
-	var $size_str			= '';
-	var $full_src_path		= '';
-	var $full_dst_path		= '';
-	var $create_fnc			= 'imagecreatetruecolor';
-	var $copy_fnc			= 'imagecopyresampled';
-	var $error_msg			= array();
-	var $wm_use_drop_shadow	= FALSE;
-	var $wm_use_truetype	= FALSE;
+	public $source_folder		= '';
+	public $dest_folder		= '';
+	public $mime_type			= '';
+	public $orig_width			= '';
+	public $orig_height		= '';
+	public $image_type			= '';
+	public $size_str			= '';
+	public $full_src_path		= '';
+	public $full_dst_path		= '';
+	public $create_fnc			= 'imagecreatetruecolor';
+	public $copy_fnc			= 'imagecopyresampled';
+	public $error_msg			= array();
+	public $wm_use_drop_shadow	= FALSE;
+	public $wm_use_truetype	= FALSE;
 
 	/**
 	 * Constructor
