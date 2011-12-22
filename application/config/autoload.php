@@ -83,6 +83,20 @@ $autoload['libraries'] = array();
 
 /*
 | -------------------------------------------------------------------
+|  Auto-load Drivers
+| -------------------------------------------------------------------
+| These are the drivers located in in your application/libraries folder.
+|
+| Prototype:
+|
+|	$autoload['drivers'] = array('cache');
+*/
+
+$autoload['drivers'] = array();
+
+
+/*
+| -------------------------------------------------------------------
 |  Auto-load Helper Files
 | -------------------------------------------------------------------
 | Prototype:

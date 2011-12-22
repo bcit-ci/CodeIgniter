@@ -55,29 +55,52 @@ class CI_Driver_Library {
 
 		// The class will be prefixed with the parent lib
 		$child_class = $this->lib_name.'_'.$child;
-	
+
 		// Remove the CI_ prefix and lowercase
-		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-		
+		$lib_name = ucfirst(strtolower(str_replace(array('CI_', config_item('subclass_prefix')), '', $this->lib_name)));
+		$driver_name = strtolower(str_replace(array('CI_', config_item('subclass_prefix')), '', $child_class));
+
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
 			// check and see if the driver is in a separate file
 			if ( ! class_exists($child_class))
 			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+				// We'll test for both lowercase and capitalized versions of the file name
+				foreach (array(ucfirst($driver_name), $driver_name) as $class)
 				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+					$subclass = APPPATH.'libraries/'.$lib_name.'/drivers/'.config_item('subclass_prefix').$class.'.php';
 
-						if (file_exists($filepath))
+					// is this a driver extension request?
+					if (is_file($subclass))
+					{
+						$baseclass = BASEPATH.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+
+						if (is_file($baseclass))
 						{
-							include_once $filepath;
+							$child_class = str_replace('CI_', config_item('subclass_prefix'), $child_class);
+							include_once $baseclass;
+							include_once $subclass;
 							break;
 						}
+					}
+					else
+					{
+						// Replace the subclass prefix with CI_ since it's not an extension
+						// This way new child drivers can be added to a system driver with 
+						// the CI_ prefix with or without a MY_Driver_name class
+						$child_class = str_replace(config_item('subclass_prefix'), 'CI_', $child_class);
+
+						foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+						{
+							$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+
+							if (is_file($filepath))
+							{
+								include_once $filepath;
+								break 2;
+							}
+						}
+						
 					}
 				}
 
