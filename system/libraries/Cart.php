@@ -160,7 +160,7 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 
 		// Prep the quantity. It can only be a number.  Duh... also trim any leading zeros
-		$items['qty'] = ltrim(trim(preg_replace('/([^0-9])/i', '', $items['qty'])), '0');
+		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
 		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
@@ -192,7 +192,7 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 
 		// Prep the price. Remove leading zeros and anything that isn't a number or decimal point.
-		$items['price'] = lrtrim(trim(preg_replace('/([^0-9\.])/i', '', $items['price'])), '0');
+		$items['price'] = (float) $items['price'];
 
 		// Is the price a valid number?
 		if ( ! is_numeric($items['price']))
@@ -321,7 +321,7 @@ class CI_Cart {
 		}
 
 		// Prep the quantity
-		$items['qty'] = preg_replace('/([^0-9])/i', '', $items['qty']);
+		$items['qty'] = (float) $items['qty'];
 
 		// Is the quantity a number?
 		if ( ! is_numeric($items['qty']))
@@ -388,6 +388,7 @@ class CI_Cart {
 		// Let's pass it to the Session class so it can be stored
 		$this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
 
+		// Woot!
 		return TRUE;
 	}
 
@@ -508,7 +509,7 @@ class CI_Cart {
 		}
 
 		// Remove anything that isn't a number or decimal point.
-		$n = trim(preg_replace('/([^0-9\.])/i', '', $n));
+		$n = (float) $n;
 
 		return number_format($n, 2, '.', ',');
 	}
