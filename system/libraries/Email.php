@@ -559,7 +559,7 @@ class CI_Email {
 	 */
 	public function set_newline($newline = "\n")
 	{
-		$this->newline = ($newline !== "\n" AND $newline !== "\r\n" AND $newline !== "\r") ? "\n" : $newline;
+		$this->newline = in_array($newline, array("\n", "\r\n", "\r")) ? $newline : "\n";
 		return $this;
 	}
 
@@ -602,7 +602,7 @@ class CI_Email {
 	 */
 	protected function _get_message_id()
 	{
-		$from = str_replace(array('>', '<'), array('', ''), $this->_headers['Return-Path']);
+		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
 
 		return  "<".uniqid('').strstr($from, '@').">";
 	}
@@ -837,7 +837,7 @@ class CI_Email {
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), array("\n", "\n"), $str);
+			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
 
 		// If the current word is surrounded by {unwrap} tags we'll
@@ -969,7 +969,7 @@ class CI_Email {
 	 */
 	protected function _build_message()
 	{
-		if ($this->wordwrap === TRUE && $this->mailtype !== 'html')
+		if ($this->wordwrap === TRUE AND $this->mailtype !== 'html')
 		{
 			$this->_body = $this->word_wrap($this->_body);
 		}
@@ -1305,7 +1305,7 @@ class CI_Email {
 
 		$this->_build_headers();
 
-		if ($this->bcc_batch_mode && count($this->_bcc_array) > 0 && count($this->_bcc_array) > $this->bcc_batch_size)
+		if ($this->bcc_batch_mode AND count($this->_bcc_array) > $this->bcc_batch_size)
 		{
 			return $this->batch_bcc_send();
 		}
