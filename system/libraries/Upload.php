@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -934,13 +934,7 @@ class CI_Upload {
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		$str = '';
-		foreach ($this->error_msg as $val)
-		{
-			$str .= $open.$val.$close;
-		}
-
-		return $str;
+		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
 	}
 
 	// --------------------------------------------------------------------
