@@ -44,7 +44,7 @@ class CI_Log {
 	protected $_threshold_array	= array();
 	protected $_date_fmt		= 'Y-m-d H:i:s';
 	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+	protected $_levels			= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4', 'SCREAM' => '5');
 
 	/**
 	 * Constructor

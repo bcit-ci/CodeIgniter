@@ -202,6 +202,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 |	2 = Debug Messages
 |	3 = Informational Messages
 |	4 = All Messages
+|	5 = Scream out @ operator supressed errors (that are PHP errors)
 |
 | You can also pass in a array with threshold levels to show individual error types
 | 
