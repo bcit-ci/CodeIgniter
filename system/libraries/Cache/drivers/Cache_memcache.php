@@ -125,23 +125,25 @@ class CI_Cache_memcache extends CI_Driver
 	 */
 	public function increment($id)
 	{
-		if($this->_raw_mode)
-		{ 
-			return $this->_memcache->increment($id);
-		}
-		else
+		$value = $this->get($id);
+		
+		if(is_numeric($value))
 		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			if($this->_raw_mode)
 			{
+				return $this->_memcache->increment($id);
+			}
+			else
+			{
+				$metadata = $this->get_metadata($id);
 				if($this->save($id, ++$value, $metadata['ttl']))
 				{
 					return $value;
 				}
 			}
+			
 		}
+			
 		return FALSE;
 	}
 	
@@ -153,24 +155,25 @@ class CI_Cache_memcache extends CI_Driver
 	 */
 	public function decrement($id)
 	{
-		if($this->_raw_mode)
+		$value = $this->get($id);
+		
+		if(is_numeric($value))
 		{
-			return $this->_memcache->decrement($id);
-		}
-		else 
-		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			if($this->_raw_mode)
 			{
+				return $this->_memcache->decrement($id);
+			}
+			else
+			{
+				$metadata = $this->get_metadata($id);
 				if($this->save($id, --$value, $metadata['ttl']))
 				{
 					return $value;
 				}
 			}
+			
 		}
-		
+			
 		return FALSE;
 	}
 
