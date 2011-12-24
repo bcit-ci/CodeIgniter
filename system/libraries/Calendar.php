@@ -111,16 +111,26 @@ class CI_Calendar {
 	{
 		// Set and validate the supplied month/year
 		if ($year == '')
+		{
 			$year  = date('Y', $this->local_time);
+		}
 		elseif (strlen($year) === 1)
+		{
 			$year = '200'.$year;
+		}
 		elseif (strlen($year) === 2)
+		{
 			$year = '20'.$year;
+		}
 
 		if ($month == '')
+		{
 			$month = date('m', $this->local_time);
+		}
 		elseif (strlen($month) === 1)
+		{
 			$month = '0'.$month;
+		}
 
 		$adjusted_date = $this->adjust_date($month, $year);
 
@@ -156,7 +166,7 @@ class CI_Calendar {
 		$this->parse_template();
 
 		// Begin building the calendar output
-		$out = $this->temp['table_open'] . "\n\n" . $this->temp['heading_row_start'] . "\n";
+		$out = $this->temp['table_open']."\n\n".$this->temp['heading_row_start']."\n";
 
 		// "previous" month link
 		if ($this->show_next_prev == TRUE)
@@ -174,7 +184,7 @@ class CI_Calendar {
 		$this->temp['heading_title_cell'] = str_replace('{colspan}', $colspan,
 								str_replace('{heading}', $this->get_month_name($month).'&nbsp;'.$year, $this->temp['heading_title_cell']));
 
-		$out .= $this->temp['heading_title_cell'] . "\n";
+		$out .= $this->temp['heading_title_cell']."\n";
 
 		// "next" month link
 		if ($this->show_next_prev == TRUE)
@@ -183,9 +193,9 @@ class CI_Calendar {
 			$out .= str_replace('{next_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_next_cell']);
 		}
 
-		$out .= "\n" . $this->temp['heading_row_end'] . "\n\n"
+		$out .= "\n".$this->temp['heading_row_end']."\n\n"
 			// Write the cells containing the days of the week
-			. $this->temp['week_row_start'] . "\n";
+			.$this->temp['week_row_start']."\n";
 
 		$day_names = $this->get_day_names();
 
@@ -194,12 +204,12 @@ class CI_Calendar {
 			$out .= str_replace('{week_day}', $day_names[($start_day + $i) %7], $this->temp['week_day_cell']);
 		}
 
-		$out .= "\n" . $this->temp['week_row_end'] . "\n";
+		$out .= "\n".$this->temp['week_row_end']."\n";
 
 		// Build the main body of the calendar
 		while ($day <= $total_days)
 		{
-			$out .= "\n" . $this->temp['cal_row_start'] . "\n";
+			$out .= "\n".$this->temp['cal_row_start']."\n";
 
 			for ($i = 0; $i < 7; $i++)
 			{
@@ -210,13 +220,15 @@ class CI_Calendar {
 					if (isset($data[$day]))
 					{
 						// Cells with content
-						$temp = ($is_current_month === TRUE AND $day == $cur_day) ? $this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
+						$temp = ($is_current_month === TRUE AND $day == $cur_day) ?
+								$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
 					{
 						// Cells with no content
-						$temp = ($is_current_month === TRUE AND $day == $cur_day) ? $this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
+						$temp = ($is_current_month === TRUE AND $day == $cur_day) ?
+								$this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
 						$out .= str_replace('{day}', $day, $temp);
 					}
 				}
@@ -230,10 +242,10 @@ class CI_Calendar {
 				$day++;
 			}
 
-			$out .= "\n" . $this->temp['cal_row_end'] . "\n";
+			$out .= "\n".$this->temp['cal_row_end']."\n";
 		}
 
-		$out .= "\n" . $this->temp['table_close'];
+		$out .= "\n".$this->temp['table_close'];
 
 		return $out;
 	}
@@ -286,7 +298,9 @@ class CI_Calendar {
 	public function get_day_names($day_type = '')
 	{
 		if ($day_type != '')
+		{
 			$this->day_type = $day_type;
+		}
 
 		if ($this->day_type == 'long')
 		{
