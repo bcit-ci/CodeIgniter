@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -131,7 +131,7 @@ class CI_Pagination {
 		$num_pages = ceil($this->total_rows / $this->per_page);
 
 		// Is there only one page? Hm... nothing more to do here then.
-		if ($num_pages == 1)
+		if ($num_pages === 1)
 		{
 			return '';
 		}
@@ -146,25 +146,16 @@ class CI_Pagination {
 		{
 			if ($CI->input->get($this->query_string_segment) != $base_page)
 			{
-				$this->cur_page = $CI->input->get($this->query_string_segment);
-
-				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
+				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
 		}
-		else
+		elseif ($CI->uri->segment($this->uri_segment) != $base_page)
 		{
-			if ($CI->uri->segment($this->uri_segment) != $base_page)
-			{
-				$this->cur_page = $CI->uri->segment($this->uri_segment);
-
-				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
-			}
+			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
 
-		// Set current page to 1 if using page numbers instead of offset
-		if ($this->use_page_numbers AND $this->cur_page == 0)
+		// Set current page to 1 if it's not valid or if using page numbers instead of offset
+		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers AND $this->cur_page == 0))
 		{
 			$this->cur_page = $base_page;
 		}
@@ -174,11 +165,6 @@ class CI_Pagination {
 		if ($this->num_links < 1)
 		{
 			show_error('Your number of links must be a positive number.');
-		}
-
-		if ( ! is_numeric($this->cur_page))
-		{
-			$this->cur_page = $base_page;
 		}
 
 		// Is the page number beyond the result range?
