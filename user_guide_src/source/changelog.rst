@@ -76,6 +76,7 @@ Bug fixes for 3.0
 -  Bug #795 - Fixed form method and accept-charset when passing an empty array.
 -  Bug #797 - timespan was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
+-  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 
 Version 2.1.0
 =============
