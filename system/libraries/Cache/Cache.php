@@ -155,7 +155,7 @@ class CI_Cache extends CI_Driver_Library {
 	 * @return 	void
 	 */
 	private function _initialize($config)
-	{        
+	{
 		$default_config = array(
 				'adapter',
 				'memcached'

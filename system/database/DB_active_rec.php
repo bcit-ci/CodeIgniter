@@ -75,7 +75,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	protected $ar_cache_set			= array();
 	
 	protected $ar_no_escape 		= array();
-	protected $ar_cache_no_escape    = array();
+	protected $ar_cache_no_escape	= array();
 
 	// --------------------------------------------------------------------
 
