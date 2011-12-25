@@ -75,7 +75,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	protected $ar_cache_set			= array();
 	
 	protected $ar_no_escape 		= array();
-	protected $ar_cache_no_escape    = array();
+	protected $ar_cache_no_escape	= array();
 
 	// --------------------------------------------------------------------
 
@@ -831,9 +831,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string	direction: asc or desc
+	 * @param	bool	enable field name escaping
 	 * @return	object
 	 */
-	public function order_by($orderby, $direction = '')
+	public function order_by($orderby, $direction = '', $escape = TRUE)
 	{
 		if (strtolower($direction) == 'random')
 		{
@@ -846,7 +847,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 
-		if (strpos($orderby, ',') !== FALSE)
+		if ((strpos($orderby, ',') !== FALSE) && ($escape === TRUE))
 		{
 			$temp = array();
 			foreach (explode(',', $orderby) as $part)
@@ -864,7 +865,10 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else if ($direction != $this->_random_keyword)
 		{
-			$orderby = $this->_protect_identifiers($orderby);
+			if ($escape === TRUE)
+			{
+				$orderby = $this->_protect_identifiers($orderby);
+			}
 		}
 
 		$orderby_statement = $orderby.$direction;
@@ -1425,7 +1429,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit);
+		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit, $this->ar_like);
 
 		$this->_reset_write();
 		return $this->query($sql);

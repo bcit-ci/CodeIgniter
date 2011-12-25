@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -40,12 +40,12 @@
  */
 class CI_Trackback {
 
-	var $time_format	= 'local';
-	var $charset		= 'UTF-8';
-	var $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
-	var $convert_ascii	= TRUE;
-	var $response		= '';
-	var $error_msg		= array();
+	public $time_format	= 'local';
+	public $charset		= 'UTF-8';
+	public $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+	public $convert_ascii	= TRUE;
+	public $response		= '';
+	public $error_msg		= array();
 
 	/**
 	 * Constructor
@@ -66,7 +66,7 @@ class CI_Trackback {
 	 * @param	array
 	 * @return	bool
 	 */
-	function send($tb_data)
+	public function send($tb_data)
 	{
 		if ( ! is_array($tb_data))
 		{
@@ -147,7 +147,7 @@ class CI_Trackback {
 	 * @access	public
 	 * @return	bool
 	 */
-	function receive()
+	public function receive()
 	{
 		foreach (array('url', 'title', 'blog_name', 'excerpt') as $val)
 		{
@@ -190,7 +190,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	void
 	 */
-	function send_error($message = 'Incomplete Information')
+	public function send_error($message = 'Incomplete Information')
 	{
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
 		exit;
@@ -207,7 +207,7 @@ class CI_Trackback {
 	 * @access	public
 	 * @return	void
 	 */
-	function send_success()
+	public function send_success()
 	{
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>0</error>\n</response>";
 		exit;
@@ -222,7 +222,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function data($item)
+	public function data($item)
 	{
 		return ( ! isset($this->data[$item])) ? '' : $this->data[$item];
 	}
@@ -240,7 +240,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	bool
 	 */
-	function process($url, $data)
+	public function process($url, $data)
 	{
 		$target = parse_url($url);
 
@@ -309,7 +309,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function extract_urls($urls)
+	public function extract_urls($urls)
 	{
 		// Remove the pesky white space and replace with a comma.
 		$urls = preg_replace("/\s*(\S+)\s*/", "\\1,", $urls);
@@ -345,7 +345,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function validate_url($url)
+	public function validate_url($url)
 	{
 		$url = trim($url);
 
@@ -364,7 +364,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function get_id($url)
+	public function get_id($url)
 	{
 		$tb_id = "";
 
@@ -413,7 +413,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function convert_xml($str)
+	public function convert_xml($str)
 	{
 		$temp = '__TEMP_AMPERSANDS__';
 
@@ -443,7 +443,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function limit_characters($str, $n = 500, $end_char = '&#8230;')
+	public function limit_characters($str, $n = 500, $end_char = '&#8230;')
 	{
 		if (strlen($str) < $n)
 		{
@@ -480,7 +480,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function convert_ascii($str)
+	public function convert_ascii($str)
 	{
 		$count	= 1;
 		$out	= '';
@@ -526,7 +526,7 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_error($msg)
+	public function set_error($msg)
 	{
 		log_message('error', $msg);
 		$this->error_msg[] = $msg;
@@ -542,15 +542,9 @@ class CI_Trackback {
 	 * @param	string
 	 * @return	string
 	 */
-	function display_errors($open = '<p>', $close = '</p>')
+	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		$str = '';
-		foreach ($this->error_msg as $val)
-		{
-			$str .= $open.$val.$close;
-		}
-
-		return $str;
+		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
 	}
 
 }
