@@ -46,7 +46,7 @@ class CI_Utf8 {
 	 * Determines if UTF-8 support is to be enabled
 	 *
 	 */
-	function __construct()
+	public function __construct()
 	{
 		log_message('debug', "Utf8 Class Initialized");
 

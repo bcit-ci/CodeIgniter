@@ -41,92 +41,20 @@
 class CI_Loader {
 
 	// All these are set automatically. Don't mess with them.
-	/**
-	 * Nesting level of the output buffering mechanism
-	 *
-	 * @var int
-	 * @access protected
-	 */
 	protected $_ci_ob_level;
-	/**
-	 * List of paths to load views from
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_view_paths		= array();
-	/**
-	 * List of paths to load libraries from
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_library_paths	= array();
-	/**
-	 * List of paths to load models from
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_model_paths		= array();
-	/**
-	 * List of paths to load helpers from
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_helper_paths		= array();
-	/**
-	 * List of loaded base classes
-	 * Set by the controller class
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_base_classes		= array(); // Set by the controller class
-	/**
-	 * List of cached variables
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_cached_vars		= array();
-	/**
-	 * List of loaded classes
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_classes			= array();
-	/**
-	 * List of loaded files
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_loaded_files		= array();
-	/**
-	 * List of loaded models
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_models			= array();
-	/**
-	 * List of loaded helpers
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_helpers			= array();
-	/**
-	 * List of class name mappings
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	protected $_ci_varmap			= array('unit_test' => 'unit',
-											'user_agent' => 'agent');
+	protected $_ci_view_paths = array();
+	protected $_ci_library_paths = array();
+	protected $_ci_model_paths = array();
+	protected $_ci_helper_paths = array();
+	protected $_base_classes = array(); // Set by the controller class
+	protected $_ci_cached_vars = array();
+	protected $_ci_classes = array();
+	protected $_ci_loaded_files = array();
+	protected $_ci_models = array();
+	protected $_ci_helpers = array();
+	protected $_ci_varmap = array(
+		'unit_test' => 'unit', 'user_agent' => 'agent'
+	);
 
 	/**
 	 * Constructor

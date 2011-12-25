@@ -38,12 +38,7 @@
  */
 class CI_Model {
 
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 */
-	function __construct()
+	public function __construct()
 	{
 		log_message('debug', "Model Class Initialized");
 	}

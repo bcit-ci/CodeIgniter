@@ -38,54 +38,11 @@
  */
 class CI_Security {
 
-	/**
-	 * Random Hash for protecting URLs
-	 *
-	 * @var string
-	 * @access protected
-	 */
 	protected $_xss_hash			= '';
-
-	/**
-	 * Random Hash for Cross Site Request Forgery Protection Cookie
-	 *
-	 * @var string
-	 * @access protected
-	 */
 	protected $_csrf_hash			= '';
-
-	/**
-	 * Expiration time for Cross Site Request Forgery Protection Cookie
-	 * Defaults to two hours (in seconds)
-	 *
-	 * @var int
-	 * @access protected
-	 */
 	protected $_csrf_expire			= 7200;
-
-	/**
-	 * Token name for Cross Site Request Forgery Protection Cookie
-	 *
-	 * @var string
-	 * @access protected
-	 */
 	protected $_csrf_token_name		= 'ci_csrf_token';
-
-	/**
-	 * Cookie name for Cross Site Request Forgery Protection Cookie
-	 *
-	 * @var string
-	 * @access protected
-	 */
 	protected $_csrf_cookie_name	= 'ci_csrf_token';
-
-	/**
-	 * List of never allowed strings
-	 *
-	 * @var array
-	 * @access protected
-	 */
-
 	protected $_never_allowed_str = array(
 					'document.cookie'	=> '[removed]',
 					'document.write'	=> '[removed]',
@@ -98,13 +55,6 @@ class CI_Security {
 					'<![CDATA['			=> '&lt;![CDATA[',
 					'<comment>'			=> '&lt;comment&gt;'
 	);
-
-	/**
-	 * List of never allowed regex replacement
-	 *
-	 * @var array
-	 * @access protected
-	 */
 	protected $_never_allowed_regex = array(
 					"javascript\s*:"			=> '[removed]',
 					"expression\s*(\(|&\#40;)"	=> '[removed]', // CSS and IE
@@ -112,9 +62,6 @@ class CI_Security {
 					"Redirect\s+302"			=> '[removed]'
 	);
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		// CSRF config

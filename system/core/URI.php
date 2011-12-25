@@ -40,35 +40,10 @@
  */
 class CI_URI {
 
-	/**
-	 * List of cached uri segments
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var	$keyval			= array();
-	/**
-	 * Current uri string
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $uri_string;
-	/**
-	 * List of uri segments
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $segments		= array();
-	/**
-	 * Re-indexed list of uri segments
-	 * Starts at 1 instead of 0
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $rsegments		= array();
+	public $keyval = array();
+	public $uri_string;
+	public $segments = array();
+	public $rsegments = array();
 
 	/**
 	 * Constructor
@@ -76,15 +51,12 @@ class CI_URI {
 	 * Simply globalizes the $RTR object.  The front
 	 * loads the Router class early on so it's not available
 	 * normally as other classes are.
-	 *
-	 * @access	public
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
 		log_message('debug', "URI Class Initialized");
 	}
-
 
 	// --------------------------------------------------------------------
 

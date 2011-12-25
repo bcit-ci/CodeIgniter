@@ -40,62 +40,20 @@
  */
 class CI_Router {
 
-	/**
-	 * Config class
-	 *
-	 * @var object
-	 * @access public
-	 */
-	var $config;
-	/**
-	 * List of routes
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $routes			= array();
-	/**
-	 * List of error routes
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $error_routes	= array();
-	/**
-	 * Current class name
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $class			= '';
-	/**
-	 * Current method name
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $method			= 'index';
-	/**
-	 * Sub-directory that contains the requested controller class
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $directory		= '';
-	/**
-	 * Default controller (and method if specific)
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $default_controller;
+	public $config;
+	public $routes = array();
+	public $error_routes = array();
+	public $class = '';
+	public $method = 'index';
+	public $directory = '';
+	public $default_controller;
 
 	/**
 	 * Constructor
 	 *
 	 * Runs the route mapping function.
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
 		$this->uri =& load_class('URI', 'core');
