@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -96,20 +96,9 @@ class CI_Trackback {
 			}
 
 			// Convert High ASCII Characters
-			if ($this->convert_ascii == TRUE)
+			if ($this->convert_ascii == TRUE && in_array($item, array('excerpt', 'title', 'blog_name')))
 			{
-				if ($item == 'excerpt')
-				{
-					$$item = $this->convert_ascii($$item);
-				}
-				elseif ($item == 'title')
-				{
-					$$item = $this->convert_ascii($$item);
-				}
-				elseif ($item == 'blog_name')
-				{
-					$$item = $this->convert_ascii($$item);
-				}
+				$$item = $this->convert_ascii($$item);
 			}
 		}
 
@@ -280,15 +269,9 @@ class CI_Trackback {
 		@fclose($fp);
 
 
-		if (stristr($this->response, '<error>0</error>') === FALSE)
+		if (stripos($this->response, '<error>0</error>') === FALSE)
 		{
-			$message = 'An unknown error was encountered';
-
-			if (preg_match("/<message>(.*?)<\/message>/is", $this->response, $match))
-			{
-				$message = trim($match['1']);
-			}
-
+			$message = (preg_match('/<message>(.*?)<\/message>/is', $this->response, $match)) ? trim($match[1]) : 'An unknown error was encountered';
 			$this->set_error($message);
 			return FALSE;
 		}
@@ -318,7 +301,7 @@ class CI_Trackback {
 		$urls = str_replace(",,", ",", $urls);
 
 		// Remove any comma that might be at the end
-		if (substr($urls, -1) == ",")
+		if (substr($urls, -1) === ',')
 		{
 			$urls = substr($urls, 0, -1);
 		}
@@ -349,9 +332,9 @@ class CI_Trackback {
 	{
 		$url = trim($url);
 
-		if (substr($url, 0, 4) != "http")
+		if (strpos($url, 'http') !== 0)
 		{
-			$url = "http://".$url;
+			$url = 'http://'.$url;
 		}
 	}
 
@@ -417,15 +400,13 @@ class CI_Trackback {
 	{
 		$temp = '__TEMP_AMPERSANDS__';
 
-		$str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
-		$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
+		$str = preg_replace(array('/&#(\d+);/', '/&(\w+);/'), "$temp\\1;", $str);
 
 		$str = str_replace(array("&","<",">","\"", "'", "-"),
 							array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),
 							$str);
 
-		$str = preg_replace("/$temp(\d+);/","&#\\1;",$str);
-		$str = preg_replace("/$temp(\w+);/","&\\1;", $str);
+		$str = preg_replace(array("/$temp(\d+);/", "/$temp(\w+);/"), array('&#\\1;', '&\\1;'), $str);
 
 		return $str;
 	}
@@ -457,13 +438,13 @@ class CI_Trackback {
 			return $str;
 		}
 
-		$out = "";
+		$out = '';
 		foreach (explode(' ', trim($str)) as $val)
 		{
 			$out .= $val.' ';
 			if (strlen($out) >= $n)
 			{
-				return trim($out).$end_char;
+				return rtrim($out).$end_char;
 			}
 		}
 	}
@@ -496,16 +477,16 @@ class CI_Trackback {
 			}
 			else
 			{
-				if (count($temp) == 0)
+				if (count($temp) === 0)
 				{
 					$count = ($ordinal < 224) ? 2 : 3;
 				}
 
 				$temp[] = $ordinal;
 
-				if (count($temp) == $count)
+				if (count($temp) === $count)
 				{
-					$number = ($count == 3) ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] % 64) : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
+					$number = ($count == 3) ? (($temp[0] % 16) * 4096) + (($temp[1] % 64) * 64) + ($temp[2] % 64) : (($temp[0] % 32) * 64) + ($temp[1] % 64);
 
 					$out .= '&#'.$number.';';
 					$count = 1;
