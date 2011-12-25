@@ -241,14 +241,7 @@ if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
-		}
-		elseif (file_exists(APPPATH.'config/smileys.php'))
-		{
-			include(APPPATH.'config/smileys.php');
-		}
+		load_environ_config('smileys');
 		
 		if (isset($smileys) AND is_array($smileys))
 		{
