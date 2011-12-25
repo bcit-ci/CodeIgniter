@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -40,25 +40,25 @@
  */
 class CI_User_agent {
 
-	var $agent		= NULL;
+	public $agent		= NULL;
 
-	var $is_browser	= FALSE;
-	var $is_robot	= FALSE;
-	var $is_mobile	= FALSE;
+	public $is_browser	= FALSE;
+	public $is_robot	= FALSE;
+	public $is_mobile	= FALSE;
 
-	var $languages	= array();
-	var $charsets	= array();
+	public $languages	= array();
+	public $charsets	= array();
 
-	var $platforms	= array();
-	var $browsers	= array();
-	var $mobiles	= array();
-	var $robots		= array();
+	public $platforms	= array();
+	public $browsers	= array();
+	public $mobiles		= array();
+	public $robots		= array();
 
-	var $platform	= '';
-	var $browser	= '';
-	var $version	= '';
-	var $mobile		= '';
-	var $robot		= '';
+	public $platform	= '';
+	public $browser		= '';
+	public $version		= '';
+	public $mobile		= '';
+	public $robot		= '';
 
 	/**
 	 * Constructor
@@ -274,14 +274,12 @@ class CI_User_agent {
 	 */
 	private function _set_languages()
 	{
-		if ((count($this->languages) == 0) AND isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) AND $_SERVER['HTTP_ACCEPT_LANGUAGE'] != '')
+		if ((count($this->languages) === 0) AND isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) AND $_SERVER['HTTP_ACCEPT_LANGUAGE'] != '')
 		{
-			$languages = preg_replace('/(;q=[0-9\.]+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE'])));
-
-			$this->languages = explode(',', $languages);
+			$this->languages = explode(',', preg_replace('/(;q=[0-9\.]+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
 		}
 
-		if (count($this->languages) == 0)
+		if (count($this->languages) === 0)
 		{
 			$this->languages = array('Undefined');
 		}
@@ -297,14 +295,12 @@ class CI_User_agent {
 	 */
 	private function _set_charsets()
 	{
-		if ((count($this->charsets) == 0) AND isset($_SERVER['HTTP_ACCEPT_CHARSET']) AND $_SERVER['HTTP_ACCEPT_CHARSET'] != '')
+		if ((count($this->charsets) === 0) AND isset($_SERVER['HTTP_ACCEPT_CHARSET']) AND $_SERVER['HTTP_ACCEPT_CHARSET'] != '')
 		{
-			$charsets = preg_replace('/(;q=.+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET'])));
-
-			$this->charsets = explode(',', $charsets);
+			$this->charsets = explode(',', preg_replace('/(;q=.+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
 		}
 
-		if (count($this->charsets) == 0)
+		if (count($this->charsets) === 0)
 		{
 			$this->charsets = array('Undefined');
 		}
@@ -395,11 +391,7 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		if ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '')
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return ( ! isset($_SERVER['HTTP_REFERER']) OR $_SERVER['HTTP_REFERER'] == '') ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -502,7 +494,7 @@ class CI_User_agent {
 	 */
 	public function languages()
 	{
-		if (count($this->languages) == 0)
+		if (count($this->languages) === 0)
 		{
 			$this->_set_languages();
 		}
@@ -520,7 +512,7 @@ class CI_User_agent {
 	 */
 	public function charsets()
 	{
-		if (count($this->charsets) == 0)
+		if (count($this->charsets) === 0)
 		{
 			$this->_set_charsets();
 		}
@@ -555,7 +547,6 @@ class CI_User_agent {
 	}
 
 }
-
 
 /* End of file User_agent.php */
 /* Location: ./system/libraries/User_agent.php */
