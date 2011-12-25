@@ -225,9 +225,6 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 	/**
 	 * Drop Table
-	 *
-	 * @access    private
-	 * @return    bool
 	 */
 	function _drop_table($table)
 	{
