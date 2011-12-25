@@ -103,22 +103,15 @@ class CI_Output {
 	 */
 	function __construct()
 	{
-		$this->_zlib_oc = @ini_get('zlib.output_compression');
-
-		// Get mime types for later
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
-		}
-		else
-		{
-			include APPPATH.'config/mimes.php';
-		}
-
-
-		$this->mime_types = $mimes;
-
 		log_message('debug', "Output Class Initialized");
+		
+		$this->_zlib_oc = @ini_get('zlib.output_compression');		
+		$this->mime_types = isset($GLOBALS['mimes']) ? $GLOBALS['mimes'] : FALSE;
+		
+		if ( ! is_array($this->mime_types) OR ! $this->mime_types)
+		{
+			log_message('error', "Output Class mime_types not loaded");
+		}
 	}
 
 	// --------------------------------------------------------------------

@@ -359,24 +359,11 @@ if ( ! function_exists('get_mime_by_extension'))
 	function get_mime_by_extension($file)
 	{
 		$extension = strtolower(substr(strrchr($file, '.'), 1));
+		$mimes = (isset($GLOBALS['mimes'])) ? $GLOBALS['mimes'] : FALSE;
 
-		global $mimes;
-
-		if ( ! is_array($mimes))
+		if ( ! $mimes OR ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-
-			if ( ! is_array($mimes))
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 		if (array_key_exists($extension, $mimes))

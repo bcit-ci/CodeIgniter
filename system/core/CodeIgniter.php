@@ -67,6 +67,20 @@
 	{
 		require(APPPATH.'config/constants.php');
 	}
+	
+/*
+ * ------------------------------------------------------
+ * Load the framework mimes
+ * ------------------------------------------------------
+ */
+	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+	{
+		require_once(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+	}
+	else
+	{
+		require_once(APPPATH.'config/mimes.php');
+	}
 
 /*
  * ------------------------------------------------------

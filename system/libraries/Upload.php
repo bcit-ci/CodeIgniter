@@ -950,25 +950,15 @@ class CI_Upload {
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if (count($this->mimes) == 0)
+		if ( ! is_array($this->mimes) OR ! isset($this->mimes[0]))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			$this->mimes = isset($GLOBALS['mimes']) ? $GLOBALS['mimes'] : FALSE;
+			
+			if ( ! $this->mimes)
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config//mimes.php');
-			}
-			else
-			{
+				log_message('error', 'core/upload/mime_types - missing mimes');
 				return FALSE;
 			}
-
-			$this->mimes = $mimes;
-			unset($mimes);
 		}
 
 		return ( ! isset($this->mimes[$mime])) ? FALSE : $this->mimes[$mime];
