@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -68,23 +68,24 @@ class CI_SHA1 {
 	 * @param	string
 	 * @return	string
 	 */
-	function generate($str)
+	public function generate($str)
 	{
-		$n = ((strlen($str) + 8) >> 6) + 1;
+		$length = strlen($str);
+		$n = (($length + 8) >> 6) + 1;
 
 		for ($i = 0; $i < $n * 16; $i++)
 		{
 			$x[$i] = 0;
 		}
 
-		for ($i = 0; $i < strlen($str); $i++)
+		for ($i = 0; $i < $length; $i++)
 		{
-			$x[$i >> 2] |= ord(substr($str, $i, 1)) << (24 - ($i % 4) * 8);
+			$x[$i >> 2] |= ord($str[$i]) << (24 - ($i % 4) * 8);
 		}
 
 		$x[$i >> 2] |= 0x80 << (24 - ($i % 4) * 8);
 
-		$x[$n * 16 - 1] = strlen($str) * 8;
+		$x[$n * 16 - 1] = $length * 8;
 
 		$a =  1732584193;
 		$b = -271733879;
@@ -92,7 +93,7 @@ class CI_SHA1 {
 		$d =  271733878;
 		$e = -1009589776;
 
-		for ($i = 0; $i < count($x); $i += 16)
+		for ($i = 0, $count = count($x); $i < $count; $i += 16)
 		{
 			$olda = $a;
 			$oldb = $b;
@@ -139,11 +140,11 @@ class CI_SHA1 {
 	 * @param	string
 	 * @return	string
 	 */
-	function _hex($str)
+	private function _hex($str)
 	{
 		$str = dechex($str);
 
-		if (strlen($str) == 7)
+		if (strlen($str) === 7)
 		{
 			$str = '0'.$str;
 		}
@@ -159,14 +160,20 @@ class CI_SHA1 {
 	 * @access	private
 	 * @return	string
 	 */
-	function _ft($t, $b, $c, $d)
+	private function _ft($t, $b, $c, $d)
 	{
 		if ($t < 20)
+		{
 			return ($b & $c) | ((~$b) & $d);
-		if ($t < 40)
+		}
+		elseif ($t < 40)
+		{
 			return $b ^ $c ^ $d;
-		if ($t < 60)
+		}
+		elseif ($t < 60)
+		{
 			return ($b & $c) | ($b & $d) | ($c & $d);
+		}
 
 		return $b ^ $c ^ $d;
 	}
@@ -179,17 +186,17 @@ class CI_SHA1 {
 	 * @access	private
 	 * @return	string
 	 */
-	function _kt($t)
+	private function _kt($t)
 	{
 		if ($t < 20)
 		{
 			return 1518500249;
 		}
-		else if ($t < 40)
+		elseif ($t < 40)
 		{
 			return 1859775393;
 		}
-		else if ($t < 60)
+		elseif ($t < 60)
 		{
 			return -1894007588;
 		}
@@ -207,7 +214,7 @@ class CI_SHA1 {
 	 * @access	private
 	 * @return	string
 	 */
-	function _safe_add($x, $y)
+	private function _safe_add($x, $y)
 	{
 		$lsw = ($x & 0xFFFF) + ($y & 0xFFFF);
 		$msw = ($x >> 16) + ($y >> 16) + ($lsw >> 16);
@@ -223,7 +230,7 @@ class CI_SHA1 {
 	 * @access	private
 	 * @return	integer
 	 */
-	function _rol($num, $cnt)
+	private function _rol($num, $cnt)
 	{
 		return ($num << $cnt) | $this->_zero_fill($num, 32 - $cnt);
 	}
@@ -236,26 +243,15 @@ class CI_SHA1 {
 	 * @access	private
 	 * @return	string
 	 */
-	function _zero_fill($a, $b)
+	private function _zero_fill($a, $b)
 	{
-		$bin = decbin($a);
+		$a = decbin($a);
+		$length = strlen($a);
+		$a = ($length < $b) ? '0' : substr($a, 0, $length - $b);
 
-		if (strlen($bin) < $b)
-		{
-			$bin = 0;
-		}
-		else
-		{
-			$bin = substr($bin, 0, strlen($bin) - $b);
-		}
-
-		for ($i=0; $i < $b; $i++)
-		{
-			$bin = "0".$bin;
-		}
-
-		return bindec($bin);
+		return bindec(str_pad($a, $b + strlen($a), '0', STR_PAD_RIGHT));
 	}
+
 }
 // END CI_SHA
 
