@@ -661,11 +661,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access      protected
-	 * @param       string  the table name
-	 * @param       array   the insert keys
-	 * @param       array   the insert values
-	 * @return      string
+	 * @param	string  the table name
+	 * @param	array   the insert keys
+	 * @param 	array   the insert values
+	 * @return 	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
