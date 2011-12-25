@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -44,12 +44,12 @@
  */
 class CI_Zip  {
 
-	var $zipdata	= '';
-	var $directory	= '';
-	var $entries	= 0;
-	var $file_num	= 0;
-	var $offset		= 0;
-	var $now;
+	public $zipdata		= '';
+	public $directory	= '';
+	public $entries		= 0;
+	public $file_num	= 0;
+	public $offset		= 0;
+	public $now;
 
 	/**
 	 * Constructor
@@ -72,7 +72,7 @@ class CI_Zip  {
 	 * @param	mixed	the directory name. Can be string or array
 	 * @return	void
 	 */
-	function add_dir($directory)
+	public function add_dir($directory)
 	{
 		foreach ((array)$directory as $dir)
 		{
@@ -97,13 +97,15 @@ class CI_Zip  {
 	 *	@param string	path to file
 	 *	@return array	filemtime/filemdate
 	 */
-	function _get_mod_time($dir)
+	private function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
 		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
-		
-		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
-		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
+
+		$time = array(
+				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
+				'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
+			);
 
 		return $time;
 	}
@@ -117,7 +119,7 @@ class CI_Zip  {
 	 * @param	string	the directory name
 	 * @return	void
 	 */
-	function _add_dir($dir, $file_mtime, $file_mdate)
+	private function _add_dir($dir, $file_mtime, $file_mdate)
 	{
 		$dir = str_replace("\\", "/", $dir);
 
@@ -170,21 +172,19 @@ class CI_Zip  {
 	 * @param	string
 	 * @return	void
 	 */
-	function add_data($filepath, $data = NULL)
+	public function add_data($filepath, $data = NULL)
 	{
 		if (is_array($filepath))
 		{
 			foreach ($filepath as $path => $data)
 			{
 				$file_data = $this->_get_mod_time($path);
-
 				$this->_add_data($path, $data, $file_data['file_mtime'], $file_data['file_mdate']);
 			}
 		}
 		else
 		{
 			$file_data = $this->_get_mod_time($filepath);
-
 			$this->_add_data($filepath, $data, $file_data['file_mtime'], $file_data['file_mdate']);
 		}
 	}
@@ -199,7 +199,7 @@ class CI_Zip  {
 	 * @param	string	the data to be encoded
 	 * @return	void
 	 */
-	function _add_data($filepath, $data, $file_mtime, $file_mdate)
+	private function _add_data($filepath, $data, $file_mtime, $file_mdate)
 	{
 		$filepath = str_replace("\\", "/", $filepath);
 
@@ -251,7 +251,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @return	bool
 	 */
-	function read_file($path, $preserve_filepath = FALSE)
+	public function read_file($path, $preserve_filepath = FALSE)
 	{
 		if ( ! file_exists($path))
 		{
@@ -286,7 +286,7 @@ class CI_Zip  {
 	 * @param	string	path to source
 	 * @return	bool
 	 */
-	function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
+	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
 		if ( ! $fp = @opendir($path))
 		{
@@ -301,7 +301,7 @@ class CI_Zip  {
 
 		while (FALSE !== ($file = readdir($fp)))
 		{
-			if (substr($file, 0, 1) == '.')
+			if ($file[0] === '.')
 			{
 				continue;
 			}
@@ -337,7 +337,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @return	binary string
 	 */
-	function get_zip()
+	public function get_zip()
 	{
 		// Is there any data to return?
 		if ($this->entries == 0)
@@ -345,15 +345,13 @@ class CI_Zip  {
 			return FALSE;
 		}
 
-		$zip_data = $this->zipdata;
-		$zip_data .= $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00";
-		$zip_data .= pack('v', $this->entries); // total # of entries "on this disk"
-		$zip_data .= pack('v', $this->entries); // total # of entries overall
-		$zip_data .= pack('V', strlen($this->directory)); // size of central dir
-		$zip_data .= pack('V', strlen($this->zipdata)); // offset to start of central dir
-		$zip_data .= "\x00\x00"; // .zip file comment length
-
-		return $zip_data;
+		return $this->zipdata
+			. $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
+			. pack('v', $this->entries) // total # of entries "on this disk"
+			. pack('v', $this->entries) // total # of entries overall
+			. pack('V', strlen($this->directory)) // size of central dir
+			. pack('V', strlen($this->zipdata)) // offset to start of central dir
+			. "\x00\x00"; // .zip file comment length
 	}
 
 	// --------------------------------------------------------------------
@@ -367,7 +365,7 @@ class CI_Zip  {
 	 * @param	string	the file name
 	 * @return	bool
 	 */
-	function archive($filepath)
+	public function archive($filepath)
 	{
 		if ( ! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
 		{
@@ -392,7 +390,7 @@ class CI_Zip  {
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */
-	function download($filename = 'backup.zip')
+	public function download($filename = 'backup.zip')
 	{
 		if ( ! preg_match("|.+?\.zip$|", $filename))
 		{
@@ -420,7 +418,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @return	void
 	 */
-	function clear_data()
+	public function clear_data()
 	{
 		$this->zipdata		= '';
 		$this->directory	= '';
