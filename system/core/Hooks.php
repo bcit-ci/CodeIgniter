@@ -91,16 +91,7 @@ class CI_Hooks {
 
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
-
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
-		}
-		elseif (is_file(APPPATH.'config/hooks.php'))
-		{
-			include(APPPATH.'config/hooks.php');
-		}
-
+		load_environ_config('hooks');
 
 		if ( ! isset($hook) OR ! is_array($hook))
 		{
