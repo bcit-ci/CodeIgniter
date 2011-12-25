@@ -108,7 +108,7 @@ class CI_Output {
 		// Get mime types for later
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
