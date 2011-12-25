@@ -1000,7 +1000,7 @@ if ( ! function_exists('_attributes_to_string'))
 			$attributes = (array)$attributes;
 		}
 
-		if (is_array($attributes) AND count($attributes) > 0)
+		if (is_array($attributes) AND ($formtag === TRUE OR count($attributes) > 0))
 		{
 			$atts = '';
 

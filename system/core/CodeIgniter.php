@@ -106,9 +106,13 @@
  *  Set a liberal script execution time limit
  * ------------------------------------------------------
  */
-	if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
+	if (function_exists("set_time_limit") AND @ini_get("safe_mode") == 0)
 	{
-		@set_time_limit(300);
+		// Do not override the Time Limit value if running from Command Line
+		if(php_sapi_name() != 'cli')
+		{
+			@set_time_limit(300);
+		}
 	}
 
 /*

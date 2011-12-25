@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -746,7 +746,7 @@ class CI_Form_validation {
 		}
 
 		// If the data is an array output them one at a time.
-		//     E.g: form_input('name[]', set_value('name[]');
+		//	E.g: form_input('name[]', set_value('name[]');
 		if (is_array($this->_field_data[$field]['postdata']))
 		{
 			return array_shift($this->_field_data[$field]['postdata']);
@@ -949,7 +949,7 @@ class CI_Form_validation {
 
 		return ($str !== $field) ? FALSE : TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -962,11 +962,14 @@ class CI_Form_validation {
 	 */
 	public function is_unique($str, $field)
 	{
-		list($table, $field)=explode('.', $field);
-		$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
-		
-		return $query->num_rows() === 0;
-    }
+		list($table, $field) = explode('.', $field);
+		if (isset($this->CI->db))
+		{
+			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
+			return $query->num_rows() === 0;
+		}
+		return FALSE;
+	}
 
 	// --------------------------------------------------------------------
 
