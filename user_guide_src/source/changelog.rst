@@ -41,6 +41,7 @@ Release Date: Not Released
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
+   -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
 
 -  Libraries
 
@@ -48,10 +49,11 @@ Release Date: Not Released
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
 	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
-   -  Cart library changes include;
+   -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+   -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
 
 -  Core
 
@@ -67,15 +69,16 @@ Bug fixes for 3.0
    language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
 -  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
--  Bug #419 - auto_link() now recognizes URLs that come after a word boundary.
--  Bug #724 - is_unique in form validation now checks that you are connected to a database.
--  Bug #647 - _get_mod_time() in Zip library no longer generates stat failed errors
--  Bug #608 - Fixes an issue with the Image_lib class not clearing properties completely
+-  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
+-  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
+-  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors
+-  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely
 -  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
--  Bug #795 - Fixed form method and accept-charset when passing an empty array.
--  Bug #797 - timespan was using incorrect seconds for year and month.
+-  Fixed a bug (#795) - Fixed form method and accept-charset when passing an empty array.
+-  Fixed a bug (#797) - timespan was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
+-  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
 
 Version 2.1.0
 =============
