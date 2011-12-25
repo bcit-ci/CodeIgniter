@@ -72,11 +72,7 @@ class CI_SHA1 {
 	{
 		$length = strlen($str);
 		$n = (($length + 8) >> 6) + 1;
-
-		for ($i = 0; $i < $n * 16; $i++)
-		{
-			$x[$i] = 0;
-		}
+		$x = array_fill(0, $n * 16, 0);
 
 		for ($i = 0; $i < $length; $i++)
 		{
