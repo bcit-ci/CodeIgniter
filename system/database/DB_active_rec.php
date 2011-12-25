@@ -830,9 +830,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string	direction: asc or desc
+	 * @param	bool	enable field name escaping
 	 * @return	object
 	 */
-	public function order_by($orderby, $direction = '')
+	public function order_by($orderby, $direction = '', $escape = TRUE)
 	{
 		if (strtolower($direction) == 'random')
 		{
@@ -845,7 +846,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 
-		if (strpos($orderby, ',') !== FALSE)
+		if ((strpos($orderby, ',') !== FALSE) && ($escape === TRUE))
 		{
 			$temp = array();
 			foreach (explode(',', $orderby) as $part)
@@ -863,7 +864,10 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else if ($direction != $this->_random_keyword)
 		{
-			$orderby = $this->_protect_identifiers($orderby);
+			if ($escape === TRUE)
+			{
+				$orderby = $this->_protect_identifiers($orderby);
+			}
 		}
 
 		$orderby_statement = $orderby.$direction;
