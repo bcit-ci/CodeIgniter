@@ -28,6 +28,7 @@ Release Date: Not Released
    -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Changed logger to only chmod when file is first created.
+   -  Removed previously deprecated SHA1 Library.
 
 -  Helpers
 
@@ -54,6 +55,7 @@ Release Date: Not Released
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
+   -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
 
 -  Core
 
