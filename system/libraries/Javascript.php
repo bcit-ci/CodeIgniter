@@ -702,11 +702,11 @@ class CI_Javascript {
 	 *
 	 * Outputs an opening <script>
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
-	private function _open_script($src = '')
+	protected function _open_script($src = '')
 	{
 		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
 			. ($src == '' ? '>' : ' src="'.$src.'">');
@@ -719,11 +719,11 @@ class CI_Javascript {
 	 *
 	 * Outputs an closing </script>
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
-	private function _close_script($extra = "\n")
+	protected function _close_script($extra = "\n")
 	{
 		return "</script>$extra";
 	}
