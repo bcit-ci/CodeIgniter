@@ -62,6 +62,7 @@ Release Date: Not Released
    -  Changed private functions in CI_URI to protected so MY_URI can
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars()
 
 Bug fixes for 3.0
 ------------------
