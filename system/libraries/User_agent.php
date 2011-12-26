@@ -91,10 +91,10 @@ class CI_User_agent {
 	/**
 	 * Compile the User Agent Data
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _load_agent_file()
+	protected function _load_agent_file()
 	{
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
 		{
@@ -147,10 +147,10 @@ class CI_User_agent {
 	/**
 	 * Compile the User Agent Data
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _compile_data()
+	protected function _compile_data()
 	{
 		$this->_set_platform();
 
@@ -168,10 +168,10 @@ class CI_User_agent {
 	/**
 	 * Set the Platform
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	mixed
 	 */
-	private function _set_platform()
+	protected function _set_platform()
 	{
 		if (is_array($this->platforms) AND count($this->platforms) > 0)
 		{
@@ -192,10 +192,10 @@ class CI_User_agent {
 	/**
 	 * Set the Browser
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _set_browser()
+	protected function _set_browser()
 	{
 		if (is_array($this->browsers) AND count($this->browsers) > 0)
 		{
@@ -219,10 +219,10 @@ class CI_User_agent {
 	/**
 	 * Set the Robot
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _set_robot()
+	protected function _set_robot()
 	{
 		if (is_array($this->robots) AND count($this->robots) > 0)
 		{
@@ -244,10 +244,10 @@ class CI_User_agent {
 	/**
 	 * Set the Mobile Device
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	bool
 	 */
-	private function _set_mobile()
+	protected function _set_mobile()
 	{
 		if (is_array($this->mobiles) AND count($this->mobiles) > 0)
 		{
@@ -269,10 +269,10 @@ class CI_User_agent {
 	/**
 	 * Set the accepted languages
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _set_languages()
+	protected function _set_languages()
 	{
 		if ((count($this->languages) === 0) AND isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) AND $_SERVER['HTTP_ACCEPT_LANGUAGE'] != '')
 		{
@@ -290,10 +290,10 @@ class CI_User_agent {
 	/**
 	 * Set the accepted character sets
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _set_charsets()
+	protected function _set_charsets()
 	{
 		if ((count($this->charsets) === 0) AND isset($_SERVER['HTTP_ACCEPT_CHARSET']) AND $_SERVER['HTTP_ACCEPT_CHARSET'] != '')
 		{
