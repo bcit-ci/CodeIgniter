@@ -40,51 +40,13 @@
  */
 class CI_Input {
 
-	/**
-	 * IP address of the current user
-	 *
-	 * @var string
-	 */
-	var $ip_address				= FALSE;
-	/**
-	 * user agent (web browser) being used by the current user
-	 *
-	 * @var string
-	 */
-	var $user_agent				= FALSE;
-	/**
-	 * If FALSE, then $_GET will be set to an empty array
-	 *
-	 * @var bool
-	 */
-	var $_allow_get_array		= TRUE;
-	/**
-	 * If TRUE, then newlines are standardized
-	 *
-	 * @var bool
-	 */
-	var $_standardize_newlines	= TRUE;
-	/**
-	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
-	 * Set automatically based on config setting
-	 *
-	 * @var bool
-	 */
-	var $_enable_xss			= FALSE;
-	/**
-	 * Enables a CSRF cookie token to be set.
-	 * Set automatically based on config setting
-	 *
-	 * @var bool
-	 */
-	var $_enable_csrf			= FALSE;
-	/**
-	 * List of all HTTP request headers
-	 *
-	 * @var array
-	 */
-	protected $headers			= array();
-
+	public $ip_address = FALSE;
+	public $user_agent	= FALSE;
+	public $_allow_get_array = TRUE;
+	public $_standardize_newlines = TRUE;
+	public $_enable_xss = FALSE;
+	public $_enable_csrf = FALSE;
+	protected $headers = array();
 
 	/**
 	 * Constructor

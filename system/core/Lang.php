@@ -38,25 +38,13 @@
  */
 class CI_Lang {
 
-	/**
-	 * List of translations
-	 *
-	 * @var array
-	 */
-	var $language	= array();
-	/**
-	 * List of loaded language files
-	 *
-	 * @var array
-	 */
-	var $is_loaded	= array();
+	public $language = array();
+	public $is_loaded = array();
 
 	/**
 	 * Constructor
-	 *
-	 * @access	public
 	 */
-	function __construct()
+	public function __construct()
 	{
 		log_message('debug', "Language Class Initialized");
 	}

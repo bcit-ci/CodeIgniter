@@ -40,68 +40,16 @@
  */
 class CI_Output {
 
-	/**
-	 * Current output string
-	 *
-	 * @var string
-	 * @access 	protected
-	 */
 	protected $final_output;
-	/**
-	 * Cache expiration time
-	 *
-	 * @var int
-	 * @access 	protected
-	 */
 	protected $cache_expiration	= 0;
-	/**
-	 * List of server headers
-	 *
-	 * @var array
-	 * @access 	protected
-	 */
 	protected $headers			= array();
-	/**
-	 * List of mime types
-	 *
-	 * @var array
-	 * @access 	protected
-	 */
 	protected $mime_types		= array();
-	/**
-	 * Determines wether profiler is enabled
-	 *
-	 * @var book
-	 * @access 	protected
-	 */
 	protected $enable_profiler	= FALSE;
-	/**
-	 * Determines if output compression is enabled
-	 *
-	 * @var bool
-	 * @access 	protected
-	 */
 	protected $_zlib_oc			= FALSE;
-	/**
-	 * List of profiler sections
-	 *
-	 * @var array
-	 * @access 	protected
-	 */
 	protected $_profiler_sections = array();
-	/**
-	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
-	 *
-	 * @var bool
-	 * @access 	protected
-	 */
 	protected $parse_exec_vars	= TRUE;
 
-	/**
-	 * Constructor
-	 *
-	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
@@ -114,7 +62,6 @@ class CI_Output {
 		{
 			include APPPATH.'config/mimes.php';
 		}
-
 
 		$this->mime_types = $mimes;
 
