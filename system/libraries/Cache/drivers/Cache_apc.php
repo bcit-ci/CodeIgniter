@@ -90,59 +90,61 @@ class CI_Cache_apc extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Increment a counter in memcache
+	 * Increment a counter in apc
 	 *
-	 * @param 	mixed		key to get cache metadata on
+	 * @param 	mixed		key to get cache data on
 	 * @return 	mixed		incremented value
 	 */
 	public function increment($id)
 	{
-		if($this->_raw_mode)
-		{ 
-			return apc_inc($id);
-		}
-		else
+		$value = $this->get($id);
+		
+		if(is_numeric($value))
 		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			if($this->_raw_mode)
 			{
-				if($this->save($id, ++$value, $metadata['ttl']))
-				{
-					return $value;
-				}
+				return apc_inc($id);
 			}
-		}
-		return FALSE;
-	}
-
-	/**
-	 * Decrement a counter in memcache
-	 *
-	 * @param 	mixed		key to get cache metadata on
-	 * @return 	mixed		decremented value
-	 */
-	public function decrement($id)
-	{
-		if($this->_raw_mode)
-		{
-			return apc_dec($id);
-		}
-		else 
-		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			else
 			{
+				$metadata = $this->get_metadata($id);
 				if($this->save($id, --$value, $metadata['ttl']))
 				{
 					return $value;
 				}
 			}
 		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Decrement a counter in apc
+	 *
+	 * @param 	mixed		key to get cache data on
+	 * @return 	mixed		decremented value
+	 */
+	public function decrement($id)
+	{
+		$value = $this->get($id);
 		
+		if(is_numeric($value))
+		{
+			if($this->_raw_mode)
+			{
+				return apc_dec($id);
+			}
+			else
+			{
+				$metadata = $this->get_metadata($id);
+				if($this->save($id, --$value, $metadata['ttl']))
+				{
+					return $value;
+				}
+			}
+			
+		}
+			
 		return FALSE;
 	}
 

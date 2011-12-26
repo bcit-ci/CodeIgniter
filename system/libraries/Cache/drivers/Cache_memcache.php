@@ -2,35 +2,21 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
- *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * An open source application development framework for PHP 4.3.2 or newer
  *
  * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @author		ExpressionEngine Dev Team
  * @copyright	Copyright (c) 2006 - 2011 EllisLab, Inc.
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.0
- * @filesource
+ * @filesource	
  */
-
 
 // ------------------------------------------------------------------------
 
-
 /**
- * CodeIgniter memcache Caching Class 
+ * CodeIgniter Memcached Caching Class 
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -173,7 +159,7 @@ class CI_Cache_memcache extends CI_Driver
 			}
 			
 		}
-			
+		
 		return FALSE;
 	}
 

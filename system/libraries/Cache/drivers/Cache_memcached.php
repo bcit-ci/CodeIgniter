@@ -30,7 +30,7 @@ class CI_Cache_memcached extends CI_Driver {
 	private $_memcached;	// Holds the memcached object
 	
 	protected $_raw_mode = FALSE; 	// Store raw data, or array with metadata
-	protected $_memcache_conf 	= array(
+	protected $_memcached_conf 	= array(
 					'default' => array(
 						'default_host'		=> '127.0.0.1',
 						'default_port'		=> 11211,
@@ -101,57 +101,59 @@ class CI_Cache_memcached extends CI_Driver {
 	// ------------------------------------------------------------------------
 	
 	/**
-	 * Increment a counter in memcache
+	 * Increment a counter in memcached
 	 *
 	 * @param 	mixed		key to get cache metadata on
 	 * @return 	mixed		return value from child method
 	 */
 	public function increment($id)
 	{
-		if($this->_raw_mode)
-		{ 
-			return $this->_memcached->increment($id);
-		}
-		else
+		$value = $this->get($id);
+		
+		if(is_numeric($value))
 		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			if($this->_raw_mode)
 			{
+				return $this->_memcached->increment($id);
+			}
+			else
+			{
+				$metadata = $this->get_metadata($id);
 				if($this->save($id, ++$value, $metadata['ttl']))
 				{
 					return $value;
 				}
 			}
 		}
+			
 		return FALSE;
 	}
 	
 	/**
-	 * Decrement a counter in memcache
+	 * Decrement a counter in memcached
 	 *
 	 * @param 	mixed		key to get cache metadata on
 	 * @return 	mixed		return value from child method
 	 */
 	public function decrement($id)
 	{
-		if($this->_raw_mode)
+		$value = $this->get($id);
+		
+		if(is_numeric($value))
 		{
-			return $this->_memcached->decrement($id);
-		}
-		else 
-		{
-			$value = $this->get($id);
-			$metadata = $this->get_metadata($id);
-	
-			if(is_numeric($value))
+			if($this->_raw_mode)
 			{
+				return $this->_memcached->decrement($id);
+			}
+			else
+			{
+				$metadata = $this->get_metadata($id);
 				if($this->save($id, --$value, $metadata['ttl']))
 				{
 					return $value;
 				}
 			}
+			
 		}
 		
 		return FALSE;
@@ -236,21 +238,21 @@ class CI_Cache_memcached extends CI_Driver {
 		
 		$this->_memcached = new Memcached();
 
-		foreach ($this->_memcache_conf as $name => $cache_server)
+		foreach ($this->_memcached_conf as $name => $cache_server)
 		{
 			if ( ! array_key_exists('hostname', $cache_server))
 			{
-				$cache_server['hostname'] = $this->_memcache_conf['default']['default_host'];
+				$cache_server['hostname'] = $this->_memcached_conf['default']['default_host'];
 			}
 	
 			if ( ! array_key_exists('port', $cache_server))
 			{
-				$cache_server['port'] = $this->_memcache_conf['default']['default_port'];
+				$cache_server['port'] = $this->_memcached_conf['default']['default_port'];
 			}
 	
 			if ( ! array_key_exists('weight', $cache_server))
 			{
-				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
+				$cache_server['weight'] = $this->_memcached_conf['default']['default_weight'];
 			}
 			
 			$this->_memcached->addServer(
