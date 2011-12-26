@@ -575,10 +575,10 @@ class CI_Session {
 	 * Identifies flashdata as 'old' for removal
 	 * when _flashdata_sweep() runs.
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _flashdata_mark()
+	protected function _flashdata_mark()
 	{
 		$userdata = $this->all_userdata();
 		foreach ($userdata as $name => $value)
@@ -597,11 +597,11 @@ class CI_Session {
 	/**
 	 * Removes all flashdata marked as 'old'
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
 
-	private function _flashdata_sweep()
+	protected function _flashdata_sweep()
 	{
 		$userdata = $this->all_userdata();
 		foreach ($userdata as $key => $value)
@@ -619,10 +619,10 @@ class CI_Session {
 	/**
 	 * Get the "now" time
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	string
 	 */
-	private function _get_time()
+	protected function _get_time()
 	{
 		$now = time();
 		return (strtolower($this->time_reference) === 'gmt') ?
@@ -637,7 +637,7 @@ class CI_Session {
 	 * @access	public
 	 * @return	void
 	 */
-	private function _set_cookie($cookie_data = NULL)
+	protected function _set_cookie($cookie_data = NULL)
 	{
 		if (is_null($cookie_data))
 		{
@@ -678,11 +678,11 @@ class CI_Session {
 	 * This function first converts any slashes found in the array to a temporary
 	 * marker, so when it gets unserialized the slashes will be preserved
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
-	private function _serialize($data)
+	protected function _serialize($data)
 	{
 		if (is_array($data))
 		{
@@ -700,7 +700,7 @@ class CI_Session {
 	 *
 	 * This function converts any slashes found into a temporary marker
 	 *
-	 * @access	private
+	 * @access	protected
 	 */
 	function _escape_slashes(&$val, $key)
 	{
@@ -718,11 +718,11 @@ class CI_Session {
 	 * This function unserializes a data string, then converts any
 	 * temporary slash markers back to actual slashes
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
-	private function _unserialize($data)
+	protected function _unserialize($data)
 	{
 		$data = @unserialize(strip_slashes($data));
 
@@ -740,9 +740,9 @@ class CI_Session {
 	 *
 	 * This function converts any slash markers back into actual slashes
 	 *
-	 * @access	private
+	 * @access	protected
 	 */
-	private function _unescape_slashes(&$val, $key)
+	protected function _unescape_slashes(&$val, $key)
 	{
 		if (is_string($val))
 		{
@@ -761,7 +761,7 @@ class CI_Session {
 	 * @access	public
 	 * @return	void
 	 */
-	private function _sess_gc()
+	protected function _sess_gc()
 	{
 		if ($this->sess_use_database != TRUE)
 		{
