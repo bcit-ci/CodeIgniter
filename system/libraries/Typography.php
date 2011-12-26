@@ -31,7 +31,7 @@
  * Typography Class
  *
  *
- * @access		private
+ * @access		protected
  * @category	Helpers
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/typography.html
@@ -322,11 +322,11 @@ class CI_Typography {
 	 *
 	 * Converts newline characters into either <p> tags or <br />
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
-	private function _format_newlines($str)
+	protected function _format_newlines($str)
 	{
 		if ($str == '' OR (strpos($str, "\n") === FALSE AND ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
@@ -365,11 +365,11 @@ class CI_Typography {
 	 * and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 	 * likewise double spaces are converted to {@NBS} to prevent entity conversion
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
-	private function _protect_characters($match)
+	protected function _protect_characters($match)
 	{
 		return str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
 	}
