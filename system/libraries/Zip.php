@@ -97,7 +97,7 @@ class CI_Zip  {
 	 *	@param string	path to file
 	 *	@return array	filemtime/filemdate
 	 */
-	private function _get_mod_time($dir)
+	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
 		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
@@ -115,11 +115,11 @@ class CI_Zip  {
 	/**
 	 * Add Directory
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string	the directory name
 	 * @return	void
 	 */
-	private function _add_dir($dir, $file_mtime, $file_mdate)
+	protected function _add_dir($dir, $file_mtime, $file_mdate)
 	{
 		$dir = str_replace("\\", "/", $dir);
 
@@ -194,12 +194,12 @@ class CI_Zip  {
 	/**
 	 * Add Data to Zip
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
 	 * @return	void
 	 */
-	private function _add_data($filepath, $data, $file_mtime, $file_mdate)
+	protected function _add_data($filepath, $data, $file_mtime, $file_mdate)
 	{
 		$filepath = str_replace("\\", "/", $filepath);
 
@@ -288,6 +288,8 @@ class CI_Zip  {
 	 */
 	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
+		$path = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+
 		if ( ! $fp = @opendir($path))
 		{
 			return FALSE;
@@ -425,6 +427,7 @@ class CI_Zip  {
 		$this->entries		= 0;
 		$this->file_num		= 0;
 		$this->offset		= 0;
+		return $this;
 	}
 
 }
