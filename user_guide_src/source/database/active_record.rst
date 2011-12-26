@@ -82,7 +82,7 @@ The key thing to notice in the above example is that the second query did not
 utilize `$this->db->from()`_ and did not pass a table name into the first 
 parameter. The reason for this outcome is because the query has not been 
 executed using `$this->db->get()`_ which resets values or reset directly 
-using `$this-db->reset_query()`_.
+using `$this->db->reset_query()`_.
 
 
 $this->db->get_where()
@@ -96,8 +96,7 @@ function::
 
 Please read the about the where function below for more information.
 
-.. note:: get_where() was formerly known as getwhere(), which has been
-removed
+.. note:: get_where() was formerly known as getwhere(), which has been removed
 
 $this->db->select()
 ===================
@@ -789,7 +788,7 @@ $this->db->get_compiled_update()
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces an UPDATE SQL string instead of an INSERT SQL string.
 
-For more information view documentation for `$this->get_compiled_insert()`_.
+For more information view documentation for `$this->db->get_compiled_insert()`_.
 
 
 *************
@@ -864,7 +863,7 @@ $this->db->get_compiled_delete()
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces a DELETE SQL string instead of an INSERT SQL string.
 
-For more information view documentation for `$this->get_compiled_insert()`_.
+For more information view documentation for `$this->db->get_compiled_insert()`_.
 
 ***************
 Method Chaining
@@ -933,10 +932,8 @@ Here's a usage example::
 	where, like, group_by, having, order_by, set
 
 
-
-*******************
-Reset Active Record
-*******************
+$this->db->reset_query()
+========================
 
 Resetting Active Record allows you to start fresh with your query without 
 executing it first using a method like $this->db->get() or $this->db->insert(). 

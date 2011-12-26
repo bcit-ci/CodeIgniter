@@ -158,6 +158,7 @@ Explanation of Values:
 			while developing an application.
 **port**		The database port number. To use this value you have to add a line to the database config array.
 			::
+			
 				$db['default']['port'] =  5432;
 ======================  ==================================================================================================
 

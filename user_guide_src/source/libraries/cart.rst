@@ -257,7 +257,7 @@ $this->cart->update();
 Permits you to update items in the shopping cart, as outlined above.
 
 $this->cart->remove(rowid);
-**********************
+***************************
 
 Allows you to remove an item from the shopping cart by passing it the rowid.
 
@@ -267,12 +267,12 @@ $this->cart->total();
 Displays the total amount in the cart.
 
 $this->cart->total_items();
-****************************
+***************************
 
 Displays the total number of items in the cart.
 
 $this->cart->contents(boolean);
-************************
+*******************************
 
 Returns an array containing everything in the cart. You can sort the order,
 by which this is returned by passing it "true" where the contents will be sorted
@@ -280,7 +280,7 @@ from newest to oldest, by leaving this function blank, you'll automatically just
 first added to the basket to last added to the basket.
 
 $this->cart->has_options(rowid);
-*********************************
+********************************
 
 Returns TRUE (boolean) if a particular row in the cart contains options.
 This function is designed to be used in a loop with
@@ -288,7 +288,7 @@ $this->cart->contents(), since you must pass the rowid to this function,
 as shown in the Displaying the Cart example above.
 
 $this->cart->product_options(rowid);
-*************************************
+************************************
 
 Returns an array of options for a particular product. This function is
 designed to be used in a loop with $this->cart->contents(), since you
