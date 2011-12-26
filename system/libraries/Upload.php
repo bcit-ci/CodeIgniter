@@ -952,17 +952,12 @@ class CI_Upload {
 	{
 		global $mimes;
 
-		if (count($this->mimes) == 0)
+		if (count($this->mimes) === 0)
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config//mimes.php');
-			}
-			else
+			load_environ_config('mimes');
+
+			// Return FALSE if we still have no mimes after trying to load them up.
+			if (count($this->mimes) === 0)
 			{
 				return FALSE;
 			}
