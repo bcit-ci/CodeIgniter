@@ -40,12 +40,12 @@
  */
 class CI_Encrypt {
 
-	private $CI;
+	protected $CI;
 	public $encryption_key	= '';
-	private $_hash_type	= 'sha1';
-	private $_mcrypt_exists = FALSE;
-	private $_mcrypt_cipher;
-	private $_mcrypt_mode;
+	protected $_hash_type	= 'sha1';
+	protected $_mcrypt_exists = FALSE;
+	protected $_mcrypt_cipher;
+	protected $_mcrypt_mode;
 
 	public function __construct()
 	{
@@ -207,12 +207,12 @@ class CI_Encrypt {
 	 * Takes a plain-text string and key as input and generates an
 	 * encoded bit-string using XOR
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	private function _xor_encode($string, $key)
+	protected function _xor_encode($string, $key)
 	{
 		$rand = '';
 		do
@@ -240,12 +240,12 @@ class CI_Encrypt {
 	 * Takes an encoded string and key as input and generates the
 	 * plain-text original message
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	private function _xor_decode($string, $key)
+	protected function _xor_decode($string, $key)
 	{
 		$string = $this->_xor_merge($string, $key);
 
@@ -265,12 +265,12 @@ class CI_Encrypt {
 	 *
 	 * Takes a string and key as input and computes the difference using XOR
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	private function _xor_merge($string, $key)
+	protected function _xor_merge($string, $key)
 	{
 		$hash = $this->hash($key);
 		$str = '';
@@ -333,12 +333,12 @@ class CI_Encrypt {
 	 *
 	 * Function description
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	private function _add_cipher_noise($data, $key)
+	protected function _add_cipher_noise($data, $key)
 	{
 		$key = $this->hash($key);
 		$str = '';
@@ -364,11 +364,11 @@ class CI_Encrypt {
 	 *
 	 * Function description
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
-	private function _remove_cipher_noise($data, $key)
+	protected function _remove_cipher_noise($data, $key)
 	{
 		$key = $this->hash($key);
 		$str = '';
@@ -426,7 +426,7 @@ class CI_Encrypt {
 	/**
 	 * Get Mcrypt cipher Value
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	string
 	 */
 	public function _get_cipher()
@@ -444,7 +444,7 @@ class CI_Encrypt {
 	/**
 	 * Get Mcrypt Mode Value
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	string
 	 */
 	public function _get_mode()
