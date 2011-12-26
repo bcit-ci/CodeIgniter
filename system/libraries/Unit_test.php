@@ -43,9 +43,9 @@ class CI_Unit_test {
 	public $active					= TRUE;
 	public $results				= array();
 	public $strict					= FALSE;
-	private $_template				= NULL;
-	private $_template_rows			= NULL;
-	private $_test_items_visible	= array();
+	protected $_template				= NULL;
+	protected $_template_rows			= NULL;
+	protected $_test_items_visible	= array();
 
 	public function __construct()
 	{
@@ -294,10 +294,10 @@ class CI_Unit_test {
 	 *
 	 * This lets us show file names and line numbers
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	array
 	 */
-	private function _backtrace()
+	protected function _backtrace()
 	{
 		if (function_exists('debug_backtrace'))
 		{
@@ -315,10 +315,10 @@ class CI_Unit_test {
 	/**
 	 * Get Default Template
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	string
 	 */
-	private function _default_template()
+	protected function _default_template()
 	{
 		$this->_template = "\n".'<table style="width:100%; font-size:small; margin:10px 0; border-collapse:collapse; border:1px solid #CCC;">{rows}'."\n".'</table>';
 
@@ -333,10 +333,10 @@ class CI_Unit_test {
 	 *
 	 * Harvests the data within the template {pseudo-variables}
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _parse_template()
+	protected function _parse_template()
 	{
 		if ( ! is_null($this->_template_rows))
 		{
@@ -360,7 +360,7 @@ class CI_Unit_test {
  * Helper functions to test boolean true/false
  *
  *
- * @access	private
+ * @access	protected
  * @return	bool
  */
 function is_true($test)
