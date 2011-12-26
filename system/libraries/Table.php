@@ -179,11 +179,11 @@ class CI_Table {
 	 *
 	 * Ensures a standard associative array format for all cell data
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
-	private function _prep_args($args)
+	protected function _prep_args($args)
 	{
 		// If there is no $args[0], skip this and treat as an associative array
 		// This can happen if there is only a single key, for example this is passed to table->generate
@@ -391,11 +391,11 @@ class CI_Table {
 	/**
 	 * Set table data from a database result object
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	object
 	 * @return	void
 	 */
-	private function _set_from_object($query)
+	protected function _set_from_object($query)
 	{
 		if ( ! is_object($query))
 		{
@@ -429,11 +429,11 @@ class CI_Table {
 	/**
 	 * Set table data from an array
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	array
 	 * @return	void
 	 */
-	private function _set_from_array($data, $set_heading = TRUE)
+	protected function _set_from_array($data, $set_heading = TRUE)
 	{
 		if ( ! is_array($data) OR count($data) === 0)
 		{
@@ -460,10 +460,10 @@ class CI_Table {
 	/**
 	 * Compile Template
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _compile_template()
+	protected function _compile_template()
 	{
 		if ($this->template == NULL)
 		{
@@ -486,10 +486,10 @@ class CI_Table {
 	/**
 	 * Default Template
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	void
 	 */
-	private function _default_template()
+	protected function _default_template()
 	{
 		return  array (
 						'table_open'			=> '<table border="0" cellpadding="4" cellspacing="0">',
