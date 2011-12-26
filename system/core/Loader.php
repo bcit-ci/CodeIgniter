@@ -1125,14 +1125,7 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
-		}
-		else
-		{
-			include(APPPATH.'config/autoload.php');
-		}
+		load_environ_config('autoload');
 
 		if ( ! isset($autoload))
 		{
