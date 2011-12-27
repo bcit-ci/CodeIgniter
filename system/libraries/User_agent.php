@@ -94,10 +94,15 @@ class CI_User_agent {
 	 */
 	protected function _load_agent_file()
 	{
-		load_environ_config('user_agents');
-
-		// Return FALSE if we still have no mimes after trying to load them up.
-		if (count($this->mimes) === 0)
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');
+		}
+		elseif (is_file(APPPATH.'config/user_agents.php'))
+		{
+			include(APPPATH.'config/user_agents.php');
+		}
+		else
 		{
 			return FALSE;
 		}

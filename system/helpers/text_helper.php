@@ -378,7 +378,14 @@ if ( ! function_exists('convert_accented_characters'))
 {
 	function convert_accented_characters($str)
 	{
-		load_environ_config('foreign_chars');
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
+		}
+		elseif (is_file(APPPATH.'config/foreign_chars.php'))
+		{
+			include(APPPATH.'config/foreign_chars.php');
+		}
 
 		if ( ! isset($foreign_characters))
 		{
