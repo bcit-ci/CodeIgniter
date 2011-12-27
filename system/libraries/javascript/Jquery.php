@@ -69,7 +69,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery blur event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -86,7 +85,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery change event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -103,7 +101,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery click event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @param	boolean	whether or not to return false
@@ -131,7 +128,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery dblclick event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -148,7 +144,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery error event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -165,7 +160,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery focus event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -182,7 +176,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery hover event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- Javascript code for mouse over
 	 * @param	string	- Javascript code for mouse out
@@ -204,7 +197,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery keydown event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -221,7 +213,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery keydown event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -238,7 +229,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery load event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -255,7 +245,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery mousedown event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -272,7 +261,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery mouseout event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -289,7 +277,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery mouseover event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -306,7 +293,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery mouseup event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -323,7 +309,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs script directly
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -348,7 +333,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery resize event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -365,7 +349,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery scroll event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -382,7 +365,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery unload event
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -401,7 +383,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery addClass event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -418,7 +399,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery animate event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -458,7 +438,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery hide event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -484,7 +463,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery hide event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -510,7 +488,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery hide action
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -536,7 +513,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery remove class event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -553,7 +529,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery slideUp event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -579,7 +554,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery slideDown event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -605,7 +579,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery slideToggle event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -631,7 +604,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery toggle event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -648,7 +620,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery toggle class event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -665,7 +636,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery show event
 	 *
-	 * @access	protected
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -692,7 +662,6 @@ class CI_Jquery extends CI_Javascript {
 	 * An Ajax call that populates the designated DOM node with
 	 * returned content
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	the controller to run the call against
 	 * @param	string	optional parameters
@@ -736,7 +705,6 @@ class CI_Jquery extends CI_Javascript {
 	/**
 	 * Zebra tables
 	 *
-	 * @access	protected
 	 * @param	string	table name
 	 * @param	string	plugin location
 	 * @return	string
@@ -765,7 +733,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * http://www.malsup.com/jquery/corner/
 	 *
-	 * @access	public
 	 * @param	string	target
 	 * @return	string
 	 */
@@ -789,7 +756,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Load a thickbox modal window
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function modal($src, $relative = FALSE)
@@ -804,7 +770,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Load an Effect library
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function effect($src, $relative = FALSE)
@@ -819,7 +784,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Load a plugin library
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function plugin($src, $relative = FALSE)
@@ -834,7 +798,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Load a user interface library
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function ui($src, $relative = FALSE)
@@ -848,7 +811,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Creates a jQuery sortable
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sortable($element, $options = array())
@@ -876,7 +838,6 @@ class CI_Jquery extends CI_Javascript {
 	/**
 	 * Table Sorter Plugin
 	 *
-	 * @access	public
 	 * @param	string	table name
 	 * @param	string	plugin location
 	 * @return	string
@@ -895,7 +856,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Constructs the syntax for an event, and adds to into the array for compilation
 	 *
-	 * @access	protected
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @param	string	The event to pass
@@ -922,7 +882,6 @@ class CI_Jquery extends CI_Javascript {
 	 * As events are specified, they are stored in an array
 	 * This funciton compiles them all for output on a page
 	 *
-	 * @access	protected
 	 * @return	string
 	 */
 	protected function _compile($view_var = 'script_foot', $script_tags = TRUE)
@@ -955,7 +914,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Clears the array of script events collected for output
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _clear_compile()
@@ -970,7 +928,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * A wrapper for writing document.ready()
 	 *
-	 * @access	protected
 	 * @return	string
 	 */
 	protected function _document_ready($js)
@@ -993,7 +950,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs the script tag that loads the jquery.js file into an HTML document
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -1013,7 +969,6 @@ class CI_Jquery extends CI_Javascript {
 	 * unless the supplied element is the Javascript 'this'
 	 * object, in which case no quotes are added
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
@@ -1034,7 +989,6 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Ensures the speed parameter is valid for jQuery
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */

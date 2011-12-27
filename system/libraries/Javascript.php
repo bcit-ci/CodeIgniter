@@ -73,7 +73,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library blur event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -90,7 +89,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library change event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -107,7 +105,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library click event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @param	boolean	whether or not to return false
@@ -125,7 +122,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library dblclick event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -142,7 +138,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library error event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -159,7 +154,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library focus event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -176,7 +170,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library hover event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Javascript code for mouse over
 	 * @param	string	- Javascript code for mouse out
@@ -194,7 +187,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library keydown event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -211,7 +203,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library keydown event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -228,7 +219,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library load event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -245,7 +235,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mousedown event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -262,7 +251,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseout event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -279,7 +267,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseover event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -296,7 +283,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseup event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -313,7 +299,6 @@ class CI_Javascript {
 	 *
 	 * Outputs the called javascript to the screen
 	 *
-	 * @access	public
 	 * @param	string	The code to output
 	 * @return	string
 	 */
@@ -329,7 +314,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseup event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -346,7 +330,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library resize event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -363,7 +346,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library scroll event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -380,7 +362,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library unload event
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @return	string
@@ -390,7 +371,7 @@ class CI_Javascript {
 		return $this->js->_unload($element, $js);
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 	// Effects
 	// --------------------------------------------------------------------
 
@@ -400,7 +381,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library addClass event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
 	 * @return	string
@@ -417,7 +397,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library animate event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -435,7 +414,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library hide event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -453,7 +431,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library hide event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -470,7 +447,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library slideUp event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -489,7 +465,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library removeClass event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
 	 * @return	string
@@ -506,7 +481,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library slideDown event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -524,7 +498,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library slideToggle event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -543,7 +516,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library hide action
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -561,7 +533,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library toggle event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -578,7 +549,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library toggle class event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @return	string
 	 */
@@ -594,7 +564,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library show event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -613,7 +582,6 @@ class CI_Javascript {
 	 *
 	 * gather together all script needing to be output
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @return	string
 	 */
@@ -627,7 +595,6 @@ class CI_Javascript {
 	 *
 	 * Clears any previous javascript collected for output
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function clear_compile()
@@ -642,7 +609,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a <script> tag with the source as an external js file
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @return	string
 	 */
@@ -683,7 +649,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a <script> tag
 	 *
-	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	boolean	If a CDATA section should be added
 	 * @return	string
@@ -702,7 +667,6 @@ class CI_Javascript {
 	 *
 	 * Outputs an opening <script>
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
@@ -719,7 +683,6 @@ class CI_Javascript {
 	 *
 	 * Outputs an closing </script>
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
@@ -740,7 +703,6 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library slideDown event
 	 *
-	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
@@ -823,7 +785,6 @@ class CI_Javascript {
 	 *
 	 * Checks for an associative array
 	 *
-	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
@@ -847,7 +808,6 @@ class CI_Javascript {
 	 *
 	 * Ensures a standard json value and escapes values
 	 *
-	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
