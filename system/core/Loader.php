@@ -621,6 +621,19 @@ class CI_Loader {
 		$CI =& get_instance();
 		$CI->config->load($file, $use_sections, $fail_gracefully);
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Loads an arbitrary directory
+	 *
+	 * @param	string
+	 * @return	void
+	 */
+	public function directory($directory = '')
+	{
+		// @todo
+	}
 
 	// --------------------------------------------------------------------
 
@@ -1144,6 +1157,15 @@ class CI_Loader {
 		if ( ! isset($autoload))
 		{
 			return FALSE;
+		}
+
+        // Autoload directories
+		if (isset($autoload['directories']))
+		{
+			foreach ($autoload['directories'] as $directory)
+			{
+				$this->directory($directory);
+			}
 		}
 
 		// Autoload packages
