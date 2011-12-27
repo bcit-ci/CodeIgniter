@@ -65,7 +65,6 @@ class CI_User_agent {
 	 *
 	 * Sets the User Agent and runs the compilation routine
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function __construct()
@@ -91,7 +90,6 @@ class CI_User_agent {
 	/**
 	 * Compile the User Agent Data
 	 *
-	 * @access	protected
 	 * @return	bool
 	 */
 	protected function _load_agent_file()
@@ -147,7 +145,6 @@ class CI_User_agent {
 	/**
 	 * Compile the User Agent Data
 	 *
-	 * @access	protected
 	 * @return	bool
 	 */
 	protected function _compile_data()
@@ -168,7 +165,6 @@ class CI_User_agent {
 	/**
 	 * Set the Platform
 	 *
-	 * @access	protected
 	 * @return	mixed
 	 */
 	protected function _set_platform()
@@ -192,7 +188,6 @@ class CI_User_agent {
 	/**
 	 * Set the Browser
 	 *
-	 * @access	protected
 	 * @return	bool
 	 */
 	protected function _set_browser()
@@ -219,7 +214,6 @@ class CI_User_agent {
 	/**
 	 * Set the Robot
 	 *
-	 * @access	protected
 	 * @return	bool
 	 */
 	protected function _set_robot()
@@ -244,7 +238,6 @@ class CI_User_agent {
 	/**
 	 * Set the Mobile Device
 	 *
-	 * @access	protected
 	 * @return	bool
 	 */
 	protected function _set_mobile()
@@ -269,7 +262,6 @@ class CI_User_agent {
 	/**
 	 * Set the accepted languages
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _set_languages()
@@ -290,7 +282,6 @@ class CI_User_agent {
 	/**
 	 * Set the accepted character sets
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _set_charsets()
@@ -311,7 +302,6 @@ class CI_User_agent {
 	/**
 	 * Is Browser
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function is_browser($key = NULL)
@@ -336,7 +326,6 @@ class CI_User_agent {
 	/**
 	 * Is Robot
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function is_robot($key = NULL)
@@ -361,7 +350,6 @@ class CI_User_agent {
 	/**
 	 * Is Mobile
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function is_mobile($key = NULL)
@@ -386,7 +374,6 @@ class CI_User_agent {
 	/**
 	 * Is this a referral from another site?
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function is_referral()
@@ -399,7 +386,6 @@ class CI_User_agent {
 	/**
 	 * Agent String
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function agent_string()
@@ -412,7 +398,6 @@ class CI_User_agent {
 	/**
 	 * Get Platform
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function platform()
@@ -425,7 +410,6 @@ class CI_User_agent {
 	/**
 	 * Get Browser Name
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function browser()
@@ -438,7 +422,6 @@ class CI_User_agent {
 	/**
 	 * Get the Browser Version
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function version()
@@ -451,7 +434,6 @@ class CI_User_agent {
 	/**
 	 * Get The Robot Name
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function robot()
@@ -463,7 +445,6 @@ class CI_User_agent {
 	/**
 	 * Get the Mobile Device
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function mobile()
@@ -476,7 +457,6 @@ class CI_User_agent {
 	/**
 	 * Get the referrer
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function referrer()
@@ -489,7 +469,6 @@ class CI_User_agent {
 	/**
 	 * Get the accepted languages
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function languages()
@@ -507,7 +486,6 @@ class CI_User_agent {
 	/**
 	 * Get the accepted Character Sets
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function charsets()
@@ -525,7 +503,6 @@ class CI_User_agent {
 	/**
 	 * Test for a particular language
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function accept_lang($lang = 'en')
@@ -538,7 +515,6 @@ class CI_User_agent {
 	/**
 	 * Test for a particular character set
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function accept_charset($charset = 'utf-8')
