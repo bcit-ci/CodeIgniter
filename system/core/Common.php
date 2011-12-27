@@ -576,30 +576,25 @@ if ( ! function_exists('html_escape'))
  {
 	function load_environ_config($file, $require=FALSE)
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/'.$file.'.php'))
+		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT."/{$file}.php"))
 		{
-			if ($require)
-			{
-				require_once(APPPATH.'config/'.ENVIRONMENT.'/'.$file.'.php');
-			}
-			else
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/'.$file.'.php');
-			}
-			
-			return;
+			$path = APPPATH.'config/'.ENVIRONMENT."/{$file}.php";
+		}
+		else
+		{
+			$path = APPPATH."config/{$file}.php";
 		}
 
 		if ($require)
 		{
-			require_once(APPPATH.'config/'.$file.'.php');
+			require_once(realpath($path));
 		}
 		else
 		{
-			include(APPPATH.'config/'.$file.'.php');
+			include(realpath($path));
 		}
 		
-		return;
+		echo $path;
 	}
  }
 
