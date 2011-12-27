@@ -59,7 +59,6 @@ class CI_Table {
 	/**
 	 * Set the template
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	void
 	 */
@@ -80,7 +79,6 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @return	void
 	 */
@@ -98,7 +96,6 @@ class CI_Table {
 	 * columns.  This allows a single array with many elements to  be
 	 * displayed in a table that has a fixed column count.
 	 *
-	 * @access	public
 	 * @param	array
 	 * @param	int
 	 * @return	void
@@ -146,7 +143,6 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @return	void
 	 */
@@ -162,7 +158,6 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @return	void
 	 */
@@ -179,7 +174,6 @@ class CI_Table {
 	 *
 	 * Ensures a standard associative array format for all cell data
 	 *
-	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
@@ -225,7 +219,6 @@ class CI_Table {
 	/**
 	 * Add a table caption
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -239,7 +232,6 @@ class CI_Table {
 	/**
 	 * Generate the table
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @return	string
 	 */
@@ -376,7 +368,6 @@ class CI_Table {
 	/**
 	 * Clears the table arrays.  Useful if multiple tables are being generated
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function clear()
@@ -391,7 +382,6 @@ class CI_Table {
 	/**
 	 * Set table data from a database result object
 	 *
-	 * @access	protected
 	 * @param	object
 	 * @return	void
 	 */
@@ -429,7 +419,6 @@ class CI_Table {
 	/**
 	 * Set table data from an array
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @return	void
 	 */
@@ -460,7 +449,6 @@ class CI_Table {
 	/**
 	 * Compile Template
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _compile_template()
@@ -486,7 +474,6 @@ class CI_Table {
 	/**
 	 * Default Template
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _default_template()
