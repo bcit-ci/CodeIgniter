@@ -630,9 +630,29 @@ class CI_Loader {
 	 * @param	string
 	 * @return	void
 	 */
-	public function directory($directory = '')
+	public function directory($directory, $recursive = FALSE)
 	{
-		// @todo
+		$files = glob($directory);
+		
+		if (is_array($files) && count($files) > 0)
+		{
+		    foreach ($files as $file)
+		    {
+		        if ($recursive)
+		        {
+		            if (is_dir($file))
+		            {
+                        $file = (substr($file, -1, 1) == '/') ? $file : $file . '/';
+		                $this->directory($file . '*', TRUE);
+		            }
+		        }
+		        
+		        if (is_file($file))
+		        {
+		            include $file;
+		        }
+		    }
+		}
 	}
 
 	// --------------------------------------------------------------------

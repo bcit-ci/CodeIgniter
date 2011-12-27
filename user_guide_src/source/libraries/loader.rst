@@ -191,7 +191,7 @@ $this->load->directory('directory');
 
 ::
 
-	$this->load->directory('/path/to/directory');
+	$this->load->directory('/path/to/directory/*');
 
 
 If you need to load a number of arbitrary files into your application you
@@ -203,7 +203,7 @@ glob()<http://php.net/glob>`_ will match, so you can get quite specific.::
 Passing through ``TRUE`` as a second parameter will load the directories
 recursively.::
 
-    $this->load->directory(APPPATH . 'folder_with_lots_of_subdirectories', TRUE);
+    $this->load->directory(APPPATH . 'folder_with_lots_of_subdirectories/*', TRUE);
 
 
 $this->load->language('file_name')
