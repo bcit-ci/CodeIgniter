@@ -68,7 +68,6 @@ class CI_Zip  {
 	 *
 	 * Lets you add a virtual directory into which you can place files.
 	 *
-	 * @access	public
 	 * @param	mixed	the directory name. Can be string or array
 	 * @return	void
 	 */
@@ -115,7 +114,6 @@ class CI_Zip  {
 	/**
 	 * Add Directory
 	 *
-	 * @access	protected
 	 * @param	string	the directory name
 	 * @return	void
 	 */
@@ -167,7 +165,6 @@ class CI_Zip  {
 	 * in the filename it will be placed within a directory.  Make
 	 * sure you use add_dir() first to create the folder.
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @return	void
@@ -194,7 +191,6 @@ class CI_Zip  {
 	/**
 	 * Add Data to Zip
 	 *
-	 * @access	protected
 	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
 	 * @return	void
@@ -248,7 +244,6 @@ class CI_Zip  {
 	/**
 	 * Read the contents of a file and add it to the zip
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function read_file($path, $preserve_filepath = FALSE)
@@ -282,7 +277,6 @@ class CI_Zip  {
 	 * sub-folders) and creates a zip based on it.  Whatever directory structure
 	 * is in the original file path will be recreated in the zip file.
 	 *
-	 * @access	public
 	 * @param	string	path to source
 	 * @return	bool
 	 */
@@ -336,7 +330,6 @@ class CI_Zip  {
 	/**
 	 * Get the Zip file
 	 *
-	 * @access	public
 	 * @return	binary string
 	 */
 	public function get_zip()
@@ -363,7 +356,6 @@ class CI_Zip  {
 	 *
 	 * Lets you write a file
 	 *
-	 * @access	public
 	 * @param	string	the file name
 	 * @return	bool
 	 */
@@ -387,7 +379,6 @@ class CI_Zip  {
 	/**
 	 * Download
 	 *
-	 * @access	public
 	 * @param	string	the file name
 	 * @param	string	the data to be encoded
 	 * @return	bool
@@ -417,7 +408,6 @@ class CI_Zip  {
 	 * Lets you clear current zip data.  Useful if you need to create
 	 * multiple zips with different data.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function clear_data()
