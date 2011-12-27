@@ -141,7 +141,6 @@ class CI_Session {
 	/**
 	 * Fetch the current session data if it exists
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function sess_read()
@@ -259,7 +258,6 @@ class CI_Session {
 	/**
 	 * Write the session data
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_write()
@@ -311,7 +309,6 @@ class CI_Session {
 	/**
 	 * Create a new session
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_create()
@@ -350,7 +347,6 @@ class CI_Session {
 	/**
 	 * Update an existing session
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_update()
@@ -404,7 +400,6 @@ class CI_Session {
 	/**
 	 * Destroy the current session
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_destroy()
@@ -432,7 +427,6 @@ class CI_Session {
 	/**
 	 * Fetch a specific item from the session array
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -446,7 +440,6 @@ class CI_Session {
 	/**
 	 * Fetch all session data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function all_userdata()
@@ -459,7 +452,6 @@ class CI_Session {
 	/**
 	 * Add or change data in the "userdata" array
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @return	void
@@ -487,7 +479,6 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
-	 * @access	array
 	 * @return	void
 	 */
 	public function unset_userdata($newdata = array())
@@ -514,7 +505,6 @@ class CI_Session {
 	 * Add or change flashdata, only available
 	 * until the next request
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @return	void
@@ -540,7 +530,6 @@ class CI_Session {
 	/**
 	 * Keeps existing flashdata available to next request.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -560,7 +549,6 @@ class CI_Session {
 	/**
 	 * Fetch a specific flashdata item from the session array
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -575,7 +563,6 @@ class CI_Session {
 	 * Identifies flashdata as 'old' for removal
 	 * when _flashdata_sweep() runs.
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _flashdata_mark()
@@ -597,7 +584,6 @@ class CI_Session {
 	/**
 	 * Removes all flashdata marked as 'old'
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 
@@ -619,14 +605,17 @@ class CI_Session {
 	/**
 	 * Get the "now" time
 	 *
-	 * @access	protected
 	 * @return	string
 	 */
 	protected function _get_time()
 	{
-		$now = time();
-		return (strtolower($this->time_reference) === 'gmt') ?
-			mktime(gmdate('H', $now), gmdate('i', $now), gmdate('s', $now), gmdate('m', $now), gmdate('d', $now), gmdate('Y', $now)) : $now;
+		if (strtolower($this->time_reference) === 'gmt')
+		{
+			$now = time();
+			return mktime(gmdate('H', $now), gmdate('i', $now), gmdate('s', $now), gmdate('m', $now), gmdate('d', $now), gmdate('Y', $now));
+		}
+
+		return time();
 	}
 
 	// --------------------------------------------------------------------
@@ -634,7 +623,6 @@ class CI_Session {
 	/**
 	 * Write the session cookie
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	protected function _set_cookie($cookie_data = NULL)
@@ -678,7 +666,6 @@ class CI_Session {
 	 * This function first converts any slashes found in the array to a temporary
 	 * marker, so when it gets unserialized the slashes will be preserved
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
@@ -700,7 +687,6 @@ class CI_Session {
 	 *
 	 * This function converts any slashes found into a temporary marker
 	 *
-	 * @access	protected
 	 */
 	function _escape_slashes(&$val, $key)
 	{
@@ -718,7 +704,6 @@ class CI_Session {
 	 * This function unserializes a data string, then converts any
 	 * temporary slash markers back to actual slashes
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
@@ -740,7 +725,6 @@ class CI_Session {
 	 *
 	 * This function converts any slash markers back into actual slashes
 	 *
-	 * @access	protected
 	 */
 	protected function _unescape_slashes(&$val, $key)
 	{
@@ -758,7 +742,6 @@ class CI_Session {
 	 * This deletes expired session rows from database
 	 * if the probability percentage is met
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	protected function _sess_gc()
