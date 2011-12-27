@@ -584,17 +584,8 @@ if ( ! function_exists('html_escape'))
 		{
 			$path = APPPATH."config/{$file}.php";
 		}
-
-		if ($require)
-		{
-			require_once(realpath($path));
-		}
-		else
-		{
-			include(realpath($path));
-		}
 		
-		echo $path;
+		($require) ? require_once($path) : include($path);
 	}
  }
 
