@@ -47,11 +47,6 @@ class CI_Trackback {
 	public $response		= '';
 	public $error_msg		= array();
 
-	/**
-	 * Constructor
-	 *
-	 * @access	public
-	 */
 	public function __construct()
 	{
 		log_message('debug', "Trackback Class Initialized");
@@ -62,7 +57,6 @@ class CI_Trackback {
 	/**
 	 * Send Trackback
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	bool
 	 */
@@ -133,7 +127,6 @@ class CI_Trackback {
 	 * If the data is valid it is set to the $this->data array
 	 * so that it can be inserted into a database.
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function receive()
@@ -175,7 +168,6 @@ class CI_Trackback {
 	 * sends the "incomplete information" error, as that's
 	 * the most common one.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -193,7 +185,6 @@ class CI_Trackback {
 	 * This should be called when a trackback has been
 	 * successfully received and inserted.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function send_success()
@@ -207,7 +198,6 @@ class CI_Trackback {
 	/**
 	 * Fetch a particular item
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -224,7 +214,6 @@ class CI_Trackback {
 	 * Opens a socket connection and passes the data to
 	 * the server.  Returns TRUE on success, FALSE on failure
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	bool
@@ -288,7 +277,6 @@ class CI_Trackback {
 	 * It takes a string of URLs (separated by comma or
 	 * space) and puts each URL into an array
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -324,7 +312,6 @@ class CI_Trackback {
 	 *
 	 * Simply adds "http://" if missing
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -343,7 +330,6 @@ class CI_Trackback {
 	/**
 	 * Find the Trackback URL's ID
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -392,7 +378,6 @@ class CI_Trackback {
 	/**
 	 * Convert Reserved XML characters to Entities
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -418,7 +403,6 @@ class CI_Trackback {
 	 *
 	 * Limits the string based on the character count. Will preserve complete words.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	integer
 	 * @param	string
@@ -457,7 +441,6 @@ class CI_Trackback {
 	 * Converts Hight ascii text and MS Word special chars
 	 * to character entities
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -503,7 +486,6 @@ class CI_Trackback {
 	/**
 	 * Set error message
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -518,7 +500,6 @@ class CI_Trackback {
 	/**
 	 * Show error messages
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	string
