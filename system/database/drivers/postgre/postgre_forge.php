@@ -66,6 +66,9 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	
 	/**
 	 * Process Fields
+	 *
+	 * @param	mixed	the fields
+	 * @return	string
 	 */
 	function _process_fields($fields, $primary_keys=array())
 	{
