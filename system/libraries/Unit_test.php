@@ -70,7 +70,6 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	void
 	 */
@@ -89,7 +88,6 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
@@ -138,7 +136,6 @@ class CI_Unit_test {
 	 *
 	 * Displays a table with the test data
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function report($result = array())
@@ -188,7 +185,6 @@ class CI_Unit_test {
 	 *
 	 * Causes the evaluation to use === rather than ==
 	 *
-	 * @access	public
 	 * @param	bool
 	 * @return	null
 	 */
@@ -204,7 +200,6 @@ class CI_Unit_test {
 	 *
 	 * Enables/disables unit testing
 	 *
-	 * @access	public
 	 * @param	bool
 	 * @return	null
 	 */
@@ -220,7 +215,6 @@ class CI_Unit_test {
 	 *
 	 * Returns the raw result data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function result($results = array())
@@ -278,7 +272,6 @@ class CI_Unit_test {
 	 *
 	 * This lets us set the template to be used to display results
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -294,7 +287,6 @@ class CI_Unit_test {
 	 *
 	 * This lets us show file names and line numbers
 	 *
-	 * @access	protected
 	 * @return	array
 	 */
 	protected function _backtrace()
@@ -315,7 +307,6 @@ class CI_Unit_test {
 	/**
 	 * Get Default Template
 	 *
-	 * @access	protected
 	 * @return	string
 	 */
 	protected function _default_template()
@@ -333,7 +324,6 @@ class CI_Unit_test {
 	 *
 	 * Harvests the data within the template {pseudo-variables}
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _parse_template()
@@ -359,8 +349,6 @@ class CI_Unit_test {
 /**
  * Helper functions to test boolean true/false
  *
- *
- * @access	protected
  * @return	bool
  */
 function is_true($test)
