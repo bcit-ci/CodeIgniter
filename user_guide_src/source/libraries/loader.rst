@@ -199,6 +199,11 @@ can load them using this method. It takes any pattern that `
 glob()<http://php.net/glob>`_ will match, so you can get quite specific.::
 
 	$this->load->directory(APPPATH . 'presenters/*_presenter.php');
+	
+Passing through ``TRUE`` as a second parameter will load the directories
+recursively.::
+
+    $this->load->directory(APPPATH . 'folder_with_lots_of_subdirectories', TRUE);
 
 
 $this->load->language('file_name')
