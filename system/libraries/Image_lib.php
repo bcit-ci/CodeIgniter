@@ -111,7 +111,6 @@ class CI_Image_lib {
 	 *
 	 * Resets values in case this class is used in a loop
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function clear()
@@ -154,7 +153,6 @@ class CI_Image_lib {
 	/**
 	 * initialize image preferences
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	bool
 	 */
@@ -370,7 +368,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the proper
 	 * resize function based on the protocol specified
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function resize()
@@ -387,7 +384,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the proper
 	 * cropping function based on the protocol specified
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function crop()
@@ -404,7 +400,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the proper
 	 * rotation function based on the protocol specified
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function rotate()
@@ -455,7 +450,6 @@ class CI_Image_lib {
 	 *
 	 * This function will resize or crop
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -561,7 +555,6 @@ class CI_Image_lib {
 	 *
 	 * This function will resize, crop or rotate
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -629,7 +622,6 @@ class CI_Image_lib {
 	 *
 	 * This function will resize, crop or rotate
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -713,7 +705,6 @@ class CI_Image_lib {
 	/**
 	 * Image Rotate Using GD
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function image_rotate_gd()
@@ -766,7 +757,6 @@ class CI_Image_lib {
 	 *
 	 * This function will flip horizontal or vertical
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function image_mirror_gd()
@@ -845,7 +835,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the type
 	 * of watermarking based on the specified preference.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -866,7 +855,6 @@ class CI_Image_lib {
 	/**
 	 * Watermark - Graphic Version
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function overlay_watermark()
@@ -976,7 +964,6 @@ class CI_Image_lib {
 	/**
 	 * Watermark - Text Version
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function text_watermark()
@@ -1123,7 +1110,6 @@ class CI_Image_lib {
 	 * This simply creates an image resource handle
 	 * based on the type of image being processed
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	resource
 	 */
@@ -1180,7 +1166,6 @@ class CI_Image_lib {
 	 * Takes an image resource as input and writes the file
 	 * to the specified destination
 	 *
-	 * @access	public
 	 * @param	resource
 	 * @return	bool
 	 */
@@ -1241,7 +1226,6 @@ class CI_Image_lib {
 	/**
 	 * Dynamically outputs an image
 	 *
-	 * @access	public
 	 * @param	resource
 	 * @return	void
 	 */
@@ -1277,7 +1261,6 @@ class CI_Image_lib {
 	 * This function lets us re-proportion the width/height
 	 * if users choose to maintain the aspect ratio when resizing.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function image_reproportion()
@@ -1318,7 +1301,6 @@ class CI_Image_lib {
 	 *
 	 * A helper function that gets info about the file
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	mixed
 	 */
@@ -1376,7 +1358,6 @@ class CI_Image_lib {
 	 *					'new_height'	=> ''
 	 *				  );
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	array
 	 */
@@ -1424,7 +1405,6 @@ class CI_Image_lib {
 	 * $array['ext']  = '.jpg';
 	 * $array['name'] = 'my.cool';
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	array
 	 */
@@ -1441,7 +1421,6 @@ class CI_Image_lib {
 	/**
 	 * Is GD Installed?
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function gd_loaded()
@@ -1462,7 +1441,6 @@ class CI_Image_lib {
 	/**
 	 * Get GD version
 	 *
-	 * @access	public
 	 * @return	mixed
 	 */
 	public function gd_version()
@@ -1483,7 +1461,6 @@ class CI_Image_lib {
 	/**
 	 * Set error message
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -1515,7 +1492,6 @@ class CI_Image_lib {
 	/**
 	 * Show error messages
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
