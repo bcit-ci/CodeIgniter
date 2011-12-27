@@ -21,7 +21,7 @@ Step 2: Change References to the SHA Library
 The previously deprecated SHA library has been removed in CodeIgniter 3.0.
 Alter your code to use the native `sha1()` PHP function to generate a sha1 hash.
 
-Additionally, the `sha1()` method in the :doc:`Encryption Library <libraries/encryption>` library has been removed.
+Additionally, the `sha1()` method in the :doc:`Encryption Library <../libraries/encryption>` has been removed.
 
 
 .. note:: If you have any custom developed files in these folders please
