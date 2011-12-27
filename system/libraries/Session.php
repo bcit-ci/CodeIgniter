@@ -96,7 +96,7 @@ class CI_Session {
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
-			$this->CI->load->database();
+			$this->CI->load->model('sessions');
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
@@ -210,32 +210,32 @@ class CI_Session {
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->where('session_id', $session['session_id']);
+			$criteria = array('session_id'=>$session['session_id']);
 
 			if ($this->sess_match_ip == TRUE)
 			{
-				$this->CI->db->where('ip_address', $session['ip_address']);
+				$criteria['ip_address'] = $session['ip_address'];
 			}
 
 			if ($this->sess_match_useragent == TRUE)
 			{
-				$this->CI->db->where('user_agent', $session['user_agent']);
+				$criteria['user_agent'] = $session['user_agent'];
 			}
 
-			$query = $this->CI->db->get($this->sess_table_name);
+			$result = $this->CI->sessions->get_session($criteria);
+				
 
 			// No result?  Kill it!
-			if ($query->num_rows() == 0)
+			if (!$result)
 			{
 				$this->sess_destroy();
 				return FALSE;
 			}
 
 			// Is there custom data?  If so, add it to the main session array
-			$row = $query->row();
-			if (isset($row->user_data) AND $row->user_data != '')
+			if (isset($result->user_data) AND $result->user_data != '')
 			{
-				$custom_data = $this->_unserialize($row->user_data);
+				$custom_data = $this->_unserialize($result->user_data);
 
 				if (is_array($custom_data))
 				{
@@ -297,8 +297,7 @@ class CI_Session {
 		}
 
 		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		$this->CI->sessions->update_session($this->userdata['session_id'],array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
 
 		// Write the cookie.  Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
@@ -337,7 +336,7 @@ class CI_Session {
 		// Save the data to the DB if needed
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			$this->CI->sessions->create_session($this->userdata);
 		}
 
 		// Write the cookie
@@ -393,7 +392,7 @@ class CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+			$this->CI->sessions->update_session($old_sessid,array('last_activity' => $this->now, 'session_id' => $new_sessid));
 		}
 
 		// Write the cookie
@@ -413,8 +412,7 @@ class CI_Session {
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE AND isset($this->userdata['session_id']))
 		{
-			$this->CI->db->where('session_id', $this->userdata['session_id']);
-			$this->CI->db->delete($this->sess_table_name);
+			$this->CI->sessions->delete_session($this->userdata['session_id']);
 		}
 
 		// Kill the cookie
@@ -790,8 +788,7 @@ class CI_Session {
 		{
 			$expire = $this->now - $this->sess_expiration;
 
-			$this->CI->db->where("last_activity < {$expire}");
-			$this->CI->db->delete($this->sess_table_name);
+			$this->CI->sessions->purge($expire);
 
 			log_message('debug', 'Session garbage collection performed.');
 		}
