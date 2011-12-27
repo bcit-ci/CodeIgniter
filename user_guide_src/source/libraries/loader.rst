@@ -186,6 +186,21 @@ data is sent to your browser, just like a View file, but if you set the
 second parameter to true (boolean) it will instead return the data as a
 string.
 
+$this->load->directory('directory');
+====================================
+
+::
+
+	$this->load->directory('/path/to/directory');
+
+
+If you need to load a number of arbitrary files into your application you
+can load them using this method. It takes any pattern that `
+glob()<http://php.net/glob>`_ will match, so you can get quite specific.::
+
+	$this->load->directory(APPPATH . 'presenters/*_presenter.php');
+
+
 $this->load->language('file_name')
 ===================================
 
