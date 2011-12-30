@@ -171,15 +171,7 @@ class CI_Image_lib {
 					{
 						if ($val != '' AND preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
-							if (strlen($matches[1]) === 6)
-							{
-								$val = '#'.$val;
-							}
-							else
-							{
-								$val = str_split($val, 1);
-								$val = '#'.$val[0].$val[0].$val[1].$val[1].$val[2].$val[2];
-							}
+							$val = (strlen($matches[1]) === 6) ? '#'.$val : '#'.$val[0].$val[0].$val[1].$val[1].$val[2].$val[2];
 						}
 						else
 						{
