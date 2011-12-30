@@ -53,6 +53,11 @@ Release Date: Not Released
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+   -  Image manipulation library changes include:
+	 -  The initialize() method now only sets existing class properties.
+	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
+	    if they are set manually after initialization.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
 
 -  Core
