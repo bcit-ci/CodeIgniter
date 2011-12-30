@@ -542,7 +542,7 @@ class XML_RPC_Response
 		elseif ($kind == 'array')
 		{
 			reset($xmlrpc_val->me);
-			list($a,$b) = each($xmlrpc_val->me);
+			list(, $b) = each($xmlrpc_val->me);
 			$arr = array();
 
 			for ($i = 0, $size = count($b); $i < $size; $i++)
@@ -1150,7 +1150,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		elseif ($kind == 'array')
 		{
 			reset($param->me);
-			list($a,$b) = each($param->me);
+			list(, $b) = each($param->me);
 
 			$arr = array();
 
@@ -1359,7 +1359,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	public function scalarval()
 	{
 		reset($this->me);
-		list($a,$b) = each($this->me);
+		list(, $b) = each($this->me);
 		return $b;
 	}
 
@@ -1370,14 +1370,9 @@ class XML_RPC_Values extends CI_Xmlrpc
 
 	// Useful for sending time in XML-RPC
 
-	public function iso8601_encode($time, $utc=0)
+	public function iso8601_encode($time, $utc = 0)
 	{
-		if ($utc == 1)
-		{
-			return strftime("%Y%m%dT%H:%i:%s", $time);
-		}
-
-		return (function_exists('gmstrftime')) ? gmstrftime('%Y%m%dT%H:%i:%s', $time) : strftime('%Y%m%dT%H:%i:%s', $time - date('Z'));
+		return ($utc) ? strftime('%Y%m%dT%H:%i:%s', $time) : gmstrftime('%Y%m%dT%H:%i:%s', $time);
 	}
 
 }
