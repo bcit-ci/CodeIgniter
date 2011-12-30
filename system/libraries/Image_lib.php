@@ -67,8 +67,8 @@ class CI_Image_lib {
 	public $wm_padding			= 0;			// Padding around text
 	public $wm_hor_offset		= 0;			// Lets you push text to the right
 	public $wm_vrt_offset		= 0;			// Lets you push  text down
-	public $wm_font_color		= '#ffffff';	// Text color
-	public $wm_shadow_color	= '';			// Dropshadow color
+	protected $wm_font_color		= '#ffffff';	// Text color
+	protected $wm_shadow_color		= '';	// Dropshadow color
 	public $wm_shadow_distance	= 2;			// Dropshadow distance
 	public $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
 
@@ -85,7 +85,7 @@ class CI_Image_lib {
 	public $create_fnc			= 'imagecreatetruecolor';
 	public $copy_fnc			= 'imagecopyresampled';
 	public $error_msg			= array();
-	public $wm_use_drop_shadow	= FALSE;
+	protected $wm_use_drop_shadow	= FALSE;
 	public $wm_use_truetype	= FALSE;
 
 	/**
@@ -165,7 +165,30 @@ class CI_Image_lib {
 		{
 			foreach ($props as $key => $val)
 			{
-				$this->$key = $val;
+				if (property_exists($this, $key))
+				{
+					if (in_array($key, array('wm_font_color', 'wm_shadow_color')))
+					{
+						if ($val != '' AND preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
+						{
+							if (strlen($matches[1]) === 6)
+							{
+								$val = '#'.$val;
+							}
+							else
+							{
+								$val = str_split($val, 1);
+								$val = '#'.$val[0].$val[0].$val[1].$val[1].$val[2].$val[2];
+							}
+						}
+						else
+						{
+							continue;
+						}
+					}
+
+					$this->$key = $val;
+				}
 			}
 		}
 
@@ -332,16 +355,6 @@ class CI_Image_lib {
 		$this->y_axis = ($this->y_axis == '' OR ! is_numeric($this->y_axis)) ? 0 : $this->y_axis;
 
 		// Watermark-related Stuff...
-		if ($this->wm_font_color != '' AND strlen($this->wm_font_color) === 6)
-		{
-			$this->wm_font_color = '#'.$this->wm_font_color;
-		}
-
-		if ($this->wm_shadow_color != '' AND strlen($this->wm_shadow_color) === 6)
-		{
-			$this->wm_shadow_color = '#'.$this->wm_shadow_color;
-		}
-
 		if ($this->wm_overlay_path != '')
 		{
 			$this->wm_overlay_path = str_replace("\\", "/", realpath($this->wm_overlay_path));
@@ -350,6 +363,10 @@ class CI_Image_lib {
 		if ($this->wm_shadow_color != '')
 		{
 			$this->wm_use_drop_shadow = TRUE;
+		}
+		elseif ($this->wm_use_drop_shadow == TRUE AND $this->wm_shadow_color == '')
+		{
+			$this->wm_use_drop_shadow = FALSE;
 		}
 
 		if ($this->wm_font_path != '')
@@ -982,21 +999,6 @@ class CI_Image_lib {
 		//  Fetch source image properties
 		$this->get_image_properties();
 
-		// Set RGB values for text and shadow
-		$this->wm_font_color	= str_replace('#', '', $this->wm_font_color);
-		$this->wm_shadow_color	= str_replace('#', '', $this->wm_shadow_color);
-
-		$R1 = hexdec(substr($this->wm_font_color, 0, 2));
-		$G1 = hexdec(substr($this->wm_font_color, 2, 2));
-		$B1 = hexdec(substr($this->wm_font_color, 4, 2));
-
-		$R2 = hexdec(substr($this->wm_shadow_color, 0, 2));
-		$G2 = hexdec(substr($this->wm_shadow_color, 2, 2));
-		$B2 = hexdec(substr($this->wm_shadow_color, 4, 2));
-
-		$txt_color	= imagecolorclosest($src_img, $R1, $G1, $B1);
-		$drp_color	= imagecolorclosest($src_img, $R2, $G2, $B2);
-
 		// Reverse the vertical offset
 		// When the image is positioned at the bottom
 		// we don't want the vertical offset to push it
@@ -1075,16 +1077,25 @@ class CI_Image_lib {
 				break;
 		}
 
-		//  Add the text to the source image
-		if ($this->wm_use_truetype AND $this->wm_use_drop_shadow)
+		if ($this->wm_use_drop_shadow)
 		{
-			imagettftext($src_img, $this->wm_font_size, 0, $x_shad, $y_shad, $drp_color, $this->wm_font_path, $this->wm_text);
-			imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
-		}
-		elseif ($this->wm_use_drop_shadow)
-		{
-			imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
-			imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+			// Set RGB values for text and shadow
+			$txt_color = str_split(substr($this->wm_font_color, 1, 6));
+			$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
+			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6));
+			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[2]), hexdec($drp_color[3]));
+
+			//  Add the text to the source image
+			if ($this->wm_use_truetype)
+			{
+				imagettftext($src_img, $this->wm_font_size, 0, $x_shad, $y_shad, $drp_color, $this->wm_font_path, $this->wm_text);
+				imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
+			}
+			else
+			{
+				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
+				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+			}
 		}
 
 		//  Output the final image
