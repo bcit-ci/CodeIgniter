@@ -542,7 +542,7 @@ class XML_RPC_Response
 		elseif ($kind == 'array')
 		{
 			reset($xmlrpc_val->me);
-			list(, $b) = each($xmlrpc_val->me);
+			$b = current($xmlrpc_val->me);
 			$arr = array();
 
 			for ($i = 0, $size = count($b); $i < $size; $i++)
@@ -1150,8 +1150,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		elseif ($kind == 'array')
 		{
 			reset($param->me);
-			list(, $b) = each($param->me);
-
+			$b = current($param->me);
 			$arr = array();
 
 			for($i = 0, $c = count($b); $i < $c; $i++)
@@ -1164,7 +1163,6 @@ class XML_RPC_Message extends CI_Xmlrpc
 		elseif ($kind == 'struct')
 		{
 			reset($param->me['struct']);
-
 			$arr = array();
 
 			while (list($key,$value) = each($param->me['struct']))
@@ -1359,8 +1357,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	public function scalarval()
 	{
 		reset($this->me);
-		list(, $b) = each($this->me);
-		return $b;
+		return current($this->me);
 	}
 
 
