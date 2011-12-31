@@ -79,7 +79,7 @@ class CI_Hooks {
 
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
-		$hook = $CI->config->get('hooks.php', 'hooks');
+		$hook = $CI->config->get('hooks.php', 'hook');
 		if (is_array($hook))
 		{
 			$this->hooks =& $hook;
