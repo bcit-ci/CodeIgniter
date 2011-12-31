@@ -178,7 +178,7 @@ class CI_Image_lib {
 							 * $matches[1] contains our hex color value, but it might be
 							 * both in the full 6-length format or the shortened 3-length
 							 * value.
-							 * We'll later need the full version, so if we keep it if it's
+							 * We'll later need the full version, so we keep it if it's
 							 * already there and if not - we'll convert to it. We can
 							 * access string characters by their index as in an array,
 							 * so we'll do that and use concatenation to form the final
