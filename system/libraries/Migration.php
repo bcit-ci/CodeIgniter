@@ -322,7 +322,7 @@ class CI_Migration {
 	 */
 	protected function _get_version()
 	{
-		$row = $this->db->get($this->_migration_table)->row();
+		$row = $this->db->select('version')->get($this->_migration_table)->row();
 		return $row ? $row->version : 0;
 	}
 
