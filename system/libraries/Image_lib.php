@@ -169,8 +169,17 @@ class CI_Image_lib {
 				{
 					if (in_array($key, array('wm_font_color', 'wm_shadow_color')))
 					{
-						if ($val != '' AND preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
+						if (preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
+							/* $matches[1] contains our hex color value, but it might be
+							 * both in the full 6-length format or the shortened 3-length
+							 * value.
+							 * We'll later need the full version, so we keep it if it's
+							 * already there and if not - we'll convert to it. We can
+							 * access string characters by their index as in an array,
+							 * so we'll do that and use concatenation to form the final
+							 * value:
+							 */
 							$val = (strlen($matches[1]) === 6)
 								? '#'.$matches[1]
 								: '#'.$matches[1][0].$matches[1][0].$matches[1][1].$matches[1][1].$matches[1][2].$matches[1][2];
@@ -1073,10 +1082,15 @@ class CI_Image_lib {
 
 		if ($this->wm_use_drop_shadow)
 		{
-			// Set RGB values for text and shadow
-			$txt_color = str_split(substr($this->wm_font_color, 1, 6));
+			/* Set RGB values for text and shadow
+			 *
+			 * First character is #, so we don't really need it.
+			 * Get the rest of the string and split it into 2-length
+			 * hex values:
+			 */
+			$txt_color = str_split(substr($this->wm_font_color, 1, 6), 2);
 			$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
-			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6));
+			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6), 2);
 			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[2]), hexdec($drp_color[3]));
 
 			//  Add the text to the source image
