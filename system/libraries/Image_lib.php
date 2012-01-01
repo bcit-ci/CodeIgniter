@@ -171,11 +171,7 @@ class CI_Image_lib {
 					{
 						if (preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
-							/* This particular line has caused a lengthy discussion
-							 * (https://github.com/EllisLab/CodeIgniter/pull/818), so
-							 * just to clarify:
-							 *
-							 * $matches[1] contains our hex color value, but it might be
+							/* $matches[1] contains our hex color value, but it might be
 							 * both in the full 6-length format or the shortened 3-length
 							 * value.
 							 * We'll later need the full version, so we keep it if it's
