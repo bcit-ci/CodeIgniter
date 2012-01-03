@@ -437,7 +437,14 @@ class XML_RPC_Response
 		{
 			// error
 			$this->errno = $code;
-			$this->errstr = htmlentities($fstr);
+			if ( ! is_php('5.4'))
+			{
+				$this->errstr = htmlspecialchars($fstr, ENT_NOQUOTES, 'UTF-8');
+			}
+			else
+			{
+				$this->errstr = htmlspecialchars($fstr, ENT_XML1 | ENT_NOQUOTES, 'UTF-8');
+			}
 		}
 		else if ( ! is_object($val))
 		{
