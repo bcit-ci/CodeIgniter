@@ -28,6 +28,7 @@ Release Date: Not Released
    -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Changed logger to only chmod when file is first created.
+   -  Removed previously deprecated SHA1 Library.
 
 -  Helpers
 
@@ -53,13 +54,20 @@ Release Date: Not Released
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+   -  Image manipulation library changes include:
+	 -  The initialize() method now only sets existing class properties.
+	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
+	    if they are set manually after initialization.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
+   -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
 
 -  Core
 
    -  Changed private functions in CI_URI to protected so MY_URI can
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars()
 
 Bug fixes for 3.0
 ------------------
@@ -80,6 +88,7 @@ Bug fixes for 3.0
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
 -  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
+-  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 
 Version 2.1.0
 =============
