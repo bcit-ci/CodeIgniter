@@ -24,9 +24,11 @@ Release Date: Not Released
    -  Added Windows 7 to the list of user platforms.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
-   -  Added support pgp and gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for pgp and gpg to mimes.php.
+   -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
+   -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
 
