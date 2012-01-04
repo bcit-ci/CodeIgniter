@@ -142,9 +142,10 @@ class CI_Pagination {
 		// Determine the current page number.
 		$CI =& get_instance();
 
+		// See if we are using a prefix or suffix on links
 		if ($this->prefix != '' OR $this->suffix != '')
 		{
-			$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
+			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
 		}
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
@@ -154,7 +155,7 @@ class CI_Pagination {
 				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
 		}
-		elseif ($CI->uri->segment($this->uri_segment) != $base_page)
+		elseif ( ! $this->cur_page AND $CI->uri->segment($this->uri_segment) != $base_page)
 		{
 			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
@@ -165,7 +166,7 @@ class CI_Pagination {
 			$this->cur_page = $base_page;
 		}
 
-		$this->num_links = (int)$this->num_links;
+		$this->num_links = (int) $this->num_links;
 
 		if ($this->num_links < 1)
 		{
