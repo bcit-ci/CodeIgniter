@@ -206,7 +206,13 @@ class CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
+			//remove segment from existing url
+			parse_str($_SERVER["QUERY_STRING"], $qParams);
+			unset($qParams[$this->query_string_segment]);
+			//append segment to end of qs
+			$qParams[$this->query_string_segment] = '';
+			//set new base_url
+			$this->base_url = array_shift(explode('?', rtrim($this->base_url))).'?'.http_build_query($qParams);
 		}
 		else
 		{
