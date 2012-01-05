@@ -822,7 +822,7 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch MySQL Field Names
+	 * Fetch Field Names
 	 *
 	 * @param	string	the table name
 	 * @return	array
