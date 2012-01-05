@@ -47,7 +47,8 @@ class CI_Form_validation {
 	protected $_error_suffix		= '</p>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
-
+	protected $_rules_models		= array();
+	
 	/**
 	 * Constructor
 	 */
@@ -202,6 +203,25 @@ class CI_Form_validation {
 		return $this;
 	}
 
+	//---------------------------------------------------------------------
+
+	/**
+	 * Add a model or array of models to be checked for validation rules at runtime.
+	 *
+	 * @param string/Array If string, it will be added to an array.  If Array, it is merged.
+	 */
+	public function set_rules_model($model)
+	{
+		if(is_array($model))
+		{
+			$this->_rules_models = array_merge($this->_rules_models, $model);
+		}
+		else
+		{
+			$this->_rules_models[] = (string)$model;
+		}
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -591,7 +611,29 @@ class CI_Form_validation {
 			}
 			else
 			{
-				if ( ! method_exists($this, $rule))
+				//Check to see if we are supposed to look in a model for the rule
+				$found_in_model = FALSE;
+				$models = $this->_rules_models;
+				$found_model = '';
+				
+				if(count($models) > 0)
+				{
+					//Find the model with the rule we want
+					foreach($models as $model)
+					{
+						$this->CI->load->model($model);
+						//Check for Rule
+						$found_in_model = method_exists($this->CI->$model, $rule);
+						//If we found it set the model name and break out of the loop
+						if($found_in_model)
+						{
+							$found_model = $model;
+							break;
+						}
+					}					
+				}
+				
+				if ( ! method_exists($this, $rule) AND ! $found_in_model)
 				{
 					// If our own wrapper function doesn't exist we see if a native PHP function does.
 					// Users can use any native PHP function call that has one param.
@@ -616,7 +658,7 @@ class CI_Form_validation {
 					continue;
 				}
 
-				$result = $this->$rule($postdata, $param);
+				$result = ($found_in_model) ? $this->CI->$model->$rule($postdata, $param) : $this->$rule($postdata, $param);
 
 				if ($_in_array === TRUE)
 				{
