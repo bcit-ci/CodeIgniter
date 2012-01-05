@@ -228,13 +228,13 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if (($i == 0 OR ($this->use_page_numbers && $i == 1)) AND $this->first_url != '')
+			if ($i == $base_page AND $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
-				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
+				$i = ($i == $base_page) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 
