@@ -560,7 +560,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			if (is_resource($this->$key))
 			{
-				$res = $key;
+				$res = $this->$key;
 				break;
 			}
 		}
