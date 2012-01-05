@@ -45,6 +45,12 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  Improved support of the Oracle (OCI8) driver, including:
+         -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
+         -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
+         -  Generally improved for speed and cleaned up all of its components.
+         -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on ``result()``.
+         -  ``num_rows()`` is now only called explicitly by the developer and no longer re-executes statements.
 
 -  Libraries
 
@@ -75,8 +81,7 @@ Bug fixes for 3.0
 ------------------
 
 -  Unlink raised an error if cache file did not exist when you try to delete it.
--  Fixed a bug (#181) where a mis-spelling was in the form validation
-   language file.
+-  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
 -  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
@@ -92,8 +97,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
-
-
+-  Fixed a bug in the Oracle (oci8) instance of :doc:`Database Forge Class <database/forge>` where ``create_table()`` would fail if used with ``AUTO_INCREMENT`` as it's not supported by Oracle.
 
 Version 2.1.0
 =============
@@ -156,10 +160,8 @@ Release Date: Not Released
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
 
-
 Bug fixes for 2.1.0
 -------------------
-
 
 -  Fixed #378 Robots identified as regular browsers by the User Agent
    class.
@@ -1159,7 +1161,7 @@ Bug fixes for 1.6.3
 
 -  Added a language key for valid_emails in validation_lang.php.
 -  Amended fixes for bug (#3419) with parsing DSN database connections.
--  Moved the _has_operators() function (#4535) into DB_driver from
+-  Moved the _has_operator() function (#4535) into DB_driver from
    DB_active_rec.
 -  Fixed a syntax error in upload_lang.php.
 -  Fixed a bug (#4542) with a regular expression in the Image library.

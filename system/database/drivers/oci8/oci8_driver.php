@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -53,38 +53,37 @@
 
 class CI_DB_oci8_driver extends CI_DB {
 
-	var $dbdriver = 'oci8';
+	public $dbdriver = 'oci8';
 
 	// The character used for excaping
-	var $_escape_char = '"';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	var $_like_escape_str = " escape '%s' ";
-	var $_like_escape_chr = '!';
+	protected $_like_escape_str = " escape '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(1) AS ";
-	var $_random_keyword = ' ASC'; // not currently supported
+	protected $_count_string = 'SELECT COUNT(1) AS ';
+	protected $_random_keyword = ' ASC'; // not currently supported
 
 	// Set "auto commit" by default
-	var $_commit = OCI_COMMIT_ON_SUCCESS;
+	protected $_commit = OCI_COMMIT_ON_SUCCESS;
 
 	// need to track statement id and cursor id
-	var $stmt_id;
-	var $curs_id;
+	public $stmt_id;
+	public $curs_id;
 
 	// if we use a limit, we will add a field that will
 	// throw off num_fields later
-	var $limit_used;
+	public $limit_used;
 
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @access  private called by the base class
 	 * @return  resource
 	 */
 	public function db_connect()
@@ -97,7 +96,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @access  private called by the base class
 	 * @return  resource
 	 */
 	public function db_pconnect()
@@ -113,7 +111,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Keep / reestablish the db connection if no queries have been
 	 * sent for a length of time exceeding the server's idle timeout
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function reconnect()
@@ -127,7 +124,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access  private called by the base class
 	 * @return  resource
 	 */
 	public function db_select()
@@ -141,7 +137,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	resource
@@ -157,7 +152,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access  protected
 	 * @return  string
 	 */
 	protected function _version()
@@ -170,14 +164,14 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access  protected  called by the base class
 	 * @param   string  an SQL query
 	 * @return  resource
 	 */
 	protected function _execute($sql)
 	{
-		// oracle must parse the query before it is run. All of the actions with
-		// the query are based on the statement id returned by ociparse
+		/* Oracle must parse the query before it is run. All of the actions with
+		 * the query are based on the statement id returned by oci_parse().
+		 */
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		oci_set_prefetch($this->stmt_id, 1000);
@@ -187,7 +181,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Generate a statement ID
 	 *
-	 * @access  private
 	 * @param   string  an SQL query
 	 * @return  none
 	 */
@@ -206,7 +199,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
-	 * @access  private called by execute()
 	 * @param   string  an SQL query
 	 * @return  string
 	 */
@@ -220,7 +212,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * getCursor.  Returns a cursor from the datbase
 	 *
-	 * @access  public
 	 * @return  cursor id
 	 */
 	public function get_cursor()
@@ -234,7 +225,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Stored Procedure.  Executes a stored procedure
 	 *
-	 * @access  public
 	 * @param   package	 package stored procedure is in
 	 * @param   procedure   stored procedure to execute
 	 * @param   params	  array of parameters
@@ -287,7 +277,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Bind parameters
 	 *
-	 * @access  private
 	 * @return  none
 	 */
 	private function _bind_params($params)
@@ -316,7 +305,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -337,7 +325,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		$this->_commit = OCI_DEFAULT;
+		$this->_commit = (is_php('5.3.2')) ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
 		return TRUE;
 	}
 
@@ -346,7 +334,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_commit()
@@ -362,9 +349,8 @@ class CI_DB_oci8_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$ret = oci_commit($this->conn_id);
 		$this->_commit = OCI_COMMIT_ON_SUCCESS;
-		return $ret;
+		return oci_commit($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -372,7 +358,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_rollback()
@@ -388,9 +373,8 @@ class CI_DB_oci8_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$ret = oci_rollback($this->conn_id);
 		$this->_commit = OCI_COMMIT_ON_SUCCESS;
-		return $ret;
+		return oci_rollback($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -398,7 +382,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access  public
 	 * @param   string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return  string
@@ -434,7 +417,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access  public
 	 * @return  integer
 	 */
 	public function affected_rows()
@@ -447,7 +429,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @access  public
 	 * @return  integer
 	 */
 	public function insert_id()
@@ -464,7 +445,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @access  public
 	 * @param   string
 	 * @return  string
 	 */
@@ -494,7 +474,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	protected
 	 * @param	boolean
 	 * @return	string
 	 */
@@ -517,7 +496,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access  protected
 	 * @param   string  the table name
 	 * @return  string
 	 */
@@ -533,7 +511,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access  public
 	 * @param   string  the table name
 	 * @return  object
 	 */
@@ -547,7 +524,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access  protected
 	 * @return  string
 	 */
 	protected function _error_message()
@@ -562,7 +538,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access  protected
 	 * @return  integer
 	 */
 	protected function _error_number()
@@ -579,7 +554,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
@@ -622,7 +596,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
@@ -643,7 +616,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access  public
 	 * @param   string  the table name
 	 * @param   array   the insert keys
 	 * @param   array   the insert values
@@ -688,7 +660,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -705,12 +676,10 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) > 0) ? ' ORDER BY '.implode(', ', $orderby) : '';
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
-
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
-
+		$sql = 'UPDATE '.$table.' SET '.implode(', ', $valstr);
+		$sql .= ($where != '' AND count($where) > 0) ? ' WHERE '.implode(' ', $where) : '';
 		$sql .= $orderby.$limit;
 
 		return $sql;
@@ -725,7 +694,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @return	string
 	 */
@@ -741,7 +709,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
@@ -775,7 +742,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access  protected
 	 * @param   string  the sql query string
 	 * @param   integer the number of rows to limit the query to
 	 * @param   integer the offset value
@@ -802,7 +768,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access  protected
 	 * @param   resource
 	 * @return  void
 	 */
@@ -811,10 +776,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		@oci_close($conn_id);
 	}
 
-
 }
-
-
 
 /* End of file oci8_driver.php */
 /* Location: ./system/database/drivers/oci8/oci8_driver.php */
