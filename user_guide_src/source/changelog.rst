@@ -97,6 +97,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
+-  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug in the Oracle (oci8) instance of :doc:`Database Forge Class <database/forge>` where ``create_table()`` would fail if used with ``AUTO_INCREMENT`` as it's not supported by Oracle.
 -  Fixed a bug (#413) - The Oracle (oci8) database driver only used to return connection-related errors in `_error_message()` and `_error_number()`.
 
