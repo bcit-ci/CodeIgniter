@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -60,25 +60,21 @@ if ( ! function_exists('set_realpath'))
 		// Resolve the path
 		if (function_exists('realpath') AND @realpath($path) !== FALSE)
 		{
-			$path = realpath($path).'/';
+			$path = realpath($path);
 		}
 
 		// Add a trailing slash
-		$path = preg_replace("#([^/])/*$#", "\\1/", $path);
+		$path = rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 
 		// Make sure the path exists
-		if ($check_existance == TRUE)
+		if ($check_existance == TRUE && ! is_dir($path))
 		{
-			if ( ! is_dir($path))
-			{
-				show_error('Not a valid path: '.$path);
-			}
+			show_error('Not a valid path: '.$path);
 		}
 
 		return $path;
 	}
 }
-
 
 /* End of file path_helper.php */
 /* Location: ./system/helpers/path_helper.php */
