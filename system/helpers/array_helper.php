@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -77,12 +77,7 @@ if ( ! function_exists('random_element'))
 {
 	function random_element($array)
 	{
-		if ( ! is_array($array))
-		{
-			return $array;
-		}
-
-		return $array[array_rand($array)];
+		return (is_array($array)) ? $array[array_rand($array)] : $array;
 	}
 }
 
@@ -105,22 +100,14 @@ if ( ! function_exists('elements'))
 	function elements($items, $array, $default = FALSE)
 	{
 		$return = array();
-		
 		if ( ! is_array($items))
 		{
 			$items = array($items);
 		}
-		
+
 		foreach ($items as $item)
 		{
-			if (isset($array[$item]))
-			{
-				$return[$item] = $array[$item];
-			}
-			else
-			{
-				$return[$item] = $default;
-			}
+			$return[$item] = (isset($array[$item])) ? $array[$item] : $default;
 		}
 
 		return $return;

@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -79,13 +79,7 @@ if ( ! function_exists('get_cookie'))
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
 		$CI =& get_instance();
-
-		$prefix = '';
-
-		if ( ! isset($_COOKIE[$index]) && config_item('cookie_prefix') != '')
-		{
-			$prefix = config_item('cookie_prefix');
-		}
+		$prefix = (isset($_COOKIE[$index])) ? '' : config_item('cookie_prefix');
 
 		return $CI->input->cookie($prefix.$index, $xss_clean);
 	}
@@ -109,7 +103,6 @@ if ( ! function_exists('delete_cookie'))
 		set_cookie($name, '', '', $domain, $path, $prefix);
 	}
 }
-
 
 /* End of file cookie_helper.php */
 /* Location: ./system/helpers/cookie_helper.php */
