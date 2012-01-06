@@ -408,7 +408,7 @@ class CI_Image_lib {
 	 */
 	public function crop()
 	{
-		$protocol = (strtolower(substr($this->image_library, 0, -3)) === 'gd2') ? 'image_process_gd' : 'image_process_'.$this->image_library;
+		$protocol = ($this->image_library === 'gd2') ? 'image_process_gd' : 'image_process_'.$this->image_library;
 		return $this->$protocol('crop');
 	}
 
