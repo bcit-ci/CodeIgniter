@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -61,7 +61,7 @@ if ( ! function_exists('word_limiter'))
 
 		preg_match('/^\s*+(?:\S++\s*+){1,'.(int) $limit.'}/', $str, $matches);
 
-		if (strlen($str) == strlen($matches[0]))
+		if (strlen($str) === strlen($matches[0]))
 		{
 			$end_char = '';
 		}
@@ -100,7 +100,7 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$out = "";
+		$out = '';
 		foreach (explode(' ', trim($str)) as $val)
 		{
 			$out .= $val.' ';
@@ -143,7 +143,7 @@ if ( ! function_exists('ascii_to_entities'))
 					If the $temp array has a value but we have moved on, then it seems only
 					fair that we output that entity and restart $temp before continuing. -Paul
 				*/
-				if (count($temp) == 1)
+				if (count($temp) === 1)
 				{
 					$out  .= '&#'.array_shift($temp).';';
 					$count = 1;
@@ -153,16 +153,18 @@ if ( ! function_exists('ascii_to_entities'))
 			}
 			else
 			{
-				if (count($temp) == 0)
+				if (count($temp) === 0)
 				{
 					$count = ($ordinal < 224) ? 2 : 3;
 				}
 
 				$temp[] = $ordinal;
 
-				if (count($temp) == $count)
+				if (count($temp) === $count)
 				{
-					$number = ($count == 3) ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] % 64) : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
+					$number = ($count === 3)
+							? (($temp[0] % 16) * 4096) + (($temp[1] % 64) * 64) + ($temp[2] % 64)
+							: (($temp[0] % 32) * 64) + ($temp[1] % 64);
 
 					$out .= '&#'.$number.';';
 					$count = 1;
@@ -193,10 +195,9 @@ if ( ! function_exists('entities_to_ascii'))
 	{
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches))
 		{
-			for ($i = 0, $s = count($matches['0']); $i < $s; $i++)
+			for ($i = 0, $s = count($matches[0]); $i < $s; $i++)
 			{
-				$digits = $matches['1'][$i];
-
+				$digits = $matches[1][$i];
 				$out = '';
 
 				if ($digits < 128)
@@ -206,25 +207,24 @@ if ( ! function_exists('entities_to_ascii'))
 				}
 				elseif ($digits < 2048)
 				{
-					$out .= chr(192 + (($digits - ($digits % 64)) / 64));
-					$out .= chr(128 + ($digits % 64));
+					$out .= chr(192 + (($digits - ($digits % 64)) / 64)).chr(128 + ($digits % 64));
 				}
 				else
 				{
-					$out .= chr(224 + (($digits - ($digits % 4096)) / 4096));
-					$out .= chr(128 + ((($digits % 4096) - ($digits % 64)) / 64));
-					$out .= chr(128 + ($digits % 64));
+					$out .= chr(224 + (($digits - ($digits % 4096)) / 4096))
+						.chr(128 + ((($digits % 4096) - ($digits % 64)) / 64))
+						.chr(128 + ($digits % 64));
 				}
 
-				$str = str_replace($matches['0'][$i], $out, $str);
+				$str = str_replace($matches[0][$i], $out, $str);
 			}
 		}
 
 		if ($all)
 		{
-			$str = str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
-								array("&","<",">","\"", "'", "-"),
-								$str);
+			return str_replace(array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
+						array('&', '<', '>', '"', "'", '-'),
+						$str);
 		}
 
 		return $str;
@@ -294,42 +294,38 @@ if ( ! function_exists('highlight_code'))
 {
 	function highlight_code($str)
 	{
-		// The highlight string function encodes and highlights
-		// brackets so we need them to start raw
-		$str = str_replace(array('&lt;', '&gt;'), array('<', '>'), $str);
-
-		// Replace any existing PHP tags to temporary markers so they don't accidentally
-		// break the string out of PHP, and thus, thwart the highlighting.
-
-		$str = str_replace(array('<?', '?>', '<%', '%>', '\\', '</script>'),
-							array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'), $str);
+		/* The highlight string function encodes and highlights
+		 * brackets so we need them to start raw.
+		 *
+		 * Also replace any existing PHP tags to temporary markers
+		 * so they don't accidentally break the string out of PHP,
+		 * and thus, thwart the highlighting.
+		 */
+		$str = str_replace(array('&lt;', '&gt;', '<?', '?>', '<%', '%>', '\\', '</script>'),
+					array('<', '>', 'phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
+					$str);
 
 		// The highlight_string function requires that the text be surrounded
 		// by PHP tags, which we will remove later
-		$str = '<?php '.$str.' ?>'; // <?
-
-		// All the magic happens here, baby!
-		$str = highlight_string($str, TRUE);
-
-		// Prior to PHP 5, the highligh function used icky <font> tags
-		// so we'll replace them with <span> tags.
-
-		if (abs(PHP_VERSION) < 5)
-		{
-			$str = str_replace(array('<font ', '</font>'), array('<span ', '</span>'), $str);
-			$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
-		}
+		$str = highlight_string('<?php '.$str.' ?>', TRUE);
 
 		// Remove our artificially added PHP, and the syntax highlighting that came with it
-		$str = preg_replace('/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i', '<span style="color: #$1">', $str);
-		$str = preg_replace('/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);
-		$str = preg_replace('/<span style="color: #[A-Z0-9]+"\><\/span>/i', '', $str);
+		$str = preg_replace(array(
+						'/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i',
+						'/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is',
+						'/<span style="color: #[A-Z0-9]+"\><\/span>/i'
+					),
+					array(
+						'<span style="color: #$1">',
+						"$1</span>\n</span>\n</code>",
+						''
+					),
+					$str);
 
 		// Replace our markers back to PHP tags.
-		$str = str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
-							array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'), $str);
-
-		return $str;
+		return str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
+					array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'),
+					$str);
 	}
 }
 
@@ -414,12 +410,14 @@ if ( ! function_exists('word_wrap'))
 {
 	function word_wrap($str, $charlim = '76')
 	{
-		// Se the character limit
+		// Set the character limit
 		if ( ! is_numeric($charlim))
+		{
 			$charlim = 76;
+		}
 
 		// Reduce multiple spaces
-		$str = preg_replace("| +|", " ", $str);
+		$str = preg_replace('| +|', ' ', $str);
 
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
@@ -430,22 +428,22 @@ if ( ! function_exists('word_wrap'))
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
 		$unwrap = array();
-		if (preg_match_all("|(\{unwrap\}.+?\{/unwrap\})|s", $str, $matches))
+		if (preg_match_all('|(\{unwrap\}.+?\{/unwrap\})|s', $str, $matches))
 		{
-			for ($i = 0; $i < count($matches['0']); $i++)
+			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
-				$unwrap[] = $matches['1'][$i];
-				$str = str_replace($matches['1'][$i], "{{unwrapped".$i."}}", $str);
+				$unwrap[] = $matches[1][$i];
+				$str = str_replace($matches[1][$i], '{{unwrapped'.$i.'}}', $str);
 			}
 		}
 
 		// Use PHP's native function to do the initial wordwrap.
 		// We set the cut flag to FALSE so that any individual words that are
-		// too long get left alone.  In the next step we'll deal with them.
+		// too long get left alone. In the next step we'll deal with them.
 		$str = wordwrap($str, $charlim, "\n", FALSE);
 
 		// Split the string into individual lines of text and cycle through them
-		$output = "";
+		$output = '';
 		foreach (explode("\n", $str) as $line)
 		{
 			// Is the line within the allowed character count?
@@ -460,7 +458,7 @@ if ( ! function_exists('word_wrap'))
 			while ((strlen($line)) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
-				if (preg_match("!\[url.+\]|://|wwww.!", $line))
+				if (preg_match('!\[url.+\]|://|wwww.!', $line))
 				{
 					break;
 				}
@@ -474,14 +472,12 @@ if ( ! function_exists('word_wrap'))
 			// word into smaller chunks so we'll add it back to our current line
 			if ($temp != '')
 			{
-				$output .= $temp."\n".$line;
+				$output .= $temp."\n".$line."\n";
 			}
 			else
 			{
-				$output .= $line;
+				$output .= $line."\n";
 			}
-
-			$output .= "\n";
 		}
 
 		// Put our markers back
@@ -489,14 +485,12 @@ if ( ! function_exists('word_wrap'))
 		{
 			foreach ($unwrap as $key => $val)
 			{
-				$output = str_replace("{{unwrapped".$key."}}", $val, $output);
+				$output = str_replace('{{unwrapped'.$key.'}}', $val, $output);
 			}
 		}
 
-		// Remove the unwrap tags
-		$output = str_replace(array('{unwrap}', '{/unwrap}'), '', $output);
-
-		return $output;
+		// Remove the unwrap tags and return
+		return str_replace(array('{unwrap}', '{/unwrap}'), '', $output);
 	}
 }
 
@@ -527,7 +521,6 @@ if ( ! function_exists('ellipsize'))
 		}
 
 		$beg = substr($str, 0, floor($max_length * $position));
-
 		$position = ($position > 1) ? 1 : $position;
 
 		if ($position === 1)
