@@ -236,13 +236,36 @@ class CI_Router {
 	 */
 	function _set_request($segments = array())
 	{
-		$segments = $this->_validate_request($segments);
-
+		// Check if you actually have any segments first
+		// and if you don't just go straight to the 
+		// default controller
 		if (count($segments) == 0)
 		{
 			return $this->_set_default_controller();
-		}
+		}			
 
+		// Lets check and see if you're using dashes instead of underscores
+		if ($this->config->item('use_dashes') === TRUE)
+		{
+			// We only care about the first 2 segments, the controller and
+			// if set the function name 
+			$loop_length = (count($segments) < 2) ? count($segments) : 2; 
+			
+			for ($i=0; $i < $loop_length; $i++)
+			{
+				// If any of the segments use dashes we throw a 404 so that
+				// we don't have an issue with 2 URLs pointing to the same page
+				if (strpos($segments[$i], '_') !== FALSE)
+				{
+					show_404($segments);
+				}
+				
+				$segments[$i] = str_replace('-', '_', $segments[$i]);						
+			}	
+		}
+				
+		$segments = $this->_validate_request($segments);
+				
 		$this->set_class($segments[0]);
 
 		if (isset($segments[1]))

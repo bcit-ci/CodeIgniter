@@ -55,6 +55,26 @@ $config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
+| Use Dashes for Controller and Function Names
+|--------------------------------------------------------------------------
+|
+| If you would like to use dashes in your urls instead of underscores,
+| change this variable to true.  
+|
+| This only affects controllers and function names NOT variables even if
+| this is true, you can name your variables anything you want 
+| 
+| Default value - FALSE: http://domain.com/controller_name/function_name
+| 				  TRUE: http://domain.com/controller-name/function-name
+| 
+| This also does not effect your function names, dashes can't be used in
+| function names in PHP.
+| 
+*/
+$config['use_dashes'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
 | URI PROTOCOL
 |--------------------------------------------------------------------------
 |
