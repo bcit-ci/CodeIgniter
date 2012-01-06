@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -66,8 +66,7 @@ if ( ! function_exists('force_download'))
 		}
 
 		// Grab the file extension
-		$x = explode('.', $filename);
-		$extension = end($x);
+		$extension = end(explode('.', $filename));
 
 		// Load the mime types
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
@@ -90,30 +89,26 @@ if ( ! function_exists('force_download'))
 		}
 
 		// Generate the server headers
+		header('Content-Type: "'.$mime.'"');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
 		{
-			header('Content-Type: "'.$mime.'"');
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header("Content-Transfer-Encoding: binary");
+			header('Content-Transfer-Encoding: binary');
 			header('Pragma: public');
-			header("Content-Length: ".strlen($data));
 		}
 		else
 		{
-			header('Content-Type: "'.$mime.'"');
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
-			header("Content-Transfer-Encoding: binary");
+			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Pragma: no-cache');
-			header("Content-Length: ".strlen($data));
 		}
+		header('Content-Length: '.strlen($data));
 
 		exit($data);
 	}
 }
-
 
 /* End of file download_helper.php */
 /* Location: ./system/helpers/download_helper.php */
