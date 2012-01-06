@@ -223,6 +223,50 @@ class CI_Router {
 
 	// --------------------------------------------------------------------
 
+
+   /**
+    * Count the number of folders before the controller
+    * 
+    * This function will check if there are any folders
+    * before the controller and correctly sets
+    * the number of segments we need to check are using
+    * dashes
+    * 
+    * @access private
+    * @param array
+    * @return int 
+    */
+   function _get_folder_count($segments = array())
+   {
+   
+      $segment_count = count($segments);
+      
+      // if it's less than 3 segments we 
+      // will naturally just look at all
+      // of them so we can just kick out
+      
+      $folder_count = 0;
+      $dir_check = APPPATH . '/controllers';
+      
+      for ($i = 0; $i < $segment_count; $i++)
+      {
+
+         $dir_check .= '/'.$segments[$i];
+
+         if (is_dir($dir_check) === TRUE) 
+         {
+            $folder_count++;
+         }
+      
+      }
+      
+      return $folder_count;
+
+   }
+
+   
+   // --------------------------------------------------------------------
+   
 	/**
 	 * Set the Route
 	 *
@@ -236,12 +280,61 @@ class CI_Router {
 	 */
 	function _set_request($segments = array())
 	{
-		$segments = $this->_validate_request($segments);
-
+		// Check if you actually have any segments first
+		// and if you don't just go straight to the 
+		// default controller
 		if (count($segments) == 0)
 		{
 			return $this->_set_default_controller();
+		}			
+
+		// Lets check and see if you're using dashes instead of underscores
+		if ($this->config->item('use_dashes') === TRUE)
+		{		   
+         $segment_temp = $segments;
+         $folder_count = $this->_get_folder_count($segment_temp); //1
+         		   
+		   for ($i = 0; $i < $folder_count; $i++)
+		   {
+		      unset($segment_temp[$i]);
+		   }
+		   		   
+         $loop_length = (count($segment_temp) > 2 ? 2 : count($segment_temp)) + $folder_count;
+         
+         
+         $trigger_redirect = FALSE;
+         $full_uri = $_SERVER["REQUEST_URI"];
+         
+         for ($j = $folder_count; $j < $loop_length; $j++)
+         {
+            
+            if (strpos($segment_temp[$j], '_') !== FALSE)
+            {
+               if ($this->config->item('use_dashes_redirect') == '404')
+               {
+                  show_404($segments);
+               }
+               else if ($this->config->item('use_dashes_redirect') == '301')
+               {
+                  $trigger_redirect = TRUE;
+
+                  $replace = str_replace('_', '-', $segment_temp[$j]);
+
+                  $full_uri = str_replace($segment_temp[$j], $replace, $full_uri);
+               }               
+            }
+         
+            $segments[$j] = str_replace('-', '_', $segments[$j]);	
+         }
+         
+         if ($trigger_redirect === TRUE) 
+         {
+            header("Location: $full_uri", TRUE, 301);
+         }
+
 		}
+				
+		$segments = $this->_validate_request($segments);
 
 		$this->set_class($segments[0]);
 
