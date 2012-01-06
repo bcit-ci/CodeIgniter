@@ -271,9 +271,11 @@ class CI_Router {
 	 *
 	 * @access	private
 	 * @param	array
+	 * @param 	bool
+	 * <code>$flag = FALSE</code>
 	 * @return	array
 	 */
-	function _validate_request($segments)
+	function _validate_request(&$segments , $flag = FALSE)
 	{
 		if (count($segments) == 0)
 		{
@@ -281,13 +283,14 @@ class CI_Router {
 		}
 
 		// Does the requested controller exist in the root folder?
-		if (file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
+		if (file_exists(APPPATH.'controllers/'.$segments[0].'.php') && $flag === FALSE)
 		{
 			return $segments;
 		}
 
 		// Is the controller in a sub-folder?
-		if (is_dir(APPPATH.'controllers/'.$segments[0]))
+		// Controller supports unlimited level reference
+		if (is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
 		{
 			// Set the directory and remove it from the segment array
 			$this->set_directory($segments[0]);
@@ -295,6 +298,14 @@ class CI_Router {
 
 			if (count($segments) > 0)
 			{
+				// check sub-folder
+				if (is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
+				{			
+					$this->set_directory($this->directory.$segments[0],TRUE);
+					$segments = array_slice($segments, 1);
+					$this->_validate_request(&$segments,TRUE);
+				}
+				
 				// Does the requested controller exist in the sub-folder?
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
@@ -340,6 +351,13 @@ class CI_Router {
 			}
 
 			return $segments;
+		}
+		else
+		{
+			if  (file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].EXT))
+			{
+				return $segments;
+			}
 		}
 
 
@@ -473,11 +491,15 @@ class CI_Router {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param 	bool
 	 * @return	void
 	 */
-	function set_directory($dir)
+	function set_directory($dir , $flag = FALSE)
 	{
-		$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		if ( ! $flag)
+			$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		else
+			$this->directory = str_replace('.', '', $dir).'/';
 	}
 
 	// --------------------------------------------------------------------
