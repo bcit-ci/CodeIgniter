@@ -146,7 +146,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
+		include(APPPATH.'errors/'.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -180,7 +180,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors'.DIRECTORY_SEPARATOR.'error_php.php');
+		include(APPPATH.'errors/'.'error_php.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
