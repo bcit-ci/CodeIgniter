@@ -497,7 +497,7 @@ class CI_URI {
 		$temp = array();
 		foreach ((array)$array as $key => $val)
 		{
-			$temp[]  = $key;
+			$temp[] = $key;
 			$temp[] = $val;
 		}
 
