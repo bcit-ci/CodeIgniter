@@ -408,7 +408,7 @@ if ( ! function_exists('convert_accented_characters'))
  */
 if ( ! function_exists('word_wrap'))
 {
-	function word_wrap($str, $charlim = '76')
+	function word_wrap($str, $charlim = 76)
 	{
 		// Set the character limit
 		if ( ! is_numeric($charlim))
