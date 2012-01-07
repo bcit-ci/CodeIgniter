@@ -94,7 +94,7 @@ if ( ! function_exists('is_really_writable'))
 		 */
 		if (is_dir($file))
 		{
-			$file = rtrim($file, '/\\').DIRECTORY_SEPARATOR.md5(mt_rand(1,100).mt_rand(1,100));
+			$file = rtrim($file, '/').'/'.md5(mt_rand(1,100).mt_rand(1,100));
 			if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 			{
 				return FALSE;
@@ -148,13 +148,13 @@ if ( ! function_exists('load_class'))
 		// then in the native system/libraries folder
 		foreach (array(APPPATH, BASEPATH) as $path)
 		{
-			if (file_exists($path.$directory.DIRECTORY_SEPARATOR.$class.'.php'))
+			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
 				$name = $prefix.$class;
 
 				if (class_exists($name) === FALSE)
 				{
-					require($path.$directory.DIRECTORY_SEPARATOR.$class.'.php');
+					require($path.$directory.'/'.$class.'.php');
 				}
 
 				break;
@@ -162,13 +162,13 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension? If so we load it too
-		if (file_exists(APPPATH.$directory.DIRECTORY_SEPARATOR.config_item('subclass_prefix').$class.'.php'))
+		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
 
 			if (class_exists($name) === FALSE)
 			{
-				require(APPPATH.$directory.DIRECTORY_SEPARATOR.config_item('subclass_prefix').$class.'.php');
+				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
 		}
 
@@ -235,9 +235,9 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config'.DIRECTORY_SEPARATOR.ENVIRONMENT.DIRECTORY_SEPARATOR.'config.php'))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT..'/config.php'))
 		{
-			$file_path = APPPATH.'config'.DIRECTORY_SEPARATOR.'config.php';
+			$file_path = APPPATH.'config/config.php';
 		}
 
 		// Fetch the config file
