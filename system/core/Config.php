@@ -73,7 +73,7 @@ class CI_Config {
 	public function __construct()
 	{
 		$this->config =& get_config();
-		log_message('debug', "Config Class Initialized");
+		log_message('debug', 'Config Class Initialized');
 
 		// Set the base_url automatically if none was provided
 		if ($this->config['base_url'] == '')
@@ -111,12 +111,12 @@ class CI_Config {
 		foreach ($this->_config_paths as $path)
 		{
 			$check_locations = defined('ENVIRONMENT')
-				? array(ENVIRONMENT.DIRECTORY_SEPARATOR.$file, $file)
+				? array(ENVIRONMENT.'/'.$file, $file)
 				: array($file);
 
 			foreach ($check_locations as $location)
 			{
-				$file_path = $path.'config'.DIRECTORY_SEPARATOR.$location.'.php';
+				$file_path = $path.'config/'.$location.'.php';
 
 				if (in_array($file_path, $this->is_loaded, TRUE))
 				{
