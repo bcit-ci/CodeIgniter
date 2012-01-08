@@ -59,7 +59,7 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
@@ -96,7 +96,7 @@
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
-	if (isset($assign_to_config['subclass_prefix']) AND $assign_to_config['subclass_prefix'] != '')
+	if (isset($assign_to_config['subclass_prefix']) && $assign_to_config['subclass_prefix'] != '')
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
 	}
@@ -106,8 +106,8 @@
  *  Set a liberal script execution time limit
  * ------------------------------------------------------
  */
-	if (function_exists('set_time_limit') AND @ini_get('safe_mode') == 0
-		AND php_sapi_name() !== 'cli') // Do not override the Time Limit value if running from Command Line
+	if (function_exists('set_time_limit') && @ini_get('safe_mode') == 0
+		&& php_sapi_name() !== 'cli') // Do not override the Time Limit value if running from Command Line
 	{
 		@set_time_limit(300);
 	}
@@ -195,7 +195,7 @@
  * ------------------------------------------------------
  */
 	if ($EXT->_call_hook('cache_override') === FALSE
-		AND $OUT->_display_cache($CFG, $URI) == TRUE)
+		&& $OUT->_display_cache($CFG, $URI) == TRUE)
 	{
 		exit;
 	}
@@ -393,7 +393,7 @@
  *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
-	if (class_exists('CI_DB') AND isset($CI->db))
+	if (class_exists('CI_DB') && isset($CI->db))
 	{
 		$CI->db->close();
 	}
