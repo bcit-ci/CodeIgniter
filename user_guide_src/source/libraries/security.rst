@@ -85,6 +85,10 @@ If you use the :doc:`form helper <../helpers/form_helper>` the
 form_open() function will automatically insert a hidden csrf field in
 your forms.
 
+Tokens may be either regenerated on every submission (default) or kept the same throughout the life of the CSRF cookie. The default regeneration of tokens provides stricter security but may result in usability concerns as other tokens become invalid (back/forward navigation, multiple tabs/windows, asynchronous actions, etc). You may alter this behavior by editing the following config parameter::
+
+	$config['csrf_regeneration'] = TRUE;
+
 Select URIs can be whitelisted from csrf protection (for example API
 endpoints expecting externally POSTed content). You can add these URIs
 by editing the 'csrf_exclude_uris' config parameter::
