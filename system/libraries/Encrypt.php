@@ -46,15 +46,10 @@ class CI_Encrypt {
 	protected $_mcrypt_cipher;
 	protected $_mcrypt_mode;
 
-	/**
-	 * Constructor
-	 *
-	 * Simply determines whether the mcrypt library exists.
-	 */
 	public function __construct()
 	{
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
-		log_message('debug', "Encrypt Class Initialized");
+		log_message('debug', 'Encrypt Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -95,7 +90,7 @@ class CI_Encrypt {
 	 * Set the encryption key
 	 *
 	 * @param	string
-	 * @return	void
+	 * @return	object
 	 */
 	public function set_key($key = '')
 	{
@@ -457,7 +452,7 @@ class CI_Encrypt {
 	 */
 	public function set_hash($type = 'sha1')
 	{
-		$this->_hash_type = ($type !== 'sha1' AND $type !== 'md5') ? 'sha1' : $type;
+		$this->_hash_type = ($type !== 'sha1' && $type !== 'md5') ? 'sha1' : $type;
 	}
 
 	// --------------------------------------------------------------------
@@ -473,8 +468,6 @@ class CI_Encrypt {
 		return ($this->_hash_type === 'sha1') ? sha1($str) : md5($str);
 	}
 }
-
-// END CI_Encrypt class
 
 /* End of file Encrypt.php */
 /* Location: ./system/libraries/Encrypt.php */
