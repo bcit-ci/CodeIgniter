@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -50,7 +50,6 @@
 | 4. Custom config files
 | 5. Language files
 | 6. Models
-|
 */
 
 /*
@@ -60,9 +59,7 @@
 | Prototype:
 |
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
-|
 */
-
 $autoload['packages'] = array();
 
 
@@ -77,9 +74,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
-
 $autoload['libraries'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -89,9 +84,7 @@ $autoload['libraries'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-
 $autoload['helper'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -102,12 +95,9 @@ $autoload['helper'] = array();
 |	$autoload['config'] = array('config1', 'config2');
 |
 | NOTE: This item is intended for use ONLY if you have created custom
-| config files.  Otherwise, leave it blank.
-|
+| config files. Otherwise, leave it blank.
 */
-
 $autoload['config'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -117,13 +107,10 @@ $autoload['config'] = array();
 |
 |	$autoload['language'] = array('lang1', 'lang2');
 |
-| NOTE: Do not include the "_lang" part of your file.  For example
+| NOTE: Do not include the "_lang" part of your file. For example
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
-|
 */
-
 $autoload['language'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -132,11 +119,8 @@ $autoload['language'] = array();
 | Prototype:
 |
 |	$autoload['model'] = array('model1', 'model2');
-|
 */
-
 $autoload['model'] = array();
-
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

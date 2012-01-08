@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -33,7 +33,6 @@
 | Migrations are disabled by default for security reasons.
 | You should enable migrations whenever you intend to do a schema migration
 | and disable it back when you're done.
-|
 */
 $config['migration_enabled'] = FALSE;
 
@@ -61,7 +60,6 @@ $config['migration_table'] = 'migrations';
 | to your latest migration (whatever $config['migration_version'] is
 | set to). This way you do not have to call migrations anywhere else
 | in your code to have the latest migration.
-|
 */
 $config['migration_auto_latest'] = FALSE;
 
@@ -73,7 +71,6 @@ $config['migration_auto_latest'] = FALSE;
 | This is used to set migration version that the file system should be on.
 | If you run $this->migration->current() this is the version that schema will
 | be upgraded / downgraded to.
-|
 */
 $config['migration_version'] = 0;
 
@@ -85,9 +82,9 @@ $config['migration_version'] = 0;
 | Path to your migrations folder.
 | Typically, it will be within your application path.
 | Also, writing permission is required within the migrations path.
-|
 */
 $config['migration_path'] = APPPATH . 'migrations/';
 
 
 /* End of file migration.php */
+/* Location: ./application/config/migration.php */

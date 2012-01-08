@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -30,12 +30,10 @@
 | Hooks
 | -------------------------------------------------------------------------
 | This file lets you define "hooks" to extend CI without hacking the core
-| files.  Please see the user guide for info:
+| files. Please see the user guide for info:
 |
 |	http://codeigniter.com/user_guide/general/hooks.html
-|
 */
-
 
 
 /* End of file hooks.php */

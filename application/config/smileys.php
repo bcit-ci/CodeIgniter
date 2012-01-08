@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -29,13 +29,12 @@
 | -------------------------------------------------------------------
 | SMILEYS
 | -------------------------------------------------------------------
-| This file contains an array of smileys for use with the emoticon helper.
-| Individual images can be used to replace multiple simileys.  For example:
+| This file contains an array of smileys for use with the smiley helper.
+| Individual images can be used to replace multiple simileys. For example:
 | :-) and :) use the same image replacement.
 |
 | Please see user guide for more info:
 | http://codeigniter.com/user_guide/helpers/smiley_helper.html
-|
 */
 
 $smileys = array(
@@ -84,8 +83,8 @@ $smileys = array(
 	':vampire:'		=>	array('vampire.gif',		'19',	'19',	'vampire'),
 	':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
 	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
-	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
-
+	':question:'	=>	array('question.gif',		'19',	'19',	'question')
+	// no comma after last item
 );
 
 /* End of file smileys.php */

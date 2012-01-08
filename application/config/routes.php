@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -61,12 +61,10 @@
 |
 | This route will tell the Router what URI segments to use if those provided
 | in the URL cannot be matched to a valid route.
-|
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = 'welcome';
 $route['404_override'] = '';
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
