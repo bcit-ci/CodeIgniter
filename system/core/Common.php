@@ -136,6 +136,7 @@ if ( ! function_exists('load_class'))
 	{
 		static $_classes = array();
 
+		$class = ucfirst($class);
 		// Does the class exist?  If so, we're done...
 		if (isset($_classes[$class]))
 		{
@@ -143,7 +144,6 @@ if ( ! function_exists('load_class'))
 		}
 
 		$name = FALSE;
-
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
 		foreach (array(APPPATH, BASEPATH) as $path)
