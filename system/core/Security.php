@@ -169,9 +169,14 @@ class CI_Security {
 		// polute the _POST array
 		unset($_POST[$this->_csrf_token_name]);
 
-		// Nothing should last forever
-		unset($_COOKIE[$this->_csrf_cookie_name]);
-		$this->_csrf_hash = '';
+		// Regenerate on every submission?
+		if (config_item('csrf_regenerate'))
+		{
+			// Nothing should last forever
+			unset($_COOKIE[$this->_csrf_cookie_name]);
+			$this->_csrf_hash = '';
+		}
+		
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
 
