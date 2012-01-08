@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter String Helpers
  *
@@ -153,7 +151,7 @@ if ( ! function_exists('reduce_double_slashes'))
 {
 	function reduce_double_slashes($str)
 	{
-		return preg_replace("#(^|[^:])//+#", "\\1/", $str);
+		return preg_replace('#(^|[^:])//+#', '\\1/', $str);
 	}
 }
 
@@ -181,7 +179,6 @@ if ( ! function_exists('reduce_multiples'))
 	function reduce_multiples($str, $character = ',', $trim = FALSE)
 	{
 		$str = preg_replace('#'.preg_quote($character, '#').'{2,}#', $character, $str);
-
 		return ($trim === TRUE) ? trim($str, $character) : $str;
 	}
 }
@@ -211,13 +208,17 @@ if ( ! function_exists('random_string'))
 			case 'alpha':
 				switch ($type)
 				{
-					case 'alpha':	$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					case 'alpha':
+						$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 						break;
-					case 'alnum':	$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					case 'alnum':
+						$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 						break;
-					case 'numeric':	$pool = '0123456789';
+					case 'numeric':
+						$pool = '0123456789';
 						break;
-					case 'nozero':	$pool = '123456789';
+					case 'nozero':
+						$pool = '123456789';
 						break;
 				}
 				return substr(str_shuffle(str_repeat($pool, ceil($len/strlen($pool)))),0,$len);
