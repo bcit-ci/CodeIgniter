@@ -59,7 +59,7 @@ class CI_Input {
 	 */
 	var $_allow_get_array		= TRUE;
 	/**
-	 * If TRUE, then newlines are standardized
+	 * If TRUE, then newlines are standardized to PHP_EOL
 	 *
 	 * @var bool
 	 */
@@ -548,7 +548,7 @@ class CI_Input {
 	* Clean Input Data
 	*
 	* This is a helper function. It escapes data and
-	* standardizes newline characters to \n
+	* standardizes newline characters to PHP_EOL
 	*
 	* @access	private
 	* @param	string
@@ -594,12 +594,30 @@ class CI_Input {
 		// Standardize newlines if needed
 		if ($this->_standardize_newlines == TRUE)
 		{
-			if (strpos($str, "\r") !== FALSE)
-			{
-				$str = str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
-			}
+			$str = $this->_normalize_newlines($str, PHP_EOL);
 		}
 
+		return $str;
+	}
+
+	/**
+	 * Normalize newslines
+	 *
+	 * Normalize all newlines (\n, \r\n, \r) to PHP_EOL
+	 *
+	 * @param	string $str
+	 * @param	string $newline
+	 * @return	string
+	 */
+	private function _normalize_newlines($str, $newline)
+	{
+		$marker = '^^^//NLAKAEOL\\\\$$$';
+		$str = str_replace
+		(
+			array("\r\n", "\n", "\r", $marker),
+			array($marker, $marker, $marker, $newline),
+			$str
+		);
 		return $str;
 	}
 
