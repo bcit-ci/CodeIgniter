@@ -57,20 +57,20 @@ class CI_Input {
 	 *
 	 * @var bool
 	 */
-	public $_allow_get_array		= TRUE;
+	protected $_allow_get_array		= TRUE;
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
-	public $_standardize_newlines	= TRUE;
+	protected $_standardize_newlines	= TRUE;
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
 	 *
 	 * @var bool
 	 */
-	public $_enable_xss			= FALSE;
+	protected $_enable_xss			= FALSE;
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
@@ -85,17 +85,15 @@ class CI_Input {
 	 */
 	protected $headers			= array();
 
-
 	/**
 	 * Constructor
 	 *
 	 * Sets whether to globally enable the XSS processing
 	 * and whether to allow the $_GET array
-	 *
 	 */
 	public function __construct()
 	{
-		log_message('debug', "Input Class Initialized");
+		log_message('debug', 'Input Class Initialized');
 
 		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
