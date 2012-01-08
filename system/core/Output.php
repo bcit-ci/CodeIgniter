@@ -488,8 +488,7 @@ class CI_Output {
 		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath)
-			OR ! $fp = @fopen($filepath, FOPEN_READ))
+		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
 		{
 			return FALSE;
 		}
@@ -508,8 +507,7 @@ class CI_Output {
 		}
 
 		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1]))
-			AND is_really_writable($cache_path))
+		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
 		{
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
