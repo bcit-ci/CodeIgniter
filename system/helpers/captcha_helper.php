@@ -67,7 +67,9 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		if ($img_path == '' OR $img_url == '' OR ! @is_dir($img_path) OR ! is_writeable($img_path) OR ! extension_loaded('gd'))
+		if ($img_path == '' OR $img_url == ''
+			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
+			OR ! extension_loaded('gd'))
 		{
 			return FALSE;
 		}
@@ -98,11 +100,10 @@ if ( ! function_exists('create_captcha'))
 		if ($word == '')
 		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
 			$word = '';
 			for ($i = 0, $mt_rand_max = strlen($pool) - 1; $i < 8; $i++)
 			{
-				$word .= substr($pool, mt_rand(0, $mt_rand_max), 1);
+				$word .= $pool[mt_rand(0, $mt_rand_max)];
 			}
 
 		}
@@ -110,46 +111,32 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		// Determine angle and position
 		// -----------------------------------
-
 		$length	= strlen($word);
 		$angle	= ($length >= 6) ? rand(-($length-6), ($length-6)) : 0;
 		$x_axis	= rand(6, (360/$length)-16);
 		$y_axis = ($angle >= 0) ? rand($img_height, $img_width) : rand(6, $img_height);
 
-		// -----------------------------------
 		// Create image
-		// -----------------------------------
-
 		// PHP.net recommends imagecreatetruecolor(), but it isn't always available
-		if (function_exists('imagecreatetruecolor'))
-		{
-			$im = imagecreatetruecolor($img_width, $img_height);
-		}
-		else
-		{
-			$im = imagecreate($img_width, $img_height);
-		}
+		$im = function_exists('imagecreatetruecolor')
+			? imagecreatetruecolor($img_width, $img_height)
+			: imagecreate($img_width, $img_height);
 
 		// -----------------------------------
 		//  Assign colors
 		// -----------------------------------
-
 		$bg_color		= imagecolorallocate ($im, 255, 255, 255);
 		$border_color	= imagecolorallocate ($im, 153, 102, 102);
 		$text_color		= imagecolorallocate ($im, 204, 153, 153);
 		$grid_color		= imagecolorallocate($im, 255, 182, 182);
 		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
 
-		// -----------------------------------
 		//  Create the rectangle
-		// -----------------------------------
-
 		ImageFilledRectangle($im, 0, 0, $img_width, $img_height, $bg_color);
 
 		// -----------------------------------
 		//  Create the spiral pattern
 		// -----------------------------------
-
 		$theta		= 1;
 		$thetac		= 7;
 		$radius		= 16;
@@ -173,7 +160,6 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Write the text
 		// -----------------------------------
-
 		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
@@ -206,29 +192,20 @@ if ( ! function_exists('create_captcha'))
 		}
 
 
-		// -----------------------------------
 		//  Create the border
-		// -----------------------------------
-
 		imagerectangle($im, 0, 0, $img_width-1, $img_height-1, $border_color);
 
 		// -----------------------------------
 		//  Generate the image
 		// -----------------------------------
-
 		$img_name = $now.'.jpg';
-
 		ImageJPEG($im, $img_path.$img_name);
-
 		$img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
-
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img);
 	}
 }
-
-// ------------------------------------------------------------------------
 
 /* End of file captcha_helper.php */
 /* Location: ./system/helpers/captcha_helper.php */
