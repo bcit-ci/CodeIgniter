@@ -176,7 +176,7 @@ class CI_Security {
 			unset($_COOKIE[$this->_csrf_cookie_name]);
 			$this->_csrf_hash = '';
 		}
-		
+
 		$this->_csrf_set_hash();
 		$this->csrf_set_cookie();
 
