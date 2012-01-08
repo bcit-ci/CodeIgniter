@@ -129,7 +129,6 @@ class CI_Output {
 	 *
 	 * Sets the output string
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	void
 	 */
@@ -282,7 +281,7 @@ class CI_Output {
 	 * @param	integer
 	 * @return	void
 	 */
-	publi function cache($time)
+	public function cache($time)
 	{
 		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
 		return $this;
