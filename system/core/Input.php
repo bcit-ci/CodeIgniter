@@ -391,7 +391,7 @@ class CI_Input {
 		{
 			// IP segments must be digits and can not be
 			// longer than 3 digits or greater then 255
-			if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
+			if ($segment == '' OR preg_match('/[^0-9]/', $segment) OR $segment > 255 OR strlen($segment) > 3)
 			{
 				return FALSE;
 			}
@@ -430,7 +430,7 @@ class CI_Input {
 	*
 	* @return	void
 	*/
-	private function _sanitize_globals()
+	protected function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
 		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
@@ -516,7 +516,7 @@ class CI_Input {
 			$this->security->csrf_verify();
 		}
 
-		log_message('debug', "Global POST and COOKIE data sanitized");
+		log_message('debug', 'Global POST and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
@@ -530,7 +530,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	private function _clean_input_data($str)
+	protected function _clean_input_data($str)
 	{
 		if (is_array($str))
 		{
@@ -588,7 +588,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	private function _clean_input_keys($str)
+	protected function _clean_input_keys($str)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
 		{
