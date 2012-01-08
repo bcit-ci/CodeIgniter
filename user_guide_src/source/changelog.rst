@@ -31,6 +31,8 @@ Release Date: Not Released
    -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
+   -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
+      Only entries in ``$autoload['libraries']`` are auto-loaded now.
 
 -  Helpers
 
@@ -72,10 +74,9 @@ Release Date: Not Released
 
 -  Core
 
-   -  Changed private functions in CI_URI to protected so MY_URI can
-      override them.
+   -  Changed private functions in CI_URI to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
-   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars()
+   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
 
 Bug fixes for 3.0
 ------------------
