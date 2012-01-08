@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Text Helpers
  *
@@ -93,7 +91,7 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+		$str = preg_replace('/\s+/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
 		if (strlen($str) <= $n)
 		{
@@ -108,7 +106,7 @@ if ( ! function_exists('character_limiter'))
 			if (strlen($out) >= $n)
 			{
 				$out = trim($out);
-				return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+				return (strlen($out) === strlen($str)) ? $out : $out.$end_char;
 			}
 		}
 	}
@@ -354,7 +352,7 @@ if ( ! function_exists('highlight_phrase'))
 
 		if ($phrase != '')
 		{
-			return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open."\\1".$tag_close, $str);
+			return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str);
 		}
 
 		return $str;
