@@ -51,13 +51,9 @@ class CI_Zip  {
 	public $offset		= 0;
 	public $now;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
-		log_message('debug', "Zip Compression Class Initialized");
-
+		log_message('debug', 'Zip Compression Class Initialized');
 		$this->now = time();
 	}
 
@@ -75,13 +71,12 @@ class CI_Zip  {
 	{
 		foreach ((array)$directory as $dir)
 		{
-			if ( ! preg_match("|.+/$|", $dir))
+			if ( ! preg_match('|.+/$|', $dir))
 			{
 				$dir .= '/';
 			}
 
 			$dir_time = $this->_get_mod_time($dir);
-
 			$this->_add_dir($dir, $dir_time['file_mtime'], $dir_time['file_mdate']);
 		}
 	}
@@ -101,12 +96,10 @@ class CI_Zip  {
 		// filemtime() may return false, but raises an error for non-existing files
 		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
 
-		$time = array(
+		return array(
 				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
 				'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
 			);
-
-		return $time;
 	}
 
 	// --------------------------------------------------------------------
@@ -197,13 +190,11 @@ class CI_Zip  {
 	 */
 	protected function _add_data($filepath, $data, $file_mtime, $file_mdate)
 	{
-		$filepath = str_replace("\\", "/", $filepath);
+		$filepath = str_replace('\\', '/', $filepath);
 
 		$uncompressed_size = strlen($data);
 		$crc32  = crc32($data);
-
-		$gzdata = gzcompress($data);
-		$gzdata = substr($gzdata, 2, -4);
+		$gzdata = substr(gzcompress($data), 2, -4);
 		$compressed_size = strlen($gzdata);
 
 		$this->zipdata .=
@@ -255,16 +246,16 @@ class CI_Zip  {
 
 		if (FALSE !== ($data = file_get_contents($path)))
 		{
-			$name = str_replace("\\", "/", $path);
-
+			$name = str_replace('\\', '/', $path);
 			if ($preserve_filepath === FALSE)
 			{
-				$name = preg_replace("|.*/(.+)|", "\\1", $name);
+				$name = preg_replace('|.*/(.+)|', '\\1', $name);
 			}
 
 			$this->add_data($name, $data);
 			return TRUE;
 		}
+
 		return FALSE;
 	}
 
@@ -282,7 +273,7 @@ class CI_Zip  {
 	 */
 	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
-		$path = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+		$path = rtrim($path, '/\\').'/';
 
 		if ( ! $fp = @opendir($path))
 		{
@@ -304,14 +295,13 @@ class CI_Zip  {
 
 			if (@is_dir($path.$file))
 			{
-				$this->read_dir($path.$file."/", $preserve_filepath, $root_path);
+				$this->read_dir($path.$file.'/', $preserve_filepath, $root_path);
 			}
 			else
 			{
 				if (FALSE !== ($data = file_get_contents($path.$file)))
 				{
-					$name = str_replace("\\", "/", $path);
-
+					$name = str_replace('\\', '/', $path);
 					if ($preserve_filepath === FALSE)
 					{
 						$name = str_replace($root_path, '', $name);
@@ -335,7 +325,7 @@ class CI_Zip  {
 	public function get_zip()
 	{
 		// Is there any data to return?
-		if ($this->entries == 0)
+		if ($this->entries === 0)
 		{
 			return FALSE;
 		}
@@ -392,9 +382,7 @@ class CI_Zip  {
 
 		$CI =& get_instance();
 		$CI->load->helper('download');
-
 		$get_zip = $this->get_zip();
-
 		$zip_content =& $get_zip;
 
 		force_download($filename, $zip_content);
