@@ -235,6 +235,21 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get error messages.
+	 *
+	 * Fetch error messages as associative array useful when 
+	 * you want to return error messages in json format
+	 * .
+	 * @return array 
+	 */
+	public function errors()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Error String
 	 *
 	 * Returns the error messages as a string, wrapped in the error delimiters
