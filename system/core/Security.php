@@ -153,20 +153,13 @@ class CI_Security {
 		}
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
-		if ( ! isset($_POST[$this->_csrf_token_name]) OR
-			 ! isset($_COOKIE[$this->_csrf_cookie_name]))
+		if ( ! isset($_POST[$this->_csrf_token_name]) OR ! isset($_COOKIE[$this->_csrf_cookie_name])
+			OR $_POST[$this->_csrf_token_name] != $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
 		{
 			$this->csrf_show_error();
 		}
 
-		// Do the tokens match?
-		if ($_POST[$this->_csrf_token_name] != $_COOKIE[$this->_csrf_cookie_name])
-		{
-			$this->csrf_show_error();
-		}
-
-		// We kill this since we're done and we don't want to
-		// polute the _POST array
+		// We kill this since we're done and we don't want to polute the _POST array
 		unset($_POST[$this->_csrf_token_name]);
 
 		// Regenerate on every submission?
@@ -308,10 +301,9 @@ class CI_Security {
 		 * This permits our tests below to work reliably.
 		 * We only convert entities that are within tags since
 		 * these are the ones that will pose security problems.
-		 *
 		 */
 		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
-		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", array($this, '_decode_entity'), $str);
+		$str = preg_replace_callback('/<\w+.*?(?=>|<|$)/si', array($this, '_decode_entity'), $str);
 
 		// Remove Invisible Characters Again!
 		$str = remove_invisible_characters($str);
@@ -326,9 +318,7 @@ class CI_Security {
 		 */
 		$str = str_replace("\t", ' ', $str);
 
-		/*
-		 * Capture converted string for later comparison
-		 */
+		// Capture converted string for later comparison
 		$converted_string = $str;
 
 		// Remove Strings that are never allowed
@@ -720,12 +710,11 @@ class CI_Security {
 	protected function _filter_attributes($str)
 	{
 		$out = '';
-
 		if (preg_match_all('#\s*[a-z\-]+\s*=\s*(\042|\047)([^\\1]*?)\\1#is', $str, $matches))
 		{
 			foreach ($matches[0] as $match)
 			{
-				$out .= preg_replace("#/\*.*?\*/#s", '', $match);
+				$out .= preg_replace('#/\*.*?\*/#s', '', $match);
 			}
 		}
 
