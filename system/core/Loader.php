@@ -250,10 +250,10 @@ class CI_Loader {
 		if (($last_slash = strrpos($model, '/')) !== FALSE)
 		{
 			// The path is in front of the last slash
-			$path = substr($model, 0, $last_slash + 1);
+			$path = substr($model, 0, ++$last_slash);
 
 			// And the model name behind it
-			$model = substr($model, $last_slash + 1);
+			$model = substr($model, $last_slash);
 		}
 
 		if ($name == '')
@@ -833,10 +833,9 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-
 		if ((bool) @ini_get('short_open_tag') === FALSE AND config_item('rewrite_short_tags') == TRUE)
 		{
-			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
+			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
 		else
 		{
@@ -861,7 +860,6 @@ class CI_Loader {
 		 * we are beyond the first level of output buffering so that
 		 * it can be seen and included properly by the first included
 		 * template and any subsequent ones. Oy!
-		 *
 		 */
 		if (ob_get_level() > $this->_ci_ob_level + 1)
 		{
@@ -1233,13 +1231,13 @@ class CI_Loader {
 	{
 		if ( ! is_array($filename))
 		{
-			return array(strtolower(str_replace('.php', '', str_replace($extension, '', $filename)).$extension));
+			return array(strtolower(str_replace(array($extension, '.php'), '', $filename).$extension));
 		}
 		else
 		{
 			foreach ($filename as $key => $val)
 			{
-				$filename[$key] = strtolower(str_replace('.php', '', str_replace($extension, '', $val)).$extension);
+				$filename[$key] = strtolower(str_replace(array($extension, '.php'), '', $val).$extension);
 			}
 
 			return $filename;
