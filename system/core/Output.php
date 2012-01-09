@@ -397,13 +397,11 @@ class CI_Output {
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
 			$output = preg_replace('|</body>.*?</html>|is', '', $output, $count).$CI->profiler->run();
-			if ($count > 0)
+			if (isset($count) && $count > 0)
 			{
 				$output .= '</body></html>';
 			}
 		}
-
-		// --------------------------------------------------------------------
 
 		// Does the controller contain a function named _output()?
 		// If so send the output there.  Otherwise, echo it.
@@ -413,7 +411,7 @@ class CI_Output {
 		}
 		else
 		{
-			echo $output;  // Send it to the browser!
+			echo $output; // Send it to the browser!
 		}
 
 		log_message('debug', 'Final output sent to browser');
