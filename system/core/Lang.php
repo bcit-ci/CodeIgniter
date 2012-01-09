@@ -78,8 +78,9 @@ class CI_Lang {
 		}
 
 		$langfile .= '.php';
+		$langname  = "$idiom/$langfile";
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
+		if (in_array($langname, $this->is_loaded, TRUE))
 		{
 			return;
 		}
@@ -129,7 +130,7 @@ class CI_Lang {
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
+		$this->is_loaded[] = $langname;
 		$this->language = $this->language + $lang;
 		unset($lang);
 
