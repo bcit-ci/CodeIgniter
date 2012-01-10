@@ -180,7 +180,6 @@ class CI_Encrypt {
 
 		$key = $this->get_key($key);
 		$dec = base64_decode($string);
-
 		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
 		{
 			return FALSE;
@@ -419,7 +418,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_cipher == '')
 		{
-			$this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
+			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
 
 		return $this->_mcrypt_cipher;
@@ -436,7 +435,7 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_mode == '')
 		{
-			$this->_mcrypt_mode = MCRYPT_MODE_CBC;
+			return $this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
 
 		return $this->_mcrypt_mode;
