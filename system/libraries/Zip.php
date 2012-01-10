@@ -112,7 +112,7 @@ class CI_Zip  {
 	 */
 	protected function _add_dir($dir, $file_mtime, $file_mdate)
 	{
-		$dir = str_replace("\\", "/", $dir);
+		$dir = str_replace('\\', '/', $dir);
 
 		$this->zipdata .=
 			"\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00"
@@ -375,7 +375,7 @@ class CI_Zip  {
 	 */
 	public function download($filename = 'backup.zip')
 	{
-		if ( ! preg_match("|.+?\.zip$|", $filename))
+		if ( ! preg_match('|.+?\.zip$|', $filename))
 		{
 			$filename .= '.zip';
 		}
