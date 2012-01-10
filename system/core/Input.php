@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -45,39 +45,39 @@ class CI_Input {
 	 *
 	 * @var string
 	 */
-	var $ip_address				= FALSE;
+	public $ip_address				= FALSE;
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
 	 * @var string
 	 */
-	var $user_agent				= FALSE;
+	public $user_agent				= FALSE;
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
 	 * @var bool
 	 */
-	var $_allow_get_array		= TRUE;
+	protected $_allow_get_array		= TRUE;
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
-	var $_standardize_newlines	= TRUE;
+	protected $_standardize_newlines	= TRUE;
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
 	 *
 	 * @var bool
 	 */
-	var $_enable_xss			= FALSE;
+	protected $_enable_xss			= FALSE;
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
 	 *
 	 * @var bool
 	 */
-	var $_enable_csrf			= FALSE;
+	protected $_enable_csrf			= FALSE;
 	/**
 	 * List of all HTTP request headers
 	 *
@@ -85,21 +85,19 @@ class CI_Input {
 	 */
 	protected $headers			= array();
 
-
 	/**
 	 * Constructor
 	 *
 	 * Sets whether to globally enable the XSS processing
 	 * and whether to allow the $_GET array
-	 *
 	 */
 	public function __construct()
 	{
-		log_message('debug', "Input Class Initialized");
+		log_message('debug', 'Input Class Initialized');
 
 		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
+		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
 
 		global $SEC;
 		$this->security =& $SEC;
@@ -122,7 +120,6 @@ class CI_Input {
 	 *
 	 * This is a helper function to retrieve values from global arrays
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @param	string
 	 * @param	bool
@@ -148,7 +145,6 @@ class CI_Input {
 	/**
 	* Fetch an item from the GET array
 	*
-	* @access	public
 	* @param	string
 	* @param	bool
 	* @return	string
@@ -176,7 +172,6 @@ class CI_Input {
 	/**
 	* Fetch an item from the POST array
 	*
-	* @access	public
 	* @param	string
 	* @param	bool
 	* @return	string
@@ -205,21 +200,15 @@ class CI_Input {
 	/**
 	* Fetch an item from either the GET array or the POST
 	*
-	* @access	public
 	* @param	string	The index key
 	* @param	bool	XSS cleaning
 	* @return	string
 	*/
 	public function get_post($index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($_POST[$index]) )
-		{
-			return $this->get($index, $xss_clean);
-		}
-		else
-		{
-			return $this->post($index, $xss_clean);
-		}
+		return ( ! isset($_POST[$index]))
+			? $this->get($index, $xss_clean)
+			: $this->post($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -227,7 +216,6 @@ class CI_Input {
 	/**
 	* Fetch an item from the COOKIE array
 	*
-	* @access	public
 	* @param	string
 	* @param	bool
 	* @return	string
@@ -245,7 +233,6 @@ class CI_Input {
 	* Accepts six parameter, or you can submit an associative
 	* array in the first parameter containing all the values.
 	*
-	* @access	public
 	* @param	mixed
 	* @param	string	the value of the cookie
 	* @param	string	the number of seconds until expiration
@@ -303,7 +290,6 @@ class CI_Input {
 	/**
 	* Fetch an item from the SERVER array
 	*
-	* @access	public
 	* @param	string
 	* @param	bool
 	* @return	string
@@ -318,7 +304,6 @@ class CI_Input {
 	/**
 	* Fetch the IP Address
 	*
-	* @access	public
 	* @return	string
 	*/
 	public function ip_address()
@@ -335,7 +320,7 @@ class CI_Input {
 
 			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
-		elseif (! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
+		elseif ( ! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
 		{
 			$this->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
@@ -354,8 +339,7 @@ class CI_Input {
 
 		if ($this->ip_address === FALSE)
 		{
-			$this->ip_address = '0.0.0.0';
-			return $this->ip_address;
+			return $this->ip_address = '0.0.0.0';
 		}
 
 		if (strpos($this->ip_address, ',') !== FALSE)
@@ -366,7 +350,7 @@ class CI_Input {
 
 		if ( ! $this->valid_ip($this->ip_address))
 		{
-			$this->ip_address = '0.0.0.0';
+			return $this->ip_address = '0.0.0.0';
 		}
 
 		return $this->ip_address;
@@ -379,7 +363,6 @@ class CI_Input {
 	*
 	* Updated version suggested by Geert De Deckere
 	*
-	* @access	public
 	* @param	string
 	* @return	bool
 	*/
@@ -394,7 +377,7 @@ class CI_Input {
 		$ip_segments = explode('.', $ip);
 
 		// Always 4 segments needed
-		if (count($ip_segments) != 4)
+		if (count($ip_segments) !== 4)
 		{
 			return FALSE;
 		}
@@ -408,7 +391,7 @@ class CI_Input {
 		{
 			// IP segments must be digits and can not be
 			// longer than 3 digits or greater then 255
-			if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
+			if ($segment == '' OR preg_match('/[^0-9]/', $segment) OR $segment > 255 OR strlen($segment) > 3)
 			{
 				return FALSE;
 			}
@@ -422,7 +405,6 @@ class CI_Input {
 	/**
 	* User Agent
 	*
-	* @access	public
 	* @return	string
 	*/
 	public function user_agent()
@@ -432,9 +414,7 @@ class CI_Input {
 			return $this->user_agent;
 		}
 
-		$this->user_agent = ( ! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
-
-		return $this->user_agent;
+		return $this->user_agent = ( ! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
 	}
 
 	// --------------------------------------------------------------------
@@ -444,22 +424,20 @@ class CI_Input {
 	*
 	* This function does the following:
 	*
-	* Unsets $_GET data (if query strings are not enabled)
+	* - Unsets $_GET data (if query strings are not enabled)
+	* - Unsets all globals if register_globals is enabled
+	* - Standardizes newline characters to \n
 	*
-	* Unsets all globals if register_globals is enabled
-	*
-	* Standardizes newline characters to \n
-	*
-	* @access	private
 	* @return	void
 	*/
-	private function _sanitize_globals()
+	protected function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
 		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
-							'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
-							'system_folder', 'application_folder', 'BM', 'EXT',
-							'CFG', 'URI', 'RTR', 'OUT', 'IN');
+					'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
+					'system_folder', 'application_folder', 'BM', 'EXT',
+					'CFG', 'URI', 'RTR', 'OUT', 'IN'
+				);
 
 		// Unset globals for securiy.
 		// This is effectively the same as register_globals = off
@@ -532,14 +510,13 @@ class CI_Input {
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
-
 		// CSRF Protection check
 		if ($this->_enable_csrf == TRUE)
 		{
 			$this->security->csrf_verify();
 		}
 
-		log_message('debug', "Global POST and COOKIE data sanitized");
+		log_message('debug', 'Global POST and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
@@ -550,11 +527,10 @@ class CI_Input {
 	* This is a helper function. It escapes data and
 	* standardizes newline characters to \n
 	*
-	* @access	private
 	* @param	string
 	* @return	string
 	*/
-	private function _clean_input_data($str)
+	protected function _clean_input_data($str)
 	{
 		if (is_array($str))
 		{
@@ -592,12 +568,9 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines == TRUE)
+		if ($this->_standardize_newlines == TRUE AND strpos($str, "\r") !== FALSE)
 		{
-			if (strpos($str, "\r") !== FALSE)
-			{
-				$str = str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
-			}
+			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 		}
 
 		return $str;
@@ -612,13 +585,12 @@ class CI_Input {
 	* from trying to exploit keys we make sure that keys are
 	* only named with alpha-numeric text and a few other items.
 	*
-	* @access	private
 	* @param	string
 	* @return	string
 	*/
-	private function _clean_input_keys($str)
+	protected function _clean_input_keys($str)
 	{
-		if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $str))
+		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
 		{
 			exit('Disallowed Key Characters.');
 		}
@@ -626,7 +598,7 @@ class CI_Input {
 		// Clean UTF-8 if supported
 		if (UTF8_ENABLED === TRUE)
 		{
-			$str = $this->uni->clean_string($str);
+			return $this->uni->clean_string($str);
 		}
 
 		return $str;
@@ -640,10 +612,8 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
-	 * @access	public
 	 * @param	bool XSS cleaning
-	 *
-	 * @return array
+	 * @return	array
 	 */
 	public function request_headers($xss_clean = FALSE)
 	{
@@ -658,7 +628,7 @@ class CI_Input {
 
 			foreach ($_SERVER as $key => $val)
 			{
-				if (strncmp($key, 'HTTP_', 5) === 0)
+				if (strpos($key, 'HTTP_') === 0)
 				{
 					$headers[substr($key, 5)] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
 				}
@@ -684,7 +654,6 @@ class CI_Input {
 	 *
 	 * Returns the value of a single member of the headers class member
 	 *
-	 * @access	public
 	 * @param 	string		array key for $this->headers
 	 * @param	boolean		XSS Clean or not
 	 * @return 	mixed		FALSE on failure, string on success
@@ -716,7 +685,6 @@ class CI_Input {
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
-	 * @access	public
 	 * @return 	boolean
 	 */
 	public function is_ajax_request()
@@ -731,12 +699,11 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line
 	 *
-	 * @access	public
 	 * @return 	boolean
 	 */
 	public function is_cli_request()
 	{
-		return (php_sapi_name() == 'cli') or defined('STDIN');
+		return (php_sapi_name() === 'cli') or defined('STDIN');
 	}
 
 }
