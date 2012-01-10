@@ -205,7 +205,7 @@ if ( ! function_exists('get_filenames'))
 					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
 				}
 			}
-			closedir($source_dir);
+			closedir($fp);
 
 			return $_filedata;
 		}
