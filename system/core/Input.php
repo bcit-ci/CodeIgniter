@@ -503,7 +503,7 @@ class CI_Input {
 
 			foreach ($_COOKIE as $key => $val)
 			{
-				$_COOKIE[$this->_clean_input_keys($key, true)] = $this->_clean_input_data($val, true);
+				$_COOKIE[$this->_clean_input_keys($key, TRUE)] = $this->_clean_input_data($val, TRUE);
 			}
 		}
 
@@ -530,7 +530,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	protected function _clean_input_data($str, $cookie = false)
+	protected function _clean_input_data($str, $cookie = FALSE)
 	{
 		if (is_array($str))
 		{
@@ -588,7 +588,7 @@ class CI_Input {
 	* @param	string
 	* @return	string
 	*/
-	protected function _clean_input_keys($str, $cookie = false)
+	protected function _clean_input_keys($str, $cookie = FALSE)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
 		{
