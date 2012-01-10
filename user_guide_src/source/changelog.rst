@@ -52,13 +52,13 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
-	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Input library <libraries/input>` (also used by :doc:`Form Validation library <libraries/form_validation>`).
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
-   -  Image manipulation library changes include:
+   -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The initialize() method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
@@ -66,6 +66,9 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  :doc:`Form Validation library <libraries/form_validation>` changes include:
+	 -  _execute() now considers input data to be invalid if a specified rule is not found.
+	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 
 -  Core
 
@@ -97,11 +100,12 @@ Bug fixes for 3.0
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+-  Fixed a bug (#863) - CI_Form_validation::_execute() silently continued to the next rule, if a callback rule method is not found.
 
 Version 2.1.0
 =============
 
-Release Date: Not Released
+Release Date: November 14, 2011
 
 -  General Changes
 
