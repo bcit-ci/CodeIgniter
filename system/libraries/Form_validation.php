@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -78,7 +78,6 @@ class CI_Form_validation {
 	 * This function takes an array of field names and validation
 	 * rules as input, validates the info, and stores it
 	 *
-	 * @access	public
 	 * @param	mixed
 	 * @param	string
 	 * @return	void
@@ -168,7 +167,6 @@ class CI_Form_validation {
 	 * Lets users set their own error messages on the fly.  Note:  The key
 	 * name has to match the  function name that it corresponds to.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	string
@@ -192,7 +190,6 @@ class CI_Form_validation {
 	 *
 	 * Permits a prefix/suffix to be added to each error message
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	void
@@ -212,7 +209,6 @@ class CI_Form_validation {
 	 *
 	 * Gets the error message associated with a particular field
 	 *
-	 * @access	public
 	 * @param	string	the field name
 	 * @return	void
 	 */
@@ -243,7 +239,6 @@ class CI_Form_validation {
 	 *
 	 * Returns the error messages as a string, wrapped in the error delimiters
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	str
@@ -286,7 +281,6 @@ class CI_Form_validation {
 	 *
 	 * This function does all the work.
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function run($group = '')
@@ -371,7 +365,6 @@ class CI_Form_validation {
 	/**
 	 * Traverse a multidimensional $_POST array index until the data is found
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @param	array
 	 * @param	integer
@@ -392,7 +385,6 @@ class CI_Form_validation {
 	/**
 	 * Re-populate the _POST array with our finalized and processed data
 	 *
-	 * @access	protected
 	 * @return	null
 	 */
 	protected function _reset_post_array()
@@ -450,7 +442,6 @@ class CI_Form_validation {
 	/**
 	 * Executes the Validation routines
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @param	array
 	 * @param	mixed
@@ -680,7 +671,6 @@ class CI_Form_validation {
 	/**
 	 * Translate a field name
 	 *
-	 * @access	protected
 	 * @param	string	the field name
 	 * @return	string
 	 */
@@ -711,7 +701,6 @@ class CI_Form_validation {
 	 * Permits you to repopulate a form field with the value it was submitted
 	 * with, or, if that value doesn't exist, with the default
 	 *
-	 * @access	public
 	 * @param	string	the field name
 	 * @param	string
 	 * @return	void
@@ -741,7 +730,6 @@ class CI_Form_validation {
 	 * Enables pull-down lists to be set to the value the user
 	 * selected in the event of an error
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	string
@@ -785,7 +773,6 @@ class CI_Form_validation {
 	 * Enables radio buttons to be set to the value the user
 	 * selected in the event of an error
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	string
@@ -829,7 +816,6 @@ class CI_Form_validation {
 	 * Enables checkboxes to be set to the value the user
 	 * selected in the event of an error
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	string
@@ -845,7 +831,6 @@ class CI_Form_validation {
 	/**
 	 * Required
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -859,7 +844,6 @@ class CI_Form_validation {
 	/**
 	 * Performs a Regular Expression match test.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	regex
 	 * @return	bool
@@ -874,7 +858,6 @@ class CI_Form_validation {
 	/**
 	 * Match one field to another
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	field
 	 * @return	bool
@@ -894,9 +877,11 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Match one field to another
+	 * Is Unique
 	 *
-	 * @access	public
+	 * Check if the input value doesn't already exist
+	 * in the specified database field.
+	 *
 	 * @param	string
 	 * @param	field
 	 * @return	bool
@@ -917,7 +902,6 @@ class CI_Form_validation {
 	/**
 	 * Minimum Length
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	value
 	 * @return	bool
@@ -942,7 +926,6 @@ class CI_Form_validation {
 	/**
 	 * Max Length
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	value
 	 * @return	bool
@@ -967,7 +950,6 @@ class CI_Form_validation {
 	/**
 	 * Exact Length
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	value
 	 * @return	bool
@@ -992,7 +974,6 @@ class CI_Form_validation {
 	/**
 	 * Valid Email
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1006,7 +987,6 @@ class CI_Form_validation {
 	/**
 	 * Valid Emails
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1033,7 +1013,6 @@ class CI_Form_validation {
 	/**
 	 * Validate IP Address
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1047,7 +1026,6 @@ class CI_Form_validation {
 	/**
 	 * Alpha
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1061,7 +1039,6 @@ class CI_Form_validation {
 	/**
 	 * Alpha-numeric
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1075,7 +1052,6 @@ class CI_Form_validation {
 	/**
 	 * Alpha-numeric with underscores and dashes
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1089,7 +1065,6 @@ class CI_Form_validation {
 	/**
 	 * Numeric
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1104,7 +1079,6 @@ class CI_Form_validation {
 	/**
 	 * Is Numeric
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1118,7 +1092,6 @@ class CI_Form_validation {
 	/**
 	 * Integer
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1132,7 +1105,6 @@ class CI_Form_validation {
 	/**
 	 * Decimal number
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1146,7 +1118,6 @@ class CI_Form_validation {
 	/**
 	 * Greather than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1164,7 +1135,6 @@ class CI_Form_validation {
 	/**
 	 * Less than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1182,7 +1152,6 @@ class CI_Form_validation {
 	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1196,7 +1165,6 @@ class CI_Form_validation {
 	/**
 	 * Is a Natural number, but not a zero  (1,2,3, etc.)
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1213,7 +1181,6 @@ class CI_Form_validation {
 	 * Tests a string for characters outside of the Base64 alphabet
 	 * as defined by RFC 2045 http://www.faqs.org/rfcs/rfc2045
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1230,7 +1197,6 @@ class CI_Form_validation {
 	 * This function allows HTML to be safely shown in a form.
 	 * Special characters are converted.
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -1259,7 +1225,6 @@ class CI_Form_validation {
 	/**
 	 * Prep URL
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -1283,7 +1248,6 @@ class CI_Form_validation {
 	/**
 	 * Strip Image Tags
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -1297,7 +1261,6 @@ class CI_Form_validation {
 	/**
 	 * XSS Clean
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -1311,7 +1274,6 @@ class CI_Form_validation {
 	/**
 	 * Convert PHP tags to entities
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
