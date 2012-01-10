@@ -320,13 +320,11 @@ class CI_Input {
 			if ($this->server('REMOTE_ADDR'))
 			{
 				$proxy_ips = config_item('proxy_ips');
-				if (is_array($proxy_ips) && count($proxy_ips) > 0)
+				// 'proxy_ips' can be either an array() or a (string) comma-separated list
+				if ((is_array($proxy_ips) && in_array($this->server('REMOTE_ADDR'), $proxy_ips))
+					OR (is_string($proxy_ips) && preg_match('/^(.+,\s*)?'.preg_quote($this->server['REMOTE_ADDR']).'(\s*,.+)?$/', $proxy_ips)))
 				{
-					$override = in_array($this->server('REMOTE_ADDR'));
-				}
-				elseif (is_string($proxy_ips))
-				{
-					$override = (bool) preg_match('/^(.+,\s*)?'.preg_quote($this->server['REMOTE_ADDR']).'(\s*,.+)?$/i', config_item('proxy_ips'));
+					$override = TRUE;
 				}
 			}
 			else
