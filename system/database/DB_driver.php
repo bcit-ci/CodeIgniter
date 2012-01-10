@@ -286,7 +286,7 @@ class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	function query($sql, $binds = FALSE, $return_object = TRUE)
+	function query($sql, $binds = FALSE, $return_object = TRUE, $bind_marker = FALSE)
 	{
 		if ($sql == '')
 		{
@@ -298,6 +298,7 @@ class CI_DB_driver {
 			}
 			return FALSE;
 		}
+		
 
 		// Verify table prefix and replace if necessary
 		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
@@ -323,7 +324,18 @@ class CI_DB_driver {
 		// Compile binds if needed
 		if ($binds !== FALSE)
 		{
-			$sql = $this->compile_binds($sql, $binds);
+			// Allows us to use a different bind marker (for example, to update with strings containing "?")
+     		if ($bind_marker !== FALSE)
+     		{
+     			$this->_set_bind_marker($bind_marker);	
+     			$sql = $this->compile_binds($sql, $binds);     			
+     			$this->_reset_bind_marker();
+     		}
+     		else     		
+     		{				
+     			$sql = $this->compile_binds($sql, $binds);			
+     		}
+			
 		}
 
 		// Save the  query for debugging
@@ -1437,7 +1449,30 @@ class CI_DB_driver {
 		return $item.$alias;
 	}
 
+	// --------------------------------------------------------------------
 
+	/**
+	 * Set new Bind Marker
+	 *
+	 * @access	private
+	 * @param	string	the bindmarker for this query
+	 * @return	void
+	 */
+	function _set_bind_marker($bind_marker)
+	{
+		$this->bind_marker = $bind_marker;
+	}
+	
+	/**
+	 * Reset Bind Marker to Initial
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	function _reset_bind_marker()
+	{
+		$this->bind_marker = '?';
+	}	
 }
 
 
