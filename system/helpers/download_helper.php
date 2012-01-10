@@ -91,7 +91,7 @@ if ( ! function_exists('force_download'))
 		// Generate the server headers
 		header('Content-Type: "'.$mime.'"');
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
-		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -105,7 +105,6 @@ if ( ! function_exists('force_download'))
 			header('Pragma: no-cache');
 		}
 		header('Content-Length: '.strlen($data));
-
 		exit($data);
 	}
 }

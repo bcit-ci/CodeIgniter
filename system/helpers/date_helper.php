@@ -94,7 +94,7 @@ if ( ! function_exists('mdate'))
 		$datestr = str_replace(
 			'%\\',
 			'',
-			preg_replace("/([a-z]+?){1}/i", "\\\\\\1", $datestr)
+			preg_replace('/([a-z]+?){1}/i', '\\\\\\1', $datestr)
 		);
 
 		return date($datestr, $time);
@@ -169,10 +169,9 @@ if ( ! function_exists('timespan'))
 		}
 
 		$seconds = ($time <= $seconds) ? 1 : $time - $seconds;
-
 		$str = '';
-		$years = floor($seconds / 31557600);
 
+		$years = floor($seconds / 31557600);
 		if ($years > 0)
 		{
 			$str .= $years.' '.$CI->lang->line((($years > 1) ? 'date_years' : 'date_year')).', ';
@@ -180,7 +179,6 @@ if ( ! function_exists('timespan'))
 
 		$seconds -= $years * 31557600;
 		$months = floor($seconds / 2629743);
-
 		if ($years > 0 OR $months > 0)
 		{
 			if ($months > 0)
@@ -192,7 +190,6 @@ if ( ! function_exists('timespan'))
 		}
 
 		$weeks = floor($seconds / 604800);
-
 		if ($years > 0 OR $months > 0 OR $weeks > 0)
 		{
 			if ($weeks > 0)
@@ -204,7 +201,6 @@ if ( ! function_exists('timespan'))
 		}
 
 		$days = floor($seconds / 86400);
-
 		if ($months > 0 OR $weeks > 0 OR $days > 0)
 		{
 			if ($days > 0)
@@ -216,7 +212,6 @@ if ( ! function_exists('timespan'))
 		}
 
 		$hours = floor($seconds / 3600);
-
 		if ($days > 0 OR $hours > 0)
 		{
 			if ($hours > 0)
@@ -228,7 +223,6 @@ if ( ! function_exists('timespan'))
 		}
 
 		$minutes = floor($seconds / 60);
-
 		if ($days > 0 OR $hours > 0 OR $minutes > 0)
 		{
 			if ($minutes > 0)
@@ -307,12 +301,12 @@ if ( ! function_exists('local_to_gmt'))
 		}
 
 		return mktime(
-			gmdate("H", $time),
-			gmdate("i", $time),
-			gmdate("s", $time),
-			gmdate("m", $time),
-			gmdate("d", $time),
-			gmdate("Y", $time)
+			gmdate('H', $time),
+			gmdate('i', $time),
+			gmdate('s', $time),
+			gmdate('m', $time),
+			gmdate('d', $time),
+			gmdate('Y', $time)
 		);
 	}
 }
@@ -342,10 +336,9 @@ if ( ! function_exists('gmt_to_local'))
 		}
 
 		$time += timezones($timezone) * 3600;
-
 		if ($dst == TRUE)
 		{
-			$time += 3600;
+			return $time + 3600;
 		}
 
 		return $time;
@@ -368,7 +361,6 @@ if ( ! function_exists('mysql_to_unix'))
 		// We'll remove certain characters for backward compatibility
 		// since the formatting changed with MySQL 4.1
 		// YYYY-MM-DD HH:MM:SS
-
 		$time = str_replace(array('-', ':', ' '), '', $time);
 
 		// YYYYMMDDHHMMSS
@@ -400,25 +392,17 @@ if ( ! function_exists('unix_to_human'))
 {
 	function unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
 	{
-		$r  = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
-
-		if ($fmt == 'us')
-		{
-			$r .= date('h', $time).':'.date('i', $time);
-		}
-		else
-		{
-			$r .= date('H', $time).':'.date('i', $time);
-		}
+		$r  = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' '
+			. date(($fmt === 'us' ? 'h' : 'H'), $time).':'.date('i', $time);
 
 		if ($seconds)
 		{
 			$r .= ':'.date('s', $time);
 		}
 
-		if ($fmt == 'us')
+		if ($fmt === 'us')
 		{
-			$r .= ' '.date('A', $time);
+			return $r.' '.date('A', $time);
 		}
 
 		return $r;
@@ -452,7 +436,6 @@ if ( ! function_exists('human_to_unix'))
 		}
 
 		$split = explode(' ', $datestr);
-
 		list($year, $month, $day) = explode('-', $split[0]);
 
 		$ex = explode(':', $split[1]);
@@ -535,7 +518,7 @@ if ( ! function_exists('nice_date'))
 		// return "Invalid Date".
 		if (date('U', strtotime($bad_date)) == '0')
 		{
-			return "Invalid Date";
+			return 'Invalid Date';
 		}
 
 		// It's probably a valid-ish date format already
@@ -583,7 +566,7 @@ if ( ! function_exists('timezone_menu'))
 			$menu .= '<option value="'.$key.'"'.($default == $key ? ' selected="selected"' : '').'>'.$CI->lang->line($key)."</option>\n";
 		}
 
-		return $menu .= "</select>\n";
+		return $menu."</select>\n";
 	}
 }
 
