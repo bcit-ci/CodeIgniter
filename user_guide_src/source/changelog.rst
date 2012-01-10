@@ -72,6 +72,7 @@ Release Date: Not Released
    -  Changed private functions in CI_URI to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  Added $config['header_ips'] to enable/disable trusting custom IP headers (HTTP_X_FORWARDED_FOR, HTTP_CLIENT_IP, HTTP_CLUSTER_CLIENT_IP) in CI_Input::ip_address().
    -  Changed handling of $config['proxy_ips'] to also accept arrays instead of only strings.
 
@@ -97,8 +98,12 @@ Bug fixes for 3.0
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
+<<<<<<< HEAD
 -  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` did not theck for HTTP_X_CLUSTER_CLIENT_IP.
 -  Fixed a bug in CI_Input::ip_address() where if HTTP_CLIENT_IP was automatically trusted, if available.
+=======
+-  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+>>>>>>> upstream/develop
 
 Version 2.1.0
 =============
