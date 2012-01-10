@@ -378,7 +378,8 @@ $config['rewrite_short_tags'] = FALSE;
 |		  doesn't depend on 'header_ips' and will work even if it's
 |		  disabled. Can be set to:
 |			(array)  each element must be a valid IP address
-|				 e.g. array('10.0.1.200', '10.0.1.201');
+				 (this is preferred over string values)
+|				 e.g. array('10.0.1.200', '10.0.1.201')
 |			(string) a comma-separated list of IP addresses
 |				 e.g. '10.0.1.200,10.0.1.201'
 |

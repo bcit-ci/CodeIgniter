@@ -73,6 +73,7 @@ Release Date: Not Released
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
    -  Added $config['header_ips'] to enable/disable trusting custom IP headers (HTTP_X_FORWARDED_FOR, HTTP_CLIENT_IP, HTTP_CLUSTER_CLIENT_IP) in CI_Input::ip_address().
+   -  Changed handling of $config['proxy_ips'] to also accept arrays instead of only strings.
 
 Bug fixes for 3.0
 ------------------
