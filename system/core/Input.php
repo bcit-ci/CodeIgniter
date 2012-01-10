@@ -313,28 +313,37 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
-		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
+		// Decide wether to trust client IP headers
+		$override = (bool) config_item('header_ips');
+		if ($override === FALSE)
 		{
-			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
-			$proxies = is_array($proxies) ? $proxies : array($proxies);
+			if ($this->server('REMOTE_ADDR'))
+			{
+				$proxy_ips = config_item('proxy_ips');
+				if (is_array($proxy_ips) && count($proxy_ips) > 0)
+				{
+					$override = in_array($this->server('REMOTE_ADDR'));
+				}
+				elseif (is_string($proxy_ips))
+				{
+					$override = (bool) preg_match('/^(.+,\s*)?'.preg_quote($this->server['REMOTE_ADDR']).'(\s*,.+)?$/i', config_item('proxy_ips'));
+				}
+			}
+			else
+			{
+				$override = TRUE;
+			}
+		}
 
-			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-		}
-		elseif ( ! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
+		if ($override === FALSE)
 		{
-			$this->ip_address = $_SERVER['REMOTE_ADDR'];
+			$this->ip_address = $this->server('REMOTE_ADDR');
 		}
-		elseif ($this->server('REMOTE_ADDR') AND $this->server('HTTP_CLIENT_IP'))
+		elseif ($ip = $this->server('HTTP_X_FORWARDED_FOR')
+			OR $ip = $this->server('HTTP_CLIENT_IP')
+			OR $ip = $this->server('HTTP_X_CLUSTER_CLIENT_IP'))
 		{
-			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
-		}
-		elseif ($this->server('HTTP_CLIENT_IP'))
-		{
-			$this->ip_address = $_SERVER['HTTP_CLIENT_IP'];
-		}
-		elseif ($this->server('HTTP_X_FORWARDED_FOR'))
-		{
-			$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$this->ip_address = $ip;
 		}
 
 		if ($this->ip_address === FALSE)
@@ -348,12 +357,9 @@ class CI_Input {
 			$this->ip_address = trim(end($x));
 		}
 
-		if ( ! $this->valid_ip($this->ip_address))
-		{
-			return $this->ip_address = '0.0.0.0';
-		}
-
-		return $this->ip_address;
+		return ($this->valid_ip($this->ip_address))
+			? $this->ip_address
+			: $this->ip_address = '0.0.0.0';
 	}
 
 	// --------------------------------------------------------------------

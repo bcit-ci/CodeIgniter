@@ -67,12 +67,12 @@ Release Date: Not Released
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
 
-
 -  Core
 
    -  Changed private functions in CI_URI to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  Added $config['header_ips'] to enable/disable trusting custom IP headers (HTTP_X_FORWARDED_FOR, HTTP_CLIENT_IP, HTTP_CLUSTER_CLIENT_IP) in CI_Input::ip_address().
 
 Bug fixes for 3.0
 ------------------
@@ -96,7 +96,8 @@ Bug fixes for 3.0
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
-
+-  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` did not theck for HTTP_X_CLUSTER_CLIENT_IP.
+-  Fixed a bug in CI_Input::ip_address() where if HTTP_CLIENT_IP was automatically trusted, if available.
 
 Version 2.1.0
 =============
