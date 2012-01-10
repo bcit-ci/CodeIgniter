@@ -930,6 +930,15 @@ $this->form_validation->set_message();
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
+$this->form_validation->errors();
+==================================
+	
+	.. php:method:: errors();
+
+		:rtype: array
+
+		Permits you to fetch validation error messages.
+ 
 .. _helper-functions:
 
 ****************
