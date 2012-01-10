@@ -259,7 +259,7 @@ if ( ! function_exists('get_dir_file_info'))
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
-			closedir($source_dir);
+			closedir($fp);
 
 			return $_filedata;
 		}
