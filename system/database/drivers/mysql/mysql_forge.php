@@ -128,7 +128,12 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 
 				if (array_key_exists('DEFAULT', $attributes))
 				{
-					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
+					$sql .= ' DEFAULT';
+					
+					if (!is_null($attributes['DEFAULT']))
+					{
+						$sql .= ' \''.$attributes['DEFAULT'].'\'';
+					}
 				}
 
 				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
