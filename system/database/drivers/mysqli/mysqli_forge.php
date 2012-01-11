@@ -115,7 +115,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 				{
 					$sql .= ' DEFAULT';
 					
-					if (!is_null($attributes['DEFAULT']))
+					if ( ! is_null($attributes['DEFAULT']))
 					{
 						$sql .= ' \''.$attributes['DEFAULT'].'\'';
 					}
