@@ -695,5 +695,169 @@ if ( ! function_exists('timezones'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Date range
+ *
+ * Returns a list of dates within a specified period.
+ *
+ * @access	public
+ * @param	int	unix_start	UNIX timestamp of period start date
+ * @param	int	unix_end|days	UNIX timestamp of period end date
+ *					or interval in days.
+ * @param	mixed	is_unix		Specifies wether the second @param
+ *					is a UNIX timestamp or day interval
+ *					 - TRUE or 'unix' for a timestamp
+ *					 - FALSE or 'days' for an interval
+ * @param	string  date_format	Output date format, same as in date()
+ * @return	array
+ */
+if ( ! function_exists('date_range'))
+{
+	function date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')
+	{
+		if ($unix_start == '' OR $mixed == '' OR $format == '')
+		{
+			return FALSE;
+		}
+
+		$is_unix = ! ( ! $is_unix OR $is_unix === 'days');
+
+		// Validate input and try strtotime() on invalid timestamps/intervals, just in case
+		if ( ( ! preg_match('/^[0-9]+$/', $unix_start) && ($unix_start = @strtotime($unix_time)) === FALSE)
+			OR ( ! preg_match('/^[0-9]+$/', $mixed) && ($is_unix === FALSE OR ($mixed = @strtotime($mixed)) === FALSE))
+			OR ($is_unix === TRUE && $mixed < $unix_start))
+		{
+			return FALSE;
+		}
+
+		if ($is_unix && ($unix_start == $mixed OR date($format, $unix_start) === date($format, $mixed)))
+		{
+			return array($start_date);
+		}
+
+		$range = array();
+
+		if (is_php('5.2'))
+		{
+			/* NOTE: Even though the DateTime object has many useful features, it appears that
+			 *	 it doesn't always handle properly timezones, when timestamps are passed
+			 *	 directly to its constructor. Neither of the following gave proper results:
+			 *
+			 *	 	new DateTime('<timestamp>')
+			 *		new DateTime('<timestamp>', '<timezone>')
+			 *
+			 *	 --- available in PHP 5.3:
+			 *
+			 *		DateTime::createFromFormat('<format>', '<timestamp>')
+			 *		DateTime::createFromFormat('<format>', '<timestamp>', '<timezone')
+			 *
+			 *	 ... so we'll have to set the timestamp after the object is instantiated.
+			 *	 Furthermore, in PHP 5.3 we can use DateTime::setTimestamp() to do that and
+			 *	 given that we have UNIX timestamps - we should use it.
+			*/
+			$from = new DateTime();
+
+			if (is_php('5.3'))
+			{
+				$from->setTimestamp($unix_start);
+				if ($is_unix)
+				{
+					$arg = new DateTime();
+					$arg->setTimestamp($mixed);
+				}
+				else
+				{
+					$arg = (int) $mixed;
+				}
+				$period = new DatePeriod($from, new DateInterval('P1D'), $arg);
+				$range = array();
+				foreach ($period as $date)
+				{
+					$range[] = $date->format($format);
+				}
+
+				/* If a period end date was passed to the DatePeriod constructor, it might not
+				 * be in our results. Not sure if this is a bug or it's just possible because
+				 * the end date might actually be less than 24 hours away from the previously
+				 * generated DateTime object, but either way - we have to append it manually.
+				 */
+				if ( ! is_int($arg) && $range[count($range) - 1] !== $arg->format($format))
+				{
+					$range[] = $arg->format($format);
+				}
+
+				return $range;
+			}
+
+			$from->setDate(date('Y', $unix_start), date('n', $unix_start), date('j', $unix_start));
+			$from->setTime(date('G', $unix_start), date('i', $unix_start), date('s', $unix_start));
+			if ($is_unix)
+			{
+				$arg = new DateTime();
+				$arg->setDate(date('Y', $mixed), date('n', $mixed), date('j', $mixed));
+				$arg->setTime(date('G', $mixed), date('i', $mixed), date('s', $mixed));
+			}
+			else
+			{
+				$arg = (int) $mixed;
+			}
+			$range[] = $from->format($format);
+
+			if (is_int($arg)) // Day intervals
+			{
+				do
+				{
+					$from->modify('+1 day');
+					$range[] = $from->format($format);
+				}
+				while (--$arg > 0);
+			}
+			else // end date UNIX timestamp
+			{
+				for ($from->modify('+1 day'), $end_check = $arg->format('Ymd'); $from->format('Ymd') < $end_check; $from->modify('+1 day'))
+				{
+					$range[] = $from->format($format);
+				}
+
+				// Our loop only appended dates prior to our end date
+				$range[] = $arg->format($format);
+			}
+
+			return $range;
+		}
+
+		/* ----------------------------------------------------------------------------------
+		 * PHP Version is < 5.2. We have no other option, but to calculate manually ...
+		 *
+		 * NOTE: If we do something like this:
+		 *
+		 *		$unix_timestamp + 86400
+		 *
+		 *	 ... due to DST, there's a possibility of calculation errors and/or incorrect
+		 *	 hours generated (if the specified format displays such data) due to DST.
+		 */
+
+		$from = $to = array();
+		sscanf(date('Y-n-j G:i:s', $unix_start), '%d-%d-%d %d:%d:%d', $from['y'], $from['mo'], $from['d'], $from['h'], $from['mi'], $from['s']);
+
+		// If we don't have the end timestamp, let mktime() calculate it
+		$unix_end = ($is_unix) ? (int) $mixed : mktime($from['h'], $from['mi'], $from['s'], $from['mo'], $from['d'] + $mixed, $from['y']);
+
+		$end_check = date('Ymd', $unix_end);
+		while (date('Ymd', $unix_start = mktime($from['h'], $from['mi'], $from['s'], $from['mo'], $from['d'], $from['y'])) !== $end_check)
+		{
+			$range[] = date($format, $unix_start);
+			$from['d']++;
+		}
+
+		// Our loop only appended dates prior to our end date
+		$range[] = date($format, $unix_end);
+
+		return $range;
+	}
+}
+
 /* End of file date_helper.php */
 /* Location: ./system/helpers/date_helper.php */
