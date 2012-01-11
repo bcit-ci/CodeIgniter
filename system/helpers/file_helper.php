@@ -196,16 +196,16 @@ if ( ! function_exists('get_filenames'))
 
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
+				if (@is_dir($source_dir.$file) && $file[0] !== '.')
 				{
 					get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
-				elseif (strncmp($file, '.', 1) !== 0)
+				elseif ($file[0] !== '.')
 				{
 					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
 				}
 			}
-			closedir($source_dir);
+			closedir($fp);
 
 			return $_filedata;
 		}
@@ -249,17 +249,17 @@ if ( ! function_exists('get_dir_file_info'))
 			// foreach (scandir($source_dir, 1) as $file) // In addition to being PHP5+, scandir() is simply not as fast
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) AND strncmp($file, '.', 1) !== 0 AND $top_level_only === FALSE)
+				if (@is_dir($source_dir.$file) && $file[0] !== '.' && $top_level_only === FALSE)
 				{
 					get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
 				}
-				elseif (strncmp($file, '.', 1) !== 0)
+				elseif ($file[0] !== '.')
 				{
 					$_filedata[$file] = get_file_info($source_dir.$file);
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
-			closedir($source_dir);
+			closedir($fp);
 
 			return $_filedata;
 		}
@@ -359,7 +359,7 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 			}
