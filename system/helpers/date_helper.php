@@ -158,12 +158,12 @@ if ( ! function_exists('timespan'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		if ( ! is_numeric($seconds))
+		if ( ! $seconds OR ! preg_match('/^[0-9]+$/', $seconds))
 		{
 			$seconds = 1;
 		}
 
-		if ( ! is_numeric($time))
+		if ( ! preg_match('/^[0-9]+$/', $time))
 		{
 			$time = time();
 		}
@@ -264,17 +264,14 @@ if ( ! function_exists('days_in_month'))
 			return 0;
 		}
 
-		if ( ! is_numeric($year) OR strlen($year) !== 4)
+		if ( ! $year OR ! preg_match('/^[1-9]{1}[0-9]{3}$/', $year) OR $year >= 1970)
 		{
-			$year = date('Y');
+			return (int) date('t', mktime(12, 0, 0, $month, 1, date('Y'));
 		}
 
-		if ($month == 2)
+		if ($month == 2 && ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0)))
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
-			{
-				return 29;
-			}
+			return 29;
 		}
 
 		$days_in_month = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
