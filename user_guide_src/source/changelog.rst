@@ -58,6 +58,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
+-  Fixed a bug (#186) that caused the database utility backup function to fail when using reserved word table names.
 
 
 Version 2.1.0
