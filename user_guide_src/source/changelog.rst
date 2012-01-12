@@ -152,6 +152,7 @@ Release Date: Not Released
       library <libraries/form_validation>`.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
+   - Fixed documentation error in Form Validation that stated set_checkbox() utilizes the array form (i.e. colors[])for the field name instead of the straight form (i.e. colors).
 
 -  Core
 

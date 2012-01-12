@@ -998,8 +998,8 @@ first parameter must contain the name of the checkbox, the second
 parameter must contain its value, and the third (optional) parameter
 lets you set an item as the default (use boolean TRUE/FALSE). Example::
 
-	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck[]', '1'); ?> />
-	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
+	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck', '1'); ?> />
+	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
 
 set_radio()
 ============
