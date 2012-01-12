@@ -100,7 +100,7 @@ Bug fixes for 3.0
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
--  Fixed a bug (#863) - CI_Form_validation::_execute() silently continued to the next rule, if a callback rule method is not found.
+-  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 
 Version 2.1.0
 =============
