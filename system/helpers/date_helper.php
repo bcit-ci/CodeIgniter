@@ -264,9 +264,13 @@ if ( ! function_exists('days_in_month'))
 			return 0;
 		}
 
-		if ( ! $year OR ! preg_match('/^[1-9]{1}[0-9]{3}$/', $year) OR $year >= 1970)
+		if ( ! $year OR ! preg_match('/^[1-9]{1}[0-9]{3}$/', $year))
 		{
-			return (int) date('t', mktime(12, 0, 0, $month, 1, date('Y'));
+			return (int) date('t', mktime(12, 0, 0, $month, 1, date('Y')));
+		}
+		elseif ($year >= 1970)
+		{
+			return (int) date('t', mktime(12, 0, 0, $month, 1, $year));
 		}
 
 		if ($month == 2 && ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0)))
