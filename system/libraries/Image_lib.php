@@ -1091,7 +1091,7 @@ class CI_Image_lib {
 			$txt_color = str_split(substr($this->wm_font_color, 1, 6), 2);
 			$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
 			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6), 2);
-			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[2]), hexdec($drp_color[3]));
+			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[1]), hexdec($drp_color[2]));
 
 			//  Add the text to the source image
 			if ($this->wm_use_truetype)
