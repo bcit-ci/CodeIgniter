@@ -108,7 +108,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Get the table schema
-			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.`'.$table.'`');
+			$query = $this->db->query('SHOW CREATE TABLE `'.$this->db->database.'`.`'.$table.'`');
 
 			// No result means the table name was invalid
 			if ($query === FALSE)
@@ -121,7 +121,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 			if ($add_drop == TRUE)
 			{
-				$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+				$output .= 'DROP TABLE IF EXISTS `'.$table.'`;'.$newline.$newline;
 			}
 
 			$i = 0;
@@ -141,7 +141,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Grab all the data from the current table
-			$query = $this->db->query("SELECT * FROM $table");
+			$query = $this->db->query('SELECT * FROM `'.$table.'`');
 
 			if ($query->num_rows() == 0)
 			{
@@ -208,7 +208,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				$val_str = preg_replace( "/, $/" , "" , $val_str);
 
 				// Build the INSERT string
-				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
+				$output .= 'INSERT INTO `'.$table.'` ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 			}
 
 			$output .= $newline.$newline;
