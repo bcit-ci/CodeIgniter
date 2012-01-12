@@ -630,21 +630,23 @@ class CI_Form_validation {
 					else
 					{
 						log_message('debug', "Unable to find validation rule: ".$rule);
+										
+					    continue;
 					}
-
-					continue;
 				}
-
-				$result = $this->$rule($postdata, $param);
-
-				if ($_in_array == TRUE)
-				{
-					$this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
-				}
-				else
-				{
-					$this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
-				}
+                else
+                {
+                    $result = $this->$rule($postdata, $param);
+    
+                    if ($_in_array == TRUE)
+                    {
+                        $this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+                    }
+                    else
+                    {
+                        $this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+                    }
+                }
 			}
 
 			// Did the rule test negatively?  If so, grab the error.
