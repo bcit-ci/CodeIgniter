@@ -582,7 +582,7 @@ class CI_Form_validation {
 					// Users can use any native PHP function call that has one param.
 					if (function_exists($rule))
 					{
-						$result = $rule($postdata);
+						$result = ($param !== FALSE) ? $rule($postdata, $param) : $rule($postdata);
 
 						if ($_in_array === TRUE)
 						{
