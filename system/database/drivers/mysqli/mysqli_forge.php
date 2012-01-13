@@ -111,23 +111,27 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 					$sql .= ' UNSIGNED';
 				}
 
-				if (array_key_exists('DEFAULT', $attributes))
+				$nullable = TRUE; // Indicates wether the field can be declared as DEFAULT NULL or not
+				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === FALSE)
 				{
-					$sql .= ' DEFAULT';
-					
-					if ( ! is_null($attributes['DEFAULT']))
-					{
-						$sql .= ' \''.$attributes['DEFAULT'].'\'';
-					}
-				}
-
-				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
-				{
-					$sql .= ' NULL';
+				    $sql .= ' NOT NULL';
+				    $nullable = FALSE;
 				}
 				else
 				{
-					$sql .= ' NOT NULL';
+				    $sql .= ' NULL';
+				}
+
+				if (array_key_exists('DEFAULT', $attributes) && !is_null($attributes['DEFAULT']) && !strtoupper($attributes['DEFAULT']) === 'NULL')
+				{
+				    $sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
+				}
+				else
+				{
+				    if ($nullable)
+				    {
+				        $sql .= ' DEFAULT NULL';
+				    }
 				}
 
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
