@@ -242,7 +242,7 @@ class CI_Form_validation {
 	 * .
 	 * @return array 
 	 */
-	public function errors()
+	public function error_array()
 	{
 		return $this->_error_array;
 	}
