@@ -294,7 +294,7 @@ class CI_DB_forge {
 	 * @param	string	the column definition
 	 * @return	bool
 	 */
-	public function modify_column($table = '', $field = array())
+	public function modify_column($table = '', $field = array(), $after_field = '')
 	{
 		if ($table == '')
 		{
@@ -317,7 +317,7 @@ class CI_DB_forge {
 				show_error('Field information is required.');
 			}
 
-			$sql = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->fields);
+			$sql = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->fields, $after_field);
 			$this->_reset();
 
 			if ($this->db->query($sql) === FALSE)
