@@ -69,6 +69,7 @@ Release Date: Not Released
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
 	 -  _execute() now considers input data to be invalid if a specified rule is not found.
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
+	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 
 -  Core
 

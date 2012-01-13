@@ -321,7 +321,7 @@ password to MD5, and running the username through the "xss_clean"
 function, which removes malicious data.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, MD5, etc.**
+rule, like htmlspecialchars, trim, md5, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the original
@@ -857,8 +857,9 @@ Rule                    Parameter  Description                                  
 
 		$this->form_validation->required($string);
 
-.. note:: You can also use any native PHP functions that permit one
-	parameter.
+.. note:: You can also use any native PHP functions that permit up
+	to two parameters, where at least one is required (to pass
+	the field data).
 
 ******************
 Prepping Reference
