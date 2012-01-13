@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -98,7 +98,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		$this->db_connect(TRUE);
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------

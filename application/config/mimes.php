@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -111,8 +111,8 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'log'	=>	array('text/plain', 'text/x-log'),
 				'rtx'	=>	'text/richtext',
 				'rtf'	=>	'text/rtf',
-				'xml'	=>	'text/xml',
-				'xsl'	=>	'text/xml',
+				'xml'	=>	array('application/xml', 'text/xml'),
+				'xsl'	=>	array('application/xml', 'text/xsl', 'text/xml'),
 				'mpeg'	=>	'video/mpeg',
 				'mpg'	=>	'video/mpeg',
 				'mpe'	=>	'video/mpeg',
@@ -160,8 +160,9 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'ac3'   =>	'audio/ac3',
 				'flac'  =>	'audio/x-flac',
 				'ogg'   =>	'audio/ogg',
+				'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
+				'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml')
 			);
-
 
 /* End of file mimes.php */
 /* Location: ./application/config/mimes.php */

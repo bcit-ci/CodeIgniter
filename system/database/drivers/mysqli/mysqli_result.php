@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -98,10 +98,10 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		$retval = array();
 		while ($field = mysqli_fetch_object($this->result_id))
 		{
-			preg_match('/([a-zA-Z]+)(\((\d+)\))?/i', $field->Type, $matches);
+			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
 
-			$type = $matches[1];
-			$length = isset($matches[3]) ? (int) $matches[3] : NULL;
+			$type = (array_key_exists(1, $matches)) ? $matches[1] : NULL;
+			$length = (array_key_exists(2, $matches)) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
 
 			$F				= new stdClass();
 			$F->name		= $field->Field;

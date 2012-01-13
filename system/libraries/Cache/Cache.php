@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,26 +18,26 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2011 EllisLab, Inc.
+ * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
- * @filesource	
+ * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * CodeIgniter Caching Class 
+ * CodeIgniter Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
  * @author		EllisLab Dev Team
- * @link		
+ * @link
  */
 class CI_Cache extends CI_Driver_Library {
-	
+
 	protected $valid_drivers 	= array(
 		'cache_apc', 'cache_file', 'cache_memcached', 'cache_dummy'
 	);
@@ -45,7 +45,7 @@ class CI_Cache extends CI_Driver_Library {
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
 	protected $_adapter			= 'dummy';
 	protected $_backup_driver;
-	
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -64,16 +64,16 @@ class CI_Cache extends CI_Driver_Library {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Get 
+	 * Get
 	 *
-	 * Look for a value in the cache.  If it exists, return the data 
+	 * Look for a value in the cache.  If it exists, return the data
 	 * if not, return FALSE
 	 *
-	 * @param 	string	
+	 * @param 	string
 	 * @return 	mixed		value that is stored/FALSE on failure
 	 */
 	public function get($id)
-	{	
+	{
 		return $this->{$this->_adapter}->get($id);
 	}
 
@@ -124,7 +124,7 @@ class CI_Cache extends CI_Driver_Library {
 	 * Cache Info
 	 *
 	 * @param 	string		user/filehits
-	 * @return 	mixed		array on success, false on failure	
+	 * @return 	mixed		array on success, false on failure
 	 */
 	public function cache_info($type = 'user')
 	{
@@ -132,7 +132,7 @@ class CI_Cache extends CI_Driver_Library {
 	}
 
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Get Cache Metadata
 	 *
@@ -143,7 +143,7 @@ class CI_Cache extends CI_Driver_Library {
 	{
 		return $this->{$this->_adapter}->get_metadata($id);
 	}
-	
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -151,11 +151,11 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * Initialize class properties based on the configuration array.
 	 *
-	 * @param	array 	
+	 * @param	array
 	 * @return 	void
 	 */
 	private function _initialize($config)
-	{        
+	{
 		$default_config = array(
 				'adapter',
 				'memcached'
@@ -219,7 +219,7 @@ class CI_Cache extends CI_Driver_Library {
 
 		return $obj;
 	}
-	
+
 	// ------------------------------------------------------------------------
 }
 // End Class

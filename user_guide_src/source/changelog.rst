@@ -24,32 +24,55 @@ Release Date: Not Released
    -  Added Windows 7 to the list of user platforms.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
-   -  Added support pgp and gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for pgp and gpg to mimes.php.
+   -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
+   -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
+   -  Changed logger to only chmod when file is first created.
+   -  Removed previously deprecated SHA1 Library.
+   -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
+      Only entries in ``$autoload['libraries']`` are auto-loaded now.
 
 -  Helpers
 
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
+   -  Changed humanize to include a second param for the separator.
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return 
-      the SQL string of queries without executing them: get_compiled_select(), 
+   -  Added new :doc:`Active Record <database/active_record>` methods that return
+      the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
+   -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
+	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Cart library changes include:
+	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
+	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
+	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+   -  Image manipulation library changes include:
+	 -  The initialize() method now only sets existing class properties.
+	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
+	    if they are set manually after initialization.
+   -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
+   -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
+   -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
 
 -  Core
 
-   -  Changed private functions in CI_URI to protected so MY_URI can
-      override them.
+   -  Changed private functions in CI_URI to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  is_loaded() function from system/core/Commons.php now returns a reference.
 
 Bug fixes for 3.0
 ------------------
@@ -58,8 +81,22 @@ Bug fixes for 3.0
 -  Fixed a bug (#181) where a mis-spelling was in the form validation
    language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
--  Fixed a bug (#186) that caused the database utility backup function to fail when using reserved word table names.
-
+-  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
+-  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
+-  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
+-  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors
+-  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely
+-  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
+-  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
+-  Fixed a bug (#795) - Fixed form method and accept-charset when passing an empty array.
+-  Fixed a bug (#797) - timespan was using incorrect seconds for year and month.
+-  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
+-  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
+-  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
+-  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
+-  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
+-  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
+-  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
 
 Version 2.1.0
 =============
@@ -97,6 +134,7 @@ Release Date: Not Released
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added failover if the main connections in the config should fail
 
 -  Libraries
 
@@ -157,6 +195,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#537) - Support for all wav type in browser.
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
 -  Fixed invalid date time format in :doc:`Date helper <helpers/date_helper>` and :doc:`XMLRPC library <libraries/xmlrpc>`.
+-  Fixed a bug (#200) - MySQL queries would be malformed after calling count_all() then db->get().
 
 Version 2.0.3
 =============

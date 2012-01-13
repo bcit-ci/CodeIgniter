@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.1.0
@@ -90,7 +90,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 		
-		$this->hostname .= ";dbname=".$this->database;
+		if (strpos($this->hostname, 'sqlite') === FALSE)
+		{
+			$this->hostname .= ";dbname=".$this->database;
+		}
 		
 		$this->trans_enabled = FALSE;
 
@@ -255,7 +258,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = (bool) ($test_mode === TRUE);
 
 		return $this->conn_id->beginTransaction();
 	}
