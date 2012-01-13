@@ -934,7 +934,6 @@ $this->form_validation->error_array();
 ==================================
 	
 	.. php:method:: error_array();
-
 		:rtype: array
 
 		Permits you to fetch validation error messages.
