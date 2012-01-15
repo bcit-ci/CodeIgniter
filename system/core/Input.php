@@ -313,6 +313,7 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
+		$real_ip = $this->server('HTTP_X_REAL_IP');
 		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
 			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
@@ -320,6 +321,10 @@ class CI_Input {
 
 			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
+		elseif($this->server('HTTP_X_REAL_IP'))
++		{
++			$this->ip_address = $this->server('HTTP_X_REAL_IP');
+ 		}
 		elseif ( ! $this->server('HTTP_CLIENT_IP') AND $this->server('REMOTE_ADDR'))
 		{
 			$this->ip_address = $_SERVER['REMOTE_ADDR'];
