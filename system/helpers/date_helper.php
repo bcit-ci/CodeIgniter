@@ -745,7 +745,7 @@ if ( ! function_exists('date_range'))
 			 *	 it doesn't always handle properly timezones, when timestamps are passed
 			 *	 directly to its constructor. Neither of the following gave proper results:
 			 *
-			 *	 	new DateTime('<timestamp>')
+			 *		new DateTime('<timestamp>')
 			 *		new DateTime('<timestamp>', '<timezone>')
 			 *
 			 *	 --- available in PHP 5.3:
