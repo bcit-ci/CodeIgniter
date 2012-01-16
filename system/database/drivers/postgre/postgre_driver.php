@@ -95,6 +95,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('pg_connect');
+
 		return @pg_connect($this->_connect_string());
 	}
 
@@ -108,6 +111,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('pg_pconnect');
+
 		return @pg_pconnect($this->_connect_string());
 	}
 

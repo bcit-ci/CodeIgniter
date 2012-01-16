@@ -79,6 +79,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('mysqli_connect');
+
 		if ($this->port != '')
 		{
 			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);

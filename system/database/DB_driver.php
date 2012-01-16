@@ -1437,6 +1437,24 @@ class CI_DB_driver {
 		return $item.$alias;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Checks that a function exists and throws an error if not.
+	 *
+	 * @access	public
+	 * @param   string	the function to test for
+	 * @return	boolean	returns TRUE if available.
+	 */
+
+	function driver_exists($function)
+	{
+		if ( ! function_exists($function)) {
+			show_error("The PHP extension that provides {$function} for {$this->dbdriver} is not installed.");
+		} else {
+			return TRUE;
+		}
+	}
 
 }
 
