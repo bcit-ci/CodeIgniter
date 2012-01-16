@@ -83,7 +83,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0, $c = $this->num_fields(); $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$field_names[] = $this->result_id->columnName($i);
 		}
