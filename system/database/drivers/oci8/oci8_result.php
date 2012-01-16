@@ -66,7 +66,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 			}
 			elseif (count($this->result_object) > 0)
 			{
-				return $this->num_rows = count($this->result_array);
+				return $this->num_rows = count($this->result_object);
 			}
 
 			return $this->num_rows = count($this->result_array());
@@ -316,12 +316,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 			return array();
 		}
 
-		// add the data to the object
-		$result_object = array();
-		$data = NULL;
-
-		/* First check if we don't already have the data.
-		 * If so - pass by reference, as we don't know how
+		/* Even if we didn't have result_array or result_object
+		 * set prior to custom_result_object() being called,
+		 * num_rows() has already done so.
+		 * Pass by reference, as we don't know how
 		 * large it might be and we don't want 1000 row
 		 * sets being copied.
 		 */
@@ -334,69 +332,14 @@ class CI_DB_oci8_result extends CI_DB_result {
 			$data = &$this->result_object;
 		}
 
-		if ( ! is_null($data))
+		$result_object = array();
+		for ($i = 0, $c = count($data); $i < $c; $i++)
 		{
-			for ($i = 0, $c = count($data); $i < $c; $i++)
+			$result_object[$i] = new $class_name();
+			foreach ($data[$i] as $key => $value)
 			{
-				$result_object[$i] = new $class_name();
-				foreach ($data[$i] as $key => $value)
-				{
-					$result_object[$i]->$key = $value;
-				}
+				$result_object[$i]->$key = $value;
 			}
-		}
-		else
-		{
-			// No prefetched result set
-			if (is_array($this->row_data))
-			{
-				$row_index = count($this->row_data);
-				if ($row_index === 0)
-				{
-					return array();
-				}
-				else
-				{
-					for ($i = 0; $i < $row_index; $i++)
-					{
-						$result_object[$i] = new $class_name();
-						foreach ($this->row_data[$i] as $key => $value)
-						{
-							$result_object[$i]->$key = $value;
-						}
-					}
-				}
-			}
-			else
-			{
-				$row_index = 0;
-				$this->row_data = array();
-			}
-
-			while ($row = $this->_fetch_assoc())
-			{
-				$data = new $class_name();
-				foreach ($row as $key => $value)
-				{
-					$data->$key = $value;
-				}
-
-				$this->row_data[$row_index] = $row;
-				$result_object[$row_index++] = $data;
-			}
-			// Un-comment the following line, in case it becomes needed
-			// $this->_data_seek();
-		}
-
-		/* As described for the num_rows() method - there's no easy
-		 * way to get the number of rows selected. Our work-around
-		 * solution (as in here as well) first checks if result_array
-		 * or result_object exist and returns their count. It doesn't
-		 * however check for a custom_object_result, so - do it here.
-		 */
-		if ( ! is_int($this->num_rows))
-		{
-			$this->num_rows = count($result_object);
 		}
 
 		// Cache and return the array
