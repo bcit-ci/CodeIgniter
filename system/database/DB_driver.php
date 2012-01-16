@@ -1451,8 +1451,6 @@ class CI_DB_driver {
 	{
 		if ( ! function_exists($function)) {
 			show_error("The PHP extension that provides {$function} for {$this->dbdriver} is not installed.");
-		} else {
-			return TRUE;
 		}
 	}
 
