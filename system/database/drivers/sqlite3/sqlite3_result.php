@@ -49,6 +49,9 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
+		/* The SQLite3 driver doesn't have a graceful way to do this,
+		 * so we'll have to do it on our own.
+		 */
 		return is_int($this->num_rows)
 			? $this->num_rows
 			: $this->num_rows = count($this->result_array());
