@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * oci8 Result Class
@@ -56,7 +54,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * Oracle doesn't have a graceful way to return the number of rows
 	 * so we have to use what amounts to a hack.
 	 *
-	 * @return  integer
+	 * @return	int
 	 */
 	public function num_rows()
 	{
@@ -82,19 +80,14 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return  integer
+	 * @return	int
 	 */
 	public function num_fields()
 	{
 		$count = @oci_num_fields($this->stmt_id);
 
 		// if we used a limit we subtract it
-		if ($this->limit_used)
-		{
-			return $count - 1;
-		}
-
-		return $count;
+		return ($this->limit_used) ? $count - 1 : $count;
 	}
 
 	// --------------------------------------------------------------------
@@ -123,17 +116,17 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @return  array
+	 * @return	array
 	 */
 	public function field_data()
 	{
 		$retval = array();
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
-			$F			= new stdClass();
-			$F->name		= oci_field_name($this->stmt_id, $c);
-			$F->type		= oci_field_type($this->stmt_id, $c);
-			$F->max_length		= oci_field_size($this->stmt_id, $c);
+			$F		= new stdClass();
+			$F->name	= oci_field_name($this->stmt_id, $c);
+			$F->type	= oci_field_type($this->stmt_id, $c);
+			$F->max_length	= oci_field_size($this->stmt_id, $c);
 
 			$retval[] = $F;
 		}
@@ -175,7 +168,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @return  array
+	 * @return	array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -190,39 +183,12 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @return  object
+	 * @return	object
 	 */
 	protected function _fetch_object()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
 		return oci_fetch_object($id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/* Query result
-	 *
-	 * Acts as a wrapper for result_array(), result_object()
-	 * and custom_result_object().
-	 *
-	 * @param	string	('object', 'array' or a custom class name)
-	 * @return	array
-	 */
-
-	public function result($type = 'object')
-	{
-		if ($type === 'object')
-		{
-			return $this->result_object();
-		}
-		elseif ($type === 'array')
-		{
-			return $this->result_array();
-		}
-		else
-		{
-			return $this->custom_result_object($type);
-		}
 	}
 
 	// --------------------------------------------------------------------
@@ -452,9 +418,16 @@ class CI_DB_oci8_result extends CI_DB_result {
 
 	public function row($n = 0, $type = 'object')
 	{
-		if ($type === 'object') return $this->row_object($n);
-		elseif ($type === 'array') return $this->row_array($n);
-		else return $this->custom_row_object($n, $type);
+		if ($type === 'object')
+		{
+			return $this->row_object($n);
+		}
+		elseif ($type === 'array')
+		{
+			return $this->row_array($n);
+		}
+
+		return $this->custom_row_object($n, $type);
 	}
 
 	// --------------------------------------------------------------------
@@ -464,7 +437,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @param	int	row index
 	 * @return	array
 	 */
-
 	public function row_array($n = 0)
 	{
 		// Make sure $n is not a string
@@ -656,7 +628,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @param	string	('object', 'array' or a custom class name)
 	 * @return	mixed	whatever was passed to the second parameter
 	 */
-
 	public function first_row($type = 'object')
 	{
 		return $this->row(0, $type);
