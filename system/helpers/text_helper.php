@@ -372,18 +372,23 @@ if ( ! function_exists('convert_accented_characters'))
 {
 	function convert_accented_characters($str)
 	{
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
-		}
-		elseif (is_file(APPPATH.'config/foreign_chars.php'))
-		{
-			include(APPPATH.'config/foreign_chars.php');
-		}
+		global $foreign_characters;
 
-		if ( ! isset($foreign_characters))
+		if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
 		{
-			return $str;
+			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
+			}
+			elseif (is_file(APPPATH.'config/foreign_chars.php'))
+			{
+				include(APPPATH.'config/foreign_chars.php');
+			}
+
+			if ( ! isset($foreign_characters) OR ! is_array($foreign_chars))
+			{
+				return $str;
+			}
 		}
 
 		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str);
