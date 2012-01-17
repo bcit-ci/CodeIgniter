@@ -25,7 +25,28 @@ Load the Utility Class as follows::
 Once initialized you will access the functions using the $this->dbutil
 object::
 
-	$this->dbutil->some_function()
+	$this->dbutil->some_function();
+
+If you connect to more than one database simultaneously you can
+load the Utility Class as follows::
+
+	$DB1 = $this->load->database('group_one', TRUE);
+	$DB_util = $this->load->dbutil($DB1);
+
+.. note:: When you load the Utility Class this way, you will use your object name 
+	to issue commands rather than the syntax used throughout this guide. 
+	In other words, rather than issuing commands with:
+	
+	|
+	| $this->dbutil->list_databases();
+	| $this->dbutil->database_exists('database_name');
+	| etc...
+	|
+	| You will instead use:
+	|
+	| $DB_util->list_databases();
+	| $DB_util->database_exists('database_name');
+	| etc...
 
 $this->dbutil->list_databases()
 ================================

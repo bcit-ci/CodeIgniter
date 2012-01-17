@@ -16,12 +16,33 @@ Initializing the Forge Class
 
 Load the Forge Class as follows::
 
-	$this->load->dbforge()
+	$this->load->dbforge();
 
 Once initialized you will access the functions using the $this->dbforge
 object::
 
-	$this->dbforge->some_function()
+	$this->dbforge->some_function();
+
+If you connect to more than one database simultaneously you can
+load the Forge Class as follows::
+
+	$DB1 = $this->load->database('group_one', TRUE);
+	$DB_forge = $this->load->dbforge($DB1);
+
+.. note:: When you load the Forge Class this way, you will use your object name 
+	to issue commands rather than the syntax used throughout this guide. 
+	In other words, rather than issuing commands with:
+	
+	|
+	| $this->dbforge->create_database('db_name');
+	| $this->dbforge->drop_database('db_name');
+	| etc...
+	|
+	| You will instead use:
+	|
+	| $DB_forge->create_database('db_name');
+	| $DB_forge->drop_database('db_name');
+	| etc...
 
 $this->dbforge->create_database('db_name')
 ============================================
