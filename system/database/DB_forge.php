@@ -97,16 +97,6 @@ class CI_DB_forge {
 	 */
 	function add_key($key = '', $primary = FALSE)
 	{
-		if (is_array($key))
-		{
-			foreach ($key as $one)
-			{
-				$this->add_key($one, $primary);
-			}
-
-			return;
-		}
-
 		if ($key == '')
 		{
 			show_error('Key information is required for that operation.');
