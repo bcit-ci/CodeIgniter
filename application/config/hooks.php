@@ -36,13 +36,7 @@
 |
 */
 
-$hook['pre_controller'] = array(
-                                'class'    => 'HookTest',
-                                'function' => 'myHookTest',
-                                'filename' => 'HookTest.php',
-                                'filepath' => 'hooks',
-                                'params'   => array('test')
-                                );
+
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
