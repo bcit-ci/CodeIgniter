@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -58,7 +58,7 @@ class CI_Zip  {
 	{
 		log_message('debug', "Zip Compression Class Initialized");
 
-		$this->now = time();
+		$this->now = $_SERVER['REQUEST_TIME'];
 	}
 
 	// --------------------------------------------------------------------
@@ -101,7 +101,7 @@ class CI_Zip  {
 	{
 		// filemtime() may return false, but raises an error for non-existing files
 		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
-		
+
 		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
 		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
 
