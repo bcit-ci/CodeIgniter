@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -75,16 +75,14 @@ if ( ! function_exists('strip_slashes'))
 {
 	function strip_slashes($str)
 	{
-		if (is_array($str))
-		{
-			foreach ($str as $key => $val)
-			{
-				$str[$key] = strip_slashes($val);
-			}
-		}
-		else
+		if ( ! is_array($str))
 		{
 			return stripslashes($str);
+		}
+
+		foreach ($str as $key => $val)
+		{
+			$str[$key] = strip_slashes($val);
 		}
 
 		return $str;
@@ -192,7 +190,7 @@ if ( ! function_exists('reduce_multiples'))
  *
  * @access	public
  * @param	string	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
- * @param	integer	number of characters
+ * @param	int	number of characters
  * @return	string
  */
 if ( ! function_exists('random_string'))
@@ -238,10 +236,10 @@ if ( ! function_exists('random_string'))
 /**
  * Add's _1 to a string or increment the ending number to allow _2, _3, etc
  *
- * @param   string  $str  required
- * @param   string  $separator  What should the duplicate number be appended with
- * @param   string  $first  Which number should be used for the first dupe increment
- * @return  string
+ * @param	string	$str  required
+ * @param	string	$separator  What should the duplicate number be appended with
+ * @param	string	$first  Which number should be used for the first dupe increment
+ * @return	string
  */
 function increment_string($str, $separator = '_', $first = 1)
 {
@@ -254,10 +252,10 @@ function increment_string($str, $separator = '_', $first = 1)
 /**
  * Alternator
  *
- * Allows strings to be alternated.  See docs...
+ * Allows strings to be alternated. See docs...
  *
  * @access	public
- * @param	string (as many parameters as needed)
+ * @param	string	(as many parameters as needed)
  * @return	string
  */
 if ( ! function_exists('alternator'))
@@ -283,14 +281,14 @@ if ( ! function_exists('alternator'))
  *
  * @access	public
  * @param	string
- * @param	integer	number of repeats
+ * @param	int	number of repeats
  * @return	string
  */
 if ( ! function_exists('repeater'))
 {
 	function repeater($data, $num = 1)
 	{
-		return (($num > 0) ? str_repeat($data, $num) : '');
+		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }
 

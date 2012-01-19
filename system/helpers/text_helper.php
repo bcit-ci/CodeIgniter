@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -73,7 +73,7 @@ if ( ! function_exists('word_limiter'))
 /**
  * Character Limiter
  *
- * Limits the string based on the character count.  Preserves complete words
+ * Limits the string based on the character count. Preserves complete words
  * so the character count may not be exactly as specified.
  *
  * @access	public
@@ -376,7 +376,7 @@ if ( ! function_exists('convert_accented_characters'))
 
 		if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
 			}
@@ -400,7 +400,7 @@ if ( ! function_exists('convert_accented_characters'))
 /**
  * Word Wrap
  *
- * Wraps text at the specified character.  Maintains the integrity of words.
+ * Wraps text at the specified character. Maintains the integrity of words.
  * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
  * will URLs.
  *
