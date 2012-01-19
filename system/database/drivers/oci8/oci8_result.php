@@ -194,7 +194,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. "array" version.
+	 * Query result. Array version.
 	 *
 	 * @return	array
 	 */
@@ -516,7 +516,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @param	string	custom class name
 	 * @return	mixed	custom object if row found; empty array otherwise
 	 */
-
 	public function custom_row_object($n = 0, $class_name)
 	{
 		// Make sure $n is not a string
