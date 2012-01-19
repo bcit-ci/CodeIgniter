@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -40,7 +40,7 @@
 /**
  * Smiley Javascript
  *
- * Returns the javascript required for the smiley insertion.  Optionally takes
+ * Returns the javascript required for the smiley insertion. Optionally takes
  * an array of aliases to loosely couple the smiley array to the view.
  *
  * @access	public
@@ -105,14 +105,11 @@ if ( ! function_exists('smiley_js'))
 			}
 EOF;
 		}
-		else
+		elseif (is_array($alias))
 		{
-			if (is_array($alias))
+			foreach ($alias as $name => $id)
 			{
-				foreach ($alias as $name => $id)
-				{
-					$r .= 'smiley_map["'.$name.'"] = "'.$id.'";'."\n";
-				}
+				$r .= 'smiley_map["'.$name.'"] = "'.$id."\";\n";
 			}
 		}
 
@@ -137,13 +134,11 @@ if ( ! function_exists('get_clickable_smileys'))
 	function get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
 	{
 		// For backward compatibility with js_insert_smiley
-
 		if (is_array($alias))
 		{
 			$smileys = $alias;
 		}
-
-		if ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array()))
+		elseif (FALSE === ($smileys = _get_smiley_array()))
 		{
 			return $smileys;
 		}
@@ -155,7 +150,7 @@ if ( ! function_exists('get_clickable_smileys'))
 		foreach ($smileys as $key => $val)
 		{
 			// Keep duplicates from being used, which can happen if the
-			// mapping array contains multiple identical replacements.  For example:
+			// mapping array contains multiple identical replacements. For example:
 			// :-) and :) might be replaced with the same image so both smileys
 			// will be in the array.
 			if (isset($used[$smileys[$key][0]]))
@@ -163,7 +158,7 @@ if ( ! function_exists('get_clickable_smileys'))
 				continue;
 			}
 
-			$link[] = "<a href=\"javascript:void(0);\" onclick=\"insert_smiley('".$key."', '".$alias."')\"><img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" /></a>";
+			$link[] = '<a href="javascript:void(0);" onclick="insert_smiley(\''.$key.'\', \''.$alias.'\')"><img src="'.$image_url.$smileys[$key][0].'" alt="'.$smileys[$key][3].'" style="width: '.$smileys[$key][1].'; height: '.$smileys[$key][2].'; border: 0;" /></a>';
 			$used[$smileys[$key][0]] = TRUE;
 		}
 
@@ -187,12 +182,7 @@ if ( ! function_exists('parse_smileys'))
 {
 	function parse_smileys($str = '', $image_url = '', $smileys = NULL)
 	{
-		if ($image_url == '')
-		{
-			return $str;
-		}
-
-		if ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array()))
+		if ($image_url == '' OR ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array())))
 		{
 			return $str;
 		}
@@ -202,7 +192,7 @@ if ( ! function_exists('parse_smileys'))
 
 		foreach ($smileys as $key => $val)
 		{
-			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+			$str = str_replace($key, '<img src="'.$image_url.$smileys[$key][0].'" alt="'.$smileys[$key][3].'" style="width: '.$smileys[$key][1].'; height: '.$smileys[$key][2].'; border: 0;" />', $str);
 		}
 
 		return $str;
@@ -223,7 +213,7 @@ if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
 		}
@@ -232,12 +222,7 @@ if ( ! function_exists('_get_smiley_array'))
 			include(APPPATH.'config/smileys.php');
 		}
 
-		if (isset($smileys) AND is_array($smileys))
-		{
-			return $smileys;
-		}
-
-		return FALSE;
+		return (isset($smileys) && is_array($smileys)) ? $smileys : FALSE;
 	}
 }
 
