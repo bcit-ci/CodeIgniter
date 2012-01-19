@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Image Manipulation class
@@ -187,22 +185,17 @@ class CI_Image_lib {
 			}
 		}
 
-		/*
-		 * Is there a source image?
-		 *
-		 * If not, there's no reason to continue
-		 */
+		// Is there a source image? If not, there's no reason to continue
 		if ($this->source_image == '')
 		{
 			$this->set_error('imglib_source_image_required');
 			return FALSE;
 		}
 
-		/*
-		 * Is getimagesize() Available?
+		/* Is getimagesize() available?
 		 *
 		 * We use it to determine the image properties (width/height).
-		 * Note:  We need to figure out how to determine image
+		 * Note: We need to figure out how to determine image
 		 * properties using ImageMagick and NetPBM
 		 */
 		if ( ! function_exists('getimagesize'))
@@ -213,8 +206,7 @@ class CI_Image_lib {
 
 		$this->image_library = strtolower($this->image_library);
 
-		/*
-		 * Set the full server path
+		/* Set the full server path
 		 *
 		 * The source image may or may not contain a path.
 		 * Either way, we'll try use realpath to generate the
@@ -244,7 +236,7 @@ class CI_Image_lib {
 		 *
 		 * If the user has set a "new_image" name it means
 		 * we are making a copy of the source image. If not
-		 * it means we are altering the original.  We'll
+		 * it means we are altering the original. We'll
 		 * set the destination filename and path accordingly.
 		 */
 		if ($this->new_image == '')
@@ -252,41 +244,37 @@ class CI_Image_lib {
 			$this->dest_image = $this->source_image;
 			$this->dest_folder = $this->source_folder;
 		}
+		elseif (strpos($this->new_image, '/') === FALSE)
+		{
+			$this->dest_folder = $this->source_folder;
+			$this->dest_image = $this->new_image;
+		}
 		else
 		{
-			if (strpos($this->new_image, '/') === FALSE)
+			if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
 			{
-				$this->dest_folder = $this->source_folder;
-				$this->dest_image = $this->new_image;
+				$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
 			}
 			else
 			{
-				if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
-				{
-					$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
-				}
-				else
-				{
-					$full_dest_path = $this->new_image;
-				}
+				$full_dest_path = $this->new_image;
+			}
 
-				// Is there a file name?
-				if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $full_dest_path))
-				{
-					$this->dest_folder = $full_dest_path.'/';
-					$this->dest_image = $this->source_image;
-				}
-				else
-				{
-					$x = explode('/', $full_dest_path);
-					$this->dest_image = end($x);
-					$this->dest_folder = str_replace($this->dest_image, '', $full_dest_path);
-				}
+			// Is there a file name?
+			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $full_dest_path))
+			{
+				$this->dest_folder = $full_dest_path.'/';
+				$this->dest_image = $this->source_image;
+			}
+			else
+			{
+				$x = explode('/', $full_dest_path);
+				$this->dest_image = end($x);
+				$this->dest_folder = str_replace($this->dest_image, '', $full_dest_path);
 			}
 		}
 
-		/*
-		 * Compile the finalized filenames/paths
+		/* Compile the finalized filenames/paths
 		 *
 		 * We'll create two master strings containing the
 		 * full server path to the source image and the
@@ -299,7 +287,7 @@ class CI_Image_lib {
 			$this->thumb_marker = '';
 		}
 
-		$xp	= $this->explode_name($this->dest_image);
+		$xp = $this->explode_name($this->dest_image);
 
 		$filename = $xp['name'];
 		$file_ext = $xp['ext'];
@@ -307,8 +295,7 @@ class CI_Image_lib {
 		$this->full_src_path = $this->source_folder.$this->source_image;
 		$this->full_dst_path = $this->dest_folder.$filename.$this->thumb_marker.$file_ext;
 
-		/*
-		 * Should we maintain image proportions?
+		/* Should we maintain image proportions?
 		 *
 		 * When creating thumbs or copies, the target width/height
 		 * might not be in correct proportion with the source
@@ -319,12 +306,10 @@ class CI_Image_lib {
 			$this->image_reproportion();
 		}
 
-		/*
-		 * Was a width and height specified?
+		/* Was a width and height specified?
 		 *
-		 * If the destination width/height was
-		 * not submitted we will use the values
-		 * from the actual file
+		 * If the destination width/height was not submitted we
+		 * will use the values from the actual file
 		 */
 		if ($this->width == '')
 		{
@@ -437,20 +422,15 @@ class CI_Image_lib {
 		}
 
 		// Choose resizing function
-		if ($this->image_library == 'imagemagick' OR $this->image_library == 'netpbm')
+		if ($this->image_library === 'imagemagick' OR $this->image_library === 'netpbm')
 		{
 			$protocol = 'image_process_'.$this->image_library;
 			return $this->$protocol('rotate');
 		}
 
-		if ($this->rotation_angle == 'hor' OR $this->rotation_angle == 'vrt')
-		{
-			return $this->image_mirror_gd();
-		}
-		else
-		{
-			return $this->image_rotate_gd();
-		}
+		return ($this->rotation_angle === 'hor' OR $this->rotation_angle === 'vrt')
+			? $this->image_mirror_gd()
+			: $this->image_rotate_gd();
 	}
 
 	// --------------------------------------------------------------------
@@ -482,7 +462,7 @@ class CI_Image_lib {
 		// Let's set up our values based on the action
 		if ($action == 'crop')
 		{
-			//  Reassign the source width/height if cropping
+			// Reassign the source width/height if cropping
 			$this->orig_width  = $this->width;
 			$this->orig_height = $this->height;
 
@@ -506,13 +486,14 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Create The Image
-		//
-		//  old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
-		//  it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
-		//  below should that ever prove inaccurate.
-		//
-		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
+		/* Create the image
+		 *
+		 * Old conditional which users report cause problems with shared GD libs who report themselves as "2.0 or greater"
+		 * it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
+		 * below should that ever prove inaccurate.
+		 *
+		 * if ($this->image_library === 'gd2' && function_exists('imagecreatetruecolor') && $v2_override == FALSE)
+		 */
 		if ($this->image_library === 'gd2' && function_exists('imagecreatetruecolor'))
 		{
 			$create	= 'imagecreatetruecolor';
@@ -534,21 +515,17 @@ class CI_Image_lib {
 
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
-		//  Show the image
+		// Show the image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($dst_img);
 		}
-		else
+		elseif ( ! $this->image_save_gd($dst_img)) // Or save it
 		{
-			// Or save it
-			if ( ! $this->image_save_gd($dst_img))
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
-		//  Kill the file handles
+		// Kill the file handles
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
@@ -583,7 +560,7 @@ class CI_Image_lib {
 		}
 
 		// Execute the command
-		$cmd = $this->library_path." -quality ".$this->quality;
+		$cmd = $this->library_path.' -quality '.$this->quality;
 
 		if ($action == 'crop')
 		{
@@ -591,15 +568,8 @@ class CI_Image_lib {
 		}
 		elseif ($action == 'rotate')
 		{
-			switch ($this->rotation_angle)
-			{
-				case 'hor'	: $angle = '-flop';
-					break;
-				case 'vrt'	: $angle = '-flip';
-					break;
-				default		: $angle = '-rotate '.$this->rotation_angle;
-					break;
-			}
+			$angle = ($this->rotation_angle === 'hor' OR $this->rotation_angle === 'vrt')
+					? '-flop' : '-rotate '.$this->rotation_angle;
 
 			$cmd .= ' '.$angle.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
@@ -642,7 +612,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		//  Build the resizing command
+		// Build the resizing command
 		switch ($this->image_type)
 		{
 			case 1 :
@@ -702,7 +672,7 @@ class CI_Image_lib {
 		// If you try manipulating the original it fails so
 		// we have to rename the temp file.
 		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
-		unlink ($this->dest_folder.'netpbm.tmp');
+		unlink($this->dest_folder.'netpbm.tmp');
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
 		return TRUE;
@@ -717,7 +687,7 @@ class CI_Image_lib {
 	 */
 	public function image_rotate_gd()
 	{
-		//  Create the image handle
+		// Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
 			return FALSE;
@@ -772,7 +742,7 @@ class CI_Image_lib {
 		$width  = $this->orig_width;
 		$height = $this->orig_height;
 
-		if ($this->rotation_angle == 'hor')
+		if ($this->rotation_angle === 'hor')
 		{
 			for ($i = 0; $i < $height; $i++, $left = 0, $right = $width-1)
 			{
@@ -839,7 +809,7 @@ class CI_Image_lib {
 	 */
 	public function watermark()
 	{
-		return ($this->wm_type == 'overlay') ? $this->overlay_watermark() : $this->text_watermark();
+		return ($this->wm_type === 'overlay') ? $this->overlay_watermark() : $this->text_watermark();
 	}
 
 	// --------------------------------------------------------------------
@@ -861,10 +831,10 @@ class CI_Image_lib {
 		$this->get_image_properties();
 
 		// Fetch watermark image properties
-		$props			= $this->get_image_properties($this->wm_overlay_path, TRUE);
+		$props		= $this->get_image_properties($this->wm_overlay_path, TRUE);
 		$wm_img_type	= $props['image_type'];
-		$wm_width		= $props['width'];
-		$wm_height		= $props['height'];
+		$wm_width	= $props['width'];
+		$wm_height	= $props['height'];
 
 		// Create two image resources
 		$wm_img  = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
@@ -891,25 +861,23 @@ class CI_Image_lib {
 		$y_axis = $this->wm_vrt_offset + $this->wm_padding;
 
 		// Set the vertical position
-		switch ($this->wm_vrt_alignment)
+		if ($this->wm_vrt_alignment === 'M')
 		{
-			case 'T':
-				break;
-			case 'M':	$y_axis += ($this->orig_height / 2) - ($wm_height / 2);
-				break;
-			case 'B':	$y_axis += $this->orig_height - $wm_height;
-				break;
+			$y_axis += ($this->orig_height / 2) - ($wm_height / 2);
+		}
+		elseif ($this->wm_vrt_alignment === 'B')
+		{
+			$y_axis += $this->orig_height - $wm_height;
 		}
 
 		// Set the horizontal position
-		switch ($this->wm_hor_alignment)
+		if ($this->wm_hor_alignment === 'C')
 		{
-			case 'L':
-				break;
-			case 'C':	$x_axis += ($this->orig_width / 2) - ($wm_width / 2);
-				break;
-			case 'R':	$x_axis += $this->orig_width - $wm_width;
-				break;
+			$x_axis += ($this->orig_width / 2) - ($wm_width / 2);
+		}
+		elseif ($this->wm_hor_alignment === 'R')
+		{
+			$x_axis += $this->orig_width - $wm_width;
 		}
 
 		//  Build the finalized image
@@ -935,12 +903,12 @@ class CI_Image_lib {
 			imagecopymerge($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height, $this->wm_opacity);
 		}
 
-		//  Output the image
+		// Output the image
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
 		}
-		elseif ( ! $this->image_save_gd($src_img))
+		elseif ( ! $this->image_save_gd($src_img)) // ... or save it
 		{
 			return FALSE;
 		}
@@ -977,7 +945,7 @@ class CI_Image_lib {
 		// Reverse the vertical offset
 		// When the image is positioned at the bottom
 		// we don't want the vertical offset to push it
-		// further down.  We want the reverse, so we'll
+		// further down. We want the reverse, so we'll
 		// invert the offset. Note: The horizontal
 		// offset flips itself automatically
 
@@ -1011,49 +979,39 @@ class CI_Image_lib {
 		$x_axis = $this->wm_hor_offset + $this->wm_padding;
 		$y_axis = $this->wm_vrt_offset + $this->wm_padding;
 
-		// Set verticle alignment
 		if ($this->wm_use_drop_shadow == FALSE)
 			$this->wm_shadow_distance = 0;
 
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
 
-		switch ($this->wm_vrt_alignment)
+		// Set verticle alignment
+		if ($this->wm_vrt_alignment === 'M')
 		{
-			case 'T':
-				break;
-			case 'M':	$y_axis += ($this->orig_height/2)+($fontheight/2);
-				break;
-			case 'B':	$y_axis += ($this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight/2));
-				break;
+			$y_axis += ($this->orig_height / 2) + ($fontheight / 2);
+		}
+		elseif ($this->wm_vrt_alignment === 'B')
+		{
+			$y_axis += $this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight / 2);
 		}
 
 		$x_shad = $x_axis + $this->wm_shadow_distance;
 		$y_shad = $y_axis + $this->wm_shadow_distance;
 
-		// Set horizontal alignment
-		switch ($this->wm_hor_alignment)
-		{
-			case 'L':
-				break;
-			case 'R':
-				if ($this->wm_use_drop_shadow)
-				{
-					$x_shad += ($this->orig_width - $fontwidth*strlen($this->wm_text));
-					$x_axis += ($this->orig_width - $fontwidth*strlen($this->wm_text));
-				}
-				break;
-			case 'C':
-				if ($this->wm_use_drop_shadow)
-				{
-					$x_shad += floor(($this->orig_width - $fontwidth*strlen($this->wm_text))/2);
-					$x_axis += floor(($this->orig_width - $fontwidth*strlen($this->wm_text))/2);
-				}
-				break;
-		}
-
 		if ($this->wm_use_drop_shadow)
 		{
+			// Set horizontal alignment
+			if ($this->wm_hor_alignment === 'R')
+			{
+				$x_shad += $this->orig_width - ($fontwidth * strlen($this->wm_text));
+				$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text));
+			}
+			elseif ($this->wm_hor_alignment === 'C')
+			{
+				$x_shad += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
+				$x_axis += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
+			}
+
 			/* Set RGB values for text and shadow
 			 *
 			 * First character is #, so we don't really need it.
@@ -1222,8 +1180,8 @@ class CI_Image_lib {
 	 */
 	public function image_display_gd($resource)
 	{
-		header("Content-Disposition: filename={$this->source_image};");
-		header("Content-Type: {$this->mime_type}");
+		header('Content-Disposition: filename='.$this->source_image.';');
+		header('Content-Type: '.$this->mime_type);
 		header('Content-Transfer-Encoding: binary');
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
 
@@ -1351,15 +1309,15 @@ class CI_Image_lib {
 	 * Size calculator
 	 *
 	 * This function takes a known width x height and
-	 * recalculates it to a new size.  Only one
+	 * recalculates it to a new size. Only one
 	 * new variable needs to be known
 	 *
 	 *	$props = array(
-	 *					'width'			=> $width,
-	 *					'height'		=> $height,
-	 *					'new_width'		=> 40,
-	 *					'new_height'	=> ''
-	 *				  );
+	 *			'width'		=> $width,
+	 *			'height'	=> $height,
+	 *			'new_width'	=> 40,
+	 *			'new_height'	=> ''
+	 *		);
 	 *
 	 * @param	array
 	 * @return	array
@@ -1403,7 +1361,7 @@ class CI_Image_lib {
 	 *
 	 * This is a helper function that extracts the extension
 	 * from the source_image.  This function lets us deal with
-	 * source_images with multiple periods, like:  my.cool.jpg
+	 * source_images with multiple periods, like: my.cool.jpg
 	 * It returns an associative array with two elements:
 	 * $array['ext']  = '.jpg';
 	 * $array['name'] = 'my.cool';
@@ -1498,7 +1456,7 @@ class CI_Image_lib {
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
+		return (count($this->error_msg) > 0) ? $open.implode($close.$open, $this->error_msg).$close : '';
 	}
 
 }
