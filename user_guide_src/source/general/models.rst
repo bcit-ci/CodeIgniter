@@ -38,7 +38,7 @@ model class might look like::
 	    {
 	        $this->title   = $_POST['title']; // please read the below note
 	        $this->content = $_POST['content'];
-	        $this->date    = time();
+	        $this->date    = $_SERVER['REQUEST_TIME'];
 
 	        $this->db->insert('entries', $this);
 	    }
@@ -47,7 +47,7 @@ model class might look like::
 	    {
 	        $this->title   = $_POST['title'];
 	        $this->content = $_POST['content'];
-	        $this->date    = time();
+	        $this->date    = $_SERVER['REQUEST_TIME'];
 
 	        $this->db->update('entries', $this, array('id' => $_POST['id']));
 	    }
@@ -140,7 +140,7 @@ view::
 	        $this->load->view('blog', $data);
 	    }
 	}
-	
+
 
 Auto-loading Models
 ===================
