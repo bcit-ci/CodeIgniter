@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -170,7 +170,7 @@ if ( ! function_exists('create_captcha'))
 		}
 		else
 		{
-			$font_size	= 16;
+			$font_size = 16;
 			$x = rand(0, $img_width/($length/1.5));
 			$y = $font_size+2;
 		}
@@ -192,7 +192,7 @@ if ( ! function_exists('create_captcha'))
 		}
 
 
-		//  Create the border
+		// Create the border
 		imagerectangle($im, 0, 0, $img_width-1, $img_height-1, $border_color);
 
 		// -----------------------------------
@@ -200,7 +200,7 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		$img_name = $now.'.jpg';
 		ImageJPEG($im, $img_path.$img_name);
-		$img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
+		$img = '<img src="'.$img_url.$img_name.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img);
