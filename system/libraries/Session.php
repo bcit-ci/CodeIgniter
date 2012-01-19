@@ -334,10 +334,38 @@ class CI_Session {
 	public function sess_update()
 	{
 		// We only update the session every five minutes by default
-		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now
-			OR $this->CI->input->is_ajax_request()) // Changing the session ID during an AJAX call causes problems
+		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
 		{
 			return;
+		}
+
+		// _set_cookie() will handle this for us if we aren't using database sessions
+		// by pushing all userdata to the cookie.
+		$cookie_data = NULL;
+
+		/* Changing the session ID during an AJAX call causes problems,
+		 * so we'll only update our last_activity
+		 */
+		if ($this->CI->input->is_ajax_request())
+		{
+			$this->userdata['last_activity'] = $this->now;
+
+			// Update the session ID and last_activity field in the DB if needed
+			if ($this->sess_use_database === TRUE)
+			{
+				// set cookie explicitly to only have our session data
+				$cookie_data = array();
+				foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+				{
+					$cookie_data[$val] = $this->userdata[$val];
+				}
+
+				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name,
+											array('last_activity' => $this->userdata['last_activity']),
+											array('session_id' => $this->userdata['session_id'])));
+			}
+
+			return $this->_set_cookie($cookie_data);
 		}
 
 		// Save the old session id so we know which record to
@@ -356,10 +384,6 @@ class CI_Session {
 		// Turn it into a hash and update the session data array
 		$this->userdata['session_id'] = $new_sessid = md5(uniqid($new_sessid, TRUE));
 		$this->userdata['last_activity'] = $this->now;
-
-		// _set_cookie() will handle this for us if we aren't using database sessions
-		// by pushing all userdata to the cookie.
-		$cookie_data = NULL;
 
 		// Update the session ID and last_activity field in the DB if needed
 		if ($this->sess_use_database === TRUE)
