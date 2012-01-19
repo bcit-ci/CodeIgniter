@@ -609,13 +609,14 @@ class CI_Session {
 	 */
 	protected function _get_time()
 	{
+		$now = $_SERVER['REQUEST_TIME'];
+
 		if (strtolower($this->time_reference) === 'gmt')
 		{
-			$now = time();
 			return mktime(gmdate('H', $now), gmdate('i', $now), gmdate('s', $now), gmdate('m', $now), gmdate('d', $now), gmdate('Y', $now));
 		}
 
-		return time();
+		return $now;
 	}
 
 	// --------------------------------------------------------------------
@@ -645,7 +646,7 @@ class CI_Session {
 			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		}
 
-		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
+		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + $_SERVER['REQUEST_TIME'];
 
 		// Set the cookie
 		setcookie(
