@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Download Helpers
@@ -53,14 +51,8 @@ if ( ! function_exists('force_download'))
 {
 	function force_download($filename = '', $data = '')
 	{
-		if ($filename == '' OR $data == '')
-		{
-			return FALSE;
-		}
-
-		// Try to determine if the filename includes a file extension.
-		// We need it in order to set the MIME type
-		if (FALSE === strpos($filename, '.'))
+		// We need a valid filename (including extension) and data to be set
+		if ($filename == '' OR $data == '' OR FALSE === strpos($filename, '.'))
 		{
 			return FALSE;
 		}

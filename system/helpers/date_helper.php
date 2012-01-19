@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -45,19 +45,16 @@
  * Returns time() or its GMT equivalent based on the config file preference
  *
  * @access	public
- * @return	integer
+ * @return	int
  */
 if ( ! function_exists('now'))
 {
 	function now()
 	{
 		$CI =& get_instance();
-		if (strtolower($CI->config->item('time_reference')) === 'gmt')
-		{
-			return gmmktime();
-		}
-
-		return time();
+		return (strtolower($CI->config->item('time_reference')) === 'gmt')
+			? mktime(gmdate('G'), gmdate('i'), gmdate('s'), gmdate('n'), gmdate('j'), gmdate('Y'))
+			: time();
 	}
 }
 
@@ -69,7 +66,7 @@ if ( ! function_exists('now'))
  * This function is identical to PHPs date() function,
  * except that it allows date codes to be formatted using
  * the MySQL style, where each code letter is preceded
- * with a percent sign:  %Y %m %d etc...
+ * with a percent sign: %Y %m %d etc...
  *
  * The benefit of doing dates this way is that you don't
  * have to worry about escaping your text letters that
@@ -88,8 +85,10 @@ if ( ! function_exists('mdate'))
 		{
 			return '';
 		}
-
-		$time = ($time == '') ? now() : $time;
+		elseif ($time == '')
+		{
+			$time = now();
+		}
 
 		$datestr = str_replace(
 			'%\\',
@@ -110,7 +109,7 @@ if ( ! function_exists('mdate'))
  *
  * @access	public
  * @param	string	the chosen format
- * @param	integer	Unix timestamp
+ * @param	int	Unix timestamp
  * @return	string
  */
 if ( ! function_exists('standard_date'))
@@ -118,23 +117,18 @@ if ( ! function_exists('standard_date'))
 	function standard_date($fmt = 'DATE_RFC822', $time = '')
 	{
 		$formats = array(
-						'DATE_ATOM'		=>	'%Y-%m-%dT%H:%i:%s%Q',
-						'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
-						'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%Q',
-						'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
-						'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
-						'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
-						'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
-						'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',
-						'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%Q'
-						);
+					'DATE_ATOM'		=>	'%Y-%m-%dT%H:%i:%s%Q',
+					'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
+					'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%Q',
+					'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
+					'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
+					'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
+					'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
+					'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',
+					'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%Q'
+				);
 
-		if ( ! isset($formats[$fmt]))
-		{
-			return FALSE;
-		}
-
-		return mdate($formats[$fmt], $time);
+		return isset($formats[$fmt]) ? mdate($formats[$fmt], $time) : FALSE;
 	}
 }
 
@@ -147,8 +141,8 @@ if ( ! function_exists('standard_date'))
  *	10 days 14 hours 36 minutes 47 seconds
  *
  * @access	public
- * @param	integer	a number of seconds
- * @param	integer	Unix timestamp
+ * @param	int	a number of seconds
+ * @param	int	Unix timestamp
  * @return	integer
  */
 if ( ! function_exists('timespan'))
@@ -251,9 +245,9 @@ if ( ! function_exists('timespan'))
  * for the given month/year. Takes leap years into consideration.
  *
  * @access	public
- * @param	integer a numeric month
- * @param	integer	a numeric year
- * @return	integer
+ * @param	int	a numeric month
+ * @param	int	a numeric year
+ * @return	int
  */
 if ( ! function_exists('days_in_month'))
 {
@@ -289,8 +283,8 @@ if ( ! function_exists('days_in_month'))
  * Converts a local Unix timestamp to GMT
  *
  * @access	public
- * @param	integer Unix timestamp
- * @return	integer
+ * @param	int	Unix timestamp
+ * @return	int
  */
 if ( ! function_exists('local_to_gmt'))
 {
@@ -298,15 +292,15 @@ if ( ! function_exists('local_to_gmt'))
 	{
 		if ($time == '')
 		{
-			return gmmktime();
+			$time = time();
 		}
 
 		return mktime(
-			gmdate('H', $time),
+			gmdate('G', $time),
 			gmdate('i', $time),
 			gmdate('s', $time),
-			gmdate('m', $time),
-			gmdate('d', $time),
+			gmdate('n', $time),
+			gmdate('j', $time),
 			gmdate('Y', $time)
 		);
 	}
@@ -322,10 +316,10 @@ if ( ! function_exists('local_to_gmt'))
  * submitted
  *
  * @access	public
- * @param	integer Unix timestamp
+ * @param	int	Unix timestamp
  * @param	string	timezone
  * @param	bool	whether DST is active
- * @return	integer
+ * @return	int
  */
 if ( ! function_exists('gmt_to_local'))
 {
@@ -353,7 +347,7 @@ if ( ! function_exists('gmt_to_local'))
  *
  * @access	public
  * @param	string	Date
- * @return	integer	Unix timestamp
+ * @return	int	Unix timestamp
  */
 if ( ! function_exists('mysql_to_unix'))
 {
@@ -384,7 +378,7 @@ if ( ! function_exists('mysql_to_unix'))
  * Formats Unix timestamp to the following prototype: 2006-08-21 11:35 PM
  *
  * @access	public
- * @param	integer Unix timestamp
+ * @param	int	Unix timestamp
  * @param	bool	whether to show seconds
  * @param	string	format: us or euro
  * @return	string
@@ -547,10 +541,7 @@ if ( ! function_exists('timezone_menu'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		if ($default === 'GMT')
-		{
-			$default = 'UTC';
-		}
+		$default !== 'GMT' OR $default = 'UTC';
 
 		$menu = '<select name="'.$name.'"';
 
@@ -576,7 +567,7 @@ if ( ! function_exists('timezone_menu'))
 /**
  * Timezones
  *
- * Returns an array of timezones.  This is a helper function
+ * Returns an array of timezones. This is a helper function
  * for various other ones in this library
  *
  * @access	public
@@ -636,10 +627,6 @@ if ( ! function_exists('timezones'))
 		if ($tz == '')
 		{
 			return $zones;
-		}
-		elseif ($tz === 'GMT')
-		{
-			$tz = 'UTC';
 		}
 
 		return ( ! isset($zones[$tz])) ? 0 : $zones[$tz];
