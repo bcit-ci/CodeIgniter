@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -53,12 +53,7 @@ if ( ! function_exists('element'))
 {
 	function element($item, $array, $default = FALSE)
 	{
-		if ( ! isset($array[$item]) OR $array[$item] == "")
-		{
-			return $default;
-		}
-
-		return $array[$item];
+		return ( ! isset($array[$item]) OR $array[$item] == '') ? $default : $array[$item];
 	}
 }
 
@@ -75,7 +70,7 @@ if ( ! function_exists('random_element'))
 {
 	function random_element($array)
 	{
-		return (is_array($array)) ? $array[array_rand($array)] : $array;
+		return is_array($array) ? $array[array_rand($array)] : $array;
 	}
 }
 
@@ -105,7 +100,7 @@ if ( ! function_exists('elements'))
 
 		foreach ($items as $item)
 		{
-			$return[$item] = (isset($array[$item])) ? $array[$item] : $default;
+			$return[$item] = isset($array[$item]) ? $array[$item] : $default;
 		}
 
 		return $return;
