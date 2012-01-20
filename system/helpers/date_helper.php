@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Date Helpers
  *
@@ -441,11 +439,11 @@ if ( ! function_exists('human_to_unix'))
 		if (isset($split[2]))
 		{
 			$ampm = strtolower($split[2]);
-			if ($ampm[0] === 'p' AND $hour < 12)
+			if ($ampm[0] === 'p' && $hour < 12)
 			{
 				$hour += 12;
 			}
-			elseif ($ampm[0] === 'a' AND $hour == 12)
+			elseif ($ampm[0] === 'a' && $hour == 12)
 			{
 				$hour = 0;
 			}
