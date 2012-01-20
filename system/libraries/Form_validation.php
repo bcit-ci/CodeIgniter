@@ -709,14 +709,14 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR $this->_field_data[$field]['postdata'] === NULL)
 		{
-			if ( $this->CI->input->post($field) === FALSE)
-            		{
-                		return $default;
-            		}
-            		else 
-            		{
-                		return $this->CI->input->post($field);
-            		}
+			if ($this->CI->input->post($field) === FALSE)
+			{
+				return $default;
+			}
+			else 
+			{
+				return $this->CI->input->post($field);
+			}
 		}
 
 		// If the data is an array output them one at a time.
@@ -746,11 +746,11 @@ class CI_Form_validation {
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
 			if( ! ($this->CI->input->post($field) === FALSE))
-            		{
-                		$field = $this->CI->input->post($field);
-            		}
-            		else
-            		{
+			{
+				$field = $this->CI->input->post($field);
+			}
+			else
+			{
 				if ($default === TRUE AND count($this->_field_data) === 0)
 				{
 					return ' selected="selected"';
