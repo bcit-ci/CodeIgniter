@@ -92,7 +92,7 @@ class CI_Cache_file extends CI_Driver {
 	public function save($id, $data, $ttl = 60)
 	{
 		$contents = array(
-				'time'		=> time(),
+				'time'		=> $_SERVER['REQUEST_TIME'],
 				'ttl'		=> $ttl,
 				'data'		=> $data
 			);

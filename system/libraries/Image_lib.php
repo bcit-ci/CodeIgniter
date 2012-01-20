@@ -1253,7 +1253,7 @@ class CI_Image_lib {
 		header("Content-Disposition: filename={$this->source_image};");
 		header("Content-Type: {$this->mime_type}");
 		header('Content-Transfer-Encoding: binary');
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+		header('Last-Modified: '.gmdate('D, d M Y H:i:s', $_SERVER['REQUEST_TIME']) . ' GMT');
 
 		switch ($this->image_type)
 		{

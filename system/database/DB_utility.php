@@ -346,7 +346,7 @@ class CI_DB_utility extends CI_DB_forge {
 			if ($prefs['filename'] == '')
 			{
 				$prefs['filename'] = (count($prefs['tables']) === 1 ? $prefs['tables'] : $this->db->database)
-							.date('Y-m-d_H-i', time()).'.sql';
+							.date('Y-m-d_H-i', $_SERVER['REQUEST_TIME']) . '.sql';
 			}
 			else
 			{

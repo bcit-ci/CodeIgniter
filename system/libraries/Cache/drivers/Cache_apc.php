@@ -69,7 +69,7 @@ class CI_Cache_apc extends CI_Driver {
 	public function save($id, $data, $ttl = 60)
 	{
 		$ttl = (int) $ttl;
-		return apc_store($id, array($data, time(), $ttl), $ttl);
+		return apc_store($id, array($data, $_SERVER['REQUEST_TIME'], $ttl), $ttl);
 	}
 
 	// ------------------------------------------------------------------------

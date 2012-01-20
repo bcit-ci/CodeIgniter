@@ -130,7 +130,7 @@ CAPTCHA will be shown you'll have something like this
 	$this->db->query($query);
 
 	echo 'Submit the word you see below:';
-	echo $cap['image']; 
+	echo $cap['image'];
 	echo '<input type="text" name="captcha" value="" />';
 
 Then, on the page that accepts the submission you'll have something like
@@ -139,7 +139,7 @@ this
 ::
 
 	// First, delete old captchas
-	$expiration = time() - 7200; // Two hour limit
+	$expiration = $_SERVER['REQUEST_TIME'] - 7200; // Two hour limit
 	$this->db->where('captcha_time < ', $expiration)
 		 ->delete('captcha');
 

@@ -275,11 +275,11 @@ class CI_Input {
 
 		if ( ! is_numeric($expire))
 		{
-			$expire = time() - 86500;
+			$expire = $_SERVER['REQUEST_TIME'] - 86500;
 		}
 		else
 		{
-			$expire = ($expire > 0) ? time() + $expire : 0;
+			$expire = ($expire > 0) ? $_SERVER['REQUEST_TIME'] + $expire : 0;
 		}
 
 		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure);
