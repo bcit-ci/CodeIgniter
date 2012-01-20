@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -297,7 +297,7 @@ class CI_Form_validation {
 			// Is there a validation rule for the particular URI being accessed?
 			$uri = ($group == '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
 
-			if ($uri != '' AND isset($this->_config_rules[$uri]))
+			if ($uri != '' && isset($this->_config_rules[$uri]))
 			{
 				$this->set_rules($this->_config_rules[$uri]);
 			}
@@ -327,7 +327,7 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($_POST, $row['keys']);
 			}
-			elseif (isset($_POST[$field]) AND $_POST[$field] != '')
+			elseif (isset($_POST[$field]) && $_POST[$field] != '')
 			{
 				$this->_field_data[$field]['postdata'] = $_POST[$field];
 			}
@@ -373,7 +373,7 @@ class CI_Form_validation {
 	/**
 	 * Re-populate the _POST array with our finalized and processed data
 	 *
-	 * @return	null
+	 * @return	void
 	 */
 	protected function _reset_post_array()
 	{
@@ -452,7 +452,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) AND is_null($postdata))
+		if ( ! in_array('required', $rules) && is_null($postdata))
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
@@ -467,7 +467,7 @@ class CI_Form_validation {
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (is_null($postdata) AND $callback === FALSE)
+		if (is_null($postdata) && $callback === FALSE)
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
@@ -510,7 +510,7 @@ class CI_Form_validation {
 
 			// We set the $postdata variable with the current data in our master array so that
 			// each cycle of the loop is dealing with the processed data from the last cycle
-			if ($row['is_array'] == TRUE AND is_array($this->_field_data[$row['field']]['postdata']))
+			if ($row['is_array'] == TRUE && is_array($this->_field_data[$row['field']]['postdata']))
 			{
 				// We shouldn't need this safety, but just in case there isn't an array index
 				// associated with this cycle we'll bail out
@@ -569,7 +569,7 @@ class CI_Form_validation {
 				}
 
 				// If the field isn't required and we just processed a callback we'll move on...
-				if ( ! in_array('required', $rules, TRUE) AND $result !== FALSE)
+				if ( ! in_array('required', $rules, TRUE) && $result !== FALSE)
 				{
 					continue;
 				}
@@ -724,7 +724,7 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
-			return ($default === TRUE AND count($this->_field_data) === 0) ? ' selected="selected"' : '';
+			return ($default === TRUE && count($this->_field_data) === 0) ? ' selected="selected"' : '';
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
@@ -759,7 +759,7 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
-			return ($default === TRUE AND count($this->_field_data) === 0) ? ' checked="checked"' : '';
+			return ($default === TRUE && count($this->_field_data) === 0) ? ' checked="checked"' : '';
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
@@ -1125,7 +1125,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str != 0 AND preg_match('/^[0-9]+$/', $str));
+		return ($str != 0 && preg_match('/^[0-9]+$/', $str));
 	}
 
 	// --------------------------------------------------------------------
