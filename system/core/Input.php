@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Input Class
@@ -152,7 +150,7 @@ class CI_Input {
 	public function get($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
-		if ($index === NULL AND ! empty($_GET))
+		if ($index === NULL && ! empty($_GET))
 		{
 			$get = array();
 
@@ -179,7 +177,7 @@ class CI_Input {
 	public function post($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
-		if ($index === NULL AND ! empty($_POST))
+		if ($index === NULL && ! empty($_POST))
 		{
 			$post = array();
 
@@ -256,19 +254,19 @@ class CI_Input {
 			}
 		}
 
-		if ($prefix == '' AND config_item('cookie_prefix') != '')
+		if ($prefix == '' && config_item('cookie_prefix') != '')
 		{
 			$prefix = config_item('cookie_prefix');
 		}
-		if ($domain == '' AND config_item('cookie_domain') != '')
+		if ($domain == '' && config_item('cookie_domain') != '')
 		{
 			$domain = config_item('cookie_domain');
 		}
-		if ($path == '/' AND config_item('cookie_path') != '/')
+		if ($path == '/' && config_item('cookie_path') != '/')
 		{
 			$path = config_item('cookie_path');
 		}
-		if ($secure == FALSE AND config_item('cookie_secure') != FALSE)
+		if ($secure == FALSE && config_item('cookie_secure') != FALSE)
 		{
 			$secure = config_item('cookie_secure');
 		}
@@ -475,7 +473,7 @@ class CI_Input {
 		}
 		else
 		{
-			if (is_array($_GET) AND count($_GET) > 0)
+			if (is_array($_GET) && count($_GET) > 0)
 			{
 				foreach ($_GET as $key => $val)
 				{
@@ -485,7 +483,7 @@ class CI_Input {
 		}
 
 		// Clean $_POST Data
-		if (is_array($_POST) AND count($_POST) > 0)
+		if (is_array($_POST) && count($_POST) > 0)
 		{
 			foreach ($_POST as $key => $val)
 			{
@@ -494,7 +492,7 @@ class CI_Input {
 		}
 
 		// Clean $_COOKIE Data
-		if (is_array($_COOKIE) AND count($_COOKIE) > 0)
+		if (is_array($_COOKIE) && count($_COOKIE) > 0)
 		{
 			// Also get rid of specially treated cookies that might be set by a server
 			// or silly application, that are of no use to a CI application anyway
@@ -572,7 +570,7 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines == TRUE AND strpos($str, "\r") !== FALSE)
+		if ($this->_standardize_newlines == TRUE && strpos($str, "\r") !== FALSE)
 		{
 			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 		}
