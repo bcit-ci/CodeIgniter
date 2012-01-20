@@ -179,11 +179,28 @@ class CI_Session {
 		$session = $this->_unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
-		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity'])
-			OR ($session['last_activity'] + $this->sess_expiration) < $this->now // Is the session current?
-			OR ($this->sess_match_ip == TRUE && $session['ip_address'] !== $this->CI->input->ip_address()) // Does the IP match?
-			OR ($this->sess_match_useragent == TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120))) // Does the User Agent Match?
-			)
+		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
+		{
+			$this->sess_destroy();
+			return FALSE;
+		}
+
+		// Is the session current?
+		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
+		{
+			$this->sess_destroy();
+			return FALSE;
+		}
+
+		// Does the IP match?
+		if ($this->sess_match_ip == TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
+		{
+			$this->sess_destroy();
+			return FALSE;
+		}
+
+		// Does the User Agent Match?
+		if ($this->sess_match_useragent == TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
