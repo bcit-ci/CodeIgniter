@@ -106,7 +106,7 @@ class CI_DB_driver {
 	 * Initialize Database Settings
 	 *
 	 * @param	mixed
-	 * @return	void
+	 * @return	bool
 	 */
 	public function initialize()
 	{
@@ -198,7 +198,7 @@ class CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	bool
 	 */
 	public function db_set_charset($charset, $collation)
 	{
@@ -292,15 +292,15 @@ class CI_DB_driver {
 		}
 
 		// Verify table prefix and replace if necessary
-		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
+		if (($this->dbprefix != '' && $this->swap_pre != '') && ($this->dbprefix != $this->swap_pre))
 		{
-			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
+			$sql = preg_replace('/(\W)'.$this->swap_pre.'(\S+?)/', '\\1'.$this->dbprefix.'\\2', $sql);
 		}
 
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on == TRUE AND stristr($sql, 'SELECT'))
+		if ($this->cache_on == TRUE && stristr($sql, 'SELECT'))
 		{
 			if ($this->_cache_init())
 			{
@@ -385,7 +385,7 @@ class CI_DB_driver {
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
-			if ($this->cache_on == TRUE AND $this->cache_autodel == TRUE AND $this->_cache_init())
+			if ($this->cache_on == TRUE && $this->cache_autodel == TRUE && $this->_cache_init())
 			{
 				$this->CACHE->delete();
 			}
@@ -419,7 +419,7 @@ class CI_DB_driver {
 
 		// Is query caching enabled?  If so, we'll serialize the
 		// result object and save it to a cache file.
-		if ($this->cache_on == TRUE AND $this->_cache_init())
+		if ($this->cache_on == TRUE && $this->_cache_init())
 		{
 			// We'll create a new instance of the result object
 			// only without the platform specific driver since
@@ -489,7 +489,6 @@ class CI_DB_driver {
 	 * Disable Transactions
 	 * This permits transactions to be disabled at run-time.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function trans_off()
@@ -501,12 +500,12 @@ class CI_DB_driver {
 
 	/**
 	 * Enable/disable Transaction Strict Mode
+	 *
 	 * When strict mode is enabled, if you are running multiple groups of
 	 * transactions, if one group fails all groups will be rolled back.
 	 * If strict mode is disabled, each group is treated autonomously, meaning
 	 * a failure of one group will not affect any others
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function trans_strict($mode = TRUE)
@@ -645,15 +644,11 @@ class CI_DB_driver {
 	 * Determines if a query is a "write" type.
 	 *
 	 * @param	string	An SQL query string
-	 * @return	boolean
+	 * @return	bool
 	 */
 	public function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -661,8 +656,8 @@ class CI_DB_driver {
 	/**
 	 * Calculate the aggregate query elapsed time
 	 *
-	 * @param	integer	The number of decimal places
-	 * @return	integer
+	 * @param	int	The number of decimal places
+	 * @return	string
 	 */
 	public function elapsed_time($decimals = 6)
 	{
@@ -743,7 +738,7 @@ class CI_DB_driver {
 	/**
 	 * Primary
 	 *
-	 * Retrieves the primary key.  It assumes that the row in the first
+	 * Retrieves the primary key. It assumes that the row in the first
 	 * position is the primary key
 	 *
 	 * @param	string	the table name
@@ -946,7 +941,7 @@ class CI_DB_driver {
 	{
 		if ($where == '')
 		{
-			return false;
+			return FALSE;
 		}
 
 		$fields = array();
@@ -1118,12 +1113,12 @@ class CI_DB_driver {
 	 */
 	private function _cache_init()
 	{
-		if (is_object($this->CACHE) AND class_exists('CI_DB_Cache'))
+		if (is_object($this->CACHE) && class_exists('CI_DB_Cache'))
 		{
 			return TRUE;
 		}
 
-		if ( ! class_exists('CI_DB_Cache') AND ! @include(BASEPATH.'database/DB_cache.php'))
+		if ( ! class_exists('CI_DB_Cache') && ! @include(BASEPATH.'database/DB_cache.php'))
 		{
 			return $this->cache_off();
 		}
@@ -1221,7 +1216,7 @@ class CI_DB_driver {
 	 * a couple functions in this class.
 	 * It takes a column or table name (optionally with an alias) and inserts
 	 * the table prefix onto it.  Some logic is necessary in order to deal with
-	 * column names that include the path.  Consider a query like this:
+	 * column names that include the path. Consider a query like this:
 	 *
 	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
 	 *
@@ -1289,7 +1284,7 @@ class CI_DB_driver {
 			$parts	= explode('.', $item);
 
 			// Does the first segment of the exploded item match
-			// one of the aliases previously identified?  If so,
+			// one of the aliases previously identified? If so,
 			// we have nothing more to do other than escape the item
 			if (in_array($parts[0], $this->ar_aliased_tables))
 			{
@@ -1308,7 +1303,7 @@ class CI_DB_driver {
 				return $item.$alias;
 			}
 
-			// Is there a table prefix defined in the config file?  If not, no need to do anything
+			// Is there a table prefix defined in the config file? If not, no need to do anything
 			if ($this->dbprefix != '')
 			{
 				// We now add the table prefix based on some logic.
@@ -1341,7 +1336,7 @@ class CI_DB_driver {
 				// Verify table prefix and replace if necessary
 				if ($this->swap_pre != '' && strncmp($parts[$i], $this->swap_pre, strlen($this->swap_pre)) === 0)
 				{
-					$parts[$i] = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $parts[$i]);
+					$parts[$i] = preg_replace('/^'.$this->swap_pre.'(\S+?)/', $this->dbprefix.'\\1', $parts[$i]);
 				}
 
 				// We only add the table prefix if it does not already exist
@@ -1362,23 +1357,23 @@ class CI_DB_driver {
 			return $item.$alias;
 		}
 
-		// Is there a table prefix?  If not, no need to insert it
+		// Is there a table prefix? If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
 			// Verify table prefix and replace if necessary
 			if ($this->swap_pre != '' && strncmp($item, $this->swap_pre, strlen($this->swap_pre)) === 0)
 			{
-				$item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
+				$item = preg_replace('/^'.$this->swap_pre.'(\S+?)/', $this->dbprefix.'\\1', $item);
 			}
 
 			// Do we prefix an item with no segments?
-			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
+			if ($prefix_single == TRUE && substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
 			{
 				$item = $this->dbprefix.$item;
 			}
 		}
 
-		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
+		if ($protect_identifiers === TRUE && ! in_array($item, $this->_reserved_identifiers))
 		{
 			$item = $this->_escape_identifiers($item);
 		}
