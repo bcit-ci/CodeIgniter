@@ -709,10 +709,10 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR $this->_field_data[$field]['postdata'] === NULL)
 		{
-			if( $this->CI->input->post($field)===FALSE)
+			if ( $this->CI->input->post($field) === FALSE)
             		{
                 		return $default;
-            		} 
+            		}
             		else 
             		{
                 		return $this->CI->input->post($field);
@@ -720,7 +720,7 @@ class CI_Form_validation {
 		}
 
 		// If the data is an array output them one at a time.
-		//     E.g: form_input('name[]', set_value('name[]');
+		// E.g: form_input('name[]', set_value('name[]');
 		if (is_array($this->_field_data[$field]['postdata']))
 		{
 			return array_shift($this->_field_data[$field]['postdata']);
@@ -748,8 +748,8 @@ class CI_Form_validation {
 			if( ! ($this->CI->input->post($field) === FALSE))
             		{
                 		$field = $this->CI->input->post($field);
-            		} 
-            		else 
+            		}
+            		else
             		{
 				if ($default === TRUE AND count($this->_field_data) === 0)
 				{
