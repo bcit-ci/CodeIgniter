@@ -358,7 +358,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @param	string	('object', 'array' or a custom class name)
 	 * @return	mixed	whatever was passed to the second parameter
 	 */
-
 	public function row($n = 0, $type = 'object')
 	{
 		if ($type === 'object')
