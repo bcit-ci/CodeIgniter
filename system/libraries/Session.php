@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Session Class
  *
@@ -94,7 +92,7 @@ class CI_Session {
 		}
 
 		// Are we using a database? If so, load it
-		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
+		if ($this->sess_use_database === TRUE && $this->sess_table_name != '')
 		{
 			$this->CI->load->database();
 		}
@@ -232,7 +230,7 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) AND $row->user_data != '')
+			if (isset($row->user_data) && $row->user_data != '')
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 
