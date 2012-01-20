@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Zip Compression Class
@@ -265,7 +263,7 @@ class CI_Zip  {
 	 * Read a directory and add it to the zip.
 	 *
 	 * This function recursively reads a folder and everything it contains (including
-	 * sub-folders) and creates a zip based on it.  Whatever directory structure
+	 * sub-folders) and creates a zip based on it. Whatever directory structure
 	 * is in the original file path will be recreated in the zip file.
 	 *
 	 * @param	string	path to source
@@ -297,18 +295,14 @@ class CI_Zip  {
 			{
 				$this->read_dir($path.$file.'/', $preserve_filepath, $root_path);
 			}
-			else
+			elseif (FALSE !== ($data = file_get_contents($path.$file)))
 			{
-				if (FALSE !== ($data = file_get_contents($path.$file)))
+				$name = str_replace('\\', '/', $path);
+				if ($preserve_filepath === FALSE)
 				{
-					$name = str_replace('\\', '/', $path);
-					if ($preserve_filepath === FALSE)
-					{
-						$name = str_replace($root_path, '', $name);
-					}
-
-					$this->add_data($name.$file, $data);
+					$name = str_replace($root_path, '', $name);
 				}
+				$this->add_data($name.$file, $data);
 			}
 		}
 
@@ -320,7 +314,7 @@ class CI_Zip  {
 	/**
 	 * Get the Zip file
 	 *
-	 * @return	binary string
+	 * @return	string (binary encoded)
 	 */
 	public function get_zip()
 	{
@@ -393,10 +387,10 @@ class CI_Zip  {
 	/**
 	 * Initialize Data
 	 *
-	 * Lets you clear current zip data.  Useful if you need to create
+	 * Lets you clear current zip data. Useful if you need to create
 	 * multiple zips with different data.
 	 *
-	 * @return	void
+	 * @return	object
 	 */
 	public function clear_data()
 	{
