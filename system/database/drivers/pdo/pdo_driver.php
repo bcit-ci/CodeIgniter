@@ -75,7 +75,6 @@ class CI_DB_pdo_driver extends CI_DB {
 			{
 				$this->hostname .= ";charset={$this->char_set}";
 			}
-			
 			//Set the charset with the connection options
 			$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
 		}
@@ -613,7 +612,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$this->_from_table($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return 'INSERT INTO '.$this->_from_tables($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 	
 	// --------------------------------------------------------------------
@@ -631,7 +630,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _insert_batch($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$this->_from_table($table).' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
+		return 'INSERT INTO '.$this->_from_tables($table).' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -659,7 +658,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$limit   = ( ! $limit) ? '' : ' LIMIT '.$limit;
 		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(', ', $orderby) : '';
 
-		$sql  = 'UPDATE '.$this->_from_table($table).' SET '.implode(', ', $valstr);
+		$sql  = 'UPDATE '.$this->_from_tables($table).' SET '.implode(', ', $valstr);
 		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 		$sql .= $orderby.$limit;
 
@@ -697,7 +696,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			}
 		}
 
-		$sql   = 'UPDATE '.$this->_from_table($table).' SET ';
+		$sql   = 'UPDATE '.$this->_from_tables($table).' SET ';
 		$cases = '';
 
 		foreach ($final as $k => $v)
@@ -768,7 +767,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return 'DELETE FROM '.$this->_from_table($table).$conditions.$limit;
+		return 'DELETE FROM '.$this->_from_tables($table).$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
