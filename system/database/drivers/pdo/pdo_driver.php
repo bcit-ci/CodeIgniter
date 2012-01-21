@@ -204,6 +204,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
+
 		$result_id = $this->conn_id->query($sql);
 		
 		if (is_object($result_id))
@@ -231,6 +232,17 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _prep_query($sql)
 	{
+		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		{
+			// Change the backtick(s) for Postgre
+			$sql = str_replace('`', '"', $sql);
+		}
+		elseif (strpos($this->hostname, 'mysql') !== FALSE)
+		{
+			// Change the backtick(s) for SQLite
+			$sql = str_replace('`', ' ', $sql);
+		}
+
 		return $sql;
 	}
 
@@ -389,6 +401,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			{
 				$sql='SELECT LASTVAL() as ins_id';
 			}
+
 			$query = $this->query($sql);
 			$row = $query->row();
 			return $row->ins_id;
@@ -443,12 +456,19 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SHOW TABLES FROM `".$this->database."`";
+		// Analog function to show all tables in postgre
+		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		{
+			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
+		}
+		else
+		{
+			$sql = "SHOW TABLES FROM `".$this->database."`";
+		}
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
 		{
-			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-			return FALSE; // not currently supported
+			return FALSE; 
 		}
 
 		return $sql;
@@ -467,7 +487,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SHOW COLUMNS FROM ".$table;
+		return 'SHOW COLUMNS FROM '.$this->_from_tables($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -483,7 +503,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 FROM ".$table;
+		return 'SELECT TOP 1 FROM '.$this->_from_tables($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -575,7 +595,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return (count($tables) == 1) ? $tables[0] : '('.implode(', ', $tables).')';
+		return (count($tables) == 1) ? '`'.array_shift($tables).'`' : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -593,7 +613,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return 'INSERT INTO '.$this->_from_table($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 	
 	// --------------------------------------------------------------------
@@ -611,7 +631,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _insert_batch($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
+		return 'INSERT INTO '.$this->_from_table($table).' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -636,14 +656,11 @@ class CI_DB_pdo_driver extends CI_DB {
 			$valstr[] = $key." = ".$val;
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$limit   = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(', ', $orderby) : '';
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
-
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
-
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
-
+		$sql  = 'UPDATE '.$this->_from_table($table).' SET '.implode(', ', $valstr);
+		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 		$sql .= $orderby.$limit;
 
 		return $sql;
@@ -680,7 +697,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			}
 		}
 
-		$sql = "UPDATE ".$table." SET ";
+		$sql   = 'UPDATE '.$this->_from_table($table).' SET ';
 		$cases = '';
 
 		foreach ($final as $k => $v)
@@ -751,7 +768,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return 'DELETE FROM '.$this->_from_table($table).$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -809,10 +826,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->conn_id = null;
 	}
 
-
 }
-
-
 
 /* End of file pdo_driver.php */
 /* Location: ./system/database/drivers/pdo/pdo_driver.php */

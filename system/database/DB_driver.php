@@ -816,9 +816,9 @@ class CI_DB_driver {
 		{
 			foreach ($query->result_array() as $row)
 			{
-				if (isset($row['TABLE_NAME']))
+				if (array_key_exists('table_name', $row))
 				{
-					$retval[] = $row['TABLE_NAME'];
+					$retval[] = $row['table_name'];
 				}
 				else
 				{
@@ -828,6 +828,7 @@ class CI_DB_driver {
 		}
 
 		$this->data_cache['table_names'] = $retval;
+		
 		return $this->data_cache['table_names'];
 	}
 
@@ -1439,7 +1440,6 @@ class CI_DB_driver {
 
 
 }
-
 
 /* End of file DB_driver.php */
 /* Location: ./system/database/DB_driver.php */
