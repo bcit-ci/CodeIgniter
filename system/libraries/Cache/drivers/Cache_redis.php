@@ -30,11 +30,10 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Default config
 	 *
-	 * @access private
 	 * @static
 	 * @var array
 	 */
-	private static $_default_config = array(
+	protected static $_default_config = array(
 		'host' => '127.0.0.1',
 		'port' => 6379,
 		'timeout' => 0
@@ -43,17 +42,15 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Redis connection
 	 *
-	 * @access private
 	 * @var Redis
 	 */
-	private $_redis;
+	protected $_redis;
 
 	/**
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function __destruct()
@@ -67,7 +64,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache
 	 *
-	 * @access public
 	 * @param string $key Cache key identifier
 	 * @return mixed
 	 */
@@ -79,7 +75,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Save cache
 	 *
-	 * @access public
 	 * @param string  $key	 Cache key identifier
 	 * @param mixed	  $value Data to save
 	 * @param integer $ttl	 Time to live
@@ -95,7 +90,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Delete from cache
 	 *
-	 * @access public
 	 * @param string $key Cache key
 	 * @return boolean
 	 */
@@ -107,7 +101,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Clean cache
 	 *
-	 * @access public
 	 * @return boolean
 	 * @see Redis::flushDB()
 	 */
@@ -119,7 +112,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache driver info
 	 *
-	 * @access public
 	 * @param string $type Not supported in Redis. Only included in order to offer a
 	 *					   consistent cache API.
 	 * @return array
@@ -133,7 +125,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache metadata
 	 *
-	 * @access public
 	 * @param string $key Cache key
 	 * @return array
 	 */
@@ -153,7 +144,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Check if Redis driver is supported
 	 *
-	 * @access public
 	 * @return boolean
 	 */
 	public function is_supported()
@@ -166,10 +156,7 @@ class CI_Cache_redis extends CI_Driver
 		}
 		else
 		{
-			log_message(
-				'error',
-				'The Redis extension must be loaded to use Redis cache.'
-			);
+			log_message('error', 'The Redis extension must be loaded to use Redis cache.');
 
 			return FALSE;
 		}
@@ -182,7 +169,6 @@ class CI_Cache_redis extends CI_Driver
 	 * Loads Redis config file if present. Will halt execution if a Redis connection
 	 * can't be established.
 	 *
-	 * @access private
 	 * @return void
 	 * @see Redis::connect()
 	 */
