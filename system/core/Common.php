@@ -132,9 +132,11 @@ if ( ! function_exists('is_really_writable'))
 */
 if ( ! function_exists('load_class'))
 {
-	function &load_class($class, $directory = 'libraries', $prefix = 'CI_')
+	function &load_class($class, $directory = 'libraries', $prefix = 'CI_', $clear_static = false)
 	{
 		static $_classes = array();
+		if ($clear_static)
+			$_classes = array();
 
 		// Does the class exist? If so, we're done...
 		if (isset($_classes[$class]))
