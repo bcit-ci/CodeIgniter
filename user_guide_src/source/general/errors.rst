@@ -31,6 +31,8 @@ application/errors/error_general.php
 The optional parameter $status_code determines what HTTP status code
 should be sent with the error.
 
+Returns string with error page.
+
 show_404('page' [, 'log_error'])
 ==================================
 
@@ -45,6 +47,8 @@ messages if controllers are not found.
 
 CodeIgniter automatically logs any show_404() calls. Setting the
 optional second parameter to FALSE will skip logging.
+
+At the end of function is outputed error page and "exit" is called.
 
 log_message('level', 'message')
 ================================
