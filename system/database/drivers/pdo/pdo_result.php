@@ -46,7 +46,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return $this->result_id->rowCount();
+		return -1;//$this->result_id->rowCount();
 	}
 
 	// --------------------------------------------------------------------
