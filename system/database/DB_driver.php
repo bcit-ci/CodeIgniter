@@ -812,7 +812,10 @@ class CI_DB_driver {
 		$retval = array();
 		$query = $this->query($sql);
 
-		if ($query->num_rows() > 0)
+		// Determine the num_rows for PDO if necessary
+		$num_rows = ($this->dbdriver == 'pdo') ? $query->result_id->rowCount() : $query->num_rows();
+
+		if ($num_rows > 0)
 		{
 			foreach ($query->result_array() as $row)
 			{
