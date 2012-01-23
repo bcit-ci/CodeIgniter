@@ -236,10 +236,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Change the backtick(s) for Postgre
 			$sql = str_replace('`', '"', $sql);
 		}
-		elseif (strpos($this->hostname, 'mysql') !== FALSE)
+		elseif (strpos($this->hostname, 'sqlite') !== FALSE)
 		{
 			// Change the backtick(s) for SQLite
-			$sql = str_replace('`', ' ', $sql);
+			$sql = str_replace('`', '', $sql);
 		}
 
 		return $sql;
@@ -455,9 +455,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		// Analog function to show all tables in postgre
 		if (strpos($this->hostname, 'pgsql') !== FALSE)
 		{
+			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
 		else
