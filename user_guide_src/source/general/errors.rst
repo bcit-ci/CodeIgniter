@@ -31,7 +31,7 @@ application/errors/error_general.php
 The optional parameter $status_code determines what HTTP status code
 should be sent with the error.
 
-Returns strings with error page.
+Returns string with error page.
 
 show_404('page' [, 'log_error'])
 ==================================
