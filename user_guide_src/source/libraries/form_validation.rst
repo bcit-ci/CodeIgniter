@@ -139,7 +139,6 @@ this code and save it to your applications/controllers/ folder::
 			}
 		}
 	}
-	?>
 
 Try it!
 =======
@@ -240,7 +239,6 @@ Your controller should now look like this::
 			}
 		}
 	}
-	?>
 
 Now submit the form with the fields blank and you should see the error
 messages. If you submit the form with all the fields populated you'll
@@ -443,7 +441,6 @@ Here's how your controller should now look::
 		}
 
 	}
-	?>
 
 Reload your form and submit it with the word "test" as the username. You
 can see that the form field data was passed to your callback function
@@ -466,7 +463,7 @@ Setting Error Messages
 ======================
 
 All of the native error messages are located in the following language
-file: language/english/form_validation_lang.php
+file: system/language/english/form_validation_lang.php
 
 To set your own custom message you can either edit that file, or use the
 following function::
@@ -476,8 +473,18 @@ following function::
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
 
-If you include %s in your error string, it will be replaced with the
-"human" name you used for your field when you set your rules.
+If you'd like to include a field's "human" name or the optional 
+parameter some rules allow for (such as max_length), you can add the 
+**{field}** and **{param}** tags to your message, respectively.
+
+	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
+
+On a field with the human name Username and a rule of min_length[5], an
+error would display: "Username must have at least 5 characters."
+
+.. note:: The old method of using **%s** in your error messages will
+still work, however it will override the tags above. You should use
+one or the other.
 
 In the "callback" example above, the error message was set by passing
 the name of the function::
@@ -571,7 +578,7 @@ Try it! Change your form so that it looks like this::
 If there are no errors, nothing will be shown. If there is an error, the
 message will appear.
 
-**Important Note:** If you use an array as the name of a form field, you
+.. note:: **Important Note:** If you use an array as the name of a form field, you
 must supply it as an array to the function. Example::
 
 	<?php echo form_error('options[size]'); ?>
@@ -723,7 +730,6 @@ function named signup. Here's what your class might look like::
 	      }
 	   }
 	}
-	?>
 
 In your validation config file, you will name your rule group
 member/signup::

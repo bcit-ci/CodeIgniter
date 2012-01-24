@@ -503,7 +503,7 @@ class CI_Form_validation {
 				}
 
 				// Build the error message
-				$message = sprintf($line, $this->_translate_fieldname($row['label']));
+				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -651,7 +651,7 @@ class CI_Form_validation {
 				}
 
 				// Build the error message
-				$message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
+				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']), $param);
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -691,6 +691,27 @@ class CI_Form_validation {
 		}
 
 		return $fieldname;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Build an error message using the field and param.
+	 *
+	 * @param	string	The error message line
+	 * @param	string	A field's human name
+	 * @param	mixed	A rule's optional parameter
+	 * @return	string
+	 */
+	protected function _build_error_msg($line, $field = '', $param = '')
+	{
+		// Check for %s in the string for legacy support.
+		if (strpos($line, '%s') !== false)
+		{
+			return sprintf($line, $field, $param);
+		}
+		
+		return str_replace(array('{field}', '{param}'), array($field, $param), $line);
 	}
 
 	// --------------------------------------------------------------------
