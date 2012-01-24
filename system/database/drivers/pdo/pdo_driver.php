@@ -105,7 +105,7 @@ class CI_DB_pdo_driver extends CI_DB {
 					break;
 			}
 		}
-		
+
 		// Clause and character used for LIKE escape sequences
 		if ($this->provider == 'mysql')
 		{
@@ -115,7 +115,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
-		elseif (strpos($this->hostname, 'odbc') !== FALSE)
+		elseif ($this->provider == 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 			$this->_like_escape_chr = '!';
@@ -261,7 +261,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql = $this->_prep_query($sql);
 
 		$result_id = $this->conn_id->query($sql);
-		
+
 		if (is_object($result_id))
 		{
 			$this->affect_rows = $result_id->rowCount();
@@ -287,12 +287,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _prep_query($sql)
 	{
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ($this->provider == 'pgsql')
 		{
 			// Change the backtick(s) for Postgre
 			$sql = str_replace('`', '"', $sql);
 		}
-		elseif (strpos($this->hostname, 'sqlite') !== FALSE)
+		elseif ($this->provider == 'sqlite')
 		{
 			// Change the backtick(s) for SQLite
 			$sql = str_replace('`', '', $sql);
@@ -444,7 +444,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function insert_id($name=NULL)
 	{
 		//Convenience method for postgres insertid
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ($this->provider == 'pgsql')
 		{
 			$v = $this->_version();
 
@@ -485,7 +485,9 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$sql   = $this->_count_string . $this->_protect_identifiers('numrows') .' FROM ';
+		$sql  .= $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)
 		{
@@ -511,7 +513,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ($this->provider == 'pgsql')
 		{
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
@@ -842,7 +844,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if (strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
+		if ($this->provider == 'cubrid' or $this->provider == 'sqlite')
 		{
 			if ($offset == 0)
 			{

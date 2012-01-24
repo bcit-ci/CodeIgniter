@@ -350,7 +350,7 @@ class CI_DB_driver {
 
 			// Grab the error number and message now, as we might run some
 			// additional queries before displaying the error
-			$error_no = $this->_error_number();
+			$error_no  = $this->_error_number();
 			$error_msg = $this->_error_message();
 
 			// Log errors
@@ -1152,7 +1152,7 @@ class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
-	private function _cache_init()
+	public function _cache_init()
 	{
 		if (is_object($this->CACHE) AND class_exists('CI_DB_Cache'))
 		{
@@ -1279,7 +1279,7 @@ class CI_DB_driver {
 	 * @param	bool
 	 * @return	string
 	 */
-	private function _protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
+	protected function _protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
 	{
 		if ( ! is_bool($protect_identifiers))
 		{
