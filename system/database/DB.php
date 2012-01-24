@@ -82,7 +82,6 @@ function &DB($params = '', $active_record_override = NULL)
 		$params = array(
 				'dbdriver'	=> $dns['scheme'],
 				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
-				'hostport'	=> (isset($dns['port'])) ? rawurldecode($dns['port']) : '',
 				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
 				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
 				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
@@ -92,7 +91,6 @@ function &DB($params = '', $active_record_override = NULL)
 		if (isset($dns['query']))
 		{
 			parse_str($dns['query'], $extra);
-
 			foreach ($extra as $key => $val)
 			{
 				// booleans please
@@ -143,7 +141,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB     = new $driver($params);
+	$DB = new $driver($params);
 
 	if ($DB->autoinit == TRUE)
 	{

@@ -294,7 +294,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				// Extract any aliases that might exist. We use this information
 				// in the _protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
-				$this->ar_from[] = $val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->ar_from[] = $val = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
 
 				if ($this->ar_caching === TRUE)
 				{
