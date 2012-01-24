@@ -119,11 +119,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
-					if (strpos($this->db->hostname, 'pgsql') !== FALSE && in_array($attributes['TYPE'], $numeric))
-					{
-						// Do nothing
-					}
-					else
+					if ( ! ($this->db->provider == 'pgsql' && in_array($attributes['TYPE'], $numeric)))
 					{
 						$sql .= '('.$attributes['CONSTRAINT'].')';
 					}
