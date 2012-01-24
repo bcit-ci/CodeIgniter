@@ -43,6 +43,8 @@
 class CI_DB_pdo_driver extends CI_DB {
 
 	var $dbdriver = 'pdo';
+	var $pdo_driver = '';
+	var $dsn = '';
 
 	// the character used to excape - not necessary for PDO
 	var $_escape_char = '';
@@ -64,39 +66,44 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 		
-		// clause and character used for LIKE escape sequences
-		if (strpos($this->hostname, 'mysql') !== FALSE)
+		$host = explode(":", $this->hostname);
+		$this->pdo_driver = $host[0];
+		
+		$this->dsn = $this->hostname;
+		
+		switch($this->pdo_driver)
 		{
-			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '';
+			case "mysql":
+				$this->_like_escape_str = '';
+				$this->_like_escape_chr = '';
+				
+				//Prior to this version, the charset can't be set in the dsn
+				if(is_php('5.3.6'))
+				{
+					$this->dsn .= ";charset={$this->char_set}";
+				}
+				
+				//Set the charset with the connection options
+				$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
+			break;
 			
-			//Prior to this version, the charset can't be set in the dsn
-			if(is_php('5.3.6'))
-			{
-				$this->hostname .= ";charset={$this->char_set}";
-			}
+			case "odbc":
+				$this->_like_escape_str = " {escape '%s'} ";
+				$this->_like_escape_chr = '!';
+			break;
 			
-			//Set the charset with the connection options
-			$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
-		}
-		else if (strpos($this->hostname, 'odbc') !== FALSE)
-		{
-			$this->_like_escape_str = " {escape '%s'} ";
-			$this->_like_escape_chr = '!';
-		}
-		else
-		{
-			$this->_like_escape_str = " ESCAPE '%s' ";
-			$this->_like_escape_chr = '!';
+			case "sqlite":
+				
+			break;
+			
+			default:
+				$this->_like_escape_str = " ESCAPE '%s' ";
+				$this->_like_escape_chr = '!';
+			break;
 		}
 		
-		if (strpos($this->hostname, 'sqlite') === FALSE)
-		{
-			$this->hostname .= ";dbname=".$this->database;
-		}
-		
+		$this->dsn .= ";dbname=".$this->database;
 		$this->trans_enabled = FALSE;
-
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
@@ -110,7 +117,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 		
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		return new PDO($this->dsn, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
@@ -126,7 +133,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
 	
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		return new PDO($this->dsn, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
@@ -379,7 +386,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function insert_id($name=NULL)
 	{
 		//Convenience method for postgres insertid
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ($this->pdo_driver === "pgsql")
 		{
 			$v = $this->_version();
 
@@ -769,7 +776,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if (strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
+		if ($this->pdo_driver === "cubrid" || $this->pdo_driver === "sqlite")
 		{
 			if ($offset == 0)
 			{
