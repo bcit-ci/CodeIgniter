@@ -823,7 +823,7 @@ class CI_DB_driver {
 		{
 			foreach ($query->result_array() as $row)
 			{
-				if (in_array(strtolower('table_name'), array_map('strtolower', array_keys($row))))
+				if (in_array('table_name', array_map('strtolower', array_keys($row))))
 				{
 					$retval[] = ($this->dbdriver == 'oci8') ? $row['TABLE_NAME'] : $row['table_name'];
 				}
