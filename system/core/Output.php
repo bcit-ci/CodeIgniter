@@ -305,6 +305,9 @@ class CI_Output {
 	 */
 	public function _display($output = '')
 	{
+		
+
+
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
@@ -355,7 +358,36 @@ class CI_Output {
 			&& extension_loaded('zlib')
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
-			ob_start('ob_gzhandler');
+			if (isset($CI))
+			{
+				ob_start('ob_gzhandler');
+			}
+			else
+			{
+				// If $CI doesn't exist then we know we're serving up
+				// a cached file.  Since cached files are already gzip
+				// encoded, 
+				ini_set('zlib.output_compression','Off');
+				header('Content-Encoding: gzip');
+				header('Content-Length: '.strlen($output));
+				
+				// Simply echo the gzipped content straight from the
+				// cache file and exit.
+				echo $output;
+				log_message('debug', 'Final (compressed) output sent to browser');
+				log_message('debug', 'Total execution time: '.$elapsed);
+				return TRUE;
+			}
+		}
+		elseif ( ! isset($CI))
+		{
+			// If output compression is not enabled or supported
+			// yet we are serving up a compressed cached file, we need
+			// to decompress the file first before serving it.
+			echo gzinflate(substr($output,10,-8)); 
+			log_message('debug', 'Final (uncompressed) output sent to browser');
+			log_message('debug', 'Total execution time: '.$elapsed);
+			return TRUE;
 		}
 
 		// --------------------------------------------------------------------
@@ -367,19 +399,6 @@ class CI_Output {
 			{
 				@header($header[0], $header[1]);
 			}
-		}
-
-		// --------------------------------------------------------------------
-
-		// Does the $CI object exist?
-		// If not we know we are dealing with a cache file so we'll
-		// simply echo out the data and exit.
-		if ( ! isset($CI))
-		{
-			echo $output;
-			log_message('debug', 'Final output sent to browser');
-			log_message('debug', 'Total execution time: '.$elapsed);
-			return TRUE;
 		}
 
 		// --------------------------------------------------------------------
@@ -454,7 +473,7 @@ class CI_Output {
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$output);
+			fwrite($fp, $expire.'TS--->'.gzencode($output,6));
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -464,6 +483,19 @@ class CI_Output {
 		}
 		fclose($fp);
 		@chmod($cache_path, FILE_WRITE_MODE);
+
+ini_set('zlib.output_compression','Off');
+
+// compress data
+$gzipoutput = gzencode($output,6);
+
+// various headers, those with # are mandatory
+header('Content-Encoding: gzip'); #
+header('Content-Length: '.strlen($gzipoutput)); #
+
+// output data
+echo $gzipoutput;
+die();
 
 		log_message('debug', 'Cache file written: '.$cache_path);
 		
@@ -495,7 +527,9 @@ class CI_Output {
 
 		flock($fp, LOCK_SH);
 
-		$cache = (filesize($filepath) > 0) ? fread($fp, filesize($filepath)) : '';
+		$cache = (filesize($filepath) > 0)
+			? fread($fp, filesize($filepath))
+			: '';
 
 		flock($fp, LOCK_UN);
 		fclose($fp);
@@ -522,7 +556,7 @@ class CI_Output {
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified,$expire);
 		}
-
+		
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
@@ -540,8 +574,9 @@ class CI_Output {
 	 * @return	void
 	 */
 	public function set_cache_header($last_modified,$expiration)
-	{		
-        $max_age = $expiration - $_SERVER['REQUEST_TIME'];
+	{	
+		return TRUE; // TEMPORARY;	
+		$max_age = $expiration - $_SERVER['REQUEST_TIME'];
 
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
 		{
