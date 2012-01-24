@@ -437,35 +437,40 @@ class CI_Output {
 			log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
 		}
-
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
-
-		$cache_path .= md5($uri);
-
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+				
+		$uri_segments = explode('/',trim($CI->uri->uri_string(),'/'));
+		$controller	= $uri_segments[0];
+		unset($uri_segments[0]);
+		$cache_file	= $cache_path.$controller.'/'.preg_replace('{\.+}','.',preg_replace('{[^a-zA-Z0-9.]}','-',implode('.',$uri_segments) . '.' . $_SERVER['QUERY_STRING']) . '.' . crc32($CI->uri->uri_string() . $_SERVER['QUERY_STRING']));
+	
+		if ( ! is_dir($cache_path .'/'. $controller))
 		{
-			log_message('error', 'Unable to write cache file: '.$cache_path);
+			mkdir($cache_path .'/'. $controller, 0744);
+		}
+
+		if ( ! $fp = fopen($cache_file, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+		{
+			log_message('error', 'Unable to write cache file: '.$cache_file);
 			return;
 		}
 
 		$expire = time() + ($this->cache_expiration * 60);
-
+		
 		if (flock($fp, LOCK_EX))
 		{
 			fwrite($fp, $expire.'TS--->'.$output);
 			flock($fp, LOCK_UN);
+
 		}
 		else
 		{
-			log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
+			log_message('error', 'Unable to secure a file lock for file at: '.$cache_file);
 			return;
 		}
 		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
+		@chmod($cache_file, FILE_WRITE_MODE);
 
-		log_message('debug', 'Cache file written: '.$cache_path);
+		log_message('debug', 'Cache file written: '.$cache_file);
 		
 		// Send HTTP cache-control headers to browser to match file cache settings.
 		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
@@ -484,9 +489,11 @@ class CI_Output {
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
-		// Build the file path. The file name is an MD5 hash of the full URI
-		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
-		$filepath = $cache_path.md5($uri);
+		// Build the file path.
+		$uri_segments = explode('/',trim($URI->uri_string,'/'));
+		$controller	= $uri_segments[0];
+		unset($uri_segments[0]);
+		$filepath = $cache_path . $controller.'/'.preg_replace('{\.+}','.',preg_replace('{[^a-zA-Z0-9.]}','-',implode('.',$uri_segments) . '.' . $_SERVER['QUERY_STRING']) . '.' . crc32($URI->uri_string . $_SERVER['QUERY_STRING']));
 
 		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
 		{
