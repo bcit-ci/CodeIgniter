@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,14 +18,12 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Initialize the database
@@ -42,17 +40,15 @@ function &DB($params = '', $active_record_override = NULL)
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+			AND ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
-			if ( ! file_exists($file_path = APPPATH.'config/database.php'))
-			{
-				show_error('The configuration file database.php does not exist.');
-			}
+			show_error('The configuration file database.php does not exist.');
 		}
 
 		include($file_path);
 
-		if ( ! isset($db) OR count($db) == 0)
+		if ( ! isset($db) OR count($db) === 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
@@ -78,33 +74,31 @@ function &DB($params = '', $active_record_override = NULL)
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
-
 		if (($dns = @parse_url($params)) === FALSE)
 		{
 			show_error('Invalid DB Connection String');
 		}
 
 		$params = array(
-							'dbdriver'	=> $dns['scheme'],
-							'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
-							'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
-							'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
-							'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
-						);
+				'dbdriver'	=> $dns['scheme'],
+				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
+				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
+				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
+				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
+			);
 
 		// were additional config items set?
 		if (isset($dns['query']))
 		{
 			parse_str($dns['query'], $extra);
-
 			foreach ($extra as $key => $val)
 			{
 				// booleans please
-				if (strtoupper($val) == "TRUE")
+				if (strtoupper($val) === 'TRUE')
 				{
 					$val = TRUE;
 				}
-				elseif (strtoupper($val) == "FALSE")
+				elseif (strtoupper($val) === 'FALSE')
 				{
 					$val = FALSE;
 				}
@@ -114,17 +108,15 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 	}
 
-	// No DB specified yet?  Beat them senseless...
+	// No DB specified yet? Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
 
-	// Load the DB classes.  Note: Since the active record class is optional
+	// Load the DB classes. Note: Since the active record class is optional
 	// we need to dynamically create a class that extends proper parent class
 	// based on whether we're using the active record class or not.
-	// Kudos to Paul for discovering this clever use of eval()
-
 	if ($active_record_override !== NULL)
 	{
 		$active_record = $active_record_override;
@@ -135,18 +127,14 @@ function &DB($params = '', $active_record_override = NULL)
 	if ( ! isset($active_record) OR $active_record == TRUE)
 	{
 		require_once(BASEPATH.'database/DB_active_rec.php');
-
 		if ( ! class_exists('CI_DB'))
 		{
-			eval('class CI_DB extends CI_DB_active_record { }');
+			class CI_DB extends CI_DB_active_record { }
 		}
 	}
-	else
+	elseif ( ! class_exists('CI_DB'))
 	{
-		if ( ! class_exists('CI_DB'))
-		{
-			eval('class CI_DB extends CI_DB_driver { }');
-		}
+		class CI_DB extends CI_DB_driver { }
 	}
 
 	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
@@ -167,8 +155,6 @@ function &DB($params = '', $active_record_override = NULL)
 
 	return $DB;
 }
-
-
 
 /* End of file DB.php */
 /* Location: ./system/database/DB.php */
