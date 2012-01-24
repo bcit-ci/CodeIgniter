@@ -484,21 +484,8 @@ class CI_Output {
 		fclose($fp);
 		@chmod($cache_path, FILE_WRITE_MODE);
 
-ini_set('zlib.output_compression','Off');
-
-// compress data
-$gzipoutput = gzencode($output,6);
-
-// various headers, those with # are mandatory
-header('Content-Encoding: gzip'); #
-header('Content-Length: '.strlen($gzipoutput)); #
-
-// output data
-echo $gzipoutput;
-die();
-
 		log_message('debug', 'Cache file written: '.$cache_path);
-		
+
 		// Send HTTP cache-control headers to browser to match file cache settings.
 		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
 	}
@@ -556,7 +543,7 @@ die();
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified,$expire);
 		}
-		
+
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
@@ -575,7 +562,6 @@ die();
 	 */
 	public function set_cache_header($last_modified,$expiration)
 	{	
-		return TRUE; // TEMPORARY;	
 		$max_age = $expiration - $_SERVER['REQUEST_TIME'];
 
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
