@@ -227,6 +227,9 @@ function &DB($params = '', $active_record_override = NULL)
 
 			$params['dsn'] .= $params['database'];
 		}
+
+		// Clean up
+		unset($dbname, $database);
 	}
 
 	// Load the DB classes. Note: Since the active record class is optional

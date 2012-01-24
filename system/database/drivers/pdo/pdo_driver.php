@@ -128,7 +128,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
-				$this->display_error($e->getMessage(), TRUE);
+				$this->display_error($e->getMessage(), '', TRUE);
 			}
 
 			return FALSE;
