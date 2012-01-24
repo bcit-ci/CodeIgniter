@@ -28,11 +28,11 @@
 /**
  * Initialize the database
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- * @param 	string
- * @param 	bool	Determines if active record should be used or not
+ * @category    Database
+ * @author      EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
+ * @param       string
+ * @param       bool	Determines if active record should be used or not
  */
 function &DB($params = '', $active_record_override = NULL)
 {
@@ -69,10 +69,6 @@ function &DB($params = '', $active_record_override = NULL)
 		// Post-process the configuration, for PDO
 		if ($params['dbdriver'] == 'pdo')
 		{
-			// Define database(s) which need to specify the dbname or Database
-			$dbname   = array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid');
-			$database = array('ibm', 'sqlsrv');
-
 			// Hostname generally would have this prototype
 			// $db['hostname'] = 'provider:host(/Server(/DSN))=hostname(/DSN);';
 			// We need to get the prefix (provider used by PDO).
