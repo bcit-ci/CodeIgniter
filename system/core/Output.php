@@ -437,35 +437,47 @@ class CI_Output {
 			log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
 		}
-
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
-
-		$cache_path .= md5($uri);
-
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+<<<<<<< HEAD
+		
+=======
+				
+		$uri_segments = explode('/',trim($CI->uri->uri_string(),'/'));
+		$controller	= $uri_segments[0];
+		unset($uri_segments[0]);
+		$cache_file	= $cache_path.$controller.'/'.preg_replace('{\.+}','.',preg_replace('{[^a-zA-Z0-9.]}','-',implode('.',$uri_segments) . '.' . $_SERVER['QUERY_STRING']) . '.' . crc32($CI->uri->uri_string() . $_SERVER['QUERY_STRING']));
+	
+		if ( ! is_dir($cache_path .'/'. $controller))
 		{
-			log_message('error', 'Unable to write cache file: '.$cache_path);
+			mkdir($cache_path .'/'. $controller, 0744);
+		}
+>>>>>>> d0e6af0c9d6bbe168b494b7f291dd37b53cd6a30
+
+		if ( ! $fp = fopen($cache_file, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+		{
+			log_message('error', 'Unable to write cache file: '.$cache_file);
 			return;
 		}
 
 		$expire = time() + ($this->cache_expiration * 60);
-
+		
 		if (flock($fp, LOCK_EX))
 		{
 			fwrite($fp, $expire.'TS--->'.$output);
 			flock($fp, LOCK_UN);
+
 		}
 		else
 		{
-			log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
+			log_message('error', 'Unable to secure a file lock for file at: '.$cache_file);
 			return;
 		}
 		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
+		@chmod($cache_file, FILE_WRITE_MODE);
 
-		log_message('debug', 'Cache file written: '.$cache_path);
+		log_message('debug', 'Cache file written: '.$cache_file);
+		
+		// Send HTTP cache-control headers to browser to match file cache settings.
+		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
 	}
 
 	// --------------------------------------------------------------------
@@ -481,9 +493,11 @@ class CI_Output {
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
-		// Build the file path. The file name is an MD5 hash of the full URI
-		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
-		$filepath = $cache_path.md5($uri);
+		// Build the file path.
+		$uri_segments = explode('/',trim($URI->uri_string,'/'));
+		$controller	= $uri_segments[0];
+		unset($uri_segments[0]);
+		$filepath = $cache_path . $controller.'/'.preg_replace('{\.+}','.',preg_replace('{[^a-zA-Z0-9.]}','-',implode('.',$uri_segments) . '.' . $_SERVER['QUERY_STRING']) . '.' . crc32($URI->uri_string . $_SERVER['QUERY_STRING']));
 
 		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
 		{
@@ -502,19 +516,58 @@ class CI_Output {
 		{
 			return FALSE;
 		}
+		
+		$last_modified = filemtime($cache_path);
+		$expire = trim(str_replace('TS--->', '', $match[1]));
 
-		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
+		// Has the file expired?
+		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
 		{
+			// If so we'll delete it.
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
+		}
+		else
+		{	
+			// Or else send the HTTP cache control headers.
+			$this->set_cache_header($last_modified,$expire);
 		}
 
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
+	}
+	
+	
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the HTTP headers to match the server-side file cache settings
+	 * in order to reduce bandwidth.
+	 *
+	 * @param 	int		timestamp of when the page was last modified
+	 * @param 	int		timestamp of when should the requested page expire from cache
+	 * @return	void
+	 */
+	public function set_cache_header($last_modified,$expiration)
+	{		
+        $max_age = $expiration - $_SERVER['REQUEST_TIME'];
+
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit;
+		}
+		else
+		{
+			header('Pragma: public'); 
+			header('Cache-Control: max-age=' . $max_age . ', public');
+			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
+			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
+		}
 	}
 
 }
