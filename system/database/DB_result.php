@@ -38,14 +38,14 @@
  */
 class CI_DB_result {
 
-	public $conn_id				= NULL;
-	public $result_id			= NULL;
-	public $result_array			= array();
-	public $result_object			= array();
-	public $custom_result_object		= array();
-	public $current_row			= 0;
-	public $num_rows			= 0;
-	public $row_data			= NULL;
+	public $conn_id	             = NULL;
+	public $result_id            = NULL;
+	public $result_array         = array();
+	public $result_object        = array();
+	public $custom_result_object = array();
+	public $current_row          = 0;
+	public $num_rows             = 0;
+	public $row_data             = NULL;
 
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
@@ -55,9 +55,14 @@ class CI_DB_result {
 	 */
 	public function result($type = 'object')
 	{
-		if ($type === 'array') return $this->result_array();
-		elseif ($type === 'object') return $this->result_object();
-		else return $this->custom_result_object($type);
+		if (($type === 'array' OR $type === 'object') && ($method = 'result_'.$type))
+		{
+			return $this->$method();
+		}
+		else 
+		{
+			return $this->custom_result_object($type);
+		}
 	}
 
 	// --------------------------------------------------------------------
