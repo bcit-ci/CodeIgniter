@@ -823,9 +823,9 @@ class CI_DB_driver {
 		{
 			foreach ($query->result_array() as $row)
 			{
-				if (array_key_exists('table_name', $row))
+				if (in_array(strtolower('table_name'), array_map('strtolower', array_keys($row))))
 				{
-					$retval[] = $row['table_name'];
+					$retval[] = ($this->dbdriver == 'oci8') ? $row['TABLE_NAME'] : $row['table_name'];
 				}
 				else
 				{
@@ -1444,8 +1444,6 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-
-
 }
 
 /* End of file DB_driver.php */
