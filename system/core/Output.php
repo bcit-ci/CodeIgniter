@@ -466,6 +466,9 @@ class CI_Output {
 		@chmod($cache_path, FILE_WRITE_MODE);
 
 		log_message('debug', 'Cache file written: '.$cache_path);
+		
+		// Send HTTP cache-control headers to browser to match file cache settings.
+		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
 	}
 
 	// --------------------------------------------------------------------
@@ -502,19 +505,58 @@ class CI_Output {
 		{
 			return FALSE;
 		}
+		
+		$last_modified = filemtime($cache_path);
+		$expire = trim(str_replace('TS--->', '', $match[1]));
 
-		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
+		// Has the file expired?
+		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
 		{
+			// If so we'll delete it.
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
+		}
+		else
+		{	
+			// Or else send the HTTP cache control headers.
+			$this->set_cache_header($last_modified,$expire);
 		}
 
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
+	}
+	
+	
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the HTTP headers to match the server-side file cache settings
+	 * in order to reduce bandwidth.
+	 *
+	 * @param 	int		timestamp of when the page was last modified
+	 * @param 	int		timestamp of when should the requested page expire from cache
+	 * @return	void
+	 */
+	public function set_cache_header($last_modified,$expiration)
+	{		
+        $max_age = $expiration - $_SERVER['REQUEST_TIME'];
+
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit;
+		}
+		else
+		{
+			header('Pragma: public'); 
+			header('Cache-Control: max-age=' . $max_age . ', public');
+			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
+			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
+		}
 	}
 
 }
