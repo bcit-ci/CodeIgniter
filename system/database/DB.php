@@ -186,7 +186,8 @@ function &DB($params = '', $active_record_override = NULL)
 	// Post-process the configuration, for PDO
 	if ($params['dbdriver'] == 'pdo')
 	{
-		// Define database(s) which need to specify the dbname or Database
+		// Define database(s) which need to specify the charset, dbname or Database
+		$charset  = array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci');
 		$dbname   = array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid');
 		$database = array('ibm', 'sqlsrv');
 
@@ -224,6 +225,12 @@ function &DB($params = '', $active_record_override = NULL)
 			$params['dsn'] .= $params['database'];
 		}
 
+		// Adding charset if necessary
+		if (in_array($params['provider'], $charset) && array_key_exists('char_set', $params))
+		{
+			$params['dsn'] .= 'charset='.$params['char_set'].';';
+		}
+
 		// Clean up
 		unset($dbname, $database);
 	}
@@ -255,7 +262,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB = new $driver($params);
+	$DB     = new $driver($params);
 
 	if ($DB->autoinit == TRUE)
 	{

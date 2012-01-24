@@ -104,8 +104,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
-		$this->options['PDO::ATTR_ERRMODE']    = PDO::ERRMODE_SILENT;
-		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
+		$this->options[PDO::ATTR_ERRMODE]    = PDO::ERRMODE_SILENT;
+		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
 	
 		return $this->pdo_connect();
 	}
@@ -120,6 +120,13 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function pdo_connect()
 	{
+		// Safety for MySQL char-set
+		if ($this->provider == 'mysql' && is_php('5.3.6'))
+		{
+			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+		}
+
+		// Connecting...
 		try 
 		{
 			$db = new PDO($this->dsn, $this->username, $this->password, $this->options);
@@ -184,7 +191,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_set_charset($charset, $collation)
 	{
-		// @todo - add support if needed
 		return TRUE;
 	}
 
