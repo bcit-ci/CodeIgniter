@@ -15,6 +15,9 @@ Replace all files and directories in your "system" folder and replace
 your index.php file. If any modifications were made to your index.php
 they will need to be made fresh in this new one.
 
+.. note:: If you have any custom developed files in these folders please
+	make copies of them first.
+
 Step 2: Change References to the SHA Library
 ============================================
 
@@ -23,6 +26,8 @@ Alter your code to use the native `sha1()` PHP function to generate a sha1 hash.
 
 Additionally, the `sha1()` method in the :doc:`Encryption Library <../libraries/encryption>` has been removed.
 
+Step 3: Remove $autoload['core'] from your config/autoload.php
+==============================================================
 
-.. note:: If you have any custom developed files in these folders please
-	make copies of them first.
+Use of the `$autoload['core']` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
+Move any entries that you might have listed there to `$autoload['libraries']` instead.

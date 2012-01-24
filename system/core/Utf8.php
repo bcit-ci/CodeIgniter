@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
@@ -47,20 +47,19 @@ class CI_Utf8 {
 	 */
 	public function __construct()
 	{
-		log_message('debug', "Utf8 Class Initialized");
+		log_message('debug', 'Utf8 Class Initialized');
 
 		global $CFG;
 
 		if (
 			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
 			&& function_exists('iconv')			// iconv must be installed
-			&& ini_get('mbstring.func_overload') !== 1	// Multibyte string function overloading cannot be enabled
-			&& $CFG->item('charset') == 'UTF-8'			// Application charset must be UTF-8
+			&& @ini_get('mbstring.func_overload') != 1	// Multibyte string function overloading cannot be enabled
+			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
 			)
 		{
-			log_message('debug', "UTF-8 Support Enabled");
-
 			define('UTF8_ENABLED', TRUE);
+			log_message('debug', 'UTF-8 Support Enabled');
 
 			// set internal encoding for multibyte string functions if necessary
 			// and set a flag so we don't have to repeatedly use extension_loaded()
@@ -77,8 +76,8 @@ class CI_Utf8 {
 		}
 		else
 		{
-			log_message('debug', "UTF-8 Support Disabled");
 			define('UTF8_ENABLED', FALSE);
+			log_message('debug', 'UTF-8 Support Disabled');
 		}
 	}
 
@@ -134,18 +133,14 @@ class CI_Utf8 {
 	{
 		if (function_exists('iconv'))
 		{
-			$str = @iconv($encoding, 'UTF-8', $str);
+			return @iconv($encoding, 'UTF-8', $str);
 		}
 		elseif (function_exists('mb_convert_encoding'))
 		{
-			$str = @mb_convert_encoding($str, 'UTF-8', $encoding);
-		}
-		else
-		{
-			return FALSE;
+			return @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
 
-		return $str;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -163,10 +158,7 @@ class CI_Utf8 {
 		return (preg_match('/[^\x00-\x7F]/S', $str) === 0);
 	}
 
-	// --------------------------------------------------------------------
-
 }
-// End Utf8 Class
 
 /* End of file Utf8.php */
 /* Location: ./system/core/Utf8.php */

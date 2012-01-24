@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -85,16 +85,7 @@ if ( ! function_exists('singular'))
 			'/([^u])s$/'			=> '\1',
 		);
 
-		foreach ($singular_rules as $rule => $replacement)
-		{
-			if (preg_match($rule, $result))
-			{
-				$result = preg_replace($rule, $replacement, $result);
-				break;
-			}
-		}
-
-		return $result;
+		return preg_replace(array_keys($singular_values), $singular_values, $result);
 	}
 }
 
@@ -138,16 +129,7 @@ if ( ! function_exists('plural'))
 			'/$/'						=> 's',
 		);
 
-		foreach ($plural_rules as $rule => $replacement)
-		{
-			if (preg_match($rule, $result))
-			{
-				$result = preg_replace($rule, $replacement, $result);
-				break;
-			}
-		}
-
-		return $result;
+		return preg_replace(array_keys($plural_rules), $plural_rules, $result);
 	}
 }
 
@@ -166,9 +148,7 @@ if ( ! function_exists('camelize'))
 {
 	function camelize($str)
 	{
-		$str = 'x'.strtolower(trim($str));
-		$str = ucwords(preg_replace('/[\s_]+/', ' ', $str));
-		return substr(str_replace(' ', '', $str), 1);
+		return substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
 	}
 }
 
