@@ -41,7 +41,7 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 		// Is the config file in the environment folder?
 		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			AND ! file_exists($file_path = APPPATH.'config/database.php'))
+			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
@@ -64,6 +64,33 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		$params = $db[$active_group];
+		unset($db);
+
+		// Post-process the configuration, for PDO
+		if ($params['dbdriver'] == 'pdo')
+		{
+			// Define database(s) which need to specify the dbname or Database
+			$dbname   = array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid');
+			$database = array('ibm', 'sqlsrv');
+
+			// Hostname generally would have this prototype
+			// $db['hostname'] = 'provider:host(/Server(/DSN))=hostname(/DSN);';
+			// We need to get the prefix (provider used by PDO).
+			$provider = '';
+			$dsn      = $params['hostname'];
+
+			if (($fragments = explode(':', $dsn)) && count($fragments) >= 1)
+			{
+				$provider = strtolower(current($fragments));
+			}
+
+			// Add these two variable into our params
+			$params['provider'] = $provider;
+			$params['dsn']      = $dsn;
+
+			// Unset all garbage variable(s)
+			unset($dsn, $provider, $fragments);
+		}
 	}
 	elseif (is_string($params))
 	{
@@ -74,23 +101,25 @@ function &DB($params = '', $active_record_override = NULL)
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
-		if (($dns = @parse_url($params)) === FALSE)
+		if (($dsn = @parse_url($params)) === FALSE)
 		{
 			show_error('Invalid DB Connection String');
 		}
 
 		$params = array(
-				'dbdriver'	=> $dns['scheme'],
-				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
-				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
-				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
-				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
+				'dbdriver' => $dsn['scheme'],
+				'hostname' => (isset($dsn['host'])) ? rawurldecode($dsn['host']) : '',
+				'port'     => (isset($dsn['port'])) ? rawurldecode($dsn['port']) : '',
+				'username' => (isset($dsn['user'])) ? rawurldecode($dsn['user']) : '',
+				'password' => (isset($dsn['pass'])) ? rawurldecode($dsn['pass']) : '',
+				'database' => (isset($dsn['path'])) ? rawurldecode(substr($dsn['path'], 1)) : ''
 			);
 
 		// were additional config items set?
-		if (isset($dns['query']))
+		if (isset($dsn['query']))
 		{
-			parse_str($dns['query'], $extra);
+			parse_str($dsn['query'], $extra);
+
 			foreach ($extra as $key => $val)
 			{
 				// booleans please
@@ -106,12 +135,98 @@ function &DB($params = '', $active_record_override = NULL)
 				$params[$key] = $val;
 			}
 		}
+
+		unset($dsn, $extra, $key, $val);
+
+		// Post-process the configuration, for PDO
+		// This assumed following DSN(s) string has been submitted.
+		// $dsn = 'pdo://username:password@hostname:port/database?provider=pgsql';
+		if ( $params['dbdriver'] == 'pdo')
+		{
+			// Dont waste time, for this invalid string
+			if ( ! array_key_exists('provider', $params))
+			{
+				show_error('Invalid DB Connection String for PDO');
+			}
+
+			// Define database(s) which need to specify the host, port, dbname or Database
+			$host = array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid');
+			$port = array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid');
+
+			// Initial DSN and provider.
+			$provider = strtolower($params['provider']);
+			$dsn      = $provider.':';
+
+			// Assume that typical DSN would contain host
+			if ( ! empty($params['hostname']) && in_array($provider, $host))
+			{
+				$dsn .= 'host='.$params['hostname'].';';
+			}
+
+			// Adding port if necessary
+			if ( ! empty($params['port']))
+			{
+				if (in_array($provider, $port))
+				{
+					$dsn .= 'port='.$params['port'].';';
+				}
+			}
+
+			// Add these two variable into our params
+			$params['provider'] = $provider;
+			$params['dsn']      = $dsn;
+
+			// Unset all garbage variable(s)
+			unset($dsn, $provider, $host, $port);
+		}
 	}
 
 	// No DB specified yet? Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
 		show_error('You have not selected a database type to connect to.');
+	}
+
+	// Post-process the configuration, for PDO
+	if ($params['dbdriver'] == 'pdo')
+	{
+		// Define database(s) which need to specify the dbname or Database
+		$dbname   = array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid');
+		$database = array('ibm', 'sqlsrv');
+
+		// Assume that we need to adding at least database name,
+		// mixed with hostname, into the dsn key, for all necessary
+		// database(s). 
+		if (strpos($params['dsn'], 'dbname') === FALSE && in_array($params['provider'], $dbname))
+		{
+			$params['dsn'] .= 'dbname='.$params['database'].';';
+		}
+		elseif (in_array($params['provider'], $database))
+		{
+			if (stripos($params['dsn'], 'database') === FALSE)
+			{
+				// Some of them, could connect directly via DSN
+				// so, we only catch the "naked" ones
+				if (stripos($params['dsn'], 'dsn') === FALSE)
+				{
+					$params['dsn'] .= 'database='.$params['database'].';';
+				}
+			}
+		}
+		elseif ($params['provider'] == 'sqlite' && $params['dsn'] == 'sqlite:')
+		{
+			if ($params['database'] !== ':memory')
+			{
+				if ( ! file_exists($params['database']))
+				{
+					show_error('Invalid DB Connection String for PDO SQLite');
+				}
+
+				$params['dsn'] .= (strpos($params['database'], DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
+			}
+
+			$params['dsn'] .= $params['database'];
+		}
 	}
 
 	// Load the DB classes. Note: Since the active record class is optional

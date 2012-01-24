@@ -82,7 +82,11 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
-
+	// These are use with PDO
+	var $dsn;
+	var $provider;
+	var $options = array();
+	
 
 	/**
 	 * Constructor.  Accepts one parameter containing the database
