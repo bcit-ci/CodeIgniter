@@ -760,7 +760,30 @@ class CI_DB_driver {
 
 		foreach ($query->result_array() as $row)
 		{
-			$this->data_cache['table_names'][] = isset($row['TABLE_NAME']) ? $row['TABLE_NAME'] : array_shift($row);
+			// Do we know from which column to get the table name?
+			if ( ! isset($key))
+			{
+				if (array_key_exists('table_name', $row))
+				{
+					$key = 'table_name';
+				}
+				elseif (array_key_exists('TABLE_NAME', $row))
+				{
+					$key = 'TABLE_NAME';
+				}
+				else
+				{
+					/* We have no other choice but to just get the first element's key.
+					 * Due to array_shift() accepting it's argument by reference, if
+					 * E_STRICT is on, this would trigger a warning. So we'll have to
+					 * assign it first.
+					 */
+					$key = array_keys($row);
+					$key = array_shift($key);
+				}
+			}
+
+			$this->data_cache['table_names'][] = $row[$key];
 		}
 
 		return $this->data_cache['table_names'];
@@ -809,7 +832,30 @@ class CI_DB_driver {
 
 		foreach ($query->result_array() as $row)
 		{
-			$this->data_cache['field_names'][$table][] = isset($row['COLUMN_NAME']) ? $row['COLUMN_NAME'] : current($row);
+			// Do we know from where to get the column's name?
+			if ( ! isset($key))
+			{
+				if (array_key_exists('column_name', $row))
+				{
+					$key = 'column_name';
+				}
+				elseif (array_key_exists('COLUMN_NAME', $row))
+				{
+					$key = 'COLUMN_NAME';
+				}
+				else
+				{
+					/* We have no other choice but to just get the first element's key.
+					 * Due to array_shift() accepting it's argument by reference, if
+					 * E_STRICT is on, this would trigger a warning. So we'll have to
+					 * assign it first.
+					 */
+					$key = array_keys($row);
+					$key = array_shift($key);
+				}
+			}
+
+			$this->data_cache['field_names'][$table][] = $row[$key];
 		}
 
 		return $this->data_cache['field_names'][$table];
