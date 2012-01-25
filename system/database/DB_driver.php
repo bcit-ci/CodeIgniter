@@ -395,7 +395,7 @@ class CI_DB_driver {
 		if ($this->dbdriver === 'oci8')
 		{
 			$RES->stmt_id		= $this->stmt_id;
-			$RES->curs_id		= NULL;
+			$RES->curs_id		= $this->curs_id;
 			$RES->limit_used	= $this->limit_used;
 			$this->stmt_id		= FALSE;
 		}
