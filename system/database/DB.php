@@ -82,6 +82,7 @@ function &DB($params = '', $active_record_override = NULL)
 		$params = array(
 				'dbdriver'	=> $dns['scheme'],
 				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
+				'port'		=> (isset($dns['port'])) ? rawurldecode($dns['port']) : '',
 				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
 				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
 				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
@@ -104,18 +105,6 @@ function &DB($params = '', $active_record_override = NULL)
 				}
 
 				$params[$key] = $val;
-			}
-		}
-
-		// Post-process the configuration, for PDO
-		// Assuming that the following DSN string format is used:
-		// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
-		if ($params['dbdriver'] == 'pdo')
-		{
-			// Invalid DSN, display an error
-			if ( ! array_key_exists('pdodriver', $params))
-			{
-				show_error('Invalid DB Connection String for PDO');
 			}
 		}
 	}

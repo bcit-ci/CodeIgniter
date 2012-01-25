@@ -84,7 +84,14 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		else
 		{
-			// This one came from DSN string
+			// Invalid DSN, display an error
+			if ( ! array_key_exists('pdodriver', $params))
+			{
+				show_error('Invalid DB Connection String for PDO');
+			}
+
+			// Assuming that the following DSN string format is used:
+			// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
 			$this->pdodriver = strtolower($this->pdodriver);
 			$this->dsn = $this->pdodriver.':';
 
