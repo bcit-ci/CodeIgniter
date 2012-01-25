@@ -577,11 +577,11 @@ class CI_Output {
 	 * @param 	string
 	 * @return	string
 	 */
-	public function minify($output,$type='html')
+	public function minify($output,$type='text/html')
 	{
 		switch ($type)
 		{
-			case 'html':
+			case 'text/html':
 			
 				// Keep track of <pre> <code> and <textarea> tags as
 				// they were before processing.
@@ -594,7 +594,7 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU',$output,$style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->minify($s,'css'), $output);
+					$output = str_replace($s, $this->minify($s,'text/css'), $output);
 				}
 
 				// Replace multiple spaces with a single space.
@@ -614,7 +614,7 @@ class CI_Output {
 			break;
 			
 			
-			case 'css':
+			case 'text/css':
 			
 				// Remove spaces around curly brackets, colons, and semi-colons
 				$output = preg_replace('!\s*(:|;|}|{)\s*!','$1',$output);
