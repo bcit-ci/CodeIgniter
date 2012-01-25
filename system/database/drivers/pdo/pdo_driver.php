@@ -330,12 +330,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _prep_query($sql)
 	{
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ($this->pdodriver === 'pgsql')
 		{
 			// Change the backtick(s) for Postgre
 			$sql = str_replace('`', '"', $sql);
 		}
-		elseif (strpos($this->hostname, 'sqlite') !== FALSE)
+		elseif ($this->pdodriver === 'sqlite')
 		{
 			// Change the backtick(s) for SQLite
 			$sql = str_replace('`', '', $sql);
