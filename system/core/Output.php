@@ -65,6 +65,12 @@ class CI_Output {
 	 */
 	protected $mime_types		= array();
 	/**
+	 * Mime type of the current page
+	 *
+	 * @var string
+	 */
+	protected $mime_type		= 'text/html';
+	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
@@ -217,6 +223,8 @@ class CI_Output {
 			}
 		}
 
+		$this->mime_type = $mime_type;
+		
 		$header = 'Content-Type: '.$mime_type;
 
 		$this->headers[] = array($header, TRUE);
@@ -350,6 +358,18 @@ class CI_Output {
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
+		
+		// --------------------------------------------------------------------
+
+		// Are there any server headers to send?
+		if (count($this->headers) > 0)
+		{
+			foreach ($this->headers as $header)
+			{
+				@header($header[0], $header[1]);
+			}
+		}
+
 
 		// --------------------------------------------------------------------
 
@@ -390,16 +410,6 @@ class CI_Output {
 			return TRUE;
 		}
 
-		// --------------------------------------------------------------------
-
-		// Are there any server headers to send?
-		if (count($this->headers) > 0)
-		{
-			foreach ($this->headers as $header)
-			{
-				@header($header[0], $header[1]);
-			}
-		}
 
 		// --------------------------------------------------------------------
 
@@ -473,7 +483,7 @@ class CI_Output {
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.gzencode($output,6));
+			fwrite($fp, $expire.'TS--->'.$this->mime_type.'MT--->'.gzencode($output,6));
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -521,12 +531,12 @@ class CI_Output {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		// Strip out the embedded timestamp
-		if ( ! preg_match('/(\d+TS--->)/', $cache, $match))
+		// Strip out the embedded timestamp and mime-type
+		if ( ! preg_match('/(\d+TS--->)(.*MT--->)/', $cache, $match))
 		{
 			return FALSE;
 		}
-
+		
 		$last_modified = filemtime($cache_path);
 		$expire = trim(str_replace('TS--->', '', $match[1]));
 
@@ -543,6 +553,9 @@ class CI_Output {
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified,$expire);
 		}
+
+		// Set the HTTP content-type header
+		$this->set_content_type(trim(str_replace('MT--->', '', $match[2])));
 
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
@@ -561,7 +574,7 @@ class CI_Output {
 	 * @return	void
 	 */
 	public function set_cache_header($last_modified,$expiration)
-	{	
+	{
 		$max_age = $expiration - $_SERVER['REQUEST_TIME'];
 
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
