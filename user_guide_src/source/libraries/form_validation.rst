@@ -846,6 +846,7 @@ Rule                    Parameter  Description                                  
 **is_natural_no_zero**  No         Returns FALSE if the form element contains anything other than a natural
                                    number, but not zero: 1, 2, 3, etc.
 **is_unique**           Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
+**vald_url**            No         Returns FALSE if the form element is not formatted like a URL.
 **valid_email**         No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**        No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**            No         Returns FALSE if the supplied IP is not valid.
