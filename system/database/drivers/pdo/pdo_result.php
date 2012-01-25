@@ -39,7 +39,12 @@
 class CI_DB_pdo_result extends CI_DB_result {
 
 	/**
-	 * To hold the fetched assoc array of a result handler
+	 * @var bool  Hold the flag whether a result handler already fetched before
+	 */
+	protected $is_fetched = FALSE;
+
+	/**
+	 * @var mixed Hold the fetched assoc array of a result handler
 	 */
 	protected $result_assoc;
 
@@ -51,18 +56,6 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		// Fetch the result, instead fully rely on `rowCount` or perform another extra query
-		return is_array($this->result_assoc) ? count($this->result_assoc) : count($this->result_assoc());
-	}
-
-	/**
-	 * Fetch the result handler
-	 *
-	 * @access	public
-	 * @return	mixed
-	 */
-	function result_assoc()
-	{
 		if (empty($this->result_id) OR ! is_object($this->result_id))
 		{
 			// Nothing.
@@ -73,6 +66,24 @@ class CI_DB_pdo_result extends CI_DB_result {
 			// Do this return anything ?
 			// If so, we're done.
 			return $num_rows;
+		}
+
+		// Fetch the result, instead fully rely on `rowCount` or perform another extra query
+		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
+	}
+
+	/**
+	 * Fetch the result handler
+	 *
+	 * @access	public
+	 * @return	mixed
+	 */
+	function result_assoc()
+	{
+		// Dont bother to do each time for exact same request
+		if (count($this->result_array) > 0 OR $this->is_fetched)
+		{
+			return $this->result_array();
 		}
 
 		// Define the output
@@ -94,9 +105,10 @@ class CI_DB_pdo_result extends CI_DB_result {
 			}
 		}
 
-		// Save this as buffer
+		// Save this as buffer and marked the fetch flag
 		$this->result_array = $this->result_assoc;
-		
+		$this->is_fetched   = TRUE;
+
 		// Mission accomplished
 		return $this->result_assoc;
 	}
