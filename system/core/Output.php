@@ -67,9 +67,9 @@ class CI_Output {
 	/**
 	 * Mime-type for the current page
 	 *
-	 * @var array
+	 * @var string
 	 */
-	protected $mime_type		= NULL;
+	protected $mime_type		= 'text/html';
 	/**
 	 * Determines wether profiler is enabled
 	 *
@@ -337,7 +337,7 @@ class CI_Output {
 		// Is minify requested?
 		if ($CFG->item('minify_output') === TRUE)
 		{
-			$output = $this->minify($output,$this->mime_type);
+			$output = $this->minify($output, $this->mime_type);
 		}
 
 
@@ -485,7 +485,7 @@ class CI_Output {
 		log_message('debug', 'Cache file written: '.$cache_path);
 		
 		// Send HTTP cache-control headers to browser to match file cache settings.
-		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
+		$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
 	}
 
 	// --------------------------------------------------------------------
@@ -537,7 +537,7 @@ class CI_Output {
 		else
 		{	
 			// Or else send the HTTP cache control headers.
-			$this->set_cache_header($last_modified,$expire);
+			$this->set_cache_header($last_modified, $expire);
 		}
 
 		// Display the cache
@@ -556,7 +556,7 @@ class CI_Output {
 	 * @param 	int		timestamp of when should the requested page expire from cache
 	 * @return	void
 	 */
-	public function set_cache_header($last_modified,$expiration)
+	public function set_cache_header($last_modified, $expiration)
 	{		
         $max_age = $expiration - $_SERVER['REQUEST_TIME'];
 
@@ -585,13 +585,8 @@ class CI_Output {
 	 * @param 	string
 	 * @return	string
 	 */
-	public function minify($output,$type='text/html')
+	public function minify($output, $type='text/html')
 	{
-		if($type===NULL)
-		{
-			$type = 'text/html';
-		}
-
 		switch ($type)
 		{
 			case 'text/html':
@@ -601,33 +596,33 @@ class CI_Output {
 				// Keep track of <pre> <code> and <textarea> tags as
 				// they were before processing.
 				// We'll want to return them to this state later.
-				preg_match_all('{<pre.+</pre>}msU',$output,$pres_clean);
-				preg_match_all('{<code.+</code>}msU',$output,$codes_clean);
-				preg_match_all('{<textarea.+</textarea>}msU',$output,$textareas_clean);
+				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
+				preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
+				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
 
 				// Minify the CSS in all the <style> tags.
-				preg_match_all('{<style.+</style>}msU',$output,$style_clean);
+				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
 					$output = str_replace($s, $this->minify($s,'text/css'), $output);
 				}
 
 				// Replace multiple spaces with a single space.
-				$output = preg_replace('!\s{2,}!',"\n",$output);
+				$output = preg_replace('!\s{2,}!', "\n", $output);
 				
 				// Remove comments (non-MSIE conditionals)
-				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU','',$output);
+				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
 				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
-				preg_match_all('{<pre.+</pre>}msU',$output,$pres_messed);
-				preg_match_all('{<code.+</code>}msU',$output,$codes_messed);
-				preg_match_all('{<textarea.+</textarea>}msU',$output,$textareas_messed);
-				$output = str_replace($pres_messed[0],$pres_clean[0],$output);
-				$output = str_replace($codes_messed[0],$codes_clean[0],$output);
-				$output = str_replace($textareas_messed[0],$textareas_clean[0],$output);
+				preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
+				preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
+				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
+				$output = str_replace($pres_messed[0], $pres_clean[0], $output);
+				$output = str_replace($codes_messed[0], $codes_clean[0], $output);
+				$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
 				
 				$size_after = strlen($output);
 				$savings_percent = round(100 - ($size_after / $size_before * 100));
@@ -640,10 +635,10 @@ class CI_Output {
 			case 'text/css':
 			
 				// Remove spaces around curly brackets, colons, and semi-colons
-				$output = preg_replace('!\s*(:|;|}|{)\s*!','$1',$output);
+				$output = preg_replace('!\s*(:|;|}|{)\s*!', '$1', $output);
 				
 				// Replace spaces with line breaks to limit line lengths
-				$output = preg_replace('!\s+!',"\n",$output);
+				$output = preg_replace('!\s+!', "\n", $output);
 
 			break;
 		}
