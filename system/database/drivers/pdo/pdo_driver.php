@@ -137,8 +137,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if (in_array($this->pdodriver, array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci'))
-	       && array_key_exists('char_set', $params))
+	    if (in_array($this->pdodriver, array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')) && ! empty($this->char_set))
 	    {
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
@@ -704,7 +703,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return (count($tables) == 1) ? '`'.array_shift($tables).'`' : '('.implode(', ', $tables).')';
+		return (count($tables) == 1) ? '`'.$tables[0].'`' : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
