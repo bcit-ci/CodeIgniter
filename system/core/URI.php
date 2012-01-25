@@ -187,13 +187,27 @@ class CI_URI {
 		}
 
 		$uri = $_SERVER['REQUEST_URI'];
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		$script_name = $_SERVER['SCRIPT_NAME'];
+
+		if (!empty($uri) && !empty($script_name))
 		{
-			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
-		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
-		{
-			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$length = 0;
+
+			if (strpos($uri, $script_name) === 0)
+			{
+				$length = strlen($script_name);
+			}
+			else
+			{
+				$dir_name = dirname($_SERVER['SCRIPT_NAME']);
+
+				if (strpos($uri, $dir_name) === 0)
+				{
+					$length = strlen($dir_name);
+				}
+			}
+
+			$uri = substr($uri, $length);
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
