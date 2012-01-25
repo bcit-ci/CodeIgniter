@@ -323,6 +323,15 @@ class CI_Output {
 		{
 			$output =& $this->final_output;
 		}
+		
+		// --------------------------------------------------------------------
+
+		// Is minify requested?
+		if ($CFG->item('minify_output') === TRUE)
+		{
+			$output = $this->minify($output);
+		}
+
 
 		// --------------------------------------------------------------------
 
@@ -555,6 +564,33 @@ class CI_Output {
 			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
 			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
 		}
+	}
+
+
+
+
+	// --------------------------------------------------------------------
+	/**
+	 * Reduce excessive size of HTML content.
+	 *
+	 * @param 	string
+	 * @param 	string
+	 * @return	string
+	 */
+	public function minify($output,$type='html')
+	{
+		switch ($type)
+		{
+			case 'html':
+				
+				// Replaces multiple spaces with a single space.
+				$output = preg_replace('!\s{2,}!',' ',$output);
+
+				// ...
+			break;
+		}
+		
+		return $output;
 	}
 
 
