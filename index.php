@@ -61,7 +61,11 @@ if (defined('ENVIRONMENT'))
 		break;
 		case 'testing':
 		case 'production':
-			error_reporting(0);
+			
+			//log php errors, but don't display them on screen (for security)
+			error_reporting(-1);
+			ini_set('display_errors', FALSE);
+			
 		break;
 		default:
 			exit('The application environment is not set correctly.');
