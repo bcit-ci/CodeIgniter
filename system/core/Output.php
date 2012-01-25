@@ -65,6 +65,12 @@ class CI_Output {
 	 */
 	protected $mime_types		= array();
 	/**
+	 * Mime-type for the current page
+	 *
+	 * @var array
+	 */
+	protected $mime_type		= NULL;
+	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
@@ -216,6 +222,8 @@ class CI_Output {
 				}
 			}
 		}
+		
+		$this->mime_type = $mime_type;
 
 		$header = 'Content-Type: '.$mime_type;
 
@@ -329,7 +337,7 @@ class CI_Output {
 		// Is minify requested?
 		if ($CFG->item('minify_output') === TRUE)
 		{
-			$output = $this->minify($output);
+			$output = $this->minify($output,$this->mime_type);
 		}
 
 
@@ -579,6 +587,13 @@ class CI_Output {
 	 */
 	public function minify($output,$type='text/html')
 	{
+		if($type===NULL)
+		{
+			$type = 'text/html';
+		}
+		
+		die($type);
+		
 		switch ($type)
 		{
 			case 'text/html':
