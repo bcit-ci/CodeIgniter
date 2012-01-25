@@ -81,11 +81,6 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
-
-	// PDO-specific properties
-	var $dsn;
-	var $pdodriver;
-	var $options = array();
 	
 
 	/**
