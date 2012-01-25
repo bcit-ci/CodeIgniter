@@ -68,6 +68,74 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
+		if (strpos($this->hostname, ':'))
+		{
+			// Hostname generally would have this prototype
+			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
+			// We need to get the prefix (pdodriver used by PDO).
+			$this->pdodriver = '';
+
+			if (($fragments = explode(':', $this->hostname)) && count($fragments) >= 1)
+			{
+				$this->pdodriver = strtolower(current($fragments));
+			}
+
+			$this->dsn = $this->hostname;
+		}
+		else
+		{
+			// This one came from DSN string
+			$this->pdodriver = strtolower($this->pdodriver);
+			$this->dsn = $this->pdodriver.':';
+
+			// Add hostname to the DSN for databases that need it
+			if ( ! empty($this->hostname) && in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+			{
+			    $this->dsn .= 'host='.$this->hostname.';';
+			}
+
+			// Add a port to the DSN for databases that can use it
+			if ( ! empty($this->port) && in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
+			{
+			    $this->dsn .= 'port='.$this->port.';';
+			}
+		}
+
+		// Add the database name to the DSN, if needed
+	    if (stripos($this->dsn, 'dbname') === FALSE 
+	       && in_array($this->pdodriver, array('4d', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+	    {
+	        $this->dsn .= 'dbname='.$this->database.';';
+	    }
+	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->pdodriver, array('ibm', 'sqlsrv')))
+	    {
+	    	if (stripos($this->dsn, 'dsn') === FALSE)
+	    	{
+		        $this->dsn .= 'database='.$this->database.';';
+	    	}
+	    }
+	    elseif ($this->pdodriver === 'sqlite' && $this->dsn === 'sqlite:')
+	    {
+	        if ($this->database !== ':memory')
+	        {
+	            if ( ! file_exists($this->database))
+	            {
+	                show_error('Invalid DB Connection string for PDO SQLite');
+	            }
+
+	            $this->dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
+	        }
+
+	        $this->dsn .= $this->database;
+	    }
+
+	    // Add charset to the DSN, if needed
+	    if (in_array($this->pdodriver, array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci'))
+	       && array_key_exists('char_set', $params))
+	    {
+	        $this->dsn .= 'charset='.$this->char_set.';';
+	    }
+
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
 		if ($this->pdodriver == 'mysql')
