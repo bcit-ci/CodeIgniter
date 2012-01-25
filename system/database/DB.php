@@ -64,7 +64,6 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		$params = $db[$active_group];
-		unset($db);
 
 		// Post-process the configuration, for PDO
 		if ($params['dbdriver'] == 'pdo')
