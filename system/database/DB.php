@@ -145,7 +145,7 @@ function &DB($params = '', $active_record_override = NULL)
 				show_error('Invalid DB Connection String for PDO');
 			}
 
-			// Define database(s) which need to specify the host, port, dbname or Database
+			// Define database(s) which need to specify the host or port
 			$host = array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid');
 			$port = array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid');
 
@@ -232,7 +232,7 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		// Clean up
-		unset($dbname, $database);
+		unset($charset, $dbname, $database);
 	}
 
 	// Load the DB classes. Note: Since the active record class is optional
