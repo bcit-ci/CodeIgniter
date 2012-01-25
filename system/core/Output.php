@@ -582,7 +582,9 @@ class CI_Output {
 		switch ($type)
 		{
 			case 'text/html':
-			
+
+				$size_before = strlen($output);
+
 				// Keep track of <pre> <code> and <textarea> tags as
 				// they were before processing.
 				// We'll want to return them to this state later.
@@ -613,6 +615,11 @@ class CI_Output {
 				$output = str_replace($pres_messed[0],$pres_clean[0],$output);
 				$output = str_replace($codes_messed[0],$codes_clean[0],$output);
 				$output = str_replace($textareas_messed[0],$textareas_clean[0],$output);
+				
+				$size_after = strlen($output);
+				$savings_percent = round(100 - ($size_after / $size_before * 100));
+				
+				log_message('debug', 'Minifier shaved '.$savings_percent.'% off HTML output size.');
 
 			break;
 			
