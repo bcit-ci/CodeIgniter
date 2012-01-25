@@ -153,7 +153,6 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
 	protected function _fetch_object()

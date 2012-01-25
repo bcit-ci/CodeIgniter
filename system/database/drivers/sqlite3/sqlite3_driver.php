@@ -174,7 +174,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */
-	private function _prep_query($sql)
+	protected function _prep_query($sql)
 	{
 		return $this->conn_id->prepare($sql);
 	}
