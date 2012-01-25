@@ -39,6 +39,11 @@
 class CI_DB_pdo_result extends CI_DB_result {
 
 	/**
+	 * To hold the fetched assoc array of a result handler
+	 */
+	protected $result_assoc;
+
+	/**
 	 * Number of rows in the result set
 	 *
 	 * @access	public
@@ -46,7 +51,55 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return -1;
+		//return -1;
+		// Fetch the result, instead rely on `rowCount` or perform another extra query
+		return is_array($this->result_assoc) ? count($this->result_assoc) : count($this->result_assoc());
+	}
+
+	/**
+	 * Fetch the result handler
+	 *
+	 * @access	public
+	 * @return	mixed
+	 */
+	function result_assoc()
+	{
+		if (empty($this->result_id) OR ! is_object($this->result_id))
+		{
+			// Nothing.
+			return 0;
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		{
+			// Do this return anything ?
+			// If so, we're done.
+			return $num_rows;
+		}
+
+		// Define the output
+		$output = array('assoc', 'object');
+
+		// Fetch the result
+		foreach ($output as $type)
+		{
+			// Define the method and handler
+			$res_method  = '_fetch_'.$type;
+			$res_handler = 'result_'.$type;
+			
+			$this->$res_handler = array();
+			$this->_data_seek(0);
+
+			while ($row = $this->$res_method())
+			{
+				$this->{$res_handler}[] = $row;
+			}
+		}
+
+		// Save this as buffer
+		$this->result_array = $this->result_assoc;
+		
+		// Mission accomplished
+		return $this->result_assoc;
 	}
 
 	// --------------------------------------------------------------------
