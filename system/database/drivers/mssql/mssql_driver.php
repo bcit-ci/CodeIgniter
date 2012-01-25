@@ -43,19 +43,19 @@ class CI_DB_mssql_driver extends CI_DB {
 	public $dbdriver = 'mssql';
 
 	// The character used for escaping
-	public $_escape_char = '';
+	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	public $_like_escape_str = ' ESCAPE \'%s\' ';
-	public $_like_escape_chr = '!';
+	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() methods.
 	 */
-	public $_count_string = 'SELECT COUNT(*) AS ';
-	public $_random_keyword = ' NEWID()';
+	protected $_count_string = 'SELECT COUNT(*) AS ';
+	protected $_random_keyword = ' NEWID()';
 
 	/**
 	 * Non-persistent database connection
