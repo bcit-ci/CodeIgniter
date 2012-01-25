@@ -582,11 +582,44 @@ class CI_Output {
 		switch ($type)
 		{
 			case 'html':
+			
+				// Keep track of <pre> tags as they were before processing.
+				// We'll want to return them to this state later.
+				preg_match_all('{<pre.+</pre>}msU',$output,$pres_clean);
+
+				// Keep track of <pre> tags as they were before processing.
+				// We'll want to return them to this state later.
+				preg_match_all('{<style.+</style>}msU',$output,$style_clean);
 				
+				// Run <style> content through CSS minifier
+				foreach ($style_clean[0] as $s)
+				{
+					$output = str_replace($s, $this->minify($s,'css'), $output);
+				}
+
 				// Replaces multiple spaces with a single space.
-				$output = preg_replace('!\s{2,}!',' ',$output);
+				$output = preg_replace('!\s{2,}!',"\n",$output);
+				
+				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
+
+				// Get the mangled <pre> tags...
+				preg_match_all('{<pre.+</pre>}msU',$output,$pres_messed);
+
+				// Replace mangled <pre> tags with unprocessed <pre>s
+				$output = str_replace($pres_messed[0],$pres_clean[0],$output);
 
 				// ...
+			break;
+			
+			
+			case 'css':
+			
+				// Remove spaces around curly brackets
+				$output = preg_replace('!\s*(:|;|}|{)\s*!','$1',$output);
+				
+				// Replace spaces with line breaks to limit line lengths
+				$output = preg_replace('!\s+!',"\n",$output);
+
 			break;
 		}
 		
