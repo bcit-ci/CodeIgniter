@@ -597,10 +597,10 @@ class CI_Output {
 					$output = str_replace($s, $this->minify($s,'css'), $output);
 				}
 
-				// Replaces multiple spaces with a single space.
+				// Replace multiple spaces with a single space.
 				$output = preg_replace('!\s{2,}!',"\n",$output);
 				
-				// Removes spaces around block-level elements.
+				// Remove spaces around block-level elements.
 				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
@@ -616,7 +616,7 @@ class CI_Output {
 			
 			case 'css':
 			
-				// Remove spaces around curly brackets
+				// Remove spaces around curly brackets, colons, and semi-colons
 				$output = preg_replace('!\s*(:|;|}|{)\s*!','$1',$output);
 				
 				// Replace spaces with line breaks to limit line lengths
