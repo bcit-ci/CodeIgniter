@@ -139,17 +139,17 @@ function &DB($params = '', $active_record_override = NULL)
 				show_error('Invalid DB Connection String for PDO');
 			}
 
-			$params['provider'] = strtolower($params['provider']);
-			$params['dsn'] = $params['provider'].':';
+			$params['pdodriver'] = strtolower($params['pdodriver']);
+			$params['dsn'] = $params['pdodriver'].':';
 
 			// Add hostname to the DSN for databases that need it
-			if ( ! empty($params['hostname']) && in_array($params['provider'], array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+			if ( ! empty($params['hostname']) && in_array($params['pdodriver'], array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
 			{
 			    $params['dsn'] .= 'host='.$params['hostname'].';';
 			}
 
 			// Add a port to the DSN for databases that can use it
-			if ( ! empty($params['port']) && in_array($params['provider'], array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
+			if ( ! empty($params['port']) && in_array($params['pdodriver'], array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
 			{
 			    $params['dsn'] .= 'port='.$params['port'].';';
 			}
@@ -167,16 +167,18 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 	    // Add the database name to the DSN, if needed
 	    if (stripos($params['dsn'], 'dbname') === FALSE 
-	       && in_array($params['provider'], array('4d', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+	       && in_array($params['pdodriver'], array('4d', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 	    {
 	        $params['dsn'] .= 'dbname='.$params['database'].';';
 	    }
-	    elseif (stripos($params['dsn'], 'database') === FALSE && stripos($params['dsn'], 'dsn') === FALSE) 
-	           && in_array($params['provider'], array('ibm', 'sqlsrv')))
+	    elseif (stripos($params['dsn'], 'database') === FALSE && in_array($params['pdodriver'], array('ibm', 'sqlsrv')))
 	    {
-	        $params['dsn'] .= 'database='.$params['database'].';';
+	    	if (stripos($params['dsn'], 'dsn') === FALSE)
+	    	{
+		        $params['dsn'] .= 'database='.$params['database'].';';
+	    	}
 	    }
-	    elseif ($params['provider'] === 'sqlite' && $params['dsn'] === 'sqlite:')
+	    elseif ($params['pdodriver'] === 'sqlite' && $params['dsn'] === 'sqlite:')
 	    {
 	        if ($params['database'] !== ':memory')
 	        {
@@ -192,7 +194,7 @@ function &DB($params = '', $active_record_override = NULL)
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if (in_array($params['provider'], array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci'))
+	    if (in_array($params['pdodriver'], array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci'))
 	       && array_key_exists('char_set', $params))
 	    {
 	        $params['dsn'] .= 'charset='.$params['char_set'].';';
