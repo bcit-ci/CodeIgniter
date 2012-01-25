@@ -600,6 +600,9 @@ class CI_Output {
 				// Replace multiple spaces with a single space.
 				$output = preg_replace('!\s{2,}!',"\n",$output);
 				
+				// Remove comments (non-MSIE conditionals)
+				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU','',$output);
+
 				// Remove spaces around block-level elements.
 				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
 
