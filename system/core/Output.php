@@ -583,15 +583,15 @@ class CI_Output {
 		{
 			case 'html':
 			
-				// Keep track of <pre> tags as they were before processing.
+				// Keep track of <pre> <code> and <textarea> tags as
+				// they were before processing.
 				// We'll want to return them to this state later.
 				preg_match_all('{<pre.+</pre>}msU',$output,$pres_clean);
+				preg_match_all('{<code.+</code>}msU',$output,$codes_clean);
+				preg_match_all('{<textarea.+</textarea>}msU',$output,$textareas_clean);
 
-				// Keep track of <pre> tags as they were before processing.
-				// We'll want to return them to this state later.
+				// Minify the CSS in all the <style> tags.
 				preg_match_all('{<style.+</style>}msU',$output,$style_clean);
-				
-				// Run <style> content through CSS minifier
 				foreach ($style_clean[0] as $s)
 				{
 					$output = str_replace($s, $this->minify($s,'css'), $output);
@@ -600,15 +600,17 @@ class CI_Output {
 				// Replaces multiple spaces with a single space.
 				$output = preg_replace('!\s{2,}!',"\n",$output);
 				
+				// Removes spaces around block-level elements.
 				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
 
-				// Get the mangled <pre> tags...
+				// Replace mangled <pre> etc. tags with unprocessed ones.
 				preg_match_all('{<pre.+</pre>}msU',$output,$pres_messed);
-
-				// Replace mangled <pre> tags with unprocessed <pre>s
+				preg_match_all('{<code.+</code>}msU',$output,$codes_messed);
+				preg_match_all('{<textarea.+</textarea>}msU',$output,$textareas_messed);
 				$output = str_replace($pres_messed[0],$pres_clean[0],$output);
+				$output = str_replace($codes_messed[0],$codes_clean[0],$output);
+				$output = str_replace($textareas_messed[0],$textareas_clean[0],$output);
 
-				// ...
 			break;
 			
 			
