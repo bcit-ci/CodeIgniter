@@ -60,13 +60,13 @@ class CI_DB_pdo_driver extends CI_DB {
 		parent::__construct($params);
 
 		// clause and character used for LIKE escape sequences
-		// depend on what provider were used by PDO
-		if ($this->provider == 'mysql')
+		// depend on what pdodriver were used by PDO
+		if ($this->pdodriver == 'mysql')
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
-		elseif ($this->provider == 'odbc')
+		elseif ($this->pdodriver == 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 			$this->_like_escape_chr = '!';
@@ -121,7 +121,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function pdo_connect()
 	{
 		// Safety for MySQL char-set
-		if ($this->provider == 'mysql' && is_php('5.3.6'))
+		if ($this->pdodriver == 'mysql' && is_php('5.3.6'))
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
 		}
@@ -409,7 +409,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function insert_id($name=NULL)
 	{
-		if ($this->provider == 'pgsql')
+		if ($this->pdodriver == 'pgsql')
 		{
 			//Convenience method for postgres insertid
 			$v = $this->_version();
@@ -479,7 +479,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->provider == 'pgsql')
+		if ($this->pdodriver == 'pgsql')
 		{
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
@@ -812,7 +812,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if ($this->provider == 'cubrid' OR $this->provider == 'sqlite')
+		if ($this->pdodriver == 'cubrid' OR $this->pdodriver == 'sqlite')
 		{
 			$offset = ($offset == 0) ? '' : $offset.', ';
 

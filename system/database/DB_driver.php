@@ -84,7 +84,7 @@ class CI_DB_driver {
 
 	// These are use with PDO
 	var $dsn;
-	var $provider;
+	var $pdodriver;
 	var $options = array();
 	
 

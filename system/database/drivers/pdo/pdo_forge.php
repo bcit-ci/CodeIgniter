@@ -120,7 +120,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
 					// Exception for Postgre numeric which not too happy with constraint within those type
-					if ( ! ($this->db->provider == 'pgsql' && in_array($attributes['TYPE'], $numeric)))
+					if ( ! ($this->db->pdodriver == 'pgsql' && in_array($attributes['TYPE'], $numeric)))
 					{
 						$sql .= '('.$attributes['CONSTRAINT'].')';
 					}
@@ -275,7 +275,6 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
-
 
 }
 

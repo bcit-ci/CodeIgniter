@@ -142,6 +142,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
+		
 		return FALSE;
 	}
 
@@ -174,6 +175,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 			{
 				return $this->db->display_error('db_unsuported_feature');
 			}
+
 			return FALSE;
 		}
 	}

@@ -28,11 +28,11 @@
 /**
  * Initialize the database
  *
- * @category    Database
- * @author      EllisLab Dev Team
- * @link        http://codeigniter.com/user_guide/database/
- * @param       string
- * @param       bool	Determines if active record should be used or not
+ * @category	Database
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/database/
+ * @param 	string
+ * @param 	bool	Determines if active record should be used or not
  */
 function &DB($params = '', $active_record_override = NULL)
 {
@@ -69,22 +69,19 @@ function &DB($params = '', $active_record_override = NULL)
 		if ($params['dbdriver'] == 'pdo')
 		{
 			// Hostname generally would have this prototype
-			// $db['hostname'] = 'provider:host(/Server(/DSN))=hostname(/DSN);';
-			// We need to get the prefix (provider used by PDO).
-			$provider = '';
-			$dsn      = $params['hostname'];
+			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
+			// We need to get the prefix (pdodriver used by PDO).
+			$pdodriver = '';
+			$dsn = $params['hostname'];
 
 			if (($fragments = explode(':', $dsn)) && count($fragments) >= 1)
 			{
-				$provider = strtolower(current($fragments));
+				$pdodriver = strtolower(current($fragments));
 			}
 
 			// Add these two variable into our params
-			$params['provider'] = $provider;
-			$params['dsn']      = $dsn;
-
-			// Unset all garbage variable(s)
-			unset($dsn, $provider, $fragments);
+			$params['pdodriver'] = $pdodriver;
+			$params['dsn'] = $dsn;
 		}
 	}
 	elseif (is_string($params))
@@ -131,48 +128,31 @@ function &DB($params = '', $active_record_override = NULL)
 			}
 		}
 
-		unset($dsn, $extra, $key, $val);
-
 		// Post-process the configuration, for PDO
-		// This assumed following DSN(s) string has been submitted.
-		// $dsn = 'pdo://username:password@hostname:port/database?provider=pgsql';
+		// Assuming that the following DSN string format is used:
+		// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
 		if ( $params['dbdriver'] == 'pdo')
 		{
-			// Dont waste time, for this invalid string
-			if ( ! array_key_exists('provider', $params))
+			// Invalid DSN, display an error
+			if ( ! array_key_exists('pdodriver', $params))
 			{
 				show_error('Invalid DB Connection String for PDO');
 			}
 
-			// Define database(s) which need to specify the host or port
-			$host = array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid');
-			$port = array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid');
+			$params['provider'] = strtolower($params['provider']);
+			$params['dsn'] = $params['provider'].':';
 
-			// Initial DSN and provider.
-			$provider = strtolower($params['provider']);
-			$dsn      = $provider.':';
-
-			// Assume that typical DSN would contain host
-			if ( ! empty($params['hostname']) && in_array($provider, $host))
+			// Add hostname to the DSN for databases that need it
+			if ( ! empty($params['hostname']) && in_array($params['provider'], array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
 			{
-				$dsn .= 'host='.$params['hostname'].';';
+			    $params['dsn'] .= 'host='.$params['hostname'].';';
 			}
 
-			// Adding port if necessary
-			if ( ! empty($params['port']))
+			// Add a port to the DSN for databases that can use it
+			if ( ! empty($params['port']) && in_array($params['provider'], array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
 			{
-				if (in_array($provider, $port))
-				{
-					$dsn .= 'port='.$params['port'].';';
-				}
+			    $params['dsn'] .= 'port='.$params['port'].';';
 			}
-
-			// Add these two variable into our params
-			$params['provider'] = $provider;
-			$params['dsn']      = $dsn;
-
-			// Unset all garbage variable(s)
-			unset($dsn, $provider, $host, $port);
 		}
 	}
 
@@ -193,11 +173,11 @@ function &DB($params = '', $active_record_override = NULL)
 		// Assume that we need to adding at least database name,
 		// mixed with hostname, into the dsn key, for all necessary
 		// database(s). 
-		if (strpos($params['dsn'], 'dbname') === FALSE && in_array($params['provider'], $dbname))
+		if (strpos($params['dsn'], 'dbname') === FALSE && in_array($params['pdodriver'], $dbname))
 		{
 			$params['dsn'] .= 'dbname='.$params['database'].';';
 		}
-		elseif (in_array($params['provider'], $database))
+		elseif (in_array($params['pdodriver'], $database))
 		{
 			if (stripos($params['dsn'], 'database') === FALSE)
 			{
@@ -209,7 +189,7 @@ function &DB($params = '', $active_record_override = NULL)
 				}
 			}
 		}
-		elseif ($params['provider'] == 'sqlite' && $params['dsn'] == 'sqlite:')
+		elseif ($params['pdodriver'] == 'sqlite' && $params['dsn'] == 'sqlite:')
 		{
 			if ($params['database'] !== ':memory')
 			{
@@ -225,7 +205,7 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		// Adding charset if necessary
-		if (in_array($params['provider'], $charset) && array_key_exists('char_set', $params))
+		if (in_array($params['pdodriver'], $charset) && array_key_exists('char_set', $params))
 		{
 			$params['dsn'] .= 'charset='.$params['char_set'].';';
 		}
@@ -261,7 +241,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
-	$DB     = new $driver($params);
+	$DB = new $driver($params);
 
 	if ($DB->autoinit == TRUE)
 	{
