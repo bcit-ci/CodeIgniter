@@ -591,9 +591,7 @@ class CI_Output {
 		{
 			$type = 'text/html';
 		}
-		
-		die($type);
-		
+
 		switch ($type)
 		{
 			case 'text/html':
