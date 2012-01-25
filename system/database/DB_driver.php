@@ -82,7 +82,7 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
-	// These are use with PDO
+	// PDO-specific properties
 	var $dsn;
 	var $pdodriver;
 	var $options = array();

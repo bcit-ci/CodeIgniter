@@ -165,53 +165,38 @@ function &DB($params = '', $active_record_override = NULL)
 	// Post-process the configuration, for PDO
 	if ($params['dbdriver'] == 'pdo')
 	{
-		// Define database(s) which need to specify the charset, dbname or Database
-		$charset  = array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci');
-		$dbname   = array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid');
-		$database = array('ibm', 'sqlsrv');
+	    // Add the database name to the DSN, if needed
+	    if (stripos($params['dsn'], 'dbname') === FALSE 
+	       && in_array($params['provider'], array('4d', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+	    {
+	        $params['dsn'] .= 'dbname='.$params['database'].';';
+	    }
+	    elseif (stripos($params['dsn'], 'database') === FALSE && stripos($params['dsn'], 'dsn') === FALSE) 
+	           && in_array($params['provider'], array('ibm', 'sqlsrv')))
+	    {
+	        $params['dsn'] .= 'database='.$params['database'].';';
+	    }
+	    elseif ($params['provider'] === 'sqlite' && $params['dsn'] === 'sqlite:')
+	    {
+	        if ($params['database'] !== ':memory')
+	        {
+	            if ( ! file_exists($params['database']))
+	            {
+	                show_error('Invalid DB Connection string for PDO SQLite');
+	            }
 
-		// Assume that we need to adding at least database name,
-		// mixed with hostname, into the dsn key, for all necessary
-		// database(s). 
-		if (strpos($params['dsn'], 'dbname') === FALSE && in_array($params['pdodriver'], $dbname))
-		{
-			$params['dsn'] .= 'dbname='.$params['database'].';';
-		}
-		elseif (in_array($params['pdodriver'], $database))
-		{
-			if (stripos($params['dsn'], 'database') === FALSE)
-			{
-				// Some of them, could connect directly via DSN
-				// so, we only catch the "naked" ones
-				if (stripos($params['dsn'], 'dsn') === FALSE)
-				{
-					$params['dsn'] .= 'database='.$params['database'].';';
-				}
-			}
-		}
-		elseif ($params['pdodriver'] == 'sqlite' && $params['dsn'] == 'sqlite:')
-		{
-			if ($params['database'] !== ':memory')
-			{
-				if ( ! file_exists($params['database']))
-				{
-					show_error('Invalid DB Connection String for PDO SQLite');
-				}
+	            $params['dsn'] .= (strpos($params['database'], DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
+	        }
 
-				$params['dsn'] .= (strpos($params['database'], DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
-			}
+	        $params['dsn'] .= $params['database'];
+	    }
 
-			$params['dsn'] .= $params['database'];
-		}
-
-		// Adding charset if necessary
-		if (in_array($params['pdodriver'], $charset) && array_key_exists('char_set', $params))
-		{
-			$params['dsn'] .= 'charset='.$params['char_set'].';';
-		}
-
-		// Clean up
-		unset($charset, $dbname, $database);
+	    // Add charset to the DSN, if needed
+	    if (in_array($params['provider'], array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci'))
+	       && array_key_exists('char_set', $params))
+	    {
+	        $params['dsn'] .= 'charset='.$params['char_set'].';';
+	    }
 	}
 
 	// Load the DB classes. Note: Since the active record class is optional

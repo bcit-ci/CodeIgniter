@@ -42,8 +42,12 @@
  */
 class CI_DB_pdo_driver extends CI_DB {
 
+	var $dbdriver = 'pdo';
+
 	// the character used to excape - not necessary for PDO
 	var $_escape_char = '';
+
+	// clause and character used for LIKE escape sequences
 	var $_like_escape_str;
 	var $_like_escape_chr;
 
@@ -55,12 +59,17 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
 
+	// need to track the pdo DSN, driver and options
+	var $dsn;
+	var $pdodriver;
+	var $options = array();
+
 	function __construct($params)
 	{
 		parent::__construct($params);
 
 		// clause and character used for LIKE escape sequences
-		// depend on what pdodriver were used by PDO
+		// this one depends on the driver being used
 		if ($this->pdodriver == 'mysql')
 		{
 			$this->_like_escape_str = '';
