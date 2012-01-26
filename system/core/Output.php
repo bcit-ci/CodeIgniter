@@ -387,7 +387,7 @@ class CI_Output {
 				// If $CI doesn't exist then we know we're serving up
 				// a cached file.  Since cached files are already gzip
 				// encoded, 
-				ini_set('zlib.output_compression','Off');
+				ini_set('zlib.output_compression', 'Off');
 				header('Content-Encoding: gzip');
 				header('Content-Length: '.strlen($output));
 				
@@ -404,7 +404,7 @@ class CI_Output {
 			// If output compression is not enabled or supported
 			// yet we are serving up a compressed cached file, we need
 			// to decompress the file first before serving it.
-			echo gzinflate(substr($output,10,-8)); 
+			echo gzinflate(substr($output, 10, -8)); 
 			log_message('debug', 'Final (uncompressed) output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
 			return TRUE;
@@ -483,7 +483,7 @@ class CI_Output {
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$this->mime_type.'MT--->'.gzencode($output,6));
+			fwrite($fp, $expire.'TS--->'.$this->mime_type.'MT--->'.gzencode($output, 6));
 			flock($fp, LOCK_UN);
 		}
 		else
