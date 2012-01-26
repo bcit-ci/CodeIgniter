@@ -568,7 +568,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param	string
 	 * @return	string
 	 */
-	protected function _escape_identifiers($item)
+	public function _escape_identifiers($item)
 	{
 		if ($this->_escape_char == '')
 		{
