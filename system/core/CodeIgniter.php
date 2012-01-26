@@ -271,25 +271,16 @@
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
 	{
-		if ( ! empty($RTR->routes['404_override']))
-		{
-			$x = explode('/', $RTR->routes['404_override'], 2);
-			$class = $x[0];
-			$method = (isset($x[1]) ? $x[1] : 'index');
-			if ( ! class_exists($class))
-			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-				{
-					show_404("{$class}/{$method}");
-				}
-
-				include_once(APPPATH.'controllers/'.$class.'.php');
-			}
-		}
-		else
-		{
-			show_404("{$class}/{$method}");
-		}
+	    if (empty($CFG->config['base_url'])) {
+	       show_404("{$class}/{$method}");
+	    } else {
+	        //Make sure the specified base_url has trailing slash before redirecting.
+	        if (substr($CFG->config['base_url'], -1) != '/') {
+	           $CFG->config['base_url'] = $CFG->config['base_url'].'/';
+	        }
+    	    	header('location: '.$CFG->config['base_url'].$RTR->routes['404_override']);
+            	exit();
+	    }
 	}
 
 /*
