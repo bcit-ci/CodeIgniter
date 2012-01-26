@@ -74,7 +74,7 @@ class CI_DB_driver {
 	protected $_protect_identifiers	= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
-	// These are use with Oracle
+	// These are used with Oracle
 	public $stmt_id;
 	public $curs_id;
 	public $limit_used;
