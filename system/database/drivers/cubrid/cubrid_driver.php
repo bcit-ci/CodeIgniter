@@ -57,8 +57,10 @@ class CI_DB_cubrid_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
-	public function __construct()
+	public function __construct($params)
 	{
+		parent::__construct($params);
+
 		// If no port is defined by the user, use the default value
 		if ($this->port == '')
 		{
