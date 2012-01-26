@@ -303,7 +303,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		$query = $this->query('SELECT COUNT(*) AS numrows FROM '.$this->dbprefix.$table);
-		if ($query->num_rows() === 0)
+		if ($query->num_rows() == 0)
 		{
 			return 0;
 		}
