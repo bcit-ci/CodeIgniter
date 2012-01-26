@@ -89,13 +89,13 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
 				$sql .= "\n\t\"".$this->db->protect_identifiers($field).'"'
-					.(array_key_exists('NAME', $attributes) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '');
+					.(isset($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '');
 
-				if (array_key_exists('TYPE', $attributes))
+				if ( ! empty($attributes['TYPE']))
 				{
 					$sql .= ' '.$attributes['TYPE'];
 
-					if (array_key_exists('CONSTRAINT', $attributes))
+					if (isset($attributes['CONSTRAINT']))
 					{
 						switch ($attributes['TYPE'])
 						{
@@ -118,16 +118,16 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			/* As of version 8.4.0 CUBRID does not support UNSIGNED INTEGER data type.
 			 * Will be supported in the next release as a part of MySQL Compatibility.
 			 *
-				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
+				if (isset($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
 				{
 					$sql .= ' UNSIGNED';
 				}
 			 */
 
-				$sql .= (array_key_exists('DEFAULT', $attributes) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
-					.((array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.((array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '')
-					.((array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE) ? ' UNIQUE' : '');
+				$sql .= (isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
+					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
+					.((isset($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '')
+					.((isset($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE) ? ' UNIQUE' : '');
 			}
 
 			// don't add a comma on the end of the last field
