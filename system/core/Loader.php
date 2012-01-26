@@ -625,7 +625,7 @@ class CI_Loader {
 		if ( ! class_exists('CI_Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
+			require(BASEPATH.'libraries/Driver.php');
 		}
 
 		if ($library == '')
