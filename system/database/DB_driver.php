@@ -813,16 +813,18 @@ class CI_DB_driver {
 
 		if ($query->num_rows() > 0)
 		{
-			foreach ($query->result_array() as $row)
+			$table = FALSE;
+			$rows = $query->result_array();
+			$key = (($row = current($rows)) && in_array('table_name', array_map('strtolower', array_keys($row))));
+
+			if ($key)
 			{
-				if (in_array('table_name', array_map('strtolower', array_keys($row))))
-				{
-					$retval[] = array_key_exists('TABLE_NAME', $row) ? $row['TABLE_NAME'] : $row['table_name'];
-				}
-				else
-				{
-					$retval[] = array_shift($row);
-				}
+				$table = array_key_exists('TABLE_NAME', $row) ? 'TABLE_NAME' : 'table_name';
+			}
+
+			foreach ($rows as $row)
+			{
+				$retval[] = ( ! $table) ? current($row) : $row[$table];
 			}
 		}
 
