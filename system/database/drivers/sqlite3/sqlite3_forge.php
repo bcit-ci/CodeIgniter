@@ -111,7 +111,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field)
+				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.' '.$attributes['TYPE']
 					.(array_key_exists('CONSTRAINT', $attributes) ? '('.$attributes['CONSTRAINT'].')' : '')
 					.((array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
@@ -129,7 +129,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
+			$primary_keys = $this->db->protect_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
@@ -139,11 +139,11 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key = array($this->db->_protect_identifiers($key));
+					$key = array($this->db->protect_identifiers($key));
 				}
 
 				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';
@@ -195,7 +195,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			return FALSE;
 		}
 
-		return 'ALTER TABLE '.$this->db->_protect_identifiers($table).' '.$alter_type.' '.$this->db->_protect_identifiers($column_name)
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name)
 			.' '.$column_definition
 			.($default_value != '' ? ' DEFAULT '.$default_value : '')
 			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
@@ -215,7 +215,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 */
 	public function _rename_table($table_name, $new_table_name)
 	{
-		return 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 }
 
