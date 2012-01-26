@@ -255,7 +255,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			$sql .= $param['name'].',';
 
-			if (array_key_exists('type', $param) && ($param['type'] === OCI_B_CURSOR))
+			if (isset($param['type']) && $param['type'] === OCI_B_CURSOR)
 			{
 				$have_cursor = TRUE;
 			}

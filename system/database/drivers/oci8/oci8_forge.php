@@ -98,10 +98,10 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
 				$sql .= "\n\t".$this->db->protect_identifiers($field).' '.$attributes['TYPE']
-					.(array_key_exists('CONSTRAINT', $attributes) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.((array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(array_key_exists('DEFAULT', $attributes) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
-					.((array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL');
+					.(isset($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
+					.((isset($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
+					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL');
 			}
 
 			// don't add a comma on the end of the last field
