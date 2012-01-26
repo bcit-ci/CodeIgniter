@@ -113,11 +113,11 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.' '.$attributes['TYPE']
-					.(array_key_exists('CONSTRAINT', $attributes) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.((array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(array_key_exists('DEFAULT', $attributes) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
-					.((array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.((array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
+					.(isset($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
+					.((isset($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
+					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
+					.((isset($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
 			}
 
 			// don't add a comma on the end of the last field
