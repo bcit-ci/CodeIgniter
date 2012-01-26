@@ -280,13 +280,13 @@ class CI_DB_mssql_driver extends CI_DB {
 	*/
 	public function insert_id()
 	{
-		$sql = (self::_parse_major_version($this->version()) > 7)
+		$query = (self::_parse_major_version($this->version()) > 7)
 			? 'SELECT SCOPE_IDENTITY() AS last_id'
 			: 'SELECT @@IDENTITY AS last_id';
 
-		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->last_id;
+		$query = $this->query($query);
+		$query = $query->row();
+		return $query->last_id;
 	}
 
 	// --------------------------------------------------------------------
