@@ -47,6 +47,7 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  The PostgreSQL database driver now uses pg_version() for server version checking, when appropriate.
 
 -  Libraries
 
