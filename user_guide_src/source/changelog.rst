@@ -47,12 +47,14 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Improved support of the Oracle (OCI8) driver, including:
          -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
          -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
          -  Generally improved for speed and cleaned up all of its components.
-         -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on ``result()``.
-         -  ``num_rows()`` is now only called explicitly by the developer and no longer re-executes statements.
+         -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+         -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
 
 -  Libraries
 
