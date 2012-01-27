@@ -132,7 +132,6 @@ class CI_Lang {
 
 		$this->is_loaded[$langfile] = $idiom;
 		$this->language = array_merge($this->language, $lang);
-		unset($lang);
 
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
