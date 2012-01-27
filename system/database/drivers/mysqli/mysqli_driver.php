@@ -178,6 +178,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result = @mysqli_query($this->conn_id, $sql);
+		while ( mysqli_more_results($this->conn_id) ) {
+			mysqli_next_result($this->conn_id);
+			$temp = mysqli_use_result($this->conn_id);
+			if ($temp) mysqli_free_result($temp);
+		}
 		return $result;
 	}
 
