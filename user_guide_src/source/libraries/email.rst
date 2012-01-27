@@ -105,6 +105,8 @@ Preference          Default Value          Options                      Descript
 **bcc_batch_mode**  FALSE                  TRUE or FALSE (boolean)      Enable BCC Batch Mode.
 **bcc_batch_size**  200                    None                         Number of emails in each BCC batch.
 **dsn**             FALSE                  TRUE or FALSE (boolean)      Enable notify message from server
+**inline_images**   FALSE                  TRUE or FALSE (boolean)      Enable automatic attaching of inline images in HTML email.
+**image_path**      No Default             None                         The base path for inline images.
 =================== ====================== ============================ =======================================================================
 
 Email Function Reference
