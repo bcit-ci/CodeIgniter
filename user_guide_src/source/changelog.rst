@@ -97,6 +97,7 @@ Bug fixes for 3.0
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+-  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 
 Version 2.1.0
 =============
