@@ -39,9 +39,10 @@ By default, the **index.php** file will be included in your URLs::
 
 	example.com/index.php/news/article/my_article
 
-You can easily remove this file by using a .htaccess file with some
-simple rules. Here is an example of such a file, using the "negative"
-method in which everything is redirected except the specified items:
+If your Apache server has mod_rewrite enabled, you can easily remove this
+file by using a .htaccess file with some simple rules. Here is an example
+of such a file, using the "negative" method in which everything is redirected
+except the specified items:
 
 ::
 	
@@ -52,6 +53,8 @@ method in which everything is redirected except the specified items:
 
 In the above example, any HTTP request other than those for existing
 directories and existing files is treated as a request for your index.php file.
+
+.. note:: Note: These specific rules might not work for all server configurations.
 
 Adding a URL Suffix
 ===================
