@@ -221,7 +221,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		{
 			return $sql.$this->db->protect_identifiers($fields);
 		}
-		
+
 		if ($alter_type === 'ENGINE')
 		{
 			return $sql.$fields;
