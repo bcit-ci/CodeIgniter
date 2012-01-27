@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Language Class
  *
@@ -74,22 +72,20 @@ class CI_Lang {
 
 		if ($add_suffix == TRUE)
 		{
-			$langfile = str_replace('_lang.', '', $langfile).'_lang';
+			$langfile = str_replace('_lang', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
-		{
-			return;
-		}
-
-		$config =& get_config();
-
 		if ($idiom == '')
 		{
-			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
-			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+			$config =& get_config();
+			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+		}
+
+		if ($return == FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
+		{
+			return;
 		}
 
 		// Determine where the language file is and load it
@@ -121,6 +117,11 @@ class CI_Lang {
 		if ( ! isset($lang) OR ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+
+			if ($return == TRUE)
+			{
+				return array();
+			}
 			return;
 		}
 
@@ -129,7 +130,7 @@ class CI_Lang {
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
+		$this->is_loaded[$langfile] = $idiom;
 		$this->language = array_merge($this->language, $lang);
 		unset($lang);
 
