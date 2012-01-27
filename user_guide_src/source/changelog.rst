@@ -47,7 +47,9 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
-   -  The PostgreSQL database driver now uses pg_version() for server version checking, when appropriate.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  PostgreSQL database driver now uses pg_version() for server version checking, when appropriate.
 
 -  Libraries
 

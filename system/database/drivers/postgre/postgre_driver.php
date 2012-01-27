@@ -66,7 +66,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @return	void
 	 */
-	private function __construct($params)
+	public function __construct($params)
 	{
 		parent::__construct($params);
 
