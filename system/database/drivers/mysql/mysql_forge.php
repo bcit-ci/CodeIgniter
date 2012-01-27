@@ -139,7 +139,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	string	the table engine
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists, $engine = NULL)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -221,6 +221,11 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		{
 			return $sql.$this->db->protect_identifiers($fields);
 		}
+		
+		if ($alter_type === 'ENGINE')
+		{
+			return $sql.$fields;
+		}
 
 		return $sql.$this->_process_fields($fields)
 			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
@@ -240,24 +245,6 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	public function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set engine of a table
-	 *
-	 * Generates a platform-specific query so engine of that a table can be changed
-	 *
-	 * @access	private
-	 * @param	string	the table name
-	 * @param	string	the table engine
-	 * @return	string
-	 */
-	function _set_table_engine($table_name, $engine)
-	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' ENGINE '.$engine;
-		return $sql;
 	}
 
 }

@@ -209,14 +209,7 @@ class CI_DB_forge {
 		}
 		else
 		{
-			if (method_exists($this, '_set_table_engine'))
-			{
-				$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists, $this->engine);
-			}
-			else
-			{
-				show_error('Your database does not support different engines.');
-			}
+			$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists, $this->engine);
 		}
 		$this->_reset();
 		return is_bool($sql) ? $sql : $this->db->query($sql);
@@ -266,21 +259,12 @@ class CI_DB_forge {
 	 */
 	public function set_table_engine($table_name, $engine)
 	{
-		if (method_exists($this, '_set_table_engine'))
+		if ($table_name == '' OR $engine == '')
 		{
-			if ($table_name == '' OR $engine == '')
-			{
-				show_error('A table name is required for that operation.');
-			}
-		
-			return $this->db->query($this->_set_table_engine($this->db->dbprefix.$table_name, $engine));
+			show_error('A table name is required for that operation.');
 		}
-		else
-		{
-			log_message('debug', 'Table change engine function does not exist.');
-			
-			return FALSE;
-		}
+	
+		return $this->db->query($this->_alter_table('ENGINE', $this->db->dbprefix.$table_name, $engine));
 	}
 
 	// --------------------------------------------------------------------
