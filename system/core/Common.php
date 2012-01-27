@@ -235,18 +235,18 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
-			$file_path = APPPATH.'config/config.php';
+			include(APPPATH.'config/'.ENVIRONMENT.'/config.php');
 		}
-
-		// Fetch the config file
-		if ( ! file_exists($file_path))
+		elseif (is_file(APPPATH.'config/config.php'))
+		{
+			include(APPPATH.'config/config.php');
+		}
+		else
 		{
 			exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))

@@ -40,13 +40,18 @@ function &DB($params = '', $active_record_override = NULL)
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			AND ! file_exists($file_path = APPPATH.'config/database.php'))
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/database.php');
+		}
+		elseif (is_file(APPPATH.'config/database.php'))
+		{
+			include(APPPATH.'config/database.php');
+		}
+		else
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
-
-		include($file_path);
 
 		if ( ! isset($db) OR count($db) === 0)
 		{
