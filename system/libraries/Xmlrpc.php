@@ -73,7 +73,7 @@ class CI_Xmlrpc {
 	public $message			= '';
 	public $error			= '';	// Error string for request
 	public $result;
-	public $response		= array();  // Response from remote server
+	public $response		= array(); // Response from remote server
 
 	public $xss_clean		= TRUE;
 
@@ -701,7 +701,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 					);
 
 		xml_set_object($parser, $this);
-		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, true);
+		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, TRUE);
 		xml_set_element_handler($parser, 'open_tag', 'closing_tag');
 		xml_set_character_data_handler($parser, 'character_data');
 		//xml_set_default_handler($parser, 'default_handler');
@@ -1237,7 +1237,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 
 		if ($type == $this->xmlrpcBoolean)
 		{
-			$val = (strcasecmp($val,'true') === 0 OR $val == 1 OR ($val == true && strcasecmp($val, 'false'))) ? 1 : 0;
+			$val = (strcasecmp($val,'true') === 0 OR $val == 1 OR ($val == TRUE && strcasecmp($val, 'false'))) ? 1 : 0;
 		}
 
 		if ($this->mytype == 2)

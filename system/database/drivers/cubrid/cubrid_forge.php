@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -93,7 +93,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t\"" . $this->db->_protect_identifiers($field) . "\"";
+				$sql .= "\n\t\"" . $this->db->_protect_identifiers($field) . '"';
 
 				if (array_key_exists('NAME', $attributes))
 				{
@@ -199,7 +199,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		{
 			$key_name = "pk_" . $table . "_" .
 				$this->db->_protect_identifiers(implode('_', $primary_keys));
-			
+
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
 			$sql .= ",\n\tCONSTRAINT " . $key_name . " PRIMARY KEY(" . implode(', ', $primary_keys) . ")";
 		}
@@ -218,7 +218,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 					$key_name = $this->db->_protect_identifiers($key);
 					$key = array($key_name);
 				}
-				
+
 				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ")";
 			}
 		}

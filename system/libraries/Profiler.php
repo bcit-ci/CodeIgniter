@@ -190,7 +190,7 @@ class CI_Profiler {
 		// Key words we want bolded
 		$highlight = array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR&nbsp;', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')');
 
-		$output  = "\n\n";
+		$output = "\n\n";
 
 		$count = 0;
 
@@ -248,7 +248,7 @@ class CI_Profiler {
 	 */
 	protected function _compile_get()
 	{
-		$output  = "\n\n"
+		$output = "\n\n"
 			. '<fieldset id="ci_profiler_get" style="border:1px solid #cd6e00;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">'
 			. "\n"
 			. '<legend style="color:#cd6e00;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_get_data').'&nbsp;&nbsp;</legend>'
@@ -270,7 +270,7 @@ class CI_Profiler {
 				}
 
 				$output .= "<tr><td style='width:50%;color:#000;background-color:#ddd;padding:5px'>&#36;_GET[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;'>"
-					. (is_array($val) ? "<pre>" . htmlspecialchars(stripslashes(print_r($val, true))) . "</pre>" : htmlspecialchars(stripslashes($val)))
+					. (is_array($val) ? "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>" : htmlspecialchars(stripslashes($val)))
 					. "</td></tr>\n";
 			}
 

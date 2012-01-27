@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -287,7 +287,7 @@ if ( ! function_exists('days_in_month'))
 
 		if ($month == 2)
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
+			if ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0))
 			{
 				return 29;
 			}
@@ -412,7 +412,7 @@ if ( ! function_exists('unix_to_human'))
 {
 	function unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
 	{
-		$r  = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
+		$r = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
 
 		if ($fmt == 'us')
 		{
@@ -469,18 +469,18 @@ if ( ! function_exists('human_to_unix'))
 
 		$ex = explode("-", $split['0']);
 
-		$year  = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
-		$month = (strlen($ex['1']) == 1) ? '0'.$ex['1']  : $ex['1'];
-		$day   = (strlen($ex['2']) == 1) ? '0'.$ex['2']  : $ex['2'];
+		$year = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
+		$month = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
+		$day = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
 
 		$ex = explode(":", $split['1']);
 
 		$hour = (strlen($ex['0']) == 1) ? '0'.$ex['0'] : $ex['0'];
-		$min  = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
+		$min = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
 
 		if (isset($ex['2']) && preg_match('/[0-9]{1,2}/', $ex['2']))
 		{
-			$sec  = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
+			$sec = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
 		}
 		else
 		{
@@ -492,14 +492,14 @@ if ( ! function_exists('human_to_unix'))
 		{
 			$ampm = strtolower($split['2']);
 
-			if (substr($ampm, 0, 1) == 'p' AND $hour < 12)
+			if (substr($ampm, 0, 1) == 'p' && $hour < 12)
 			{
 				$hour = $hour + 12;
 			}
 
-			if (substr($ampm, 0, 1) == 'a' AND $hour == 12)
+			if (substr($ampm, 0, 1) == 'a' && $hour == 12)
 			{
-				$hour =  '00';
+				$hour = '00';
 			}
 
 			if (strlen($hour) == 1)
@@ -537,13 +537,13 @@ if ( ! function_exists('nice_date'))
 		{
 			if (in_array(substr($bad_date, 0, 2),array('19', '20')))
 			{
-				$year  = substr($bad_date, 0, 4);
+				$year = substr($bad_date, 0, 4);
 				$month = substr($bad_date, 4, 2);
 			}
 			else
 			{
-				$month  = substr($bad_date, 0, 2);
-				$year   = substr($bad_date, 2, 4);
+				$month = substr($bad_date, 0, 2);
+				$year = substr($bad_date, 2, 4);
 			}
 
 			return date($format, strtotime($year . '-' . $month . '-01'));
@@ -553,8 +553,8 @@ if ( ! function_exists('nice_date'))
 		if (preg_match('/^\d{8}$/',$bad_date))
 		{
 			$month = substr($bad_date, 0, 2);
-			$day   = substr($bad_date, 2, 2);
-			$year  = substr($bad_date, 4, 4);
+			$day = substr($bad_date, 2, 2);
+			$year = substr($bad_date, 4, 4);
 
 			return date($format, strtotime($month . '/01/' . $year));
 		}
@@ -594,7 +594,7 @@ if ( ! function_exists('nice_date'))
  */
 if ( ! function_exists('timezone_menu'))
 {
-	function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
+	function timezone_menu($default = 'UTC', $class = '', $name = 'timezones')
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');

@@ -218,7 +218,7 @@ class CI_DB_result {
 			return;
 		}
 
-		if ($key != '' AND ! is_null($value))
+		if ($key != '' && ! is_null($value))
 		{
 			$this->row_data[$key] = $value;
 		}
@@ -239,7 +239,7 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
@@ -260,7 +260,7 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
@@ -283,7 +283,7 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}

@@ -328,7 +328,7 @@ class CI_Typography {
 	 */
 	protected function _format_newlines($str)
 	{
-		if ($str == '' OR (strpos($str, "\n") === FALSE AND ! in_array($this->last_block_element, $this->inner_block_required)))
+		if ($str == '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
 			return $str;
 		}
@@ -345,7 +345,7 @@ class CI_Typography {
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching
 			// the behavior of the opening <p> tag
-			$str =  '<p>'.rtrim($str).'</p>';
+			$str = '<p>'.rtrim($str).'</p>';
 		}
 
 		// Remove empty paragraphs if they are on the first line, as this

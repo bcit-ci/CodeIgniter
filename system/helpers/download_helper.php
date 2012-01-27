@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -70,7 +70,7 @@ if ( ! function_exists('force_download'))
 		$extension = end($x);
 
 		// Load the mime types
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 		}
@@ -88,7 +88,7 @@ if ( ! function_exists('force_download'))
 		{
 			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 		}
-		
+
 		// Generate the server headers
 		header('Content-Type: "'.$mime.'"');
 		header('Content-Disposition: attachment; filename="'.$filename.'"');

@@ -46,7 +46,7 @@ class CI_Javascript {
 
 		foreach ($defaults as $key => $val)
 		{
-			if (isset($params[$key]) && $params[$key] !== "")
+			if (isset($params[$key]) && $params[$key] !== '')
 			{
 				$defaults[$key] = $params[$key];
 			}
@@ -751,7 +751,7 @@ class CI_Javascript {
 		$json = array();
 		$_is_assoc = TRUE;
 
-		if ( ! is_array($json_result) AND empty($json_result))
+		if ( ! is_array($json_result) && empty($json_result))
 		{
 			show_error("Generate JSON Failed - Illegal key, value pair.");
 		}

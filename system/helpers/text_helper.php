@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -100,7 +100,7 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$out = "";
+		$out = '';
 		foreach (explode(' ', trim($str)) as $val)
 		{
 			$out .= $val.' ';
@@ -145,7 +145,7 @@ if ( ! function_exists('ascii_to_entities'))
 				*/
 				if (count($temp) == 1)
 				{
-					$out  .= '&#'.array_shift($temp).';';
+					$out .= '&#'.array_shift($temp).';';
 					$count = 1;
 				}
 
@@ -378,7 +378,7 @@ if ( ! function_exists('convert_accented_characters'))
 {
 	function convert_accented_characters($str)
 	{
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
 		}
@@ -445,7 +445,7 @@ if ( ! function_exists('word_wrap'))
 		$str = wordwrap($str, $charlim, "\n", FALSE);
 
 		// Split the string into individual lines of text and cycle through them
-		$output = "";
+		$output = '';
 		foreach (explode("\n", $str) as $line)
 		{
 			// Is the line within the allowed character count?

@@ -135,7 +135,7 @@ if ( ! function_exists('_list'))
 			}
 			$attributes = $atts;
 		}
-		elseif (is_string($attributes) AND strlen($attributes) > 0)
+		elseif (is_string($attributes) && strlen($attributes) > 0)
 		{
 			$attributes = ' '. $attributes;
 		}
@@ -217,7 +217,7 @@ if ( ! function_exists('img'))
 
 		foreach ($src as $k => $v)
 		{
-			if ($k === 'src' AND strpos($v, '://') === FALSE)
+			if ($k === 'src' && strpos($v, '://') === FALSE)
 			{
 				$CI =& get_instance();
 
@@ -232,7 +232,7 @@ if ( ! function_exists('img'))
 			}
 			else
 			{
-				$img .= " $k=\"$v\"";
+				$img .= ' '.$k.'="'.$v.'"';
 			}
 		}
 
@@ -263,7 +263,7 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($_doctypes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
 			}
@@ -309,7 +309,7 @@ if ( ! function_exists('link_tag'))
 		{
 			foreach ($href as $k => $v)
 			{
-				if ($k === 'href' AND strpos($v, '://') === FALSE)
+				if ($k === 'href' && strpos($v, '://') === FALSE)
 				{
 					if ($index_page === TRUE)
 					{

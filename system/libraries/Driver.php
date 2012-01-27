@@ -75,7 +75,7 @@ class CI_Driver_Library {
 
 						if (file_exists($filepath))
 						{
-							include_once $filepath;
+							include_once($filepath);
 							break 2;
 						}
 					}

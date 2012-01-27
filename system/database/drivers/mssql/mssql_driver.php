@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -399,7 +399,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
 
 		// for future compatibility
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
 			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			return FALSE; // not currently supported
@@ -577,7 +577,7 @@ class CI_DB_mssql_driver extends CI_DB {
 
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' && count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
 

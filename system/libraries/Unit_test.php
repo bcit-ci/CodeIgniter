@@ -75,7 +75,7 @@ class CI_Unit_test {
 	 */
 	public function set_test_items($items = array())
 	{
-		if ( ! empty($items) AND is_array($items))
+		if ( ! empty($items) && is_array($items))
 		{
 			$this->_test_items_visible = $items;
 		}
@@ -353,11 +353,11 @@ class CI_Unit_test {
  */
 function is_true($test)
 {
-	return (is_bool($test) AND $test === TRUE) ? TRUE : FALSE;
+	return (is_bool($test) && $test === TRUE) ? TRUE : FALSE;
 }
 function is_false($test)
 {
-	return (is_bool($test) AND $test === FALSE) ? TRUE : FALSE;
+	return (is_bool($test) && $test === FALSE) ? TRUE : FALSE;
 }
 
 

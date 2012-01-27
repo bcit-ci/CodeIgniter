@@ -227,7 +227,7 @@ if (defined('ENVIRONMENT'))
 	// The path to the "views" folder
 	if (is_dir($view_folder))
 	{
-		define ('VIEWPATH', $view_folder .'/');
+		define('VIEWPATH', $view_folder .'/');
 	}
 	else
 	{
@@ -236,7 +236,7 @@ if (defined('ENVIRONMENT'))
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
-		define ('VIEWPATH', APPPATH.'views/' );
+		define('VIEWPATH', APPPATH.'views/');
 	}
 
 /*
@@ -246,7 +246,7 @@ if (defined('ENVIRONMENT'))
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+require_once(BASEPATH.'core/CodeIgniter.php');
 
 /* End of file index.php */
 /* Location: ./index.php */

@@ -155,13 +155,13 @@ class CI_Pagination {
 				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
 		}
-		elseif ( ! $this->cur_page AND $CI->uri->segment($this->uri_segment) != $base_page)
+		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) != $base_page)
 		{
 			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
 
 		// Set current page to 1 if it's not valid or if using page numbers instead of offset
-		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers AND $this->cur_page == 0))
+		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page == 0))
 		{
 			$this->cur_page = $base_page;
 		}
@@ -217,18 +217,18 @@ class CI_Pagination {
 		$output = '';
 
 		// Render the "First" link
-		if  ($this->first_link !== FALSE AND $this->cur_page > ($this->num_links + 1))
+		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
 			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
 			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "previous" link
-		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
+		if ($this->prev_link !== FALSE && $this->cur_page != 1)
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if ($i == $base_page AND $this->first_url != '')
+			if ($i == $base_page && $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
@@ -274,7 +274,7 @@ class CI_Pagination {
 		}
 
 		// Render the "next" link
-		if ($this->next_link !== FALSE AND $this->cur_page < $num_pages)
+		if ($this->next_link !== FALSE && $this->cur_page < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
 
@@ -282,7 +282,7 @@ class CI_Pagination {
 		}
 
 		// Render the "Last" link
-		if ($this->last_link !== FALSE AND ($this->cur_page + $this->num_links) < $num_pages)
+		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links) < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 

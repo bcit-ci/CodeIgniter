@@ -281,7 +281,7 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') != '')
+		if ($this->config->item('url_suffix') != '')
 		{
 			$this->uri_string = preg_replace('|'.preg_quote($this->config->item('url_suffix')).'$|', '', $this->uri_string);
 		}
@@ -452,7 +452,7 @@ class CI_URI {
 		$segments = array_slice($this->$segment_array(), ($n - 1));
 		$i = 0;
 		$lastval = '';
-		$retval  = array();
+		$retval = array();
 		foreach ($segments as $seg)
 		{
 			if ($i % 2)

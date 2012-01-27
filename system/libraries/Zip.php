@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -42,7 +42,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/zip.html
  */
-class CI_Zip  {
+class CI_Zip {
 
 	var $zipdata	= '';
 	var $directory	= '';
@@ -101,7 +101,7 @@ class CI_Zip  {
 	{
 		// filemtime() may return false, but raises an error for non-existing files
 		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
-		
+
 		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
 		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
 
@@ -204,7 +204,7 @@ class CI_Zip  {
 		$filepath = str_replace("\\", "/", $filepath);
 
 		$uncompressed_size = strlen($data);
-		$crc32  = crc32($data);
+		$crc32 = crc32($data);
 
 		$gzdata = gzcompress($data);
 		$gzdata = substr($gzdata, 2, -4);

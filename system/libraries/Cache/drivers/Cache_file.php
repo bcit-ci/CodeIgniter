@@ -69,7 +69,7 @@ class CI_Cache_file extends CI_Driver {
 
 		$data = unserialize(read_file($this->_cache_path.$id));
 
-		if (time() >  $data['time'] + $data['ttl'])
+		if (time() > $data['time'] + $data['ttl'])
 		{
 			unlink($this->_cache_path.$id);
 			return FALSE;

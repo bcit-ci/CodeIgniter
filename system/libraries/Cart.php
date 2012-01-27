@@ -41,7 +41,7 @@ class CI_Cart {
 	// These are the regular expression rules that we use to validate the product ID and product name
 	public $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
 	public $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
-	public $product_name_safe  = true; // only allow safe product names
+	public $product_name_safe = TRUE; // only allow safe product names
 
 	// Private variables.  Do not change!
 	private $CI;
@@ -110,7 +110,7 @@ class CI_Cart {
 		{
 			foreach ($items as $val)
 			{
-				if (is_array($val) AND isset($val['id']))
+				if (is_array($val) && isset($val['id']))
 				{
 					if ($this->_insert($val))
 					{
@@ -213,7 +213,7 @@ class CI_Cart {
 		// Internally, we need to treat identical submissions, but with different options, as a unique product.
 		// Our solution is to convert the options array to a string and MD5 it along with the product ID.
 		// This becomes the unique "row ID"
-		if (isset($items['options']) AND count($items['options']) > 0)
+		if (isset($items['options']) && count($items['options']) > 0)
 		{
 			$rowid = md5($items['id'].implode('', $items['options']));
 		}

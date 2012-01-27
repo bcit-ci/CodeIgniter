@@ -232,7 +232,7 @@ class CI_Trackback {
 		// Build the path
 		$ppath = ( ! isset($target['path'])) ? $url : $target['path'];
 
-		$path = (isset($target['query']) && $target['query'] != "") ? $ppath.'?'.$target['query'] : $ppath;
+		$path = (isset($target['query']) && $target['query'] != '') ? $ppath.'?'.$target['query'] : $ppath;
 
 		// Add the Trackback ID to the data string
 		if ($id = $this->get_id($url))
@@ -249,7 +249,7 @@ class CI_Trackback {
 		fputs ($fp, $data);
 
 		// Was it successful?
-		$this->response = "";
+		$this->response = '';
 
 		while ( ! feof($fp))
 		{
@@ -335,16 +335,16 @@ class CI_Trackback {
 	 */
 	public function get_id($url)
 	{
-		$tb_id = "";
+		$tb_id = '';
 
 		if (strpos($url, '?') !== FALSE)
 		{
 			$tb_array = explode('/', $url);
-			$tb_end   = $tb_array[count($tb_array)-1];
+			$tb_end = $tb_array[count($tb_array)-1];
 
 			if ( ! is_numeric($tb_end))
 			{
-				$tb_end  = $tb_array[count($tb_array)-2];
+				$tb_end = $tb_array[count($tb_array)-2];
 			}
 
 			$tb_array = explode('=', $tb_end);
@@ -359,7 +359,7 @@ class CI_Trackback {
 
 			if ( ! is_numeric($tb_id))
 			{
-				$tb_id  = $tb_array[count($tb_array)-2];
+				$tb_id = $tb_array[count($tb_array)-2];
 			}
 		}
 

@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -112,7 +112,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
-				$sql .=  ' '.$attributes['TYPE'];
+				$sql .= ' '.$attributes['TYPE'];
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
@@ -229,11 +229,11 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			return FALSE;
 		}
 
-		$sql .= " $column_definition";
+		$sql .= ' ' . $column_definition;
 
 		if ($default_value != '')
 		{
-			$sql .= " DEFAULT \"$default_value\"";
+			$sql .= ' DEFAULT "' . $default_value . '"';
 		}
 
 		if ($null === NULL)

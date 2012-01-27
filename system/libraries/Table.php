@@ -182,7 +182,7 @@ class CI_Table {
 		// If there is no $args[0], skip this and treat as an associative array
 		// This can happen if there is only a single key, for example this is passed to table->generate
 		// array(array('foo'=>'bar'))
-		if (isset($args[0]) AND (count($args) === 1 && is_array($args[0])))
+		if (isset($args[0]) && (count($args) === 1 && is_array($args[0])))
 		{
 			// args sent as indexed array
 			if ( ! isset($args[0]['data']))
@@ -247,13 +247,13 @@ class CI_Table {
 			}
 			elseif (is_array($table_data))
 			{
-				$set_heading = (count($this->heading) === 0 AND $this->auto_heading == FALSE) ? FALSE : TRUE;
+				$set_heading = (count($this->heading) === 0 && $this->auto_heading == FALSE) ? FALSE : TRUE;
 				$this->_set_from_array($table_data, $set_heading);
 			}
 		}
 
 		// Is there anything to display?  No?  Smite them!
-		if (count($this->heading) === 0 AND count($this->rows) === 0)
+		if (count($this->heading) === 0 && count($this->rows) === 0)
 		{
 			return 'Undefined table data';
 		}
@@ -330,7 +330,7 @@ class CI_Table {
 					$cell = isset($cell['data']) ? $cell['data'] : '';
 					$out .= $temp;
 
-					if ($cell === "" OR $cell === NULL)
+					if ($cell === '' OR $cell === NULL)
 					{
 						$out .= $this->empty_cells;
 					}
@@ -433,7 +433,7 @@ class CI_Table {
 		foreach ($data as $row)
 		{
 			// If a heading hasn't already been set we'll use the first row of the array as the heading
-			if ($i++ === 0 AND count($data) > 1 AND count($this->heading) === 0 AND $set_heading == TRUE)
+			if ($i++ === 0 && count($data) > 1 && count($this->heading) === 0 && $set_heading == TRUE)
 			{
 				$this->heading = $this->_prep_args($row);
 			}
@@ -478,7 +478,7 @@ class CI_Table {
 	 */
 	protected function _default_template()
 	{
-		return  array (
+		return array (
 						'table_open'			=> '<table border="0" cellpadding="4" cellspacing="0">',
 
 						'thead_open'			=> '<thead>',
