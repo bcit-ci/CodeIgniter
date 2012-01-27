@@ -40,6 +40,7 @@ class CI_DB_forge {
 	public $keys		= array();
 	public $primary_keys	= array();
 	public $db_char_set	=	'';
+	public $engine = '';
 
 	public function __construct()
 	{
@@ -165,6 +166,26 @@ class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add engine
+	 *
+	 * @param	string	the table engine
+	 * @return	object
+	 */
+	public function add_engine($engine = '')
+	{
+		if ($engine == '')
+		{
+			show_error('An engine name is required for that operation.');
+		}
+		
+		$this->engine = $engine;
+		
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Create Table
 	 *
 	 * @param	string	the table name
@@ -181,8 +202,22 @@ class CI_DB_forge {
 		{
 			show_error('Field information is required.');
 		}
-
-		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
+		
+		if ($this->engine == '')
+		{
+			$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
+		}
+		else
+		{
+			if (method_exists($this, '_set_table_engine'))
+			{
+				$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists, $this->engine);
+			}
+			else
+			{
+				show_error('Your database does not support different engines.');
+			}
+		}
 		$this->_reset();
 		return is_bool($sql) ? $sql : $this->db->query($sql);
 	}
@@ -218,6 +253,34 @@ class CI_DB_forge {
 		}
 
 		return $this->db->query($this->_rename_table($this->db->dbprefix.$table_name, $this->db->dbprefix.$new_table_name));
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Change table engine
+	 *
+	 * @param	string	the table name
+	 * @param	string	the table engine (MyISAM, InnoDb, etc.)
+	 * @return	bool
+	 */
+	public function set_table_engine($table_name, $engine)
+	{
+		if (method_exists($this, '_set_table_engine'))
+		{
+			if ($table_name == '' OR $engine == '')
+			{
+				show_error('A table name is required for that operation.');
+			}
+		
+			return $this->db->query($this->_set_table_engine($this->db->dbprefix.$table_name, $engine));
+		}
+		else
+		{
+			log_message('debug', 'Table change engine function does not exist.');
+			
+			return FALSE;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -341,6 +404,7 @@ class CI_DB_forge {
 	protected function _reset()
 	{
 		$this->fields = $this->keys = $this->primary_keys = array();
+		$this->engine = '';
 	}
 
 }

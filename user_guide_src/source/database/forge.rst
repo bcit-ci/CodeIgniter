@@ -169,6 +169,17 @@ below is for MySQL.
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
 
+Adding table engine
+===================
+
+If you need to pre-define table engine you can simply use function add_engine().
+Make sure the function is placed before create_table() calling.
+
+::
+
+	$this->dbforge->add_engine('MyISAM');
+
+
 Creating a table
 ================
 
@@ -266,3 +277,16 @@ change the name you can add a "name" key into the field defining array.
 	);
 	$this->dbforge->modify_column('table_name', $fields);
 	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
+	
+
+$this->dbforge->set_table_engine()
+==================================
+
+The set_table_engine() function is used to change current table engine.
+It requires table name and new engine name as parameters.
+
+::
+
+	$this->dbforge->set_table_engine('table_name', 'MyISAM');
+	// This will produce and execute code: ALTER TABLE table_name ENGINE MyISAM
+

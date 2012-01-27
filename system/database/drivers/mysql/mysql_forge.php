@@ -167,9 +167,10 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @param	string	the table engine
 	 * @return	bool
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists, $engine = NULL)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -207,8 +208,15 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 				$sql .= ",\n\tKEY {$key_name} (" . implode(', ', $key) . ")";
 			}
 		}
-
-		$sql .= "\n) DEFAULT CHARACTER SET {$this->db->char_set} COLLATE {$this->db->dbcollat};";
+		
+		if (is_null($engine))
+		{
+			$sql .= "\n) DEFAULT CHARACTER SET {$this->db->char_set} COLLATE {$this->db->dbcollat};";
+		}
+		else
+		{
+			$sql .= "\n) ENGINE {$engine} DEFAULT CHARACTER SET {$this->db->char_set} COLLATE {$this->db->dbcollat};";
+		}
 
 		return $sql;
 	}
@@ -276,6 +284,24 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	function _rename_table($table_name, $new_table_name)
 	{
 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		return $sql;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set engine of a table
+	 *
+	 * Generates a platform-specific query so engine of that a table can be changed
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @param	string	the table engine
+	 * @return	string
+	 */
+	function _set_table_engine($table_name, $engine)
+	{
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' ENGINE '.$engine;
 		return $sql;
 	}
 
