@@ -670,11 +670,11 @@ class CI_Output {
 			
 			case 'text/javascript':
 
-				// Replace multiple spaces with a single newline.
-				$output = preg_replace('!\s{2,}!',"\n", $output);
+				// Replace multiple whitespace characters with a single newline.
+				//$output = preg_replace('!\s{2,}!',"\n", $output);
 
 				// Remove excessive newlines.
-				$output = preg_replace('!(;|{|})\n!','$1', $output);
+				//$output = preg_replace('!(;|{|})\n!','$1', $output);
 
 			break;
 		}
