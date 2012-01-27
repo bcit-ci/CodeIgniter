@@ -300,7 +300,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	* @param	string	$version
 	* @return	int	major version number
 	*/
-	private function _parse_major_version($version)
+	protected function _parse_major_version($version)
 	{
 		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
 		return $ver_info[1]; // return the major version b/c that's all we're interested in.
