@@ -75,6 +75,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('odbc_connect');
+
 		return @odbc_connect($this->hostname, $this->username, $this->password);
 	}
 
@@ -88,6 +91,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('odbc_pconnect');
+
 		return @odbc_pconnect($this->hostname, $this->username, $this->password);
 	}
 

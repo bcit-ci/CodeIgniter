@@ -67,6 +67,9 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('mssql_connect');
+
 		if ($this->port != '')
 		{
 			$this->hostname .= ','.$this->port;
@@ -85,6 +88,9 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('mssql_pconnect');
+
 		if ($this->port != '')
 		{
 			$this->hostname .= ','.$this->port;

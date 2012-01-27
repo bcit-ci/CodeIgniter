@@ -77,6 +77,9 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('mysql_connect');
+
 		if ($this->port != '')
 		{
 			$this->hostname .= ':'.$this->port;
@@ -95,6 +98,9 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('mysql_pconnect');
+
 		if ($this->port != '')
 		{
 			$this->hostname .= ':'.$this->port;

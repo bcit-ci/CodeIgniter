@@ -71,6 +71,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('cubrid_connect');
+
 		// If no port is defined by the user, use the default value
 		if ($this->port == '')
 		{

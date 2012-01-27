@@ -69,6 +69,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('sqlite_open');
+
 		if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error))
 		{
 			log_message('error', $error);
@@ -94,6 +97,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('sqlite_pconnect');
+
 		if ( ! $conn_id = @sqlite_popen($this->database, FILE_WRITE_MODE, $error))
 		{
 			log_message('error', $error);

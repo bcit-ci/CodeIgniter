@@ -89,6 +89,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('oci_connect');
+
 		return @oci_connect($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
@@ -102,6 +105,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
+		// Make sure the driver is available.
+		$this->driver_exists('oci_pconnect');
+
 		return @oci_pconnect($this->username, $this->password, $this->hostname, $this->char_set);
 	}
 
