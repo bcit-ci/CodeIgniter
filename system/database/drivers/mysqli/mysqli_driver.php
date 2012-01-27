@@ -85,6 +85,12 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
+		// Persistent connection support was added in PHP 5.3.0
+		if ( ! is_php('5.3'))
+		{
+			return $this->db_connect();
+		}
+
 		return ($this->port != '')
 			? @mysqli_connect('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port)
 			: @mysqli_connect('p:'.$this->hostname, $this->username, $this->password, $this->database);
