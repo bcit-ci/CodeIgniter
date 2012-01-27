@@ -246,8 +246,21 @@
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
 	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
 	{
-		// Check if 404_override controller is in a subfolder
-		if (file_exists(APPPATH.'controllers/'.$RTR->fetch_class().'/'.$RTR->fetch_class().'.php'))
+		// Check if 404_override controller is in a subfolder named different than parent folder        
+		if (file_exists(APPPATH.'controllers/'.$RTR->fetch_class().'/'.$RTR->fetch_method().'.php'))
+		{
+			$segments = explode('/',$RTR->routes['404_override']);
+			// If we have more than 3 segments we need just two
+			if (count($segments) > 2)
+			{
+				$RTR->method = $segments[2];
+				array_pop($segments);
+			}
+			$RTR->directory = $segments[0].'/';
+			$RTR->class = $segments[1];
+		}
+		// Check if 404_override controller is in a subfolder named same as the class
+		elseif (file_exists(APPPATH.'controllers/'.$RTR->fetch_class().'/'.$RTR->fetch_class().'.php'))
 		{
 			$RTR->directory = $RTR->fetch_class().'/';
 		}
