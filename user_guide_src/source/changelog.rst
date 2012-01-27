@@ -47,6 +47,8 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Added random ordering support to the MSSQL driver.
 
 -  Libraries
