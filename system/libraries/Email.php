@@ -55,15 +55,17 @@ class CI_Email {
 	public $charset		= "utf-8";	// Default char set: iso-8859-1 or us-ascii
 	public $multipart		= "mixed";	// "mixed" (in the body) or "related" (separate)
 	public $alt_message	= '';		// Alternative message for HTML emails
-	public $validate		= FALSE;	// TRUE/FALSE.  Enables email validation
+	public $validate		= FALSE;	// TRUE/FALSE  Enables email validation
 	public $priority		= "3";		// Default priority (1 - 5)
 	public $newline		= "\n";		// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
 	public $crlf			= "\n";		// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
-	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
+	public $send_multipart	= TRUE;		// TRUE/FALSE  Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE  Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	public $inline_images	= FALSE;	// TRUE/FALSE  Turns on/off attaching inline images
+	public $image_path		= '';	// TRUE/FALSE  Turns on/off attaching inline images
 	private $_safe_mode		= FALSE;
 	private $_subject		= "";
 	private $_body			= "";
@@ -84,6 +86,7 @@ class CI_Email {
 	private $_attach_name	= array();
 	private $_attach_type	= array();
 	private $_attach_disp	= array();
+	private $_attach_cid	= array();
 	private $_protocols		= array('mail', 'sendmail', 'smtp');
 	private $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	private $_bit_depths	= array('7bit', '8bit');
@@ -175,6 +178,7 @@ class CI_Email {
 			$this->_attach_name = array();
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
+			$this->_attach_cid  = array();
 		}
 
 		return $this;
@@ -423,7 +427,17 @@ class CI_Email {
 		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
-		return $this;
+		if ($disposition === 'inline')
+		{
+			$cid = $this->_get_content_id();
+			$this->_attach_cid[] = $cid;
+			return "cid:".$cid;
+		}
+		else
+		{
+			$this->_attach_cid[] = NULL;
+			return $this;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -604,7 +618,22 @@ class CI_Email {
 	{
 		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
 
-		return  "<".uniqid('').strstr($from, '@').">";
+		return "<".uniqid('').strstr($from, '@').">";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get a Content ID
+	 *
+	 * @access	protected
+	 * @return	string
+	 */
+	protected function _get_content_id()
+	{
+		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
+
+		return uniqid('').strstr($from, '@');
 	}
 
 	// --------------------------------------------------------------------
@@ -980,6 +1009,23 @@ class CI_Email {
 		$hdr = ($this->_get_protocol() === 'mail') ? $this->newline : '';
 		$body = '';
 
+		if ($this->inline_images === TRUE && $this->mailtype === 'html')
+		{
+			preg_match_all('/<.*?(src|background)\=\"(.*)\".*?>/', $this->_body, $matched_images, PREG_PATTERN_ORDER);
+			$embed_images = array_unique($matched_images[2]);
+			if (isset($embed_images))
+			{
+				foreach ($embed_images as $filename)
+				{
+					if (strpos($filename, '://') === FALSE)
+					{
+						$cid = $this->attach($this->image_path.$filename, "inline");
+						$this->_body = str_replace($filename, $cid, $this->_body);
+					}
+				}
+			}
+		}
+
 		switch ($this->_get_content_type())
 		{
 			case 'plain' :
@@ -1100,11 +1146,14 @@ class CI_Email {
 				return FALSE;
 			}
 
+			$content_id = ($this->_attach_cid[$i]) ? "Content-ID: <".$this->_attach_cid[$i].">".$this->newline : '';
+
 			$attachment[$z++] = "--".$this->_atc_boundary.$this->newline
-				. "Content-type: ".$ctype."; "
+				. "Content-Type: ".$ctype."; "
 				. "name=\"".$basename."\"".$this->newline
 				. "Content-Disposition: ".$this->_attach_disp[$i].";".$this->newline
-				. "Content-Transfer-Encoding: base64".$this->newline;
+				. "Content-Transfer-Encoding: base64".$this->newline
+				. $content_id;
 
 			$file = filesize($filename) +1;
 

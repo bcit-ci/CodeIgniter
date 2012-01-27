@@ -85,7 +85,7 @@ Preference          Default Value          Options                      Descript
 =================== ====================== ============================ =======================================================================
 **useragent**       CodeIgniter            None                         The "user agent".
 **protocol**        mail                   mail, sendmail, or smtp      The mail sending protocol.
-**mailpath**        /usr/sbin/sendmail     None                         The server path to Sendmail. 
+**mailpath**        /usr/sbin/sendmail     None                         The server path to Sendmail.
 **smtp_host**       No Default             None                         SMTP Server Address.
 **smtp_user**       No Default             None                         SMTP Username.
 **smtp_pass**       No Default             None                         SMTP Password.
@@ -104,6 +104,8 @@ Preference          Default Value          Options                      Descript
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **bcc_batch_mode**  FALSE                  TRUE or FALSE (boolean)      Enable BCC Batch Mode.
 **bcc_batch_size**  200                    None                         Number of emails in each BCC batch.
+**inline_images**   FALSE                  TRUE or FALSE (boolean)      Enable automatic attaching of inline images in HTML email.
+**image_path**      No Default             None                         The base path for inline images.
 =================== ====================== ============================ =======================================================================
 
 Email Function Reference
@@ -228,11 +230,12 @@ use the function multiple times. For example::
 	$this->email->attach('/path/to/photo2.jpg');
 	$this->email->attach('/path/to/photo3.jpg');
 
-If you'd like to change the disposition or add a custom file name, you can use the second and third paramaters. To use the default disposition (attachment), leave the second parameter blank. Here's an example::
-  
+If you'd like to change the disposition or add a custom file name, you
+can use the second and third paramaters. To use the default disposition
+(attachment), leave the second parameter blank. Here's an example::
+
 	$this->email->attach('/path/to/photo1.jpg', 'inline');
 	$this->email->attach('/path/to/photo1.jpg', '', 'birthday.jpg');
-	
 
 $this->email->print_debugger()
 -------------------------------
