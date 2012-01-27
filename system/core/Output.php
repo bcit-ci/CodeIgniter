@@ -593,12 +593,12 @@ class CI_Output {
 
 				$size_before = strlen($output);
 
-				// Keep track of <pre> <code> and <textarea> tags as
-				// they were before processing.
-				// We'll want to return them to this state later.
+				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
+				// We'll want to return them to this unprocessed state later.
 				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
 				preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
 				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
+				preg_match_all('{<script.+</script>}msU', $output, $javascript_clean);
 
 				// Minify the CSS in all the <style> tags.
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
@@ -606,39 +606,75 @@ class CI_Output {
 				{
 					$output = str_replace($s, $this->minify($s,'text/css'), $output);
 				}
+				
+				// Minify the javascript in <script> tags.
+				foreach ($javascript_clean[0] as $s)
+				{
+					$javascript_mini[] = $this->minify($s,'text/javascript');
+				}
 
 				// Replace multiple spaces with a single space.
-				$output = preg_replace('!\s{2,}!', "\n", $output);
+				$output = preg_replace('!\s{2,}!',' ', $output);
 				
 				// Remove comments (non-MSIE conditionals)
 				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
-				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s*}', '$1', $output);
+				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s+}msU', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
-				preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
-				preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
-				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
-				$output = str_replace($pres_messed[0], $pres_clean[0], $output);
-				$output = str_replace($codes_messed[0], $codes_clean[0], $output);
-				$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
 				
-				$size_after = strlen($output);
-				$savings_percent = round(100 - ($size_after / $size_before * 100));
+				if ( ! empty($pres_clean))
+				{
+					preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
+					$output = str_replace($pres_messed[0], $pres_clean[0], $output);
+				}
 				
-				log_message('debug', 'Minifier shaved '.$savings_percent.'% off HTML output size.');
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
+					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
+				}
+				
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
+					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
+				}
+				
+				if (isset($javascript_mini))
+				{
+					preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
+					$output = str_replace($javascript_messed[0], $javascript_mini, $output);
+				}
+				
+				$size_removed = $size_before - strlen($output);
+				$savings_percent = round(($size_removed / $size_before * 100));
+
+				log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
 
 			break;
 			
 			
 			case 'text/css':
 			
-				// Remove spaces around curly brackets, colons, and semi-colons
-				$output = preg_replace('!\s*(:|;|}|{)\s*!', '$1', $output);
-				
-				// Replace spaces with line breaks to limit line lengths
-				$output = preg_replace('!\s+!', "\n", $output);
+				//Remove CSS comments
+				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+			
+				// Remove spaces around curly brackets, colons,
+				// semi-colons, parenthesis, commas
+				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
+
+			break;
+			
+			
+			case 'text/javascript':
+
+				// Replace multiple spaces with a single newline.
+				$output = preg_replace('!\s{2,}!',"\n", $output);
+
+				// Remove excessive newlines.
+				$output = preg_replace('!(;|{|})\n!','$1', $output);
 
 			break;
 		}
