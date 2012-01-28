@@ -1089,7 +1089,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get($table = '', $limit = null, $offset = null)
+	public function get($table = '', $limit = NULL, $offset = NULL)
 	{
 		if ($table != '')
 		{
@@ -1147,7 +1147,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get_where($table = '', $where = null, $limit = null, $offset = null)
+	public function get_where($table = '', $where = NULL, $limit = NULL, $offset = NULL)
 	{
 		if ($table != '')
 		{

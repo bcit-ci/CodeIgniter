@@ -130,13 +130,13 @@ class CI_Xmlrpc {
 		$this->xmlrpcerr['introspect_unknown'] = '4';
 		$this->xmlrpcstr['introspect_unknown'] = 'Cannot inspect signature for request: method unknown';
 		$this->xmlrpcerr['http_error'] = '5';
-		$this->xmlrpcstr['http_error'] = "Did not receive a '200 OK' response from remote server.";
+		$this->xmlrpcstr['http_error'] = 'Did not receive a \'200 OK\' response from remote server.';
 		$this->xmlrpcerr['no_data'] = '6';
 		$this->xmlrpcstr['no_data'] ='No data received from server.';
 
 		$this->initialize($config);
 
-		log_message('debug', "XML-RPC Class Initialized");
+		log_message('debug', 'XML-RPC Class Initialized');
 	}
 
 
@@ -167,7 +167,7 @@ class CI_Xmlrpc {
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = "http://".$url;
+			$url = 'http://'.$url;
 		}
 
 		$parts = parse_url($url);
@@ -398,7 +398,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			. "Host: {$this->server}$r"
 			. "Content-Type: text/xml$r"
 			. "User-Agent: {$this->xmlrpcName}$r"
-			. "Content-Length: ".strlen($msg->payload)."$r$r"
+			. 'Content-Length: '.strlen($msg->payload)."$r$r"
 			. $msg->payload;
 
 
@@ -626,7 +626,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 	public function createPayload()
 	{
-		$this->payload = "<?xml version=\"1.0\"?".">\r\n<methodCall>\r\n"
+		$this->payload = '<?xml version="1.0"?>'."\r\n<methodCall>\r\n"
 				. '<methodName>'.$this->method_name."</methodName>\r\n"
 				. "<params>\r\n";
 
@@ -765,7 +765,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 		if ($this->debug === TRUE)
 		{
-			echo "<pre>";
+			echo '<pre>';
 
 			if (count($this->xh[$parser]['headers'] > 0))
 			{
@@ -850,7 +850,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			if ( ! in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], TRUE))
 			{
 				$this->xh[$the_parser]['isf'] = 2;
-				$this->xh[$the_parser]['isf_reason'] = "XML-RPC element $name cannot be child of ".$this->xh[$the_parser]['stack'][0];
+				$this->xh[$the_parser]['isf_reason'] = 'XML-RPC element '.$name.' cannot be child of '.$this->xh[$the_parser]['stack'][0];
 				return;
 			}
 		}
@@ -892,7 +892,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					//two data elements inside a value: an error occurred!
 					$this->xh[$the_parser]['isf'] = 2;
-					$this->xh[$the_parser]['isf_reason'] = "'Twas a $name element following a ".$this->xh[$the_parser]['vt']." element inside a single value";
+					$this->xh[$the_parser]['isf_reason'] = "'Twas a $name element following a ".$this->xh[$the_parser]['vt'].' element inside a single value';
 					return;
 				}
 
@@ -914,7 +914,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			default:
 				/// An Invalid Element is Found, so we have trouble
 				$this->xh[$the_parser]['isf'] = 2;
-				$this->xh[$the_parser]['isf_reason'] = "Invalid XML-RPC element found: $name";
+				$this->xh[$the_parser]['isf_reason'] = 'Invalid XML-RPC element found: '.$name;
 			break;
 		}
 

@@ -56,7 +56,7 @@ class CI_Zip {
 	 */
 	public function __construct()
 	{
-		log_message('debug', "Zip Compression Class Initialized");
+		log_message('debug', 'Zip Compression Class Initialized');
 
 		$this->now = time();
 	}
@@ -119,7 +119,7 @@ class CI_Zip {
 	 */
 	function _add_dir($dir, $file_mtime, $file_mdate)
 	{
-		$dir = str_replace("\\", "/", $dir);
+		$dir = str_replace('\\', '/', $dir);
 
 		$this->zipdata .=
 			"\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00"
@@ -201,7 +201,7 @@ class CI_Zip {
 	 */
 	function _add_data($filepath, $data, $file_mtime, $file_mdate)
 	{
-		$filepath = str_replace("\\", "/", $filepath);
+		$filepath = str_replace('\\', '/', $filepath);
 
 		$uncompressed_size = strlen($data);
 		$crc32 = crc32($data);
@@ -260,7 +260,7 @@ class CI_Zip {
 
 		if (FALSE !== ($data = file_get_contents($path)))
 		{
-			$name = str_replace("\\", "/", $path);
+			$name = str_replace('\\', '/', $path);
 
 			if ($preserve_filepath === FALSE)
 			{
@@ -308,13 +308,13 @@ class CI_Zip {
 
 			if (@is_dir($path.$file))
 			{
-				$this->read_dir($path.$file."/", $preserve_filepath, $root_path);
+				$this->read_dir($path.$file.'/', $preserve_filepath, $root_path);
 			}
 			else
 			{
 				if (FALSE !== ($data = file_get_contents($path.$file)))
 				{
-					$name = str_replace("\\", "/", $path);
+					$name = str_replace('\\', '/', $path);
 
 					if ($preserve_filepath === FALSE)
 					{

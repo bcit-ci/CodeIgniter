@@ -173,7 +173,7 @@ class CI_Trackback {
 	 */
 	public function send_error($message = 'Incomplete Information')
 	{
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
+		echo '<?xml version="1.0" encoding="utf-8"?>'."\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
 		exit;
 	}
 
@@ -189,7 +189,7 @@ class CI_Trackback {
 	 */
 	public function send_success()
 	{
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">\n<response>\n<error>0</error>\n</response>";
+		echo '<?xml version="1.0" encoding="utf-8"?>'."\n<response>\n<error>0</error>\n</response>";
 		exit;
 	}
 
@@ -237,14 +237,14 @@ class CI_Trackback {
 		// Add the Trackback ID to the data string
 		if ($id = $this->get_id($url))
 		{
-			$data = "tb_id=".$id."&".$data;
+			$data = 'tb_id='.$id.'&'.$data;
 		}
 
 		// Transfer the data
-		fputs ($fp, "POST " . $path . " HTTP/1.0\r\n" );
-		fputs ($fp, "Host: " . $target['host'] . "\r\n" );
+		fputs ($fp, 'POST ' . $path . " HTTP/1.0\r\n" );
+		fputs ($fp, 'Host: ' . $target['host'] . "\r\n" );
 		fputs ($fp, "Content-type: application/x-www-form-urlencoded\r\n" );
-		fputs ($fp, "Content-length: " . strlen($data) . "\r\n" );
+		fputs ($fp, 'Content-length: ' . strlen($data) . "\r\n" );
 		fputs ($fp, "Connection: close\r\n\r\n" );
 		fputs ($fp, $data);
 
@@ -286,7 +286,7 @@ class CI_Trackback {
 		$urls = preg_replace("/\s*(\S+)\s*/", "\\1,", $urls);
 
 		// If they use commas get rid of the doubles.
-		$urls = str_replace(",,", ",", $urls);
+		$urls = str_replace(',,', ',', $urls);
 
 		// Remove any comma that might be at the end
 		if (substr($urls, -1) === ',')
@@ -387,8 +387,8 @@ class CI_Trackback {
 
 		$str = preg_replace(array('/&#(\d+);/', '/&(\w+);/'), "$temp\\1;", $str);
 
-		$str = str_replace(array("&","<",">","\"", "'", "-"),
-							array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),
+		$str = str_replace(array('&','<','>','"', "'", '-'),
+							array('&amp;', '&lt;', '&gt;', '&quot;', '&#39;', '&#45;'),
 							$str);
 
 		$str = preg_replace(array("/$temp(\d+);/", "/$temp(\w+);/"), array('&#\\1;', '&\\1;'), $str);

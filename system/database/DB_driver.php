@@ -1062,7 +1062,7 @@ class CI_DB_driver {
 		}
 		else
 		{
-			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
+			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : NULL;
 
 			if (is_null($args))
 			{
@@ -1319,7 +1319,7 @@ class CI_DB_driver {
 		$alias = '';
 		if (strpos($item, ' ') !== FALSE)
 		{
-			$alias = strstr($item, " ");
+			$alias = strstr($item, ' ');
 			$item = substr($item, 0, - strlen($alias));
 		}
 

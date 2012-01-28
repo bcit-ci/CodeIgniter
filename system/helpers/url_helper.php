@@ -207,7 +207,7 @@ if ( ! function_exists('anchor_popup'))
 
 		if ($attributes === FALSE)
 		{
-			return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank');\">".$title."</a>";
+			return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url.'\', \'_blank\');">'.$title.'</a>';
 		}
 
 		if ( ! is_array($attributes))
@@ -226,7 +226,7 @@ if ( ! function_exists('anchor_popup'))
 			$attributes = _parse_attributes($attributes);
 		}
 
-		return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"$attributes>".$title."</a>";
+		return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url.'\', \'_blank\', \''._parse_attributes($atts, TRUE).'\');"'.$attributes.'>'.$title.'</a>';
 	}
 }
 
@@ -355,7 +355,7 @@ if ( ! function_exists('safe_mailto'))
 	for ($i = 0, $c = count($x); $i < $c; $i++) { ?>l[<?php echo $i; ?>]='<?php echo $x[$i]; ?>';<?php } ?>
 
 	for (var i = l.length-1; i >= 0; i=i-1){
-	if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";");
+	if (l[i].substring(0, 1) == '|') document.write('&#'+unescape(l[i].substring(1))+';');
 	else document.write(unescape(l[i]));}
 	//]]>
 	</script><?php

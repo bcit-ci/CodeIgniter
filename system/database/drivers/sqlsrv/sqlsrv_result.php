@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -75,11 +75,11 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	function list_fields()
 	{
 		$field_names = array();
-		foreach(sqlsrv_field_metadata($this->result_id) as $offset => $field)
+		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
 			$field_names[] = $field['Name'];
 		}
-		
+
 		return $field_names;
 	}
 
@@ -96,7 +96,7 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	function field_data()
 	{
 		$retval = array();
-		foreach(sqlsrv_field_metadata($this->result_id) as $offset => $field)
+		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
 			$F 				= new stdClass();
 			$F->name 		= $field['Name'];
@@ -104,10 +104,10 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 			$F->max_length	= $field['Size'];
 			$F->primary_key = 0;
 			$F->default		= '';
-			
+
 			$retval[] = $F;
 		}
-		
+
 		return $retval;
 	}
 

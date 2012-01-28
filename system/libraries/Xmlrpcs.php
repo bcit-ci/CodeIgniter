@@ -67,7 +67,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			$this->methods = array_merge($this->methods, $config['functions']);
 		}
 
-		log_message('debug', "XML-RPC Server Class Initialized");
+		log_message('debug', 'XML-RPC Server Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -143,10 +143,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	public function serve()
 	{
 		$r = $this->parseRequest();
-		$payload = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?'.'>'."\n".$this->debug_msg.$r->prepare_response();
+		$payload = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?>'."\n".$this->debug_msg.$r->prepare_response();
 
-		header("Content-Type: text/xml");
-		header("Content-Length: ".strlen($payload));
+		header('Content-Type: text/xml');
+		header('Content-Length: '.strlen($payload));
 		exit($payload);
 	}
 
@@ -198,7 +198,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
-		$parser_object = new XML_RPC_Message("filler");
+		$parser_object = new XML_RPC_Message('filler');
 
 		$parser_object->xh[$parser] = array(
 							'isf' =>	0,
@@ -305,7 +305,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  Check for Method (and Object)
 		//-------------------------------------
 
-		$method_parts = explode(".", $this->methods[$methName]['function']);
+		$method_parts = explode('.', $this->methods[$methName]['function']);
 		$objectCall = (isset($method_parts[1]) && $method_parts[1] != '');
 
 		if ($system_call === TRUE)

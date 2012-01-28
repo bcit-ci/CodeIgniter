@@ -222,8 +222,8 @@ if ( ! function_exists('entities_to_ascii'))
 
 		if ($all)
 		{
-			$str = str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
-								array("&","<",">","\"", "'", "-"),
+			$str = str_replace(array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
+								array('&','<','>','"', "'", '-'),
 								$str);
 		}
 
@@ -419,7 +419,7 @@ if ( ! function_exists('word_wrap'))
 			$charlim = 76;
 
 		// Reduce multiple spaces
-		$str = preg_replace("| +|", " ", $str);
+		$str = preg_replace("| +|", ' ', $str);
 
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)

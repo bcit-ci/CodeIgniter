@@ -55,7 +55,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(*) AS ";
+	var $_count_string = 'SELECT COUNT(*) AS ';
 	var $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
@@ -170,7 +170,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _version()
 	{
-		return "SELECT version() AS ver";
+		return 'SELECT version() AS ver';
 	}
 
 	// --------------------------------------------------------------------
@@ -230,7 +230,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		return @pg_exec($this->conn_id, "begin");
+		return @pg_exec($this->conn_id, 'begin');
 	}
 
 	// --------------------------------------------------------------------
@@ -254,7 +254,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "commit");
+		return @pg_exec($this->conn_id, 'commit');
 	}
 
 	// --------------------------------------------------------------------
@@ -278,7 +278,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "rollback");
+		return @pg_exec($this->conn_id, 'rollback');
 	}
 
 	// --------------------------------------------------------------------
@@ -389,7 +389,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 		{
@@ -453,7 +453,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return 'SELECT * FROM '.$table.' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -561,7 +561,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -579,7 +579,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _insert_batch($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values);
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -601,16 +601,16 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY ' . implode(', ', $orderby) : '';
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+		$sql = 'UPDATE '.$table.' SET '.implode(', ', $valstr);
 
-		$sql .= ($where != '' && count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' && count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -632,7 +632,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return 'TRUNCATE '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -659,14 +659,14 @@ class CI_DB_postgre_driver extends CI_DB {
 
 			if (count($where) > 0 && count($like) > 0)
 			{
-				$conditions .= " AND ";
+				$conditions .= ' AND ';
 			}
 			$conditions .= implode("\n", $like);
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return 'DELETE FROM '.$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -683,11 +683,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		$sql .= "LIMIT ".$limit;
+		$sql .= 'LIMIT '.$limit;
 
 		if ($offset > 0)
 		{
-			$sql .= " OFFSET ".$offset;
+			$sql .= ' OFFSET '.$offset;
 		}
 
 		return $sql;

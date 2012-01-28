@@ -150,7 +150,7 @@ class CI_Typography {
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunks[$i], $match))
 			{
-				if (preg_match("#".$this->skip_elements."#", $match[2]))
+				if (preg_match('#'.$this->skip_elements.'#', $match[2]))
 				{
 					$process = ($match[1] === '/');
 				}
@@ -230,7 +230,7 @@ class CI_Typography {
 
 						// Similarly, there might be cases where a closing </block> will follow
 						// a closing </p> tag, so we'll correct it by adding a newline in between
-						"#</p></#"			=> "</p>\n</"
+						'#</p></#'			=> "</p>\n</"
 						);
 
 		// Do we need to reduce empty lines?

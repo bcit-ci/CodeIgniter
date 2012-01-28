@@ -123,11 +123,11 @@ class CI_DB_cubrid_result extends CI_DB_result {
 			if ($res)
 			{
 				$row = cubrid_fetch_array($res, CUBRID_NUM);
-				$F->primary_key = ($row[0] > 0 ? 1 : null);
+				$F->primary_key = ($row[0] > 0 ? 1 : NULL);
 			}
 			else
 			{
-				$F->primary_key = null;
+				$F->primary_key = NULL;
 			}
 
 			if (is_resource($res))

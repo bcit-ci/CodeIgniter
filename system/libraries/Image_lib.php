@@ -101,7 +101,7 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
-		log_message('debug', "Image Lib Class Initialized");
+		log_message('debug', 'Image Lib Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -233,7 +233,7 @@ class CI_Image_lib {
 		 */
 		if (function_exists('realpath') && @realpath($this->source_image) !== FALSE)
 		{
-			$full_source_path = str_replace("\\", "/", realpath($this->source_image));
+			$full_source_path = str_replace('\\', '/', realpath($this->source_image));
 		}
 		else
 		{
@@ -275,7 +275,7 @@ class CI_Image_lib {
 			{
 				if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
 				{
-					$full_dest_path = str_replace("\\", "/", realpath($this->new_image));
+					$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
 				}
 				else
 				{
@@ -593,11 +593,11 @@ class CI_Image_lib {
 		}
 
 		// Execute the command
-		$cmd = $this->library_path." -quality ".$this->quality;
+		$cmd = $this->library_path.' -quality '.$this->quality;
 
 		if ($action == 'crop')
 		{
-			$cmd .= " -crop ".$this->width."x".$this->height."+".$this->x_axis."+".$this->y_axis." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' -crop '.$this->width.'x'.$this->height.'+'.$this->x_axis.'+'.$this->y_axis.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
 		elseif ($action == 'rotate')
 		{
@@ -611,11 +611,11 @@ class CI_Image_lib {
 					break;
 			}
 
-			$cmd .= " ".$angle." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' '.$angle.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
 		else // Resize
 		{
-			$cmd .= " -resize ".$this->width."x".$this->height." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
 
 		$retval = 1;

@@ -84,7 +84,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -144,7 +144,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -160,7 +160,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 					$key = array($this->db->_protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $key) . ')';
 			}
 		}
 
@@ -249,7 +249,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 

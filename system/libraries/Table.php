@@ -51,7 +51,7 @@ class CI_Table {
 
 	public function __construct()
 	{
-		log_message('debug', "Table Class Initialized");
+		log_message('debug', 'Table Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -287,7 +287,7 @@ class CI_Table {
 				{
 					if ($key != 'data')
 					{
-						$temp = str_replace('<th', "<th $key='$val'", $temp);
+						$temp = str_replace('<th', '<th '.$key.'="'.$val.'"', $temp);
 					}
 				}
 
@@ -323,7 +323,7 @@ class CI_Table {
 					{
 						if ($key !== 'data')
 						{
-							$temp = str_replace('<td', "<td $key='$val'", $temp);
+							$temp = str_replace('<td', '<td '.$key.'="'.$val.'"', $temp);
 						}
 					}
 

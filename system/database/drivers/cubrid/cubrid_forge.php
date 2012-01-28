@@ -190,18 +190,18 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			// As of version 8.4.0 CUBRID does not support this SQL syntax.
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).' (';
 
 		$sql .= $this->_process_fields($fields);
 
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
 		{
-			$key_name = "pk_" . $table . "_" .
+			$key_name = 'pk_' . $table . '_' .
 				$this->db->_protect_identifiers(implode('_', $primary_keys));
 
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tCONSTRAINT " . $key_name . " PRIMARY KEY(" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tCONSTRAINT " . $key_name . ' PRIMARY KEY(' . implode(', ', $primary_keys) . ')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -219,7 +219,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 					$key = array($key_name);
 				}
 
-				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ')';
 			}
 		}
 
@@ -238,7 +238,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table);
+		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -290,7 +290,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'RENAME TABLE '.$this->db->_protect_identifiers($table_name)." AS ".$this->db->_protect_identifiers($new_table_name);
+		$sql = 'RENAME TABLE '.$this->db->_protect_identifiers($table_name).' AS '.$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 

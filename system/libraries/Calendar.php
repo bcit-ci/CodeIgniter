@@ -71,7 +71,7 @@ class CI_Calendar {
 			$this->initialize($config);
 		}
 
-		log_message('debug', "Calendar Class Initialized");
+		log_message('debug', 'Calendar Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -147,7 +147,7 @@ class CI_Calendar {
 		// Set the starting day number
 		$local_date = mktime(12, 0, 0, $month, 1, $year);
 		$date = getdate($local_date);
-		$day = $start_day + 1 - $date["wday"];
+		$day = $start_day + 1 - $date['wday'];
 
 		while ($day > 1)
 		{

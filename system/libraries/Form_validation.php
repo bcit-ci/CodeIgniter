@@ -67,7 +67,7 @@ class CI_Form_validation {
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
 
-		log_message('debug', "Form Validation Class Initialized");
+		log_message('debug', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -316,7 +316,7 @@ class CI_Form_validation {
 			// We're we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
 			{
-				log_message('debug', "Unable to find validation rules");
+				log_message('debug', 'Unable to find validation rules');
 				return FALSE;
 			}
 		}
@@ -610,7 +610,7 @@ class CI_Form_validation {
 					}
 					else
 					{
-						log_message('debug', "Unable to find validation rule: ".$rule);
+						log_message('debug', 'Unable to find validation rule: '.$rule);
 					}
 
 					continue;
@@ -1217,7 +1217,7 @@ class CI_Form_validation {
 			return $data;
 		}
 
-		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($data));
+		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
 	}
 
 	// --------------------------------------------------------------------

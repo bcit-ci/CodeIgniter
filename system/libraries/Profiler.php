@@ -146,7 +146,7 @@ class CI_Profiler {
 		foreach ($profile as $key => $val)
 		{
 			$key = ucwords(str_replace(array('_', '-'), ' ', $key));
-			$output .= "<tr><td style='padding:5px;width:50%;color:#000;font-weight:bold;background-color:#ddd;'>".$key."&nbsp;&nbsp;</td><td style='padding:5px;width:50%;color:#900;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
+			$output .= '<tr><td style="padding:5px;width:50%;color:#000;font-weight:bold;background-color:#ddd;">'.$key.'&nbsp;&nbsp;</td><td style="padding:5px;width:50%;color:#900;font-weight:normal;background-color:#ddd;">'.$val."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -212,7 +212,7 @@ class CI_Profiler {
 
 			if (count($db->queries) === 0)
 			{
-				$output .= "<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
+				$output .= '<tr><td style="width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px;">'.$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
 			}
 			else
 			{
@@ -227,7 +227,7 @@ class CI_Profiler {
 						$val = str_replace($bold, '<strong>'.$bold.'</strong>', $val);
 					}
 
-					$output .= "<tr><td style='padding:5px; vertical-align: top;width:1%;color:#900;font-weight:normal;background-color:#ddd;'>".$time."&nbsp;&nbsp;</td><td style='padding:5px; color:#000;font-weight:normal;background-color:#ddd;'>".$val."</td></tr>\n";
+					$output .= '<tr><td style="padding:5px; vertical-align: top;width:1%;color:#900;font-weight:normal;background-color:#ddd;">'.$time.'&nbsp;&nbsp;</td><td style="padding:5px; color:#000;font-weight:normal;background-color:#ddd;">'.$val."</td></tr>\n";
 				}
 			}
 
@@ -256,11 +256,11 @@ class CI_Profiler {
 
 		if (count($_GET) === 0)
 		{
-			$output .= "<div style='color:#cd6e00;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_get')."</div>";
+			$output .= '<div style="color:#cd6e00;font-weight:normal;padding:4px 0 4px 0">'.$this->CI->lang->line('profiler_no_get').'</div>';
 		}
 		else
 		{
-			$output .= "\n\n<table style='width:100%; border:none'>\n";
+			$output .= "\n\n".'<table style="width:100%; border:none">'."\n";
 
 			foreach ($_GET as $key => $val)
 			{
@@ -269,8 +269,8 @@ class CI_Profiler {
 					$key = "'".$key."'";
 				}
 
-				$output .= "<tr><td style='width:50%;color:#000;background-color:#ddd;padding:5px'>&#36;_GET[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;'>"
-					. (is_array($val) ? "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>" : htmlspecialchars(stripslashes($val)))
+				$output .= '<tr><td style="width:50%;color:#000;background-color:#ddd;padding:5px">&#36;_GET['.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;">'
+					. (is_array($val) ? '<pre>' . htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>' : htmlspecialchars(stripslashes($val)))
 					. "</td></tr>\n";
 			}
 
@@ -297,7 +297,7 @@ class CI_Profiler {
 
 		if (count($_POST) == 0)
 		{
-			$output .= "<div style='color:#009900;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_post')."</div>";
+			$output .= '<div style="color:#009900;font-weight:normal;padding:4px 0 4px 0">'.$this->CI->lang->line('profiler_no_post').'</div>';
 		}
 		else
 		{
@@ -310,10 +310,10 @@ class CI_Profiler {
 					$key = "'".$key."'";
 				}
 
-				$output .= "<tr><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;'>";
+				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
 				if (is_array($val))
 				{
-					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>";
+					$output .= '<pre>' . htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>';
 				}
 				else
 				{
@@ -403,7 +403,7 @@ class CI_Profiler {
 		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
 		{
 			$val = (isset($_SERVER[$header])) ? $_SERVER[$header] : '';
-			$output .= "<tr><td style='vertical-align: top;width:50%;padding:5px;color:#900;background-color:#ddd;'>".$header."&nbsp;&nbsp;</td><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>".$val."</td></tr>\n";
+			$output .= '<tr><td style="vertical-align: top;width:50%;padding:5px;color:#900;background-color:#ddd;">'.$header.'&nbsp;&nbsp;</td><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">'.$val."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -433,7 +433,7 @@ class CI_Profiler {
 				$val = print_r($val, TRUE);
 			}
 
-			$output .= "<tr><td style='padding:5px; vertical-align: top;color:#900;background-color:#ddd;'>".$config."&nbsp;&nbsp;</td><td style='padding:5px; color:#000;background-color:#ddd;'>".htmlspecialchars($val)."</td></tr>\n";
+			$output .= '<tr><td style="padding:5px; vertical-align: top;color:#900;background-color:#ddd;">'.$config.'&nbsp;&nbsp;</td><td style="padding:5px; color:#000;background-color:#ddd;">'.htmlspecialchars($val)."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -455,7 +455,7 @@ class CI_Profiler {
 
 		$output = '<fieldset id="ci_profiler_csession" style="border:1px solid #000;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">'
 			. '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_session_data').'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_session_data\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show').'</span>)</legend>'
-			. "<table style='width:100%;display:none' id='ci_profiler_session_data'>";
+			. '<table style="width:100%;display:none" id="ci_profiler_session_data">';
 
 		foreach ($this->CI->session->all_userdata() as $key => $val)
 		{
@@ -464,7 +464,7 @@ class CI_Profiler {
 				$val = print_r($val, TRUE);
 			}
 
-			$output .= "<tr><td style='padding:5px; vertical-align: top;color:#900;background-color:#ddd;'>".$key."&nbsp;&nbsp;</td><td style='padding:5px; color:#000;background-color:#ddd;'>".htmlspecialchars($val)."</td></tr>\n";
+			$output .= '<tr><td style="padding:5px; vertical-align: top;color:#900;background-color:#ddd;">'.$key.'&nbsp;&nbsp;</td><td style="padding:5px; color:#000;background-color:#ddd;">'.htmlspecialchars($val)."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -479,7 +479,7 @@ class CI_Profiler {
 	 */
 	public function run()
 	{
-		$output = "<div id='codeigniter_profiler' style='clear:both;background-color:#fff;padding:10px;'>";
+		$output = '<div id="codeigniter_profiler" style="clear:both;background-color:#fff;padding:10px;">';
 		$fields_displayed = 0;
 
 		foreach ($this->_available_sections as $section)

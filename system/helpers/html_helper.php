@@ -322,7 +322,7 @@ if ( ! function_exists('link_tag'))
 				}
 				else
 				{
-					$link .= "$k=\"$v\" ";
+					$link .= $k.'="'.$v.'" ';
 				}
 			}
 

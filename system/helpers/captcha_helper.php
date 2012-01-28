@@ -94,7 +94,7 @@ if ( ! function_exists('create_captcha'))
 		// Remove old images
 		// -----------------------------------
 
-		list($usec, $sec) = explode(" ", microtime());
+		list($usec, $sec) = explode(' ', microtime());
 		$now = ((float)$usec + (float)$sec);
 
 		$current_dir = @opendir($img_path);
@@ -244,7 +244,7 @@ if ( ! function_exists('create_captcha'))
 
 		ImageJPEG($im, $img_path.$img_name);
 
-		$img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
+		$img = '<img src="'.$img_url.$img_name.'" width="'.$img_width.'" height="'.$img_height.'" style="border:0;" alt=" " />';
 
 		ImageDestroy($im);
 

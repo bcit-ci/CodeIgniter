@@ -45,7 +45,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _create_database($name)
 	{
-		return "CREATE DATABASE ".$name;
+		return 'CREATE DATABASE '.$name;
 	}
 
 	// --------------------------------------------------------------------
@@ -59,7 +59,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _drop_database($name)
 	{
-		return "DROP DATABASE ".$name;
+		return 'DROP DATABASE '.$name;
 	}
 
 	// --------------------------------------------------------------------
@@ -198,7 +198,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			}
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).' (';
 		$sql .= $this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
@@ -209,7 +209,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$primary_keys[$index] = $this->db->_protect_identifiers($key);
 			}
 
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ')';
 		}
 
 		$sql .= "\n);";
@@ -229,7 +229,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 				foreach ($key as $field)
 				{
-					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
+					$sql .= 'CREATE INDEX ' . $table . '_' . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
 				}
 			}
 		}
@@ -244,7 +244,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table)." CASCADE";
+		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table).' CASCADE';
 	}
 
 	// --------------------------------------------------------------------
@@ -299,7 +299,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 }

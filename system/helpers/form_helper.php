@@ -80,7 +80,7 @@ if ( ! function_exists('form_open'))
 
 		if (is_array($hidden) && count($hidden) > 0)
 		{
-			$form .= sprintf("<div style=\"display:none\">%s</div>", form_hidden($hidden));
+			$form .= sprintf('<div style="display:none">%s</div>', form_hidden($hidden));
 		}
 
 		return $form;
@@ -346,7 +346,7 @@ if ( ! function_exists('form_dropdown'))
 					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
 				}
 
-				$form .= '</optgroup>'."\n";
+				$form .= "</optgroup>\n";
 			}
 			else
 			{
@@ -528,7 +528,7 @@ if ( ! function_exists('form_label'))
 			}
 		}
 
-		return $label .= ">$label_text</label>";
+		return $label .= '>'.$label_text.'</label>';
 	}
 }
 
@@ -571,7 +571,7 @@ if ( ! function_exists('form_fieldset_close'))
 {
 	function form_fieldset_close($extra = '')
 	{
-		return "</fieldset>".$extra;
+		return '</fieldset>'.$extra;
 	}
 }
 
@@ -588,7 +588,7 @@ if ( ! function_exists('form_close'))
 {
 	function form_close($extra = '')
 	{
-		return "</form>".$extra;
+		return '</form>'.$extra;
 	}
 }
 

@@ -107,7 +107,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// CSRF config
-		foreach(array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+		foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 		{
 			if (FALSE !== ($val = config_item($key)))
 			{

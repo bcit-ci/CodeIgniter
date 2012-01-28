@@ -56,7 +56,7 @@ if ( ! function_exists('now'))
 		if (strtolower($CI->config->item('time_reference')) == 'gmt')
 		{
 			$now = time();
-			$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
+			$system_time = mktime(gmdate('H', $now), gmdate('i', $now), gmdate('s', $now), gmdate('m', $now), gmdate('d', $now), gmdate('Y', $now));
 
 			if (strlen($system_time) < 10)
 			{
@@ -317,12 +317,12 @@ if ( ! function_exists('local_to_gmt'))
 		}
 
 		return mktime(
-			gmdate("H", $time),
-			gmdate("i", $time),
-			gmdate("s", $time),
-			gmdate("m", $time),
-			gmdate("d", $time),
-			gmdate("Y", $time)
+			gmdate('H', $time),
+			gmdate('i', $time),
+			gmdate('s', $time),
+			gmdate('m', $time),
+			gmdate('d', $time),
+			gmdate('Y', $time)
 		);
 	}
 }
@@ -467,13 +467,13 @@ if ( ! function_exists('human_to_unix'))
 
 		$split = explode(' ', $datestr);
 
-		$ex = explode("-", $split['0']);
+		$ex = explode('-', $split['0']);
 
 		$year = (strlen($ex['0']) == 2) ? '20'.$ex['0'] : $ex['0'];
 		$month = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
 		$day = (strlen($ex['2']) == 1) ? '0'.$ex['2'] : $ex['2'];
 
-		$ex = explode(":", $split['1']);
+		$ex = explode(':', $split['1']);
 
 		$hour = (strlen($ex['0']) == 1) ? '0'.$ex['0'] : $ex['0'];
 		$min = (strlen($ex['1']) == 1) ? '0'.$ex['1'] : $ex['1'];
@@ -571,7 +571,7 @@ if ( ! function_exists('nice_date'))
 		// return "Invalid Date".
 		if (date('U', strtotime($bad_date)) == '0')
 		{
-			return "Invalid Date";
+			return 'Invalid Date';
 		}
 
 		// It's probably a valid-ish date format already
@@ -612,11 +612,11 @@ if ( ! function_exists('timezone_menu'))
 
 		foreach (timezones() as $key => $val)
 		{
-			$selected = ($default == $key) ? " selected='selected'" : '';
+			$selected = ($default == $key) ? ' selected="selected"' : '';
 			$menu .= "<option value='{$key}'{$selected}>".$CI->lang->line($key)."</option>\n";
 		}
 
-		$menu .= "</select>";
+		$menu .= '</select>';
 
 		return $menu;
 	}

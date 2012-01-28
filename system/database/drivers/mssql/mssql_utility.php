@@ -44,7 +44,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases
+		return 'EXEC sp_helpdb'; // Can also be: EXEC sp_databases
 	}
 
 	// --------------------------------------------------------------------
