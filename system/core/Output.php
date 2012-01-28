@@ -604,17 +604,17 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->minify($s,'text/css'), $output);
+					$output = str_replace($s, $this->minify($s, 'text/css'), $output);
 				}
 				
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-					$javascript_mini[] = $this->minify($s,'text/javascript');
+					$javascript_mini[] = $this->minify($s, 'text/javascript');
 				}
 
 				// Replace multiple spaces with a single space.
-				$output = preg_replace('!\s{2,}!',' ', $output);
+				$output = preg_replace('!\s{2,}!', ' ', $output);
 				
 				// Remove comments (non-MSIE conditionals)
 				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
@@ -670,12 +670,7 @@ class CI_Output {
 			
 			case 'text/javascript':
 
-				// Replace multiple whitespace characters with a single newline.
-				//$output = preg_replace('!\s{2,}!',"\n", $output);
-
-				// Remove excessive newlines.
-				//$output = preg_replace('!(;|{|})\n!','$1', $output);
-
+				// Currently leaves JavaScript untouched.
 			break;
 		}
 		
