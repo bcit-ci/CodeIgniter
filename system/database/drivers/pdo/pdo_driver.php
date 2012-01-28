@@ -218,10 +218,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function pdo_connect()
 	{
-		// Safety for MySQL charset
+		// Refer : http://ch2.php.net/manual/en/ref.pdo-mysql.connection.php
 		if ($this->pdodriver == 'mysql' && is_php('5.3.6'))
 		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set;
 		}
 
 		// Connecting...
