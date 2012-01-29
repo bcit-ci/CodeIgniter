@@ -245,8 +245,7 @@ class CI_Config {
 
 		if ($this->item('enable_query_strings') == FALSE)
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri);
 		}
 		else
 		{
@@ -284,19 +283,21 @@ class CI_Config {
 			{
 				$uri = implode('/', $uri);
 			}
-			return trim($uri, '/');
+			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
+			if (strpos($uri, '?') === FALSE)
+			{
+				return trim($uri, '/').$suffix;
+			}
+			else
+			{
+				// There is a query string in uri, add suffix before parameters
+				list($uri_seg, $uri_qry) = explode('?', $uri);
+				return trim($uri_seg, '/').$suffix.'?'.$uri_qry;
+			}
 		}
 		elseif (is_array($uri))
 		{
-			$i = 0;
-			$str = '';
-			foreach ($uri as $key => $val)
-			{
-				$prefix = ($i === 0) ? '' : '&';
-				$str .= $prefix.$key.'='.$val;
-				$i++;
-			}
-			return $str;
+			return http_build_query($uri);
 		}
 
 		return $uri;
