@@ -584,9 +584,50 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		$i = $limit + $offset;
-	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+		$limit     = (int)$limit;
+		$start_row = (int)$offset;
+		$end_row   = $limit + $offset;
+
+		if($limit > 0 && $offset > 0)
+		{
+			preg_match('/^\bSELECT\b.*$/m', $sql, $select);
+			preg_match('/^\bORDER BY\b.*$/m', $sql, $order_by);
+
+			$new_select = '';
+			$new_sql    = '';
+
+			if(isset($select[0]))
+			{
+				if(isset($order_by[0]))
+				{
+					$new_select = "{$select[0]}, ROW_NUMBER() OVER ({$order_by[0]}) AS row_num";
+				}
+				else
+				{
+					$new_select = "{$select[0]}, ROW_NUMBER() OVER (ORDER BY NEWID()) AS row_num";
+				}
+
+				if(strpos($new_select, 'SELECT TOP') !== 0)
+				{
+					$new_select = substr_replace($new_select, "SELECT TOP {$end_row} ", 0, 7);
+				}
+
+				$new_sql = str_replace($select[0], $new_select, $sql);
+
+				return "
+					;WITH results_CTE AS
+					(
+						{$new_sql}
+					)
+					SELECT *
+					FROM results_CTE
+					WHERE row_num > {$start_row}
+					AND row_num <= {$end_row}
+				";
+			}
+		}
+
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$end_row.' ', $sql);
 	}
 
 	// --------------------------------------------------------------------
