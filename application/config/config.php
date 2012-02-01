@@ -297,12 +297,15 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_domain' = Set to .your-domain.com for site-wide cookies
 | 'cookie_path'   =  Typically will be a forward slash
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
+| 'cookie_httponly'			= Whether to mark the cookie as httponly. Httponly means javascript
+|   cannot access the cookie (not implemented in all browsers, most modern do)
 |
 */
 $config['cookie_prefix']	= "";
 $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
+$config['cookie_httponly']	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
