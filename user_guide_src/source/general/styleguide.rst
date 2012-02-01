@@ -441,6 +441,13 @@ same level as the control statement that "owns" them.
 			// ...
 			}
 		}
+		
+	try {
+		// ...
+	}
+	catch() {
+		// ...
+	}
 
 **CORRECT**::
 
@@ -469,6 +476,15 @@ same level as the control statement that "owns" them.
 		{
 			// ...
 		}
+	}
+	
+	try 
+	{
+		// ...
+	}
+	catch()
+	{
+		// ...
 	}
 
 Bracket and Parenthetic Spacing
