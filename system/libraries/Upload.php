@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -43,14 +43,14 @@ class CI_Upload {
 	public $max_height				= 0;
 	public $max_filename			= 0;
 	public $max_filename_increment 	= 100;
-	public $allowed_types			= "";
-	public $file_temp				= "";
-	public $file_name				= "";
-	public $orig_name				= "";
-	public $file_type				= "";
-	public $file_size				= "";
-	public $file_ext				= "";
-	public $upload_path				= "";
+	public $allowed_types			= '';
+	public $file_temp				= '';
+	public $file_name				= '';
+	public $orig_name				= '';
+	public $file_type				= '';
+	public $file_size				= '';
+	public $file_ext				= '';
+	public $upload_path				= '';
 	public $overwrite				= FALSE;
 	public $encrypt_name			= FALSE;
 	public $is_image				= FALSE;
@@ -62,7 +62,7 @@ class CI_Upload {
 	public $mimes					= array();
 	public $remove_spaces			= TRUE;
 	public $xss_clean				= FALSE;
-	public $temp_prefix				= "temp_file_";
+	public $temp_prefix				= 'temp_file_';
 	public $client_name				= '';
 
 	protected $_file_name_override	= '';
@@ -98,14 +98,14 @@ class CI_Upload {
 							'max_height'				=> 0,
 							'max_filename'				=> 0,
 							'max_filename_increment'	=> 100,
-							'allowed_types'				=> "",
-							'file_temp'					=> "",
-							'file_name'					=> "",
-							'orig_name'					=> "",
-							'file_type'					=> "",
-							'file_size'					=> "",
-							'file_ext'					=> "",
-							'upload_path'				=> "",
+							'allowed_types'				=> '',
+							'file_temp'					=> '',
+							'file_name'					=> '',
+							'orig_name'					=> '',
+							'file_type'					=> '',
+							'file_size'					=> '',
+							'file_ext'					=> '',
+							'upload_path'				=> '',
 							'overwrite'					=> FALSE,
 							'encrypt_name'				=> FALSE,
 							'is_image'					=> FALSE,
@@ -117,7 +117,7 @@ class CI_Upload {
 							'mimes'						=> array(),
 							'remove_spaces'				=> TRUE,
 							'xss_clean'					=> FALSE,
-							'temp_prefix'				=> "temp_file_",
+							'temp_prefix'				=> 'temp_file_',
 							'client_name'				=> ''
 						);
 
@@ -199,7 +199,7 @@ class CI_Upload {
 				case 8: // UPLOAD_ERR_EXTENSION
 					$this->set_error('upload_stopped_by_extension');
 					break;
-				default :   $this->set_error('upload_no_file_selected');
+				default: $this->set_error('upload_no_file_selected');
 					break;
 			}
 
@@ -533,7 +533,7 @@ class CI_Upload {
 				$this->image_width		= $D['0'];
 				$this->image_height		= $D['1'];
 				$this->image_type		= ( ! isset($types[$D['2']])) ? 'unknown' : $types[$D['2']];
-				$this->image_size_str	= $D['3'];  // string containing height and width
+				$this->image_size_str	= $D['3']; // string containing height and width
 			}
 		}
 	}
@@ -566,7 +566,7 @@ class CI_Upload {
 		// IE will sometimes return odd mime-types during upload, so here we just standardize all
 		// jpegs or pngs to the same file type.
 
-		$png_mimes  = array('image/x-png');
+		$png_mimes = array('image/x-png');
 		$jpeg_mimes = array('image/jpg', 'image/jpe', 'image/jpeg', 'image/pjpeg');
 
 		if (in_array($this->file_type, $png_mimes))
@@ -657,7 +657,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		if ($this->max_size != 0  AND  $this->file_size > $this->max_size)
+		if ($this->max_size != 0 && $this->file_size > $this->max_size)
 		{
 			return FALSE;
 		}
@@ -685,12 +685,12 @@ class CI_Upload {
 		{
 			$D = @getimagesize($this->file_temp);
 
-			if ($this->max_width > 0 AND $D['0'] > $this->max_width)
+			if ($this->max_width > 0 && $D['0'] > $this->max_width)
 			{
 				return FALSE;
 			}
 
-			if ($this->max_height > 0 AND $D['1'] > $this->max_height)
+			if ($this->max_height > 0 && $D['1'] > $this->max_height)
 			{
 				return FALSE;
 			}
@@ -719,7 +719,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('realpath') AND @realpath($this->upload_path) !== FALSE)
+		if (function_exists('realpath') && @realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace("\\", "/", realpath($this->upload_path));
 		}
@@ -736,7 +736,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/",  $this->upload_path);
+		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/", $this->upload_path);
 		return TRUE;
 	}
 
@@ -954,7 +954,7 @@ class CI_Upload {
 
 		if (count($this->mimes) == 0)
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 			}

@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -44,7 +44,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 */
 	function _list_databases()
 	{
-		return "SELECT datname FROM pg_database";
+		return 'SELECT datname FROM pg_database';
 	}
 
 	// --------------------------------------------------------------------

@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -94,16 +94,16 @@ if ( ! function_exists('create_captcha'))
 		// Remove old images
 		// -----------------------------------
 
-		list($usec, $sec) = explode(" ", microtime());
+		list($usec, $sec) = explode(' ', microtime());
 		$now = ((float)$usec + (float)$sec);
 
 		$current_dir = @opendir($img_path);
 
 		while ($filename = @readdir($current_dir))
 		{
-			if ($filename != "." and $filename != ".." and $filename != "index.html")
+			if ($filename != '.' && $filename != '..' && $filename != 'index.html')
 			{
-				$name = str_replace(".jpg", "", $filename);
+				$name = str_replace('.jpg', '', $filename);
 
 				if (($name + $expiration) < $now)
 				{
@@ -118,8 +118,8 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-	   if ($word == '')
-	   {
+		if ($word == '')
+		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			$str = '';
@@ -129,7 +129,7 @@ if ( ! function_exists('create_captcha'))
 			}
 
 			$word = $str;
-	   }
+		}
 
 		// -----------------------------------
 		// Determine angle and position
@@ -198,7 +198,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
+		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
 		{
@@ -244,7 +244,7 @@ if ( ! function_exists('create_captcha'))
 
 		ImageJPEG($im, $img_path.$img_name);
 
-		$img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
+		$img = '<img src="'.$img_url.$img_name.'" width="'.$img_width.'" height="'.$img_height.'" style="border:0;" alt=" " />';
 
 		ImageDestroy($im);
 

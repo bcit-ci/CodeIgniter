@@ -124,7 +124,7 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_library_paths = array(APPPATH, BASEPATH);
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
@@ -281,7 +281,7 @@ class CI_Loader {
 				continue;
 			}
 
-			if ($db_conn !== FALSE AND ! class_exists('CI_DB'))
+			if ($db_conn !== FALSE && ! class_exists('CI_DB'))
 			{
 				if ($db_conn === TRUE)
 				{
@@ -324,7 +324,7 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == NULL AND isset($CI->db) AND is_object($CI->db))
+		if (class_exists('CI_DB') && $return == FALSE && $active_record == NULL && isset($CI->db) && is_object($CI->db))
 		{
 			return FALSE;
 		}
@@ -447,14 +447,14 @@ class CI_Loader {
 	 */
 	public function vars($vars = array(), $val = '')
 	{
-		if ($val != '' AND is_string($vars))
+		if ($val != '' && is_string($vars))
 		{
 			$vars = array($vars => $val);
 		}
 
 		$vars = $this->_ci_object_to_array($vars);
 
-		if (is_array($vars) AND count($vars) > 0)
+		if (is_array($vars) && count($vars) > 0)
 		{
 			foreach ($vars as $key => $val)
 			{
@@ -625,7 +625,7 @@ class CI_Loader {
 		if ( ! class_exists('CI_Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
+			require(BASEPATH.'libraries/Driver.php');
 		}
 
 		if ($library == '')
@@ -833,7 +833,7 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ((bool) @ini_get('short_open_tag') === FALSE AND config_item('rewrite_short_tags') == TRUE)
+		if ((bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') == TRUE)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
@@ -1014,7 +1014,7 @@ class CI_Loader {
 	 */
 	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{
-		// Is there an associated config file for this class?  Note: these should always be lowercase
+		// Is there an associated config file for this class? Note: these should always be lowercase
 		if ($config === NULL)
 		{
 			// Fetch the config paths containing any package paths
@@ -1029,12 +1029,12 @@ class CI_Loader {
 					// We test for both uppercase and lowercase, for servers that
 					// are case-sensitive with regard to file names. Check for environment
 					// first, global next
-					if (defined('ENVIRONMENT') AND file_exists($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
+					if (defined('ENVIRONMENT') && file_exists($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
 					{
 						include($path .'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
 						break;
 					}
-					elseif (defined('ENVIRONMENT') AND file_exists($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
+					elseif (defined('ENVIRONMENT') && file_exists($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
 					{
 						include($path .'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
 						break;
@@ -1121,7 +1121,7 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
 		}
@@ -1157,14 +1157,14 @@ class CI_Loader {
 		// Autoload helpers and languages
 		foreach (array('helper', 'language') as $type)
 		{
-			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
+			if (isset($autoload[$type]) && count($autoload[$type]) > 0)
 			{
 				$this->$type($autoload[$type]);
 			}
 		}
 
 		// Load libraries
-		if (isset($autoload['libraries']) AND count($autoload['libraries']) > 0)
+		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
 			// Load the database driver.
 			if (in_array('database', $autoload['libraries']))

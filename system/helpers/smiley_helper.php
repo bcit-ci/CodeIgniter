@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -89,7 +89,7 @@ if ( ! function_exists('smiley_js'))
 						el = document.getElementById(smiley_map[field_id]);
 
 						if ( ! el)
-							return false;
+							return FALSE;
 					}
 
 					el.focus();
@@ -177,7 +177,7 @@ if ( ! function_exists('get_clickable_smileys'))
 				continue;
 			}
 
-			$link[] = "<a href=\"javascript:void(0);\" onclick=\"insert_smiley('".$key."', '".$alias."')\"><img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" /></a>";
+			$link[] = '<a href="javascript:void(0);" onclick="insert_smiley(\''.$key.'\', \''.$alias.'\')"><img src="'.$image_url.$smileys[$key][0].'" width="'.$smileys[$key][1].'" height="'.$smileys[$key][2].'" alt="'.$smileys[$key][3].'" style="border:0;" /></a>';
 
 			$used[$smileys[$key][0]] = TRUE;
 		}
@@ -216,11 +216,11 @@ if ( ! function_exists('parse_smileys'))
 		}
 
 		// Add a trailing slash to the file path if needed
-		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+		$image_url = preg_replace("/(.+?)\/*$/", "\\1/", $image_url);
 
 		foreach ($smileys as $key => $val)
 		{
-			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+			$str = str_replace($key, '<img src="'.$image_url.$smileys[$key][0].'" width="'.$smileys[$key][1].'" height="'.$smileys[$key][2].'" alt="'.$smileys[$key][3].'" style="border:0;" />', $str);
 		}
 
 		return $str;
@@ -241,7 +241,7 @@ if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
 		}
@@ -249,8 +249,8 @@ if ( ! function_exists('_get_smiley_array'))
 		{
 			include(APPPATH.'config/smileys.php');
 		}
-		
-		if (isset($smileys) AND is_array($smileys))
+
+		if (isset($smileys) && is_array($smileys))
 		{
 			return $smileys;
 		}

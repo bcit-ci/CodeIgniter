@@ -94,7 +94,7 @@ class CI_Session {
 		}
 
 		// Are we using a database?  If so, load it
-		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
+		if ($this->sess_use_database === TRUE && $this->sess_table_name != '')
 		{
 			$this->CI->load->database();
 		}
@@ -167,7 +167,7 @@ class CI_Session {
 			$session = substr($session, 0, strlen($session)-32);
 
 			// Does the md5 hash match?  This is to prevent manipulation of session data in userspace
-			if ($hash !==  md5($session.$this->encryption_key))
+			if ($hash !== md5($session.$this->encryption_key))
 			{
 				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
 				$this->sess_destroy();
@@ -193,14 +193,14 @@ class CI_Session {
 		}
 
 		// Does the IP Match?
-		if ($this->sess_match_ip == TRUE AND $session['ip_address'] !== $this->CI->input->ip_address())
+		if ($this->sess_match_ip == TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
+		if ($this->sess_match_useragent == TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -232,7 +232,7 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) AND $row->user_data != '')
+			if (isset($row->user_data) && $row->user_data != '')
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 
@@ -405,7 +405,7 @@ class CI_Session {
 	public function sess_destroy()
 	{
 		// Kill the session DB row
-		if ($this->sess_use_database === TRUE AND isset($this->userdata['session_id']))
+		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
 			$this->CI->db->where('session_id', $this->userdata['session_id']);
 			$this->CI->db->delete($this->sess_table_name);

@@ -57,7 +57,7 @@ class CI_Jquery extends CI_Javascript {
 			$this->script();
 		}
 
-		log_message('debug', "Jquery Class Initialized");
+		log_message('debug', 'Jquery Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -115,7 +115,7 @@ class CI_Jquery extends CI_Javascript {
 
 		if ($ret_false)
 		{
-			$js[] = "return false;";
+			$js[] = 'return false;';
 		}
 
 		return $this->_add_event($element, $js, 'click');
@@ -428,7 +428,7 @@ class CI_Jquery extends CI_Javascript {
 			$extra = ', '.$extra;
 		}
 
-		return "$({$element}).animate({\n$animations\n\t\t}".$speed.$extra.");";
+		return "$({$element}).animate({\n$animations\n\t\t}".$speed.$extra.');';
 	}
 
 	// --------------------------------------------------------------------
@@ -676,7 +676,7 @@ class CI_Jquery extends CI_Javascript {
 		// ajaxStart and ajaxStop are better choices here... but this is a stop gap
 		if ($this->CI->config->item('javascript_ajax_img') == '')
 		{
-			$loading_notifier = "Loading...";
+			$loading_notifier = 'Loading...';
 		}
 		else
 		{
@@ -690,7 +690,7 @@ class CI_Jquery extends CI_Javascript {
 		if ($options != '')
 		{
 			$request_options .= ', {'
-					. (is_array($options) ? "'".implode("', '", $options)."'" : "'".str_replace(":", "':'", $options)."'")
+					. (is_array($options) ? "'".implode("', '", $options)."'" : "'".str_replace(':', "':'", $options)."'")
 					. '}';
 		}
 
@@ -712,7 +712,7 @@ class CI_Jquery extends CI_Javascript {
 	protected function _zebraTables($class = '', $odd = 'odd', $hover = '')
 	{
 		$class = ($class != '') ? '.'.$class : '';
-		$zebra  = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
+		$zebra = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
 
 		$this->jquery_code_for_compile[] = $zebra;
 
@@ -746,7 +746,7 @@ class CI_Jquery extends CI_Javascript {
 			$corner_style = '"'.$corner_style.'"';
 		}
 
-		return "$(" . $this->_prep_element($element) . ").corner(".$corner_style.");";
+		return '$(' . $this->_prep_element($element) . ').corner('.$corner_style.');';
 	}
 
 	// --------------------------------------------------------------------
@@ -821,16 +821,16 @@ class CI_Jquery extends CI_Javascript {
 			$sort_options = array();
 			foreach ($options as $k=>$v)
 			{
-				$sort_options[] = "\n\t\t".$k.': '.$v."";
+				$sort_options[] = "\n\t\t".$k.': '.$v;
 			}
-			$sort_options = implode(",", $sort_options);
+			$sort_options = implode(',', $sort_options);
 		}
 		else
 		{
 			$sort_options = '';
 		}
 
-		return "$(" . $this->_prep_element($element) . ").sortable({".$sort_options."\n\t});";
+		return '$(' . $this->_prep_element($element) . ').sortable({' . $sort_options . "\n\t});";
 	}
 
 	// --------------------------------------------------------------------
@@ -844,7 +844,7 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	public function tablesorter($table = '', $options = '')
 	{
-		$this->jquery_code_for_compile[] = "\t$(" . $this->_prep_element($table) . ").tablesorter($options);\n";
+		$this->jquery_code_for_compile[] = "\t$(" . $this->_prep_element($table) . ').tablesorter(' . $options . ");\n";
 	}
 
 	// --------------------------------------------------------------------

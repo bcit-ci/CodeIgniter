@@ -67,7 +67,7 @@ class CI_Form_validation {
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
 
-		log_message('debug', "Form Validation Class Initialized");
+		log_message('debug', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -304,7 +304,7 @@ class CI_Form_validation {
 			// Is there a validation rule for the particular URI being accessed?
 			$uri = ($group == '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
 
-			if ($uri != '' AND isset($this->_config_rules[$uri]))
+			if ($uri != '' && isset($this->_config_rules[$uri]))
 			{
 				$this->set_rules($this->_config_rules[$uri]);
 			}
@@ -316,7 +316,7 @@ class CI_Form_validation {
 			// We're we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
 			{
-				log_message('debug', "Unable to find validation rules");
+				log_message('debug', 'Unable to find validation rules');
 				return FALSE;
 			}
 		}
@@ -337,7 +337,7 @@ class CI_Form_validation {
 			}
 			else
 			{
-				if (isset($_POST[$field]) AND $_POST[$field] != "")
+				if (isset($_POST[$field]) && $_POST[$field] != '')
 				{
 					$this->_field_data[$field]['postdata'] = $_POST[$field];
 				}
@@ -466,7 +466,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) AND is_null($postdata))
+		if ( ! in_array('required', $rules) && is_null($postdata))
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match("/(callback_\w+(\[.*?\])?)/", implode(' ', $rules), $match))
@@ -483,7 +483,7 @@ class CI_Form_validation {
 		// --------------------------------------------------------------------
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (is_null($postdata) AND $callback === FALSE)
+		if (is_null($postdata) && $callback === FALSE)
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
@@ -526,7 +526,7 @@ class CI_Form_validation {
 
 			// We set the $postdata variable with the current data in our master array so that
 			// each cycle of the loop is dealing with the processed data from the last cycle
-			if ($row['is_array'] == TRUE AND is_array($this->_field_data[$row['field']]['postdata']))
+			if ($row['is_array'] == TRUE && is_array($this->_field_data[$row['field']]['postdata']))
 			{
 				// We shouldn't need this safety, but just in case there isn't an array index
 				// associated with this cycle we'll bail out
@@ -584,7 +584,7 @@ class CI_Form_validation {
 				}
 
 				// If the field isn't required and we just processed a callback we'll move on...
-				if ( ! in_array('required', $rules, TRUE) AND $result !== FALSE)
+				if ( ! in_array('required', $rules, TRUE) && $result !== FALSE)
 				{
 					continue;
 				}
@@ -610,7 +610,7 @@ class CI_Form_validation {
 					}
 					else
 					{
-						log_message('debug', "Unable to find validation rule: ".$rule);
+						log_message('debug', 'Unable to find validation rule: '.$rule);
 					}
 
 					continue;
@@ -738,7 +738,7 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
-			if ($default === TRUE AND count($this->_field_data) === 0)
+			if ($default === TRUE && count($this->_field_data) === 0)
 			{
 				return ' selected="selected"';
 			}
@@ -781,7 +781,7 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
-			if ($default === TRUE AND count($this->_field_data) === 0)
+			if ($default === TRUE && count($this->_field_data) === 0)
 			{
 				return ' checked="checked"';
 			}
@@ -1170,7 +1170,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str != 0 AND preg_match('/^[0-9]+$/', $str));
+		return ($str != 0 && preg_match('/^[0-9]+$/', $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1217,7 +1217,7 @@ class CI_Form_validation {
 			return $data;
 		}
 
-		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($data));
+		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
 	}
 
 	// --------------------------------------------------------------------
@@ -1279,7 +1279,7 @@ class CI_Form_validation {
 	 */
 	public function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?php', '<?PHP', '<?', '?>'), array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
 
 }

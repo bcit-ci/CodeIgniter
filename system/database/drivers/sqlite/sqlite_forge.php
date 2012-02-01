@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -94,7 +94,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)."(";
+		$sql .= $this->db->_escape_identifiers($table).'(';
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -112,7 +112,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
-				$sql .=  ' '.$attributes['TYPE'];
+				$sql .= ' '.$attributes['TYPE'];
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
@@ -154,7 +154,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -170,7 +170,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 					$key = array($this->db->_protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tUNIQUE (" . implode(', ', $key) . ')';
 			}
 		}
 
@@ -229,11 +229,11 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			return FALSE;
 		}
 
-		$sql .= " $column_definition";
+		$sql .= ' ' . $column_definition;
 
 		if ($default_value != '')
 		{
-			$sql .= " DEFAULT \"$default_value\"";
+			$sql .= ' DEFAULT "' . $default_value . '"';
 		}
 
 		if ($null === NULL)
@@ -268,7 +268,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 }

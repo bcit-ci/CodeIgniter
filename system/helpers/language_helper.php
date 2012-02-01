@@ -58,7 +58,7 @@ if ( ! function_exists('lang'))
 
 		if ($id != '')
 		{
-			$line = '<label for="'.$id.'">'.$line."</label>";
+			$line = '<label for="'.$id.'">'.$line.'</label>';
 		}
 
 		return $line;

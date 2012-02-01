@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -45,7 +45,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _create_database($name)
 	{
-		return "CREATE DATABASE ".$name;
+		return 'CREATE DATABASE '.$name;
 	}
 
 	// --------------------------------------------------------------------
@@ -59,11 +59,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _drop_database($name)
 	{
-		return "DROP DATABASE ".$name;
+		return 'DROP DATABASE '.$name;
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Process Fields
 	 *
@@ -125,18 +125,18 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				}
 
 				// If this is an auto-incrementing primary key, use the serial data type instead
-				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes) 
+				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes)
 					&& $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' SERIAL';
 				}
 				else
 				{
-					$sql .=  ' '.$attributes['TYPE'];
+					$sql .= ' '.$attributes['TYPE'];
 				}
 
 				// Modified to prevent constraints with integer data types
-				if (array_key_exists('CONSTRAINT', $attributes) && strpos($attributes['TYPE'], 'INT') === false)
+				if (array_key_exists('CONSTRAINT', $attributes) && strpos($attributes['TYPE'], 'INT') === FALSE)
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
@@ -168,7 +168,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$sql .= ',';
 			}
 		}
-		
+
 		return $sql;
 	}
 
@@ -198,7 +198,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			}
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).' (';
 		$sql .= $this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
@@ -209,7 +209,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$primary_keys[$index] = $this->db->_protect_identifiers($key);
 			}
 
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ')';
 		}
 
 		$sql .= "\n);";
@@ -229,7 +229,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 				foreach ($key as $field)
 				{
-					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
+					$sql .= 'CREATE INDEX ' . $table . '_' . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
 				}
 			}
 		}
@@ -244,7 +244,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table)." CASCADE";
+		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table).' CASCADE';
 	}
 
 	// --------------------------------------------------------------------
@@ -299,7 +299,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 }

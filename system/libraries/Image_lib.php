@@ -101,7 +101,7 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
-		log_message('debug', "Image Lib Class Initialized");
+		log_message('debug', 'Image Lib Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -231,9 +231,9 @@ class CI_Image_lib {
 		 * full server path in order to more reliably read it.
 		 *
 		 */
-		if (function_exists('realpath') AND @realpath($this->source_image) !== FALSE)
+		if (function_exists('realpath') && @realpath($this->source_image) !== FALSE)
 		{
-			$full_source_path = str_replace("\\", "/", realpath($this->source_image));
+			$full_source_path = str_replace('\\', '/', realpath($this->source_image));
 		}
 		else
 		{
@@ -273,9 +273,9 @@ class CI_Image_lib {
 			}
 			else
 			{
-				if (function_exists('realpath') AND @realpath($this->new_image) !== FALSE)
+				if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
 				{
-					$full_dest_path = str_replace("\\", "/", realpath($this->new_image));
+					$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
 				}
 				else
 				{
@@ -328,7 +328,7 @@ class CI_Image_lib {
 		 * image's width/height.  We'll recalculate it here.
 		 *
 		 */
-		if ($this->maintain_ratio === TRUE && ($this->width != '' AND $this->height != ''))
+		if ($this->maintain_ratio === TRUE && ($this->width != '' && $this->height != ''))
 		{
 			$this->image_reproportion();
 		}
@@ -348,7 +348,7 @@ class CI_Image_lib {
 			$this->height = $this->orig_height;
 
 		// Set the quality
-		$this->quality = trim(str_replace("%", "", $this->quality));
+		$this->quality = trim(str_replace('%', '', $this->quality));
 
 		if ($this->quality == '' OR $this->quality == 0 OR ! is_numeric($this->quality))
 			$this->quality = 90;
@@ -360,14 +360,14 @@ class CI_Image_lib {
 		// Watermark-related Stuff...
 		if ($this->wm_overlay_path != '')
 		{
-			$this->wm_overlay_path = str_replace("\\", "/", realpath($this->wm_overlay_path));
+			$this->wm_overlay_path = str_replace('\\', '/', realpath($this->wm_overlay_path));
 		}
 
 		if ($this->wm_shadow_color != '')
 		{
 			$this->wm_use_drop_shadow = TRUE;
 		}
-		elseif ($this->wm_use_drop_shadow == TRUE AND $this->wm_shadow_color == '')
+		elseif ($this->wm_use_drop_shadow == TRUE && $this->wm_shadow_color == '')
 		{
 			$this->wm_use_drop_shadow = FALSE;
 		}
@@ -479,9 +479,9 @@ class CI_Image_lib {
 
 		// If the target width/height match the source, AND if the new file name is not equal to the old file name
 		// we'll simply make a copy of the original with the new name... assuming dynamic rendering is off.
-		if ($this->dynamic_output === FALSE AND $this->orig_width == $this->width AND $this->orig_height == $this->height)
+		if ($this->dynamic_output === FALSE && $this->orig_width == $this->width && $this->orig_height == $this->height)
 		{
-			if ($this->source_image != $this->new_image AND @copy($this->full_src_path, $this->full_dst_path))
+			if ($this->source_image != $this->new_image && @copy($this->full_src_path, $this->full_dst_path))
 			{
 				@chmod($this->full_dst_path, FILE_WRITE_MODE);
 			}
@@ -493,7 +493,7 @@ class CI_Image_lib {
 		if ($action == 'crop')
 		{
 			//  Reassign the source width/height if cropping
-			$this->orig_width  = $this->width;
+			$this->orig_width = $this->width;
 			$this->orig_height = $this->height;
 
 			// GD 2.0 has a cropping bug so we'll test for it
@@ -522,8 +522,8 @@ class CI_Image_lib {
 		//  it appears that this is no longer the issue that it was in 2004, so we've removed it, retaining it in the comment
 		//  below should that ever prove inaccurate.
 		//
-		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
-		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
+		//  if ($this->image_library == 'gd2' && function_exists('imagecreatetruecolor') && $v2_override == FALSE)
+		if ($this->image_library == 'gd2' && function_exists('imagecreatetruecolor'))
 		{
 			$create	= 'imagecreatetruecolor';
 			$copy	= 'imagecopyresampled';
@@ -593,11 +593,11 @@ class CI_Image_lib {
 		}
 
 		// Execute the command
-		$cmd = $this->library_path." -quality ".$this->quality;
+		$cmd = $this->library_path.' -quality '.$this->quality;
 
 		if ($action == 'crop')
 		{
-			$cmd .= " -crop ".$this->width."x".$this->height."+".$this->x_axis."+".$this->y_axis." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' -crop '.$this->width.'x'.$this->height.'+'.$this->x_axis.'+'.$this->y_axis.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
 		elseif ($action == 'rotate')
 		{
@@ -611,11 +611,11 @@ class CI_Image_lib {
 					break;
 			}
 
-			$cmd .= " ".$angle." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' '.$angle.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
-		else  // Resize
+		else // Resize
 		{
-			$cmd .= " -resize ".$this->width."x".$this->height." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
+			$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 		}
 
 		$retval = 1;
@@ -786,7 +786,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		$width  = $this->orig_width;
+		$width = $this->orig_width;
 		$height = $this->orig_height;
 
 		if ($this->rotation_angle == 'hor')
@@ -895,7 +895,7 @@ class CI_Image_lib {
 		$wm_height		= $props['height'];
 
 		//  Create two image resources
-		$wm_img  = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
+		$wm_img = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
 		$src_img = $this->image_create_gd($this->full_src_path);
 
 		// Reverse the offset if necessary
@@ -941,7 +941,7 @@ class CI_Image_lib {
 		}
 
 		//  Build the finalized image
-		if ($wm_img_type == 3 AND function_exists('imagealphablending'))
+		if ($wm_img_type == 3 && function_exists('imagealphablending'))
 		{
 			@imagealphablending($src_img, TRUE);
 		}
@@ -993,7 +993,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		if ($this->wm_use_truetype == TRUE AND ! file_exists($this->wm_font_path))
+		if ($this->wm_use_truetype == TRUE && ! file_exists($this->wm_font_path))
 		{
 			$this->set_error('imglib_missing_font');
 			return FALSE;
@@ -1025,13 +1025,13 @@ class CI_Image_lib {
 				$this->wm_font_size = 17;
 			}
 
-			$fontwidth  = $this->wm_font_size-($this->wm_font_size/4);
+			$fontwidth = $this->wm_font_size-($this->wm_font_size/4);
 			$fontheight = $this->wm_font_size;
 			$this->wm_vrt_offset += $this->wm_font_size;
 		}
 		else
 		{
-			$fontwidth  = imagefontwidth($this->wm_font_size);
+			$fontwidth = imagefontwidth($this->wm_font_size);
 			$fontheight = imagefontheight($this->wm_font_size);
 		}
 
@@ -1295,12 +1295,12 @@ class CI_Image_lib {
 
 		$ratio = (($this->orig_height/$this->orig_width) - ($this->height/$this->width));
 
-		if ($this->master_dim != 'width' AND $this->master_dim != 'height')
+		if ($this->master_dim != 'width' && $this->master_dim != 'height')
 		{
 			$this->master_dim = ($ratio < 0) ? 'width' : 'height';
 		}
 
-		if (($this->width != $new_width) AND ($this->height != $new_height))
+		if (($this->width != $new_width) && ($this->height != $new_height))
 		{
 			if ($this->master_dim == 'height')
 			{
@@ -1449,7 +1449,7 @@ class CI_Image_lib {
 			/* As it is stated in the PHP manual, dl() is not always available
 			 * and even if so - it could generate an E_WARNING message on failure
 			 */
-			return (function_exists('dl') AND @dl('gd.so'));
+			return (function_exists('dl') && @dl('gd.so'));
 		}
 
 		return TRUE;
@@ -1467,7 +1467,7 @@ class CI_Image_lib {
 		if (function_exists('gd_info'))
 		{
 			$gd_version = @gd_info();
-			$gd_version = preg_replace("/\D/", "", $gd_version['GD Version']);
+			$gd_version = preg_replace("/\D/", '', $gd_version['GD Version']);
 
 			return $gd_version;
 		}

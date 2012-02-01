@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -123,11 +123,11 @@ class CI_DB_cubrid_result extends CI_DB_result {
 			if ($res)
 			{
 				$row = cubrid_fetch_array($res, CUBRID_NUM);
-				$F->primary_key = ($row[0] > 0 ? 1 : null);
+				$F->primary_key = ($row[0] > 0 ? 1 : NULL);
 			}
 			else
 			{
-				$F->primary_key = null;
+				$F->primary_key = NULL;
 			}
 
 			if (is_resource($res))

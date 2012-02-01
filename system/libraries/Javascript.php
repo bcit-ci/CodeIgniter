@@ -46,7 +46,7 @@ class CI_Javascript {
 
 		foreach ($defaults as $key => $val)
 		{
-			if (isset($params[$key]) && $params[$key] !== "")
+			if (isset($params[$key]) && $params[$key] !== '')
 			{
 				$defaults[$key] = $params[$key];
 			}
@@ -61,7 +61,7 @@ class CI_Javascript {
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
 
-		log_message('debug', "Javascript Class Initialized and loaded.  Driver used: $js_library_driver");
+		log_message('debug', 'Javascript Class Initialized and loaded.  Driver used: '.$js_library_driver);
 	}
 
 	// --------------------------------------------------------------------
@@ -688,7 +688,7 @@ class CI_Javascript {
 	 */
 	protected function _close_script($extra = "\n")
 	{
-		return "</script>$extra";
+		return '</script>'.$extra;
 	}
 
 
@@ -751,9 +751,9 @@ class CI_Javascript {
 		$json = array();
 		$_is_assoc = TRUE;
 
-		if ( ! is_array($json_result) AND empty($json_result))
+		if ( ! is_array($json_result) && empty($json_result))
 		{
-			show_error("Generate JSON Failed - Illegal key, value pair.");
+			show_error('Generate JSON Failed - Illegal key, value pair.');
 		}
 		elseif ($match_array_type)
 		{
@@ -774,7 +774,7 @@ class CI_Javascript {
 
 		$json = implode(',', $json);
 
-		return $_is_assoc ? "{".$json."}" : "[".$json."]";
+		return $_is_assoc ? '{'.$json.'}' : '['.$json.']';
 
 	}
 

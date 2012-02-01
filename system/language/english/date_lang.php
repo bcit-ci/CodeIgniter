@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,20 +25,20 @@
  * @filesource
  */
 
-$lang['date_year'] = "Year";
-$lang['date_years'] = "Years";
-$lang['date_month'] = "Month";
-$lang['date_months'] = "Months";
-$lang['date_week'] = "Week";
-$lang['date_weeks'] = "Weeks";
-$lang['date_day'] = "Day";
-$lang['date_days'] = "Days";
-$lang['date_hour'] = "Hour";
-$lang['date_hours'] = "Hours";
-$lang['date_minute'] = "Minute";
-$lang['date_minutes'] = "Minutes";
-$lang['date_second'] = "Second";
-$lang['date_seconds'] = "Seconds";
+$lang['date_year'] = 'Year';
+$lang['date_years'] = 'Years';
+$lang['date_month'] = 'Month';
+$lang['date_months'] = 'Months';
+$lang['date_week'] = 'Week';
+$lang['date_weeks'] = 'Weeks';
+$lang['date_day'] = 'Day';
+$lang['date_days'] = 'Days';
+$lang['date_hour'] = 'Hour';
+$lang['date_hours'] = 'Hours';
+$lang['date_minute'] = 'Minute';
+$lang['date_minutes'] = 'Minutes';
+$lang['date_second'] = 'Second';
+$lang['date_seconds'] = 'Seconds';
 
 $lang['UM12']	= '(UTC -12:00) Baker/Howland Island';
 $lang['UM11']	= '(UTC -11:00) Niue';

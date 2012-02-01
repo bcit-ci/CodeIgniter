@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -339,7 +339,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 			return $str;
 		}
 
-		if (function_exists('cubrid_real_escape_string') AND is_resource($this->conn_id))
+		if (function_exists('cubrid_real_escape_string') && is_resource($this->conn_id))
 		{
 			$str = cubrid_real_escape_string($str, $this->conn_id);
 		}
@@ -401,8 +401,8 @@ class CI_DB_cubrid_driver extends CI_DB {
 		{
 			return 0;
 		}
-		
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 		{
@@ -427,9 +427,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SHOW TABLES";
+		$sql = 'SHOW TABLES';
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
 			$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -450,7 +450,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SHOW COLUMNS FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		return 'SHOW COLUMNS FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -466,7 +466,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return 'SELECT * FROM '.$table.' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -574,7 +574,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (\"".implode('", "', $keys)."\") VALUES (".implode(', ', $values).")";
+		return 'INSERT INTO '.$table.' ("'.implode('", "', $keys).'") VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -593,7 +593,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _replace($table, $keys, $values)
 	{
-		return "REPLACE INTO ".$table." (\"".implode('", "', $keys)."\") VALUES (".implode(', ', $values).")";
+		return 'REPLACE INTO '.$table.' ("'.implode('", "', $keys).'") VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -611,7 +611,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _insert_batch($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (\"".implode('", "', $keys)."\") VALUES ".implode(', ', $values);
+		return 'INSERT INTO '.$table.' ("'.implode('", "', $keys).'") VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -639,11 +639,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY ' . implode(', ', $orderby) : '';
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+		$sql = 'UPDATE '.$table.' SET '.implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' && count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -667,7 +667,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids = array();
-		$where = ($where != '' AND count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$where = ($where != '' && count($where) >=1) ? implode(' ', $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
 		{
@@ -682,7 +682,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 			}
 		}
 
-		$sql = "UPDATE ".$table." SET ";
+		$sql = 'UPDATE '.$table.' SET ';
 		$cases = '';
 
 		foreach ($final as $k => $v)
@@ -719,7 +719,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return 'TRUNCATE '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -746,14 +746,14 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 			if (count($where) > 0 && count($like) > 0)
 			{
-				$conditions .= " AND ";
+				$conditions .= ' AND ';
 			}
 			$conditions .= implode("\n", $like);
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return 'DELETE FROM '.$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -777,10 +777,10 @@ class CI_DB_cubrid_driver extends CI_DB {
 		}
 		else
 		{
-			$offset .= ", ";
+			$offset .= ', ';
 		}
 
-		return $sql."LIMIT ".$offset.$limit;
+		return $sql.'LIMIT '.$offset.$limit;
 	}
 
 	// --------------------------------------------------------------------

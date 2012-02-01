@@ -44,7 +44,7 @@ class CI_Log {
 	protected $_threshold_array	= array();
 	protected $_date_fmt		= 'Y-m-d H:i:s';
 	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
 	 * Constructor
@@ -105,12 +105,12 @@ class CI_Log {
 
 
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
-		$message  = '';
+		$message = '';
 
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= "<"."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			$message .= '<?php if ( ! defined(\'BASEPATH\')) exit(\'No direct script access allowed\'); ?>'."\n\n";
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
@@ -125,7 +125,7 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		if (isset($newfile) AND $newfile === TRUE)
+		if (isset($newfile) && $newfile === TRUE)
 		{
 			@chmod($filepath, FILE_WRITE_MODE);
 		}

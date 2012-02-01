@@ -150,7 +150,7 @@ class CI_Typography {
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunks[$i], $match))
 			{
-				if (preg_match("#".$this->skip_elements."#", $match[2]))
+				if (preg_match('#'.$this->skip_elements.'#', $match[2]))
 				{
 					$process = ($match[1] === '/');
 				}
@@ -230,7 +230,7 @@ class CI_Typography {
 
 						// Similarly, there might be cases where a closing </block> will follow
 						// a closing </p> tag, so we'll correct it by adding a newline in between
-						"#</p></#"			=> "</p>\n</"
+						'#</p></#'			=> "</p>\n</"
 						);
 
 		// Do we need to reduce empty lines?
@@ -328,7 +328,7 @@ class CI_Typography {
 	 */
 	protected function _format_newlines($str)
 	{
-		if ($str == '' OR (strpos($str, "\n") === FALSE AND ! in_array($this->last_block_element, $this->inner_block_required)))
+		if ($str == '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
 			return $str;
 		}
@@ -345,7 +345,7 @@ class CI_Typography {
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching
 			// the behavior of the opening <p> tag
-			$str =  '<p>'.rtrim($str).'</p>';
+			$str = '<p>'.rtrim($str).'</p>';
 		}
 
 		// Remove empty paragraphs if they are on the first line, as this

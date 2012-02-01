@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -67,7 +67,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(1) AS ";
+	var $_count_string = 'SELECT COUNT(1) AS ';
 	var $_random_keyword = ' ASC'; // not currently supported
 
 	// Set "auto commit" by default
@@ -267,14 +267,14 @@ class CI_DB_oci8_driver extends CI_DB {
 		$have_cursor = FALSE;
 		foreach ($params as $param)
 		{
-			$sql .= $param['name'] . ",";
+			$sql .= $param['name'] . ',';
 
 			if (array_key_exists('type', $param) && ($param['type'] === OCI_B_CURSOR))
 			{
 				$have_cursor = TRUE;
 			}
 		}
-		$sql = trim($sql, ",") . "); end;";
+		$sql = trim($sql, ',') . '); end;';
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
@@ -475,7 +475,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query == FALSE)
 		{
@@ -500,9 +500,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT TABLE_NAME FROM ALL_TABLES";
+		$sql = 'SELECT TABLE_NAME FROM ALL_TABLES';
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
 			$sql .= " WHERE TABLE_NAME LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -523,7 +523,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT COLUMN_NAME FROM all_tab_columns WHERE table_name = '$table'";
+		return "SELECT COLUMN_NAME FROM all_tab_columns WHERE table_name = '".$table."'";
 	}
 
 	// --------------------------------------------------------------------
@@ -539,7 +539,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." where rownum = 1";
+		return 'SELECT * FROM '.$table.' where rownum = 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -651,7 +651,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -700,16 +700,16 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(', ', $orderby):'';
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+		$sql = 'UPDATE '.$table.' SET '.implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' && count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -731,7 +731,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _truncate($table)
 	{
-		return "TRUNCATE TABLE ".$table;
+		return 'TRUNCATE TABLE '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -758,14 +758,14 @@ class CI_DB_oci8_driver extends CI_DB {
 
 			if (count($where) > 0 && count($like) > 0)
 			{
-				$conditions .= " AND ";
+				$conditions .= ' AND ';
 			}
 			$conditions .= implode("\n", $like);
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return 'DELETE FROM '.$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -784,11 +784,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	protected function _limit($sql, $limit, $offset)
 	{
 		$limit = $offset + $limit;
-		$newsql = "SELECT * FROM (select inner_query.*, rownum rnum FROM ($sql) inner_query WHERE rownum < $limit)";
+		$newsql = 'SELECT * FROM (select inner_query.*, rownum rnum FROM (' . $sql . ') inner_query WHERE rownum < ' . $limit . ')';
 
 		if ($offset != 0)
 		{
-			$newsql .= " WHERE rnum >= $offset";
+			$newsql .= ' WHERE rnum >= ' . $offset;
 		}
 
 		// remember that we used limits
