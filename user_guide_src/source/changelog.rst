@@ -105,6 +105,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a bug in the Oracle (oci8) instance of :doc:`Database Forge Class <database/forge>` where ``create_table()`` would fail if used with ``AUTO_INCREMENT`` as it's not supported by Oracle.
 -  Fixed a bug (#413) - The Oracle (oci8) database driver only used to return connection-related errors in `_error_message()` and `_error_number()`.
 
