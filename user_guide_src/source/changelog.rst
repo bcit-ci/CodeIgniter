@@ -200,6 +200,7 @@ Bug fixes for 2.1.0
 -  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
 -  Fixed invalid date time format in :doc:`Date helper <helpers/date_helper>` and :doc:`XMLRPC library <libraries/xmlrpc>`.
 -  Fixed a bug (#200) - MySQL queries would be malformed after calling count_all() then db->get().
+-  Fixed a bug (#1007) - Cookie names with a underscore can cause problems on IE.
 
 Version 2.0.3
 =============
