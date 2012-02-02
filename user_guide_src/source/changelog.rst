@@ -102,6 +102,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` did not theck for HTTP_X_CLUSTER_CLIENT_IP.
 -  Fixed a bug in CI_Input::ip_address() where if HTTP_CLIENT_IP was automatically trusted, if available.
 
