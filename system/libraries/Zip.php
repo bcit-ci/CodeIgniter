@@ -67,7 +67,7 @@ class CI_Zip  {
 	 */
 	public function add_dir($directory)
 	{
-		foreach ((array)$directory as $dir)
+		foreach ( (array) $directory as $dir)
 		{
 			if ( ! preg_match('|.+/$|', $dir))
 			{
@@ -82,17 +82,17 @@ class CI_Zip  {
 	// --------------------------------------------------------------------
 
 	/**
-	 *	Get file/directory modification time
+	 * Get file/directory modification time
 	 *
-	 *	If this is a newly created file/dir, we will set the time to 'now'
+	 * If this is a newly created file/dir, we will set the time to 'now'
 	 *
-	 *	@param string	path to file
-	 *	@return array	filemtime/filemdate
+	 * @param	string	path to file
+	 * @return	array	filemtime/filemdate
 	 */
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
+		$date = file_exists($dir) ? filemtime($dir) : getdate($this->now);
 
 		return array(
 				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
@@ -106,6 +106,8 @@ class CI_Zip  {
 	 * Add Directory
 	 *
 	 * @param	string	the directory name
+	 * @param	int
+	 * @param	int
 	 * @return	void
 	 */
 	protected function _add_dir($dir, $file_mtime, $file_mdate)
@@ -184,6 +186,8 @@ class CI_Zip  {
 	 *
 	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
+	 * @param	int
+	 * @param	int
 	 * @return	void
 	 */
 	protected function _add_data($filepath, $data, $file_mtime, $file_mdate)
@@ -233,6 +237,8 @@ class CI_Zip  {
 	/**
 	 * Read the contents of a file and add it to the zip
 	 *
+	 * @param	string
+	 * @param	bool
 	 * @return	bool
 	 */
 	public function read_file($path, $preserve_filepath = FALSE)
@@ -267,12 +273,13 @@ class CI_Zip  {
 	 * is in the original file path will be recreated in the zip file.
 	 *
 	 * @param	string	path to source
+	 * @param	bool
+	 * @param	bool
 	 * @return	bool
 	 */
 	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
 		$path = rtrim($path, '/\\').'/';
-
 		if ( ! $fp = @opendir($path))
 		{
 			return FALSE;
@@ -306,6 +313,8 @@ class CI_Zip  {
 			}
 		}
 
+		closedir($fp);
+
 		return TRUE;
 	}
 
@@ -314,7 +323,7 @@ class CI_Zip  {
 	/**
 	 * Get the Zip file
 	 *
-	 * @return	string (binary encoded)
+	 * @return	string	(binary encoded)
 	 */
 	public function get_zip()
 	{
@@ -325,12 +334,12 @@ class CI_Zip  {
 		}
 
 		return $this->zipdata
-			. $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
-			. pack('v', $this->entries) // total # of entries "on this disk"
-			. pack('v', $this->entries) // total # of entries overall
-			. pack('V', strlen($this->directory)) // size of central dir
-			. pack('V', strlen($this->zipdata)) // offset to start of central dir
-			. "\x00\x00"; // .zip file comment length
+			.$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
+			.pack('v', $this->entries) // total # of entries "on this disk"
+			.pack('v', $this->entries) // total # of entries overall
+			.pack('V', strlen($this->directory)) // size of central dir
+			.pack('V', strlen($this->zipdata)) // offset to start of central dir
+			."\x00\x00"; // .zip file comment length
 	}
 
 	// --------------------------------------------------------------------
@@ -364,7 +373,6 @@ class CI_Zip  {
 	 * Download
 	 *
 	 * @param	string	the file name
-	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */
 	public function download($filename = 'backup.zip')
