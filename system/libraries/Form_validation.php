@@ -1071,7 +1071,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Greather than
+	 * Greater than
 	 *
 	 * @param	string
 	 * @return	bool
