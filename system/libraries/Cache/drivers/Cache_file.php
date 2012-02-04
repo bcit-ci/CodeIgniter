@@ -90,7 +90,9 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = NULL)
 	{
-		$ttl = $this->_lifetime($ttl);
+		$CI =& get_instance();
+
+		$ttl = $CI->cache->lifetime($ttl);
 
 		$contents = array(
 				'time'		=> time(),
@@ -194,23 +196,6 @@ class CI_Cache_file extends CI_Driver {
 	public function is_supported()
 	{
 		return is_really_writable($this->_cache_path);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Lifetime of cache
-	 */
-	private function _lifetime($life = NULL)
-	{
-		$CI =& get_instance();
-
-		if ($life == NULL || $life == '' )
-		{
-			$life = $CI->config->item('lifetime');
-		}
-
-		return (int) $life;
 	}
 
 }

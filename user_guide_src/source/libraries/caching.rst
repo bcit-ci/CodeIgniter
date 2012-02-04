@@ -19,7 +19,7 @@ available in the hosting environment.
 
 ::
 
-	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'lifetime' => 300));
+	$this->load->driver('cache', array('adapter' => 'file', 'backup' => 'dummy'));
 	
 	if ( ! $foo = $this->cache->get('foo'))
 	{

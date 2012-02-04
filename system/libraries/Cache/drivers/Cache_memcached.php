@@ -76,7 +76,9 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = NULL)
 	{
-		$ttl = $this->_lifetime($ttl);
+		$CI =& get_instance();
+
+		$ttl = $CI->cache->lifetime($ttl);
 
 		if (get_class($this->_memcached) == 'Memcached')
 		{
@@ -250,23 +252,6 @@ class CI_Cache_memcached extends CI_Driver {
 		}
 
 		return $this->_setup_memcached();
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Lifetime of cache
-	 */
-	private function _lifetime($life = NULL)
-	{
-		$CI =& get_instance();
-
-		if ($life == NULL || $life == '' )
-		{
-			$life = $CI->config->item('lifetime');
-		}
-
-		return (int) $life;
 	}
 
 }

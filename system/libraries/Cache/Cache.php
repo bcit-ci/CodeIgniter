@@ -81,6 +81,25 @@ class CI_Cache extends CI_Driver_Library {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Set and retrieve cache lifetimne
+	 *
+	 * @param 	int			Length of time (in seconds) to cache the data
+	 *
+	 * @return 	int
+	 */
+	public function lifetime($ttl = NULL)
+	{
+		if ($ttl)
+		{
+			$this->_lifetime = $ttl;
+		}
+
+		return (int) $this->_lifetime;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Cache Save
 	 *
 	 * @param 	string		Unique Key
@@ -170,6 +189,11 @@ class CI_Cache extends CI_Driver_Library {
 
 				$this->{$param} = $config[$key];
 			}
+		}
+
+		if (isset($config['lifetime']))
+		{
+			$this->lifetime($config['lifetime']);
 		}
 
 		if (isset($config['backup']))
