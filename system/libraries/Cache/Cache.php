@@ -44,7 +44,8 @@ class CI_Cache extends CI_Driver_Library {
 
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
 	protected $_adapter			= 'dummy';
-	protected $_backup_driver;
+	protected $_backup_driver	= 'dummy';
+	protected $_lifetime		= 60;
 
 	// ------------------------------------------------------------------------
 
@@ -88,7 +89,7 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = NULL)
 	{
 		return $this->{$this->_adapter}->save($id, $data, $ttl);
 	}

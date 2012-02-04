@@ -19,7 +19,7 @@ available in the hosting environment.
 
 ::
 
-	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'lifetime' => 300));
 	
 	if ( ! $foo = $this->cache->get('foo'))
 	{
@@ -31,6 +31,15 @@ available in the hosting environment.
 	}
 	
 	echo $foo;
+
+You can set a default lifetime for all cache items without specifying the
+lifetime every time save() is called. To change the lifetime for an
+individual cache item, you would pass an integer as the third parameters.
+
+::
+
+	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'lifetime' => 300));
+
 
 ******************
 Function Reference
