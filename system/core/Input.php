@@ -592,6 +592,7 @@ class CI_Input {
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
 		{
+			set_status_header(503);
 			exit('Disallowed Key Characters.');
 		}
 
