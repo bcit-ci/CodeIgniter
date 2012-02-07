@@ -833,10 +833,10 @@ Rule                      Parameter  Description                                
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than the parameter value or not numeric.            greater_than[8]        
-**equal_to_greater_than** Yes        Returns FALSE if the form element is not equal to or less than the parameter value,           greater_than[8]        
+**greater_than_equal_to** Yes        Returns FALSE if the form element is not equal to or less than the parameter value,           greater_than[8]        
                                      or not numeric.
 **less_than**             Yes        Returns FALSE if the form element is greater than the parameter value or not numeric.         less_than[8]           
-**equal_to_less_than**    Yes        Returns FALSE if the form element is not equal to or greater than the parameter value,        less_than[8]           
+**less_than_equal_to**    Yes        Returns FALSE if the form element is not equal to or greater than the parameter value,        less_than[8]           
                                      or not numeric.
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             

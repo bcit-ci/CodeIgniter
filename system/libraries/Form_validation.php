@@ -1139,7 +1139,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	bool
 	 */
-	function equal_to_greater_than($str, $min)
+	function greater_than_equal_to($str, $min)
 	{
 		if ( ! is_numeric($str))
 		{
@@ -1174,7 +1174,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	bool
 	 */
-	function equal_to_less_than($str, $max)
+	function less_than_equal_to($str, $max)
 	{
 		if ( ! is_numeric($str))
 		{
