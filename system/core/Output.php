@@ -103,7 +103,10 @@ class CI_Output {
 			include APPPATH.'config/mimes.php';
 		}
 
-		if( ! isset($mimes)) show_404('There was an error when trying to load mime types. Please check /application/config/mimes.php\'s integrity');
+		if( ! isset($mimes))
+		{
+			show_404('There was an error when trying to load mime types. Please check /application/config/mimes.php\'s integrity');
+		}
 
 		$this->mime_types = $mimes;
 		log_message('debug', 'Output Class Initialized');
