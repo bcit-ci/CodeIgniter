@@ -832,11 +832,13 @@ Rule                      Parameter  Description                                
                                      table and field name in the parameter. is_unique[table.field]                                                        
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
-**greater_than**          Yes        Returns FALSE if the form element is less than the parameter value or not numeric.            greater_than[8]        
-**greater_than_equal_to** Yes        Returns FALSE if the form element is not equal to or less than the parameter value,           greater_than[8]        
+**greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
+                                     numeric.
+**greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
                                      or not numeric.
-**less_than**             Yes        Returns FALSE if the form element is greater than the parameter value or not numeric.         less_than[8]           
-**less_than_equal_to**    Yes        Returns FALSE if the form element is not equal to or greater than the parameter value,        less_than[8]           
+**less_than**             Yes        Returns FALSE if the form element is greater than or equal to the parameter value or          less_than[8]
+                                     not numeric.
+**less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             
