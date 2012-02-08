@@ -650,9 +650,9 @@ class CI_Input {
 	 *
 	 * Returns the value of a single member of the headers class member
 	 *
-	 * @param 	string	array key for $this->headers
+	 * @param	string	array key for $this->headers
 	 * @param	bool	XSS Clean or not
-	 * @return 	mixed	FALSE on failure, string on success
+	 * @return	mixed	FALSE on failure, string on success
 	 */
 	public function get_request_header($index, $xss_clean = FALSE)
 	{
