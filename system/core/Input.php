@@ -204,9 +204,9 @@ class CI_Input {
 	*/
 	public function get_post($index = '', $xss_clean = FALSE)
 	{
-		return ( ! isset($_POST[$index]))
-			? $this->get($index, $xss_clean)
-			: $this->post($index, $xss_clean);
+		return isset($_POST[$index])
+			? $this->post($index, $xss_clean)
+			: $this->get($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -262,7 +262,7 @@ class CI_Input {
 		{
 			$domain = config_item('cookie_domain');
 		}
-		if ($path == '/' && config_item('cookie_path') != '/')
+		if ($path == '/' && config_item('cookie_path') !== '/')
 		{
 			$path = config_item('cookie_path');
 		}
@@ -416,7 +416,7 @@ class CI_Input {
 			return $this->user_agent;
 		}
 
-		return $this->user_agent = ( ! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
+		return $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -471,14 +471,11 @@ class CI_Input {
 		{
 			$_GET = array();
 		}
-		else
+		elseif (is_array($_GET) && count($_GET) > 0)
 		{
-			if (is_array($_GET) && count($_GET) > 0)
+			foreach ($_GET as $key => $val)
 			{
-				foreach ($_GET as $key => $val)
-				{
-					$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-				}
+				$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
 			}
 		}
 
@@ -627,7 +624,7 @@ class CI_Input {
 		}
 		else
 		{
-			$headers['Content-Type'] = (isset($_SERVER['CONTENT_TYPE'])) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+			$headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
 
 			foreach ($_SERVER as $key => $val)
 			{
@@ -657,9 +654,9 @@ class CI_Input {
 	 *
 	 * Returns the value of a single member of the headers class member
 	 *
-	 * @param 	string		array key for $this->headers
-	 * @param	boolean		XSS Clean or not
-	 * @return 	mixed		FALSE on failure, string on success
+	 * @param	string	array key for $this->headers
+	 * @param	bool	XSS Clean or not
+	 * @return	mixed	FALSE on failure, string on success
 	 */
 	public function get_request_header($index, $xss_clean = FALSE)
 	{
@@ -673,12 +670,9 @@ class CI_Input {
 			return FALSE;
 		}
 
-		if ($xss_clean === TRUE)
-		{
-			return $this->security->xss_clean($this->headers[$index]);
-		}
-
-		return $this->headers[$index];
+		return ($xss_clean === TRUE)
+			? $this->security->xss_clean($this->headers[$index])
+			: $this->headers[$index];
 	}
 
 	// --------------------------------------------------------------------
@@ -688,11 +682,11 @@ class CI_Input {
 	 *
 	 * Test to see if a request contains the HTTP_X_REQUESTED_WITH header
 	 *
-	 * @return 	boolean
+	 * @return 	bool
 	 */
 	public function is_ajax_request()
 	{
-		return ($this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest');
+		return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 	// --------------------------------------------------------------------
@@ -702,11 +696,11 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line
 	 *
-	 * @return 	boolean
+	 * @return 	bool
 	 */
 	public function is_cli_request()
 	{
-		return (php_sapi_name() === 'cli') or defined('STDIN');
+		return (php_sapi_name() === 'cli' OR defined('STDIN'));
 	}
 
 }
