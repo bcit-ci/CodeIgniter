@@ -47,9 +47,9 @@ $lang['is_natural']				= "The %s field must contain only positive numbers.";
 $lang['is_natural_no_zero']		= "The %s field must contain a number greater than zero.";
 $lang['decimal']				= "The %s field must contain a decimal number.";
 $lang['less_than']				= "The %s field must contain a number less than %s.";
-$lang['less_than_equal_to']		= "The %s field must contain a number equal to or less than %s.";
+$lang['less_than_equal_to']		= "The %s field must contain a number less than or equal to %s.";
 $lang['greater_than']			= "The %s field must contain a number greater than %s.";
-$lang['greater_than_equal_to']	= "The %s field must contain a number equal to or greater than %s.";
+$lang['greater_than_equal_to']	= "The %s field must contain a number greater than or equal to %s.";
 
 
 /* End of file form_validation_lang.php */
