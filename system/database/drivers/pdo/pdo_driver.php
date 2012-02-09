@@ -221,7 +221,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
 		if ($this->pdodriver == 'mysql' && is_php('5.3.6'))
 		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES $this->char_set COLLATE '.$this->dbcollat.'";
+			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES $this->char_set COLLATE '$this->dbcollat'";
 		}
 
 		// Connecting...
