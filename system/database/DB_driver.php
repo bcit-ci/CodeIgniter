@@ -256,7 +256,7 @@ class CI_DB_driver {
 
 		// Some DBs have functions that return the version, and don't run special
 		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo');
+		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo', 'mysqli');
 
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
