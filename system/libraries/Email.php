@@ -64,6 +64,7 @@ class CI_Email {
 	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE  Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	public $starttls        = FALSE;
 	private $_safe_mode		= FALSE;
 	private $_subject		= "";
 	private $_body			= "";
@@ -1496,6 +1497,19 @@ class CI_Email {
 		}
 
 		$this->_smtp_connect();
+
+		if ($this->starttls) 
+		{
+      if (! $this->_send_command('starttls')) 
+      {
+          $this->_set_error_message('email_starttls_failed');
+          return FALSE;
+      }
+      stream_socket_enable_crypto($this->_smtp_connect, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+      // Re-issue hello to get updated service list (RFC 3207 section 4.2)
+      $this->_send_command('hello');
+    }
+
 		$this->_smtp_authenticate();
 
 		$this->_send_command('from', $this->clean_email($this->_headers['From']));
@@ -1645,6 +1659,12 @@ class CI_Email {
 
 						$resp = 221;
 			break;
+			case 'starttls'    :
+
+	          $this->_send_data('STARTTLS');
+
+	          $resp = 220;
+	     break;
 		}
 
 		$reply = $this->_get_smtp_data();
