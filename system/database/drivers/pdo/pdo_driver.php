@@ -68,19 +68,56 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
+		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
+		{
+			// If there is a minimum valid dsn string pattern found, we're done
+			// This for general PDO users, who tend to have full DSN string.
+			$this->pdodriver = end($match);
+		}
+		else
+		{
+			// Try to build a complete DSN string from params
+			$this->_connect_string($params);
+		}
+
+		// clause and character used for LIKE escape sequences
+		// this one depends on the driver being used
+		if ($this->pdodriver == 'mysql')
+		{
+			$this->_like_escape_str = '';
+			$this->_like_escape_chr = '';
+		}
+		elseif ($this->pdodriver == 'odbc')
+		{
+			$this->_like_escape_str = " {escape '%s'} ";
+			$this->_like_escape_chr = '!';
+		}
+		else
+		{
+			$this->_like_escape_str = " ESCAPE '%s' ";
+			$this->_like_escape_chr = '!';
+		}
+		
+		$this->trans_enabled   = FALSE;
+		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
+	}
+
+	/**
+	 * Connection String
+	 *
+	 * @access	private
+	 * @param	array
+	 * @return	void
+	 */
+	function _connect_string($params)
+	{
 		if (strpos($this->hostname, ':'))
 		{
-			// Hostname generally would have this prototype
+			// hostname generally would have this prototype
 			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
 			// We need to get the prefix (pdodriver used by PDO).
-			$this->pdodriver = '';
-
-			if (($fragments = explode(':', $this->hostname)) && count($fragments) >= 1)
-			{
-				$this->pdodriver = strtolower(current($fragments));
-			}
-
 			$this->dsn = $this->hostname;
+			$this->pdodriver = substr($this->hostname, 0, strpos($this->hostname, ':'));
 		}
 		else
 		{
@@ -92,7 +129,6 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			// Assuming that the following DSN string format is used:
 			// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
-			$this->pdodriver = strtolower($this->pdodriver);
 			$this->dsn = $this->pdodriver.':';
 
 			// Add hostname to the DSN for databases that need it
@@ -110,7 +146,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// Add the database name to the DSN, if needed
 	    if (stripos($this->dsn, 'dbname') === FALSE 
-	       && in_array($this->pdodriver, array('4d', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 	    {
 	        $this->dsn .= 'dbname='.$this->database.';';
 	    }
@@ -137,31 +173,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if (in_array($this->pdodriver, array('4d', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')) && ! empty($this->char_set))
+	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
 	    {
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
-
-		// clause and character used for LIKE escape sequences
-		// this one depends on the driver being used
-		if ($this->pdodriver == 'mysql')
-		{
-			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '';
-		}
-		elseif ($this->pdodriver == 'odbc')
-		{
-			$this->_like_escape_str = " {escape '%s'} ";
-			$this->_like_escape_chr = '!';
-		}
-		else
-		{
-			$this->_like_escape_str = " ESCAPE '%s' ";
-			$this->_like_escape_chr = '!';
-		}
-		
-		$this->trans_enabled   = FALSE;
-		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
 	/**
@@ -203,10 +218,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function pdo_connect()
 	{
-		// Safety for MySQL char-set
+		// Refer : http://ch2.php.net/manual/en/ref.pdo-mysql.connection.php
 		if ($this->pdodriver == 'mysql' && is_php('5.3.6'))
 		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES $this->char_set COLLATE '$this->dbcollat'";
 		}
 
 		// Connecting...
@@ -673,7 +688,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$str  = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
 			$str .= $this->_escape_char;
-			
 		}
 		else
 		{

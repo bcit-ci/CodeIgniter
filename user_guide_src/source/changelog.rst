@@ -47,22 +47,26 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Improved PDO database support.
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
-	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
-	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
-	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
-	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+    -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
+    -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
+    -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
    -  Image manipulation library changes include:
-	 -  The initialize() method now only sets existing class properties.
-	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
-	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
-	    if they are set manually after initialization.
+    -  The initialize() method now only sets existing class properties.
+    -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+    -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
+       if they are set manually after initialization.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
@@ -97,6 +101,9 @@ Bug fixes for 3.0
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+-  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
+-  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 
 Version 2.1.0
 =============
