@@ -81,8 +81,7 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
-
-
+	
 
 	/**
 	 * Constructor.  Accepts one parameter containing the database
@@ -812,20 +811,23 @@ class CI_DB_driver {
 
 		if ($query->num_rows() > 0)
 		{
-			foreach ($query->result_array() as $row)
+			$table = FALSE;
+			$rows = $query->result_array();
+			$key = (($row = current($rows)) && in_array('table_name', array_map('strtolower', array_keys($row))));
+
+			if ($key)
 			{
-				if (isset($row['TABLE_NAME']))
-				{
-					$retval[] = $row['TABLE_NAME'];
-				}
-				else
-				{
-					$retval[] = array_shift($row);
-				}
+				$table = array_key_exists('TABLE_NAME', $row) ? 'TABLE_NAME' : 'table_name';
+			}
+
+			foreach ($rows as $row)
+			{
+				$retval[] = ( ! $table) ? current($row) : $row[$table];
 			}
 		}
 
 		$this->data_cache['table_names'] = $retval;
+		
 		return $this->data_cache['table_names'];
 	}
 
@@ -1434,10 +1436,7 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-
-
 }
-
 
 /* End of file DB_driver.php */
 /* Location: ./system/database/DB_driver.php */
