@@ -593,29 +593,19 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			preg_match('/^\bSELECT\b.*$/m', $sql, $select);
 			preg_match('/^\bORDER BY\b.*$/m', $sql, $order_by);
 
-			$new_select = '';
-			$new_sql    = '';
-
-			if (isset($select[0]))
+			if (isset($select[0]) && isset($order_by[0]))
 			{
-				if (isset($order_by[0]))
+				$select_clause = "{$select[0]}, ROW_NUMBER() OVER ({$order_by[0]}) AS row_num";
+
+				if (strpos($select_clause, 'SELECT TOP') !== 0)
 				{
-					$new_select = "{$select[0]}, ROW_NUMBER() OVER ({$order_by[0]}) AS row_num";
-				}
-				else
-				{
-					$new_select = "{$select[0]}, ROW_NUMBER() OVER (ORDER BY NEWID()) AS row_num";
+					$select_clause = substr_replace($select_clause, "SELECT TOP {$end_row} ", 0, 7);
 				}
 
-				if (strpos($new_select, 'SELECT TOP') !== 0)
-				{
-					$new_select = substr_replace($new_select, "SELECT TOP {$end_row} ", 0, 7);
-				}
-
-				$new_sql = str_replace($select[0], $new_select, $sql);
+				$sql = str_replace($select[0], $select_clause, $sql);
 
 				return "
-					;WITH results_CTE AS ({$new_sql})
+					;WITH results_CTE AS ({$sql})
 					SELECT *
 					FROM results_CTE
 					WHERE row_num > {$start_row}
