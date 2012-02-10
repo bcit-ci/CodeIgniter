@@ -71,7 +71,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
-			// This for general PDO users, who tend to have full DSN string.
+			// This is for general PDO users, who tend to have a full DSN string.
 			$this->pdodriver = end($match);
 		}
 		else
