@@ -900,6 +900,59 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Fetch MySQL Index Names
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	array
+	 */
+	function list_index($table = '')
+	{
+		// Is there a cached result?
+		if (isset($this->data_cache['index_names'][$table]))
+		{
+			return $this->data_cache['index_names'][$table];
+		}
+
+		if ($table == '')
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_field_param_missing');
+			}
+			return FALSE;
+		}
+
+		if (FALSE === ($sql = $this->_list_index($table)))
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_unsupported_function');
+			}
+			return FALSE;
+		}
+
+		$query = $this->query($sql);
+
+		$retval = array();
+		foreach ($query->result_array() as $row)
+		{
+			if (isset($row['COLUMN_NAME']))
+			{
+				$retval[] = $row['COLUMN_NAME'];
+			}
+			else
+			{
+				$retval[] = current($row);
+			}
+		}
+
+		$this->data_cache['index_names'][$table] = $retval;
+		return $this->data_cache['index_names'][$table];
+	}
+	// --------------------------------------------------------------------
+
+	/**
 	 * Determine if a particular field exists
 	 * @access	public
 	 * @param	string

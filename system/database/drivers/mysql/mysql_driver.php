@@ -384,9 +384,23 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		return 'SHOW FULL COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	public function _list_index($table = '')
+	{
+		return 'SHOW INDEX FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+	}
 	// --------------------------------------------------------------------
 
 	/**
