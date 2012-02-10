@@ -39,6 +39,16 @@
 class CI_DB_pdo_result extends CI_DB_result {
 
 	/**
+	 * @var bool  Hold the flag whether a result handler already fetched before
+	 */
+	protected $is_fetched = FALSE;
+
+	/**
+	 * @var mixed Hold the fetched assoc array of a result handler
+	 */
+	protected $result_assoc;
+
+	/**
 	 * Number of rows in the result set
 	 *
 	 * @access	public
@@ -46,7 +56,59 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return $this->result_id->rowCount();
+		if (empty($this->result_id) OR ! is_object($this->result_id))
+		{
+			// invalid result handler
+			return 0;
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		{
+			// If rowCount return something, we're done.
+			return $num_rows;
+		}
+
+		// Fetch the result, instead perform another extra query
+		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
+	}
+
+	/**
+	 * Fetch the result handler
+	 *
+	 * @access	public
+	 * @return	mixed
+	 */
+	function result_assoc()
+	{
+		// If the result already fetched before, use that one
+		if (count($this->result_array) > 0 OR $this->is_fetched)
+		{
+			return $this->result_array();
+		}
+
+		// Define the output
+		$output = array('assoc', 'object');
+
+		// Fetch the result
+		foreach ($output as $type)
+		{
+			// Define the method and handler
+			$res_method  = '_fetch_'.$type;
+			$res_handler = 'result_'.$type;
+			
+			$this->$res_handler = array();
+			$this->_data_seek(0);
+
+			while ($row = $this->$res_method())
+			{
+				$this->{$res_handler}[] = $row;
+			}
+		}
+
+		// Save this as buffer and marked the fetch flag
+		$this->result_array = $this->result_assoc;
+		$this->is_fetched = TRUE;
+
+		return $this->result_assoc;
 	}
 
 	// --------------------------------------------------------------------
@@ -78,6 +140,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
+		
 		return FALSE;
 	}
 
@@ -110,6 +173,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 			{
 				return $this->db->display_error('db_unsuported_feature');
 			}
+
 			return FALSE;
 		}
 	}
@@ -177,7 +241,6 @@ class CI_DB_pdo_result extends CI_DB_result {
 	}
 
 }
-
 
 /* End of file pdo_result.php */
 /* Location: ./system/database/drivers/pdo/pdo_result.php */
