@@ -1352,8 +1352,6 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-
-
 }
 
 /* End of file DB_driver.php */
