@@ -666,24 +666,23 @@ class CI_DB_active_record extends CI_DB_driver {
 		foreach ($field as $k => $v)
 		{
 			$k = $this->_protect_identifiers($k);
-			$prefix = (count($this->ar_like) === 0) ? '' : $type;
 			$v = $this->escape_like_str($v);
 
 			if ($side === 'none')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}'";
+				$like_statement = $type." $k $not LIKE '{$v}'";
 			}
 			elseif ($side === 'before')
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}'";
+				$like_statement = $type." $k $not LIKE '%{$v}'";
 			}
 			elseif ($side === 'after')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}%'";
+				$like_statement = $type." $k $not LIKE '{$v}%'";
 			}
 			else
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}%'";
+				$like_statement = $type." $k $not LIKE '%{$v}%'";
 			}
 
 			// some platforms require an escape sequence definition for LIKE wildcards
@@ -1919,18 +1918,24 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		$sql .= implode("\n", $this->ar_where);
-
+		
 		// Write the "LIKE" portion of the query
 		if (count($this->ar_like) > 0)
 		{
+			$like_part = implode("\n", $this->ar_like);
+			
 			if (count($this->ar_where) > 0)
 			{
-				$sql .= "\nAND ";
+				$sql .= "\n";
 			}
-
-			$sql .= implode("\n", $this->ar_like);
+			else
+			{
+				$like_part = preg_replace('/AND|OR/', '', $like_part, 1);
+			}
+		
+			$sql .= $like_part;
 		}
-
+		
 		// Write the "GROUP BY" portion of the query
 		if (count($this->ar_groupby) > 0)
 		{
