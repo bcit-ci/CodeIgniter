@@ -215,6 +215,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        that can not be discerned by the person uploading it.
 **remove_spaces**            TRUE              TRUE/FALSE (boolean)    If set to TRUE, any spaces in the file name will be converted to
                                                                        underscores. This is recommended.
+**lowercase_ext**            FALSE             TRUE/FALSE (boolean)    If set to TRUE, file extension will be converted to lower case letters
 ============================ ================= ======================= ======================================================================
 
 Setting preferences in a config file
