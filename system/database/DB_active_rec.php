@@ -1930,6 +1930,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			else
 			{
+				// remove the first 'AND' or 'OR' if there isn't any other where statements
 				$like_part = preg_replace('/AND|OR/', '', $like_part, 1);
 			}
 		
