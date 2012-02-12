@@ -585,7 +585,7 @@ class CI_Input {
 	*/
 	protected function _clean_input_keys($str)
 	{
-		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
+		if ( ! preg_match('/^[a-z0-9:_\\/-]+$/i', $str))
 		{
 			set_status_header(503);
 			exit('Disallowed Key Characters.');
