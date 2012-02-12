@@ -306,7 +306,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function custom_result_object($class_name)
 	{
-		if (array_key_exists($class_name, $this->custom_result_object))
+		if (isset($this->custom_result_object[$class_name]))
 		{
 			return $this->custom_result_object[$class_name];
 		}
@@ -332,18 +332,17 @@ class CI_DB_oci8_result extends CI_DB_result {
 			$data = &$this->result_object;
 		}
 
-		$result_object = array();
+		$this->custom_result_object[$class_name] = array();
 		for ($i = 0, $c = count($data); $i < $c; $i++)
 		{
-			$result_object[$i] = new $class_name();
+			$this->custom_result_object[$class_name][$i] = new $class_name();
 			foreach ($data[$i] as $key => $value)
 			{
-				$result_object[$i]->$key = $value;
+				$this->custom_result_object[$class_name][$i]->$key = $value;
 			}
 		}
 
-		// Cache and return the array
-		return $this->custom_result_object[$class_name] = $result_object;
+		return $this->custom_result_object[$class_name];
         }
 
 	// --------------------------------------------------------------------
