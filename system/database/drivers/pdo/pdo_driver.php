@@ -148,7 +148,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    if (stripos($this->dsn, 'dbname') === FALSE 
 	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 	    {
-            // End dsn with a semicolon for backward compability
+	        // End dsn with a semicolon for backward compability
 	        $this->dsn .= rtrim($this->dsn, ';').';';
 	        $this->dsn .= 'dbname='.$this->database.';';
 	    }
@@ -177,7 +177,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    // Add charset to the DSN, if needed
 	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
 	    {
-	    	// End dsn with a semicolon for extra backward compability
+	        // End dsn with a semicolon for extra backward compability
 	        $this->dsn .= rtrim($this->dsn, ';').';';
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
