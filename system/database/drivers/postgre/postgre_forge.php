@@ -172,7 +172,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			}
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).' ('.$this->_process_fields($fields, $primary_keys);
+		$sql .= $this->db->protect_identifiers($table).' ('.$this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
 		{
@@ -220,7 +220,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	public function _drop_table($table)
 	{
-		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table).' CASCADE';
+		return 'DROP TABLE IF EXISTS '.$this->db->protect_identifiers($table).' CASCADE';
 	}
 
 	// --------------------------------------------------------------------
