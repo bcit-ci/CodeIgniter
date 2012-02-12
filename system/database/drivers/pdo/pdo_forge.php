@@ -77,7 +77,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE '.($if_not_exists === TRUE ? 'IF NOT EXISTS ' : '')
-			.'`'.$this->db->_escape_identifiers($table).'` (';
+			.$this->db->protect_identifiers($table).' (';
 
 		$current_field_count = 0;
 		foreach ($fields as $field => $attributes)
@@ -94,7 +94,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 				$numeric = array('SERIAL', 'INTEGER');
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field)
+				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.' '.$attributes['TYPE'];
 
 				if ( ! empty($attributes['CONSTRAINT']))
@@ -121,7 +121,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->_protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -129,8 +129,8 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 			foreach ($keys as $key)
 			{
 				$key = is_array($key)
-					? $this->db->_protect_identifiers($key)
-					: array($this->db->_protect_identifiers($key));
+					? $this->db->protect_identifiers($key)
+					: array($this->db->protect_identifiers($key));
 
 				$sql .= ",\n\tFOREIGN KEY (".implode(', ', $key).')';
 			}
@@ -171,7 +171,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	 */
 	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE `'.$this->db->_protect_identifiers($table).'` '.$alter_type.' '.$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')
@@ -182,7 +182,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 		return $sql.' '.$column_definition
 			.($default_value !== '' ? " DEFAULT '".$default_value."'" : '')
 			.($null === NULL ? ' NULL' : ' NOT NULL')
-			.($after_field != '' ? ' AFTER '.$this->db->_protect_identifiers($after_field) : '');
+			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
 	}
 
 
@@ -199,7 +199,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	 */
 	public function _rename_table($table_name, $new_table_name)
 	{
-		return 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
