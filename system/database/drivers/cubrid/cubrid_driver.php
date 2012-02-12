@@ -57,15 +57,21 @@ class CI_DB_cubrid_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
+	// CUBRID-specific properties
+	public $auto_commit = TRUE;
+
 	public function __construct($params)
 	{
 		parent::__construct($params);
 
-		// If no port is defined by the user, use the default value
-		if ($this->port == '')
+		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:[^:]*:[^:]*:(\?.+)?$/', $this->dsn, $matches))
 		{
-			// Default CUBRID broker port
-			$this->port = 33000;
+			preg_match('/autocommit=on/', $matches[2], $matches) OR $this->auto_commit = FALSE;
+		}
+		else
+		{
+			// If no port is defined by the user, use the default value
+			$this->port == '' OR $this->port = 33000;
 		}
 	}
 
@@ -76,44 +82,62 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		$conn = cubrid_connect($this->hostname, $this->port, $this->database, $this->username, $this->password);
-
-		if ($conn)
-		{
-			// Check if a user wants to run queries in dry, i.e. run the
-			// queries but not commit them.
-			if (isset($this->auto_commit) && ! $this->auto_commit)
-			{
-				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_FALSE);
-			}
-			else
-			{
-				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_TRUE);
-				$this->auto_commit = TRUE;
-			}
-		}
-
-		return $conn;
+		return $this->_cubrid_connect();
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * Persistent database connection
+	 *
 	 * In CUBRID persistent DB connection is supported natively in CUBRID
 	 * engine which can be configured in the CUBRID Broker configuration
 	 * file by setting the CCI_PCONNECT parameter to ON. In that case, all
 	 * connections established between the client application and the
-	 * server will become persistent. This is calling the same
-	 * @cubrid_connect function will establish persisten connection
-	 * considering that the CCI_PCONNECT is ON.
+	 * server will become persistent.
 	 *
-	 * @access	private called by the base class
 	 * @return	resource
 	 */
 	public function db_pconnect()
 	{
-		return $this->db_connect();
+		return $this->_cubrid_connect(TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CUBRID connection
+	 *
+	 * A CUBRID-specific method to create a connection to the database.
+	 * Except for determining if a persistent connection should be used,
+	 * the rest of the logic is the same for db_connect() and db_pconnect().
+	 *
+	 * @param	bool
+	 * @return	resource
+	 */
+	protected function _cubrid_connect($persistent = FALSE)
+	{
+		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
+		{
+			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
+					? cubrid_connect_with_url($this->dsn, $this->username, $this->password)
+					: cubrid_connect_with_url($this->dsn);
+		}
+		else
+		{
+			$_temp = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
+			$conn_id = ($this->username !== '')
+					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
+					: $_temp($this->hostname, $this->port, $this->database);
+		}
+
+		if ($conn_id)
+		{
+			$_temp = ($this->auto_commit) ? CUBRID_AUTOCOMMIT_TRUE : CUBRID_AUTOCOMMIT_FALSE;
+			cubrid_set_autocommit($conn_id, $_temp);
+		}
+
+		return $conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -161,9 +185,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function db_set_charset($charset, $collation)
 	{
-		// In CUBRID, there is no need to set charset or collation.
-		// This is why returning true will allow the application continue
-		// its normal process.
+		// Not supported in CUBRID
 		return TRUE;
 	}
 
@@ -189,8 +211,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
-		return @cubrid_query($sql, $this->conn_id);
+		return @cubrid_query($this->_prep_query($sql), $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -205,7 +226,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		// No need to prepare
 		return $sql;
 	}
 
@@ -385,7 +405,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	boolean
+	 * @param	bool
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -607,8 +627,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids = array();
-		$where = ($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '';
-
 		foreach ($values as $key => $val)
 		{
 			$ids[] = $val[$index];
@@ -622,9 +640,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 			}
 		}
 
-		$sql = 'UPDATE '.$table.' SET ';
 		$cases = '';
-
 		foreach ($final as $k => $v)
 		{
 			$cases .= $k." = CASE \n"
@@ -632,7 +648,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 				.'ELSE '.$k.' END, ';
 		}
 
-		return $sql.substr($cases, 0, -2)
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN ('.implode(',', $ids).')';
 	}
@@ -672,13 +688,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
+			$conditions = "\nWHERE ".implode("\n", $where)
+					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
+					.implode("\n", $like);
 		}
 
 		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
