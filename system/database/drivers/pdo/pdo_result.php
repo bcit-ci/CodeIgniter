@@ -36,78 +36,40 @@
  */
 class CI_DB_pdo_result extends CI_DB_result {
 
-	//FIX HERE
-	/**
-	 * @var bool  Hold the flag whether a result handler already fetched before
-	 */
-	protected $is_fetched = FALSE;
-
-	/**
-	 * @var mixed Hold the fetched assoc array of a result handler
-	 */
-	protected $result_assoc;
+	public $result_array;
+	public $result_object;
+	public $num_rows;
 
 	/**
 	 * Number of rows in the result set
 	 *
 	 * @return	int
 	 */
-	//FIX HERE
 	public function num_rows()
 	{
-		if (empty($this->result_id) OR ! is_object($this->result_id))
+		if (is_int($this->num_rows))
 		{
-			// invalid result handler
-			return 0;
+			return $this->num_rows;
 		}
-		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		elseif (is_array($this->result_array))
 		{
-			// If rowCount return something, we're done.
-			return $num_rows;
+			return $this->num_rows = count($this->result_array);
 		}
-
-		// Fetch the result, instead perform another extra query
-		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
-	}
-
-	/**
-	 * Fetch the result handler
-	 *
-	 * @return	array
-	 */
-	// FIX HERE
-	public function result_assoc()
-	{
-		// If the result already fetched before, use that one
-		if (count($this->result_array) > 0 OR $this->is_fetched)
+		elseif (is_array($this->result_object))
 		{
-			return $this->result_array();
+			return $this->num_rows = count($this->result_object);
+		}
+		elseif (($this->num_rows = $this->result_id->rowCount()) > 0)
+		{
+			/* Not all subdrivers support rowCount() for
+			 * returning the number of rows selected, but
+			 * if the return value is greater than 0 - we
+			 * can be sure that it's correct.
+			 */
+			return $this->num_rows;
 		}
 
-		// Define the output
-		$output = array('assoc', 'object');
-
-		// Fetch the result
-		foreach ($output as $type)
-		{
-			// Define the method and handler
-			$res_method  = '_fetch_'.$type;
-			$res_handler = 'result_'.$type;
-
-			$this->$res_handler = array();
-			$this->_data_seek(0);
-
-			while ($row = $this->$res_method())
-			{
-				$this->{$res_handler}[] = $row;
-			}
-		}
-
-		// Save this as buffer and marked the fetch flag
-		$this->result_array = $this->result_assoc;
-		$this->is_fetched = TRUE;
-
-		return $this->result_assoc;
+		return $this->num_rows = count($this->result_array());
 	}
 
 	// --------------------------------------------------------------------
@@ -223,11 +185,141 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string	class name
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetchObject();
+		return method_exists($this->result_id, 'fetchObject')
+			? $this->result_id->fetchObject($class_name)
+			: $this->result_id->fetch(PDO::FETCH_CLASS);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. Array version.
+	 *
+	 * @return	array
+	 */
+	public function result_array()
+	{
+		if (is_array($this->result_array))
+		{
+			return $this->result_array;
+		}
+
+		$this->result_array = array();
+
+		if (is_array($this->result_object))
+		{
+			for ($i = 0, $c = count($this->result_object); $i < $c; $i++)
+			{
+				$this->result_array[$i] = (array) $this->result_object[$i];
+			}
+			return $this->result_array;
+		}
+
+		while ($row = $this->_fetch_assoc())
+		{
+			$this->result_array[] = $row;
+		}
+
+		return $this->result_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. "Object" version.
+	 *
+	 * @return	array
+	 */
+	public function result_object()
+	{
+		if (is_array($this->result_object))
+		{
+			return $this->result_object;
+		}
+
+		$this->result_object = array();
+
+		if (is_array($this->result_array))
+		{
+			for ($i = 0, $c = count($this->result_array); $i < $c; $i++)
+			{
+				$this->result_object[$i] = (object) $this->result_array[$i];
+			}
+			return $this->result_object;
+		}
+
+		if ( ! method_exists($this->result_id, 'fetchObject'))
+		{
+			$this->result_id->setFetchMode(PDO::FETCH_CLASS, 'stdClass');
+		}
+
+		while ($row = $this->_fetch_object())
+		{
+			$this->result_object[] = $row;
+		}
+
+		return $this->result_object;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. Custom object version.
+	 *
+	 * @param	string	class name
+	 * @return	array
+	 */
+	public function custom_result_object($class_name)
+	{
+		if (isset($this->custom_result_object[$class_name]))
+		{
+			return $this->custom_result_object[$class_name];
+		}
+		elseif ( ! class_exists($class_name) OR $this->result_id === FALSE OR $this->num_rows === 0)
+		{
+			return array();
+		}
+		elseif (is_array($this->result_array))
+		{
+			$data =& $this->result_array;
+		}
+		elseif (is_array($this->result_object))
+		{
+			$data =& $this->result_object;
+		}
+
+		$this->custom_result_object[$class_name] = array();
+
+		if (isset($data))
+		{
+			for ($i = 0, $c = count($data); $i < $c; $i++)
+			{
+				$this->custom_result_object[$class_name][$i] = new $class_name();
+				foreach ($data[$i] as $key => $value)
+				{
+					$this->custom_result_object[$class_name][$i]->$key = $value;
+				}
+			}
+		}
+		else
+		{
+			if ( ! method_exists($this->result_id, 'fetchObject'))
+			{
+				$this->result_id->setFetchMode(PDO::FETCH_CLASS, $class_name);
+			}
+
+			while ($row = $this->_fetch_object($class_name))
+			{
+				$this->custom_result_object[$class_name][] = $row;
+			}
+		}
+
+		return $this->custom_result_object[$class_name];
 	}
 
 }
