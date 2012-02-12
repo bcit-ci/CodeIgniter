@@ -57,6 +57,16 @@ class CI_DB_mssql_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' NEWID()';
 
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		if ( ! empty($this->port) && ctype_digit($this->port))
+		{
+			$this->hostname .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
+		}
+	}
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -64,11 +74,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		if ($this->port != '')
-		{
-			$this->hostname .= ','.$this->port;
-		}
-
 		return @mssql_connect($this->hostname, $this->username, $this->password);
 	}
 
@@ -81,11 +86,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		if ($this->port != '')
-		{
-			$this->hostname .= ','.$this->port;
-		}
-
 		return @mssql_pconnect($this->hostname, $this->username, $this->password);
 	}
 
