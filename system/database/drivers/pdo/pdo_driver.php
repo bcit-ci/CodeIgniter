@@ -44,8 +44,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $dsn;
 	public $trans_enabled = FALSE;
 
-	// the character used to escape - not necessary for PDO
-	protected $_escape_char = '';
+	// the character used to escape
+	protected $_escape_char = '`';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = ' ESCAPE \'%s\' ';
@@ -85,6 +85,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		if ($this->subdriver === 'mysql')
 		{
 			$this->_like_escape_str = $this->_like_escape_chr = '';
+		}
+		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2', 'pgsql')))
+		{
+			$this->_escape_char = '"';
 		}
 		elseif ($this->subdriver === 'odbc')
 		{
@@ -709,16 +713,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		// Change the backtick(s) for Postgre and/or SQLite
-		if ($this->subdriver === 'pgsql')
-		{
-			return str_replace('`', '"', $sql);
-		}
-		elseif ($this->subdriver === 'sqlite')
-		{
-			return str_replace('`', '', $sql);
-		}
-
 		return $sql;
 	}
 
@@ -904,6 +898,11 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			// Analog function to show all tables in Postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
+		}
+		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2'))
+		{
+			return 'SELECT "name" FROM "SQLITE_MASTER"'
+				(($prefix_limit !== FALSE && $this->dbprefix !== '' ? ' WHERE "name" LIKE \''.$this->dbprefix."%'" : '');
 		}
 		else
 		{

@@ -131,10 +131,20 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * @return	bool
 	 */
-	//FIX HERE?
 	public function list_fields()
 	{
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		if ( ! method_exists($this->result_id, 'getColumnMeta'))
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		}
+
+		$field_names = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
+		{
+			$meta = $this->result_id->getColumnMeta($i);
+			$field_names[] = $meta['name'];
+		}
+		return $field_names;
 	}
 
 	// --------------------------------------------------------------------
@@ -146,23 +156,19 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	// FIX HERE?
 	public function field_data()
 	{
-		try
-		{
-			$data = array();
-			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
-			{
-				$data[] = $this->result_id->getColumnMeta($i);
-			}
-			return $data;
-		}
-		catch (Exception $e)
+		if ( ! method_exists($this->result_id, 'getColumnMeta'))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
+		$data = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
+		{
+			$data[] = $this->result_id->getColumnMeta($i);
+		}
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
