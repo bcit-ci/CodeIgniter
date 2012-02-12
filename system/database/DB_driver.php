@@ -42,6 +42,7 @@
  */
 class CI_DB_driver {
 
+	var $dsn;
 	var $username;
 	var $password;
 	var $hostname;

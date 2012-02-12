@@ -41,7 +41,6 @@
 class CI_DB_pdo_driver extends CI_DB {
 
 	public $dbdriver = 'pdo';
-	public $dsn;
 	public $trans_enabled = FALSE;
 
 	// the character used to escape
