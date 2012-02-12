@@ -49,8 +49,9 @@ Release Date: Not Released
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
-   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Added dsn configuration setting to be used by drivers that support it.
    -  Improved PDO database support.
+   -  Added DSN string support for PDO.
 
 -  Libraries
 
