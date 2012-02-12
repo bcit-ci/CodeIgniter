@@ -74,24 +74,24 @@ function &DB($params = '', $active_record_override = NULL)
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
-		if (($dns = @parse_url($params)) === FALSE)
+		if (($dsn = @parse_url($params)) === FALSE)
 		{
 			show_error('Invalid DB Connection String');
 		}
 
 		$params = array(
-				'dbdriver'	=> $dns['scheme'],
-				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
-				'port'		=> (isset($dns['port'])) ? rawurldecode($dns['port']) : '',
-				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
-				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
-				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
+				'dbdriver'	=> $dsn['scheme'],
+				'hostname'	=> (isset($dsn['host'])) ? rawurldecode($dsn['host']) : '',
+				'port'		=> (isset($dsn['port'])) ? rawurldecode($dsn['port']) : '',
+				'username'	=> (isset($dsn['user'])) ? rawurldecode($dsn['user']) : '',
+				'password'	=> (isset($dsn['pass'])) ? rawurldecode($dsn['pass']) : '',
+				'database'	=> (isset($dsn['path'])) ? rawurldecode(substr($dsn['path'], 1)) : ''
 			);
 
 		// were additional config items set?
-		if (isset($dns['query']))
+		if (isset($dsn['query']))
 		{
-			parse_str($dns['query'], $extra);
+			parse_str($dsn['query'], $extra);
 			foreach ($extra as $key => $val)
 			{
 				// booleans please
@@ -104,7 +104,10 @@ function &DB($params = '', $active_record_override = NULL)
 					$val = FALSE;
 				}
 
-				$params[$key] = $val;
+				if ( ! isset($params[$key]))
+				{
+					$params[$key] = $val;
+				}
 			}
 		}
 	}
