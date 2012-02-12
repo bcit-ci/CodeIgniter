@@ -56,9 +56,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
-	// Postgre-specific properties
-	protected $_pg_dsn;
-
 	/**
 	 * Constructor
 	 *
@@ -70,26 +67,54 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		$components = array(
-					'hostname'	=> 'host',
-					'port'		=> 'port',
-					'database'	=> 'dbname',
-					'username'	=> 'user',
-					'password'	=> 'password'
-				);
-
-		foreach ($components as $key => $val)
+		if ( ! empty($this->dsn))
 		{
-			if (isset($this->$key) && $this->$key != '')
+			return;
+		}
+
+		$this->dsn === '' OR $this->dsn = '';
+
+		if (strpos($this->hostname, '/') !== FALSE)
+		{
+			// If UNIX sockets are used, we shouldn't set a port
+			$this->port = '';
+		}
+
+		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname;
+
+		if ( ! empty($this->port) && ctype_digit($this->port))
+		{
+			$this->dsn .= 'host='.$this->port.' ';
+		}
+
+		if ($this->username !== '')
+		{
+			$this->dsn .= 'username='.$this->username.' ';
+
+			/* An empty password is valid!
+			 *
+			 * $db['password'] = NULL must be done in order to ignore it.
+			 */
+			$this->password === NULL OR $this->dsn .= "password='".$this->password."' ";
+		}
+
+		$this->database === '' OR $this->dsn .= 'dbname='.$this->database.' ';
+
+		/* We don't have these options as elements in our standard configuration
+		 * array, but they might be set by parse_url() if the configuration was
+		 * provided via string. Example:
+		 *
+		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
+		 */
+		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		{
+			if (isset($this->$key) && is_string($this->key) && $this->key !== '')
 			{
-				$this->_pg_dsn .= $val.'='.$this->$key.' ';
+				$this->dsn .= $key."='".$this->key."' ";
 			}
 		}
 
-		if (strlen($this->_pg_dsn) > 0)
-		{
-			$this->_pg_dsn = rtrim($this->_pg_dsn);
-		}
+		$this->dsn = rtrim($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -101,7 +126,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		$ret = @pg_connect($this->_pg_dsn);
+		$ret = @pg_connect($this->dsn);
 		if (is_resource($ret) && $this->char_set != '')
 		{
 			pg_set_client_encoding($ret, $this->char_set);
@@ -119,7 +144,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$ret = @pg_pconnect($this->_pg_dsn);
+		$ret = @pg_pconnect($this->dsn);
 		if (is_resource($ret) && $this->char_set != '')
 		{
 			pg_set_client_encoding($ret, $this->char_set);
