@@ -104,6 +104,8 @@ Bug fixes for 3.0
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug in PDO's version() method where it used to return the client version as opposed to the server one.
+-  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 
 Version 2.1.0
 =============

@@ -156,14 +156,13 @@ class CI_DB_pdo_result extends CI_DB_result {
 			{
 				$data[] = $this->result_id->getColumnMeta($i);
 			}
-
+			return $data;
 		}
 		catch (Exception $e)
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		return $data;
 	}
 
 	// --------------------------------------------------------------------
