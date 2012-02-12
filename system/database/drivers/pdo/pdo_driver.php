@@ -148,8 +148,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	    if (stripos($this->dsn, 'dbname') === FALSE 
 	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 	    {
-	        // End dsn with a semicolon for backward compability
-	        $this->dsn .= rtrim($this->dsn, ';').';';
 	        $this->dsn .= 'dbname='.$this->database.';';
 	    }
 	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->pdodriver, array('ibm', 'sqlsrv')))
