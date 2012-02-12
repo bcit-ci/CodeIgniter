@@ -145,7 +145,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return function_exists('odbc_fetch_object')
+		return function_exists('odbc_fetch_array')
 			? odbc_fetch_array($this->result_id)
 			: $this->_odbc_fetch_array($this->result_id);
 	}
@@ -185,7 +185,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$rs_obj = new stdClass();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($odbc_result, $k+1);
+			$field_name = odbc_field_name($odbc_result, $k);
 			$rs_obj->$field_name = $v;
 		}
 
@@ -212,7 +212,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$rs_assoc = array();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($odbc_result, $k+1);
+			$field_name = odbc_field_name($odbc_result, $k);
 			$rs_assoc[$field_name] = $v;
 		}
 
