@@ -151,7 +151,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// OK ... now create and/or valudate the DSN
 		if ($this->subdriver === 'oci')
 		{
-			/* Oracle has a slightly different PDO DSN format (TNS).
+			/* Oracle has a slightly different PDO DSN format (Easy Connect).
 			 * It also supports pre-defined DSNs.
 			 */
 			if (preg_match('/^oci:dbname=([^;\s\/]+)(;charset=(.+))?$/', $this->dsn, $matches))
