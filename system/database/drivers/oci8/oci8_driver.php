@@ -78,6 +78,85 @@ class CI_DB_oci8_driver extends CI_DB {
 	// throw off num_fields later
 	public $limit_used;
 
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		$valid_dsns = array(
+					// Easy Connect string - Oracle 10g+
+					'ec'	=> '/^(\/\/)?[a-z0-9.:_-]+(:[1-9][0-9]{0,4})?(\/[a-z0-9$_]+)?(:[^/])?(\/[a-z0-9$_]+)?$/i',
+					'tns'	=> '/^\(DESCRIPTION=(\(.+\)){2,}\)$/', // TNS
+					'in'	=> '/^[a-z0-9$_]+$/i' // Instance name (defined in tnsnames.ora)
+				);
+
+		/* Space characters don't have any effect when actually
+		 * connecting, but can be a hassle while validating the DSN.
+		 */
+		$this->dsn = str_replace(array("\n", "\r", "\t", ' '), '', $this->dsn);
+
+		if ($this->dsn !== '')
+		{
+			foreach ($valid_dsns as $regexp)
+			{
+				if (preg_match($regexp, $this->dsn))
+				{
+					return;
+				}
+			}
+		}
+
+		// Legacy support for TNS in the hostname configuration field
+		$this->hostname = str_replace(array("\n", "\r", "\t", ' '), '', $this->hostname);
+		if (preg_match($valid_dsns['tns'], $this->hostname))
+		{
+			$this->dsn = $this->hostname;
+			return;
+		}
+		elseif ($this->hostname !== '' && strpos($this->hostname, '/') === FALSE && strpos($this->hostname, ':') === FALSE
+			&& (( ! empty($this->port) && ctype_digit($this->port)) OR $this->database !== ''))
+		{
+			/* If the hostname field isn't empty, doesn't contain
+			 * ':' and/or '/' and if port and/or database aren't
+			 * empty, then the hostname field is most likely indeed
+			 * just a hostname. Therefore we'll try and build an
+			 * Easy Connect string from these 3 settings, assuming
+			 * that the database field is a service name.
+			 */
+			$this->dsn = $this->hostname
+					.(( ! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
+					.($this->database !== '' ? '/'.ltrim($this->database, '/') : '');
+
+			if (preg_match($valid_dsns['ec'], $this->dsn))
+			{
+				return;
+			}
+		}
+
+		/* At this point, we can only try and validate the hostname and
+		 * database fields separately as DSNs.
+		 */
+		if (preg_match($valid_dsns['ec'], $this->hostname) OR preg_match($valid_dsns['in'], $this->hostname))
+		{
+			$this->dsn = $this->hostname;
+			return;
+		}
+
+		$this->database = str_replace(array("\n", "\r", "\t", ' '), '', $this->database);
+		foreach ($valid_dsns as $regexp)
+		{
+			if (preg_match($regexp, $this->database))
+			{
+				return;
+			}
+		}
+
+		/* Well - OK, an empty string should work as well.
+		 * PHP will try to use environment variables to
+		 * determine which Oracle instance to connect to.
+		 */
+		$this->dsn = '';
+	}
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -85,7 +164,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @oci_connect($this->username, $this->password, $this->hostname, $this->char_set);
+		return ( ! empty($this->char_set))
+			? @oci_connect($this->username, $this->password, $this->dsn, $this->char_set)
+			: @oci_connect($this->username, $this->password, $this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -97,7 +178,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @oci_pconnect($this->username, $this->password, $this->hostname, $this->char_set);
+		return ( ! empty($this->char_set))
+			? @oci_pconnect($this->username, $this->password, $this->dsn, $this->char_set)
+			: @oci_pconnect($this->username, $this->password, $this->dsn);
 	}
 
 	// --------------------------------------------------------------------
