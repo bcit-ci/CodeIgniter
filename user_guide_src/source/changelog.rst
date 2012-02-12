@@ -52,6 +52,7 @@ Release Date: Not Released
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
    -  Improved support of the Oracle (OCI8) driver, including:
+	 -  Added DSN string support (Easy Connect and TNS).
          -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
          -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
          -  Generally improved for speed and cleaned up all of its components.
