@@ -118,6 +118,13 @@ class CI_DB_pdo_driver extends CI_DB {
 			// We need to get the prefix (pdodriver used by PDO).
 			$this->dsn = $this->hostname;
 			$this->pdodriver = current(explode(':', $this->hostname));
+
+			// End dsn with a semicolon for extra backward compability
+			// if database property was not empty.
+			if ( ! empty($this->database))
+			{
+				$this->dsn .= rtrim($this->dsn, ';').';';
+			}
 		}
 		else
 		{
@@ -175,8 +182,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	    // Add charset to the DSN, if needed
 	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
 	    {
-	        // End dsn with a semicolon for extra backward compability
-	        $this->dsn .= rtrim($this->dsn, ';').';';
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
 	}
