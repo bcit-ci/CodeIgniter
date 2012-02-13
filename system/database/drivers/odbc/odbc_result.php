@@ -185,7 +185,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$rs_obj = new stdClass();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($odbc_result, $k);
+			$field_name = odbc_field_name($odbc_result, $k+1);
 			$rs_obj->$field_name = $v;
 		}
 
@@ -212,7 +212,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$rs_assoc = array();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($odbc_result, $k);
+			$field_name = odbc_field_name($odbc_result, $k+1);
 			$rs_assoc[$field_name] = $v;
 		}
 
