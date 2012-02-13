@@ -422,10 +422,17 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
 
-			if (is_null($v) && ! $this->_has_operator($k))
+			if (is_null($v))
 			{
 				// value appears not to have been set, assign the test to IS NULL
-				$k .= ' IS NULL';
+				if( ! $this->_has_operator($k))
+				{
+					$k .= ' IS NULL';
+				}
+				else
+				{
+					$k .= ' IS NOT NULL';
+				}
 			}
 
 			if ( ! is_null($v))
