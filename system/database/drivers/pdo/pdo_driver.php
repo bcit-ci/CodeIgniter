@@ -121,7 +121,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			// End dsn with a semicolon for extra backward compability
 			// if database property was not empty.
-			if( ! empty($this->database))
+			if ( ! empty($this->database))
 			{
 				$this->dsn .= rtrim($this->hostname, ';').';';
 			}
