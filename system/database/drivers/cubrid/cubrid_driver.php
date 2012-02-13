@@ -122,9 +122,10 @@ class CI_DB_cubrid_driver extends CI_DB {
 	{
 		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
 		{
+			$_temp = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
 			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
-					? cubrid_connect_with_url($this->dsn, $this->username, $this->password)
-					: cubrid_connect_with_url($this->dsn);
+					? $_temp($this->dsn, $this->username, $this->password)
+					: $_temp($this->dsn);
 		}
 		else
 		{
