@@ -450,7 +450,23 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	function _list_columns($table = '')
 	{
-		return "SHOW COLUMNS FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		return "SHOW FULL COLUMNS FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_index($table = '')
+	{
+		return "SHOW INDEX FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
 	// --------------------------------------------------------------------

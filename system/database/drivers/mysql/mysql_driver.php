@@ -382,7 +382,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
 		return 'SHOW FULL COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
@@ -397,7 +397,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _list_index($table = '')
+	protected function _list_index($table = '')
 	{
 		return 'SHOW INDEX FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
