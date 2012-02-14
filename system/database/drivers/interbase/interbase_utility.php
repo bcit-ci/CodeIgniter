@@ -47,7 +47,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * @access	private
 	 * @return	bool
 	 */
-	function _list_databases()
+	public function _list_databases()
 	{
 		if ($this->db_debug)
 		{
@@ -67,7 +67,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	function _optimize_table($table)
+	public function _optimize_table($table)
 	{
 		return FALSE;
 	}
@@ -83,7 +83,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	function _repair_table($table)
+	public function _repair_table($table)
 	{
 		return FALSE;
 	}
@@ -97,7 +97,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	function _backup($params = array())
+	public function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');

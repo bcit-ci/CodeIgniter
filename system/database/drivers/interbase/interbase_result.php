@@ -44,7 +44,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	public
 	 * @return	integer
 	 */
-	function num_rows()
+	public function num_rows()
 	{
 		//Will have to manually calculate :(
 		$count = 0;
@@ -65,7 +65,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	public
 	 * @return	integer
 	 */
-	function num_fields()
+	public function num_fields()
 	{
 		return @ibase_num_fields($this->result_id);
 	}
@@ -80,7 +80,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function list_fields()
+	public function list_fields()
 	{
 		$field_names = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
@@ -102,7 +102,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	function field_data()
+	public function field_data()
 	{
 		
 		$retval = array();
@@ -130,7 +130,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	function free_result()
+	public function free_result()
 	{
 		@ibase_free_result($this->result_id);
 	}
@@ -147,7 +147,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	private
 	 * @return	array
 	 */
-	function _data_seek($n = 0)
+	public function _data_seek($n = 0)
 	{
 		//Interbase driver doesn't implement a sutable function
 		return array();	
@@ -163,7 +163,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	public function _fetch_assoc()
 	{
 		return @ibase_fetch_assoc($this->result_id);
 	}
@@ -178,7 +178,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
+	public function _fetch_object()
 	{
 		return @ibase_fetch_object($this->result_id);
 	}

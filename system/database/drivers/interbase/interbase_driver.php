@@ -70,7 +70,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_connect()
+	public function db_connect()
 	{
 		if ( ! $conn_id = @ibase_connect($this->database, $this->username, $this->password, $this->charset))
 		{
@@ -95,7 +95,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_pconnect()
+	public function db_pconnect()
 	{
 		if ( ! $conn_id = @ibase_pconnect($this->database, $this->username, $this->password, $this->charset))
 		{
@@ -123,7 +123,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	void
 	 */
-	function reconnect()
+	public function reconnect()
 	{
 		// not implemented in Interbase/Firebird
 	}
@@ -136,7 +136,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_select()
+	public function db_select()
 	{
 		// Connection selects the database
 		return TRUE;
@@ -152,7 +152,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string
 	 * @return	resource
 	 */
-	function db_set_charset($charset, $collation)
+	public function db_set_charset($charset, $collation)
 	{
 		// @todo - add support if needed
 		return TRUE;
@@ -166,7 +166,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	public function _version()
 	{
 		//@todo - add support if needed
 		return TRUE;
@@ -181,7 +181,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */
-	function _execute($sql)
+	public function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
 		return @ibase_query($this->conn_id, $sql);
@@ -198,7 +198,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */
-	function _prep_query($sql)
+	public function _prep_query($sql)
 	{
 		return $sql;
 	}
@@ -211,7 +211,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	bool
 	 */
-	function trans_begin($test_mode = FALSE)
+	public function trans_begin($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -242,7 +242,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	bool
 	 */
-	function trans_commit()
+	public function trans_commit()
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -268,7 +268,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	bool
 	 */
-	function trans_rollback()
+	public function trans_rollback()
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -296,7 +296,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
-	function escape_str($str, $like = FALSE)
+	public function escape_str($str, $like = FALSE)
 	{
 		if (is_array($str))
 		{
@@ -327,7 +327,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	integer
 	 */
-	function affected_rows()
+	public function affected_rows()
 	{
 		return @ibase_affected_rows($this->conn_id);
 	}
@@ -340,7 +340,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @access	public
 	 * @return	integer
 	 */
-	function insert_id()
+	public function insert_id()
 	{
 		//@todo Implement manually
 		return 0;
@@ -358,7 +358,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string
 	 * @return	string
 	 */
-	function count_all($table = '')
+	public function count_all($table = '')
 	{
 		if ($table == '')
 		{
@@ -388,7 +388,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	boolean
 	 * @return	string
 	 */
-	function _list_tables($prefix_limit = FALSE)
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		$sql = <<<SQL
 			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
@@ -414,7 +414,7 @@ SQL;
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	function _list_columns($table = '')
+	public function _list_columns($table = '')
 	{
 		// Not supported
 		return FALSE;
@@ -431,7 +431,7 @@ SQL;
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	function _field_data($table)
+	public function _field_data($table)
 	{
 		return "SELECT * FROM ".$table." LIMIT 1";
 	}
@@ -444,7 +444,7 @@ SQL;
 	 * @access	private
 	 * @return	string
 	 */
-	function _error_message()
+	public function _error_message()
 	{
 		return ibase_errmsg();
 	}
@@ -457,7 +457,7 @@ SQL;
 	 * @access	private
 	 * @return	integer
 	 */
-	function _error_number()
+	public function _error_number()
 	{
 		return ibase_errcode();
 	}
@@ -467,13 +467,13 @@ SQL;
 	/**
 	 * Escape the SQL Identifiers
 	 *
-	 * This function escapes column and table names
+	 * This public function escapes column and table names
 	 *
 	 * @access	private
 	 * @param	string
 	 * @return	string
 	 */
-	function _escape_identifiers($item)
+	public function _escape_identifiers($item)
 	{
 		foreach ($this->_reserved_identifiers as $id)
 		{
@@ -504,14 +504,14 @@ SQL;
 	/**
 	 * From Tables
 	 *
-	 * This function implicitly groups FROM tables so there is no confusion
+	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
 	 * @access	public
 	 * @param	type
 	 * @return	type
 	 */
-	function _from_tables($tables)
+	public function _from_tables($tables)
 	{
 		if ( ! is_array($tables))
 		{
@@ -534,7 +534,7 @@ SQL;
 	 * @param	array	the insert values
 	 * @return	string
 	 */
-	function _insert($table, $keys, $values)
+	public function _insert($table, $keys, $values)
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
@@ -554,7 +554,7 @@ SQL;
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach ($values as $key => $val)
 		{
@@ -582,13 +582,13 @@ SQL;
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 * This public function maps to "DELETE FROM table"
 	 *
 	 * @access	public
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	function _truncate($table)
+	public function _truncate($table)
 	{
 		return $this->_delete($table);
 	}
@@ -606,7 +606,7 @@ SQL;
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
@@ -640,7 +640,7 @@ SQL;
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	function _limit($sql, $limit, $offset)
+	public function _limit($sql, $limit, $offset)
 	{
 		if ($offset == 0)
 		{
@@ -663,7 +663,7 @@ SQL;
 	 * @param	resource
 	 * @return	void
 	 */
-	function _close($conn_id)
+	public function _close($conn_id)
 	{
 		@ibase_close($conn_id);
 	}
