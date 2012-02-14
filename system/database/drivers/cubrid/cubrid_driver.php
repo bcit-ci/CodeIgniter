@@ -66,7 +66,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:[^:]*:[^:]*:(\?.+)?$/', $this->dsn, $matches))
 		{
-			if (preg_match('/autocommit=off/', $matches[2], $matches))
+			if (stripos($matches[2], 'autocommit=off') !== FALSE)
 			{
 				$this->auto_commit = FALSE;
 			}
