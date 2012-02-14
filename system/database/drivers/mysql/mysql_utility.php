@@ -195,7 +195,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				$output .= 'INSERT INTO '.$this->db->protect_identifiers($table).' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 			}
 
-			return $output.$newline.$newline;
+			$output .= $newline.$newline;
 		}
 
 		return $output;
