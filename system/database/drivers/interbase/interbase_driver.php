@@ -14,15 +14,15 @@
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * licensingellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
- * @filesource
+ * package		CodeIgniter
+ * author		EllisLab Dev Team
+ * copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * link		http://codeigniter.com
+ * since		Version 3.0
+ * filesource
  */
 
 // ------------------------------------------------------------------------
@@ -36,11 +36,11 @@
  * creates dynamically based on whether the active record
  * class is being used or not.
  *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * package		CodeIgniter
+ * subpackage	Drivers
+ * category	Database
+ * author		EllisLab Dev Team
+ * link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_interbase_driver extends CI_DB {
 
@@ -67,12 +67,12 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * access	private called by the base class
+	 * return	resource
 	 */
 	public function db_connect()
 	{
-		if ( ! $conn_id = @ibase_connect($this->database, $this->username, $this->password, $this->charset))
+		if ( ! $conn_id = ibase_connect($this->database, $this->username, $this->password, $this->char_set))
 		{
 			log_message('error', $error);
 
@@ -92,12 +92,12 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * access	private called by the base class
+	 * return	resource
 	 */
 	public function db_pconnect()
 	{
-		if ( ! $conn_id = @ibase_pconnect($this->database, $this->username, $this->password, $this->charset))
+		if ( ! $conn_id = ibase_pconnect($this->database, $this->username, $this->password, $this->char_set))
 		{
 			log_message('error', $error);
 
@@ -120,8 +120,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Keep / reestablish the db connection if no queries have been
 	 * sent for a length of time exceeding the server's idle timeout
 	 *
-	 * @access	public
-	 * @return	void
+	 * access	public
+	 * return	void
 	 */
 	public function reconnect()
 	{
@@ -133,8 +133,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * access	private called by the base class
+	 * return	resource
 	 */
 	public function db_select()
 	{
@@ -147,14 +147,14 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
+	 * access	public
+	 * param	string
+	 * param	string
+	 * return	resource
 	 */
 	public function db_set_charset($charset, $collation)
 	{
-		// @todo - add support if needed
+		// todo - add support if needed
 		return TRUE;
 	}
 
@@ -163,12 +163,12 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access	public
-	 * @return	string
+	 * access	public
+	 * return	string
 	 */
 	public function _version()
 	{
-		//@todo - add support if needed
+		//todo - add support if needed
 		return TRUE;
 	}
 
@@ -177,14 +177,14 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access	private called by the base class
-	 * @param	string	an SQL query
-	 * @return	resource
+	 * access	private called by the base class
+	 * param	string	an SQL query
+	 * return	resource
 	 */
 	public function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		return @ibase_query($this->conn_id, $sql);
+		return ibase_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -194,9 +194,9 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
-	 * @access	private called by execute()
-	 * @param	string	an SQL query
-	 * @return	string
+	 * access	private called by execute()
+	 * param	string	an SQL query
+	 * return	string
 	 */
 	public function _prep_query($sql)
 	{
@@ -208,8 +208,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
-	 * @return	bool
+	 * access	public
+	 * return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
@@ -229,7 +229,7 @@ class CI_DB_interbase_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		$this->trans = @ibase_trans($this->conn_id);
+		$this->trans = ibase_trans($this->conn_id);
 		
 		return TRUE;
 	}
@@ -239,8 +239,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
-	 * @return	bool
+	 * access	public
+	 * return	bool
 	 */
 	public function trans_commit()
 	{
@@ -255,7 +255,7 @@ class CI_DB_interbase_driver extends CI_DB {
 			return TRUE;
 		}
 		
-		@ibase_commit($this->trans);
+		ibase_commit($this->trans);
 
 		return TRUE;
 	}
@@ -265,8 +265,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
-	 * @return	bool
+	 * access	public
+	 * return	bool
 	 */
 	public function trans_rollback()
 	{
@@ -281,7 +281,7 @@ class CI_DB_interbase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		@ibase_rollback($this->trans);
+		ibase_rollback($this->trans);
 	
 		return TRUE;
 	}
@@ -291,10 +291,10 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return	string
+	 * access	public
+	 * param	string
+	 * param	bool	whether or not the string will be used in a LIKE condition
+	 * return	string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -324,12 +324,12 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access	public
-	 * @return	integer
+	 * access	public
+	 * return	integer
 	 */
 	public function affected_rows()
 	{
-		return @ibase_affected_rows($this->conn_id);
+		return ibase_affected_rows($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -337,12 +337,12 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @access	public
-	 * @return	integer
+	 * access	public
+	 * return	integer
 	 */
 	public function insert_id()
 	{
-		//@todo Implement manually
+		//todo Implement manually
 		return 0;
 	}
 
@@ -354,9 +354,9 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * access	public
+	 * param	string
+	 * return	string
 	 */
 	public function count_all($table = '')
 	{
@@ -384,9 +384,9 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	private
-	 * @param	boolean
-	 * @return	string
+	 * access	private
+	 * param	boolean
+	 * return	string
 	 */
 	public function _list_tables($prefix_limit = FALSE)
 	{
@@ -410,9 +410,9 @@ SQL;
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string
+	 * access	public
+	 * param	string	the table name
+	 * return	string
 	 */
 	public function _list_columns($table = '')
 	{
@@ -427,9 +427,9 @@ SQL;
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	object
+	 * access	public
+	 * param	string	the table name
+	 * return	object
 	 */
 	public function _field_data($table)
 	{
@@ -441,8 +441,8 @@ SQL;
 	/**
 	 * The error message string
 	 *
-	 * @access	private
-	 * @return	string
+	 * access	private
+	 * return	string
 	 */
 	public function _error_message()
 	{
@@ -454,8 +454,8 @@ SQL;
 	/**
 	 * The error message number
 	 *
-	 * @access	private
-	 * @return	integer
+	 * access	private
+	 * return	integer
 	 */
 	public function _error_number()
 	{
@@ -469,9 +469,9 @@ SQL;
 	 *
 	 * This public function escapes column and table names
 	 *
-	 * @access	private
-	 * @param	string
-	 * @return	string
+	 * access	private
+	 * param	string
+	 * return	string
 	 */
 	public function _escape_identifiers($item)
 	{
@@ -496,7 +496,7 @@ SQL;
 		}
 
 		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+		return strtoupper(preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -507,9 +507,9 @@ SQL;
 	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	public
-	 * @param	type
-	 * @return	type
+	 * access	public
+	 * param	type
+	 * return	type
 	 */
 	public function _from_tables($tables)
 	{
@@ -518,7 +518,7 @@ SQL;
 			$tables = array($tables);
 		}
 
-		return '('.implode(', ', $tables).')';
+		return strtolower(implode(', ', $tables));
 	}
 
 	// --------------------------------------------------------------------
@@ -528,15 +528,15 @@ SQL;
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
+	 * access	public
+	 * param	string	the table name
+	 * param	array	the insert keys
+	 * param	array	the insert values
+	 * return	string
 	 */
 	public function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO ".strtolower($table)." (".strtoupper(implode(', ', $keys)).") VALUES (".implode(', ', $values).")";
 	}
 
 	// --------------------------------------------------------------------
@@ -546,16 +546,18 @@ SQL;
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
+	 * access	public
+	 * param	string	the table name
+	 * param	array	the update data
+	 * param	array	the where clause
+	 * param	array	the orderby clause
+	 * param	array	the limit clause
+	 * return	string
 	 */
 	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
+		$table = strtolower($table);
+	
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
@@ -584,9 +586,9 @@ SQL;
 	 * If the database does not support the truncate() command
 	 * This public function maps to "DELETE FROM table"
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @return	string
+	 * access	public
+	 * param	string	the table name
+	 * return	string
 	 */
 	public function _truncate($table)
 	{
@@ -600,14 +602,16 @@ SQL;
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
-	 * @return	string
+	 * access	public
+	 * param	string	the table name
+	 * param	array	the where clause
+	 * param	string	the limit clause
+	 * return	string
 	 */
 	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
+		$table = strtolower($table);
+	
 		$conditions = '';
 
 		if (count($where) > 0 OR count($like) > 0)
@@ -634,11 +638,11 @@ SQL;
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access	public
-	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
-	 * @return	string
+	 * access	public
+	 * param	string	the sql query string
+	 * param	integer	the number of rows to limit the query to
+	 * param	integer	the offset value
+	 * return	string
 	 */
 	public function _limit($sql, $limit, $offset)
 	{
@@ -659,13 +663,13 @@ SQL;
 	/**
 	 * Close DB Connection
 	 *
-	 * @access	public
-	 * @param	resource
-	 * @return	void
+	 * access	public
+	 * param	resource
+	 * return	void
 	 */
 	public function _close($conn_id)
 	{
-		@ibase_close($conn_id);
+		ibase_close($conn_id);
 	}
 
 
