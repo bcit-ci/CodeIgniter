@@ -471,10 +471,13 @@ class CI_DB_pdo_driver extends CI_DB {
 			{
 				$_options['role'] = $matches[1];
 			}
-			else
+			elseif ( ! empty($this->role))
 			{
-				empty($this->role) OR $_options['role'] = $this->role;
-				empty($this->port) OR $_options['role'] = $this->port;
+				$_options['role'] = $this->role;
+			}
+			elseif ( ! empty($this->port))
+			{
+				$_options['role'] = $this->port;
 			}
 		}
 		else
@@ -898,10 +901,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Analog function to show all tables in Postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
-		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2'))
+		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2')))
 		{
 			return 'SELECT "name" FROM "SQLITE_MASTER"'
-				(($prefix_limit !== FALSE && $this->dbprefix !== '' ? ' WHERE "name" LIKE \''.$this->dbprefix."%'" : '');
+				.(($prefix_limit !== FALSE && $this->dbprefix !== '') ? ' WHERE "name" LIKE \''.$this->dbprefix."%'" : '');
 		}
 		else
 		{
