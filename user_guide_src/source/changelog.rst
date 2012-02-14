@@ -49,6 +49,8 @@ Release Date: Not Released
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Improved PDO database support.
    -  PostgreSQL database driver now uses pg_version() for server version checking, when appropriate.
 
 -  Libraries
@@ -56,7 +58,7 @@ Release Date: Not Released
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
-	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
@@ -66,6 +68,7 @@ Release Date: Not Released
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
 	    if they are set manually after initialization.
+	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
