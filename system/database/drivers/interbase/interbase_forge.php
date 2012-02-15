@@ -205,20 +205,11 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	{
 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
 
-		// DROP has everything it needs now.
-		/*if ($alter_type == 'DROP')
-		{
-			// SQLite does not support dropping columns
-			// http://www.sqlite.org/omitted.html
-			// http://www.sqlite.org/faq.html#q11
-			return FALSE;
-		}*/
-
-		$sql .= " $column_definition";
+		$sql .= " {$column_definition}";
 
 		if ($default_value != '')
 		{
-			$sql .= " DEFAULT \"$default_value\"";
+			$sql .= " DEFAULT \"{$default_value}\"";
 		}
 
 		if ($null === NULL)
