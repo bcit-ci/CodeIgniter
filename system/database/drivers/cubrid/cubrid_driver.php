@@ -43,7 +43,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	public $dbdriver = 'cubrid';
 
 	// The character used for escaping - no need in CUBRID
-	protected $_escape_char = '';
+	protected $_escape_char = '`';
 
 	// clause and character used for LIKE escape sequences - not used in CUBRID
 	protected $_like_escape_str = '';
@@ -133,12 +133,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 			$conn_id = ($this->username !== '')
 					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
 					: $_temp($this->hostname, $this->port, $this->database);
-		}
-
-		if ($conn_id)
-		{
-			$_temp = ($this->auto_commit) ? CUBRID_AUTOCOMMIT_TRUE : CUBRID_AUTOCOMMIT_FALSE;
-			cubrid_set_autocommit($conn_id, $_temp);
 		}
 
 		return $conn_id;
@@ -332,7 +326,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 			return $str;
 		}
 
-		if (function_exists('cubrid_real_escape_string') && is_resource($this->conn_id))
+		if (function_exists('cubrid_real_escape_string') &&
+			(is_resource($this->conn_id)
+				OR (get_resource_type($this->conn_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->conn_id)))))
 		{
 			$str = cubrid_real_escape_string($str, $this->conn_id);
 		}
@@ -359,7 +355,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @cubrid_affected_rows($this->conn_id);
+		return @cubrid_affected_rows();
 	}
 
 	// --------------------------------------------------------------------
@@ -550,7 +546,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$table.' ("'.implode('", "', $keys).'") VALUES ('.implode(', ', $values).')';
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -568,7 +564,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _replace($table, $keys, $values)
 	{
-		return 'REPLACE INTO '.$table.' ("'.implode('", "', $keys).'") VALUES ('.implode(', ', $values).')';
+		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -585,7 +581,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$table.' ("'.implode('", "', $keys).'") VALUES '.implode(', ', $values);
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -602,15 +598,20 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = sprintf('"%s" = %s', $key, $val);
+			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+		$where = ($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '';
+		if (count($like) > 0)
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
 			.( ! $limit ? '' : ' LIMIT '.$limit);
 	}

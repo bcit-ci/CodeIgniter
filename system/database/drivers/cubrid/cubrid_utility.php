@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 
@@ -39,14 +39,9 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 *
 	 * @return	array
 	 */
-	public function _list_databases()
+	public function list_databases()
 	{
-		// CUBRID does not allow to see the list of all databases on the
-		// server. It is the way its architecture is designed. Every
-		// database is independent and isolated.
-		// For this reason we can return only the name of the currect
-		// connected database.
-		return "SELECT '".$this->database."'";
+		return $this->data_cache['db_names'] = cubrid_list_dbs($this->db->conn_id);
 	}
 
 	// --------------------------------------------------------------------

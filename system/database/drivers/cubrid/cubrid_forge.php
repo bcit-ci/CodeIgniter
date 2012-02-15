@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 
@@ -42,8 +42,8 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	public function _create_database($name)
 	{
-		// CUBRID does not allow to create a database in SQL. The GUI tools
-		// have to be used for this purpose.
+		// CUBRID does not allow to create a database in SQL. GUI or
+		// command line tools have to be used for this purpose.
 		return FALSE;
 	}
 
@@ -57,8 +57,8 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	public function _drop_database($name)
 	{
-		// CUBRID does not allow to drop a database in SQL. The GUI tools
-		// have to be used for this purpose.
+		// CUBRID does not allow to drop a database in SQL. GUI or
+		// command line tools have to be used for this purpose.
 		return FALSE;
 	}
 
@@ -88,7 +88,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t\"".$this->db->protect_identifiers($field).'"'
+				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '');
 
 				if ( ! empty($attributes['TYPE']))
@@ -104,7 +104,9 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 							case 'numeric':
 								$sql .= '('.implode(',', $attributes['CONSTRAINT']).')';
 								break;
-							case 'enum': // As of version 8.4.0 CUBRID does not support enum data type
+							case 'enum':
+								// Will be supported in the future as part a part of
+								// MySQL compatibility features.
 								break;
 							case 'set':
 								$sql .= '("'.implode('","', $attributes['CONSTRAINT']).'")';
@@ -115,7 +117,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 					}
 				}
 
-			/* As of version 8.4.0 CUBRID does not support UNSIGNED INTEGER data type.
+			/* As of version 8.4.1 CUBRID does not support UNSIGNED INTEGER data type.
 			 * Will be supported in the next release as a part of MySQL Compatibility.
 			 *
 				if (isset($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
@@ -156,7 +158,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		/* As of version 8.4.0 CUBRID does not support this SQL syntax.
+		/* As of version 8.4.1 CUBRID does not support this SQL syntax.
 		if ($if_not_exists === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
@@ -168,7 +170,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
 		{
-			$key_name = 'pk_'.$table.'_'.$this->db->protect_identifiers(implode('_', $primary_keys));
+			$key_name = $this->db->protect_identifiers('pk_'.$table.'_'.implode('_', $primary_keys));
 			$sql .= ",\n\tCONSTRAINT ".$key_name.' PRIMARY KEY('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
@@ -178,12 +180,12 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->protect_identifiers(implode('_', $key));
+					$key_name = $this->db->protect_identifiers('idx_'.$table.implode('_', $key));
 					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers('idx_'.$table.$key);
 					$key = array($key_name);
 				}
 

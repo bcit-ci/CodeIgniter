@@ -53,6 +53,7 @@ Release Date: Not Released
    -  Improved PDO database support.
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
+   -  CUBRID driver's utility class now overrides list_databases() in order to use cubrid_list_dbs().
 
 -  Libraries
 
@@ -107,6 +108,7 @@ Bug fixes for 3.0
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug in CUBRID's affected_rows() where a connection resource was passed to cubrid_affected_rows() instead of a result.
 
 Version 2.1.0
 =============
