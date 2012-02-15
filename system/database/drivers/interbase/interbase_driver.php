@@ -341,12 +341,13 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Insert ID
 	 *
 	 * @access	public
+	 * @param  	string $generator_name
+	 * @param   integer $inc_by
 	 * @return	integer
 	 */
-	public function insert_id()
+	public function insert_id($generator_name, $inc_by=1)
 	{
-		//@todo Implement manually
-		return 0;
+		return ibase_gen_id($generator_name, $inc_by);
 	}
 
 	// --------------------------------------------------------------------
