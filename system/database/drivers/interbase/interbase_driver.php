@@ -419,8 +419,17 @@ SQL;
 	 */
 	public function _list_columns($table = '')
 	{
-		// Not supported
-		return FALSE;
+		$sql = <<<SQL
+			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
+			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
+			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
+SQL;
+		if($table !== '')
+		{
+			$sql .= ' AND "RDB$RELATION_NAME"='.$table;
+		}
+		
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
