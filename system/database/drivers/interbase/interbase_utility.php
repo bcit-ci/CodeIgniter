@@ -100,6 +100,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	public function _backup($params = array())
 	{
 		// Currently unsupported
+		// @todo See if can be implemented
 		return $this->db->display_error('db_unsuported_feature');
 	}
 }
