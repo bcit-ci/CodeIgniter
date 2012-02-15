@@ -436,7 +436,10 @@ SQL;
 	 */
 	public function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		// Need to find a more efficient way to do this
+		// but Interbase/Firebird seems to lack the 
+		// limit clause
+		return "SELECT * FROM {$table}";
 	}
 
 	// --------------------------------------------------------------------
@@ -564,7 +567,7 @@ SQL;
 			$valstr[] = $key." = ".$val;
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 
@@ -572,7 +575,7 @@ SQL;
 
 		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
 
-		$sql .= $orderby.$limit;
+		$sql .= $orderby;
 
 		return $sql;
 	}
@@ -627,7 +630,7 @@ SQL;
 
 		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM ".$table.$conditions.$limit;
+		return "DELETE FROM {$table}{$conditions}";
 	}
 
 	// --------------------------------------------------------------------
@@ -663,7 +666,6 @@ SQL;
 		@ibase_close($conn_id);
 	}
 }
-
 
 /* End of file interbase_driver.php */
 /* Location: ./system/database/drivers/interbase/interbase_driver.php */
