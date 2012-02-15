@@ -74,11 +74,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	{
 		if ( ! $conn_id = @ibase_connect($this->database, $this->username, $this->password, $this->char_set))
 		{
-			log_message('error', $error);
+			log_message('error', $this->_error_message());
 
 			if ($this->db_debug)
 			{
-				$this->display_error($error, '', TRUE);
+				$this->display_error($this->_error_message(), '', TRUE);
 			}
 
 			return FALSE;
@@ -99,11 +99,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	{
 		if ( ! $conn_id = @ibase_pconnect($this->database, $this->username, $this->password, $this->char_set))
 		{
-			log_message('error', $error);
+			log_message('error', $this->_error_message());
 
 			if ($this->db_debug)
 			{
-				$this->display_error($error, '', TRUE);
+				$this->display_error($this->_error_message(), '', TRUE);
 			}
 
 			return FALSE;
@@ -496,7 +496,7 @@ SQL;
 		}
 
 		// remove duplicates if the user already included the escape
-		return strtoupper(preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str));
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -518,7 +518,7 @@ SQL;
 			$tables = array($tables);
 		}
 
-		return strtolower(implode(', ', $tables));
+		return implode(', ', $tables);
 	}
 
 	// --------------------------------------------------------------------
@@ -536,7 +536,7 @@ SQL;
 	 */
 	public function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO ".strtolower($table)." (".strtoupper(implode(', ', $keys)).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO {$table} (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 
 	// --------------------------------------------------------------------
@@ -556,8 +556,6 @@ SQL;
 	 */
 	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
-		$table = strtolower($table);
-	
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
@@ -610,8 +608,6 @@ SQL;
 	 */
 	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		$table = strtolower($table);
-	
 		$conditions = '';
 
 		if (count($where) > 0 OR count($like) > 0)
