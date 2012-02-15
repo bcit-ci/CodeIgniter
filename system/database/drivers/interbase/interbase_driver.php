@@ -152,7 +152,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function db_set_charset($charset, $collation)
 	{
-		// @todo - add support if needed
+		// Must be determined at connection
 		return TRUE;
 	}
 
@@ -166,8 +166,13 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function _version()
 	{
-		//@todo - add support if needed
-		return TRUE;
+		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
+		{
+			$version = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+			return $version;
+		}
+		
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -396,7 +401,7 @@ SQL;
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
 		{
-			$sql .= " AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			$sql .= ' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 		return $sql;
 	}
@@ -620,7 +625,7 @@ SQL;
 			$conditions .= implode("\n", $like);
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
 		return "DELETE FROM ".$table.$conditions.$limit;
 	}
@@ -640,16 +645,8 @@ SQL;
 	 */
 	public function _limit($sql, $limit, $offset)
 	{
-		if ($offset == 0)
-		{
-			$offset = '';
-		}
-		else
-		{
-			$offset .= ", ";
-		}
-
-		return $sql."LIMIT ".$offset.$limit;
+		//There doesn't seem to be a limit clause?
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
