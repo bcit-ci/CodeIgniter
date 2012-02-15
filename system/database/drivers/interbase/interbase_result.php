@@ -149,7 +149,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function _data_seek($n = 0)
 	{
-		//Interbase driver doesn't implement a sutable function
+		//Interbase driver doesn't implement a suitable function
 		return array();	
 	}
 
@@ -184,7 +184,6 @@ class CI_DB_interbase_result extends CI_DB_result {
 	}
 
 }
-
 
 /* End of file interbase_result.php */
 /* Location: ./system/database/drivers/interbase/interbase_result.php */
