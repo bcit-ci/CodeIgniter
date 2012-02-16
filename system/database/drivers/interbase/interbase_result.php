@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -38,23 +38,21 @@
  */
 class CI_DB_interbase_result extends CI_DB_result {
 
+	public $num_rows;
+
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
 	public function num_rows()
 	{
-		//Will have to manually calculate :(
-		$count = 0;
-		
-		while($r = @ibase_fetch_row($this->result_id))
+		if( ! is_null($this->num_rows))
 		{
-			$count++;
+			return $this->num_rows;
 		}
 		
-		return $count;
+		return $this->num_rows = (isset($this->result_array()) ? count($this->result_array()) : 0;
 	}
 
 	// --------------------------------------------------------------------
@@ -62,7 +60,6 @@ class CI_DB_interbase_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
 	public function num_fields()
@@ -77,13 +74,12 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $num_fields=$this->num_fields(); $i < $num_fields; $i++)
 		{
 			$info = ibase_field_info($this->result_id, $i);
 			$field_names[] = $info['name'];
@@ -99,14 +95,13 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function field_data()
 	{
 		
 		$retval = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $num_fields=$this->num_fields(); $i < $num_fields; $i++)
 		{
 			$info = ibase_field_info($this->result_id, $i);
 		
@@ -144,13 +139,12 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
 	 * @return	array
 	 */
 	public function _data_seek($n = 0)
 	{
 		//Interbase driver doesn't implement a suitable function
-		return array();	
+		return FALSE;	
 	}
 
 	// --------------------------------------------------------------------
@@ -160,7 +154,6 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
 	public function _fetch_assoc()
@@ -175,7 +168,6 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
 	public function _fetch_object()
