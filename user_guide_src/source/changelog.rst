@@ -111,6 +111,7 @@ Bug fixes for 3.0
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug in the Oracle (oci8) instance of :doc:`Database Forge Class <database/forge>` where ``create_table()`` would fail if used with ``AUTO_INCREMENT`` as it's not supported by Oracle.
 -  Fixed a bug (#413) - The Oracle (oci8) database driver only used to return connection-related errors in `_error_message()` and `_error_number()`.
 
