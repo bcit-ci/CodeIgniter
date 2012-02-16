@@ -105,6 +105,7 @@ Bug fixes for 3.0
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug in CI_DB_driver::version() where it failed when using a database driver that needs to run a query in order to get the version.
 -  Fixed a bug (#1036) - Database method is_write_type() didn't match RENAME statements.
 
