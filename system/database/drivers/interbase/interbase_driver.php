@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -61,28 +61,26 @@ class CI_DB_interbase_driver extends CI_DB {
 	
 	// Keeps track of the resource for the current transaction
 	protected $trans;
+	
+	/**
+	 * Constructor for some overall setup
+	 */
+	public function __construct()
+	{
+		if( ! empty($this->hostname) && $this->hostname !== "localhost")
+		{
+			$this->database = $this->hostname.':'.$this->database;
+		}
+	}
 
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @access	private called by the base class
 	 * @return	resource
 	 */
 	public function db_connect()
 	{
-		if ( ! $conn_id = @ibase_connect($this->database, $this->username, $this->password, $this->char_set))
-		{
-			log_message('error', $this->_error_message());
-
-			if ($this->db_debug)
-			{
-				$this->display_error($this->_error_message(), '', TRUE);
-			}
-
-			return FALSE;
-		}
-
-		return $conn_id;
+		return @ibase_connect($this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -90,24 +88,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @access	private called by the base class
 	 * @return	resource
 	 */
 	public function db_pconnect()
 	{
-		if ( ! $conn_id = @ibase_pconnect($this->database, $this->username, $this->password, $this->char_set))
-		{
-			log_message('error', $this->_error_message());
-
-			if ($this->db_debug)
-			{
-				$this->display_error($this->_error_message(), '', TRUE);
-			}
-
-			return FALSE;
-		}
-
-		return $conn_id;
+		return @ibase_pconnect($this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -118,7 +103,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Keep / reestablish the db connection if no queries have been
 	 * sent for a length of time exceeding the server's idle timeout
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function reconnect()
@@ -131,7 +115,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access	private called by the base class
 	 * @return	resource
 	 */
 	public function db_select()
@@ -145,7 +128,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	resource
@@ -161,7 +143,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function _version()
@@ -180,7 +161,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access	private called by the base class
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */
@@ -197,7 +177,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
-	 * @access	private called by execute()
 	 * @param	string	an SQL query
 	 * @return	string
 	 */
@@ -211,7 +190,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -242,7 +220,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_commit()
@@ -268,7 +245,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_rollback()
@@ -294,7 +270,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
@@ -327,7 +302,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
 	public function affected_rows()
@@ -340,12 +314,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @access	public
 	 * @param  	string $generator_name
 	 * @param   integer $inc_by
 	 * @return	integer
 	 */
-	public function insert_id($generator_name, $inc_by=1)
+	public function insert_id($generator_name, $inc_by=0)
 	{
 		return ibase_gen_id($generator_name, $inc_by);
 	}
@@ -358,7 +331,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -369,7 +341,7 @@ class CI_DB_interbase_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 		{
@@ -388,7 +360,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	private
 	 * @param	boolean
 	 * @return	string
 	 */
@@ -414,7 +385,6 @@ SQL;
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @return	string
 	 */
@@ -440,7 +410,6 @@ SQL;
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @return	object
 	 */
@@ -457,7 +426,6 @@ SQL;
 	/**
 	 * The error message string
 	 *
-	 * @access	private
 	 * @return	string
 	 */
 	public function _error_message()
@@ -470,7 +438,6 @@ SQL;
 	/**
 	 * The error message number
 	 *
-	 * @access	private
 	 * @return	integer
 	 */
 	public function _error_number()
@@ -485,7 +452,6 @@ SQL;
 	 *
 	 * This public function escapes column and table names
 	 *
-	 * @access	private
 	 * @param	string
 	 * @return	string
 	 */
@@ -523,7 +489,6 @@ SQL;
 	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	public
 	 * @param	type
 	 * @return	type
 	 */
@@ -534,6 +499,7 @@ SQL;
 			$tables = array($tables);
 		}
 
+		//Interbase/Firebird doesn't like grouped tables
 		return implode(', ', $tables);
 	}
 
@@ -544,7 +510,6 @@ SQL;
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the insert keys
 	 * @param	array	the insert values
@@ -552,7 +517,7 @@ SQL;
 	 */
 	public function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO {$table} (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
+		return "INSERT INTO {$table} (".implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -562,7 +527,6 @@ SQL;
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -581,9 +545,9 @@ SQL;
 
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+		$sql = "UPDATE {$table} SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
 
 		$sql .= $orderby;
 
@@ -600,7 +564,6 @@ SQL;
 	 * If the database does not support the truncate() command
 	 * This public function maps to "DELETE FROM table"
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @return	string
 	 */
@@ -616,7 +579,6 @@ SQL;
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
@@ -633,7 +595,7 @@ SQL;
 
 			if (count($where) > 0 && count($like) > 0)
 			{
-				$conditions .= " AND ";
+				$conditions .= ' AND ';
 			}
 			$conditions .= implode("\n", $like);
 		}
@@ -650,7 +612,6 @@ SQL;
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access	public
 	 * @param	string	the sql query string
 	 * @param	integer	the number of rows to limit the query to
 	 * @param	integer	the offset value
@@ -667,7 +628,6 @@ SQL;
 	/**
 	 * Close DB Connection
 	 *
-	 * @access	public
 	 * @param	resource
 	 * @return	void
 	 */

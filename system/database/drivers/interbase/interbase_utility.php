@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -44,7 +44,6 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * try reading a directory looking for Firebird files, but
 	 * that doesn't seem like a terribly good idea
 	 *
-	 * @access	private
 	 * @return	bool
 	 */
 	public function _list_databases()
@@ -53,7 +52,7 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
-		return array();
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -63,7 +62,6 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 *
 	 * Is optimization even supported in Interbase/Firebird?
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @return	object
 	 */
@@ -79,7 +77,6 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 *
 	 * Table repairs are not supported in Interbase/Firebird
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @return	object
 	 */
@@ -93,7 +90,6 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	/**
 	 * Interbase/Firebird Export
 	 *
-	 * @access	private
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
