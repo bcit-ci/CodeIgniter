@@ -85,7 +85,7 @@ if ( ! function_exists('singular'))
 			'/([^u])s$/'			=> '\1',
 		);
 
-		return preg_replace(array_keys($singular_values), $singular_values, $result);
+		return preg_replace(array_keys($singular_rules), $singular_rules, $result);
 	}
 }
 
