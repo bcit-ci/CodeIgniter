@@ -52,7 +52,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 			return $this->num_rows;
 		}
 		
-		return $this->num_rows = (isset($this->result_array()) ? count($this->result_array()) : 0;
+		return 0;
 	}
 
 	// --------------------------------------------------------------------
@@ -143,6 +143,9 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function _data_seek($n = 0)
 	{
+		//Set the row count to 0
+		$this->num_rows = 0;
+	
 		//Interbase driver doesn't implement a suitable function
 		return FALSE;	
 	}
@@ -158,6 +161,9 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function _fetch_assoc()
 	{
+		//Increment row count
+		$this->num_rows++;
+	
 		return @ibase_fetch_assoc($this->result_id);
 	}
 
@@ -172,6 +178,9 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function _fetch_object()
 	{
+		//Increment row count
+		$this->num_rows++;
+		
 		return @ibase_fetch_object($this->result_id);
 	}
 
