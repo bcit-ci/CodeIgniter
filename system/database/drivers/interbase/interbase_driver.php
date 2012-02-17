@@ -104,7 +104,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @return	resource
+	 * @return	bool
 	 */
 	public function db_select()
 	{
@@ -119,7 +119,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	bool
 	 */
 	public function db_set_charset($charset, $collation)
 	{
@@ -332,6 +332,8 @@ class CI_DB_interbase_driver extends CI_DB {
 
 		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
+		$query->result_array();
+
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -379,17 +381,10 @@ SQL;
 	 */
 	public function _list_columns($table = '')
 	{
-		$sql = <<<SQL
+		return <<<SQL
 			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
-			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
-			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
+			WHERE "RDB\$RELATION_NAME"='{$table}';
 SQL;
-		if($table !== '')
-		{
-			$sql .= ' AND "RDB$RELATION_NAME"='.$table;
-		}
-		
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
