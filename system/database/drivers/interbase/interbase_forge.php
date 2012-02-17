@@ -40,13 +40,14 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * Create database
 	 *
 	 * @param	string	the database name
-	 * @return	bool
+	 * @return	string
 	 */
-	public function _create_database()
+	public function _create_database($filename='')
 	{
-		// In Interbase/Firebird, a database is created when you connect to the database.
-		// We'll return TRUE so that an error isn't generated
-		return TRUE;
+		// Firebird databases are flat files, so a path is required 
+		// Hostname is needed for remote access
+		return 'CREATE DATABASE "'.$this->hostname.':'.$filename.'"';
+		
 	}
 
 	// --------------------------------------------------------------------
@@ -72,7 +73,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @return	string
 	 */
 	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
@@ -168,7 +169,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @return	bool
+	 * @return	string
 	 */
 	public function _drop_table($table)
 	{
@@ -190,7 +191,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	string	the default value
 	 * @param	boolean	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
 	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
@@ -234,8 +235,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 */
 	public function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 	}
 }
 
