@@ -13,7 +13,7 @@ for a given task.
 *******************
 Release Information
 *******************
-Status : [![Build Status](https://secure.travis-ci.org/toopay/CodeIgniter.png?branch=unit-tests)](http://travis-ci.org/toopay/CodeIgniter)
+
 This repo contains in development code for future releases. To download the
 latest stable release please visit the `CodeIgniter Downloads
 <http://codeigniter.com/downloads/>`_ page.
