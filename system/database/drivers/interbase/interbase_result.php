@@ -167,7 +167,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		//Increment row count
 		$this->num_rows++;
 	
-		return @ibase_fetch_assoc($this->result_id);
+		return @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS);
 	}
 
 	// --------------------------------------------------------------------
@@ -184,7 +184,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		//Increment row count
 		$this->num_rows++;
 		
-		return @ibase_fetch_object($this->result_id);
+		return @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS);
 	}
 	
 	// --------------------------------------------------------------------
