@@ -61,17 +61,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	
 	// Keeps track of the resource for the current transaction
 	protected $trans;
-	
-	/**
-	 * Constructor for some overall setup
-	 */
-	public function __construct()
-	{
-		if( ! empty($this->hostname) && $this->hostname !== "localhost")
-		{
-			$this->database = $this->hostname.':'.$this->database;
-		}
-	}
 
 	/**
 	 * Non-persistent database connection
@@ -80,7 +69,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @ibase_connect($this->database, $this->username, $this->password, $this->char_set);
+		return @ibase_connect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -92,7 +81,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @ibase_pconnect($this->database, $this->username, $this->password, $this->char_set);
+		return @ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
