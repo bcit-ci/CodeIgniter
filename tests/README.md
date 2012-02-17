@@ -1,6 +1,6 @@
 # CodeIgniter Unit Tests #
 
-Status : [![Build Status](https://secure.travis-ci.org/toopay/CodeIgniter.png?branch=unit-tests)](http://travis-ci.org/toopay/CodeIgniter)
+Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=feature/unit-tests)](http://travis-ci.org/EllisLab/CodeIgniter)
 
 *Do not merge to default until these issues have been addressed*
 
