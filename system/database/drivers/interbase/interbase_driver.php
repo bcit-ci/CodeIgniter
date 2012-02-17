@@ -624,59 +624,6 @@ SQL;
 	{
 		@ibase_close($conn_id);
 	}
-	
-	// --------------------------------------------------------------------------
-	
-	/**
-	 * Returns an array of table names
-	 *
-	 * @access	public
-	 * @return	array
-	 */
-	function list_tables($constrain_by_prefix = FALSE)
-	{
-		// Is there a cached result?
-		if (isset($this->data_cache['table_names']))
-		{
-			return $this->data_cache['table_names'];
-		}
-
-		if (FALSE === ($sql = $this->_list_tables($constrain_by_prefix)))
-		{
-			if ($this->db_debug)
-			{
-				return $this->display_error('db_unsupported_function');
-			}
-			return FALSE;
-		}
-
-		$retval = array();
-		$query = $this->query($sql);
-
-		$table = FALSE;
-		$rows = $query->result_array();
-		
-		// This has to be called after getting the result due to the 
-		// limitations of the database driver	
-		if ($query->num_rows() > 0)
-		{
-			$key = (($row = current($rows)) && in_array('table_name', array_map('strtolower', array_keys($row))));
-
-			if ($key)
-			{
-				$table = array_key_exists('TABLE_NAME', $row) ? 'TABLE_NAME' : 'table_name';
-			}
-
-			foreach ($rows as $row)
-			{
-				$retval[] = ( ! $table) ? current($row) : $row[$table];
-			}
-		}
-
-		$this->data_cache['table_names'] = $retval;
-		
-		return $this->data_cache['table_names'];
-	}
 }
 
 /* End of file interbase_driver.php */

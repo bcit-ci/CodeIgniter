@@ -52,7 +52,10 @@ class CI_DB_interbase_result extends CI_DB_result {
 			return $this->num_rows;
 		}
 		
-		return 0;
+		//Get the results so that you can get an accurate rowcount
+		$this->result_array();
+		
+		return $this->num_rows;
 	}
 
 	// --------------------------------------------------------------------
