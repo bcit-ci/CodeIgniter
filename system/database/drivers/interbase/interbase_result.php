@@ -183,6 +183,68 @@ class CI_DB_interbase_result extends CI_DB_result {
 		
 		return @ibase_fetch_object($this->result_id);
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result.  "object" version.
+	 *
+	 * @return	object
+	 */
+	public function result_object()
+	{
+		if (count($this->result_object) > 0)
+		{
+			return $this->result_object;
+		}
+
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
+		// we'll simply return an empty array.
+		if ($this->result_id === FALSE)
+		{
+			return array();
+		}
+
+		$this->num_rows = 0;
+		while ($row = $this->_fetch_object())
+		{
+			$this->result_object[] = $row;
+		}
+
+		return $this->result_object;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result.  "array" version.
+	 *
+	 * @return	array
+	 */
+	public function result_array()
+	{
+		if (count($this->result_array) > 0)
+		{
+			return $this->result_array;
+		}
+
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
+		// we'll simply return an empty array.
+		if ($this->result_id === FALSE)
+		{
+			return array();
+		}
+
+		$this->num_rows = 0;
+		while ($row = $this->_fetch_assoc())
+		{
+			$this->result_array[] = $row;
+		}
+
+		return $this->result_array;
+	}
 
 }
 
