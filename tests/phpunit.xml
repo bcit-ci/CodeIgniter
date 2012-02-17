@@ -2,7 +2,13 @@
 
 <phpunit 
 	bootstrap="./Bootstrap.php"
-	colors="true">
+	colors="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false">
 	<testsuites>
 		<testsuite name="CodeIgniter Core Test Suite">
 			<file>codeigniter/Setup_test.php</file>
