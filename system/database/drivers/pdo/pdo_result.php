@@ -160,9 +160,48 @@ class CI_DB_pdo_result extends CI_DB_result {
 	
 		try
 		{
-			for($i = 0; $i < $this->num_fields(); $i++)
+			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
 			{
-				$data[] = $this->result_id->getColumnMeta($i);
+				foreach($this->result_array() as $field)
+				{
+					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
+
+					$F		= new stdClass();
+					$F->name	= $field['name'];
+					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
+					$F->default	= NULL;
+					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
+					$F->primary_key = (int) $field['pk'];
+					$F->pdo_type	= NULL;
+					
+					$data[] = $F;
+				}
+			}
+			else
+			{
+				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
+				{
+					$field = $this->result_id->getColumnMeta($i);
+
+					$F		= new stdClass();
+					$F->name	= $field['name'];
+					$F->type	= $field['native_type'];
+					$F->default	= NULL;
+					$F->pdo_type	= $field['pdo_type'];
+					
+					if ($field['precision'] < 0)
+					{
+						$F->max_length	= NULL;
+						$F->primary_key = 0;
+					}
+					else
+					{
+						$F->max_length	= ($field['len'] > 255) ? NULL : (string) $field['len'];
+						$F->primary_key = (int) (array_key_exists('flags', $field) && in_array('primary_key', $field['flags']));
+					}
+
+					$data[] = $F;
+				}
 			}
 			
 			return $data;

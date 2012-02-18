@@ -591,6 +591,11 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
+		elseif ($this->pdodriver == 'sqlite')
+		{
+			// Analog function to show all tables in sqlite
+			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+		}
 		else
 		{
 			$sql = "SHOW TABLES FROM `".$this->database."`";
@@ -633,6 +638,22 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
+		if ($this->pdodriver == 'mysql' or $this->pdodriver == 'pgsql')
+		{
+			// Analog function for mysql and postgre
+			return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
+		}
+		elseif ($this->pdodriver == 'oci')
+		{
+			// Analog function for oci
+			return 'SELECT * FROM '.$this->_from_tables($table).' WHERE ROWNUM <= 1';
+		}
+		elseif ($this->pdodriver == 'sqlite')
+		{
+			// Analog function for sqlite
+			return 'PRAGMA table_info('.$this->_from_tables($table).')';
+		}
+		
 		return 'SELECT TOP 1 FROM '.$this->_from_tables($table);
 	}
 
