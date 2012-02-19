@@ -54,7 +54,7 @@ seed records.
 Now that the database and a model have been set up, you'll need a method
 to get all of our posts from our database. To do this, the database
 abstraction layer that is included with CodeIgniter — `Active
-Record <../database/active_record.html>`_ — is used. This makes it
+Record <../database/query_builder.html>`_ — is used. This makes it
 possible to write your 'queries' once and make them work on `all
 supported database systems <../general/requirements.html>`_. Add the
 following code to your model.
@@ -76,7 +76,7 @@ following code to your model.
 With this code you can perform two different queries. You can get all
 news records, or get a news item by its `slug <#>`_. You might have
 noticed that the $slug variable wasn't sanitized before running the
-query; Active Record does this for you.
+query; Query Builder does this for you.
 
 Display the news
 ----------------

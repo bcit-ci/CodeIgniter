@@ -15,7 +15,7 @@ CodeIgniter's main features.
 -  Model-View-Controller Based System
 -  Extremely Light Weight
 -  Full Featured database classes with support for several platforms.
--  Active Record Database Support
+-  Query Builder Database Support
 -  Form and Data Validation
 -  Security and XSS Filtering
 -  Session Management

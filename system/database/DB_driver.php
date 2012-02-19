@@ -1270,7 +1270,7 @@ class CI_DB_driver {
 	/**
 	 * Protect Identifiers
 	 *
-	 * This function is used extensively by the Active Record class, and by
+	 * This function is used extensively by the Query Builder class, and by
 	 * a couple functions in this class.
 	 * It takes a column or table name (optionally with an alias) and inserts
 	 * the table prefix onto it.  Some logic is necessary in order to deal with
@@ -1344,7 +1344,7 @@ class CI_DB_driver {
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified?  If so,
 			// we have nothing more to do other than escape the item
-			if (in_array($parts[0], $this->ar_aliased_tables))
+			if (in_array($parts[0], $this->qb_aliased_tables))
 			{
 				if ($protect_identifiers === TRUE)
 				{
