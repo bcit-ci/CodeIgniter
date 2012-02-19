@@ -29,7 +29,7 @@
  * MySQLi Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -641,7 +641,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$conditions = '';
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where);
+			$conditions = "\nWHERE ".implode("\n", $this->qb_where);
 
 			if (count($where) > 0 && count($like) > 0)
 			{
