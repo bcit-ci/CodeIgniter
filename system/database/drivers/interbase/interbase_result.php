@@ -82,7 +82,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0, $num_fields=$this->num_fields(); $i < $num_fields; $i++)
+		for ($i = 0, $num_fields = $this->num_fields(); $i < $num_fields; $i++)
 		{
 			$info = ibase_field_info($this->result_id, $i);
 			$field_names[] = $info['name'];
@@ -104,7 +104,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	{
 		
 		$retval = array();
-		for ($i = 0, $num_fields=$this->num_fields(); $i < $num_fields; $i++)
+		for ($i = 0, $num_fields = $this->num_fields(); $i < $num_fields; $i++)
 		{
 			$info = ibase_field_info($this->result_id, $i);
 		
@@ -164,10 +164,13 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		//Increment row count
-		$this->num_rows++;
+		if(($row = @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
+		{
+			//Increment row count
+			$this->num_rows++;
+		}
 	
-		return @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS);
+		return $row;
 	}
 
 	// --------------------------------------------------------------------
@@ -181,10 +184,13 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		//Increment row count
-		$this->num_rows++;
+		if(($row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
+		{
+			//Increment row count
+			$this->num_rows++;
+		}
 		
-		return @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS);
+		return $row;
 	}
 	
 	// --------------------------------------------------------------------
