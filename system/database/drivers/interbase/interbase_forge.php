@@ -79,7 +79,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		$sql .= $this->db->_protect_identifiers($table)."(";
+		$sql .= $this->db->protect_identifiers($table)."(";
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -95,7 +95,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field);
+				$sql .= "\n\t".$this->db->protect_identifiers($field);
 
 				$sql .=  ' '.$attributes['TYPE'];
 
@@ -138,7 +138,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
+			$primary_keys = $this->db->protect_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
 
@@ -148,11 +148,11 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key = array($this->db->_protect_identifiers($key));
+					$key = array($this->db->protect_identifiers($key));
 				}
 
 				$sql .= ",\n\tUNIQUE (" . implode(', ', $key) . ")";
@@ -195,7 +195,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table)." $alter_type ".$this->db->protect_identifiers($column_name);
 
 		$sql .= " {$column_definition}";
 
@@ -215,7 +215,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			$sql .= ' AFTER ' . $this->db->protect_identifiers($after_field);
 		}
 
 		return $sql;
@@ -235,7 +235,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 */
 	protected function _rename_table($table_name, $new_table_name)
 	{
-		return 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 }
 
