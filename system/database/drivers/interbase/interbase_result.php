@@ -53,7 +53,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		}
 		
 		//Get the results so that you can get an accurate rowcount
-		$this->result_array();
+		$this->result();
 		
 		return $this->num_rows;
 	}
@@ -229,6 +229,14 @@ class CI_DB_interbase_result extends CI_DB_result {
 	{
 		if (count($this->result_array) > 0)
 		{
+			return $this->result_array;
+		}
+		
+		// Since the object and array are really similar, just case
+		// the result object to an array  if need be
+		if(count($this->result_object) > 0)
+		{
+			$this->result_array = (array)$this->result_object;
 			return $this->result_array;
 		}
 
