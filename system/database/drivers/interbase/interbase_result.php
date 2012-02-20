@@ -200,6 +200,27 @@ class CI_DB_interbase_result extends CI_DB_result {
 		{
 			return $this->result_object;
 		}
+		
+		// Convert result array to object so that 
+		// We don't have to get the result again
+		if(count($this->result_array) > 0)
+		{
+			$i = 0;
+		
+			foreach($this->result_array as $array)
+			{
+				$this->result_object[$i] = new StdClass();
+			
+				foreach($array as $key => $val)
+				{
+					$this->result_object[$i]->{$key} = $val;
+				}
+				
+				++$i;
+			}
+			
+			return $this->result_object;
+		}
 
 		// In the event that query caching is on the result_id variable
 		// will return FALSE since there isn't a valid SQL resource so
@@ -236,7 +257,11 @@ class CI_DB_interbase_result extends CI_DB_result {
 		// the result object to an array  if need be
 		if(count($this->result_object) > 0)
 		{
-			$this->result_array = (array)$this->result_object;
+			foreach($this->result_object as $obj)
+			{
+				$this->result_array[] = (array)$obj;
+			}
+		
 			return $this->result_array;
 		}
 
