@@ -1,46 +1,34 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.1.6 or newer
- *
- * NOTICE OF LICENSE
- *
- * Licensed under the Academic Free License version 3.0
- *
- * This source file is subject to the Academic Free License (AFL 3.0) that is
- * bundled with this package in the files license_afl.txt / license_afl.rst.
- * It is also available through the world wide web at this URL:
- * http://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
- *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.0
- * @filesource
- */
-
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
-| -------------------------------------------------------------------------
-| Memcached settings
-| -------------------------------------------------------------------------
-| Your Memcached servers can be specified below.
+| -------------------------------------------------------------------
+| MEMCACHED CONFIG SETTINGS
+| -------------------------------------------------------------------
+| This file will contain the settings needed to access your memcached
+| server.
 |
-|	See: http://codeigniter.com/user_guide/libraries/caching.html#memcached
+| For complete instructions please consult the 'Caching Class' page
+| of the User Guide.
 |
+| -------------------------------------------------------------------
+| EXPLANATION OF VARIABLES
+| -------------------------------------------------------------------
+|
+|	['hostname'] The hostname of your memcached server.
+|	['port'] The port used to connect to memcached
+|	['weight'] The priority of the server (useful when using multiple
+|	servers).
 */
-$config = array(
-	'default' => array(
-		'hostname' => '127.0.0.1',
-		'port'     => '11211',
-		'weight'   => '1',
-	),
-);
+
+
+$config['default']['hostname'] = 'localhost';
+$config['default']['port'] = 11211;
+$config['default']['weight'] = 90;
+
+/* Add more servers for load balanced memcached setup
+$config['backup']['hostname'] = 'anotherhost';
+$config['backup']['port'] = 11211;
+$config['backup']['weight'] = 10;
+*/
 
 /* End of file memcached.php */
 /* Location: ./application/config/memcached.php */
