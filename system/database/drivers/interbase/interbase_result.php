@@ -236,11 +236,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		// the result object to an array  if need be
 		if(count($this->result_object) > 0)
 		{
-			foreach($this->result_object as $obj)
-			{
-				$this->result_array[] = (array)$obj;
-			}
-		
+			$this->result_array = (array)$this->result_object;
 			return $this->result_array;
 		}
 
