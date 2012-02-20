@@ -310,11 +310,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	public function insert_id($generator_name, $inc_by=0)
 	{
 		//If a generator hasn't been used before it will return 0
-		if($id = ibase_gen_id('"'.$generator_name.'"', $inc_by) !== 0)
-		{
-			return $id;
-		}
-		return ibase_gen_id('"'.$generator_name.'"', 1);
+		return ibase_gen_id('"'.$generator_name.'"', $inc_by);
 	}
 
 	// --------------------------------------------------------------------
