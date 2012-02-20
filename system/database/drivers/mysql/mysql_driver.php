@@ -401,6 +401,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		return 'SHOW INDEX FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -413,7 +414,22 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function _field_data($table)
 	{
-		return 'DESCRIBE '.$table;
+		return $this->_list_columns($table);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the index data can be retrieved
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	public function _index_data($table)
+	{
+		return $this->_list_index($table);
 	}
 
 	// --------------------------------------------------------------------

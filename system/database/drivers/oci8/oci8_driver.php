@@ -529,6 +529,21 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _list_index($table = '')
+	{
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Field data query
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved

@@ -415,7 +415,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'DESCRIBE '.$table;
+		return $this->_list_columns($table);
 	}
 
 	// --------------------------------------------------------------------

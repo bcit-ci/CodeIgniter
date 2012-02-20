@@ -117,6 +117,24 @@ class CI_DB_pdo_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Index data
+	 *
+	 * Generates an array of objects containing index meta-data
+	 *
+	 * @return	array
+	 */
+    public function index_data()
+    {
+		if ($this->db->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+        return FALSE;
+    }
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Free the result
 	 *
 	 * @return	null
