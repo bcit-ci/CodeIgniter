@@ -42,7 +42,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	string
 	 */
-	public function _create_database($filename='')
+	protected function _create_database($filename='')
 	{
 		// Firebird databases are flat files, so a path is required 
 		// Hostname is needed for remote access
@@ -59,7 +59,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 *	- the current db is dropped
 	 * @return	bool
 	 */
-	public function _drop_database($name='')
+	protected function _drop_database($name='')
 	{
 		return ibase_drop_db($this->conn_id);
 	}
@@ -75,7 +75,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	string
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -171,7 +171,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 *
 	 * @return	string
 	 */
-	public function _drop_table($table)
+	protected function _drop_table($table)
 	{
 		return 'DROP TABLE '.$name;
 	}
@@ -193,7 +193,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
 
@@ -233,7 +233,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	public function _rename_table($table_name, $new_table_name)
+	protected function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->_protect_identifiers($table_name).' RENAME TO '.$this->db->_protect_identifiers($new_table_name);
 	}

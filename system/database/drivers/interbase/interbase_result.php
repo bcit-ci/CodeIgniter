@@ -144,7 +144,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	public function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		//Set the row count to 0
 		$this->num_rows = 0;
@@ -162,7 +162,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	public function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		//Increment row count
 		$this->num_rows++;
@@ -179,7 +179,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * @return	object
 	 */
-	public function _fetch_object()
+	protected function _fetch_object()
 	{
 		//Increment row count
 		$this->num_rows++;
