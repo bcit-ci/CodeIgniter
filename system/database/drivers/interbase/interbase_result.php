@@ -164,7 +164,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		if(($row = @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
+		if (($row = @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
 		{
 			//Increment row count
 			$this->num_rows++;
@@ -184,7 +184,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		if(($row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
+		if (($row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
 		{
 			//Increment row count
 			$this->num_rows++;
@@ -209,7 +209,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		
 		// Convert result array to object so that 
 		// We don't have to get the result again
-		if(count($this->result_array) > 0)
+		if (count($this->result_array) > 0)
 		{
 			$i = 0;
 		
@@ -261,7 +261,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		
 		// Since the object and array are really similar, just case
 		// the result object to an array  if need be
-		if(count($this->result_object) > 0)
+		if (count($this->result_object) > 0)
 		{
 			foreach($this->result_object as $obj)
 			{
