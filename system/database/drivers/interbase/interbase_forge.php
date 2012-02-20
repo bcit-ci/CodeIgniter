@@ -79,7 +79,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		$sql .= $this->db->_escape_identifiers($table)."(";
+		$sql .= $this->db->_protect_identifiers($table)."(";
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
