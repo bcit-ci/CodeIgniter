@@ -213,11 +213,11 @@ class CI_DB_interbase_result extends CI_DB_result {
 		{
 			$i = 0;
 		
-			foreach($this->result_array as $array)
+			foreach ($this->result_array as $array)
 			{
 				$this->result_object[$i] = new StdClass();
 			
-				foreach($array as $key => $val)
+				foreach ($array as $key => $val)
 				{
 					$this->result_object[$i]->{$key} = $val;
 				}
@@ -263,7 +263,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		// the result object to an array  if need be
 		if (count($this->result_object) > 0)
 		{
-			foreach($this->result_object as $obj)
+			foreach ($this->result_object as $obj)
 			{
 				$this->result_array[] = (array)$obj;
 			}
