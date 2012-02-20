@@ -478,26 +478,15 @@ if ( ! function_exists('url_title'))
 {
 	function url_title($str, $separator = 'dash', $lowercase = FALSE)
 	{
-		if ($separator == 'dash')
-		{
-			$search		= '_';
-			$replace	= '-';
-		}
-		else
-		{
-			$search		= '-';
-			$replace	= '_';
-		}
+		$replace = $separator == 'dash' ? '-' : '_';
 
 		$trans = array(
-						'&\#\d+?;'				=> '',
-						'&\S+?;'				=> '',
+						'&.+?;'					=> '',
+						'[^a-zA-Z0-9 _-]'		=> '',
 						'\s+'					=> $replace,
-						'[^a-z0-9\-\._]'		=> '',
 						$replace.'+'			=> $replace,
-						$replace.'$'			=> $replace,
-						'^'.$replace			=> $replace,
-						'\.+$'					=> ''
+						$replace.'$'			=> '',
+						'^'.$replace			=> ''
 					);
 
 		$str = strip_tags($str);
@@ -512,7 +501,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim(stripslashes($str));
+		return trim($str);
 	}
 }
 
