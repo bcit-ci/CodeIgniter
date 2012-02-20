@@ -482,7 +482,7 @@ if ( ! function_exists('url_title'))
 
 		$trans = array(
 						'&.+?;'					=> '',
-						'[^a-zA-Z0-9 _-]'		=> '',
+						'[^a-z0-9 _-]'			=> '',
 						'\s+'					=> $replace,
 						$replace.'+'			=> $replace,
 						$replace.'$'			=> '',
