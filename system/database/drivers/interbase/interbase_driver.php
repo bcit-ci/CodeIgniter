@@ -45,19 +45,19 @@ class CI_DB_interbase_driver extends CI_DB {
 	public $dbdriver = 'interbase';
 
 	// The character used to escape with
-	public $_escape_char = '"';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	public $_like_escape_str = " ESCAPE '%s' ";
-	public $_like_escape_chr = '!';
+	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	public $_count_string = "SELECT COUNT(*) AS ";
-	public $_random_keyword = ' Random()'; // database specific random keyword
+	protected $_count_string = "SELECT COUNT(*) AS ";
+	protected $_random_keyword = ' Random()'; // database specific random keyword
 	
 	// Keeps track of the resource for the current transaction
 	protected $trans;
@@ -134,7 +134,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * @return	string
 	 */
-	public function _version()
+	protected function _version()
 	{
 		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
 		{
@@ -153,7 +153,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */
-	public function _execute($sql)
+	protected function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
 		return @ibase_query($this->conn_id, $sql);
@@ -169,7 +169,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	string
 	 */
-	public function _prep_query($sql)
+	protected function _prep_query($sql)
 	{
 		return $sql;
 	}
@@ -333,8 +333,6 @@ class CI_DB_interbase_driver extends CI_DB {
 
 		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
-		$query->result_array();
-
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -355,7 +353,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	boolean
 	 * @return	string
 	 */
-	public function _list_tables($prefix_limit = FALSE)
+	protected function _list_tables($prefix_limit = FALSE)
 	{
 		$sql = <<<SQL
 			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
@@ -380,7 +378,7 @@ SQL;
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
 		return <<<SQL
 			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
@@ -398,7 +396,7 @@ SQL;
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	public function _field_data($table)
+	protected function _field_data($table)
 	{
 		// Need to find a more efficient way to do this
 		// but Interbase/Firebird seems to lack the 
@@ -413,7 +411,7 @@ SQL;
 	 *
 	 * @return	string
 	 */
-	public function _error_message()
+	protected function _error_message()
 	{
 		return ibase_errmsg();
 	}
@@ -425,7 +423,7 @@ SQL;
 	 *
 	 * @return	integer
 	 */
-	public function _error_number()
+	protected function _error_number()
 	{
 		return ibase_errcode();
 	}
@@ -440,7 +438,7 @@ SQL;
 	 * @param	string
 	 * @return	string
 	 */
-	public function _escape_identifiers($item)
+	protected function _escape_identifiers($item)
 	{
 		foreach ($this->_reserved_identifiers as $id)
 		{
@@ -477,7 +475,7 @@ SQL;
 	 * @param	type
 	 * @return	type
 	 */
-	public function _from_tables($tables)
+	protected function _from_tables($tables)
 	{
 		if ( ! is_array($tables))
 		{
@@ -500,7 +498,7 @@ SQL;
 	 * @param	array	the insert values
 	 * @return	string
 	 */
-	public function _insert($table, $keys, $values)
+	protected function _insert($table, $keys, $values)
 	{
 		return "INSERT INTO {$table} (".implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
@@ -519,7 +517,7 @@ SQL;
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach ($values as $key => $val)
 		{
@@ -552,7 +550,7 @@ SQL;
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _truncate($table)
+	protected function _truncate($table)
 	{
 		return $this->_delete($table);
 	}
@@ -569,7 +567,7 @@ SQL;
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
@@ -602,7 +600,7 @@ SQL;
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function _limit($sql, $limit, $offset)
+	protected function _limit($sql, $limit, $offset)
 	{
 		//There doesn't seem to be a limit clause?
 		return $sql;
@@ -616,7 +614,7 @@ SQL;
 	 * @param	resource
 	 * @return	void
 	 */
-	public function _close($conn_id)
+	protected function _close($conn_id)
 	{
 		@ibase_close($conn_id);
 	}
