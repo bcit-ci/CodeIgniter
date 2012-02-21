@@ -51,6 +51,7 @@ Release Date: Not Released
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
+   -  Added Interbase/Firebird database support via the "interbase" driver
 
 -  Libraries
 
