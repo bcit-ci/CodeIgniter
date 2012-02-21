@@ -771,8 +771,8 @@ if ( ! function_exists('date_range'))
 				{
 					$arg = (int) $mixed;
 				}
+
 				$period = new DatePeriod($from, new DateInterval('P1D'), $arg);
-				$range = array();
 				foreach ($period as $date)
 				{
 					$range[] = $date->format($format);
@@ -836,7 +836,7 @@ if ( ! function_exists('date_range'))
 		 *		$unix_timestamp + 86400
 		 *
 		 *	 ... due to DST, there's a possibility of calculation errors and/or incorrect
-		 *	 hours generated (if the specified format displays such data) due to DST.
+		 *	 hours generated (if the specified format displays such data).
 		 */
 
 		$from = $to = array();
