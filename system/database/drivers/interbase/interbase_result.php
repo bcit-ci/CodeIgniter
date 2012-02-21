@@ -265,7 +265,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 		{
 			foreach ($this->result_object as $obj)
 			{
-				$this->result_array[] = (array)$obj;
+				$this->result_array[] = (array) $obj;
 			}
 		
 			return $this->result_array;

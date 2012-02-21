@@ -82,7 +82,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 		$sql .= $this->db->protect_identifiers($table)."(";
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
