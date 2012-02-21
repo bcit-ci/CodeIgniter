@@ -224,9 +224,7 @@ class CI_DB_interbase_driver extends CI_DB {
 			return TRUE;
 		}
 		
-		@ibase_commit($this->trans);
-
-		return TRUE;
+		return @ibase_commit($this->trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -249,9 +247,7 @@ class CI_DB_interbase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		@ibase_rollback($this->trans);
-	
-		return TRUE;
+		return @ibase_rollback($this->trans);
 	}
 
 	// --------------------------------------------------------------------
