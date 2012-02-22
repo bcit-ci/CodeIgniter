@@ -166,26 +166,19 @@ class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Select the DB... assuming a database name is specified in the config file
-		if ($this->database != '')
+		if ($this->database !== '' && ! $this->db_select())
 		{
-			if ( ! $this->db_select())
-			{
-				log_message('error', 'Unable to select database: '.$this->database);
+			log_message('error', 'Unable to select database: '.$this->database);
 
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_select', $this->database);
-				}
-				return FALSE;
-			}
-			else
+			if ($this->db_debug)
 			{
-				// We've selected the DB. Now we set the character set
-				return $this->db_set_charset($this->char_set, $this->dbcollat);
+				$this->display_error('db_unable_to_select', $this->database);
 			}
+			return FALSE;
 		}
 
-		return TRUE;
+		// Now we set the character set and that's all
+		return $this->db_set_charset($this->char_set, $this->dbcollat);
 	}
 
 	// --------------------------------------------------------------------
