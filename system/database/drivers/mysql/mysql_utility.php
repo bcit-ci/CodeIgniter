@@ -115,7 +115,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 			if ($add_drop == TRUE)
 			{
-				$output .= 'DROP TABLE IF EXISTS '.($this->db->protect_identifiers($table).';'.$newline.$newline;
+				$output .= 'DROP TABLE IF EXISTS '.$this->db->protect_identifiers($table).';'.$newline.$newline;
 			}
 
 			$i = 0;
