@@ -107,6 +107,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
+-  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
 -  Fixed a bug (#81) - ODBC's list_field() and field_data() methods skipped the first column due to odbc_field_*() functions' index starting at 1 instead of 0.
 
 Version 2.1.0
