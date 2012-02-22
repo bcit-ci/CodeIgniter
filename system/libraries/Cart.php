@@ -329,13 +329,6 @@ class CI_Cart {
 			return FALSE;
 		}
 
-		// Is the new quantity different than what is already saved in the cart?
-		// If it's the same there's nothing to do
-		if ($this->_cart_contents[$items['rowid']]['qty'] == $items['qty'])
-		{
-			return FALSE;
-		}
-
 		// Is the quantity zero?  If so we will remove the item from the cart.
 		// If the quantity is greater than zero we are updating
 		if ($items['qty'] == 0)
