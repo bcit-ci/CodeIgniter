@@ -119,11 +119,12 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
+	 * @param	string	database name
 	 * @return	bool
 	 */
-	public function db_select()
+	public function db_select($database = '')
 	{
-		return @mysqli_select_db($this->conn_id, $this->database);
+		return @mysqli_select_db($this->conn_id, ($database == '' ? $this->database : $database));
 	}
 
 	// --------------------------------------------------------------------
