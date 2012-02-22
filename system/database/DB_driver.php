@@ -108,11 +108,9 @@ class CI_DB_driver {
 	/**
 	 * Initialize Database Settings
 	 *
-	 * @access	private Called by the constructor
-	 * @param	mixed
-	 * @return	void
+	 * @return	bool
 	 */
-	function initialize()
+	public function initialize()
 	{
 		// If an existing connection resource is available
 		// there is no need to connect and select the database
@@ -126,7 +124,7 @@ class CI_DB_driver {
 		// Connect to the database and set the connection ID
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
-		// No connection resource?  Check if there is a failover else throw an error
+		// No connection resource? Check if there is a failover else throw an error
 		if ( ! $this->conn_id)
 		{
 			// Check if there is a failover set
@@ -168,31 +166,19 @@ class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Select the DB... assuming a database name is specified in the config file
-		if ($this->database != '')
+		if ($this->database !== '' && ! $this->db_select())
 		{
-			if ( ! $this->db_select())
-			{
-				log_message('error', 'Unable to select database: '.$this->database);
+			log_message('error', 'Unable to select database: '.$this->database);
 
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_select', $this->database);
-				}
-				return FALSE;
-			}
-			else
+			if ($this->db_debug)
 			{
-				// We've selected the DB. Now we set the character set
-				if ( ! $this->db_set_charset($this->char_set, $this->dbcollat))
-				{
-					return FALSE;
-				}
-
-				return TRUE;
+				$this->display_error('db_unable_to_select', $this->database);
 			}
+			return FALSE;
 		}
 
-		return TRUE;
+		// Now we set the character set and that's all
+		return $this->db_set_charset($this->char_set, $this->dbcollat);
 	}
 
 	// --------------------------------------------------------------------
