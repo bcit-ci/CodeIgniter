@@ -90,14 +90,24 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	/**
 	 * Interbase/Firebird Export
 	 *
-	 * @param	array	Preferences
+	 * @param	string	$filename
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	public function backup($filename)
 	{
-		// Currently unsupported
-		// @todo See if can be implemented
-		return $this->db->display_error('db_unsuported_feature');
+		if ($service = ibase_service_attach($this->db->hostname, $this->db->username, $this->db->password))
+		{
+			$res = ibase_backup($service, $this->db->database, $filename.'.fbk');
+			
+			//Close the service connection	
+			ibase_service_detach($service);
+			
+			return $res;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }
 

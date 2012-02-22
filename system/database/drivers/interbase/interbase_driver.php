@@ -139,6 +139,9 @@ class CI_DB_interbase_driver extends CI_DB {
 		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
 		{
 			$version = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+			
+			// Don't keep the service open
+			ibase_service_detach($service);
 			return $version;
 		}
 		
