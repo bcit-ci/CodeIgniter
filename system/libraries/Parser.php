@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,14 +33,15 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Parser
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/parser.html
  */
 class CI_Parser {
 
-	var $l_delim = '{';
-	var $r_delim = '}';
-	var $object;
+	public $l_delim = '{';
+	public $r_delim = '}';
+	public $object;
+	private $CI;
 
 	/**
 	 *  Parse a template
@@ -44,8 +57,8 @@ class CI_Parser {
 	 */
 	public function parse($template, $data, $return = FALSE)
 	{
-		$CI =& get_instance();
-		$template = $CI->load->view($template, $data, TRUE);
+		$this->CI =& get_instance();
+		$template = $this->CI->load->view($template, $data, TRUE);
 
 		return $this->_parse($template, $data, $return);
 	}
@@ -64,7 +77,7 @@ class CI_Parser {
 	 * @param	bool
 	 * @return	string
 	 */
-	function parse_string($template, $data, $return = FALSE)
+	public function parse_string($template, $data, $return = FALSE)
 	{
 		return $this->_parse($template, $data, $return);
 	}
@@ -77,13 +90,13 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string
 	 * @param	array
 	 * @param	bool
 	 * @return	string
 	 */
-	function _parse($template, $data, $return = FALSE)
+	private function _parse($template, $data, $return = FALSE)
 	{
 		if ($template == '')
 		{
@@ -104,8 +117,7 @@ class CI_Parser {
 
 		if ($return == FALSE)
 		{
-			$CI =& get_instance();
-			$CI->output->append_output($template);
+			$this->CI->output->append_output($template);
 		}
 
 		return $template;
@@ -121,7 +133,7 @@ class CI_Parser {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_delimiters($l = '{', $r = '}')
+	public function set_delimiters($l = '{', $r = '}')
 	{
 		$this->l_delim = $l;
 		$this->r_delim = $r;
@@ -138,9 +150,9 @@ class CI_Parser {
 	 * @param	string
 	 * @return	string
 	 */
-	function _parse_single($key, $val, $string)
+	private function _parse_single($key, $val, $string)
 	{
-		return str_replace($this->l_delim.$key.$this->r_delim, $val, $string);
+		return str_replace($this->l_delim.$key.$this->r_delim, (string) $val, $string);
 	}
 
 	// --------------------------------------------------------------------
@@ -156,7 +168,7 @@ class CI_Parser {
 	 * @param	string
 	 * @return	string
 	 */
-	function _parse_pair($variable, $data, $string)
+	private function _parse_pair($variable, $data, $string)
 	{
 		if (FALSE === ($match = $this->_match_pair($string, $variable)))
 		{
@@ -166,7 +178,7 @@ class CI_Parser {
 		$str = '';
 		foreach ($data as $row)
 		{
-			$temp = $match['1'];
+			$temp = $match[1];
 			foreach ($row as $key => $val)
 			{
 				if ( ! is_array($val))
@@ -182,7 +194,7 @@ class CI_Parser {
 			$str .= $temp;
 		}
 
-		return str_replace($match['0'], $str, $string);
+		return str_replace($match[0], $str, $string);
 	}
 
 	// --------------------------------------------------------------------
@@ -195,7 +207,7 @@ class CI_Parser {
 	 * @param	string
 	 * @return	mixed
 	 */
-	function _match_pair($string, $variable)
+	private function _match_pair($string, $variable)
 	{
 		if ( ! preg_match("|" . preg_quote($this->l_delim) . $variable . preg_quote($this->r_delim) . "(.+?)". preg_quote($this->l_delim) . '/' . $variable . preg_quote($this->r_delim) . "|s", $string, $match))
 		{

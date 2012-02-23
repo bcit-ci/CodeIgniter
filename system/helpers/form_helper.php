@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/form_helper.html
  */
 
@@ -58,14 +70,10 @@ if ( ! function_exists('form_open'))
 		// If no action is provided then set to the current url
 		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
 
-		$form = '<form action="'.$action.'"';
+		$form = '<form action="'.$action.'"'._attributes_to_string($attributes, TRUE).">\n";
 
-		$form .= _attributes_to_string($attributes, TRUE);
-
-		$form .= '>';
-
-		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
-		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))	
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
@@ -144,7 +152,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value, $name).'" />'."\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value, $name)."\" />\n";
 		}
 		else
 		{
@@ -176,7 +184,7 @@ if ( ! function_exists('form_input'))
 	{
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
 
@@ -262,7 +270,7 @@ if ( ! function_exists('form_textarea'))
 		}
 
 		$name = (is_array($data)) ? $data['name'] : $data;
-		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".form_prep($val, $name)."</textarea>";
+		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, $name)."</textarea>\n";
 	}
 }
 
@@ -313,13 +321,9 @@ if ( ! function_exists('form_dropdown'))
 		}
 
 		// If no selected state was submitted we will attempt to set it automatically
-		if (count($selected) === 0)
+		if (count($selected) === 0 && isset($_POST[$name]))
 		{
-			// If the form name appears in the $_POST array we have a winner!
-			if (isset($_POST[$name]))
-			{
-				$selected = array($_POST[$name]);
-			}
+			$selected = array($_POST[$name]);
 		}
 
 		if ($extra != '') $extra = ' '.$extra;
@@ -334,12 +338,11 @@ if ( ! function_exists('form_dropdown'))
 
 			if (is_array($val) && ! empty($val))
 			{
-				$form .= '<optgroup label="'.$key.'">'."\n";
+				$form .= '<optgroup label="'.$key."\">\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
-
 					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
 				}
 
@@ -347,13 +350,11 @@ if ( ! function_exists('form_dropdown'))
 			}
 			else
 			{
-				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
-
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.(in_array($key, $selected) ? ' selected="selected"' : '').'>'.(string) $val."</option>\n";
 			}
 		}
 
-		$form .= '</select>';
+		$form .= "</select>\n";
 
 		return $form;
 	}
@@ -400,7 +401,7 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
 
@@ -446,8 +447,7 @@ if ( ! function_exists('form_submit'))
 	function form_submit($data = '', $value = '', $extra = '')
 	{
 		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
-
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
 
@@ -467,8 +467,7 @@ if ( ! function_exists('form_reset'))
 	function form_reset($data = '', $value = '', $extra = '')
 	{
 		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
-
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
 
@@ -488,14 +487,13 @@ if ( ! function_exists('form_button'))
 	function form_button($data = '', $content = '', $extra = '')
 	{
 		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
-
 		if ( is_array($data) AND isset($data['content']))
 		{
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
 		}
 
-		return "<button "._parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
+		return '<button '._parse_form_attributes($data, $defaults).$extra.'>'.$content."</button>\n";
 	}
 }
 
@@ -530,9 +528,7 @@ if ( ! function_exists('form_label'))
 			}
 		}
 
-		$label .= ">$label_text</label>";
-
-		return $label;
+		return $label .= ">$label_text</label>";
 	}
 }
 
@@ -552,12 +548,7 @@ if ( ! function_exists('form_fieldset'))
 {
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
-		$fieldset = "<fieldset";
-
-		$fieldset .= _attributes_to_string($attributes, FALSE);
-
-		$fieldset .= ">\n";
-
+		$fieldset = '<fieldset'._attributes_to_string($attributes, FALSE).">\n";
 		if ($legend_text != '')
 		{
 			$fieldset .= "<legend>$legend_text</legend>\n";
@@ -642,15 +633,13 @@ if ( ! function_exists('form_prep'))
 		{
 			return $str;
 		}
-		
-		$str = html_escape($str);
 
 		if ($field_name != '')
 		{
 			$prepped_fields[$field_name] = $field_name;
 		}
 
-		return $str;
+		return html_escape($str);
 	}
 }
 
@@ -980,7 +969,7 @@ if ( ! function_exists('_attributes_to_string'))
 				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
 
-		return ' '.$attributes;
+			return ' '.$attributes;
 		}
 
 		if (is_object($attributes) AND count($attributes) > 0)
@@ -988,7 +977,7 @@ if ( ! function_exists('_attributes_to_string'))
 			$attributes = (array)$attributes;
 		}
 
-		if (is_array($attributes) AND count($attributes) > 0)
+		if (is_array($attributes) AND ($formtag === TRUE OR count($attributes) > 0))
 		{
 			$atts = '';
 
@@ -1031,21 +1020,20 @@ if ( ! function_exists('_get_validation_object'))
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-		
+
 		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
 		{
 			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
 			{
 				return $return;
 			}
-			
+
 			return $CI->$object;
 		}
-		
+
 		return $return;
 	}
 }
-
 
 /* End of file form_helper.php */
 /* Location: ./system/helpers/form_helper.php */

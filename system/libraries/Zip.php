@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -27,7 +39,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Encryption
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/zip.html
  */
 class CI_Zip  {
@@ -87,9 +99,9 @@ class CI_Zip  {
 	 */
 	function _get_mod_time($dir)
 	{
-		// filemtime() will return false, but it does raise an error.
-		$date = (@filemtime($dir)) ? filemtime($dir) : getdate($this->now);
-
+		// filemtime() may return false, but raises an error for non-existing files
+		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
+		
 		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
 		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
 

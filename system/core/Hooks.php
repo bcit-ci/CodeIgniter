@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -23,7 +35,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Hooks {
@@ -33,28 +45,24 @@ class CI_Hooks {
 	 *
 	 * @var bool
 	 */
-	var $enabled		= FALSE;
+	public $enabled		= FALSE;
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
 	 * @var array
 	 */
-	var $hooks			= array();
+	public $hooks			= array();
 	/**
 	 * Determines wether hook is in progress, used to prevent infinte loops
 	 *
 	 * @var bool
 	 */
-	var $in_progress	= FALSE;
+	public $in_progress	= FALSE;
 
-	/**
-	 * Constructor
-	 *
-	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_initialize();
-		log_message('debug', "Hooks Class Initialized");
+		log_message('debug', 'Hooks Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -62,34 +70,30 @@ class CI_Hooks {
 	/**
 	 * Initialize the Hooks Preferences
 	 *
-	 * @access	private
 	 * @return	void
 	 */
-	function _initialize()
+	private function _initialize()
 	{
 		$CFG =& load_class('Config', 'core');
 
 		// If hooks are not enabled in the config file
 		// there is nothing else to do
-
 		if ($CFG->item('enable_hooks') == FALSE)
 		{
 			return;
 		}
 
 		// Grab the "hooks" definition file.
-		// If there are no hooks, we're done.
-
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
 		}
 		elseif (is_file(APPPATH.'config/hooks.php'))
 		{
 			include(APPPATH.'config/hooks.php');
 		}
 
-
+		// If there are no hooks, we're done.
 		if ( ! isset($hook) OR ! is_array($hook))
 		{
 			return;
@@ -104,13 +108,12 @@ class CI_Hooks {
 	/**
 	 * Call Hook
 	 *
-	 * Calls a particular hook
+	 * Calls a particular hook. Called by CodeIgniter.php.
 	 *
-	 * @access	private
 	 * @param	string	the hook name
 	 * @return	mixed
 	 */
-	function _call_hook($which = '')
+	public function _call_hook($which = '')
 	{
 		if ( ! $this->enabled OR ! isset($this->hooks[$which]))
 		{
@@ -139,11 +142,10 @@ class CI_Hooks {
 	 *
 	 * Runs a particular hook
 	 *
-	 * @access	private
 	 * @param	array	the hook details
 	 * @return	bool
 	 */
-	function _run_hook($data)
+	protected function _run_hook($data)
 	{
 		if ( ! is_array($data))
 		{
@@ -156,7 +158,6 @@ class CI_Hooks {
 
 		// If the script being called happens to have the same
 		// hook call within it a loop can happen
-
 		if ($this->in_progress == TRUE)
 		{
 			return;
@@ -241,8 +242,6 @@ class CI_Hooks {
 	}
 
 }
-
-// END CI_Hooks class
 
 /* End of file Hooks.php */
 /* Location: ./system/core/Hooks.php */

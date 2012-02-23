@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/file_helpers.html
  */
 
@@ -130,15 +142,11 @@ if ( ! function_exists('delete_files'))
 
 		while (FALSE !== ($filename = @readdir($current_dir)))
 		{
-			if ($filename != "." and $filename != "..")
+			if ($filename !== '.' and $filename !== '..')
 			{
-				if (is_dir($path.DIRECTORY_SEPARATOR.$filename))
+				if (is_dir($path.DIRECTORY_SEPARATOR.$filename) && $filename[0] !== '.')
 				{
-					// Ignore empty folders
-					if (substr($filename, 0, 1) != '.')
-					{
-						delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1);
-					}
+					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1);
 				}
 				else
 				{
@@ -188,21 +196,21 @@ if ( ! function_exists('get_filenames'))
 
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && strncmp($file, '.', 1) !== 0)
+				if (@is_dir($source_dir.$file) && $file[0] !== '.')
 				{
 					get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
-				elseif (strncmp($file, '.', 1) !== 0)
+				elseif ($file[0] !== '.')
 				{
 					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
 				}
 			}
+			closedir($fp);
+
 			return $_filedata;
 		}
-		else
-		{
-			return FALSE;
-		}
+
+		return FALSE;
 	}
 }
 
@@ -241,23 +249,22 @@ if ( ! function_exists('get_dir_file_info'))
 			// foreach (scandir($source_dir, 1) as $file) // In addition to being PHP5+, scandir() is simply not as fast
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) AND strncmp($file, '.', 1) !== 0 AND $top_level_only === FALSE)
+				if (@is_dir($source_dir.$file) && $file[0] !== '.' && $top_level_only === FALSE)
 				{
 					get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
 				}
-				elseif (strncmp($file, '.', 1) !== 0)
+				elseif ($file[0] !== '.')
 				{
 					$_filedata[$file] = get_file_info($source_dir.$file);
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
+			closedir($fp);
 
 			return $_filedata;
 		}
-		else
-		{
-			return FALSE;
-		}
+
+		return FALSE;
 	}
 }
 
@@ -352,7 +359,7 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 			}
@@ -379,10 +386,8 @@ if ( ! function_exists('get_mime_by_extension'))
 				return $mimes[$extension];
 			}
 		}
-		else
-		{
-			return FALSE;
-		}
+
+		return FALSE;
 	}
 }
 
@@ -402,31 +407,31 @@ if ( ! function_exists('symbolic_permissions'))
 {
 	function symbolic_permissions($perms)
 	{
-		if (($perms & 0xC000) == 0xC000)
+		if (($perms & 0xC000) === 0xC000)
 		{
 			$symbolic = 's'; // Socket
 		}
-		elseif (($perms & 0xA000) == 0xA000)
+		elseif (($perms & 0xA000) === 0xA000)
 		{
 			$symbolic = 'l'; // Symbolic Link
 		}
-		elseif (($perms & 0x8000) == 0x8000)
+		elseif (($perms & 0x8000) === 0x8000)
 		{
 			$symbolic = '-'; // Regular
 		}
-		elseif (($perms & 0x6000) == 0x6000)
+		elseif (($perms & 0x6000) === 0x6000)
 		{
 			$symbolic = 'b'; // Block special
 		}
-		elseif (($perms & 0x4000) == 0x4000)
+		elseif (($perms & 0x4000) === 0x4000)
 		{
 			$symbolic = 'd'; // Directory
 		}
-		elseif (($perms & 0x2000) == 0x2000)
+		elseif (($perms & 0x2000) === 0x2000)
 		{
 			$symbolic = 'c'; // Character special
 		}
-		elseif (($perms & 0x1000) == 0x1000)
+		elseif (($perms & 0x1000) === 0x1000)
 		{
 			$symbolic = 'p'; // FIFO pipe
 		}
@@ -436,19 +441,19 @@ if ( ! function_exists('symbolic_permissions'))
 		}
 
 		// Owner
-		$symbolic .= (($perms & 0x0100) ? 'r' : '-');
-		$symbolic .= (($perms & 0x0080) ? 'w' : '-');
-		$symbolic .= (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x' ) : (($perms & 0x0800) ? 'S' : '-'));
+		$symbolic .= (($perms & 0x0100) ? 'r' : '-')
+			. (($perms & 0x0080) ? 'w' : '-')
+			. (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x' ) : (($perms & 0x0800) ? 'S' : '-'));
 
 		// Group
-		$symbolic .= (($perms & 0x0020) ? 'r' : '-');
-		$symbolic .= (($perms & 0x0010) ? 'w' : '-');
-		$symbolic .= (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x' ) : (($perms & 0x0400) ? 'S' : '-'));
+		$symbolic .= (($perms & 0x0020) ? 'r' : '-')
+			. (($perms & 0x0010) ? 'w' : '-')
+			. (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x' ) : (($perms & 0x0400) ? 'S' : '-'));
 
 		// World
-		$symbolic .= (($perms & 0x0004) ? 'r' : '-');
-		$symbolic .= (($perms & 0x0002) ? 'w' : '-');
-		$symbolic .= (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x' ) : (($perms & 0x0200) ? 'T' : '-'));
+		$symbolic .= (($perms & 0x0004) ? 'r' : '-')
+			. (($perms & 0x0002) ? 'w' : '-')
+			. (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x' ) : (($perms & 0x0200) ? 'T' : '-'));
 
 		return $symbolic;
 	}
@@ -473,7 +478,6 @@ if ( ! function_exists('octal_permissions'))
 		return substr(sprintf('%o', $perms), -3);
 	}
 }
-
 
 /* End of file file_helper.php */
 /* Location: ./system/helpers/file_helper.php */
