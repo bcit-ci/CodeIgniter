@@ -84,7 +84,7 @@ if ( ! function_exists('is_really_writable'))
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' AND @ini_get('safe_mode') == FALSE)
+		if (DIRECTORY_SEPARATOR === '/' && @ini_get('safe_mode') == FALSE)
 		{
 			return is_writable($file);
 		}
@@ -437,7 +437,7 @@ if ( ! function_exists('set_status_header'))
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (isset($stati[$code]) AND $text == '')
+		if (isset($stati[$code]) && $text == '')
 		{
 			$text = $stati[$code];
 		}

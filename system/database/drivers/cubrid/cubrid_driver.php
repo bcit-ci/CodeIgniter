@@ -339,7 +339,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 			return $str;
 		}
 
-		if (function_exists('cubrid_real_escape_string') AND is_resource($this->conn_id))
+		if (function_exists('cubrid_real_escape_string') && is_resource($this->conn_id))
 		{
 			$str = cubrid_real_escape_string($str, $this->conn_id);
 		}
@@ -429,7 +429,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	{
 		$sql = "SHOW TABLES";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
 			$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -643,7 +643,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' && count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -667,7 +667,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids = array();
-		$where = ($where != '' AND count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$where = ($where != '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
 		{

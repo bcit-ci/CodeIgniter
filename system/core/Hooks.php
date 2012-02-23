@@ -84,7 +84,7 @@ class CI_Hooks {
 		}
 
 		// Grab the "hooks" definition file.
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
 		}
@@ -120,7 +120,7 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		if (isset($this->hooks[$which][0]) AND is_array($this->hooks[$which][0]))
+		if (isset($this->hooks[$which][0]) && is_array($this->hooks[$which][0]))
 		{
 			foreach ($this->hooks[$which] as $val)
 			{
@@ -187,7 +187,7 @@ class CI_Hooks {
 		$function	= FALSE;
 		$params		= '';
 
-		if (isset($data['class']) AND $data['class'] != '')
+		if (isset($data['class']) && $data['class'] != '')
 		{
 			$class = $data['class'];
 		}
@@ -202,7 +202,7 @@ class CI_Hooks {
 			$params = $data['params'];
 		}
 
-		if ($class === FALSE AND $function === FALSE)
+		if ($class === FALSE && $function === FALSE)
 		{
 			return FALSE;
 		}

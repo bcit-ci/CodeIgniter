@@ -595,7 +595,7 @@ if ( ! function_exists('_parse_attributes'))
 			}
 		}
 
-		if ($javascript == TRUE AND $att != '')
+		if ($javascript == TRUE && $att != '')
 		{
 			return substr($att, 0, -1);
 		}

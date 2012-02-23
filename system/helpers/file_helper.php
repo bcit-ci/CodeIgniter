@@ -142,7 +142,7 @@ if ( ! function_exists('delete_files'))
 
 		while (FALSE !== ($filename = @readdir($current_dir)))
 		{
-			if ($filename !== '.' and $filename !== '..')
+			if ($filename !== '.' && $filename !== '..')
 			{
 				if (is_dir($path.DIRECTORY_SEPARATOR.$filename) && $filename[0] !== '.')
 				{
@@ -156,7 +156,7 @@ if ( ! function_exists('delete_files'))
 		}
 		@closedir($current_dir);
 
-		if ($del_dir == TRUE AND $level > 0)
+		if ($del_dir == TRUE && $level > 0)
 		{
 			return @rmdir($path);
 		}

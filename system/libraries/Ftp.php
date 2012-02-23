@@ -190,7 +190,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE AND $supress_debug == FALSE)
+			if ($this->debug == TRUE && $supress_debug == FALSE)
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
@@ -431,7 +431,7 @@ class CI_FTP {
 
 		$list = $this->list_files($filepath);
 
-		if ($list !== FALSE AND count($list) > 0)
+		if ($list !== FALSE && count($list) > 0)
 		{
 			foreach ($list as $item)
 			{
@@ -532,7 +532,7 @@ class CI_FTP {
 		if ($fp = @opendir($locpath))
 		{
 			// Attempt to open the remote file path and try to create it, if it doesn't exist
-			if ( ! $this->changedir($rempath, TRUE) AND ( ! $this->mkdir($rempath) OR ! $this->changedir($rempath)))
+			if ( ! $this->changedir($rempath, TRUE) && ( ! $this->mkdir($rempath) OR ! $this->changedir($rempath)))
 			{
 				return FALSE;
 			}

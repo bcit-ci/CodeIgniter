@@ -328,7 +328,7 @@ class CI_Typography {
 	 */
 	protected function _format_newlines($str)
 	{
-		if ($str == '' OR (strpos($str, "\n") === FALSE AND ! in_array($this->last_block_element, $this->inner_block_required)))
+		if ($str == '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
 			return $str;
 		}

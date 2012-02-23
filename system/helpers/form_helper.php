@@ -73,12 +73,12 @@ if ( ! function_exists('form_open'))
 		$form = '<form action="'.$action.'"'._attributes_to_string($attributes, TRUE).">\n";
 
 		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
-		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
+		if ($CI->config->item('csrf_protection') === TRUE && ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
 
-		if (is_array($hidden) AND count($hidden) > 0)
+		if (is_array($hidden) && count($hidden) > 0)
 		{
 			$form .= sprintf("<div style=\"display:none\">%s</div>", form_hidden($hidden));
 		}
@@ -378,7 +378,7 @@ if ( ! function_exists('form_checkbox'))
 	{
 		$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		if (is_array($data) AND array_key_exists('checked', $data))
+		if (is_array($data) && array_key_exists('checked', $data))
 		{
 			$checked = $data['checked'];
 
@@ -487,7 +487,7 @@ if ( ! function_exists('form_button'))
 	function form_button($data = '', $content = '', $extra = '')
 	{
 		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
-		if ( is_array($data) AND isset($data['content']))
+		if ( is_array($data) && isset($data['content']))
 		{
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
@@ -520,7 +520,7 @@ if ( ! function_exists('form_label'))
 			$label .= " for=\"$id\"";
 		}
 
-		if (is_array($attributes) AND count($attributes) > 0)
+		if (is_array($attributes) && count($attributes) > 0)
 		{
 			foreach ($attributes as $key => $val)
 			{
@@ -698,7 +698,7 @@ if ( ! function_exists('set_select'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 AND $default == TRUE)
+				if (count($_POST) === 0 && $default == TRUE)
 				{
 					return ' selected="selected"';
 				}
@@ -753,7 +753,7 @@ if ( ! function_exists('set_checkbox'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 AND $default == TRUE)
+				if (count($_POST) === 0 && $default == TRUE)
 				{
 					return ' checked="checked"';
 				}
@@ -808,7 +808,7 @@ if ( ! function_exists('set_radio'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 AND $default == TRUE)
+				if (count($_POST) === 0 && $default == TRUE)
 				{
 					return ' checked="checked"';
 				}
@@ -957,14 +957,14 @@ if ( ! function_exists('_attributes_to_string'))
 {
 	function _attributes_to_string($attributes, $formtag = FALSE)
 	{
-		if (is_string($attributes) AND strlen($attributes) > 0)
+		if (is_string($attributes) && strlen($attributes) > 0)
 		{
-			if ($formtag == TRUE AND strpos($attributes, 'method=') === FALSE)
+			if ($formtag == TRUE && strpos($attributes, 'method=') === FALSE)
 			{
 				$attributes .= ' method="post"';
 			}
 
-			if ($formtag == TRUE AND strpos($attributes, 'accept-charset=') === FALSE)
+			if ($formtag == TRUE && strpos($attributes, 'accept-charset=') === FALSE)
 			{
 				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
@@ -972,21 +972,21 @@ if ( ! function_exists('_attributes_to_string'))
 			return ' '.$attributes;
 		}
 
-		if (is_object($attributes) AND count($attributes) > 0)
+		if (is_object($attributes) && count($attributes) > 0)
 		{
 			$attributes = (array)$attributes;
 		}
 
-		if (is_array($attributes) AND ($formtag === TRUE OR count($attributes) > 0))
+		if (is_array($attributes) && ($formtag === TRUE OR count($attributes) > 0))
 		{
 			$atts = '';
 
-			if ( ! isset($attributes['method']) AND $formtag === TRUE)
+			if ( ! isset($attributes['method']) && $formtag === TRUE)
 			{
 				$atts .= ' method="post"';
 			}
 
-			if ( ! isset($attributes['accept-charset']) AND $formtag === TRUE)
+			if ( ! isset($attributes['accept-charset']) && $formtag === TRUE)
 			{
 				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}

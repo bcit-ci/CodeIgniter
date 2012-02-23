@@ -101,7 +101,7 @@ if ( ! function_exists('create_captcha'))
 
 		while ($filename = @readdir($current_dir))
 		{
-			if ($filename != "." and $filename != ".." and $filename != "index.html")
+			if ($filename != "." && $filename != ".." && $filename != "index.html")
 			{
 				$name = str_replace(".jpg", "", $filename);
 
@@ -198,7 +198,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
+		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
 		{

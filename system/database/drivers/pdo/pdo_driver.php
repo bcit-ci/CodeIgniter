@@ -596,7 +596,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$sql = "SHOW TABLES FROM `".$this->database."`";
 		}
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
 			return FALSE; 
 		}

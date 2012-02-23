@@ -71,7 +71,7 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path == '' AND $this->_migration_path = APPPATH.'migrations/';
+		$this->_migration_path == '' && $this->_migration_path = APPPATH.'migrations/';
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -101,7 +101,7 @@ class CI_Migration {
 		}
 
 		// Do we auto migrate to the latest migration?
-		if ($this->_migration_auto_latest === TRUE AND ! $this->latest())
+		if ($this->_migration_auto_latest === TRUE && ! $this->latest())
 		{
 			show_error($this->error_string());
 		}
