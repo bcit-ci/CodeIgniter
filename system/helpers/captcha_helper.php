@@ -198,7 +198,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
+		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
 		{

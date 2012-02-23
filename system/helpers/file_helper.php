@@ -156,7 +156,7 @@ if ( ! function_exists('delete_files'))
 		}
 		@closedir($current_dir);
 
-		if ($del_dir == TRUE AND $level > 0)
+		if ($del_dir == TRUE && $level > 0)
 		{
 			return @rmdir($path);
 		}

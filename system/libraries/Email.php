@@ -103,7 +103,7 @@ class CI_Email {
 		}
 		else
 		{
-			$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;
+			$this->_smtp_auth = ($this->smtp_user == '' && $this->smtp_pass == '') ? FALSE : TRUE;
 			$this->_safe_mode = (bool) @ini_get("safe_mode");
 		}
 
@@ -139,7 +139,7 @@ class CI_Email {
 		}
 		$this->clear();
 
-		$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;
+		$this->_smtp_auth = ($this->smtp_user == '' && $this->smtp_pass == '') ? FALSE : TRUE;
 		$this->_safe_mode = (bool) @ini_get("safe_mode");
 
 		return $this;
@@ -574,7 +574,7 @@ class CI_Email {
 	 */
 	public function set_crlf($crlf = "\n")
 	{
-		$this->crlf = ($crlf !== "\n" AND $crlf !== "\r\n" AND $crlf !== "\r") ? "\n" : $crlf;
+		$this->crlf = ($crlf !== "\n" && $crlf !== "\r\n" && $crlf !== "\r") ? "\n" : $crlf;
 		return $this;
 	}
 
@@ -969,7 +969,7 @@ class CI_Email {
 	 */
 	protected function _build_message()
 	{
-		if ($this->wordwrap === TRUE AND $this->mailtype !== 'html')
+		if ($this->wordwrap === TRUE && $this->mailtype !== 'html')
 		{
 			$this->_body = $this->word_wrap($this->_body);
 		}
@@ -1295,8 +1295,8 @@ class CI_Email {
 			$this->reply_to($this->_headers['From']);
 		}
 
-		if (( ! isset($this->_recipients) AND ! isset($this->_headers['To']))  AND
-			( ! isset($this->_bcc_array) AND ! isset($this->_headers['Bcc'])) AND
+		if (( ! isset($this->_recipients) && ! isset($this->_headers['To']))  &&
+			( ! isset($this->_bcc_array) && ! isset($this->_headers['Bcc'])) &&
 			( ! isset($this->_headers['Cc'])))
 		{
 			$this->_set_error_message('lang:email_no_recipients');
@@ -1305,7 +1305,7 @@ class CI_Email {
 
 		$this->_build_headers();
 
-		if ($this->bcc_batch_mode AND count($this->_bcc_array) > $this->bcc_batch_size)
+		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
 			return $this->batch_bcc_send();
 		}
@@ -1680,7 +1680,7 @@ class CI_Email {
 			return TRUE;
 		}
 
-		if ($this->smtp_user == ""  AND  $this->smtp_pass == "")
+		if ($this->smtp_user == ""  &&  $this->smtp_pass == "")
 		{
 			$this->_set_error_message('lang:email_no_smtp_unpw');
 			return FALSE;
@@ -1791,13 +1791,13 @@ class CI_Email {
 			return $this->_IP;
 		}
 
-		$cip = (isset($_SERVER['HTTP_CLIENT_IP']) AND $_SERVER['HTTP_CLIENT_IP'] != "") ? $_SERVER['HTTP_CLIENT_IP'] : FALSE;
-		$rip = (isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] != "") ? $_SERVER['REMOTE_ADDR'] : FALSE;
+		$cip = (isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != "") ? $_SERVER['HTTP_CLIENT_IP'] : FALSE;
+		$rip = (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != "") ? $_SERVER['REMOTE_ADDR'] : FALSE;
 		if ($cip) $this->_IP = $cip;
 		elseif ($rip) $this->_IP = $rip;
 		else
 		{
-			$fip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) AND $_SERVER['HTTP_X_FORWARDED_FOR'] != "") ? $_SERVER['HTTP_X_FORWARDED_FOR'] : FALSE;
+			$fip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != "") ? $_SERVER['HTTP_X_FORWARDED_FOR'] : FALSE;
 			if ($fip)
 			{
 				$this->_IP = $fip;

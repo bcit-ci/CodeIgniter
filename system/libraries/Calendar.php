@@ -160,7 +160,7 @@ class CI_Calendar {
 		$cur_month	= date('m', $this->local_time);
 		$cur_day	= date('j', $this->local_time);
 
-		$is_current_month = ($cur_year == $year AND $cur_month == $month) ? TRUE : FALSE;
+		$is_current_month = ($cur_year == $year && $cur_month == $month) ? TRUE : FALSE;
 
 		// Generate the template data array
 		$this->parse_template();
@@ -213,21 +213,21 @@ class CI_Calendar {
 
 			for ($i = 0; $i < 7; $i++)
 			{
-				$out .= ($is_current_month === TRUE AND $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
+				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
 
-				if ($day > 0 AND $day <= $total_days)
+				if ($day > 0 && $day <= $total_days)
 				{
 					if (isset($data[$day]))
 					{
 						// Cells with content
-						$temp = ($is_current_month === TRUE AND $day == $cur_day) ?
+						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
 								$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
 					{
 						// Cells with no content
-						$temp = ($is_current_month === TRUE AND $day == $cur_day) ?
+						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
 								$this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
 						$out .= str_replace('{day}', $day, $temp);
 					}
@@ -238,7 +238,7 @@ class CI_Calendar {
 					$out .= $this->temp['cal_cell_blank'];
 				}
 
-				$out .= ($is_current_month === TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
+				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
 				$day++;
 			}
 
@@ -387,7 +387,7 @@ class CI_Calendar {
 		// Is the year a leap year?
 		if ($month == 2)
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
+			if ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0))
 			{
 				return 29;
 			}

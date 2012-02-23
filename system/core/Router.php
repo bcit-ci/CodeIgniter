@@ -111,7 +111,7 @@ class CI_Router {
 		// since URI segments are more search-engine friendly, but they can optionally be used.
 		// If this feature is enabled, we will gather the directory/class/method a little differently
 		$segments = array();
-		if ($this->config->item('enable_query_strings') === TRUE AND isset($_GET[$this->config->item('controller_trigger')]))
+		if ($this->config->item('enable_query_strings') === TRUE && isset($_GET[$this->config->item('controller_trigger')]))
 		{
 			if (isset($_GET[$this->config->item('directory_trigger')]))
 			{
@@ -133,7 +133,7 @@ class CI_Router {
 		}
 
 		// Load the routes.php file.
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
 		}
@@ -369,7 +369,7 @@ class CI_Router {
 			if (preg_match('#^'.$key.'$#', $uri))
 			{
 				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
@@ -483,7 +483,7 @@ class CI_Router {
 			$this->set_directory($routing['directory']);
 		}
 
-		if (isset($routing['controller']) AND $routing['controller'] != '')
+		if (isset($routing['controller']) && $routing['controller'] != '')
 		{
 			$this->set_class($routing['controller']);
 		}

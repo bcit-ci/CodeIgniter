@@ -285,7 +285,7 @@ class CI_DB_driver {
 		}
 
 		// Verify table prefix and replace if necessary
-		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
+		if ( ($this->dbprefix != '' && $this->swap_pre != '') && ($this->dbprefix != $this->swap_pre) )
 		{
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
@@ -293,7 +293,7 @@ class CI_DB_driver {
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on == TRUE AND stristr($sql, 'SELECT'))
+		if ($this->cache_on == TRUE && stristr($sql, 'SELECT'))
 		{
 			if ($this->_cache_init())
 			{
@@ -378,7 +378,7 @@ class CI_DB_driver {
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
-			if ($this->cache_on == TRUE AND $this->cache_autodel == TRUE AND $this->_cache_init())
+			if ($this->cache_on == TRUE && $this->cache_autodel == TRUE && $this->_cache_init())
 			{
 				$this->CACHE->delete();
 			}
@@ -414,7 +414,7 @@ class CI_DB_driver {
 
 		// Is query caching enabled?  If so, we'll serialize the
 		// result object and save it to a cache file.
-		if ($this->cache_on == TRUE AND $this->_cache_init())
+		if ($this->cache_on == TRUE && $this->_cache_init())
 		{
 			// We'll create a new instance of the result object
 			// only without the platform specific driver since
@@ -1151,7 +1151,7 @@ class CI_DB_driver {
 	 */
 	function _cache_init()
 	{
-		if (is_object($this->CACHE) AND class_exists('CI_DB_Cache'))
+		if (is_object($this->CACHE) && class_exists('CI_DB_Cache'))
 		{
 			return TRUE;
 		}
@@ -1411,13 +1411,13 @@ class CI_DB_driver {
 			}
 
 			// Do we prefix an item with no segments?
-			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
+			if ($prefix_single == TRUE && substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
 			{
 				$item = $this->dbprefix.$item;
 			}
 		}
 
-		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
+		if ($protect_identifiers === TRUE && ! in_array($item, $this->_reserved_identifiers))
 		{
 			$item = $this->_escape_identifiers($item);
 		}

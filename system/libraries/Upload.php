@@ -657,7 +657,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		if ($this->max_size != 0  AND  $this->file_size > $this->max_size)
+		if ($this->max_size != 0  &&  $this->file_size > $this->max_size)
 		{
 			return FALSE;
 		}
@@ -685,12 +685,12 @@ class CI_Upload {
 		{
 			$D = @getimagesize($this->file_temp);
 
-			if ($this->max_width > 0 AND $D['0'] > $this->max_width)
+			if ($this->max_width > 0 && $D['0'] > $this->max_width)
 			{
 				return FALSE;
 			}
 
-			if ($this->max_height > 0 AND $D['1'] > $this->max_height)
+			if ($this->max_height > 0 && $D['1'] > $this->max_height)
 			{
 				return FALSE;
 			}
@@ -719,7 +719,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('realpath') AND @realpath($this->upload_path) !== FALSE)
+		if (function_exists('realpath') && @realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace("\\", "/", realpath($this->upload_path));
 		}
@@ -954,7 +954,7 @@ class CI_Upload {
 
 		if (count($this->mimes) == 0)
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 			}

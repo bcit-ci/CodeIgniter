@@ -287,7 +287,7 @@ if ( ! function_exists('days_in_month'))
 
 		if ($month == 2)
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
+			if ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0))
 			{
 				return 29;
 			}
@@ -492,12 +492,12 @@ if ( ! function_exists('human_to_unix'))
 		{
 			$ampm = strtolower($split['2']);
 
-			if (substr($ampm, 0, 1) == 'p' AND $hour < 12)
+			if (substr($ampm, 0, 1) == 'p' && $hour < 12)
 			{
 				$hour = $hour + 12;
 			}
 
-			if (substr($ampm, 0, 1) == 'a' AND $hour == 12)
+			if (substr($ampm, 0, 1) == 'a' && $hour == 12)
 			{
 				$hour =  '00';
 			}

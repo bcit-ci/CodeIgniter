@@ -110,7 +110,7 @@ class CI_Cart {
 		{
 			foreach ($items as $val)
 			{
-				if (is_array($val) AND isset($val['id']))
+				if (is_array($val) && isset($val['id']))
 				{
 					if ($this->_insert($val))
 					{
@@ -213,7 +213,7 @@ class CI_Cart {
 		// Internally, we need to treat identical submissions, but with different options, as a unique product.
 		// Our solution is to convert the options array to a string and MD5 it along with the product ID.
 		// This becomes the unique "row ID"
-		if (isset($items['options']) AND count($items['options']) > 0)
+		if (isset($items['options']) && count($items['options']) > 0)
 		{
 			$rowid = md5($items['id'].implode('', $items['options']));
 		}

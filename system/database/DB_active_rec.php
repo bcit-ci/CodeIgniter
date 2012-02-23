@@ -420,7 +420,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -717,7 +717,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		$type = $this->_group_get_type($type);
 		$this->ar_where_group_started = TRUE;
-		$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+		$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 		$this->ar_where[] = $value = $prefix.$not.str_repeat(' ', ++$this->ar_where_group_count).' (';
 
 		if ($this->ar_caching)
@@ -2116,7 +2116,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE AND count($this->ar_cache_from) > 0)
+		if ($this->_protect_identifiers === TRUE && count($this->ar_cache_from) > 0)
 		{
 			$this->_track_aliases($this->ar_from);
 		}
