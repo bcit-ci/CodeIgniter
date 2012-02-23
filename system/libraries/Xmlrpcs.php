@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -31,17 +43,16 @@ if ( ! class_exists('CI_Xmlrpc'))
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	XML-RPC
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpcs extends CI_Xmlrpc
 {
-	var $methods		= array();	//array of methods mapped to function names and signatures
-	var $debug_msg		= '';		// Debug Message
-	var $system_methods = array();	// XML RPC Server methods
-	var $controller_obj;
-
-	var $object			= FALSE;
+	public $methods		= array();	//array of methods mapped to function names and signatures
+	public $debug_msg	= '';		// Debug Message
+	public $system_methods	= array();	// XML RPC Server methods
+	public $controller_obj;
+	public $object		= FALSE;
 
 	/**
 	 * Constructor
@@ -68,7 +79,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	void
 	 */
-	function initialize($config=array())
+	public function initialize($config = array())
 	{
 		if (isset($config['functions']) && is_array($config['functions']))
 		{
@@ -99,26 +110,26 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @access	public
 	 * @return	void
 	 */
-	function set_system_methods()
+	public function set_system_methods()
 	{
 		$this->methods = array(
 					'system.listMethods'	 => array(
-													'function' => 'this.listMethods',
-													'signature' => array(array($this->xmlrpcArray, $this->xmlrpcString), array($this->xmlrpcArray)),
-													'docstring' => 'Returns an array of available methods on this server'),
-					'system.methodHelp'		 => array(
-													'function' => 'this.methodHelp',
-													'signature' => array(array($this->xmlrpcString, $this->xmlrpcString)),
-													'docstring' => 'Returns a documentation string for the specified method'),
+										'function' => 'this.listMethods',
+										'signature' => array(array($this->xmlrpcArray, $this->xmlrpcString), array($this->xmlrpcArray)),
+										'docstring' => 'Returns an array of available methods on this server'),
+					'system.methodHelp'	 => array(
+										'function' => 'this.methodHelp',
+										'signature' => array(array($this->xmlrpcString, $this->xmlrpcString)),
+										'docstring' => 'Returns a documentation string for the specified method'),
 					'system.methodSignature' => array(
-													'function' => 'this.methodSignature',
-													'signature' => array(array($this->xmlrpcArray, $this->xmlrpcString)),
-													'docstring' => 'Returns an array describing the return type and required parameters of a method'),
-					'system.multicall'		 => array(
-												'function' => 'this.multicall',
-												'signature' => array(array($this->xmlrpcArray, $this->xmlrpcArray)),
-												'docstring' => 'Combine multiple RPC calls in one request. See http://www.xmlrpc.com/discuss/msgReader$1208 for details')
-					);
+										'function' => 'this.methodSignature',
+										'signature' => array(array($this->xmlrpcArray, $this->xmlrpcString)),
+										'docstring' => 'Returns an array describing the return type and required parameters of a method'),
+					'system.multicall'	 => array(
+										'function' => 'this.multicall',
+										'signature' => array(array($this->xmlrpcArray, $this->xmlrpcArray)),
+										'docstring' => 'Combine multiple RPC calls in one request. See http://www.xmlrpc.com/discuss/msgReader$1208 for details')
+				);
 	}
 
 	// --------------------------------------------------------------------
@@ -129,12 +140,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @access	public
 	 * @return	void
 	 */
-	function serve()
+	public function serve()
 	{
 		$r = $this->parseRequest();
-		$payload  = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?'.'>'."\n";
-		$payload .= $this->debug_msg;
-		$payload .= $r->prepare_response();
+		$payload = '<?xml version="1.0" encoding="'.$this->xmlrpc_defencoding.'"?'.'>'."\n".$this->debug_msg.$r->prepare_response();
 
 		header("Content-Type: text/xml");
 		header("Content-Length: ".strlen($payload));
@@ -153,7 +162,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	string	docstring
 	 * @return	void
 	 */
-	function add_to_map($methodname, $function, $sig, $doc)
+	public function add_to_map($methodname, $function, $sig, $doc)
 	{
 		$this->methods[$methodname] = array(
 			'function'  => $function,
@@ -171,7 +180,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	string	data
 	 * @return	object	xmlrpc response
 	 */
-	function parseRequest($data='')
+	public function parseRequest($data = '')
 	{
 		global $HTTP_RAW_POST_DATA;
 
@@ -191,13 +200,14 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
 		$parser_object = new XML_RPC_Message("filler");
 
-		$parser_object->xh[$parser]					= array();
-		$parser_object->xh[$parser]['isf']			= 0;
-		$parser_object->xh[$parser]['isf_reason']	= '';
-		$parser_object->xh[$parser]['params']		= array();
-		$parser_object->xh[$parser]['stack']		= array();
-		$parser_object->xh[$parser]['valuestack']	= array();
-		$parser_object->xh[$parser]['method']		= '';
+		$parser_object->xh[$parser] = array(
+							'isf' =>	0,
+							'isf_reason' =>	'',
+							'params' =>	array(),
+							'stack' =>	array(),
+							'valuestack' =>	array(),
+							'method' =>	''
+						);
 
 		xml_set_object($parser, $parser_object);
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, true);
@@ -231,7 +241,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			$m = new XML_RPC_Message($parser_object->xh[$parser]['method']);
 			$plist='';
 
-			for ($i=0; $i < count($parser_object->xh[$parser]['params']); $i++)
+			for ($i = 0, $c = count($parser_object->xh[$parser]['params']); $i < $c; $i++)
 			{
 				if ($this->debug === TRUE)
 				{
@@ -243,9 +253,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 			if ($this->debug === TRUE)
 			{
-				echo "<pre>";
-				echo "---PLIST---\n" . $plist . "\n---PLIST END---\n\n";
-				echo "</pre>";
+				echo "<pre>---PLIST---\n".$plist."\n---PLIST END---\n\n</pre>";
 			}
 
 			$r = $this->_execute($m);
@@ -272,12 +280,12 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	object
 	 * @return	mixed
 	 */
-	function _execute($m)
+	protected function _execute($m)
 	{
 		$methName = $m->method_name;
 
 		// Check to see if it is a system call
-		$system_call = (strncmp($methName, 'system', 5) == 0) ? TRUE : FALSE;
+		$system_call = (strncmp($methName, 'system', 5) === 0);
 
 		if ($this->xss_clean == FALSE)
 		{
@@ -298,22 +306,20 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//-------------------------------------
 
 		$method_parts = explode(".", $this->methods[$methName]['function']);
-		$objectCall = (isset($method_parts['1']) && $method_parts['1'] != "") ? TRUE : FALSE;
+		$objectCall = (isset($method_parts[1]) && $method_parts[1] != '');
 
 		if ($system_call === TRUE)
 		{
-			if ( ! is_callable(array($this,$method_parts['1'])))
+			if ( ! is_callable(array($this,$method_parts[1])))
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
 		}
 		else
 		{
-			if ($objectCall && ! is_callable(array($method_parts['0'],$method_parts['1'])))
-			{
-				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
-			}
-			elseif ( ! $objectCall && ! is_callable($this->methods[$methName]['function']))
+			if (($objectCall AND ! is_callable(array($method_parts[0], $method_parts[1])))
+				OR ( ! $objectCall AND ! is_callable($this->methods[$methName]['function']))
+			)
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
@@ -326,13 +332,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		if (isset($this->methods[$methName]['signature']))
 		{
 			$sig = $this->methods[$methName]['signature'];
-			for ($i=0; $i<count($sig); $i++)
+			for ($i = 0, $c = count($sig); $i < $c; $i++)
 			{
 				$current_sig = $sig[$i];
 
-				if (count($current_sig) == count($m->params)+1)
+				if (count($current_sig) === count($m->params)+1)
 				{
-					for ($n=0; $n < count($m->params); $n++)
+					for ($n = 0, $mc = count($m->params); $n < $mc; $n++)
 					{
 						$p = $m->params[$n];
 						$pt = ($p->kindOf() == 'scalar') ? $p->scalarval() : $p->kindOf();
@@ -358,7 +364,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 		if ($objectCall === TRUE)
 		{
-			if ($method_parts[0] == "this" && $system_call == TRUE)
+			if ($method_parts[0] === 'this' && $system_call === TRUE)
 			{
 				return call_user_func(array($this, $method_parts[1]), $m);
 			}
@@ -367,11 +373,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 				if ($this->object === FALSE)
 				{
 					$CI =& get_instance();
-					return $CI->$method_parts['1']($m);
+					return $CI->$method_parts[1]($m);
 				}
 				else
 				{
-					return $this->object->$method_parts['1']($m);
+					return $this->object->$method_parts[1]($m);
 					//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);
 				}
 			}
@@ -381,7 +387,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return call_user_func($this->methods[$methName]['function'], $m);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -391,7 +397,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function listMethods($m)
+	public function listMethods($m)
 	{
 		$v = new XML_RPC_Values();
 		$output = array();
@@ -409,7 +415,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$v->addArray($output);
 		return new XML_RPC_Response($v);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -419,7 +425,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function methodSignature($m)
+	public function methodSignature($m)
 	{
 		$parameters = $m->output_parameters();
 		$method_name = $parameters[0];
@@ -431,15 +437,15 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 				$sigs = array();
 				$signature = $this->methods[$method_name]['signature'];
 
-				for ($i=0; $i < count($signature); $i++)
+				for ($i = 0, $c = count($signature); $i < $c; $i++)
 				{
 					$cursig = array();
 					$inSig = $signature[$i];
-					for ($j=0; $j<count($inSig); $j++)
+					for ($j = 0, $jc = count($inSig); $j < $jc; $j++)
 					{
 						$cursig[]= new XML_RPC_Values($inSig[$j], 'string');
 					}
-					$sigs[]= new XML_RPC_Values($cursig, 'array');
+					$sigs[] = new XML_RPC_Values($cursig, 'array');
 				}
 				$r = new XML_RPC_Response(new XML_RPC_Values($sigs, 'array'));
 			}
@@ -464,7 +470,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function methodHelp($m)
+	public function methodHelp($m)
 	{
 		$parameters = $m->output_parameters();
 		$method_name = $parameters[0];
@@ -480,7 +486,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return new XML_RPC_Response(0, $this->xmlrpcerr['introspect_unknown'], $this->xmlrpcstr['introspect_unknown']);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -490,7 +496,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function multicall($m)
+	public function multicall($m)
 	{
 		// Disabled
 		return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
@@ -507,7 +513,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			$m = new XML_RPC_Message($value[0]);
 			$plist='';
 
-			for ($i=0; $i < count($value[1]); $i++)
+			for ($i = 0, $c = count($value[1]); $i < $c; $i++)
 			{
 				$m->addParam(new XML_RPC_Values($value[1][$i], 'string'));
 			}
@@ -534,7 +540,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function multicall_error($err)
+	public function multicall_error($err)
 	{
 		$str  = is_string($err) ? $this->xmlrpcstr["multicall_${err}"] : $err->faultString();
 		$code = is_string($err) ? $this->xmlrpcerr["multicall_${err}"] : $err->faultCode();
@@ -554,7 +560,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @param	mixed
 	 * @return	object
 	 */
-	function do_multicall($call)
+	public function do_multicall($call)
 	{
 		if ($call->kindOf() != 'struct')
 		{
@@ -585,11 +591,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return $this->multicall_error('notarray');
 		}
 
-		list($a,$b)=each($params->me);
-		$numParams = count($b);
+		list($a,$b) = each($params->me);
 
 		$msg = new XML_RPC_Message($scalar_value);
-		for ($i = 0; $i < $numParams; $i++)
+		for ($i = 0, $numParams = count($b); $i < $numParams; $i++)
 		{
 			$msg->params[] = $params->me['array'][$i];
 		}
@@ -606,7 +611,6 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 }
 // END XML_RPC_Server class
-
 
 /* End of file Xmlrpcs.php */
 /* Location: ./system/libraries/Xmlrpcs.php */

@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Uploads
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/file_uploading.html
  */
 class CI_Upload {
@@ -922,13 +934,7 @@ class CI_Upload {
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')
 	{
-		$str = '';
-		foreach ($this->error_msg as $val)
-		{
-			$str .= $open.$val.$close;
-		}
-
-		return $str;
+		return (count($this->error_msg) > 0) ? $open . implode($close . $open, $this->error_msg) . $close : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -1021,7 +1027,7 @@ class CI_Upload {
 	protected function _file_mime_type($file)
 	{
 		// Use if the Fileinfo extension, if available (only versions above 5.3 support the FILEINFO_MIME_TYPE flag)
-		if (is_php('5.3') && function_exists('finfo_file'))
+		if ( (float) substr(phpversion(), 0, 3) >= 5.3 && function_exists('finfo_file'))
 		{
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			if ($finfo !== FALSE) // This is possible, if there is no magic MIME database file found on the system

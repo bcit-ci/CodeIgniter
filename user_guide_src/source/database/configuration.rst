@@ -28,6 +28,52 @@ prototype::
 	$db['default']['autoinit'] = TRUE;
 	$db['default']['stricton'] = FALSE;
 
+If you use PDO as your dbdriver, you can specify the full DSN string describe a connection to the database like this::
+
+	$db['default']['dsn'] = 'pgsql:host=localhost;port=5432;dbname=database_name';
+
+You can also specify failovers for the situation when the main connection cannot connect for some reason.
+These failovers can be specified by setting the failover for a connection like this::
+
+	$db['default']['failover'] = array(
+			array(
+				'hostname' => 'localhost1',
+				'username' => '',
+				'password' => '',
+				'database' => '',
+				'dbdriver' => 'mysql',
+				'dbprefix' => '',
+				'pconnect' => TRUE,
+				'db_debug' => TRUE,
+				'cache_on' => FALSE,
+				'cachedir' => '',
+				'char_set' => 'utf8',
+				'dbcollat' => 'utf8_general_ci',
+				'swap_pre' => '',
+				'autoinit' => TRUE,
+				'stricton' => FALSE
+			),
+			array(
+				'hostname' => 'localhost2',
+				'username' => '',
+				'password' => '',
+				'database' => '',
+				'dbdriver' => 'mysql',
+				'dbprefix' => '',
+				'pconnect' => TRUE,
+				'db_debug' => TRUE,
+				'cache_on' => FALSE,
+				'cachedir' => '',
+				'char_set' => 'utf8',
+				'dbcollat' => 'utf8_general_ci',
+				'swap_pre' => '',
+				'autoinit' => TRUE,
+				'stricton' => FALSE
+			)
+		);
+
+You can specify as many failovers as you like.
+
 The reason we use a multi-dimensional array rather than a more simple
 one is to permit you to optionally store multiple sets of connection
 values. If, for example, you run multiple environments (development,
@@ -116,6 +162,7 @@ Explanation of Values:
 			while developing an application.
 **port**		The database port number. To use this value you have to add a line to the database config array.
 			::
+			
 				$db['default']['port'] =  5432;
 ======================  ==================================================================================================
 

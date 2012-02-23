@@ -1,6 +1,7 @@
-########################
-General Style and Syntax
-########################
+###############
+PHP Style Guide
+###############
+
 
 The following page describes the use of coding rules adhered to when
 developing CodeIgniter.
@@ -440,6 +441,13 @@ same level as the control statement that "owns" them.
 			// ...
 			}
 		}
+		
+	try {
+		// ...
+	}
+	catch() {
+		// ...
+	}
 
 **CORRECT**::
 
@@ -468,6 +476,15 @@ same level as the control statement that "owns" them.
 		{
 			// ...
 		}
+	}
+	
+	try 
+	{
+		// ...
+	}
+	catch()
+	{
+		// ...
 	}
 
 Bracket and Parenthetic Spacing

@@ -84,7 +84,7 @@
 
 		<div id="brand" class="{{ project_abbreviation }}">
 			<a href="http://{{ project_domain }}/"><img src="{{ pathto('_static/asset/img/' + project_abbreviation + '-logo.gif', 1) }}" alt="{{ project }}"></a>
-			<p>{{ version }} User Guide</p>
+			<p>{{ release }} User Guide</p>
 			{%- if show_source and has_source and sourcename %}
 		    <p><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
 			           rel="nofollow">{{ _('Show Source') }}</a></p>
@@ -124,7 +124,15 @@
 	
 	{%- block footer %}			
 		<div id="footer">
-			<p class="top"><a href="#header" title="Return to top">Return to top</a></p>
+			<p class="top">
+				{% if prev %}
+				<span class="prev">Previous Topic: <a href="{{ prev.link }}">{{ prev.title }}</a></span>
+				{% endif %}
+				{% if next %}
+				<span class="next">Next Topic: <a href="{{ next.link }}">{{ next.title }}</a></span>
+				{% endif %}
+				<a href="#header" title="Return to top">Return to top</a>
+			</p>
 			<p><a href="{{ project_url }}">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a> &ndash; Last updated: {{ last_updated }}</p>
 		</div><!-- /#footer -->
 	{%- endblock %}

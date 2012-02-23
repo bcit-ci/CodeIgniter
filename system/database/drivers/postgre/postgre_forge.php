@@ -4,10 +4,22 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Open Software License version 3.0
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -19,7 +31,7 @@
  * Postgre Forge Class
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_postgre_forge extends CI_DB_forge {
@@ -51,31 +63,16 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	}
 
 	// --------------------------------------------------------------------
-
+	
 	/**
-	 * Create Table
+	 * Process Fields
 	 *
-	 * @access	private
-	 * @param	string	the table name
-	 * @param	array	the fields
-	 * @param	mixed	primary key(s)
-	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @param	mixed	the fields
+	 * @return	string
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	function _process_fields($fields, $primary_keys=array())
 	{
-		$sql = 'CREATE TABLE ';
-
-		if ($if_not_exists === TRUE)
-		{
-			if ($this->db->table_exists($table))
-			{
-				return "SELECT * FROM $table"; // Needs to return innocous but valid SQL statement
-			}
-		}
-
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql = '';
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -171,6 +168,38 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$sql .= ',';
 			}
 		}
+		
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create Table
+	 *
+	 * @access	private
+	 * @param	string	the table name
+	 * @param	array	the fields
+	 * @param	mixed	primary key(s)
+	 * @param	mixed	key(s)
+	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @return	bool
+	 */
+	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	{
+		$sql = 'CREATE TABLE ';
+
+		if ($if_not_exists === TRUE)
+		{
+			// PostgreSQL doesn't support IF NOT EXISTS syntax so we check if table exists manually
+			if ($this->db->table_exists($table))
+			{
+				return TRUE;
+			}
+		}
+
+		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
 		{
@@ -212,9 +241,6 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 	/**
 	 * Drop Table
-	 *
-	 * @access    private
-	 * @return    bool
 	 */
 	function _drop_table($table)
 	{
@@ -239,40 +265,25 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
-	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
-	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
+ 	function _alter_table($alter_type, $table, $fields, $after_field = '')
+ 	{
+ 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ";
 
-		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
-		{
-			return $sql;
-		}
+ 		// DROP has everything it needs now.
+ 		if ($alter_type == 'DROP')
+ 		{
+ 			return $sql.$this->db->_protect_identifiers($fields);
+ 		}
 
-		$sql .= " $column_definition";
+ 		$sql .= $this->_process_fields($fields);
 
-		if ($default_value != '')
-		{
-			$sql .= " DEFAULT \"$default_value\"";
-		}
+ 		if ($after_field != '')
+ 		{
+ 			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+ 		}
 
-		if ($null === NULL)
-		{
-			$sql .= ' NULL';
-		}
-		else
-		{
-			$sql .= ' NOT NULL';
-		}
-
-		if ($after_field != '')
-		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
-		}
-
-		return $sql;
-
-	}
+ 		return $sql;
+ 	}
 
 	// --------------------------------------------------------------------
 
@@ -291,8 +302,6 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
-
-
 }
 
 /* End of file postgre_forge.php */

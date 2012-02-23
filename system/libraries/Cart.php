@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2006 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -21,18 +33,19 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Shopping Cart
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/cart.html
  */
 class CI_Cart {
 
 	// These are the regular expression rules that we use to validate the product ID and product name
-	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
-	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
+	public $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
+	public $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
+	public $product_name_safe  = true; // only allow safe product names
 
 	// Private variables.  Do not change!
-	var $CI;
-	var $_cart_contents	= array();
+	private $CI;
+	private $_cart_contents	= array();
 
 
 	/**
@@ -46,28 +59,17 @@ class CI_Cart {
 		$this->CI =& get_instance();
 
 		// Are any config settings being passed manually?  If so, set them
-		$config = array();
-		if (count($params) > 0)
-		{
-			foreach ($params as $key => $val)
-			{
-				$config[$key] = $val;
-			}
-		}
+		$config = is_array($params) ? $params : array();
 
 		// Load the Sessions class
 		$this->CI->load->library('session', $config);
 
-		// Grab the shopping cart array from the session table, if it exists
-		if ($this->CI->session->userdata('cart_contents') !== FALSE)
-		{
-			$this->_cart_contents = $this->CI->session->userdata('cart_contents');
-		}
-		else
+		// Grab the shopping cart array from the session table
+		$this->_cart_contents = $this->CI->session->userdata('cart_contents');
+		if ($this->_cart_contents === FALSE)
 		{
 			// No cart exists so we'll set some base values
-			$this->_cart_contents['cart_total'] = 0;
-			$this->_cart_contents['total_items'] = 0;
+			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
 		}
 
 		log_message('debug', "Cart Class Initialized");
@@ -82,10 +84,10 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	function insert($items = array())
+	public function insert($items = array())
 	{
 		// Was any cart data passed? No? Bah...
-		if ( ! is_array($items) OR count($items) == 0)
+		if ( ! is_array($items) OR count($items) === 0)
 		{
 			log_message('error', 'The insert method must be passed an array containing data.');
 			return FALSE;
@@ -119,7 +121,7 @@ class CI_Cart {
 		}
 
 		// Save the cart data if the insert was successful
-		if ($save_cart == TRUE)
+		if ($save_cart === TRUE)
 		{
 			$this->_save_cart();
 			return isset($rowid) ? $rowid : TRUE;
@@ -137,10 +139,10 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	function _insert($items = array())
+	private function _insert($items = array())
 	{
 		// Was any cart data passed? No? Bah...
-		if ( ! is_array($items) OR count($items) == 0)
+		if ( ! is_array($items) OR count($items) === 0)
 		{
 			log_message('error', 'The insert method must be passed an array containing data.');
 			return FALSE;
@@ -157,10 +159,8 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the quantity. It can only be a number.  Duh...
-		$items['qty'] = trim(preg_replace('/([^0-9])/i', '', $items['qty']));
-		// Trim any leading zeros
-		$items['qty'] = trim(preg_replace('/(^[0]+)/i', '', $items['qty']));
+		// Prep the quantity. It can only be a number.  Duh... also trim any leading zeros
+		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
 		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
@@ -173,7 +173,7 @@ class CI_Cart {
 		// Validate the product ID. It can only be alpha-numeric, dashes, underscores or periods
 		// Not totally sure we should impose this rule, but it seems prudent to standardize IDs.
 		// Note: These can be user-specified by setting the $this->product_id_rules variable.
-		if ( ! preg_match("/^[".$this->product_id_rules."]+$/i", $items['id']))
+		if ( ! preg_match('/^['.$this->product_id_rules.']+$/i', $items['id']))
 		{
 			log_message('error', 'Invalid product ID.  The product ID can only contain alpha-numeric characters, dashes, and underscores');
 			return FALSE;
@@ -183,7 +183,7 @@ class CI_Cart {
 
 		// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
 		// Note: These can be user-specified by setting the $this->product_name_rules variable.
-		if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
+		if ($this->product_name_safe && ! preg_match('/^['.$this->product_name_rules.']+$/i', $items['name']))
 		{
 			log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
 			return FALSE;
@@ -191,10 +191,8 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the price.  Remove anything that isn't a number or decimal point.
-		$items['price'] = trim(preg_replace('/([^0-9\.])/i', '', $items['price']));
-		// Trim any leading zeros
-		$items['price'] = trim(preg_replace('/(^[0]+)/i', '', $items['price']));
+		// Prep the price. Remove leading zeros and anything that isn't a number or decimal point.
+		$items['price'] = (float) $items['price'];
 
 		// Is the price a valid number?
 		if ( ! is_numeric($items['price']))
@@ -230,20 +228,14 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
+		// grab quantity if it's already there and add it on
+		$old_quantity = isset($this->_cart_contents[$rowid]['qty']) ? (int) $this->_cart_contents[$rowid]['qty'] : 0;
 
-		// let's unset this first, just to make sure our index contains only the data from this submission
-		unset($this->_cart_contents[$rowid]);
+		// Re-create the entry, just to make sure our index contains only the data from this submission
+		$items['rowid'] = $rowid;
+		$items['qty'] += $old_quantity;
+		$this->_cart_contents[$rowid] = $items;
 
-		// Create a new index with our new row ID
-		$this->_cart_contents[$rowid]['rowid'] = $rowid;
-
-		// And add the new items to the cart array
-		foreach ($items as $key => $val)
-		{
-			$this->_cart_contents[$rowid][$key] = $val;
-		}
-
-		// Woot!
 		return $rowid;
 	}
 
@@ -262,10 +254,10 @@ class CI_Cart {
 	 * @param	string
 	 * @return	bool
 	 */
-	function update($items = array())
+	public function update($items = array())
 	{
 		// Was any cart data passed?
-		if ( ! is_array($items) OR count($items) == 0)
+		if ( ! is_array($items) OR count($items) === 0)
 		{
 			return FALSE;
 		}
@@ -275,9 +267,9 @@ class CI_Cart {
 		// determine the array type is by looking for a required array key named "id".
 		// If it's not found we assume it's a multi-dimensional array
 		$save_cart = FALSE;
-		if (isset($items['rowid']) AND isset($items['qty']))
+		if (isset($items['rowid'], $items['qty']))
 		{
-			if ($this->_update($items) == TRUE)
+			if ($this->_update($items) === TRUE)
 			{
 				$save_cart = TRUE;
 			}
@@ -286,9 +278,9 @@ class CI_Cart {
 		{
 			foreach ($items as $val)
 			{
-				if (is_array($val) AND isset($val['rowid']) AND isset($val['qty']))
+				if (is_array($val) && isset($val['rowid'], $val['qty']))
 				{
-					if ($this->_update($val) == TRUE)
+					if ($this->_update($val) === TRUE)
 					{
 						$save_cart = TRUE;
 					}
@@ -297,7 +289,7 @@ class CI_Cart {
 		}
 
 		// Save the cart data if the insert was successful
-		if ($save_cart == TRUE)
+		if ($save_cart === TRUE)
 		{
 			$this->_save_cart();
 			return TRUE;
@@ -320,7 +312,7 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	function _update($items = array())
+	private function _update($items = array())
 	{
 		// Without these array indexes there is nothing we can do
 		if ( ! isset($items['qty']) OR ! isset($items['rowid']) OR ! isset($this->_cart_contents[$items['rowid']]))
@@ -329,17 +321,10 @@ class CI_Cart {
 		}
 
 		// Prep the quantity
-		$items['qty'] = preg_replace('/([^0-9])/i', '', $items['qty']);
+		$items['qty'] = (float) $items['qty'];
 
 		// Is the quantity a number?
 		if ( ! is_numeric($items['qty']))
-		{
-			return FALSE;
-		}
-
-		// Is the new quantity different than what is already saved in the cart?
-		// If it's the same there's nothing to do
-		if ($this->_cart_contents[$items['rowid']]['qty'] == $items['qty'])
 		{
 			return FALSE;
 		}
@@ -366,15 +351,10 @@ class CI_Cart {
 	 * @access	private
 	 * @return	bool
 	 */
-	function _save_cart()
+	private function _save_cart()
 	{
-		// Unset these so our total can be calculated correctly below
-		unset($this->_cart_contents['total_items']);
-		unset($this->_cart_contents['cart_total']);
-
 		// Lets add up the individual prices and set the cart sub-total
-		$total = 0;
-		$items = 0;
+		$this->_cart_contents['total_items'] = $this->_cart_contents['cart_total'] = 0;
 		foreach ($this->_cart_contents as $key => $val)
 		{
 			// We make sure the array contains the proper indexes
@@ -383,16 +363,10 @@ class CI_Cart {
 				continue;
 			}
 
-			$total += ($val['price'] * $val['qty']);
-			$items += $val['qty'];
-
-			// Set the subtotal
+			$this->_cart_contents['cart_total'] += ($val['price'] * $val['qty']);
+			$this->_cart_contents['total_items'] += $val['qty'];
 			$this->_cart_contents[$key]['subtotal'] = ($this->_cart_contents[$key]['price'] * $this->_cart_contents[$key]['qty']);
 		}
-
-		// Set the cart total and total items.
-		$this->_cart_contents['total_items'] = $items;
-		$this->_cart_contents['cart_total'] = $total;
 
 		// Is our cart empty?  If so we delete it from the session
 		if (count($this->_cart_contents) <= 2)
@@ -419,10 +393,28 @@ class CI_Cart {
 	 * @access	public
 	 * @return	integer
 	 */
-	function total()
+	public function total()
 	{
 		return $this->_cart_contents['cart_total'];
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Remove Item
+	 *
+	 * Removes an item from the cart
+	 *
+	 * @access	public
+	 * @return	boolean
+	 */
+	 public function remove($rowid)
+	 {
+		// unset & save
+		unset($this->_cart_contents[$rowid]);
+		$this->_save_cart();
+		return TRUE;
+	 }
 
 	// --------------------------------------------------------------------
 
@@ -434,7 +426,7 @@ class CI_Cart {
 	 * @access	public
 	 * @return	integer
 	 */
-	function total_items()
+	public function total_items()
 	{
 		return $this->_cart_contents['total_items'];
 	}
@@ -449,9 +441,10 @@ class CI_Cart {
 	 * @access	public
 	 * @return	array
 	 */
-	function contents()
+	public function contents($newest_first = FALSE)
 	{
-		$cart = $this->_cart_contents;
+		// do we want the newest first?
+		$cart = ($newest_first) ? array_reverse($this->_cart_contents) : $this->_cart_contents;
 
 		// Remove these so they don't create a problem when showing the cart table
 		unset($cart['total_items']);
@@ -469,16 +462,11 @@ class CI_Cart {
 	 * that has options associated with it.
 	 *
 	 * @access	public
-	 * @return	array
+	 * @return	bool
 	 */
-	function has_options($rowid = '')
+	public function has_options($rowid = '')
 	{
-		if ( ! isset($this->_cart_contents[$rowid]['options']) OR count($this->_cart_contents[$rowid]['options']) === 0)
-		{
-			return FALSE;
-		}
-
-		return TRUE;
+		return (isset($this->_cart_contents[$rowid]['options']) && count($this->_cart_contents[$rowid]['options']) !== 0) ? TRUE : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -491,14 +479,9 @@ class CI_Cart {
 	 * @access	public
 	 * @return	array
 	 */
-	function product_options($rowid = '')
+	public function product_options($rowid = '')
 	{
-		if ( ! isset($this->_cart_contents[$rowid]['options']))
-		{
-			return array();
-		}
-
-		return $this->_cart_contents[$rowid]['options'];
+		return isset($this->_cart_contents[$rowid]['options']) ? $this->_cart_contents[$rowid]['options'] : array();
 	}
 
 	// --------------------------------------------------------------------
@@ -509,9 +492,9 @@ class CI_Cart {
 	 * Returns the supplied number with commas and a decimal point.
 	 *
 	 * @access	public
-	 * @return	integer
+	 * @return	string
 	 */
-	function format_number($n = '')
+	public function format_number($n = '')
 	{
 		if ($n == '')
 		{
@@ -519,7 +502,7 @@ class CI_Cart {
 		}
 
 		// Remove anything that isn't a number or decimal point.
-		$n = trim(preg_replace('/([^0-9\.])/i', '', $n));
+		$n = (float) $n;
 
 		return number_format($n, 2, '.', ',');
 	}
@@ -532,15 +515,11 @@ class CI_Cart {
 	 * Empties the cart and kills the session
 	 *
 	 * @access	public
-	 * @return	null
+	 * @return	void
 	 */
-	function destroy()
+	public function destroy()
 	{
-		unset($this->_cart_contents);
-
-		$this->_cart_contents['cart_total'] = 0;
-		$this->_cart_contents['total_items'] = 0;
-
+		$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
 		$this->CI->session->unset_userdata('cart_contents');
 	}
 

@@ -2,25 +2,124 @@
 Change Log
 ##########
 
-Version 2.1.0 (planned)
+Version 3.0 (planned)
 =======================
+
+Release Date: Not Released
+
+-  License
+
+   -  CodeIgniter has been relicensed with the Open Software License (3.0),
+      eliminating its old proprietary licensing.
+
+      -  All system files are licensed with OSL 3.0.
+      -  Config, error, and sample files shipped in the application folder are
+         licensed with the Academic Free License (3.0) to allow you to retain
+         all licensing authority over your own application code.
+
+-  General Changes
+
+   -  Added an optional backtrace to php-error template.
+   -  Added Android to the list of user agents.
+   -  Added Windows 7 to the list of user platforms.
+   -  Ability to log certain error types, not all under a threshold.
+   -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
+   -  Added support for pgp and gpg to mimes.php.
+   -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
+   -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
+   -  Changed logger to only chmod when file is first created.
+   -  Removed previously deprecated SHA1 Library.
+   -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
+      Only entries in ``$autoload['libraries']`` are auto-loaded now.
+
+-  Helpers
+
+   -  url_title() will now trim extra dashes from beginning and end.
+   -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
+   -  Changed humanize to include a second param for the separator.
+
+-  Database
+
+   -  Added new :doc:`Active Record <database/active_record>` methods that return
+      the SQL string of queries without executing them: get_compiled_select(),
+      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
+   -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Improved PDO database support.
+
+-  Libraries
+
+   -  Added max_filename_increment config setting for Upload library.
+   -  CI_Loader::_ci_autoloader() is now a protected method.
+   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Cart library changes include:
+	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
+	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
+	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+   -  Image manipulation library changes include:
+	 -  The initialize() method now only sets existing class properties.
+	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
+	    if they are set manually after initialization.
+	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
+   -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
+   -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
+   -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+
+-  Core
+
+   -  Changed private functions in CI_URI to protected so MY_URI can override them.
+   -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  is_loaded() function from system/core/Commons.php now returns a reference.
+
+Bug fixes for 3.0
+------------------
+
+-  Unlink raised an error if cache file did not exist when you try to delete it.
+-  Fixed a bug (#181) where a mis-spelling was in the form validation
+   language file.
+-  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
+-  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
+-  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
+-  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
+-  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors
+-  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely
+-  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
+-  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
+-  Fixed a bug (#795) - Fixed form method and accept-charset when passing an empty array.
+-  Fixed a bug (#797) - timespan was using incorrect seconds for year and month.
+-  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
+-  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
+-  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
+-  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
+-  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
+-  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
+-  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+-  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
+-  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
+-  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
+
+Version 2.1.0
+=============
 
 Release Date: Not Released
 
 -  General Changes
 
-   -  Added Android to the list of user agents.
-   -  Added Windows 7 to the list of user platforms.
    -  Callback validation rules can now accept parameters like any other
       validation rule.
-   -  Ability to log certain error types, not all under a threshold.
    -  Added html_escape() to :doc:`Common
       functions <general/common_functions>` to escape HTML output
       for preventing XSS.
-   -  Added support for pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr Certs to mimes.php.
-   -  Added support pgp,gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
 
 -  Helpers
 
@@ -30,22 +129,22 @@ Release Date: Not Released
    -  Altered form helper - made action on form_open_multipart helper
       function call optional. Fixes (#65)
    -  url_title() will now trim extra dashes from beginning and end.
-   -  Improved speed of <a href="helpers/string_helper.html">String Helper</a>'s <b>random_string()</b> method
-   -  Added XHTML Basic 1.1 doctype to <a href="helpers/html_helper.html">HTML Helper</a>.
+   -  Improved speed of :doc:`String Helper <helpers/string_helper>`'s random_string() method
 
 -  Database
 
-   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the `Database
+   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the :doc:`Database
       Driver <database/index>`. Thanks to the CUBRID team for
       supplying this patch.
-   -  Added a PDO driver to the <a href="database/index.html">Database Driver</a>.
+   -  Added a PDO driver to the :doc:`Database Driver <database/index>`.
    -  Typecast limit and offset in the :doc:`Database
       Driver <database/queries>` to integers to avoid possible
       injection.
    -  Added additional option 'none' for the optional third argument for
       $this->db->like() in the :doc:`Database
       Driver <database/active_record>`.
-   -  Added <kbd>$this->db->insert_batch()</kbd> support to the OCI8 (Oracle) driver.
+   -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
+   -  Added failover if the main connections in the config should fail
 
 -  Libraries
 
@@ -55,13 +154,13 @@ Release Date: Not Released
    -  Added support to set an optional parameter in your callback rules
       of validation using the :doc:`Form Validation
       Library <libraries/form_validation>`.
+   -  Added a :doc:`Migration library <libraries/migration>` to assist with applying
+      incremental updates to your database schema.
    -  Driver children can be located in any package path.
    -  Added max_filename_increment config setting for Upload library.
-   -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added is_unique to the :doc:`Form Validation
       library <libraries/form_validation>`.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the <a href="libraries/form_validation.html">Form Validation</a> library.
-   -  Added <kbd>$config['use_page_numbers']</kbd> to the <a href="libraries/pagination.html">Pagination library</a>, which enables real page numbers in the URI.
+   -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
 
 -  Core
@@ -70,10 +169,11 @@ Release Date: Not Released
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
 
+
 Bug fixes for 2.1.0
 -------------------
 
--  Unlink raised an error if cache file did not exist when you try to delete it.
+
 -  Fixed #378 Robots identified as regular browsers by the User Agent
    class.
 -  If a config class was loaded first then a library with the same name
@@ -84,30 +184,28 @@ Bug fixes for 2.1.0
    but the requested method did not.
 -  Fixed a bug (Reactor #89) where MySQL export would fail if the table
    had hyphens or other non alphanumeric/underscore characters.
--  Fixed a bug (#200) where MySQL queries would be malformed after
-   calling count_all() then db->get()
--  Fixed bug #105 that stopped query errors from being logged unless database debugging was enabled
--  Fixed a bug (#181) where a mis-spelling was in the form validation
-   language file.
+-  Fixed a bug (#200) where MySQL queries would be malformed after calling $this->db->count_all() then $this->db->get()
+-  Fixed a bug (#105) that stopped query errors from being logged unless database debugging was enabled
 -  Fixed a bug (#160) - Removed unneeded array copy in the file cache
    driver.
 -  Fixed a bug (#150) - field_data() now correctly returns column
    length.
 -  Fixed a bug (#8) - load_class() now looks for core classes in
    APPPATH first, allowing them to be replaced.
--  Fixed a bug (#24) - ODBC database driver called incorrect parent in
-   __construct().
--  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did
-   not escape correct.
--  Fixed a bug (#344) - Using schema found in <a href="libraries/sessions.html">Saving Session Data to a Database</a>, system would throw error "user_data does not have a default value" when deleting then creating a session.
+-  Fixed a bug (#24) - ODBC database driver called incorrect parent in __construct().
+-  Fixed a bug (#85) - OCI8 (Oracle) database escape_str() function did not escape correct.
+-  Fixed a bug (#344) - Using schema found in :doc:`Saving Session Data to a Database <libraries/sessions>`, system would throw error "user_data does not have a default value" when deleting then creating a session.
 -  Fixed a bug (#112) - OCI8 (Oracle) driver didn't pass the configured database character set when connecting.
 -  Fixed a bug (#182) - OCI8 (Oracle) driver used to re-execute the statement whenever num_rows() is called.
--  Fixed a bug (#82) - WHERE clause field names in the DB <samp>update_string()</samp> method were not escaped, resulting in failed queries in some cases.
--  Fixed a bug (#89) - Fix a variable type mismatch in DB <samp>display_error()</samp> where an array is expected, but a string could be set instead.
+-  Fixed a bug (#82) - WHERE clause field names in the DB update_string() method were not escaped, resulting in failed queries in some cases.
+-  Fixed a bug (#89) - Fix a variable type mismatch in DB display_error() where an array is expected, but a string could be set instead.
 -  Fixed a bug (#467) - Suppress warnings generated from get_magic_quotes_gpc() (deprecated in PHP 5.4)
 -  Fixed a bug (#484) - First time _csrf_set_hash() is called, hash is never set to the cookie (in Security.php).
--  Fixed a bug (#60) - Added _file_mime_type() method to the `File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
+-  Fixed a bug (#60) - Added _file_mime_type() method to the :doc:`File Uploading Library <libraries/file_uploading>` in order to fix a possible MIME-type injection.
 -  Fixed a bug (#537) - Support for all wav type in browser.
+-  Fixed a bug (#576) - Using ini_get() function to detect if apc is enabled or not.
+-  Fixed invalid date time format in :doc:`Date helper <helpers/date_helper>` and :doc:`XMLRPC library <libraries/xmlrpc>`.
+-  Fixed a bug (#200) - MySQL queries would be malformed after calling count_all() then db->get().
 
 Version 2.0.3
 =============
@@ -145,16 +243,8 @@ Release Date: August 20, 2011
       Thanks to epallerols for the patch.
    -  Added "application/x-csv" to mimes.php.
    -  Added CSRF protection URI whitelisting.
-   -  Fixed a bug where `Email library <libraries/email>`
+   -  Fixed a bug where :doc:`Email library <libraries/email>`
       attachments with a "." in the name would using invalid MIME-types.
-   -  Added support for
-      pem,p10,p12,p7a,p7c,p7m,p7r,p7s,crt,crl,der,kdb,rsa,cer,sst,csr
-      Certs to mimes.php.
-   -  Added support pgp,gpg to mimes.php.
-   -  Added support 3gp, 3g2, mp4, wmv, f4v, vlc Video files to
-      mimes.php.
-   -  Added support m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files
-      to mimes.php.
 
 -  Helpers
 
@@ -281,7 +371,7 @@ Hg Tag: v2.0.1
       TRUE and Reactor: FALSE.
    -  Added an ENVIRONMENT constant in index.php, which affects PHP
       error reporting settings, and optionally, which configuration
-      files are loaded (see below). Read more on the `Handling
+      files are loaded (see below). Read more on the :doc:`Handling
       Environments <general/environments>` page.
    -  Added support for
       :ref:`environment-specific <config-environments>`
@@ -289,7 +379,7 @@ Hg Tag: v2.0.1
 
 -  Libraries
 
-   -  Added decimal, less_than and greater_than rules to the `Form
+   -  Added decimal, less_than and greater_than rules to the :doc:`Form
       validation Class <libraries/form_validation>`.
    -  :doc:`Input Class <libraries/input>` methods post() and get()
       will now return a full array if the first argument is not
@@ -318,6 +408,8 @@ Bug fixes for 2.0.1
    incorrect cache directory.
 -  Fixed a bug (Reactor #69) where the SHA1 library was named
    incorrectly.
+
+.. _2.0.0-changelog:
 
 Version 2.0.0
 =============
@@ -361,7 +453,7 @@ Hg Tag: v2.0.0
    -  Removed the deprecated Validation Class.
    -  Added CI\_ Prefix to all core classes.
    -  Package paths can now be set in application/config/autoload.php.
-   -  `Upload library <libraries/file_uploading>` file_name can
+   -  :doc:`Upload library <libraries/file_uploading>` file_name can
       now be set without an extension, the extension will be taken from
       the uploaded file instead of the given name.
    -  In :doc:`Database Forge <database/forge>` the name can be omitted
@@ -533,7 +625,7 @@ Hg Tag: v2.0.0
    -  Added "default" to the list :doc:`Reserved
       Names <general/reserved_names>`.
    -  Added 'application/x-msdownload' for .exe files and
-      ''application/x-gzip-compressed' for .tgz files to
+      'application/x-gzip-compressed' for .tgz files to
       config/mimes.php.
    -  Updated the output library to no longer compress output or send
       content-length headers if the server runs with
@@ -664,7 +756,7 @@ Hg Tag: v1.7.2
 
 -  General
 
-   -  Compatible with PHP 5.3.0
+   -  Compatible with PHP 5.3.0.
    -  Modified :doc:`show_error() <general/errors>` to allow sending
       of HTTP server response codes.
    -  Modified :doc:`show_404() <general/errors>` to send 404 status
@@ -1272,7 +1364,7 @@ Hg Tag: 1.6.1
       URL encoded strings.
    -  Added $_SERVER, $_FILES, $_ENV, and $_SESSION to sanitization
       of globals.
-   -  Added a `Path Helper <./helpers/path_helper>`.
+   -  Added a :doc:`Path Helper <./helpers/path_helper>`.
    -  Simplified _reindex_segments() in the URI class.
    -  Escaped the '-' in the default 'permitted_uri_chars' config
       item, to prevent errors if developers just try to add additional
@@ -1679,7 +1771,7 @@ Version 1.5.2
 Release Date: February 13, 2007
 
 -  Added subversion information
-   to the `downloads <installation/downloads>` page.
+   to the :doc:`downloads <installation/downloads>` page.
 -  Added support for captions in the :doc:`Table
    Library <./libraries/table>`
 -  Fixed a bug in the
@@ -1735,7 +1827,7 @@ Version 1.5.0
 
 Release Date: October 30, 2006
 
--  Added `DB utility class <./database/utilities>`, permitting DB
+-  Added :doc:`DB utility class <./database/utilities>`, permitting DB
    backups, CVS or XML files from DB results, and various other
    functions.
 -  Added :doc:`Database Caching Class <./database/caching>`.
@@ -1894,7 +1986,7 @@ Release Date: September 17, 2006
    sub-folders <general/controllers>`. Kudos to Marco for
    `suggesting <http://codeigniter.com/forums/viewthread/627/>`_ this
    (and the next two) feature.
--  Added regular expressions support for `routing
+-  Added regular expressions support for :doc:`routing
    rules <./general/routing>`.
 -  Added the ability to :doc:`remap function
    calls <./general/controllers>` within your controllers.
