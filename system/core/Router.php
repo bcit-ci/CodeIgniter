@@ -261,10 +261,10 @@ class CI_Router {
 			return $segments;
 		}
 
-		// Does the requested controller exist in the root folder?
+		// Does the requested controller exist in the root folder, and does not have a folder containing a file with the name of the method?
 		if (file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
 		{
-			return $segments;
+			if((isset($segments[1]) && !file_exists(APPPATH.'controllers/'.$segments[0].'/'.$segments[1].'.php')) OR !isset($segments[1])) return $segments;
 		}
 
 		// Is the controller in a sub-folder?
