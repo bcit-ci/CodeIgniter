@@ -51,6 +51,7 @@ Release Date: Not Released
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
+   -  An optional database name parameter was added db_select().
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
          -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
