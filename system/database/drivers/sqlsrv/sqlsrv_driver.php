@@ -127,7 +127,18 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function db_select($database = '')
 	{
-		return $this->_execute('USE '.($database == '' ? $this->database : $database));
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
+		if ($this->_execute('USE '.$database))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
