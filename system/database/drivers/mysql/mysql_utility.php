@@ -56,7 +56,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 */
 	public function _optimize_table($table)
 	{
-		return 'OPTIMIZE TABLE '.$this->db->_escape_identifiers($table);
+		return 'OPTIMIZE TABLE '.$this->db->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -71,7 +71,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 */
 	public function _repair_table($table)
 	{
-		return 'REPAIR TABLE '.$this->db->_escape_identifiers($table);
+		return 'REPAIR TABLE '.$this->db->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -102,7 +102,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Get the table schema
-			$query = $this->db->query('SHOW CREATE TABLE `'.$this->db->database.'`.`'.$table.'`');
+			$query = $this->db->query('SHOW CREATE TABLE '.$this->db->protect_identifiers($this->db->database).'.'.$this->db->protect_identifiers($table));
 
 			// No result means the table name was invalid
 			if ($query === FALSE)
@@ -115,7 +115,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 			if ($add_drop == TRUE)
 			{
-				$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+				$output .= 'DROP TABLE IF EXISTS '.$this->db->protect_identifiers($table).';'.$newline.$newline;
 			}
 
 			$i = 0;
@@ -135,7 +135,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Grab all the data from the current table
-			$query = $this->db->query('SELECT * FROM '.$table);
+			$query = $this->db->query('SELECT * FROM '.$this->db->protect_identifiers($table));
 
 			if ($query->num_rows() == 0)
 			{
@@ -157,7 +157,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 							TRUE);
 
 				// Create a string of field names
-				$field_str .= '`'.$field->name.'`, ';
+				$field_str .= $this->db->protect_identifiers($field->name).', ';
 				$i++;
 			}
 
@@ -192,14 +192,15 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				$val_str = preg_replace('/, $/' , '', $val_str);
 
 				// Build the INSERT string
-				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
+				$output .= 'INSERT INTO '.$this->db->protect_identifiers($table).' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 			}
 
-			return $output.$newline.$newline;
+			$output .= $newline.$newline;
 		}
 
 		return $output;
 	}
+
 }
 
 /* End of file mysql_utility.php */
