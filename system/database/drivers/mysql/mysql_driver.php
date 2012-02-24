@@ -124,7 +124,18 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_select($database = '')
 	{
-		return @mysql_select_db(($database == '' ? $this->database : $database), $this->conn_id);
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
+		if (@mysql_select_db($database, $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

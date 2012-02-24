@@ -119,9 +119,20 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_select($database = '')
 	{
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
 		// Note: The brackets are required in the event that the DB name
 		// contains reserved characters
-		return @mssql_select_db('['.($database == '' ? $this->database : $database).']', $this->conn_id);
+		if (@mssql_select_db('['.$database.']', $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
