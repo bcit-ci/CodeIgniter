@@ -249,6 +249,10 @@
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
+	//If a file exists with the same name as the directory, load that file
+	if(is_file(APPPATH.'controllers/'.substr($RTR->fetch_directory(), 0, -1).'.php')) include(APPPATH.'/controllers/'.substr($RTR->fetch_directory(), 0, -1).'.php');
+	
+	//Load the controller
 	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
 
 	// Set a mark point for benchmarking
