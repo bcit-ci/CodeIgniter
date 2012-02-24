@@ -546,8 +546,8 @@ globally, individually, or change the defaults in a config file.
 #. **Set delimiters in a config file**
    You can add your error delimiters in application/config/form_validation.php as follows::
    
-      $config['error_prefix'] = '<p class="error_prefix">';
-      $config['error_suffix'] = '</p>';
+      $config['error_prefix'] = '<div class="error_prefix">';
+      $config['error_suffix'] = '</div>';
 
 
 Showing Errors Individually
