@@ -118,11 +118,23 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @return	resource
+	 * @param	string	database name
+	 * @return	bool
 	 */
-	public function db_select()
+	public function db_select($database = '')
 	{
-		return $this->_execute('USE ' . $this->database);
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
+		if ($this->_execute('USE '.$database))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -564,5 +576,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 
 }
 
+<<<<<<< HEAD
 /* End of file sqlsrv_driver.php */
 /* Location: ./system/database/drivers/sqlsrv/sqlsrv_driver.php */
+=======
+
+
+/* End of file mssql_driver.php */
+/* Location: ./system/database/drivers/mssql/mssql_driver.php */
+>>>>>>> upstream/develop
