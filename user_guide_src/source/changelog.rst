@@ -51,6 +51,7 @@ Release Date: Not Released
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
+   -  An optional database name parameter was added db_select().
    -  Added random ordering support to the MSSQL driver.
 
 -  Libraries
@@ -106,6 +107,8 @@ Bug fixes for 3.0
 -  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
+-  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
 
 Version 2.1.0
 =============
