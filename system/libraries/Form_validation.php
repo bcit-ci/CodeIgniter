@@ -707,13 +707,20 @@ class CI_Form_validation {
 	 */
 	public function set_value($field = '', $default = '')
 	{
-		if ( ! isset($this->_field_data[$field]))
+		if ( ! isset($this->_field_data[$field]) OR $this->_field_data[$field]['postdata'] === NULL)
 		{
-			return $default;
+			if ($this->CI->input->post($field) === FALSE)
+			{
+				return $default;
+			}
+			else 
+			{
+				return $this->CI->input->post($field);
+			}
 		}
 
 		// If the data is an array output them one at a time.
-		//	E.g: form_input('name[]', set_value('name[]');
+		// E.g: form_input('name[]', set_value('name[]');
 		if (is_array($this->_field_data[$field]['postdata']))
 		{
 			return array_shift($this->_field_data[$field]['postdata']);
@@ -738,15 +745,23 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
 		{
-			if ($default === TRUE AND count($this->_field_data) === 0)
+			if( ! ($this->CI->input->post($field) === FALSE))
 			{
-				return ' selected="selected"';
+				$field = $this->CI->input->post($field);
 			}
-			return '';
+			else
+			{
+				if ($default === TRUE AND count($this->_field_data) === 0)
+				{
+					return ' selected="selected"';
+				}
+				return '';
+			}
 		}
-
-		$field = $this->_field_data[$field]['postdata'];
-
+		else {
+			$field = $this->_field_data[$field]['postdata'];
+		}
+		
 		if (is_array($field))
 		{
 			if ( ! in_array($value, $field))
