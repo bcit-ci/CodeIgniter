@@ -120,14 +120,14 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-    public function index_data()
-    {
+	public function index_data()
+	{
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
-        return FALSE;
-    }
+		return FALSE;
+	}
 
 	// --------------------------------------------------------------------
 

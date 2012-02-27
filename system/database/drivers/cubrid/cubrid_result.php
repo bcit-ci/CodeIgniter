@@ -151,22 +151,22 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-    public function index_data()
-    {
-        $retval = array();
+	public function index_data()
+	{
+		$retval = array();
 		while ($field = cubrid_fetch_field($this->result_id))
-        {
-            $F          = new stdClass();
-            $F->name    = $field->Key_name;
-            $F->column  = $field->Column_name;
-            $F->type    = $field->Index_type;
-            $F->comment = '';
+		{
+			$F		  = new stdClass();
+			$F->name	= $field->Key_name;
+			$F->column  = $field->Column_name;
+			$F->type	= $field->Index_type;
+			$F->comment = '';
 
-            $retval[] = $F;
-        }
+			$retval[] = $F;
+		}
 
-        return $retval;
-    }
+		return $retval;
+	}
 
 	// --------------------------------------------------------------------
 

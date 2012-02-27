@@ -124,7 +124,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		$retval = array();
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
-			$F			    = new stdClass();
+			$F				= new stdClass();
 			$F->name		= oci_field_name($this->stmt_id, $c);
 			$F->type		= oci_field_type($this->stmt_id, $c);
 			$F->max_length	= oci_field_size($this->stmt_id, $c);
@@ -144,14 +144,14 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-    public function index_data()
-    {
+	public function index_data()
+	{
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
-        return FALSE;
-    }
+		return FALSE;
+	}
 
 	// --------------------------------------------------------------------
 
