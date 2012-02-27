@@ -52,6 +52,7 @@ Release Date: Not Released
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
+   -  An optional database name parameter was added db_select().
 
 -  Libraries
 
