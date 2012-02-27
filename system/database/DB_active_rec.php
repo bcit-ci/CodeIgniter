@@ -988,7 +988,10 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function limit($value, $offset = NULL)
 	{
-		$this->ar_limit = (int) $value;
+		if ( ! is_null($value)
+		{
+			$this->ar_limit = (int) $value;
+		}
 
 		if ( ! is_null($offset))
 		{
