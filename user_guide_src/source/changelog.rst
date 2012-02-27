@@ -108,7 +108,7 @@ Bug fixes for 3.0
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
--  Fixed a bug where db_set_charset() ignored its arguments and always used the configured charset and collation instead.
+-  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
 
 Version 2.1.0
 =============
