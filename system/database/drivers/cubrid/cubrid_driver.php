@@ -156,24 +156,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// In CUBRID, there is no need to set charset or collation.
-		// This is why returning true will allow the application continue
-		// its normal process.
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @access	public
