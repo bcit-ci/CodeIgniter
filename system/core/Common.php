@@ -56,7 +56,7 @@ if ( ! function_exists('is_php'))
 	function is_php($version = '5.0.0')
 	{
 		static $_is_php;
-		$version = (string)$version;
+		$version = (string) $version;
 
 		if ( ! isset($_is_php[$version]))
 		{
@@ -84,7 +84,7 @@ if ( ! function_exists('is_really_writable'))
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' AND @ini_get('safe_mode') == FALSE)
+		if (DIRECTORY_SEPARATOR === '/' && (bool) @ini_get('safe_mode') === FALSE)
 		{
 			return is_writable($file);
 		}
@@ -120,7 +120,7 @@ if ( ! function_exists('is_really_writable'))
 /**
 * Class registry
 *
-* This function acts as a singleton.  If the requested class does not
+* This function acts as a singleton. If the requested class does not
 * exist it is instantiated and set to a static variable.  If it has
 * previously been instantiated the variable is returned.
 *
@@ -177,6 +177,7 @@ if ( ! function_exists('load_class'))
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
 			// self-referencing loop with the Excptions class
+			set_status_header(503);
 			exit('Unable to locate the specified class: '.$class.'.php');
 		}
 
@@ -191,7 +192,7 @@ if ( ! function_exists('load_class'))
 // --------------------------------------------------------------------
 
 /**
-* Keeps track of which libraries have been loaded.  This function is
+* Keeps track of which libraries have been loaded. This function is
 * called by the load_class() function above
 *
 * @access	public
@@ -243,6 +244,7 @@ if ( ! function_exists('get_config'))
 		// Fetch the config file
 		if ( ! file_exists($file_path))
 		{
+			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
 
@@ -251,6 +253,7 @@ if ( ! function_exists('get_config'))
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
 		{
+			set_status_header(503);
 			exit('Your config file does not appear to be formatted correctly.');
 		}
 
@@ -434,7 +437,7 @@ if ( ! function_exists('set_status_header'))
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (isset($stati[$code]) AND $text == '')
+		if (isset($stati[$code]) && $text == '')
 		{
 			$text = $stati[$code];
 		}
@@ -444,19 +447,19 @@ if ( ! function_exists('set_status_header'))
 			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
 		}
 
-		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
+		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
 		if (strpos(php_sapi_name(), 'cgi') === 0)
 		{
-			header("Status: {$code} {$text}", TRUE);
+			header('Status: '.$code.' '.$text, TRUE);
 		}
-		elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0')
+		elseif ($server_protocol === 'HTTP/1.0')
 		{
-			header($server_protocol." {$code} {$text}", TRUE, $code);
+			header('HTTP/1.0 '.$code.' '.$text, TRUE, $code);
 		}
 		else
 		{
-			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
+			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
@@ -561,14 +564,9 @@ if ( ! function_exists('html_escape'))
 {
 	function html_escape($var)
 	{
-		if (is_array($var))
-		{
-			return array_map('html_escape', $var);
-		}
-		else
-		{
-			return htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
-		}
+		return is_array($var)
+			? array_map('html_escape', $var)
+			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
 	}
 }
 
