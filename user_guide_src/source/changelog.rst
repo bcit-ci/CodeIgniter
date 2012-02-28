@@ -111,6 +111,7 @@ Bug fixes for 3.0
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
+-  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
 -  Fixed a bug in CUBRID's affected_rows() where a connection resource was passed to cubrid_affected_rows() instead of a result.
 
 Version 2.1.0
