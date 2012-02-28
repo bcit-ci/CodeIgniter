@@ -78,7 +78,7 @@ class CI_Form_validation {
 	/**
 	 * if prefixes/suffixes set in config, assign and unset.
 	 * 
-	 * @return void
+	 * @return	void
 	 */
 	protected function _config_delimiters()
 	{
