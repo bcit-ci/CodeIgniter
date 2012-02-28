@@ -80,7 +80,7 @@ class CI_Form_validation {
 	 * 
 	 * @return void
 	 */
-	private function _config_delimiters()
+	protected function _config_delimiters()
 	{
 		if (isset($rules['error_prefix']))
 		{
