@@ -689,11 +689,11 @@ class CI_Form_validation {
 	 *
 	 * @param	string	the field name
 	 * @param	string
-	 * @return	void
+	 * @return	string
 	 */
 	public function set_value($field = '', $default = '')
 	{
-		if ( ! isset($this->_field_data[$field]))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
 			return $default;
 		}
@@ -722,7 +722,7 @@ class CI_Form_validation {
 	 */
 	public function set_select($field = '', $value = '', $default = FALSE)
 	{
-		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
 			return ($default === TRUE && count($this->_field_data) === 0) ? ' selected="selected"' : '';
 		}
@@ -757,7 +757,7 @@ class CI_Form_validation {
 	 */
 	public function set_radio($field = '', $value = '', $default = FALSE)
 	{
-		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
 			return ($default === TRUE && count($this->_field_data) === 0) ? ' checked="checked"' : '';
 		}
