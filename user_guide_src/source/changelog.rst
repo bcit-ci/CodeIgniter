@@ -51,6 +51,7 @@ Release Date: Not Released
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
    -  Added dsn configuration setting to be used by drivers that support it.
    -  Improved PDO database support.
+   -  An optional database name parameter was added db_select().
    -  Added DSN string support for PDO.
 
 -  Libraries
@@ -108,6 +109,7 @@ Bug fixes for 3.0
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
+-  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
 -  Fixed a bug in PDO's version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 
