@@ -63,7 +63,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 *
 	 * @return 	boolean		TRUE, Simulating success
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = NULL)
 	{
 		return TRUE;
 	}

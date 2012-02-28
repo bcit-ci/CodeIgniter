@@ -66,9 +66,12 @@ class CI_Cache_apc extends CI_Driver {
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = NULL)
 	{
-		$ttl = (int) $ttl;
+		$CI =& get_instance();
+
+		$ttl = $CI->cache->lifetime($ttl);
+
 		return apc_store($id, array($data, time(), $ttl), $ttl);
 	}
 
@@ -153,9 +156,6 @@ class CI_Cache_apc extends CI_Driver {
 
 		return TRUE;
 	}
-
-	// ------------------------------------------------------------------------
-
 
 }
 // End Class

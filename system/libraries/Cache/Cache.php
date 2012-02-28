@@ -44,7 +44,8 @@ class CI_Cache extends CI_Driver_Library {
 
 	protected $_cache_path		= NULL;		// Path of cache files (if file-based cache)
 	protected $_adapter			= 'dummy';
-	protected $_backup_driver;
+	protected $_backup_driver	= 'dummy';
+	protected $_lifetime		= 60;
 
 	// ------------------------------------------------------------------------
 
@@ -80,6 +81,25 @@ class CI_Cache extends CI_Driver_Library {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Set and retrieve cache lifetimne
+	 *
+	 * @param 	int			Length of time (in seconds) to cache the data
+	 *
+	 * @return 	int
+	 */
+	public function lifetime($ttl = NULL)
+	{
+		if ($ttl)
+		{
+			$this->_lifetime = $ttl;
+		}
+
+		return (int) $this->_lifetime;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Cache Save
 	 *
 	 * @param 	string		Unique Key
@@ -88,7 +108,7 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = NULL)
 	{
 		return $this->{$this->_adapter}->save($id, $data, $ttl);
 	}
@@ -169,6 +189,11 @@ class CI_Cache extends CI_Driver_Library {
 
 				$this->{$param} = $config[$key];
 			}
+		}
+
+		if (isset($config['lifetime']))
+		{
+			$this->lifetime($config['lifetime']);
 		}
 
 		if (isset($config['backup']))

@@ -86,11 +86,14 @@ class CI_Cache_file extends CI_Driver {
 	 * @param 	string		unique key
 	 * @param 	mixed		data to store
 	 * @param 	int			length of time (in seconds) the cache is valid
-	 *						- Default is 60 seconds
 	 * @return 	boolean		true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = NULL)
 	{
+		$CI =& get_instance();
+
+		$ttl = $CI->cache->lifetime($ttl);
+
 		$contents = array(
 				'time'		=> time(),
 				'ttl'		=> $ttl,
@@ -195,7 +198,6 @@ class CI_Cache_file extends CI_Driver {
 		return is_really_writable($this->_cache_path);
 	}
 
-	// ------------------------------------------------------------------------
 }
 // End Class
 
