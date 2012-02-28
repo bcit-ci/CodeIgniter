@@ -84,13 +84,13 @@ class CI_Form_validation {
 	{
 		if (isset($rules['error_prefix']))
 		{
-			$this->_error_prefix = $rules['error_prefix']);
-			unset $rules['error_prefix']);
+			$this->_error_prefix = $rules['error_prefix'];
+			unset($rules['error_prefix']);
 		}
 		if (isset($rules['error_suffix']))
 		{
-			$this->_error_suffix = $rules['error_suffix']);
-			unset $rules['error_suffix']);
+			$this->_error_suffix = $rules['error_suffix'];
+			unset($rules['error_suffix']);
 		}
 	}
 
