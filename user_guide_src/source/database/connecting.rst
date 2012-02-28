@@ -122,6 +122,12 @@ return the database object.
 	| $DB1->result();
 	| etc...
 
+.. note:: You don't need to create separate database configurations if you
+	only need to use a different database on the same connection. You
+	can switch to a different database when you need to, like this:
+
+	| $this->db->db_select($database2_name);
+
 Reconnecting / Keeping the Connection Alive
 ===========================================
 
