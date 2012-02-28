@@ -474,7 +474,7 @@ class CI_Session {
 	/**
 	 * Fetch all flashdata
 	 * 
-	 * @return array
+	 * @return	array
 	 */
 	public function all_flashdata()
 	{
