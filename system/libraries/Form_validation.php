@@ -738,7 +738,7 @@ class CI_Form_validation {
 	{
 		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
-			return ($default === TRUE AND count($this->_field_data) === 0) ? ' selected="selected"' : '';
+			return ($default === TRUE && count($this->_field_data) === 0) ? ' selected="selected"' : '';
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
