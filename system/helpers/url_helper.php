@@ -481,13 +481,11 @@ if ( ! function_exists('url_title'))
 		$replace = $separator == 'dash' ? '-' : '_';
 
 		$trans = array(
-						'&.+?;'					=> '',
-						'[^a-z0-9 _-]'			=> '',
-						'\s+'					=> $replace,
-						$replace.'+'			=> $replace,
-						$replace.'$'			=> '',
-						'^'.$replace			=> ''
-					);
+			'&.+?;'			=> '',
+			'[^a-z0-9 _-]'	=> '',
+			'\s+'			=> $replace,
+			$replace.'+'	=> $replace
+		);
 
 		$str = strip_tags($str);
 
@@ -501,7 +499,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim($str);
+		return trim($str, $replace);
 	}
 }
 
