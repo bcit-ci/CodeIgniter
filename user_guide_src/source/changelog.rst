@@ -110,10 +110,32 @@ Bug fixes for 3.0
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
 -  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
 
-Version 2.1.0
+
+Version 2.1.1
 =============
 
 Release Date: Not Released
+
+-  General Changes
+   -  Fixed support for docx, xlsx files in mimes.php.
+
+-  Libraries
+   -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
+
+
+Bug fixes for 2.1.1
+-------------------
+
+-  Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.
+-  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
+-  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
+-  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
+
+
+Version 2.1.0
+=============
+
+Release Date: November 14, 2011
 
 -  General Changes
 
