@@ -39,6 +39,8 @@ Release Date: Not Released
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed humanize to include a second param for the separator.
+   -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and 
+support more words.
 
 -  Database
 
@@ -112,10 +114,32 @@ Bug fixes for 3.0
 -  Fixed a bug in CI_DB_driver::version() where it failed when using a database driver that needs to run a query in order to get the version.
 -  Fixed a bug (#1036) - Database method is_write_type() didn't match RENAME statements.
 
-Version 2.1.0
+
+Version 2.1.1
 =============
 
 Release Date: Not Released
+
+-  General Changes
+   -  Fixed support for docx, xlsx files in mimes.php.
+
+-  Libraries
+   -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
+
+
+Bug fixes for 2.1.1
+-------------------
+
+-  Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.
+-  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
+-  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
+-  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
+
+
+Version 2.1.0
+=============
+
+Release Date: November 14, 2011
 
 -  General Changes
 
