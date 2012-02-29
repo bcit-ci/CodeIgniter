@@ -191,7 +191,7 @@ class CI_Security {
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) config_item('cookie_secure');
 
-		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR $_SERVER['HTTPS'] === 'off'))
+		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
 		{
 			return FALSE;
 		}
