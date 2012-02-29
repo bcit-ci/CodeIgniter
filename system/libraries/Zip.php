@@ -155,7 +155,7 @@ class CI_Zip  {
 	 * Add Data to Zip
 	 *
 	 * Lets you add files to the archive. If the path is included
-	 * in the filename it will be placed within a directory.  Make
+	 * in the filename it will be placed within a directory. Make
 	 * sure you use add_dir() first to create the folder.
 	 *
 	 * @param	mixed
@@ -314,7 +314,6 @@ class CI_Zip  {
 		}
 
 		closedir($fp);
-
 		return TRUE;
 	}
 
@@ -373,7 +372,7 @@ class CI_Zip  {
 	 * Download
 	 *
 	 * @param	string	the file name
-	 * @return	bool
+	 * @return	void
 	 */
 	public function download($filename = 'backup.zip')
 	{
