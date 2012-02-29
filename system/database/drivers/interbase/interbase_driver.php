@@ -601,7 +601,31 @@ SQL;
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		//There doesn't seem to be a limit clause?
+		// Keep the current sql string safe for a moment
+		$orig_sql = $sql;
+	
+		// Limit clause depends on if Interbase or Firebird
+		if (stripos($this->_version(), 'firebird') !== FALSE)
+		{
+			$sql = 'FIRST '. (int) $limit;
+			
+			if ($offset > 0)
+			{
+				$sql .= ' SKIP'. (int) $offset;
+			}
+		}
+		else
+		{
+			$sql = 'ROWS ' . (int) $limit;
+			
+			if ($offset > 0)
+			{
+				$sql = 'ROWS '. (int) $offset . ' TO ' . ($limit + $offset);
+			}
+		}
+		
+		$sql = preg_replace("`SELECT`i", "SELECT {$sql}", $orig_sql);
+		
 		return $sql;
 	}
 
