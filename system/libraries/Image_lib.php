@@ -251,7 +251,7 @@ class CI_Image_lib {
 		}
 		else
 		{
-			if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
+			if (strpos($this->new_image, '/') === FALSE AND strpos($this->new_image, '\\') === FALSE)
 			{
 				$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
 			}
