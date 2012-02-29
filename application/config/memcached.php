@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -21,32 +21,26 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.0
  * @filesource
  */
 
-class Welcome extends CI_Controller {
+/*
+| -------------------------------------------------------------------------
+| Memcached settings
+| -------------------------------------------------------------------------
+| Your Memcached servers can be specified below.
+|
+|	See: http://codeigniter.com/user_guide/libraries/caching.html#memcached
+|
+*/
+$config = array(
+	'default' => array(
+		'hostname' => '127.0.0.1',
+		'port'     => '11211',
+		'weight'   => '1',
+	),
+);
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-	public function index()
-	{
-		$this->load->view('welcome_message');
-	}
-}
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+/* End of file memcached.php */
+/* Location: ./application/config/memcached.php */

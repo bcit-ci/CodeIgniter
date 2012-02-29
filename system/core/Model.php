@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -38,14 +38,9 @@
  */
 class CI_Model {
 
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 */
-	function __construct()
+	public function __construct()
 	{
-		log_message('debug', "Model Class Initialized");
+		log_message('debug', 'Model Class Initialized');
 	}
 
 	/**
@@ -55,15 +50,13 @@ class CI_Model {
 	 * syntax as controllers.
 	 *
 	 * @param	string
-	 * @access private
 	 */
-	function __get($key)
+	public function __get($key)
 	{
 		$CI =& get_instance();
 		return $CI->$key;
 	}
 }
-// END Model Class
 
 /* End of file Model.php */
 /* Location: ./system/core/Model.php */
