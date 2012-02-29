@@ -114,7 +114,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
 -  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
 -  Fixed a bug (#81) - ODBC's list_field() and field_data() methods skipped the first column due to odbc_field_*() functions' index starting at 1 instead of 0.
-
+-  Fixed a bug (#129) - ODBC's num_rows() returned -1 in some cases, due to not all subdrivers supporting the odbc_num_rows() function.
 
 Version 2.1.1
 =============
