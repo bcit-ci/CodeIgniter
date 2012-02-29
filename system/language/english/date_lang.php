@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -41,7 +41,7 @@ $lang['date_second'] = "Second";
 $lang['date_seconds'] = "Seconds";
 
 $lang['UM12']	= '(UTC -12:00) Baker/Howland Island';
-$lang['UM11']	= '(UTC -11:00) Samoa Time Zone, Niue';
+$lang['UM11']	= '(UTC -11:00) Niue';
 $lang['UM10']	= '(UTC -10:00) Hawaii-Aleutian Standard Time, Cook Islands, Tahiti';
 $lang['UM95']	= '(UTC -9:30) Marquesas Islands';
 $lang['UM9']	= '(UTC -9:00) Alaska Standard Time, Gambier Islands';
@@ -58,9 +58,9 @@ $lang['UM1']	= '(UTC -1:00) Azores, Cape Verde Islands';
 $lang['UTC']	= '(UTC) Greenwich Mean Time, Western European Time';
 $lang['UP1']	= '(UTC +1:00) Central European Time, West Africa Time';
 $lang['UP2']	= '(UTC +2:00) Central Africa Time, Eastern European Time, Kaliningrad Time';
-$lang['UP3']	= '(UTC +3:00) Moscow Time, East Africa Time';
+$lang['UP3']	= '(UTC +3:00) East Africa Time, Arabia Standard Time';
 $lang['UP35']	= '(UTC +3:30) Iran Standard Time';
-$lang['UP4']	= '(UTC +4:00) Azerbaijan Standard Time, Samara Time';
+$lang['UP4']	= '(UTC +4:00) Moscow Time, Azerbaijan Standard Time';
 $lang['UP45']	= '(UTC +4:30) Afghanistan';
 $lang['UP5']	= '(UTC +5:00) Pakistan Standard Time, Yekaterinburg Time';
 $lang['UP55']	= '(UTC +5:30) Indian Standard Time, Sri Lanka Time';
@@ -78,7 +78,7 @@ $lang['UP11']	= '(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu';
 $lang['UP115']	= '(UTC +11:30) Norfolk Island';
 $lang['UP12']	= '(UTC +12:00) Fiji, Gilbert Islands, Kamchatka Time, New Zealand Standard Time';
 $lang['UP1275']	= '(UTC +12:45) Chatham Islands Standard Time';
-$lang['UP13']	= '(UTC +13:00) Phoenix Islands Time, Tonga';
+$lang['UP13']	= '(UTC +13:00) Samoa Time Zone, Phoenix Islands Time, Tonga';
 $lang['UP14']	= '(UTC +14:00) Line Islands';
 
 
