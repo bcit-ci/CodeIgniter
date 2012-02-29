@@ -34,7 +34,6 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
-   -  Removed a double slash in the function mimes_types() in the Upload library.
 
 -  Helpers
 
