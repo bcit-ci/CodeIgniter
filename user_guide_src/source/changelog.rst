@@ -39,6 +39,8 @@ Release Date: Not Released
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed humanize to include a second param for the separator.
+   -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
+   -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
 
 -  Database
 
@@ -47,13 +49,18 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
+   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Improved PDO database support.
+   -  An optional database name parameter was added db_select().
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
-	 -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
@@ -63,6 +70,7 @@ Release Date: Not Released
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
 	    if they are set manually after initialization.
+	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
@@ -97,11 +105,39 @@ Bug fixes for 3.0
 -  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
+-  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
+-  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
+-  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
+-  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
+-  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
+
+
+Version 2.1.1
+=============
+
+Release Date: Not Released
+
+-  General Changes
+   -  Fixed support for docx, xlsx files in mimes.php.
+
+-  Libraries
+   -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
+
+
+Bug fixes for 2.1.1
+-------------------
+
+-  Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.
+-  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
+-  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
+-  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
+
 
 Version 2.1.0
 =============
 
-Release Date: Not Released
+Release Date: November 14, 2011
 
 -  General Changes
 

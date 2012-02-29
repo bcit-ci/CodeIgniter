@@ -45,39 +45,48 @@
  * @access	public
  * @param	string	filename
  * @param	mixed	the data to be downloaded
+ * @param	bool	wether to try and send the actual file MIME type
  * @return	void
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '')
+	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
-		// We need a valid filename (including extension) and data to be set
-		if ($filename == '' OR $data == '' OR FALSE === strpos($filename, '.'))
+		if ($filename == '' OR $data == '')
 		{
 			return FALSE;
 		}
 
-		// Grab the file extension
-		$extension = end(explode('.', $filename));
+		// Set the default MIME type to send
+		$mime = 'application/octet-stream';
 
-		// Load the mime types
-		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if ($set_mime === TRUE)
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
-		{
-			include(APPPATH.'config/mimes.php');
-		}
+			/* If we're going to detect the MIME type,
+			 * we'll need a file extension.
+			 */
+			if (FALSE === strpos($filename, '.'))
+			{
+				return FALSE;
+			}
 
-		// Set a default mime if we can't find it
-		if ( ! isset($mimes[$extension]))
-		{
-			$mime = 'application/octet-stream';
-		}
-		else
-		{
-			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
+			$extension = end(explode('.', $filename));
+
+			// Load the mime types
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (is_file(APPPATH.'config/mimes.php'))
+			{
+				include(APPPATH.'config/mimes.php');
+			}
+
+			// Only change the default MIME if we can find one
+			if (isset($mimes[$extension]))
+			{
+				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
+			}
 		}
 
 		// Generate the server headers
