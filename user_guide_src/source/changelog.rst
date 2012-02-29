@@ -39,6 +39,7 @@ Release Date: Not Released
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed humanize to include a second param for the separator.
+   -  Added an optional third parameter to force_download() that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
 
 -  Database
 
