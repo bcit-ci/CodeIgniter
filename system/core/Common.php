@@ -570,5 +570,24 @@ if ( ! function_exists('html_escape'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Is HTTPS connection?
+ *
+ * Test to see if you are using a HTTPS connection
+ *
+ * @access	public
+ * @return 	bool	TRUE if the connection is HTTPS
+ */
+if ( ! function_exists('is_https'))
+{
+	function is_https()
+	{
+		return ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? TRUE : FALSE;
+	}
+}
+
+
 /* End of file Common.php */
 /* Location: ./system/core/Common.php */
