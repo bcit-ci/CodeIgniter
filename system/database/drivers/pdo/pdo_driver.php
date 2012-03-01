@@ -306,12 +306,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Version number query string
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	protected function _version()
 	{
-		return $this->conn_id->getAttribute(PDO::ATTR_CLIENT_VERSION);
+		return $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
 	}
 
 	// --------------------------------------------------------------------
