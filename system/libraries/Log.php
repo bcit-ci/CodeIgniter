@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -44,7 +44,7 @@ class CI_Log {
 	protected $_threshold_array	= array();
 	protected $_date_fmt		= 'Y-m-d H:i:s';
 	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
 	/**
 	 * Constructor
@@ -62,7 +62,7 @@ class CI_Log {
 
 		if (is_numeric($config['log_threshold']))
 		{
-			$this->_threshold = $config['log_threshold'];
+			$this->_threshold = (int) $config['log_threshold'];
 		}
 		elseif (is_array($config['log_threshold']))
 		{
@@ -97,12 +97,10 @@ class CI_Log {
 
 		$level = strtoupper($level);
 
-		if ( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
+		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
+			AND ! isset($this->_threshold_array[$this->_levels[$level]]))
 		{
-			if (empty($this->_threshold_array) OR ! isset($this->_threshold_array[$this->_levels[$level]]))
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 
@@ -111,7 +109,8 @@ class CI_Log {
 
 		if ( ! file_exists($filepath))
 		{
-			$message .= "<"."?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			$newfile = TRUE;
+			$message .= "<"."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
@@ -126,7 +125,10 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		@chmod($filepath, FILE_WRITE_MODE);
+		if (isset($newfile) AND $newfile === TRUE)
+		{
+			@chmod($filepath, FILE_WRITE_MODE);
+		}
 		return TRUE;
 	}
 

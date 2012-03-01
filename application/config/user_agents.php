@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -174,6 +174,7 @@ $mobiles = array(
 	'mobilexplorer'	=> "Mobile Explorer",
 	'operamini'		=> "Opera Mini",
 	'opera mini'	=> "Opera Mini",
+	'opera mobi'	=> "Opera Mobile",
 
 	// Other
 	'digital paths'	=> "Digital Paths",

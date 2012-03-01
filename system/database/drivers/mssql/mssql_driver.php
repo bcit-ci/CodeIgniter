@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -114,14 +114,25 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * @param	string	database name
+	 * @return	bool
 	 */
-	function db_select()
+	public function db_select($database = '')
 	{
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
 		// Note: The brackets are required in the event that the DB name
 		// contains reserved characters
-		return @mssql_select_db('['.$this->database.']', $this->conn_id);
+		if (@mssql_select_db('['.$database.']', $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

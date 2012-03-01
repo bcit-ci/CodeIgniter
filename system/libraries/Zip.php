@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -99,9 +99,9 @@ class CI_Zip  {
 	 */
 	function _get_mod_time($dir)
 	{
-		// filemtime() will return false, but it does raise an error.
-		$date = (@filemtime($dir)) ? filemtime($dir) : getdate($this->now);
-
+		// filemtime() may return false, but raises an error for non-existing files
+		$date = (file_exists($dir)) ? filemtime($dir): getdate($this->now);
+		
 		$time['file_mtime'] = ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2;
 		$time['file_mdate'] = (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday'];
 

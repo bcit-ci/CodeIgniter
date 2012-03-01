@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -81,8 +81,7 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
-
-
+	
 
 	/**
 	 * Constructor.  Accepts one parameter containing the database
@@ -108,11 +107,9 @@ class CI_DB_driver {
 	/**
 	 * Initialize Database Settings
 	 *
-	 * @access	private Called by the constructor
-	 * @param	mixed
-	 * @return	void
+	 * @return	bool
 	 */
-	function initialize()
+	public function initialize()
 	{
 		// If an existing connection resource is available
 		// there is no need to connect and select the database
@@ -126,46 +123,61 @@ class CI_DB_driver {
 		// Connect to the database and set the connection ID
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
-		// No connection resource?  Throw an error
+		// No connection resource? Check if there is a failover else throw an error
 		if ( ! $this->conn_id)
 		{
-			log_message('error', 'Unable to connect to the database');
-
-			if ($this->db_debug)
+			// Check if there is a failover set
+			if ( ! empty($this->failover) && is_array($this->failover))
 			{
-				$this->display_error('db_unable_to_connect');
+				// Go over all the failovers
+				foreach ($this->failover as $failover)
+				{
+					// Replace the current settings with those of the failover
+					foreach ($failover as $key => $val)
+					{
+						$this->$key = $val;
+					}
+
+					// Try to connect
+					$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+
+					// If a connection is made break the foreach loop
+					if ($this->conn_id)
+					{
+						break;
+					}
+				}
 			}
-			return FALSE;
+
+			// We still don't have a connection?
+			if ( ! $this->conn_id)
+			{
+				log_message('error', 'Unable to connect to the database');
+
+				if ($this->db_debug)
+				{
+					$this->display_error('db_unable_to_connect');
+				}
+				return FALSE;
+			}
 		}
 
 		// ----------------------------------------------------------------
 
 		// Select the DB... assuming a database name is specified in the config file
-		if ($this->database != '')
+		if ($this->database !== '' && ! $this->db_select())
 		{
-			if ( ! $this->db_select())
-			{
-				log_message('error', 'Unable to select database: '.$this->database);
+			log_message('error', 'Unable to select database: '.$this->database);
 
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_select', $this->database);
-				}
-				return FALSE;
-			}
-			else
+			if ($this->db_debug)
 			{
-				// We've selected the DB. Now we set the character set
-				if ( ! $this->db_set_charset($this->char_set, $this->dbcollat))
-				{
-					return FALSE;
-				}
-
-				return TRUE;
+				$this->display_error('db_unable_to_select', $this->database);
 			}
+			return FALSE;
 		}
 
-		return TRUE;
+		// Now we set the character set and that's all
+		return $this->db_set_charset($this->char_set, $this->dbcollat);
 	}
 
 	// --------------------------------------------------------------------
@@ -230,7 +242,7 @@ class CI_DB_driver {
 
 		// Some DBs have functions that return the version, and don't run special
 		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo');
+		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo', 'mysqli');
 
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
@@ -522,6 +534,7 @@ class CI_DB_driver {
 		}
 
 		$this->trans_begin($test_mode);
+		$this->_trans_depth += 1;
 	}
 
 	// --------------------------------------------------------------------
@@ -544,6 +557,10 @@ class CI_DB_driver {
 		{
 			$this->_trans_depth -= 1;
 			return TRUE;
+		}
+		else
+		{
+			$this->_trans_depth = 0;
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
@@ -782,20 +799,23 @@ class CI_DB_driver {
 
 		if ($query->num_rows() > 0)
 		{
-			foreach ($query->result_array() as $row)
+			$table = FALSE;
+			$rows = $query->result_array();
+			$key = (($row = current($rows)) && in_array('table_name', array_map('strtolower', array_keys($row))));
+
+			if ($key)
 			{
-				if (isset($row['TABLE_NAME']))
-				{
-					$retval[] = $row['TABLE_NAME'];
-				}
-				else
-				{
-					$retval[] = array_shift($row);
-				}
+				$table = array_key_exists('TABLE_NAME', $row) ? 'TABLE_NAME' : 'table_name';
+			}
+
+			foreach ($rows as $row)
+			{
+				$retval[] = ( ! $table) ? current($row) : $row[$table];
 			}
 		}
 
 		$this->data_cache['table_names'] = $retval;
+		
 		return $this->data_cache['table_names'];
 	}
 
@@ -1032,7 +1052,14 @@ class CI_DB_driver {
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
 
-			return call_user_func_array($function, $args);
+			if (is_null($args))
+			{
+				return call_user_func($function);
+			}
+			else
+			{
+				return call_user_func_array($function, $args);
+			}
 		}
 	}
 
@@ -1397,10 +1424,23 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Dummy method that allows Active Record class to be disabled
+	 *
+	 * This function is used extensively by every db driver.
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	protected function _reset_select()
+	{
+	
+	}
 
 }
-
 
 /* End of file DB_driver.php */
 /* Location: ./system/database/DB_driver.php */

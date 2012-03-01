@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
@@ -101,12 +101,9 @@ class CI_Migration {
 		}
 
 		// Do we auto migrate to the latest migration?
-		if ($this->_migration_auto_latest == TRUE)
+		if ($this->_migration_auto_latest === TRUE AND ! $this->latest())
 		{
-			if ( ! $this->latest() )
-			{
-				show_error($this->error_string());
-			}
+			show_error($this->error_string());
 		}
 	}
 
@@ -134,7 +131,6 @@ class CI_Migration {
 			++$stop;
 			$step = 1;
 		}
-
 		else
 		{
 			// Moving Down
@@ -158,11 +154,11 @@ class CI_Migration {
 			}
 
 			// Migration step not found
-			if (count($f) == 0)
+			if (count($f) === 0)
 			{
 				// If trying to migrate up to a version greater than the last
 				// existing one, migrate to the last one.
-				if ($step == 1)
+				if ($step === 1)
 				{
 					break;
 				}
@@ -214,7 +210,7 @@ class CI_Migration {
 
 		log_message('debug', 'Current migration: '.$current_version);
 
-		$version = $i + ($step == 1 ? -1 : 0);
+		$version = $i + ($step === 1 ? -1 : 0);
 
 		// If there is nothing to do so quit
 		if ($migrations === array())
@@ -301,13 +297,11 @@ class CI_Migration {
 	{
 		// Load all *_*.php files in the migrations path
 		$files = glob($this->_migration_path.'*_*.php');
-		$file_count = count($files);
 
-		for ($i = 0; $i < $file_count; $i++)
+		for ($i = 0, $c = count($files); $i < $c; $i++)
 		{
 			// Mark wrongly formatted files as false for later filtering
-			$name = basename($files[$i], '.php');
-			if ( ! preg_match('/^\d{3}_(\w+)$/', $name))
+			if ( ! preg_match('/^\d{3}_(\w+)$/', basename($files[$i], '.php')))
 			{
 				$files[$i] = FALSE;
 			}
@@ -328,7 +322,7 @@ class CI_Migration {
 	 */
 	protected function _get_version()
 	{
-		$row = $this->db->get($this->_migration_table)->row();
+		$row = $this->db->select('version')->get($this->_migration_table)->row();
 		return $row ? $row->version : 0;
 	}
 
