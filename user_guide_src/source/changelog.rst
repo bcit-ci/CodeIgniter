@@ -120,6 +120,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1036) - is_write_type() method in the :doc:`Database Library <database/index>` didn't return TRUE for RENAME and OPTIMIZE queries.
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
+-  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
 
 Version 2.1.1
 =============
