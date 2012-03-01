@@ -586,7 +586,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _error_message()
 	{
-		$error = self::_get_error_data();
+		$error = $this->_oci8_error_data();
 		return $error['message'];
 	}
 
@@ -595,35 +595,39 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @return	int
+	 * @return	string
 	 */
 	protected function _error_number()
 	{
-		$error = self::_get_error_data();
+		$error = $this->_oci8_error_data();
 		return $error['code'];
 	}
 
 	// --------------------------------------------------------------------
 
-	/* Get error data
+	/**
+	 * OCI8-specific method to get errors.
 	 *
-	 * Used by _error_message() and _error_number()
+	 * Used by _error_message() and _error_code().
 	 *
 	 * @return	array
 	 */
-	private function _get_error_data()
+	protected function _oci8_error_data()
 	{
-		$res = NULL;
-		foreach (array('curs_id', 'stmt_id', 'conn_id') as $key)
+		if (is_resource($this->curs_id))
 		{
-			if (is_resource($this->$key))
-			{
-				$res = $this->$key;
-				break;
-			}
+			return oci_error($this->curs_id);
+		}
+		elseif (is_resource($this->stmt_id))
+		{
+			return oci_error($this->stmt_id);
+		}
+		elseif (is_resource($this->conn_id))
+		{
+			return oci_error($this->conn_id);
 		}
 
-		return ( ! is_null($res)) ? oci_error($res) : oci_error();
+		return oci_error();
 	}
 
 	// --------------------------------------------------------------------
