@@ -403,13 +403,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		{
 			return '';
 		}
-		elseif (isset($error['SQLSTATE'], $error['code']))
-		{
-			return $error['SQLSTATE'].'/'.$error['code'];
-		}
 		elseif (isset($error['SQLSTATE']))
 		{
-			return $error['SQLSTATE'];
+			return isset($error['code']) ? $error['SQLSTATE'].'/'.$error['code'] : $error['SQLSTATE'];
 		}
 		elseif (isset($error['code']))
 		{
@@ -576,12 +572,5 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 
 }
 
-<<<<<<< HEAD
 /* End of file sqlsrv_driver.php */
 /* Location: ./system/database/drivers/sqlsrv/sqlsrv_driver.php */
-=======
-
-
-/* End of file mssql_driver.php */
-/* Location: ./system/database/drivers/mssql/mssql_driver.php */
->>>>>>> upstream/develop
