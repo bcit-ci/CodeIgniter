@@ -215,21 +215,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	public function db_set_charset($charset, $collation)
-	{
-		// this is done upon connect
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @return	string
