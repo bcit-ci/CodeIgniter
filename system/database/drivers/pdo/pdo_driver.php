@@ -665,21 +665,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	bool
-	 */
-	public function db_set_charset($charset, $collation)
-	{
-		// This is done upon connect
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @return	string
