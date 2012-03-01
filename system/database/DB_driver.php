@@ -185,20 +185,19 @@ class CI_DB_driver {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	bool
 	 */
-	function db_set_charset($charset, $collation)
+	public function db_set_charset($charset, $collation = '')
 	{
-		if ( ! $this->_db_set_charset($this->char_set, $this->dbcollat))
+		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset, $collation))
 		{
-			log_message('error', 'Unable to set database connection charset: '.$this->char_set);
+			log_message('error', 'Unable to set database connection charset: '.$charset);
 
 			if ($this->db_debug)
 			{
-				$this->display_error('db_unable_to_set_charset', $this->char_set);
+				$this->display_error('db_unable_to_set_charset', $charset);
 			}
 
 			return FALSE;
@@ -645,17 +644,12 @@ class CI_DB_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @access	public
 	 * @param	string	An SQL query string
-	 * @return	boolean
+	 * @return	bool
 	 */
-	function is_write_type($sql)
+	public function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -1424,6 +1418,22 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Dummy method that allows Active Record class to be disabled
+	 *
+	 * This function is used extensively by every db driver.
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	protected function _reset_select()
+	{
+	
+	}
+
 }
 
 /* End of file DB_driver.php */
