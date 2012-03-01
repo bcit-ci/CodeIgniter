@@ -424,13 +424,18 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _error_message()
+	protected function _error_message()
 	{
-		$error = array_shift(sqlsrv_errors());
-		return !empty($error['message']) ? $error['message'] : null;
+		$error = sqlsrv_errors();
+		if ( ! is_array($error))
+		{
+			return '';
+		}
+
+		$error = array_shift($error);
+		return isset($error['message']) ? $error['message'] : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -438,13 +443,25 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	string
 	 */
-	function _error_number()
+	protected function _error_number()
 	{
-		$error = array_shift(sqlsrv_errors());
-		return isset($error['SQLSTATE']) ? $error['SQLSTATE'] : null;
+		$error = sqlsrv_errors();
+		if ( ! is_array($error))
+		{
+			return '';
+		}
+		elseif (isset($error['SQLSTATE']))
+		{
+			return isset($error['code']) ? $error['SQLSTATE'].'/'.$error['code'] : $error['SQLSTATE'];
+		}
+		elseif (isset($error['code']))
+		{
+			return $error['code'];
+		}
+
+		return '';
 	}
 
 	// --------------------------------------------------------------------
