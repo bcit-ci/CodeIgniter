@@ -121,6 +121,7 @@ Bug fixes for 3.0
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
+-  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
 
 Version 2.1.1
 =============
@@ -141,7 +142,6 @@ Bug fixes for 2.1.1
 -  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
 -  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
-
 
 Version 2.1.0
 =============
