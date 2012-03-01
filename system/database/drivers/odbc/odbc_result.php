@@ -78,19 +78,18 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
+		$field_names = array();
 		$num_fields = $this->num_fields();
+
 		if ($num_fields > 0)
 		{
-			$field_names = array();
 			for ($i = 1; $i <= $num_fields; $i++)
 			{
-				$field_names[]	= odbc_field_name($this->result_id, $i);
+				$field_names[] = odbc_field_name($this->result_id, $i);
 			}
-
-			return $field_names;
 		}
 
-		return array();
+		return $field_names;
 	}
 
 	// --------------------------------------------------------------------
