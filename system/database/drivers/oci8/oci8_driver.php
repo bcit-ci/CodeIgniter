@@ -529,13 +529,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access  protected
-	 * @return  string
+	 * @return	string
 	 */
 	protected function _error_message()
 	{
-		// If the error was during connection, no conn_id should be passed
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
+		$error = $this->_oci8_error_data();
 		return $error['message'];
 	}
 
@@ -544,14 +542,38 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access  protected
-	 * @return  integer
+	 * @return	string
 	 */
 	protected function _error_number()
 	{
-		// Same as _error_message()
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
+		$error = $this->_oci8_error_data();
 		return $error['code'];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * OCI8-specific method to get errors.
+	 * Used by _error_message() and _error_code().
+	 *
+	 * @return	array
+	 */
+	protected function _oci8_error_data()
+	{
+		if (is_resource($this->curs_id))
+		{
+			return oci_error($this->curs_id);
+		}
+		elseif (is_resource($this->stmt_id))
+		{
+			return oci_error($this->stmt_id);
+		}
+		elseif (is_resource($this->conn_id))
+		{
+			return oci_error($this->conn_id);
+		}
+
+		return oci_error();
 	}
 
 	// --------------------------------------------------------------------
