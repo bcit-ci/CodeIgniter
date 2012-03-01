@@ -622,10 +622,19 @@ class CI_Loader {
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
 	{
-		if ( ! class_exists('CI_Driver_Library'))
+		$prefix = config_item('subclass_prefix');
+		
+		if ( ! class_exists('CI_Driver_Library') || !class_exists($prefix.'Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
 			require BASEPATH.'libraries/Driver.php';
+			
+			// Driver library extending implementation.
+			// If there is a Driver library extending, we call this file.
+			if (file_exists(APPPATH.'libraries/' . $prefix . 'Driver.php'))
+			{
+				require APPPATH.'libraries/' . $prefix . 'Driver.php';
+			}
 		}
 
 		if ($library == '')
