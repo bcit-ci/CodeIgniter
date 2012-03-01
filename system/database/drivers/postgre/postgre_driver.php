@@ -190,10 +190,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * Set client character set
 	 *
 	 * @param	string
-	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset)
 	{
 		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
 	}
