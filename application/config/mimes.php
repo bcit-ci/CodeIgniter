@@ -120,7 +120,7 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'mov'	=>	'video/quicktime',
 				'avi'	=>	array('video/x-msvideo', 'video/msvideo', 'video/avi', 'application/x-troff-msvideo'),
 				'movie'	=>	'video/x-sgi-movie',
-				'doc'	=>	'application/msword',
+				'doc'	=>	array('application/msword', 'application/vnd.ms-office'),
 				'docx'	=>	array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'),
 				'xlsx'	=>	array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip'),
 				'word'	=>	array('application/msword', 'application/octet-stream'),
