@@ -144,7 +144,7 @@ class CI_Typography {
 		$process = TRUE;
 		$paragraph = FALSE;
 
-		for ($i = 1, $c = count($chunks); $i <= $c; $i++)
+		for ($i = 0, $c = count($chunks) - 1; $i <= $c; $i++)
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
