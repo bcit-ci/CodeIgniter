@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Download Helpers
@@ -47,67 +45,72 @@
  * @access	public
  * @param	string	filename
  * @param	mixed	the data to be downloaded
+ * @param	bool	wether to try and send the actual file MIME type
  * @return	void
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '')
+	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
 		if ($filename == '' OR $data == '')
 		{
 			return FALSE;
 		}
 
-		// Try to determine if the filename includes a file extension.
-		// We need it in order to set the MIME type
-		if (FALSE === strpos($filename, '.'))
+		// Set the default MIME type to send
+		$mime = 'application/octet-stream';
+
+		if ($set_mime === TRUE)
 		{
-			return FALSE;
+			/* If we're going to detect the MIME type,
+			 * we'll need a file extension.
+			 */
+			if (FALSE === strpos($filename, '.'))
+			{
+				return FALSE;
+			}
+
+			$extension = explode('.', $filename);
+			$extension = end($extension);
+
+			// Load the mime types
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (is_file(APPPATH.'config/mimes.php'))
+			{
+				include(APPPATH.'config/mimes.php');
+			}
+
+			// Only change the default MIME if we can find one
+			if (isset($mimes[$extension]))
+			{
+				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
+			}
 		}
 
-		// Grab the file extension
-		$x = explode('.', $filename);
-		$extension = end($x);
-
-		// Load the mime types
-		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
-		{
-			include(APPPATH.'config/mimes.php');
-		}
-
-		// Set a default mime if we can't find it
-		if ( ! isset($mimes[$extension]))
-		{
-			$mime = 'application/octet-stream';
-		}
-		else
-		{
-			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
-		}
-		
 		// Generate the server headers
 		header('Content-Type: "'.$mime.'"');
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
-		header("Content-Transfer-Encoding: binary");
-		header("Content-Length: ".strlen($data));
-		header('Pragma: no-cache');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: '.strlen($data));
 
-		// Internet Explorer-specific headers.
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
+		// Internet Explorer-specific headers
+		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
+		}
+		else
+		{
+			header('Pragma: no-cache');
 		}
 
 		exit($data);
 	}
 }
-
 
 /* End of file download_helper.php */
 /* Location: ./system/helpers/download_helper.php */
