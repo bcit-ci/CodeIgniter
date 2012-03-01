@@ -443,7 +443,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		$error = array_shift(sqlsrv_errors());
+		$errors = sqlsrv_errors();
+		if(count($errors))
+			$error = array_shift($errors);
 		return isset($error['SQLSTATE']) ? $error['SQLSTATE'] : null;
 	}
 
