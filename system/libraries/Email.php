@@ -64,30 +64,31 @@ class CI_Email {
 	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE  Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
-	private $_safe_mode		= FALSE;
-	private $_subject		= "";
-	private $_body			= "";
-	private $_finalbody		= "";
-	private $_alt_boundary	= "";
-	private $_atc_boundary	= "";
-	private $_header_str	= "";
-	private $_smtp_connect	= "";
-	private $_encoding		= "8bit";
-	private $_IP			= FALSE;
-	private $_smtp_auth		= FALSE;
-	private $_replyto_flag	= FALSE;
-	private $_debug_msg		= array();
-	private $_recipients	= array();
-	private $_cc_array		= array();
-	private $_bcc_array		= array();
-	private $_headers		= array();
-	private $_attach_name	= array();
-	private $_attach_type	= array();
-	private $_attach_disp	= array();
-	private $_protocols		= array('mail', 'sendmail', 'smtp');
-	private $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
-	private $_bit_depths	= array('7bit', '8bit');
-	private $_priorities	= array('1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)');
+
+	protected $_safe_mode		= FALSE;
+	protected $_subject		= '';
+	protected $_body		= '';
+	protected $_finalbody		= '';
+	protected $_alt_boundary	= '';
+	protected $_atc_boundary	= '';
+	protected $_header_str		= '';
+	protected $_smtp_connect	= '';
+	protected $_encoding		= '8bit';
+	protected $_IP			= FALSE;
+	protected $_smtp_auth		= FALSE;
+	protected $_replyto_flag	= FALSE;
+	protected $_debug_msg		= array();
+	protected $_recipients		= array();
+	protected $_cc_array		= array();
+	protected $_bcc_array		= array();
+	protected $_headers		= array();
+	protected $_attach_name		= array();
+	protected $_attach_type		= array();
+	protected $_attach_disp		= array();
+	protected $_protocols		= array('mail', 'sendmail', 'smtp');
+	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
+	protected $_bit_depths		= array('7bit', '8bit');
+	protected $_priorities		= array('1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)');
 
 
 	/**
