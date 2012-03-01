@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -593,16 +593,17 @@ class CI_Upload {
 	/**
 	 * Verify that the filetype is allowed
 	 *
+	 * @param	bool
 	 * @return	bool
 	 */
 	public function is_allowed_filetype($ignore_mime = FALSE)
 	{
-		if ($this->allowed_types == '*')
+		if ($this->allowed_types === '*')
 		{
 			return TRUE;
 		}
 
-		if (count($this->allowed_types) == 0 OR ! is_array($this->allowed_types))
+		if ( ! is_array($this->allowed_types) OR count($this->allowed_types) === 0)
 		{
 			$this->set_error('upload_no_file_types');
 			return FALSE;
@@ -618,12 +619,9 @@ class CI_Upload {
 		// Images get some additional checks
 		$image_types = array('gif', 'jpg', 'jpeg', 'png', 'jpe');
 
-		if (in_array($ext, $image_types))
+		if (in_array($ext, $image_types) && @getimagesize($this->file_temp) === FALSE)
 		{
-			if (getimagesize($this->file_temp) === FALSE)
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 		if ($ignore_mime === TRUE)
@@ -640,7 +638,7 @@ class CI_Upload {
 				return TRUE;
 			}
 		}
-		elseif ($mime == $this->file_type)
+		elseif ($mime === $this->file_type)
 		{
 				return TRUE;
 		}
