@@ -611,7 +611,7 @@ SQL;
 			
 			if ($offset > 0)
 			{
-				$sql .= ' SKIP'. (int) $offset;
+				$sql .= ' SKIP '. (int) $offset;
 			}
 		}
 		else
