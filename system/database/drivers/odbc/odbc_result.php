@@ -54,10 +54,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_fields()
+	public function num_fields()
 	{
 		return @odbc_num_fields($this->result_id);
 	}
@@ -69,15 +68,19 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function list_fields()
+	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		$num_fields = $this->num_fields();
+
+		if ($num_fields > 0)
 		{
-			$field_names[]	= odbc_field_name($this->result_id, $i);
+			for ($i = 1; $i <= $num_fields; $i++)
+			{
+				$field_names[] = odbc_field_name($this->result_id, $i);
+			}
 		}
 
 		return $field_names;
@@ -90,22 +93,19 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function field_data()
+	public function field_data()
 	{
 		$retval = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $odbc_index = 1, $c = $this->num_fields(); $i < $c; $i++, $odbc_index++)
 		{
-			$F				= new stdClass();
-			$F->name		= odbc_field_name($this->result_id, $i);
-			$F->type		= odbc_field_type($this->result_id, $i);
-			$F->max_length	= odbc_field_len($this->result_id, $i);
-			$F->primary_key = 0;
-			$F->default		= '';
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= odbc_field_name($this->result_id, $odbc_index);
+			$retval[$i]->type		= odbc_field_type($this->result_id, $odbc_index);
+			$retval[$i]->max_length		= odbc_field_len($this->result_id, $odbc_index);
+			$retval[$i]->primary_key	= 0;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
