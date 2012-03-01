@@ -66,6 +66,11 @@ Change Log
 			<li>Fixed support for docx, xlsx files in mimes.php.</li>
 		</ul>
 	</li>
+	<li>Libraries
+		<ul>
+			<li>Further improved MIME type detection in the <a href="libraries/file_uploading.html">File Uploading Library</a>.</li>
+		</ul>
+	</li>
 </ul>
 
 <h3>Bug fixes for 2.1.1</h3>
@@ -73,7 +78,7 @@ Change Log
 	<li>Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.</li>
 	<li>Fixed a bug - form_open() compared $action against site_url() instead of base_url()</li>
 	<li>Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.</li>
-	<li>Fixed a bug (#758) - Active Record joins with condition split in multiple lines was not producing the right query</li>
+	<li>Fixed a bug (#538) - Windows paths were ignored when using the <a href="libraries/image_lib.html">Image Manipulation Class</a> to create a new file.</li>
 </ul>
 
 
