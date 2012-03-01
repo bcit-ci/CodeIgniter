@@ -112,6 +112,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
 -  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
+-  Fixed a bug (#68, #414) - Oracle's escape_str() didn't properly escape LIKE wild characters.
 
 
 Version 2.1.1
