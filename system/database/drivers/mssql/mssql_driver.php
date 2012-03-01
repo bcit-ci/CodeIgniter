@@ -114,30 +114,25 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * @param	string	database name
+	 * @return	bool
 	 */
-	function db_select()
+	public function db_select($database = '')
 	{
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
 		// Note: The brackets are required in the event that the DB name
 		// contains reserved characters
-		return @mssql_select_db('['.$this->database.']', $this->conn_id);
-	}
+		if (@mssql_select_db('['.$database.']', $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// @todo - add support if needed
-		return TRUE;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
