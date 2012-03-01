@@ -36,6 +36,8 @@
  */
 class CI_DB_odbc_result extends CI_DB_result {
 
+	public $num_rows;
+
 	/**
 	 * Number of rows in the result set
 	 *
@@ -43,7 +45,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		if ($this->num_rows > 0)
+		if (is_int($this->num_rows))
 		{
 			return $this->num_rows;
 		}
@@ -51,7 +53,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		// Work-around for ODBC subdrivers that don't support num_rows()
 		if (($this->num_rows = @odbc_num_rows($this->result_id)) === -1)
 		{
-			return $this->num_rows = count($this->result_array());
+			$this->num_rows = count($this->result_array());
 		}
 
 		return $this->num_rows;
