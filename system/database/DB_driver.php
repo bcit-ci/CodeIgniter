@@ -645,17 +645,12 @@ class CI_DB_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @access	public
 	 * @param	string	An SQL query string
-	 * @return	boolean
+	 * @return	bool
 	 */
-	function is_write_type($sql)
+	public function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
