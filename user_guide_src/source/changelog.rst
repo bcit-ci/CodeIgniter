@@ -92,8 +92,7 @@ Bug fixes for 3.0
 ------------------
 
 -  Unlink raised an error if cache file did not exist when you try to delete it.
--  Fixed a bug (#181) where a mis-spelling was in the form validation
-   language file.
+-  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
 -  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
@@ -127,6 +126,7 @@ Bug fixes for 3.0
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
 -  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
+-  Fixed a bug (#413) - Oracle's _error_message() and _error_number() methods used to only return connection-related errors.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 
 Version 2.1.1
