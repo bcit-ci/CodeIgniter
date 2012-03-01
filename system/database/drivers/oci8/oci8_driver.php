@@ -398,10 +398,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access  public
-	 * @param   string
+	 * @param	string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return  string
+	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -415,15 +414,14 @@ class CI_DB_oci8_driver extends CI_DB {
 			return $str;
 		}
 
-		$str = remove_invisible_characters($str);
-		$str = str_replace("'", "''", $str);
+		$str = str_replace("'", "''", remove_invisible_characters($str));
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
-								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
-								$str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
