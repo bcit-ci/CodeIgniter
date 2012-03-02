@@ -7,9 +7,9 @@ $this->db->insert_id()
 
 The insert ID number when performing database inserts.
 
-.. note:: If using the PDO driver with PostgreSQL, this function requires
-	a $name parameter, which specifies the appropriate sequence to check
-	for the insert id.
+.. note:: If using the PDO driver with PostgreSQL, or using the Interbase
+	driver, this function requires a $name parameter, which specifies the 
+	appropriate sequence to check for the insert id.
 
 $this->db->affected_rows()
 ===========================
