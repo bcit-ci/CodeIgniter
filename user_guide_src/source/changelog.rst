@@ -75,6 +75,7 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  Added function error_array() to return all error messages as an array in the Form_validation class.
 
 -  Core
 
@@ -123,6 +124,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
 -  Fixed a bug (#413) - Oracle's _error_message() and _error_number() methods used to only return connection-related errors.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
+-  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
+-  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
 -  Fixed a bug (#499) - a CSRF cookie was created even with CSRF protection being disabled.
 
 Version 2.1.1
