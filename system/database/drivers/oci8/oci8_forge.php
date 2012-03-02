@@ -84,7 +84,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		$sql .= $this->db->_escape_identifiers($table).' (';
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
@@ -98,10 +98,10 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
 				$sql .= "\n\t".$this->db->protect_identifiers($field).' '.$attributes['TYPE']
-					.(isset($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.((isset($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
-					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL');
+					.((isset($attributes['UNSINGED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
+					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? '' : ' NOT NULL')
+					.(isset($attributes['CONSTRAINT']) ? ' CONSTRAINT '.$attributes['CONSTRAINT'] : '');
 			}
 
 			// don't add a comma on the end of the last field
@@ -114,7 +114,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $primary_keys).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
