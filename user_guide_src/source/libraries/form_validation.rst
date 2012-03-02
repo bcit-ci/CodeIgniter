@@ -579,7 +579,28 @@ must supply it as an array to the function. Example::
 
 For more info please see the :ref:`using-arrays-as-field-names` section below.
 
-.. _saving-groups:
+Validating An Array (Other Than The $_POST Array)
+=================================================
+
+Sometimes you may want to validate an array that does not originate from $_POST data.
+
+In this case, you can specify the array to be validated::
+	
+      $data = array(
+	      'username' => 'johndoe',
+		  'password' => 'mypassword',
+		  'passconf' => 'mypassword'
+		));
+
+      $this->form_validation->set_data($data);
+
+Creating validation rules, running the validation and retrieving error messages works the same whether you are
+validating $_POST data or an array.
+
+**Important Note:** If you want to validate more than one array during a single execution, then you should
+call the reset_validation() function before calling the run() function each time.
+
+For more info please see the :ref:`function-reference` section below.
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -929,6 +950,24 @@ $this->form_validation->set_message();
 		:rtype: Object
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
+
+$this->form_validation->set_data();
+========================================
+	
+	.. php:method:: set_data ($data = '')
+
+		:param array $data: The data to validate
+
+		Permits you to set an array for validation, instead of using the default
+		$_POST array.
+
+$this->form_validation->reset_validation();
+========================================
+	
+	.. php:method:: reset_validation ()
+
+		Permits you to reset the validation when you validate more than one array.
+		This function should be called before each call to the run() method.
 
 $this->form_validation->error_array();
 ========================================

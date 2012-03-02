@@ -1304,7 +1304,27 @@ class CI_Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
-
+	
+	// --------------------------------------------------------------------
+	
+    /**
+     * Reset validation vars
+	 * 
+	 * Prevents subsequent validation routines from being affected by the 
+	 * results of any previous validation routine due to the CI singleton.
+	 * If calling the run() method more than once, then this method should be 
+	 * called before each run() method.
+	 * 
+     * @return void
+     */
+    public function reset_validation()
+    {
+		$this->_field_data = array();
+		$this->_config_rules = array();
+		$this->_error_array = array();
+		$this->_error_messages = array();
+		$this->error_string = '';
+    }
 }
 
 /* End of file Form_validation.php */
