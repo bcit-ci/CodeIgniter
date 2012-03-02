@@ -94,12 +94,39 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		{
 			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
 
-			$F		= new stdClass();
-			$F->name	= $field->Field;
-			$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-			$F->default	= $field->Default;
+			$F				= new stdClass();
+			$F->name		= $field->Field;
+			$F->type		= ( ! empty($matches[1])) ? $matches[1] : NULL;
+			$F->default		= $field->Default;
 			$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
 			$F->primary_key = (int) ($field->Key === 'PRI');
+			$F->comment 	= $field->Comment;
+
+			$retval[] = $F;
+		}
+
+		return $retval;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Index data
+	 *
+	 * Generates an array of objects containing index meta-data
+	 *
+	 * @return	array
+	 */
+	public function index_data()
+	{
+		$retval = array();
+		while ($field = mysqli_fetch_object($this->result_id))
+		{
+			$F		  = new stdClass();
+			$F->name	= $field->Key_name;
+			$F->column  = $field->Column_name;
+			$F->type	= $field->Index_type;
+			$F->comment = $field->Comment;
 
 			$retval[] = $F;
 		}

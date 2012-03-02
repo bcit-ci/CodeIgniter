@@ -921,6 +921,30 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Returns an object with index data
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	object
+	 */
+	function index_data($table = '')
+	{
+		if ($table == '')
+		{
+			if ($this->db_debug)
+			{
+				return $this->display_error('db_field_param_missing');
+			}
+			return FALSE;
+		}
+
+		$query = $this->query($this->_list_index($this->_protect_identifiers($table, TRUE, NULL, FALSE)));
+
+		return $query->index_data();
+	}
+
+	// --------------------------------------------------------------------
+	/**
 	 * Generate an insert string
 	 *
 	 * @access	public

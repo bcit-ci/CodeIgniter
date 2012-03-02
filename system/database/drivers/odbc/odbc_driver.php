@@ -374,9 +374,24 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
 		return "SHOW COLUMNS FROM ".$table;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _list_index($table = '')
+	{
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -390,7 +405,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	function _field_data($table)
+	protected function _field_data($table)
 	{
 		return "SELECT TOP 1 FROM ".$table;
 	}

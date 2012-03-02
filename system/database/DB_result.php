@@ -378,6 +378,7 @@ class CI_DB_result {
 	public function num_fields() { return 0; }
 	public function list_fields() { return array(); }
 	public function field_data() { return array(); }
+	public function index_data() { return array(); }
 	public function free_result() { return TRUE; }
 	protected function _data_seek() { return TRUE; }
 	protected function _fetch_assoc() { return array(); }

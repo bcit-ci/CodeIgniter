@@ -397,7 +397,22 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		return 'SHOW FULL COLUMNS FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _list_index($table = '')
+	{
+		return 'SHOW INDEX FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -412,7 +427,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'DESCRIBE '.$table;
+		return $this->_list_columns($table);
 	}
 
 	// --------------------------------------------------------------------

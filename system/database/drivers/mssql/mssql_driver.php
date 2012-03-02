@@ -422,6 +422,22 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _list_index($table = '')
+	{
+		return FALSE;
+		//return "SELECT * FROM INFORMATION_SCHEMA.INDEXES WHERE TABLE_NAME = '".$table."'";//TODO - To Test
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Field data query
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved

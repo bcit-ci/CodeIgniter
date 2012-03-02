@@ -145,6 +145,32 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Index data
+	 *
+	 * Generates an array of objects containing index meta-data
+	 *
+	 * @return	array
+	 */
+	public function index_data()
+	{
+		$retval = array();
+		while ($field = cubrid_fetch_field($this->result_id))
+		{
+			$F		  = new stdClass();
+			$F->name	= $field->Key_name;
+			$F->column  = $field->Column_name;
+			$F->type	= $field->Index_type;
+			$F->comment = '';
+
+			$retval[] = $F;
+		}
+
+		return $retval;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Free the result
 	 *
 	 * @return	null

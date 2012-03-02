@@ -593,6 +593,21 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Show index column query
+	 *
+	 * Generates a platform-specific query string so that the index names can be fetched
+	 *
+	 * @access	public
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	function _list_index($table = '')
+	{
+		return "SHOW INDEX FROM ".$table;
+	}
+	// --------------------------------------------------------------------
+
+	/**
 	 * Field data query
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
