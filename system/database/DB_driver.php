@@ -330,30 +330,28 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
-			// Grab the error number and message now, as we might run some
-			// additional queries before displaying the error
-			$error_no = $this->_error_number();
-			$error_msg = $this->_error_message();
+			// Grab the error now, as we might run some additional queries before displaying the error
+			$error = $this->error();
 
 			// Log errors
-			log_message('error', 'Query error: '.$error_msg);
+			log_message('error', 'Query error: '.$error['message']);
 
 			if ($this->db_debug)
 			{
 				// We call this function in order to roll-back queries
-				// if transactions are enabled.  If we don't call this here
+				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
 				$this->trans_complete();
 
 				// Display errors
 				return $this->display_error(
-										array(
-												'Error Number: '.$error_no,
-												$error_msg,
-												$sql
-											)
-										);
+								array(
+									'Error Number: '.$error['code'],
+									$error['message'],
+									$sql
+								)
+							);
 			}
 
 			return FALSE;
