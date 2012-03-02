@@ -115,21 +115,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	bool
-	 */
-	public function db_set_charset($charset, $collation)
-	{
-		// Must be determined at connection
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @return	string
