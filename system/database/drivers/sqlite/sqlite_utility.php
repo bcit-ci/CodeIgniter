@@ -38,7 +38,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 * List databases
 	 *
 	 * I don't believe you can do a database listing with SQLite
-	 * since each database is its own file.  I suppose we could
+	 * since each database is its own file. I suppose we could
 	 * try reading a directory looking for SQLite files, but
 	 * that doesn't seem like a terribly good idea
 	 *
@@ -68,7 +68,6 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 *
 	 * @param	string	the table name
 	 * @return	bool
 	 */
@@ -91,6 +90,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
 	}
+
 }
 
 /* End of file sqlite_utility.php */
