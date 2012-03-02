@@ -114,30 +114,25 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
+	 * @param	string	database name
+	 * @return	bool
 	 */
-	function db_select()
+	public function db_select($database = '')
 	{
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
 		// Note: The brackets are required in the event that the DB name
 		// contains reserved characters
-		return @mssql_select_db('['.$this->database.']', $this->conn_id);
-	}
+		if (@mssql_select_db('['.$database.']', $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// @todo - add support if needed
-		return TRUE;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -443,28 +438,18 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return mssql_get_last_message();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		// Are error numbers supported?
-		return '';
+		$query = $this->query('SELECT @@ERROR AS code');
+		$query = $query->row();
+		return array('code' => $query->code, 'message' => mssql_get_last_message());
 	}
 
 	// --------------------------------------------------------------------

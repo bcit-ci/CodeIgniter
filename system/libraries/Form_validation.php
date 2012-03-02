@@ -235,6 +235,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Array of Error Messages
+	 *
+	 * Returns the error messages as an array
+	 *
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Error String
 	 *
 	 * Returns the error messages as a string, wrapped in the error delimiters
@@ -703,11 +717,11 @@ class CI_Form_validation {
 	 *
 	 * @param	string	the field name
 	 * @param	string
-	 * @return	void
+	 * @return	string
 	 */
 	public function set_value($field = '', $default = '')
 	{
-		if ( ! isset($this->_field_data[$field]))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
 			return $default;
 		}
@@ -736,13 +750,9 @@ class CI_Form_validation {
 	 */
 	public function set_select($field = '', $value = '', $default = FALSE)
 	{
-		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
-			if ($default === TRUE AND count($this->_field_data) === 0)
-			{
-				return ' selected="selected"';
-			}
-			return '';
+			return ($default === TRUE && count($this->_field_data) === 0) ? ' selected="selected"' : '';
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
@@ -754,12 +764,9 @@ class CI_Form_validation {
 				return '';
 			}
 		}
-		else
+		elseif (($field == '' OR $value == '') OR ($field != $value))
 		{
-			if (($field == '' OR $value == '') OR ($field != $value))
-			{
-				return '';
-			}
+			return '';
 		}
 
 		return ' selected="selected"';
@@ -779,13 +786,9 @@ class CI_Form_validation {
 	 */
 	public function set_radio($field = '', $value = '', $default = FALSE)
 	{
-		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
-			if ($default === TRUE AND count($this->_field_data) === 0)
-			{
-				return ' checked="checked"';
-			}
-			return '';
+			return ($default === TRUE && count($this->_field_data) === 0) ? ' checked="checked"' : '';
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
@@ -869,9 +872,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		$field = $_POST[$field];
-
-		return ($str === $field);
+		return ($str === $_POST[$field]);
 	}
 
 	// --------------------------------------------------------------------
@@ -908,7 +909,7 @@ class CI_Form_validation {
 	 */
 	public function min_length($str, $val)
 	{
-		if (preg_match("/[^0-9]/", $val))
+		if (preg_match('/[^0-9]/', $val))
 		{
 			return FALSE;
 		}
@@ -932,7 +933,7 @@ class CI_Form_validation {
 	 */
 	public function max_length($str, $val)
 	{
-		if (preg_match("/[^0-9]/", $val))
+		if (preg_match('/[^0-9]/', $val))
 		{
 			return FALSE;
 		}
@@ -956,7 +957,7 @@ class CI_Form_validation {
 	 */
 	public function exact_length($str, $val)
 	{
-		if (preg_match("/[^0-9]/", $val))
+		if (preg_match('/[^0-9]/', $val))
 		{
 			return FALSE;
 		}
@@ -1170,7 +1171,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str != 0 AND preg_match('/^[0-9]+$/', $str));
+		return ($str != 0 && preg_match('/^[0-9]+$/', $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1217,7 +1218,7 @@ class CI_Form_validation {
 			return $data;
 		}
 
-		return str_replace(array("'", '"', '<', '>'), array("&#39;", "&quot;", '&lt;', '&gt;'), stripslashes($data));
+		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
 	}
 
 	// --------------------------------------------------------------------
@@ -1283,7 +1284,6 @@ class CI_Form_validation {
 	}
 
 }
-// END Form Validation Class
 
 /* End of file Form_validation.php */
 /* Location: ./system/libraries/Form_validation.php */
