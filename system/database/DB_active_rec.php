@@ -236,7 +236,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (strpos($item, '.') !== FALSE)
 		{
-			return end(explode('.', $item));
+			$item = explode('.', $item);
+			return end($item);
 		}
 
 		return $item;
@@ -1127,15 +1128,14 @@ class CI_DB_active_record extends CI_DB_driver {
 		$result = $this->query($this->_compile_select($this->_count_string.$this->_protect_identifiers('numrows')));
 		$this->_reset_select();
 
-		if ($query->num_rows() === 0)
+		if ($result->num_rows() === 0)
 		{
 			return 0;
 		}
 
-		$row = $query->row();
+		$row = $result->row();
 		return (int) $row->numrows;
 	}
-
 	// --------------------------------------------------------------------
 
 	/**
