@@ -128,6 +128,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
 -  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
+-  Fixed a bug (#1080) - When using the SMTP protocol, the :doc:`Email Library <libraries/email>` send() method was returning TRUE even if the connection/authentication against the server failed.
 
 Version 2.1.1
 =============
