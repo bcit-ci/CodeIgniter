@@ -156,24 +156,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// In CUBRID, there is no need to set charset or collation.
-		// This is why returning true will allow the application continue
-		// its normal process.
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @access	public
@@ -362,12 +344,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function affected_rows()
+	public function affected_rows()
 	{
-		return @cubrid_affected_rows($this->conn_id);
+		return @cubrid_affected_rows();
 	}
 
 	// --------------------------------------------------------------------
@@ -472,30 +453,17 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return cubrid_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		return cubrid_errno($this->conn_id);
+		return array('code' => cubrid_errno($this->conn_id), 'message' => cubrid_error($this->conn_id));
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Escape the SQL Identifiers
