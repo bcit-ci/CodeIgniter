@@ -78,6 +78,7 @@ Release Date: Not Released
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
+   -  Changed the Session library to select only one row when using database sessions.
 
 -  Core
 
