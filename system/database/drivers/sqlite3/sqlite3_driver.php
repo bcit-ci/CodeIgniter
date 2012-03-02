@@ -139,14 +139,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		if ( ! preg_match('/^(SELECT|EXPLAIN).+$/i', ltrim($sql)))
-		{
-			return $this->conn_id->exec($sql);
-		}
-
 		// TODO: Implement use of SQLite3::querySingle(), if needed
 		// TODO: Use $this->_prep_query(), if needed
-		return $this->conn_id->query($sql);
+
+		return $this->is_write_type($sql)
+			? $this->conn_id->exec($sql)
+			: $this->conn_id->query($sql);
 	}
 
 	// --------------------------------------------------------------------
