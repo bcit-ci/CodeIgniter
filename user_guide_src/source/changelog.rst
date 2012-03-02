@@ -129,6 +129,7 @@ Bug fixes for 3.0
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
 -  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
 -  Fixed a bug (#413) - Oracle's _error_message() and _error_number() methods used to only return connection-related errors.
+-  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug in the Oracle (oci8) instance of :doc:`Database Forge Class <database/forge>` where create_table() would fail if used with AUTO_INCREMENT as it's not supported by Oracle.
 
 Version 2.1.1
