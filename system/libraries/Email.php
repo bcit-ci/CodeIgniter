@@ -1434,7 +1434,7 @@ class CI_Email {
 			return FALSE;
 		}
 
-		if ( !($this->_smtp_connect() && $this->_smtp_authenticate()) )
+		if ( ! $this->_smtp_connect() OR ! $this->_smtp_authenticate())
 		{
 			return FALSE;
 		}
