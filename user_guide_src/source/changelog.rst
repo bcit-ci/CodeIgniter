@@ -77,6 +77,7 @@ Release Date: Not Released
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
+	 -  Added method error_array() to return all error messages as an array.
 	 -  _execute() now considers input data to be invalid if a specified rule is not found.
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
@@ -128,6 +129,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
 -  Fixed a bug (#413) - Oracle's _error_message() and _error_number() methods used to only return connection-related errors.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
+-  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
+-  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 
 Version 2.1.1
