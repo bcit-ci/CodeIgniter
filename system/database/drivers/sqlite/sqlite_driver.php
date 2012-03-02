@@ -154,13 +154,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	protected function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-
-		if ( ! preg_match('/^(SELECT|EXPLAIN).+$/i', ltrim($sql)))
-		{
-			return @sqlite_exec($this->conn_id, $sql);
-		}
-
-		return @sqlite_query($this->conn_id, $sql);
+		return $this->is_write_type($sql)
+			? @sqlite_exec($this->conn_id, $sql)
+			: @sqlite_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
