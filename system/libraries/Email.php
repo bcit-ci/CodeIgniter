@@ -1359,6 +1359,7 @@ class CI_Email {
 		if ( ! $this->$method())
 		{
 			$this->_set_error_message('lang:email_send_failure_' . ($this->_get_protocol() === 'mail' ? 'phpmail' : $this->_get_protocol()));
+			return FALSE;
 		}
 
 		$this->_set_error_message('lang:email_sent', $this->_get_protocol());
@@ -1433,8 +1434,10 @@ class CI_Email {
 			return FALSE;
 		}
 
-		$this->_smtp_connect();
-		$this->_smtp_authenticate();
+		if ( !($this->_smtp_connect() && $this->_smtp_authenticate()) )
+		{
+			return FALSE;
+		}
 
 		$this->_send_command('from', $this->clean_email($this->_headers['From']));
 
