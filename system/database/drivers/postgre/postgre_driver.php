@@ -200,34 +200,30 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Database version
-	 *
-	 * This method overrides the one from the base class, as if PHP was
-	 * compiled with PostgreSQL version >= 7.4 libraries, we have a native
-	 * function to get the server's version.
+	 * Database version number
 	 *
 	 * @return	string
 	 */
 	public function version()
 	{
-		$version = pg_version($this->conn_id);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
 
-		/* If we don't have the server version string - fall back to
-		 * the base driver class' method
+		if (($pg_version = pg_version($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		/* If PHP was compiled with PostgreSQL lib versions earlier
+		 * than 7.4, pg_version() won't return the server version
+		 * and so we'll have to fall back to running a query in
+		 * order to get it.
 		 */
-		return isset($version['server']) ? $version['server'] : parent::version();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @return	string
-	 */
-	protected function _version()
-	{
-		return 'SELECT version() AS ver';
+		return isset($pg_version['server'])
+			? $this->data_cache['version'] = $pg_version['server']
+			: parent::version();
 	}
 
 	// --------------------------------------------------------------------
@@ -494,26 +490,16 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return pg_last_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	string
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		// Not supported in Postgre
-		return '';
+		return array('code' => '', 'message' => pg_last_error($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------
