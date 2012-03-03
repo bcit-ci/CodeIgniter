@@ -1095,7 +1095,7 @@ class CI_Upload {
 				$proc = @popen($cmd, 'r');
 				if (is_resource($proc))
 				{
-					$mime = @fread($test, 512);
+					$mime = @fread($proc, 512);
 					@pclose($proc);
 					if ($mime !== FALSE)
 					{
