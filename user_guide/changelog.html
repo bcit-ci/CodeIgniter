@@ -80,6 +80,7 @@ Change Log
 	<li>Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.</li>
 	<li>Fixed a bug (#538) - Windows paths were ignored when using the <a href="libraries/image_lib.html">Image Manipulation Class</a> to create a new file.</li>
 	<li>Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.</li>
+	<li>Fixed a bug (#183) - PHP native and user defined functions were ignored if used as rules in Form Validation class</li>
 </ul>
 
 
