@@ -222,30 +222,40 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Database Version Number. Returns a string containing the
-	 * version of the database being used
+	 * Database version number
+	 *
+	 * Returns a string containing the version of the database being used.
+	 * Most drivers will override this method.
 	 *
 	 * @return	string
 	 */
 	public function version()
 	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
 		if (FALSE === ($sql = $this->_version()))
 		{
 			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 
-		// Some DBs have functions that return the version, and don't run special
-		// SQL queries per se. In these instances, just return the result.
-		if (in_array($this->dbdriver, array('oci8', 'sqlite', 'cubrid', 'pdo', 'mysqli')))
-		{
-			return $sql;
-		}
-		else
-		{
-			$query = $this->query($sql);
-			$query = $query->row();
-			return $query->ver;
-		}
+		$query = $this->query($sql);
+		$query = $query->row();
+		return $this->data_cache['version'] = $query->ver;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @return	string
+	 */
+	protected function _version()
+	{
+		return 'SELECT VERSION() AS ver';
 	}
 
 	// --------------------------------------------------------------------
@@ -316,13 +326,11 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
-			// Grab the error number and message now, as we might run some
-			// additional queries before displaying the error
-			$error_no = $this->_error_number();
-			$error_msg = $this->_error_message();
+			// Grab the error now, as we might run some additional queries before displaying the error
+			$error = $this->error();
 
 			// Log errors
-			log_message('error', 'Query error: '.$error_msg);
+			log_message('error', 'Query error: '.$error['message']);
 
 			if ($this->db_debug)
 			{
@@ -333,7 +341,7 @@ class CI_DB_driver {
 				$this->trans_complete();
 
 				// Display errors
-				return $this->display_error(array('Error Number: '.$error_no, $error_msg, $sql));
+				return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
 			}
 
 			return FALSE;
@@ -620,7 +628,7 @@ class CI_DB_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE)\s+/i', $sql);
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE|REINDEX)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
