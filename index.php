@@ -175,9 +175,9 @@ if (defined('ENVIRONMENT'))
 	}
 
 	// Set the absolute path to the system folder
-	if (realpath($system_path) !== FALSE)
+	if (($_systempath = realpath($system_path)) !== FALSE)
 	{
-		$system_path = realpath($system_path).'/';
+		$system_path = $_systempath;
 	}
 
 	// Ensure there's a trailing slash
@@ -186,7 +186,7 @@ if (defined('ENVIRONMENT'))
 	// Is the system path correct?
 	if ( ! is_dir($system_path))
 	{
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
 	}
 
@@ -215,9 +215,9 @@ if (defined('ENVIRONMENT'))
 	if (is_dir($application_folder))
 	{
 		// Set the absolute path to the application folder
-		if (realpath($application_folder) !== FALSE)
+		if (($_appath = realpath($application_folder)) !== FALSE)
 		{
-			$application_folder = realpath($application_folder).'/';
+			$application_folder = $_appath;
 		}
 
 		// Ensure there's a trailing slash
@@ -229,7 +229,7 @@ if (defined('ENVIRONMENT'))
 	{
 		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
@@ -245,7 +245,7 @@ if (defined('ENVIRONMENT'))
 	{
 		if ( ! is_dir(APPPATH.'views/'))
 		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
