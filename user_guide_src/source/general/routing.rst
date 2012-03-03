@@ -36,7 +36,7 @@ Wildcards
 
 A typical wildcard route might look something like this::
 
-	$route['product/:num'] = "catalog/product_lookup";
+	$route['product/(:num)'] = "catalog/product_lookup";
 
 In a route, the array key contains the URI to be matched, while the
 array value contains the destination it should be re-routed to. In the
