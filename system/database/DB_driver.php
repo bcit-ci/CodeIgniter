@@ -222,36 +222,40 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Database Version Number.  Returns a string containing the
-	 * version of the database being used
+	 * Database version number
 	 *
-	 * @access	public
+	 * Returns a string containing the version of the database being used.
+	 * Most drivers will override this method.
+	 *
 	 * @return	string
 	 */
-	function version()
+	public function version()
 	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
 		if (FALSE === ($sql = $this->_version()))
 		{
-			if ($this->db_debug)
-			{
-				return $this->display_error('db_unsupported_function');
-			}
-			return FALSE;
+			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 
-		// Some DBs have functions that return the version, and don't run special
-		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo', 'mysqli', 'interbase');
+		$query = $this->query($sql);
+		$query = $query->row();
+		return $this->data_cache['version'] = $query->ver;
+	}
 
-		if (in_array($this->dbdriver, $driver_version_exceptions))
-		{
-			return $sql;
-		}
-		else
-		{
-			$query = $this->query($sql);
-			return $query->row('ver');
-		}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @return	string
+	 */
+	protected function _version()
+	{
+		return 'SELECT VERSION() AS ver';
 	}
 
 	// --------------------------------------------------------------------

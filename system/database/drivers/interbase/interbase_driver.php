@@ -115,19 +115,24 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
 		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
 		{
-			$version = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+			$this->data_cache['version'] = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
 
 			// Don't keep the service open
 			ibase_service_detach($service);
-			return $version;
+			return $this->data_cache['version'];
 		}
 
 		return FALSE;
@@ -581,7 +586,7 @@ SQL;
 		$orig_sql = $sql;
 
 		// Limit clause depends on if Interbase or Firebird
-		if (stripos($this->_version(), 'firebird') !== FALSE)
+		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
 			$sql = 'FIRST '. (int) $limit;
 
