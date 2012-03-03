@@ -77,7 +77,7 @@ if (defined('ENVIRONMENT'))
  * Include the path if the folder is not in the same  directory
  * as this file.
  */
-	$system_path = 'system/system';
+	$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
@@ -92,7 +92,7 @@ if (defined('ENVIRONMENT'))
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application/frontend';
+	$application_folder = 'application';
 
 /*
  *---------------------------------------------------------------
