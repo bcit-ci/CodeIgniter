@@ -77,7 +77,7 @@ if (defined('ENVIRONMENT'))
  * Include the path if the folder is not in the same  directory
  * as this file.
  */
-	$system_path = 'system';
+	$system_path = 'system/system';
 
 /*
  *---------------------------------------------------------------
@@ -92,7 +92,7 @@ if (defined('ENVIRONMENT'))
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application';
+	$application_folder = 'application/frontend';
 
 /*
  *---------------------------------------------------------------
@@ -180,7 +180,7 @@ if (defined('ENVIRONMENT'))
 		$system_path = realpath($system_path).'/';
 	}
 
-	// ensure there's a trailing slash
+	// Ensure there's a trailing slash
 	$system_path = rtrim($system_path, '/').'/';
 
 	// Is the system path correct?
@@ -188,22 +188,6 @@ if (defined('ENVIRONMENT'))
 	{
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
 		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
-	}
-
-	// Set the absolute path to the application folder
-	if (realpath($application_folder) !== FALSE)
-	{
-		$application_folder = realpath($application_folder).'/';
-	}
-
-	// ensure there's a trailing slash
-	$application_folder = rtrim($application_folder, '/').'/';
-
-	// Is the application path correct?
-	if ( ! is_dir($application_folder))
-	{
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
-		exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
 	}
 
 /*
@@ -227,13 +211,35 @@ if (defined('ENVIRONMENT'))
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-	// Path to the application folder
-	define('APPPATH', str_replace('\\', '/', $application_folder));
+	// The path to the "application" folder
+	if (is_dir($application_folder))
+	{
+		// Set the absolute path to the application folder
+		if (realpath($application_folder) !== FALSE)
+		{
+			$application_folder = realpath($application_folder).'/';
+		}
+
+		// Ensure there's a trailing slash
+		$application_folder = rtrim($application_folder, '/').'/';
+
+		define('APPPATH', str_replace('\\', '/', $application_folder));
+	}
+	else
+	{
+		if ( ! is_dir(BASEPATH.$application_folder.'/'))
+		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
+		}
+
+		define('APPPATH', BASEPATH.$application_folder.'/');
+	}
 
 	// The path to the "views" folder
 	if (is_dir($view_folder))
 	{
-		define ('VIEWPATH', $view_folder .'/');
+		define('VIEWPATH', $view_folder.'/');
 	}
 	else
 	{
@@ -243,7 +249,7 @@ if (defined('ENVIRONMENT'))
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
-		define ('VIEWPATH', APPPATH.'views/');
+		define('VIEWPATH', APPPATH.'views/');
 	}
 
 /*
