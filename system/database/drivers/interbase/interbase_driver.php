@@ -16,37 +16,39 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link	http://codeigniter.com
- * @since	Version 1.0
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link		http://codeigniter.com
+ * @since		Version 3.0
  * @filesource
  */
 
+// ------------------------------------------------------------------------
+
 /**
- * SQLite3 Database Adapter Class
+ * Firebird/Interbase Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the active record
  * class is being used or not.
  *
- * @package	CodeIgniter
+ * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/database/
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_sqlite3_driver extends CI_DB {
+class CI_DB_interbase_driver extends CI_DB {
 
-	public $dbdriver = 'sqlite3';
+	public $dbdriver = 'interbase';
 
-	// The character used for escaping
+	// The character used to escape with
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -54,26 +56,20 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' RANDOM()';
+	protected $_count_string = "SELECT COUNT(*) AS ";
+	protected $_random_keyword = ' Random()'; // database specific random keyword
+
+	// Keeps track of the resource for the current transaction
+	protected $trans;
 
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	object	type SQLite3
+	 * @return	resource
 	 */
 	public function db_connect()
 	{
-		try
-		{
-			return ( ! $this->password)
-				? new SQLite3($this->database)
-				: new SQLite3($this->database, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $this->password);
-		}
-		catch (Exception $e)
-		{
-			return FALSE;
-		}
+		return @ibase_connect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -81,12 +77,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @return  object	type SQLite3
+	 * @return	resource
 	 */
 	public function db_pconnect()
 	{
-		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
-		return $this->db_pconnect();
+		return @ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -101,7 +96,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	public function reconnect()
 	{
-		// Not supported
+		// not implemented in Interbase/Firebird
 	}
 
 	// --------------------------------------------------------------------
@@ -113,7 +108,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	public function db_select()
 	{
-		// Not needed, in SQLite every pseudo-connection is a database
+		// Connection selects the database
 		return TRUE;
 	}
 
@@ -131,8 +126,16 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		$version = $this->conn_id->version();
-		return $this->data_cache['version'] = $version['versionString'];
+		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
+		{
+			$this->data_cache['version'] = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+
+			// Don't keep the service open
+			ibase_service_detach($service);
+			return $this->data_cache['version'];
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -141,16 +144,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * Execute the query
 	 *
 	 * @param	string	an SQL query
-	 * @return	mixed	SQLite3Result object or bool
+	 * @return	resource
 	 */
 	protected function _execute($sql)
 	{
-		// TODO: Implement use of SQLite3::querySingle(), if needed
-		// TODO: Use $this->_prep_query(), if needed
-
-		return $this->is_write_type($sql)
-			? $this->conn_id->exec($sql)
-			: $this->conn_id->query($sql);
+		$sql = $this->_prep_query($sql);
+		return @ibase_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -165,7 +164,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		return $this->conn_id->prepare($sql);
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -177,8 +176,13 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ($this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -186,9 +190,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
+		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		return $this->conn_id->exec('BEGIN TRANSACTION');
+		$this->trans = @ibase_trans($this->conn_id);
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -200,13 +206,18 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
 
-		return $this->conn_id->exec('END TRANSACTION');
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		return @ibase_commit($this->trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -218,13 +229,18 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
 
-		return $this->conn_id->exec('ROLLBACK');
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		return @ibase_rollback($this->trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -248,14 +264,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $str;
 		}
 
-		$str = $this->conn_id->escapeString(remove_invisible_characters($str));
-
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_', $this->_like_escape_chr),
-						array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
-						$str);
+			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
+								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+								$str);
 		}
 
 		return $str;
@@ -266,11 +280,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	int
+	 * @return	integer
 	 */
 	public function affected_rows()
 	{
-		return $this->conn_id->changes();
+		return @ibase_affected_rows($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -278,11 +292,14 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	int
+	 * @param	string $generator_name
+	 * @param	integer $inc_by
+	 * @return	integer
 	 */
-	public function insert_id()
+	public function insert_id($generator_name, $inc_by=0)
 	{
-		return $this->conn_id->lastInsertRowID();
+		//If a generator hasn't been used before it will return 0
+		return ibase_gen_id('"'.$generator_name.'"', $inc_by);
 	}
 
 	// --------------------------------------------------------------------
@@ -294,7 +311,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * the specified database
 	 *
 	 * @param	string
-	 * @return	int
+	 * @return	string
 	 */
 	public function count_all($table = '')
 	{
@@ -303,28 +320,41 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return 0;
 		}
 
-		$result = $this->conn_id->querySingle($this->_count_string.$this->_protect_identifiers('numrows')
-							.' FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . ' FROM ' . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
-		return empty($result) ? 0 : (int) $result;
+		if ($query->num_rows() == 0)
+		{
+			return 0;
+		}
+
+		$row = $query->row();
+		$this->_reset_select();
+		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show table query
+	 * List table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	boolean
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT "NAME" FROM "SQLITE_MASTER" WHERE "TYPE" = \'table\''
-			.(($prefix_limit !== FALSE && $this->dbprefix != '')
-				? ' AND "NAME" LIKE \''.$this->escape_like_str($this->dbprefix).'%\' '.sprintf($this->_like_escape_str, $this->_like_escape_chr)
-				: '');
+		$sql = <<<SQL
+			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
+			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
+			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
+SQL;
+
+		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		{
+			$sql .= ' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+		}
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -339,8 +369,10 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		// Not supported
-		return FALSE;
+		return <<<SQL
+			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
+			WHERE "RDB\$RELATION_NAME"='{$table}';
+SQL;
 	}
 
 	// --------------------------------------------------------------------
@@ -351,35 +383,29 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 0,1';
+		// Need to find a more efficient way to do this
+		// but Interbase/Firebird seems to lack the
+		// limit clause
+		return "SELECT * FROM {$table}";
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return $this->conn_id->lastErrorMsg();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	int
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return $this->conn_id->lastErrorCode();
+		return array('code' => ibase_errcode(), 'message' => ibase_errmsg());
 	}
 
 	// --------------------------------------------------------------------
@@ -387,36 +413,35 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Escape the SQL Identifiers
 	 *
-	 * This function escapes column and table names
+	 * This public function escapes column and table names
 	 *
 	 * @param	string
 	 * @return	string
 	 */
-	public function _escape_identifiers($item)
+	protected function _escape_identifiers($item)
 	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
 		foreach ($this->_reserved_identifiers as $id)
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
+				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
 
 				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
 			}
 		}
 
 		if (strpos($item, '.') !== FALSE)
 		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
+			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
+		}
+		else
+		{
+			$str = $this->_escape_char.$item.$this->_escape_char;
 		}
 
 		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -424,11 +449,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * From Tables
 	 *
-	 * This function implicitly groups FROM tables so there is no confusion
+	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param	type
+	 * @return	type
 	 */
 	protected function _from_tables($tables)
 	{
@@ -437,7 +462,8 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return '('.implode(', ', $tables).')';
+		//Interbase/Firebird doesn't like grouped tables
+		return implode(', ', $tables);
 	}
 
 	// --------------------------------------------------------------------
@@ -454,7 +480,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return "INSERT INTO {$table} (".implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -475,14 +501,22 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key.' = '.$val;
+			$valstr[] = $key." = ".$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.( ! $limit ? '' : ' LIMIT '.$limit);
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+
+		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+
+		$sql = "UPDATE {$table} SET ".implode(', ', $valstr);
+
+		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
+
+		$sql .= $orderby;
+
+		return $sql;
 	}
+
 
 	// --------------------------------------------------------------------
 
@@ -490,8 +524,8 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command, then
-	 * this method maps to "DELETE FROM table"
+	 * If the database does not support the truncate() command
+	 * This public function maps to "DELETE FROM table"
 	 *
 	 * @param	string	the table name
 	 * @return	string
@@ -516,9 +550,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
+
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions .= "\nWHERE ".implode("\n", $this->ar_where);
+			$conditions = "\nWHERE ";
+			$conditions .= implode("\n", $this->ar_where);
 
 			if (count($where) > 0 && count($like) > 0)
 			{
@@ -527,7 +563,9 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			$conditions .= implode("\n", $like);
 		}
 
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+
+		return "DELETE FROM {$table}{$conditions}";
 	}
 
 	// --------------------------------------------------------------------
@@ -538,13 +576,36 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	integer	the number of rows to limit the query to
+	 * @param	integer	the offset value
 	 * @return	string
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.($offset ? $offset.',' : '').$limit;
+		// Keep the current sql string safe for a moment
+		$orig_sql = $sql;
+
+		// Limit clause depends on if Interbase or Firebird
+		if (stripos($this->version(), 'firebird') !== FALSE)
+		{
+			$sql = 'FIRST '. (int) $limit;
+
+			if ($offset > 0)
+			{
+				$sql .= ' SKIP '. (int) $offset;
+			}
+		}
+		else
+		{
+			$sql = 'ROWS ' . (int) $limit;
+
+			if ($offset > 0)
+			{
+				$sql = 'ROWS '. (int) $offset . ' TO ' . ($limit + $offset);
+			}
+		}
+
+		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -552,14 +613,15 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close($conn_id)
 	{
-		$this->conn_id->close();
+		@ibase_close($conn_id);
 	}
 
 }
 
-/* End of file sqlite3_driver.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_driver.php */
+/* End of file interbase_driver.php */
+/* Location: ./system/database/drivers/interbase/interbase_driver.php */

@@ -147,14 +147,30 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	public function version()
 	{
-		return "SELECT version() AS ver";
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		if (($pg_version = pg_version($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		/* If PHP was compiled with PostgreSQL lib versions earlier
+		 * than 7.4, pg_version() won't return the server version
+		 * and so we'll have to fall back to running a query in
+		 * order to get it.
+		 */
+		return isset($pg_version['server'])
+			? $this->data_cache['version'] = $pg_version['server']
+			: parent::version();
 	}
 
 	// --------------------------------------------------------------------
@@ -323,8 +339,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function insert_id()
 	{
-		$v = $this->_version();
-		$v = $v['server'];
+		$v = $this->version();
 
 		$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
 		$column	= func_num_args() > 1 ? func_get_arg(1) : NULL;
@@ -443,27 +458,16 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return pg_last_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		return '';
+		return array('code' => '', 'message' => pg_last_error($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------

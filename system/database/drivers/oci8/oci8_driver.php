@@ -139,14 +139,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access  protected
-	 * @return  string
+	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return oci_server_version($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = oci_server_version($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -527,31 +528,32 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access  protected
-	 * @return  string
-	 */
-	protected function _error_message()
-	{
-		// If the error was during connection, no conn_id should be passed
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
-		return $error['message'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access  protected
-	 * @return  integer
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		// Same as _error_message()
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
-		return $error['code'];
+		/* oci_error() returns an array that already contains the
+		 * 'code' and 'message' keys, so we can just return it.
+		 */
+		if (is_resource($this->curs_id))
+		{
+			return oci_error($this->curs_id);
+		}
+		elseif (is_resource($this->stmt_id))
+		{
+			return oci_error($this->stmt_id);
+		}
+		elseif (is_resource($this->conn_id))
+		{
+			return oci_error($this->conn_id);
+		}
+
+		return oci_error();
 	}
 
 	// --------------------------------------------------------------------
