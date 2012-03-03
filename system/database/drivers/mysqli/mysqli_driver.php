@@ -157,13 +157,15 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return @mysqli_get_server_info($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = @mysqli_get_server_info($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -418,25 +420,16 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return mysqli_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	int
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return mysqli_errno($this->conn_id);
+		return array('code' => mysqli_errno($this->conn_id), 'message' => mysqli_error($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------

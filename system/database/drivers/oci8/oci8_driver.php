@@ -139,14 +139,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access  protected
-	 * @return  string
+	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return oci_server_version($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = oci_server_version($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -527,39 +528,18 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		$error = $this->_oci8_error_data();
-		return $error['message'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
-	 *
-	 * @return	string
-	 */
-	protected function _error_number()
-	{
-		$error = $this->_oci8_error_data();
-		return $error['code'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * OCI8-specific method to get errors.
-	 * Used by _error_message() and _error_code().
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
 	 * @return	array
 	 */
-	protected function _oci8_error_data()
+	public function error()
 	{
+		/* oci_error() returns an array that already contains the
+		 * 'code' and 'message' keys, so we can just return it.
+		 */
 		if (is_resource($this->curs_id))
 		{
 			return oci_error($this->curs_id);
