@@ -147,7 +147,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset, $collation)
 	{
 		return function_exists('mysql_set_charset')
 			? @mysql_set_charset($charset, $this->conn_id)

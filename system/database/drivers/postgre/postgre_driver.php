@@ -147,6 +147,19 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set client character set
+	 *
+	 * @param       string
+	 * @return      bool
+	 */
+	protected function _db_set_charset($charset)
+	{
+		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Database version number
 	 *
 	 * @return	string
