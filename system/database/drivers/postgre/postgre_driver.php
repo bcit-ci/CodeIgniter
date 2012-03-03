@@ -126,13 +126,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		$ret = @pg_connect($this->dsn);
-		if (is_resource($ret) && $this->char_set != '')
-		{
-			pg_set_client_encoding($ret, $this->char_set);
-		}
-
-		return $ret;
+		return @pg_connect($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -144,13 +138,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$ret = @pg_pconnect($this->dsn);
-		if (is_resource($ret) && $this->char_set != '')
-		{
-			pg_set_client_encoding($ret, $this->char_set);
-		}
-
-		return $ret;
+		return @pg_pconnect($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
