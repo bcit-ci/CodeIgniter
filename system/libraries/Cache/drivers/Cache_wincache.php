@@ -4,13 +4,25 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
+ *
  * @package		CodeIgniter
- * @author		Mike Murkovic
- * @copyright
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
- * @filesource	
+ * @filesource
  */
 
 // ------------------------------------------------------------------------
@@ -41,11 +53,11 @@ class CI_Cache_wincache extends CI_Driver {
 	 */
 	public function get($id)
 	{
-		if ($data = wincache_ucache_get($id))
-        {
-            return $data;
-        }
-        return FALSE;
+		$success = FALSE;
+		$data = wincache_ucache_get($id, $success);
+		
+		//Success returned by reference from wincache_ucache_get
+		return ($success) ? $data : FALSE;
 	}
 
 	// ------------------------------------------------------------------------	
@@ -111,20 +123,20 @@ class CI_Cache_wincache extends CI_Driver {
 	 */
 	public function get_metadata($id)
 	{
-        if ($stored = wincache_ucache_info(false, $id))
-        {
-            $age = $stored['ucache_entries'][1]['age_seconds'];
-            $ttl = $stored['ucache_entries'][1]['ttl_seconds'];
-            $hitcount = $stored['ucache_entries'][1]['hitcount'];
+		if ($stored = wincache_ucache_info(false, $id))
+		{
+			$age = $stored['ucache_entries'][1]['age_seconds'];
+			$ttl = $stored['ucache_entries'][1]['ttl_seconds'];
+			$hitcount = $stored['ucache_entries'][1]['hitcount'];
 
-            return array(
-                'expire'    => $ttl - $age,
-                'hitcount'  => $hitcount,
-                'age'       => $age,
-                'ttl'       => $ttl
-            );
-        }
-        return false;
+			return array(
+				'expire'    => $ttl - $age,
+				'hitcount'  => $hitcount,
+				'age'       => $age,
+				'ttl'       => $ttl
+			);
+		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -138,8 +150,8 @@ class CI_Cache_wincache extends CI_Driver {
 	{
 		if ( ! extension_loaded('wincache') )
 		{
-            log_message('error', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
-            return FALSE;
+			log_message('error', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
+			return FALSE;
 		}
 		
 		return TRUE;
