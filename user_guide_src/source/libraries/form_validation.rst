@@ -597,9 +597,6 @@ In this case, you can specify the array to be validated::
 Creating validation rules, running the validation and retrieving error messages works the same whether you are
 validating $_POST data or an array.
 
-**Important Note:** If you want to validate more than one array during a single execution, then you should
-call the reset_validation() function before calling the run() function each time.
-
 For more info please see the :ref:`function-reference` section below.
 
 ************************************************
@@ -960,14 +957,6 @@ $this->form_validation->set_data();
 
 		Permits you to set an array for validation, instead of using the default
 		$_POST array.
-
-$this->form_validation->reset_validation();
-========================================
-	
-	.. php:method:: reset_validation ()
-
-		Permits you to reset the validation when you validate more than one array.
-		This function should be called before each call to the run() method.
 
 $this->form_validation->error_array();
 ========================================

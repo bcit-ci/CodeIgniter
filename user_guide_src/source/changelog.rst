@@ -78,9 +78,7 @@ Release Date: Not Released
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
-   -  Added function set_data() to form validation library, which can be used in place of the default $_POST array.
-   -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines
-      within a single request.
+   -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
 
 -  Core
 

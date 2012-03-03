@@ -325,6 +325,9 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
+		
+		// Clear any previous validation data
+		$this->_reset_validation();
 
 		// Does the _field_data array containing the validation rules exist?
 		// If not, we look to see if they were assigned via a config file
@@ -1312,12 +1315,10 @@ class CI_Form_validation {
 	 * 
 	 * Prevents subsequent validation routines from being affected by the 
 	 * results of any previous validation routine due to the CI singleton.
-	 * If calling the run() method more than once, then this method should be 
-	 * called before each run() method.
 	 * 
      * @return void
      */
-    public function reset_validation()
+    protected function _reset_validation()
     {
 		$this->_field_data = array();
 		$this->_config_rules = array();
