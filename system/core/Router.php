@@ -354,27 +354,44 @@ class CI_Router {
 		$uri = implode('/', $this->uri->segments);
 
 		// Is there a literal match?  If so we're done
+		$prefix_http_verb = "{".$_SERVER['REQUEST_METHOD']."}";
 		if (isset($this->routes[$uri]))
 		{
 			return $this->_set_request(explode('/', $this->routes[$uri]));
+		}
+		if (isset($this->routes[$prefix_http_verb.$uri]))
+		{
+			return $this->_set_request(explode('/', $this->routes[$prefix_http_verb.$uri]));
 		}
 
 		// Loop through the route array looking for wild-cards
 		foreach ($this->routes as $key => $val)
 		{
+			
 			// Convert wild-cards to RegEx
 			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
-
-			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
-			{
-				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
-				{
-					$val = preg_replace('#^'.$key.'$#', $val, $uri);
+			$can_check = true;
+			if (strpos($key, "{") === 0) {
+				if (strpos($key, $prefix_http_verb) === 0) {
+					$key = substr($key, strlen($prefix_http_verb));
+					
+				} else {
+					$can_check = false;
 				}
+								
+			}
+			if ($can_check) {
+				// Does the RegEx match?
+				if (preg_match('#^'.$key.'$#', $uri))
+				{
+					// Do we have a back-reference?
+					if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+					{
+						$val = preg_replace('#^'.$key.'$#', $val, $uri);
+					}
 
-				return $this->_set_request(explode('/', $val));
+					return $this->_set_request(explode('/', $val));
+				}
 			}
 		}
 
