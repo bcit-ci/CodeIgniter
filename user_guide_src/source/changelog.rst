@@ -58,7 +58,10 @@ Release Date: Not Released
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
-   -  PostgreSQL driver now uses pg_version() to get the database version number, when possible.
+   -  Improved support of the PostgreSQL driver, including:
+	 -  pg_version() is now used to get the database version number, when possible.
+	 -  Added db_set_charset() support.
+	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
    -  Added support for SQLite3 database driver.
 
 -  Libraries
