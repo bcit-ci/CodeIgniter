@@ -59,6 +59,7 @@ Release Date: Not Released
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
    -  PostgreSQL driver now uses pg_version() to get the database version number, when possible.
+   -  Added db_set_charset() support for PostgreSQL.
 
 -  Libraries
 
