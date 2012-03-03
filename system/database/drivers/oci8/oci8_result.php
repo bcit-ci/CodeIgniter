@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright   Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -57,11 +57,11 @@ class CI_DB_oci8_result extends CI_DB_result {
 		if ($this->num_rows === 0 && count($this->result_array()) > 0)
 		{
 			$this->num_rows = count($this->result_array());
-			@oci_execute($this->stmt_id);
+			@oci_execute($this->stmt_id, OCI_DEFAULT);
 
 			if ($this->curs_id)
 			{
-				@oci_execute($this->curs_id);
+				@oci_execute($this->curs_id, OCI_DEFAULT);
 			}
 		}
 
