@@ -49,22 +49,18 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Is table optimization supported in Postgre?
-	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	public function _optimize_table($table)
 	{
-		return 'REINDEX TABLE '.$table;
+		return 'REINDEX TABLE '.$this->db->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * Repair table query
-	 *
-	 * Are table repairs supported in Postgre?
 	 *
 	 * @param	string	the table name
 	 * @return	bool
