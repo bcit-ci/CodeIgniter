@@ -157,13 +157,15 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return 'SELECT version() AS ver';
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = @mysql_get_server_info($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------

@@ -139,14 +139,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access  protected
-	 * @return  string
+	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return oci_server_version($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = oci_server_version($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------

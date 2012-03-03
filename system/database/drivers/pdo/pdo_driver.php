@@ -289,13 +289,15 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
 	}
 
 	// --------------------------------------------------------------------
@@ -499,7 +501,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->_version() >= '8.1')
+		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
 		{
 			$query = $this->query('SELECT LASTVAL() AS ins_id');
 			$query = $query->row();
