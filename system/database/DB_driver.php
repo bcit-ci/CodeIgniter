@@ -185,20 +185,19 @@ class CI_DB_driver {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	bool
 	 */
-	function db_set_charset($charset, $collation)
+	public function db_set_charset($charset, $collation = '')
 	{
-		if ( ! $this->_db_set_charset($this->char_set, $this->dbcollat))
+		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset, $collation))
 		{
-			log_message('error', 'Unable to set database connection charset: '.$this->char_set);
+			log_message('error', 'Unable to set database connection charset: '.$charset);
 
 			if ($this->db_debug)
 			{
-				$this->display_error('db_unable_to_set_charset', $this->char_set);
+				$this->display_error('db_unable_to_set_charset', $charset);
 			}
 
 			return FALSE;
@@ -223,36 +222,40 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Database Version Number.  Returns a string containing the
-	 * version of the database being used
+	 * Database version number
 	 *
-	 * @access	public
+	 * Returns a string containing the version of the database being used.
+	 * Most drivers will override this method.
+	 *
 	 * @return	string
 	 */
-	function version()
+	public function version()
 	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
 		if (FALSE === ($sql = $this->_version()))
 		{
-			if ($this->db_debug)
-			{
-				return $this->display_error('db_unsupported_function');
-			}
-			return FALSE;
+			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 
-		// Some DBs have functions that return the version, and don't run special
-		// SQL queries per se. In these instances, just return the result.
-		$driver_version_exceptions = array('oci8', 'sqlite', 'cubrid', 'pdo', 'mysqli');
+		$query = $this->query($sql);
+		$query = $query->row();
+		return $this->data_cache['version'] = $query->ver;
+	}
 
-		if (in_array($this->dbdriver, $driver_version_exceptions))
-		{
-			return $sql;
-		}
-		else
-		{
-			$query = $this->query($sql);
-			return $query->row('ver');
-		}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Version number query string
+	 *
+	 * @return	string
+	 */
+	protected function _version()
+	{
+		return 'SELECT VERSION() AS ver';
 	}
 
 	// --------------------------------------------------------------------
@@ -331,30 +334,28 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
-			// Grab the error number and message now, as we might run some
-			// additional queries before displaying the error
-			$error_no = $this->_error_number();
-			$error_msg = $this->_error_message();
+			// Grab the error now, as we might run some additional queries before displaying the error
+			$error = $this->error();
 
 			// Log errors
-			log_message('error', 'Query error: '.$error_msg);
+			log_message('error', 'Query error: '.$error['message']);
 
 			if ($this->db_debug)
 			{
 				// We call this function in order to roll-back queries
-				// if transactions are enabled.  If we don't call this here
+				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
 				$this->trans_complete();
 
 				// Display errors
 				return $this->display_error(
-										array(
-												'Error Number: '.$error_no,
-												$error_msg,
-												$sql
-											)
-										);
+								array(
+									'Error Number: '.$error['code'],
+									$error['message'],
+									$sql
+								)
+							);
 			}
 
 			return FALSE;
@@ -645,17 +646,12 @@ class CI_DB_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @access	public
 	 * @param	string	An SQL query string
-	 * @return	boolean
+	 * @return	bool
 	 */
-	function is_write_type($sql)
+	public function is_write_type($sql)
 	{
-		if ( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql))
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE|REINDEX)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------

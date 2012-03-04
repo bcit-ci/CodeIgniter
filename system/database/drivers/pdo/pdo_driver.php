@@ -289,29 +289,15 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
+	 * Database version number
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	public function version()
 	{
-		return $this->conn_id->getAttribute(PDO::ATTR_CLIENT_VERSION);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
 	}
 
 	// --------------------------------------------------------------------
@@ -510,33 +496,19 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	/**
 	 * Insert ID
-	 * 
-	 * @access	public
-	 * @return	integer
+	 *
+	 * @return	int
 	 */
-	function insert_id($name=NULL)
+	public function insert_id($name = NULL)
 	{
-		if ($this->pdodriver == 'pgsql')
+		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
 		{
-			//Convenience method for postgres insertid
-			$v = $this->_version();
-
-			$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
-
-			if ($table == NULL && $v >= '8.1')
-			{
-				$sql='SELECT LASTVAL() as ins_id';
-			}
-
-			$query = $this->query($sql);
-			$row   = $query->row();
-
-			return $row->ins_id;
+			$query = $this->query('SELECT LASTVAL() AS ins_id');
+			$query = $query->row();
+			return $query->ins_id;
 		}
-		else
-		{
-			return $this->conn_id->lastInsertId($name);
-		}
+
+		return $this->conn_id->lastInsertId($name);
 	}
 
 	// --------------------------------------------------------------------
@@ -639,29 +611,30 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		$error_array = $this->conn_id->errorInfo();
-
-		return $error_array[2];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		return $this->conn_id->errorCode();
+		$error = array('code' => '00000', 'message' => '');
+		$pdo_error = $this->conn_id->errorInfo();
+
+		if (empty($pdo_error[0]))
+		{
+			return $error;
+		}
+
+		$error['code'] = isset($pdo_error[1]) ? $pdo_error[0].'/'.$pdo_error[1] : $pdo_error[0];
+		if (isset($pdo_error[2]))
+		{
+			 $error['message'] = $pdo_error[2];
+		}
+
+		return $error;
 	}
 
 	// --------------------------------------------------------------------

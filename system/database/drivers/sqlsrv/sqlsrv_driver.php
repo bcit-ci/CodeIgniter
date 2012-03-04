@@ -144,22 +144,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// @todo - add support if needed
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Execute the query
 	 *
 	 * @access	private called by the base class
@@ -333,15 +317,23 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Version number query string
-	*
-	* @access public
-	* @return string
-	*/
-	function _version()
+	 * Database version number
+	 *
+	 * @return	string
+	 */
+	public function version()
 	{
-		$info = sqlsrv_server_info($this->conn_id);
-		return sprintf("select '%s' as ver", $info['SQLServerVersion']);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		if (($info = sqlsrv_server_info($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return $this->data_cache['version'] = $info['SQLServerVersion'];
 	}
 
 	// --------------------------------------------------------------------
@@ -422,29 +414,39 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		$error = array_shift(sqlsrv_errors());
-		return !empty($error['message']) ? $error['message'] : null;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		$error = array_shift(sqlsrv_errors());
-		return isset($error['SQLSTATE']) ? $error['SQLSTATE'] : null;
+		$error = array('code' => '00000', 'message' => '');
+		$sqlsrv_errors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
+
+		if ( ! is_array($sqlsrv_errors))
+		{
+			return $error;
+		}
+
+		$sqlsrv_error = array_shift($sqlsrv_errors);
+		if (isset($sqlsrv_error['SQLSTATE']))
+		{
+			$error['code'] = isset($sqlsrv_error['code']) ? $sqlsrv_error['SQLSTATE'].'/'.$sqlsrv_error['code'] : $sqlsrv_error['SQLSTATE'];
+		}
+		elseif (isset($sqlsrv_error['code']))
+		{
+			$error['code'] = $sqlsrv_error['code'];
+		}
+
+		if (isset($sqlsrv_error['message']))
+		{
+			$error['message'] = $sqlsrv_error['message'];
+		}
+
+		return $error;
 	}
 
 	// --------------------------------------------------------------------
