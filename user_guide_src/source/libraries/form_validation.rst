@@ -579,7 +579,27 @@ must supply it as an array to the function. Example::
 
 For more info please see the :ref:`using-arrays-as-field-names` section below.
 
-.. _saving-groups:
+Validating An Array (Other Than The $_POST Array)
+=================================================
+
+Sometimes you may want to validate an array that does not originate from $_POST data.
+
+In this case, you can specify the array to be validated::
+	
+      $data = array(
+	      'username' => 'johndoe',
+		  'password' => 'mypassword',
+		  'passconf' => 'mypassword'
+		));
+
+      $this->form_validation->set_data($data);
+
+Creating validation rules, running the validation and retrieving error messages works the same whether you are
+validating $_POST data or an array.
+
+For more info please see the :ref:`function-reference` section below.
+
+-.. _saving-groups:
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -930,6 +950,16 @@ $this->form_validation->set_message();
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
+$this->form_validation->set_data();
+========================================
+	
+	.. php:method:: set_data ($data = '')
+
+		:param array $data: The data to validate
+
+		Permits you to set an array for validation, instead of using the default
+		$_POST array.
+
 $this->form_validation->error_array();
 ========================================
 	
@@ -1020,4 +1050,3 @@ This function is identical to the **set_checkbox()** function above.
 
 	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
 	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
-
