@@ -42,7 +42,14 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', 'development');
+	$env = getenv('CI_ENV');
+	$default_env = 'development';
+	if ($env === FALSE)
+	{
+		$env = $default_env;
+	}
+	define('ENVIRONMENT', $env);
+	
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

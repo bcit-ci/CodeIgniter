@@ -354,9 +354,14 @@ class CI_Router {
 		$uri = implode('/', $this->uri->segments);
 
 		// Is there a literal match?  If so we're done
+		$prefix_http_verb = '{'.$_SERVER['REQUEST_METHOD'].'}';
 		if (isset($this->routes[$uri]))
 		{
 			return $this->_set_request(explode('/', $this->routes[$uri]));
+		}
+		if (isset($this->routes[$prefix_http_verb.$uri]))
+		{
+			return $this->_set_request(explode('/', $this->routes[$prefix_http_verb.$uri]));
 		}
 
 		// Loop through the route array looking for wild-cards
@@ -364,17 +369,30 @@ class CI_Router {
 		{
 			// Convert wild-cards to RegEx
 			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
-
-			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
+			$can_check = TRUE;
+			if (strpos($key, '{') === 0)
 			{
-				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				if (strpos($key, $prefix_http_verb) === 0)
 				{
-					$val = preg_replace('#^'.$key.'$#', $val, $uri);
+					$key = substr($key, strlen($prefix_http_verb));	
 				}
-
-				return $this->_set_request(explode('/', $val));
+				else
+				{
+					$can_check = FALSE;
+				}
+			}
+			if ($can_check)
+			{
+				// Does the RegEx match?
+				if (preg_match('#^'.$key.'$#', $uri))
+				{
+					// Do we have a back-reference?
+					if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+					{
+						$val = preg_replace('#^'.$key.'$#', $val, $uri);
+					}
+					return $this->_set_request(explode('/', $val));
+				}
 			}
 		}
 
