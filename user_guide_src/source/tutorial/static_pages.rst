@@ -72,7 +72,7 @@ includes the following code:
 
 ::
 
-            <em>&copy; 2011</em>
+            <em>&copy; 2012</em>
         </body>
     <html>
 
@@ -97,7 +97,7 @@ page actually exists:
     public function view($page = 'home')
     {
                 
-        if ( ! file_exists('application/views/pages/'.$page.'.php'))
+        if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
             show_404();
