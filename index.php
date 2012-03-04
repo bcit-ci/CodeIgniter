@@ -42,9 +42,12 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	$env = getenv("CI_ENV");
+	$env = getenv('CI_ENV');
 	$default_env = 'development';
-	if ($env === false) { $env = $default_env; }
+	if ($env === false)
+	{
+		$env = $default_env;
+	}
 	define('ENVIRONMENT', $env);
 	
 /*
@@ -62,6 +65,7 @@ if (defined('ENVIRONMENT'))
 	{
 		case 'development':
 			error_reporting(-1);
+			ini_set('display_errors','On');
 		break;
 		case 'testing':
 		case 'production':
