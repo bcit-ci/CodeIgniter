@@ -466,25 +466,34 @@ if ( ! function_exists('prep_url'))
  * Create URL Title
  *
  * Takes a "title" string as input and creates a
- * human-friendly URL string with either a dash
- * or an underscore as the word separator.
+ * human-friendly URL string with a "separator" string 
+ * as the word separator.
  *
  * @access	public
  * @param	string	the string
- * @param	string	the separator: dash, or underscore
+ * @param	string	the separator
  * @return	string
  */
 if ( ! function_exists('url_title'))
 {
-	function url_title($str, $separator = 'dash', $lowercase = FALSE)
+	function url_title($str, $separator = '-', $lowercase = FALSE)
 	{
-		$replace = $separator == 'dash' ? '-' : '_';
+		if ($separator == 'dash') 
+		{
+		    $separator = '-';
+		}
+		else if ($separator == 'underscore')
+		{
+		    $separator = '_';
+		}
+		
+		$q_separator = preg_quote($separator);
 
 		$trans = array(
-			'&.+?;'			=> '',
-			'[^a-z0-9 _-]'	=> '',
-			'\s+'			=> $replace,
-			$replace.'+'	=> $replace
+			'&.+?;'                 => '',
+			'[^a-z0-9 _-]'          => '',
+			'\s+'                   => $separator,
+			'('.$q_separator.')+'   => $separator
 		);
 
 		$str = strip_tags($str);
@@ -499,7 +508,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim($str, $replace);
+		return trim($str, $separator);
 	}
 }
 
