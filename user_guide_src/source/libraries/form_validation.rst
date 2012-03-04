@@ -579,20 +579,20 @@ must supply it as an array to the function. Example::
 
 For more info please see the :ref:`using-arrays-as-field-names` section below.
 
-Validating An Array (Other Than The $_POST Array)
-=================================================
+Validating an Array (other than $_POST)
+=======================================
 
 Sometimes you may want to validate an array that does not originate from $_POST data.
 
 In this case, you can specify the array to be validated::
 	
-      $data = array(
-	      'username' => 'johndoe',
-		  'password' => 'mypassword',
-		  'passconf' => 'mypassword'
-		));
+	$data = array(
+			'username' => 'johndoe',
+			'password' => 'mypassword',
+		 	'passconf' => 'mypassword'
+		);
 
-      $this->form_validation->set_data($data);
+	$this->form_validation->set_data($data);
 
 Creating validation rules, running the validation and retrieving error messages works the same whether you are
 validating $_POST data or an array.

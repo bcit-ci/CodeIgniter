@@ -48,10 +48,7 @@ class CI_Form_validation {
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
 	protected $validation_data		= array();
-	
-	/**
-	 * Constructor
-	 */
+
 	public function __construct($rules = array())
 	{
 		$this->CI =& get_instance();
@@ -85,7 +82,7 @@ class CI_Form_validation {
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
-		// No reason to set rules if we have no POST data 
+		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
 		if (count($_POST) === 0 && count($this->validation_data) === 0)
 		{
@@ -162,23 +159,24 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * By default, form validation uses the $_POST array to validate
-	 * 
+	 *
 	 * If an array is set through this method, then this array will
 	 * be used instead of the $_POST array
-	 * 
-	 * @param array $data 
+	 *
+	 * @param	array	$data
+	 * @return	void
 	 */
 	public function set_data($data = '')
 	{
 		if ( ! empty($data) && is_array($data))
 		{
-			$this->validation_data = $data;		
+			$this->validation_data = $data;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -325,7 +323,7 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		
+
 		// Clear any previous validation data
 		$this->_reset_validation();
 
@@ -891,7 +889,7 @@ class CI_Form_validation {
 	 */
 	public function matches($str, $field)
 	{
-		$validation_array = ( ! empty($this->validation_data)) ? $this->validation_data : $_POST;		
+		$validation_array = ( ! empty($this->validation_data)) ? $this->validation_data : $_POST;
 		if ( ! isset($validation_array[$field]))
 		{
 			return FALSE;
@@ -1307,25 +1305,26 @@ class CI_Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
-    /**
-     * Reset validation vars
-	 * 
-	 * Prevents subsequent validation routines from being affected by the 
+
+	/**
+	 * Reset validation vars
+	 *
+	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
-	 * 
-     * @return void
-     */
-    protected function _reset_validation()
-    {
+	 *
+	 * @return void
+	 */
+	protected function _reset_validation()
+	{
 		$this->_field_data = array();
 		$this->_config_rules = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
-    }
+	}
+
 }
 
 /* End of file Form_validation.php */
