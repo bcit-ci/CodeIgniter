@@ -79,3 +79,8 @@ html_escape($mixed)
 This function provides short cut for htmlspecialchars() function. It
 accepts string and array. To prevent Cross Site Scripting (XSS), it is
 very useful.
+
+is_https()
+====================
+
+This function returns TRUE when connection is HTTPS, if not it will return FALSE.
