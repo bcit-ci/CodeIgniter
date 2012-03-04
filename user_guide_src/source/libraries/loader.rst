@@ -165,6 +165,12 @@ This function checks the associative array of variables available to
 your views. This is useful if for any reason a var is set in a library
 or another controller method using $this->load->vars().
 
+$this->load->get_vars()
+===========================
+
+This function retrieves all variables available to
+your views.
+
 $this->load->helper('file_name')
 =================================
 

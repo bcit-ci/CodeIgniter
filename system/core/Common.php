@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -56,7 +56,7 @@ if ( ! function_exists('is_php'))
 	function is_php($version = '5.0.0')
 	{
 		static $_is_php;
-		$version = (string)$version;
+		$version = (string) $version;
 
 		if ( ! isset($_is_php[$version]))
 		{
@@ -73,10 +73,10 @@ if ( ! function_exists('is_php'))
  * Tests for file writability
  *
  * is_writable() returns TRUE on Windows servers when you really can't write to
- * the file, based on the read-only attribute.  is_writable() is also unreliable
+ * the file, based on the read-only attribute. is_writable() is also unreliable
  * on Unix servers if safe_mode is on.
  *
- * @access	private
+ * @access	public
  * @return	void
  */
 if ( ! function_exists('is_really_writable'))
@@ -84,17 +84,17 @@ if ( ! function_exists('is_really_writable'))
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR == '/' AND @ini_get("safe_mode") == FALSE)
+		if (DIRECTORY_SEPARATOR === '/' && (bool) @ini_get('safe_mode') === FALSE)
 		{
 			return is_writable($file);
 		}
 
-		// For windows servers and safe_mode "on" installations we'll actually
-		// write a file then read it.  Bah...
+		/* For Windows servers and safe_mode "on" installations we'll actually
+		 * write a file then read it. Bah...
+		 */
 		if (is_dir($file))
 		{
 			$file = rtrim($file, '/').'/'.md5(mt_rand(1,100).mt_rand(1,100));
-
 			if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 			{
 				return FALSE;
@@ -120,7 +120,7 @@ if ( ! function_exists('is_really_writable'))
 /**
 * Class registry
 *
-* This function acts as a singleton.  If the requested class does not
+* This function acts as a singleton. If the requested class does not
 * exist it is instantiated and set to a static variable.  If it has
 * previously been instantiated the variable is returned.
 *
@@ -136,7 +136,7 @@ if ( ! function_exists('load_class'))
 	{
 		static $_classes = array();
 
-		// Does the class exist?  If so, we're done...
+		// Does the class exist? If so, we're done...
 		if (isset($_classes[$class]))
 		{
 			return $_classes[$class];
@@ -161,7 +161,7 @@ if ( ! function_exists('load_class'))
 			}
 		}
 
-		// Is the request a class extension?  If so we load it too
+		// Is the request a class extension? If so we load it too
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
@@ -177,6 +177,7 @@ if ( ! function_exists('load_class'))
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
 			// self-referencing loop with the Excptions class
+			set_status_header(503);
 			exit('Unable to locate the specified class: '.$class.'.php');
 		}
 
@@ -191,7 +192,7 @@ if ( ! function_exists('load_class'))
 // --------------------------------------------------------------------
 
 /**
-* Keeps track of which libraries have been loaded.  This function is
+* Keeps track of which libraries have been loaded. This function is
 * called by the load_class() function above
 *
 * @access	public
@@ -199,7 +200,7 @@ if ( ! function_exists('load_class'))
 */
 if ( ! function_exists('is_loaded'))
 {
-	function is_loaded($class = '')
+	function &is_loaded($class = '')
 	{
 		static $_is_loaded = array();
 
@@ -243,6 +244,7 @@ if ( ! function_exists('get_config'))
 		// Fetch the config file
 		if ( ! file_exists($file_path))
 		{
+			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
 
@@ -251,6 +253,7 @@ if ( ! function_exists('get_config'))
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
 		{
+			set_status_header(503);
 			exit('Your config file does not appear to be formatted correctly.');
 		}
 
@@ -387,76 +390,76 @@ if ( ! function_exists('set_status_header'))
 	function set_status_header($code = 200, $text = '')
 	{
 		$stati = array(
-							200	=> 'OK',
-							201	=> 'Created',
-							202	=> 'Accepted',
-							203	=> 'Non-Authoritative Information',
-							204	=> 'No Content',
-							205	=> 'Reset Content',
-							206	=> 'Partial Content',
+					200	=> 'OK',
+					201	=> 'Created',
+					202	=> 'Accepted',
+					203	=> 'Non-Authoritative Information',
+					204	=> 'No Content',
+					205	=> 'Reset Content',
+					206	=> 'Partial Content',
 
-							300	=> 'Multiple Choices',
-							301	=> 'Moved Permanently',
-							302	=> 'Found',
-							304	=> 'Not Modified',
-							305	=> 'Use Proxy',
-							307	=> 'Temporary Redirect',
+					300	=> 'Multiple Choices',
+					301	=> 'Moved Permanently',
+					302	=> 'Found',
+					304	=> 'Not Modified',
+					305	=> 'Use Proxy',
+					307	=> 'Temporary Redirect',
 
-							400	=> 'Bad Request',
-							401	=> 'Unauthorized',
-							403	=> 'Forbidden',
-							404	=> 'Not Found',
-							405	=> 'Method Not Allowed',
-							406	=> 'Not Acceptable',
-							407	=> 'Proxy Authentication Required',
-							408	=> 'Request Timeout',
-							409	=> 'Conflict',
-							410	=> 'Gone',
-							411	=> 'Length Required',
-							412	=> 'Precondition Failed',
-							413	=> 'Request Entity Too Large',
-							414	=> 'Request-URI Too Long',
-							415	=> 'Unsupported Media Type',
-							416	=> 'Requested Range Not Satisfiable',
-							417	=> 'Expectation Failed',
-							422	=> 'Unprocessable Entity',
+					400	=> 'Bad Request',
+					401	=> 'Unauthorized',
+					403	=> 'Forbidden',
+					404	=> 'Not Found',
+					405	=> 'Method Not Allowed',
+					406	=> 'Not Acceptable',
+					407	=> 'Proxy Authentication Required',
+					408	=> 'Request Timeout',
+					409	=> 'Conflict',
+					410	=> 'Gone',
+					411	=> 'Length Required',
+					412	=> 'Precondition Failed',
+					413	=> 'Request Entity Too Large',
+					414	=> 'Request-URI Too Long',
+					415	=> 'Unsupported Media Type',
+					416	=> 'Requested Range Not Satisfiable',
+					417	=> 'Expectation Failed',
+					422	=> 'Unprocessable Entity',
 
-							500	=> 'Internal Server Error',
-							501	=> 'Not Implemented',
-							502	=> 'Bad Gateway',
-							503	=> 'Service Unavailable',
-							504	=> 'Gateway Timeout',
-							505	=> 'HTTP Version Not Supported'
-						);
+					500	=> 'Internal Server Error',
+					501	=> 'Not Implemented',
+					502	=> 'Bad Gateway',
+					503	=> 'Service Unavailable',
+					504	=> 'Gateway Timeout',
+					505	=> 'HTTP Version Not Supported'
+			);
 
 		if ($code == '' OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (isset($stati[$code]) AND $text == '')
+		if (isset($stati[$code]) && $text == '')
 		{
 			$text = $stati[$code];
 		}
 
 		if ($text == '')
 		{
-			show_error('No status text available.  Please check your status code number or supply your own message text.', 500);
+			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
 		}
 
-		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
+		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
-		if (substr(php_sapi_name(), 0, 3) == 'cgi')
+		if (strpos(php_sapi_name(), 'cgi') === 0)
 		{
-			header("Status: {$code} {$text}", TRUE);
+			header('Status: '.$code.' '.$text, TRUE);
 		}
-		elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0')
+		elseif ($server_protocol === 'HTTP/1.0')
 		{
-			header($server_protocol." {$code} {$text}", TRUE, $code);
+			header('HTTP/1.0 '.$code.' '.$text, TRUE, $code);
 		}
 		else
 		{
-			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
+			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
@@ -527,16 +530,15 @@ if ( ! function_exists('remove_invisible_characters'))
 	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
 		$non_displayables = array();
-		
-		// every control character except newline (dec 10)
-		// carriage return (dec 13), and horizontal tab (dec 09)
-		
+
+		// every control character except newline (dec 10),
+		// carriage return (dec 13) and horizontal tab (dec 09)
 		if ($url_encoded)
 		{
 			$non_displayables[] = '/%0[0-8bcef]/';	// url encoded 00-08, 11, 12, 14, 15
 			$non_displayables[] = '/%1[0-9a-f]/';	// url encoded 16-31
 		}
-		
+
 		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
 
 		do
@@ -562,14 +564,9 @@ if ( ! function_exists('html_escape'))
 {
 	function html_escape($var)
 	{
-		if (is_array($var))
-		{
-			return array_map('html_escape', $var);
-		}
-		else
-		{
-			return htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
-		}
+		return is_array($var)
+			? array_map('html_escape', $var)
+			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
 	}
 }
 
