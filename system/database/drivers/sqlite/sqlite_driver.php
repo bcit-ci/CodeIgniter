@@ -141,14 +141,15 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	public function version()
 	{
-		return sqlite_libversion();
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = sqlite_libversion();
 	}
 
 	// --------------------------------------------------------------------

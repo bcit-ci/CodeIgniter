@@ -57,6 +57,11 @@ Release Date: Not Released
    -  Added Interbase/Firebird database support via the "interbase" driver
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
+   -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
+   -  Improved support of the PostgreSQL driver, including:
+	 -  pg_version() is now used to get the database version number, when possible.
+	 -  Added db_set_charset() support.
+	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
 
 -  Libraries
 
@@ -79,6 +84,7 @@ Release Date: Not Released
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
    -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
+   -  Changed the Session library to select only one row when using database sessions.
 
 -  Core
 
@@ -129,6 +135,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
 -  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
+-  Fixed a bug (#1080) - When using the SMTP protocol, the :doc:`Email Library <libraries/email>` send() method was returning TRUE even if the connection/authentication against the server failed.
 
 Version 2.1.1
 =============
@@ -149,6 +156,7 @@ Bug fixes for 2.1.1
 -  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
 -  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
+-  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found
 
 Version 2.1.0
 =============

@@ -58,7 +58,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected $_count_string = "SELECT COUNT(*) AS ";
 	protected $_random_keyword = ' Random()'; // database specific random keyword
-	
+
 	// Keeps track of the resource for the current transaction
 	protected $trans;
 
@@ -115,36 +115,26 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	bool
-	 */
-	public function db_set_charset($charset, $collation)
-	{
-		// Must be determined at connection
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
 		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
 		{
-			$version = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
-			
+			$this->data_cache['version'] = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+
 			// Don't keep the service open
 			ibase_service_detach($service);
-			return $version;
+			return $this->data_cache['version'];
 		}
-		
+
 		return FALSE;
 	}
 
@@ -203,7 +193,7 @@ class CI_DB_interbase_driver extends CI_DB {
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
 		$this->trans = @ibase_trans($this->conn_id);
-		
+
 		return TRUE;
 	}
 
@@ -226,7 +216,7 @@ class CI_DB_interbase_driver extends CI_DB {
 		{
 			return TRUE;
 		}
-		
+
 		return @ibase_commit($this->trans);
 	}
 
@@ -398,7 +388,7 @@ SQL;
 	protected function _field_data($table)
 	{
 		// Need to find a more efficient way to do this
-		// but Interbase/Firebird seems to lack the 
+		// but Interbase/Firebird seems to lack the
 		// limit clause
 		return "SELECT * FROM {$table}";
 	}
@@ -406,25 +396,16 @@ SQL;
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return ibase_errmsg();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	integer
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return ibase_errcode();
+		return array('code' => ibase_errcode(), 'message' => ibase_errmsg());
 	}
 
 	// --------------------------------------------------------------------
@@ -603,12 +584,12 @@ SQL;
 	{
 		// Keep the current sql string safe for a moment
 		$orig_sql = $sql;
-	
+
 		// Limit clause depends on if Interbase or Firebird
-		if (stripos($this->_version(), 'firebird') !== FALSE)
+		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
 			$sql = 'FIRST '. (int) $limit;
-			
+
 			if ($offset > 0)
 			{
 				$sql .= ' SKIP '. (int) $offset;
@@ -617,16 +598,14 @@ SQL;
 		else
 		{
 			$sql = 'ROWS ' . (int) $limit;
-			
+
 			if ($offset > 0)
 			{
 				$sql = 'ROWS '. (int) $offset . ' TO ' . ($limit + $offset);
 			}
 		}
-		
-		$sql = preg_replace("`SELECT`i", "SELECT {$sql}", $orig_sql);
-		
-		return $sql;
+
+		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -641,6 +620,7 @@ SQL;
 	{
 		@ibase_close($conn_id);
 	}
+
 }
 
 /* End of file interbase_driver.php */

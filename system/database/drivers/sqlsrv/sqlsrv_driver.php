@@ -317,15 +317,23 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Version number query string
-	*
-	* @access public
-	* @return string
-	*/
-	function _version()
+	 * Database version number
+	 *
+	 * @return	string
+	 */
+	public function version()
 	{
-		$info = sqlsrv_server_info($this->conn_id);
-		return sprintf("select '%s' as ver", $info['SQLServerVersion']);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		if (($info = sqlsrv_server_info($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return $this->data_cache['version'] = $info['SQLServerVersion'];
 	}
 
 	// --------------------------------------------------------------------

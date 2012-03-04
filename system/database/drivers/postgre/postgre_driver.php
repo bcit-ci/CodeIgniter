@@ -147,14 +147,43 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Set client character set
 	 *
-	 * @access	public
+	 * @param       string
+	 * @return      bool
+	 */
+	protected function _db_set_charset($charset)
+	{
+		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database version number
+	 *
 	 * @return	string
 	 */
-	function _version()
+	public function version()
 	{
-		return "SELECT version() AS ver";
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		if (($pg_version = pg_version($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		/* If PHP was compiled with PostgreSQL lib versions earlier
+		 * than 7.4, pg_version() won't return the server version
+		 * and so we'll have to fall back to running a query in
+		 * order to get it.
+		 */
+		return isset($pg_version['server'])
+			? $this->data_cache['version'] = $pg_version['server']
+			: parent::version();
 	}
 
 	// --------------------------------------------------------------------
@@ -193,18 +222,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function trans_begin($test_mode = FALSE)
+	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -212,9 +235,9 @@ class CI_DB_postgre_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
-		return @pg_exec($this->conn_id, "begin");
+		return @pg_query($this->conn_id, 'BEGIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -222,23 +245,17 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function trans_commit()
+	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "commit");
+		return @pg_query($this->conn_id, 'COMMIT');
 	}
 
 	// --------------------------------------------------------------------
@@ -246,23 +263,17 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function trans_rollback()
+	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "rollback");
+		return @pg_query($this->conn_id, 'ROLLBACK');
 	}
 
 	// --------------------------------------------------------------------
@@ -323,8 +334,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	function insert_id()
 	{
-		$v = $this->_version();
-		$v = $v['server'];
+		$v = $this->version();
 
 		$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
 		$column	= func_num_args() > 1 ? func_get_arg(1) : NULL;

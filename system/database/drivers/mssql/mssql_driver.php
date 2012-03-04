@@ -339,12 +339,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	* Version number query string
 	*
-	* @access public
-	* @return string
+	* @return	string
 	*/
-	function _version()
+	protected function _version()
 	{
-		return "SELECT @@VERSION AS ver";
+		return 'SELECT @@VERSION AS ver';
 	}
 
 	// --------------------------------------------------------------------
