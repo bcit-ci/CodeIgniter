@@ -47,7 +47,8 @@ class CI_Form_validation {
 	protected $_error_suffix		= '</p>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
-
+	protected $validation_data		= array();
+	
 	/**
 	 * Constructor
 	 */
@@ -84,8 +85,9 @@ class CI_Form_validation {
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
-		// No reason to set rules if we have no POST data
-		if (count($_POST) === 0)
+		// No reason to set rules if we have no POST data 
+		// or a validation array has not been specified
+		if (count($_POST) === 0 && count($this->validation_data) === 0)
 		{
 			return $this;
 		}
@@ -160,12 +162,30 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * By default, form validation uses the $_POST array to validate
+	 * 
+	 * If an array is set through this method, then this array will
+	 * be used instead of the $_POST array
+	 * 
+	 * @param array $data 
+	 */
+	public function set_data($data = '')
+	{
+		if ( ! empty($data) && is_array($data))
+		{
+			$this->validation_data = $data;		
+		}
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Set Error Message
 	 *
 	 * Lets users set their own error messages on the fly.  Note:  The key
-	 * name has to match the  function name that it corresponds to.
+	 * name has to match the function name that it corresponds to.
 	 *
 	 * @param	string
 	 * @param	string
@@ -300,10 +320,14 @@ class CI_Form_validation {
 	public function run($group = '')
 	{
 		// Do we even have any data to process?  Mm?
-		if (count($_POST) === 0)
+		$validation_array = ( ! empty($this->validation_data)) ? $this->validation_data : $_POST;
+		if (count($validation_array) === 0)
 		{
 			return FALSE;
 		}
+		
+		// Clear any previous validation data
+		$this->_reset_validation();
 
 		// Does the _field_data array containing the validation rules exist?
 		// If not, we look to see if they were assigned via a config file
@@ -342,18 +366,18 @@ class CI_Form_validation {
 		// corresponding $_POST item and test for errors
 		foreach ($this->_field_data as $field => $row)
 		{
-			// Fetch the data from the corresponding $_POST array and cache it in the _field_data array.
+			// Fetch the data from the corresponding $_POST or validation array and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
 
 			if ($row['is_array'] === TRUE)
 			{
-				$this->_field_data[$field]['postdata'] = $this->_reduce_array($_POST, $row['keys']);
+				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
 			else
 			{
-				if (isset($_POST[$field]) AND $_POST[$field] != "")
+				if (isset($validation_array[$field]) AND $validation_array[$field] != "")
 				{
-					$this->_field_data[$field]['postdata'] = $_POST[$field];
+					$this->_field_data[$field]['postdata'] = $validation_array[$field];
 				}
 			}
 
@@ -867,12 +891,13 @@ class CI_Form_validation {
 	 */
 	public function matches($str, $field)
 	{
-		if ( ! isset($_POST[$field]))
+		$validation_array = ( ! empty($this->validation_data)) ? $this->validation_data : $_POST;		
+		if ( ! isset($validation_array[$field]))
 		{
 			return FALSE;
 		}
 
-		return ($str === $_POST[$field]);
+		return ($str === $validation_array[$field]);
 	}
 
 	// --------------------------------------------------------------------
@@ -1282,7 +1307,25 @@ class CI_Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
-
+	
+	// --------------------------------------------------------------------
+	
+    /**
+     * Reset validation vars
+	 * 
+	 * Prevents subsequent validation routines from being affected by the 
+	 * results of any previous validation routine due to the CI singleton.
+	 * 
+     * @return void
+     */
+    protected function _reset_validation()
+    {
+		$this->_field_data = array();
+		$this->_config_rules = array();
+		$this->_error_array = array();
+		$this->_error_messages = array();
+		$this->error_string = '';
+    }
 }
 
 /* End of file Form_validation.php */
