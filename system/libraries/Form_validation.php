@@ -1140,7 +1140,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Greather than
+	 * Greater than
 	 *
 	 * @param	string
 	 * @return	bool
@@ -1152,6 +1152,24 @@ class CI_Form_validation {
 			return FALSE;
 		}
 		return $str > $min;
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Equal to or Greater than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function greater_than_equal_to($str, $min)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str >= $min;
 	}
 
 	// --------------------------------------------------------------------
@@ -1169,6 +1187,24 @@ class CI_Form_validation {
 			return FALSE;
 		}
 		return $str < $max;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Equal to or Less than
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	function less_than_equal_to($str, $max)
+	{
+		if ( ! is_numeric($str))
+		{
+			return FALSE;
+		}
+		return $str <= $max;
 	}
 
 	// --------------------------------------------------------------------
