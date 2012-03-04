@@ -1031,6 +1031,45 @@ class CI_Form_validation {
 
 		return TRUE;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Valid U.S. Phone Number
+	 * 
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_us_phone($str) {
+		return ( ! preg_match("/^(1(\s|-)?)?\(?\d{3}\)?(\s|-)?\d{3}(\s|-)?\d{4}$/x", $str)) ? FALSE : TRUE;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Valid U.S. Phone Numbers
+	 * 
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_us_phones($str) {
+		if (strpos($str, ',') === FALSE)
+		{
+			return $this->valid_us_phone(trim($str));
+		}
+		
+		foreach (explode(',', $str) as $phone_number)
+		{
+			if(trim($phone_number) != '' && $this->valid_us_phone(trim($phone_number)) === FALSE)
+			{
+				return FALSE;
+			}
+		}
+		
+		return TRUE;
+	}
 
 	// --------------------------------------------------------------------
 
