@@ -147,6 +147,8 @@ Release Date: Not Released
 -  Libraries
    -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
 
+-  Helpers
+   -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
 
 Bug fixes for 2.1.1
 -------------------
