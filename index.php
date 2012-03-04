@@ -44,7 +44,7 @@
  */
 	$env = getenv('CI_ENV');
 	$default_env = 'development';
-	if ($env === false)
+	if ($env === FALSE)
 	{
 		$env = $default_env;
 	}
