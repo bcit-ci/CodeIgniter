@@ -83,6 +83,7 @@ Release Date: Not Released
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
+   -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
    -  Changed the Session library to select only one row when using database sessions.
 
 -  Core
@@ -148,6 +149,8 @@ Release Date: Not Released
 -  Libraries
    -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
 
+-  Helpers
+   -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
 
 Bug fixes for 2.1.1
 -------------------
@@ -156,6 +159,7 @@ Bug fixes for 2.1.1
 -  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
 -  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
+-  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found
 
 Version 2.1.0
 =============

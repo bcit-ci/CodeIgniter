@@ -404,16 +404,35 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
-	public function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'DESCRIBE '.$table;
+		if ($table == '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$query = $this->query('DESCRIBE '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			preg_match('/([a-z]+)(\(\d+\))?/', $query[$i]->Type, $matches);
+
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->Field;
+			$retval[$i]->type		= empty($matches[1]) ? NULL : $matches[1];
+			$retval[$i]->default		= $query[$i]->Default;
+			$retval[$i]->max_length		= empty($matches[2]) ? NULL : preg_replace('/[^\d]/', '', $matches[2]);
+			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
+		}
+
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
