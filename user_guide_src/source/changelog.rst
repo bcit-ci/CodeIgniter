@@ -138,6 +138,7 @@ Bug fixes for 3.0
 -  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
 -  Fixed a bug (#1080) - When using the SMTP protocol, the :doc:`Email Library <libraries/email>` send() method was returning TRUE even if the connection/authentication against the server failed.
 -  Fixed a bug (#499) - a CSRF cookie was created even with CSRF protection being disabled.
+-  Fixed a bug (#306) - ODBC's insert_id() method was calling non-existent function odbc_insert_id(), which resulted in a fatal error.
 
 Version 2.1.1
 =============

@@ -263,11 +263,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	int
+	 * @return	bool
 	 */
 	public function insert_id()
 	{
-		return @odbc_insert_id($this->conn_id);
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 	}
 
 	// --------------------------------------------------------------------
