@@ -150,7 +150,7 @@ is the variable that the query result object is assigned to::
 	
 	echo $query->num_rows();
 
-..note::
+.. note::
 	Not all database drivers have a native way of getting the total
 	number of rows for a result set. When this is the case, all of
 	the data is prefetched and count() is manually called on the
