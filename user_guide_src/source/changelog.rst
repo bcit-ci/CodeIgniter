@@ -84,6 +84,7 @@ Release Date: Not Released
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
    -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
+   -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
 
 -  Core
