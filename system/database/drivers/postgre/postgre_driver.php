@@ -587,7 +587,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			$valstr[] = $key." = ".$val;
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$limit = '';
 
 		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
 
@@ -647,7 +647,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			$conditions .= implode("\n", $like);
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$limit = '';
 
 		return "DELETE FROM ".$table.$conditions.$limit;
 	}
