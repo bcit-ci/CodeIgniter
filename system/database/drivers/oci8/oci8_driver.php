@@ -68,7 +68,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	protected $_random_keyword = ' ASC'; // not currently supported
 
 	// Set "auto commit" by default
-	protected $_commit = OCI_COMMIT_ON_SUCCESS;
+	public $commit_mode = OCI_COMMIT_ON_SUCCESS;
 
 	// need to track statement id and cursor id
 	public $stmt_id;
@@ -215,13 +215,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return oci_server_version($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = oci_server_version($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -240,7 +242,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		oci_set_prefetch($this->stmt_id, 1000);
-		return @oci_execute($this->stmt_id, $this->_commit);
+		return @oci_execute($this->stmt_id, $this->commit_mode);
 	}
 
 	/**
@@ -389,7 +391,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		$this->_commit = (is_php('5.3.2')) ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
+		$this->commit_mode = (is_php('5.3.2')) ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
 		return TRUE;
 	}
 
@@ -413,7 +415,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->_commit = OCI_COMMIT_ON_SUCCESS;
+		$this->commit_mode = OCI_COMMIT_ON_SUCCESS;
 		return oci_commit($this->conn_id);
 	}
 
@@ -432,7 +434,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->_commit = OCI_COMMIT_ON_SUCCESS;
+		$this->commit_mode = OCI_COMMIT_ON_SUCCESS;
 		return oci_rollback($this->conn_id);
 	}
 
@@ -580,40 +582,18 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		$error = $this->_oci8_error_data();
-		return $error['message'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
-	 *
-	 * @return	string
-	 */
-	protected function _error_number()
-	{
-		$error = $this->_oci8_error_data();
-		return $error['code'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * OCI8-specific method to get errors.
-	 *
-	 * Used by _error_message() and _error_code().
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
 	 * @return	array
 	 */
-	protected function _oci8_error_data()
+	public function error()
 	{
+		/* oci_error() returns an array that already contains the
+		 * 'code' and 'message' keys, so we can just return it.
+		 */
 		if (is_resource($this->curs_id))
 		{
 			return oci_error($this->curs_id);
