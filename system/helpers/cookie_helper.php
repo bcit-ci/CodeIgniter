@@ -106,7 +106,8 @@ if ( ! function_exists('delete_cookie'))
 {
 	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
 	{
-		set_cookie($name, '', '', $domain, $path, $prefix);
+		$CI =& get_instance();
+		return $CI->input->delete_cookie($name);
 	}
 }
 
