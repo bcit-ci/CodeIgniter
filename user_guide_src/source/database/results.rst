@@ -150,13 +150,12 @@ is the variable that the query result object is assigned to::
 	
 	echo $query->num_rows();
 
-.. note:: Oracle (OCI8 driver) doesn't have a way of returning the
-	total number of rows in a result set without actually fetching
-	all of them. The only way to achieve this is to get all of the
-	results first and do a ``count()`` on the resulting array,
-	therefore you can't use ``num_rows()`` to increase performance
-	when using the OCI8 driver.
-
+..note::
+	Not all database drivers have a native way of getting the total
+	number of rows for a result set. When this is the case, all of
+	the data is prefetched and count() is manually called on the
+	resulting array in order to achieve the same functionality.
+	
 $query->num_fields()
 =====================
 
@@ -189,5 +188,4 @@ Example::
 
 	$row = $query2->row();
 	echo $row->name;
-	$query2->free_result();// The $query2 result object will no longer be available
-
+	$query2->free_result(); // The $query2 result object will no longer be available
