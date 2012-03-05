@@ -219,7 +219,7 @@ class CI_Session {
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 
-			$query = $this->CI->db->get($this->sess_table_name);
+			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
 
 			// No result? Kill it!
 			if ($query->num_rows() === 0)
