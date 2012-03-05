@@ -245,8 +245,42 @@ class CI_DB_odbc_result extends CI_DB_result {
 		return $rs_assoc;
 	}
 
-}
+	// --------------------------------------------------------------------
 
+	/**
+	 * Query result. Array version.
+	 *
+	 * @return	array
+	 */
+	public function result_array()
+	{
+		if (count($this->result_array) > 0)
+		{
+			return $this->result_array;
+		}
+		elseif (($c = count($this->result_object)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_array[$i] = (array) $this->result_object[$i];
+			}
+		}
+		elseif ($this->result_id === FALSE)
+		{
+			return array();
+		}
+		else
+		{
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[] = $row;
+			}
+		}
+
+		return $this->result_array;
+	}
+
+}
 
 /* End of file odbc_result.php */
 /* Location: ./system/database/drivers/odbc/odbc_result.php */
