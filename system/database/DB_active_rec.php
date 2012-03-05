@@ -320,7 +320,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	the type of join
 	 * @return	object
 	 */
-	public function join($table, $cond, $type = '')
+	public function join($table, $cond, $type = '', $escape = TRUE)
 	{
 		if ($type != '')
 		{
@@ -341,7 +341,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+		if ($escape && preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
 		{
 			$cond = $this->_protect_identifiers($match[1]).$match[2].$this->_protect_identifiers($match[3]);
 		}
