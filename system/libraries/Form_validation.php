@@ -165,7 +165,7 @@ class CI_Form_validation {
 	 *
 	 * If an array is set through this method, then this array will
 	 * be used instead of the $_POST array
-	 *
+	 * 
 	 * @param	array	$data
 	 * @return	void
 	 */
@@ -323,9 +323,11 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-
-		// Clear any previous validation data
-		$this->_reset_validation();
+		
+		// Clear out any previous error messages
+		$this->_error_array = array();
+		$this->_error_messages = array();
+		$this->error_string = '';
 
 		// Does the _field_data array containing the validation rules exist?
 		// If not, we look to see if they were assigned via a config file
@@ -392,7 +394,11 @@ class CI_Form_validation {
 
 		// Now we need to re-set the POST data with the new, processed data
 		$this->_reset_post_array();
-
+		
+		// Reset the validation in case we want to validate more than one array
+		$this->_field_data = array();
+		$this->_config_rules = array();
+		
 		return ($total_errors === 0);
 	}
 
@@ -1340,25 +1346,6 @@ class CI_Form_validation {
 	public function encode_php_tags($str)
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reset validation vars
-	 *
-	 * Prevents subsequent validation routines from being affected by the
-	 * results of any previous validation routine due to the CI singleton.
-	 *
-	 * @return void
-	 */
-	protected function _reset_validation()
-	{
-		$this->_field_data = array();
-		$this->_config_rules = array();
-		$this->_error_array = array();
-		$this->_error_messages = array();
-		$this->error_string = '';
 	}
 
 }
