@@ -165,6 +165,10 @@ class CI_Form_validation {
 	 *
 	 * If an array is set through this method, then this array will
 	 * be used instead of the $_POST array
+	 * 
+	 * Note that if you are validating multiple arrays, then the 
+	 * reset_validation() function should be called after validating 
+	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
 	 * @return	void
@@ -323,9 +327,6 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-
-		// Clear any previous validation data
-		$this->_reset_validation();
 
 		// Does the _field_data array containing the validation rules exist?
 		// If not, we look to see if they were assigned via a config file
@@ -1352,7 +1353,7 @@ class CI_Form_validation {
 	 *
 	 * @return void
 	 */
-	protected function _reset_validation()
+	public function reset_validation()
 	{
 		$this->_field_data = array();
 		$this->_config_rules = array();
