@@ -77,12 +77,6 @@ class CI_DB_driver {
 	var $_protect_identifiers	= TRUE;
 	var $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
-	// These are use with Oracle
-	var $stmt_id;
-	var $curs_id;
-	var $limit_used;
-	
-
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
@@ -396,21 +390,9 @@ class CI_DB_driver {
 		}
 
 		// Load and instantiate the result driver
+		$driver		= $this->load_rdriver();
+		$RES		= new $driver($this);
 
-		$driver			= $this->load_rdriver();
-		$RES			= new $driver();
-		$RES->conn_id	= $this->conn_id;
-		$RES->result_id	= $this->result_id;
-
-		if ($this->dbdriver == 'oci8')
-		{
-			$RES->stmt_id		= $this->stmt_id;
-			$RES->curs_id		= NULL;
-			$RES->limit_used	= $this->limit_used;
-			$this->stmt_id		= FALSE;
-		}
-
-		// oci8 vars must be set before calling this
 		$RES->num_rows	= $RES->num_rows();
 
 		// Is query caching enabled?  If so, we'll serialize the

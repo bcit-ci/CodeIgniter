@@ -62,6 +62,7 @@ Release Date: Not Released
 	 -  pg_version() is now used to get the database version number, when possible.
 	 -  Added db_set_charset() support.
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+   -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
 
 -  Libraries
 
@@ -138,6 +139,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1080) - When using the SMTP protocol, the :doc:`Email Library <libraries/email>` send() method was returning TRUE even if the connection/authentication against the server failed.
 -  Fixed a bug (#499) - a CSRF cookie was created even with CSRF protection being disabled.
 -  Fixed a bug (#306) - ODBC's insert_id() method was calling non-existent function odbc_insert_id(), which resulted in a fatal error.
+-  Fixed a bug in Oracle's DB_result class where the cursor id passed to it was always NULL.
 
 Version 2.1.1
 =============
