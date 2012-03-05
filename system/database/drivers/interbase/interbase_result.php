@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -21,14 +21,14 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * ODBC Result Class
+ * Interbase/Firebird Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
@@ -36,28 +36,25 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_odbc_result extends CI_DB_result {
+class CI_DB_interbase_result extends CI_DB_result {
 
 	public $num_rows;
 
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @return	int
+	 * @return	integer
 	 */
 	public function num_rows()
 	{
-		if (is_int($this->num_rows))
+		if( ! is_null($this->num_rows))
 		{
 			return $this->num_rows;
 		}
-
-		// Work-around for ODBC subdrivers that don't support num_rows()
-		if (($this->num_rows = @odbc_num_rows($this->result_id)) === -1)
-		{
-			$this->num_rows = count($this->result_array());
-		}
-
+		
+		//Get the results so that you can get an accurate rowcount
+		$this->result();
+		
 		return $this->num_rows;
 	}
 
@@ -66,11 +63,11 @@ class CI_DB_odbc_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	int
+	 * @return	integer
 	 */
 	public function num_fields()
 	{
-		return @odbc_num_fields($this->result_id);
+		return @ibase_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -85,14 +82,10 @@ class CI_DB_odbc_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		$num_fields = $this->num_fields();
-
-		if ($num_fields > 0)
+		for ($i = 0, $num_fields = $this->num_fields(); $i < $num_fields; $i++)
 		{
-			for ($i = 1; $i <= $num_fields; $i++)
-			{
-				$field_names[] = odbc_field_name($this->result_id, $i);
-			}
+			$info = ibase_field_info($this->result_id, $i);
+			$field_names[] = $info['name'];
 		}
 
 		return $field_names;
@@ -109,15 +102,20 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
+		
 		$retval = array();
-		for ($i = 0, $odbc_index = 1, $c = $this->num_fields(); $i < $c; $i++, $odbc_index++)
+		for ($i = 0, $num_fields = $this->num_fields(); $i < $num_fields; $i++)
 		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= odbc_field_name($this->result_id, $odbc_index);
-			$retval[$i]->type		= odbc_field_type($this->result_id, $odbc_index);
-			$retval[$i]->max_length		= odbc_field_len($this->result_id, $odbc_index);
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+			$info = ibase_field_info($this->result_id, $i);
+		
+			$F				= new stdClass();
+			$F->name		= $info['name'];
+			$F->type		= $info['type'];
+			$F->max_length	= $info['length'];
+			$F->primary_key = 0;
+			$F->default		= '';
+
+			$retval[] = $F;
 		}
 
 		return $retval;
@@ -130,13 +128,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	function free_result()
+	public function free_result()
 	{
-		if (is_resource($this->result_id))
-		{
-			odbc_free_result($this->result_id);
-			$this->result_id = FALSE;
-		}
+		@ibase_free_result($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -148,12 +142,15 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
-		return FALSE;
+		//Set the row count to 0
+		$this->num_rows = 0;
+	
+		//Interbase driver doesn't implement a suitable function
+		return FALSE;	
 	}
 
 	// --------------------------------------------------------------------
@@ -163,19 +160,17 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
-		if (function_exists('odbc_fetch_object'))
+		if (($row = @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
 		{
-			return odbc_fetch_array($this->result_id);
+			//Increment row count
+			$this->num_rows++;
 		}
-		else
-		{
-			return $this->_odbc_fetch_array($this->result_id);
-		}
+	
+		return $row;
 	}
 
 	// --------------------------------------------------------------------
@@ -185,70 +180,75 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
+	protected function _fetch_object()
 	{
-		if (function_exists('odbc_fetch_object'))
+		if (($row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
 		{
-			return odbc_fetch_object($this->result_id);
+			//Increment row count
+			$this->num_rows++;
 		}
-		else
-		{
-			return $this->_odbc_fetch_object($this->result_id);
-		}
+		
+		return $row;
 	}
-
+	
+	// --------------------------------------------------------------------
 
 	/**
-	 * Result - object
+	 * Query result.  "object" version.
 	 *
-	 * subsititutes the odbc_fetch_object function when
-	 * not available (odbc_fetch_object requires unixODBC)
-	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _odbc_fetch_object(& $odbc_result) {
-		$rs = array();
-		$rs_obj = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs)) {
-			foreach ($rs as $k=>$v) {
-				$field_name= odbc_field_name($odbc_result, $k+1);
-				$rs_obj->$field_name = $v;
-			}
+	public function result_object()
+	{
+		if (count($this->result_object) > 0)
+		{
+			return $this->result_object;
 		}
-		return $rs_obj;
-	}
-
-
-	/**
-	 * Result - array
-	 *
-	 * subsititutes the odbc_fetch_array function when
-	 * not available (odbc_fetch_array requires unixODBC)
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _odbc_fetch_array(& $odbc_result) {
-		$rs = array();
-		$rs_assoc = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs)) {
-			$rs_assoc=array();
-			foreach ($rs as $k=>$v) {
-				$field_name= odbc_field_name($odbc_result, $k+1);
-				$rs_assoc[$field_name] = $v;
+		
+		// Convert result array to object so that 
+		// We don't have to get the result again
+		if (count($this->result_array) > 0)
+		{
+			$i = 0;
+		
+			foreach ($this->result_array as $array)
+			{
+				$this->result_object[$i] = new StdClass();
+			
+				foreach ($array as $key => $val)
+				{
+					$this->result_object[$i]->{$key} = $val;
+				}
+				
+				++$i;
 			}
+			
+			return $this->result_object;
 		}
-		return $rs_assoc;
+
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
+		// we'll simply return an empty array.
+		if ($this->result_id === FALSE)
+		{
+			return array();
+		}
+
+		$this->num_rows = 0;
+		while ($row = $this->_fetch_object())
+		{
+			$this->result_object[] = $row;
+		}
+
+		return $this->result_object;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. Array version.
+	 * Query result.  "array" version.
 	 *
 	 * @return	array
 	 */
@@ -258,23 +258,31 @@ class CI_DB_odbc_result extends CI_DB_result {
 		{
 			return $this->result_array;
 		}
-		elseif (($c = count($this->result_object)) > 0)
+		
+		// Since the object and array are really similar, just case
+		// the result object to an array  if need be
+		if (count($this->result_object) > 0)
 		{
-			for ($i = 0; $i < $c; $i++)
+			foreach ($this->result_object as $obj)
 			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
+				$this->result_array[] = (array) $obj;
 			}
+		
+			return $this->result_array;
 		}
-		elseif ($this->result_id === FALSE)
+
+		// In the event that query caching is on the result_id variable
+		// will return FALSE since there isn't a valid SQL resource so
+		// we'll simply return an empty array.
+		if ($this->result_id === FALSE)
 		{
 			return array();
 		}
-		else
+
+		$this->num_rows = 0;
+		while ($row = $this->_fetch_assoc())
 		{
-			while ($row = $this->_fetch_assoc())
-			{
-				$this->result_array[] = $row;
-			}
+			$this->result_array[] = $row;
 		}
 
 		return $this->result_array;
@@ -282,5 +290,5 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 }
 
-/* End of file odbc_result.php */
-/* Location: ./system/database/drivers/odbc/odbc_result.php */
+/* End of file interbase_result.php */
+/* Location: ./system/database/drivers/interbase/interbase_result.php */
