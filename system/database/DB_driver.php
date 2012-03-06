@@ -42,47 +42,42 @@
  */
 class CI_DB_driver {
 
-	var $username;
-	var $password;
-	var $hostname;
-	var $database;
-	var $dbdriver		= 'mysql';
-	var $dbprefix		= '';
-	var $char_set		= 'utf8';
-	var $dbcollat		= 'utf8_general_ci';
-	var $autoinit		= TRUE; // Whether to automatically initialize the DB
-	var $swap_pre		= '';
-	var $port			= '';
-	var $pconnect		= FALSE;
-	var $conn_id		= FALSE;
-	var $result_id		= FALSE;
-	var $db_debug		= FALSE;
-	var $benchmark		= 0;
-	var $query_count	= 0;
-	var $bind_marker	= '?';
-	var $save_queries	= TRUE;
-	var $queries		= array();
-	var $query_times	= array();
-	var $data_cache		= array();
-	var $trans_enabled	= TRUE;
-	var $trans_strict	= TRUE;
-	var $_trans_depth	= 0;
-	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
-	var $cache_on		= FALSE;
-	var $cachedir		= '';
-	var $cache_autodel	= FALSE;
-	var $CACHE; // The cache class object
+	public $username;
+	public $password;
+	public $hostname;
+	public $database;
+	public $dbdriver		= 'mysql';
+	public $dbprefix		= '';
+	public $char_set		= 'utf8';
+	public $dbcollat		= 'utf8_general_ci';
+	public $autoinit		= TRUE; // Whether to automatically initialize the DB
+	public $swap_pre		= '';
+	public $port			= '';
+	public $pconnect		= FALSE;
+	public $conn_id			= FALSE;
+	public $result_id		= FALSE;
+	public $db_debug		= FALSE;
+	public $benchmark		= 0;
+	public $query_count		= 0;
+	public $bind_marker		= '?';
+	public $save_queries		= TRUE;
+	public $queries			= array();
+	public $query_times		= array();
+	public $data_cache		= array();
 
-	// Private variables
-	var $_protect_identifiers	= TRUE;
-	var $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
+	public $trans_enabled		= TRUE;
+	public $trans_strict		= TRUE;
+	protected $_trans_depth		= 0;
+	protected $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 
-	/**
-	 * Constructor.  Accepts one parameter containing the database
-	 * connection settings.
-	 *
-	 * @param array
-	 */
+	public $cache_on		= FALSE;
+	public $cachedir		= '';
+	public $cache_autodel		= FALSE;
+	public $CACHE; // The cache class object
+
+	protected $_protect_identifiers		= TRUE;
+	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
+
 	public function __construct($params)
 	{
 		if (is_array($params))
