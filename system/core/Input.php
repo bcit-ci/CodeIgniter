@@ -235,13 +235,14 @@ class CI_Input {
 	 */
 	public function delete_cookie($name = '')
 	{
-		if(isset($name) && !empty($name) && $this->cookie($name)) // Check if the cookie exists, just a failsafe, one never knows.... :)
+		// Check if the cookie exists, just a failsafe, one never knows.... :)
+		if (! empty($name) && $this->cookie($name)) 
 		{
 			$this->set_cookie($name, '', 0);
-			return TRUE; // Let the calling function know that it succeeded
+			return TRUE;
 		}
 
-		return FALSE; // Could not find the cookie, or no name provided
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
