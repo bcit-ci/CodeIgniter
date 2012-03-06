@@ -1351,7 +1351,7 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Dummy method that allows Active Record class to be disabled
+	 * Dummy method that allows Query Builder class to be disabled
 	 *
 	 * This function is used extensively by every db driver.
 	 *
