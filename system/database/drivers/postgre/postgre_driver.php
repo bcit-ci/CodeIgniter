@@ -383,8 +383,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
-
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
