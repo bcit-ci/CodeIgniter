@@ -59,8 +59,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
 
-	// need to track the pdo DSN, driver and options
-	var $dsn;
+	// need to track the pdo driver and options
 	var $pdodriver;
 	var $options = array();
 
