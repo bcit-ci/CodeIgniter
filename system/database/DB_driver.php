@@ -75,17 +75,6 @@ class CI_DB_driver {
 	protected $_protect_identifiers	= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
-	// These are used with Oracle
-	public $stmt_id;
-	public $curs_id;
-	public $limit_used;
-
-	/**
-	 * Constructor. Accepts one parameter containing the database
-	 * connection settings.
-	 *
-	 * @param array
-	 */
 	public function __construct($params)
 	{
 		if (is_array($params))
@@ -288,6 +277,12 @@ class CI_DB_driver {
 			$sql = preg_replace('/(\W)'.$this->swap_pre.'(\S+?)/', '\\1'.$this->dbprefix.'\\2', $sql);
 		}
 
+		// Compile binds if needed
+		if ($binds !== FALSE)
+		{
+			$sql = $this->compile_binds($sql, $binds);
+		}
+
 		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
@@ -300,13 +295,7 @@ class CI_DB_driver {
 			}
 		}
 
-		// Compile binds if needed
-		if ($binds !== FALSE)
-		{
-			$sql = $this->compile_binds($sql, $binds);
-		}
-
-		// Save the query for debugging
+		// Save the  query for debugging
 		if ($this->save_queries == TRUE)
 		{
 			$this->queries[] = $sql;
@@ -383,19 +372,8 @@ class CI_DB_driver {
 
 		// Load and instantiate the result driver
 		$driver		= $this->load_rdriver();
-		$RES		= new $driver();
-		$RES->conn_id	= $this->conn_id;
-		$RES->result_id	= $this->result_id;
+		$RES		= new $driver($this);
 
-		if ($this->dbdriver === 'oci8')
-		{
-			$RES->stmt_id		= $this->stmt_id;
-			$RES->curs_id		= $this->curs_id;
-			$RES->limit_used	= $this->limit_used;
-			$this->stmt_id		= FALSE;
-		}
-
-		// oci8 vars must be set before calling this
 		$RES->num_rows	= $RES->num_rows();
 
 		// Is query caching enabled? If so, we'll serialize the
@@ -1354,7 +1332,7 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1362,12 +1340,10 @@ class CI_DB_driver {
 	 *
 	 * This function is used extensively by every db driver.
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	protected function _reset_select()
 	{
-	
 	}
 
 }
