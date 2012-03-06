@@ -63,10 +63,12 @@ class CI_DB_driver {
 	public $queries			= array();
 	public $query_times		= array();
 	public $data_cache		= array();
+
 	public $trans_enabled		= TRUE;
 	public $trans_strict		= TRUE;
 	protected $_trans_depth		= 0;
 	protected $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
+
 	public $cache_on		= FALSE;
 	public $cachedir		= '';
 	public $cache_autodel		= FALSE;
@@ -253,7 +255,7 @@ class CI_DB_driver {
 	 * Execute the query
 	 *
 	 * Accepts an SQL string as input and returns a result object upon
-	 * successful execution of a "read" type query.  Returns boolean TRUE
+	 * successful execution of a "read" type query. Returns boolean TRUE
 	 * upon successful execution of a "write" type query. Returns boolean
 	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
 	 * will raise an error.
@@ -1053,7 +1055,7 @@ class CI_DB_driver {
 	/**
 	 * Initialize the Cache Class
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	protected function _cache_init()
 	{
@@ -1286,7 +1288,7 @@ class CI_DB_driver {
 			return $item.$alias;
 		}
 
-		// Is there a table prefix?  If not, no need to insert it
+		// Is there a table prefix? If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
 			// Verify table prefix and replace if necessary
