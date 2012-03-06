@@ -236,7 +236,8 @@ class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if (strpos($item, '.') !== FALSE)
 		{
-			return end(explode('.', $item));
+			$item = explode('.', $item);
+			return end($item);
 		}
 
 		return $item;
@@ -278,6 +279,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 				{
 					$v = trim($v);
 					$this->_track_aliases($v);
+
 					$v = $this->qb_from[] = $this->_protect_identifiers($v, TRUE, NULL, FALSE);
 
 					if ($this->qb_caching === TRUE)
@@ -294,6 +296,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 				// Extract any aliases that might exist. We use this information
 				// in the _protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
+
 				$this->qb_from[] = $val = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
 
 				if ($this->qb_caching === TRUE)
@@ -340,9 +343,9 @@ class CI_DB_query_builder extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+		if (preg_match('/([\[\w\.]+)([\W\s]+)(.+)/', $cond, $match))
 		{
-			$cond = $this->_protect_identifiers($match[1]).$match[2].$this->_protect_identifiers($match[3]);
+			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
 		}
 
 		// Assemble the JOIN statement
@@ -432,7 +435,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			{
 				if ($escape === TRUE)
 				{
-					$k = $this->_protect_identifiers($k, FALSE, $escape);
+					$k = $this->protect_identifiers($k, FALSE, $escape);
 					$v = ' '.$this->escape($v);
 				}
 
@@ -443,7 +446,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			}
 			else
 			{
-				$k = $this->_protect_identifiers($k, FALSE, $escape);
+				$k = $this->protect_identifiers($k, FALSE, $escape);
 			}
 
 			$this->qb_where[] = $prefix.$k.$v;
@@ -895,7 +898,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($escape === TRUE)
 			{
-				$k = $this->_protect_identifiers($k);
+				$k = $this->protect_identifiers($k);
 			}
 
 			if ( ! $this->_has_operator($k))
@@ -950,7 +953,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 				$part = trim($part);
 				if ( ! in_array($part, $this->qb_aliased_tables))
 				{
-					$part = $this->_protect_identifiers(trim($part));
+					$part = $this->protect_identifiers(trim($part));
 				}
 
 				$temp[] = $part;
@@ -962,7 +965,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if ($escape === TRUE)
 			{
-				$orderby = $this->_protect_identifiers($orderby);
+				$orderby = $this->protect_identifiers($orderby);
 			}
 		}
 
@@ -1124,7 +1127,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		$result = $this->query($this->_compile_select($this->_count_string.$this->_protect_identifiers('numrows')));
+		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 		$this->_reset_select();
 
 		if ($result->num_rows() === 0)
@@ -1414,6 +1417,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$sql = $this->_replace($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->qb_set), array_values($this->qb_set));
+
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1488,6 +1492,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$sql = $this->_update($this->_protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set, $this->qb_where, $this->qb_orderby, $this->qb_limit, $this->qb_like);
+
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1613,7 +1618,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 					$not[] = $k.'-'.$v;
 				}
 
-				$clean[$this->_protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
+				$clean[$this->protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
 			}
 
 			if ($index_set == FALSE)
@@ -1650,7 +1655,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		$sql = $this->_delete($table);
@@ -1683,7 +1688,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		$sql = $this->_truncate($table);
@@ -1750,7 +1755,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		if ($where != '')
