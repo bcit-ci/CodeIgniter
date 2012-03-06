@@ -280,6 +280,41 @@ class CI_DB_odbc_result extends CI_DB_result {
 		return $this->result_array;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. Object version.
+	 *
+	 * @return	array
+	 */
+	public function result_object()
+	{
+		if (count($this->result_object) > 0)
+		{
+			return $this->result_object;
+		}
+		elseif (($c = count($this->result_array)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_object[$i] = (object) $this->result_array[$i];
+			}
+		}
+		elseif ($this->result_id === FALSE)
+		{
+			return array();
+		}
+		else
+		{
+			while ($row = $this->_fetch_object())
+			{
+				$this->result_object[] = $row;
+			}
+		}
+
+		return $this->result_object;
+	}
+
 }
 
 /* End of file odbc_result.php */
