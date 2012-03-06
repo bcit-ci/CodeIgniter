@@ -183,7 +183,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 */
 	public function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table).' '.$alter_type.' ';
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')

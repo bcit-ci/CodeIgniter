@@ -791,7 +791,7 @@ class CI_DB_driver {
 	 */
 	public function table_exists($table_name)
 	{
-		return ( ! in_array($this->_protect_identifiers($table_name, TRUE, FALSE, FALSE), $this->list_tables())) ? FALSE : TRUE;
+		return in_array($this->protect_identifiers($table_name, TRUE, FALSE, FALSE), $this->list_tables());
 	}
 
 	// --------------------------------------------------------------------
@@ -880,7 +880,7 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
-		$query = $this->query($this->_field_data($this->_protect_identifiers($table, TRUE, NULL, FALSE)));
+		$query = $this->query($this->_field_data($this->protect_identifiers($table, TRUE, NULL, FALSE)));
 
 		return $query->field_data();
 	}
@@ -905,7 +905,7 @@ class CI_DB_driver {
 			$values[] = $this->escape($val);
 		}
 
-		return $this->_insert($this->_protect_identifiers($table, TRUE, NULL, FALSE), $fields, $values);
+		return $this->_insert($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -928,7 +928,7 @@ class CI_DB_driver {
 		$fields = array();
 		foreach ($data as $key => $val)
 		{
-			$fields[$this->_protect_identifiers($key)] = $this->escape($val);
+			$fields[$this->protect_identifiers($key)] = $this->escape($val);
 		}
 
 		if ( ! is_array($where))
@@ -941,7 +941,7 @@ class CI_DB_driver {
 			foreach ($where as $key => $val)
 			{
 				$prefix = (count($dest) == 0) ? '' : ' AND ';
-				$key = $this->_protect_identifiers($key);
+				$key = $this->protect_identifiers($key);
 
 				if ($val !== '')
 				{
@@ -957,7 +957,7 @@ class CI_DB_driver {
 			}
 		}
 
-		return $this->_update($this->_protect_identifiers($table, TRUE, NULL, FALSE), $fields, $dest);
+		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $dest);
 	}
 
 	// --------------------------------------------------------------------
@@ -1189,21 +1189,6 @@ class CI_DB_driver {
 	/**
 	 * Protect Identifiers
 	 *
-	 * This function adds backticks if appropriate based on db type
-	 *
-	 * @param	mixed	the item to escape
-	 * @return	mixed	the item with backticks
-	 */
-	public function protect_identifiers($item, $prefix_single = FALSE)
-	{
-		return $this->_protect_identifiers($item, $prefix_single);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
 	 * This function is used extensively by the Active Record class, and by
 	 * a couple functions in this class.
 	 * It takes a column or table name (optionally with an alias) and inserts
@@ -1221,16 +1206,13 @@ class CI_DB_driver {
 	 * insert the table prefix (if it exists) in the proper position, and escape only
 	 * the correct identifiers.
 	 *
-	 * While this should be protected, the db forge drivers apparently use this instead
-	 * of the unprefixed function
-	 *
 	 * @param	string
 	 * @param	bool
 	 * @param	mixed
 	 * @param	bool
 	 * @return	string
 	 */
-	public function _protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
+	public function protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
 	{
 		if ( ! is_bool($protect_identifiers))
 		{
@@ -1243,7 +1225,7 @@ class CI_DB_driver {
 
 			foreach ($item as $k => $v)
 			{
-				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v);
+				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v);
 			}
 
 			return $escaped_array;
