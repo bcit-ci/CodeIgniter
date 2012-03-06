@@ -95,6 +95,7 @@ Release Date: Not Released
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
    -  is_loaded() function from system/core/Commons.php now returns a reference.
+   -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
 
 Bug fixes for 3.0
 ------------------
