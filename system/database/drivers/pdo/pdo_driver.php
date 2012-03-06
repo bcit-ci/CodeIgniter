@@ -530,8 +530,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$sql   = $this->_count_string.$this->_protect_identifiers('numrows').' FROM ';
-		$sql  .= $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)
