@@ -854,7 +854,7 @@ class CI_DB_driver {
 	 * Returns an object with field data
 	 *
 	 * @param	string	the table name
-	 * @return	mixed
+	 * @return	object
 	 */
 	public function field_data($table = '')
 	{
