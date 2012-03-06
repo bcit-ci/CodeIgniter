@@ -47,6 +47,12 @@ class CI_DB_result {
 	public $num_rows			= 0;
 	public $row_data			= NULL;
 
+	public function __construct(&$driver_object)
+	{
+		$this->conn_id = $driver_object->conn_id;
+		$this->result_id = $driver_object->result_id;
+	}
+
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
