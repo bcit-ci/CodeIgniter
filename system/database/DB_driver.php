@@ -1194,7 +1194,7 @@ class CI_DB_driver {
 	 * @param	mixed	the item to escape
 	 * @return	mixed	the item with backticks
 	 */
-	protected function protect_identifiers($item, $prefix_single = FALSE)
+	public function protect_identifiers($item, $prefix_single = FALSE)
 	{
 		return $this->_protect_identifiers($item, $prefix_single);
 	}
