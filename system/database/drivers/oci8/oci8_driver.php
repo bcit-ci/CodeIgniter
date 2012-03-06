@@ -139,30 +139,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
+	 * Database version number
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
+	 * @return	string
 	 */
-	public function db_set_charset($charset, $collation)
+	public function version()
 	{
-		// this is done upon connect
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @access  protected
-	 * @return  string
-	 */
-	protected function _version()
-	{
-		return oci_server_version($this->conn_id);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = oci_server_version($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -398,10 +383,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @access  public
-	 * @param   string
+	 * @param	string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return  string
+	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -415,15 +399,14 @@ class CI_DB_oci8_driver extends CI_DB {
 			return $str;
 		}
 
-		$str = remove_invisible_characters($str);
-		$str = str_replace("'", "''", $str);
+		$str = str_replace("'", "''", remove_invisible_characters($str));
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
-								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
-								$str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -475,8 +458,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
-
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query == FALSE)
 		{
 			return 0;
@@ -545,31 +527,32 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access  protected
-	 * @return  string
-	 */
-	protected function _error_message()
-	{
-		// If the error was during connection, no conn_id should be passed
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
-		return $error['message'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access  protected
-	 * @return  integer
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		// Same as _error_message()
-		$error = is_resource($this->conn_id) ? oci_error($this->conn_id) : oci_error();
-		return $error['code'];
+		/* oci_error() returns an array that already contains the
+		 * 'code' and 'message' keys, so we can just return it.
+		 */
+		if (is_resource($this->curs_id))
+		{
+			return oci_error($this->curs_id);
+		}
+		elseif (is_resource($this->stmt_id))
+		{
+			return oci_error($this->stmt_id);
+		}
+		elseif (is_resource($this->conn_id))
+		{
+			return oci_error($this->conn_id);
+		}
+
+		return oci_error();
 	}
 
 	// --------------------------------------------------------------------
