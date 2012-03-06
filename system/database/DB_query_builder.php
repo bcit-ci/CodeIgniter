@@ -1058,7 +1058,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	string	the table name to select from (optional)
-	 * @param	boolean	TRUE: resets AR values; FALSE: leave AR vaules alone
+	 * @param	boolean	TRUE: resets QB values; FALSE: leave QB vaules alone
 	 * @return	string
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
@@ -1286,7 +1286,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	string	the table to insert into
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	boolean	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_insert($table = '', $reset = TRUE)
@@ -1431,7 +1431,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	string	the table to update
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	boolean	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_update($table = '', $reset = TRUE)
@@ -1705,7 +1705,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	string	the table to delete from
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	boolean	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_delete($table = '', $reset = TRUE)
@@ -2039,7 +2039,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Start Cache
 	 *
-	 * Starts AR caching
+	 * Starts QB caching
 	 *
 	 * @return	void
 	 */
@@ -2053,7 +2053,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Stop Cache
 	 *
-	 * Stops AR caching
+	 * Stops QB caching
 	 *
 	 * @return	void
 	 */
@@ -2067,7 +2067,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Flush Cache
 	 *
-	 * Empties the AR cache
+	 * Empties the QB cache
 	 *
 	 * @access	public
 	 * @return	void
@@ -2075,17 +2075,17 @@ class CI_DB_query_builder extends CI_DB_driver {
 	public function flush_cache()
 	{
 		$this->_reset_run(array(
-			'ar_cache_select'		=> array(),
-			'ar_cache_from'			=> array(),
-			'ar_cache_join'			=> array(),
-			'ar_cache_where'		=> array(),
-			'ar_cache_like'			=> array(),
-			'ar_cache_groupby'		=> array(),
-			'ar_cache_having'		=> array(),
-			'ar_cache_orderby'		=> array(),
-			'ar_cache_set'			=> array(),
-			'ar_cache_exists'		=> array(),
-			'ar_cache_no_escape'	=> array()
+			'qb_cache_select'		=> array(),
+			'qb_cache_from'			=> array(),
+			'qb_cache_join'			=> array(),
+			'qb_cache_where'		=> array(),
+			'qb_cache_like'			=> array(),
+			'qb_cache_groupby'		=> array(),
+			'qb_cache_having'		=> array(),
+			'qb_cache_orderby'		=> array(),
+			'qb_cache_set'			=> array(),
+			'qb_cache_exists'		=> array(),
+			'qb_cache_no_escape'	=> array()
 		));
 	}
 
@@ -2094,7 +2094,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Merge Cache
 	 *
-	 * When called, this function merges any cached AR arrays with
+	 * When called, this function merges any cached QB arrays with
 	 * locally called ones.
 	 *
 	 * @return	void
@@ -2134,7 +2134,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Reset Query Builder values.
 	 *
-	 * Publicly-visible method to reset the AR values.
+	 * Publicly-visible method to reset the QB values.
 	 *
 	 * @return	void
 	 */
