@@ -212,7 +212,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-		$sql = $this->_protect_identifiers($type.'('.trim($select).')').' AS '.$this->_protect_identifiers(trim($alias));
+		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
 		$this->qb_select[] = $sql;
 
 		if ($this->qb_caching === TRUE)
@@ -280,7 +280,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 					$v = trim($v);
 					$this->_track_aliases($v);
 
-					$v = $this->qb_from[] = $this->_protect_identifiers($v, TRUE, NULL, FALSE);
+					$v = $this->qb_from[] = $this->protect_identifiers($v, TRUE, NULL, FALSE);
 
 					if ($this->qb_caching === TRUE)
 					{
@@ -294,10 +294,10 @@ class CI_DB_query_builder extends CI_DB_driver {
 				$val = trim($val);
 
 				// Extract any aliases that might exist. We use this information
-				// in the _protect_identifiers to know whether to add a table prefix
+				// in the protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
 
-				$this->qb_from[] = $val = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->qb_from[] = $val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
 
 				if ($this->qb_caching === TRUE)
 				{
@@ -339,7 +339,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Extract any aliases that might exist. We use this information
-		// in the _protect_identifiers to know whether to add a table prefix
+		// in the protect_identifiers to know whether to add a table prefix
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
@@ -349,7 +349,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
+		$this->qb_join[] = $join = $type.'JOIN '.$this->protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -418,7 +418,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		// If the escape value was not set will will base it on the global setting
 		if ( ! is_bool($escape))
 		{
-			$escape = $this->_protect_identifiers;
+			$escape = $this->protect_identifiers;
 		}
 
 		foreach ($key as $k => $v)
@@ -564,7 +564,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$prefix = (count($this->qb_where) === 0) ? '' : $type;
-		$this->qb_where[] = $where_in = $prefix.$this->_protect_identifiers($key).$not.' IN ('.implode(', ', $this->qb_wherein).') ';
+		$this->qb_where[] = $where_in = $prefix.$this->protect_identifiers($key).$not.' IN ('.implode(', ', $this->qb_wherein).') ';
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -668,7 +668,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($field as $k => $v)
 		{
-			$k = $this->_protect_identifiers($k);
+			$k = $this->protect_identifiers($k);
 			$prefix = (count($this->qb_like) === 0) ? '' : $type;
 			$v = $this->escape_like_str($v);
 
@@ -829,7 +829,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($val != '')
 			{
-				$this->qb_groupby[] = $val = $this->_protect_identifiers($val);
+				$this->qb_groupby[] = $val = $this->protect_identifiers($val);
 
 				if ($this->qb_caching === TRUE)
 				{
@@ -1038,11 +1038,11 @@ class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if ($escape === FALSE)
 			{
-				$this->qb_set[$this->_protect_identifiers($k)] = $v;
+				$this->qb_set[$this->protect_identifiers($k)] = $v;
 			}
 			else
 			{
-				$this->qb_set[$this->_protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
+				$this->qb_set[$this->protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
 			}
 		}
 
@@ -1213,7 +1213,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		// Batch this baby
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += 100)
 		{
-			$this->query($this->_insert_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, 100)));
+			$this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, 100)));
 		}
 
 		$this->_reset_write();
@@ -1271,7 +1271,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($keys as $k)
 		{
-			$this->qb_keys[] = $this->_protect_identifiers($k);
+			$this->qb_keys[] = $this->protect_identifiers($k);
 		}
 
 		return $this;
@@ -1297,7 +1297,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$sql = $this->_insert(
-			$this->_protect_identifiers(
+			$this->protect_identifiers(
 				$this->qb_from[0], TRUE, NULL, FALSE
 			),
 			array_keys($this->qb_set),
@@ -1337,7 +1337,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$sql = $this->_insert(
-			$this->_protect_identifiers(
+			$this->protect_identifiers(
 				$this->qb_from[0], TRUE, NULL, FALSE
 			),
 			array_keys($this->qb_set),
@@ -1416,7 +1416,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			$table = $this->qb_from[0];
 		}
 
-		$sql = $this->_replace($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->qb_set), array_values($this->qb_set));
+		$sql = $this->_replace($this->protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->qb_set), array_values($this->qb_set));
 
 		$this->_reset_write();
 		return $this->query($sql);
@@ -1444,7 +1444,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set, $this->qb_where, $this->qb_orderby, $this->qb_limit);
+		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set, $this->qb_where, $this->qb_orderby, $this->qb_limit);
 
 		if ($reset === TRUE)
 		{
@@ -1491,7 +1491,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set, $this->qb_where, $this->qb_orderby, $this->qb_limit, $this->qb_like);
+		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set, $this->qb_where, $this->qb_orderby, $this->qb_limit, $this->qb_like);
 
 		$this->_reset_write();
 		return $this->query($sql);
@@ -1577,7 +1577,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		// Batch this baby
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += 100)
 		{
-			$this->query($this->_update_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, 100), $this->_protect_identifiers($index), $this->qb_where));
+			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, 100), $this->protect_identifiers($index), $this->qb_where));
 		}
 
 		$this->_reset_write();
@@ -1898,7 +1898,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 				foreach ($this->qb_select as $key => $val)
 				{
 					$no_escape = isset($this->qb_no_escape[$key]) ? $this->qb_no_escape[$key] : NULL;
-					$this->qb_select[$key] = $this->_protect_identifiers($val, FALSE, $no_escape);
+					$this->qb_select[$key] = $this->protect_identifiers($val, FALSE, $no_escape);
 				}
 
 				$sql .= implode(', ', $this->qb_select);
@@ -2121,7 +2121,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE AND count($this->qb_cache_from) > 0)
+		if ($this->protect_identifiers === TRUE AND count($this->qb_cache_from) > 0)
 		{
 			$this->_track_aliases($this->qb_from);
 		}

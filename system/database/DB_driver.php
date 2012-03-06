@@ -74,7 +74,7 @@ class CI_DB_driver {
 	public $cache_autodel		= FALSE;
 	public $CACHE; // The cache class object
 
-	protected $_protect_identifiers		= TRUE;
+	protected $protect_identifiers		= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
 	public function __construct($params)
@@ -1208,7 +1208,7 @@ class CI_DB_driver {
 	{
 		if ( ! is_bool($protect_identifiers))
 		{
-			$protect_identifiers = $this->_protect_identifiers;
+			$protect_identifiers = $this->protect_identifiers;
 		}
 
 		if (is_array($item))
