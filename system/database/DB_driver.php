@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Database Driver Class
@@ -200,7 +198,6 @@ class CI_DB_driver {
 	/**
 	 * The name of the platform in use (mysql, mssql, etc...)
 	 *
-	 * @access	public
 	 * @return	string
 	 */
 	public function platform()
@@ -253,12 +250,11 @@ class CI_DB_driver {
 	 * Execute the query
 	 *
 	 * Accepts an SQL string as input and returns a result object upon
-	 * successful execution of a "read" type query.  Returns boolean TRUE
+	 * successful execution of a "read" type query. Returns boolean TRUE
 	 * upon successful execution of a "write" type query. Returns boolean
 	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
 	 * will raise an error.
 	 *
-	 * @access	public
 	 * @param	string	An SQL query string
 	 * @param	array	An array of binding data
 	 * @return	mixed
@@ -288,7 +284,7 @@ class CI_DB_driver {
 			$sql = $this->compile_binds($sql, $binds);
 		}
 
-		// Is query caching enabled?  If the query is a "read type"
+		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
 		if ($this->cache_on == TRUE AND stristr($sql, 'SELECT'))
@@ -439,7 +435,7 @@ class CI_DB_driver {
 
 	/**
 	 * Simple Query
-	 * This is a simplified version of the query() function.  Internally
+	 * This is a simplified version of the query() function. Internally
 	 * we only use it when running transaction commands since they do
 	 * not require all the features of the main query() function.
 	 *
@@ -628,8 +624,8 @@ class CI_DB_driver {
 	/**
 	 * Calculate the aggregate query elapsed time
 	 *
-	 * @param	integer	The number of decimal places
-	 * @return	integer
+	 * @param	int	The number of decimal places
+	 * @return	int
 	 */
 	public function elapsed_time($decimals = 6)
 	{
@@ -641,7 +637,7 @@ class CI_DB_driver {
 	/**
 	 * Returns the total number of queries
 	 *
-	 * @return	integer
+	 * @return	int
 	 */
 	public function total_queries()
 	{
@@ -653,7 +649,7 @@ class CI_DB_driver {
 	/**
 	 * Returns the last query that was executed
 	 *
-	 * @return	void
+	 * @return	string
 	 */
 	public function last_query()
 	{
@@ -710,7 +706,7 @@ class CI_DB_driver {
 	/**
 	 * Primary
 	 *
-	 * Retrieves the primary key.  It assumes that the row in the first
+	 * Retrieves the primary key. It assumes that the row in the first
 	 * position is the primary key
 	 *
 	 * @param	string	the table name
@@ -773,7 +769,7 @@ class CI_DB_driver {
 		}
 
 		$this->data_cache['table_names'] = $retval;
-		
+
 		return $this->data_cache['table_names'];
 	}
 
@@ -782,7 +778,7 @@ class CI_DB_driver {
 	/**
 	 * Determine if a particular table exists
 	 *
-	 * @return	boolean
+	 * @return	bool
 	 */
 	public function table_exists($table_name)
 	{
@@ -849,7 +845,7 @@ class CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	boolean
+	 * @return	bool
 	 */
 	public function field_exists($field_name, $table_name)
 	{
@@ -917,7 +913,7 @@ class CI_DB_driver {
 	{
 		if ($where == '')
 		{
-			return false;
+			return FALSE;
 		}
 
 		$fields = array();
@@ -1033,7 +1029,7 @@ class CI_DB_driver {
 	/**
 	 * Enable Query Caching
 	 *
-	 * @return	void
+	 * @return	bool	cache_on value
 	 */
 	public function cache_on()
 	{
@@ -1046,7 +1042,7 @@ class CI_DB_driver {
 	/**
 	 * Disable Query Caching
 	 *
-	 * @return	void
+	 * @return	bool	cache_on value
 	 */
 	public function cache_off()
 	{
@@ -1060,7 +1056,7 @@ class CI_DB_driver {
 	/**
 	 * Delete the cache files associated with a particular URI
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function cache_delete($segment_one = '', $segment_two = '')
 	{
@@ -1076,7 +1072,7 @@ class CI_DB_driver {
 	/**
 	 * Delete All cache files
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function cache_delete_all()
 	{
@@ -1093,7 +1089,7 @@ class CI_DB_driver {
 	/**
 	 * Initialize the Cache Class
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	protected function _cache_init()
 	{
@@ -1137,7 +1133,7 @@ class CI_DB_driver {
 	 *
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
-	 * @param	boolean	whether to localize the message
+	 * @param	bool	whether to localize the message
 	 * @return	string	sends the application/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
@@ -1188,7 +1184,7 @@ class CI_DB_driver {
 	 * a couple functions in this class.
 	 * It takes a column or table name (optionally with an alias) and inserts
 	 * the table prefix onto it.  Some logic is necessary in order to deal with
-	 * column names that include the path.  Consider a query like this:
+	 * column names that include the path. Consider a query like this:
 	 *
 	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
 	 *
@@ -1217,7 +1213,6 @@ class CI_DB_driver {
 		if (is_array($item))
 		{
 			$escaped_array = array();
-
 			foreach ($item as $k => $v)
 			{
 				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v);
@@ -1240,7 +1235,7 @@ class CI_DB_driver {
 
 		// This is basically a bug fix for queries that use MAX, MIN, etc.
 		// If a parenthesis is found we know that we do not need to
-		// escape the data or add a prefix.  There's probably a more graceful
+		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
 		if (strpos($item, '(') !== FALSE)
 		{
@@ -1255,7 +1250,7 @@ class CI_DB_driver {
 			$parts	= explode('.', $item);
 
 			// Does the first segment of the exploded item match
-			// one of the aliases previously identified?  If so,
+			// one of the aliases previously identified? If so,
 			// we have nothing more to do other than escape the item
 			if (in_array($parts[0], $this->ar_aliased_tables))
 			{
@@ -1274,7 +1269,7 @@ class CI_DB_driver {
 				return $item.$alias;
 			}
 
-			// Is there a table prefix defined in the config file?  If not, no need to do anything
+			// Is there a table prefix defined in the config file? If not, no need to do anything
 			if ($this->dbprefix != '')
 			{
 				// We now add the table prefix based on some logic.
@@ -1328,7 +1323,7 @@ class CI_DB_driver {
 			return $item.$alias;
 		}
 
-		// Is there a table prefix?  If not, no need to insert it
+		// Is there a table prefix? If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
 			// Verify table prefix and replace if necessary
@@ -1351,7 +1346,7 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1363,7 +1358,6 @@ class CI_DB_driver {
 	 */
 	protected function _reset_select()
 	{
-	
 	}
 
 }
