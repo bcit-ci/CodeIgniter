@@ -707,7 +707,7 @@ class CI_Input {
 	 * Return the Request Method
 	 *
 	 * @param	bool	uppercase or lowercase
-	 * @return 	mixed
+	 * @return 	bool
 	 */
 	public function method($upper = FALSE)
 	{
