@@ -76,8 +76,7 @@ if ( ! function_exists('create_captcha'))
 		// Remove old images
 		// -----------------------------------
 
-		list($usec, $sec) = explode(' ', microtime());
-		$now = ((float)$usec + (float)$sec);
+		$now = microtime(TRUE);
 
 		$current_dir = @opendir($img_path);
 		while ($filename = @readdir($current_dir))
@@ -158,32 +157,32 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Write the text
 		// -----------------------------------
-		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext'));
 
-		if ($use_font == FALSE)
+		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext'));
+		if ($use_font === FALSE)
 		{
 			$font_size = 5;
-			$x = rand(0, $img_width/($length/3));
+			$x = rand(0, $img_width / ($length / 3));
 			$y = 0;
 		}
 		else
 		{
 			$font_size = 16;
-			$x = rand(0, $img_width/($length/1.5));
-			$y = $font_size+2;
+			$x = rand(0, $img_width / ($length / 1.5));
+			$y = $font_size + 2;
 		}
 
 		for ($i = 0; $i < $length; $i++)
 		{
-			if ($use_font == FALSE)
+			if ($use_font === FALSE)
 			{
-				$y = rand(0 , $img_height/2);
+				$y = rand(0 , $img_height / 2);
 				imagestring($im, $font_size, $x, $y, $word[$i], $text_color);
-				$x += ($font_size*2);
+				$x += ($font_size * 2);
 			}
 			else
 			{
-				$y = rand($img_height/2, $img_height-3);
+				$y = rand($img_height / 2, $img_height - 3);
 				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_path, $word[$i]);
 				$x += $font_size;
 			}
@@ -191,7 +190,7 @@ if ( ! function_exists('create_captcha'))
 
 
 		// Create the border
-		imagerectangle($im, 0, 0, $img_width-1, $img_height-1, $border_color);
+		imagerectangle($im, 0, 0, $img_width - 1, $img_height - 1, $border_color);
 
 		// -----------------------------------
 		//  Generate the image
