@@ -21,27 +21,38 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 
+// ------------------------------------------------------------------------
+
 /**
- * MySQLi Utility Class
+ * Interbase/Firebird Utility Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_utility extends CI_DB_utility {
+class CI_DB_interbase_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
 	 *
-	 * @return	string
+	 * I don't believe you can do a database listing with Firebird
+	 * since each database is its own file.  I suppose we could
+	 * try reading a directory looking for Firebird files, but
+	 * that doesn't seem like a terribly good idea
+	 *
+	 * @return	bool
 	 */
 	public function _list_databases()
 	{
-		return 'SHOW DATABASES';
+		if ($this->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -49,14 +60,14 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is optimization even supported in Interbase/Firebird?
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
 	public function _optimize_table($table)
 	{
-		return 'OPTIMIZE TABLE '.$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -64,30 +75,41 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Table repairs are not supported in Interbase/Firebird
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
 	public function _repair_table($table)
 	{
-		return 'REPAIR TABLE '.$this->db->_escape_identifiers($table);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * MySQLi Export
+	 * Interbase/Firebird Export
 	 *
-	 * @param	array	Preferences
+	 * @param	string	$filename
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	public function backup($filename)
 	{
-		// Currently unsupported
-		return $this->db->display_error('db_unsuported_feature');
+		if ($service = ibase_service_attach($this->db->hostname, $this->db->username, $this->db->password))
+		{
+			$res = ibase_backup($service, $this->db->database, $filename.'.fbk');
+			
+			//Close the service connection	
+			ibase_service_detach($service);
+			
+			return $res;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }
 
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */
+/* End of file interbase_utility.php */
+/* Location: ./system/database/drivers/interbase/interbase_utility.php */
