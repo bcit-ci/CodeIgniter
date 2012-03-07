@@ -301,7 +301,7 @@ see if PHP is being run on the command line.
 $this->input->method();
 =====================================
 
-Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (standard lowercase).
+Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (default lowercase).
 
 ::
 
