@@ -147,6 +147,7 @@ Bug fixes for 3.0
 -  Fixed a bug in Oracle's DB_result class where the cursor id passed to it was always NULL.
 -  Fixed a bug (#64) - Regular expression in DB_active_rec.php failed to handle queries containing SQL bracket delimiters in the join condition.
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
+-  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 
 Version 2.1.1
 =============
