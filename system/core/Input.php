@@ -709,7 +709,7 @@ class CI_Input {
 	 * @param	bool	uppercase or lowercase
 	 * @return 	mixed
 	 */
-	public function method($upper = TRUE)
+	public function method($upper = FALSE)
 	{
 		return ($upper)
 			? strtoupper($this->server('REQUEST_METHOD'))
