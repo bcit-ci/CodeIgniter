@@ -301,25 +301,10 @@ see if PHP is being run on the command line.
 $this->input->method();
 =====================================
 
-Returns the $_SERVER['REQUEST_METHOD'] in lowercase.
+Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (standard lowercase).
 
 ::
 
-	$this->input->method();
-
-$this->input->is_method($method);
-=====================================
-
-Returns TRUE if given method equals $_SERVER['REQUEST_METHOD'], otherwise returns FALSE.
-
-::
-
-	if ( ! $this->input->is_method('post'))
-	{
-	     echo 'This is NOT a POST request';
-	}
-	else
-	{
-	     echo 'This is a POST request';
-	}
-
+	echo $this->input->method(TRUE); // Outputs: POST
+	echo $this->input->method(FALSE); // Outputs: post
+	echo $this->input->method(); // Outputs: post

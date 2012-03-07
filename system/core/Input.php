@@ -704,28 +704,16 @@ class CI_Input {
 	/**
 	 * Get Request Method
 	 *
-	 * Return the Request Method in lowercase
+	 * Return the Request Method
 	 *
+	 * @param	bool	uppercase or lowercase
 	 * @return 	mixed
 	 */
-	public function method()
+	public function method($upper = TRUE)
 	{
-		return strtolower($this->server('REQUEST_METHOD'));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Validate parameter against $_SERVER['REQUEST_METHOD']
-	 *
-	 * Return TRUE if method equals $_SERVER['REQUEST_METHOD'], otherwise return FALSE
-	 *
-	 * @param	string	request method to match
-	 * @return 	bool
-	 */
-	public function is_method($method = '')
-	{
-		return ($this->method() === strtolower($method));
+		return ($upper)
+			? strtoupper($this->server('REQUEST_METHOD'))
+			: strtolower($this->server('REQUEST_METHOD'));
 	}
 
 }

@@ -97,8 +97,7 @@ Release Date: Not Released
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'] in lowercase.
-   -  Added is_method() to CI_Input to validate custom request method against $_SERVER['REQUEST_METHOD'].
+   -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
 
 Bug fixes for 3.0
 ------------------
