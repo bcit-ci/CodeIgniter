@@ -67,15 +67,14 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @param	array	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -84,54 +83,27 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).' (';
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
 			// entered the field information, so we'll simply add it to the list
 			if (is_numeric($field))
 			{
-				$sql .= "\n\t$attributes";
+				$sql .= "\n\t".$attributes;
 			}
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field);
-
-				$sql .=  ' '.$attributes['TYPE'];
-
-				if (array_key_exists('CONSTRAINT', $attributes))
-				{
-					$sql .= '('.$attributes['CONSTRAINT'].')';
-				}
-
-				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
-				{
-					$sql .= ' UNSIGNED';
-				}
-
-				if (array_key_exists('DEFAULT', $attributes))
-				{
-					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
-				}
-
-				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
-				{
-					$sql .= ' NULL';
-				}
-				else
-				{
-					$sql .= ' NOT NULL';
-				}
-
-				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$sql .= ' AUTO_INCREMENT';
-				}
+				$sql .= "\n\t".$this->db->protect_identifiers($field).' '.$attributes['TYPE']
+					.((isset($attributes['UNSINGED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
+					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? '' : ' NOT NULL')
+					.(isset($attributes['CONSTRAINT']) ? ' CONSTRAINT '.$attributes['CONSTRAINT'] : '');
 			}
 
 			// don't add a comma on the end of the last field
@@ -143,8 +115,8 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$primary_keys = $this->db->protect_identifiers($primary_keys);
+			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $primary_keys).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -153,20 +125,18 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key = array($this->db->_protect_identifiers($key));
+					$key = array($this->db->protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).")";
 			}
 		}
 
-		$sql .= "\n)";
-
-		return $sql;
+		return $sql."\n)";
 	}
 
 	// --------------------------------------------------------------------
@@ -202,7 +172,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type == 'DROP')
@@ -228,7 +198,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}
 
 		return $sql;
@@ -249,10 +219,8 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
-
 
 }
 

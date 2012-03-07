@@ -147,7 +147,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset, $collation)
 	{
 		return function_exists('mysql_set_charset')
 			? @mysql_set_charset($charset, $this->conn_id)
@@ -157,13 +157,15 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return 'SELECT version() AS ver';
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = @mysql_get_server_info($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -402,40 +404,50 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
-	public function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'DESCRIBE '.$table;
+		if ($table == '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$query = $this->query('DESCRIBE '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			preg_match('/([a-z]+)(\(\d+\))?/', $query[$i]->Type, $matches);
+
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->Field;
+			$retval[$i]->type		= empty($matches[1]) ? NULL : $matches[1];
+			$retval[$i]->default		= $query[$i]->Default;
+			$retval[$i]->max_length		= empty($matches[2]) ? NULL : preg_replace('/[^\d]/', '', $matches[2]);
+			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
+		}
+
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return mysql_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	int
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return mysql_errno($this->conn_id);
+		return array('code' => mysql_errno($this->conn_id), 'message' => mysql_error($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------

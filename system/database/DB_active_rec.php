@@ -212,7 +212,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-		$sql = $this->_protect_identifiers($type.'('.trim($select).')').' AS '.$this->_protect_identifiers(trim($alias));
+		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
 		$this->ar_select[] = $sql;
 
 		if ($this->ar_caching === TRUE)
@@ -236,7 +236,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (strpos($item, '.') !== FALSE)
 		{
-			return end(explode('.', $item));
+			$item = explode('.', $item);
+			return end($item);
 		}
 
 		return $item;
@@ -278,7 +279,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				{
 					$v = trim($v);
 					$this->_track_aliases($v);
-					$v = $this->ar_from[] = $this->_protect_identifiers($v, TRUE, NULL, FALSE);
+					$v = $this->ar_from[] = $this->protect_identifiers($v, TRUE, NULL, FALSE);
 
 					if ($this->ar_caching === TRUE)
 					{
@@ -294,7 +295,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				// Extract any aliases that might exist. We use this information
 				// in the _protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
-				$this->ar_from[] = $val = $this->_protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->ar_from[] = $val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
 
 				if ($this->ar_caching === TRUE)
 				{
@@ -340,13 +341,13 @@ class CI_DB_active_record extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+		if (preg_match('/([\[\w\.]+)([\W\s]+)(.+)/', $cond, $match))
 		{
-			$cond = $this->_protect_identifiers($match[1]).$match[2].$this->_protect_identifiers($match[3]);
+			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
 		}
 
 		// Assemble the JOIN statement
-		$this->ar_join[] = $join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
+		$this->ar_join[] = $join = $type.'JOIN '.$this->protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
 
 		if ($this->ar_caching === TRUE)
 		{
@@ -432,7 +433,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			{
 				if ($escape === TRUE)
 				{
-					$k = $this->_protect_identifiers($k, FALSE, $escape);
+					$k = $this->protect_identifiers($k, FALSE, $escape);
 					$v = ' '.$this->escape($v);
 				}
 
@@ -443,7 +444,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			else
 			{
-				$k = $this->_protect_identifiers($k, FALSE, $escape);
+				$k = $this->protect_identifiers($k, FALSE, $escape);
 			}
 
 			$this->ar_where[] = $prefix.$k.$v;
@@ -561,7 +562,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		$prefix = (count($this->ar_where) === 0) ? '' : $type;
-		$this->ar_where[] = $where_in = $prefix.$this->_protect_identifiers($key).$not.' IN ('.implode(', ', $this->ar_wherein).') ';
+		$this->ar_where[] = $where_in = $prefix.$this->protect_identifiers($key).$not.' IN ('.implode(', ', $this->ar_wherein).') ';
 
 		if ($this->ar_caching === TRUE)
 		{
@@ -665,7 +666,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($field as $k => $v)
 		{
-			$k = $this->_protect_identifiers($k);
+			$k = $this->protect_identifiers($k);
 			$prefix = (count($this->ar_like) === 0) ? '' : $type;
 			$v = $this->escape_like_str($v);
 
@@ -826,7 +827,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			if ($val != '')
 			{
-				$this->ar_groupby[] = $val = $this->_protect_identifiers($val);
+				$this->ar_groupby[] = $val = $this->protect_identifiers($val);
 
 				if ($this->ar_caching === TRUE)
 				{
@@ -895,7 +896,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			if ($escape === TRUE)
 			{
-				$k = $this->_protect_identifiers($k);
+				$k = $this->protect_identifiers($k);
 			}
 
 			if ( ! $this->_has_operator($k))
@@ -950,7 +951,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				$part = trim($part);
 				if ( ! in_array($part, $this->ar_aliased_tables))
 				{
-					$part = $this->_protect_identifiers(trim($part));
+					$part = $this->protect_identifiers(trim($part));
 				}
 
 				$temp[] = $part;
@@ -962,7 +963,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			if ($escape === TRUE)
 			{
-				$orderby = $this->_protect_identifiers($orderby);
+				$orderby = $this->protect_identifiers($orderby);
 			}
 		}
 
@@ -1035,11 +1036,11 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			if ($escape === FALSE)
 			{
-				$this->ar_set[$this->_protect_identifiers($k)] = $v;
+				$this->ar_set[$this->protect_identifiers($k)] = $v;
 			}
 			else
 			{
-				$this->ar_set[$this->_protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
+				$this->ar_set[$this->protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
 			}
 		}
 
@@ -1124,7 +1125,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		$result = $this->query($this->_compile_select($this->_count_string.$this->_protect_identifiers('numrows')));
+		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 		$this->_reset_select();
 
 		if ($result->num_rows() === 0)
@@ -1210,7 +1211,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Batch this baby
 		for ($i = 0, $total = count($this->ar_set); $i < $total; $i += 100)
 		{
-			$this->query($this->_insert_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), $this->ar_keys, array_slice($this->ar_set, $i, 100)));
+			$this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), $this->ar_keys, array_slice($this->ar_set, $i, 100)));
 		}
 
 		$this->_reset_write();
@@ -1268,7 +1269,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($keys as $k)
 		{
-			$this->ar_keys[] = $this->_protect_identifiers($k);
+			$this->ar_keys[] = $this->protect_identifiers($k);
 		}
 
 		return $this;
@@ -1294,9 +1295,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		$sql = $this->_insert(
-			$this->_protect_identifiers(
-				$this->ar_from[0], TRUE, NULL, FALSE
-			),
+			$this->protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE),
 			array_keys($this->ar_set),
 			array_values($this->ar_set)
 		);
@@ -1334,9 +1333,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		$sql = $this->_insert(
-			$this->_protect_identifiers(
-				$this->ar_from[0], TRUE, NULL, FALSE
-			),
+			$this->protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE),
 			array_keys($this->ar_set),
 			array_values($this->ar_set)
 		);
@@ -1413,7 +1410,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$table = $this->ar_from[0];
 		}
 
-		$sql = $this->_replace($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->ar_set), array_values($this->ar_set));
+		$sql = $this->_replace($this->protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->ar_set), array_values($this->ar_set));
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1440,7 +1437,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit);
+		$sql = $this->_update($this->protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit);
 
 		if ($reset === TRUE)
 		{
@@ -1487,7 +1484,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->_protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit, $this->ar_like);
+		$sql = $this->_update($this->protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit, $this->ar_like);
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1572,7 +1569,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Batch this baby
 		for ($i = 0, $total = count($this->ar_set); $i < $total; $i += 100)
 		{
-			$this->query($this->_update_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->ar_set, $i, 100), $this->_protect_identifiers($index), $this->ar_where));
+			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->ar_set, $i, 100), $this->protect_identifiers($index), $this->ar_where));
 		}
 
 		$this->_reset_write();
@@ -1613,7 +1610,7 @@ class CI_DB_active_record extends CI_DB_driver {
 					$not[] = $k.'-'.$v;
 				}
 
-				$clean[$this->_protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
+				$clean[$this->protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
 			}
 
 			if ($index_set == FALSE)
@@ -1650,7 +1647,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		$sql = $this->_delete($table);
@@ -1683,7 +1680,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		$sql = $this->_truncate($table);
@@ -1750,7 +1747,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		else
 		{
-			$table = $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		if ($where != '')
@@ -1893,7 +1890,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				foreach ($this->ar_select as $key => $val)
 				{
 					$no_escape = isset($this->ar_no_escape[$key]) ? $this->ar_no_escape[$key] : NULL;
-					$this->ar_select[$key] = $this->_protect_identifiers($val, FALSE, $no_escape);
+					$this->ar_select[$key] = $this->protect_identifiers($val, FALSE, $no_escape);
 				}
 
 				$sql .= implode(', ', $this->ar_select);
