@@ -1129,7 +1129,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if (count($this->ar_select) === 1)
 		{
 			// try and replace the single column into it
-			$result = $this->query($this->_compile_select(str_replace('*', implode($this->ar_select), $this->_count_string).$this->protect_identifiers('numrows')));
+			$result = $this->query($this->_compile_select(str_replace('*', $this->ar_select[0], $this->_count_string).$this->protect_identifiers('numrows')));
 		}
 		else
 		{
