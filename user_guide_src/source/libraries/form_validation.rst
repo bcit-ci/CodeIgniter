@@ -869,7 +869,7 @@ Rule                      Parameter  Description                                
                                      underscores or dashes.                                                                                               
 **numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
 **integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               Yes        Returns FALSE if the form element is not exactly the parameter value.                                                
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
