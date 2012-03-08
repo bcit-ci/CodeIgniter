@@ -1124,8 +1124,19 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->_track_aliases($table);
 			$this->from($table);
 		}
-
-		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows'), TRUE));
+		
+		// are we counting with a single column?
+		if (count($this->ar_select) === 1)
+		{
+			// try and replace the single column into it
+			$result = $this->query($this->_compile_select(str_replace('*', implode($this->ar_select), $this->_count_string).$this->protect_identifiers('numrows')));
+		}
+		else
+		{
+			// use standard query as we've either got too many columns or none at all
+			$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
+		}
+		
 		$this->_reset_select();
 
 		if ($result->num_rows() === 0)
@@ -1864,7 +1875,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @return	string
 	 */
-	protected function _compile_select($select_override = FALSE, $is_count = FALSE)
+	protected function _compile_select($select_override = FALSE)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1872,18 +1883,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Write the "select" portion of the query
 		if ($select_override !== FALSE)
 		{
-			// we are counting, make sure there's at least or only one
-			// column otherwise we'll default to all for legacy
-			if ($is_count && count($this->ar_select) === 1)
-			{
-				// update query
-				$sql = 'SELECT COUNT(' . implode($this->ar_select) . ') AS `numrows`';
-			}
-			else
-			{
-				// just use the override
-				$sql = $select_override;
-			}
+			$sql = $select_override;
 		}
 		else
 		{
