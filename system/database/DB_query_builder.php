@@ -418,7 +418,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 		// If the escape value was not set will will base it on the global setting
 		if ( ! is_bool($escape))
 		{
-			$escape = $this->protect_identifiers;
+			$escape = $this->_protect_identifiers;
 		}
 
 		foreach ($key as $k => $v)
@@ -2121,7 +2121,7 @@ class CI_DB_query_builder extends CI_DB_driver {
 
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->protect_identifiers === TRUE AND count($this->qb_cache_from) > 0)
+		if ($this->_protect_identifiers === TRUE AND count($this->qb_cache_from) > 0)
 		{
 			$this->_track_aliases($this->qb_from);
 		}
