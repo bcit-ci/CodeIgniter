@@ -1125,7 +1125,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
+		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows'), true));
 		$this->_reset_select();
 
 		if ($result->num_rows() === 0)
@@ -1864,7 +1864,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @return	string
 	 */
-	protected function _compile_select($select_override = FALSE)
+	protected function _compile_select($select_override = FALSE, $is_count = FALSE)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1872,7 +1872,27 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Write the "select" portion of the query
 		if ($select_override !== FALSE)
 		{
-			$sql = $select_override;
+			// are we counting?
+			if ($is_count)
+			{
+				// we are counting, make sure there's at least or only one
+				// column otherwise we'll default to all for legacy
+				if (count($this->ar_select) == 1)
+				{
+					// update query
+					$sql = 'SELECT COUNT(' . implode($this->ar_select) . ') AS `numrows`';
+				}
+				else
+				{
+					// default back to the override
+					$sql = $select_override;
+				}
+			}
+			else
+			{
+				// just use the override
+				$sql = $select_override;
+			}
 		}
 		else
 		{
