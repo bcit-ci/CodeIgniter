@@ -1208,7 +1208,7 @@ class CI_DB_driver {
 	{
 		if ( ! is_bool($protect_identifiers))
 		{
-			$protect_identifiers = $this->protect_identifiers;
+			$protect_identifiers = $this->_protect_identifiers;
 		}
 
 		if (is_array($item))
