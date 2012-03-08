@@ -96,15 +96,17 @@ if ( ! function_exists('get_cookie'))
 /**
  * Delete a COOKIE
  *
- * @param	string 	the name of the cookie
+ * @param	mixed
+ * @param	string	the cookie domain.  Usually:  .yourdomain.com
+ * @param	string	the cookie path
+ * @param	string	the cookie prefix
  * @return	void
  */
 if ( ! function_exists('delete_cookie'))
 {
-	function delete_cookie($name = '')
+	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
 	{
-		$CI =& get_instance();
-		return $CI->input->delete_cookie($name);
+		set_cookie($name, '', '', $domain, $path, $prefix);
 	}
 }
 
