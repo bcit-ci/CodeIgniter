@@ -52,6 +52,7 @@ Release Date: Not Released
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
    -  An optional database name parameter was added db_select().
+   -  Allow NULL to be passed to limit() without typecasting to int.
 
 -  Libraries
 
