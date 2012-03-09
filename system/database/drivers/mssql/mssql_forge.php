@@ -126,8 +126,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
