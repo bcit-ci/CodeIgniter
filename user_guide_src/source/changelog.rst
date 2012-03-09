@@ -19,6 +19,7 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
