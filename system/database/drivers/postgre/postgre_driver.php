@@ -412,7 +412,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows').' FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -638,22 +638,20 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array())
 	{
-		$conditions = '';
-
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
+			$conditions = "\nWHERE ".implode("\n", $this->ar_where)
+					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
+					.implode("\n", $like);
+		}
+		else
+		{
+			$conditions = '';
 		}
 
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
+		return 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------
