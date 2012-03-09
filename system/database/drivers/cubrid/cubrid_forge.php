@@ -87,7 +87,6 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
-
 				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '');
 
