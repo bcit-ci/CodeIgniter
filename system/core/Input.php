@@ -699,6 +699,23 @@ class CI_Input {
 		return (php_sapi_name() === 'cli' OR defined('STDIN'));
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Request Method
+	 *
+	 * Return the Request Method
+	 *
+	 * @param	bool	uppercase or lowercase
+	 * @return 	bool
+	 */
+	public function method($upper = FALSE)
+	{
+		return ($upper)
+			? strtoupper($this->server('REQUEST_METHOD'))
+			: strtolower($this->server('REQUEST_METHOD'));
+	}
+
 }
 
 /* End of file Input.php */

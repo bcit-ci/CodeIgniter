@@ -416,7 +416,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
 
-		$query = $this->query('DESCRIBE '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query('DESCRIBE '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		$query = $query->result_object();
 
 		$retval = array();

@@ -65,7 +65,7 @@ class CI_Form_validation {
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
 
-		log_message('debug', "Form Validation Class Initialized");
+		log_message('debug', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -84,7 +84,7 @@ class CI_Form_validation {
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
-		if (count($_POST) === 0 && count($this->validation_data) === 0)
+		if ($this->CI->input->method() !== 'post' && empty($this->validation_data))
 		{
 			return $this;
 		}
@@ -165,9 +165,9 @@ class CI_Form_validation {
 	 *
 	 * If an array is set through this method, then this array will
 	 * be used instead of the $_POST array
-	 * 
-	 * Note that if you are validating multiple arrays, then the 
-	 * reset_validation() function should be called after validating 
+	 *
+	 * Note that if you are validating multiple arrays, then the
+	 * reset_validation() function should be called after validating
 	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
@@ -1156,15 +1156,14 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Equal to or Greater than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	function greater_than_equal_to($str, $min)
+	public function greater_than_equal_to($str, $min)
 	{
 		if ( ! is_numeric($str))
 		{
@@ -1195,11 +1194,10 @@ class CI_Form_validation {
 	/**
 	 * Equal to or Less than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	function less_than_equal_to($str, $max)
+	public function less_than_equal_to($str, $max)
 	{
 		if ( ! is_numeric($str))
 		{
@@ -1351,7 +1349,7 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @return void
+	 * @return	void
 	 */
 	public function reset_validation()
 	{
