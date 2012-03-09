@@ -81,7 +81,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		$sql = 'CREATE TABLE ';
 
 		// IF NOT EXISTS added to SQLite in 3.3.0
-		if ($if_not_exists === TRUE && version_compare($this->db->_version(), '3.3.0', '>=') === TRUE)
+		if ($if_not_exists === TRUE && version_compare($this->db->version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
@@ -206,6 +206,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
+
 }
 
 /* End of file sqlite_forge.php */
