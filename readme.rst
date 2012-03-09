@@ -29,7 +29,7 @@ guide change log <https://github.com/EllisLab/CodeIgniter/blob/develop/user_guid
 Server Requirements
 *******************
 
--  PHP version 5.1.6 or newer.
+-  PHP version 5.2.4 or newer.
 
 ************
 Installation
@@ -90,9 +90,9 @@ must also be updated for every change. Also PHPDoc blocks must be maintained.
 Compatibility
 =============
 
-CodeIgniter is compatible with PHP 5.1.6 so all code supplied must stick to
-this requirement. If PHP 5.2 or 5.3 functions or features are used then there
-must be a fallback for PHP 5.1.6.
+CodeIgniter is compatible with PHP 5.2.4 so all code supplied must stick to
+this requirement. If PHP 5.3 or 5.4 functions or features are used then there
+must be a fallback for PHP 5.2.4.
 
 Branching
 =========
