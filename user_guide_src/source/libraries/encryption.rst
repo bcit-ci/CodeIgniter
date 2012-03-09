@@ -126,21 +126,6 @@ Example::
 Please visit php.net for a list of `available
 modes <http://php.net/mcrypt>`_.
 
-$this->encrypt->sha1();
-=======================
-
-SHA1 encoding function. Provide a string and it will return a 160 bit
-one way hash. Note: SHA1, just like MD5 is non-decodable. Example::
-
-	$hash = $this->encrypt->sha1('Some string');
-
-Many PHP installations have SHA1 support by default so if all you need
-is to encode a hash it's simpler to use the native function::
-
-	$hash = sha1('Some string');
-
-If your server does not support SHA1 you can use the provided function.
-
 $this->encrypt->encode_from_legacy($orig_data, $legacy_mode = MCRYPT_MODE_ECB, $key = '');
 ==========================================================================================
 

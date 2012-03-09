@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -119,35 +119,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		// Not needed for ODBC
 		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// @todo - add support if needed
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @access	public
-	 * @return	string
-	 */
-	function _version()
-	{
-		return "SELECT version() AS ver";
 	}
 
 	// --------------------------------------------------------------------
@@ -414,27 +385,16 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return odbc_errormsg($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		return odbc_error($this->conn_id);
+		return array('code' => odbc_error($this->conn_id), 'message' => odbc_errormsg($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------

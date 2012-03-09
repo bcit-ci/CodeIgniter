@@ -45,7 +45,7 @@ You'll notice that the above function is assigned to a variable named
 $query, which can be used to show the results::
 
 	$query = $this->db->get('mytable');
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
@@ -57,32 +57,32 @@ discussion regarding result generation.
 $this->db->get_compiled_select()
 ================================
 
-Compiles the selection query just like `$this->db->get()`_ but does not *run* 
+Compiles the selection query just like `$this->db->get()`_ but does not *run*
 the query. This method simply returns the SQL query as a string.
 
 Example::
 
 	$sql = $this->db->get_compiled_select('mytable');
 	echo $sql;
-	
+
 	// Produces string: SELECT * FROM mytable
-	
-The second parameter enables you to set whether or not the active record query 
+
+The second parameter enables you to set whether or not the active record query
 will be reset (by default it will be&mdash;just like `$this->db->get()`)::
 
 	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
-	// Produces string: SELECT * FROM mytable LIMIT 20, 10 
+	// Produces string: SELECT * FROM mytable LIMIT 20, 10
 	// (in MySQL. Other databases have slightly different syntax)
-	
+
 	echo $this->db->select('title, content, date')->get_compiled_select();
 
 	// Produces string: SELECT title, content, date FROM mytable
-	
-The key thing to notice in the above example is that the second query did not 
-utilize `$this->db->from()`_ and did not pass a table name into the first 
-parameter. The reason for this outcome is because the query has not been 
-executed using `$this->db->get()`_ which resets values or reset directly 
-using `$this-db->reset_query()`_.
+
+The key thing to notice in the above example is that the second query did not
+utilize `$this->db->from()`_ and did not pass a table name into the first
+parameter. The reason for this outcome is because the query has not been
+executed using `$this->db->get()`_ which resets values or reset directly
+using `$this->db->reset_query()`_.
 
 
 $this->db->get_where()
@@ -96,8 +96,7 @@ function::
 
 Please read the about the where function below for more information.
 
-.. note:: get_where() was formerly known as getwhere(), which has been
-removed
+.. note:: get_where() was formerly known as getwhere(), which has been removed
 
 $this->db->select()
 ===================
@@ -117,7 +116,7 @@ with backticks. This is useful if you need a compound select statement.
 
 ::
 
-	$this->db->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE); 
+	$this->db->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE);
 	$query = $this->db->get('mytable');
 
 
@@ -131,7 +130,7 @@ include a second parameter to rename the resulting field.
 
 	$this->db->select_max('age');
 	$query = $this->db->get('members');  // Produces: SELECT MAX(age) as age FROM members
-	
+
 	$this->db->select_max('age', 'member_age');
 	$query = $this->db->get('members'); // Produces: SELECT MAX(age) as member_age FROM members
 
@@ -196,7 +195,7 @@ Permits you to write the JOIN portion of your query::
 	$this->db->from('blogs');
 	$this->db->join('comments', 'comments.id = blogs.id');
 	$query = $this->db->get();
-	
+
 	// Produces:
 	// SELECT * FROM blogs JOIN comments ON comments.id = blogs.id
 
@@ -225,7 +224,7 @@ methods:
 
 	::
 
-		$this->db->where('name', $name); // Produces: WHERE name = 'Joe' 
+		$this->db->where('name', $name); // Produces: WHERE name = 'Joe'
 
 	Notice that the equal sign is added for you.
 
@@ -237,7 +236,7 @@ methods:
 		$this->db->where('name', $name);
 		$this->db->where('title', $title);
 		$this->db->where('status', $status);
-		// WHERE name = 'Joe' AND title = 'boss' AND status = 'active'  
+		// WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
 
 #. **Custom key/value method:**
 	You can include an operator in the first parameter in order to
@@ -246,7 +245,7 @@ methods:
 	::
 
 		$this->db->where('name !=', $name);
-		$this->db->where('id <', $id); // Produces: WHERE name != 'Joe' AND id < 45    
+		$this->db->where('id <', $id); // Produces: WHERE name != 'Joe' AND id < 45
 
 #. **Associative array method:**
 
@@ -254,7 +253,7 @@ methods:
 
 		$array = array('name' => $name, 'title' => $title, 'status' => $status);
 		$this->db->where($array);
-		// Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'    
+		// Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
 
 	You can include your own operators using this method as well:
 
@@ -355,7 +354,7 @@ searches.
 
 	::
 
-		$this->db->like('title', 'match');     // Produces: WHERE title LIKE '%match%' 
+		$this->db->like('title', 'match');     // Produces: WHERE title LIKE '%match%'
 
 	If you use multiple function calls they will be chained together with
 	AND between them::
@@ -372,7 +371,7 @@ searches.
 
 		$this->db->like('title', 'match', 'before');	// Produces: WHERE title LIKE '%match'
 		$this->db->like('title', 'match', 'after');		// Produces: WHERE title LIKE 'match%'
-		$this->db->like('title', 'match', 'both');		// Produces: WHERE title LIKE '%match%' 
+		$this->db->like('title', 'match', 'both');		// Produces: WHERE title LIKE '%match%'
 
 #. **Associative array method:**
 
@@ -444,7 +443,7 @@ Permits you to write the HAVING portion of your query. There are 2
 possible syntaxes, 1 argument or 2::
 
 	$this->db->having('user_id = 45');  // Produces: HAVING user_id = 45
-	$this->db->having('user_id',  45);  // Produces: HAVING user_id = 45 
+	$this->db->having('user_id',  45);  // Produces: HAVING user_id = 45
 
 You can also pass an array of multiple values as well::
 
@@ -487,7 +486,7 @@ Or multiple function calls can be made if you need multiple fields.
 ::
 
 	$this->db->order_by("title", "desc");
-	$this->db->order_by("name", "asc"); // Produces: ORDER BY title DESC, name ASC     
+	$this->db->order_by("name", "asc"); // Produces: ORDER BY title DESC, name ASC
 
 
 .. note:: order_by() was formerly known as orderby(), which has been
@@ -519,7 +518,7 @@ where(), or_where(), like(), or_like(), etc. Example::
 	echo $this->db->count_all_results('my_table');  // Produces an integer, like 25
 	$this->db->like('title', 'match');
 	$this->db->from('my_table');
-	echo $this->db->count_all_results(); // Produces an integer, like 17 
+	echo $this->db->count_all_results(); // Produces an integer, like 17
 
 $this->db->count_all()
 ======================
@@ -528,6 +527,54 @@ Permits you to determine the number of rows in a particular table.
 Submit the table name in the first parameter. Example::
 
 	echo $this->db->count_all('my_table');  // Produces an integer, like 25
+
+**************
+Query grouping
+**************
+
+Query grouping allows you to create groups of WHERE clauses by enclosing them in parentheses. This will allow
+you to create queries with complex WHERE clauses. Nested groups are supported. Example:
+
+	$this->db->select('*')->from('my_table')
+		->group_start()
+			->where('a', 'a')
+			->or_group_start()
+				->where('b', 'b')
+				->where('c', 'c')
+			->group_end()
+		->group_end()
+		->where('d', 'd')
+	->get();
+
+	// Generates:
+	// SELECT * FROM (`my_table`) WHERE ( `a` = 'a' OR ( `b` = 'b' AND `c` = 'c' ) ) AND `d` = 'd'
+
+.. note:: groups need to be balanced, make sure every group_start() is matched by a group_end().
+
+$this->db->group_start()
+========================
+
+Starts a new group by adding an opening parenthesis to the WHERE clause of the query.
+
+$this->db->or_group_start()
+===========================
+
+Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with 'OR'.
+
+$this->db->not_group_start()
+============================
+
+Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with 'NOT'.
+
+$this->db->or_not_group_start()
+===============================
+
+Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with 'OR NOT'.
+
+$this->db->group_end()
+======================
+
+Ends the current group by adding an closing parenthesis to the WHERE clause of the query.
 
 **************
 Inserting Data
@@ -545,7 +592,7 @@ function. Here is an example using an array::
 		'name' => 'My Name',
 		'date' => 'My date'
 	);
-	
+
 	$this->db->insert('mytable', $data);
 	// Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
 
@@ -561,7 +608,7 @@ Here is an example using an object::
 		var  $date = 'My Date';
 	}
 	*/
-	
+
 	$object = new Myclass;
 	$this->db->insert('mytable', $object);
 	// Produces: INSERT INTO mytable (title, content, date) VALUES ('My Title', 'My Content', 'My Date')
@@ -573,7 +620,7 @@ object.
 
 $this->db->get_compiled_insert()
 ================================
-Compiles the insertion query just like `$this->db->insert()`_ but does not 
+Compiles the insertion query just like `$this->db->insert()`_ but does not
 *run* the query. This method simply returns the SQL query as a string.
 
 Example::
@@ -583,27 +630,27 @@ Example::
 		'name'  => 'My Name',
 		'date'  => 'My date'
 	);
-	
+
 	$sql = $this->db->set($data)->get_compiled_insert('mytable');
 	echo $sql;
-	
+
 	// Produces string: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
 
-The second parameter enables you to set whether or not the active record query 
+The second parameter enables you to set whether or not the active record query
 will be reset (by default it will be--just like `$this->db->insert()`_)::
-	
+
 	echo $this->db->set('title', 'My Title')->get_compiled_insert('mytable', FALSE);
-	
+
 	// Produces string: INSERT INTO mytable (title) VALUES ('My Title')
-	
+
 	echo $this->db->set('content', 'My Content')->get_compiled_insert();
 
 	// Produces string: INSERT INTO mytable (title, content) VALUES ('My Title', 'My Content')
-	
-The key thing to notice in the above example is that the second query did not 
-utlize `$this->db->from()`_ nor did it pass a table name into the first 
-parameter. The reason this worked is because the query has not been executed 
-using `$this->db->insert()`_ which resets values or reset directly using 
+
+The key thing to notice in the above example is that the second query did not
+utlize `$this->db->from()`_ nor did it pass a table name into the first
+parameter. The reason this worked is because the query has not been executed
+using `$this->db->insert()`_ which resets values or reset directly using
 `$this->db->reset_query()`_.
 
 $this->db->insert_batch()
@@ -625,7 +672,7 @@ function. Here is an example using an array::
 			'date' => 'Another date'
 		)
 	);
-	
+
 	$this->db->insert_batch('mytable', $data);
 	// Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date'),  ('Another title', 'Another name', 'Another date')
 
@@ -653,7 +700,7 @@ based on whether you are doing an insert or an update::
 	$this->db->set('name', $name);
 	$this->db->set('title', $title);
 	$this->db->set('status', $status);
-	$this->db->insert('mytable'); 
+	$this->db->insert('mytable');
 
 **set()** will also accept an optional third parameter ($escape), that
 will prevent data from being escaped if set to FALSE. To illustrate the
@@ -675,7 +722,7 @@ You can also pass an associative array to this function::
 		'title' => $title,
 		'status' => $status
 	);
-	
+
 	$this->db->set($array);
 	$this->db->insert('mytable');
 
@@ -688,7 +735,7 @@ Or an object::
 		var  $date = 'My Date';
 	}
 	*/
-	
+
 	$object = new Myclass;
 	$this->db->set($object);
 	$this->db->insert('mytable');
@@ -710,7 +757,7 @@ is an example using an array::
 		'name' => $name,
 		'date' => $date
 	);
-	
+
 	$this->db->where('id', $id);
 	$this->db->update('mytable', $data);
 	// Produces: // UPDATE mytable  // SET title = '{$title}', name = '{$name}', date = '{$date}' // WHERE id = $id
@@ -724,7 +771,7 @@ Or you can supply an object::
 		var  $date = 'My Date';
 	}
 	*/
-	
+
 	$object = new Myclass;
 	$this->db->where('id', $id);
 	$this->db->update('mytable', $object);
@@ -765,14 +812,14 @@ Here is an example using an array::
 	   )
 	);
 
-	$this->db->update_batch('mytable', $data, 'title'); 
+	$this->db->update_batch('mytable', $data, 'title');
 
-	// Produces: 
+	// Produces:
 	// UPDATE `mytable` SET `name` = CASE
 	// WHEN `title` = 'My title' THEN 'My Name 2'
 	// WHEN `title` = 'Another title' THEN 'Another Name 2'
 	// ELSE `name` END,
-	// `date` = CASE 
+	// `date` = CASE
 	// WHEN `title` = 'My title' THEN 'My date 2'
 	// WHEN `title` = 'Another title' THEN 'Another date 2'
 	// ELSE `date` END
@@ -789,7 +836,7 @@ $this->db->get_compiled_update()
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces an UPDATE SQL string instead of an INSERT SQL string.
 
-For more information view documentation for `$this->get_compiled_insert()`_.
+For more information view documentation for `$this->db->get_compiled_insert()`_.
 
 
 *************
@@ -811,7 +858,7 @@ the data to the second parameter of the function::
 
 	$this->db->where('id', $id);
 	$this->db->delete('mytable');
-	
+
 	// Produces:
 	// DELETE FROM mytable
 	// WHERE id = $id
@@ -848,23 +895,23 @@ Generates a truncate SQL string and runs the query.
 
 	$this->db->from('mytable');
 	$this->db->truncate();
-	
-	// or  
-	
+
+	// or
+
 	$this->db->truncate('mytable');
-	
+
 	// Produce:
-	// TRUNCATE mytable 
+	// TRUNCATE mytable
 
 .. note:: If the TRUNCATE command isn't available, truncate() will
 	execute as "DELETE FROM table".
-	
+
 $this->db->get_compiled_delete()
 ================================
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces a DELETE SQL string instead of an INSERT SQL string.
 
-For more information view documentation for `$this->get_compiled_insert()`_.
+For more information view documentation for `$this->db->get_compiled_insert()`_.
 
 ***************
 Method Chaining
@@ -918,11 +965,11 @@ Here's a usage example::
 	$this->db->stop_cache();
 	$this->db->get('tablename');
 	//Generates: SELECT `field1` FROM (`tablename`)
-	
+
 	$this->db->select('field2');
 	$this->db->get('tablename');
 	//Generates:  SELECT `field1`, `field2` FROM (`tablename`)
-	
+
 	$this->db->flush_cache();
 	$this->db->select('field2');
 	$this->db->get('tablename');
@@ -933,18 +980,16 @@ Here's a usage example::
 	where, like, group_by, having, order_by, set
 
 
+$this->db->reset_query()
+========================
 
-*******************
-Reset Active Record
-*******************
-
-Resetting Active Record allows you to start fresh with your query without 
-executing it first using a method like $this->db->get() or $this->db->insert(). 
-Just like the methods that execute a query, this will *not* reset items you've 
+Resetting Active Record allows you to start fresh with your query without
+executing it first using a method like $this->db->get() or $this->db->insert().
+Just like the methods that execute a query, this will *not* reset items you've
 cached using `Active Record Caching`_.
 
-This is useful in situations where you are using Active Record to generate SQL 
-(ex. ``$this->db->get_compiled_select()``) but then choose to, for instance, 
+This is useful in situations where you are using Active Record to generate SQL
+(ex. ``$this->db->get_compiled_select()``) but then choose to, for instance,
 run the query::
 
 	// Note that the second parameter of the get_compiled_select method is FALSE

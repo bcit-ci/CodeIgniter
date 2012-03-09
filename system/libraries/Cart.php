@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -325,13 +325,6 @@ class CI_Cart {
 
 		// Is the quantity a number?
 		if ( ! is_numeric($items['qty']))
-		{
-			return FALSE;
-		}
-
-		// Is the new quantity different than what is already saved in the cart?
-		// If it's the same there's nothing to do
-		if ($this->_cart_contents[$items['rowid']]['qty'] == $items['qty'])
 		{
 			return FALSE;
 		}
