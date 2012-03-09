@@ -333,7 +333,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows').' FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -401,26 +401,18 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return mssql_get_last_message();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	string
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		// Not supported in MSSQL
-		return '';
+		$query = $this->query('SELECT @@ERROR AS code');
+		$query = $query->row();
+		return array('code' => $query->code, 'message' => mssql_get_last_message());
 	}
 
 	// --------------------------------------------------------------------
