@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -89,7 +89,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		$sql = 'CREATE TABLE ';
 
 		// IF NOT EXISTS added to SQLite in 3.3.0
-		if ($if_not_exists === TRUE && version_compare($this->db->_version(), '3.3.0', '>=') === TRUE)
+		if ($if_not_exists === TRUE && version_compare($this->db->version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}

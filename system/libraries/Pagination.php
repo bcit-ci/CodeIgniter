@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -128,10 +128,10 @@ class CI_Pagination {
 		}
 
 		// Calculate the total number of pages
-		$num_pages = ceil($this->total_rows / $this->per_page);
+		$num_pages = (int) ceil($this->total_rows / $this->per_page);
 
 		// Is there only one page? Hm... nothing more to do here then.
-		if ($num_pages == 1)
+		if ($num_pages === 1)
 		{
 			return '';
 		}
@@ -142,43 +142,35 @@ class CI_Pagination {
 		// Determine the current page number.
 		$CI =& get_instance();
 
+		// See if we are using a prefix or suffix on links
+		if ($this->prefix != '' OR $this->suffix != '')
+		{
+			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
+		}
+
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
 			if ($CI->input->get($this->query_string_segment) != $base_page)
 			{
-				$this->cur_page = $CI->input->get($this->query_string_segment);
-
-				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
+				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
 		}
-		else
+		elseif ( ! $this->cur_page AND $CI->uri->segment($this->uri_segment) != $base_page)
 		{
-			if ($CI->uri->segment($this->uri_segment) != $base_page)
-			{
-				$this->cur_page = $CI->uri->segment($this->uri_segment);
-
-				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
-			}
+			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
 
-		// Set current page to 1 if using page numbers instead of offset
-		if ($this->use_page_numbers AND $this->cur_page == 0)
+		// Set current page to 1 if it's not valid or if using page numbers instead of offset
+		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers AND $this->cur_page == 0))
 		{
 			$this->cur_page = $base_page;
 		}
 
-		$this->num_links = (int)$this->num_links;
+		$this->num_links = (int) $this->num_links;
 
 		if ($this->num_links < 1)
 		{
 			show_error('Your number of links must be a positive number.');
-		}
-
-		if ( ! is_numeric($this->cur_page))
-		{
-			$this->cur_page = $base_page;
 		}
 
 		// Is the page number beyond the result range?
@@ -236,13 +228,13 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if (($i == 0 OR ($this->use_page_numbers && $i == 1)) AND $this->first_url != '')
+			if ($i == $base_page AND $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
-				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
+				$i = ($i == $base_page) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 
