@@ -303,8 +303,8 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return 0;
 		}
 
-		$result = $this->conn_id->querySingle($this->_count_string.$this->_protect_identifiers('numrows')
-							.' FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$result = $this->conn_id->querySingle($this->_count_string.$this->protect_identifiers('numrows')
+							.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 
 		return empty($result) ? 0 : (int) $result;
 	}
