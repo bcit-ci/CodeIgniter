@@ -106,42 +106,50 @@ class Table_test extends CI_TestCase
 		// test what would be discreet args,
 		// basically means a single array as the calling method
 		// will use func_get_args()
+		
+		$reflectionOfTable = new ReflectionClass($this->table);
+		$method = $reflectionOfTable->getMethod('_prep_args');
+		
+		$method->setAccessible(true);
+			
 		$this->assertEquals(
 			$expected,
-			$this->table->_prep_args(array(
-				'name', 'color', 'size'
-			)),
-		'discreet');
-		
+			$method->invokeArgs(
+				$this->table, array(array('name', 'color', 'size'), 'discreet')
+			)
+		);
 		
 		// test what would be a single array argument. Again, nested
 		// due to func_get_args on calling methods
 		$this->assertEquals(
 			$expected,
-			$this->table->_prep_args(array(
-				 array('name', 'color', 'size')
-			)),
-		'array');
+			$method->invokeArgs(
+				$this->table, array(array('name', 'color', 'size'), 'array')
+			)
+		);
 		
 		
 		// with cell attributes
 		
 		// need to add that new argument row to our expected outcome
 		$expected[] = array('data' => 'weight', 'class' => 'awesome');
-				
+
 		$this->assertEquals(
 			$expected,
-			$this->table->_prep_args(array(
-				array('name', 'color', 'size',
-					array('data' => 'weight', 'class' => 'awesome')
-				)
-			)),
-		'attributes');
+			$method->invokeArgs(
+				$this->table, array(array('name', 'color', 'size', array('data' => 'weight', 'class' => 'awesome')), 'attributes')
+			)
+		);
 	}
 	
 	public function test_default_template_keys()
 	{
-		$deft_template = $this->table->_default_template();
+		$reflectionOfTable = new ReflectionClass($this->table);
+		$method = $reflectionOfTable->getMethod('_default_template');
+		
+		$method->setAccessible(true);
+		
+		$deft_template = $method->invoke($this->table);
 		$keys = array(
 			'table_open',
 			'thead_open', 'thead_close',
@@ -160,18 +168,23 @@ class Table_test extends CI_TestCase
 	
 	public function test_compile_template()
 	{
+		$reflectionOfTable = new ReflectionClass($this->table);
+		$method = $reflectionOfTable->getMethod('_compile_template');
+		
+		$method->setAccessible(true);
+		
 		$this->assertFalse($this->table->set_template('invalid_junk'));
 		
 		// non default key
 		$this->table->set_template(array('nonsense' => 'foo'));
-		$this->table->_compile_template();
+		$method->invoke($this->table);
 		
 		$this->assertArrayHasKey('nonsense', $this->table->template);
 		$this->assertEquals('foo', $this->table->template['nonsense']);
 		
 		// override default
 		$this->table->set_template(array('table_close' => '</table junk>'));
-		$this->table->_compile_template();
+		$method->invoke($this->table);
 		
 		$this->assertArrayHasKey('table_close', $this->table->template);
 		$this->assertEquals('</table junk>', $this->table->template['table_close']);
@@ -242,8 +255,13 @@ class Table_test extends CI_TestCase
 	
 	public function test_set_from_array()
 	{
-		$this->assertFalse($this->table->_set_from_array('bogus'));
-		$this->assertFalse($this->table->_set_from_array(array()));
+		$reflectionOfTable = new ReflectionClass($this->table);
+		$method = $reflectionOfTable->getMethod('_set_from_array');
+		
+		$method->setAccessible(true);
+				
+		$this->assertFalse($method->invokeArgs($this->table, array('bogus')));
+		$this->assertFalse($method->invoke($this->table, array()));
 		
 		$data = array(
 			array('name', 'color', 'number'),
@@ -251,7 +269,7 @@ class Table_test extends CI_TestCase
 			array('Katie', 'Blue')				
 		);
 		
-		$this->table->_set_from_array($data, FALSE);
+		$method->invokeArgs($this->table, array($data, FALSE));
 		$this->assertEmpty($this->table->heading);
 		
 		$this->table->clear();
@@ -267,7 +285,7 @@ class Table_test extends CI_TestCase
 			array('data' => 'Blue'),
 		);
 		
-		$this->table->_set_from_array($data);
+		$method->invokeArgs($this->table, array($data));
 		$this->assertEquals(count($this->table->rows), 2);
 		
 		$this->assertEquals(
