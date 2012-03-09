@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -59,8 +59,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
 
-	// need to track the pdo DSN, driver and options
-	var $dsn;
+	// need to track the pdo driver and options
 	var $pdodriver;
 	var $options = array();
 
@@ -530,8 +529,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$sql   = $this->_count_string.$this->_protect_identifiers('numrows').' FROM ';
-		$sql  .= $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -416,7 +416,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
 
-		$query = $this->query('DESCRIBE '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query('DESCRIBE '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		$query = $query->result_object();
 
 		$retval = array();

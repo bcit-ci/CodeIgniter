@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -172,7 +172,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type == 'DROP')
@@ -198,7 +198,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}
 
 		return $sql;
@@ -219,10 +219,8 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
-
 
 }
 
