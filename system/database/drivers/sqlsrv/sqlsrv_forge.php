@@ -126,8 +126,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -169,7 +168,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table).' '.$alter_type.' '.$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type == 'DROP')

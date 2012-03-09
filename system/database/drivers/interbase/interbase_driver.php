@@ -21,12 +21,14 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 
+// ------------------------------------------------------------------------
+
 /**
- * SQLSRV Database Adapter Class
+ * Firebird/Interbase Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the active record
@@ -38,15 +40,15 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_sqlsrv_driver extends CI_DB {
+class CI_DB_interbase_driver extends CI_DB {
 
-	public $dbdriver = 'sqlsrv';
+	public $dbdriver = 'interbase';
 
-	// The character used for escaping
-	protected $_escape_char = '';
+	// The character used to escape with
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -54,36 +56,20 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' NEWID()';
+	protected $_count_string = "SELECT COUNT(*) AS ";
+	protected $_random_keyword = ' Random()'; // database specific random keyword
+
+	// Keeps track of the resource for the current transaction
+	protected $trans;
 
 	/**
 	 * Non-persistent database connection
 	 *
 	 * @return	resource
 	 */
-	public function db_connect($pooling = TRUE)
+	public function db_connect()
 	{
-		// Check for a UTF-8 charset being passed as CI's default 'utf8'.
-		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
-
-		$connection = array(
-			'UID'			=> empty($this->username) ? '' : $this->username,
-			'PWD'			=> empty($this->password) ? '' : $this->password,
-			'Database'		=> $this->database,
-			'ConnectionPooling'	=> $pooling ? 1 : 0,
-			'CharacterSet'		=> $character_set,
-			'ReturnDatesAsStrings'	=> 1
-		);
-
-		// If the username and password are both empty, assume this is a
-		// 'Windows Authentication Mode' connection.
-		if (empty($connection['UID']) && empty($connection['PWD']))
-		{
-			unset($connection['UID'], $connection['PWD']);
-		}
-
-		return sqlsrv_connect($this->hostname, $connection);
+		return @ibase_connect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -95,7 +81,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return $this->db_connect(TRUE);
+		return @ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -110,7 +96,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function reconnect()
 	{
-		// Not supported in MSSQL
+		// not implemented in Interbase/Firebird
 	}
 
 	// --------------------------------------------------------------------
@@ -118,20 +104,35 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @param	string	database name
 	 * @return	bool
 	 */
-	public function db_select($database = '')
+	public function db_select()
 	{
-		if ($database === '')
+		// Connection selects the database
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database version number
+	 *
+	 * @return	string
+	 */
+	public function version()
+	{
+		if (isset($this->data_cache['version']))
 		{
-			$database = $this->database;
+			return $this->data_cache['version'];
 		}
 
-		if ($this->_execute('USE '.$database))
+		if (($service = ibase_service_attach($this->hostname, $this->username, $this->password)))
 		{
-			$this->database = $database;
-			return TRUE;
+			$this->data_cache['version'] = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
+
+			// Don't keep the service open
+			ibase_service_detach($service);
+			return $this->data_cache['version'];
 		}
 
 		return FALSE;
@@ -147,8 +148,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id, $this->_prep_query($sql), NULL,
-					array('Scrollable' => SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE));
+		$sql = $this->_prep_query($sql);
+		return @ibase_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -175,8 +176,13 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
+		if ( ! $this->trans_enabled)
+		{
+			return TRUE;
+		}
+
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ($this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -184,9 +190,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
+		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
 
-		return sqlsrv_begin_transaction($this->conn_id);
+		$this->trans = @ibase_trans($this->conn_id);
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -198,13 +206,18 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
 
-		return sqlsrv_commit($this->conn_id);
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		return @ibase_commit($this->trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -216,13 +229,18 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! $this->trans_enabled)
 		{
 			return TRUE;
 		}
 
-		return sqlsrv_rollback($this->conn_id);
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		if ($this->_trans_depth > 0)
+		{
+			return TRUE;
+		}
+
+		return @ibase_rollback($this->trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -236,8 +254,25 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
-		// Escape single quotes
-		return str_replace("'", "''", $str);
+		if (is_array($str))
+		{
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = $this->escape_str($val, $like);
+			}
+
+			return $str;
+		}
+
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
+								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+								$str);
+		}
+
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
@@ -245,49 +280,26 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	int
+	 * @return	integer
 	 */
 	public function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return @ibase_affected_rows($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	* Insert ID
-	*
-	* Returns the last id created in the Identity column.
-	*
-	* @return	int
-	*/
-	public function insert_id()
-	{
-		$query = $this->query('SELECT @@IDENTITY AS insert_id');
-		$query = $query->row();
-		return $query->insert_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Database version number
+	 * Insert ID
 	 *
-	 * @return	string
+	 * @param	string $generator_name
+	 * @param	integer $inc_by
+	 * @return	integer
 	 */
-	public function version()
+	public function insert_id($generator_name, $inc_by=0)
 	{
-		if (isset($this->data_cache['version']))
-		{
-			return $this->data_cache['version'];
-		}
-
-		if (($info = sqlsrv_server_info($this->conn_id)) === FALSE)
-		{
-			return FALSE;
-		}
-
-		return $this->data_cache['version'] = $info['SQLServerVersion'];
+		//If a generator hasn't been used before it will return 0
+		return ibase_gen_id('"'.$generator_name.'"', $inc_by);
 	}
 
 	// --------------------------------------------------------------------
@@ -299,7 +311,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * the specified database
 	 *
 	 * @param	string
-	 * @return	int
+	 * @return	string
 	 */
 	public function count_all($table = '')
 	{
@@ -308,15 +320,15 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query('SELECT COUNT(*) AS numrows FROM '.$this->dbprefix.$table);
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
 		}
 
-		$query = $query->row();
+		$row = $query->row();
 		$this->_reset_select();
-		return (int) $query->numrows;
+		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -326,18 +338,28 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	boolean
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
+		$sql = <<<SQL
+			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
+			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
+			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
+SQL;
+
+		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		{
+			$sql .= ' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+		}
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * List column query
+	 * Show column query
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
@@ -346,7 +368,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";
+		return <<<SQL
+			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
+			WHERE "RDB\$RELATION_NAME"='{$table}';
+SQL;
 	}
 
 	// --------------------------------------------------------------------
@@ -361,7 +386,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$this->_escape_table($table);
+		// Need to find a more efficient way to do this
+		// but Interbase/Firebird seems to lack the
+		// limit clause
+		return "SELECT * FROM {$table}";
 	}
 
 	// --------------------------------------------------------------------
@@ -376,59 +404,43 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		$error = array('code' => '00000', 'message' => '');
-		$sqlsrv_errors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
-
-		if ( ! is_array($sqlsrv_errors))
-		{
-			return $error;
-		}
-
-		$sqlsrv_error = array_shift($sqlsrv_errors);
-		if (isset($sqlsrv_error['SQLSTATE']))
-		{
-			$error['code'] = isset($sqlsrv_error['code']) ? $sqlsrv_error['SQLSTATE'].'/'.$sqlsrv_error['code'] : $sqlsrv_error['SQLSTATE'];
-		}
-		elseif (isset($sqlsrv_error['code']))
-		{
-			$error['code'] = $sqlsrv_error['code'];
-		}
-
-		if (isset($sqlsrv_error['message']))
-		{
-			$error['message'] = $sqlsrv_error['message'];
-		}
-
-		return $error;
+		return array('code' => ibase_errcode(), 'message' => ibase_errmsg());
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape Table Name
-	 *
-	 * This function adds backticks if the table name has a period
-	 * in it. Some DBs will get cranky unless periods are escaped
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _escape_table($table)
-	{
-		return $table;
-	}
-
-	/**
 	 * Escape the SQL Identifiers
 	 *
-	 * This function escapes column and table names
+	 * This public function escapes column and table names
 	 *
 	 * @param	string
 	 * @return	string
 	 */
-	public function _escape_identifiers($item)
+	protected function _escape_identifiers($item)
 	{
-		return $item;
+		foreach ($this->_reserved_identifiers as $id)
+		{
+			if (strpos($item, '.'.$id) !== FALSE)
+			{
+				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
+
+				// remove duplicates if the user already included the escape
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+			}
+		}
+
+		if (strpos($item, '.') !== FALSE)
+		{
+			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
+		}
+		else
+		{
+			$str = $this->_escape_char.$item.$this->_escape_char;
+		}
+
+		// remove duplicates if the user already included the escape
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -436,11 +448,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * From Tables
 	 *
-	 * This function implicitly groups FROM tables so there is no confusion
+	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	array
-	 * @return	string
+	 * @param	type
+	 * @return	type
 	 */
 	protected function _from_tables($tables)
 	{
@@ -449,6 +461,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
+		//Interbase/Firebird doesn't like grouped tables
 		return implode(', ', $tables);
 	}
 
@@ -466,7 +479,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$this->_escape_table($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return "INSERT INTO {$table} (".implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -483,15 +496,26 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key.' = '.$val;
+			$valstr[] = $key." = ".$val;
 		}
 
-		return 'UPDATE '.$this->_escape_table($table).' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+
+		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+
+		$sql = "UPDATE {$table} SET ".implode(', ', $valstr);
+
+		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
+
+		$sql .= $orderby;
+
+		return $sql;
 	}
+
 
 	// --------------------------------------------------------------------
 
@@ -500,14 +524,14 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 * This public function maps to "DELETE FROM table"
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return 'TRUNCATE '.$table;
+		return $this->_delete($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -522,9 +546,25 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		return 'DELETE FROM '.$this->_escape_table($table).' WHERE '.implode(' ', $where);
+		$conditions = '';
+
+		if (count($where) > 0 OR count($like) > 0)
+		{
+			$conditions = "\nWHERE ";
+			$conditions .= implode("\n", $this->ar_where);
+
+			if (count($where) > 0 && count($like) > 0)
+			{
+				$conditions .= ' AND ';
+			}
+			$conditions .= implode("\n", $like);
+		}
+
+		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+
+		return "DELETE FROM {$table}{$conditions}";
 	}
 
 	// --------------------------------------------------------------------
@@ -541,7 +581,30 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
+		// Keep the current sql string safe for a moment
+		$orig_sql = $sql;
+
+		// Limit clause depends on if Interbase or Firebird
+		if (stripos($this->version(), 'firebird') !== FALSE)
+		{
+			$sql = 'FIRST '. (int) $limit;
+
+			if ($offset > 0)
+			{
+				$sql .= ' SKIP '. (int) $offset;
+			}
+		}
+		else
+		{
+			$sql = 'ROWS ' . (int) $limit;
+
+			if ($offset > 0)
+			{
+				$sql = 'ROWS '. (int) $offset . ' TO ' . ($limit + $offset);
+			}
+		}
+
+		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -554,10 +617,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _close($conn_id)
 	{
-		@sqlsrv_close($conn_id);
+		@ibase_close($conn_id);
 	}
 
 }
 
-/* End of file sqlsrv_driver.php */
-/* Location: ./system/database/drivers/sqlsrv/sqlsrv_driver.php */
+/* End of file interbase_driver.php */
+/* Location: ./system/database/drivers/interbase/interbase_driver.php */
