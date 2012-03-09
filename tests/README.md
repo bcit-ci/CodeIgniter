@@ -1,5 +1,7 @@
 # CodeIgniter Unit Tests #
 
+Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=feature/unit-tests)](http://travis-ci.org/EllisLab/CodeIgniter)
+
 *Do not merge to default until these issues have been addressed*
 
 - Clean up naming conventions
