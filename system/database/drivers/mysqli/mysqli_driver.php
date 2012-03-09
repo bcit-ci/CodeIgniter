@@ -353,7 +353,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows').' FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -399,22 +399,41 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		return 'SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'DESCRIBE '.$table;
+		if ($table == '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$query = $this->query('DESCRIBE '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			preg_match('/([a-z]+)(\(\d+\))?/', $query[$i]->Type, $matches);
+
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->Field;
+			$retval[$i]->type		= empty($matches[1]) ? NULL : $matches[1];
+			$retval[$i]->default		= $query[$i]->Default;
+			$retval[$i]->max_length		= empty($matches[2]) ? NULL : preg_replace('/[^\d]/', '', $matches[2]);
+			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
+		}
+
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
