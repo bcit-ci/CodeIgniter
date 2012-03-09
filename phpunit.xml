@@ -22,4 +22,17 @@
 			
 		</testsuite>
 	</testsuites>
+	<filters>
+		<blacklist>
+			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
+			<directory suffix=".php">PHP_LIBDIR</directory>
+			<directory suffix=".php">PROJECT_BASE.'tests'</directory>
+			<directory suffix=".php">'../system/core/CodeIgniter.php'</directory>
+		</blacklist>
+		<whitelist>
+			<!--
+			<directory suffix=".php">'../system/core'</directory>
+			-->
+		</whitelist>
+	</filters>
 </phpunit>
