@@ -138,8 +138,8 @@ class CI_Security {
 	 */
 	public function csrf_verify()
 	{
-		// If no POST data exists we will set the CSRF cookie
-		if (count($_POST) === 0)
+		// If it's not a POST request we will set the CSRF cookie
+		if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST')
 		{
 			return $this->csrf_set_cookie();
 		}
