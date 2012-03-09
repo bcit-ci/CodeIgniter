@@ -727,7 +727,7 @@ class CI_DB_driver {
 	 */
 	function escape($str)
 	{
-		if (is_string($str))
+		if (is_string($str) OR method_exists($str, '__toString'))
 		{
 			$str = "'".$this->escape_str($str)."'";
 		}
