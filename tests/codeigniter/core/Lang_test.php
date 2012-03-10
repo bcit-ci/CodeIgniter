@@ -6,6 +6,9 @@ class Lang_test extends CI_TestCase {
 	
 	public function set_up()
 	{
+		$loader_cls = $this->ci_core_class('load');
+		$this->ci_instance_var('load', new $loader_cls);
+
 		$cls = $this->ci_core_class('lang');
 		$this->lang = new $cls;
 	}
@@ -14,17 +17,14 @@ class Lang_test extends CI_TestCase {
 	
 	public function test_load()
 	{
-		// get_config needs work
-		$this->markTestIncomplete('get_config needs work');
-		//$this->assertTrue($this->lang->load('profiler'));
+		$this->assertTrue($this->lang->load('profiler', 'english'));
 	}
 	
 	// --------------------------------------------------------------------
 
 	public function test_line()
 	{
-		$this->markTestIncomplete('get_config needs work');
-		
+		$this->assertTrue($this->lang->load('profiler', 'english'));
 		$this->assertEquals('URI STRING', $this->lang->line('profiler_uri_string'));
 	}
 	

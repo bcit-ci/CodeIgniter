@@ -172,6 +172,23 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		return $this->ci_config;
 	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * This overload is useful to create a stub, that need to have a specific method.
+	 */
+	function __call($method, $args)
+	{
+		if ($this->{$method} instanceof Closure) 
+		{
+			return call_user_func_array($this->{$method},$args);
+		} 
+		else 
+		{
+			return parent::__call($method, $args);
+		}
+	}
 }
 
 // EOF
