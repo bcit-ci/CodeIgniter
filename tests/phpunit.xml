@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit 
-	bootstrap="tests/Bootstrap.php"
+	bootstrap="Bootstrap.php"
 	colors="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
@@ -11,10 +11,10 @@
 	stopOnSkipped="false">
 	<testsuites>
 		<testsuite name="CodeIgniter Core Test Suite">
-			<file>tests/codeigniter/Setup_test.php</file>
-			<directory suffix="test.php">tests/codeigniter/core</directory>
-			<directory suffix="test.php">tests/codeigniter/helpers</directory>
-			<directory suffix="test.php">tests/codeigniter/libraries</directory>
+			<file>codeigniter/Setup_test.php</file>
+			<directory suffix="test.php">codeigniter/core</directory>
+			<directory suffix="test.php">codeigniter/helpers</directory>
+			<directory suffix="test.php">codeigniter/libraries</directory>
 			<!-- We'll worry about these later ...
 			<directory suffix="test.php">codeigniter/libraries</directory>
 			<directory suffix="test.php">codeigniter/helpers</directory>
