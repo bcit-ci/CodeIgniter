@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -697,6 +697,23 @@ class CI_Input {
 	public function is_cli_request()
 	{
 		return (php_sapi_name() === 'cli' OR defined('STDIN'));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Request Method
+	 *
+	 * Return the Request Method
+	 *
+	 * @param	bool	uppercase or lowercase
+	 * @return 	bool
+	 */
+	public function method($upper = FALSE)
+	{
+		return ($upper)
+			? strtoupper($this->server('REQUEST_METHOD'))
+			: strtolower($this->server('REQUEST_METHOD'));
 	}
 
 }
