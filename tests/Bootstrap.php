@@ -11,6 +11,7 @@ $dir = realpath(dirname(__FILE__));
 define('PROJECT_BASE',	realpath($dir.'/../').'/');
 define('BASEPATH',		PROJECT_BASE.'system/');
 define('APPPATH',		PROJECT_BASE.'application/');
+define('VIEWPATH',		PROJECT_BASE.'');
 
 
 // Prep our test environment
