@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -120,9 +120,9 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'mov'	=>	'video/quicktime',
 				'avi'	=>	array('video/x-msvideo', 'video/msvideo', 'video/avi', 'application/x-troff-msvideo'),
 				'movie'	=>	'video/x-sgi-movie',
-				'doc'	=>	'application/msword',
-				'docx'	=>	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-				'xlsx'	=>	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'doc'	=>	array('application/msword', 'application/vnd.ms-office'),
+				'docx'	=>	array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'),
+				'xlsx'	=>	array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip'),
 				'word'	=>	array('application/msword', 'application/octet-stream'),
 				'xl'	=>	'application/excel',
 				'eml'	=>	'message/rfc822',

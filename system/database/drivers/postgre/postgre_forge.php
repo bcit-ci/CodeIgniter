@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -88,7 +88,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field);
+				$sql .= "\n\t".$this->db->protect_identifiers($field);
 
 				$is_unsigned = (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE);
 
@@ -203,10 +203,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			// Something seems to break when passing an array to _protect_identifiers()
+			// Something seems to break when passing an array to protect_identifiers()
 			foreach ($primary_keys as $index => $key)
 			{
-				$primary_keys[$index] = $this->db->_protect_identifiers($key);
+				$primary_keys[$index] = $this->db->protect_identifiers($key);
 			}
 
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
@@ -220,11 +220,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key = array($this->db->_protect_identifiers($key));
+					$key = array($this->db->protect_identifiers($key));
 				}
 
 				foreach ($key as $field)
@@ -267,19 +267,19 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
  	function _alter_table($alter_type, $table, $fields, $after_field = '')
  	{
- 		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ";
+ 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
  		// DROP has everything it needs now.
  		if ($alter_type == 'DROP')
  		{
- 			return $sql.$this->db->_protect_identifiers($fields);
+ 			return $sql.$this->db->protect_identifiers($fields);
  		}
 
  		$sql .= $this->_process_fields($fields);
 
  		if ($after_field != '')
  		{
- 			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+ 			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
  		}
 
  		return $sql;
@@ -299,8 +299,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 }
 

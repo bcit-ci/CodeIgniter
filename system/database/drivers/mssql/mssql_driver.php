@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -133,22 +133,6 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 
 		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
-	 */
-	function db_set_charset($charset, $collation)
-	{
-		// @todo - add support if needed
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -355,12 +339,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	* Version number query string
 	*
-	* @access public
-	* @return string
+	* @return	string
 	*/
-	function _version()
+	protected function _version()
 	{
-		return "SELECT @@VERSION AS ver";
+		return 'SELECT @@VERSION AS ver';
 	}
 
 	// --------------------------------------------------------------------
@@ -382,8 +365,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
-
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
@@ -454,28 +436,18 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return mssql_get_last_message();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		// Are error numbers supported?
-		return '';
+		$query = $this->query('SELECT @@ERROR AS code');
+		$query = $query->row();
+		return array('code' => $query->code, 'message' => mssql_get_last_message());
 	}
 
 	// --------------------------------------------------------------------

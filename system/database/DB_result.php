@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -46,6 +46,12 @@ class CI_DB_result {
 	public $current_row			= 0;
 	public $num_rows			= 0;
 	public $row_data			= NULL;
+
+	public function __construct(&$driver_object)
+	{
+		$this->conn_id = $driver_object->conn_id;
+		$this->result_id = $driver_object->result_id;
+	}
 
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.

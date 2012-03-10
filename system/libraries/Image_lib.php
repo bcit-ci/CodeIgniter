@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -251,7 +251,7 @@ class CI_Image_lib {
 		}
 		else
 		{
-			if (function_exists('realpath') && @realpath($this->new_image) !== FALSE)
+			if (strpos($this->new_image, '/') === FALSE AND strpos($this->new_image, '\\') === FALSE)
 			{
 				$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
 			}
