@@ -87,17 +87,17 @@ function remove_invisible_characters($str, $url_encoded = TRUE)
 
 function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 {
-	throw new Exception('CI Error: '.$message);
+	throw new RuntimeException('CI Error: '.$message);
 }
 
 function show_404($page = '', $log_error = TRUE)
 {
-	throw new Exception('CI Error: 404');
+	throw new RuntimeException('CI Error: 404');
 }
 
 function _exception_handler($severity, $message, $filepath, $line)
 {
-	throw new Exception('CI Exception: '.$message.' | '.$filepath.' | '.$line);
+	throw new RuntimeException('CI Exception: '.$message.' | '.$filepath.' | '.$line);
 }
 
 
