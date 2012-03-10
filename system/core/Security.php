@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Security Class
@@ -106,23 +104,27 @@ class CI_Security {
 
 	public function __construct()
 	{
-		// CSRF config
-		foreach(array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+		// Is CSRF protection enabled?
+		if (config_item('csrf_protection') === TRUE)
 		{
-			if (FALSE !== ($val = config_item($key)))
+			// CSRF config
+			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 			{
-				$this->{'_'.$key} = $val;
+				if (FALSE !== ($val = config_item($key)))
+				{
+					$this->{'_'.$key} = $val;
+				}
 			}
-		}
 
-		// Append application specific cookie prefix
-		if (config_item('cookie_prefix'))
-		{
-			$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
-		}
+			// Append application specific cookie prefix
+			if (config_item('cookie_prefix'))
+			{
+				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+			}
 
-		// Set the CSRF hash
-		$this->_csrf_set_hash();
+			// Set the CSRF hash
+			$this->_csrf_set_hash();
+		}
 
 		log_message('debug', 'Security Class Initialized');
 	}
@@ -136,8 +138,8 @@ class CI_Security {
 	 */
 	public function csrf_verify()
 	{
-		// If no POST data exists we will set the CSRF cookie
-		if (count($_POST) === 0)
+		// If it's not a POST request we will set the CSRF cookie
+		if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST')
 		{
 			return $this->csrf_set_cookie();
 		}
@@ -189,7 +191,7 @@ class CI_Security {
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) config_item('cookie_secure');
 
-		if ($secure_cookie && ( ! isset($_SERVER['HTTPS']) OR $_SERVER['HTTPS'] == 'off' OR ! $_SERVER['HTTPS']))
+		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
 		{
 			return FALSE;
 		}
@@ -358,7 +360,7 @@ class CI_Security {
 
 		foreach ($words as $word)
 		{
-			$word = implode("\s*", str_split($word)) . "\s*";
+			$word = implode('\s*', str_split($word)).'\s*';
 
 			// We only want to do this when it is followed by a non-word character
 			// That way valid stuff like "dealer to" does not become "dealerto"
@@ -424,7 +426,6 @@ class CI_Security {
 		$str = preg_replace('#(alert|cmd|passthru|eval|exec|expression|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si',
 					'\\1\\2&#40;\\3&#41;',
 					$str);
-
 
 		// Final clean up
 		// This adds a bit of extra precaution in case
@@ -601,7 +602,7 @@ class CI_Security {
 			}
 
 			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is',  $str, $matches, PREG_SET_ORDER);
+			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is', $str, $matches, PREG_SET_ORDER);
 
 			foreach ($matches as $attr)
 			{
@@ -633,7 +634,7 @@ class CI_Security {
 	{
 		return '&lt;'.$matches[1].$matches[2].$matches[3] // encode opening brace
 			// encode captured opening or closing brace to prevent recursive vectors:
-			. str_replace(array('>', '<'), array('&gt;', '&lt;'), $matches[4]);
+			.str_replace(array('>', '<'), array('&gt;', '&lt;'), $matches[4]);
 	}
 
 	// --------------------------------------------------------------------
