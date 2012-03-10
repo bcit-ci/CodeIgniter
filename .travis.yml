@@ -10,4 +10,4 @@ before_script:
   - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.2.tgz
   - phpenv rehash
 
-script: phpunit --configuration phpunit.xml
+script: phpunit --configuration tests/phpunit.xml 
