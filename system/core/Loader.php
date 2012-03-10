@@ -622,9 +622,9 @@ class CI_Loader {
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
 	{
-		if(is_array($library))
+		if (is_array($library))
 		{
-			foreach ( $library as $driver )
+			foreach ($library as $driver)
 			{
 				$this->driver($driver);
 			}
