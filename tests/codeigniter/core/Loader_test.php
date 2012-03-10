@@ -104,7 +104,7 @@ class Loader_test extends CI_TestCase {
 	public function test_non_existent_model()
 	{
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_model.php'
 			);
 			
@@ -170,7 +170,7 @@ class Loader_test extends CI_TestCase {
 	public function test_non_existent_view()
 	{
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php'
 			);
 			
@@ -192,7 +192,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($content, $load);
 		
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'CI Error: Unable to load the requested file: ci_test_file_not_exists'
 			);
 		
@@ -219,7 +219,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals(NULL, $this->load->helper('array'));
 		
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
 			);
 		
@@ -256,7 +256,7 @@ class Loader_test extends CI_TestCase {
 		$this->_setup_config_mock();
 		
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'CI Error: The configuration file foobar.php does not exist.'
 			);
 		
