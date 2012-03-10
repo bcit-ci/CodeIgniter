@@ -553,6 +553,12 @@ if ( ! function_exists('redirect'))
 				header('Location: '.$uri, TRUE, $http_response_code);
 				break;
 		}
+
+        //We're doing a premature exit,  make sure any post controller/post system hooks get called
+        $hooks =& load_class('Hooks', 'core');
+        $hooks->_call_hook('post_controller');
+        $hooks->_call_hook('post_system');
+
 		exit;
 	}
 }
