@@ -71,7 +71,6 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
@@ -99,6 +98,7 @@ Release Date: Not Released
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
 
 Bug fixes for 3.0
 ------------------
