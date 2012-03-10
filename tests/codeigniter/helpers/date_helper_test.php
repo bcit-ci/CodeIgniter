@@ -5,9 +5,39 @@ class Date_helper_test extends CI_TestCase
 {
 	// ------------------------------------------------------------------------
 
-	public function test_now()
+	public function test_now_local()
 	{
-		$this->markTestIncomplete('not implemented yet');
+		// This stub job, is simply to cater $config['time_reference']
+		$config = $this->getMock('CI_Config');
+		$config->expects($this->any())
+			   ->method('item')
+			   ->will($this->returnValue('local'));
+		
+		// Add the stub to our test instance
+		$this->ci_instance_var('config', $config);
+
+		$expected = time();
+		$test = now();
+		$this->assertEquals($expected, $test);
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_now_gmt()
+	{
+		// This stub job, is simply to cater $config['time_reference']
+		$config = $this->getMock('CI_Config');
+		$config->expects($this->any())
+			   ->method('item')
+			   ->will($this->returnValue('gmt'));
+		
+		// Add the stub to our stdClass
+		$this->ci_instance_var('config', $config);
+
+		$t = time();
+		$expected = mktime(gmdate("H", $t), gmdate("i", $t), gmdate("s", $t), gmdate("m", $t), gmdate("d", $t), gmdate("Y", $t));
+		$test = now();
+		$this->assertEquals($expected, $test);
 	}
 
 	// ------------------------------------------------------------------------
@@ -124,7 +154,16 @@ class Date_helper_test extends CI_TestCase
 
 	public function test_timespan()
 	{
-		$this->markTestIncomplete('not implemented yet');
+		$loader_cls = $this->ci_core_class('load');
+		$this->ci_instance_var('load', new $loader_cls);
+
+		$lang_cls = $this->ci_core_class('lang');
+		$this->ci_instance_var('lang', new $lang_cls);
+
+		$this->assertEquals('1 Second', timespan(time(), time()+1));
+		$this->assertEquals('1 Minute', timespan(time(), time()+60));
+		$this->assertEquals('1 Hour', timespan(time(), time()+3600));
+		$this->assertEquals('2 Hours', timespan(time(), time()+7200));
 	}
 
 	// ------------------------------------------------------------------------
@@ -140,7 +179,9 @@ class Date_helper_test extends CI_TestCase
 
 	public function test_local_to_gmt()
 	{
-		$this->markTestIncomplete('not implemented yet');
+		$t = time();
+		$expected = mktime(gmdate("H", $t), gmdate("i", $t), gmdate("s", $t), gmdate("m", $t), gmdate("d", $t), gmdate("Y", $t));
+		$this->assertEquals($expected, local_to_gmt($t));
 	}
 
 	// ------------------------------------------------------------------------
@@ -177,9 +218,10 @@ class Date_helper_test extends CI_TestCase
 
 	public function test_human_to_unix()
 	{
-		$time = time();
-		$this->markTestIncomplete('Failed Test');
-		// $this->assertEquals($time, human_to_unix(unix_to_human($time)));
+		$date = '2000-12-31 10:00:00 PM';
+		$expected = strtotime($date);
+		$this->assertEquals($expected, human_to_unix($date));
+		$this->assertFalse(human_to_unix());
 	}
 
 	// ------------------------------------------------------------------------
