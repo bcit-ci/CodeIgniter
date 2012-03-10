@@ -189,7 +189,7 @@ class URI_test extends CI_TestCase {
 
     public function test_filter_uri_throws_error()
     {
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('RuntimeException');
 		
 		$this->uri->config->set_item('enable_query_strings', FALSE);
 		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-');
