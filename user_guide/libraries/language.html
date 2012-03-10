@@ -100,6 +100,10 @@ $lang['<var>error</var>_username_missing'] = "You must submit a username";</code
 is the language set containing it (ie, english).  If the second parameter is missing, the default language set in your
 <kbd>application/config/config.php</kbd> file will be used.</p>
 
+<p><strong>Note:</strong> You may also pass an array into the first parameter.</p>
+
+<code>$this->lang->load(array('<samp>filename</samp>', <samp>filename2</samp>'), '<dfn>language</dfn>');</code>
+
 
 <h2>Fetching a Line of Text</h2>
 
@@ -114,6 +118,15 @@ is the language set containing it (ie, english).  If the second parameter is mis
 <h3>Using language lines as form labels</h3>
 
 <p class="important">This feature has been deprecated from the language library and moved to the <kbd>lang()</kbd> function of the <a href="../helpers/language_helper.html">Language helper</a>.</p>
+
+<h2>Removing A Language File</h2>
+
+<p>Sometimes you may need to display the same line of text from two seperate language files. Remove a previously loaded language file with the following code:</p>
+
+<code>$this->lang->clear('<samp>filename</samp>');</code>
+
+<p>Where <samp>filename</samp> is the name of the file you wish to remove (without the file extension). You may also pass an array or leave the first parameter empty to unload all of the currently loaded language files.</p>
+
 
 <h2>Auto-loading Languages</h2>
 <p>If you find that you need a particular language globally throughout your application, you can tell CodeIgniter to <a href="../general/autoloader.html">auto-load</a> it during system initialization. This is done by opening the application/config/autoload.php file and adding the language(s) to the autoload array.</p>
