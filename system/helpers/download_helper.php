@@ -46,17 +46,18 @@
  * @param	string	filename
  * @param	mixed	the data to be downloaded
  * @param	bool	wether to try and send the actual file MIME type
+ * @param	bool	wether to make the download android compatible
  * @return	void
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '', $set_mime = FALSE)
+	function force_download($filename = '', $data = '', $set_mime = FALSE, $check_android = FALSE)
 	{
 		if ($filename == '' OR $data == '')
 		{
 			return FALSE;
 		}
-
+		
 		// Set the default MIME type to send
 		$mime = 'application/octet-stream';
 
@@ -87,6 +88,58 @@ if ( ! function_exists('force_download'))
 			if (isset($mimes[$extension]))
 			{
 				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
+			}
+		}
+		
+		//Check for android
+		if($check_android === TRUE) {
+			//Initialize variables
+			$is_mobile = FALSE;
+			$mobile = 'Unknown';
+			if (isset($_SERVER['HTTP_USER_AGENT']))
+			{
+				$agent = trim($_SERVER['HTTP_USER_AGENT']);
+			}
+			
+			//If the user agent is set, check for android
+			if( ! is_null($agent)) 
+			{
+				if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
+				{
+					include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');
+				}
+				elseif (is_file(APPPATH.'config/user_agents.php'))
+				{
+					include(APPPATH.'config/user_agents.php');
+				}
+				
+				if (is_array($mobiles) AND count($mobiles) > 0)
+				{
+					foreach ($mobiles as $key => $val)
+					{
+						if (FALSE !== (strpos(strtolower($agent), $key)))
+						{
+							$is_mobile = TRUE;
+							$mobile = $val;
+						}
+					}
+				}
+				
+				$android = FALSE;
+				if($is_mobile === TRUE) 
+				{
+					//Check for android
+					$android = array_key_exists('android', $mobiles) AND $mobile === $mobiles[$key];
+				}
+				
+				//Uppercase the extention
+				if($android === TRUE) 
+				{
+					$exploded_filename = explode('.', $filename);
+					$extention = strtoupper($exploded_filename[(count($exploded_filename) - 1)]);
+					$filename = substr($filename, 0, -strlen($extention));
+					$filename .= $extention;
+				}
 			}
 		}
 
