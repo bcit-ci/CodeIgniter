@@ -93,17 +93,10 @@ if ( ! function_exists('force_download'))
 		
 		//Check for android
 		if ($check_android === TRUE) {
-			//Initialize useragent
-			if (isset($_SERVER['HTTP_USER_AGENT']))
-			{
-				$agent = trim($_SERVER['HTTP_USER_AGENT']);
-			}
-			
 			//If the user agent is set, check for android
-			if ( ! is_null($agent)) 
+			if (isset($_SERVER['HTTP_USER_AGENT'])) 
 			{
-				$android = FALSE;
-				if (stripos($agent, 'android') !== FALSE)
+				if (stripos($_SERVER['HTTP_USER_AGENT'], 'android') !== FALSE)
 				{
 					$exploded_filename = explode('.', $filename);
 					$extention = strtoupper($exploded_filename[(count($exploded_filename) - 1)]);
