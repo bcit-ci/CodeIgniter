@@ -136,6 +136,13 @@ class CI_Session {
 
 	// --------------------------------------------------------------------
 
+	public function __destruct()
+	{
+		$this->sess_write();
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Fetch the current session data if it exists
 	 *
@@ -492,8 +499,6 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
-
-		$this->sess_write();
 	}
 
 	// --------------------------------------------------------------------
@@ -517,8 +522,6 @@ class CI_Session {
 				unset($this->userdata[$key]);
 			}
 		}
-
-		$this->sess_write();
 	}
 
 	// ------------------------------------------------------------------------
