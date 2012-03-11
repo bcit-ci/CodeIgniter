@@ -163,7 +163,7 @@ if ( ! function_exists('standard_date'))
  */
 if ( ! function_exists('timespan'))
 {
-	function timespan($seconds = 1, $time = '', $units = '')
+	function timespan($seconds = 1, $time = '')
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
@@ -178,124 +178,83 @@ if ( ! function_exists('timespan'))
 			$time = time();
 		}
 
-		if ( ! is_numeric($units))
-		{
-			$units = 999;
-		}
+		$seconds = ($time <= $seconds) ? 1 : $time - $seconds;
 
-		if ($time <= $seconds)
-		{
-			$seconds = 1;
-		}
-		else
-		{
-			$seconds = $time - $seconds;
-		}
-
-		$str = array();
-	
-		// years
-	
-		$years = floor($seconds / 31536000);
+		$str = '';
+		$years = floor($seconds / 31557600);
 
 		if ($years > 0)
 		{
-			$str[] = $years.' '.$CI->lang->line((($years	> 1) ? 'date_years' : 'date_year'));
+			$str .= $years.' '.$CI->lang->line((($years	> 1) ? 'date_years' : 'date_year')).', ';
 		}
 
-		$seconds -= $years * 31536000;
+		$seconds -= $years * 31557600;
+		$months = floor($seconds / 2629743);
 
-		// months
-	
-		if (count($str) < $units) {
-			$months = floor($seconds / 2628000);
-
-			if ($years > 0 OR $months > 0)
+		if ($years > 0 OR $months > 0)
+		{
+			if ($months > 0)
 			{
-				if ($months > 0)
-				{
-					$str[] = $months.' '.$CI->lang->line((($months	> 1) ? 'date_months' : 'date_month'));
-				}
-
-				$seconds -= $months * 2628000;
+				$str .= $months.' '.$CI->lang->line((($months	> 1) ? 'date_months' : 'date_month')).', ';
 			}
+
+			$seconds -= $months * 2629743;
 		}
 
-		// weeks
-	
-		if (count($str) < $units) {
-			$weeks = floor($seconds / 604800);
+		$weeks = floor($seconds / 604800);
 
-			if ($years > 0 OR $months > 0 OR $weeks > 0)
+		if ($years > 0 OR $months > 0 OR $weeks > 0)
+		{
+			if ($weeks > 0)
 			{
-				if ($weeks > 0)
-				{
-					$str[] = $weeks.' '.$CI->lang->line((($weeks	> 1) ? 'date_weeks' : 'date_week'));
-				}
-
-				$seconds -= $weeks * 604800;
+				$str .= $weeks.' '.$CI->lang->line((($weeks	> 1) ? 'date_weeks' : 'date_week')).', ';
 			}
+
+			$seconds -= $weeks * 604800;
 		}
 
-		// days
+		$days = floor($seconds / 86400);
 
-		if (count($str) < $units) {
-			$days = floor($seconds / 86400);
-
-			if ($months > 0 OR $weeks > 0 OR $days > 0)
+		if ($months > 0 OR $weeks > 0 OR $days > 0)
+		{
+			if ($days > 0)
 			{
-				if ($days > 0)
-				{
-					$str[] = $days.' '.$CI->lang->line((($days	> 1) ? 'date_days' : 'date_day'));
-				}
-
-				$seconds -= $days * 86400;
+				$str .= $days.' '.$CI->lang->line((($days	> 1) ? 'date_days' : 'date_day')).', ';
 			}
+
+			$seconds -= $days * 86400;
 		}
 
-		// hours
+		$hours = floor($seconds / 3600);
 
-		if (count($str) < $units) {
-
-			$hours = floor($seconds / 3600);
-
-			if ($days > 0 OR $hours > 0)
+		if ($days > 0 OR $hours > 0)
+		{
+			if ($hours > 0)
 			{
-				if ($hours > 0)
-				{
-					$str[] = $hours.' '.$CI->lang->line((($hours	> 1) ? 'date_hours' : 'date_hour'));
-				}
-
-				$seconds -= $hours * 3600;
+				$str .= $hours.' '.$CI->lang->line((($hours	> 1) ? 'date_hours' : 'date_hour')).', ';
 			}
+
+			$seconds -= $hours * 3600;
 		}
 
-		// minutes
+		$minutes = floor($seconds / 60);
 
-		if (count($str) < $units) {
-
-			$minutes = floor($seconds / 60);
-
-			if ($days > 0 OR $hours > 0 OR $minutes > 0)
+		if ($days > 0 OR $hours > 0 OR $minutes > 0)
+		{
+			if ($minutes > 0)
 			{
-				if ($minutes > 0)
-				{
-					$str[] = $minutes.' '.$CI->lang->line((($minutes	> 1) ? 'date_minutes' : 'date_minute'));
-				}
-
-				$seconds -= $minutes * 60;
+				$str .= $minutes.' '.$CI->lang->line((($minutes	> 1) ? 'date_minutes' : 'date_minute')).', ';
 			}
+
+			$seconds -= $minutes * 60;
 		}
 
-		//  seconds
-
-		if (count($str) == 0) {
-			{
-				$str[] = $seconds.' '.$CI->lang->line((($seconds	> 1) ? 'date_seconds' : 'date_second'));
-			}
+		if ($str == '')
+		{
+			$str .= $seconds.' '.$CI->lang->line((($seconds	> 1) ? 'date_seconds' : 'date_second')).', ';
 		}
 
-		return strtolower(implode(', ', $str));
+		return substr(trim($str), 0, -1);
 	}
 }
 
