@@ -8,19 +8,17 @@ class Url_helper_test extends CI_TestCase
 	{
 		$words = array(
 			'foo bar /' 	=> 'foo-bar',
-			'\  testing 12' => 'testing-12'
+			'\  testing 12' => 'testing-12',
+			'%&/ fu Bar'    => 'fu-bar',
+			'FU BAR %&/'    => 'fu-bar'
 		);
 
 		foreach ($words as $in => $out)
 		{
 			$this->assertEquals($out, url_title($in, 'dash', TRUE));
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_url_title_extra_dashes()
-	{
+		
+		// Leading and trailing separators
 		$words = array(
 			'_foo bar_' 	=> 'foo_bar',
 			'_What\'s wrong with CSS?_' => 'Whats_wrong_with_CSS'
@@ -30,6 +28,14 @@ class Url_helper_test extends CI_TestCase
 		{
 			$this->assertEquals($out, url_title($in, 'underscore'));
 		}
+		
+		// Entities
+		$this->assertEquals('FU_BAR', url_title('FU &#169;BAR &copy;', '_'));
+		
+		// Other separators
+		$this->assertEquals('foo+bar', url_title('[^foo ] bar+ ', '+'));
+		$this->assertEquals('_whats[+]wrong[+]with[+]css_', url_title('_What\'s wrong with CSS?_', '[+]', TRUE));
+		$this->assertEquals('Whats--wrong--with--CSS', url_title('--What\'s ----wrong with CSS?----', '--'));
 	}
 
 	// --------------------------------------------------------------------
