@@ -40,12 +40,12 @@ class CI_Session {
 	public $sess_use_database		= FALSE;
 	public $sess_table_name			= '';
 	public $sess_expiration			= 7200;
-	public $sess_expire_on_close		= FALSE;
+	public $sess_expire_on_close	= FALSE;
 	public $sess_match_ip			= FALSE;
-	public $sess_match_useragent		= TRUE;
+	public $sess_match_useragent	= TRUE;
 	public $sess_cookie_name		= 'ci_session';
 	public $cookie_prefix			= '';
-	public $cookie_path			= '';
+	public $cookie_path				= '';
 	public $cookie_domain			= '';
 	public $cookie_secure			= FALSE;
 	public $sess_time_to_update		= 300;
@@ -53,9 +53,10 @@ class CI_Session {
 	public $flashdata_key			= 'flash';
 	public $time_reference			= 'time';
 	public $gc_probability			= 5;
-	public $userdata			= array();
+	public $userdata				= array();
 	public $CI;
 	public $now;
+	public $written					= FALSE;
 
 	/**
 	 * Session Constructor
@@ -138,7 +139,7 @@ class CI_Session {
 
 	public function __destruct()
 	{
-		$this->sess_write();
+		$this->_sess_write_db();
 	}
 
 	// --------------------------------------------------------------------
@@ -274,39 +275,10 @@ class CI_Session {
 			return;
 		}
 
-		// set the custom userdata, the session data we will set in a second
-		$custom_userdata = $this->userdata;
-		$cookie_userdata = array();
-
-		// Before continuing, we need to determine if there is any custom data to deal with.
-		// Let's determine this by removing the default indexes to see if there's anything left in the array
-		// and set the session data while we're at it
-		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
-		{
-			unset($custom_userdata[$val]);
-			$cookie_userdata[$val] = $this->userdata[$val];
-		}
-
-		// Did we find any custom data? If not, we turn the empty array into a string
-		// since there's no reason to serialize and store an empty array in the DB
-		if (count($custom_userdata) === 0)
-		{
-			$custom_userdata = '';
-		}
-		else
-		{
-			// Serialize the custom data array so we can store it
-			$custom_userdata = $this->_serialize($custom_userdata);
-		}
-
-		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
-
 		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
-		$this->_set_cookie($cookie_userdata);
+		$this->_set_cookie($this->_cookie_data());
 	}
 
 	// --------------------------------------------------------------------
@@ -499,10 +471,7 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
-		if ($this->sess_use_database === FALSE)
-		{
-			$this->sess_write();
-		}
+		$this->sess_write();
 	}
 
 	// --------------------------------------------------------------------
@@ -527,10 +496,7 @@ class CI_Session {
 			}
 		}
 
-		if ($this->sess_use_database === FALSE)
-		{
-			$this->sess_write();
-		}
+		$this->sess_write();
 	}
 
 	// ------------------------------------------------------------------------
@@ -589,6 +555,51 @@ class CI_Session {
 	public function flashdata($key)
 	{
 		return $this->userdata($this->flashdata_key.':old:'.$key);
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected function _sess_write_db()
+	{
+		// Run the update query
+		$this->CI->db->where('session_id', $this->userdata['session_id']);
+		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $this->_custom_userdata()));
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected function _custom_userdata()
+	{
+		$custom_userdata = $this->userdata;
+		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		{
+			unset($custom_userdata[$val]);
+		}
+		// Did we find any custom data? If not, we turn the empty array into a string
+		// since there's no reason to serialize and store an empty array in the DB
+		if (count($custom_userdata) === 0)
+		{
+			$custom_userdata = '';
+		}
+		else
+		{
+			// Serialize the custom data array so we can store it
+			$custom_userdata = $this->_serialize($custom_userdata);
+		}
+
+		return $custom_userdata;
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected function _cookie_data()
+	{
+		$cookie_userdata = array();
+		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		{
+			$cookie_userdata[$val] = $this->userdata[$val];
+		}
+		return $cookie_userdata;
 	}
 
 	// ------------------------------------------------------------------------
