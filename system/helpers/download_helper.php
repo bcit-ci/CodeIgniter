@@ -103,7 +103,7 @@ if ( ! function_exists('force_download'))
 			if ( ! is_null($agent)) 
 			{
 				$android = FALSE;
-				if (stripos($_SERVER['HTTP_USER_AGENT'], 'android') !== FALSE)) 
+				if (stripos($_SERVER['HTTP_USER_AGENT'], 'android') !== FALSE)
 				{
 					$exploded_filename = explode('.', $filename);
 					$extention = strtoupper($exploded_filename[(count($exploded_filename) - 1)]);
