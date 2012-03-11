@@ -194,11 +194,8 @@ class Table_test extends CI_TestCase
 	{
 		// Test bogus parameters
 		$this->assertFalse($this->table->make_columns('invalid_junk'));
-		$this->assertFalse( $this->table->make_columns(array()));
-		// $this->assertFalse(
-		// 	$this->table->make_columns(array('one', 'two')),
-		// 	'2.5' // not an integer!
-		// );
+		$this->assertFalse($this->table->make_columns(array()));
+		$this->assertFalse($this->table->make_columns(array('one', 'two'), '2.5'));
 		
 		
 		// Now on to the actual column creation
@@ -222,8 +219,6 @@ class Table_test extends CI_TestCase
 			),
 			$this->table->make_columns($five_values, 3)
 		);
-		
-		$this->markTestSkipped('Look at commented assertFalse above');
 	}
 	
 	public function test_clear()
@@ -301,7 +296,47 @@ class Table_test extends CI_TestCase
 	
 	function test_set_from_object()
 	{
-		$this->markTestSkipped('Not yet implemented.');
+		$reflectionOfTable = new ReflectionClass($this->table);
+		$method = $reflectionOfTable->getMethod('_set_from_object');
+		
+		$method->setAccessible(true);
+
+		// Make a stub of query instance
+		$query = new CI_TestCase();
+		$query->list_fields = function(){
+			return array('name', 'email');
+		};
+		$query->result_array = function(){
+			return array(
+					array('name' => 'John Doe', 'email' => 'john@doe.com'),
+					array('name' => 'Foo Bar', 'email' => 'foo@bar.com'),
+				);
+		};
+		$query->num_rows = function(){
+			return 2;
+		};
+
+		$expected_heading = array(
+			array('data' => 'name'),
+			array('data' => 'email')
+		);
+
+		$expected_second = array(
+			'name' => array('data' => 'Foo Bar'),
+			'email' => array('data' => 'foo@bar.com'),
+		);
+
+		$method->invokeArgs($this->table, array($query));
+
+		$this->assertEquals(
+			$expected_heading,
+			$this->table->heading
+		);
+		
+		$this->assertEquals(
+			$expected_second,
+			$this->table->rows[1]
+		);
 	}
 	
 	// Test main generate method
