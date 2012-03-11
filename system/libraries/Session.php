@@ -499,6 +499,10 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
+		if ($this->_sess_use_database === FALSE)
+		{
+			$this->sess_write();
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -521,6 +525,11 @@ class CI_Session {
 			{
 				unset($this->userdata[$key]);
 			}
+		}
+
+		if ($this->_sess_use_database === FALSE)
+		{
+			$this->sess_write();
 		}
 	}
 
