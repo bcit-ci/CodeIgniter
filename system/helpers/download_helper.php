@@ -92,7 +92,7 @@ if ( ! function_exists('force_download'))
 		}
 		
 		//Check for android
-		if($check_android === TRUE) {
+		if ($check_android === TRUE) {
 			//Initialize useragent
 			if (isset($_SERVER['HTTP_USER_AGENT']))
 			{
