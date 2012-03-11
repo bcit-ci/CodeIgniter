@@ -46,17 +46,18 @@
  * @param	string	filename
  * @param	mixed	the data to be downloaded
  * @param	bool	wether to try and send the actual file MIME type
+ * @param	bool	wether to make the download android compatible
  * @return	void
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '', $set_mime = FALSE)
+	function force_download($filename = '', $data = '', $set_mime = FALSE, $check_android = FALSE)
 	{
 		if ($filename == '' OR $data == '')
 		{
 			return FALSE;
 		}
-
+		
 		// Set the default MIME type to send
 		$mime = 'application/octet-stream';
 
@@ -87,6 +88,28 @@ if ( ! function_exists('force_download'))
 			if (isset($mimes[$extension]))
 			{
 				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
+			}
+		}
+		
+		//Check for android
+		if($check_android === TRUE) {
+			//Initialize useragent
+			if (isset($_SERVER['HTTP_USER_AGENT']))
+			{
+				$agent = trim($_SERVER['HTTP_USER_AGENT']);
+			}
+			
+			//If the user agent is set, check for android
+			if ( ! is_null($agent)) 
+			{
+				$android = FALSE;
+				if (stripos($_SERVER['HTTP_USER_AGENT'], 'android') !== FALSE)) 
+				{
+					$exploded_filename = explode('.', $filename);
+					$extention = strtoupper($exploded_filename[(count($exploded_filename) - 1)]);
+					$filename = substr($filename, 0, -strlen($extention));
+					$filename .= $extention;
+				}
 			}
 		}
 
