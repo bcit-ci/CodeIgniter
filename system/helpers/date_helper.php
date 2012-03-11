@@ -196,7 +196,7 @@ if ( ! function_exists('timespan'))
 		$seconds -= $years * 31557600;
 		$months = floor($seconds / 2629743);
 
-		if (count($str) < $units AND ($years > 0 OR $months > 0))
+		if (count($str) < $units && ($years > 0 OR $months > 0))
 		{
 			if ($months > 0)
 			{
@@ -208,7 +208,7 @@ if ( ! function_exists('timespan'))
 
 		$weeks = floor($seconds / 604800);
 
-		if (count($str) < $units AND ($years > 0 OR $months > 0 OR $weeks > 0))
+		if (count($str) < $units && ($years > 0 OR $months > 0 OR $weeks > 0))
 		{
 			if ($weeks > 0)
 			{
@@ -220,7 +220,7 @@ if ( ! function_exists('timespan'))
 
 		$days = floor($seconds / 86400);
 
-		if (count($str) < $units AND ($months > 0 OR $weeks > 0 OR $days > 0))
+		if (count($str) < $units && ($months > 0 OR $weeks > 0 OR $days > 0))
 		{
 			if ($days > 0)
 			{
@@ -232,7 +232,7 @@ if ( ! function_exists('timespan'))
 
 		$hours = floor($seconds / 3600);
 
-		if (count($str) < $units AND ($days > 0 OR $hours > 0))
+		if (count($str) < $units && ($days > 0 OR $hours > 0))
 		{
 			if ($hours > 0)
 			{
@@ -244,7 +244,7 @@ if ( ! function_exists('timespan'))
 
 		$minutes = floor($seconds / 60);
 
-		if (count($str) < $units AND ($days > 0 OR $hours > 0 OR $minutes > 0))
+		if (count($str) < $units && ($days > 0 OR $hours > 0 OR $minutes > 0))
 		{
 			if ($minutes > 0)
 			{
