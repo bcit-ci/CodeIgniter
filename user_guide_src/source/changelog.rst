@@ -43,6 +43,7 @@ Release Date: Not Released
    -  Changed humanize to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
 
 -  Database
 
