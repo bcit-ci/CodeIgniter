@@ -304,7 +304,7 @@ if ( ! function_exists('form_multiselect'))
  * Drop-down Menu
  *
  * @access	public
- * @param	string
+ * @param	mixed
  * @param	array
  * @param	string
  * @param	string
@@ -314,15 +314,40 @@ if ( ! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+    // If name is really an array we have a winner! we'll call the function again
+    if ( is_array($name) ) 
+    {
+      if ( ! isset($name['options'])) 
+      {
+        $name['selected'] = false;
+      }
+      
+      if ( ! isset($name['selected'])) 
+      {
+        $name['selected'] = false;
+      }
+      
+      if ( ! isset($name['extra'])) 
+      {
+        $name['extra'] = false;
+      }
+      
+      return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+    }
+    
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
 		}
 
 		// If no selected state was submitted we will attempt to set it automatically
-		if (count($selected) === 0 && isset($_POST[$name]))
+		if (count($selected) === 0)
 		{
-			$selected = array($_POST[$name]);
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
 		}
 
 		if ($extra != '') $extra = ' '.$extra;
@@ -337,11 +362,12 @@ if ( ! function_exists('form_dropdown'))
 
 			if (is_array($val) && ! empty($val))
 			{
-				$form .= '<optgroup label="'.$key."\">\n";
+				$form .= '<optgroup label="'.$key.'">'."\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
+
 					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
 				}
 
@@ -349,11 +375,13 @@ if ( ! function_exists('form_dropdown'))
 			}
 			else
 			{
-				$form .= '<option value="'.$key.'"'.(in_array($key, $selected) ? ' selected="selected"' : '').'>'.(string) $val."</option>\n";
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
 			}
 		}
 
-		$form .= "</select>\n";
+		$form .= '</select>';
 
 		return $form;
 	}
