@@ -159,7 +159,8 @@ if ( ! function_exists('standard_date'))
  * @access	public
  * @param	integer	a number of seconds
  * @param	integer	Unix timestamp
- * @return	integer
+ * @param	integer	a number of display units
+ * @return	string
  */
 if ( ! function_exists('timespan'))
 {
