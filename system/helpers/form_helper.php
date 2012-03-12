@@ -320,17 +320,17 @@ if ( ! function_exists('form_dropdown'))
       
       if ( ! isset($name['options'])) 
       {
-        $name['options'] = FALSE;
+        $name['options'] = array();
       }
       
       if ( ! isset($name['selected'])) 
       {
-        $name['selected'] = FALSE;
+        $name['selected'] = array();
       }
       
       if ( ! isset($name['extra'])) 
       {
-        $name['extra'] = FALSE;
+        $name['extra'] = '';
       }
       
       return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
