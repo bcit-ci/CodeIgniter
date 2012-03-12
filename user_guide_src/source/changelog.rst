@@ -31,6 +31,7 @@ Release Date: Not Released
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
    -  Updated support for doc files in mimes.php.
    -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
+   -  Added support for Wincache PHP extension
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
