@@ -72,7 +72,7 @@ class CI_Form_validation {
 		$this->CI->load->helper('form');
 
 		// Set the character encoding in MB.
-		if (function_exists('mb_internal_encoding'))
+		if (MB_ENABLED === TRUE)
 		{
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
@@ -950,7 +950,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) < $val);
 		}
@@ -974,7 +974,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) > $val);
 		}
@@ -998,7 +998,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return (mb_strlen($str) == $val);
 		}
