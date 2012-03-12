@@ -64,12 +64,7 @@ class CI_Utf8 {
 			// set internal encoding for multibyte string functions if necessary
 			if (extension_loaded('mbstring'))
 			{
-				define('MB_ENABLED', TRUE)
 				mb_internal_encoding('UTF-8');
-			}
-			else
-			{
-				define('MB_ENABLED', FALSE);
 			}
 		}
 		else
