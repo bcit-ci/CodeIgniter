@@ -19,6 +19,7 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
@@ -42,6 +43,7 @@ Release Date: Not Released
    -  Changed humanize to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
 
 -  Database
 
@@ -71,7 +73,6 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
@@ -99,6 +100,7 @@ Release Date: Not Released
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
 
 Bug fixes for 3.0
 ------------------
