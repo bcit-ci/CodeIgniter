@@ -89,6 +89,7 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  Allowed for setting table class defaults in a config file.
    -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
    -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
