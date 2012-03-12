@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -138,8 +138,8 @@ class CI_Security {
 	 */
 	public function csrf_verify()
 	{
-		// If no POST data exists we will set the CSRF cookie
-		if (count($_POST) === 0)
+		// If it's not a POST request we will set the CSRF cookie
+		if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST')
 		{
 			return $this->csrf_set_cookie();
 		}
