@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -37,11 +37,12 @@
 | EXPLANATION OF VARIABLES
 | -------------------------------------------------------------------
 |
+|	['dsn']      The full DSN string describe a connection to the database.
 |	['hostname'] The hostname of your database server.
 |	['username'] The username used to connect to the database
 |	['password'] The password used to connect to the database
 |	['database'] The name of the database you want to connect to
-|	['dbdriver'] The database type. ie: mysql.  Currently supported:
+|	['dbdriver'] The database type. e.g.: mysql.  Currently supported:
 				 mysql, mysqli, pdo, postgre, odbc, mssql, sqlite, oci8
 |	['dbprefix'] You can add an optional prefix, which will be added
 |				 to the table name when using the  Active Record class
@@ -74,13 +75,14 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+$db['default']['dsn']      = '';
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = '';
 $db['default']['password'] = '';
 $db['default']['database'] = '';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
+$db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';

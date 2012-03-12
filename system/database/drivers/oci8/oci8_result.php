@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright   Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -38,9 +38,18 @@
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
-	var $stmt_id;
-	var $curs_id;
-	var $limit_used;
+	public $stmt_id;
+	public $curs_id;
+	public $limit_used;
+
+	public function __construct(&$driver_object)
+	{
+		parent::__construct($driver_object);
+		$this->stmt_id = $driver_object->stmt_id;
+		$this->curs_id = $driver_object->curs_id;
+		$this->limit_used = $driver_object->limit_used;
+		$driver_object->stmt_id = FALSE;
+	}
 
 	/**
 	 * Number of rows in the result set.
@@ -57,11 +66,11 @@ class CI_DB_oci8_result extends CI_DB_result {
 		if ($this->num_rows === 0 && count($this->result_array()) > 0)
 		{
 			$this->num_rows = count($this->result_array());
-			@oci_execute($this->stmt_id);
+			@oci_execute($this->stmt_id, OCI_DEFAULT);
 
 			if ($this->curs_id)
 			{
-				@oci_execute($this->curs_id);
+				@oci_execute($this->curs_id, OCI_DEFAULT);
 			}
 		}
 
