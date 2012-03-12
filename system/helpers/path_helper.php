@@ -58,13 +58,13 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		if (function_exists('realpath'))
+		if (function_exists('realpath') && @realpath($path) !== FALSE)
 		{
 			$realpath = realpath($path);
 		}
 		else
 		{
-			$realpath = (is_dir($path) or is_file($path)) ? $path : FALSE;
+			$realpath = (is_dir($path) OR is_file($path)) ? $path : FALSE;
 		}
 
 		if ( ! $realpath)
