@@ -319,15 +319,15 @@ if ( ! function_exists('form_dropdown'))
     {
       if ( ! isset($name['options'])) 
       {
-        $name['selected'] = false;
+        $name['options'] = FALSE;
       }     
       if ( ! isset($name['selected'])) 
       {
-        $name['selected'] = false;
+        $name['selected'] = FALSE;
       }
       if ( ! isset($name['extra'])) 
       {
-        $name['extra'] = false;
+        $name['extra'] = FALSE;
       }
       return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
     }
