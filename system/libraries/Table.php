@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * HTML Table Generating Class
  *
@@ -49,9 +47,21 @@ class CI_Table {
 	public $empty_cells		= '';
 	public $function		= FALSE;
 
-	public function __construct()
+	/**
+	 * Set the template from the table config file if it exists
+	 *
+	 * @param	array	$config	(default: array())
+	 * @return	void
+	 */
+	public function __construct($config = array())
 	{
-		log_message('debug', "Table Class Initialized");
+		log_message('debug', 'Table Class Initialized');
+
+		// initialize config
+		foreach ($config as $key => $val)
+		{
+			$this->template[$key] = $val;
+		}
 	}
 
 	// --------------------------------------------------------------------
