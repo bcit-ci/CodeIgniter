@@ -167,7 +167,7 @@ Explanation of Values:
 ======================  ==================================================================================================
 
 .. note:: Depending on what database platform you are using (MySQL,
-	Postgre, etc.) not all values will be needed. For example, when using
+	Postgres, etc.) not all values will be needed. For example, when using
 	SQLite you will not need to supply a username or password, and the
 	database name will be the path to your database file. The information
 	above assumes you are using MySQL.
