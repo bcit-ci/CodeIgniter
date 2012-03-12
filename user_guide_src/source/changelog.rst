@@ -19,6 +19,7 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
@@ -42,6 +43,8 @@ Release Date: Not Released
    -  Changed humanize to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  form_dropdown() will now also take an array for unity with other form helpers.
 
 -  Database
 
@@ -70,7 +73,6 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
@@ -98,6 +100,8 @@ Release Date: Not Released
    -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
+   -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
 
 Bug fixes for 3.0
 ------------------
@@ -147,6 +151,8 @@ Bug fixes for 3.0
 -  Fixed a bug in Oracle's DB_result class where the cursor id passed to it was always NULL.
 -  Fixed a bug (#64) - Regular expression in DB_active_rec.php failed to handle queries containing SQL bracket delimiters in the join condition.
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
+-  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
+-  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 
 Version 2.1.1
 =============
