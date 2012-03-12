@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.0
+ * @since		Version 3.0
  * @filesource
  */
 
@@ -37,52 +37,51 @@
  * @subpackage	Libraries
  * @category	Core
  * @author		Mike Murkovic
- * @link		
+ * @link
  */
 
 class CI_Cache_wincache extends CI_Driver {
 
 	/**
-	 * Get 
+	 * Get
 	 *
-	 * Look for a value in the cache.  If it exists, return the data 
+	 * Look for a value in the cache. If it exists, return the data,
 	 * if not, return FALSE
 	 *
-	 * @param 	string	
-	 * @return 	mixed		value that is stored/FALSE on failure
+	 * @param	string
+	 * @return	mixed	value that is stored/FALSE on failure
 	 */
 	public function get($id)
 	{
 		$success = FALSE;
 		$data = wincache_ucache_get($id, $success);
-		
-		//Success returned by reference from wincache_ucache_get
+
+		// Success returned by reference from wincache_ucache_get()
 		return ($success) ? $data : FALSE;
 	}
 
-	// ------------------------------------------------------------------------	
-	
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Cache Save
 	 *
-	 * @param 	string		Unique Key
-	 * @param 	mixed		Data to store
-	 * @param 	int			Length of time (in seconds) to cache the data
-	 *
-	 * @return 	boolean		true on success/false on failure
+	 * @param	string	Unique Key
+	 * @param	mixed	Data to store
+	 * @param	int	Length of time (in seconds) to cache the data
+	 * @return 	bool	true on success/false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
 		return wincache_ucache_set($id, $data, $ttl);
 	}
-	
+
 	// ------------------------------------------------------------------------
 
 	/**
 	 * Delete from Cache
 	 *
-	 * @param 	mixed		unique identifier of the item in the cache
-	 * @param 	boolean		true on success/false on failure
+	 * @param	mixed	unique identifier of the item in the cache
+	 * @param	bool	true on success/false on failure
 	 */
 	public function delete($id)
 	{
@@ -94,7 +93,7 @@ class CI_Cache_wincache extends CI_Driver {
 	/**
 	 * Clean the cache
 	 *
-	 * @return 	boolean		false on failure/true on success
+	 * @return	bool	false on failure/true on success
 	 */
 	public function clean()
 	{
@@ -106,11 +105,11 @@ class CI_Cache_wincache extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @return 	mixed		array on success, false on failure
+	 * @return	mixed	array on success, false on failure
 	 */
 	 public function cache_info()
 	 {
-		 return wincache_ucache_info(true);
+		 return wincache_ucache_info(TRUE);
 	 }
 
 	// ------------------------------------------------------------------------
@@ -118,12 +117,12 @@ class CI_Cache_wincache extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param 	mixed		key to get cache metadata on
-	 * @return 	mixed		array on success/false on failure
+	 * @param	mixed	key to get cache metadata on
+	 * @return	mixed	array on success/false on failure
 	 */
 	public function get_metadata($id)
 	{
-		if ($stored = wincache_ucache_info(false, $id))
+		if ($stored = wincache_ucache_info(FALSE, $id))
 		{
 			$age = $stored['ucache_entries'][1]['age_seconds'];
 			$ttl = $stored['ucache_entries'][1]['ttl_seconds'];
@@ -136,7 +135,8 @@ class CI_Cache_wincache extends CI_Driver {
 				'ttl'       => $ttl
 			);
 		}
-		return false;
+
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -145,23 +145,21 @@ class CI_Cache_wincache extends CI_Driver {
 	 * is_supported()
 	 *
 	 * Check to see if WinCache is available on this system, bail if it isn't.
+	 *
+	 * @return	bool
 	 */
 	public function is_supported()
 	{
-		if ( ! extension_loaded('wincache') )
+		if ( ! extension_loaded('wincache'))
 		{
 			log_message('error', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
 			return FALSE;
 		}
-		
+
 		return TRUE;
 	}
 
-	// ------------------------------------------------------------------------
-
-	
 }
-// End Class
 
 /* End of file Cache_wincache.php */
 /* Location: ./system/libraries/Cache/drivers/Cache_wincache.php */
