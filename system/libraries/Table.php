@@ -54,7 +54,7 @@ class CI_Table {
 	/**
 	 * Set the template from the table config file if it exists
 	 * 
-	 * @param	array $config (default: array())
+	 * @param	array	$config	(default: array())
 	 * @return	void
 	 */
 	public function __construct($config = array())
