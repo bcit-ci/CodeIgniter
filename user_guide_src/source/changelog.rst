@@ -68,6 +68,8 @@ Release Date: Not Released
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
+   -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
+   -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
 
 -  Libraries
 
@@ -140,7 +142,7 @@ Bug fixes for 3.0
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
--  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
+-  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset instead.
 -  Fixed a bug (#413) - Oracle's error handling methods used to only return connection-related errors.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.

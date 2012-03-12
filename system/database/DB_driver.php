@@ -165,7 +165,7 @@ class CI_DB_driver {
 		}
 
 		// Now we set the character set and that's all
-		return $this->db_set_charset($this->char_set, $this->dbcollat);
+		return $this->db_set_charset($this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -177,9 +177,9 @@ class CI_DB_driver {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation = '')
+	public function db_set_charset($charset)
 	{
-		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset, $collation))
+		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset))
 		{
 			log_message('error', 'Unable to set database connection charset: '.$charset);
 
