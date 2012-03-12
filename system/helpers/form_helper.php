@@ -314,6 +314,19 @@ if ( ! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+		if ( is_array($name) ) {
+      if (!isset($name['options'])) {
+        $name['selected'] = false;
+      }     
+      if (!isset($name['selected'])) {
+        $name['selected'] = false;
+      }
+      if (!isset($name['extra'])) {
+        $name['extra'] = false;
+      }
+      
+      return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+    }
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
