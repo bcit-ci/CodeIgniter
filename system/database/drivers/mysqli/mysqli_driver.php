@@ -144,10 +144,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * Set client character set
 	 *
 	 * @param	string
-	 * @param	string
 	 * @return	bool
 	 */
-	protected function _db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset)
 	{
 		return @mysqli_set_charset($this->conn_id, $charset);
 	}
