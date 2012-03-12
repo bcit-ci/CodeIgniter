@@ -149,7 +149,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _db_set_charset($charset, $collation)
 	{
-		return @mysqli_set_charset($this->conn_id, $charset)
+		return @mysqli_set_charset($this->conn_id, $charset);
 	}
 
 	// --------------------------------------------------------------------
