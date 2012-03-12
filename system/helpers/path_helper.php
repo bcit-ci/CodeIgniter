@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -58,7 +58,14 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		$realpath = realpath($path);
+		if (function_exists('realpath'))
+		{
+			$realpath = realpath($path);
+		}
+		else
+		{
+			$realpath = (is_dir($path) or is_file($path)) ? $path : FALSE;
+		}
 
 		if ( ! $realpath)
 		{
