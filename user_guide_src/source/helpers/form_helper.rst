@@ -109,7 +109,7 @@ Or you can submit an associative array to create multiple fields
 		<input type="hidden" name="url" value="http://example.com" />
 	*/
 
-Or pass an associative array to the values field.
+Or pass an associative array to the value field.
 
 ::
 
@@ -134,7 +134,7 @@ If you want to create hidden input fields with extra attributes
 
 	$data = array(
 		'type'        => 'hidden',
-		'name'		  => 'email'
+		'name'        => 'email',
 		'id'          => 'hiddenemail',
 		'value'       => 'john@example.com',
 		'class'       => 'hiddenemail'
