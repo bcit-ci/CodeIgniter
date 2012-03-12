@@ -57,8 +57,7 @@ class CI_Utf8 {
 			&& @ini_get('mbstring.func_overload') != 1	// Multibyte string function overloading cannot be enabled
 			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
 			)
-		{
-			define('UTF8_ENABLED', TRUE);
+		{			
 			log_message('debug', 'UTF-8 Support Enabled');
 
 			// set internal encoding for multibyte string functions if necessary
@@ -69,7 +68,6 @@ class CI_Utf8 {
 		}
 		else
 		{
-			define('UTF8_ENABLED', FALSE);
 			log_message('debug', 'UTF-8 Support Disabled');
 		}
 	}
