@@ -146,7 +146,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	protected function _execute($sql)
 	{
 		// TODO: Implement use of SQLite3::querySingle(), if needed
-		// TODO: Use $this->_prep_query(), if needed
 
 		return $this->is_write_type($sql)
 			? $this->conn_id->exec($sql)
@@ -165,7 +164,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		return $this->conn_id->prepare($sql);
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -253,8 +252,8 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_', $this->_like_escape_chr),
-						array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
 						$str);
 		}
 
