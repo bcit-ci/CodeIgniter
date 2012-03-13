@@ -42,9 +42,8 @@
  *
  * Limits a string to X number of words.
  *
- * @access	public
  * @param	string
- * @param	integer
+ * @param	int
  * @param	string	the end character. Usually an ellipsis
  * @return	string
  */
@@ -76,9 +75,8 @@ if ( ! function_exists('word_limiter'))
  * Limits the string based on the character count. Preserves complete words
  * so the character count may not be exactly as specified.
  *
- * @access	public
  * @param	string
- * @param	integer
+ * @param	int
  * @param	string	the end character. Usually an ellipsis
  * @return	string
  */
@@ -119,7 +117,6 @@ if ( ! function_exists('character_limiter'))
  *
  * Converts High ascii text and MS Word special characters to character entities
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -182,7 +179,6 @@ if ( ! function_exists('ascii_to_entities'))
  *
  * Converts character entities back to ASCII
  *
- * @access	public
  * @param	string
  * @param	bool
  * @return	string
@@ -238,7 +234,6 @@ if ( ! function_exists('entities_to_ascii'))
  * matched words will be converted to #### or to the replacement
  * word you've submitted.
  *
- * @access	public
  * @param	string	the text string
  * @param	string	the array of censoered words
  * @param	string	the optional replacement value
@@ -284,7 +279,6 @@ if ( ! function_exists('word_censor'))
  *
  * Colorizes code strings
  *
- * @access	public
  * @param	string	the text string
  * @return	string
  */
@@ -334,7 +328,6 @@ if ( ! function_exists('highlight_code'))
  *
  * Highlights a phrase within a text string
  *
- * @access	public
  * @param	string	the text string
  * @param	string	the phrase you'd like to highlight
  * @param	string	the openging tag to precede the phrase with
@@ -364,7 +357,6 @@ if ( ! function_exists('highlight_phrase'))
 /**
  * Convert Accented Foreign Characters to ASCII
  *
- * @access	public
  * @param	string	the text string
  * @return	string
  */
@@ -404,9 +396,8 @@ if ( ! function_exists('convert_accented_characters'))
  * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
  * will URLs.
  *
- * @access	public
  * @param	string	the text string
- * @param	integer	the number of characters to wrap at
+ * @param	int	the number of characters to wrap at
  * @return	string
  */
 if ( ! function_exists('word_wrap'))
@@ -467,8 +458,8 @@ if ( ! function_exists('word_wrap'))
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim-1);
-				$line = substr($line, $charlim-1);
+				$temp .= substr($line, 0, $charlim - 1);
+				$line = substr($line, $charlim - 1);
 			}
 
 			// If $temp contains data it means we had to split up an over-length
@@ -504,11 +495,11 @@ if ( ! function_exists('word_wrap'))
  *
  * This function will strip tags from a string, split it at its max_length and ellipsize
  *
- * @param	string		string to ellipsize
- * @param	integer		max length of string
- * @param	mixed		int (1|0) or float, .5, .2, etc for position to split
- * @param	string		ellipsis ; Default '...'
- * @return	string		ellipsized string
+ * @param	string	string to ellipsize
+ * @param	int	max length of string
+ * @param	mixed	int (1|0) or float, .5, .2, etc for position to split
+ * @param	string	ellipsis ; Default '...'
+ * @return	string	ellipsized string
  */
 if ( ! function_exists('ellipsize'))
 {

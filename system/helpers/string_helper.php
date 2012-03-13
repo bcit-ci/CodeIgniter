@@ -48,7 +48,6 @@
  *
  * this/that/theother
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -67,7 +66,6 @@ if ( ! function_exists('trim_slashes'))
  *
  * Removes slashes contained in a string or in an array
  *
- * @access	public
  * @param	mixed	string or array
  * @return	mixed	string or array
  */
@@ -96,7 +94,6 @@ if ( ! function_exists('strip_slashes'))
  *
  * Removes single and double quotes from a string
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -115,7 +112,6 @@ if ( ! function_exists('strip_quotes'))
  *
  * Converts single and double quotes to entities
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -141,7 +137,6 @@ if ( ! function_exists('quotes_to_entities'))
  *
  * http://www.some-site.com/index.php
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -166,7 +161,6 @@ if ( ! function_exists('reduce_double_slashes'))
  *
  * Fred, Bill, Joe, Jimmy
  *
- * @access	public
  * @param	string
  * @param	string	the character you wish to reduce
  * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
@@ -188,7 +182,6 @@ if ( ! function_exists('reduce_multiples'))
  *
  * Useful for generating passwords or hashes.
  *
- * @access	public
  * @param	string	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
  * @param	int	number of characters
  * @return	string
@@ -219,7 +212,7 @@ if ( ! function_exists('random_string'))
 						$pool = '123456789';
 						break;
 				}
-				return substr(str_shuffle(str_repeat($pool, ceil($len/strlen($pool)))),0,$len);
+				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
 			case 'unique':
 			case 'md5': return md5(uniqid(mt_rand()));
 			case 'encrypt':
@@ -241,10 +234,13 @@ if ( ! function_exists('random_string'))
  * @param	string	$first  Which number should be used for the first dupe increment
  * @return	string
  */
-function increment_string($str, $separator = '_', $first = 1)
+if ( ! function_exists('increment_string'))
 {
-	preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
-	return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+	function increment_string($str, $separator = '_', $first = 1)
+	{
+		preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
+		return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -254,7 +250,6 @@ function increment_string($str, $separator = '_', $first = 1)
  *
  * Allows strings to be alternated. See docs...
  *
- * @access	public
  * @param	string	(as many parameters as needed)
  * @return	string
  */
@@ -279,7 +274,6 @@ if ( ! function_exists('alternator'))
 /**
  * Repeater function
  *
- * @access	public
  * @param	string
  * @param	int	number of repeats
  * @return	string
