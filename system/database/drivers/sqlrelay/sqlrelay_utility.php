@@ -16,19 +16,16 @@
 // ------------------------------------------------------------------------
 
 /**
- * Sqlrelay Utility Class
+ * SQL Relay Utility Class
  *
  * @category	Database
- * @author		
+ * @author		jjang9b
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlrelay_utility extends CI_DB_utility {
 
     /**
-     * Constructor
-     *
-     * Grabs the CI super object instance so we can access it.
-     *
+     * Each is matched to a DB Utility Class.
      */
 
 	function CI_DB_sqlrelay_utility()
@@ -36,9 +33,9 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
 		$CI =& get_instance();
         $this->db =& $CI->db;
 
-        require_once(BASEPATH.'database/drivers/'.$this->db->dbcase.'/'.$this->db->dbcase.'_utility'.EXT);
+        require_once(BASEPATH.'database/drivers/'.$this->db->dbcase.'/'.$this->db->dbcase.'_utility.php');
         $class = "CI_DB_".$this->db->dbcase."_utility";
-        $this->sqlrelayUtil = new $class();
+        $this->sqlrelay_util = new $class();
 	}
 
 	// --------------------------------------------------------------------
@@ -52,7 +49,7 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
 
 	function _list_databases()
 	{
-		return $this->sqlrelayUtil->_list_databases();
+		return $this->sqlrelay_util->_list_databases();
 	}
 
 	// --------------------------------------------------------------------
@@ -69,7 +66,7 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
 
 	function _optimize_table($table)
 	{
-		return $this->sqlrelayUtil->_optimize_table($table);
+		return $this->sqlrelay_util->_optimize_table($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -86,7 +83,7 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
 
 	function _repair_table($table)
 	{
-		return $this->sqlrelayUtil->_repair_table($table);
+		return $this->sqlrelay_util->_repair_table($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -155,7 +152,7 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
 				}
 
 				// Grab all the data from the current table
-				$query = $this->db->query("SELECT * FROM $table");
+				$query = $this->db->query("SELECT * FROM {$table}");
 				
 				if ($query->num_rows() == 0)
 				{

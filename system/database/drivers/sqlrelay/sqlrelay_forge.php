@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -16,19 +16,16 @@
 // ------------------------------------------------------------------------
 
 /**
- * Sqlrelay Forge Class
+ * SQL Relay Forge Class
  *
  * @category	Database
- * @author		
+ * @author		jjang9b
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
     /**
-     * Constructor
-     *
-     * Grabs the CI super object instance so we can access it.
-     *
+     * Each is matched to a DB Forge Class.
      */
 
 	function CI_DB_sqlrelay_forge()
@@ -36,9 +33,9 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
         $CI =& get_instance();
         $this->db =& $CI->db;
 
-		require_once(BASEPATH.'database/drivers/'.$this->db->dbcase.'/'.$this->db->dbcase.'_forge'.EXT);
+		require_once(BASEPATH.'database/drivers/'.$this->db->dbcase.'/'.$this->db->dbcase.'_forge.php');
 		$class = "CI_DB_".$this->db->dbcase."_forge";
-		$this->sqlrelayForge = new $class(); 	
+		$this->sqlrelay_forge = new $class(); 	
 	}
 
 	// --------------------------------------------------------------------
@@ -53,7 +50,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _create_database($name)
 	{
-		return $this->sqlrelayForge->_create_database($name);	
+		return $this->sqlrelay_forge->_create_database($name);	
 	}
 
 	// --------------------------------------------------------------------
@@ -68,7 +65,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _drop_database($name)
 	{
-		return $this->sqlrelayForge->_drop_database($name);	
+		return $this->sqlrelay_forge->_drop_database($name);	
 	}
 
 	// --------------------------------------------------------------------
@@ -87,7 +84,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-		return $this->sqlrelayForge->_create_table($table, $fields, $primary_keys, $keys, $if_not_exists);
+		return $this->sqlrelay_forge->_create_table($table, $fields, $primary_keys, $keys, $if_not_exists);
 	}
 
 	// --------------------------------------------------------------------
@@ -101,7 +98,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _drop_table($table)
 	{
-		return $this->sqlrelayForge->_drop_table($table);
+		return $this->sqlrelay_forge->_drop_table($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -125,7 +122,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		return $this->sqlrelayForge->_alter_table($alter_type, $table, $column_name, $column_definition, $default_value, $nulil, $after_field);	
+		return $this->sqlrelay_forge->_alter_table($alter_type, $table, $column_name, $column_definition, $default_value, $nulil, $after_field);	
 	}
 
 	// --------------------------------------------------------------------
@@ -143,7 +140,7 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
 
 	function _rename_table($table_name, $new_table_name)
 	{
-		return $this->sqlrelayForge->_rename_table($table_name, $new_table_name);
+		return $this->sqlrelay_forge->_rename_table($table_name, $new_table_name);
 	}
 
 }

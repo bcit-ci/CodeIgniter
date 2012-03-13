@@ -16,12 +16,12 @@
 // ------------------------------------------------------------------------
 
 /**
- * SQLRELAY Result Class
+ * SQL Relay Result Class
  *
  * This class extends the parent result class: CI_DB_result
- *
+ * 
  * @category	Database
- * @author		
+ * @author		jjang9b
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlrelay_result extends CI_DB_result {
@@ -32,8 +32,7 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 * @access	public
 	 * @return	integer
 	 */
-
-	function num_rows()
+	public function num_rows()
 	{
 		return sqlrcur_rowCount($this->result_id);
     }
@@ -46,8 +45,7 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
      * @access  public
      * @return  integer
      */
-
-	function num_fields()
+	public function num_fields()
 	{
 		return sqlrcur_colCount($this->result_id);
 	}
@@ -62,8 +60,7 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
      * @access  public
      * @return  array
      */
-
-    function list_fields()
+    public function list_fields()
     {
 		// not use this method;
     }
@@ -78,8 +75,7 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-
-	function field_data()
+	public function field_data()
 	{
         $retval = array();
         for($i=0;$i<sqlrcur_colCount($this->result_id);$i++)
@@ -104,8 +100,7 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-
-	function free_result()
+	public function free_result()
 	{
 		if (is_resource($this->result_id))
 		{
@@ -123,11 +118,10 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	array
 	 */
-
-	function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		RETURN FALSE;
 		// not use thie method;
@@ -140,11 +134,10 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	array
 	 */
-
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
         if(is_int($this->current_row))
         {
@@ -169,9 +162,8 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
      *
      * @access  private
      * @return  array
-     */
-	
-	function _fetch_array()
+     */	
+	private function _fetch_array()
 	{
 		$result = sqlrcur_getRowAssoc($this->result_id, $this->current_row);
 		$this->current_row++;
@@ -185,11 +177,10 @@ class CI_DB_sqlrelay_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @return	object
 	 */
-
-	function _fetch_object()
+	protected function _fetch_object()
 	{
         if(is_int($this->current_row))
         {

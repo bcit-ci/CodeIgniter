@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -16,44 +16,30 @@
 // ------------------------------------------------------------------------
 
 /**
- * sqlrelay Database Adapter Class
- *
- * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
- * class is being used or not.
+ * SQL Relay Database Adapter Class
  *
  * @package		CodeIgniter
- * @subpackage  Drivers
+ * @subpackage	Drivers
  * @category	Database
- * @author		
+ * @author		jjang9b
  * @link		http://codeigniter.com/user_guide/database/
- */
-
-/**
- * sqlrelay Database Adapter Class
- *
- *
- * NOTE: this uses the PHP 5 sqlrelay methods
- *
- * @author bbin	 
- *
  */
 
 class CI_DB_sqlrelay_driver extends CI_DB {
 
 	var $dbdriver = 'sqlrelay';
+	
+	//These variables are used for stored_procedure function
+	var $output_bool = FALSE;
+	var $output_name = array();
+	var $output_result = array();
 
-	var $outputBool = FALSE;
-	var $outputName = array();
-	var $outputResult = array();
-
-	function CI_DB_sqlrelay_driver($params)
+	function __construct($params)
 	{
-		parent::CI_DB_driver($params);
-
-        require_once(BASEPATH.'database/drivers/'.$this->dbcase.'/'.$this->dbcase.'_driver'.EXT);
+		parent::__construct($params);
+        require_once(BASEPATH.'database/drivers/'.$this->dbcase.'/'.$this->dbcase.'_driver.php');
         $class = "CI_DB_".$this->dbcase."_driver";
-        $this->sqlrelayDriver = new $class($params);
+        $this->sqlrelay_driver = new $class($params);
 	}
 
 	/*
@@ -63,7 +49,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  resource
 	 */
 
-	function db_connect()
+	public function db_connect()
 	{
 		return sqlrcon_alloc($this->hostname, $this->port, "", $this->username, $this->password, 0, 1);
 	}
@@ -77,7 +63,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  resource
 	 */
 
-	function db_pconnect()
+	public function db_pconnect()
 	{
 		return sqlrcon_alloc($this->hostname, $this->port, "", $this->username, $this->password, 0, 1);
 	}
@@ -94,7 +80,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	void
 	 */
 
-	function reconnect()
+	public function reconnect()
 	{
 		// not supported in sqlrelay
 		return $this->display_error('db_unsupported_function');
@@ -109,7 +95,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  resource
 	 */
 
-	function db_select()
+	public function db_select()
 	{
  		// not supported in sqlrelay, but return true;
 		return TRUE;
@@ -126,7 +112,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	resource
 	 */
 
-	function db_set_charset($charset, $collation)
+	public function db_set_charset($charset, $collation)
 	{
  		// not supported in sqlrelay, but return true;
 		return TRUE;
@@ -142,7 +128,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  string
 	 */
 
-	function _version()
+	protected function _version()
 	{
 		return sqlrcon_dbVersion($this->conn_id);
 	}
@@ -157,9 +143,9 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  resource
 	 */
 
-	function _execute($sql)
+	protected function _execute($sql)
 	{
-	    $this->getCursor();
+	    $this->get_cursor();
 		sqlrcur_lowerCaseColumnNames($this->curs_id);
 
 		if(!sqlrcur_sendQuery($this->curs_id,$sql)){
@@ -182,7 +168,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  string
 	 */
 
-	function _prep_query($sql)
+	private function _prep_query($sql)
 	{
 		return sqlrcur_prepareQuery($this->curs_id, $sql);
 	}
@@ -196,7 +182,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  cursor id
 	 */
 
-    function getCursor()
+    public function get_cursor()
     {
     	return $this->curs_id = sqlrcur_alloc($this->conn_id);
     }
@@ -222,7 +208,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * length	yes		the max size of the parameter
 	 */
 	
-	function stored_procedure($package, $procedure, $params)
+	public function stored_procedure($package, $procedure, $params)
 	{
 		if($this->dbcase =='oci8')
 		{
@@ -245,19 +231,19 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 			}
 			$sql = trim($sql, ",") . "); end;";
 	
-			$this->getCursor();	
+			$this->get_cursor();	
 			$this->_prep_query($sql);
 			$this->_bind_params($params);
 
 			$result = sqlrcur_executeQuery($this->curs_id);
 
-			if($this->outputBool = TRUE)
+			if($this->output_bool = TRUE)
 			{
-				foreach($this->outputName as $k)
+				foreach($this->output_name as $k)
 				{	
-					$this->outputResult[$k] = sqlrcur_getOutputBindString($this->curs_id, $k);
+					$this->output_result[$k] = sqlrcur_getOutputBindString($this->curs_id, $k);
 				}
-				return $this->outputResult;
+				return $this->output_result;
 			}
 			return $result;
 		}
@@ -276,7 +262,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  none
 	 */
 	
-	function _bind_params($params)
+	private function _bind_params($params)
 	{
 		if ( ! is_array($params))
 		{
@@ -297,8 +283,8 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 			if(strtolower($param['value']) == '@out')
 			{
 				sqlrcur_defineOutputBindString($this->curs_id, $param['name'], 1000);
-				$this->outputBool = TRUE;
-				$this->outputName[] = $param['name']; 
+				$this->output_bool = TRUE;
+				$this->output_name[] = $param['name']; 
 			}
 			else
 			{
@@ -316,7 +302,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	bool
 	 */
 	
-	function trans_begin($test_mode = FALSE)
+	public function trans_begin($test_mode = FALSE)
 	{
         if ( ! $this->trans_enabled)
         {
@@ -343,7 +329,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	bool
 	 */
 
-	function trans_commit()
+	public function trans_commit()
 	{
 		if ( ! $this->trans_enabled)
         {
@@ -356,8 +342,8 @@ class CI_DB_sqlrelay_driver extends CI_DB {
             return TRUE;
         }
 
-		$ref = 	sqlrcon_commit($this->conn_id);
-		if($this->dbcase == 'oci8' or $this->dbcase == 'odbc' or $this->dbcase = 'mysql' or $this->dbcase = 'mysqli')
+		$ref = sqlrcon_commit($this->conn_id);
+		if($this->dbcase == 'oci8' OR $this->dbcase == 'odbc' OR $this->dbcase == 'mysql' OR $this->dbcase == 'mysqli' OR $this->dbcase == 'cubrid')
 		{
 	    	sqlrcon_autoCommitOn($this->conn_id);
 		}
@@ -373,7 +359,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	bool
 	 */
 
-	function trans_rollback()
+	public function trans_rollback()
 	{
         if ( ! $this->trans_enabled)
         {
@@ -387,7 +373,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
         }
 
         $ret = sqlrcon_rollback($this->conn_id);
-		if($this->dbcase == 'oci8' or $this->dbcase == 'odbc' or $this->dbcase = 'mysql' or $this->dbcase = 'mysqli')
+		if($this->dbcase == 'oci8' OR $this->dbcase == 'odbc' OR $this->dbcase == 'mysql' OR $this->dbcase == 'mysqli' OR $this->dbcase == 'cubrid')
 		{
 			sqlrcon_autoCommitOn($this->conn_id);
 		}
@@ -405,9 +391,9 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  string
 	 */
 
-	function escape_str($str, $like = FALSE)
+	public function escape_str($str, $like = FALSE)
 	{
-        return $this->sqlrelayDriver->escape_str($str, $like);
+        return $this->sqlrelay_driver->escape_str($str, $like);
 	}
 
 	// --------------------------------------------------------------------
@@ -419,7 +405,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  integer
 	 */
 
-	function affected_rows()
+	public function affected_rows()
 	{
 		return sqlrcur_affectedRows($this->curs_id);
 	}
@@ -433,7 +419,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  integer
 	 */
 
-	function insert_id()
+	public function insert_id()
 	{
 		// not supported in sqlrelay
 		return $this->display_error('db_unsupported_function');
@@ -452,11 +438,11 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return  string
 	 */
 
-	function count_all($table = '')
+	public function count_all($table = "")
 	{
-		$_count_string = $this->sqlrelayDriver->_count_string;
+		$_count_string = $this->sqlrelay_driver->_count_string;
 
-        if ($table == '')
+        if ($table === "")
         {
             return 0;
         }
@@ -479,14 +465,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access  private
+	 * @access  protected
 	 * @param	boolean
 	 * @return  string
 	 */
 
-	function _list_tables($prefix_limit = FALSE)
+	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return $this->sqlrelayDriver->_list_tables($prefix_limit);	
+		return $this->sqlrelay_driver->_list_tables($prefix_limit);	
 	}
 
 	// --------------------------------------------------------------------
@@ -496,14 +482,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the table name
 	 * @return  string
 	 */
 
-	function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
-		return $this->sqlrelayDriver->_list_columns($table);	
+		return $this->sqlrelay_driver->_list_columns($table);	
 	}
 
 	// --------------------------------------------------------------------
@@ -513,14 +499,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the table name
 	 * @return  object
 	 */
 
-	function _field_data($table)
+	protected function _field_data($table)
 	{
-		return $this->sqlrelayDriver->_field_data($table);
+		return $this->sqlrelay_driver->_field_data($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -528,11 +514,11 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @access  private
+	 * @access  protected
 	 * @return  string
 	 */
 
-	function _error_message()
+	protected function _error_message()
 	{
 		return sqlrcur_errorMessage($this->curs_id);
 	}
@@ -542,11 +528,11 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @access  private
+	 * @access  protected
 	 * @return  integer
 	 */
 
-	function _error_number()
+	protected function _error_number()
 	{
 		// not supported in sqlrelay, but return true;
 		return '';
@@ -559,14 +545,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
 
-	function _escape_identifiers($item)
+	protected function _escape_identifiers($item)
 	{
-        return $this->sqlrelayDriver->_escape_identifiers($item);
+        return $this->sqlrelay_driver->_escape_identifiers($item);
 	}
 
 	// --------------------------------------------------------------------
@@ -577,14 +563,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	type
 	 * @return	type
 	 */
 
-	function _from_tables($tables)
+	protected function _from_tables($tables)
 	{
-        return $this->sqlrelayDriver->_from_tables($tables);        
+        return $this->sqlrelay_driver->_from_tables($tables);        
 	}
 
 	// --------------------------------------------------------------------
@@ -594,16 +580,16 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the table name
 	 * @param   array   the insert keys
 	 * @param   array   the insert values
 	 * @return  string
 	 */
 
-	function _insert($table, $keys, $values)
+	protected function _insert($table, $keys, $values)
 	{
-        return $this->sqlrelayDriver->_insert($table, $keys, $values);
+        return $this->sqlrelay_driver->_insert($table, $keys, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -613,7 +599,7 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -622,9 +608,9 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * @return	string
 	 */
 
-	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
-        return $this->sqlrelayDriver->_update($table, $values, $where, $orderby, $limit);
+        return $this->sqlrelay_driver->_update($table, $values, $where, $orderby, $limit);
 	}
 
 	// --------------------------------------------------------------------
@@ -636,14 +622,14 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @return	string
 	 */
 
-	function _truncate($table)
+	protected function _truncate($table)
 	{
-        return $this->sqlrelayDriver->_truncate($table);
+        return $this->sqlrelay_driver->_truncate($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -653,22 +639,22 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
+	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
 
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$params = array('ar_where' => $this->ar_where); 
 
-        require_once(BASEPATH.'database/drivers/'.$this->dbcase.'/'.$this->dbcase.'_driver'.EXT);
+        require_once(BASEPATH.'database/drivers/'.$this->dbcase.'/'.$this->dbcase.'_driver.php');
         $class = "CI_DB_".$this->dbcase."_driver";
-        $this->sqlrelayDriver = new $class($params);
+        $this->sqlrelay_driver = new $class($params);
 
-        return $this->sqlrelayDriver->_delete($table, $where, $like, $limit);
+        return $this->sqlrelay_driver->_delete($table, $where, $like, $limit);
 	}
 
 	// --------------------------------------------------------------------
@@ -678,16 +664,16 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   string  the sql query string
 	 * @param   integer the number of rows to limit the query to
 	 * @param   integer the offset value
 	 * @return  string
 	 */
 
-	function _limit($sql, $limit, $offset)
+	protected function _limit($sql, $limit, $offset)
 	{
-        return $this->sqlrelayDriver->_limit($sql, $limit, $offset);
+        return $this->sqlrelay_driver->_limit($sql, $limit, $offset);
 	}
 
 	// --------------------------------------------------------------------
@@ -695,12 +681,12 @@ class CI_DB_sqlrelay_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access  public
+	 * @access  protected
 	 * @param   resource
 	 * @return  void
 	 */
 
-	function _close($conn_id)
+	protected function _close($conn_id)
 	{
 		sqlrcon_endSession($conn_id);
 		sqlrcon_free($conn_id);
