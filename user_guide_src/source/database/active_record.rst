@@ -68,7 +68,7 @@ Example::
 	// Produces string: SELECT * FROM mytable
 
 The second parameter enables you to set whether or not the active record query
-will be reset (by default it will be&mdash;just like `$this->db->get()`)::
+will be reset (by default it will be just like `$this->db->get()`)::
 
 	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
 	// Produces string: SELECT * FROM mytable LIMIT 20, 10
@@ -533,7 +533,7 @@ Query grouping
 **************
 
 Query grouping allows you to create groups of WHERE clauses by enclosing them in parentheses. This will allow
-you to create queries with complex WHERE clauses. Nested groups are supported. Example:
+you to create queries with complex WHERE clauses. Nested groups are supported. Example::
 
 	$this->db->select('*')->from('my_table')
 		->group_start()
@@ -921,9 +921,9 @@ Method chaining allows you to simplify your syntax by connecting
 multiple functions. Consider this example::
 
 	$query = $this->db->select('title')
-				->where('id', $id)
-				->limit(10, 20)
-				->get('mytable');
+			->where('id', $id)
+			->limit(10, 20)
+			->get('mytable');
 
 .. _ar-caching:
 
