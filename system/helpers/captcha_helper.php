@@ -40,7 +40,6 @@
 /**
  * Create CAPTCHA
  *
- * @access	public
  * @param	array	array of data for the CAPTCHA
  * @param	string	path to create the image in
  * @param	string	URL to the CAPTCHA image folder
