@@ -42,7 +42,6 @@
  *
  * Returns time() or its GMT equivalent based on the config file preference
  *
- * @access	public
  * @return	int
  */
 if ( ! function_exists('now'))
@@ -70,10 +69,9 @@ if ( ! function_exists('now'))
  * have to worry about escaping your text letters that
  * match the date codes.
  *
- * @access	public
  * @param	string
- * @param	integer
- * @return	integer
+ * @param	int
+ * @return	int
  */
 if ( ! function_exists('mdate'))
 {
@@ -105,7 +103,6 @@ if ( ! function_exists('mdate'))
  *
  * Returns a date formatted according to the submitted standard.
  *
- * @access	public
  * @param	string	the chosen format
  * @param	int	Unix timestamp
  * @return	string
@@ -115,15 +112,15 @@ if ( ! function_exists('standard_date'))
 	function standard_date($fmt = 'DATE_RFC822', $time = '')
 	{
 		$formats = array(
-					'DATE_ATOM'		=>	'%Y-%m-%dT%H:%i:%s%Q',
+					'DATE_ATOM'	=>	'%Y-%m-%dT%H:%i:%s%Q',
 					'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
 					'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%Q',
 					'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
 					'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
 					'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
 					'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
-					'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',
-					'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%Q'
+					'DATE_RSS'	=>	'%D, %d %M %Y %H:%i:%s %O',
+					'DATE_W3C'	=>	'%Y-%m-%dT%H:%i:%s%Q'
 				);
 
 		return isset($formats[$fmt]) ? mdate($formats[$fmt], $time) : FALSE;
@@ -138,10 +135,9 @@ if ( ! function_exists('standard_date'))
  * Returns a span of seconds in this format:
  *	10 days 14 hours 36 minutes 47 seconds
  *
- * @access	public
  * @param	int	a number of seconds
  * @param	int	Unix timestamp
- * @return	integer
+ * @return	int
  */
 if ( ! function_exists('timespan'))
 {
@@ -242,7 +238,6 @@ if ( ! function_exists('timespan'))
  * Takes a month/year as input and returns the number of days
  * for the given month/year. Takes leap years into consideration.
  *
- * @access	public
  * @param	int	a numeric month
  * @param	int	a numeric year
  * @return	int
@@ -280,7 +275,6 @@ if ( ! function_exists('days_in_month'))
 /**
  * Converts a local Unix timestamp to GMT
  *
- * @access	public
  * @param	int	Unix timestamp
  * @return	int
  */
@@ -313,7 +307,6 @@ if ( ! function_exists('local_to_gmt'))
  * at the local value based on the timezone and DST setting
  * submitted
  *
- * @access	public
  * @param	int	Unix timestamp
  * @param	string	timezone
  * @param	bool	whether DST is active
@@ -343,7 +336,6 @@ if ( ! function_exists('gmt_to_local'))
 /**
  * Converts a MySQL Timestamp to Unix
  *
- * @access	public
  * @param	string	Date
  * @return	int	Unix timestamp
  */
@@ -375,7 +367,6 @@ if ( ! function_exists('mysql_to_unix'))
  *
  * Formats Unix timestamp to the following prototype: 2006-08-21 11:35 PM
  *
- * @access	public
  * @param	int	Unix timestamp
  * @param	bool	whether to show seconds
  * @param	string	format: us or euro
@@ -409,9 +400,8 @@ if ( ! function_exists('unix_to_human'))
  *
  * Reverses the above process
  *
- * @access	public
  * @param	string	format: us or euro
- * @return	integer
+ * @return	int
  */
 if ( ! function_exists('human_to_unix'))
 {
@@ -459,10 +449,9 @@ if ( ! function_exists('human_to_unix'))
  * Turns many "reasonably-date-like" strings into something
  * that is actually useful. This only works for dates after unix epoch.
  *
- * @access  public
- * @param   string  The terribly formatted date-like string
- * @param   string  Date format to return (same as php date function)
- * @return  string
+ * @param	string	The terribly formatted date-like string
+ * @param	string	Date format to return (same as php date function)
+ * @return	string
  */
 if ( ! function_exists('nice_date'))
 {
@@ -526,7 +515,6 @@ if ( ! function_exists('nice_date'))
  *
  * Generates a drop-down menu of timezones.
  *
- * @access	public
  * @param	string	timezone
  * @param	string	classname
  * @param	string	menu name
@@ -568,7 +556,6 @@ if ( ! function_exists('timezone_menu'))
  * Returns an array of timezones. This is a helper function
  * for various other ones in this library
  *
- * @access	public
  * @param	string	timezone
  * @return	string
  */
@@ -627,7 +614,7 @@ if ( ! function_exists('timezones'))
 			return $zones;
 		}
 
-		return ( ! isset($zones[$tz])) ? 0 : $zones[$tz];
+		return isset($zones[$tz]) ? $zones[$tz] : 0;
 	}
 }
 
