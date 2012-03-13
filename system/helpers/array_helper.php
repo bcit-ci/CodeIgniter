@@ -43,7 +43,6 @@
  * Lets you determine whether an array index is set and whether it has a value.
  * If the element is empty it returns FALSE (or whatever you specify as the default value.)
  *
- * @access	public
  * @param	string
  * @param	array
  * @param	mixed
@@ -53,7 +52,7 @@ if ( ! function_exists('element'))
 {
 	function element($item, $array, $default = FALSE)
 	{
-		return ( ! isset($array[$item]) OR $array[$item] == '') ? $default : $array[$item];
+		return empty($array[$item]) ? $default : $array[$item];
 	}
 }
 
@@ -62,7 +61,6 @@ if ( ! function_exists('element'))
 /**
  * Random Element - Takes an array as input and returns a random element
  *
- * @access	public
  * @param	array
  * @return	mixed	depends on what the array contains
  */
@@ -79,10 +77,9 @@ if ( ! function_exists('random_element'))
 /**
  * Elements
  *
- * Returns only the array items specified.  Will return a default value if
+ * Returns only the array items specified. Will return a default value if
  * it is not set.
  *
- * @access	public
  * @param	array
  * @param	array
  * @param	mixed
@@ -93,10 +90,8 @@ if ( ! function_exists('elements'))
 	function elements($items, $array, $default = FALSE)
 	{
 		$return = array();
-		if ( ! is_array($items))
-		{
-			$items = array($items);
-		}
+
+		is_array($items) OR $items = array($items);
 
 		foreach ($items as $item)
 		{
