@@ -83,6 +83,8 @@ class CI_Email {
 	protected $_attach_name		= array();
 	protected $_attach_type		= array();
 	protected $_attach_disp		= array();
+	protected $_attach_source	= array();
+	protected $_attach_content	= array();
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
 	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	protected $_bit_depths		= array('7bit', '8bit');
@@ -171,6 +173,8 @@ class CI_Email {
 			$this->_attach_name = array();
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
+			$this->_attach_source = array();
+			$this->_attach_content = array();
 		}
 
 		return $this;
@@ -411,6 +415,23 @@ class CI_Email {
 		$this->_attach_name[] = array($filename, $newname);
 		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
+		$this->_attach_source[] = 'file';
+		return $this;
+	}
+
+	/**
+	 * Assign string attachments
+	 *
+	 * @param	string
+	 * @return	object
+	 */
+	public function string_attach($str, $filename, $mime, $disposition = 'attachment')
+	{
+		$this->_attach_name[] = $filename;
+		$this->_attach_type[] = $mime;
+		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
+		$this->_attach_source[] = 'string';
+		$this->_attach_content[] = $str;
 		return $this;
 	}
 
@@ -1048,29 +1069,38 @@ class CI_Email {
 			$filename = $this->_attach_name[$i][0];
 			$basename = (is_null($this->_attach_name[$i][1])) ? basename($filename) : $this->_attach_name[$i][1];
 			$ctype = $this->_attach_type[$i];
+			$file_content = '';
 
-			if ( ! file_exists($filename))
+			if($this->_attach_source[$i] == 'file')
 			{
-				$this->_set_error_message('lang:email_attachment_missing', $filename);
-				return FALSE;
-			}
+				if ( ! file_exists($filename))
+				{
+					$this->_set_error_message('lang:email_attachment_missing', $filename);
+					return FALSE;
+				}
 
+				$file = filesize($filename) +1;
+
+				if ( ! $fp = fopen($filename, FOPEN_READ))
+				{
+					$this->_set_error_message('lang:email_attachment_unreadable', $filename);
+					return FALSE;
+				}
+
+				$file_content = fread($fp, $file);
+				fclose($fp);
+			}
+			else
+			{
+				$file_content =& $this->_attach_content[$i];
+			}
 			$attachment[$z++] = "--".$this->_atc_boundary.$this->newline
 				. "Content-type: ".$ctype."; "
 				. "name=\"".$basename."\"".$this->newline
 				. "Content-Disposition: ".$this->_attach_disp[$i].";".$this->newline
 				. "Content-Transfer-Encoding: base64".$this->newline;
 
-			$file = filesize($filename) +1;
-
-			if ( ! $fp = fopen($filename, FOPEN_READ))
-			{
-				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
-				return FALSE;
-			}
-
-			$attachment[$z++] = chunk_split(base64_encode(fread($fp, $file)));
-			fclose($fp);
+			$attachment[$z++] = chunk_split(base64_encode($file_content));
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline."--".$this->_atc_boundary."--";
