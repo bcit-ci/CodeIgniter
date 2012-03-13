@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -444,9 +444,7 @@ class CI_URI {
 				return array();
 			}
 
-			return function_exists('array_fill_keys')
-				? array_fill_keys($default, FALSE)
-				: array_combine($default, array_fill(0, count($default), FALSE));
+			return array_fill_keys($default, FALSE);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
