@@ -345,7 +345,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @return	void
 	 */
-	private function _bind_params($params)
+	protected function _bind_params($params)
 	{
 		if ( ! is_array($params) OR ! is_resource($this->stmt_id))
 		{
