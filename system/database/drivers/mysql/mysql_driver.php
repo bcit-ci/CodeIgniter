@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -144,14 +144,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * Set client character set
 	 *
 	 * @param	string
-	 * @param	string
 	 * @return	bool
 	 */
-	protected function _db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset)
 	{
-		return function_exists('mysql_set_charset')
-			? @mysql_set_charset($charset, $this->conn_id)
-			: @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
+		return @mysql_set_charset($charset, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -289,18 +286,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	   		return $str;
 	   	}
 
-		if (function_exists('mysql_real_escape_string') && is_resource($this->conn_id))
-		{
-			$str = mysql_real_escape_string($str, $this->conn_id);
-		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			$str = mysql_escape_string($str);
-		}
-		else
-		{
-			$str = addslashes($str);
-		}
+		$str = is_resource($this->conn_id) ? mysql_real_escape_string($str, $this->conn_id) : addslashes($str);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
