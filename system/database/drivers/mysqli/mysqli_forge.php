@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -86,9 +86,32 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '')
-					.( ! empty($attributes['TYPE']) ? ' '.$attributes['TYPE'] : '')
-					.( ! empty($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.(( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+				;
+
+				if ( ! empty($attributes['TYPE']))
+				{
+					$sql .=  ' '.$attributes['TYPE'];
+
+					if ( ! empty($attributes['CONSTRAINT']))
+					{
+						switch (strtolower($attributes['TYPE']))
+						{
+							case 'decimal':
+							case 'float':
+							case 'numeric':
+								$sql .= '('.implode(',', $attributes['CONSTRAINT']).')';
+								break;
+							case 'enum':
+							case 'set':
+								$sql .= '("'.implode('","', $attributes['CONSTRAINT']).'")';
+								break;
+							default:
+								$sql .= '('.$attributes['CONSTRAINT'].')';
+						}
+					}
+				}
+
+				$sql .= (( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
 					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
 					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
 					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
@@ -183,7 +206,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 */
 	public function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table).' '.$alter_type.' ';
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')

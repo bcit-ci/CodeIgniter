@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -1101,7 +1101,7 @@ class CI_Upload {
 				$proc = @popen($cmd, 'r');
 				if (is_resource($proc))
 				{
-					$mime = @fread($test, 512);
+					$mime = @fread($proc, 512);
 					@pclose($proc);
 					if ($mime !== FALSE)
 					{

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -141,7 +141,7 @@ class CI_Trackback {
 
 			$this->data['charset'] = ( ! isset($_POST['charset'])) ? 'auto' : strtoupper(trim($_POST['charset']));
 
-			if ($val != 'url' && function_exists('mb_convert_encoding'))
+			if ($val != 'url' && MB_ENABLED === TRUE)
 			{
 				$_POST[$val] = mb_convert_encoding($_POST[$val], $this->charset, $this->data['charset']);
 			}
