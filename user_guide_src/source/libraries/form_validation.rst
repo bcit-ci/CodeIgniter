@@ -523,7 +523,7 @@ Changing the Error Delimiters
 
 By default, the Form Validation class adds a paragraph tag (<p>) around
 each error message shown. You can either change these delimiters
-globally or individually.
+globally, individually, or change the defaults in a config file.
 
 #. **Changing delimiters Globally**
    To globally change the error delimiters, in your controller function,
@@ -542,6 +542,12 @@ globally or individually.
    Or::
 
       <?php echo validation_errors('<div class="error">', '</div>'); ?>
+
+#. **Set delimiters in a config file**
+   You can add your error delimiters in application/config/form_validation.php as follows::
+   
+      $config['error_prefix'] = '<div class="error_prefix">';
+      $config['error_suffix'] = '</div>';
 
 
 Showing Errors Individually
@@ -869,7 +875,7 @@ Rule                      Parameter  Description                                
                                      underscores or dashes.                                                                                               
 **numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
 **integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               Yes        Returns FALSE if the form element is not exactly the parameter value.                                                
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -43,7 +43,6 @@
  * Accepts six parameter, or you can submit an associative
  * array in the first parameter containing all the values.
  *
- * @access	public
  * @param	mixed
  * @param	string	the value of the cookie
  * @param	string	the number of seconds until expiration
@@ -67,7 +66,6 @@ if ( ! function_exists('set_cookie'))
 /**
  * Fetch an item from the COOKIE array
  *
- * @access	public
  * @param	string
  * @param	bool
  * @return	mixed
@@ -77,8 +75,7 @@ if ( ! function_exists('get_cookie'))
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
 		$CI =& get_instance();
-		$prefix = (isset($_COOKIE[$index])) ? '' : config_item('cookie_prefix');
-
+		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
 		return $CI->input->cookie($prefix.$index, $xss_clean);
 	}
 }
