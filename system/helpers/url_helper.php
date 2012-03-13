@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -470,39 +470,35 @@ if ( ! function_exists('prep_url'))
  * Create URL Title
  *
  * Takes a "title" string as input and creates a
- * human-friendly URL string with either a dash
- * or an underscore as the word separator.
+ * human-friendly URL string with a "separator" string 
+ * as the word separator.
  *
  * @access	public
  * @param	string	the string
- * @param	string	the separator: dash, or underscore
+ * @param	string	the separator
  * @return	string
  */
 if ( ! function_exists('url_title'))
 {
-	function url_title($str, $separator = 'dash', $lowercase = FALSE)
+	function url_title($str, $separator = '-', $lowercase = FALSE)
 	{
 		if ($separator === 'dash')
 		{
-			$search		= '_';
-			$replace	= '-';
+		    $separator = '-';
 		}
-		else
+		else if ($separator == 'underscore')
 		{
-			$search		= '-';
-			$replace	= '_';
+		    $separator = '_';
 		}
+		
+		$q_separator = preg_quote($separator);
 
 		$trans = array(
-						'&\#\d+?;'				=> '',
-						'&\S+?;'				=> '',
-						'\s+'					=> $replace,
-						'[^a-z0-9\-\._]'		=> '',
-						$replace.'+'			=> $replace,
-						$replace.'$'			=> $replace,
-						'^'.$replace			=> $replace,
-						'\.+$'					=> ''
-					);
+			'&.+?;'                 => '',
+			'[^a-z0-9 _-]'          => '',
+			'\s+'                   => $separator,
+			'('.$q_separator.')+'   => $separator
+		);
 
 		$str = strip_tags($str);
 		foreach ($trans as $key => $val)
@@ -515,7 +511,7 @@ if ( ! function_exists('url_title'))
 			$str = strtolower($str);
 		}
 
-		return trim(trim(stripslashes($str)), $replace);
+		return trim(trim($str, $separator));
 	}
 }
 

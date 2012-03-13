@@ -188,16 +188,22 @@ application/libraries/MY_Email.php, and declare your class with::
 
 	}
 
-Note: If you need to use a constructor in your class make sure you
+If you need to use a constructor in your class make sure you
 extend the parent constructor::
 
 	class MY_Email extends CI_Email {
 
-	    public function __construct()
-	    {
-	        parent::__construct();
-	    }
+		public function __construct($config = array())
+		{
+			parent::__construct($config);
+		}
+
 	}
+
+.. note::
+	Not all of the libraries have the same (or any) parameters
+	in their constructor. Take a look at the library that you're
+	extending first to see how it should be implemented.
 
 Loading Your Sub-class
 ----------------------

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -22,7 +22,6 @@
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
- * @filesource
  */
 
 // ------------------------------------------------------------------------
@@ -72,8 +71,8 @@ if ( ! function_exists('form_open'))
 
 		$form = '<form action="'.$action.'"'._attributes_to_string($attributes, TRUE).">\n";
 
-		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
-		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->base_url()) === FALSE OR strpos($form, 'method="get"')))	
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
@@ -315,6 +314,28 @@ if ( ! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+    // If name is really an array then we'll call the function again using the array
+    if (is_array($name) && isset($name['name']))
+    {
+      
+      if ( ! isset($name['options'])) 
+      {
+        $name['options'] = array();
+      }
+      
+      if ( ! isset($name['selected'])) 
+      {
+        $name['selected'] = array();
+      }
+      
+      if ( ! isset($name['extra'])) 
+      {
+        $name['extra'] = '';
+      }
+      
+      return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+    }
+    
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);

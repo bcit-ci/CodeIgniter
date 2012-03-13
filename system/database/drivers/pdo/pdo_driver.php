@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -59,8 +59,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
 
-	// need to track the pdo DSN, driver and options
-	var $dsn;
+	// need to track the pdo driver and options
 	var $pdodriver;
 	var $options = array();
 
@@ -289,13 +288,15 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
 	}
 
 	// --------------------------------------------------------------------
@@ -499,7 +500,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->_version() >= '8.1')
+		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
 		{
 			$query = $this->query('SELECT LASTVAL() AS ins_id');
 			$query = $query->row();
@@ -528,8 +529,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$sql   = $this->_count_string.$this->_protect_identifiers('numrows').' FROM ';
-		$sql  .= $this->_protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
 		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)
@@ -609,29 +609,30 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		$error_array = $this->conn_id->errorInfo();
-
-		return $error_array[2];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @access	private
-	 * @return	integer
+	 * @return	array
 	 */
-	function _error_number()
+	public function error()
 	{
-		return $this->conn_id->errorCode();
+		$error = array('code' => '00000', 'message' => '');
+		$pdo_error = $this->conn_id->errorInfo();
+
+		if (empty($pdo_error[0]))
+		{
+			return $error;
+		}
+
+		$error['code'] = isset($pdo_error[1]) ? $pdo_error[0].'/'.$pdo_error[1] : $pdo_error[0];
+		if (isset($pdo_error[2]))
+		{
+			 $error['message'] = $pdo_error[2];
+		}
+
+		return $error;
 	}
 
 	// --------------------------------------------------------------------

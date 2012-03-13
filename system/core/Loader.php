@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -615,13 +615,22 @@ class CI_Loader {
 	 *
 	 * Loads a driver library
 	 *
-	 * @param	string	the name of the class
+	 * @param	mixed	the name of the class or array of classes
 	 * @param	mixed	the optional parameters
 	 * @param	string	an optional object name
 	 * @return	void
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
 	{
+		if (is_array($library))
+		{
+			foreach ($library as $driver)
+			{
+				$this->driver($driver);
+			}
+			return FALSE;
+		}
+
 		if ( ! class_exists('CI_Driver_Library'))
 		{
 			// we aren't instantiating an object here, that'll be done by the Library itself
@@ -833,7 +842,7 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ((bool) @ini_get('short_open_tag') === FALSE AND config_item('rewrite_short_tags') == TRUE)
+		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') == TRUE)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
