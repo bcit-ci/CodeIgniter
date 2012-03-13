@@ -444,9 +444,7 @@ class CI_URI {
 				return array();
 			}
 
-			return function_exists('array_fill_keys')
-				? array_fill_keys($default, FALSE)
-				: array_combine($default, array_fill(0, count($default), FALSE));
+			return array_fill_keys($default, FALSE);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
