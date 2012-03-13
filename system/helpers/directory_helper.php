@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -44,7 +44,6 @@
  * representation of it. Sub-folders contained with the
  * directory will be mapped as well.
  *
- * @access	public
  * @param	string	path to source
  * @param	int	depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
  * @return	array

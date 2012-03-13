@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -219,7 +219,7 @@ class CI_Session {
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 
-			$query = $this->CI->db->get($this->sess_table_name);
+			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
 
 			// No result? Kill it!
 			if ($query->num_rows() === 0)
@@ -454,7 +454,7 @@ class CI_Session {
 	 */
 	public function userdata($item)
 	{
-		return ( ! isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+		return isset($this->userdata[$item]) ? $this->userdata[$item] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -729,7 +729,7 @@ class CI_Session {
 	 */
 	protected function _unserialize($data)
 	{
-		$data = @unserialize(strip_slashes($data));
+		$data = @unserialize(strip_slashes(trim($data)));
 
 		if (is_array($data))
 		{
@@ -737,8 +737,10 @@ class CI_Session {
 			return $data;
 		}
 
-		return (is_string($data)) ? str_replace('{{slash}}', '\\', $data) : $data;
+		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Unescape slashes
@@ -779,7 +781,7 @@ class CI_Session {
 		{
 			$expire = $this->now - $this->sess_expiration;
 
-			$this->CI->db->where("last_activity < {$expire}");
+			$this->CI->db->where('last_activity < '.$expire);
 			$this->CI->db->delete($this->sess_table_name);
 
 			log_message('debug', 'Session garbage collection performed.');
