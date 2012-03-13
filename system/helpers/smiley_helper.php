@@ -43,7 +43,6 @@
  * Returns the javascript required for the smiley insertion. Optionally takes
  * an array of aliases to loosely couple the smiley array to the view.
  *
- * @access	public
  * @param	mixed	alias name or array of alias->field_id pairs
  * @param	string	field_id if alias name was passed in
  * @return	array
@@ -125,7 +124,6 @@ EOF;
  * Returns an array of image tag links that can be clicked to be inserted
  * into a form field.
  *
- * @access	public
  * @param	string	the URL to the folder containing the smiley images
  * @return	array
  */
@@ -173,7 +171,6 @@ if ( ! function_exists('get_clickable_smileys'))
  *
  * Takes a string as input and swaps any contained smileys for the actual image
  *
- * @access	public
  * @param	string	the text to be parsed
  * @param	string	the URL to the folder containing the smiley images
  * @return	string
@@ -206,7 +203,6 @@ if ( ! function_exists('parse_smileys'))
  *
  * Fetches the config/smiley.php file
  *
- * @access	private
  * @return	mixed
  */
 if ( ! function_exists('_get_smiley_array'))
@@ -235,7 +231,6 @@ if ( ! function_exists('_get_smiley_array'))
  *
  * DEPRECATED as of version 1.7.2, use smiley_js instead
  *
- * @access	public
  * @param	string	form name
  * @param	string	field name
  * @return	string
