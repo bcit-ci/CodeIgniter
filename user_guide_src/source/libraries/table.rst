@@ -116,6 +116,8 @@ example, only the table opening tag is being changed::
 	$tmpl = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1" class="mytable">' );
 
 	$this->table->set_template($tmpl);
+	
+You can also set defaults for these in a config file.
 
 ******************
 Function Reference

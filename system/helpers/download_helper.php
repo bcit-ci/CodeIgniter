@@ -60,18 +60,18 @@ if ( ! function_exists('force_download'))
 		// Set the default MIME type to send
 		$mime = 'application/octet-stream';
 
+		$x = explode('.', $filename);
+		$extension = end($x);
+
 		if ($set_mime === TRUE)
 		{
-			/* If we're going to detect the MIME type,
-			 * we'll need a file extension.
-			 */
-			if (FALSE === strpos($filename, '.'))
+			if (count($x) === 1 OR $extension === '')
 			{
+				/* If we're going to detect the MIME type,
+				 * we'll need a file extension.
+				 */
 				return FALSE;
 			}
-
-			$extension = explode('.', $filename);
-			$extension = end($extension);
 
 			// Load the mime types
 			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
@@ -88,6 +88,18 @@ if ( ! function_exists('force_download'))
 			{
 				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
 			}
+		}
+
+		/* It was reported that browsers on Android 2.1 (and possibly older as well)
+		 * need to have the filename extension upper-cased in order to be able to
+		 * download it.
+		 *
+		 * Reference: http://digiblog.de/2011/04/19/android-and-the-download-file-headers/
+		 */
+		if (count($x) !== 1 && isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/Android\s(1|2\.[01])/', $_SERVER['HTTP_USER_AGENT']))
+		{
+			$x[count($x) - 1] = strtoupper($extension);
+			$filename = implode('.', $x);
 		}
 
 		// Generate the server headers
