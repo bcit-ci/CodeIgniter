@@ -702,7 +702,6 @@ if ( ! function_exists('timezones'))
  *
  * Returns a list of dates within a specified period.
  *
- * @access	public
  * @param	int	unix_start	UNIX timestamp of period start date
  * @param	int	unix_end|days	UNIX timestamp of period end date
  *					or interval in days.
