@@ -45,6 +45,7 @@ Release Date: Not Released
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  form_dropdown() will now also take an array for unity with other form helpers.
+   -  set_realpath() can now also handle file paths as opposed to just directories.
 
 -  Database
 

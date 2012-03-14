@@ -28,10 +28,16 @@ cannot be resolved.
 
 ::
 
-	$directory = '/etc/passwd'; 
-	echo set_realpath($directory); // returns "/etc/passwd"  
+	$file = '/etc/php5/apache2/php.ini'; 
+	echo set_realpath($file); // returns "/etc/php5/apache2/php.ini"  
+
+	$non_existent_file = '/path/to/non-exist-file.txt'; 
+	echo set_realpath($non_existent_file, TRUE); // returns an error, as the path could not be resolved  
+	echo set_realpath($non_existent_file, FALSE); // returns "/path/to/non-exist-file.txt"   
+
+	$directory = '/etc/php5'; 
+	echo set_realpath($directory); // returns "/etc/php5/"  
+	
 	$non_existent_directory = '/path/to/nowhere'; 
 	echo set_realpath($non_existent_directory, TRUE); // returns an error, as the path could not be resolved  
 	echo set_realpath($non_existent_directory, FALSE); // returns "/path/to/nowhere"   
-
-
