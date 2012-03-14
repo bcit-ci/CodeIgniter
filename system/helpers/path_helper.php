@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Path Helpers
  *
@@ -51,8 +49,8 @@ if ( ! function_exists('set_realpath'))
 {
 	function set_realpath($path, $check_existance = FALSE)
 	{
-		// Security check to make sure the path is NOT a URL.  No remote file inclusion!
-		if (preg_match("#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i", $path))
+		// Security check to make sure the path is NOT a URL. No remote file inclusion!
+		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path))
 		{
 			show_error('The path you submitted must be a local server path, not a URL');
 		}
@@ -60,20 +58,15 @@ if ( ! function_exists('set_realpath'))
 		// Resolve the path
 		if (function_exists('realpath') && @realpath($path) !== FALSE)
 		{
-			$realpath = realpath($path);
+			$path = realpath($path);
 		}
-		else
+		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
 		{
-			$realpath = (is_dir($path) OR is_file($path)) ? $path : FALSE;
-		}
-
-		if ( ! $realpath)
-		{
-			return $check_existance ? show_error('Not a valid path: '.$path) : $path;
+			show_error('Not a valid path: '.$path);
 		}
 
 		// Add a trailing slash, if this is a directory
-		return is_dir($realpath) ? rtrim($realpath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $realpath;
+		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
 	}
 }
 
