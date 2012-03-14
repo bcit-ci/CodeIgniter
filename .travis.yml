@@ -11,3 +11,8 @@ before_script:
   - phpenv rehash
 
 script: phpunit --configuration tests/phpunit.xml 
+
+branches:
+  only:
+    - develop
+    - master
