@@ -214,6 +214,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
 		$this->ar_select[] = $sql;
+		$this->ar_no_escape[] = NULL;
 
 		if ($this->ar_caching === TRUE)
 		{
