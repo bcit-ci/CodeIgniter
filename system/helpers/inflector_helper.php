@@ -173,7 +173,7 @@ if ( ! function_exists('camelize'))
 {
 	function camelize($str)
 	{
-		return substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
+		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
 	}
 }
 

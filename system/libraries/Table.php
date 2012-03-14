@@ -102,7 +102,7 @@ class CI_Table {
 	 */
 	public function make_columns($array = array(), $col_limit = 0)
 	{
-		if ( ! is_array($array) OR count($array) === 0)
+		if ( ! is_array($array) OR count($array) === 0 OR ! is_int($col_limit))
 		{
 			return FALSE;
 		}
@@ -395,7 +395,7 @@ class CI_Table {
 		// First generate the headings from the table column names
 		if (count($this->heading) === 0)
 		{
-			if ( ! method_exists($query, 'list_fields'))
+			if ( ! is_callable(array($query, 'list_fields')))
 			{
 				return FALSE;
 			}
