@@ -255,7 +255,7 @@ if ( ! function_exists('timespan'))
 			$seconds -= $minutes * 60;
 		}
 
-		if ($str == '')
+		if (count($str) === 0)
 		{
 			$str[] = $seconds.' '.$CI->lang->line((($seconds	> 1) ? 'date_seconds' : 'date_second'));
 		}
