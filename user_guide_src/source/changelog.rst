@@ -222,6 +222,8 @@ Release Date: November 14, 2011
 
 -  Libraries
 
+   -  Added support to set the Minimum Width and Minimum Height of an
+      image in the :doc:`File Uploading Library <libraries/file_uploading>`.
    -  Changed $this->cart->insert() in the :doc:`Cart
       Library <libraries/cart>` to return the Row ID if a single
       item was inserted successfully.
