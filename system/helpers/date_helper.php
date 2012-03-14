@@ -164,7 +164,7 @@ if ( ! function_exists('standard_date'))
  */
 if ( ! function_exists('timespan'))
 {
-	function timespan($seconds = 1, $time = '', $units = '')
+	function timespan($seconds = 1, $time = '', $units = 7)
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
@@ -181,7 +181,7 @@ if ( ! function_exists('timespan'))
 
 		if ( ! is_numeric($units))
 		{
-			$units = 999;
+			$units = 7;
 		}
 
 		$seconds = ($time <= $seconds) ? 1 : $time - $seconds;
