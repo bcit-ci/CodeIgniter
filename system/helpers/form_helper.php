@@ -314,6 +314,28 @@ if ( ! function_exists('form_dropdown'))
 {
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+    // If name is really an array then we'll call the function again using the array
+    if (is_array($name) && isset($name['name']))
+    {
+      
+      if ( ! isset($name['options'])) 
+      {
+        $name['options'] = array();
+      }
+      
+      if ( ! isset($name['selected'])) 
+      {
+        $name['selected'] = array();
+      }
+      
+      if ( ! isset($name['extra'])) 
+      {
+        $name['extra'] = '';
+      }
+      
+      return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+    }
+    
 		if ( ! is_array($selected))
 		{
 			$selected = array($selected);
