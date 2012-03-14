@@ -320,13 +320,26 @@ class CI_Config {
 	/**
 	 * Set a config file item
 	 *
-	 * @param	string	the config item key
+	 * An array can optionally be passed as the first parameter, in which
+	 * case each item in the array will be added to the config
+	 * 
+	 * @param	mixed	the config item key
 	 * @param	string	the config item value
 	 * @return	void
 	 */
-	public function set_item($item, $value)
+	public function set_item($item, $value = '')
 	{
-		$this->config[$item] = $value;
+		if (is_array($item))
+		{
+			foreach ($item as $key => $value)
+			{
+				$this->set_item($key, $value);
+			}
+		}
+		else
+		{
+			$this->config[$item] = $value;
+		}	
 	}
 
 	// --------------------------------------------------------------------

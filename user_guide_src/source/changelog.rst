@@ -86,6 +86,7 @@ Release Date: Not Released
    -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
    -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
+   -  Modified the Config library so that an array of items can be set using the set->item() method.
 
 -  Core
 

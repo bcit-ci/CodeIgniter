@@ -119,6 +119,13 @@ one, you can do so using::
 Where item_name is the $config array index you want to change, and
 item_value is its value.
 
+You can also set an array of items as follows::
+	$items = array(
+		'first_item' => 'first_item_value,
+		'second_item' => 'second_item_value,
+	);
+	$this->config->set_item($items);
+
 .. _config-environments:
 
 Environments
