@@ -58,21 +58,22 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		if (function_exists('realpath') AND @realpath($path) !== FALSE)
+		if (function_exists('realpath') && @realpath($path) !== FALSE)
 		{
-			$path = realpath($path);
+			$realpath = realpath($path);
+		}
+		else
+		{
+			$realpath = (is_dir($path) OR is_file($path)) ? $path : FALSE;
 		}
 
-		// Add a trailing slash
-		$path = rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-
-		// Make sure the path exists
-		if ($check_existance == TRUE && ! is_dir($path))
+		if ( ! $realpath)
 		{
-			show_error('Not a valid path: '.$path);
+			return $check_existance ? show_error('Not a valid path: '.$path) : $path;
 		}
 
-		return $path;
+		// Add a trailing slash, if this is a directory
+		return is_dir($realpath) ? rtrim($realpath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $realpath;
 	}
 }
 
