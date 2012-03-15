@@ -11,7 +11,8 @@ class Inflector_helper_test extends CI_TestCase {
 			'tellies'		=> 'telly',
 			'smellies'		=> 'smelly',
 			'abjectnesses'	=> 'abjectness',
-			'smells'		=> 'smell'
+			'smells'		=> 'smell',
+			'equipment'		=> 'equipment'
 		);
 		
 		foreach ($strs as $str => $expect)
@@ -29,7 +30,8 @@ class Inflector_helper_test extends CI_TestCase {
 			'smelly'		=> 'smellies',
 			'abjectness'	=> 'abjectnesses', // ref : http://en.wiktionary.org/wiki/abjectnesses
 			'smell'			=> 'smells',
-			'witch'			=> 'witches'
+			'witch'			=> 'witches',
+			'equipment'		=> 'equipment'
 		);
 		
 		foreach ($strs as $str => $expect)
