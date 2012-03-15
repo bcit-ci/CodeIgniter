@@ -56,7 +56,6 @@ class CI_Session {
 	public $userdata				= array();
 	public $CI;
 	public $now;
-	public $written					= FALSE;
 
 	/**
 	 * Session Constructor
