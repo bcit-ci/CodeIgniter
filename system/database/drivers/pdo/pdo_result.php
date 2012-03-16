@@ -162,7 +162,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
 			{
-				foreach($this->result_array() as $field)
+				foreach ($this->result_array() as $field)
 				{
 					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
 
@@ -197,7 +197,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 					else
 					{
 						$F->max_length	= ($field['len'] > 255) ? NULL : (string) $field['len'];
-						$F->primary_key = (int) (array_key_exists('flags', $field) && in_array('primary_key', $field['flags']));
+						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
 					}
 
 					$data[] = $F;
