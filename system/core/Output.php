@@ -224,6 +224,25 @@ class CI_Output {
 	}
 
 	// --------------------------------------------------------------------
+        
+        /**
+	 * Get Current Content Type Header
+         * 
+         * return FALSE on Content-Type is empty
+	 *
+	 * @return	mixed
+	 */
+	public function get_current_content_type()
+	{
+		foreach($this->headers as $header){
+                    if(preg_match('/^Content-Type/', $header[0])){
+                        return str_replace('Content-Type: ', '', $header[0]);
+                    }
+                }
+                return FALSE;
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Set HTTP Status Header
