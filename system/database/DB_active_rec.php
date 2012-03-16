@@ -1125,8 +1125,19 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->_track_aliases($table);
 			$this->from($table);
 		}
-
-		$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
+		
+		// are we counting with a single column?
+		if (count($this->ar_select) === 1)
+		{
+			// try and replace the single column into it
+			$result = $this->query($this->_compile_select(str_replace('*', $this->ar_select[0], $this->_count_string).$this->protect_identifiers('numrows')));
+		}
+		else
+		{
+			// use standard query as we've either got too many columns or none at all
+			$result = $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
+		}
+		
 		$this->_reset_select();
 
 		if ($result->num_rows() === 0)
