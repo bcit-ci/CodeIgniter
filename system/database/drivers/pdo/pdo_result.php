@@ -196,7 +196,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 					}
 					else
 					{
-						$F->max_length	= ($field['len'] > 255) ? NULL : (string) $field['len'];
+						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
 						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
 					}
 
