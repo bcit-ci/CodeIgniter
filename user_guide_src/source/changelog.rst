@@ -47,6 +47,7 @@ Release Date: Not Released
    -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  form_dropdown() will now also take an array for unity with other form helpers.
    -  set_realpath() can now also handle file paths as opposed to just directories.
+   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
 
 -  Database
 
