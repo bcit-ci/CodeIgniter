@@ -87,7 +87,7 @@ if ( ! function_exists('do_hash'))
 {
 	function do_hash($str, $type = 'sha1')
 	{
-		return ($type === 'sha1') ? sha1($str) : md5($str);
+		return hash($type, $str);
 	}
 }
 
