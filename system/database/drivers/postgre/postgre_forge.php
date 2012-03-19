@@ -39,10 +39,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _create_database($name)
+	function _create_database($name)
 	{
 		return "CREATE DATABASE ".$name;
 	}
@@ -52,10 +53,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _drop_database($name)
+	function _drop_database($name)
 	{
 		return "DROP DATABASE ".$name;
 	}
@@ -68,7 +70,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	protected function _process_fields($fields, $primary_keys=array())
+	function _process_fields($fields, $primary_keys=array())
 	{
 		$sql = '';
 		$current_field_count = 0;
@@ -175,6 +177,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
+	 * @access	private
 	 * @param	string	the table name
 	 * @param	array	the fields
 	 * @param	mixed	primary key(s)
@@ -182,7 +185,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -238,11 +241,8 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 	/**
 	 * Drop Table
-	 *
-	 * @param	string	the table name
-	 * @return	string
 	 */
-	protected function _drop_table($table)
+	function _drop_table($table)
 	{
 		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table)." CASCADE";
 	}
@@ -255,6 +255,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
+	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	string	the table name
@@ -264,7 +265,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
- 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
+ 	function _alter_table($alter_type, $table, $fields, $after_field = '')
  	{
  		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -291,11 +292,12 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 *
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
+	 * @access	private
 	 * @param	string	the old table name
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	protected function _rename_table($table_name, $new_table_name)
+	function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
