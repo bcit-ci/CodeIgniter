@@ -35,8 +35,6 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
-   -  Added support for HttpOnly cookies with new config option ``cookie_httponly`` (Off by default).
-      This affects session and CSRF cookies, as well as the behavior of set_cookie() in the Input library and cookie helper.
 
 -  Helpers
 
@@ -111,6 +109,7 @@ Release Date: Not Released
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
+   -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
 
 Bug fixes for 3.0
 ------------------
