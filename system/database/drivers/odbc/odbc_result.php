@@ -130,7 +130,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	function free_result()
+	public function free_result()
 	{
 		if (is_resource($this->result_id))
 		{
@@ -148,10 +148,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		return FALSE;
 	}
@@ -163,10 +162,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		if (function_exists('odbc_fetch_object'))
 		{
@@ -185,10 +183,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
+	protected function _fetch_object()
 	{
 		if (function_exists('odbc_fetch_object'))
 		{
@@ -207,10 +204,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * subsititutes the odbc_fetch_object function when
 	 * not available (odbc_fetch_object requires unixODBC)
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _odbc_fetch_object(& $odbc_result) {
+	protected function _odbc_fetch_object(& $odbc_result) {
 		$rs = array();
 		$rs_obj = FALSE;
 		if (odbc_fetch_into($odbc_result, $rs)) {
@@ -229,10 +225,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * subsititutes the odbc_fetch_array function when
 	 * not available (odbc_fetch_array requires unixODBC)
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _odbc_fetch_array(& $odbc_result) {
+	protected function _odbc_fetch_array(& $odbc_result) {
 		$rs = array();
 		$rs_assoc = FALSE;
 		if (odbc_fetch_into($odbc_result, $rs)) {
