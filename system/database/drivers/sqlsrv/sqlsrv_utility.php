@@ -41,7 +41,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 *
 	 * @return	bool
 	 */
-	protected function _list_databases()
+	public function _list_databases()
 	{
 		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases
 	}
@@ -56,7 +56,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	protected function _optimize_table($table)
+	public function _optimize_table($table)
 	{
 		return FALSE; // Is this supported in MS SQL?
 	}
@@ -71,7 +71,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	protected function _repair_table($table)
+	public function _repair_table($table)
 	{
 		return FALSE; // Is this supported in MS SQL?
 	}
@@ -84,7 +84,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	protected function _backup($params = array())
+	public function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');

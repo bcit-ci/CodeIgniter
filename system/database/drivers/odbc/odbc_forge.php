@@ -42,7 +42,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _create_database()
+	public function _create_database()
 	{
 		// ODBC has no "create database" command since it's
 		// designed to connect to an existing database
@@ -61,7 +61,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _drop_database($name)
+	public function _drop_database($name)
 	{
 		// ODBC has no "drop database" command since it's
 		// designed to connect to an existing database
@@ -84,7 +84,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -185,7 +185,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 *
 	 * @return	bool
 	 */
-	protected function _drop_table($table)
+	public function _drop_table($table)
 	{
 		// Not a supported ODBC feature
 		if ($this->db->db_debug)
@@ -212,7 +212,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
-	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
@@ -259,7 +259,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	protected function _rename_table($table_name, $new_table_name)
+	public function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
