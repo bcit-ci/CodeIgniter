@@ -41,9 +41,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function num_rows()
+	function num_rows()
 	{
 		return @mssql_num_rows($this->result_id);
 	}
@@ -53,9 +54,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function num_fields()
+	function num_fields()
 	{
 		return @mssql_num_fields($this->result_id);
 	}
@@ -67,9 +69,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
+	 * @access	public
 	 * @return	array
 	 */
-	public function list_fields()
+	function list_fields()
 	{
 		$field_names = array();
 		while ($field = mssql_fetch_field($this->result_id))
@@ -87,9 +90,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
+	 * @access	public
 	 * @return	array
 	 */
-	public function field_data()
+	function field_data()
 	{
 		$retval = array();
 		while ($field = mssql_fetch_field($this->result_id))
@@ -114,7 +118,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	public function free_result()
+	function free_result()
 	{
 		if (is_resource($this->result_id))
 		{
@@ -132,9 +136,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
+	 * @access	private
 	 * @return	array
 	 */
-	protected function _data_seek($n = 0)
+	function _data_seek($n = 0)
 	{
 		return mssql_data_seek($this->result_id, $n);
 	}
@@ -146,9 +151,10 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
+	 * @access	private
 	 * @return	array
 	 */
-	protected function _fetch_assoc()
+	function _fetch_assoc()
 	{
 		return mssql_fetch_assoc($this->result_id);
 	}
@@ -160,14 +166,16 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @access	private
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	function _fetch_object()
 	{
 		return mssql_fetch_object($this->result_id);
 	}
 
 }
+
 
 /* End of file mssql_result.php */
 /* Location: ./system/database/drivers/mssql/mssql_result.php */
