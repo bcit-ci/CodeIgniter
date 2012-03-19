@@ -39,10 +39,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _create_database($name)
+	function _create_database($name)
 	{
 		// CUBRID does not allow to create a database in SQL. The GUI tools
 		// have to be used for this purpose.
@@ -54,10 +55,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
+	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	protected function _drop_database($name)
+	function _drop_database($name)
 	{
 		// CUBRID does not allow to drop a database in SQL. The GUI tools
 		// have to be used for this purpose.
@@ -69,10 +71,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Process Fields
 	 *
+	 * @access	private
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	protected function _process_fields($fields)
+	function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
@@ -169,6 +172,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
+	 * @access	private
 	 * @param	string	the table name
 	 * @param	mixed	the fields
 	 * @param	mixed	primary key(s)
@@ -176,7 +180,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -228,9 +232,10 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
+	 * @access	private
 	 * @return	string
 	 */
-	protected function _drop_table($table)
+	function _drop_table($table)
 	{
 		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table);
 	}
@@ -243,13 +248,14 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
+	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	array	fields
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
-	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
+	function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -276,11 +282,12 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 *
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
+	 * @access	private
 	 * @param	string	the old table name
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	protected function _rename_table($table_name, $new_table_name)
+	function _rename_table($table_name, $new_table_name)
 	{
 		return 'RENAME TABLE '.$this->db->protect_identifiers($table_name).' AS '.$this->db->protect_identifiers($new_table_name);
 	}

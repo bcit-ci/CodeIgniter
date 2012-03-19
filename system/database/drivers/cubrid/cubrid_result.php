@@ -41,9 +41,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function num_rows()
+	function num_rows()
 	{
 		return @cubrid_num_rows($this->result_id);
 	}
@@ -53,9 +54,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function num_fields()
+	function num_fields()
 	{
 		return @cubrid_num_fields($this->result_id);
 	}
@@ -67,9 +69,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
+	 * @access	public
 	 * @return	array
 	 */
-	public function list_fields()
+	function list_fields()
 	{
 		return cubrid_column_names($this->result_id);
 	}
@@ -81,9 +84,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
+	 * @access	public
 	 * @return	array
 	 */
-	public function field_data()
+	function field_data()
 	{
 		$retval = array();
 
@@ -145,7 +149,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	public function free_result()
+	function free_result()
 	{
 		if(is_resource($this->result_id) ||
 			get_resource_type($this->result_id) == "Unknown" &&
@@ -165,9 +169,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
+	 * @access	private
 	 * @return	array
 	 */
-	protected function _data_seek($n = 0)
+	function _data_seek($n = 0)
 	{
 		return cubrid_data_seek($this->result_id, $n);
 	}
@@ -179,9 +184,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
+	 * @access	private
 	 * @return	array
 	 */
-	protected function _fetch_assoc()
+	function _fetch_assoc()
 	{
 		return cubrid_fetch_assoc($this->result_id);
 	}
@@ -193,9 +199,10 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @access	private
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	function _fetch_object()
 	{
 		return cubrid_fetch_object($this->result_id);
 	}
