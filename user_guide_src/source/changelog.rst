@@ -56,8 +56,10 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
-   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
-   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Improved support for the MySQLi driver, including:
+	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
+	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
+	 -  Added persistent connections support for PHP >= 5.3.
    -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
