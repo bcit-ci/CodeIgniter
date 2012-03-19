@@ -42,29 +42,30 @@
  */
 class CI_DB_sqlite_driver extends CI_DB {
 
-	public  $dbdriver = 'sqlite';
+	var $dbdriver = 'sqlite';
 
 	// The character used to escape with - not needed for SQLite
-	protected $_escape_char = '';
+	var $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
+	var $_like_escape_str = " ESCAPE '%s' ";
+	var $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() public functions.
+	 * used for the count_all() and count_all_results() functions.
 	 */
-	protected $_count_string = "SELECT COUNT(*) AS ";
-	protected $_random_keyword = ' Random()'; // database specific random keyword
+	var $_count_string = "SELECT COUNT(*) AS ";
+	var $_random_keyword = ' Random()'; // database specific random keyword
 
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	protected function db_connect()
+	function db_connect()
 	{
 		if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error))
 		{
@@ -86,9 +87,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
+	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	protected function db_pconnect()
+	function db_pconnect()
 	{
 		if ( ! $conn_id = @sqlite_popen($this->database, FILE_WRITE_MODE, $error))
 		{
@@ -113,9 +115,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * Keep / reestablish the db connection if no queries have been
 	 * sent for a length of time exceeding the server's idle timeout
 	 *
+	 * @access	public
 	 * @return	void
 	 */
-	public function reconnect()
+	function reconnect()
 	{
 		// not implemented in SQLite
 	}
@@ -125,9 +128,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
+	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	protected function db_select()
+	function db_select()
 	{
 		return TRUE;
 	}
@@ -151,10 +155,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
+	 * @access	private called by the base class
 	 * @param	string	an SQL query
 	 * @return	resource
 	 */
-	protected function _execute($sql)
+	function _execute($sql)
 	{
 		return @sqlite_query($this->conn_id, $sql);
 	}
@@ -164,9 +169,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @access	public
 	 * @return	bool
 	 */
-	public function trans_begin($test_mode = FALSE)
+	function trans_begin($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -193,9 +199,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
+	 * @access	public
 	 * @return	bool
 	 */
-	public function trans_commit()
+	function trans_commit()
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -217,9 +224,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
+	 * @access	public
 	 * @return	bool
 	 */
-	public function trans_rollback()
+	function trans_rollback()
 	{
 		if ( ! $this->trans_enabled)
 		{
@@ -241,11 +249,12 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
+	 * @access	public
 	 * @param	string
 	 * @param	bool	whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
-	public function escape_str($str, $like = FALSE)
+	function escape_str($str, $like = FALSE)
 	{
 		if (is_array($str))
 		{
@@ -275,9 +284,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function affected_rows()
+	function affected_rows()
 	{
 		return sqlite_changes($this->conn_id);
 	}
@@ -287,9 +297,10 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
+	 * @access	public
 	 * @return	integer
 	 */
-	public function insert_id()
+	function insert_id()
 	{
 		return @sqlite_last_insert_rowid($this->conn_id);
 	}
@@ -302,10 +313,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
+	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
-	public function count_all($table = '')
+	function count_all($table = '')
 	{
 		if ($table == '')
 		{
@@ -330,10 +342,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
+	 * @access	private
 	 * @param	boolean
 	 * @return	string
 	 */
-	protected function _list_tables($prefix_limit = FALSE)
+	function _list_tables($prefix_limit = FALSE)
 	{
 		$sql = "SELECT name from sqlite_master WHERE type='table'";
 
@@ -351,10 +364,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _list_columns($table = '')
+	function _list_columns($table = '')
 	{
 		// Not supported
 		return FALSE;
@@ -367,10 +381,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	public function _field_data($table)
+	function _field_data($table)
 	{
 		return "SELECT * FROM ".$table." LIMIT 1";
 	}
@@ -397,12 +412,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Escape the SQL Identifiers
 	 *
-	 * This public function escapes column and table names
+	 * This function escapes column and table names
 	 *
+	 * @access	private
 	 * @param	string
 	 * @return	string
 	 */
-	protected function _escape_identifiers($item)
+	function _escape_identifiers($item)
 	{
 		if ($this->_escape_char == '')
 		{
@@ -438,13 +454,14 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * From Tables
 	 *
-	 * This public function implicitly groups FROM tables so there is no confusion
+	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
+	 * @access	public
 	 * @param	type
 	 * @return	type
 	 */
-	public function _from_tables($tables)
+	function _from_tables($tables)
 	{
 		if ( ! is_array($tables))
 		{
@@ -461,12 +478,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the insert keys
 	 * @param	array	the insert values
 	 * @return	string
 	 */
-	public function _insert($table, $keys, $values)
+	function _insert($table, $keys, $values)
 	{
 		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
@@ -478,6 +496,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -485,7 +504,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	public function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
 	{
 		foreach ($values as $key => $val)
 		{
@@ -513,12 +532,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 * If the database does not support the truncate() command
-	 * This public function maps to "DELETE FROM table"
+	 * This function maps to "DELETE FROM table"
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _truncate($table)
+	function _truncate($table)
 	{
 		return $this->_delete($table);
 	}
@@ -530,12 +550,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
+	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	public function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
@@ -563,12 +584,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
+	 * @access	public
 	 * @param	string	the sql query string
 	 * @param	integer	the number of rows to limit the query to
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function _limit($sql, $limit, $offset)
+	function _limit($sql, $limit, $offset)
 	{
 		if ($offset == 0)
 		{
@@ -587,14 +609,18 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @access	public
 	 * @param	resource
 	 * @return	void
 	 */
-	public function _close($conn_id)
+	function _close($conn_id)
 	{
 		@sqlite_close($conn_id);
 	}
+
+
 }
+
 
 /* End of file sqlite_driver.php */
 /* Location: ./system/database/drivers/sqlite/sqlite_driver.php */
