@@ -42,7 +42,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _create_database($name)
+	protected function _create_database($name)
 	{
 		return "CREATE DATABASE ".$name;
 	}
@@ -55,7 +55,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _drop_database($name)
+	protected function _drop_database($name)
 	{
 		return "DROP DATABASE ".$name;
 	}
@@ -67,7 +67,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 *
 	 * @return	bool
 	 */
-	public function _drop_table($table)
+	protected function _drop_table($table)
 	{
 		return "DROP TABLE ".$this->db->_escape_identifiers($table);
 	}
@@ -84,7 +84,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -195,7 +195,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
@@ -241,7 +241,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	public function _rename_table($table_name, $new_table_name)
+	protected function _rename_table($table_name, $new_table_name)
 	{
 		// I think this syntax will work, but can find little documentation on renaming tables in MSSQL
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);

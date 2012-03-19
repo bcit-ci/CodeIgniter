@@ -42,7 +42,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _create_database($name)
+	protected function _create_database($name)
 	{
 		return "CREATE DATABASE ".$name;
 	}
@@ -55,7 +55,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _drop_database($name)
+	protected function _drop_database($name)
 	{
 		return "DROP DATABASE ".$name;
 	}
@@ -68,7 +68,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	public function _process_fields($fields, $primary_keys=array())
+	protected function _process_fields($fields, $primary_keys=array())
 	{
 		$sql = '';
 		$current_field_count = 0;
@@ -182,7 +182,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -242,7 +242,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function _drop_table($table)
+	protected function _drop_table($table)
 	{
 		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table)." CASCADE";
 	}
@@ -264,7 +264,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	object
 	 */
- 	public function _alter_table($alter_type, $table, $fields, $after_field = '')
+ 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
  	{
  		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -295,7 +295,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	public function _rename_table($table_name, $new_table_name)
+	protected function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
