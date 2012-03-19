@@ -42,7 +42,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * @access	private
 	 * @return	array
 	 */
-	public function _list_databases()
+	protected function _list_databases()
 	{
 		// CUBRID does not allow to see the list of all databases on the
 		// server. It is the way its architecture is designed. Every
@@ -71,7 +71,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * @return	object
 	 * @link 	http://www.cubrid.org/manual/840/en/Optimize%20Database
 	 */
-	public function _optimize_table($table)
+	protected function _optimize_table($table)
 	{
 		// No SQL based support in CUBRID as of version 8.4.0. Database or
 		// table optimization can be performed using CUBRID Manager
@@ -91,7 +91,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * @return	object
 	 * @link 	http://www.cubrid.org/manual/840/en/Checking%20Database%20Consistency
 	 */
-	public function _repair_table($table)
+	protected function _repair_table($table)
 	{
 		// Not supported in CUBRID as of version 8.4.0. Database or
 		// table consistency can be checked using CUBRID Manager
@@ -107,7 +107,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// No SQL based support in CUBRID as of version 8.4.0. Database or
 		// table backup can be performed using CUBRID Manager

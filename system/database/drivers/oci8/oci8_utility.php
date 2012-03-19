@@ -41,7 +41,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 *
 	 * @return	bool
 	 */
-	public function _list_databases()
+	protected function _list_databases()
 	{
 		return FALSE;
 	}
@@ -56,7 +56,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	public function _optimize_table($table)
+	protected function _optimize_table($table)
 	{
 		return FALSE; // Is this supported in Oracle?
 	}
@@ -71,7 +71,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 * @param	string	the table name
 	 * @return	object
 	 */
-	public function _repair_table($table)
+	protected function _repair_table($table)
 	{
 		return FALSE; // Is this supported in Oracle?
 	}
@@ -84,7 +84,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
