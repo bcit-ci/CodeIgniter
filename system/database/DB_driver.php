@@ -265,6 +265,12 @@ class CI_DB_driver {
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
 
+		// Compile binds if needed
+		if ($binds !== FALSE)
+		{
+			$sql = $this->compile_binds($sql, $binds);
+		}
+
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
@@ -278,12 +284,6 @@ class CI_DB_driver {
 					return $cache;
 				}
 			}
-		}
-
-		// Compile binds if needed
-		if ($binds !== FALSE)
-		{
-			$sql = $this->compile_binds($sql, $binds);
 		}
 
 		// Save the  query for debugging
