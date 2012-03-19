@@ -42,9 +42,13 @@ for a full list of supported algorithms.
 
 	$str = do_hash($str); // SHA1
 	$str = do_hash($str, 'md5'); // MD5
+	
+.. note::
 
-.. note:: This function was formerly named dohash(), which has been
-	removed in favor of `do_hash()`.
+  This function has been deprecated and will be removed in a future version of CodeIgniter.
+  You should use PHP's `hash() <http://php.net/function.hash>`_ instead. 
+
+  This function was formerly named dohash(), which has been removed in favor of `do_hash()`.
 
 strip_image_tags()
 ==================

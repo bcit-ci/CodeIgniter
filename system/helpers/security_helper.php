@@ -79,6 +79,7 @@ if ( ! function_exists('sanitize_filename'))
 /**
  * Hash encode a string
  *
+ * @deprecated Use PHP's hash() function instead.
  * @access	public
  * @param	string
  * @return	string
