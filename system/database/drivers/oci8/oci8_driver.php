@@ -53,33 +53,33 @@
 
 class CI_DB_oci8_driver extends CI_DB {
 
-	public $dbdriver = 'oci8';
+	var $dbdriver = 'oci8';
 
 	// The character used for excaping
-	public $_escape_char = '"';
+	var $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	public $_like_escape_str = " escape '%s' ";
-	public $_like_escape_chr = '!';
+	var $_like_escape_str = " escape '%s' ";
+	var $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	public $_count_string = "SELECT COUNT(1) AS ";
-	public $_random_keyword = ' ASC'; // not currently supported
+	var $_count_string = "SELECT COUNT(1) AS ";
+	var $_random_keyword = ' ASC'; // not currently supported
 
 	// Set "auto commit" by default
-	public $_commit = OCI_COMMIT_ON_SUCCESS;
+	var $_commit = OCI_COMMIT_ON_SUCCESS;
 
 	// need to track statement id and cursor id
-	public $stmt_id;
-	public $curs_id;
+	var $stmt_id;
+	var $curs_id;
 
 	// if we use a limit, we will add a field that will
 	// throw off num_fields later
-	public $limit_used;
+	var $limit_used;
 
 	/**
 	 * Non-persistent database connection
@@ -214,7 +214,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * KEY	  OPTIONAL	NOTES
 	 * name		no		the name of the parameter should be in :<param_name> format
 	 * value	no		the value of the parameter.  If this is an OUT or IN OUT parameter,
-	 *					this should be a reference to a publiciable
+	 *					this should be a reference to a variable
 	 * type		yes		the type of the parameter
 	 * length	yes		the max size of the parameter
 	 */
@@ -780,6 +780,8 @@ class CI_DB_oci8_driver extends CI_DB {
 
 
 }
+
+
 
 /* End of file oci8_driver.php */
 /* Location: ./system/database/drivers/oci8/oci8_driver.php */
