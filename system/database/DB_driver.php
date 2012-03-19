@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_driver {
+abstract class CI_DB_driver {
 
 	public $dsn;
 	public $username;
@@ -1357,9 +1357,7 @@ class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
-	protected function _reset_select()
-	{
-	}
+	abstract protected function _reset_select();
 
 }
 

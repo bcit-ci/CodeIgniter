@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_active_record extends CI_DB_driver {
+abstract class CI_DB_active_record extends CI_DB_driver {
 
 	protected $return_delete_sql		= FALSE;
 	protected $reset_delete_data		= FALSE;
