@@ -35,6 +35,8 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
+   -  Added support for HttpOnly cookies with new config option ``cookie_httponly`` (Off by default).
+      This affects session and CSRF cookies, as well as the behavior of set_cookie() in the Input library and cookie helper.
 
 -  Helpers
 
