@@ -51,10 +51,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
-	function num_rows()
+	public function num_rows()
 	{
 		if (empty($this->result_id) OR ! is_object($this->result_id))
 		{
@@ -74,10 +73,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Fetch the result handler
 	 *
-	 * @access	public
 	 * @return	mixed
 	 */
-	function result_assoc()
+	public function result_assoc()
 	{
 		// If the result already fetched before, use that one
 		if (count($this->result_array) > 0 OR $this->is_fetched)
@@ -116,10 +114,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
-	function num_fields()
+	public function num_fields()
 	{
 		return $this->result_id->columnCount();
 	}
@@ -131,10 +128,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function list_fields()
+	public function list_fields()
 	{
 		if ($this->db->db_debug)
 		{
@@ -151,10 +147,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function field_data()
+	public function field_data()
 	{
 		$data = array();
 	
@@ -224,7 +219,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * @return	null
 	 */
-	function free_result()
+	public function free_result()
 	{
 		if (is_object($this->result_id))
 		{
@@ -241,10 +236,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		return FALSE;
 	}
@@ -256,10 +250,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		return $this->result_id->fetch(PDO::FETCH_ASSOC);
 	}
@@ -274,7 +267,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
+	protected function _fetch_object()
 	{	
 		return $this->result_id->fetchObject();
 	}
