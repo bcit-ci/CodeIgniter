@@ -180,26 +180,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		if ( ! is_resource($this->stmt_id))
 		{
-			$this->stmt_id = oci_parse($this->conn_id, $this->_prep_query($sql));
+			$this->stmt_id = oci_parse($this->conn_id, $sql);
 		}
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @access  private called by execute()
-	 * @param   string  an SQL query
-	 * @return  string
-	 */
-	private function _prep_query($sql)
-	{
-		return $sql;
-	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
