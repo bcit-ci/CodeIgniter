@@ -217,7 +217,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * PDO connection
 	 *
-<<<<<<< HEAD
 	 * @return	resource
 	 */
 	protected function pdo_connect()
@@ -455,11 +454,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-<<<<<<< HEAD
-	 * @return	integer
-=======
 	 * @return	int
->>>>>>> 9fd79f568beb10194f3de66b14a484c2dddcaa95
 	 */
 	public function affected_rows()
 	{
