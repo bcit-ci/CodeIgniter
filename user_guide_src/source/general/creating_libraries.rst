@@ -45,7 +45,7 @@ The Class File
 Classes should have this basic prototype (Note: We are using the name
 Someclass purely as an example)::
 
-	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+	<?php defined('BASEPATH') OR exit('No direct script access allowed'); 
 
 	class Someclass {
 
@@ -86,7 +86,7 @@ constructor::
 If you use this feature you must set up your class constructor to expect
 data::
 
-	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Someclass {
 
