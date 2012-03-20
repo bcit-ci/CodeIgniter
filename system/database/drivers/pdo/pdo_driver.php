@@ -592,23 +592,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		if ($this->pdodriver == 'mysql' or $this->pdodriver == 'pgsql')
-		{
-			// Analog function for mysql and postgre
-			return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
-		}
-		elseif ($this->pdodriver == 'oci')
-		{
-			// Analog function for oci
-			return 'SELECT * FROM '.$this->_from_tables($table).' WHERE ROWNUM <= 1';
-		}
-		elseif ($this->pdodriver == 'sqlite')
-		{
-			// Analog function for sqlite
-			return 'PRAGMA table_info('.$this->_from_tables($table).')';
-		}
-		
-		return 'SELECT TOP 1 FROM '.$this->_from_tables($table);
+		$table = $this->_from_tables($table);
+	
+		return $this->driver->field_data();
 	}
 
 	// --------------------------------------------------------------------
@@ -894,19 +880,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if ($this->pdodriver == 'cubrid' OR $this->pdodriver == 'sqlite')
-		{
-			$offset = ($offset == 0) ? '' : $offset.', ';
-
-			return $sql.'LIMIT '.$offset.$limit;
-		}
-		else
-		{
-			$sql .= 'LIMIT '.$limit;
-			$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
-			
-			return $sql;
-		}
+		return $this->driver->limit();
 	}
 
 	// --------------------------------------------------------------------

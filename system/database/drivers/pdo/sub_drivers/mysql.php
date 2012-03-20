@@ -66,5 +66,39 @@ class MySQL_PDO_Driver {
 	{
 		return "SHOW TABLES";
 	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Field data query
+	 *
+	 * Generates a platform-specific query so that the column data can be retrieved
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	public function field_data($table)
+	{
+		return 'SELECT * FROM '.$table.' LIMIT 1';
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Limit string
+	 *
+	 * Generates a platform-specific LIMIT clause
+	 *
+	 * @access	public
+	 * @param	string	the sql query string
+	 * @param	integer	the number of rows to limit the query to
+	 * @param	integer	the offset value
+	 * @return	string
+	 */
+	public function limit($sql, $limit, $offset)
+	{
+		$offset = ($offset == 0) ? '' : $offset.', ';
 
+		return $sql.'LIMIT '.$offset.$limit;
+	}
 }
