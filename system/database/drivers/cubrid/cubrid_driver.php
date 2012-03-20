@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -496,7 +496,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	string	the table name
+	 * @param	array
 	 * @return	string
 	 */
 	protected function _from_tables($tables)
