@@ -36,7 +36,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_result {
+class CI_DB_result {
 
 	public $conn_id				= NULL;
 	public $result_id			= NULL;
