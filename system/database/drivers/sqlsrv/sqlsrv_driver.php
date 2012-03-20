@@ -153,9 +153,13 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
+		if (stripos($sql,'UPDATE') !== FALSE || stripos($sql,'INSERT') !== FALSE)
+		{
+			return sqlsrv_query($this->conn_id, $sql, null, array());
+		}
 		return sqlsrv_query($this->conn_id, $sql, null, array(
-			'Scrollable'				=> SQLSRV_CURSOR_STATIC,
-			'SendStreamParamsAtExec'	=> true
+			'Scrollable' 				=> SQLSRV_CURSOR_STATIC, 
+			'SendStreamParamsAtExec' 	=> true
 		));
 	}
 
@@ -278,7 +282,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return sqlsrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
