@@ -96,6 +96,7 @@ class CI_DB_sqlite3_utility extends CI_DB_utility {
 		// Not supported
 		return $this->db->display_error('db_unsuported_feature');
 	}
+
 }
 
 /* End of file sqlite3_utility.php */

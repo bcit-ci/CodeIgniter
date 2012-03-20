@@ -155,21 +155,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Begin Transaction
 	 *
 	 * @return	bool

@@ -607,7 +607,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	public function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		// Only resetting to the start of the result set is supported
 		return $this->result_id->reset();
