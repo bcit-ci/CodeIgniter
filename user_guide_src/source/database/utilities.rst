@@ -161,7 +161,11 @@ $this->dbutil->backup()
 Permits you to backup your full database or individual tables. The
 backup data can be compressed in either Zip or Gzip format.
 
-.. note:: This features is only available for MySQL databases.
+.. note:: This features is only available for MySQL and Interbase/Firebird databases.
+
+.. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
+	
+		Eg. $this->dbutil->backup('db_backup_filename');
 
 .. note:: Due to the limited execution time and memory available to PHP,
 	backing up very large databases may not be possible. If your database is

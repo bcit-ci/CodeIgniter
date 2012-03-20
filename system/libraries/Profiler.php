@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -270,7 +270,7 @@ class CI_Profiler {
 				}
 
 				$output .= "<tr><td style='width:50%;color:#000;background-color:#ddd;padding:5px'>&#36;_GET[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;'>"
-					. (is_array($val) ? "<pre>" . htmlspecialchars(stripslashes(print_r($val, true))) . "</pre>" : htmlspecialchars(stripslashes($val)))
+					. ((is_array($val) OR is_object($val)) ? "<pre>" . htmlspecialchars(stripslashes(print_r($val, true))) . "</pre>" : htmlspecialchars(stripslashes($val)))
 					. "</td></tr>\n";
 			}
 
@@ -311,7 +311,7 @@ class CI_Profiler {
 				}
 
 				$output .= "<tr><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;'>";
-				if (is_array($val))
+				if (is_array($val) OR is_object($val))
 				{
 					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>";
 				}
@@ -426,9 +426,9 @@ class CI_Profiler {
 			. '<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_config').'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_config_table\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show').'</span>)</legend>'
 			. "\n\n\n<table style='width:100%; display:none' id='ci_profiler_config_table'>\n";
 
-		foreach ($this->CI->config->config as $config=>$val)
+		foreach ($this->CI->config->config as $config => $val)
 		{
-			if (is_array($val))
+			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
 			}
@@ -459,7 +459,7 @@ class CI_Profiler {
 
 		foreach ($this->CI->session->all_userdata() as $key => $val)
 		{
-			if (is_array($val) || is_object($val))
+			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
 			}
@@ -500,8 +500,6 @@ class CI_Profiler {
 		return $output.'</div>';
 	}
 }
-
-// END CI_Profiler class
 
 /* End of file Profiler.php */
 /* Location: ./system/libraries/Profiler.php */

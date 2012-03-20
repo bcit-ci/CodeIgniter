@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -90,18 +90,15 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		while ($field = mysqli_fetch_object($this->result_id))
+		$field_data = mysqli_fetch_fields($this->result_id);
+		for ($i = 0, $c = count($field_data); $i < $c; $i++)
 		{
-			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
-
-			$F		= new stdClass();
-			$F->name	= $field->Field;
-			$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-			$F->default	= $field->Default;
-			$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-			$F->primary_key = (int) ($field->Key === 'PRI');
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $field_data[$i]->name;
+			$retval[$i]->type		= $field_data[$i]->type;
+			$retval[$i]->max_length		= $field_data[$i]->max_length;
+			$retval[$i]->primary_key	= (int) ($field_data[$i]->flags & 2);
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
