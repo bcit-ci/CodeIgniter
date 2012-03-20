@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -165,7 +165,7 @@ class CI_DB_driver {
 		}
 
 		// Now we set the character set and that's all
-		return $this->db_set_charset($this->char_set, $this->dbcollat);
+		return $this->db_set_charset($this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -177,9 +177,9 @@ class CI_DB_driver {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation = '')
+	public function db_set_charset($charset)
 	{
-		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset, $collation))
+		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset))
 		{
 			log_message('error', 'Unable to set database connection charset: '.$charset);
 
@@ -670,7 +670,7 @@ class CI_DB_driver {
 	 */
 	public function escape($str)
 	{
-		if (is_string($str))
+		if (is_string($str) OR method_exists($str, '__toString'))
 		{
 			$str = "'".$this->escape_str($str)."'";
 		}

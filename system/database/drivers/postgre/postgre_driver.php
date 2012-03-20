@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -45,7 +45,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -328,8 +328,8 @@ class CI_DB_postgre_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_', $this->_like_escape_chr),
-						array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
 						$str);
 		}
 
@@ -353,7 +353,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	int
+	 * @return	string
 	 */
 	public function insert_id()
 	{
@@ -535,7 +535,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	string	table name
+	 * @param	array
 	 * @return	string
 	 */
 	protected function _from_tables($tables)
@@ -638,7 +638,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array())
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		if (count($where) > 0 OR count($like) > 0)
 		{
