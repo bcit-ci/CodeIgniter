@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Inflector Helpers
  *
@@ -36,7 +34,6 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/inflector_helper.html
  */
-
 
 // --------------------------------------------------------------------
 
@@ -58,7 +55,7 @@ if ( ! function_exists('singular'))
 		{
 			return $result;
 		}
-		
+
 		$singular_rules = array(
 			'/(matr)ices$/'         => '\1ix',
 			'/(vert|ind)ices$/'     => '\1ex',
@@ -116,7 +113,7 @@ if ( ! function_exists('singular'))
 if ( ! function_exists('plural'))
 {
 	function plural($str, $force = FALSE)
-	{	
+	{
 		$result = strval($str);
 
 		if ( ! is_countable($result))
@@ -145,7 +142,7 @@ if ( ! function_exists('plural'))
 			'/s$/'                     => 's',          // no change (compatibility)
 			'/$/'                      => 's',
 		);
-		
+
 		foreach ($plural_rules as $rule => $replacement)
 		{
 			if (preg_match($rule, $result))
@@ -173,7 +170,7 @@ if ( ! function_exists('camelize'))
 {
 	function camelize($str)
 	{
-		return substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
+		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
 	}
 }
 

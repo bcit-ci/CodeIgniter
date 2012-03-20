@@ -209,6 +209,10 @@ set_userdata().
 To read a flashdata variable::
 
 	$this->session->flashdata('item');
+	
+An array of all flashdata can be retrieved as follows::
+
+	$this->session->all_flashdata();
 
 
 If you find that you need to preserve a flashdata variable through an
