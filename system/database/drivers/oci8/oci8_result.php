@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -234,7 +234,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	}
 
 }
-
 
 /* End of file oci8_result.php */
 /* Location: ./system/database/drivers/oci8/oci8_result.php */
