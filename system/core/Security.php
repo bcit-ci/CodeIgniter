@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -196,7 +196,15 @@ class CI_Security {
 			return FALSE;
 		}
 
-		setcookie($this->_csrf_cookie_name, $this->_csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), $secure_cookie);
+		setcookie(
+			$this->_csrf_cookie_name, 
+			$this->_csrf_hash, 
+			$expire, 
+			config_item('cookie_path'), 
+			config_item('cookie_domain'), 
+			$secure_cookie,
+			config_item('cookie_httponly')
+		);
 		log_message('debug', 'CRSF cookie Set');
 
 		return $this;

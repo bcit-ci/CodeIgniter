@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Path Helpers
@@ -51,28 +49,24 @@ if ( ! function_exists('set_realpath'))
 {
 	function set_realpath($path, $check_existance = FALSE)
 	{
-		// Security check to make sure the path is NOT a URL.  No remote file inclusion!
-		if (preg_match("#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i", $path))
+		// Security check to make sure the path is NOT a URL. No remote file inclusion!
+		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path))
 		{
 			show_error('The path you submitted must be a local server path, not a URL');
 		}
 
 		// Resolve the path
-		if (function_exists('realpath') AND @realpath($path) !== FALSE)
+		if (function_exists('realpath') && @realpath($path) !== FALSE)
 		{
 			$path = realpath($path);
 		}
-
-		// Add a trailing slash
-		$path = rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-
-		// Make sure the path exists
-		if ($check_existance == TRUE && ! is_dir($path))
+		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
 		{
 			show_error('Not a valid path: '.$path);
 		}
 
-		return $path;
+		// Add a trailing slash, if this is a directory
+		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
 	}
 }
 
