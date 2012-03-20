@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -64,6 +64,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 		return TRUE;
 	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -168,7 +169,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 * @param	string	the table name
 	 * @param	string	the column definition
 	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
+	 * @param	bool	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */

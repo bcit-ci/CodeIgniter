@@ -45,7 +45,7 @@ parameter, like this
 
 ::
 
-	$attributes = array('class' => 'email', 'id' => 'myform');  
+	$attributes = array('class' => 'email', 'id' => 'myform');
 	echo form_open('email/send', $attributes);
 
 The above example would create a form similar to this
@@ -61,15 +61,15 @@ Hidden fields can be added by passing an associative array to the third paramete
 
 ::
 
-	 $hidden = array('username' => 'Joe', 'member_id' => '234');  
+	 $hidden = array('username' => 'Joe', 'member_id' => '234');
 	echo form_open('email/send', '', $hidden);
 
 The above example would create a form similar to this
 
 ::
 
-	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send"> 
-		<input type="hidden" name="username" value="Joe" /> 
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
+		<input type="hidden" name="username" value="Joe" />
 		<input type="hidden" name="member_id" value="234" />
 
 form_open_multipart()
@@ -87,26 +87,65 @@ name/value string to create one field
 
 ::
 
-	form_hidden('username', 'johndoe');  
+	form_hidden('username', 'johndoe');
 	// Would produce: <input type="hidden" name="username" value="johndoe" />
 
 Or you can submit an associative array to create multiple fields
 
 ::
 
-	$data = array(               
-		'name'  => 'John Doe',               
-		'email' => 'john@example.com',               
-		'url'   => 'http://example.com'             
-	);  
-	
-	echo form_hidden($data);  
-	
+	$data = array(
+		'name'  => 'John Doe',
+		'email' => 'john@example.com',
+		'url'   => 'http://example.com'
+	);
+
+	echo form_hidden($data);
+
 	/*
-		Would produce: 
-		<input type="hidden" name="name" value="John Doe" /> 
-		<input type="hidden" name="email" value="john@example.com" /> 
+		Would produce:
+		<input type="hidden" name="name" value="John Doe" />
+		<input type="hidden" name="email" value="john@example.com" />
 		<input type="hidden" name="url" value="http://example.com" />
+	*/
+
+Or pass an associative array to the value field.
+
+::
+
+	$data = array(
+		'name'  => 'John Doe',
+		'email' => 'john@example.com',
+		'url'   => 'http://example.com'
+	);
+
+	echo form_hidden('my_array', $data);
+
+	/*
+		Would produce:
+		<input type="hidden" name="my_array[name]" value="John Doe" />
+		<input type="hidden" name="my_array[email]" value="john@example.com" />
+		<input type="hidden" name="my_array[url]" value="http://example.com" />
+	*/
+
+If you want to create hidden input fields with extra attributes
+
+::
+
+	$data = array(
+		'type'        => 'hidden',
+		'name'        => 'email',
+		'id'          => 'hiddenemail',
+		'value'       => 'john@example.com',
+		'class'       => 'hiddenemail'
+	);
+
+	echo form_input($data);
+
+	/*
+		Would produce:
+
+		<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 	*/
 
 form_input()
@@ -124,21 +163,21 @@ form to contain
 
 ::
 
-	$data = array(               
-		'name'        => 'username',               
-		'id'          => 'username',               
-		'value'       => 'johndoe',               
-		'maxlength'   => '100',               
-		'size'        => '50',               
-		'style'       => 'width:50%',             
-	);  
-	
+	$data = array(
+		'name'        => 'username',
+		'id'          => 'username',
+		'value'       => 'johndoe',
+		'maxlength'   => '100',
+		'size'        => '50',
+		'style'       => 'width:50%'
+	);
+
 	echo form_input($data);
-	
+
 	/*
 		Would produce:
-		
-		<input type="text" name="username" id="username" value="johndoe" maxlength="100" size="50" style="width:50%" />
+
+		<input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%"  />
 	*/
 
 If you would like your form to contain some additional data, like
@@ -146,7 +185,7 @@ Javascript, you can pass it as a string in the third parameter
 
 ::
 
-	$js = 'onClick="some_function()"';  
+	$js = 'onClick="some_function()"';
 	echo form_input('username', 'johndoe', $js);
 
 form_password()
@@ -176,37 +215,37 @@ multiple select for you. Example
 
 ::
 
-	$options = array(                   
-		'small'  => 'Small Shirt',                   
-		'med'    => 'Medium Shirt',                   
-		'large'   => 'Large Shirt',                   
-		'xlarge' => 'Extra Large Shirt',                 
-	);  
-	
-	$shirts_on_sale = array('small', 'large');  
-	echo form_dropdown('shirts', $options, 'large');  
-	
+	$options = array(
+		'small'  => 'Small Shirt',
+		'med'    => 'Medium Shirt',
+		'large'   => 'Large Shirt',
+		'xlarge' => 'Extra Large Shirt',
+	);
+
+	$shirts_on_sale = array('small', 'large');
+	echo form_dropdown('shirts', $options, 'large');
+
 	/*
-		Would produce:  
-		
-		<select name="shirts"> 
-			<option value="small">Small Shirt</option> 
-			<option value="med">Medium  Shirt</option> 
-			<option value="large" selected="selected">Large Shirt</option> 
-			<option value="xlarge">Extra Large Shirt</option> 
+		Would produce:
+
+		<select name="shirts">
+			<option value="small">Small Shirt</option>
+			<option value="med">Medium  Shirt</option>
+			<option value="large" selected="selected">Large Shirt</option>
+			<option value="xlarge">Extra Large Shirt</option>
 		</select>
 	*/
-	
+
 	echo form_dropdown('shirts', $options, $shirts_on_sale);
-	
+
 	/*
-		Would produce:  
-	
-		<select name="shirts" multiple="multiple"> 
-			<option value="small" selected="selected">Small Shirt</option> 
-			<option value="med">Medium  Shirt</option> 
-			<option value="large" selected="selected">Large Shirt</option> 	
-			<option value="xlarge">Extra Large Shirt</option> 
+		Would produce:
+
+		<select name="shirts" multiple="multiple">
+			<option value="small" selected="selected">Small Shirt</option>
+			<option value="med">Medium  Shirt</option>
+			<option value="large" selected="selected">Large Shirt</option>
+			<option value="xlarge">Extra Large Shirt</option>
 		</select>
 	*/
 
@@ -216,7 +255,7 @@ parameter
 
 ::
 
-	$js = 'id="shirts" onChange="some_function();"';  
+	$js = 'id="shirts" onChange="some_function();"';
 	echo form_dropdown('shirts', $options, 'large', $js);
 
 If the array passed as $options is a multidimensional array,
@@ -240,38 +279,38 @@ Lets you generate fieldset/legend fields.
 
 ::
 
-	echo form_fieldset('Address Information'); 
-	echo "<p>fieldset content here</p>\n"; 
+	echo form_fieldset('Address Information');
+	echo "<p>fieldset content here</p>\n";
 	echo form_fieldset_close();
-	
+
 	/*
 		Produces:
-			<fieldset>  
-				<legend>Address Information</legend>  
-					<p>form content here</p>  
+			<fieldset>
+				<legend>Address Information</legend>
+					<p>form content here</p>
 			</fieldset>
 	*/
-	
+
 Similar to other functions, you can submit an associative array in the
 second parameter if you prefer to set additional attributes.
 
 ::
 
 	$attributes = array(
-		'id' => 'address_info', 
+		'id' => 'address_info',
 		'class' => 'address_info'
-	);     
-	
-	echo form_fieldset('Address Information', $attributes); 
-	echo "<p>fieldset content here</p>\n"; 
-	echo form_fieldset_close();   
-	
+	);
+
+	echo form_fieldset('Address Information', $attributes);
+	echo "<p>fieldset content here</p>\n";
+	echo form_fieldset_close();
+
 	/*
-		Produces: 
-		
-		<fieldset id="address_info" class="address_info">  
-			<legend>Address Information</legend>  
-			<p>form content here</p>  
+		Produces:
+
+		<fieldset id="address_info" class="address_info">
+			<legend>Address Information</legend>
+			<p>form content here</p>
 		</fieldset>
 	*/
 
@@ -284,9 +323,9 @@ the tag. For example
 
 ::
 
-	$string = "</div></div>";  
-	echo form_fieldset_close($string);  
-	// Would produce: </fieldset> </div></div>
+	$string = "</div></div>";
+	echo form_fieldset_close($string);
+	// Would produce: </fieldset></div></div>
 
 form_checkbox()
 ===============
@@ -295,7 +334,7 @@ Lets you generate a checkbox field. Simple example
 
 ::
 
-	echo form_checkbox('newsletter', 'accept', TRUE);  
+	echo form_checkbox('newsletter', 'accept', TRUE);
 	// Would produce:  <input type="checkbox" name="newsletter" value="accept" checked="checked" />
 
 The third parameter contains a boolean TRUE/FALSE to determine whether
@@ -306,15 +345,15 @@ array of attributes to the function
 
 ::
 
-	$data = array(     
-		'name'        => 'newsletter',     
-		'id'          => 'newsletter',     
-		'value'       => 'accept',     
-		'checked'     => TRUE,     
-		'style'       => 'margin:10px',     
-	);  
-	
-	echo form_checkbox($data);  
+	$data = array(
+		'name'        => 'newsletter',
+		'id'          => 'newsletter',
+		'value'       => 'accept',
+		'checked'     => TRUE,
+		'style'       => 'margin:10px',
+	);
+
+	echo form_checkbox($data);
 	// Would produce: <input type="checkbox" name="newsletter" id="newsletter" value="accept" checked="checked" style="margin:10px" />
 
 As with other functions, if you would like the tag to contain additional
@@ -323,7 +362,7 @@ parameter
 
 ::
 
-	$js = 'onClick="some_function()"';   
+	$js = 'onClick="some_function()"';
 	echo form_checkbox('newsletter', 'accept', TRUE, $js)
 
 form_radio()
@@ -339,7 +378,7 @@ Lets you generate a standard submit button. Simple example
 
 ::
 
-	echo form_submit('mysubmit', 'Submit Post!');  
+	echo form_submit('mysubmit', 'Submit Post!');
 	// Would produce:  <input type="submit" name="mysubmit" value="Submit Post!" />
 
 Similar to other functions, you can submit an associative array in the
@@ -353,7 +392,7 @@ Lets you generate a <label>. Simple example
 
 ::
 
-	echo form_label('What is your Name', 'username');  
+	echo form_label('What is your Name', 'username');
 	// Would produce:  <label for="username">What is your Name</label>
 
 Similar to other functions, you can submit an associative array in the
@@ -361,12 +400,12 @@ third parameter if you prefer to set additional attributes.
 
 ::
 
-	$attributes = array(     
-		'class' => 'mycustomclass',     
+	$attributes = array(
+		'class' => 'mycustomclass',
 		'style' => 'color: #000;'
-	);     
-	
-	echo form_label('What is your Name', 'username', $attributes);          
+	);
+
+	echo form_label('What is your Name', 'username', $attributes);
 	// Would produce:  <label for="username" class="mycustomclass" style="color: #000;">What is your Name</label>
 
 
@@ -384,7 +423,7 @@ button name and content in the first and second parameter
 
 ::
 
-	 echo form_button('name','content');  
+	 echo form_button('name','content');
 	// Would produce <button name="name" type="button">Content</button>
 
 Or you can pass an associative array containing any data you wish your
@@ -392,15 +431,15 @@ form to contain:
 
 ::
 
-	$data = array(     
-		'name' 		=> 'button',     
-		'id' 		=> 'button',     
-		'value' 	=> 'true',     
-		'type' 		=> 'reset',     
-		'content' 	=> 'Reset' 
-	);  
-	
-	echo form_button($data);  
+	$data = array(
+		'name' 		=> 'button',
+		'id' 		=> 'button',
+		'value' 	=> 'true',
+		'type' 		=> 'reset',
+		'content' 	=> 'Reset'
+	);
+
+	echo form_button($data);
 	// Would produce: <button name="button" id="button" value="true" type="reset">Reset</button>
 
 If you would like your form to contain some additional data, like
@@ -408,7 +447,7 @@ JavaScript, you can pass it as a string in the third parameter:
 
 ::
 
-	 $js = 'onClick="some_function()"'; 
+	 $js = 'onClick="some_function()"';
 	echo form_button('mybutton', 'Click Me', $js);
 
 form_close()
@@ -420,8 +459,8 @@ the tag. For example
 
 ::
 
-	$string = "</div></div>";  
-	echo form_close($string);  
+	$string = "</div></div>";
+	echo form_close($string);
 	// Would produce:  </form> </div></div>
 
 form_prep()
@@ -432,7 +471,7 @@ elements without breaking out of the form. Consider this example
 
 ::
 
-	$string = 'Here is a string containing "quoted" text.';  
+	$string = 'Here is a string containing "quoted" text.';
 	<input type="text" name="myform" value="$string" />
 
 Since the above string contains a set of quotes it will cause the form
@@ -475,9 +514,9 @@ Example
 ::
 
 	<select name="myselect">
-		<option value="one" <?php echo  set_select('myselect', 'one', TRUE); ?> >One</option> 
-		<option value="two" <?php echo  set_select('myselect', 'two'); ?> >Two</option> 
-		<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option> 
+		<option value="one" <?php echo  set_select('myselect', 'one', TRUE); ?> >One</option>
+		<option value="two" <?php echo  set_select('myselect', 'two'); ?> >Two</option>
+		<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option>
 	</select>
 
 set_checkbox()
@@ -490,7 +529,7 @@ lets you set an item as the default (use boolean TRUE/FALSE). Example
 
 ::
 
-	<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> /> 
+	<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> />
 	<input type="checkbox" name="mycheck" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
 
 set_radio()
@@ -501,6 +540,6 @@ This function is identical to the **set_checkbox()** function above.
 
 ::
 
-	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> /> 
+	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
 	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
 

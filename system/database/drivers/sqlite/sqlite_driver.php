@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -46,7 +46,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -155,25 +155,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
 		return $this->is_write_type($sql)
 			? @sqlite_exec($this->conn_id, $sql)
 			: @sqlite_query($this->conn_id, $sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -440,8 +424,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	type
-	 * @return	type
+	 * @param	array
+	 * @return	string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -574,7 +558,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 	{
 		@sqlite_close($conn_id);
 	}
-
 
 }
 
