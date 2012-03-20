@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -46,7 +46,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' {escape \'%s\'} ';
+	protected $_like_escape_str = " {escape '%s'} ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -57,7 +57,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
-	function __construct($params)
+	public function __construct($params)
 	{
 		parent::__construct($params);
 
@@ -305,8 +305,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	private
-	 * @param	boolean
+	 * @param	bool
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -412,7 +411,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	string	the table name
+	 * @param	array
 	 * @return	string
 	 */
 	protected function _from_tables($tables)

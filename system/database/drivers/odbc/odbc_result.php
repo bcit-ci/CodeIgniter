@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -144,7 +144,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{
@@ -184,6 +184,8 @@ class CI_DB_odbc_result extends CI_DB_result {
 			: $this->_odbc_fetch_object($this->result_id);
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Result - object
 	 *
@@ -192,7 +194,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * @return	object
 	 */
-	private function _odbc_fetch_object(& $odbc_result)
+	protected function _odbc_fetch_object(& $odbc_result)
 	{
 		$rs = array();
 		if ( ! odbc_fetch_into($odbc_result, $rs))
@@ -210,6 +212,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		return $rs_obj;
 	}
 
+	// --------------------------------------------------------------------
 
 	/**
 	 * Result - array
@@ -219,7 +222,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	private function _odbc_fetch_array(& $odbc_result)
+	protected function _odbc_fetch_array(& $odbc_result)
 	{
 		$rs = array();
 		if ( ! odbc_fetch_into($odbc_result, $rs))
