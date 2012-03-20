@@ -43,8 +43,11 @@ Release Date: Not Released
    -  Changed humanize to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+   -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
    -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  form_dropdown() will now also take an array for unity with other form helpers.
+   -  set_realpath() can now also handle file paths as opposed to just directories.
+   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
    -  Added date_range() to the :doc:`Date Helper <helpers/html_helper>`.
 
 -  Database
@@ -90,6 +93,7 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
    -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
@@ -107,6 +111,7 @@ Release Date: Not Released
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
+   -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
 
 Bug fixes for 3.0
 ------------------
@@ -158,6 +163,7 @@ Bug fixes for 3.0
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
+-  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 
 Version 2.1.1
 =============
