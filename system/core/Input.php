@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -228,7 +228,7 @@ class CI_Input {
 	/**
 	* Set cookie
 	*
-	* Accepts six parameter, or you can submit an associative
+	* Accepts seven parameters, or you can submit an associative
 	* array in the first parameter containing all the values.
 	*
 	* @param	mixed
@@ -238,14 +238,15 @@ class CI_Input {
 	* @param	string	the cookie path
 	* @param	string	the cookie prefix
 	* @param	bool	true makes the cookie secure
+	* @param	bool	true makes the cookie accessible via http(s) only (no javascript)
 	* @return	void
 	*/
-	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
+	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))
 		{
 			// always leave 'name' in last place, as the loop will break otherwise, due to $$item
-			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'secure', 'name') as $item)
+			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'secure', 'httponly', 'name') as $item)
 			{
 				if (isset($name[$item]))
 				{
@@ -270,6 +271,10 @@ class CI_Input {
 		{
 			$secure = config_item('cookie_secure');
 		}
+		if ($httponly == FALSE && config_item('cookie_httponly') != FALSE)
+		{
+			$httponly = config_item('cookie_httponly');
+		}
 
 		if ( ! is_numeric($expire))
 		{
@@ -280,7 +285,7 @@ class CI_Input {
 			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
 
-		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure);
+		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 
 	// --------------------------------------------------------------------
@@ -366,36 +371,7 @@ class CI_Input {
 	*/
 	public function valid_ip($ip)
 	{
-		// if php version >= 5.2, use filter_var to check validate ip.
-		if (function_exists('filter_var'))
-		{
-			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-		}
-
-		$ip_segments = explode('.', $ip);
-
-		// Always 4 segments needed
-		if (count($ip_segments) !== 4)
-		{
-			return FALSE;
-		}
-		// IP can not start with 0
-		if ($ip_segments[0][0] == '0')
-		{
-			return FALSE;
-		}
-		// Check each segment
-		foreach ($ip_segments as $segment)
-		{
-			// IP segments must be digits and can not be
-			// longer than 3 digits or greater then 255
-			if ($segment == '' OR preg_match('/[^0-9]/', $segment) OR $segment > 255 OR strlen($segment) > 3)
-			{
-				return FALSE;
-			}
-		}
-
-		return TRUE;
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 	}
 
 	// --------------------------------------------------------------------
