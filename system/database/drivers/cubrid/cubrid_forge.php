@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CUBRID Forge Class
  *
@@ -39,11 +37,10 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function _create_database($name)
+	public function _create_database($name)
 	{
 		// CUBRID does not allow to create a database in SQL. The GUI tools
 		// have to be used for this purpose.
@@ -55,11 +52,10 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function _drop_database($name)
+	public function _drop_database($name)
 	{
 		// CUBRID does not allow to drop a database in SQL. The GUI tools
 		// have to be used for this purpose.
@@ -71,16 +67,15 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Process Fields
 	 *
-	 * @access	private
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
@@ -172,15 +167,14 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @param	mixed	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -232,10 +226,9 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access	private
 	 * @return	string
 	 */
-	function _drop_table($table)
+	public function _drop_table($table)
 	{
 		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table);
 	}
@@ -248,14 +241,13 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	array	fields
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
-	function _alter_table($alter_type, $table, $fields, $after_field = '')
+	public function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -282,12 +274,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 *
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
-	 * @access	private
 	 * @param	string	the old table name
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	function _rename_table($table_name, $new_table_name)
+	public function _rename_table($table_name, $new_table_name)
 	{
 		return 'RENAME TABLE '.$this->db->protect_identifiers($table_name).' AS '.$this->db->protect_identifiers($new_table_name);
 	}
