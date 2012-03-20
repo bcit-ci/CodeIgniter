@@ -580,9 +580,37 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		$i = $limit + $offset;
-	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+		$limit     = (int)$limit;
+		$start_row = (int)$offset;
+		$end_row   = $limit + $offset;
+
+		if ($limit > 0 && $offset > 0)
+		{
+			preg_match('/^\bSELECT\b.*$/m', $sql, $select);
+			preg_match('/^\bORDER BY\b.*$/m', $sql, $order_by);
+
+			if (isset($select[0]) && isset($order_by[0]))
+			{
+				$select_clause = "{$select[0]}, ROW_NUMBER() OVER ({$order_by[0]}) AS row_num";
+
+				if (strpos($select_clause, 'SELECT TOP') !== 0)
+				{
+					$select_clause = substr_replace($select_clause, "SELECT TOP {$end_row} ", 0, 7);
+				}
+
+				$sql = str_replace($select[0], $select_clause, $sql);
+
+				return "
+					;WITH results_CTE AS ({$sql})
+					SELECT *
+					FROM results_CTE
+					WHERE row_num > {$start_row}
+					AND row_num <= {$end_row}
+				";
+			}
+		}
+
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$end_row.' ', $sql);
 	}
 
 	// --------------------------------------------------------------------
