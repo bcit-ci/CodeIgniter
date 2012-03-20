@@ -53,6 +53,18 @@ class CI_Form_validation {
 	{
 		$this->CI =& get_instance();
 
+		// applies delimiters set in config file.
+		if (isset($rules['error_prefix']))
+		{
+			$this->_error_prefix = $rules['error_prefix'];
+			unset($rules['error_prefix']);
+		}
+		if (isset($rules['error_suffix']))
+		{
+			$this->_error_suffix = $rules['error_suffix'];
+			unset($rules['error_suffix']);
+		}
+		
 		// Validation rules can be stored in a config file.
 		$this->_config_rules = $rules;
 
@@ -60,7 +72,7 @@ class CI_Form_validation {
 		$this->CI->load->helper('form');
 
 		// Set the character encoding in MB.
-		if (function_exists('mb_internal_encoding'))
+		if (MB_ENABLED === TRUE)
 		{
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
@@ -89,7 +101,7 @@ class CI_Form_validation {
 			return $this;
 		}
 
-		// If an array was passed via the first parameter instead of indidual string
+		// If an array was passed via the first parameter instead of individual string
 		// values we cycle through it and recursively call this function.
 		if (is_array($field))
 		{
@@ -938,7 +950,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) < $val);
 		}
@@ -962,7 +974,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) > $val);
 		}
@@ -986,7 +998,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return (mb_strlen($str) == $val);
 		}

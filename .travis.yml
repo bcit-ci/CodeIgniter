@@ -5,7 +5,14 @@ phps:
   - 5.3
   - 5.4
 
+before_script:
+  - pyrus channel-discover pear.php-tools.net
+  - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.2.tgz
+  - phpenv rehash
+
+script: phpunit --configuration tests/phpunit.xml 
+
 branches:
-  except:
+  only:
     - develop
     - master
