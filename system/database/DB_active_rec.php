@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_active_record extends CI_DB_driver {
+abstract class CI_DB_active_record extends CI_DB_driver {
 
 	protected $return_delete_sql		= FALSE;
 	protected $reset_delete_data		= FALSE;
@@ -214,6 +214,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
 		$this->ar_select[] = $sql;
+		$this->ar_no_escape[] = NULL;
 
 		if ($this->ar_caching === TRUE)
 		{
@@ -2196,16 +2197,16 @@ class CI_DB_active_record extends CI_DB_driver {
 	protected function _reset_write()
 	{
 		$this->_reset_run(array(
-					'ar_set'	=> array(),
-					'ar_from'	=> array(),
-					'ar_where'	=> array(),
-					'ar_like'	=> array(),
-					'ar_orderby'	=> array(),
-					'ar_keys'	=> array(),
-					'ar_limit'	=> FALSE,
-					'ar_order'	=> FALSE
-					)
-				);
+			'ar_set'	=> array(),
+			'ar_from'	=> array(),
+			'ar_where'	=> array(),
+			'ar_like'	=> array(),
+			'ar_orderby'	=> array(),
+			'ar_keys'	=> array(),
+			'ar_limit'	=> FALSE,
+			'ar_order'	=> FALSE
+			)
+		);
 	}
 
 }

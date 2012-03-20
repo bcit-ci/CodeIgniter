@@ -47,7 +47,6 @@
  *
  * @author	  Kelly McArdle
  */
-
 class CI_DB_oci8_driver extends CI_DB {
 
 	public $dbdriver = 'oci8';
@@ -56,7 +55,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " escape '%s' ";
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -251,35 +250,20 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param	string	an SQL query
 	 * @return	void
 	 */
-	private function _set_stmt_id($sql)
+	protected function _set_stmt_id($sql)
 	{
 		if ( ! is_resource($this->stmt_id))
 		{
-			$this->stmt_id = oci_parse($this->conn_id, $this->_prep_query($sql));
+			$this->stmt_id = oci_parse($this->conn_id, $sql);
 		}
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep the query
+	 * Get cursor. Returns a cursor from the database
 	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	private function _prep_query($sql)
-	{
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * getCursor. Returns a cursor from the database
-	 *
-	 * @return	resource	cursor id
+	 * @return	cursor id
 	 */
 	public function get_cursor()
 	{
@@ -686,10 +670,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param	string  the table name
-	 * @param	array   the insert keys
-	 * @param 	array   the insert values
-	 * @return 	string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param 	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
