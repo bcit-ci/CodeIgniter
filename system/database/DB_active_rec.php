@@ -412,10 +412,27 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$prefix = (count($this->ar_where) == 0 AND count($this->ar_cache_where) == 0) ? '' : $type;
 
-			if (is_null($v) && ! $this->_has_operator($k))
+			// if (is_null($v) && ! $this->_has_operator($k))
+			// {
+			// 	// value appears not to have been set, assign the test to IS NULL
+			// 	$k .= ' IS NULL';
+			// }
+			
+			// to check if the use has IS NOT NULL as the value
+			// taken from http://s.zah.me/GAKW1T by NullUserException dated 10 September 2011 05:51 PM
+			if (is_null($v))
 			{
-				// value appears not to have been set, assign the test to IS NULL
-				$k .= ' IS NULL';
+			    // value appears not to have been set
+			    if (! $this->_has_operator($k))
+			    {
+			        // has no operator, assign the test to IS NULL
+			        $k .= ' IS NULL';
+			    }
+			    elseif (preg_match("/(!=|<>)\s*$/", $k))
+			    {
+			        // has <> or != operator, assign test to IS NOT NULL
+			        $k = preg_replace("/(!=|<>)\s*$/", ' IS NOT NULL',$k);
+			    }
 			}
 
 			if ( ! is_null($v))
