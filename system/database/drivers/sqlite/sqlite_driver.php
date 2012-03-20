@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  * 
@@ -26,8 +26,6 @@
  */
 
 // ------------------------------------------------------------------------
-
-
 
 /**
  * SQLite Database Adapter Class
@@ -163,24 +161,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
 		return @sqlite_query($this->conn_id, $sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @access	private called by execute()
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	function _prep_query($sql)
-	{
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------

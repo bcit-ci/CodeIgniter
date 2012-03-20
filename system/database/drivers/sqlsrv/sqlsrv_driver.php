@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -46,7 +46,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -62,7 +62,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @return	resource
 	 */
-	public function db_connect($pooling = TRUE)
+	public function db_connect($pooling = FALSE)
 	{
 		// Check for a UTF-8 charset being passed as CI's default 'utf8'.
 		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
@@ -147,23 +147,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id, $this->_prep_query($sql), NULL,
-					array('Scrollable' => SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
+		return sqlsrv_query($this->conn_id,
+					$sql,
+					NULL,
+					array('Scrollable'=> SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE)
+			);
 	}
 
 	// --------------------------------------------------------------------
@@ -255,12 +243,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Insert ID
-	*
-	* Returns the last id created in the Identity column.
-	*
-	* @return	int
-	*/
+	 * Insert ID
+	 *
+	 * Returns the last id created in the Identity column.
+	 *
+	 * @return	string
+	 */
 	public function insert_id()
 	{
 		$query = $this->query('SELECT @@IDENTITY AS insert_id');
@@ -346,7 +334,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$this->_escape_table($table)."'";
+		return "SELECT * FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$table."'";
 	}
 
 	// --------------------------------------------------------------------
@@ -357,11 +345,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$this->_escape_table($table);
+		return 'SELECT TOP 1 * FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -403,20 +391,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
-
-	/**
-	 * Escape Table Name
-	 *
-	 * This function adds backticks if the table name has a period
-	 * in it. Some DBs will get cranky unless periods are escaped
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _escape_table($table)
-	{
-		return $table;
-	}
 
 	/**
 	 * Escape the SQL Identifiers
@@ -466,7 +440,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$this->_escape_table($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -490,7 +464,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$this->_escape_table($table).' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
 	}
 
 	// --------------------------------------------------------------------
@@ -524,7 +498,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _delete($table, $where)
 	{
-		return 'DELETE FROM '.$this->_escape_table($table).' WHERE '.implode(' ', $where);
+		return 'DELETE FROM '.$table.' WHERE '.implode(' ', $where);
 	}
 
 	// --------------------------------------------------------------------
@@ -535,8 +509,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
 	 * @return	string
 	 */
 	protected function _limit($sql, $limit, $offset)
