@@ -101,3 +101,6 @@ class Firebird_PDO_Driver {
 	}
 
 }
+
+/* End of file firebird.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/firebird.php */

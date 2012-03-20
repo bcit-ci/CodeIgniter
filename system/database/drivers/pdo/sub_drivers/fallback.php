@@ -101,3 +101,6 @@ class Fallback_PDO_Driver {
 	}
 
 }
+
+/* End of file fallback.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/fallback.php */

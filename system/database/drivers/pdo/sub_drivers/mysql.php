@@ -102,3 +102,6 @@ class MySQL_PDO_Driver {
 		return $sql.'LIMIT '.$offset.$limit;
 	}
 }
+
+/* End of file mysql.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/mysql.php */

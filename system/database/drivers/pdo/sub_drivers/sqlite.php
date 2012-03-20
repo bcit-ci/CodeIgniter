@@ -103,3 +103,6 @@ class SQLite_PDO_Driver {
 	}
 
 }
+
+/* End of file sqlite.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/sqlite.php */

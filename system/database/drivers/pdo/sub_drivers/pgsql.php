@@ -124,3 +124,6 @@ class PgSQL_PDO_Driver {
 	}
 
 }
+
+/* End of file pgsql.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/pgsql.php */
