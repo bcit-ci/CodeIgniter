@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -22,7 +22,6 @@
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
- * @filesource
  */
 
 // ------------------------------------------------------------------------
@@ -93,7 +92,7 @@ class CI_URI {
 		if (strtoupper($this->config->item('uri_protocol')) === 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if (php_sapi_name() === 'cli' OR defined('STDIN'))
+			if ($this->_is_cli_request())
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
@@ -226,6 +225,21 @@ class CI_URI {
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
 	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Is cli Request?
+	 *
+	 * Duplicate of function from the Input class to test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	protected function _is_cli_request()
+	{
+		return (php_sapi_name() == 'cli') OR defined('STDIN');
+	}
+
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -444,9 +458,7 @@ class CI_URI {
 				return array();
 			}
 
-			return function_exists('array_fill_keys')
-				? array_fill_keys($default, FALSE)
-				: array_combine($default, array_fill(0, count($default), FALSE));
+			return array_fill_keys($default, FALSE);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));

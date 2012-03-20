@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Security Helpers
  *
@@ -42,7 +40,6 @@
 /**
  * XSS Filtering
  *
- * @access	public
  * @param	string
  * @param	bool	whether or not the content is an image file
  * @return	string
@@ -61,7 +58,6 @@ if ( ! function_exists('xss_clean'))
 /**
  * Sanitize Filename
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -79,7 +75,6 @@ if ( ! function_exists('sanitize_filename'))
 /**
  * Hash encode a string
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -87,7 +82,12 @@ if ( ! function_exists('do_hash'))
 {
 	function do_hash($str, $type = 'sha1')
 	{
-		return ($type === 'sha1') ? sha1($str) : md5($str);
+		if ( ! in_array(strtolower($type), hash_algos()))
+		{
+			$type = 'md5';
+		}
+
+		return hash($type, $str);
 	}
 }
 
@@ -96,7 +96,6 @@ if ( ! function_exists('do_hash'))
 /**
  * Strip Image Tags
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -104,7 +103,7 @@ if ( ! function_exists('strip_image_tags'))
 {
 	function strip_image_tags($str)
 	{
-		return preg_replace(array("#<img\s+.*?src\s*=\s*[\"'](.+?)[\"'].*?\>#", "#<img\s+.*?src\s*=\s*(.+?).*?\>#"), "\\1", $str);
+		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
 	}
 }
 
@@ -113,7 +112,6 @@ if ( ! function_exists('strip_image_tags'))
 /**
  * Convert PHP tags to entities
  *
- * @access	public
  * @param	string
  * @return	string
  */

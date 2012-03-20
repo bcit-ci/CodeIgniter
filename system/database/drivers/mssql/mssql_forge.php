@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -63,7 +63,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @param	string	the table name
+	 * @param	string	table name
 	 * @return	string
 	 */
 	public function _drop_table($table)
@@ -95,7 +95,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		$sql .= $this->db->_escape_identifiers($table).'(';
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually

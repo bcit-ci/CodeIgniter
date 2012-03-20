@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -46,7 +46,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
+	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -140,22 +140,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @mssql_query($this->_prep_query($sql), $this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
+		return @mssql_query($sql, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -269,12 +254,12 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Insert ID
-	*
-	* Returns the last id created in the Identity column.
-	*
-	* @return	int
-	*/
+	 * Insert ID
+	 *
+	 * Returns the last id created in the Identity column.
+	 *
+	 * @return	string
+	 */
 	public function insert_id()
 	{
 		$query = (self::_parse_major_version($this->version()) > 7)
@@ -289,14 +274,14 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Parse major version
-	*
-	* Grabs the major version number from the
-	* database server version string passed in.
-	*
-	* @param	string	$version
-	* @return	int	major version number
-	*/
+	 * Parse major version
+	 *
+	 * Grabs the major version number from the
+	 * database server version string passed in.
+	 *
+	 * @param	string	$version
+	 * @return	int	major version number
+	 */
 	protected function _parse_major_version($version)
 	{
 		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
@@ -306,10 +291,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Version number query string
-	*
-	* @return	string
-	*/
+	 * Version number query string
+	 *
+	 * @return	string
+	 */
 	protected function _version()
 	{
 		return 'SELECT @@VERSION AS ver';
@@ -572,8 +557,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
 	 * @return	string
 	 */
 	protected function _limit($sql, $limit, $offset)
