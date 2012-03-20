@@ -46,7 +46,7 @@ class MySQL_PDO_Driver {
 		$pdo->_escape_char = '`';
 		
 		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
-		if (is_php('5.3.6'))
+		if ( ! is_php('5.3.6'))
 		{
 			$pdo->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES {$pdo->char_set} COLLATE '{$pdo->dbcollat}'";
 		}
