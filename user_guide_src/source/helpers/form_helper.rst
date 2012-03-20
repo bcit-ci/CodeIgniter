@@ -177,7 +177,7 @@ form to contain
 	/*
 		Would produce:
 
-		<input type="text" name="username" id="username" value="johndoe" maxlength="100" size="50" style="width:50%" />
+		<input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%"  />
 	*/
 
 If you would like your form to contain some additional data, like
@@ -325,7 +325,7 @@ the tag. For example
 
 	$string = "</div></div>";
 	echo form_fieldset_close($string);
-	// Would produce: </fieldset> </div></div>
+	// Would produce: </fieldset></div></div>
 
 form_checkbox()
 ===============
