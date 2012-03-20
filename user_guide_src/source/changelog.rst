@@ -111,6 +111,7 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
+   -  Added support for regex in the csrf_exclude_uris array so that URIs can be skipped based on a pattern.
 
 Bug fixes for 3.0
 ------------------
