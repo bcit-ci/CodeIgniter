@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -148,23 +148,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
 		return @ibase_query($this->conn_id, $sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------

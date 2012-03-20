@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -132,7 +132,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * @return	array
 	 */
-	public function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		return mssql_data_seek($this->result_id, $n);
 	}
