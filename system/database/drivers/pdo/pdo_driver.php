@@ -44,8 +44,8 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	var $dbdriver = 'pdo';
 
-	// the character used to excape - not necessary for PDO
-	var $_escape_char = '';
+	// the character used to excape
+	var $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	var $_like_escape_str;
@@ -98,21 +98,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 		
-		// Load the sub driver for database-specific stuff
-		$file = "sub_drivers/{$this->pdodriver}.php";
 		
-		if (is_file($file))
-		{
-			require($file);
-		}
-		else
-		{
-			$this->pdodriver = 'fallback';
-			require("sub_drivers/fallback.php");
-		}
-		
-		$driver_class = "{$this->pdodriver}_PDO_Driver";
-		$this->driver = new $driver_class();
 		
 		$this->trans_enabled   = FALSE;
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
@@ -263,6 +249,24 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return FALSE;
 		}
+		
+		// Load the sub driver for database-specific stuff
+		$driver = strtolower($this->pdodriver);
+		
+		$file = dirname(__FILE__)."/sub_drivers/{$driver}.php";
+		
+		if (file_exists($file))
+		{
+			require($file);
+		}
+		else
+		{
+			$driver = 'fallback';
+			require(dirname(__FILE__).'/sub_drivers/fallback.php');
+		}
+		
+		$driver_class = "{$driver}_PDO_Driver";
+		$this->driver = new $driver_class($db);
 
 		return $db;
 	}
@@ -688,7 +692,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return (count($tables) == 1) ? '`'.$tables[0].'`' : '('.implode(', ', $tables).')';
+		return (count($tables) == 1) ? $tables[0] : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -880,7 +884,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		return $this->driver->limit();
+		return $this->driver->limit($sql, $limit, $offset);
 	}
 
 	// --------------------------------------------------------------------

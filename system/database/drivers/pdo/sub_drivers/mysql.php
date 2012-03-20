@@ -52,7 +52,7 @@ class MySQL_PDO_Driver {
 	 */
 	public function prep_query($sql)
 	{
-		return $sql;
+		return str_replace('"', '`', $sql);
 	}
 	
 	// --------------------------------------------------------------------------
