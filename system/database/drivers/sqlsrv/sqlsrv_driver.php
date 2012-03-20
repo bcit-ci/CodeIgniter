@@ -152,27 +152,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
 		return sqlsrv_query($this->conn_id, $sql, null, array(
 			'Scrollable'				=> SQLSRV_CURSOR_STATIC,
 			'SendStreamParamsAtExec'	=> true
 		));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @access	private called by execute()
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	function _prep_query($sql)
-	{
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -617,8 +600,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	}
 
 }
-
-
 
 /* End of file mssql_driver.php */
 /* Location: ./system/database/drivers/mssql/mssql_driver.php */
