@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Oracle Forge Class
  *
@@ -39,11 +37,10 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @access	public
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function _create_database($name)
+	public function _create_database($name)
 	{
 		return FALSE;
 	}
@@ -53,11 +50,10 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @access	private
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	function _drop_database($name)
+	public function _drop_database($name)
 	{
 		return FALSE;
 	}
@@ -144,10 +140,9 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access	private
 	 * @return	bool
 	 */
-	function _drop_table($table)
+	public function _drop_table($table)
 	{
 		return FALSE;
 	}
@@ -160,17 +155,16 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	string	the table name
 	 * @param	string	the column definition
 	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
+	 * @param	bool	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
-	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
@@ -212,12 +206,11 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 *
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
-	 * @access	private
 	 * @param	string	the old table name
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	function _rename_table($table_name, $new_table_name)
+	public function _rename_table($table_name, $new_table_name)
 	{
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
