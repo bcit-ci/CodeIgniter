@@ -224,22 +224,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @pg_query($this->conn_id, $this->_prep_query($sql));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
+		return @pg_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
