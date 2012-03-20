@@ -62,6 +62,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	// need to track the pdo driver and options
 	var $pdodriver;
 	var $options = array();
+	var $driver;
 
 	function __construct($params)
 	{
@@ -96,6 +97,22 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_str = " ESCAPE '%s' ";
 			$this->_like_escape_chr = '!';
 		}
+		
+		// Load the sub driver for database-specific stuff
+		$file = "sub_drivers/{$this->pdodriver}.php";
+		
+		if (is_file($file))
+		{
+			require($file);
+		}
+		else
+		{
+			$this->pdodriver = 'fallback';
+			require("sub_drivers/fallback.php");
+		}
+		
+		$driver_class = "{$this->pdodriver}_PDO_Driver";
+		$this->driver = new $driver_class();
 		
 		$this->trans_enabled   = FALSE;
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
@@ -339,18 +356,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _prep_query($sql)
 	{
-		if ($this->pdodriver === 'pgsql')
-		{
-			// Change the backtick(s) for Postgre
-			$sql = str_replace('`', '"', $sql);
-		}
-		elseif ($this->pdodriver === 'sqlite')
-		{
-			// Change the backtick(s) for SQLite
-			$sql = str_replace('`', '', $sql);
-		}
-
-		return $sql;
+		return $this->driver->prep_query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -500,11 +506,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
+		if (method_exists($this->driver, 'insert_id'))
 		{
-			$query = $this->query('SELECT LASTVAL() AS ins_id');
-			$query = $query->row();
-			return $query->ins_id;
+			return $this->driver->insert_id($name);
 		}
 
 		return $this->conn_id->lastInsertId($name);
@@ -556,27 +560,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->pdodriver == 'pgsql')
-		{
-			// Analog function to show all tables in postgre
-			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
-		}
-		elseif ($this->pdodriver == 'sqlite')
-		{
-			// Analog function to show all tables in sqlite
-			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
-		}
-		else
-		{
-			$sql = "SHOW TABLES FROM `".$this->database."`";
-		}
-
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
-		{
-			return FALSE; 
-		}
-
-		return $sql;
+		return $this->driver->list_tables();
 	}
 
 	// --------------------------------------------------------------------
