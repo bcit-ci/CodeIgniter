@@ -108,6 +108,36 @@ found in http://. Example
 	$string = "http://example.com//index.php";
 	echo reduce_double_slashes($string); // results in "http://example.com/index.php"
 
+strip_slashes()
+===============
+
+Removes any slashes from a string. Example
+
+::
+
+	$str = "Is your name O\'reilly?";
+	echo strip_slashes($str); // results in Is your name O'reilly?
+
+You can also use an array. Example
+
+::
+	
+	$str = array(
+		'question'  => 'Is your name O\'reilly?',
+		'answer' => 'No, my name is O\'connor.'
+	);
+	
+	$str = strip_slashes($str);
+	
+The above will return the following array:
+
+::
+
+	array(
+		'question'  => "Is your name O'reilly?",
+		'answer' => "No, my name is O'connor."
+	);
+
 trim_slashes()
 ==============
 
