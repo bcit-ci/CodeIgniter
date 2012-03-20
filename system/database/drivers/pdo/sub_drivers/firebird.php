@@ -97,9 +97,18 @@ class Firebird_PDO_Driver {
 	 */
 	public function limit($sql, $limit, $offset)
 	{
-		return $sql;
-	}
+		// Keep the current sql string safe for a moment
+		$orig_sql = $sql;
+		
+		$sql = 'FIRST '. (int) $limit;
 
+		if ($offset > 0)
+		{
+			$sql .= ' SKIP '. (int) $offset;
+		}
+		
+		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
+	}
 }
 
 /* End of file firebird.php */
