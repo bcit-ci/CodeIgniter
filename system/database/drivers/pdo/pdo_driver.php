@@ -45,7 +45,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $dbdriver = 'pdo';
 
 	// the character used to excape
-	protected $_escape_char = '"';
+	public $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str;
@@ -60,8 +60,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_random_keyword;
 
 	// need to track the pdo driver and options
-	protected $pdodriver;
-	protected $options = array();
+	public $pdodriver;
+	public $options = array();
 	protected $driver;
 
 	public function __construct($params)
@@ -223,27 +223,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function pdo_connect()
 	{
-		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
-		if ($this->pdodriver == 'mysql' && is_php('5.3.6'))
-		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES $this->char_set COLLATE '$this->dbcollat'";
-		}
-
-		// Connecting...
-		try 
-		{
-			$db = new PDO($this->dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
-		{
-			if ($this->db_debug && empty($this->failover))
-			{
-				$this->display_error($e->getMessage(), '', TRUE);
-			}
-
-			return FALSE;
-		}
-		
 		// Load the sub driver for database-specific stuff
 		$driver = strtolower($this->pdodriver);
 		
@@ -260,9 +239,9 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		
 		$driver_class = "{$driver}_PDO_Driver";
-		$this->driver = new $driver_class($db);
+		$this->driver = new $driver_class($this);
 
-		return $db;
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------

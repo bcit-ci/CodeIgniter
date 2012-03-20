@@ -33,13 +33,40 @@
 class MySQL_PDO_Driver {
 
 	protected $conn;
+	protected $pdo;
 
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($connection)
+	public function __construct($pdo)
 	{
-		$this->conn =& $connection;
+		$this->pdo =& $pdo;
+		
+		// Set the escape character to the silly backtick
+		$pdo->_escape_char = '`';
+		
+		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
+		if (is_php('5.3.6'))
+		{
+			$pdo->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES {$pdo->char_set} COLLATE '{$pdo->dbcollat}'";
+		}
+	
+		// Connecting...
+		try 
+		{
+			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+		} 
+		catch (PDOException $e) 
+		{
+			if ($pdo->db_debug && empty($pdo->failover))
+			{
+				$pdo->display_error($e->getMessage(), '', TRUE);
+			}
+
+			return FALSE;
+		}
+		
+		$this->conn =& $pdo->conn_id;	
 	}
 	
 	// --------------------------------------------------------------------------

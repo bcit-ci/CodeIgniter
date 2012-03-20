@@ -33,15 +33,32 @@
 class Firebird_PDO_Driver {
 
 	protected $conn;
+	protected $pdo;
 
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($connection)
+	public function __construct($pdo)
 	{
-		$this->conn =& $connection;
-	}
+		$this->pdo =& $pdo;
 	
+		// Connecting...
+		try 
+		{
+			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+		} 
+		catch (PDOException $e) 
+		{
+			if ($pdo->db_debug && empty($pdo->failover))
+			{
+				$pdo->display_error($e->getMessage(), '', TRUE);
+			}
+
+			return FALSE;
+		}
+		
+		$this->conn =& $pdo->conn_id;
+	}	
 	// --------------------------------------------------------------------------
 	
 	/**
