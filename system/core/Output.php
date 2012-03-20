@@ -228,9 +228,9 @@ class CI_Output {
         /**
 	 * Get Current Content Type Header
          * 
-         * return FALSE on Content-Type is empty
+         * return text/html if Content-Type is not set
 	 *
-	 * @return	mixed
+	 * @return	string
 	 */
 	public function get_current_content_type()
 	{
@@ -239,7 +239,7 @@ class CI_Output {
                         return str_replace('Content-Type: ', '', $header[0]);
                     }
                 }
-                return FALSE;
+                return 'text/html';
 	}
 
 	// --------------------------------------------------------------------
