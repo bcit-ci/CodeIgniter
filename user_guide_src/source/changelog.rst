@@ -162,6 +162,7 @@ Bug fixes for 3.0
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
+-  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 
 Version 2.1.1
 =============
