@@ -48,6 +48,7 @@ class CI_Session {
 	public $cookie_path			= '';
 	public $cookie_domain			= '';
 	public $cookie_secure			= FALSE;
+	public $cookie_httponly 		= FALSE;
 	public $sess_time_to_update		= 300;
 	public $encryption_key			= '';
 	public $flashdata_key			= 'flash';
@@ -72,7 +73,7 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
+		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
@@ -468,6 +469,29 @@ class CI_Session {
 	{
 		return $this->userdata;
 	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Fetch all flashdata
+	 * 
+	 * @return	array
+	 */
+	public function all_flashdata()
+	{
+		$out = array();
+		
+		// loop through all userdata
+		foreach ($this->all_userdata() as $key => $val)
+		{	
+			// if it contains flashdata, add it
+			if (strpos($key, 'flash:old:') !== FALSE)
+			{
+				$out[$key] = $val;
+			}
+		}
+		return $out;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -666,13 +690,14 @@ class CI_Session {
 
 		// Set the cookie
 		setcookie(
-				$this->sess_cookie_name,
-				$cookie_data,
-				$expire,
-				$this->cookie_path,
-				$this->cookie_domain,
-				$this->cookie_secure
-			);
+			$this->sess_cookie_name,
+			$cookie_data,
+			$expire,
+			$this->cookie_path,
+			$this->cookie_domain,
+			$this->cookie_secure,
+			$this->cookie_httponly
+		);
 	}
 
 	// --------------------------------------------------------------------
