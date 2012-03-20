@@ -19,6 +19,7 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7 to the list of user platforms.
@@ -42,6 +43,11 @@ Release Date: Not Released
    -  Changed humanize to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+   -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
+   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  form_dropdown() will now also take an array for unity with other form helpers.
+   -  set_realpath() can now also handle file paths as opposed to just directories.
+   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
 
 -  Database
 
@@ -65,12 +71,13 @@ Release Date: Not Released
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
+   -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
+   -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Modified valid_ip() to use PHP's filter_var() when possible (>= PHP 5.2) in the :doc:`Form Validation library <libraries/form_validation>`.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
@@ -85,10 +92,14 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
+   -  Allowed for setting table class defaults in a config file.
+   -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
    -  Added function error_array() to return all error messages as an array in the Form_validation class.
    -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
    -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
+   -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
 
 -  Core
 
@@ -98,6 +109,8 @@ Release Date: Not Released
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
+   -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
 
 Bug fixes for 3.0
 ------------------
@@ -136,7 +149,7 @@ Bug fixes for 3.0
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
--  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset and collation instead.
+-  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset instead.
 -  Fixed a bug (#413) - Oracle's error handling methods used to only return connection-related errors.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
@@ -149,6 +162,7 @@ Bug fixes for 3.0
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
+-  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 
 Version 2.1.1
