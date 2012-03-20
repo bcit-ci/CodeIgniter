@@ -2197,16 +2197,16 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	protected function _reset_write()
 	{
 		$this->_reset_run(array(
-					'ar_set'	=> array(),
-					'ar_from'	=> array(),
-					'ar_where'	=> array(),
-					'ar_like'	=> array(),
-					'ar_orderby'	=> array(),
-					'ar_keys'	=> array(),
-					'ar_limit'	=> FALSE,
-					'ar_order'	=> FALSE
-					)
-				);
+			'ar_set'	=> array(),
+			'ar_from'	=> array(),
+			'ar_where'	=> array(),
+			'ar_like'	=> array(),
+			'ar_orderby'	=> array(),
+			'ar_keys'	=> array(),
+			'ar_limit'	=> FALSE,
+			'ar_order'	=> FALSE
+			)
+		);
 	}
 
 }
