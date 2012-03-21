@@ -45,7 +45,7 @@ class SQLSrv_PDO_Driver {
 		// Create the connection dsn
 		$dsn = ( ! empty($pdo->dsn)) 
 			? $pdo->dsn
-            : "{$pdo->pdodriver}:Server={$pdo->hostname}";
+			: "{$pdo->pdodriver}:Server={$pdo->hostname}";
 			
 		if ( ! empty($pdo->port))
 		{
@@ -65,7 +65,6 @@ class SQLSrv_PDO_Driver {
 			{
 				$pdo->display_error($e->getMessage(), '', TRUE);
 			}
-
 			return FALSE;
 		}
 		

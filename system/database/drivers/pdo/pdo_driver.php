@@ -164,7 +164,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// a lot of bases with one sub-driver
 		if (in_array($driver, array('dblib','mssql','sybase','sqlsrv')))
 		{
-        	$driver = 'sqlsrv';
+			$driver = 'sqlsrv';
 		}
 
 		$file = dirname(__FILE__)."/sub_drivers/{$driver}.php";
@@ -179,7 +179,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$driver = 'odbc';
 			require(dirname(__FILE__).'/sub_drivers/odbc.php');
-        }
+		}
 
 		// Instantiate the sub-driver, and
 		// return the connection object
@@ -443,7 +443,9 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = $this->_count_string.$this->protect_identifiers('numrows')
+			.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		
 		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)
