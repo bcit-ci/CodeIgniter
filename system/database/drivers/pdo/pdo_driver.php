@@ -44,7 +44,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	// the character used to excape
 	public $_escape_char = '"';
-	
+
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str;
 	protected $_like_escape_chr;
@@ -82,7 +82,7 @@ class CI_DB_pdo_driver extends CI_DB {
 				// We need to get the prefix (pdodriver used by PDO).
 				$dsnarray = explode(':', $this->hostname);
 				$this->pdodriver = $dsnarray[0];
-				
+
 				// Extract the hostname from the partial dsn
 				$this->hostname = str_replace('host=', '', $dsnarray[1]);
 			}
@@ -158,19 +158,19 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		// Load the sub driver for database-specific stuff
 		$driver = strtolower($this->pdodriver);
-        
-        // So many libraries for connecting to the same database!
-        // Since SQL Server is a fork of Sybase, this should cover
-        // a lot of bases with one sub-driver
-        if (in_array($driver, array('dblib','mssql','sybase','sqlsrv')))
-        {
-            $driver = 'sqlsrv';
-        }
+
+		// So many libraries for connecting to the same database!
+		// Since SQL Server is a fork of Sybase, this should cover
+		// a lot of bases with one sub-driver
+		if (in_array($driver, array('dblib','mssql','sybase','sqlsrv')))
+		{
+        	$driver = 'sqlsrv';
+		}
 
 		$file = dirname(__FILE__)."/sub_drivers/{$driver}.php";
 
-        // Fallback to odbc if a non-existant or unimplemented
-        // pdo driver is specified
+		// Fallback to odbc if a non-existant or unimplemented
+		// pdo driver is specified
 		if (file_exists($file))
 		{
 			require($file);
@@ -181,8 +181,8 @@ class CI_DB_pdo_driver extends CI_DB {
 			require(dirname(__FILE__).'/sub_drivers/odbc.php');
         }
 
-        // Instantiate the sub-driver, and
-        // return the connection object
+		// Instantiate the sub-driver, and
+		// return the connection object
 		$driver_class = "{$driver}_PDO_Driver";
 		$this->driver = new $driver_class($this);
 
@@ -499,9 +499,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		$table = $this->_from_tables($table);
-	
-		return $this->driver->field_data($table);
+		return $this->driver->field_data($this->_from_tables($table));
 	}
 
 	// --------------------------------------------------------------------
