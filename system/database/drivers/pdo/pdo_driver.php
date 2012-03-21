@@ -232,8 +232,8 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		else
 		{
-			$driver = 'fallback';
-			require(dirname(__FILE__).'/sub_drivers/fallback.php');
+			$driver = 'odbc';
+			require(dirname(__FILE__).'/sub_drivers/odbc.php');
 		}
 		
 		$driver_class = "{$driver}_PDO_Driver";

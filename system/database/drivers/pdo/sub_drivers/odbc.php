@@ -30,7 +30,7 @@
 /**
  * Fallback Sub driver for un-implemented databases
  */
-class Fallback_PDO_Driver {
+class ODBC_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;
@@ -120,5 +120,5 @@ class Fallback_PDO_Driver {
 
 }
 
-/* End of file fallback.php */
-/* Location: ./system/database/drivers/pdo/sub_drivers/fallback.php */
+/* End of file odbc.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/odbc.php */
