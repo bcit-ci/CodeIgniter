@@ -45,7 +45,7 @@ class SQLSrv_PDO_Driver {
 		// Create the connection dsn
 		$dsn = ( ! empty($pdo->dsn)) 
 			? $pdo->dsn
-			: "sqlsrv:Server={$pdo->hostname}";
+            : "{$pdo->pdodriver}:Server={$pdo->hostname}";
 			
 		if ( ! empty($pdo->port))
 		{

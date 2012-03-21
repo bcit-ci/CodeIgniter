@@ -158,9 +158,19 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		// Load the sub driver for database-specific stuff
 		$driver = strtolower($this->pdodriver);
-		
+        
+        // So many libraries for connecting to the same database!
+        // Since SQL Server is a fork of Sybase, this should cover
+        // a lot of bases with one sub-driver
+        if (in_array($driver, array('dblib','mssql','sybase','sqlsrv')))
+        {
+            $driver = 'sqlsrv';
+        }
+
 		$file = dirname(__FILE__)."/sub_drivers/{$driver}.php";
-		
+
+        // Fallback to odbc if a non-existant or unimplemented
+        // pdo driver is specified
 		if (file_exists($file))
 		{
 			require($file);
@@ -169,8 +179,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$driver = 'odbc';
 			require(dirname(__FILE__).'/sub_drivers/odbc.php');
-		}
-		
+        }
+
+        // Instantiate the sub-driver, and
+        // return the connection object
 		$driver_class = "{$driver}_PDO_Driver";
 		$this->driver = new $driver_class($this);
 
