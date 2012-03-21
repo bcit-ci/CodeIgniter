@@ -554,7 +554,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$table = $this->_from_tables($table);
 	
-		return $this->driver->field_data();
+		return $this->driver->field_data($table);
 	}
 
 	// --------------------------------------------------------------------
