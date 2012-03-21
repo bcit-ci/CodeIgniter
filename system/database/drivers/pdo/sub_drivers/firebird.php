@@ -81,7 +81,11 @@ class Firebird_PDO_Driver {
 	 */
 	public function list_tables()
 	{
-		return FALSE;
+		return  <<<SQL
+			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
+			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
+			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
+SQL;
 	}
 	
 	// --------------------------------------------------------------------------
