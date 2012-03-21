@@ -41,11 +41,21 @@ class ODBC_PDO_Driver {
 	public function __construct($pdo)
 	{
 		$this->pdo =& $pdo;
+		
+		// Create the connection dsn
+		$dsn = ( ! empty($pdo->dsn)) 
+			? 'odbc:'.$pdo->dsn
+			: "odbc:";
+			
+		if ( ! empty($pdo->port))
+		{
+			$dsn .= ';port='.$pdo->port;
+		}
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
 		} 
 		catch (PDOException $e) 
 		{

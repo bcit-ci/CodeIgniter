@@ -41,11 +41,15 @@ class Firebird_PDO_Driver {
 	public function __construct($pdo)
 	{
 		$this->pdo =& $pdo;
+		
+		$dsn = ( ! empty($pdo->dsn))
+			? $pdo->dsn
+			: "firebird:dbname={$pdo->host}:{$pdo->database};";
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
 		} 
 		catch (PDOException $e) 
 		{

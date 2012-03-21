@@ -41,11 +41,23 @@ class SQLSrv_PDO_Driver {
 	public function __construct($pdo)
 	{
 		$this->pdo =& $pdo;
+		
+		// Create the connection dsn
+		$dsn = ( ! empty($pdo->dsn)) 
+			? $pdo->dsn
+			: "sqlsrv:Server={$pdo->hostname}";
+			
+		if ( ! empty($pdo->port))
+		{
+			$dsn .= ','.$pdo->port;
+		}
+		
+		$dsn .= ';Database='.$pdo->database;
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
 		} 
 		catch (PDOException $e) 
 		{

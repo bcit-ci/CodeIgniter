@@ -75,7 +75,25 @@ class CI_DB_pdo_driver extends CI_DB {
 		else
 		{
 			// Try to build a complete DSN string from params
-			$this->_connect_string($params);
+			if (strpos($this->hostname, ':'))
+			{
+				// hostname generally would have this prototype
+				// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
+				// We need to get the prefix (pdodriver used by PDO).
+				$dsnarray = explode(':', $this->hostname);
+				$this->pdodriver = $dsnarray[0];
+				
+				// Extract the hostname from the partial dsn
+				$this->hostname = str_replace('host=', '', $dsnarray[1]);
+			}
+			 else
+			{
+				// Invalid DSN, display an error
+				if ( ! array_key_exists('pdodriver', $params))
+				{
+					show_error('Invalid DB Connection String for PDO');
+				}
+			}
 		}
 
 		// clause and character used for LIKE escape sequences
@@ -100,90 +118,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
-	/**
-	 * Connection String
-	 *
-	 * @param	array
-	 * @return	void
-	 */
-	protected function _connect_string($params)
-	{
-		if (strpos($this->hostname, ':'))
-		{
-			// hostname generally would have this prototype
-			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
-			// We need to get the prefix (pdodriver used by PDO).
-			$dsnarray = explode(':', $this->hostname);
-			$this->pdodriver = $dsnarray[0];
-
-			// End dsn with a semicolon for extra backward compability
-			// if database property was not empty.
-			if ( ! empty($this->database))
-			{
-				$this->dsn .= rtrim($this->hostname, ';').';';
-			}
-		}
-		else
-		{
-			// Invalid DSN, display an error
-			if ( ! array_key_exists('pdodriver', $params))
-			{
-				show_error('Invalid DB Connection String for PDO');
-			}
-
-			// Assuming that the following DSN string format is used:
-			// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
-			$this->dsn = $this->pdodriver.':';
-
-			// Add hostname to the DSN for databases that need it
-			if ( ! empty($this->hostname)
-				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
-			{
-			    $this->dsn .= 'host='.$this->hostname.';';
-			}
-
-			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
-			{
-			    $this->dsn .= 'port='.$this->port.';';
-			}
-		}
-
-		// Add the database name to the DSN, if needed
-	    if (stripos($this->dsn, 'dbname') === FALSE
-	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
-	    {
-	        $this->dsn .= 'dbname='.$this->database.';';
-	    }
-	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->pdodriver, array('ibm', 'sqlsrv')))
-	    {
-	    	if (stripos($this->dsn, 'dsn') === FALSE)
-	    	{
-		        $this->dsn .= 'database='.$this->database.';';
-	    	}
-	    }
-	    elseif ($this->pdodriver === 'sqlite' && $this->dsn === 'sqlite:')
-	    {
-	        if ($this->database !== ':memory')
-	        {
-	            if ( ! file_exists($this->database))
-	            {
-	                show_error('Invalid DB Connection string for PDO SQLite');
-	            }
-
-	            $this->dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
-	        }
-
-	        $this->dsn .= $this->database;
-	    }
-
-	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
-	    {
-	        $this->dsn .= 'charset='.$this->char_set.';';
-	    }
-	}
+	// --------------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
@@ -215,9 +150,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * PDO connection
+	 * Load the sub driver and connect to the database
 	 *
-	 * @return	resource
+	 * @return	object
 	 */
 	protected function pdo_connect()
 	{

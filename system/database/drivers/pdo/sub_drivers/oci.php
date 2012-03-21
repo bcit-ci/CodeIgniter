@@ -28,9 +28,9 @@
 // ------------------------------------------------------------------------
 
 /**
- * Postgresql specific methods for the PDO driver
+ * Fallback Sub driver for un-implemented databases
  */
-class PgSQL_PDO_Driver {
+class OCI_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;
@@ -42,14 +42,22 @@ class PgSQL_PDO_Driver {
 	{
 		$this->pdo =& $pdo;
 		
-		// Create the connection dsn
-		$dsn = ( ! empty($pdo->dsn)) 
+		$dsn = ( ! empty($pdo->dsn))
 			? $pdo->dsn
-			: "pgsql:host={$pdo->hostname};dbname={$pdo->database}";
-		
-		if ( ! empty($pdo->port))
+			: "oci:";
+			
+		if ( ! empty($pdo->hostname) && ! empty($pdo->port))
 		{
-			$dsn .= ';port='.$pdo->port;
+			$dsn .= "dbname=//{$pdo->hostname}:{$pdo->port}/{$pdo->database}";
+		}
+		else
+		{
+			$dsn .= 'dbname='.$pdo->database;
+		}
+		
+		if ( ! empty($pdo->charset))
+		{
+			$dsn .= ';charset='.$pdo->charset;
 		}
 	
 		// Connecting...
@@ -80,27 +88,7 @@ class PgSQL_PDO_Driver {
 	 */
 	public function prep_query($sql)
 	{
-		return str_replace('`', '"', $sql);
-	}
-	
-	// --------------------------------------------------------------------------
-	
-	/**
-	 * Override for insert_id method
-	 *
-	 * @param	string	name of generator
-	 * @return	string
-	 */
-	public function insert_id($name = NULL)
-	{
-		if ($name === NULL && $this->version() >= '8.1')
-		{
-			$query = $this->query('SELECT LASTVAL() AS ins_id');
-			$query = $query->row();
-			return $query->ins_id;
-		}
-		
-		return $this->conn->lastInsertId($name);
+		return $sql;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -112,7 +100,7 @@ class PgSQL_PDO_Driver {
 	 */
 	public function list_tables()
 	{
-		return "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
+		return FALSE;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -127,7 +115,7 @@ class PgSQL_PDO_Driver {
 	 */
 	public function field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 1';
+		return 'SELECT * FROM '.$table;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -145,13 +133,10 @@ class PgSQL_PDO_Driver {
 	 */
 	public function limit($sql, $limit, $offset)
 	{
-		$sql .= 'LIMIT '.$limit;
-		$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
-			
 		return $sql;
 	}
 
 }
 
-/* End of file pgsql.php */
-/* Location: ./system/database/drivers/pdo/sub_drivers/pgsql.php */
+/* End of file oci.php */
+/* Location: ./system/database/drivers/pdo/sub_drivers/oci.php */

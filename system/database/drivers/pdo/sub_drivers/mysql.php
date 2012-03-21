@@ -50,11 +50,26 @@ class MySQL_PDO_Driver {
 		{
 			$pdo->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES {$pdo->char_set} COLLATE '{$pdo->dbcollat}'";
 		}
+		
+		// Create the connection dsn
+		$dsn = ( ! empty($pdo->dsn)) 
+			? $pdo->dsn
+			: "mysql:host={$pdo->hostname};dbname={$pdo->database}";
+			
+		if ( ! empty($pdo->port))
+		{
+			$dsn .= ';port='.$pdo->port;
+		}
+		
+		if ( ! empty($pdo->charset))
+		{
+			$dsn .= ';charset='.$pdo->charset;
+		}
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
 		} 
 		catch (PDOException $e) 
 		{

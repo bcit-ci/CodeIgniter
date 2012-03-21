@@ -41,11 +41,22 @@ class SQLite_PDO_Driver {
 	public function __construct($pdo)
 	{
 		$this->pdo =& $pdo;
+		
+		$dsn = ( ! empty($pdo->dsn))
+			? $pdo->dsn
+			: "sqlite:";
+			
+		if ($pdo->database !== ':memory')
+        {
+            $dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
+        }
+
+        $dsn .= $pdo->database;
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($pdo->dsn, $pdo->username, $pdo->password, $pdo->options);
+			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
 		} 
 		catch (PDOException $e) 
 		{
