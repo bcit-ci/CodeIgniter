@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -53,6 +53,18 @@ class CI_Form_validation {
 	{
 		$this->CI =& get_instance();
 
+		// applies delimiters set in config file.
+		if (isset($rules['error_prefix']))
+		{
+			$this->_error_prefix = $rules['error_prefix'];
+			unset($rules['error_prefix']);
+		}
+		if (isset($rules['error_suffix']))
+		{
+			$this->_error_suffix = $rules['error_suffix'];
+			unset($rules['error_suffix']);
+		}
+		
 		// Validation rules can be stored in a config file.
 		$this->_config_rules = $rules;
 
@@ -60,12 +72,12 @@ class CI_Form_validation {
 		$this->CI->load->helper('form');
 
 		// Set the character encoding in MB.
-		if (function_exists('mb_internal_encoding'))
+		if (MB_ENABLED === TRUE)
 		{
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
 
-		log_message('debug', "Form Validation Class Initialized");
+		log_message('debug', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -84,12 +96,12 @@ class CI_Form_validation {
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
-		if (count($_POST) === 0 && count($this->validation_data) === 0)
+		if ($this->CI->input->method() !== 'post' && empty($this->validation_data))
 		{
 			return $this;
 		}
 
-		// If an array was passed via the first parameter instead of indidual string
+		// If an array was passed via the first parameter instead of individual string
 		// values we cycle through it and recursively call this function.
 		if (is_array($field))
 		{
@@ -165,9 +177,9 @@ class CI_Form_validation {
 	 *
 	 * If an array is set through this method, then this array will
 	 * be used instead of the $_POST array
-	 * 
-	 * Note that if you are validating multiple arrays, then the 
-	 * reset_validation() function should be called after validating 
+	 *
+	 * Note that if you are validating multiple arrays, then the
+	 * reset_validation() function should be called after validating
 	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
@@ -938,7 +950,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) < $val);
 		}
@@ -962,7 +974,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return ! (mb_strlen($str) > $val);
 		}
@@ -986,7 +998,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		if (function_exists('mb_strlen'))
+		if (MB_ENABLED === TRUE)
 		{
 			return (mb_strlen($str) == $val);
 		}
@@ -1156,15 +1168,14 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Equal to or Greater than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	function greater_than_equal_to($str, $min)
+	public function greater_than_equal_to($str, $min)
 	{
 		if ( ! is_numeric($str))
 		{
@@ -1195,11 +1206,10 @@ class CI_Form_validation {
 	/**
 	 * Equal to or Less than
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	function less_than_equal_to($str, $max)
+	public function less_than_equal_to($str, $max)
 	{
 		if ( ! is_numeric($str))
 		{
@@ -1351,7 +1361,7 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @return void
+	 * @return	void
 	 */
 	public function reset_validation()
 	{
