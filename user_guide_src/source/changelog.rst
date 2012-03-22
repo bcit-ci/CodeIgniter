@@ -100,6 +100,7 @@ Release Date: Not Released
    -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
    -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Added dsn config setting for Email library.
 
 -  Core
 
