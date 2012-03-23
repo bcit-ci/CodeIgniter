@@ -84,9 +84,9 @@ class CI_DB_pdo_driver extends CI_DB {
 				$this->pdodriver = $dsnarray[0];
 
 				// Extract the hostname from the partial dsn
-				$this->hostname = str_replace('host=', '', $dsnarray[1]);
+				$this->hostname = preg_replace('`(host|server)=`', '', $dsnarray[1]);
 			}
-			 else
+			else
 			{
 				// Invalid DSN, display an error
 				if ( ! array_key_exists('pdodriver', $params))
