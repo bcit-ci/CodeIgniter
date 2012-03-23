@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Firebird/Interbase Database Adapter Class
  *
@@ -56,8 +54,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	protected $_count_string = "SELECT COUNT(*) AS ";
-	protected $_random_keyword = ' Random()'; // database specific random keyword
+	protected $_count_string	= 'SELECT COUNT(*) AS ';
+	protected $_random_keyword	= ' Random()'; // database specific random keyword
 
 	// Keeps track of the resource for the current transaction
 	protected $trans;
@@ -148,23 +146,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
 		return @ibase_query($this->conn_id, $sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -176,13 +158,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -190,7 +167,7 @@ class CI_DB_interbase_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		$this->trans = @ibase_trans($this->conn_id);
 
@@ -206,13 +183,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans->depth > 0)
 		{
 			return TRUE;
 		}
@@ -229,13 +201,8 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -267,9 +234,9 @@ class CI_DB_interbase_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
-								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
-								$str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -280,7 +247,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	integer
+	 * @return	int
 	 */
 	public function affected_rows()
 	{
@@ -292,9 +259,9 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @param	string $generator_name
-	 * @param	integer $inc_by
-	 * @return	integer
+	 * @param	string	$generator_name
+	 * @param	int	$inc_by
+	 * @return	int
 	 */
 	public function insert_id($generator_name, $inc_by=0)
 	{
@@ -326,9 +293,9 @@ class CI_DB_interbase_driver extends CI_DB {
 			return 0;
 		}
 
-		$row = $query->row();
+		$query = $query->row();
 		$this->_reset_select();
-		return (int) $row->numrows;
+		return (int) $query->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -338,21 +305,18 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	boolean
+	 * @param	bool
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = <<<SQL
-			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
-			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
-			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
-SQL;
+		$sql = 'SELECT "RDB$RELATION_NAME" FROM "RDB$RELATIONS" WHERE "RDB$RELATION_NAME" NOT LIKE \'RDB$%\' AND "RDB$RELATION_NAME" NOT LIKE \'MON$%\'';
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
-			$sql .= ' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
+
 		return $sql;
 	}
 
@@ -368,10 +332,7 @@ SQL;
 	 */
 	protected function _list_columns($table = '')
 	{
-		return <<<SQL
-			SELECT "RDB\$FIELD_NAME" FROM "RDB\$RELATION_FIELDS" 
-			WHERE "RDB\$RELATION_NAME"='{$table}';
-SQL;
+		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = \''.$this->escape_str($table)."'";
 	}
 
 	// --------------------------------------------------------------------
@@ -382,14 +343,14 @@ SQL;
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	protected function _field_data($table)
 	{
 		// Need to find a more efficient way to do this
 		// but Interbase/Firebird seems to lack the
 		// limit clause
-		return "SELECT * FROM {$table}";
+		return 'SELECT * FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -423,24 +384,20 @@ SQL;
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
+				$item = str_replace('.', $this->_escape_char.'.', $item);
 
 				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
 			}
 		}
 
 		if (strpos($item, '.') !== FALSE)
 		{
-			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
-		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
+			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
 		}
 
 		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
 	}
 
 	// --------------------------------------------------------------------
@@ -451,8 +408,8 @@ SQL;
 	 * This public function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	type
-	 * @return	type
+	 * @param	array
+	 * @return	string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -479,7 +436,7 @@ SQL;
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return "INSERT INTO {$table} (".implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -500,20 +457,14 @@ SQL;
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
 		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
-
-		$sql = "UPDATE {$table} SET ".implode(', ', $valstr);
-
-		$sql .= ($where != '' AND count($where) >=1) ? ' WHERE '.implode(' ', $where) : '';
-
-		$sql .= $orderby;
-
-		return $sql;
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
 
 
@@ -548,23 +499,20 @@ SQL;
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		$conditions = '';
-
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions = "\nWHERE ";
-			$conditions .= implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
+			$conditions = "\nWHERE ".implode("\n", $where)
+					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
+					.implode("\n", $like);
+		}
+		else
+		{
+			$conditions = '';
 		}
 
 		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return "DELETE FROM {$table}{$conditions}";
+		return 'DELETE FROM '.$table.' '.$conditions;
 	}
 
 	// --------------------------------------------------------------------
@@ -575,36 +523,25 @@ SQL;
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
 	 * @return	string
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		// Keep the current sql string safe for a moment
-		$orig_sql = $sql;
-
 		// Limit clause depends on if Interbase or Firebird
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$sql = 'FIRST '. (int) $limit;
-
-			if ($offset > 0)
-			{
-				$sql .= ' SKIP '. (int) $offset;
-			}
+			$select = 'FIRST '. (int) $limit
+				.($offset > 0 ? ' SKIP '. (int) $offset : '');
 		}
 		else
 		{
-			$sql = 'ROWS ' . (int) $limit;
-
-			if ($offset > 0)
-			{
-				$sql = 'ROWS '. (int) $offset . ' TO ' . ($limit + $offset);
-			}
+			$select = 'ROWS '
+				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
 		}
 
-		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
+		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
 	}
 
 	// --------------------------------------------------------------------
