@@ -138,12 +138,14 @@ class CI_Exceptions {
 
 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
 
+		$idiom = $this->_get_idiom();
+
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/'.$template.'.php');
+		include(APPPATH.'errors/'.$idiom.'/'.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -179,11 +181,30 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/error_php.php');
+		include(APPPATH.'errors/'.$idiom.'/error_php.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
 	}
+
+
+	/**
+	 * Getting the language idiom
+	 *
+	 * This function will return the language idiom
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+
+	function _get_idiom(){
+		$config =& get_config();
+
+		$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
+		$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+		
+		return $idiom;
+	}	
 
 
 }
