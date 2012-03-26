@@ -699,13 +699,18 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 * If the database does not support the truncate() command
-	 * This public function maps to "DELETE FROM table"
+	 * This function maps to "DELETE FROM table"
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
+		if (method_exists($this->driver, 'truncate'))
+		{
+			return $this->driver->truncate($table);
+		}
+	
 		return $this->_delete($table);
 	}
 
@@ -738,9 +743,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$conditions .= implode("\n", $like);
 		}
 
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
-
-		return 'DELETE FROM '.$this->_from_tables($table).$conditions.$limit;
+		return 'DELETE FROM '.$this->_from_tables($table).$conditions;
 	}
 
 	// --------------------------------------------------------------------

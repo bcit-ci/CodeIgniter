@@ -143,6 +143,19 @@ class CI_MySQL_PDO_Driver {
 
 		return $sql.'LIMIT '.$offset.$limit;
 	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Return MySQL-specific truncate command
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	public function truncate($table)
+	{
+		return 'TRUNCATE '.$this->pdo->_from_tables($table);
+	}
 }
 
 /* End of file mysql.php */
