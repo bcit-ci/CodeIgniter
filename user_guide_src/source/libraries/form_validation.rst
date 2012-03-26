@@ -123,7 +123,7 @@ this code and save it to your applications/controllers/ folder::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -219,7 +219,7 @@ Your controller should now look like this::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 

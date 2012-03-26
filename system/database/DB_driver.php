@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_driver {
+abstract class CI_DB_driver {
 
 	public $dsn;
 	public $username;
@@ -166,6 +166,23 @@ class CI_DB_driver {
 
 		// Now we set the character set and that's all
 		return $this->db_set_charset($this->char_set);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Reconnect
+	 *
+	 * Keep / reestablish the db connection if no queries have been
+	 * sent for a length of time exceeding the server's idle timeout.
+	 *
+	 * This is just a dummy method to allow drivers without such
+	 * functionality to not declare it, while others will override it.
+	 *
+	 * @return      void
+	 */
+	public function reconnect()
+	{
 	}
 
 	// --------------------------------------------------------------------
@@ -1357,9 +1374,7 @@ class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
-	protected function _reset_select()
-	{
-	}
+	abstract protected function _reset_select();
 
 }
 
