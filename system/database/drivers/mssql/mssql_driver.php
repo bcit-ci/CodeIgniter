@@ -539,13 +539,12 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
