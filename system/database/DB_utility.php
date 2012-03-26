@@ -32,7 +32,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_utility extends CI_DB_forge {
+abstract class CI_DB_utility extends CI_DB_forge {
 
 	public $db;
 	public $data_cache		= array();
