@@ -37,11 +37,11 @@
 function &DB($params = '', $active_record_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
-	if (is_string($params) AND strpos($params, '://') === FALSE)
+	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
 		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			AND ! file_exists($file_path = APPPATH.'config/database.php'))
+			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
@@ -81,11 +81,11 @@ function &DB($params = '', $active_record_override = NULL)
 
 		$params = array(
 				'dbdriver'	=> $dsn['scheme'],
-				'hostname'	=> (isset($dsn['host'])) ? rawurldecode($dsn['host']) : '',
-				'port'		=> (isset($dsn['port'])) ? rawurldecode($dsn['port']) : '',
-				'username'	=> (isset($dsn['user'])) ? rawurldecode($dsn['user']) : '',
-				'password'	=> (isset($dsn['pass'])) ? rawurldecode($dsn['pass']) : '',
-				'database'	=> (isset($dsn['path'])) ? rawurldecode(substr($dsn['path'], 1)) : ''
+				'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
+				'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
+				'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
+				'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
+				'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
 			);
 
 		// were additional config items set?
@@ -104,10 +104,7 @@ function &DB($params = '', $active_record_override = NULL)
 					$val = FALSE;
 				}
 
-				if ( ! isset($params[$key]))
-				{
-					$params[$key] = $val;
-				}
+				$params[$key] = $val;
 			}
 		}
 	}

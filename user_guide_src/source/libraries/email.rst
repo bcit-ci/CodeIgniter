@@ -104,6 +104,7 @@ Preference          Default Value          Options                      Descript
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **bcc_batch_mode**  FALSE                  TRUE or FALSE (boolean)      Enable BCC Batch Mode.
 **bcc_batch_size**  200                    None                         Number of emails in each BCC batch.
+**dsn**             FALSE                  TRUE or FALSE (boolean)      Enable notify message from server
 =================== ====================== ============================ =======================================================================
 
 Email Function Reference
