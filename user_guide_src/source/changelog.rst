@@ -58,7 +58,7 @@ Release Date: Not Released
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
-   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
    -  Added an optional database name parameter to db_select().
@@ -73,6 +73,9 @@ Release Date: Not Released
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
+   -  Added DSN string support for CUBRID.
+   -  Added persistent connections support for CUBRID.
+   -  Added DSN string support (Easy Connect and TNS) for Oracle.
 
 -  Libraries
 
@@ -100,6 +103,7 @@ Release Date: Not Released
    -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
    -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
@@ -248,10 +252,8 @@ Release Date: November 14, 2011
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
 
-
 Bug fixes for 2.1.0
 -------------------
-
 
 -  Fixed #378 Robots identified as regular browsers by the User Agent
    class.
@@ -1251,7 +1253,7 @@ Bug fixes for 1.6.3
 
 -  Added a language key for valid_emails in validation_lang.php.
 -  Amended fixes for bug (#3419) with parsing DSN database connections.
--  Moved the _has_operators() function (#4535) into DB_driver from
+-  Moved the _has_operator() function (#4535) into DB_driver from
    DB_active_rec.
 -  Fixed a syntax error in upload_lang.php.
 -  Fixed a bug (#4542) with a regular expression in the Image library.
