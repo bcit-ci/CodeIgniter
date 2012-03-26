@@ -73,7 +73,8 @@ Release Date: Not Released
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
-   -  Added DSN string support for ODBC.
+   -  Added DSN string support for CUBRID.
+   -  Added persistent connections support for CUBRID.
 
 -  Libraries
 
@@ -101,6 +102,7 @@ Release Date: Not Released
    -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
    -  Changed the Session library to select only one row when using database sessions.
    -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
