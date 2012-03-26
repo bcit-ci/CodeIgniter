@@ -586,7 +586,6 @@ if ( ! function_exists('form_close'))
  *
  * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
  *
- * @access	public
  * @param	string
  * @return	string
  */
