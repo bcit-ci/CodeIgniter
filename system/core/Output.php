@@ -265,9 +265,17 @@ class CI_Output {
 	 */
 	public function set_profiler_sections($sections)
 	{
+
 		foreach ($sections as $section => $enable)
 		{
-			$this->_profiler_sections[$section] = ($enable !== FALSE) ? TRUE : FALSE;
+			if ($section === 'query_toggle_count')
+			{
+				$this->_profiler_sections[$section] = (is_int($enable)) ? $enable : FALSE;
+			}
+			else
+			{
+				$this->_profiler_sections[$section] = ($enable !== FALSE) ? TRUE : FALSE;
+			}
 		}
 
 		return $this;
