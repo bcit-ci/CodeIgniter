@@ -94,7 +94,7 @@ overly long and verbose names.
 
 	class Super_class {
 
-		function __construct()
+		public function __construct()
 		{
 
 		}
