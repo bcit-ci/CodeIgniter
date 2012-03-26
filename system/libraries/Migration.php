@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Migration Class
  *
@@ -71,7 +69,7 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path == '' AND $this->_migration_path = APPPATH.'migrations/';
+		$this->_migration_path != '' OR $this->_migration_path = APPPATH.'migrations/';
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -101,7 +99,7 @@ class CI_Migration {
 		}
 
 		// Do we auto migrate to the latest migration?
-		if ($this->_migration_auto_latest === TRUE AND ! $this->latest())
+		if ($this->_migration_auto_latest === TRUE && ! $this->latest())
 		{
 			show_error($this->error_string());
 		}
@@ -115,8 +113,7 @@ class CI_Migration {
 	 * Calls each migration step required to get to the schema version of
 	 * choice
 	 *
-	 * @access	public
-	 * @param $version integer	Target schema version
+	 * @param	int	Target schema version
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
 	public function version($target_version)
@@ -241,7 +238,6 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the latest migration
 	 *
-	 * @access	public
 	 * @return	mixed	true if already latest, false if failed, int if upgraded
 	 */
 	public function latest()
@@ -264,7 +260,6 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the migration version set in config
 	 *
-	 * @access	public
 	 * @return	mixed	true if already current, false if failed, int if upgraded
 	 */
 	public function current()
@@ -277,7 +272,6 @@ class CI_Migration {
 	/**
 	 * Error string
 	 *
-	 * @access	public
 	 * @return	string	Error message returned as a string
 	 */
 	public function error_string()
@@ -290,7 +284,6 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the latest migration
 	 *
-	 * @access	protected
 	 * @return	mixed	true if already latest, false if failed, int if upgraded
 	 */
 	protected function find_migrations()
@@ -317,8 +310,7 @@ class CI_Migration {
 	/**
 	 * Retrieves current schema version
 	 *
-	 * @access	protected
-	 * @return	integer	Current Migration
+	 * @return	int	Current Migration
 	 */
 	protected function _get_version()
 	{
@@ -331,9 +323,8 @@ class CI_Migration {
 	/**
 	 * Stores the current schema version
 	 *
-	 * @access	protected
-	 * @param $migrations integer	Migration reached
-	 * @return	void					Outputs a report of the migration
+	 * @param	int	Migration reached
+	 * @return	void	Outputs a report of the migration
 	 */
 	protected function _update_version($migrations)
 	{
@@ -347,8 +338,7 @@ class CI_Migration {
 	/**
 	 * Enable the use of CI super-global
 	 *
-	 * @access	public
-	 * @param $var
+	 * @param	$var
 	 * @return	mixed
 	 */
 	public function __get($var)

@@ -192,7 +192,8 @@ if ( ! function_exists('random_string'))
 	{
 		switch ($type)
 		{
-			case 'basic': return mt_rand();
+			case 'basic':
+				return mt_rand();
 			case 'alnum':
 			case 'numeric':
 			case 'nozero':
@@ -214,12 +215,11 @@ if ( ! function_exists('random_string'))
 				}
 				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
 			case 'unique':
-			case 'md5': return md5(uniqid(mt_rand()));
+			case 'md5':
+				return md5(uniqid(mt_rand()));
 			case 'encrypt':
 			case 'sha1':
-				$CI =& get_instance();
-				$CI->load->helper('security');
-				return do_hash(uniqid(mt_rand(), TRUE), 'sha1');
+				return sha1(uniqid(mt_rand(), TRUE));
 		}
 	}
 }
@@ -229,9 +229,9 @@ if ( ! function_exists('random_string'))
 /**
  * Add's _1 to a string or increment the ending number to allow _2, _3, etc
  *
- * @param	string	$str  required
- * @param	string	$separator  What should the duplicate number be appended with
- * @param	string	$first  Which number should be used for the first dupe increment
+ * @param	string	required
+ * @param	string	What should the duplicate number be appended with
+ * @param	string	Which number should be used for the first dupe increment
  * @return	string
  */
 if ( ! function_exists('increment_string'))
