@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Memcached Caching Class
  *
@@ -36,14 +34,10 @@
  * @author		EllisLab Dev Team
  * @link
  */
-
 class CI_Cache_file extends CI_Driver {
 
 	protected $_cache_path;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		$CI =& get_instance();
@@ -57,8 +51,8 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Fetch from cache
 	 *
-	 * @param 	mixed		unique key id
-	 * @return 	mixed		data on success/false on failure
+	 * @param	mixed	unique key id
+	 * @return	mixed	data on success/false on failure
 	 */
 	public function get($id)
 	{
@@ -83,11 +77,11 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Save into cache
 	 *
-	 * @param 	string		unique key
-	 * @param 	mixed		data to store
-	 * @param 	int			length of time (in seconds) the cache is valid
-	 *						- Default is 60 seconds
-	 * @return 	boolean		true on success/false on failure
+	 * @param	string	unique key
+	 * @param	mixed	data to store
+	 * @param	int	length of time (in seconds) the cache is valid
+	 *				- Default is 60 seconds
+	 * @return	bool	true on success/false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
@@ -111,12 +105,12 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param 	mixed		unique identifier of item in cache
-	 * @return 	boolean		true on success/false on failure
+	 * @param	mixed	unique identifier of item in cache
+	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
 	{
-		return (file_exists($this->_cache_path.$id)) ? unlink($this->_cache_path.$id) : FALSE;
+		return file_exists($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -124,7 +118,7 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Clean the Cache
 	 *
-	 * @return 	boolean		false on failure/true on success
+	 * @return	bool	false on failure/true on success
 	 */
 	public function clean()
 	{
@@ -138,8 +132,8 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * Not supported by file-based caching
 	 *
-	 * @param 	string	user/filehits
-	 * @return 	mixed 	FALSE
+	 * @param	string	user/filehits
+	 * @return	mixed	FALSE
 	 */
 	public function cache_info($type = NULL)
 	{
@@ -151,8 +145,8 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param 	mixed		key to get cache metadata on
-	 * @return 	mixed		FALSE on failure, array on success.
+	 * @param	mixed	key to get cache metadata on
+	 * @return	mixed	FALSE on failure, array on success.
 	 */
 	public function get_metadata($id)
 	{
@@ -188,16 +182,14 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * In the file driver, check to see that the cache directory is indeed writable
 	 *
-	 * @return boolean
+	 * @return	bool
 	 */
 	public function is_supported()
 	{
 		return is_really_writable($this->_cache_path);
 	}
 
-	// ------------------------------------------------------------------------
 }
-// End Class
 
 /* End of file Cache_file.php */
 /* Location: ./system/libraries/Cache/drivers/Cache_file.php */
