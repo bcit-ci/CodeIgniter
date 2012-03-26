@@ -30,7 +30,7 @@
 /**
  * Fallback Sub driver for un-implemented databases
  */
-class ODBC_PDO_Driver {
+class CI_ODBC_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

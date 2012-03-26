@@ -30,7 +30,7 @@
 /**
  * MySQL specific methods for the PDO driver
  */
-class MySQL_PDO_Driver {
+class CI_MySQL_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

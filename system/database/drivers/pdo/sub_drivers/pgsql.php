@@ -30,7 +30,7 @@
 /**
  * Postgresql specific methods for the PDO driver
  */
-class PgSQL_PDO_Driver {
+class CI_PgSQL_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

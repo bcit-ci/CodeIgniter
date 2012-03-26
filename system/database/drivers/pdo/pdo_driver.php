@@ -183,7 +183,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// Instantiate the sub-driver, and
 		// return the connection object
-		$driver_class = "{$driver}_PDO_Driver";
+		$driver_class = "CI_{$driver}_PDO_Driver";
 		$this->driver = new $driver_class($this);
 
 		return $this->conn_id;

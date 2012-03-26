@@ -30,7 +30,7 @@
 /**
  * Sqlite specific methods for the PDO driver
  */
-class SQLite_PDO_Driver {
+class CI_SQLite_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

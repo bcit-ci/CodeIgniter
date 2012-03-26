@@ -30,7 +30,7 @@
 /**
  * Firebird/Interbase specific methods for the PDO driver
  */
-class Firebird_PDO_Driver {
+class CI_Firebird_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

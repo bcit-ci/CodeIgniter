@@ -30,7 +30,7 @@
 /**
  * Cubrid specific methods for the PDO driver
  */
-class Cubrid_PDO_Driver {
+class CI_Cubrid_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;

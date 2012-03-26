@@ -30,7 +30,7 @@
 /**
  * SQL Server specific methods for the PDO driver
  */
-class SQLSrv_PDO_Driver {
+class CI_SQLSrv_PDO_Driver {
 
 	protected $conn;
 	protected $pdo;
