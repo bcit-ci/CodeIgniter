@@ -35,6 +35,7 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
+   -  Added some more doctypes.
 
 -  Helpers
 
