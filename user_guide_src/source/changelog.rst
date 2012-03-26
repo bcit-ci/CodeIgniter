@@ -117,6 +117,7 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
+   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
 
 Bug fixes for 3.0
 ------------------
