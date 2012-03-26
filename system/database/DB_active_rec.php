@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Active Record Class
  *
@@ -38,7 +36,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_active_record extends CI_DB_driver {
+abstract class CI_DB_active_record extends CI_DB_driver {
 
 	protected $return_delete_sql		= FALSE;
 	protected $reset_delete_data		= FALSE;
@@ -422,7 +420,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -537,7 +535,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-	 * @param	boolean	If the statement would be IN or NOT IN
+	 * @param	bool	If the statement would be IN or NOT IN
 	 * @param	string
 	 * @return	object
 	 */
@@ -719,7 +717,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		$type = $this->_group_get_type($type);
 		$this->ar_where_group_started = TRUE;
-		$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+		$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 		$this->ar_where[] = $value = $prefix.$not.str_repeat(' ', ++$this->ar_where_group_count).' (';
 
 		if ($this->ar_caching)
@@ -984,8 +982,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the LIMIT value
 	 *
-	 * @param	integer	the limit value
-	 * @param	integer	the offset value
+	 * @param	int	the limit value
+	 * @param	int	the offset value
 	 * @return	object
 	 */
 	public function limit($value, $offset = NULL)
@@ -1005,7 +1003,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the OFFSET value
 	 *
-	 * @param	integer	the offset value
+	 * @param	int	the offset value
 	 * @return	object
 	 */
 	public function offset($offset)
@@ -1021,7 +1019,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set($key, $value = '', $escape = TRUE)
@@ -1055,9 +1053,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles a SELECT query string and returns the sql.
 	 *
-	 * @access	public
 	 * @param	string	the table name to select from (optional)
-	 * @param	boolean	TRUE: resets AR values; FALSE: leave AR vaules alone
+	 * @param	bool	TRUE: resets AR values; FALSE: leave AR vaules alone
 	 * @return	string
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
@@ -1226,7 +1223,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set_insert_batch($key, $value = '', $escape = TRUE)
@@ -1283,9 +1280,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an insert query and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to insert into
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_insert($table = '', $reset = TRUE)
@@ -1316,7 +1312,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an insert string and runs the query
 	 *
-	 * @access	public
 	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
 	 * @return	object
@@ -1352,7 +1347,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * validate that the there data is actually being set and that table
 	 * has been chosen to be inserted into.
 	 *
-	 * @access	public
 	 * @param	string	the table to insert data into
 	 * @return	string
 	 */
@@ -1423,9 +1417,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an update query and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to update
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_update($table = '', $reset = TRUE)
@@ -1499,7 +1492,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * validate that data is actually being set and that a table has been
 	 * chosen to be update.
 	 *
-	 * @access	public
 	 * @param	string	the table to update data on
 	 * @return	bool
 	 */
@@ -1584,7 +1576,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set_update_batch($key, $index = '', $escape = TRUE)
@@ -1696,9 +1688,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles a delete query string and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to delete from
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_delete($table = '', $reset = TRUE)
@@ -1719,7 +1710,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed	the table(s) to delete from. String or array
 	 * @param	mixed	the where clause
 	 * @param	mixed	the limit clause
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
@@ -2062,7 +2053,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Empties the AR cache
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function flush_cache()
@@ -2114,7 +2104,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE AND count($this->ar_cache_from) > 0)
+		if ($this->_protect_identifiers === TRUE && count($this->ar_cache_from) > 0)
 		{
 			$this->_track_aliases($this->ar_from);
 		}
@@ -2197,16 +2187,16 @@ class CI_DB_active_record extends CI_DB_driver {
 	protected function _reset_write()
 	{
 		$this->_reset_run(array(
-					'ar_set'	=> array(),
-					'ar_from'	=> array(),
-					'ar_where'	=> array(),
-					'ar_like'	=> array(),
-					'ar_orderby'	=> array(),
-					'ar_keys'	=> array(),
-					'ar_limit'	=> FALSE,
-					'ar_order'	=> FALSE
-					)
-				);
+			'ar_set'	=> array(),
+			'ar_from'	=> array(),
+			'ar_where'	=> array(),
+			'ar_like'	=> array(),
+			'ar_orderby'	=> array(),
+			'ar_keys'	=> array(),
+			'ar_limit'	=> FALSE,
+			'ar_order'	=> FALSE
+			)
+		);
 	}
 
 }

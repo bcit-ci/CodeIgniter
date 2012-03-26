@@ -347,8 +347,8 @@ if ( ! function_exists('gmt_to_local'))
 /**
  * Converts a MySQL Timestamp to Unix
  *
- * @param	string	Date
- * @return	int	Unix timestamp
+ * @param	int	Unix timestamp
+ * @return	int
  */
 if ( ! function_exists('mysql_to_unix'))
 {
