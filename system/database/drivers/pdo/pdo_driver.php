@@ -52,7 +52,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() public functions.
+	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
@@ -518,7 +518,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Escape the SQL Identifiers
 	 *
-	 * This public function escapes column and table names
+	 * This function escapes column and table names
 	 *
 	 * @param	string
 	 * @return	string
@@ -560,7 +560,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * From Tables
 	 *
-	 * This public function implicitly groups FROM tables so there is no confusion
+	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
 	 * @param	array
