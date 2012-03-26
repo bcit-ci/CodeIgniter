@@ -248,6 +248,7 @@ Release Date: November 14, 2011
       library <libraries/form_validation>`.
    -  Added $config['use_page_numbers'] to the :doc:`Pagination library <libraries/pagination>`, which enables real page numbers in the URI.
    -  Added TLS and SSL Encryption for SMTP.
+   -  Added $config['anchor_attributes'] to the :doc:`Pagination library <libraries/pagination>`, which enables the ability to add attributes to every anchor.
 
 -  Core
 

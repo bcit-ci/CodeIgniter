@@ -254,3 +254,17 @@ Adding a class to every anchor
 If you want to add a class attribute to every link rendered by the
 pagination class, you can set the config "anchor_class" equal to the
 classname you want.
+
+*********************************
+Adding attributes to every anchor
+*********************************
+
+If you want to add attributes to every link rendered by the
+pagination class, you can set the config "anchor_attributes" equal to the
+array of attribute/value pairs you want. Placing a %s within an attribute value
+will be patched by the link's text as shown below::
+
+	 	$config['anchor_attributes']['target'] = '_top';
+		$config['anchor_attributes']['id'] = 'mylink%s';
+		
+		// Produces: <a href="http://example.com/index.php/test/page/20" target="_top" id="mylink2">2</a>
