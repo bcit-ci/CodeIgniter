@@ -134,7 +134,7 @@ class CI_Cart {
 	 * @param	array
 	 * @return	bool
 	 */
-	private function _insert($items = array())
+	protected function _insert($items = array())
 	{
 		// Was any cart data passed? No? Bah...
 		if ( ! is_array($items) OR count($items) === 0)
