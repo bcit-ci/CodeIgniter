@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -24,8 +24,6 @@
  * @since		Version 2.1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * PDO Result Class
@@ -51,10 +49,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_rows()
+	public function num_rows()
 	{
 		if (empty($this->result_id) OR ! is_object($this->result_id))
 		{
@@ -74,10 +71,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Fetch the result handler
 	 *
-	 * @access	public
 	 * @return	mixed
 	 */
-	function result_assoc()
+	public function result_assoc()
 	{
 		// If the result already fetched before, use that one
 		if (count($this->result_array) > 0 OR $this->is_fetched)
@@ -94,7 +90,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 			// Define the method and handler
 			$res_method  = '_fetch_'.$type;
 			$res_handler = 'result_'.$type;
-			
+
 			$this->$res_handler = array();
 			$this->_data_seek(0);
 
@@ -116,10 +112,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_fields()
+	public function num_fields()
 	{
 		return $this->result_id->columnCount();
 	}
@@ -131,16 +126,15 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
-	 * @return	array
+	 * @return	bool
 	 */
-	function list_fields()
+	public function list_fields()
 	{
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
-		
+
 		return FALSE;
 	}
 
@@ -151,13 +145,12 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function field_data()
+	public function field_data()
 	{
 		$data = array();
-	
+
 		try
 		{
 			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
@@ -173,7 +166,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
 					$F->primary_key = (int) $field['pk'];
 					$F->pdo_type	= NULL;
-					
+
 					$data[] = $F;
 				}
 			}
@@ -188,7 +181,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 					$F->type	= $field['native_type'];
 					$F->default	= NULL;
 					$F->pdo_type	= $field['pdo_type'];
-					
+
 					if ($field['precision'] < 0)
 					{
 						$F->max_length	= NULL;
@@ -203,7 +196,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 					$data[] = $F;
 				}
 			}
-			
+
 			return $data;
 		}
 		catch (Exception $e)
@@ -222,9 +215,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	null
+	 * @return	void
 	 */
-	function free_result()
+	public function free_result()
 	{
 		if (is_object($this->result_id))
 		{
@@ -237,14 +230,13 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	private
-	 * @return	array
+	 * @return	bool
 	 */
-	function _data_seek($n = 0)
+	protected function _data_seek($n = 0)
 	{
 		return FALSE;
 	}
@@ -256,10 +248,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		return $this->result_id->fetch(PDO::FETCH_ASSOC);
 	}
@@ -271,11 +262,10 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
-	{	
+	protected function _fetch_object()
+	{
 		return $this->result_id->fetchObject();
 	}
 
