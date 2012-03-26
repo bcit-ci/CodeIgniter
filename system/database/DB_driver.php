@@ -171,6 +171,23 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Reconnect
+	 *
+	 * Keep / reestablish the db connection if no queries have been
+	 * sent for a length of time exceeding the server's idle timeout.
+	 *
+	 * This is just a dummy method to allow drivers without such
+	 * functionality to not declare it, while others will override it.
+	 *
+	 * @return      void
+	 */
+	public function reconnect()
+	{
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set client character set
 	 *
 	 * @param	string
