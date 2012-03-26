@@ -73,7 +73,7 @@ class CI_Firebird_PDO_Driver {
 	 */
 	public function prep_query($sql)
 	{
-		return str_replace('`', '"', $sql);
+		return $sql;
 	}
 	
 	// --------------------------------------------------------------------------

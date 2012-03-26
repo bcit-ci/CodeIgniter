@@ -81,7 +81,7 @@ class CI_SQLite_PDO_Driver {
 	 */
 	public function prep_query($sql)
 	{
-		return str_replace('`', '"', $sql);
+		return $sql;
 	}
 	
 	// --------------------------------------------------------------------------
