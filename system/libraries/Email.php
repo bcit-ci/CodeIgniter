@@ -83,7 +83,6 @@ class CI_Email {
 	protected $_attach_name		= array();
 	protected $_attach_type		= array();
 	protected $_attach_disp		= array();
-	protected $_attach_content	= array();
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
 	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	protected $_bit_depths		= array('7bit', '8bit');
@@ -172,7 +171,6 @@ class CI_Email {
 			$this->_attach_name = array();
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
-			$this->_attach_content = array();
 		}
 
 		return $this;
@@ -408,12 +406,11 @@ class CI_Email {
 	 * @param	string
 	 * @return	object
 	 */
-	public function attach($filename, $disposition = '', $str = '', $mime = '', $newname = NULL)
+	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
 		$this->_attach_name[] = array($filename, $newname);
-		$this->_attach_type[] = ($mime == '') ? $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION)) : $mime;
 		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
-		$this->_attach_content[] = $str;
+		$this->_attach_type[] = $mime;
 		return $this;
 	}
 
@@ -1053,7 +1050,7 @@ class CI_Email {
 			$ctype = $this->_attach_type[$i];
 			$file_content = '';
 
-			if ($this->_attach_content[$i] === '')
+			if ($this->_attach_type[$i] == '')
 			{
 				if ( ! file_exists($filename))
 				{
@@ -1069,6 +1066,7 @@ class CI_Email {
 					return FALSE;
 				}
 
+				$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 				$file_content = fread($fp, $file);
 				fclose($fp);
 			}

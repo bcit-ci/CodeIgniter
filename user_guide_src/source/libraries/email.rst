@@ -228,18 +228,20 @@ use the function multiple times. For example::
 	$this->email->attach('/path/to/photo2.jpg');
 	$this->email->attach('/path/to/photo3.jpg');
 
-To use the default disposition (attachment), leave the second parameter blank.
-If you need to use a buffer string instead of a real (physical) file you can use the
-third and fourth parameters that are respectively the buffer and the mime-type::
+To use the default disposition (attachment), leave the second parameter blank,
+otherwise use a custom disposition::
 
-	$this->email->attach('report.pdf', 'inline', $buffer, 'application/pdf');
+	$this->email->attach('image.jpg', 'inline');
 
-If you'd like to add a custom file name, you can use the fifth paramaters.
-Here's an example::
-  
-	$this->email->attach('/path/to/photo1.jpg', '', '', '', 'inline');
-	$this->email->attach('/path/to/photo1.jpg', '', '', '', 'birthday.jpg');
+If you'd like to use a custom file name, you can use the third paramater::
 
+	$this->email->attach('filename.pdf', 'attachment', 'report.pdf');
+
+If you need to use a buffer string instead of a real - physical - file you can
+use the first parameter as buffer, the third parameter as file name and the fourth
+parameter as mime-type::
+
+	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
 $this->email->print_debugger()
 -------------------------------
