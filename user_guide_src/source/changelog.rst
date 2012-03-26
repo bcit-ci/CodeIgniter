@@ -58,7 +58,7 @@ Release Date: Not Released
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
    -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
-   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
    -  Added an optional database name parameter to db_select().
@@ -1259,7 +1259,7 @@ Bug fixes for 1.6.3
 
 -  Added a language key for valid_emails in validation_lang.php.
 -  Amended fixes for bug (#3419) with parsing DSN database connections.
--  Moved the _has_operators() function (#4535) into DB_driver from
+-  Moved the _has_operator() function (#4535) into DB_driver from
    DB_active_rec.
 -  Fixed a syntax error in upload_lang.php.
 -  Fixed a bug (#4542) with a regular expression in the Image library.
