@@ -57,29 +57,64 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
-	 * Connection String
+	 * Constructor
 	 *
-	 * @return	string
+	 * Creates a DSN string to be used for db_connect() and db_pconnect()
+	 *
+	 * @return	void
 	 */
-	protected function _connect_string()
+	public function __construct($params)
 	{
-		$components = array(
-								'hostname'	=> 'host',
-								'port'		=> 'port',
-								'database'	=> 'dbname',
-								'username'	=> 'user',
-								'password'	=> 'password'
-							);
+		parent::__construct($params);
 
-		$connect_string = "";
-		foreach ($components as $key => $val)
+		if ( ! empty($this->dsn))
 		{
-			if (isset($this->$key) && $this->$key != '')
+			return;
+		}
+
+		$this->dsn === '' OR $this->dsn = '';
+
+		if (strpos($this->hostname, '/') !== FALSE)
+		{
+			// If UNIX sockets are used, we shouldn't set a port
+			$this->port = '';
+		}
+
+		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname;
+
+		if ( ! empty($this->port) && ctype_digit($this->port))
+		{
+			$this->dsn .= 'host='.$this->port.' ';
+		}
+
+		if ($this->username !== '')
+		{
+			$this->dsn .= 'username='.$this->username.' ';
+
+			/* An empty password is valid!
+			 *
+			 * $db['password'] = NULL must be done in order to ignore it.
+			 */
+			$this->password === NULL OR $this->dsn .= "password='".$this->password."' ";
+		}
+
+		$this->database === '' OR $this->dsn .= 'dbname='.$this->database.' ';
+
+		/* We don't have these options as elements in our standard configuration
+		 * array, but they might be set by parse_url() if the configuration was
+		 * provided via string. Example:
+		 *
+		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
+		 */
+		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		{
+			if (isset($this->$key) && is_string($this->key) && $this->key !== '')
 			{
-				$connect_string .= " $val=".$this->$key;
+				$this->dsn .= $key."='".$this->key."' ";
 			}
 		}
-		return trim($connect_string);
+
+		$this->dsn = rtrim($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -91,7 +126,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @pg_connect($this->_connect_string());
+		return @pg_connect($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -103,7 +138,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->_connect_string());
+		return @pg_pconnect($this->dsn);
 	}
 
 	// --------------------------------------------------------------------

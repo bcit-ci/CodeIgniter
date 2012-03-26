@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Number Helpers
  *
@@ -42,7 +40,6 @@
 /**
  * Formats a numbers as bytes, based on size, and adds the appropriate suffix
  *
- * @access	public
  * @param	mixed	// will be cast as int
  * @return	string
  */

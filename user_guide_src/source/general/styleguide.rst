@@ -168,7 +168,6 @@ picked up by IDEs::
 	/**
 	 * Encodes string for use in XML
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
