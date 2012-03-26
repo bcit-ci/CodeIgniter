@@ -68,5 +68,12 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 
+/**
+ * To allow controller files to be stored in multiple subfolders,
+ * such as "controllers/sub1/sub2/controller_here.php",
+ * set allow_multiple_subfolders to TRUE
+ **/
+$route['allow_multiple_subfolders'] = FALSE;
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
