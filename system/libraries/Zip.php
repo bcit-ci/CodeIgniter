@@ -251,7 +251,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @return	bool
 	 */
-	function read_file($path, $preserve_filepath = FALSE)
+	function read_file($path, $preserve_filepath = FALSE, $name = NULL) // Added $name
 	{
 		if ( ! file_exists($path))
 		{
@@ -260,17 +260,20 @@ class CI_Zip  {
 
 		if (FALSE !== ($data = file_get_contents($path)))
 		{
-			$name = str_replace("\\", "/", $path);
+			if($name == NULL)
+			{  // Added a verification to see if it is set, if not set, then it does it's normal thing, if it is set, it uses the defined var.
+				$name = str_replace("\\", "/", $path);
 
-			if ($preserve_filepath === FALSE)
-			{
-				$name = preg_replace("|.*/(.+)|", "\\1", $name);
+				if ($preserve_filepath === FALSE)
+				{
+					$name = preg_replace("|.*/(.+)|", "\\1", $name);
+				}
 			}
 
 			$this->add_data($name, $data);
 			return TRUE;
 		}
-		return FALSE;
+    		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
