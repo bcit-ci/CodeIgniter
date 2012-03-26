@@ -54,13 +54,13 @@ if ( ! function_exists('create_captcha'))
 
 		foreach ($defaults as $key => $val)
 		{
-			if ( ! is_array($data) && ( ! isset($$key) OR $$key == ''))
+			if ( ! is_array($data) && empty($$key))
 			{
 				$$key = $val;
 			}
 			else
 			{
-				$$key = ( ! isset($data[$key])) ? $val : $data[$key];
+				$$key = isset($data[$key]) ? $data[$key] : $val;
 			}
 		}
 
