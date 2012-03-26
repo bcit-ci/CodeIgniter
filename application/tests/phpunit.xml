@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+	bootstrap="Bootstrap.php"
+	colors="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false">
+	
+	<testsuites>
+		<testsuite name="Application Controllers">
+			<directory suffix="test.php">controllers</directory>
+		</testsuite>
+	</testsuites>
+	
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../controllers</directory>
+		</whitelist>
+	</filter>
+	
+	<!-- 
+	<logging>
+	 <log type="coverage-html" target="./coverage-html"></log>
+	</logging>
+	-->
+	
+</phpunit>

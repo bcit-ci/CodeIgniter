@@ -42,7 +42,12 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+
+if ( ! defined('ENVIRONMENT'))
+{
 	define('ENVIRONMENT', 'development');
+}
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -249,6 +254,17 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+
+/*
+ * ------------------------------------------------------
+ * Dispatch the request.
+ * ------------------------------------------------------
+ */
+if (ENVIRONMENT !== 'testing')
+{
+	$dispatcher =& load_class('Dispatcher', 'core');
+	$dispatcher->dispatch();
+}
 
 /* End of file index.php */
 /* Location: ./index.php */
