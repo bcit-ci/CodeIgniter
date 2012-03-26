@@ -75,6 +75,7 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
+   -  Added DSN string support (Easy Connect and TNS) for Oracle.
 
 -  Libraries
 
