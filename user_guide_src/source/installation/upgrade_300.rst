@@ -31,3 +31,9 @@ Step 3: Remove $autoload['core'] from your config/autoload.php
 
 Use of the `$autoload['core']` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to `$autoload['libraries']` instead.
+
+Step 4: Change your use of the Date heper's now() function
+==========================================================
+
+Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`
+You must replace $config['time_reference'] with $config['timezone'].
