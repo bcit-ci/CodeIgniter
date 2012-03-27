@@ -168,7 +168,8 @@ class CI_Exceptions {
 		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 
 		$filepath = str_replace("\\", "/", $filepath);
-
+		$idiom = $this->_get_idiom();
+		
 		// For safety reasons we do not show the full file path
 		if (FALSE !== strpos($filepath, '/'))
 		{
