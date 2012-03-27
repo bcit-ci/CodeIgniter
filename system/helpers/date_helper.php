@@ -40,8 +40,10 @@
 /**
  * Get "now" time
  *
- * Returns time() or its GMT equivalent based on the config file preference
+ * Returns time() based on the timezone parameter or on the "timezone"
+ * setting
  *
+ * @param	string
  * @return	int
  */
 if ( ! function_exists('now'))
