@@ -95,7 +95,8 @@ class CI_SQLSrv_PDO_Driver {
 	 */
 	public function prep_query($sql)
 	{
-		return preg_replace('`"(.*)"`', '[$1]', $sql);
+		$sql = preg_replace('`"(.*)"`imx', '[\1]', $sql);
+		return str_replace('"."', '].[', $sql);
 	}
 	
 	// --------------------------------------------------------------------------
