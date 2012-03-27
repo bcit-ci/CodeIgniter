@@ -363,7 +363,7 @@ $config['compress_output'] = FALSE;
 |--------------------------------------------------------------------------
 |
 | You can set any PHP supported timezones to be the master timezone when
-| you call th now() function.
+| you call the now() function.
 |
 */
 $config['timezone'] = 'UTC';
