@@ -46,6 +46,7 @@ class CI_SQLSrv_PDO_Driver {
 		$dsn = ( ! empty($pdo->dsn)) 
 			? $pdo->dsn
 			: "{$pdo->pdodriver}:Server={$pdo->hostname}";
+		
 			
 		if ( ! empty($pdo->port))
 		{
@@ -53,6 +54,19 @@ class CI_SQLSrv_PDO_Driver {
 		}
 		
 		$dsn .= ';Database='.$pdo->database;
+		
+		// if the driver is dblib, the connection string is more similar to other drivers
+		if (empty($pdo->dsn) && $pdo->pdodriver == 'dblib')
+		{
+			$dsn = "dblib:host={$pdo->hostname}";
+			
+			if ( ! empty($pdo->port))
+			{
+				$dsn .= ':'.$pdo->port;
+			}
+			
+			$dsn .= ';dbname='.$pdo->database;
+		}
 	
 		// Connecting...
 		try 
