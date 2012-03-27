@@ -53,7 +53,9 @@ if ( ! function_exists('now'))
 		$CI			=& get_instance();
 
 		if (is_null($timezone))
+		{
 			$timezone	= $CI->config->item('timezone');
+		}
 
 		$timezone	= new DateTimeZone($timezone);
 		$now		= new DateTime('now', $timezone);
