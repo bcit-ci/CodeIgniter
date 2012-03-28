@@ -106,18 +106,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
-	 *
-	 * @return	resource
-	 */
-	public function db_select()
-	{
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Database version number
 	 *
 	 * @return	string
