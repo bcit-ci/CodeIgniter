@@ -1,7 +1,5 @@
 <?php
 
-require_once(BASEPATH.'helpers/email_helper.php');
-
 class Common_test extends CI_TestCase
 {
 	
