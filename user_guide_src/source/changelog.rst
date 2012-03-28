@@ -75,7 +75,8 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
+   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
