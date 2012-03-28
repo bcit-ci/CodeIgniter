@@ -141,12 +141,6 @@ class Table_test extends CI_TestCase {
 	
 	public function test_default_template_keys()
 	{
-		$reflectionOfTable = new ReflectionClass($this->table);
-		$method = $reflectionOfTable->getMethod('_default_template');
-		
-		$method->setAccessible(true);
-		
-		$deft_template = $method->invoke($this->table);
 		$keys = array(
 			'table_open',
 			'thead_open', 'thead_close',
@@ -159,7 +153,7 @@ class Table_test extends CI_TestCase {
 		
 		foreach ($keys as $key)
 		{
-			$this->assertArrayHasKey($key, $deft_template);
+			$this->assertArrayHasKey($key, $this->table->default_template());
 		}
 	}
 	
