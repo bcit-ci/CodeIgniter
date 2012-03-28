@@ -25,13 +25,11 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Typography Class
  *
- *
- * @access		protected
+ * @package		CodeIgniter
+ * @subpackage	Libraries
  * @category	Helpers
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/typography.html
@@ -67,7 +65,6 @@ class CI_Typography {
 	 *	- Converts double dashes into em-dashes.
 	 *  - Converts two spaces into entities
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	bool	whether to reduce more then two consecutive newlines to two
 	 * @return	string
@@ -94,15 +91,12 @@ class CI_Typography {
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
 		$html_comments = array();
-		if (strpos($str, '<!--') !== FALSE)
+		if (strpos($str, '<!--') !== FALSE && preg_match_all('#(<!\-\-.*?\-\->)#s', $str, $matches))
 		{
-			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches))
+			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
 			{
-				for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
-				{
-					$html_comments[] = $matches[0][$i];
-					$str = str_replace($matches[0][$i], '{@HC'.$i.'}', $str);
-				}
+				$html_comments[] = $matches[0][$i];
+				$str = str_replace($matches[0][$i], '{@HC'.$i.'}', $str);
 			}
 		}
 
@@ -110,22 +104,22 @@ class CI_Typography {
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== FALSE)
 		{
-			$str = preg_replace_callback("#<pre.*?>.*?</pre>#si", array($this, '_protect_characters'), $str);
+			$str = preg_replace_callback('#<pre.*?>.*?</pre>#si', array($this, '_protect_characters'), $str);
 		}
 
 		// Convert quotes within tags to temporary markers.
-		$str = preg_replace_callback("#<.+?>#si", array($this, '_protect_characters'), $str);
+		$str = preg_replace_callback('#<.+?>#si', array($this, '_protect_characters'), $str);
 
 		// Do the same with braces if necessary
 		if ($this->protect_braced_quotes === TRUE)
 		{
-			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protect_characters'), $str);
+			$str = preg_replace_callback('#\{.+?\}#si', array($this, '_protect_characters'), $str);
 		}
 
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag
 		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
-		$str = preg_replace("#<(/*)(".$this->inline_elements.")([ >])#i", "{@TAG}\\1\\2\\3", $str);
+		$str = preg_replace('#<(/*)('.$this->inline_elements.')([ >])#i', '{@TAG}\\1\\2\\3', $str);
 
 		/* Split the string at every tag. This expression creates an array with this prototype:
 		 *
@@ -148,9 +142,9 @@ class CI_Typography {
 		{
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(".$this->block_elements.").*?>#", $chunks[$i], $match))
+			if (preg_match('#<(/*)('.$this->block_elements.').*?>#', $chunks[$i], $match))
 			{
-				if (preg_match("#".$this->skip_elements."#", $match[2]))
+				if (preg_match('#'.$this->skip_elements.'#', $match[2]))
 				{
 					$process = ($match[1] === '/');
 				}
@@ -180,10 +174,10 @@ class CI_Typography {
 			$str .= $this->_format_newlines($chunks[$i]);
 		}
 
-		// No opening block level tag?  Add it if needed.
-		if ( ! preg_match("/^\s*<(?:".$this->block_elements.")/i", $str))
+		// No opening block level tag? Add it if needed.
+		if ( ! preg_match('/^\s*<(?:'.$this->block_elements.')/i', $str))
 		{
-			$str = preg_replace("/^(.*?)<(".$this->block_elements.")/i", '<p>$1</p><$2', $str);
+			$str = preg_replace('/^(.*?)<('.$this->block_elements.')/i', '<p>$1</p><$2', $str);
 		}
 
 		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
@@ -230,7 +224,7 @@ class CI_Typography {
 
 						// Similarly, there might be cases where a closing </block> will follow
 						// a closing </p> tag, so we'll correct it by adding a newline in between
-						"#</p></#"			=> "</p>\n</"
+						'#</p></#'			=> "</p>\n</"
 						);
 
 		// Do we need to reduce empty lines?
@@ -258,7 +252,6 @@ class CI_Typography {
 	 * to curly entities, but it also converts em-dashes,
 	 * double spaces, and ampersands
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -322,13 +315,12 @@ class CI_Typography {
 	 *
 	 * Converts newline characters into either <p> tags or <br />
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
 	protected function _format_newlines($str)
 	{
-		if ($str == '' OR (strpos($str, "\n") === FALSE AND ! in_array($this->last_block_element, $this->inner_block_required)))
+		if ($str == '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
 			return $str;
 		}
@@ -337,7 +329,7 @@ class CI_Typography {
 		$str = str_replace("\n\n", "</p>\n\n<p>", $str);
 
 		// Convert single spaces to <br /> tags
-		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
+		$str = preg_replace("/([^\n])(\n)([^\n])/", '\\1<br />\\2\\3', $str);
 
 		// Wrap the whole enchilada in enclosing paragraphs
 		if ($str != "\n")
@@ -350,9 +342,7 @@ class CI_Typography {
 
 		// Remove empty paragraphs if they are on the first line, as this
 		// is a potential unintended consequence of the previous code
-		$str = preg_replace("/<p><\/p>(.*)/", "\\1", $str, 1);
-
-		return $str;
+		return preg_replace('/<p><\/p>(.*)/', '\\1', $str, 1);
 	}
 
 	// ------------------------------------------------------------------------
@@ -365,7 +355,6 @@ class CI_Typography {
 	 * and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 	 * likewise double spaces are converted to {@NBS} to prevent entity conversion
 	 *
-	 * @access	protected
 	 * @param	array
 	 * @return	string
 	 */
@@ -379,7 +368,6 @@ class CI_Typography {
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -399,7 +387,6 @@ class CI_Typography {
 	}
 
 }
-// END Typography Class
 
 /* End of file Typography.php */
 /* Location: ./system/libraries/Typography.php */

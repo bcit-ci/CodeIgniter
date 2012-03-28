@@ -35,6 +35,8 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
+   -  Added some more doctypes.
+   -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
 
 -  Helpers
 
@@ -56,8 +58,10 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
-   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
-   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
+   -  Improved support for the MySQLi driver, including:
+	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
+	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
+	 -  Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
@@ -75,6 +79,8 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
+   -  Added random ordering support for MSSQL.
+   -  Added random ordering support for SQLSRV.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
 	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
@@ -121,6 +127,7 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
+   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
 
 Bug fixes for 3.0
 ------------------
@@ -173,6 +180,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
+-  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 
 Version 2.1.1
 =============

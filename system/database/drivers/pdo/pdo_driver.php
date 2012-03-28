@@ -484,7 +484,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @param	string
 	 * @return	string
 	 */
-	function count_all($table = '')
+	public function count_all($table = '')
 	{
 		if ($table == '')
 		{
