@@ -57,6 +57,27 @@ class CI_DB_cubrid_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
+	// CUBRID-specific properties
+	public $auto_commit = TRUE;
+
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:[^:]*:[^:]*:(\?.+)?$/', $this->dsn, $matches))
+		{
+			if (stripos($matches[2], 'autocommit=off') !== FALSE)
+			{
+				$this->auto_commit = FALSE;
+			}
+		}
+		else
+		{
+			// If no port is defined by the user, use the default value
+			$this->port == '' OR $this->port = 33000;
+		}
+	}
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -64,31 +85,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		// If no port is defined by the user, use the default value
-		if ($this->port == '')
-		{
-			// Default CUBRID Broker port
-			$this->port = 33000;
-		}
-
-		$conn = cubrid_connect($this->hostname, $this->port, $this->database, $this->username, $this->password);
-
-		if ($conn)
-		{
-			// Check if a user wants to run queries in dry, i.e. run the
-			// queries but not commit them.
-			if (isset($this->auto_commit) && ! $this->auto_commit)
-			{
-				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_FALSE);
-			}
-			else
-			{
-				cubrid_set_autocommit($conn, CUBRID_AUTOCOMMIT_TRUE);
-				$this->auto_commit = TRUE;
-			}
-		}
-
-		return $conn;
+		return $this->_cubrid_connect();
 	}
 
 	// --------------------------------------------------------------------
@@ -100,15 +97,45 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * engine which can be configured in the CUBRID Broker configuration
 	 * file by setting the CCI_PCONNECT parameter to ON. In that case, all
 	 * connections established between the client application and the
-	 * server will become persistent. This is calling the same
-	 * @cubrid_connect function will establish persisten connection
-	 * considering that the CCI_PCONNECT is ON.
+	 * server will become persistent.
 	 *
 	 * @return	resource
 	 */
 	public function db_pconnect()
 	{
-		return $this->db_connect();
+		return $this->_cubrid_connect(TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CUBRID connection
+	 *
+	 * A CUBRID-specific method to create a connection to the database.
+	 * Except for determining if a persistent connection should be used,
+	 * the rest of the logic is the same for db_connect() and db_pconnect().
+	 *
+	 * @param	bool
+	 * @return	resource
+	 */
+	protected function _cubrid_connect($persistent = FALSE)
+	{
+		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
+		{
+			$_temp = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
+			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
+					? $_temp($this->dsn, $this->username, $this->password)
+					: $_temp($this->dsn);
+		}
+		else
+		{
+			$_temp = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
+			$conn_id = ($this->username !== '')
+					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
+					: $_temp($this->hostname, $this->port, $this->database);
+		}
+
+		return $conn_id;
 	}
 
 	// --------------------------------------------------------------------

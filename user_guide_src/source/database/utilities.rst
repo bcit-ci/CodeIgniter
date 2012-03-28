@@ -117,7 +117,7 @@ query. Example::
 	echo $this->dbutil->csv_from_result($query);
 
 The second, third, and fourth parameters allow you to set the delimiter
-newline, and enclosure characters respectively. By default tabs are
+newline, and enclosure characters respectively. By default commas are
 used as the delimiter, "\n" is used as a new line, and a double-quote
 is used as the enclosure. Example::
 
