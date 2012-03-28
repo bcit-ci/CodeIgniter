@@ -57,12 +57,17 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
-
 	public function __construct($params)
 	{
 		parent::__construct($params);
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
+
+		// Legacy support for DSN in the hostname field
+		if ($this->dsn == '')
+		{
+			$this->dsn = $this->hostname;
+		}
 	}
 
 	/**
@@ -72,7 +77,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @odbc_connect($this->hostname, $this->username, $this->password);
+		return @odbc_connect($this->dsn, $this->username, $this->password);
 	}
 
 	// --------------------------------------------------------------------
@@ -84,22 +89,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @odbc_pconnect($this->hostname, $this->username, $this->password);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		// not implemented in odbc
+		return @odbc_pconnect($this->dsn, $this->username, $this->password);
 	}
 
 	// --------------------------------------------------------------------

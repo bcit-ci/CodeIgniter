@@ -52,10 +52,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * used for the count_all() and count_all_results() methods.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = ' NEWID()';
 
 	/**
 	 * Non-persistent database connection
@@ -87,21 +87,6 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 
 		return @mssql_pconnect($this->hostname, $this->username, $this->password);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		// not implemented in MSSQL
 	}
 
 	// --------------------------------------------------------------------
@@ -554,13 +539,12 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 
