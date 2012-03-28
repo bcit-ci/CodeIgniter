@@ -1,7 +1,5 @@
 <?php
 
-require BASEPATH.'core/URI.php';
-
 class Mock_Core_URI extends CI_URI {
 	
 	public function __construct()
