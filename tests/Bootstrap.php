@@ -6,6 +6,9 @@ error_reporting(E_ALL | E_STRICT);
 
 $dir = realpath(dirname(__FILE__));
 
+// Environment constants
+define('ENVIRONMENT', 'testing');
+
 // Path constants
 define('PROJECT_BASE',	realpath($dir.'/../').'/');
 define('BASEPATH',		PROJECT_BASE.'system/');
