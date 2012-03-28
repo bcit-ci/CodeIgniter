@@ -1,9 +1,5 @@
 <?php
 
-
-// Need a way to change dependencies (core libs and laoded libs)
-// Need a way to set the CI class
-
 class CI_TestCase extends PHPUnit_Framework_TestCase {
 	
 	protected $ci_config;
@@ -20,7 +16,6 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'security'	=> 'sec',
 		'input'		=> 'in',
 		'lang'		=> 'lang',
-		// @todo the loader is an edge case
 		'loader'	=> 'load',
 		'model'		=> 'model'
 	);
