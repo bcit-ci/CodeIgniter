@@ -1,13 +1,11 @@
 <?php
 
-// OLD TEST FORMAT: DO NOT COPY
-
-require_once(BASEPATH.'helpers/array_helper.php');
-
-class Array_helper_test extends CI_TestCase
-{
+class Array_helper_test extends CI_TestCase {
+	
 	public function set_up()
 	{
+		$this->helper('array');
+
 		$this->my_array = array(
 			'foo'		=> 'bar',
 			'sally'		=> 'jim',
