@@ -66,7 +66,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	private function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
@@ -151,7 +151,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$key_name = $this->db->_protect_identifiers(implode('_', $primary_keys));
+			$key_name = $this->db->protect_identifiers(implode('_', $primary_keys));
 			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
@@ -161,12 +161,12 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->_protect_identifiers(implode('_', $key));
-					$key = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers(implode('_', $key));
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers($key);
 					$key = array($key_name);
 				}
 

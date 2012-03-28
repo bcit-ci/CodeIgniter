@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * MS SQL Forge Class
  *
@@ -39,11 +37,10 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @access	private
 	 * @param	string	the database name
-	 * @return	bool
+	 * @return	string
 	 */
-	function _create_database($name)
+	public function _create_database($name)
 	{
 		return "CREATE DATABASE ".$name;
 	}
@@ -53,11 +50,10 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @access	private
 	 * @param	string	the database name
-	 * @return	bool
+	 * @return	string
 	 */
-	function _drop_database($name)
+	public function _drop_database($name)
 	{
 		return "DROP DATABASE ".$name;
 	}
@@ -67,10 +63,10 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access	private
-	 * @return	bool
+	 * @param	string	table name
+	 * @return	string
 	 */
-	function _drop_table($table)
+	public function _drop_table($table)
 	{
 		return "DROP TABLE ".$this->db->_escape_identifiers($table);
 	}
@@ -80,15 +76,14 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @param	array	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
+	 * @return	string
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -100,7 +95,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		$sql .= $this->db->_escape_identifiers($table)." (";
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
@@ -113,7 +108,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->_protect_identifiers($field);
+				$sql .= "\n\t".$this->db->protect_identifiers($field);
 
 				$sql .=  ' '.$attributes['TYPE'];
 
@@ -156,7 +151,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
+			$primary_keys = $this->db->protect_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
 		}
 
@@ -166,11 +161,11 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key = $this->db->_protect_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key = array($this->db->_protect_identifiers($key));
+					$key = array($this->db->protect_identifiers($key));
 				}
 
 				$sql .= ",\n\tFOREIGN KEY (" . implode(', ', $key) . ")";
@@ -190,19 +185,18 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	string	the table name
 	 * @param	string	the column definition
 	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
+	 * @param	bool	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
-	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ".$this->db->_protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type == 'DROP')
@@ -228,7 +222,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}
 
 		return $sql;
@@ -242,16 +236,14 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 *
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
-	 * @access	private
 	 * @param	string	the old table name
 	 * @param	string	the new table name
 	 * @return	string
 	 */
-	function _rename_table($table_name, $new_table_name)
+	public function _rename_table($table_name, $new_table_name)
 	{
 		// I think this syntax will work, but can find little documentation on renaming tables in MSSQL
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
