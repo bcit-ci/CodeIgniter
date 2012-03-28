@@ -85,19 +85,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
-	 *
-	 * @return	bool
-	 */
-	public function db_select()
-	{
-		// Connection selects the database
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Database version number
 	 *
 	 * @return	string

@@ -95,19 +95,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
-	 *
-	 * @return	resource
-	 */
-	public function db_select()
-	{
-		// Not needed for ODBC
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Execute the query
 	 *
 	 * @param	string	an SQL query
