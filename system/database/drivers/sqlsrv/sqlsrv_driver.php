@@ -55,7 +55,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = ' NEWID()'; // not currently supported
 
 	/**
 	 * Non-persistent database connection
@@ -68,12 +68,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
 
 		$connection = array(
-			'UID'				=> empty($this->username) ? '' : $this->username,
-			'PWD'				=> empty($this->password) ? '' : $this->password,
-			'Database'			=> $this->database,
-			'ConnectionPooling' => $pooling ? 1 : 0,
+			'UID'			=> empty($this->username) ? '' : $this->username,
+			'PWD'			=> empty($this->password) ? '' : $this->password,
+			'Database'		=> $this->database,
+			'ConnectionPooling'	=> $pooling ? 1 : 0,
 			'CharacterSet'		=> $character_set,
-			'ReturnDatesAsStrings' => 1
+			'ReturnDatesAsStrings'	=> 1
 		);
 
 		// If the username and password are both empty, assume this is a
@@ -254,23 +254,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$query = $this->query('SELECT @@IDENTITY AS insert_id');
 		$query = $query->row();
 		return $query->insert_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Parse major version
-	 *
-	 * Grabs the major version number from the
-	 * database server version string passed in.
-	 *
-	 * @param	string	$version
-	 * @return	int	major version number
-	 */
-	protected function _parse_major_version($version)
-	{
-		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
-		return $ver_info[1]; // return the major version b/c that's all we're interested in.
 	}
 
 	// --------------------------------------------------------------------
