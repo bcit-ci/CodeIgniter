@@ -1111,7 +1111,7 @@ class CI_Loader {
 		}
 		else
 		{
-			$CI->$classvar = new $name;
+			$CI->$classvar = new $name();
 		}
 	}
 
