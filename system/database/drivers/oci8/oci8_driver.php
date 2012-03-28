@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * oci8 Database Adapter Class
@@ -50,46 +48,125 @@
  * @author	  Kelly McArdle
  *
  */
-
 class CI_DB_oci8_driver extends CI_DB {
 
-	var $dbdriver = 'oci8';
+	public $dbdriver = 'oci8';
 
 	// The character used for excaping
-	var $_escape_char = '"';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	var $_like_escape_str = " escape '%s' ";
-	var $_like_escape_chr = '!';
+	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(1) AS ";
-	var $_random_keyword = ' ASC'; // not currently supported
+	protected $_count_string = 'SELECT COUNT(1) AS ';
+	protected $_random_keyword = ' ASC'; // not currently supported
 
 	// Set "auto commit" by default
-	var $_commit = OCI_COMMIT_ON_SUCCESS;
+	protected $_commit = OCI_COMMIT_ON_SUCCESS;
 
 	// need to track statement id and cursor id
-	var $stmt_id;
-	var $curs_id;
+	public $stmt_id;
+	public $curs_id;
 
 	// if we use a limit, we will add a field that will
 	// throw off num_fields later
-	var $limit_used;
+	public $limit_used;
+
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		$valid_dsns = array(
+					'tns'	=> '/^\(DESCRIPTION=(\(.+\)){2,}\)$/', // TNS
+					// Easy Connect string (Oracle 10g+)
+					'ec'	=> '/^(\/\/)?[a-z0-9.:_-]+(:[1-9][0-9]{0,4})?(\/[a-z0-9$_]+)?(:[^\/])?(\/[a-z0-9$_]+)?$/i',
+					'in'	=> '/^[a-z0-9$_]+$/i' // Instance name (defined in tnsnames.ora)
+				);
+
+		/* Space characters don't have any effect when actually
+		 * connecting, but can be a hassle while validating the DSN.
+		 */
+		$this->dsn = str_replace(array("\n", "\r", "\t", ' '), '', $this->dsn);
+
+		if ($this->dsn !== '')
+		{
+			foreach ($valid_dsns as $regexp)
+			{
+				if (preg_match($regexp, $this->dsn))
+				{
+					return;
+				}
+			}
+		}
+
+		// Legacy support for TNS in the hostname configuration field
+		$this->hostname = str_replace(array("\n", "\r", "\t", ' '), '', $this->hostname);
+		if (preg_match($valid_dsns['tns'], $this->hostname))
+		{
+			$this->dsn = $this->hostname;
+			return;
+		}
+		elseif ($this->hostname !== '' && strpos($this->hostname, '/') === FALSE && strpos($this->hostname, ':') === FALSE
+			&& (( ! empty($this->port) && ctype_digit($this->port)) OR $this->database !== ''))
+		{
+			/* If the hostname field isn't empty, doesn't contain
+			 * ':' and/or '/' and if port and/or database aren't
+			 * empty, then the hostname field is most likely indeed
+			 * just a hostname. Therefore we'll try and build an
+			 * Easy Connect string from these 3 settings, assuming
+			 * that the database field is a service name.
+			 */
+			$this->dsn = $this->hostname
+					.(( ! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
+					.($this->database !== '' ? '/'.ltrim($this->database, '/') : '');
+
+			if (preg_match($valid_dsns['ec'], $this->dsn))
+			{
+				return;
+			}
+		}
+
+		/* At this point, we can only try and validate the hostname and
+		 * database fields separately as DSNs.
+		 */
+		if (preg_match($valid_dsns['ec'], $this->hostname) OR preg_match($valid_dsns['in'], $this->hostname))
+		{
+			$this->dsn = $this->hostname;
+			return;
+		}
+
+		$this->database = str_replace(array("\n", "\r", "\t", ' '), '', $this->database);
+		foreach ($valid_dsns as $regexp)
+		{
+			if (preg_match($regexp, $this->database))
+			{
+				return;
+			}
+		}
+
+		/* Well - OK, an empty string should work as well.
+		 * PHP will try to use environment variables to
+		 * determine which Oracle instance to connect to.
+		 */
+		$this->dsn = '';
+	}
 
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @access  private called by the base class
-	 * @return  resource
+	 * @return	resource
 	 */
 	public function db_connect()
 	{
-		return @oci_connect($this->username, $this->password, $this->hostname, $this->char_set);
+		return ( ! empty($this->char_set))
+			? @oci_connect($this->username, $this->password, $this->dsn, $this->char_set)
+			: @oci_connect($this->username, $this->password, $this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -97,29 +174,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @access  private called by the base class
-	 * @return  resource
+	 * @return	resource
 	 */
 	public function db_pconnect()
 	{
-		return @oci_pconnect($this->username, $this->password, $this->hostname, $this->char_set);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		// not implemented in oracle
-		return;
+		return ( ! empty($this->char_set))
+			? @oci_pconnect($this->username, $this->password, $this->dsn, $this->char_set)
+			: @oci_pconnect($this->username, $this->password, $this->dsn);
 	}
 
 	// --------------------------------------------------------------------
@@ -127,8 +188,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @access  private called by the base class
-	 * @return  resource
+	 * @return	resource
 	 */
 	public function db_select()
 	{
@@ -155,9 +215,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access  protected  called by the base class
-	 * @param   string  an SQL query
-	 * @return  resource
+	 * @param	string	an SQL query
+	 * @return	resource
 	 */
 	protected function _execute($sql)
 	{
@@ -172,25 +231,23 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Generate a statement ID
 	 *
-	 * @access  private
-	 * @param   string  an SQL query
-	 * @return  none
+	 * @param	string	an SQL query
+	 * @return	void
 	 */
-	private function _set_stmt_id($sql)
+	protected function _set_stmt_id($sql)
 	{
 		if ( ! is_resource($this->stmt_id))
 		{
 			$this->stmt_id = oci_parse($this->conn_id, $sql);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * getCursor.  Returns a cursor from the datbase
+	 * Get cursor. Returns a cursor from the database
 	 *
-	 * @access  public
-	 * @return  cursor id
+	 * @return	cursor id
 	 */
 	public function get_cursor()
 	{
@@ -203,11 +260,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Stored Procedure.  Executes a stored procedure
 	 *
-	 * @access  public
-	 * @param   package	 package stored procedure is in
-	 * @param   procedure   stored procedure to execute
-	 * @param   params	  array of parameters
-	 * @return  array
+	 * @param	string	package stored procedure is in
+	 * @param	string	stored procedure to execute
+	 * @param	array	parameters
+	 * @return	object
 	 *
 	 * params array keys
 	 *
@@ -256,10 +312,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Bind parameters
 	 *
-	 * @access  private
-	 * @return  none
+	 * @return	void
 	 */
-	private function _bind_params($params)
+	protected function _bind_params($params)
 	{
 		if ( ! is_array($params) OR ! is_resource($this->stmt_id))
 		{
@@ -285,7 +340,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -315,7 +369,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_commit()
@@ -341,7 +394,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
 	public function trans_rollback()
@@ -401,8 +453,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @access  public
-	 * @return  integer
+	 * @return	int
 	 */
 	public function affected_rows()
 	{
@@ -414,8 +465,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @access  public
-	 * @return  integer
+	 * @return	int
 	 */
 	public function insert_id()
 	{
@@ -431,9 +481,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @access  public
-	 * @param   string
-	 * @return  string
+	 * @param	string
+	 * @return	string
 	 */
 	public function count_all($table = '')
 	{
@@ -460,8 +509,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	protected
-	 * @param	boolean
+	 * @param	bool
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -483,9 +531,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access  protected
-	 * @param   string  the table name
-	 * @return  string
+	 * @param	string	the table name
+	 * @return	string
 	 */
 	protected function _list_columns($table = '')
 	{
@@ -499,9 +546,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @access  public
-	 * @param   string  the table name
-	 * @return  object
+	 * @param	string	the table name
+	 * @return	string
 	 */
 	protected function _field_data($table)
 	{
@@ -546,11 +592,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @access	protected
 	 * @param	string
 	 * @return	string
 	 */
-	protected function _escape_identifiers($item)
+	public function _escape_identifiers($item)
 	{
 		if ($this->_escape_char == '')
 		{
@@ -589,9 +634,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @access	protected
-	 * @param	type
-	 * @return	type
+	 * @param	array
+	 * @return	string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -610,11 +654,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @access  public
-	 * @param   string  the table name
-	 * @param   array   the insert keys
-	 * @param   array   the insert values
-	 * @return  string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert($table, $keys, $values)
 	{
@@ -628,10 +671,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param	string  the table name
-	 * @param	array   the insert keys
-	 * @param 	array   the insert values
-	 * @return 	string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param 	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
@@ -655,7 +698,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
@@ -692,7 +734,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @return	string
 	 */
@@ -708,7 +749,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	protected
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
@@ -742,11 +782,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access  protected
-	 * @param   string  the sql query string
-	 * @param   integer the number of rows to limit the query to
-	 * @param   integer the offset value
-	 * @return  string
+	 * @param	string	the sql query string
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
+	 * @return	string
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
@@ -769,15 +808,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access  protected
-	 * @param   resource
-	 * @return  void
+	 * @param	resource
+	 * @return	void
 	 */
 	protected function _close($conn_id)
 	{
 		@oci_close($conn_id);
 	}
-
 
 }
 

@@ -1,10 +1,12 @@
 <?php
 
-require_once(BASEPATH.'helpers/email_helper.php');
+class Email_helper_test extends CI_TestCase {
 
-class Email_helper_test extends CI_TestCase
-{
-	
+	public function set_up()
+	{
+		$this->helper('email');
+	}
+
 	public function test_valid_email()
 	{
 		$this->assertEquals(FALSE, valid_email('test'));
