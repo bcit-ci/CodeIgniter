@@ -12,32 +12,61 @@ class Mock_Database_DB {
 	 */
 	public function __construct($config = array())
 	{
-		include_once(BASEPATH.'database/DB.php');
-
 		$this->config = $config;
 	}
 
-	public function set_config($group = 'default')
+	public function set_dsn($group = 'default')
 	{
 		if ( ! isset($this->config[$group]))
 		{
 			throw new InvalidArgumentException('Group '.$group.' not exists');
 		}
 
-		if ( ! empty($this->config[$group]['dsn']))
+		$params = array(
+			'dbprefix' => '',
+			'pconnect' => FALSE,
+			'db_debug' => TRUE,
+			'cache_on' => FALSE,
+			'cachedir' => '',
+			'char_set' => 'utf8',
+			'dbcollat' => 'utf8_general_ci',
+			'swap_pre' => '',
+			'autoinit' => TRUE,
+			'stricton' => FALSE,
+			'failover' => array()
+		);
+
+		$config = array_merge($this->config[$group], $params);
+
+		if ( ! empty($config['dsn']))
 		{
-			$dsn = $this->config[$group]['dsn'];
+			$dsn = $config['dsn'];
 		}
 		else
 		{
-			$config = $this->config[$group];
 			$dsn = $config['dbdriver'].'://'.$config['username'].':'.$config['password']
 			       .'@'.$config['hostname'].'/'.$config['database'];
 
 		}
 
-		$params = array_slice($this->config[$group], 6);
+		$other_params = array_slice($config, 6);
 
-		return $dsn.http_build_query($params);
+		return $dsn.http_build_query($other_params);
+	}
+
+	public static function DB($group, $query_builder = FALSE)
+	{
+		include_once(BASEPATH.'database/DB.php');
+
+		try 
+		{
+			$db = DB($group, $query_builder);
+		}
+		catch (Exception $e)
+		{
+			throw new InvalidArgumentException($e->getMessage());
+		}
+
+		return $db;
 	}
 }
