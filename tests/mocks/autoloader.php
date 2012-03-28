@@ -71,7 +71,6 @@ function autoload($class)
 		{
 			return FALSE;
 		}
-		var_dump($file);die;
 
 	    throw new InvalidArgumentException("Unable to load $class.");
 	}
