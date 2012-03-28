@@ -291,7 +291,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Verify table prefix and replace if necessary
-		if ( ($this->dbprefix != '' && $this->swap_pre != '') && ($this->dbprefix != $this->swap_pre) )
+		if ($this->dbprefix != '' && $this->swap_pre != '' && $this->dbprefix != $this->swap_pre)
 		{
 			$sql = preg_replace('/(\W)'.$this->swap_pre.'(\S+?)/', '\\1'.$this->dbprefix.'\\2', $sql);
 		}
