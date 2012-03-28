@@ -100,42 +100,18 @@ class Table_test extends CI_TestCase {
 			array('data' => 'size')
 		);
 		
-		// test what would be discreet args,
-		// basically means a single array as the calling method
-		// will use func_get_args()
-		
-		$reflectionOfTable = new ReflectionClass($this->table);
-		$method = $reflectionOfTable->getMethod('_prep_args');
-		
-		$method->setAccessible(true);
-			
 		$this->assertEquals(
 			$expected,
-			$method->invokeArgs(
-				$this->table, array(array('name', 'color', 'size'), 'discreet')
-			)
+			$this->table->prep_args(array('name', 'color', 'size'))
 		);
-		
-		// test what would be a single array argument. Again, nested
-		// due to func_get_args on calling methods
-		$this->assertEquals(
-			$expected,
-			$method->invokeArgs(
-				$this->table, array(array('name', 'color', 'size'), 'array')
-			)
-		);
-		
-		
+
 		// with cell attributes
-		
 		// need to add that new argument row to our expected outcome
 		$expected[] = array('data' => 'weight', 'class' => 'awesome');
 
 		$this->assertEquals(
 			$expected,
-			$method->invokeArgs(
-				$this->table, array(array('name', 'color', 'size', array('data' => 'weight', 'class' => 'awesome')), 'attributes')
-			)
+			$this->table->prep_args(array('name', 'color', 'size', array('data' => 'weight', 'class' => 'awesome')))
 		);
 	}
 	
@@ -236,11 +212,6 @@ class Table_test extends CI_TestCase {
 	
 	public function test_set_from_array()
 	{
-		$reflectionOfTable = new ReflectionClass($this->table);
-		$method = $reflectionOfTable->getMethod('_set_from_array');
-		
-		$method->setAccessible(true);
-				
 		$this->assertFalse($this->table->set_from_array('bogus'));
 		$this->assertFalse($this->table->set_from_array(NULL));
 		
