@@ -755,11 +755,11 @@ abstract class CI_DB_driver {
 			// Do we know from which column to get the table name?
 			if ( ! isset($key))
 			{
-				if (array_key_exists('table_name', $row))
+				if (isset($row['table_name']))
 				{
 					$key = 'table_name';
 				}
-				elseif (array_key_exists('TABLE_NAME', $row))
+				elseif (isset($row['TABLE_NAME']))
 				{
 					$key = 'TABLE_NAME';
 				}
@@ -827,11 +827,11 @@ abstract class CI_DB_driver {
 			// Do we know from where to get the column's name?
 			if ( ! isset($key))
 			{
-				if (array_key_exists('column_name', $row))
+				if (isset($row['column_name']))
 				{
 					$key = 'column_name';
 				}
-				elseif (array_key_exists('COLUMN_NAME', $row))
+				elseif (isset($row['COLUMN_NAME']))
 				{
 					$key = 'COLUMN_NAME';
 				}
