@@ -61,7 +61,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		if ( ! empty($this->port) && ctype_digit($this->port))
+		if ( ! empty($this->port))
 		{
 			$this->hostname .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
 		}
@@ -87,21 +87,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	public function db_pconnect()
 	{
 		return @mssql_pconnect($this->hostname, $this->username, $this->password);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		// Not supported in MSSQL
 	}
 
 	// --------------------------------------------------------------------
@@ -537,13 +522,9 @@ class CI_DB_mssql_driver extends CI_DB {
 		$conditions = '';
 		if (count($where) > 0 OR count($like) > 0)
 		{
-			$conditions .= "\nWHERE ".implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
+			$conditions .= "\nWHERE ".implode("\n", $this->ar_where)
+					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
+					.implode("\n", $like);
 		}
 
 		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
