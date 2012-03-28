@@ -1,9 +1,12 @@
 <?php
 
-require BASEPATH . 'helpers/path_helper.php';
+class Path_helper_test extends CI_TestCase {
 
-class Path_helper_test extends CI_TestCase 
-{
+	public function set_up()
+	{
+		$this->helper('path');
+	}
+
 	public function test_set_realpath()
 	{				
 		$expected = getcwd() . DIRECTORY_SEPARATOR;
