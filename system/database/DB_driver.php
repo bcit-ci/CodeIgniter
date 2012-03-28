@@ -192,9 +192,23 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Select database
+	 *
+	 * This is just a dummy method to allow drivers without such
+	 * functionality to not declare it, while others will override it.
+	 *
+	 * @return      bool
+	 */
+	public function db_select()
+	{
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set client character set
 	 *
-	 * @param	string
 	 * @param	string
 	 * @return	bool
 	 */
@@ -1337,7 +1351,9 @@ abstract class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
-	abstract protected function _reset_select();
+	protected function _reset_select()
+	{
+	}
 
 }
 
