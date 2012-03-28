@@ -6,8 +6,7 @@
 //
 // Prototype :
 //
-// include_once('Mock_Core_Common') 					// Will load ./mocks/core/common.php
-// $mock_loader = new Mock_Core_Loader(); 				// Will load ./mocks/core/loader.php
+// include_once('Mock_Core_Loader') 					// Will load ./mocks/core/loader.php
 // $mock_table = new Mock_Libraries_Table(); 			// Will load ./mocks/libraries/table.php
 // $mock_database_driver = new Mock_Database_Driver();	// Will load ./mocks/database/driver.php 
 // and so on...
