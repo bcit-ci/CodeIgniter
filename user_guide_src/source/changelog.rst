@@ -121,7 +121,12 @@ Release Date: Not Released
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
-   -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
+   -  Added function error_array() to return all error messages as an array in the Form_validation class.
+   -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
+   -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
+   -  Changed the Session library to select only one row when using database sessions.
+   -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
 
 -  Core
