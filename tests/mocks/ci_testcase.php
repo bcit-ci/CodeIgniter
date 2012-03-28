@@ -48,6 +48,13 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			$this->tear_down();
 		}
 	}
+
+	// --------------------------------------------------------------------
+	
+	public static function instance()
+	{
+		return self::$ci_test_instance;
+	}
 	
 	// --------------------------------------------------------------------
 	
@@ -61,6 +68,13 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		{
 			$this->ci_config[$key] = $val;
 		}
+	}
+
+	// --------------------------------------------------------------------
+	
+	function ci_get_config()
+	{
+		return $this->ci_config;
 	}
 	
 	// --------------------------------------------------------------------
@@ -153,19 +167,12 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		self::$ci_test_instance = $this;
 		parent::runBare();
 	}
-	
+
 	// --------------------------------------------------------------------
 	
-	public static function instance()
+	function helper($name)
 	{
-		return self::$ci_test_instance;
-	}
-	
-	// --------------------------------------------------------------------
-	
-	function ci_get_config()
-	{
-		return $this->ci_config;
+		require_once(BASEPATH.'helpers/'.$name.'_helper.php');
 	}
 
 	// --------------------------------------------------------------------
