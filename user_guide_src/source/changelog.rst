@@ -81,6 +81,8 @@ Release Date: Not Released
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
    -  Added DSN string support (Easy Connect and TNS) for Oracle.
+   -  Added random ordering support for MSSQL.
+   -  Added random ordering support for SQLSRV.
 
 -  Libraries
 
@@ -173,6 +175,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
+-  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 
 Version 2.1.1
 =============
