@@ -28,8 +28,9 @@ class CI_DB_sqlrelay_utility extends CI_DB_utility {
      * Each is matched to a DB Utility Class.
      */
 
-	function CI_DB_sqlrelay_utility()
+	function __construct()
 	{
+		// Assign the main database object to $this->db
 		$CI =& get_instance();
         $this->db =& $CI->db;
 

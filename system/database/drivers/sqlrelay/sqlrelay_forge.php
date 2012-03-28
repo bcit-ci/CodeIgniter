@@ -28,8 +28,9 @@ class CI_DB_sqlrelay_forge extends CI_DB_forge {
      * Each is matched to a DB Forge Class.
      */
 
-	function CI_DB_sqlrelay_forge()
+	function __construct()
 	{
+		// Assign the main database object to $this->db
         $CI =& get_instance();
         $this->db =& $CI->db;
 
