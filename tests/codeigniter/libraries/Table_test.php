@@ -1,14 +1,11 @@
 <?php
 
-require BASEPATH.'libraries/Table.php';
-
-class Table_test extends CI_TestCase
-{
+class Table_test extends CI_TestCase {
 
 	public function set_up()
 	{
 		$obj = new StdClass;
-		$obj->table = new CI_table();
+		$obj->table = new Mock_Libraries_Table();
 		
 		$this->ci_instance($obj);
 		

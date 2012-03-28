@@ -1,8 +1,5 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
-require_once BASEPATH.'/core/Loader.php';
-
 class Mock_Core_Loader extends CI_Loader {
 	
 	/**

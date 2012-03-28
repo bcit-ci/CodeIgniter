@@ -13,6 +13,7 @@ define('APPPATH',		PROJECT_BASE.'application/');
 define('VIEWPATH',		PROJECT_BASE.'');
 
 // Prep our test environment
+require_once 'vfsStream/vfsStream.php';
 include_once $dir.'/mocks/core/common.php';
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');

@@ -1,7 +1,6 @@
 <?php
 
-class Common_test extends CI_TestCase
-{
+class Common_test extends CI_TestCase {
 	
 	// ------------------------------------------------------------------------
 	
