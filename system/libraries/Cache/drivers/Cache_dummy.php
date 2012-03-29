@@ -83,6 +83,30 @@ class CI_Cache_dummy extends CI_Driver {
 
 	// ------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a counter in Cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function increment($id)
+	{
+		return FALSE;
+	}
+	
+	/**
+	 * Decrement a counter in Cache
+	 *
+	 * @param 	mixed		key to get cache metadata on
+	 * @return 	mixed		return value from child method
+	 */
+	public function decrement($id)
+	{
+		return FALSE;
+	}
+
 	/**
 	 * Cache Info
 	 *
