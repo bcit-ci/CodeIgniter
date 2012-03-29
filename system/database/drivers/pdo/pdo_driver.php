@@ -66,6 +66,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
+		$match = array();
+
 		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
@@ -412,7 +414,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$sql = $this->_count_string.$this->protect_identifiers('numrows')
 			.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
-		
+
 		$query = $this->query($sql);
 
 		if ($query->num_rows() == 0)
@@ -644,8 +646,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$ids   = array();
 		$where = ($where != '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$final = array();
 
-		foreach ($values as $key => $val)
+		foreach ($values as $val)
 		{
 			$ids[] = $val[$index];
 
@@ -697,7 +700,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			return $this->driver->truncate($table);
 		}
-	
+
 		return $this->_delete($table);
 	}
 
