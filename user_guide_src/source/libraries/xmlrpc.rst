@@ -184,10 +184,10 @@ server will expect a class to exist with this prototype::
 
 	class My_blog extends CI_Controller {
 
-	    function new_post($request)
-	    {
+		public function new_post($request)
+		{
 
-	    }
+		}
 	}
 
 The $request variable is an object compiled by the Server, which
@@ -304,7 +304,7 @@ folder::
 
 	class Xmlrpc_client extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper('url');
 			$server_url = site_url('xmlrpc_server');
@@ -345,7 +345,7 @@ folder::
 
 	class Xmlrpc_server extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->library('xmlrpc');
 			$this->load->library('xmlrpcs');
@@ -357,15 +357,17 @@ folder::
 		}
 
 
-		function process($request)
+		public function process($request)
 		{
 			$parameters = $request->output_parameters();
 
 			$response = array(
-								array(
-										'you_said'  => $parameters['0'],
-										'i_respond' => 'Not bad at all.'),
-								'struct');
+						array(
+							'you_said'  => $parameters[0],
+							'i_respond' => 'Not bad at all.'
+						),
+						'struct'
+					);
 
 			return $this->xmlrpc->send_response($response);
 		}
@@ -419,9 +421,9 @@ the Server.
 ::
 
 	$parameters = $request->output_parameters();
-	$name = $parameters['0']['name'];
-	$size = $parameters['1']['size'];
-	$size = $parameters['1']['shape'];
+	$name = $parameters[0]['name'];
+	$size = $parameters[1]['size'];
+	$size = $parameters[1]['shape'];
 
 **************************
 XML-RPC Function Reference

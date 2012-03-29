@@ -162,19 +162,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
-	 *
-	 * @return	resource
-	 */
-	public function db_select()
-	{
-		// Not needed for Postgre so we'll return TRUE
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Set client character set
 	 *
 	 * @param	string

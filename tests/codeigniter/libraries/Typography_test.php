@@ -1,14 +1,11 @@
 <?php
 
-require BASEPATH.'libraries/Typography.php';
-
-class Typography_test extends CI_TestCase
-{
+class Typography_test extends CI_TestCase {
 
 	public function set_up()
 	{
 		$obj = new StdClass;
-		$obj->type = new CI_Typography();
+		$obj->type = new Mock_Libraries_Typography();
 		
 		$this->ci_instance($obj);
 		

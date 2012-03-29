@@ -1,12 +1,11 @@
 <?php
 
-require_once BASEPATH.'helpers/number_helper.php';
-
-class Number_helper_test extends CI_TestCase
-{
+class Number_helper_test extends CI_TestCase {
 	
 	public function set_up()
 	{
+		$this->helper('number');
+		
 		// Grab the core lang class
 		$lang_cls = $this->ci_core_class('lang');
 		

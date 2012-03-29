@@ -1,9 +1,11 @@
 <?php
 
-require_once(BASEPATH.'helpers/inflector_helper.php');
-
 class Inflector_helper_test extends CI_TestCase {
 	
+	public function set_up()
+	{
+		$this->helper('inflector');
+	}
 	
 	public function test_singular()
 	{
