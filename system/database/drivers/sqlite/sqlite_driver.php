@@ -106,19 +106,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
-	 *
-	 * @return	bool
-	 */
-	public function db_select()
-	{
-		// Not needed, in SQLite every pseudo-connection is a database
-		return TRUE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Database version number
 	 *
 	 * @return	string
