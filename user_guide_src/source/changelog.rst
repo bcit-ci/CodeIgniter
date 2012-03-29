@@ -176,6 +176,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
+-  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 
 Version 2.1.1
 =============
