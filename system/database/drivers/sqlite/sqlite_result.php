@@ -72,7 +72,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		$field_names = array();
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$field_names[] = sqlite_field_name($this->result_id, $i);
+			$field_names[$i] = sqlite_field_name($this->result_id, $i);
 		}
 
 		return $field_names;
@@ -101,18 +101,6 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		}
 
 		return $retval;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Free the result
-	 *
-	 * @return	void
-	 */
-	public function free_result()
-	{
-		// Not supported in SQLite
 	}
 
 	// --------------------------------------------------------------------

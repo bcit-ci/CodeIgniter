@@ -1,9 +1,11 @@
 <?php
 
-require_once(BASEPATH.'helpers/xml_helper.php');
+class Xml_helper_test extends CI_TestCase {
 
-class Xml_helper_test extends CI_TestCase
-{
+	public function set_up()
+	{
+		$this->helper('xml');
+	}
 	
 	public function test_xml_convert()
 	{

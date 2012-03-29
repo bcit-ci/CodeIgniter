@@ -1,41 +1,10 @@
 <?php
 
-require BASEPATH.'core/URI.php';
-
-/**
- * Extend the URI class
- *  - override contructor
- *  - override CLI detection
- */
-class URI_extended extends CI_URI {
-	
-	public function __construct()
-	{
-		$test = CI_TestCase::instance();
-		$cls =& $test->ci_core_class('cfg');
-		
-		// set predictable config values
-		$test->ci_set_config(array(
-			'index_page'		=> 'index.php',
-			'base_url'			=> 'http://example.com/',
-			'subclass_prefix'	=> 'MY_'
-		));
-
-		$this->config = new $cls;	
-
-	}
-	
-	protected function _is_cli_request()
-	{
-		return FALSE;
-	}
-}
-
 class URI_test extends CI_TestCase {
 	
 	public function set_up()
 	{
-		$this->uri = new URI_extended();
+		$this->uri = new Mock_Core_URI();
 	}
 
 	// --------------------------------------------------------------------

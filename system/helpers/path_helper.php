@@ -40,7 +40,6 @@
 /**
  * Set Realpath
  *
- * @access	public
  * @param	string
  * @param	bool	checks to see if the path exists
  * @return	string
