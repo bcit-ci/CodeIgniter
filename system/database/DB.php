@@ -92,16 +92,12 @@ function &DB($params = '', $active_record_override = NULL)
 		if (isset($dsn['query']))
 		{
 			parse_str($dsn['query'], $extra);
+
 			foreach ($extra as $key => $val)
 			{
-				// booleans please
-				if (strtoupper($val) === 'TRUE')
+				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
 				{
-					$val = TRUE;
-				}
-				elseif (strtoupper($val) === 'FALSE')
-				{
-					$val = FALSE;
+					$val = var_export($val);
 				}
 
 				$params[$key] = $val;
