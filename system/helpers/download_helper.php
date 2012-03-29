@@ -42,7 +42,6 @@
  *
  * Generates headers that force a download to happen
  *
- * @access	public
  * @param	string	filename
  * @param	mixed	the data to be downloaded
  * @param	bool	wether to try and send the actual file MIME type

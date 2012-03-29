@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Wincache Caching Class
  *
@@ -39,7 +37,6 @@
  * @author		Mike Murkovic
  * @link
  */
-
 class CI_Cache_wincache extends CI_Driver {
 
 	/**
@@ -68,7 +65,7 @@ class CI_Cache_wincache extends CI_Driver {
 	 * @param	string	Unique Key
 	 * @param	mixed	Data to store
 	 * @param	int	Length of time (in seconds) to cache the data
-	 * @return 	bool	true on success/false on failure
+	 * @return	bool	true on success/false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{

@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Exceptions Class
  *
@@ -163,7 +161,7 @@ class CI_Exceptions {
 	 * @param	string	the error line number
 	 * @return	string
 	 */
-	function show_php_error($severity, $message, $filepath, $line)
+	public function show_php_error($severity, $message, $filepath, $line)
 	{
 		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 		$filepath = str_replace('\\', '/', $filepath);
