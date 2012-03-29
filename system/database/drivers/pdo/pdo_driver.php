@@ -243,7 +243,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		return $this->driver->prep_query($sql);
+		return (method_exists(array($this->driver, 'prep_query')))
+			? $this->driver->prep_query($sql)
+			: $sql;
 	}
 
 	// --------------------------------------------------------------------

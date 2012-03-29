@@ -87,19 +87,6 @@ class CI_MySQL_PDO_Driver {
 	// --------------------------------------------------------------------------
 	
 	/**
-	 * Manipulate the query string for the current database
-	 *
-	 * @param	string	sql string
-	 * @return	string
-	 */
-	public function prep_query($sql)
-	{
-		return str_replace('"', '`', $sql);
-	}
-	
-	// --------------------------------------------------------------------------
-	
-	/**
 	 * SQL string to list the tables in the database
 	 *
 	 * @return	string

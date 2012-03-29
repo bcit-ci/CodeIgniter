@@ -42,6 +42,9 @@ class CI_Cubrid_PDO_Driver {
 	{
 		$this->pdo =& $pdo;
 		
+		// Set the escape character to the silly backtick
+		$pdo->_escape_char = '`';
+		
 		// Create the connection dsn
 		$dsn = ( ! empty($pdo->dsn)) 
 			? $pdo->dsn
@@ -68,19 +71,6 @@ class CI_Cubrid_PDO_Driver {
 		}
 		
 		$this->conn =& $pdo->conn_id;
-	}
-	
-	// --------------------------------------------------------------------------
-	
-	/**
-	 * Manipulate the query string for the current database
-	 *
-	 * @param	string	sql string
-	 * @return	string
-	 */
-	public function prep_query($sql)
-	{
-		return $sql;
 	}
 	
 	// --------------------------------------------------------------------------

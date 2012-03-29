@@ -62,18 +62,6 @@ class CI_Firebird_PDO_Driver {
 		}
 		
 		$this->conn =& $pdo->conn_id;
-	}	
-	// --------------------------------------------------------------------------
-	
-	/**
-	 * Manipulate the query string for the current database
-	 *
-	 * @param	string	sql string
-	 * @return	string
-	 */
-	public function prep_query($sql)
-	{
-		return $sql;
 	}
 	
 	// --------------------------------------------------------------------------

@@ -73,19 +73,6 @@ class CI_PgSQL_PDO_Driver {
 	// --------------------------------------------------------------------------
 	
 	/**
-	 * Manipulate the query string for the current database
-	 *
-	 * @param	string	sql string
-	 * @return	string
-	 */
-	public function prep_query($sql)
-	{
-		return $sql;
-	}
-	
-	// --------------------------------------------------------------------------
-	
-	/**
 	 * Override for insert_id method
 	 *
 	 * @param	string	name of generator
