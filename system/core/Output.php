@@ -222,13 +222,13 @@ class CI_Output {
 		$this->headers[] = array($header, TRUE);
 		return $this;
 	}
-        
-        // --------------------------------------------------------------------
-        
-        /**
+    
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Get Current Content Type Header
-         * 
-         * return text/html if Content-Type is not set
+	 * 
+	 * return text/html if Content-Type is not set
 	 *
 	 * @return	string
 	 */
