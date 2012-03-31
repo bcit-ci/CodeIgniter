@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * oci8 Result Class
  *
@@ -38,9 +36,18 @@
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
-	var $stmt_id;
-	var $curs_id;
-	var $limit_used;
+	public $stmt_id;
+	public $curs_id;
+	public $limit_used;
+
+	public function __construct(&$driver_object)
+	{
+		parent::__construct($driver_object);
+		$this->stmt_id = $driver_object->stmt_id;
+		$this->curs_id = $driver_object->curs_id;
+		$this->limit_used = $driver_object->limit_used;
+		$driver_object->stmt_id = FALSE;
+	}
 
 	/**
 	 * Number of rows in the result set.
@@ -48,9 +55,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * Oracle doesn't have a graceful way to retun the number of rows
 	 * so we have to use what amounts to a hack.
 	 *
-	 *
-	 * @access  public
-	 * @return  integer
+	 * @return	int
 	 */
 	public function num_rows()
 	{
@@ -73,8 +78,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access  public
-	 * @return  integer
+	 * @return	int
 	 */
 	public function num_fields()
 	{
@@ -96,7 +100,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function list_fields()
@@ -116,8 +119,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access  public
-	 * @return  array
+	 * @return	array
 	 */
 	public function field_data()
 	{
@@ -140,7 +142,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	null
+	 * @return	void
 	 */
 	public function free_result()
 	{
@@ -158,8 +160,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access  protected
-	 * @return  array
+	 * @return	array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -174,8 +175,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access  protected
-	 * @return  object
+	 * @return	object
 	 */
 	protected function _fetch_object()
 	{
@@ -188,8 +188,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Query result.  "array" version.
 	 *
-	 * @access  public
-	 * @return  array
+	 * @return	array
 	 */
 	public function result_array()
 	{
@@ -212,11 +211,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @access	protected
 	 * @return	array
 	 */
 	protected function _data_seek($n = 0)
@@ -225,7 +223,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	}
 
 }
-
 
 /* End of file oci8_result.php */
 /* Location: ./system/database/drivers/oci8/oci8_result.php */

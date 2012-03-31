@@ -28,6 +28,10 @@ prototype::
 	$db['default']['autoinit'] = TRUE;
 	$db['default']['stricton'] = FALSE;
 
+If you use PDO as your dbdriver, you can specify the full DSN string describe a connection to the database like this::
+
+	$db['default']['dsn'] = 'pgsql:host=localhost;port=5432;dbname=database_name';
+
 You can also specify failovers for the situation when the main connection cannot connect for some reason.
 These failovers can be specified by setting the failover for a connection like this::
 
