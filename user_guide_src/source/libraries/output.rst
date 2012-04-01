@@ -50,7 +50,7 @@ data, JPEG's, XML, etc easily.
 	exists in config/mimes.php or it will have no effect.
 
 $this->output->get_current_content_type();
-====================================
+==========================================
 
 Get the current mime-type of your page and return 'text/html' by default.
 
