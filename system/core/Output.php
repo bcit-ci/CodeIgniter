@@ -231,7 +231,8 @@ class CI_Output {
 	 */
 	public function get_current_content_type()
 	{
-		foreach ($this->headers as $header){
+		foreach ($this->headers as $header)
+		{
 			if (preg_match('/^Content-Type/', $header[0]))
 			{
 				return str_replace('Content-Type: ', '', $header[0]);
