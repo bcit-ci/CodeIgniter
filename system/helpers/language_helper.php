@@ -48,14 +48,18 @@
  */
 if ( ! function_exists('lang'))
 {
-	function lang($line, $id = '')
+	function lang($line, $id = NULL, $class = NULL)
 	{
 		$CI =& get_instance();
 		$line = $CI->lang->line($line);
 
-		if ($id != '')
+		if ( $id && !$class )
 		{
-			$line = '<label for="'.$id.'">'.$line.'</label>';
+			$line = '<label for="'.$id.'">'.$line."</label>";
+		}
+		elseif ( $id && $class )
+		{
+			$line = '<label for="'.$id.'" class="'.$class.'">'.$line."</label>";
 		}
 
 		return $line;
