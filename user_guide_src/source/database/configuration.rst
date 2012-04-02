@@ -132,7 +132,7 @@ Explanation of Values:
 **username**		The username used to connect to the database.
 **password**		The password used to connect to the database.
 **database**		The name of the database you want to connect to.
-**dbdriver**		The database type. ie: mysql, postgres, odbc, etc. Must be specified in lower case.
+**dbdriver**		The database type. ie: mysql, postgre, odbc, etc. Must be specified in lower case.
 **dbprefix**		An optional table prefix which will added to the table name when running :doc:
 			`Active Record <active_record>` queries. This permits multiple CodeIgniter installations
 			to share one database.
@@ -166,8 +166,8 @@ Explanation of Values:
 				$db['default']['port'] =  5432;
 ======================  ==================================================================================================
 
-.. note:: Depending on what database platform you are using (MySQL,
-	Postgres, etc.) not all values will be needed. For example, when using
-	SQLite you will not need to supply a username or password, and the
-	database name will be the path to your database file. The information
-	above assumes you are using MySQL.
+.. note:: Depending on what database platform you are using (MySQL, PostgreSQL,
+	etc.) not all values will be needed. For example, when using SQLite you
+	will not need to supply a username or password, and the database name
+	will be the path to your database file. The information above assumes
+	you are using MySQL.
