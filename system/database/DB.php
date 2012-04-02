@@ -92,16 +92,12 @@ function &DB($params = '', $active_record_override = NULL)
 		if (isset($dsn['query']))
 		{
 			parse_str($dsn['query'], $extra);
+
 			foreach ($extra as $key => $val)
 			{
-				// booleans please
-				if (strtoupper($val) === 'TRUE')
+				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
 				{
-					$val = TRUE;
-				}
-				elseif (strtoupper($val) === 'FALSE')
-				{
-					$val = FALSE;
+					$val = var_export($val);
 				}
 
 				$params[$key] = $val;
@@ -138,7 +134,12 @@ function &DB($params = '', $active_record_override = NULL)
 		class CI_DB extends CI_DB_driver { }
 	}
 
-	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
+	// Load the DB driver
+	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+
+	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
+
+	require_once($driver_file);
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';

@@ -70,9 +70,9 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$field_names[] = sqlite_field_name($this->result_id, $i);
+			$field_names[$i] = sqlite_field_name($this->result_id, $i);
 		}
 
 		return $field_names;
@@ -90,31 +90,17 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$F				= new stdClass();
-			$F->name		= sqlite_field_name($this->result_id, $i);
-			$F->type		= 'varchar';
-			$F->max_length	= 0;
-			$F->primary_key = 0;
-			$F->default		= '';
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= sqlite_field_name($this->result_id, $i);
+			$retval[$i]->type		= 'varchar';
+			$retval[$i]->max_length		= 0;
+			$retval[$i]->primary_key	= 0;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Free the result
-	 *
-	 * @return	void
-	 */
-	public function free_result()
-	{
-		// Not implemented in SQLite
 	}
 
 	// --------------------------------------------------------------------
@@ -162,17 +148,9 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		{
 			return sqlite_fetch_object($this->result_id);
 		}
-		else
-		{
-			$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
-			if (is_array($arr))
-			{
-				$obj = (object) $arr;
-				return $obj;
-			} else {
-				return NULL;
-			}
-		}
+
+		$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
+		return is_array($arr) ? (object) $arr : FALSE;
 	}
 
 }
