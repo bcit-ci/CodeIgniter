@@ -37,11 +37,11 @@
 function &DB($params = '', $active_record_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
-	if (is_string($params) AND strpos($params, '://') === FALSE)
+	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
 		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			AND ! file_exists($file_path = APPPATH.'config/database.php'))
+			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
@@ -74,34 +74,30 @@ function &DB($params = '', $active_record_override = NULL)
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
-		if (($dns = @parse_url($params)) === FALSE)
+		if (($dsn = @parse_url($params)) === FALSE)
 		{
 			show_error('Invalid DB Connection String');
 		}
 
 		$params = array(
-				'dbdriver'	=> $dns['scheme'],
-				'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',
-				'port'		=> (isset($dns['port'])) ? rawurldecode($dns['port']) : '',
-				'username'	=> (isset($dns['user'])) ? rawurldecode($dns['user']) : '',
-				'password'	=> (isset($dns['pass'])) ? rawurldecode($dns['pass']) : '',
-				'database'	=> (isset($dns['path'])) ? rawurldecode(substr($dns['path'], 1)) : ''
+				'dbdriver'	=> $dsn['scheme'],
+				'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
+				'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
+				'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
+				'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
+				'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
 			);
 
 		// were additional config items set?
-		if (isset($dns['query']))
+		if (isset($dsn['query']))
 		{
-			parse_str($dns['query'], $extra);
+			parse_str($dsn['query'], $extra);
+
 			foreach ($extra as $key => $val)
 			{
-				// booleans please
-				if (strtoupper($val) === 'TRUE')
+				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
 				{
-					$val = TRUE;
-				}
-				elseif (strtoupper($val) === 'FALSE')
-				{
-					$val = FALSE;
+					$val = var_export($val);
 				}
 
 				$params[$key] = $val;
@@ -138,7 +134,12 @@ function &DB($params = '', $active_record_override = NULL)
 		class CI_DB extends CI_DB_driver { }
 	}
 
-	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
+	// Load the DB driver
+	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+
+	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
+
+	require_once($driver_file);
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';

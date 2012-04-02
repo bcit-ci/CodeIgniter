@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Email Helpers
  *
@@ -42,7 +40,7 @@
 /**
  * Validate email address
  *
- * @access	public
+ * @param	string
  * @return	bool
  */
 if ( ! function_exists('valid_email'))
@@ -58,7 +56,9 @@ if ( ! function_exists('valid_email'))
 /**
  * Send an email
  *
- * @access	public
+ * @param	string
+ * @param	string
+ * @param	string
  * @return	bool
  */
 if ( ! function_exists('send_email'))

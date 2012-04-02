@@ -35,6 +35,8 @@ Release Date: Not Released
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
+   -  Added some more doctypes.
+   -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
 
 -  Helpers
 
@@ -56,9 +58,11 @@ Release Date: Not Released
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
-   -  MySQLi driver now uses mysqli_get_server_info() for server version checking.
-   -  MySQLi driver now supports persistent connections when running on PHP >= 5.3.
-   -  Added dsn if the group connections in the config use PDO or any driver which need DSN.
+   -  Improved support for the MySQLi driver, including:
+	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
+	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
+	 -  Added persistent connections support for PHP >= 5.3.
+   -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
    -  Added an optional database name parameter to db_select().
@@ -73,13 +77,19 @@ Release Date: Not Released
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
+   -  Added DSN string support for CUBRID.
+   -  Added persistent connections support for CUBRID.
+   -  Added DSN string support (Easy Connect and TNS) for Oracle.
+   -  Added random ordering support for MSSQL.
+   -  Added random ordering support for SQLSRV.
    -  Added support for SQLite3 database driver.
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
+   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
@@ -113,6 +123,7 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
+   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
 
 Bug fixes for 3.0
 ------------------
@@ -165,6 +176,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
+-  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
+-  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 
 Version 2.1.1
 =============
@@ -250,10 +263,8 @@ Release Date: November 14, 2011
       override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
 
-
 Bug fixes for 2.1.0
 -------------------
-
 
 -  Fixed #378 Robots identified as regular browsers by the User Agent
    class.
@@ -1253,7 +1264,7 @@ Bug fixes for 1.6.3
 
 -  Added a language key for valid_emails in validation_lang.php.
 -  Amended fixes for bug (#3419) with parsing DSN database connections.
--  Moved the _has_operators() function (#4535) into DB_driver from
+-  Moved the _has_operator() function (#4535) into DB_driver from
    DB_active_rec.
 -  Fixed a syntax error in upload_lang.php.
 -  Fixed a bug (#4542) with a regular expression in the Image library.
