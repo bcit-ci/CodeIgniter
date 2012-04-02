@@ -189,17 +189,17 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			if ( ! array_key_exists('hostname', $cache_server))
 			{
-				$cache_server['hostname'] = $this->_default_options['default_host'];
+				$cache_server['hostname'] = $this->_memcache_conf['default']['default_host'];
 			}
 
 			if ( ! array_key_exists('port', $cache_server))
 			{
-				$cache_server['port'] = $this->_default_options['default_port'];
+				$cache_server['port'] = $this->_memcache_conf['default']['default_port'];
 			}
 
 			if ( ! array_key_exists('weight', $cache_server))
 			{
-				$cache_server['weight'] = $this->_default_options['default_weight'];
+				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
 			}
 
 			if (get_class($this->_memcached) == 'Memcache')

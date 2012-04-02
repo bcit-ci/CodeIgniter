@@ -81,6 +81,7 @@ Release Date: Not Released
    -  Added persistent connections support for CUBRID.
    -  Added random ordering support for MSSQL.
    -  Added random ordering support for SQLSRV.
+   -  Added support for SQLite3 database driver.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
 	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
@@ -93,7 +94,8 @@ Release Date: Not Released
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
+   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  Cart library changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
@@ -181,6 +183,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
+-  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 
 Version 2.1.1
 =============

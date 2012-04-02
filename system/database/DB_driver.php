@@ -1349,7 +1349,9 @@ abstract class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
-	abstract protected function _reset_select();
+	protected function _reset_select()
+	{
+	}
 
 }
 
