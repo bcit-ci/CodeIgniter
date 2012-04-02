@@ -64,6 +64,7 @@ Release Date: Not Released
 	 -  Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
+   -  Split PDO driver into sub-drivers for better database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
