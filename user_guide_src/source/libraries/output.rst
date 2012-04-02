@@ -49,12 +49,12 @@ data, JPEG's, XML, etc easily.
 .. important:: Make sure any non-mime string you pass to this method
 	exists in config/mimes.php or it will have no effect.
 
-$this->output->get_current_content_type();
+$this->output->get_content_type();
 ==========================================
 
 Get the current mime-type of your page and return 'text/html' by default.
 
-	$this->output->get_current_content_type();
+	$this->output->get_content_type();
 
 $this->output->get_output();
 =============================
