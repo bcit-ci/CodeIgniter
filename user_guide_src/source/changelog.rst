@@ -82,6 +82,7 @@ Release Date: Not Released
    -  Added DSN string support (Easy Connect and TNS) for Oracle.
    -  Added random ordering support for MSSQL.
    -  Added random ordering support for SQLSRV.
+   -  Added support for SQLite3 database driver.
 
 -  Libraries
 
