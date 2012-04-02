@@ -79,10 +79,16 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
-   -  Added DSN string support (Easy Connect and TNS) for Oracle.
    -  Added random ordering support for MSSQL.
    -  Added random ordering support for SQLSRV.
    -  Added support for SQLite3 database driver.
+   -  Improved support of the Oracle (OCI8) driver, including:
+	 -  Added DSN string support (Easy Connect and TNS).
+	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
+	 -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
+	 -  Generally improved for speed and cleaned up all of its components.
+	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
 
 -  Libraries
 
