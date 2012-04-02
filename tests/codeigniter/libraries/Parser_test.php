@@ -1,14 +1,11 @@
 <?php
 
-require BASEPATH.'libraries/Parser.php';
-
-class Parser_test extends CI_TestCase
-{
+class Parser_test extends CI_TestCase {
 	
 	public function set_up()
 	{
 		$obj = new StdClass;
-		$obj->parser = new CI_Parser();
+		$obj->parser = new Mock_Libraries_Parser();
 		
 		$this->ci_instance($obj);
 		
