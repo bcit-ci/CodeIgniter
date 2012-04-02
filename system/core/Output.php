@@ -229,7 +229,7 @@ class CI_Output {
 	 *
 	 * @return	string
 	 */
-	public function get_current_content_type()
+	public function get_content_type()
 	{
 		foreach ($this->headers as $header)
 		{
