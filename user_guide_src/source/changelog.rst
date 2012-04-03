@@ -80,10 +80,16 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
-   -  Added DSN string support (Easy Connect and TNS) for Oracle.
    -  Added random ordering support for MSSQL.
    -  Added random ordering support for SQLSRV.
    -  Added support for SQLite3 database driver.
+   -  Improved support of the Oracle (OCI8) driver, including:
+	 -  Added DSN string support (Easy Connect and TNS).
+	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
+	 -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
+	 -  Generally improved for speed and cleaned up all of its components.
+	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
 
 -  Libraries
 
@@ -124,7 +130,8 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
-   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
+   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
+   -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
 
 Bug fixes for 3.0
 ------------------

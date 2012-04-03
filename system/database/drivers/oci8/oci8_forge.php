@@ -42,6 +42,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	public function _create_database($name)
 	{
+		// Not supported - schemas in Oracle are actual usernames
 		return FALSE;
 	}
 
@@ -55,6 +56,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	public function _drop_database($name)
 	{
+		// Not supported - schemas in Oracle are actual usernames
 		return FALSE;
 	}
 
@@ -68,7 +70,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @return	string
 	 */
 	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
@@ -128,7 +130,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 					$key = array($this->db->protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).")";
+				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).')';
 			}
 		}
 
@@ -140,11 +142,11 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @return	bool
+	 * @return	string
 	 */
 	public function _drop_table($table)
 	{
-		return FALSE;
+		return 'DROP TABLE '.$this->db->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -169,33 +171,15 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		if ($alter_type === 'DROP')
 		{
 			return $sql;
 		}
 
-		$sql .= " $column_definition";
-
-		if ($default_value != '')
-		{
-			$sql .= " DEFAULT \"$default_value\"";
-		}
-
-		if ($null === NULL)
-		{
-			$sql .= ' NULL';
-		}
-		else
-		{
-			$sql .= ' NOT NULL';
-		}
-
-		if ($after_field != '')
-		{
-			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
-		}
-
-		return $sql;
+		return $sql.' '.$column_definition
+			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
+			.($null === NULL ? ' NULL' : ' NOT NULL')
+			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
 
 	}
 
