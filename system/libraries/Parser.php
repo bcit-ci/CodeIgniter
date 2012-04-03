@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Parser Class
  *
@@ -41,15 +39,14 @@ class CI_Parser {
 	public $l_delim = '{';
 	public $r_delim = '}';
 	public $object;
-	private $CI;
+	protected $CI;
 
 	/**
-	 *  Parse a template
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	bool
@@ -66,12 +63,11 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a String
+	 * Parse a String
 	 *
 	 * Parses pseudo-variables contained in the specified string,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	bool
@@ -85,18 +81,17 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a template
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	array
 	 * @param	bool
 	 * @return	string
 	 */
-	private function _parse($template, $data, $return = FALSE)
+	protected function _parse($template, $data, $return = FALSE)
 	{
 		if ($template == '')
 		{
@@ -126,9 +121,8 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Set the left/right variable delimiters
+	 * Set the left/right variable delimiters
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	void
@@ -142,15 +136,14 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a single key/value
+	 * Parse a single key/value
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	private function _parse_single($key, $val, $string)
+	protected function _parse_single($key, $val, $string)
 	{
 		return str_replace($this->l_delim.$key.$this->r_delim, (string) $val, $string);
 	}
@@ -158,17 +151,16 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a tag pair
+	 * Parse a tag pair
 	 *
-	 * Parses tag pairs:  {some_tag} string... {/some_tag}
+	 * Parses tag pairs: {some_tag} string... {/some_tag}
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	array
 	 * @param	string
 	 * @return	string
 	 */
-	private function _parse_pair($variable, $data, $string)
+	protected function _parse_pair($variable, $data, $string)
 	{
 		if (FALSE === ($match = $this->_match_pair($string, $variable)))
 		{
@@ -200,25 +192,20 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Matches a variable pair
+	 * Matches a variable pair
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	string
 	 * @return	mixed
 	 */
-	private function _match_pair($string, $variable)
+	protected function _match_pair($string, $variable)
 	{
-		if ( ! preg_match("|" . preg_quote($this->l_delim) . $variable . preg_quote($this->r_delim) . "(.+?)". preg_quote($this->l_delim) . '/' . $variable . preg_quote($this->r_delim) . "|s", $string, $match))
-		{
-			return FALSE;
-		}
-
-		return $match;
+		return preg_match('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
+					$string, $match)
+			? $match : FALSE;
 	}
 
 }
-// END Parser Class
 
 /* End of file Parser.php */
 /* Location: ./system/libraries/Parser.php */
