@@ -101,7 +101,7 @@ Release Date: Not Released
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
-   -  Image manipulation library changes include:
+   -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The initialize() method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
@@ -110,13 +110,17 @@ Release Date: Not Released
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  :doc:`Form Validation library <libraries/form_validation>` changes include:
+	 -  Added method error_array() to return all error messages as an array.
+	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
+	 -  Added method reset_validation(), which resets internal validation variables in case of multiple validation routines.
+	 -  Added support for setting error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
+	 -  _execute() now considers input data to be invalid if a specified rule is not found.
+	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
+	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
+   -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
-   -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
-   -  Added function error_array() to return all error messages as an array in the Form_validation class.
-   -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
-   -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
-   -  Changed the Session library to select only one row when using database sessions.
    -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
 
@@ -189,11 +193,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
 -  Fixed a bug (#1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
+-  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 
 Version 2.1.1
 =============
 
-Release Date: Not Released
+Release Date: November 14, 2011
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
