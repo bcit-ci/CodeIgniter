@@ -185,6 +185,7 @@ Bug fixes for 3.0
 -  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 -  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
+-  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
 
 Version 2.1.1
 =============
