@@ -188,6 +188,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 -  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
 -  Fixed a bug (#1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
+-  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 
 Version 2.1.1
 =============
