@@ -407,8 +407,6 @@ abstract class CI_DB_driver {
 		$driver		= $this->load_rdriver();
 		$RES		= new $driver($this);
 
-		$RES->num_rows	= $RES->num_rows();
-
 		// Is query caching enabled? If so, we'll serialize the
 		// result object and save it to a cache file.
 		if ($this->cache_on == TRUE && $this->_cache_init())
