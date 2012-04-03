@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Logging Class
  *
@@ -43,12 +41,9 @@ class CI_Log {
 	protected $_threshold_max	= 0;
 	protected $_threshold_array	= array();
 	protected $_date_fmt		= 'Y-m-d H:i:s';
-	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_enabled		= TRUE;
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		$config =& get_config();
@@ -98,7 +93,7 @@ class CI_Log {
 		$level = strtoupper($level);
 
 		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
-			AND ! isset($this->_threshold_array[$this->_levels[$level]]))
+			&& ! isset($this->_threshold_array[$this->_levels[$level]]))
 		{
 			return FALSE;
 		}
@@ -125,15 +120,15 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		if (isset($newfile) AND $newfile === TRUE)
+		if (isset($newfile) && $newfile === TRUE)
 		{
 			@chmod($filepath, FILE_WRITE_MODE);
 		}
+
 		return TRUE;
 	}
 
 }
-// END Log Class
 
 /* End of file Log.php */
 /* Location: ./system/libraries/Log.php */

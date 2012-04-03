@@ -224,6 +224,26 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Current Content Type Header
+	 *
+	 * @return	string	'text/html', if not already set
+	 */
+	public function get_content_type()
+	{
+		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
+		{
+			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
+			{
+				return $matches[1];
+			}
+		}
+
+		return 'text/html';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set HTTP Status Header
 	 * moved to Common procedural functions in 1.7.2
 	 *

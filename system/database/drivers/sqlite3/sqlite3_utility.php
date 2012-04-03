@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -16,35 +16,39 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link	http://codeigniter.com
+ * @since	Version 1.0
  * @filesource
  */
 
 /**
- * Oracle Utility Class
+ * SQLite3 Utility Class
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	Andrey Andreev
+ * @link	http://codeigniter.com/user_guide/database/
  */
-class CI_DB_oci8_utility extends CI_DB_utility {
+class CI_DB_sqlite3_utility extends CI_DB_utility {
 
 	/**
 	 * List databases
 	 *
-	 * Generates a platform-specific query so that we get a list of schemas
-	 * Those are actually usernames in Oracle.
-	 *
-	 * @return	string
+	 * @return	bool
 	 */
 	public function _list_databases()
 	{
-		return 'SELECT username FROM dba_users';
+		// Not supported
+		return FALSE;
+
+		// Do we use this?
+		if ($this->db_debug)
+		{
+			return $this->db->display_error('db_unsuported_feature');
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -52,14 +56,15 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * Optimize table query
 	 *
-	 * Generates a platform-specific query so that a table can be optimized
+	 * Is optimization even supported in SQLite?
 	 *
 	 * @param	string	the table name
 	 * @return	bool
 	 */
 	public function _optimize_table($table)
 	{
-		return FALSE; // Not supported in Oracle
+		// Not supported
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -67,31 +72,32 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * Repair table query
 	 *
-	 * Generates a platform-specific query so that a table can be repaired
+	 * Are table repairs even supported in SQLite?
 	 *
 	 * @param	string	the table name
-	 * @return	bool
+	 * @return	object
 	 */
 	public function _repair_table($table)
 	{
-		return FALSE; // Not supported in Oracle
+		// Not supported
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Oracle Export
+	 * SQLite Export
 	 *
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
 	public function _backup($params = array())
 	{
-		// Currently unsupported
+		// Not supported
 		return $this->db->display_error('db_unsuported_feature');
 	}
 
 }
 
-/* End of file oci8_utility.php */
-/* Location: ./system/database/drivers/oci8/oci8_utility.php */
+/* End of file sqlite3_utility.php */
+/* Location: ./system/database/drivers/sqlite3/sqlite3_utility.php */

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -16,71 +16,45 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright   Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link	http://codeigniter.com
+ * @since	Version 1.0
  * @filesource
  */
 
 /**
- * oci8 Result Class
+ * SQLite Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	Andrey Andreev
+ * @link	http://codeigniter.com/user_guide/database/
  */
-class CI_DB_oci8_result extends CI_DB_result {
+class CI_DB_sqlite3_result extends CI_DB_result {
 
-	public $stmt_id;
-	public $curs_id;
-	public $limit_used;
-	public $commit_mode;
-
-	/* Overwriting the parent here, so we have a way to know if it's
-	 * already called or not:
-	 */
+	// Overwriting the parent here, so we have a way to know if it's already set
 	public $num_rows;
 
-	public function __construct(&$driver_object)
-	{
-		parent::__construct($driver_object);
-		$this->stmt_id = $driver_object->stmt_id;
-		$this->curs_id = $driver_object->curs_id;
-		$this->limit_used = $driver_object->limit_used;
-		$this->commit_mode =& $driver_object->commit_mode;
-		$driver_object->stmt_id = FALSE;
-	}
+	// num_fields() might be called multiple times, so we'll use this one to cache it's result
+	protected $_num_fields;
 
 	/**
-	 * Number of rows in the result set.
-	 *
-	 * Oracle doesn't have a graceful way to return the number of rows
-	 * so we have to use what amounts to a hack.
+	 * Number of rows in the result set
 	 *
 	 * @return	int
 	 */
 	public function num_rows()
 	{
-		if ( ! is_int($this->num_rows))
-		{
-			if (count($this->result_array) > 0)
-			{
-				return $this->num_rows = count($this->result_array);
-			}
-			elseif (count($this->result_object) > 0)
-			{
-				return $this->num_rows = count($this->result_object);
-			}
-
-			return $this->num_rows = count($this->result_array());
-		}
-
-		return $this->num_rows;
+		/* The SQLite3 driver doesn't have a graceful way to do this,
+		 * so we'll have to do it on our own.
+		 */
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = count($this->result_array());
 	}
 
 	// --------------------------------------------------------------------
@@ -92,10 +66,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		$count = @oci_num_fields($this->stmt_id);
-
-		// if we used a limit we subtract it
-		return ($this->limit_used) ? $count - 1 : $count;
+		return ( ! is_int($this->_num_fields))
+			? $this->_num_fields = $this->result_id->numColumns()
+			: $this->_num_fields;
 	}
 
 	// --------------------------------------------------------------------
@@ -110,10 +83,11 @@ class CI_DB_oci8_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$field_names[] = oci_field_name($this->stmt_id, $c);
+			$field_names[] = $this->result_id->columnName($i);
 		}
+
 		return $field_names;
 	}
 
@@ -129,14 +103,14 @@ class CI_DB_oci8_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
+		for ($i = 0, $c = $this->num_fields(); $i < $this->num_fields(); $i++)
 		{
-			$F		= new stdClass();
-			$F->name	= oci_field_name($this->stmt_id, $c);
-			$F->type	= oci_field_type($this->stmt_id, $c);
-			$F->max_length	= oci_field_size($this->stmt_id, $c);
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $this->result_id->columnName($i);
+			$retval[$i]->type		= 'varchar';
+			$retval[$i]->max_length		= 0;
+			$retval[$i]->primary_key	= 0;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -151,21 +125,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function free_result()
 	{
-		if (is_resource($this->result_id))
+		if (is_object($this->result_id))
 		{
-			oci_free_statement($this->result_id);
-			$this->result_id = FALSE;
-		}
-
-		if (is_resource($this->stmt_id))
-		{
-			oci_free_statement($this->stmt_id);
-		}
-
-		if (is_resource($this->curs_id))
-		{
-			oci_cancel($this->curs_id);
-			$this->curs_id = NULL;
+			$this->result_id->finalize();
+			$this->result_id = NULL;
 		}
 	}
 
@@ -180,8 +143,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_assoc($id);
+		return $this->result_id->fetchArray(SQLITE3_ASSOC);
 	}
 
 	// --------------------------------------------------------------------
@@ -195,30 +157,22 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_object($id);
+		// No native support for fetching as an object
+		$row = $this->_fetch_assoc();
+		return ($row !== FALSE) ? (object) $row : FALSE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result. Array version.
+	 * Query result. "array" version.
 	 *
-	 * @return	array
+	 * return	array
 	 */
 	public function result_array()
 	{
 		if (count($this->result_array) > 0)
 		{
-			return $this->result_array;
-		}
-		elseif (count($this->result_object) > 0)
-		{
-			for ($i = 0, $c = count($this->result_object); $i < $c; $i++)
-			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
-			}
-
 			return $this->result_array;
 		}
 		elseif (is_array($this->row_data))
@@ -293,10 +247,23 @@ class CI_DB_oci8_result extends CI_DB_result {
 		}
 
 		$row = NULL;
-		while ($row = $this->_fetch_object())
+		while ($row = $this->_fetch_assoc())
 		{
-			$this->row_data[$row_index] = (array) $row;
-			$this->result_object[$row_index++] = $row;
+			$this->row_data[$row_index] = $row;
+			$this->result_object[$row_index++] = (object) $row;
+		}
+
+		$this->result_array = $this->row_data;
+
+		/* As described for the num_rows() method - there's no easy
+		 * way to get the number of rows selected. Our work-around
+		 * solution (as in here as well) first checks if result_array
+		 * exists and returns its count. It doesn't however check for
+		 * custom_object_result, so - do it here.
+		 */
+		if ( ! is_int($this->num_rows))
+		{
+			$this->num_rows = count($this->result_object);
 		}
 
 		// Un-comment the following line, in case it becomes needed
@@ -314,44 +281,45 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function custom_result_object($class_name)
 	{
-		if (isset($this->custom_result_object[$class_name]))
+		if (array_key_exists($class_name, $this->custom_result_object))
 		{
 			return $this->custom_result_object[$class_name];
 		}
 
-		if ( ! class_exists($class_name) OR $this->result_id === FALSE OR $this->num_rows() === 0)
+		if ( ! class_exists($class_name) OR ! is_object($this->result_id) OR $this->num_rows() === 0)
 		{
 			return array();
 		}
 
-		/* Even if we didn't have result_array or result_object
-		 * set prior to custom_result_object() being called,
-		 * num_rows() has already done so.
-		 * Pass by reference, as we don't know how
-		 * large it might be and we don't want 1000 row
-		 * sets being copied.
-		 */
-		if (count($this->result_array) > 0)
-		{
-			$data = &$this->result_array;
-		}
-		elseif (count($this->result_object) > 0)
-		{
-			$data = &$this->result_object;
-		}
+		/* Even if result_array hasn't been set prior to custom_result_object being called,
+		 * num_rows() has done it.
+		*/
+		$data = &$this->result_array;
 
-		$this->custom_result_object[$class_name] = array();
+		$result_object = array();
 		for ($i = 0, $c = count($data); $i < $c; $i++)
 		{
-			$this->custom_result_object[$class_name][$i] = new $class_name();
+			$result_object[$i] = new $class_name();
 			foreach ($data[$i] as $key => $value)
 			{
-				$this->custom_result_object[$class_name][$i]->$key = $value;
+				$result_object[$i]->$key = $value;
 			}
 		}
 
-		return $this->custom_result_object[$class_name];
-	}
+		/* As described for the num_rows() method - there's no easy
+		 * way to get the number of rows selected. Our work-around
+		 * solution (as in here as well) first checks if result_array
+		 * exists and returns its count. It doesn't however check for
+		 * custom_object_result, so - do it here.
+		 */
+		if ( ! is_int($this->num_rows))
+		{
+			$this->num_rows = count($result_object);
+		}
+
+		// Cache and return the array
+		return $this->custom_result_object[$class_name] = $result_object;
+        }
 
 	// --------------------------------------------------------------------
 
@@ -406,9 +374,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 			 * return an empty array:
 			 *
 			 *	- count($this->row_data) === 0 means there are no results
-			 *	- num_rows being set, result_array and/or result_object
-			 *	  having count() > 0 means that we've already fetched all
-			 *	  data and $n is greater than our highest row index available
+			 *	- num_rows being set or result_array having count() > 0 means
+			 *	  that we've already fetched all data and $n is greater than
+			 *	  our highest row index available
 			 *	- $n < $this->current_row means that if such row existed,
 			 *	  we would've already returned it, therefore $n is an
 			 *	  invalid index
@@ -419,8 +387,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 				return $this->row_data[$n];
 			}
 			elseif (count($this->row_data) === 0 OR is_int($this->num_rows)
-				OR count($this->result_array) > 0 OR count($this->result_object) > 0
-				OR $n < $this->current_row)
+				OR count($this->result_array) > 0 OR $n < $this->current_row)
 			{
 				// No such row exists
 				return array();
@@ -485,6 +452,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		{
 			$n = (int) $n;
 		}
+
 		/* Logic here is exactly the same as in row_array,
 		 * except we have to cast row_data[$n] to an object.
 		 *
@@ -494,12 +462,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 		if (isset($this->result_object[$n]))
 		{
 			$this->current_row = $n;
-			// Set this, if not already done.
-			if ( ! is_int($this->num_rows))
-			{
-				$this->num_rows = count($this->result_object);
-			}
-
 			return $this->result_object[$n];
 		}
 
@@ -611,14 +573,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		if (is_array($this->row_data))
 		{
 			$count = count($this->row_data);
-			if ($this->current_row > $count OR ($this->current_row === 0 && $count === 0))
-			{
-				$n = $count;
-			}
-			else
-			{
-				$n = $this->current_row + 1;
-			}
+			$n = ($this->current_row > $count OR ($this->current_row === 0 && $count === 0)) ? $count : $this->current_row + 1;
 		}
 		else
 		{
@@ -648,57 +603,17 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero.
+	 * result set starts at zero
 	 *
-	 * Oracle's PHP extension doesn't have an easy way of doing this
-	 * and the only workaround is to (re)execute the statement or cursor
-	 * in order to go to the first (zero) index of the result set.
-	 * Then, we would need to "dummy" fetch ($n - 1) rows to get to the
-	 * right one.
-	 *
-	 * This is as ridiculous as it sounds and it's the reason why every
-	 * other method that is fetching data tries to use an already "cached"
-	 * result set. Keeping this just in case it becomes needed at
-	 * some point in the future, but it will only work for resetting the
-	 * pointer to zero.
-	 *
-	 * @return	bool
+	 * @return	array
 	 */
-	protected function _data_seek()
+	protected function _data_seek($n = 0)
 	{
-		/* The PHP manual says that if OCI_NO_AUTO_COMMIT mode
-		 * is used, and oci_rollback() and/or oci_commit() are
-		 * not subsequently called - this will cause an unnecessary
-		 * rollback to be triggered at the end of the script execution.
-		 *
-		 * Therefore we'll try to avoid using that mode flag
-		 * if we're not currently in the middle of a transaction.
-		 */
-		if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-		{
-			$result = @oci_execute($this->stmt_id, $this->commit_mode);
-		}
-		else
-		{
-			$result = @oci_execute($this->stmt_id);
-		}
-
-		if ($result && $this->curs_id)
-		{
-			if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-			{
-				return @oci_execute($this->curs_id, $this->commit_mode);
-			}
-			else
-			{
-				return @oci_execute($this->curs_id);
-			}
-		}
-
-		return $result;
+		// Only resetting to the start of the result set is supported
+		return $this->result_id->reset();
 	}
 
 }
 
-/* End of file oci8_result.php */
-/* Location: ./system/database/drivers/oci8/oci8_result.php */
+/* End of file sqlite3_result.php */
+/* Location: ./system/database/drivers/sqlite3/sqlite3_result.php */
