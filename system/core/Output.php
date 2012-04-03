@@ -220,24 +220,24 @@ class CI_Output {
 		$this->headers[] = array($header, TRUE);
 		return $this;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Get Current Content Type Header
-	 * Return text/html if Content-Type is not set
 	 *
-	 * @return	string
+	 * @return	string	'text/html', if not already set
 	 */
 	public function get_content_type()
 	{
-		foreach ($this->headers as $header)
+		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
 		{
-			if (preg_match('/^Content-Type/', $header[0]))
+			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
 			{
-				return str_replace('Content-Type: ', '', $header[0]);
+				return $matches[1];
 			}
 		}
+
 		return 'text/html';
 	}
 
