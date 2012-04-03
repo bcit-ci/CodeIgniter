@@ -251,7 +251,7 @@ class CI_Table {
 			}
 			elseif (is_array($table_data))
 			{
-				$set_heading = (count($this->heading) === 0 AND $this->auto_heading == FALSE) ? FALSE : TRUE;
+				$set_heading = (count($this->heading) !== 0 OR $this->auto_heading != FALSE);
 				$this->_set_from_array($table_data, $set_heading);
 			}
 		}
