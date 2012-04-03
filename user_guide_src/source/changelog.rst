@@ -124,6 +124,7 @@ Release Date: Not Released
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
+   -  Added get_content_type for get current mime-types :doc:`Core Output Library <core/output>`.
 
 Bug fixes for 3.0
 ------------------
@@ -190,9 +191,6 @@ Release Date: Not Released
 -  Libraries
    -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
 
--  Core
-   -  Added get_content_type for get current mime-types :doc:`Core Output Library <core/output>`.
-   
 -  Helpers
    -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
 
