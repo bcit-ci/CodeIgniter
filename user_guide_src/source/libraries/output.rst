@@ -52,9 +52,11 @@ data, JPEG's, XML, etc easily.
 $this->output->get_content_type();
 ==========================================
 
-Get the current mime-type of your page and return 'text/html' by default.
+Returns the Content-Type HTTP header that's currently in use.
 
-	$this->output->get_content_type();
+	$mime = $this->output->get_content_type();
+
+.. note:: If not set, the default return value is 'text/html'.
 
 $this->output->get_output();
 =============================
