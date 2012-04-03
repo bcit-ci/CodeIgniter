@@ -190,6 +190,9 @@ Release Date: Not Released
 -  Libraries
    -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
 
+-  Core
+   -  Added get_content_type for get current mime-types :doc:`Core Output Library <core/output>`.
+   
 -  Helpers
    -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
 
