@@ -641,13 +641,13 @@ class CI_Form_validation {
 					}
 					else
 					{
-						log_message('debug', 'Unable to find validation rule: '.$rule);
-						$result = FALSE;
+						$this->_field_data[$row['field']]['postdata'] = is_bool($result) ? $postdata : $result;
 					}
 				}
 				else
 				{
-					$result = $this->$rule($postdata, $param);
+					log_message('debug', 'Unable to find validation rule: '.$rule);
+					$result = FALSE;
 				}
 
 				continue;
