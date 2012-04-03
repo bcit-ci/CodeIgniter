@@ -105,7 +105,7 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
-	 * @param	boolean	whether or not to return false
+	 * @param	bool	whether or not to return false
 	 * @return	string
 	 */
 	public function click($element = 'this', $js = '', $ret_false = TRUE)
@@ -644,7 +644,7 @@ class CI_Javascript {
 	 * Outputs a <script> tag
 	 *
 	 * @param	string	The element to attach the event to
-	 * @param	boolean	If a CDATA section should be added
+	 * @param	bool	If a CDATA section should be added
 	 * @return	string
 	 */
 	public function inline($script, $cdata = TRUE)
