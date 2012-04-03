@@ -656,7 +656,7 @@ class CI_Session {
 	{
 		return (strtolower($this->time_reference) === 'gmt')
 			? mktime(gmdate('H'), gmdate('i'), gmdate('s'), gmdate('m'), gmdate('d'), gmdate('Y'))
-			: time();
+			: $_SERVER['REQUEST_TIME'];
 	}
 
 	// --------------------------------------------------------------------
@@ -686,7 +686,7 @@ class CI_Session {
 			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		}
 
-		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
+		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + $_SERVER['REQUEST_TIME'];
 
 		// Set the cookie
 		setcookie(

@@ -65,7 +65,7 @@ class CI_Calendar {
 			$this->CI->lang->load('calendar');
 		}
 
-		$this->local_time = time();
+		$this->local_time = $_SERVER['REQUEST_TIME'];
 
 		if (count($config) > 0)
 		{

@@ -73,11 +73,11 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		if (get_class($this->_memcached) === 'Memcached')
 		{
-			return $this->_memcached->set($id, array($data, time(), $ttl), $ttl);
+			return $this->_memcached->set($id, array($data, $_SERVER['REQUEST_TIME'], $ttl), $ttl);
 		}
 		elseif (get_class($this->_memcached) === 'Memcache')
 		{
-			return $this->_memcached->set($id, array($data, time(), $ttl), 0, $ttl);
+			return $this->_memcached->set($id, array($data, $_SERVER['REQUEST_TIME'], $ttl), 0, $ttl);
 		}
 
 		return FALSE;

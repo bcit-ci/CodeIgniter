@@ -468,7 +468,7 @@ class CI_Output {
 			return;
 		}
 
-		$expire = time() + ($this->cache_expiration * 60);
+		$expire = $_SERVER['REQUEST_TIME'] + ($this->cache_expiration * 60);
 
 		if (flock($fp, LOCK_EX))
 		{
