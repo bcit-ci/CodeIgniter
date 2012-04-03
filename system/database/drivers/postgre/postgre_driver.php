@@ -89,7 +89,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		if ($this->username !== '')
 		{
-			$this->dsn .= 'username='.$this->username.' ';
+			$this->dsn .= ' user='.$this->username.' ';
 
 			/* An empty password is valid!
 			 *
