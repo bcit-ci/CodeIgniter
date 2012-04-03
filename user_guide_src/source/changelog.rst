@@ -50,6 +50,7 @@ Release Date: Not Released
    -  form_dropdown() will now also take an array for unity with other form helpers.
    -  set_realpath() can now also handle file paths as opposed to just directories.
    -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
+   -  Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 
 -  Database
 
@@ -186,6 +187,7 @@ Bug fixes for 3.0
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 -  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 -  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
+-  Fixed a bug (#1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 
 Version 2.1.1
 =============
