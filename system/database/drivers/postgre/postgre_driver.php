@@ -80,16 +80,16 @@ class CI_DB_postgre_driver extends CI_DB {
 			$this->port = '';
 		}
 
-		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname;
+		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname.' ';
 
 		if ( ! empty($this->port) && ctype_digit($this->port))
 		{
-			$this->dsn .= 'host='.$this->port.' ';
+			$this->dsn .= 'port='.$this->port.' ';
 		}
 
 		if ($this->username !== '')
 		{
-			$this->dsn .= ' user='.$this->username.' ';
+			$this->dsn .= 'user='.$this->username.' ';
 
 			/* An empty password is valid!
 			 *
