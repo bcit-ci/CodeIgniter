@@ -62,7 +62,7 @@ function autoload($class)
 		elseif (strpos($class, 'CI_DB') === 0)
 		{
 			$dir = BASEPATH.'database'.DIRECTORY_SEPARATOR;
-			$file = $dir.str_replace('CI_DB', 'DB', $subclass).'.php';
+			$file = $dir.str_replace(array('CI_DB','active_record'), array('DB', 'active_rec'), $subclass).'.php';
 		}
 		else
 		{
@@ -82,7 +82,7 @@ function autoload($class)
 		{
 			return FALSE;
 		}
-		var_dump($file);
+		
 	    throw new InvalidArgumentException("Unable to load $class.");
 	}
 

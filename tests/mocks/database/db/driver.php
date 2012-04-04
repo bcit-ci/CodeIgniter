@@ -33,4 +33,4 @@ class Mock_Database_DB_Driver extends CI_DB_driver {
 	}
 }
 
-class CI_DB extends CI_DB_Driver {}
+class CI_DB extends Mock_Database_DB_QueryBuilder {}
