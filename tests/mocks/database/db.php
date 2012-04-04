@@ -45,6 +45,8 @@ class Mock_Database_DB {
 		);
 
 		$config = array_merge($this->config[$group], $params);
+		$pdodriver = ( ! empty($config['pdodriver'])) ? $config['pdodriver'] : FALSE;
+		$failover = ( ! empty($config['failover'])) ? $config['failover'] : FALSE;
 
 		if ( ! empty($config['dsn']))
 		{
@@ -57,7 +59,11 @@ class Mock_Database_DB {
 
 		}
 
+		// Build the parameter
 		$other_params = array_slice($config, 6);
+		$other_params['dsn'] = $dsn;
+		if ($pdodriver) $other_params['pdodriver'] = $pdodriver;
+		if ($failover) $other_params['failover'] = $failover;
 
 		return $dsn.'?'.http_build_query($other_params);
 	}
