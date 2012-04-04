@@ -32,50 +32,53 @@
  */
 class CI_OCI_PDO_Driver {
 
-	protected $conn;
-	protected $pdo;
-
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($pdo)
+	public function __construct($params)
 	{
-		$this->pdo =& $pdo;
-		
-		$dsn = ( ! empty($pdo->dsn))
-			? $pdo->dsn
+		parent::__construct($params);
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Establish the database connection
+	 */
+	public function connect()
+	{
+		$dsn = ( ! empty($this->dsn))
+			? $this->dsn
 			: "oci:";
 			
-		if ( ! empty($pdo->hostname) && ! empty($pdo->port))
+		if ( ! empty($this->hostname) && ! empty($this->port))
 		{
-			$dsn .= "dbname=//{$pdo->hostname}:{$pdo->port}/{$pdo->database}";
+			$dsn .= "dbname=//{$this->hostname}:{$this->port}/{$this->database}";
 		}
 		else
 		{
-			$dsn .= 'dbname='.$pdo->database;
+			$dsn .= 'dbname='.$this->database;
 		}
 		
-		if ( ! empty($pdo->charset))
+		if ( ! empty($this->charset))
 		{
-			$dsn .= ';charset='.$pdo->charset;
+			$dsn .= ';charset='.$this->charset;
 		}
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
+			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
 		} 
 		catch (PDOException $e) 
 		{
-			if ($pdo->db_debug && empty($pdo->failover))
+			if ($this->db_debug && empty($this->failover))
 			{
-				$pdo->display_error($e->getMessage(), '', TRUE);
+				$this->display_error($e->getMessage(), '', TRUE);
 			}
 
 			return FALSE;
 		}
-		
-		$this->conn =& $pdo->conn_id;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -85,7 +88,7 @@ class CI_OCI_PDO_Driver {
 	 *
 	 * @return	string
 	 */
-	public function list_tables()
+	public function _list_tables()
 	{
 		return FALSE;
 	}
@@ -100,9 +103,9 @@ class CI_OCI_PDO_Driver {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function field_data($table)
+	public function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table;
+		return 'SELECT * FROM '.$this->from_tables($table);
 	}
 	
 	// --------------------------------------------------------------------------
@@ -118,7 +121,7 @@ class CI_OCI_PDO_Driver {
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function limit($sql, $limit, $offset)
+	public function _limit($sql, $limit, $offset)
 	{
 		return $sql;
 	}

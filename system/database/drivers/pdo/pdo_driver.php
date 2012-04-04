@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_driver extends CI_DB {
+abstract class CI_DB_pdo_driver extends CI_DB {
 
 	public $dbdriver = 'pdo';
 
@@ -60,43 +60,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	// need to track the pdo driver and options
 	public $pdodriver;
 	public $options = array();
-	protected $driver;
 
 	public function __construct($params)
 	{
 		parent::__construct($params);
-
-		$match = array();
-
-		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
-		{
-			// If there is a minimum valid dsn string pattern found, we're done
-			// This is for general PDO users, who tend to have a full DSN string.
-			$this->pdodriver = end($match);
-		}
-		else
-		{
-			// Try to build a complete DSN string from params
-			if (strpos($this->hostname, ':'))
-			{
-				// hostname generally would have this prototype
-				// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
-				// We need to get the prefix (pdodriver used by PDO).
-				$dsnarray = explode(':', $this->hostname);
-				$this->pdodriver = $dsnarray[0];
-
-				// Extract the hostname from the partial dsn
-				$this->hostname = preg_replace('`(host|server)=`', '', $dsnarray[1]);
-			}
-			else
-			{
-				// Invalid DSN, display an error
-				if ( ! array_key_exists('pdodriver', $params))
-				{
-					show_error('Invalid DB Connection String for PDO');
-				}
-			}
-		}
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
@@ -130,8 +97,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	public function db_connect()
 	{
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
+		
+		$this->connect();
 
-		return $this->pdo_connect();
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -145,48 +114,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
-
-		return $this->pdo_connect();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Load the sub driver and connect to the database
-	 *
-	 * @return	object
-	 */
-	protected function pdo_connect()
-	{
-		// Load the sub driver for database-specific stuff
-		$driver = strtolower($this->pdodriver);
-
-		// So many libraries for connecting to the same database!
-		// Since SQL Server is a fork of Sybase, this should cover
-		// a lot of bases with one sub-driver
-		if (in_array($driver, array('dblib','mssql','sybase','sqlsrv')))
-		{
-			$driver = 'sqlsrv';
-		}
-
-		$file = dirname(__FILE__)."/sub_drivers/{$driver}.php";
-
-		// Fallback to odbc if a non-existant or unimplemented
-		// pdo driver is specified
-		if (file_exists($file))
-		{
-			require($file);
-		}
-		else
-		{
-			$driver = 'odbc';
-			require(dirname(__FILE__).'/sub_drivers/odbc.php');
-		}
-
-		// Instantiate the sub-driver, and
-		// return the connection object
-		$driver_class = "CI_{$driver}_PDO_Driver";
-		$this->driver = new $driver_class($this);
+		
+		$this->connect();
 
 		return $this->conn_id;
 	}
@@ -234,7 +163,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep the query
+	 * Prep the query - dummy method for drivers to overwrite
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
@@ -243,9 +172,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
-		return (method_exists($this->driver, 'prep_query'))
-			? $this->driver->prep_query($sql)
-			: $sql;
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -388,11 +315,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if (method_exists($this->driver, 'insert_id'))
-		{
-			return $this->driver->insert_id($name);
-		}
-
 		return $this->conn_id->lastInsertId($name);
 	}
 
@@ -440,11 +362,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @param	bool
 	 * @return	string
 	 */
-	protected function _list_tables($prefix_limit = FALSE)
-	{
-		return $this->driver->list_tables();
-	}
-
+	 abstract protected function _list_tables();
+	 
 	// --------------------------------------------------------------------
 
 	/**
@@ -470,10 +389,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	protected function _field_data($table)
-	{
-		return $this->driver->field_data($this->_from_tables($table));
-	}
+	 abstract protected function _field_data($table);
 
 	// --------------------------------------------------------------------
 
@@ -698,11 +614,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _truncate($table)
 	{
-		if (method_exists($this->driver, 'truncate'))
-		{
-			return $this->driver->truncate($table);
-		}
-
 		return $this->_delete($table);
 	}
 
@@ -736,23 +647,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		return 'DELETE FROM '.$this->_from_tables($table).$conditions;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	public function _limit($sql, $limit, $offset)
-	{
-		return $this->driver->limit($sql, $limit, $offset);
 	}
 
 	// --------------------------------------------------------------------

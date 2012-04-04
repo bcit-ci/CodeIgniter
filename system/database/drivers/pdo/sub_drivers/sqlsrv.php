@@ -30,59 +30,62 @@
 /**
  * SQL Server specific methods for the PDO driver
  */
-class CI_SQLSrv_PDO_Driver {
-
-	protected $conn;
-	protected $pdo;
+class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($pdo)
+	public function __construct($params)
 	{
-		$this->pdo =& $pdo;
-		
+		parent::__construct($params);
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Establish the database connection
+	 */
+	public function connect()
+	{
 		// Create the connection dsn
-		$dsn = ( ! empty($pdo->dsn)) 
-			? $pdo->dsn
-			: "{$pdo->pdodriver}:Server={$pdo->hostname}";
+		$dsn = ( ! empty($this->dsn)) 
+			? $this->dsn
+			: "{$this->pdodriver}:Server={$this->hostname}";
 		
 			
-		if ( ! empty($pdo->port))
+		if ( ! empty($this->port))
 		{
-			$dsn .= ','.$pdo->port;
+			$dsn .= ','.$this->port;
 		}
 		
-		$dsn .= ';Database='.$pdo->database;
+		$dsn .= ';Database='.$this->database;
 		
 		// if the driver is dblib, the connection string is more similar to other drivers
-		if (empty($pdo->dsn) && $pdo->pdodriver == 'dblib')
+		if (empty($this->dsn) && $this->pdodriver == 'dblib')
 		{
-			$dsn = "dblib:host={$pdo->hostname}";
+			$dsn = "dblib:host={$this->hostname}";
 			
-			if ( ! empty($pdo->port))
+			if ( ! empty($this->port))
 			{
-				$dsn .= ':'.$pdo->port;
+				$dsn .= ':'.$this->port;
 			}
 			
-			$dsn .= ';dbname='.$pdo->database;
+			$dsn .= ';dbname='.$this->database;
 		}
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
+			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
 		} 
 		catch (PDOException $e) 
 		{
-			if ($pdo->db_debug && empty($pdo->failover))
+			if ($this->db_debug && empty($this->failover))
 			{
-				$pdo->display_error($e->getMessage(), '', TRUE);
+				$this->display_error($e->getMessage(), '', TRUE);
 			}
 			return FALSE;
 		}
-		
-		$this->conn =& $pdo->conn_id;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -93,7 +96,7 @@ class CI_SQLSrv_PDO_Driver {
 	 * @param	string	sql string
 	 * @return	string
 	 */
-	public function prep_query($sql)
+	public function _prep_query($sql)
 	{
 		$sql = preg_replace('`"(.*)"`imx', '[\1]', $sql);
 		return str_replace('"."', '].[', $sql);
@@ -107,7 +110,7 @@ class CI_SQLSrv_PDO_Driver {
 	 * @param	string	name of generator
 	 * @return	string
 	 */
-	public function insert_id($name = NULL)
+	public function _insert_id($name = NULL)
 	{
 		if ($name === NULL && $this->version() >= '8.1')
 		{
@@ -116,7 +119,7 @@ class CI_SQLSrv_PDO_Driver {
 			return $query->ins_id;
 		}
 		
-		return $this->conn->lastInsertId($name);
+		return $this->conn_id->lastInsertId($name);
 	}
 	
 	// --------------------------------------------------------------------------
@@ -126,7 +129,7 @@ class CI_SQLSrv_PDO_Driver {
 	 *
 	 * @return	string
 	 */
-	public function list_tables()
+	public function _list_tables()
 	{
 		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
 	}
@@ -141,9 +144,9 @@ class CI_SQLSrv_PDO_Driver {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function field_data($table)
+	public function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$table;
+		return 'SELECT TOP 1 * FROM '.$this->_from_tables($table);
 	}
 	
 	// --------------------------------------------------------------------------
@@ -159,7 +162,7 @@ class CI_SQLSrv_PDO_Driver {
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function limit($sql, $limit, $offset)
+	public function _limit($sql, $limit, $offset)
 	{
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
 	}

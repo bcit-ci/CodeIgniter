@@ -30,38 +30,41 @@
 /**
  * Firebird/Interbase specific methods for the PDO driver
  */
-class CI_Firebird_PDO_Driver {
-
-	protected $conn;
-	protected $pdo;
+class CI_Firebird_PDO_Driver extends CI_DB_pdo_driver{
 
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($pdo)
+	public function __construct($params)
 	{
-		$this->pdo =& $pdo;
-		
-		$dsn = ( ! empty($pdo->dsn))
-			? $pdo->dsn
-			: "firebird:dbname={$pdo->host}:{$pdo->database};";
+		parent::__construct($params);
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Establish the database connection
+	 */
+	public function connect()
+	{
+		$dsn = ( ! empty($this->dsn))
+			? $this->dsn
+			: "firebird:dbname={$this->host}:{$this->database};";
 	
 		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
+			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
 		} 
 		catch (PDOException $e) 
 		{
-			if ($pdo->db_debug && empty($pdo->failover))
+			if ($this->db_debug && empty($this->failover))
 			{
-				$pdo->display_error($e->getMessage(), '', TRUE);
+				$this->display_error($e->getMessage(), '', TRUE);
 			}
 
 			return FALSE;
 		}
-		
-		$this->conn =& $pdo->conn_id;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -71,7 +74,7 @@ class CI_Firebird_PDO_Driver {
 	 *
 	 * @return	string
 	 */
-	public function list_tables()
+	public function _list_tables()
 	{
 		return  <<<SQL
 			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
@@ -90,9 +93,9 @@ SQL;
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function field_data($table)
+	public function _field_data($table)
 	{
-		return 'SELECT FIRST 1 * FROM '.$table;
+		return 'SELECT FIRST 1 * FROM '.$this->_from_tables($table);
 	}
 	
 	// --------------------------------------------------------------------------
@@ -108,7 +111,7 @@ SQL;
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function limit($sql, $limit, $offset)
+	public function _limit($sql, $limit, $offset)
 	{
 		// Keep the current sql string safe for a moment
 		$orig_sql = $sql;

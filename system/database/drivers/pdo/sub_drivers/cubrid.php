@@ -30,47 +30,49 @@
 /**
  * Cubrid specific methods for the PDO driver
  */
-class CI_Cubrid_PDO_Driver {
-
-	protected $conn;
-	protected $pdo;
+class CI_Cubrid_PDO_Driver extends CI_DB_pdo_driver {
 
 	/**
 	 * Save the connection object for later use
 	 */
-	public function __construct($pdo)
+	public function __construct($params)
 	{
-		$this->pdo =& $pdo;
+		parent::__construct($params)
 		
 		// Set the escape character to the silly backtick
-		$pdo->_escape_char = '`';
-		
+		$this->_escape_char = '`';
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Establish the database connection
+	 */
+	public function connect()
+	{
 		// Create the connection dsn
-		$dsn = ( ! empty($pdo->dsn)) 
-			? $pdo->dsn
-			: "cubrid:host={$pdo->hostname};dbname={$pdo->database}";
+		$dsn = ( ! empty($this->dsn)) 
+			? $this->dsn
+			: "cubrid:host={$this->hostname};dbname={$this->database}";
 			
-		if ( ! empty($pdo->port))
+		if ( ! empty($this->port))
 		{
-			$dsn .= ';port='.$pdo->port;
+			$dsn .= ';port='.$this->port;
 		}
 	
-		// Connecting...
 		try 
 		{
-			$pdo->conn_id = new PDO($dsn, $pdo->username, $pdo->password, $pdo->options);
+			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
 		} 
 		catch (PDOException $e) 
 		{
-			if ($pdo->db_debug && empty($pdo->failover))
+			if ($this->db_debug && empty($this->failover))
 			{
-				$pdo->display_error($e->getMessage(), '', TRUE);
+				$this->display_error($e->getMessage(), '', TRUE);
 			}
 
 			return FALSE;
 		}
-		
-		$this->conn =& $pdo->conn_id;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -80,7 +82,7 @@ class CI_Cubrid_PDO_Driver {
 	 *
 	 * @return	string
 	 */
-	public function list_tables()
+	public function _list_tables()
 	{
 		return FALSE;
 	}
@@ -95,9 +97,9 @@ class CI_Cubrid_PDO_Driver {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	public function field_data($table)
+	public function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 1';
+		return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
 	}
 	
 	// --------------------------------------------------------------------------
@@ -113,7 +115,7 @@ class CI_Cubrid_PDO_Driver {
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
-	public function limit($sql, $limit, $offset)
+	public function _limit($sql, $limit, $offset)
 	{
 		$offset = ($offset == 0) ? '' : $offset.', ';
 
