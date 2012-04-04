@@ -362,7 +362,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @param	bool
 	 * @return	string
 	 */
-	 abstract protected function _list_tables();
+	 protected function _list_tables()
+	 {
+	 }
 	 
 	// --------------------------------------------------------------------
 
@@ -389,7 +391,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	 abstract protected function _field_data($table);
+	 protected function _field_data($table)
+	 {
+	 }
 
 	// --------------------------------------------------------------------
 
