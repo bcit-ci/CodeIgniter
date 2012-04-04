@@ -38,7 +38,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_pdo_driver extends CI_DB {
+class CI_DB_pdo_driver extends CI_DB {
 
 	public $dbdriver = 'pdo';
 
