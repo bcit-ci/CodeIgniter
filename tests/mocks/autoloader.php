@@ -32,6 +32,8 @@ function autoload($class)
 		'Unit_test', 'Upload', 'User_agent',
 		'Xmlrpc', 'Zip',
 	);
+	
+	echo "\n{$class}\n";
 
 	if (strpos($class, 'Mock_') === 0)
 	{
@@ -66,8 +68,10 @@ function autoload($class)
 		}
 		elseif (preg_match('/^CI_(.+)_PDO_driver$/i', $class, $m))
 		{
-			$driver_path = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR
-				.'pdo'.DIRECTORY_SEPARATOR.'sub_drivers'.strtolower($m[1]).'.php';
+			$dir = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR.'pdo'.DIRECTORY_SEPARATOR.'sub_drivers';
+			$file = $dir . DIRECTORY_SEPARATOR . strtolower($m[1]).'.php';
+				
+			echo $file;	
 		}
 		else
 		{
@@ -88,7 +92,7 @@ function autoload($class)
 			return FALSE;
 		}
 		
-	    throw new InvalidArgumentException("Unable to load $class.");
+	    throw new InvalidArgumentException("Unable to load $class. File not correct:{$file}");
 	}
 
 	include_once($file);
