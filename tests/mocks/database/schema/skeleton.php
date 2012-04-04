@@ -7,7 +7,7 @@ class Mock_Database_Schema_Skeleton {
 	 *
 	 * @return void
 	 */
-	public static function create_tables($forge)
+	public static function create_tables($forge, $driver)
 	{
 		// Job Table
 		$forge->add_field(array(
@@ -24,8 +24,7 @@ class Mock_Database_Schema_Skeleton {
 			),
 		));
 		$forge->add_key('id', TRUE);
-		$res = $forge->create_table('job');
-		var_dump($res);
+		$forge->create_table('job', (strpos($driver, 'pgsql') === FALSE));
 	}
 
 	/**
