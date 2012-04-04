@@ -20,7 +20,7 @@ class Get_test extends CI_TestCase {
 
 		$forge = $this->ci_instance->dbforge;
 
-		Mock_Database_Schema_Skeleton::create_tables($forge);
+		Mock_Database_Schema_Skeleton::create_tables($forge, DB_DRIVER);
 		Mock_Database_Schema_Skeleton::create_data($db);
 
 		$this->query_builder = $db;
