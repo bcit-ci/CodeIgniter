@@ -12,7 +12,7 @@ class Mock_Database_Schema_Skeleton {
 		// Job Table
 		$forge->add_field(array(
 			'id' => array(
-				'type' => 'INT',
+				'type' => 'INTEGER',
 				'constraint' => 3,
 			),
 			'name' => array(
@@ -21,11 +21,11 @@ class Mock_Database_Schema_Skeleton {
 			),
 			'description' => array(
 				'type' => 'TEXT',
-				'constraint' => 0,
 			),
 		));
 		$forge->add_key('id', TRUE);
-		$forge->create_table('job', TRUE);
+		$res = $forge->create_table('job');
+		var_dump($res);
 	}
 
 	/**
