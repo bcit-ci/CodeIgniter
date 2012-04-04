@@ -10,7 +10,7 @@
 	stopOnIncomplete="false"
 	stopOnSkipped="false">
 	<php>
-        <const name="DB_DRIVER" value="pgsql"/>
+        <const name="DB_DRIVER" value="pdo/pgsql"/>
     </php>
 	<testsuites>
 		<testsuite name="CodeIgniter Core Test Suite">
