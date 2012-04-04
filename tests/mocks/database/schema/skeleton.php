@@ -48,17 +48,10 @@ class Mock_Database_Schema_Skeleton {
 		foreach ($data as $table => $dummy_data) 
 		{
 			$db->truncate($table);
-			
-			if (strpos(DB_DRIVER, 'sqlite') === FALSE)
+
+			foreach ($dummy_data as $single_dummy_data)
 			{
-				$db->insert_batch($table, $dummy_data); 
-			}
-			else
-			{
-				foreach ($dummy_data as $single_dummy_data)
-				{
-					$db->insert($table, $single_dummy_data); 
-				}
+				$db->insert($table, $single_dummy_data); 
 			}
 		}
 	}
