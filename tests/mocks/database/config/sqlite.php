@@ -26,7 +26,7 @@ return array(
 				'hostname' => 'localhost',
 				'username' => 'sqlite',
 				'password' => 'sqlite',
-				'database' => realpath(__DIR__.'/..').'/ci_testf.sqlite',
+				'database' => realpath(__DIR__.'/..').'/ci_test.sqlite',
 				'dbdriver' => 'sqlite3',
 			),
 		),
