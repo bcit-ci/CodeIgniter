@@ -64,6 +64,11 @@ function autoload($class)
 			$dir = BASEPATH.'database'.DIRECTORY_SEPARATOR;
 			$file = $dir.str_replace(array('CI_DB','active_record'), array('DB', 'active_rec'), $subclass).'.php';
 		}
+		elseif (preg_match('/^CI_(.+)_PDO_driver$/i', $class, $m))
+		{
+			$driver_path = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR
+				.'pdo'.DIRECTORY_SEPARATOR.'sub_drivers'.strtolower($m[1]).'.php';
+		}
 		else
 		{
 			$class = strtolower($class);
