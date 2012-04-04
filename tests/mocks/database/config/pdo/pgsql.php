@@ -4,7 +4,7 @@ return array(
 	
 	// Typical Database configuration
 	'pdo/pgsql' => array(
-		'dsn' => '',
+		'dsn' => 'pgsql:host=localhost;port=5432;dbname=ci_test;',
 		'hostname' => 'localhost',
 		'username' => 'postgres',
 		'password' => '',
@@ -24,7 +24,7 @@ return array(
 		'pdodriver' => 'pgsql',
 		'failover' => array(
 			array(
-				'dsn' => '',
+				'dsn' => 'pgsql:host=localhost;port=5432;dbname=ci_test;',
 				'hostname' => 'localhost',
 				'username' => 'postgres',
 				'password' => '',
