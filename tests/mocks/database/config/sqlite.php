@@ -9,7 +9,7 @@ return array(
 		'username' => 'sqlite',
 		'password' => 'sqlite',
 		'database' => realpath(__DIR__.'/..').'/ci_test.sqlite',
-		'dbdriver' => is_php('5.4') ? 'sqlite3' : 'sqlite',
+		'dbdriver' => 'sqlite3',
 	),
 
 	// Database configuration with failover
@@ -19,7 +19,7 @@ return array(
 		'username' => 'sqlite',
 		'password' => 'sqlite',
 		'database' => '../not_exists.sqlite',
-		'dbdriver' => is_php('5.4') ? 'sqlite3' : 'sqlite',
+		'dbdriver' => 'sqlite3',
 		'failover' => array(
 			array(
 				'dsn' => '',
@@ -27,7 +27,7 @@ return array(
 				'username' => 'sqlite',
 				'password' => 'sqlite',
 				'database' => realpath(__DIR__.'/..').'/ci_testf.sqlite',
-				'dbdriver' => is_php('5.4') ? 'sqlite3' : 'sqlite',
+				'dbdriver' => 'sqlite3',
 			),
 		),
 	),
