@@ -304,8 +304,7 @@ class CI_Zip  {
 			}
 			elseif (FALSE !== ($data = file_get_contents($path.$file)))
 			{
-				$name = str_replace("\\", DIRECTORY_SEPARATOR, $path);
-				$name = str_replace("/", DIRECTORY_SEPARATOR, $path);
+				$name = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
 				if ($preserve_filepath === FALSE)
 				{
 					$name = str_replace($root_path, '', $name);
