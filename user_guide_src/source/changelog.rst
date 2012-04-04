@@ -140,6 +140,7 @@ Release Date: Not Released
 Bug fixes for 3.0
 ------------------
 
+-  Fixed a bug (#1242) Added Windows path compatibility to function read_dir of ZIP library
 -  Unlink raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
