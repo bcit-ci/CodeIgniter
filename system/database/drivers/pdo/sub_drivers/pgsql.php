@@ -54,7 +54,12 @@ class CI_PgSQL_PDO_Driver extends CI_DB_pdo_driver {
 		}
 		else
 		{
-			$dsn = "pgsql:host={$this->hostname};dbname={$this->database}";
+			$dsn = "pgsql:dbname={$this->database}";
+			
+			if ( ! empty($this->hostname))
+			{
+				$dsn .= ";host={$this->hostname}";
+			}
 		
 			if ( ! empty($this->port))
 			{
