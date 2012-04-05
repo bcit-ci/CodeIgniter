@@ -5,16 +5,14 @@ class Get_test extends CI_TestCase {
 	/**
 	 * @var object Database/Query Builder holder
 	 */
-	protected $query_builder;
+	protected $db;
 
 	public function set_up()
 	{
-		$db = Mock_Database_Schema_Skeleton::init(DB_DRIVER);
+		$this->db = Mock_Database_Schema_Skeleton::init(DB_DRIVER);
 
 		Mock_Database_Schema_Skeleton::create_tables();
 		Mock_Database_Schema_Skeleton::create_data();
-
-		$this->query_builder = $db;
 	}
 
 	// ------------------------------------------------------------------------
@@ -24,7 +22,7 @@ class Get_test extends CI_TestCase {
 	 */
 	public function test_get_simple()
 	{
-		$jobs = $this->query_builder->get('job')->result_array();
+		$jobs = $this->db->get('job')->result_array();
 		
 		// Dummy jobs contain 4 rows
 		$this->assertCount(4, $jobs);
@@ -43,7 +41,7 @@ class Get_test extends CI_TestCase {
 	 */
 	public function test_get_where()
 	{
-		$job1 = $this->query_builder->get('job', array('id' => 1))->result_array();
+		$job1 = $this->db->get('job', array('id' => 1))->result_array();
 		
 		// Dummy jobs contain 1 rows
 		$this->assertCount(1, $job1);
