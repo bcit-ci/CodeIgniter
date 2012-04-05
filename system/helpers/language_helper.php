@@ -55,11 +55,11 @@ if ( ! function_exists('lang'))
 
 		if ($id && ! $class)
 		{
-			$line = '<label for="'.$id.'">'.$line."</label>";
+			$line = '<label for="'.$id.'">'.$line.'</label>';
 		}
 		elseif ($id && $class)
 		{
-			$line = '<label for="'.$id.'" class="'.$class.'">'.$line."</label>";
+			$line = '<label for="'.$id.'" class="'.$class.'">'.$line.'</label>';
 		}
 
 		return $line;
