@@ -32,8 +32,6 @@ function autoload($class)
 		'Unit_test', 'Upload', 'User_agent',
 		'Xmlrpc', 'Zip',
 	);
-	
-	echo "\n{$class}\n";
 
 	if (strpos($class, 'Mock_') === 0)
 	{
@@ -70,8 +68,6 @@ function autoload($class)
 		{
 			$dir = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR.'pdo'.DIRECTORY_SEPARATOR.'sub_drivers';
 			$file = $dir . DIRECTORY_SEPARATOR . strtolower($m[1]).'.php';
-				
-			echo $file;	
 		}
 		else
 		{

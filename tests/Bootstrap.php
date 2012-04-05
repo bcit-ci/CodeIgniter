@@ -4,6 +4,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
+// Set the stupid timezone so PHP shuts up.
+date_default_timezone_set('GMT');
+
 $dir = realpath(dirname(__FILE__));
 
 // Path constants

@@ -28,7 +28,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * Fallback Sub driver for un-implemented databases
+ * Oracle Sub Driver
  */
 class CI_OCI_PDO_Driver {
 
