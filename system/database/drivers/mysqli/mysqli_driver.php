@@ -514,33 +514,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
