@@ -26,3 +26,4 @@ branches:
   only:
     - develop
     - master
+    - db-tests
