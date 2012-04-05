@@ -96,7 +96,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
+		//$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		
 		$this->connect();
 
@@ -112,7 +112,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
+		//$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
 		
 		$this->connect();
