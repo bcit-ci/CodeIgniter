@@ -1223,10 +1223,10 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific insert string from the supplied data.
 	 *
-	 * @param       string  the table name
-	 * @param       array   the insert keys
-	 * @param       array   the insert values
-	 * @return      string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
@@ -1362,10 +1362,10 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param       string  the table name
-	 * @param       array   the insert keys
-	 * @param       array   the insert values
-	 * @return      string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert($table, $keys, $values)
 	{
@@ -1442,6 +1442,23 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 		$sql = $this->_replace($this->protect_identifiers($table, TRUE, NULL, FALSE), array_keys($this->ar_set), array_values($this->ar_set));
 		$this->_reset_write();
 		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
