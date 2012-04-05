@@ -48,29 +48,33 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 	public function connect()
 	{
 		// Create the connection dsn
-		$dsn = ( ! empty($this->dsn)) 
-			? $this->dsn
-			: "{$this->pdodriver}:Server={$this->hostname}";
-		
-			
-		if ( ! empty($this->port))
+		if ( ! empty($this->dsn))
 		{
-			$dsn .= ','.$this->port;
+			$dsn = $this->dsn;
 		}
-		
-		$dsn .= ';Database='.$this->database;
-		
-		// if the driver is dblib, the connection string is more similar to other drivers
-		if (empty($this->dsn) && $this->pdodriver == 'dblib')
-		{
-			$dsn = "dblib:host={$this->hostname}";
-			
+		else
+		{		
+			$dsn = "{$this->pdodriver}:Server={$this->hostname}";
+	
 			if ( ! empty($this->port))
 			{
-				$dsn .= ':'.$this->port;
+				$dsn .= ','.$this->port;
 			}
 			
-			$dsn .= ';dbname='.$this->database;
+			$dsn .= ';Database='.$this->database;
+			
+			// if the driver is dblib, the connection string is more similar to other drivers
+			if (empty($this->dsn) && $this->pdodriver == 'dblib')
+			{
+				$dsn = "dblib:host={$this->hostname}";
+				
+				if ( ! empty($this->port))
+				{
+					$dsn .= ':'.$this->port;
+				}
+				
+				$dsn .= ';dbname='.$this->database;
+			}
 		}
 	
 		// Connecting...

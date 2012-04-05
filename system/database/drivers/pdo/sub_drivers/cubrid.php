@@ -49,15 +49,20 @@ class CI_Cubrid_PDO_Driver extends CI_DB_pdo_driver {
 	 * Establish the database connection
 	 */
 	public function connect()
-	{
+	{	
 		// Create the connection dsn
-		$dsn = ( ! empty($this->dsn)) 
-			? $this->dsn
-			: "cubrid:host={$this->hostname};dbname={$this->database}";
-			
-		if ( ! empty($this->port))
+		if ( ! empty($this->dsn))
 		{
-			$dsn .= ';port='.$this->port;
+			$dsn = $this->dsn;
+		}
+		else
+		{		
+			$dsn = "cubrid:host={$this->hostname};dbname={$this->database}";
+				
+			if ( ! empty($this->port))
+			{
+				$dsn .= ';port='.$this->port;
+			}
 		}
 	
 		try 

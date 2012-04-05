@@ -47,22 +47,28 @@ class CI_OCI_PDO_Driver {
 	 */
 	public function connect()
 	{
-		$dsn = ( ! empty($this->dsn))
-			? $this->dsn
-			: "oci:";
-			
-		if ( ! empty($this->hostname) && ! empty($this->port))
+		// Create the connection dsn
+		if ( ! empty($this->dsn))
 		{
-			$dsn .= "dbname=//{$this->hostname}:{$this->port}/{$this->database}";
+			$dsn = $this->dsn;
 		}
 		else
-		{
-			$dsn .= 'dbname='.$this->database;
-		}
-		
-		if ( ! empty($this->charset))
-		{
-			$dsn .= ';charset='.$this->charset;
+		{		
+			$dsn = "oci:";
+				
+			if ( ! empty($this->hostname) && ! empty($this->port))
+			{
+				$dsn .= "dbname=//{$this->hostname}:{$this->port}/{$this->database}";
+			}
+			else
+			{
+				$dsn .= 'dbname='.$this->database;
+			}
+			
+			if ( ! empty($this->charset))
+			{
+				$dsn .= ';charset='.$this->charset;
+			}
 		}
 	
 		// Connecting...

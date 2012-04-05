@@ -48,13 +48,18 @@ class CI_PgSQL_PDO_Driver extends CI_DB_pdo_driver {
 	public function connect()
 	{
 		// Create the connection dsn
-		$dsn = ( ! empty($this->dsn)) 
-			? $this->dsn
-			: "pgsql:host={$this->hostname};dbname={$this->database}";
-		
-		if ( ! empty($this->port))
+		if ( ! empty($this->dsn))
 		{
-			$dsn .= ';port='.$this->port;
+			$dsn = $this->dsn;
+		}
+		else
+		{
+			$dsn = "pgsql:host={$this->hostname};dbname={$this->database}";
+		
+			if ( ! empty($this->port))
+			{
+				$dsn .= ';port='.$this->port;
+			}
 		}
 	
 		// Connecting...
