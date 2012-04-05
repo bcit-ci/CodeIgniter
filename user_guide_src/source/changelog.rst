@@ -197,6 +197,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
+-  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
 
 Version 2.1.1
 =============
