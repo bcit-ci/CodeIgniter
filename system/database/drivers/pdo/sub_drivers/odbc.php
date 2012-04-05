@@ -46,7 +46,7 @@ class CI_ODBC_PDO_Driver extends CI_DB_pdo_driver {
 	 * Establish the database connection
 	 */
 	public function connect()
-	{
+	{	
 		// Create the connection dsn
 		$dsn = ( ! empty($this->dsn)) 
 			? 'odbc:'.$this->dsn

@@ -146,12 +146,12 @@ function &DB($params = '', $active_record_override = NULL)
 	
 		$match = array();
 		
-		if (empty($dsn))
+		if (empty($params['dsn']))
 		{
-			$dsn = '';
+			$params['dsn'] = '';
 		}
 
-		if (preg_match('/([^;]+):/', $dsn, $match) && count($match) == 2)
+		if (preg_match('/([^;]+):/', $params['dsn'], $match) && count($match) == 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
@@ -178,6 +178,10 @@ function &DB($params = '', $active_record_override = NULL)
 				{
 					show_error('Invalid DB Connection String for PDO');
 				}
+				else
+				{
+					$pdodriver = $params['pdodriver'];
+				}
 			}
 		}
 		
@@ -194,19 +198,6 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		$driver_file = BASEPATH."database/drivers/pdo/sub_drivers/{$pdodriver}.php";
-
-		// Fallback to odbc if a non-existant or unimplemented
-		// pdo driver is specified
-		if (file_exists($driver_file))
-		{
-			require($driver_file);
-		}
-		else
-		{
-			$pdodriver = 'odbc';
-			$driver_file = BASEPATH.'database/drivers/pdo/sub_drivers/odbc.php';
-		}
-
 	}
 	
 	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
