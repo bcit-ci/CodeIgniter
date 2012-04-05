@@ -1223,10 +1223,10 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific insert string from the supplied data.
 	 *
-	 * @param       string  the table name
-	 * @param       array   the insert keys
-	 * @param       array   the insert values
-	 * @return      string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
@@ -1362,10 +1362,10 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param       string  the table name
-	 * @param       array   the insert keys
-	 * @param       array   the insert values
-	 * @return      string
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
 	 */
 	protected function _insert($table, $keys, $values)
 	{
@@ -1447,6 +1447,23 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get UPDATE query string
 	 *
 	 * Compiles an update query and returns the sql
@@ -1515,6 +1532,33 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 		$sql = $this->_update($this->protect_identifiers($this->ar_from[0], TRUE, NULL, FALSE), $this->ar_set, $this->ar_where, $this->ar_orderby, $this->ar_limit, $this->ar_like);
 		$this->_reset_write();
 		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
+	 * @return	string
+	 */
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	{
+		foreach ($values as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
+			.($limit ? ' LIMIT '.$limit : '');
 	}
 
 	// --------------------------------------------------------------------
