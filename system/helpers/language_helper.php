@@ -53,11 +53,11 @@ if ( ! function_exists('lang'))
 		$CI =& get_instance();
 		$line = $CI->lang->line($line);
 
-		if ( $id && !$class )
+		if ($id && !$class)
 		{
 			$line = '<label for="'.$id.'">'.$line."</label>";
 		}
-		elseif ( $id && $class )
+		elseif ($id && $class)
 		{
 			$line = '<label for="'.$id.'" class="'.$class.'">'.$line."</label>";
 		}
