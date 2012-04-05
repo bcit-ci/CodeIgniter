@@ -1,16 +1,57 @@
 <?php
 
 class Mock_Database_Schema_Skeleton {
+
+	/**
+	 * @var object Database Holder
+	 */
+	public static $db;
+
+	/**
+	 * @var object Forge Holder
+	 */
+	public static $forge;
+
+	/**
+	 * @var object Driver Holder
+	 */
+	public static $driver;
+
+	/**
+	 * Initialize both database and forge components
+	 */
+	public static function init($driver)
+	{
+		if (empty(static::$db) && empty(static::$forge))
+		{
+			$config = Mock_Database_DB::config($driver);
+			$connection = new Mock_Database_DB($config);
+			$db = Mock_Database_DB::DB($connection->set_dsn($driver), TRUE);
+
+			CI_TestCase::instance()->ci_instance_var('db', $db);
+
+			$loader = new Mock_Core_Loader();
+			$loader->dbforge();
+			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
+
+			static::$db = $db;
+			static::$forge = $forge;
+			static::$driver = $driver;
+		}
+
+		return static::$db;
+	}
+	
 	
 	/**
 	 * Create the dummy tables
 	 *
 	 * @return void
 	 */
-	public static function create_tables($forge, $driver)
+	public static function create_tables()
 	{
 		// Job Table
-		$forge->add_field(array(
+		static::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3,
@@ -23,8 +64,8 @@ class Mock_Database_Schema_Skeleton {
 				'type' => 'TEXT',
 			),
 		));
-		$forge->add_key('id', TRUE);
-		$forge->create_table('job', (strpos($driver, 'pgsql') === FALSE));
+		static::$forge->add_key('id', TRUE);
+		static::$forge->create_table('job', (strpos(static::$driver, 'pgsql') === FALSE));
 	}
 
 	/**
@@ -32,7 +73,7 @@ class Mock_Database_Schema_Skeleton {
 	 *
 	 * @return void
 	 */
-	public static function create_data($db)
+	public static function create_data()
 	{
 		// Job Data
 		$data = array(
@@ -46,11 +87,11 @@ class Mock_Database_Schema_Skeleton {
 
 		foreach ($data as $table => $dummy_data) 
 		{
-			$db->truncate($table);
+			static::$db->truncate($table);
 
 			foreach ($dummy_data as $single_dummy_data)
 			{
-				$db->insert($table, $single_dummy_data); 
+				static::$db->insert($table, $single_dummy_data); 
 			}
 		}
 	}
