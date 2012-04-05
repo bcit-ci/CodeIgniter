@@ -1230,7 +1230,7 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$this->protect_identifiers($table).' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -1353,6 +1353,23 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 
 		$this->_reset_write();
 		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param       string  the table name
+	 * @param       array   the insert keys
+	 * @param       array   the insert values
+	 * @return      string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
