@@ -9,19 +9,10 @@ class Get_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$config = Mock_Database_DB::config(DB_DRIVER);
-		$connection = new Mock_Database_DB($config);
-		$db = Mock_Database_DB::DB($connection->set_dsn(DB_DRIVER), TRUE);
+		$db = Mock_Database_Schema_Skeleton::init(DB_DRIVER);
 
-		$this->ci_instance_var('db', $db);
-
-		$loader = new Mock_Core_Loader();
-		$loader->dbforge();
-
-		$forge = $this->ci_instance->dbforge;
-
-		Mock_Database_Schema_Skeleton::create_tables($forge, DB_DRIVER);
-		Mock_Database_Schema_Skeleton::create_data($db);
+		Mock_Database_Schema_Skeleton::create_tables();
+		Mock_Database_Schema_Skeleton::create_data();
 
 		$this->query_builder = $db;
 	}
@@ -43,6 +34,22 @@ class Get_test extends CI_TestCase {
 		$this->assertEquals('Politician', $jobs[1]['name']);
 		$this->assertEquals('Accountant', $jobs[2]['name']);
 		$this->assertEquals('Musician', $jobs[3]['name']);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * @see ./mocks/schema/skeleton.php
+	 */
+	public function test_get_where()
+	{
+		$job1 = $this->query_builder->get('job', array('id' => 1))->result_array();
+		
+		// Dummy jobs contain 1 rows
+		$this->assertCount(1, $job1);
+
+		// Check rows item
+		$this->assertEquals('Developer', $job1[0]['name']);
 	}
 	
 }
