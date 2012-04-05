@@ -12,21 +12,25 @@ it the respective environment config folder.
 The config settings are stored in a multi-dimensional array with this
 prototype::
 
-	$db['default']['hostname'] = "localhost";
-	$db['default']['username'] = "root";
-	$db['default']['password'] = "";
-	$db['default']['database'] = "database_name";
-	$db['default']['dbdriver'] = "mysql";
-	$db['default']['dbprefix'] = "";
-	$db['default']['pconnect'] = TRUE;
-	$db['default']['db_debug'] = FALSE;
-	$db['default']['cache_on'] = FALSE;
-	$db['default']['cachedir'] =  "";
-	$db['default']['char_set'] = "utf8";
-	$db['default']['dbcollat'] = "utf8_general_ci";
-	$db['default']['swap_pre'] = "";
-	$db['default']['autoinit'] = TRUE;
-	$db['default']['stricton'] = FALSE;
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'database_name',
+		'dbdriver' => 'mysql',
+		'dbprefix' => '',
+		'pconnect' => TRUE,
+		'db_debug' => FALSE,
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'char_set' => 'utf8',
+		'dbcollat' => 'utf8_general_ci',
+		'swap_pre' => '',
+		'autoinit' => TRUE,
+		'stricton' => FALSE,
+		'failover' => array()
+	);
 
 If you use PDO as your dbdriver, you can specify the full DSN string describe a connection to the database like this::
 
@@ -81,21 +85,25 @@ production, test, etc.) under a single installation, you can set up a
 connection group for each, then switch between groups as needed. For
 example, to set up a "test" environment you would do this::
 
-	$db['test']['hostname'] = "localhost";
-	$db['test']['username'] = "root";
-	$db['test']['password'] = "";
-	$db['test']['database'] = "database_name";
-	$db['test']['dbdriver'] = "mysql";
-	$db['test']['dbprefix'] = "";
-	$db['test']['pconnect'] = TRUE;
-	$db['test']['db_debug'] = FALSE;
-	$db['test']['cache_on'] = FALSE;
-	$db['test']['cachedir'] =  "";
-	$db['test']['char_set'] = "utf8";
-	$db['test']['dbcollat'] = "utf8_general_ci";
-	$db['test']['swap_pre'] = "";
-	$db['test']['autoinit'] = TRUE;
-	$db['test']['stricton'] = FALSE;
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'database_name',
+		'dbdriver' => 'mysql',
+		'dbprefix' => '',
+		'pconnect' => TRUE,
+		'db_debug' => FALSE,
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'char_set' => 'utf8',
+		'dbcollat' => 'utf8_general_ci',
+		'swap_pre' => '',
+		'autoinit' => TRUE,
+		'stricton' => FALSE,
+		'failover' => array()
+	);
 
 Then, to globally tell the system to use that group you would set this
 variable located in the config file::

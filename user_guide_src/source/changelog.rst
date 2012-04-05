@@ -54,15 +54,13 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return
-      the SQL string of queries without executing them: get_compiled_select(),
-      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Added new :doc:`Active Record <database/active_record>` methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  Improved support for the MySQLi driver, including:
-	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
-	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
-	 -  Added persistent connections support for PHP >= 5.3.
+      -  OOP style of the PHP extension is now used, instead of the procedural aliases.
+      -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
+      -  Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver
@@ -70,9 +68,9 @@ Release Date: Not Released
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
    -  Improved support of the PostgreSQL driver, including:
-	 -  pg_version() is now used to get the database version number, when possible.
-	 -  Added db_set_charset() support.
-	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+      -  pg_version() is now used to get the database version number, when possible.
+      -  Added db_set_charset() support.
+      -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
@@ -84,12 +82,12 @@ Release Date: Not Released
    -  Added random ordering support for SQLSRV.
    -  Added support for SQLite3 database driver.
    -  Improved support of the Oracle (OCI8) driver, including:
-	 -  Added DSN string support (Easy Connect and TNS).
-	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
-	 -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
-	 -  Generally improved for speed and cleaned up all of its components.
-	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
-	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+      -  Added DSN string support (Easy Connect and TNS).
+      -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
+      -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
+      -  Generally improved for speed and cleaned up all of its components.
+      -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+      -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
 
 -  Libraries
 
@@ -98,26 +96,25 @@ Release Date: Not Released
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
    -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  Cart library changes include:
-	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
-	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
-	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+      -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
+      -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
+      -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
    -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
-	 -  The initialize() method now only sets existing class properties.
-	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
-	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
-	    if they are set manually after initialization.
-	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
+      -  The initialize() method now only sets existing class properties.
+      -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
+      -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
+      -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
    -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
-	 -  Added method error_array() to return all error messages as an array.
-	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
-	 -  Added method reset_validation(), which resets internal validation variables in case of multiple validation routines.
-	 -  Added support for setting error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
-	 -  _execute() now considers input data to be invalid if a specified rule is not found.
-	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
-	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
+      -  Added method error_array() to return all error messages as an array.
+      -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
+      -  Added method reset_validation(), which resets internal validation variables in case of multiple validation routines.
+      -  Added support for setting error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
+      -  _execute() now considers input data to be invalid if a specified rule is not found.
+      -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
+      -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
