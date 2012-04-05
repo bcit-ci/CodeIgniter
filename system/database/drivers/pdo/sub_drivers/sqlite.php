@@ -53,8 +53,8 @@ class CI_SQLite_PDO_Driver extends CI_DB_pdo_driver{
 			
 		if ($this->database !== ':memory')
         {
-            $dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
-            $dsn .= $this->database;
+            //$dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
+            $dsn .= (strpos($dsn, $this->database) === FALSE) ? $this->database : '';
         }
 	
 		// Connecting...
