@@ -428,6 +428,23 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'INSERT OR '.parent::_replace($table, $keys, $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
