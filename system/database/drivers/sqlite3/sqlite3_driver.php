@@ -16,12 +16,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link	http://codeigniter.com
- * @since	Version 1.0
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -32,11 +32,12 @@
  * creates dynamically based on whether the active record
  * class is being used or not.
  *
- * @package	CodeIgniter
+ * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/database/
+ * @author		Andrey Andreev
+ * @link		http://codeigniter.com/user_guide/database/
+ * @since		Version 3.0
  */
 class CI_DB_sqlite3_driver extends CI_DB {
 
@@ -394,6 +395,23 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		}
 
 		return '('.implode(', ', $tables).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'INSERT OR '.parent::_replace($table, $keys, $values);
 	}
 
 	// --------------------------------------------------------------------

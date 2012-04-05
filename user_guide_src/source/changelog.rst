@@ -90,6 +90,7 @@ Release Date: Not Released
 	 -  Generally improved for speed and cleaned up all of its components.
 	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+   -  Added replace() support for SQLite.
 
 -  Libraries
 
