@@ -81,7 +81,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).' (';
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field => $attributes)

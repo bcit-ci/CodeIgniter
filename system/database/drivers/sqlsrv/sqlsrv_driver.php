@@ -393,21 +393,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		return $item;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion

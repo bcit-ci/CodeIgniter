@@ -46,8 +46,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str;
-	protected $_like_escape_chr;
+	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -69,18 +69,17 @@ class CI_DB_pdo_driver extends CI_DB {
 		// this one depends on the driver being used
 		if ($this->pdodriver == 'mysql')
 		{
+			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
 		elseif ($this->pdodriver == 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
-			$this->_like_escape_chr = '!';
 		}
-		else
+		elseif ( ! in_array($this->pdodriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
 		{
-			$this->_like_escape_str = " ESCAPE '%s' ";
-			$this->_like_escape_chr = '!';
+			$this->_escape_char = '"';
 		}
 
 		$this->trans_enabled = FALSE;
@@ -144,8 +143,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
-
 		$result_id = $this->conn_id->query($sql);
 
 		if (is_object($result_id))
@@ -378,7 +375,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->_from_tables($table);
+		return 'SHOW COLUMNS FROM '.$this->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -427,48 +424,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$str  = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-			$str .= $this->_escape_char;
-		}
-		else
-		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -484,7 +439,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return (count($tables) == 1) ? $tables[0] : '('.implode(', ', $tables).')';
+		return (count($tables) === 1) ? $tables[0] : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -518,7 +473,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			}
 		}
 
-		$sql   = 'UPDATE '.$this->_from_tables($table).' SET ';
+		$sql   = 'UPDATE '.$table.' SET ';
 		$cases = '';
 
 		foreach ($final as $k => $v)
@@ -586,7 +541,9 @@ class CI_DB_pdo_driver extends CI_DB {
 			$conditions .= implode("\n", $like);
 		}
 
-		return 'DELETE FROM '.$this->_from_tables($table).$conditions;
+		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+
+		return 'DELETE FROM '.$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------
