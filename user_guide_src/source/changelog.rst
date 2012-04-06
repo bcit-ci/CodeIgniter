@@ -80,9 +80,6 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
-<<<<<<< HEAD
-   -  CUBRID driver's utility class now overrides list_databases() in order to use cubrid_list_dbs().
-=======
    -  Added random ordering support for MSSQL.
    -  Added random ordering support for SQLSRV.
    -  Added support for SQLite3 database driver.
@@ -95,7 +92,7 @@ Release Date: Not Released
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Added replace() support for SQLite.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
->>>>>>> ea09a8a5552f2aacdeab0c88a605fe44047ebd0a
+   -  CUBRID driver's utility class now overrides list_databases() in order to use cubrid_list_dbs().
 
 -  Libraries
 
