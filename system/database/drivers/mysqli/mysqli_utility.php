@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -56,7 +56,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	public function _optimize_table($table)
 	{
-		return 'OPTIMIZE TABLE '.$this->db->_escape_identifiers($table);
+		return 'OPTIMIZE TABLE '.$this->db->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -71,7 +71,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 */
 	public function _repair_table($table)
 	{
-		return 'REPAIR TABLE '.$this->db->_escape_identifiers($table);
+		return 'REPAIR TABLE '.$this->db->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------

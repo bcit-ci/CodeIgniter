@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -42,7 +42,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 */
 	public function _create_database($name)
 	{
-		return 'CREATE DATABASE '.$name;
+		return 'CREATE DATABASE '.$name.' CHARACTER SET '.$this->db->char_set.' COLLATE '.$this->db->dbcollat;
 	}
 
 	// --------------------------------------------------------------------
@@ -66,7 +66,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	public function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
@@ -86,9 +86,32 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->protect_identifiers($field)
 					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '')
-					.( ! empty($attributes['TYPE']) ? ' '.$attributes['TYPE'] : '')
-					.( ! empty($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.(( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+				;
+
+				if ( ! empty($attributes['TYPE']))
+				{
+					$sql .=  ' '.$attributes['TYPE'];
+
+					if ( ! empty($attributes['CONSTRAINT']))
+					{
+						switch (strtolower($attributes['TYPE']))
+						{
+							case 'decimal':
+							case 'float':
+							case 'numeric':
+								$sql .= '('.implode(',', $attributes['CONSTRAINT']).')';
+								break;
+							case 'enum':
+							case 'set':
+								$sql .= '("'.implode('","', $attributes['CONSTRAINT']).'")';
+								break;
+							default:
+								$sql .= '('.$attributes['CONSTRAINT'].')';
+						}
+					}
+				}
+
+				$sql .= (( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
 					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
 					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
 					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
@@ -125,7 +148,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).' ('.$this->_process_fields($fields);
+		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields);
 
 		if (count($primary_keys) > 0)
 		{
@@ -164,7 +187,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 */
 	public function _drop_table($table)
 	{
-		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table);
+		return 'DROP TABLE IF EXISTS '.$this->db->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------

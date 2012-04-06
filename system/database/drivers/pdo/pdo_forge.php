@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -77,7 +77,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE '.($if_not_exists === TRUE ? 'IF NOT EXISTS ' : '')
-			.$this->db->protect_identifiers($table).' (';
+			.$this->db->escape_identifiers($table).' (';
 
 		$current_field_count = 0;
 		foreach ($fields as $field => $attributes)

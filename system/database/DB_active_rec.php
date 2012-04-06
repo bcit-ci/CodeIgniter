@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Active Record Class
  *
@@ -38,7 +36,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_active_record extends CI_DB_driver {
+abstract class CI_DB_active_record extends CI_DB_driver {
 
 	protected $return_delete_sql		= FALSE;
 	protected $reset_delete_data		= FALSE;
@@ -214,6 +212,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
 		$this->ar_select[] = $sql;
+		$this->ar_no_escape[] = NULL;
 
 		if ($this->ar_caching === TRUE)
 		{
@@ -421,7 +420,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -536,7 +535,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	string	The field to search
 	 * @param	array	The values searched on
-	 * @param	boolean	If the statement would be IN or NOT IN
+	 * @param	bool	If the statement would be IN or NOT IN
 	 * @param	string
 	 * @return	object
 	 */
@@ -718,7 +717,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		$type = $this->_group_get_type($type);
 		$this->ar_where_group_started = TRUE;
-		$prefix = (count($this->ar_where) === 0 AND count($this->ar_cache_where) === 0) ? '' : $type;
+		$prefix = (count($this->ar_where) === 0 && count($this->ar_cache_where) === 0) ? '' : $type;
 		$this->ar_where[] = $value = $prefix.$not.str_repeat(' ', ++$this->ar_where_group_count).' (';
 
 		if ($this->ar_caching)
@@ -983,8 +982,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the LIMIT value
 	 *
-	 * @param	integer	the limit value
-	 * @param	integer	the offset value
+	 * @param	int	the limit value
+	 * @param	int	the offset value
 	 * @return	object
 	 */
 	public function limit($value, $offset = NULL)
@@ -1004,7 +1003,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	/**
 	 * Sets the OFFSET value
 	 *
-	 * @param	integer	the offset value
+	 * @param	int	the offset value
 	 * @return	object
 	 */
 	public function offset($offset)
@@ -1020,7 +1019,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set($key, $value = '', $escape = TRUE)
@@ -1054,9 +1053,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles a SELECT query string and returns the sql.
 	 *
-	 * @access	public
 	 * @param	string	the table name to select from (optional)
-	 * @param	boolean	TRUE: resets AR values; FALSE: leave AR vaules alone
+	 * @param	bool	TRUE: resets AR values; FALSE: leave AR vaules alone
 	 * @return	string
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
@@ -1221,11 +1219,28 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert_batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data.
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert_batch($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set_insert_batch($key, $value = '', $escape = TRUE)
@@ -1282,9 +1297,8 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an insert query and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to insert into
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_insert($table = '', $reset = TRUE)
@@ -1315,7 +1329,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Compiles an insert string and runs the query
 	 *
-	 * @access	public
 	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
 	 * @return	object
@@ -1345,13 +1358,29 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate Insert
 	 *
 	 * This method is used by both insert() and get_compiled_insert() to
 	 * validate that the there data is actually being set and that table
 	 * has been chosen to be inserted into.
 	 *
-	 * @access	public
 	 * @param	string	the table to insert data into
 	 * @return	string
 	 */
@@ -1418,13 +1447,29 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get UPDATE query string
 	 *
 	 * Compiles an update query and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to update
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_update($table = '', $reset = TRUE)
@@ -1492,13 +1537,39 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
+	 * @return	string
+	 */
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	{
+		foreach ($values as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
+			.($limit ? ' LIMIT '.$limit : '');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate Update
 	 *
 	 * This method is used by both update() and get_compiled_update() to
 	 * validate that data is actually being set and that a table has been
 	 * chosen to be update.
 	 *
-	 * @access	public
 	 * @param	string	the table to update data on
 	 * @return	bool
 	 */
@@ -1583,7 +1654,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set_update_batch($key, $index = '', $escape = TRUE)
@@ -1691,13 +1762,30 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Truncate statement
+	 *
+	 * Generates a platform-specific truncate string from the supplied data
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _truncate($table)
+	{
+		return 'TRUNCATE '.$table;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get DELETE query string
 	 *
 	 * Compiles a delete query string and returns the sql
 	 *
-	 * @access	public
 	 * @param	string	the table to delete from
-	 * @param	boolean	TRUE: reset AR values; FALSE: leave AR values alone
+	 * @param	bool	TRUE: reset AR values; FALSE: leave AR values alone
 	 * @return	string
 	 */
 	public function get_compiled_delete($table = '', $reset = TRUE)
@@ -1718,7 +1806,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	mixed	the table(s) to delete from. String or array
 	 * @param	mixed	the where clause
 	 * @param	mixed	the limit clause
-	 * @param	boolean
+	 * @param	bool
 	 * @return	object
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
@@ -2061,7 +2149,6 @@ class CI_DB_active_record extends CI_DB_driver {
 	 *
 	 * Empties the AR cache
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function flush_cache()
@@ -2113,7 +2200,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		// If we are "protecting identifiers" we need to examine the "from"
 		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE AND count($this->ar_cache_from) > 0)
+		if ($this->_protect_identifiers === TRUE && count($this->ar_cache_from) > 0)
 		{
 			$this->_track_aliases($this->ar_from);
 		}
@@ -2196,16 +2283,16 @@ class CI_DB_active_record extends CI_DB_driver {
 	protected function _reset_write()
 	{
 		$this->_reset_run(array(
-					'ar_set'	=> array(),
-					'ar_from'	=> array(),
-					'ar_where'	=> array(),
-					'ar_like'	=> array(),
-					'ar_orderby'	=> array(),
-					'ar_keys'	=> array(),
-					'ar_limit'	=> FALSE,
-					'ar_order'	=> FALSE
-					)
-				);
+			'ar_set'	=> array(),
+			'ar_from'	=> array(),
+			'ar_where'	=> array(),
+			'ar_like'	=> array(),
+			'ar_orderby'	=> array(),
+			'ar_keys'	=> array(),
+			'ar_limit'	=> FALSE,
+			'ar_order'	=> FALSE
+			)
+		);
 	}
 
 }
