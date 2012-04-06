@@ -487,7 +487,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		else
 		{
-			$sql = 'SHOW TABLES FROM '.$this->_escape_identifiers($this->database);
+			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 		}
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
@@ -510,7 +510,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->_escape_identifiers($table);
+		return 'SHOW COLUMNS FROM '.$this->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -528,20 +528,20 @@ class CI_DB_pdo_driver extends CI_DB {
 		if ($this->pdodriver == 'mysql' or $this->pdodriver == 'pgsql')
 		{
 			// Analog function for mysql and postgre
-			return 'SELECT * FROM '.$this->_escape_identifiers($table).' LIMIT 1';
+			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 		}
 		elseif ($this->pdodriver == 'oci')
 		{
 			// Analog function for oci
-			return 'SELECT * FROM '.$this->_escape_identifiers($table).' WHERE ROWNUM <= 1';
+			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
 		}
 		elseif ($this->pdodriver == 'sqlite')
 		{
 			// Analog function for sqlite
-			return 'PRAGMA table_info('.$this->_escape_identifiers($table).')';
+			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
 		}
 
-		return 'SELECT TOP 1 FROM '.$this->_escape_identifiers($table);
+		return 'SELECT TOP 1 FROM '.$this->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -571,43 +571,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		return $error;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
 	}
 
 	// --------------------------------------------------------------------
