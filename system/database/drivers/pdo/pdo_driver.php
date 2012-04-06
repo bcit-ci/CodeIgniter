@@ -65,23 +65,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		// clause and character used for LIKE escape sequences
-		// this one depends on the driver being used
-		if ($this->pdodriver == 'mysql')
-		{
-			$this->_escape_char = '`';
-			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '';
-		}
-		elseif ($this->pdodriver == 'odbc')
-		{
-			$this->_like_escape_str = " {escape '%s'} ";
-		}
-		elseif ( ! in_array($this->pdodriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
-		{
-			$this->_escape_char = '"';
-		}
-
 		$this->trans_enabled = FALSE;
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
@@ -95,7 +78,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		//$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
+		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		
 		$this->connect();
 
@@ -111,7 +94,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		//$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
+		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
 		
 		$this->connect();
