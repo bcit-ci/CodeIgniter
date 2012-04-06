@@ -199,8 +199,8 @@ if ( ! function_exists('underscore'))
  *
  * Takes multiple words separated by the separator and changes them to spaces
  *
- * @param	string $str
- * @param 	string $separator
+ * @param	string	$str
+ * @param 	string	$separator
  * @return	str
  */
 if ( ! function_exists('humanize'))
@@ -214,17 +214,19 @@ if ( ! function_exists('humanize'))
 /**
  * Checks if the given word has a plural version.
  *
- * @param   string  the word to check
- * @return  bool    if the word is countable
+ * @param	string	the word to check
+ * @return	bool	if the word is countable
  */
 if ( ! function_exists('is_countable'))
 {
 	function is_countable($word)
 	{
-		return ! (in_array(strtolower(strval($word)), array(
-			'equipment', 'information', 'rice', 'money',
-			'species', 'series', 'fish', 'meta'
-		)));
+		return ! in_array(strtolower(strval($word)),
+					array(
+						'equipment', 'information', 'rice', 'money',
+						'species', 'series', 'fish', 'meta'
+					)
+			);
 	}
 }
 

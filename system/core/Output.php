@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Output Class
  *
@@ -94,7 +92,7 @@ class CI_Output {
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
 			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
@@ -226,10 +224,30 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Current Content Type Header
+	 *
+	 * @return	string	'text/html', if not already set
+	 */
+	public function get_content_type()
+	{
+		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
+		{
+			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
+			{
+				return $matches[1];
+			}
+		}
+
+		return 'text/html';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set HTTP Status Header
 	 * moved to Common procedural functions in 1.7.2
 	 *
-	 * @param	int		the status code
+	 * @param	int	the status code
 	 * @param	string
 	 * @return	void
 	 */
@@ -249,7 +267,7 @@ class CI_Output {
 	 */
 	public function enable_profiler($val = TRUE)
 	{
-		$this->enable_profiler = (is_bool($val)) ? $val : TRUE;
+		$this->enable_profiler = is_bool($val) ? $val : TRUE;
 		return $this;
 	}
 
@@ -267,7 +285,7 @@ class CI_Output {
 	{
 		foreach ($sections as $section => $enable)
 		{
-			$this->_profiler_sections[$section] = ($enable !== FALSE) ? TRUE : FALSE;
+			$this->_profiler_sections[$section] = ($enable !== FALSE);
 		}
 
 		return $this;
@@ -278,12 +296,12 @@ class CI_Output {
 	/**
 	 * Set Cache
 	 *
-	 * @param	integer
+	 * @param	int
 	 * @return	void
 	 */
 	public function cache($time)
 	{
-		$this->cache_expiration = ( ! is_numeric($time)) ? 0 : $time;
+		$this->cache_expiration = is_numeric($time) ? $time : 0;
 		return $this;
 	}
 
@@ -297,7 +315,7 @@ class CI_Output {
 	 * $this->final_output
 	 *
 	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data.  It also stops the
+	 * with any server headers and profile data. It also stops the
 	 * benchmark timer so the page rendering speed and memory usage can be shown.
 	 *
 	 * @param 	string
@@ -343,7 +361,7 @@ class CI_Output {
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+			$memory	= function_exists('memory_get_usage') ? round(memory_get_usage()/1024/1024, 2).'MB' : '0';
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
