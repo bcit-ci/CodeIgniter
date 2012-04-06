@@ -184,9 +184,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			// As of version 8.4.0 CUBRID does not support this SQL syntax.
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
-
-		$sql .= $this->_process_fields($fields);
+		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields);
 
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
@@ -230,7 +228,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	public function _drop_table($table)
 	{
-		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table);
+		return 'DROP TABLE IF EXISTS '.$this->db->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
