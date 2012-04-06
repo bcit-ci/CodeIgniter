@@ -64,12 +64,14 @@ class CI_DB_pdo_driver extends CI_DB {
 	public function __construct($params)
 	{
 		parent::__construct($params);
+		
+		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 
 		$this->trans_enabled = FALSE;
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
-	// --------------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
@@ -78,10 +80,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
-		
 		$this->connect();
-
+		
 		return $this->conn_id;
 	}
 
@@ -94,9 +94,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
-		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
-		
+		$this->options[PDO::ATTR_PERSISTENT] = TRUE;	
 		$this->connect();
 
 		return $this->conn_id;
@@ -126,18 +124,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$result_id = $this->conn_id->query($sql);
-
-		if (is_object($result_id))
-		{
-			$this->affect_rows = $result_id->rowCount();
-		}
-		else
-		{
-			$this->affect_rows = 0;
-		}
-
-		return $result_id;
+		return $this->conn_id->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -173,7 +160,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = (bool) ($test_mode === TRUE);
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		return $this->conn_id->beginTransaction();
 	}
@@ -235,10 +222,10 @@ class CI_DB_pdo_driver extends CI_DB {
 			return $str;
 		}
 
-		//Escape the string
+		// Escape the string
 		$str = $this->conn_id->quote($str);
 
-		//If there are duplicated quotes, trim them away
+		// If there are duplicated quotes, trim them away
 		if (strpos($str, "'") === 0)
 		{
 			$str = substr($str, 1, -1);
@@ -264,7 +251,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return $this->affect_rows;
+		return is_object($this->result_id) ? $this->result_id->rowCount() : 0;
 	}
 
 	// --------------------------------------------------------------------
@@ -272,6 +259,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
+	 * @param	string
 	 * @return	int
 	 */
 	public function insert_id($name = NULL)
@@ -515,12 +503,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		$this->conn_id = null;
+		$this->conn_id = NULL;
 	}
 
 }
