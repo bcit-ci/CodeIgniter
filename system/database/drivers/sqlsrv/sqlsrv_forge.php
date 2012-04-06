@@ -63,11 +63,12 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @return	bool
+	 * @param	string	table name
+	 * @return	string
 	 */
 	public function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_identifiers($table);
+		return 'DROP TABLE '.$this->db->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -91,7 +92,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field => $attributes)
