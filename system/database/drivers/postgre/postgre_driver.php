@@ -493,11 +493,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where)
 	{
 		foreach ($values as $key => $val)
 		{
@@ -505,9 +503,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.( ! $limit ? '' : ' LIMIT '.$limit);
+			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -519,10 +515,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
-	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array())
 	{
 		if (count($where) > 0 OR count($like) > 0)
 		{
@@ -539,6 +534,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
+
 	/**
 	 * Limit string
 	 *
