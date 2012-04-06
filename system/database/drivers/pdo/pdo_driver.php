@@ -46,8 +46,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str;
-	protected $_like_escape_chr;
+	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -81,18 +81,17 @@ class CI_DB_pdo_driver extends CI_DB {
 		// this one depends on the driver being used
 		if ($this->pdodriver == 'mysql')
 		{
+			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
 		elseif ($this->pdodriver == 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
-			$this->_like_escape_chr = '!';
 		}
-		else
+		elseif ( ! in_array($this->pdodriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
 		{
-			$this->_like_escape_str = " ESCAPE '%s' ";
-			$this->_like_escape_chr = '!';
+			$this->_escape_char = '"';
 		}
 
 		$this->trans_enabled = FALSE;
@@ -268,8 +267,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
-
 		$result_id = $this->conn_id->query($sql);
 
 		if (is_object($result_id))
@@ -282,32 +279,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		return $result_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @param	string	an SQL query
-	 * @return	string
-	 */
-	protected function _prep_query($sql)
-	{
-		if ($this->pdodriver === 'pgsql')
-		{
-			// Change the backtick(s) for Postgre
-			$sql = str_replace('`', '"', $sql);
-		}
-		elseif ($this->pdodriver === 'sqlite')
-		{
-			// Change the backtick(s) for SQLite
-			$sql = str_replace('`', '', $sql);
-		}
-
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -516,7 +487,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		else
 		{
-			$sql = "SHOW TABLES FROM `".$this->database."`";
+			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 		}
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
@@ -539,7 +510,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->_from_tables($table);
+		return 'SHOW COLUMNS FROM '.$this->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -557,20 +528,20 @@ class CI_DB_pdo_driver extends CI_DB {
 		if ($this->pdodriver == 'mysql' or $this->pdodriver == 'pgsql')
 		{
 			// Analog function for mysql and postgre
-			return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
+			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 		}
 		elseif ($this->pdodriver == 'oci')
 		{
 			// Analog function for oci
-			return 'SELECT * FROM '.$this->_from_tables($table).' WHERE ROWNUM <= 1';
+			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
 		}
 		elseif ($this->pdodriver == 'sqlite')
 		{
 			// Analog function for sqlite
-			return 'PRAGMA table_info('.$this->_from_tables($table).')';
+			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
 		}
 
-		return 'SELECT TOP 1 FROM '.$this->_from_tables($table);
+		return 'SELECT TOP 1 FROM '.$this->escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -605,48 +576,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$str  = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-			$str .= $this->_escape_char;
-		}
-		else
-		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -662,72 +591,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return (count($tables) == 1) ? '`'.$tables[0].'`' : '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$this->_from_tables($table).' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert_batch statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert_batch($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$this->_from_tables($table).' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key." = ".$val;
-		}
-
-		$limit   = ( ! $limit) ? '' : ' LIMIT '.$limit;
-		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(', ', $orderby) : '';
-
-		$sql  = 'UPDATE '.$this->_from_tables($table).' SET '.implode(', ', $valstr);
-		$sql .= ($where != '' && count($where) >= 1) ? ' WHERE '.implode(' ', $where) : '';
-		$sql .= $orderby.$limit;
-
-		return $sql;
+		return (count($tables) === 1) ? $tables[0] : '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -760,7 +624,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			}
 		}
 
-		$sql   = 'UPDATE '.$this->_from_tables($table).' SET ';
+		$sql   = 'UPDATE '.$table.' SET ';
 		$cases = '';
 
 		foreach ($final as $k => $v)
@@ -787,15 +651,16 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return $this->_delete($table);
+		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -829,7 +694,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		return 'DELETE FROM '.$this->_from_tables($table).$conditions.$limit;
+		return 'DELETE FROM '.$table.$conditions.$limit;
 	}
 
 	// --------------------------------------------------------------------

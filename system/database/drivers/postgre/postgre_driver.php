@@ -465,43 +465,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -518,40 +481,6 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		return implode(', ', $tables);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert_batch statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param   string  the table name
-	 * @param   array   the insert keys
-	 * @param   array   the insert values
-	 * @return  string
-	 */
-	protected function _insert_batch($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -579,23 +508,6 @@ class CI_DB_postgre_driver extends CI_DB {
 			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
 			.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'TRUNCATE '.$table;
 	}
 
 	// --------------------------------------------------------------------

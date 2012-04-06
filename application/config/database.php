@@ -75,23 +75,25 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['dsn']      = '';
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
-$db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = FALSE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
-$db['default']['failover'] = array();
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => '',
+	'password' => '',
+	'database' => '',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => TRUE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'autoinit' => TRUE,
+	'stricton' => FALSE,
+	'failover' => array()
+);
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
