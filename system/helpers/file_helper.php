@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter File Helpers
  *
@@ -44,7 +42,6 @@
  *
  * Opens the file specfied in the path and returns it as a string.
  *
- * @access	public
  * @param	string	path to file
  * @return	string
  */
@@ -90,7 +87,6 @@ if ( ! function_exists('read_file'))
  * Writes data to the file specified in the path.
  * Creates a new file if non-existent.
  *
- * @access	public
  * @param	string	path to file
  * @param	string	file data
  * @return	bool
@@ -123,14 +119,15 @@ if ( ! function_exists('write_file'))
  * If the second parameter is set to TRUE, any directories contained
  * within the supplied base directory will be nuked as well.
  *
- * @access	public
  * @param	string	path to file
  * @param	bool	whether to delete any directories found in the path
+ * @param	int
+ * @param	bool	whether to skip deleting .htaccess and index page files
  * @return	bool
  */
 if ( ! function_exists('delete_files'))
 {
-	function delete_files($path, $del_dir = FALSE, $level = 0)
+	function delete_files($path, $del_dir = FALSE, $level = 0, $htdocs = FALSE)
 	{
 		// Trim the trailing slash
 		$path = rtrim($path, DIRECTORY_SEPARATOR);
@@ -142,21 +139,21 @@ if ( ! function_exists('delete_files'))
 
 		while (FALSE !== ($filename = @readdir($current_dir)))
 		{
-			if ($filename !== '.' and $filename !== '..')
+			if ($filename !== '.' && $filename !== '..')
 			{
 				if (is_dir($path.DIRECTORY_SEPARATOR.$filename) && $filename[0] !== '.')
 				{
-					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1);
+					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1, $htdocs);
 				}
-				else
+				elseif ($htdocs === TRUE && ! preg_match('/^(\.htaccess|index\.(html|htm|php))$/', $filename))
 				{
-					unlink($path.DIRECTORY_SEPARATOR.$filename);
+					@unlink($path.DIRECTORY_SEPARATOR.$filename);
 				}
 			}
 		}
 		@closedir($current_dir);
 
-		if ($del_dir == TRUE AND $level > 0)
+		if ($del_dir == TRUE && $level > 0)
 		{
 			return @rmdir($path);
 		}
@@ -173,7 +170,6 @@ if ( ! function_exists('delete_files'))
  * Reads the specified directory and builds an array containing the filenames.
  * Any sub-folders contained within the specified path are read as well.
  *
- * @access	public
  * @param	string	path to source
  * @param	bool	whether to include the path as part of the filename
  * @param	bool	internal variable to determine recursion status - do not use in calls
@@ -224,7 +220,6 @@ if ( ! function_exists('get_filenames'))
  *
  * Any sub-folders contained within the specified path are read as well.
  *
- * @access	public
  * @param	string	path to source
  * @param	bool	Look only at the top level directory specified?
  * @param	bool	internal variable to determine recursion status - do not use in calls
@@ -278,7 +273,6 @@ if ( ! function_exists('get_dir_file_info'))
 * Options are: name, server_path, size, date, readable, writable, executable, fileperms
 * Returns FALSE if the file cannot be found.
 *
-* @access	public
 * @param	string	path to file
 * @param	mixed	array or comma separated string of information returned
 * @return	array
@@ -345,7 +339,6 @@ if ( ! function_exists('get_file_info'))
  * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
  * It should NOT be trusted, and should certainly NOT be used for security
  *
- * @access	public
  * @param	string	path to file
  * @return	mixed
  */
@@ -399,7 +392,6 @@ if ( ! function_exists('get_mime_by_extension'))
  * Takes a numeric value representing a file's permissions and returns
  * standard symbolic notation representing that value
  *
- * @access	public
  * @param	int
  * @return	string
  */
@@ -467,7 +459,6 @@ if ( ! function_exists('symbolic_permissions'))
  * Takes a numeric value representing a file's permissions and returns
  * a three character string representing the file's octal permissions
  *
- * @access	public
  * @param	int
  * @return	string
  */

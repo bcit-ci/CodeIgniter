@@ -1,12 +1,11 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
-require BASEPATH.'helpers/directory_helper.php';
-
-class Directory_helper_test extends CI_TestCase
-{
+class Directory_helper_test extends CI_TestCase {
+	
 	public function set_up()
 	{
+		$this->helper('directory');
+
 		vfsStreamWrapper::register();
 		vfsStreamWrapper::setRoot(new vfsStreamDirectory('testDir'));
 		

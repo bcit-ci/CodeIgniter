@@ -37,11 +37,14 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	/**
 	 * List databases
 	 *
-	 * @return	bool
+	 * Generates a platform-specific query so that we get a list of schemas
+	 * Those are actually usernames in Oracle.
+	 *
+	 * @return	string
 	 */
 	public function _list_databases()
 	{
-		return FALSE;
+		return 'SELECT username FROM dba_users';
 	}
 
 	// --------------------------------------------------------------------
@@ -56,7 +59,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	public function _optimize_table($table)
 	{
-		return FALSE; // Is this supported in Oracle?
+		return FALSE; // Not supported in Oracle
 	}
 
 	// --------------------------------------------------------------------
@@ -71,7 +74,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 */
 	public function _repair_table($table)
 	{
-		return FALSE; // Is this supported in Oracle?
+		return FALSE; // Not supported in Oracle
 	}
 
 	// --------------------------------------------------------------------
