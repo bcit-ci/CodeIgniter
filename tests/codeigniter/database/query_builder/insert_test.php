@@ -29,6 +29,12 @@ class Insert_test extends CI_TestCase {
 		
 		// Do normal insert
 		$this->assertTrue($this->db->insert('job', $job_data));
+
+		$job_1 = $this->db->get('job')->row();
+
+		// Check the result
+		$this->assertEquals('Grocery Sales', $job_1->name);
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -45,6 +51,11 @@ class Insert_test extends CI_TestCase {
 		
 		// Do insert batch
 		$this->assertTrue($this->db->insert_batch('job', $job_datas));
+
+		$job_2 = $this->db->get_where('job', array('id' => 2))->row();
+
+		// Check the result
+		$this->assertEquals('Commedian', $job_2->name);
 	}
 	
 }
