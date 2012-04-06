@@ -55,7 +55,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = ' NEWID()'; // not currently supported
 
 	/**
 	 * Non-persistent database connection
@@ -68,12 +68,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
 
 		$connection = array(
-			'UID'				=> empty($this->username) ? '' : $this->username,
-			'PWD'				=> empty($this->password) ? '' : $this->password,
-			'Database'			=> $this->database,
-			'ConnectionPooling' => $pooling ? 1 : 0,
+			'UID'			=> empty($this->username) ? '' : $this->username,
+			'PWD'			=> empty($this->password) ? '' : $this->password,
+			'Database'		=> $this->database,
+			'ConnectionPooling'	=> $pooling ? 1 : 0,
 			'CharacterSet'		=> $character_set,
-			'ReturnDatesAsStrings' => 1
+			'ReturnDatesAsStrings'	=> 1
 		);
 
 		// If the username and password are both empty, assume this is a
@@ -259,23 +259,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Parse major version
-	 *
-	 * Grabs the major version number from the
-	 * database server version string passed in.
-	 *
-	 * @param	string	$version
-	 * @return	int	major version number
-	 */
-	protected function _parse_major_version($version)
-	{
-		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
-		return $ver_info[1]; // return the major version b/c that's all we're interested in.
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Database version number
 	 *
 	 * @return	string
@@ -410,21 +393,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		return $item;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -441,23 +409,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		return implode(', ', $tables);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -490,15 +441,16 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return 'TRUNCATE TABLE '.$table;
 	}
 
 	// --------------------------------------------------------------------

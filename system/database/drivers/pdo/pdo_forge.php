@@ -91,10 +91,10 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= '`'.$this->db->_escape_identifiers($table).'` (';
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
