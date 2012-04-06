@@ -75,7 +75,7 @@ Release Date: Not Released
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
-   -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
+   -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
@@ -90,6 +90,8 @@ Release Date: Not Released
 	 -  Generally improved for speed and cleaned up all of its components.
 	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+   -  Added replace() support for SQLite.
+   -  Renamed internal method _escape_identifiers() to escape_identifiers().
 
 -  Libraries
 
@@ -121,7 +123,7 @@ Release Date: Not Released
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
-   -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
 
 -  Core
@@ -194,6 +196,9 @@ Bug fixes for 3.0
 -  Fixed a bug (#1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
+-  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
+-  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
+-  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
 
 Version 2.1.1
 =============
