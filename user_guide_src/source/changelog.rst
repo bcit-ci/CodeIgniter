@@ -75,7 +75,7 @@ Release Date: Not Released
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
-   -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
+   -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
@@ -91,6 +91,7 @@ Release Date: Not Released
 	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Added replace() support for SQLite.
+   -  Renamed internal method _escape_identifiers() to escape_identifiers().
 
 -  Libraries
 

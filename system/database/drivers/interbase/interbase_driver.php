@@ -343,38 +343,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This public function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _escape_identifiers($item)
-	{
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This public function implicitly groups FROM tables so there is no confusion
