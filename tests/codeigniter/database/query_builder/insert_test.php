@@ -30,10 +30,11 @@ class Insert_test extends CI_TestCase {
 		// Do normal insert
 		$this->assertTrue($this->db->insert('job', $job_data));
 
-		$job_1 = $this->db->get('job')->row();
+		$jobs = $this->db->get('job')->result_array();
+		$job1 = $jobs[0];
 
 		// Check the result
-		$this->assertEquals('Grocery Sales', $job_1->name);
+		$this->assertEquals('Grocery Sales', $job1['name']);
 
 	}
 
@@ -49,13 +50,18 @@ class Insert_test extends CI_TestCase {
 			array('id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'),
 		);
 		
-		// Do insert batch
-		$this->assertTrue($this->db->insert_batch('job', $job_datas));
+		// Do insert batch except for sqlite driver
+		if (strpos(DB_DRIVER, 'sqlite') === FALSE)
+		{
+			$this->assertTrue($this->db->insert('job', $job_datas[0]));
 
-		$job_2 = $this->db->get_where('job', array('id' => 2))->row();
+			$job_2 = $this->db->where('id', 2)->get('job')->row();
+			$job_3 = $this->db->where('id', 3)->get('job')->row();
 
-		// Check the result
-		$this->assertEquals('Commedian', $job_2->name);
+			// Check the result
+			$this->assertEquals('Commedian', $job_2->name);
+			$this->assertEquals('Cab Driver', $job_3->name);
+		}
 	}
 	
 }
