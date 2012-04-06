@@ -1,9 +1,12 @@
 <?php
 
-require_once(BASEPATH.'helpers/url_helper.php');
+class Url_helper_test extends CI_TestCase {
 
-class Url_helper_test extends CI_TestCase
-{
+	public function set_up()
+	{
+		$this->helper('url');
+	}
+
 	public function test_url_title()
 	{
 		$words = array(

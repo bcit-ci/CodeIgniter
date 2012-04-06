@@ -1,8 +1,12 @@
 <?php
-require_once BASEPATH.'helpers/date_helper.php';
 
-class Date_helper_test extends CI_TestCase
-{
+class Date_helper_test extends CI_TestCase {
+
+	public function set_up()
+	{
+		$this->helper('date');
+	}
+
 	// ------------------------------------------------------------------------
 
 	public function test_now_local()

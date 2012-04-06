@@ -52,10 +52,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * The syntax to count rows is slightly different across different
 	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * used for the count_all() and count_all_results() methods.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = ' NEWID()';
 
 	/**
 	 * Non-persistent database connection
@@ -404,47 +404,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
-		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -466,70 +425,19 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key." = ".$val;
-		}
-
-		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
-
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
-
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
-
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
-
-		$sql .= $orderby.$limit;
-
-		return $sql;
-	}
-
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return 'TRUNCATE TABLE '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -539,13 +447,12 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = '';
 

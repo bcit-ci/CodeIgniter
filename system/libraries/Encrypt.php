@@ -38,15 +38,15 @@
  */
 class CI_Encrypt {
 
-	public $encryption_key	= '';
-	protected $_hash_type	= 'sha1';
-	protected $_mcrypt_exists = FALSE;
+	public $encryption_key		= '';
+	protected $_hash_type		= 'sha1';
+	protected $_mcrypt_exists	= FALSE;
 	protected $_mcrypt_cipher;
 	protected $_mcrypt_mode;
 
 	public function __construct()
 	{
-		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
+		$this->_mcrypt_exists = function_exists('mcrypt_encrypt');
 		log_message('debug', 'Encrypt Class Initialized');
 	}
 
@@ -349,8 +349,8 @@ class CI_Encrypt {
 	 *
 	 * Function description
 	 *
-	 * @param	type
-	 * @return	type
+	 * @param	string
+	 * @return	string
 	 */
 	protected function _remove_cipher_noise($data, $key)
 	{
@@ -382,8 +382,8 @@ class CI_Encrypt {
 	/**
 	 * Set the Mcrypt Cipher
 	 *
-	 * @param	constant
-	 * @return	string
+	 * @param	int
+	 * @return	object
 	 */
 	public function set_cipher($cipher)
 	{
@@ -396,8 +396,8 @@ class CI_Encrypt {
 	/**
 	 * Set the Mcrypt Mode
 	 *
-	 * @param	constant
-	 * @return	string
+	 * @param	int
+	 * @return	object
 	 */
 	public function set_mode($mode)
 	{
@@ -410,7 +410,7 @@ class CI_Encrypt {
 	/**
 	 * Get Mcrypt cipher Value
 	 *
-	 * @return	string
+	 * @return	int
 	 */
 	protected function _get_cipher()
 	{
@@ -427,7 +427,7 @@ class CI_Encrypt {
 	/**
 	 * Get Mcrypt Mode Value
 	 *
-	 * @return	string
+	 * @return	int
 	 */
 	protected function _get_mode()
 	{
@@ -464,6 +464,7 @@ class CI_Encrypt {
 	{
 		return ($this->_hash_type === 'sha1') ? sha1($str) : md5($str);
 	}
+
 }
 
 /* End of file Encrypt.php */
