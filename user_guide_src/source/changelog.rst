@@ -199,6 +199,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
+-  Fixed a bug in PDO's trans_commit() method where it failed due to an erroneous property name.
 
 Version 2.1.1
 =============
