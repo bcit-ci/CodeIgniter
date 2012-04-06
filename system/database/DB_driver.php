@@ -407,8 +407,6 @@ abstract class CI_DB_driver {
 		$driver		= $this->load_rdriver();
 		$RES		= new $driver($this);
 
-		$RES->num_rows	= $RES->num_rows();
-
 		// Is query caching enabled? If so, we'll serialize the
 		// result object and save it to a cache file.
 		if ($this->cache_on == TRUE && $this->_cache_init())
@@ -903,6 +901,43 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Escape the SQL Identifiers
+	 *
+	 * This function escapes column and table names
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function escape_identifiers($item)
+	{
+		if ($this->_escape_char == '')
+		{
+			return $item;
+		}
+
+		foreach ($this->_reserved_identifiers as $id)
+		{
+			if (strpos($item, '.'.$id) !== FALSE)
+			{
+				$item = str_replace('.', $this->_escape_char.'.', $item);
+
+				// remove duplicates if the user already included the escape
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
+			}
+		}
+
+		if (strpos($item, '.') !== FALSE)
+		{
+			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
+		}
+
+		// remove duplicates if the user already included the escape
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an insert string
 	 *
 	 * @param	string	the table upon which the query will be performed
@@ -915,7 +950,7 @@ abstract class CI_DB_driver {
 
 		foreach ($data as $key => $val)
 		{
-			$fields[] = $this->_escape_identifiers($key);
+			$fields[] = $this->escape_identifiers($key);
 			$values[] = $this->escape($val);
 		}
 
@@ -1256,7 +1291,7 @@ abstract class CI_DB_driver {
 					{
 						if ( ! in_array($val, $this->_reserved_identifiers))
 						{
-							$parts[$key] = $this->_escape_identifiers($val);
+							$parts[$key] = $this->escape_identifiers($val);
 						}
 					}
 
@@ -1313,7 +1348,7 @@ abstract class CI_DB_driver {
 
 			if ($protect_identifiers === TRUE)
 			{
-				$item = $this->_escape_identifiers($item);
+				$item = $this->escape_identifiers($item);
 			}
 
 			return $item.$alias;
@@ -1336,7 +1371,7 @@ abstract class CI_DB_driver {
 
 		if ($protect_identifiers === TRUE && ! in_array($item, $this->_reserved_identifiers))
 		{
-			$item = $this->_escape_identifiers($item);
+			$item = $this->escape_identifiers($item);
 		}
 
 		return $item.$alias;

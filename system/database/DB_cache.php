@@ -177,7 +177,7 @@ class CI_DB_Cache {
 	 */
 	public function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE);
+		delete_files($this->db->cachedir, TRUE, 0, TRUE);
 	}
 
 }
