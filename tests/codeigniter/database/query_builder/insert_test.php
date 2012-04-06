@@ -12,7 +12,6 @@ class Insert_test extends CI_TestCase {
 		$this->db = Mock_Database_Schema_Skeleton::init(DB_DRIVER);
 
 		Mock_Database_Schema_Skeleton::create_tables();
-		Mock_Database_Schema_Skeleton::create_data();
 	}
 
 	// ------------------------------------------------------------------------
@@ -22,7 +21,7 @@ class Insert_test extends CI_TestCase {
 	 */
 	public function test_insert()
 	{
-		$job_data = array('name' => 'Grocery Sales', 'description' => 'Discount!');
+		$job_data = array('id' => 1, 'name' => 'Grocery Sales', 'description' => 'Discount!');
 		
 		// Do normal insert
 		$this->assertTrue($this->db->insert('job', $job_data));
@@ -36,8 +35,8 @@ class Insert_test extends CI_TestCase {
 	public function test_insert_batch()
 	{
 		$job_datas = array(
-			array('name' => 'Commedian', 'description' => 'Theres something in your teeth'), 
-			array('name' => 'Cab Driver', 'description' => 'Iam yellow'),
+			array('id' => 2, 'name' => 'Commedian', 'description' => 'Theres something in your teeth'), 
+			array('id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'),
 		);
 		
 		// Do insert batch
