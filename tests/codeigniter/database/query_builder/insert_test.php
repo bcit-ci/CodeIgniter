@@ -4,6 +4,7 @@ class Insert_test extends CI_TestCase {
 
 	/**
 	 * @var object Database/Query Builder holder
+	 * @see ./mocks/schema/skeleton.php
 	 */
 	protected $db;
 
@@ -12,6 +13,9 @@ class Insert_test extends CI_TestCase {
 		$this->db = Mock_Database_Schema_Skeleton::init(DB_DRIVER);
 
 		Mock_Database_Schema_Skeleton::create_tables();
+
+		// Truncate the current datas
+		$this->db->truncate('job');
 	}
 
 	// ------------------------------------------------------------------------
