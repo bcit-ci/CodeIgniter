@@ -421,18 +421,26 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.$where;
 	}
 
 	// --------------------------------------------------------------------
@@ -462,12 +470,22 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	array	the like clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		return 'DELETE FROM '.$table.' WHERE '.implode(' ', $where);
+		$conditions = array();
+
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
+
+		return ($limit)
+			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
+			: 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------
