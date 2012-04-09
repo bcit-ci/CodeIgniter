@@ -516,26 +516,17 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
-	 * @param	string	the limit clause
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table, $where = array(), $like = array())
 	{
-		$conditions = '';
+		$conditions = array();
 
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ";
-			$conditions .= implode("\n", $this->ar_where);
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
 
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= " AND ";
-			}
-			$conditions .= implode("\n", $like);
-		}
-
-		return "DELETE FROM ".$table.$conditions;
+		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------
