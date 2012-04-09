@@ -644,7 +644,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		empty($like) OR $conditions[] = implode(' ', $like);
 		empty($limit) OR $conditions[] = 'rownum <= '.$limit;
 
-		return 'DELETE FROM '.$table.(empty($conditions) ? '' : ' WHERE '.implode(' AND ', $conditions));
+		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------

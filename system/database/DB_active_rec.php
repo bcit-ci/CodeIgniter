@@ -1873,6 +1873,31 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Delete statement
+	 *
+	 * Generates a platform-specific delete string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the where clause
+	 * @param	array	the like clause
+	 * @param	string	the limit clause
+	 * @return	string
+	 */
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	{
+		$conditions = array();
+
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		return 'DELETE FROM '.$table
+			.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '')
+			.($limit ? ' LIMIT '.$limit : '');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * DB Prefix
 	 *
 	 * Prepends a database prefix if one exists in configuration
