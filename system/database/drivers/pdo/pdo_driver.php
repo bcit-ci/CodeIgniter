@@ -41,6 +41,7 @@
 class CI_DB_pdo_driver extends CI_DB {
 
 	public $dbdriver = 'pdo';
+	public $trans_enabled = FALSE;
 
 	// the character used to excape - not necessary for PDO
 	protected $_escape_char = '';
@@ -57,37 +58,38 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
-	// need to track the pdo driver and options
-	public $pdodriver;
+	// PDO-specific properties
+	public $subdriver;
 	public $options = array();
 
 	public function __construct($params)
 	{
 		parent::__construct($params);
 
-		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
+		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) === 2)
 		{
-			// If there is a minimum valid dsn string pattern found, we're done
+			// If there is a valid DSN string found - we're done.
 			// This is for general PDO users, who tend to have a full DSN string.
-			$this->pdodriver = end($match);
+			$this->subdriver = end($match);
 		}
-		else
+		elseif ($this->_connect_string() === FALSE)
 		{
-			// Try to build a complete DSN string from params
-			$this->_connect_string($params);
+			// Unable to create/validate DSN string
+			// TODO: Possibly a nicer way to do this?
+			show_error('Invalid DB Connection String for PDO');
 		}
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
-		if ($this->pdodriver == 'mysql')
+		if ($this->subdriver === 'mysql')
 		{
 			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
 		}
-		elseif ($this->pdodriver == 'odbc')
+		elseif ($this->subdriver === 'odbc')
 		{
-			$this->_like_escape_str = " {escape '%s'} ";
+			$this->_like_escape_str = ' {escape \'%s\'} ';
 		}
 		elseif ( ! in_array($this->pdodriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
 		{
@@ -98,89 +100,477 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Connection String
 	 *
-	 * @param	array
-	 * @return	void
+	 * A PDO-specific method that tries to build a DSN string from
+	 * configuration parameters.
+	 *
+	 * @return	bool
 	 */
-	protected function _connect_string($params)
+	protected function _connect_string()
 	{
-		if (strpos($this->hostname, ':'))
+		// Legacy support for DSN strings supplied in the hostname field
+		if (preg_match('/^([a-z0-9]+)\:.+$/i', $this->hostname, $matches))
 		{
 			// hostname generally would have this prototype
-			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
-			// We need to get the prefix (pdodriver used by PDO).
-			$dsnarray = explode(':', $this->hostname);
-			$this->pdodriver = $dsnarray[0];
-
-			// End dsn with a semicolon for extra backward compability
-			// if database property was not empty.
-			if ( ! empty($this->database))
+			// $db['hostname'] = 'subdriver:host(/Server(/DSN))=hostname(/DSN);';
+			// We need to get the prefix (subdriver used by PDO).
+			$this->dsn = rtrim($this->hostname);
+			$this->subdriver = strtolower($matches[1]);
+		}
+		else
+		{
+			/* No driver prefix was found in the hostname ...
+			 *
+			 * Although this is not a documented configuration setting,
+			 * we'll check if it isn't already set in $db['subdriver'].
+			 *
+			 * This could also be set by DB() if the configuration was
+			 * provided via string in the following format:
+			 *
+			 * pdo://username:password@hostname:port/database?subdriver=pgsql
+			 *
+			 * If it's not - fail.
+			 */
+			if (empty($this->subdriver))
 			{
-				$this->dsn .= rtrim($this->hostname, ';').';';
+				return FALSE;
+			}
+
+			$this->subdriver = strtolower($this->subdriver);
+			$this->dsn = $this->subdriver.':';
+		}
+
+		// This might work in lower case, but on php.net it's always '4D'
+		if ($this->subdriver === '4d' && substr($this->dsn, 0, 2) === '4d')
+		{
+			$this->dsn = '4D:'.substr($this->dsn, 3);
+			$this->subdriver = '4D';
+		}
+
+		// OK ... now create and/or valudate the DSN
+		if ($this->subdriver === 'oci')
+		{
+			/* Oracle has a slightly different PDO DSN format (Easy Connect).
+			 * It also supports pre-defined DSNs.
+			 */
+			if (preg_match('/^oci:dbname=([^;\s\/]+)(;charset=(.+))?$/', $this->dsn, $matches))
+			{
+				// We have a predefined DSN already set - just check for the charset
+				if (empty($matches[4]) && ! empty($this->char_set))
+				{
+					$this->dsn = 'oci:dbname='.$matches[1].';charset='.$this->char_set;
+				}
+			}
+			elseif (preg_match('/^oci:dbname=\/\/([^:\/]+)(:[0-9]+)?\/([^;]+)?(;charset=.+)?$/', $this->dsn, $matches))
+			{
+				$this->dsn = 'oci:dbname=//'.$matches[1]
+						.((empty($matches[2]) && ! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : $matches[2])
+						.'/'.($matches[3] === '' && $this->database !== '' ? $this->database : '')
+						.(empty($matches[4])
+							? ( ! empty($this->char_set) ? ';charset='.$this->char_set : '')
+							: $matches[4]);
+			}
+			else
+			{
+				// No valid DSN found
+				$this->dsn = 'oci:dbname=\/\/'.($this->hostname === '' ? 'localhost' : $this->hostname)
+						.( ! empty($this->port) ? ':'.$this->port : '')
+						.'/'.($this->database !== '' ? $this->database : '')
+						.(empty($this->char_set) ? '' : ';charset='.$this->char_set);
+			}
+
+			return TRUE;
+		}
+		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2')))
+		{
+			// SQLite only needs a filename path or ':memory:'
+			if ( ! preg_match('/^'.$this->subdriver.':.{1,}$/', $this->dsn))
+			{
+				if ($this->hostname === '' && $this->database === '')
+				{
+					return FALSE;
+				}
+
+				$this->dsn = $this->subdriver.':'.(empty($this->hostname) ? $this->database : $this->hostname);
+			}
+
+			return TRUE;
+		}
+		elseif ($this->subdriver === 'odbc')
+		{
+			/* With ODBC being a kind of database abstraction layer itself,
+			 * if we can't detect a system-wide DSN to be used, an ODBC subdriver
+			 * must me provided.
+			 * The problem is - if there's no such subdriver already set, then
+			 * there's no way the DSN string is valid. And because parameters
+			 * in it depend on the ODBC subdriver in use, even if we try to get
+			 * it from a non-standart config variable - we can't know exactly what
+			 * to append to it.
+			 */
+			return (bool) preg_match('/^odbc:([^=]{1,})|(driver=.+)$/', $this->dsn);
+		}
+		elseif ($this->subdriver === 'ibm')
+		{
+			// IBM supports pre-defined DSNs
+			if (preg_match('/^ibm:DSN=.{1,}$/', $this->dsn))
+			{
+				return TRUE;
+			}
+			elseif ( ! preg_match('/DRIVER=\{([^}]+)\}/', $this->dsn, $matches)
+				&& ( ! isset($this->ibmdriver) OR ! preg_match('/^\{?([^}]+)\}?$/', trim($this->ibmdriver), $matches)))
+			{
+				/* IBM requires a driver directive when a full DSN string is used
+				 *
+				 * If it's not already there - it can only be supplied by an
+				 * additional configuration setting that's not documented, but
+				 * still ... we should try.
+				 *
+				 * If we can't find one - try to use the hostname or database config
+				 * settings as a pre-defined DSN. If we can't do that as well - fail.
+				 */
+				if ($this->hostname === '' && $this->database === '')
+				{
+					return FALSE;
+				}
+
+				$this->dsn = 'ibm:DSN='.($this->hostname === '' ? $this->database : $this->hostname);
+				return TRUE;
+			}
+
+			// Get the values ...
+			$this->ibmdriver = trim($matches[1]);
+			$_protocol = preg_match('/PROTOCOL=([A-Z0-9]+)/', $this->dsn, $matches) ? $matches[1] : 'TCPIP';
+
+			if (preg_match('/DATABASE=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->database = $matches[1];
+			}
+
+			if (preg_match('/HOSTNAME=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->hostname = $matches[1];
+			}
+			elseif ($this->hostname === '')
+			{
+				// Default to localhost
+				$this->hostname = '127.0.0.1';
+			}
+
+			if (preg_match('/PORT=([1-9][0-9]{0,4})/', $this->dsn, $matches))
+			{
+				$this->port = $matches[1];
+			}
+
+			if ($this->database === '' && (empty($this->port) OR ! ctype_digit($this->port)))
+			{
+				// All of these parameters are required, so ...
+				return FALSE;
+			}
+
+			/* Passing the username and password in the DSN is supported here.
+			 * We won't do that, but if they are empty in our config, but are
+			 * found in the DSN - we can get them.
+			 */
+			if ($this->username === '' && preg_match('/UID=[^;\s]/', $this->dsn, $matches))
+			{
+				$this->username = $matches[1];
+			}
+
+			if ($this->password === '' && preg_match('/PWD=[^;\s]/', $this->dsn, $matches))
+			{
+				$this->password = $matches[1];
+			}
+
+			$this->dsn = 'ibm:DRIVER={'.$this->ibmdriver.'};DATABASE='.$this->database
+					.';HOSTNAME='.$this->hostname.';PORT='.$this->port.';PROTOCOL='.$_protocol.';';
+
+			return TRUE;
+		}
+		elseif ($this->subdriver === 'sqlsrv')
+		{
+			if (preg_match('/Server=([^,;\s]+)(,([1-9][0-9]{0,4}))?/', $this->dsn, $matches))
+			{
+				$this->hostname = $matches[1];
+				empty($matches[3]) OR $this->port = $matches[3];
+			}
+			elseif ($this->hostname === '')
+			{
+				// Default to localhost
+				$this->hostname = 'localhost';
+			}
+
+			if (preg_match('/Database=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->database = $matches[1];
+			}
+			elseif ($this->database === '')
+			{
+				return FALSE;
+			}
+
+			// Some SQLSRV-specific optional parameters
+			$_options = '';
+			foreach (array(
+					'APP' => '[^;\s]+',
+					'ConnectionPooling' => '0|1',
+					'Encrypt' => '0|1',
+					'Failover_Partner' => '[^;\s]+',
+					'LoginTimeout' => '[0-9]+',
+					'MultipleActiveResultSets' => '[^;\s]+',
+					'QuotedId' => '0|1',
+					'TraceFile' => '[^;\s]+',
+					'TraceOn' => '0|1',
+					'TransactionIsolation' => '[0-9]+',
+					'TrustServerCertificate' => '0|1',
+					'WSID' => '[^;\s]+'
+				) as $key => $value)
+			{
+				if (preg_match('/'.$key.'=('.$value.')/', $this->dsn, $matches))
+				{
+					$_options .= ';'.$key.'='.$matches[1];
+				}
+			}
+
+			$this->dsn = 'sqlsrv:Server='.$this->hostname.';Database='.$this->database.$_options;
+			return TRUE;
+		}
+		elseif ($this->subdriver === 'informix')
+		{
+			// Pre-defined DSNs are supported
+		 	if (preg_match('/^informix:DSN=.+$/', $this->dsn))
+			{
+				return TRUE;
+			}
+
+			if (preg_match('/host=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->hostname = $matches[1];
+			}
+
+			if (preg_match('/service=([1-9][0-9]{0,4})/', $this->dsn, $matches))
+			{
+				$this->port = $matches[1];
+			}
+
+			if (preg_match('/database=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->database = $matches[1];
+			}
+
+			/* If this is not set - try to use the hostname or database name
+			 * as a pre-defined DSN.
+			 */
+			if (preg_match('/server=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$_server = $matches[1];
+			}
+			elseif ($this->hostname === '' && $this->database === '')
+			{
+				return FALSE;
+			}
+			else
+			{
+				$this->dsn = 'informix:DSN='.($this->hostname === '' ? $this->database : $this->hostname);
+				return TRUE;
+			}
+
+			if ($this->database === '' OR (empty($this->port) OR ! ctype_digit($this->port)))
+			{
+				return FALSE;
+			}
+
+			// Default to localhost
+			$this->hostname !== '' OR $this->hostname = 'localhost';
+			$_protocol = preg_match('/protocol=([^;\s]+)/', $this->dsn, $matches) ? $matches[1] : 'onsoctcp';
+			$_options = preg_match('/EnableScrollableCursors=(0|1)/', $this->dsn, $matches)
+					? '; EnableScrollableCursors='.$matches[1]
+					: '';
+
+			$this->dsn = 'informix:host='.$this->hostname.'; service='.$this->port.'; database='.$this->database
+					.'; server='.$_server.'; protocol='.$_protocol.$_options;
+			return TRUE;
+		}
+
+		/* The rest of the subdrivers (mysql, pgsql, mssql|dblib|sybase, cubrid, 4D, firebird)
+		 * have the same DSN format. Only some parameters may or may not exist depending on
+		 * the driver in use. We'll work around that while treating all of them as a group.
+		 *
+		 * $_options will hold any extra parameters that might be needed
+		 */
+		$_options = array();
+
+		// Postgre & 4D allow passing usernames and/or passwords in the DSN
+		if (in_array($this->subdriver, array('pgsql', '4D')))
+		{
+			if (preg_match('/username=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->username = $matches[1];
+			}
+
+			if (preg_match('/password=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->password = $matches[1];
+			}
+		}
+
+		// dbname
+		if (preg_match('/dbname=([^;\s]+)/', $this->dsn, $matches))
+		{
+			$this->database = $matches[1];
+		}
+		elseif ($this->subdriver === 'firebird' && $this->database === '' && $this->hostname !== '')
+		{
+			$this->database = $this->hostname;
+		}
+		elseif ($this->database === '')
+		{
+			return FALSE;
+		}
+
+		// host & port
+		if (in_array($this->subdriver, array('mssql', 'dblib', 'sybase')))
+		{
+			if (preg_match('/host=([^:,;\s]+)([:,]([1-9][0-9]{0,4}))?/', $this->dsn, $matches))
+			{
+				$this->hostname = $matches[1];
+				empty($matches[3]) OR $this->port = $matches[3];
+			}
+
+			// We'll set these, while we're at the dblib subdriver
+			if (preg_match('/appname=([^;]+)/', $this->dsn, $matches))
+			{
+				$_options['appname'] = $matches[1];
+			}
+			elseif ( ! empty($this->appname))
+			{
+				$_options['appname'] = $this->appname;
+			}
+
+			if (preg_match('/secure=([^;]+)/', $this->dsn, $matches))
+			{
+				$_options['secure'] = $matches[1];
+			}
+			elseif ( ! empty($this->secure))
+			{
+				$_options['secure'] = $this->secure;
+			}
+		}
+		elseif ($this->subdriver === 'firebird')
+		{
+			/* Firebird only uses files, but also has a 'role' option.
+			 *
+			 * We have to make a check to exclude it anyway, and since
+			 * the port field is useless here - we'll try and get the
+			 * role from it, if it isn't already passed.
+			 *
+			 * Hostname field is already used as an alternative way to
+			 * get the dbname.
+			 */
+			if (preg_match('/role=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$_options['role'] = $matches[1];
+			}
+			elseif ( ! empty($this->role))
+			{
+				$_options['role'] = $this->role;
+			}
+			elseif ( ! empty($this->port))
+			{
+				$_options['role'] = $this->port;
 			}
 		}
 		else
 		{
-			// Invalid DSN, display an error
-			if ( ! array_key_exists('pdodriver', $params))
+			/* On UNIX systems, MySQL and Postgre allow connecting directly via
+			 * UNIX sockets. Configurations for this differ, but host & port
+			 * fields should be skipped from the DSN string.
+			 */
+			if ($this->subdriver === 'mysql' && DIRECTORY_SEPARATOR === '/')
 			{
-				show_error('Invalid DB Connection String for PDO');
+				if (preg_match('/unix_socket=([^;\s]+)/', $this->dsn, $matches))
+				{
+					$_options['unix_socket'] = $matches[1];
+				}
+				elseif ( ! empty($this->unix_socket) && is_string($this->unix_socket))
+				{
+					$_options['unix_socket'] = $this->unix_socket;
+				}
+			}
+			elseif ($this->subdriver === 'pgsql' && isset($this->unix_socket))
+			{
+				$_options['unix_socket'] = (bool) $this->unix_socket;
 			}
 
-			// Assuming that the following DSN string format is used:
-			// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
-			$this->dsn = $this->pdodriver.':';
-
-			// Add hostname to the DSN for databases that need it
-			if ( ! empty($this->hostname)
-				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+			if ( ! isset($_options['unix_socket']))
 			{
-			    $this->dsn .= 'host='.$this->hostname.';';
-			}
+				if (preg_match('/host=([^;\s]+)/', $this->dsn, $matches))
+				{
+					$this->hostname = $matches[1];
+				}
+				elseif ($this->hostname === '')
+				{
+					if ($this->subdriver === 'pgsql')
+					{
+						$_options['unix_socket'] = TRUE;
+					}
+					else
+					{
+						$this->hostname = 'localhost';
+					}
+				}
 
-			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
-			{
-			    $this->dsn .= 'port='.$this->port.';';
+				if (preg_match('/port=([1-9][0-9]{0,4})/', $this->dsn, $matches))
+				{
+					$this->port = $matches[1];
+				}
 			}
 		}
 
-		// Add the database name to the DSN, if needed
-	    if (stripos($this->dsn, 'dbname') === FALSE
-	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
-	    {
-	        $this->dsn .= 'dbname='.$this->database.';';
-	    }
-	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->pdodriver, array('ibm', 'sqlsrv')))
-	    {
-	    	if (stripos($this->dsn, 'dsn') === FALSE)
-	    	{
-		        $this->dsn .= 'database='.$this->database.';';
-	    	}
-	    }
-	    elseif ($this->pdodriver === 'sqlite' && $this->dsn === 'sqlite:')
-	    {
-	        if ($this->database !== ':memory')
-	        {
-	            if ( ! file_exists($this->database))
-	            {
-	                show_error('Invalid DB Connection string for PDO SQLite');
-	            }
+		// charset
+		if (in_array($this->subdriver, array('mysql', 'mssql', 'dblib', 'sybase', '4d', 'firebird')))
+		{
+			if (preg_match('/charset=([^;\s]+)/', $this->dsn, $matches))
+			{
+				$this->char_set = $matches[1];
+			}
+		}
+		else
+		{
+			// Not needed
+			$this->char_set = '';
+		}
 
-	            $this->dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
-	        }
+		$this->dsn = $this->subdriver.':'
+				.(($this->subdriver !== 'firebird' && ! isset($_options['unix_socket']))
+					? 'host='.$this->hostname
+						.(empty($port)
+							? ''
+							: (in_array($this->subdriver, array('mssql', 'dblib', 'sybase')) ? ',' : ';port=')
+								.$this->port.';'
+							)
+					: (is_string($_options['unix_socket']) ? 'unix_socket='.$_options['unix_socket'].';' : '')
+				)
+				.($this->database !== '' ? 'dbname='.$this->database : '')
+				.(empty($this->char_set) ? '' : ';charset='.$this->char_set);
 
-	        $this->dsn .= $this->database;
-	    }
+		if (isset($_options['unix_socket']))
+		{
+			unset($_options['unix_socket']);
+		}
 
-	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
-	    {
-	        $this->dsn .= 'charset='.$this->char_set.';';
-	    }
+		if (count($_options) > 0)
+		{
+			foreach ($_options as $key => $value)
+			{
+				$this->dsn .= ';'.$key.'='.$value;
+			}
+		}
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -424,18 +814,16 @@ class CI_DB_pdo_driver extends CI_DB {
 			return 0;
 		}
 
-		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
-		$query = $this->query($sql);
-
+		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 		if ($query->num_rows() == 0)
 		{
 			return 0;
 		}
 
-		$row = $query->row();
+		$query = $query->row();
 		$this->_reset_select();
 
-		return (int) $row->numrows;
+		return (int) $query->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -450,27 +838,22 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->pdodriver == 'pgsql')
+		if ($this->subdriver === 'pgsql')
 		{
-			// Analog function to show all tables in postgre
+			// Analog function to show all tables in Postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
-		elseif ($this->pdodriver == 'sqlite')
+		elseif (in_array($this->subdriver, array('sqlite', 'sqlite2')))
 		{
-			// Analog function to show all tables in sqlite
-			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+			return 'SELECT "name" FROM "SQLITE_MASTER"'
+				.(($prefix_limit !== FALSE && $this->dbprefix !== '') ? ' WHERE "name" LIKE \''.$this->dbprefix."%'" : '');
 		}
 		else
 		{
 			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 		}
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
-		{
-			return FALSE;
-		}
-
-		return $sql;
+		return ($prefix_limit !== FALSE && $this->dbprefix != '') ? FALSE : $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -584,8 +967,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids   = array();
-		$where = ($where != '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
-
 		foreach ($values as $key => $val)
 		{
 			$ids[] = $val[$index];
@@ -601,23 +982,16 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$sql   = 'UPDATE '.$table.' SET ';
 		$cases = '';
-
 		foreach ($final as $k => $v)
 		{
-			$cases .= $k.' = CASE '."\n";
-
-			foreach ($v as $row)
-			{
-				$cases .= $row."\n";
-			}
-
-			$cases .= 'ELSE '.$k.' END, ';
+			$cases .= $k." = CASE \n".implode("\n", $v)."\n"
+				.'ELSE '.$k.' END, ';
 		}
 
-		$sql .= substr($cases, 0, -2);
-		$sql .= ' WHERE '.$where.$index.' IN ('.implode(',', $ids).')';
-
-		return $sql;
+		return 'UPDATE'.$this->_from_tables($table).' SET '
+			.substr($cases, 0, -2)
+			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.$index.' IN ('.implode(',', $ids).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -652,19 +1026,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($this->pdodriver == 'cubrid' OR $this->pdodriver == 'sqlite')
+		if ($this->subdriver === 'cubrid' OR $this->subdriver === 'sqlite')
 		{
-			$offset = ($offset == 0) ? '' : $offset.', ';
-
-			return $sql.'LIMIT '.$offset.$limit;
+			return $sql.' LIMIT'.($offset == 0 ? '' : $offset.', ').$limit;
 		}
-		else
-		{
-			$sql .= 'LIMIT '.$limit;
-			$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
 
-			return $sql;
-		}
+		return $sql.' LIMIT '.$limit.($offset == 0 ? '' : ' OFFSET '.$offset);
 	}
 
 	// --------------------------------------------------------------------
