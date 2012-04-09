@@ -34,50 +34,7 @@
  */
 class CI_DB_pdo_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	bool
-	 */
-	public function _list_databases()
-	{
-		// Not sure if PDO lets you list all databases...
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		// Not supported in PDO
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		// Not supported in PDO
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases = FALSE;
 
 	/**
 	 * PDO Export
@@ -85,7 +42,7 @@ class CI_DB_pdo_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');

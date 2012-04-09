@@ -608,7 +608,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected function _pdo_connect($persistent = FALSE)
 	{
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
-		$persistent == FALSE OR $this->options[PDO::ATTR_PERSISTENT] = TRUE;
+		$persistent === FALSE OR $this->options[PDO::ATTR_PERSISTENT] = TRUE;
 
 		/* Prior to PHP 5.3.6, even if the charset was supplied in the DSN
 		 * on connect - it was ignored. This is a work-around for the issue.
@@ -618,7 +618,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		if ($this->subdriver === 'mysql' && ! is_php('5.3.6') && ! empty($this->char_set))
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
-										.( ! empty($this->db_collat) ? " COLLATE '".$this->dbcollat."'" : '');
+					.( ! empty($this->db_collat) ? " COLLATE '".$this->dbcollat."'" : '');
 		}
 
 		// Connecting...
@@ -747,7 +747,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Escape the string
 		$str = $this->conn_id->quote($str);
 
-		// If there are duplicated quotes - trim them away
+		// If there are duplicated quotes, trim them away
 		if (strpos($str, "'") === 0)
 		{
 			$str = substr($str, 1, -1);
@@ -1010,31 +1010,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected function _truncate($table)
 	{
 		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
-	 * @return	string
-	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
-	{
-		$conditions = '';
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where)
-					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
-					.implode("\n", $like);
-		}
-
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
 	}
 
 	// --------------------------------------------------------------------
