@@ -34,35 +34,8 @@
  */
 class CI_DB_cubrid_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _create_database($name)
-	{
-		// CUBRID does not allow to create a database in SQL. The GUI tools
-		// have to be used for this purpose.
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _drop_database($name)
-	{
-		// CUBRID does not allow to drop a database in SQL. The GUI tools
-		// have to be used for this purpose.
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= FALSE;
+	protected $_drop_database	= FALSE;
 
 	/**
 	 * Process Fields
@@ -222,18 +195,6 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE IF EXISTS '.$this->db->escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -263,22 +224,6 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		}
 
 		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'RENAME TABLE '.$this->db->protect_identifiers($table_name).' AS '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
