@@ -487,32 +487,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
-	 * @return	string
-	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
-	{
-		$conditions = '';
-
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $where)
-					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
-					.implode("\n", $like);
-		}
-
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Limit string
 	 *
 	 * Generates a platform-specific LIMIT clause
