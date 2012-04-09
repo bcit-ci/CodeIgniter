@@ -47,7 +47,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -163,7 +163,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE `'.$this->db->protect_identifiers($table).'` '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
