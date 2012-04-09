@@ -90,15 +90,11 @@ Release Date: Not Released
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Added replace() support for SQLite.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
-<<<<<<< HEAD
-   -  CUBRID driver's utility class now overrides list_databases() in order to use cubrid_list_dbs().
-=======
    -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
    -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
->>>>>>> 918be7963f6fa3461d612ea7ca4c9774c12f9da5
 
 -  Libraries
 
