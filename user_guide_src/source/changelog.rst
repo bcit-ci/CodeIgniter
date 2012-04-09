@@ -57,7 +57,6 @@ Release Date: Not Released
    -  Added new :doc:`Active Record <database/active_record>` methods that return
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  Improved support for the MySQLi driver, including:
 	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
@@ -200,6 +199,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
 -  Fixed a bug in PDO's trans_commit() method where it failed due to an erroneous property name.
+-  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
 
 Version 2.1.1
 =============
