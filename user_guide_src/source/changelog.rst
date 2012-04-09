@@ -79,8 +79,7 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
-   -  Added random ordering support for MSSQL.
-   -  Added random ordering support for SQLSRV.
+   -  Added random ordering support for MSSQL, SQLSRV.
    -  Added support for SQLite3 database driver.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
@@ -94,6 +93,8 @@ Release Date: Not Released
    -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
+   -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
 
 -  Libraries
 
