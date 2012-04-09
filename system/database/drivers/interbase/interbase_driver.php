@@ -425,9 +425,10 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	array	the like clause
+	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array())
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = array();
 
