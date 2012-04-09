@@ -373,20 +373,26 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
 
-		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
 
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
 

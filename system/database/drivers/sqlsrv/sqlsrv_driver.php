@@ -421,18 +421,26 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.$where;
 	}
 
 	// --------------------------------------------------------------------

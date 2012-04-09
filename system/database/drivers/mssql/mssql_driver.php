@@ -425,6 +425,38 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
+	 * @return	string
+	 */
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	{
+		foreach($values as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.$where;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data

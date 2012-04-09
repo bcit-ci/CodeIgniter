@@ -485,22 +485,26 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
-		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
 
-		return $sql;
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
 	}
 
 	// --------------------------------------------------------------------
