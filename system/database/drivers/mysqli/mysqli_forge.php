@@ -34,31 +34,7 @@
  */
 class CI_DB_mysqli_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _create_database($name)
-	{
-		return 'CREATE DATABASE '.$name.' CHARACTER SET '.$this->db->char_set.' COLLATE '.$this->db->dbcollat;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _drop_database($name)
-	{
-		return 'DROP DATABASE '.$name;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
 	/**
 	 * Process Fields
@@ -181,18 +157,6 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE IF EXISTS '.$this->db->escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -216,22 +180,6 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 		return $sql.$this->_process_fields($fields)
 			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
