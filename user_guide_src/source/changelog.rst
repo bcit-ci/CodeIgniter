@@ -57,7 +57,6 @@ Release Date: Not Released
    -  Added new :doc:`Active Record <database/active_record>` methods that return
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
    -  Improved support for the MySQLi driver, including:
 	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
@@ -80,8 +79,7 @@ Release Date: Not Released
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added DSN string support for CUBRID.
    -  Added persistent connections support for CUBRID.
-   -  Added random ordering support for MSSQL.
-   -  Added random ordering support for SQLSRV.
+   -  Added random ordering support for MSSQL, SQLSRV.
    -  Added support for SQLite3 database driver.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
@@ -92,7 +90,15 @@ Release Date: Not Released
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Added replace() support for SQLite.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
+<<<<<<< HEAD
    -  CUBRID driver's utility class now overrides list_databases() in order to use cubrid_list_dbs().
+=======
+   -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
+   -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
+>>>>>>> 918be7963f6fa3461d612ea7ca4c9774c12f9da5
 
 -  Libraries
 
@@ -200,6 +206,10 @@ Bug fixes for 3.0
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
+-  Fixed a bug in PDO's trans_commit() method where it failed due to an erroneous property name.
+-  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
+-  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
+-  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 
 Version 2.1.1
 =============
