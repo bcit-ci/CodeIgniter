@@ -91,6 +91,9 @@ Release Date: Not Released
 	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Added replace() support for SQLite.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
+   -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
 
 -  Libraries
 

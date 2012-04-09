@@ -34,43 +34,8 @@
  */
 class CI_DB_odbc_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _create_database()
-	{
-		// ODBC has no "create database" command since it's
-		// designed to connect to an existing database
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _drop_database($name)
-	{
-		// ODBC has no "drop database" command since it's
-		// designed to connect to an existing database
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_drop_database	= 'DROP DATABASE %s';
+	protected $_drop_table		= 'DROP TABLE %s';
 
 	/**
 	 * Create Table
@@ -179,23 +144,6 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	bool
-	 */
-	public function _drop_table($table)
-	{
-		// Not a supported ODBC feature
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -243,23 +191,6 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 
 		return $sql;
 
-	}
-
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
