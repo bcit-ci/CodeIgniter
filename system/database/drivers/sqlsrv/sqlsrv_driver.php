@@ -470,12 +470,22 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	array	the like clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		return 'DELETE FROM '.$table.' WHERE '.implode(' ', $where);
+		$conditions = array();
+
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
+
+		return ($limit)
+			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
+			: 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------

@@ -200,7 +200,8 @@ Bug fixes for 3.0
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
 -  Fixed a bug in PDO's trans_commit() method where it failed due to an erroneous property name.
 -  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
--  Fixed a bug in Oracle's delete() method where an erroneous SQL statement was generated when used with limit().
+-  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
+-  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 
 Version 2.1.1
 =============
