@@ -493,17 +493,26 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '');
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
 	}
 
 	// --------------------------------------------------------------------
@@ -515,22 +524,18 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	array	the like clause
+	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
 	protected function _delete($table, $where = array(), $like = array())
 	{
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where)
-					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
-					.implode("\n", $like);
-		}
-		else
-		{
-			$conditions = '';
-		}
+		$conditions = array();
 
-		return 'DELETE FROM '.$table.$conditions;
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------
