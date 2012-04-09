@@ -34,62 +34,7 @@
  */
 class CI_DB_odbc_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	bool
-	 */
-	public function _list_databases()
-	{
-		// Not sure if ODBC lets you list all databases...
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		// Not a supported ODBC feature
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		// Not a supported ODBC feature
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= FALSE;
 
 	/**
 	 * ODBC Export
@@ -97,7 +42,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
