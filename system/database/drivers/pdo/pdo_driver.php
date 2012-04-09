@@ -469,9 +469,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	object
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close($conn_id)
 	{
 		$this->conn_id = NULL;
 	}

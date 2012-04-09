@@ -34,56 +34,7 @@
  */
 class CI_DB_sqlite3_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	bool
-	 */
-	public function _list_databases()
-	{
-		// Not supported
-		return FALSE;
-
-		// Do we use this?
-		if ($this->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Is optimization even supported in SQLite?
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		// Not supported
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Are table repairs even supported in SQLite?
-	 *
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	public function _repair_table($table)
-	{
-		// Not supported
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= FALSE;
 
 	/**
 	 * SQLite Export
@@ -91,7 +42,7 @@ class CI_DB_sqlite3_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Not supported
 		return $this->db->display_error('db_unsuported_feature');

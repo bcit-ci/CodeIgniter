@@ -34,50 +34,7 @@
  */
 class CI_DB_oci8_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * Generates a platform-specific query so that we get a list of schemas
-	 * Those are actually usernames in Oracle.
-	 *
-	 * @return	string
-	 */
-	public function _list_databases()
-	{
-		return 'SELECT username FROM dba_users';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		return FALSE; // Not supported in Oracle
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		return FALSE; // Not supported in Oracle
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= 'SELECT username FROM dba_users'; // Schemas are actual usernames
 
 	/**
 	 * Oracle Export
@@ -85,7 +42,7 @@ class CI_DB_oci8_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
