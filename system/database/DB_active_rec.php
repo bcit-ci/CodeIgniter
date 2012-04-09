@@ -1546,17 +1546,25 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
 	 * @param	array	the limit clause
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
 
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
 			.($limit ? ' LIMIT '.$limit : '');
 	}
@@ -1860,6 +1868,31 @@ abstract class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		return ($this->return_delete_sql === TRUE) ? $sql : $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Delete statement
+	 *
+	 * Generates a platform-specific delete string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the where clause
+	 * @param	array	the like clause
+	 * @param	string	the limit clause
+	 * @return	string
+	 */
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	{
+		$conditions = array();
+
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		return 'DELETE FROM '.$table
+			.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '')
+			.($limit ? ' LIMIT '.$limit : '');
 	}
 
 	// --------------------------------------------------------------------
