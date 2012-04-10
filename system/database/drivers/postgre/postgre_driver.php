@@ -528,7 +528,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array())
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
 		$conditions = array();
 
