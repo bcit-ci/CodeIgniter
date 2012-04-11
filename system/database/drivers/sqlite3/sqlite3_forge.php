@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -26,15 +26,54 @@
  */
 
 /**
- * MS SQL Forge Class
+ * SQLite3 Forge Class
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	Andrey Andreev
+ * @link	http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_forge extends CI_DB_forge {
+class CI_DB_sqlite3_forge extends CI_DB_forge {
 
-	protected $_drop_table	= 'DROP TABLE %s';
+	/**
+	 * Create database
+	 *
+	 * @param	string	the database name
+	 * @return	bool
+	 */
+	public function create_database($db_name = '')
+	{
+		// In SQLite, a database is created when you connect to the database.
+		// We'll return TRUE so that an error isn't generated
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Drop database
+	 *
+	 * @param	string	the database name (ignored)
+	 * @return	bool
+	 */
+	public function drop_database($db_name = '')
+	{
+		// In SQLite, a database is dropped when we delete a file
+		if (@file_exists($this->db->database))
+		{
+			// We need to close the pseudo-connection first
+			$this->db->close();
+			if ( ! @unlink($this->db->database))
+			{
+				return $this->db->db_debug ? $this->db->display_error('db_unable_to_drop') : FALSE;
+			}
+
+			return TRUE;
+		}
+
+		return $this->db->db_debug ? $this->db->display_error('db_unable_to_drop') : FALSE;
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Create Table
@@ -44,13 +83,14 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	string
+	 * @return	bool
 	 */
 	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
-		if ($if_not_exists === TRUE)
+		// IF NOT EXISTS added to SQLite in 3.3.0
+		if ($if_not_exists === TRUE && version_compare($this->db->version(), '3.3.0', '>=') === TRUE)
 		{
 			$sql .= 'IF NOT EXISTS ';
 		}
@@ -65,44 +105,19 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			// entered the field information, so we'll simply add it to the list
 			if (is_numeric($field))
 			{
-				$sql .= "\n\t$attributes";
+				$sql .= "\n\t".$attributes;
 			}
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field);
-
-				$sql .=  ' '.$attributes['TYPE'];
-
-				if (array_key_exists('CONSTRAINT', $attributes))
-				{
-					$sql .= '('.$attributes['CONSTRAINT'].')';
-				}
-
-				if (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE)
-				{
-					$sql .= ' UNSIGNED';
-				}
-
-				if (array_key_exists('DEFAULT', $attributes))
-				{
-					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
-				}
-
-				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
-				{
-					$sql .= ' NULL';
-				}
-				else
-				{
-					$sql .= ' NOT NULL';
-				}
-
-				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$sql .= ' AUTO_INCREMENT';
-				}
+				$sql .= "\n\t".$this->db->protect_identifiers($field)
+					.' '.$attributes['TYPE']
+					.( ! empty($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
+					.(( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
+					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
+					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
+					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
 			}
 
 			// don't add a comma on the end of the last field
@@ -115,7 +130,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -131,13 +146,11 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 					$key = array($this->db->protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tFOREIGN KEY (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';
 			}
 		}
 
-		$sql .= "\n)";
-
-		return $sql;
+		return $sql."\n)";
 	}
 
 	// --------------------------------------------------------------------
@@ -159,40 +172,24 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
-
-		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		/* SQLite only supports adding new columns and it does
+		 * NOT support the AFTER statement. Each new column will
+		 * be added as the last one in the table.
+		 */
+		if ($alter_type !== 'ADD COLUMN')
 		{
-			return $sql;
+			// Not supported
+			return FALSE;
 		}
 
-		$sql .= " $column_definition";
-
-		if ($default_value != '')
-		{
-			$sql .= " DEFAULT \"$default_value\"";
-		}
-
-		if ($null === NULL)
-		{
-			$sql .= ' NULL';
-		}
-		else
-		{
-			$sql .= ' NOT NULL';
-		}
-
-		if ($after_field != '')
-		{
-			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
-		}
-
-		return $sql;
-
+		return 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name)
+			.' '.$column_definition
+			.($default_value != '' ? ' DEFAULT '.$default_value : '')
+			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
+			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
 	}
 
 }
 
-/* End of file mssql_forge.php */
-/* Location: ./system/database/drivers/mssql/mssql_forge.php */
+/* End of file sqlite3_forge.php */
+/* Location: ./system/database/drivers/sqlite3/sqlite3_forge.php */

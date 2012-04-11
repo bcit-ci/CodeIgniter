@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -26,29 +26,29 @@
  */
 
 /**
- * Oracle Utility Class
+ * SQLite3 Utility Class
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	Andrey Andreev
+ * @link	http://codeigniter.com/user_guide/database/
  */
-class CI_DB_oci8_utility extends CI_DB_utility {
+class CI_DB_sqlite3_utility extends CI_DB_utility {
 
-	protected $_list_databases	= 'SELECT username FROM dba_users'; // Schemas are actual usernames
+	protected $_list_databases	= FALSE;
 
 	/**
-	 * Oracle Export
+	 * SQLite Export
 	 *
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())
 	{
-		// Currently unsupported
+		// Not supported
 		return $this->db->display_error('db_unsuported_feature');
 	}
 
 }
 
-/* End of file oci8_utility.php */
-/* Location: ./system/database/drivers/oci8/oci8_utility.php */
+/* End of file sqlite3_utility.php */
+/* Location: ./system/database/drivers/sqlite3/sqlite3_utility.php */

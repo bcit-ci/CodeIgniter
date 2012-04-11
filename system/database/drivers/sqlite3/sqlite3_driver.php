@@ -26,7 +26,7 @@
  */
 
 /**
- * Postgre Database Adapter Class
+ * SQLite3 Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the active record
@@ -35,17 +35,19 @@
  * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author		EllisLab Dev Team
+ * @author		Andrey Andreev
  * @link		http://codeigniter.com/user_guide/database/
+ * @since		Version 3.0
  */
-class CI_DB_postgre_driver extends CI_DB {
+class CI_DB_sqlite3_driver extends CI_DB {
 
-	public $dbdriver = 'postgre';
+	public $dbdriver = 'sqlite3';
 
+	// The character used for escaping
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_str = ' ESCAPE \'%s\' ';
 	protected $_like_escape_chr = '!';
 
 	/**
@@ -54,79 +56,25 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
-
-	/**
-	 * Constructor
-	 *
-	 * Creates a DSN string to be used for db_connect() and db_pconnect()
-	 *
-	 * @return	void
-	 */
-	public function __construct($params)
-	{
-		parent::__construct($params);
-
-		if ( ! empty($this->dsn))
-		{
-			return;
-		}
-
-		$this->dsn === '' OR $this->dsn = '';
-
-		if (strpos($this->hostname, '/') !== FALSE)
-		{
-			// If UNIX sockets are used, we shouldn't set a port
-			$this->port = '';
-		}
-
-		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname.' ';
-
-		if ( ! empty($this->port) && ctype_digit($this->port))
-		{
-			$this->dsn .= 'port='.$this->port.' ';
-		}
-
-		if ($this->username !== '')
-		{
-			$this->dsn .= 'user='.$this->username.' ';
-
-			/* An empty password is valid!
-			 *
-			 * $db['password'] = NULL must be done in order to ignore it.
-			 */
-			$this->password === NULL OR $this->dsn .= "password='".$this->password."' ";
-		}
-
-		$this->database === '' OR $this->dsn .= 'dbname='.$this->database.' ';
-
-		/* We don't have these options as elements in our standard configuration
-		 * array, but they might be set by parse_url() if the configuration was
-		 * provided via string. Example:
-		 *
-		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
-		 */
-		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
-		{
-			if (isset($this->$key) && is_string($this->key) && $this->key !== '')
-			{
-				$this->dsn .= $key."='".$this->key."' ";
-			}
-		}
-
-		$this->dsn = rtrim($this->dsn);
-	}
-
-	// --------------------------------------------------------------------
+	protected $_random_keyword = ' RANDOM()';
 
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	resource
+	 * @return	object	type SQLite3
 	 */
 	public function db_connect()
 	{
-		return @pg_connect($this->dsn);
+		try
+		{
+			return ( ! $this->password)
+				? new SQLite3($this->database)
+				: new SQLite3($this->database, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $this->password);
+		}
+		catch (Exception $e)
+		{
+			return FALSE;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -134,42 +82,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @return	resource
+	 * @return  object	type SQLite3
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->dsn);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		if (pg_ping($this->conn_id) === FALSE)
-		{
-			$this->conn_id = FALSE;
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @param       string
-	 * @return      bool
-	 */
-	protected function _db_set_charset($charset)
-	{
-		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
+		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
+		return $this->db_pconnect();
 	}
 
 	// --------------------------------------------------------------------
@@ -186,19 +104,8 @@ class CI_DB_postgre_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		if (($pg_version = pg_version($this->conn_id)) === FALSE)
-		{
-			return FALSE;
-		}
-
-		/* If PHP was compiled with PostgreSQL lib versions earlier
-		 * than 7.4, pg_version() won't return the server version
-		 * and so we'll have to fall back to running a query in
-		 * order to get it.
-		 */
-		return isset($pg_version['server'])
-			? $this->data_cache['version'] = $pg_version['server']
-			: parent::version();
+		$version = $this->conn_id->version();
+		return $this->data_cache['version'] = $version['versionString'];
 	}
 
 	// --------------------------------------------------------------------
@@ -207,11 +114,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * Execute the query
 	 *
 	 * @param	string	an SQL query
-	 * @return	resource
+	 * @return	mixed	SQLite3Result object or bool
 	 */
 	protected function _execute($sql)
 	{
-		return @pg_query($this->conn_id, $sql);
+		// TODO: Implement use of SQLite3::querySingle(), if needed
+
+		return $this->is_write_type($sql)
+			? $this->conn_id->exec($sql)
+			: $this->conn_id->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -234,7 +145,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		return @pg_query($this->conn_id, 'BEGIN');
+		return $this->conn_id->exec('BEGIN TRANSACTION');
 	}
 
 	// --------------------------------------------------------------------
@@ -252,7 +163,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_query($this->conn_id, 'COMMIT');
+		return $this->conn_id->exec('END TRANSACTION');
 	}
 
 	// --------------------------------------------------------------------
@@ -270,7 +181,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_query($this->conn_id, 'ROLLBACK');
+		return $this->conn_id->exec('ROLLBACK');
 	}
 
 	// --------------------------------------------------------------------
@@ -294,7 +205,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return $str;
 		}
 
-		$str = pg_escape_string($str);
+		$str = $this->conn_id->escapeString(remove_invisible_characters($str));
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
@@ -316,7 +227,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @pg_affected_rows($this->result_id);
+		return $this->conn_id->changes();
 	}
 
 	// --------------------------------------------------------------------
@@ -324,38 +235,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	string
+	 * @return	int
 	 */
 	public function insert_id()
 	{
-		$v = $this->version();
-
-		$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
-		$column	= func_num_args() > 1 ? func_get_arg(1) : NULL;
-
-		if ($table == NULL && $v >= '8.1')
-		{
-			$sql='SELECT LASTVAL() as ins_id';
-		}
-		elseif ($table != NULL && $column != NULL && $v >= '8.0')
-		{
-			$sql = sprintf("SELECT pg_get_serial_sequence('%s','%s') as seq", $table, $column);
-			$query = $this->query($sql);
-			$row = $query->row();
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $row->seq);
-		}
-		elseif ($table != NULL)
-		{
-			// seq_name passed in table parameter
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $table);
-		}
-		else
-		{
-			return pg_last_oid($this->result_id);
-		}
-		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->ins_id;
+		return $this->conn_id->lastInsertRowID();
 	}
 
 	// --------------------------------------------------------------------
@@ -367,7 +251,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * the specified database
 	 *
 	 * @param	string
-	 * @return	string
+	 * @return	int
 	 */
 	public function count_all($table = '')
 	{
@@ -376,15 +260,10 @@ class CI_DB_postgre_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
+		$result = $this->conn_id->querySingle($this->_count_string.$this->protect_identifiers('numrows')
+							.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
 
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
+		return empty($result) ? 0 : (int) $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -399,14 +278,10 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
-
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
-		{
-			$sql .= " AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-		}
-
-		return $sql;
+		return 'SELECT "NAME" FROM "SQLITE_MASTER" WHERE "TYPE" = \'table\''
+			.(($prefix_limit !== FALSE && $this->dbprefix != '')
+				? ' AND "NAME" LIKE \''.$this->escape_like_str($this->dbprefix).'%\' '.sprintf($this->_like_escape_str, $this->_like_escape_chr)
+				: '');
 	}
 
 	// --------------------------------------------------------------------
@@ -421,7 +296,8 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$table."'";
+		// Not supported
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -432,26 +308,35 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	protected function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return 'SELECT * FROM '.$table.' LIMIT 0,1';
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Error
+	 * The error message string
 	 *
-	 * Returns an array containing code and message of the last
-	 * database error that has occured.
-	 *
-	 * @return	array
+	 * @return	string
 	 */
-	public function error()
+	protected function _error_message()
 	{
-		return array('code' => '', 'message' => pg_last_error($this->conn_id));
+		return $this->conn_id->lastErrorMsg();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * The error message number
+	 *
+	 * @return	int
+	 */
+	protected function _error_number()
+	{
+		return $this->conn_id->lastErrorCode();
 	}
 
 	// --------------------------------------------------------------------
@@ -462,7 +347,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	array
+	 * @param	string
 	 * @return	string
 	 */
 	protected function _from_tables($tables)
@@ -472,65 +357,46 @@ class CI_DB_postgre_driver extends CI_DB {
 			$tables = array($tables);
 		}
 
-		return implode(', ', $tables);
+		return '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update statement
+	 * Replace statement
 	 *
-	 * Generates a platform-specific update string from the supplied data
+	 * Generates a platform-specific replace string from the supplied data
 	 *
 	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _replace($table, $keys, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		return 'INSERT OR '.parent::_replace($table, $keys, $values);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Delete statement
+	 * Truncate statement
 	 *
-	 * Generates a platform-specific delete string from the supplied data
+	 * Generates a platform-specific truncate string from the supplied data
+	 *
+	 * If the database does not support the truncate() command, then,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _truncate($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
+
 	/**
 	 * Limit string
 	 *
@@ -543,14 +409,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		$sql .= "LIMIT ".$limit;
-
-		if ($offset > 0)
-		{
-			$sql .= " OFFSET ".$offset;
-		}
-
-		return $sql;
+		return $sql.' LIMIT '.($offset ? $offset.',' : '').$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -558,15 +417,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
+	 * @param	object (ignored)
 	 * @return	void
 	 */
 	protected function _close($conn_id)
 	{
-		@pg_close($conn_id);
+		$this->conn_id->close();
 	}
 
 }
 
-/* End of file postgre_driver.php */
-/* Location: ./system/database/drivers/postgre/postgre_driver.php */
+/* End of file sqlite3_driver.php */
+/* Location: ./system/database/drivers/sqlite3/sqlite3_driver.php */
