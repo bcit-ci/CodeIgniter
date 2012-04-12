@@ -90,7 +90,7 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	object
 	 */
-	public function set_rules($field, $label = '', $rules = '')
+	public function set_rules($field, $label = '', $rules = '', $flash_error_messages = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -157,13 +157,14 @@ class CI_Form_validation {
 
 		// Build our master array
 		$this->_field_data[$field] = array(
-			'field'				=> $field,
-			'label'				=> $label,
-			'rules'				=> $rules,
-			'is_array'			=> $is_array,
-			'keys'				=> $indexes,
-			'postdata'			=> NULL,
-			'error'				=> ''
+			'field'					=> $field,
+			'label'					=> $label,
+			'rules'					=> $rules,
+			'is_array'				=> $is_array,
+			'keys'					=> $indexes,
+			'postdata'				=> NULL,
+			'error'					=> '',
+			'flash_error_messages' 	=> $flash_error_messages
 		);
 
 		return $this;
@@ -527,16 +528,20 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				if ( ! isset($this->_error_messages[$type]))
+				if ( ! isset($this->_error_messages[$type]) && ! isset($row['flash_error_messages'][$type]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($type)))
 					{
 						$line = 'The field was not set';
 					}
 				}
-				else
+				else if( ! isset($row['flash_error_messages'][$type]))
 				{
 					$line = $this->_error_messages[$type];
+				}
+				else
+				{
+					$line = $row['flash_error_messages'][$type];
 				}
 
 				// Build the error message
@@ -667,16 +672,20 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				if ( ! isset($this->_error_messages[$rule]))
+				if ( ! isset($this->_error_messages[$rule]) && ! isset($row['flash_error_messages'][$rule]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($rule)))
 					{
 						$line = 'Unable to access an error message corresponding to your field name.';
 					}
 				}
-				else
+				else if( ! isset($row['flash_error_messages'][$rule]))
 				{
 					$line = $this->_error_messages[$rule];
+				}
+				else
+				{
+					$line = $row['flash_error_messages'][$rule];
 				}
 
 				// Is the parameter we are inserting into the error message the name
