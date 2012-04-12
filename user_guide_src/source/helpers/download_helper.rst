@@ -46,9 +46,10 @@ force_download_large('filepath')
 
 Generates server headers and reads the file in chunks which force data to be downloaded
 to your desktop. Useful with large file downloads. The first parameter is the **filepath where 
-the file is on your local filesystem. It returns true if the download was successful. 
+the file is on your local filesystem**. It returns true if the download was successful. 
 Example
 
 ::
+
 	$filepath = "/var/www/test.iso";
 	force_download_large($filepath);
