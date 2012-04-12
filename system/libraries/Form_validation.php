@@ -204,8 +204,12 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	object
 	 */
-	public function set_message($lang, $val = '')
+	public function set_message($lang, $val = '', $name = FALSE)
 	{
+		if($name){
+			$lang = $name.'.'.$lang;
+		}
+
 		if ( ! is_array($lang))
 		{
 			$lang = array($lang => $val);
@@ -527,16 +531,20 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				if ( ! isset($this->_error_messages[$type]))
+				if ( ! isset($this->_error_messages[$type]) && ! isset($this->_error_messages[$row['field'].'.'.$type]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($type)))
 					{
 						$line = 'The field was not set';
 					}
 				}
-				else
+				else if (! isset($this->_error_messages[$row['field'].'.'.$type]))
 				{
 					$line = $this->_error_messages[$type];
+				}
+				else
+				{
+					$line = $this->_error_messages[$row['field'].'.'.$type];	
 				}
 
 				// Build the error message
@@ -667,16 +675,20 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				if ( ! isset($this->_error_messages[$rule]))
+				if ( ! isset($this->_error_messages[$rule]) && ! isset($this->_error_messages[$row['field'].'.'.$rule]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($rule)))
 					{
 						$line = 'Unable to access an error message corresponding to your field name.';
 					}
 				}
-				else
+				elseif (! isset($this->_error_messages[$row['field'].'.'.$rule]))
 				{
 					$line = $this->_error_messages[$rule];
+				}
+				else
+				{
+					$line = $this->_error_messages[$row['field'].'.'.$rule];
 				}
 
 				// Is the parameter we are inserting into the error message the name
