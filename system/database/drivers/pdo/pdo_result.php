@@ -92,7 +92,6 @@ class CI_DB_pdo_result extends CI_DB_result {
 			$res_handler = 'result_'.$type;
 
 			$this->$res_handler = array();
-			$this->_data_seek(0);
 
 			while ($row = $this->$res_method())
 			{
@@ -223,22 +222,6 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			$this->result_id = FALSE;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	bool
-	 */
-	protected function _data_seek($n = 0)
-	{
-		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
