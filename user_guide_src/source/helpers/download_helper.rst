@@ -51,5 +51,5 @@ Example
 
 ::
 
-	$filepath = "/var/www/test.iso";
+	$filepath = "/var/www/test.iso"; //large file
 	force_download_large($filepath);
