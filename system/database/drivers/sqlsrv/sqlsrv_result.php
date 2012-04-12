@@ -124,22 +124,6 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	void
-	 */
-	protected function _data_seek($n = 0)
-	{
-		// Not implemented
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
