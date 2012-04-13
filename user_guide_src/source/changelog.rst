@@ -210,7 +210,7 @@ Bug fixes for 3.0
 Version 2.1.1
 =============
 
-Release Date: November 14, 2011
+Release Date: Not Released
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
