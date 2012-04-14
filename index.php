@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -218,6 +218,7 @@ if (defined('ENVIRONMENT'))
 	{
 		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
 			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
@@ -233,6 +234,7 @@ if (defined('ENVIRONMENT'))
 	{
 		if ( ! is_dir(APPPATH.'views/'))
 		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 

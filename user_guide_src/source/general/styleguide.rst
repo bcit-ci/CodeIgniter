@@ -94,7 +94,7 @@ overly long and verbose names.
 
 	class Super_class {
 
-		function __construct()
+		public function __construct()
 		{
 
 		}
@@ -168,7 +168,6 @@ picked up by IDEs::
 	/**
 	 * Encodes string for use in XML
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
@@ -441,6 +440,13 @@ same level as the control statement that "owns" them.
 			// ...
 			}
 		}
+		
+	try {
+		// ...
+	}
+	catch() {
+		// ...
+	}
 
 **CORRECT**::
 
@@ -469,6 +475,15 @@ same level as the control statement that "owns" them.
 		{
 			// ...
 		}
+	}
+	
+	try 
+	{
+		// ...
+	}
+	catch()
+	{
+		// ...
 	}
 
 Bracket and Parenthetic Spacing

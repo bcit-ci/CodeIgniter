@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Exceptions Class
@@ -163,7 +161,7 @@ class CI_Exceptions {
 	 * @param	string	the error line number
 	 * @return	string
 	 */
-	function show_php_error($severity, $message, $filepath, $line)
+	public function show_php_error($severity, $message, $filepath, $line)
 	{
 		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 		$filepath = str_replace('\\', '/', $filepath);
