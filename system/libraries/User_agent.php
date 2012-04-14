@@ -224,6 +224,7 @@ class CI_User_agent {
 				{
 					$this->is_robot = TRUE;
 					$this->robot = $val;
+					$this->_set_mobile();
 					return TRUE;
 				}
 			}
