@@ -206,7 +206,7 @@ class CI_Form_validation {
 	 */
 	public function set_message($lang, $val = '', $name = FALSE)
 	{
-		if($name){
+		if($name !== FALSE){
 			$lang = $name.'.'.$lang;
 		}
 
