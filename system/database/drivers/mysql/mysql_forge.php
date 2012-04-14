@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -34,31 +34,7 @@
  */
 class CI_DB_mysql_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _create_database($name)
-	{
-		return 'CREATE DATABASE '.$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _drop_database($name)
-	{
-		return 'DROP DATABASE '.$name;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
 	/**
 	 * Process Fields
@@ -66,7 +42,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	private function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
@@ -138,7 +114,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -147,11 +123,11 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).' ('.$this->_process_fields($fields);
+		$sql .= $this->db->protect_identifiers($table).' ('.$this->_process_fields($fields);
 
 		if (count($primary_keys) > 0)
 		{
-			$key_name = $this->db->_protect_identifiers(implode('_', $primary_keys));
+			$key_name = $this->db->protect_identifiers(implode('_', $primary_keys));
 			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
 		}
 
@@ -161,12 +137,12 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->_protect_identifiers(implode('_', $key));
-					$key = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers(implode('_', $key));
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers($key);
 					$key = array($key_name);
 				}
 
@@ -175,19 +151,6 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		}
 
 		return $sql."\n) DEFAULT CHARACTER SET ".$this->db->char_set.' COLLATE '.$this->db->dbcollat.';';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop Table
-	 *
-	 * @param	string	table name
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE IF EXISTS '.$this->db->_escape_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -204,7 +167,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $fields, $after_field = '')
+	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -216,22 +179,6 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 
 		return $sql.$this->_process_fields($fields)
 			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }

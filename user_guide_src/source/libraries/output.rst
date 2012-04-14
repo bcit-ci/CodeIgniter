@@ -49,6 +49,15 @@ data, JPEG's, XML, etc easily.
 .. important:: Make sure any non-mime string you pass to this method
 	exists in config/mimes.php or it will have no effect.
 
+$this->output->get_content_type();
+==========================================
+
+Returns the Content-Type HTTP header that's currently in use.
+
+	$mime = $this->output->get_content_type();
+
+.. note:: If not set, the default return value is 'text/html'.
+
 $this->output->get_output();
 =============================
 
