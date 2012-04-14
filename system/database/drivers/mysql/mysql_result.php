@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -90,18 +90,14 @@ class CI_DB_mysql_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		while ($field = mysql_fetch_object($this->result_id))
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
-
-			$F		= new stdClass();
-			$F->name	= $field->Field;
-			$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-			$F->default	= $field->Default;
-			$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-			$F->primary_key = (int) ($field->Key === 'PRI');
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= mysql_field_name($this->result_id, $i);
+			$retval[$i]->type		= mysql_field_type($this->result_id, $i);
+			$retval[$i]->max_length		= mysql_field_len($this->result_id, $i);
+			$retval[$i]->primary_key	= (strpos(mysql_field_flags($this->result_id, $i), 'primary_key') === FALSE) ? 0 : 1;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -132,7 +128,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{

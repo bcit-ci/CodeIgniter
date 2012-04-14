@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Email Helpers
  *
@@ -42,7 +40,7 @@
 /**
  * Validate email address
  *
- * @access	public
+ * @param	string
  * @return	bool
  */
 if ( ! function_exists('valid_email'))
@@ -58,7 +56,9 @@ if ( ! function_exists('valid_email'))
 /**
  * Send an email
  *
- * @access	public
+ * @param	string
+ * @param	string
+ * @param	string
  * @return	bool
  */
 if ( ! function_exists('send_email'))

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -43,7 +43,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @mysqli_num_rows($this->result_id);
+		return $this->result_id->num_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -55,7 +55,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return @mysqli_num_fields($this->result_id);
+		return $this->result_id->field_count;
 	}
 
 	// --------------------------------------------------------------------
@@ -70,7 +70,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		while ($field = mysqli_fetch_field($this->result_id))
+		while ($field = $this->result_id->fetch_field())
 		{
 			$field_names[] = $field->name;
 		}
@@ -90,18 +90,15 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		while ($field = mysqli_fetch_object($this->result_id))
+		$field_data = $this->result_id->fetch_fields();
+		for ($i = 0, $c = count($field_data); $i < $c; $i++)
 		{
-			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
-
-			$F		= new stdClass();
-			$F->name	= $field->Field;
-			$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-			$F->default	= $field->Default;
-			$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-			$F->primary_key = (int) ($field->Key === 'PRI');
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $field_data[$i]->name;
+			$retval[$i]->type		= $field_data[$i]->type;
+			$retval[$i]->max_length		= $field_data[$i]->max_length;
+			$retval[$i]->primary_key	= (int) ($field_data[$i]->flags & 2);
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -118,7 +115,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		if (is_object($this->result_id))
 		{
-			mysqli_free_result($this->result_id);
+			$this->result_id->free();
 			$this->result_id = FALSE;
 		}
 	}
@@ -128,15 +125,15 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{
-		return mysqli_data_seek($this->result_id, $n);
+		return $this->result_id->data_seek($n);
 	}
 
 	// --------------------------------------------------------------------
@@ -150,7 +147,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return mysqli_fetch_assoc($this->result_id);
+		return $this->result_id->fetch_assoc();
 	}
 
 	// --------------------------------------------------------------------
@@ -164,7 +161,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		return mysqli_fetch_object($this->result_id);
+		return $this->result_id->fetch_object();
 	}
 
 }

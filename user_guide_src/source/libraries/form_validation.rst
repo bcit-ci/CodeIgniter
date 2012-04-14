@@ -123,7 +123,7 @@ this code and save it to your applications/controllers/ folder::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -218,7 +218,7 @@ Your controller should now look like this::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -319,7 +319,7 @@ password to MD5, and running the username through the "xss_clean"
 function, which removes malicious data.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, MD5, etc.**
+rule, like htmlspecialchars, trim, md5, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the original
@@ -530,7 +530,7 @@ Changing the Error Delimiters
 
 By default, the Form Validation class adds a paragraph tag (<p>) around
 each error message shown. You can either change these delimiters
-globally or individually.
+globally, individually, or change the defaults in a config file.
 
 #. **Changing delimiters Globally**
    To globally change the error delimiters, in your controller function,
@@ -549,6 +549,12 @@ globally or individually.
    Or::
 
       <?php echo validation_errors('<div class="error">', '</div>'); ?>
+
+#. **Set delimiters in a config file**
+   You can add your error delimiters in application/config/form_validation.php as follows::
+   
+      $config['error_prefix'] = '<div class="error_prefix">';
+      $config['error_suffix'] = '</div>';
 
 
 Showing Errors Individually
@@ -585,6 +591,29 @@ must supply it as an array to the function. Example::
 	<input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
 
 For more info please see the :ref:`using-arrays-as-field-names` section below.
+
+Validating an Array (other than $_POST)
+=======================================
+
+Sometimes you may want to validate an array that does not originate from $_POST data.
+
+In this case, you can specify the array to be validated::
+	
+	$data = array(
+			'username' => 'johndoe',
+			'password' => 'mypassword',
+		 	'passconf' => 'mypassword'
+		);
+
+	$this->form_validation->set_data($data);
+
+Creating validation rules, running the validation and retrieving error messages works the same whether you are
+validating $_POST data or an array.
+
+**Important Note:** If you want to validate more than one array during a single execution, then you should	
+call the reset_validation() function before setting up rules and validating the new array.
+
+For more info please see the :ref:`function-reference` section below.
 
 .. _saving-groups:
 
@@ -829,42 +858,49 @@ Rule Reference
 The following is a list of all the native rules that are available to
 use:
 
-======================= ========== ============================================================================================= =======================
-Rule                    Parameter  Description                                                                                   Example
-======================= ========== ============================================================================================= =======================
-**required**            No         Returns FALSE if the form element is empty.                                                                          
-**matches**             Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**is_unique**           Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                   table and field name in the parameter. is_unique[table.field]                                                        
-**max_length**          Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
-**exact_length**        Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
-**greater_than**        Yes        Returns FALSE if the form element is less than the parameter value or not numeric.            greater_than[8]        
-**less_than**           Yes        Returns FALSE if the form element is greater than the parameter value or not numeric.         less_than[8]           
-**alpha**               No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
-**alpha_numeric**       No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             
-**alpha_dash**          No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
-                                   underscores or dashes.                                                                                               
-**numeric**             No         Returns FALSE if the form element contains anything other than numeric characters.                                   
-**integer**             No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**             Yes        Returns FALSE if the form element is not exactly the parameter value.                                                
-**is_natural**          No         Returns FALSE if the form element contains anything other than a natural number:
-                                   0, 1, 2, 3, etc.
-**is_natural_no_zero**  No         Returns FALSE if the form element contains anything other than a natural
-                                   number, but not zero: 1, 2, 3, etc.
-**is_unique**           Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
-**valid_email**         No         Returns FALSE if the form element does not contain a valid email address.
-**valid_emails**        No         Returns FALSE if any value provided in a comma separated list is not a valid email.
-**valid_ip**            No         Returns FALSE if the supplied IP is not valid.
-**valid_base64**        No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
-======================= ========== ============================================================================================= =======================
+========================= ========== ============================================================================================= =======================
+Rule                      Parameter  Description                                                                                   Example
+========================= ========== ============================================================================================= =======================
+**required**              No         Returns FALSE if the form element is empty.                                                                          
+**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
+                                     table and field name in the parameter. is_unique[table.field]                                                        
+**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
+**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
+**greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
+                                     numeric.
+**greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
+                                     or not numeric.
+**less_than**             Yes        Returns FALSE if the form element is greater than or equal to the parameter value or          less_than[8]
+                                     not numeric.
+**less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
+                                     or not numeric.
+**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
+**alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             
+**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
+                                     underscores or dashes.                                                                                               
+**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
+**integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
+**is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
+                                     0, 1, 2, 3, etc.
+**is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
+                                     number, but not zero: 1, 2, 3, etc.
+**is_unique**             Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
+**valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
+**valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
+**valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+**valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
+========================= ========== ============================================================================================= =======================
 
 .. note:: These rules can also be called as discrete functions. For
 	example::
 
 		$this->form_validation->required($string);
 
-.. note:: You can also use any native PHP functions that permit one
-	parameter.
+.. note:: You can also use any native PHP functions that permit up
+	to two parameters, where at least one is required (to pass
+	the field data).
 
 ******************
 Prepping Reference
@@ -935,6 +971,33 @@ $this->form_validation->set_message();
 		:rtype: Object
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
+
+$this->form_validation->set_data();
+========================================
+	
+	.. php:method:: set_data ($data = '')
+
+		:param array $data: The data to validate
+
+		Permits you to set an array for validation, instead of using the default
+		$_POST array.
+
+$this->form_validation->reset_validation();
+===========================================
+
+ .. php:method:: reset_validation ()
+
+    Permits you to reset the validation when you validate more than one array.
+	This function should be called before validating each new array.
+
+$this->form_validation->error_array();
+========================================
+	
+	.. php:method:: error_array ()
+
+		:rtype: Array
+
+		Returns the error messages as an array.
 
 .. _helper-functions:
 
@@ -1017,4 +1080,3 @@ This function is identical to the **set_checkbox()** function above.
 
 	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
 	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
-
