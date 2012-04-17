@@ -43,7 +43,8 @@
 |	['password'] The password used to connect to the database
 |	['database'] The name of the database you want to connect to
 |	['dbdriver'] The database type. e.g.: mysql.  Currently supported:
-				 mysql, mysqli, pdo, postgre, odbc, mssql, sqlite, oci8
+				 cubrid, interbase, mssql, mysql, mysqli, oci8, odbc, 
+				 pdo, postgre, sqlite, sqlite3, sqlsrv
 |	['dbprefix'] You can add an optional prefix, which will be added
 |				 to the table name when using the  Active Record class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
