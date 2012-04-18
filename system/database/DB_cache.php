@@ -1,42 +1,45 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Database Cache Class
  *
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_Cache {
 
-	var $CI;
-	var $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
+	public $CI;
+	public $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
 
-	/**
-	 * Constructor
-	 *
-	 * Grabs the CI super object instance so we can access it.
-	 *
-	 */
-	function CI_DB_Cache(&$db)
+	public function __construct(&$db)
 	{
-		// Assign the main CI object to $this->CI
-		// and load the file helper since we use it a lot
+		// Assign the main CI object to $this->CI and load the file helper since we use it a lot
 		$this->CI =& get_instance();
 		$this->db =& $db;
 		$this->CI->load->helper('file');
@@ -47,11 +50,10 @@ class CI_DB_Cache {
 	/**
 	 * Set Cache Directory Path
 	 *
-	 * @access	public
 	 * @param	string	the path to the cache directory
 	 * @return	bool
 	 */
-	function check_path($path = '')
+	public function check_path($path = '')
 	{
 		if ($path == '')
 		{
@@ -64,7 +66,7 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
+		$path = preg_replace('/(.+?)\/*$/', '\\1/',  $path);
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
@@ -84,10 +86,9 @@ class CI_DB_Cache {
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function read($sql)
+	public function read($sql)
 	{
 		if ( ! $this->check_path())
 		{
@@ -95,9 +96,7 @@ class CI_DB_Cache {
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
-
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-
 		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
 
 		if (FALSE === ($cachedata = read_file($filepath)))
@@ -113,10 +112,9 @@ class CI_DB_Cache {
 	/**
 	 * Write a query to a cache file
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function write($sql, $object)
+	public function write($sql, $object)
 	{
 		if ( ! $this->check_path())
 		{
@@ -124,11 +122,8 @@ class CI_DB_Cache {
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
-
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
-
 		$filename = md5($sql);
 
 		if ( ! @is_dir($dir_path))
@@ -155,10 +150,9 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function delete($segment_one = '', $segment_two = '')
+	public function delete($segment_one = '', $segment_two = '')
 	{
 		if ($segment_one == '')
 		{
@@ -171,7 +165,6 @@ class CI_DB_Cache {
 		}
 
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
-
 		delete_files($dir_path, TRUE);
 	}
 
@@ -180,16 +173,14 @@ class CI_DB_Cache {
 	/**
 	 * Delete all existing cache files
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function delete_all()
+	public function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE);
+		delete_files($this->db->cachedir, TRUE, 0, TRUE);
 	}
 
 }
-
 
 /* End of file DB_cache.php */
 /* Location: ./system/database/DB_cache.php */

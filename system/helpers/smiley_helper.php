@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Smiley Helpers
@@ -21,7 +31,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/smiley_helper.html
  */
 
@@ -33,7 +43,6 @@
  * Returns the javascript required for the smiley insertion.  Optionally takes
  * an array of aliases to loosely couple the smiley array to the view.
  *
- * @access	public
  * @param	mixed	alias name or array of alias->field_id pairs
  * @param	string	field_id if alias name was passed in
  * @return	array
@@ -127,7 +136,6 @@ EOF;
  * Returns an array of image tag links that can be clicked to be inserted
  * into a form field.
  *
- * @access	public
  * @param	string	the URL to the folder containing the smiley images
  * @return	array
  */
@@ -181,7 +189,6 @@ if ( ! function_exists('get_clickable_smileys'))
  *
  * Takes a string as input and swaps any contained smileys for the actual image
  *
- * @access	public
  * @param	string	the text to be parsed
  * @param	string	the URL to the folder containing the smiley images
  * @return	string
@@ -222,23 +229,22 @@ if ( ! function_exists('parse_smileys'))
  *
  * Fetches the config/smiley.php file
  *
- * @access	private
  * @return	mixed
  */
 if ( ! function_exists('_get_smiley_array'))
 {
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
 		}
 		elseif (file_exists(APPPATH.'config/smileys.php'))
 		{
 			include(APPPATH.'config/smileys.php');
 		}
-		
-		if (isset($smileys) AND is_array($smileys))
+
+		if (isset($smileys) && is_array($smileys))
 		{
 			return $smileys;
 		}
@@ -256,7 +262,6 @@ if ( ! function_exists('_get_smiley_array'))
  *
  * DEPRECATED as of version 1.7.2, use smiley_js instead
  *
- * @access	public
  * @param	string	form name
  * @param	string	field name
  * @return	string
@@ -275,7 +280,6 @@ if ( ! function_exists('js_insert_smiley'))
 EOF;
 	}
 }
-
 
 /* End of file smiley_helper.php */
 /* Location: ./system/helpers/smiley_helper.php */

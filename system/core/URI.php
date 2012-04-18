@@ -1,16 +1,27 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
- * @filesource
  */
 
 // ------------------------------------------------------------------------
@@ -23,7 +34,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	URI
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
 class CI_URI {
@@ -32,62 +43,56 @@ class CI_URI {
 	 * List of cached uri segments
 	 *
 	 * @var array
-	 * @access public
 	 */
-	var	$keyval			= array();
+	public $keyval		= array();
 	/**
 	 * Current uri string
 	 *
 	 * @var string
-	 * @access public
 	 */
-	var $uri_string;
+	public $uri_string;
 	/**
 	 * List of uri segments
 	 *
 	 * @var array
-	 * @access public
 	 */
-	var $segments		= array();
+	public $segments	= array();
 	/**
 	 * Re-indexed list of uri segments
 	 * Starts at 1 instead of 0
 	 *
 	 * @var array
-	 * @access public
 	 */
-	var $rsegments		= array();
+	public $rsegments	= array();
 
 	/**
 	 * Constructor
 	 *
-	 * Simply globalizes the $RTR object.  The front
+	 * Simply globalizes the $RTR object. The front
 	 * loads the Router class early on so it's not available
 	 * normally as other classes are.
-	 *
-	 * @access	public
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
-		log_message('debug', "URI Class Initialized");
+		log_message('debug', 'URI Class Initialized');
 	}
-
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * Get the URI String
 	 *
-	 * @access	private
-	 * @return	string
+	 * Called by CI_Router
+	 *
+	 * @return	void
 	 */
-	function _fetch_uri_string()
+	public function _fetch_uri_string()
 	{
-		if (strtoupper($this->config->item('uri_protocol')) == 'AUTO')
+		if (strtoupper($this->config->item('uri_protocol')) === 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if (php_sapi_name() == 'cli' or defined('STDIN'))
+			if ($this->_is_cli_request())
 			{
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
@@ -103,14 +108,14 @@ class CI_URI {
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
 			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path != "/".SELF)
+			if (trim($path, '/') != '' && $path !== '/'.SELF)
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
 			if (trim($path, '/') != '')
 			{
 				$this->_set_uri_string($path);
@@ -118,7 +123,7 @@ class CI_URI {
 			}
 
 			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) == 1 && trim(key($_GET), '/') != '')
+			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
 			{
 				$this->_set_uri_string(key($_GET));
 				return;
@@ -131,12 +136,12 @@ class CI_URI {
 
 		$uri = strtoupper($this->config->item('uri_protocol'));
 
-		if ($uri == 'REQUEST_URI')
+		if ($uri === 'REQUEST_URI')
 		{
 			$this->_set_uri_string($this->_detect_uri());
 			return;
 		}
-		elseif ($uri == 'CLI')
+		elseif ($uri === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_cli_args());
 			return;
@@ -151,17 +156,16 @@ class CI_URI {
 	/**
 	 * Set the URI String
 	 *
-	 * @access	public
 	 * @param 	string
-	 * @return	string
+	 * @return	void
 	 */
-	function _set_uri_string($str)
+	public function _set_uri_string($str)
 	{
 		// Filter out control characters
 		$str = remove_invisible_characters($str, FALSE);
 
 		// If the URI contains only a slash we'll kill it
-		$this->uri_string = ($str == '/') ? '' : $str;
+		$this->uri_string = ($str === '/') ? '' : $str;
 	}
 
 	// --------------------------------------------------------------------
@@ -172,7 +176,6 @@ class CI_URI {
 	 * This function will detect the URI automatically and fix the query string
 	 * if necessary.
 	 *
-	 * @access	private
 	 * @return	string
 	 */
 	protected function _detect_uri()
@@ -211,7 +214,7 @@ class CI_URI {
 			$_GET = array();
 		}
 
-		if ($uri == '/' || empty($uri))
+		if ($uri == '/' OR empty($uri))
 		{
 			return '/';
 		}
@@ -223,19 +226,32 @@ class CI_URI {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Is cli Request?
+	 *
+	 * Duplicate of function from the Input class to test to see if a request was made from the command line
+	 *
+	 * @return 	boolean
+	 */
+	protected function _is_cli_request()
+	{
+		return (php_sapi_name() == 'cli') OR defined('STDIN');
+	}
+
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Parse cli arguments
 	 *
 	 * Take each command line argument and assume it is a URI segment.
 	 *
-	 * @access	private
 	 * @return	string
 	 */
 	protected function _parse_cli_args()
 	{
 		$args = array_slice($_SERVER['argv'], 1);
-
 		return $args ? '/' . implode('/', $args) : '';
 	}
 
@@ -244,27 +260,28 @@ class CI_URI {
 	/**
 	 * Filter segments for malicious characters
 	 *
-	 * @access	private
+	 * Called by CI_Router
+	 *
 	 * @param	string
 	 * @return	string
 	 */
-	function _filter_uri($str)
+	public function _filter_uri($str)
 	{
 		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
 		{
 			// preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards
 			// compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
-			if ( ! preg_match("|^[".str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-'))."]+$|i", $str))
+			if ( ! preg_match('|^['.str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-')).']+$|i', $str))
 			{
 				show_error('The URI you submitted has disallowed characters.', 400);
 			}
 		}
 
-		// Convert programatic characters to entities
-		$bad	= array('$',		'(',		')',		'%28',		'%29');
-		$good	= array('&#36;',	'&#40;',	'&#41;',	'&#40;',	'&#41;');
-
-		return str_replace($bad, $good, $str);
+		// Convert programatic characters to entities and return
+		return str_replace(
+					array('$',     '(',     ')',     '%28',   '%29'), // Bad
+					array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'), // Good
+					$str);
 	}
 
 	// --------------------------------------------------------------------
@@ -272,14 +289,15 @@ class CI_URI {
 	/**
 	 * Remove the suffix from the URL if needed
 	 *
-	 * @access	private
+	 * Called by CI_Router
+	 *
 	 * @return	void
 	 */
-	function _remove_url_suffix()
+	public function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') != "")
+		if  ($this->config->item('url_suffix') != '')
 		{
-			$this->uri_string = preg_replace("|".preg_quote($this->config->item('url_suffix'))."$|", "", $this->uri_string);
+			$this->uri_string = preg_replace('|'.preg_quote($this->config->item('url_suffix')).'$|', '', $this->uri_string);
 		}
 	}
 
@@ -289,12 +307,13 @@ class CI_URI {
 	 * Explode the URI Segments. The individual segments will
 	 * be stored in the $this->segments array.
 	 *
-	 * @access	private
+	 * Called by CI_Router
+	 *
 	 * @return	void
 	 */
-	function _explode_segments()
+	public function _explode_segments()
 	{
-		foreach (explode("/", preg_replace("|/*(.+?)/*$|", "\\1", $this->uri_string)) as $val)
+		foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
 		{
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));
@@ -311,14 +330,15 @@ class CI_URI {
 	 * Re-index Segments
 	 *
 	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather than 0.  Doing so makes it simpler to
+	 * starts at 1 rather than 0. Doing so makes it simpler to
 	 * use functions like $this->uri->segment(n) since there is
 	 * a 1:1 relationship between the segment array and the actual segments.
 	 *
-	 * @access	private
+	 * Called by CI_Router
+	 *
 	 * @return	void
 	 */
-	function _reindex_segments()
+	public function _reindex_segments()
 	{
 		array_unshift($this->segments, NULL);
 		array_unshift($this->rsegments, NULL);
@@ -333,12 +353,11 @@ class CI_URI {
 	 *
 	 * This function returns the URI segment based on the number provided.
 	 *
-	 * @access	public
 	 * @param	integer
 	 * @param	bool
 	 * @return	string
 	 */
-	function segment($n, $no_result = FALSE)
+	public function segment($n, $no_result = FALSE)
 	{
 		return ( ! isset($this->segments[$n])) ? $no_result : $this->segments[$n];
 	}
@@ -352,12 +371,11 @@ class CI_URI {
 	 * based on the number provided.  If there is no routing this function returns the
 	 * same result as $this->segment()
 	 *
-	 * @access	public
 	 * @param	integer
 	 * @param	bool
 	 * @return	string
 	 */
-	function rsegment($n, $no_result = FALSE)
+	public function rsegment($n, $no_result = FALSE)
 	{
 		return ( ! isset($this->rsegments[$n])) ? $no_result : $this->rsegments[$n];
 	}
@@ -380,25 +398,22 @@ class CI_URI {
 	 *			gender => male
 	 *		 )
 	 *
-	 * @access	public
 	 * @param	integer	the starting segment number
 	 * @param	array	an array of default values
 	 * @return	array
 	 */
-	function uri_to_assoc($n = 3, $default = array())
+	public function uri_to_assoc($n = 3, $default = array())
 	{
 		return $this->_uri_to_assoc($n, $default, 'segment');
 	}
 	/**
 	 * Identical to above only it uses the re-routed segment array
 	 *
-	 * @access 	public
 	 * @param 	integer	the starting segment number
 	 * @param 	array	an array of default values
 	 * @return 	array
-	 *
 	 */
-	function ruri_to_assoc($n = 3, $default = array())
+	public function ruri_to_assoc($n = 3, $default = array())
 	{
 		return $this->_uri_to_assoc($n, $default, 'rsegment');
 	}
@@ -408,25 +423,13 @@ class CI_URI {
 	/**
 	 * Generate a key value pair from the URI string or Re-routed URI string
 	 *
-	 * @access	private
 	 * @param	integer	the starting segment number
 	 * @param	array	an array of default values
 	 * @param	string	which array we should use
 	 * @return	array
 	 */
-	function _uri_to_assoc($n = 3, $default = array(), $which = 'segment')
+	protected function _uri_to_assoc($n = 3, $default = array(), $which = 'segment')
 	{
-		if ($which == 'segment')
-		{
-			$total_segments = 'total_segments';
-			$segment_array = 'segment_array';
-		}
-		else
-		{
-			$total_segments = 'total_rsegments';
-			$segment_array = 'rsegment_array';
-		}
-
 		if ( ! is_numeric($n))
 		{
 			return $default;
@@ -437,23 +440,28 @@ class CI_URI {
 			return $this->keyval[$n];
 		}
 
+		if ($which === 'segment')
+		{
+			$total_segments = 'total_segments';
+			$segment_array = 'segment_array';
+		}
+		else
+		{
+			$total_segments = 'total_rsegments';
+			$segment_array = 'rsegment_array';
+		}
+
 		if ($this->$total_segments() < $n)
 		{
-			if (count($default) == 0)
+			if (count($default) === 0)
 			{
 				return array();
 			}
 
-			$retval = array();
-			foreach ($default as $val)
-			{
-				$retval[$val] = FALSE;
-			}
-			return $retval;
+			return array_fill_keys($default, FALSE);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
-
 		$i = 0;
 		$lastval = '';
 		$retval  = array();
@@ -494,11 +502,10 @@ class CI_URI {
 	 * Generate a URI string from an associative array
 	 *
 	 *
-	 * @access	public
 	 * @param	array	an associative array of key/values
 	 * @return	array
 	 */
-	function assoc_to_uri($array)
+	public function assoc_to_uri($array)
 	{
 		$temp = array();
 		foreach ((array)$array as $key => $val)
@@ -515,12 +522,11 @@ class CI_URI {
 	/**
 	 * Fetch a URI Segment and add a trailing slash
 	 *
-	 * @access	public
 	 * @param	integer
 	 * @param	string
 	 * @return	string
 	 */
-	function slash_segment($n, $where = 'trailing')
+	public function slash_segment($n, $where = 'trailing')
 	{
 		return $this->_slash_segment($n, $where, 'segment');
 	}
@@ -530,12 +536,11 @@ class CI_URI {
 	/**
 	 * Fetch a URI Segment and add a trailing slash
 	 *
-	 * @access	public
 	 * @param	integer
 	 * @param	string
 	 * @return	string
 	 */
-	function slash_rsegment($n, $where = 'trailing')
+	public function slash_rsegment($n, $where = 'trailing')
 	{
 		return $this->_slash_segment($n, $where, 'rsegment');
 	}
@@ -545,22 +550,20 @@ class CI_URI {
 	/**
 	 * Fetch a URI Segment and add a trailing slash - helper function
 	 *
-	 * @access	private
 	 * @param	integer
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	function _slash_segment($n, $where = 'trailing', $which = 'segment')
+	protected function _slash_segment($n, $where = 'trailing', $which = 'segment')
 	{
-		$leading	= '/';
-		$trailing	= '/';
+		$leading = $trailing = '/';
 
-		if ($where == 'trailing')
+		if ($where === 'trailing')
 		{
 			$leading	= '';
 		}
-		elseif ($where == 'leading')
+		elseif ($where === 'leading')
 		{
 			$trailing	= '';
 		}
@@ -573,10 +576,9 @@ class CI_URI {
 	/**
 	 * Segment Array
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function segment_array()
+	public function segment_array()
 	{
 		return $this->segments;
 	}
@@ -586,10 +588,9 @@ class CI_URI {
 	/**
 	 * Routed Segment Array
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function rsegment_array()
+	public function rsegment_array()
 	{
 		return $this->rsegments;
 	}
@@ -599,10 +600,9 @@ class CI_URI {
 	/**
 	 * Total number of segments
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
-	function total_segments()
+	public function total_segments()
 	{
 		return count($this->segments);
 	}
@@ -612,10 +612,9 @@ class CI_URI {
 	/**
 	 * Total number of routed segments
 	 *
-	 * @access	public
 	 * @return	integer
 	 */
-	function total_rsegments()
+	public function total_rsegments()
 	{
 		return count($this->rsegments);
 	}
@@ -625,10 +624,9 @@ class CI_URI {
 	/**
 	 * Fetch the entire URI string
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function uri_string()
+	public function uri_string()
 	{
 		return $this->uri_string;
 	}
@@ -639,16 +637,14 @@ class CI_URI {
 	/**
 	 * Fetch the entire Re-routed URI string
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function ruri_string()
+	public function ruri_string()
 	{
 		return '/'.implode('/', $this->rsegment_array());
 	}
 
 }
-// END URI Class
 
 /* End of file URI.php */
 /* Location: ./system/core/URI.php */

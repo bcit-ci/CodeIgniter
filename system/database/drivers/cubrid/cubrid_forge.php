@@ -2,18 +2,28 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		Esen Sagynov
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CUBRID Forge Class
@@ -24,51 +34,21 @@
  */
 class CI_DB_cubrid_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _create_database($name)
-	{
-		// CUBRID does not allow to create a database in SQL. The GUI tools
-		// have to be used for this purpose.
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @access	private
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	function _drop_database($name)
-	{
-		// CUBRID does not allow to drop a database in SQL. The GUI tools
-		// have to be used for this purpose.
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= FALSE;
+	protected $_drop_database	= FALSE;
 
 	/**
 	 * Process Fields
 	 *
-	 * @access	private
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
@@ -81,11 +61,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t\"" . $this->db->_protect_identifiers($field) . "\"";
+				$sql .= "\n\t\"".$this->db->protect_identifiers($field).'"';
 
 				if (array_key_exists('NAME', $attributes))
 				{
-					$sql .= ' '.$this->db->_protect_identifiers($attributes['NAME']).' ';
+					$sql .= ' '.$this->db->protect_identifiers($attributes['NAME']).' ';
 				}
 
 				if (array_key_exists('TYPE', $attributes))
@@ -160,15 +140,14 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @access	private
 	 * @param	string	the table name
 	 * @param	mixed	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -178,17 +157,14 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			// As of version 8.4.0 CUBRID does not support this SQL syntax.
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
-
-		$sql .= $this->_process_fields($fields);
+		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields);
 
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
 		{
-			$key_name = "pk_" . $table . "_" .
-				$this->db->_protect_identifiers(implode('_', $primary_keys));
-			
-			$primary_keys = $this->db->_protect_identifiers($primary_keys);
+			$key_name = 'pk_'.$table.'_'.$this->db->protect_identifiers(implode('_', $primary_keys));
+
+			$primary_keys = $this->db->protect_identifiers($primary_keys);
 			$sql .= ",\n\tCONSTRAINT " . $key_name . " PRIMARY KEY(" . implode(', ', $primary_keys) . ")";
 		}
 
@@ -198,15 +174,15 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->_protect_identifiers(implode('_', $key));
-					$key = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers(implode('_', $key));
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->_protect_identifiers($key);
+					$key_name = $this->db->protect_identifiers($key);
 					$key = array($key_name);
 				}
-				
+
 				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ")";
 			}
 		}
@@ -219,66 +195,34 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _drop_table($table)
-	{
-		return "DROP TABLE IF EXISTS ".$this->db->_escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	the column name
 	 * @param	array	fields
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
-	function _alter_table($alter_type, $table, $fields, $after_field = '')
+	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table)." $alter_type ";
+		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
 		// DROP has everything it needs now.
 		if ($alter_type == 'DROP')
 		{
-			return $sql.$this->db->_protect_identifiers($fields);
+			return $sql.$this->db->protect_identifiers($fields);
 		}
 
 		$sql .= $this->_process_fields($fields);
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}
 
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @access	private
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	function _rename_table($table_name, $new_table_name)
-	{
-		$sql = 'RENAME TABLE '.$this->db->_protect_identifiers($table_name)." AS ".$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 

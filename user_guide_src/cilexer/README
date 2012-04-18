@@ -1,0 +1,22 @@
+To install the CodeIgniter Lexer to Pygments, run:
+
+	sudo python setup.py install
+
+Confirm with
+
+	pygmentize -L
+	
+
+You should see in the lexer output:
+
+* ci, codeigniter:
+    CodeIgniter (filenames *.html, *.css, *.php, *.xml, *.static)
+
+You will need to run setup.py and install the cilexer package anytime after cilexer/cilexer.py is updated
+
+NOTE: Depending on how you installed Sphinx and Pygments,
+you may be installing to the wrong version. 
+If you need to install to a different version of python
+specify its path when using setup.py, e.g.:
+
+	sudo /usr/bin/python2.5 setup.py install

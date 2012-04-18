@@ -1,0 +1,172 @@
+{%- block doctype -%}
+<!DOCTYPE html>
+{%- endblock %}
+{%- set reldelim1 = reldelim1 is not defined and ' &rsaquo;' or reldelim1 %}
+{%- set reldelim2 = reldelim2 is not defined and ' |' or reldelim2 %}
+{%- set url_root = pathto('', 1) %}
+{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
+{% set project_abbreviation = 'ee' %}{% set project_domain = 'expressionengine.com' %}
+{%- if project == 'ExpressionEngine' %}{% set project_abbreviation = 'ee' %}{% set project_domain = 'expressionengine.com' %}{% endif -%}
+{%- if project == 'CodeIgniter' %}{% set project_abbreviation = 'ci' %}{% set project_domain = 'codeigniter.com' %}{% endif -%}
+{%- if project == 'MojoMotor' %}{% set project_abbreviation = 'mm' %}{% set project_domain = 'mojomotor.com' %}{% endif -%}
+
+<html>
+	<head>
+		<meta charset="{{ encoding }}">
+	    {{ metatags }}
+	    {%- if not embedded and docstitle %}
+	      {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
+	    {%- else %}
+	      {%- set titlesuffix = "" %}
+	    {%- endif %}
+	    {%- block htmltitle %}
+	    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
+	    {%- endblock %}
+
+	    <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+	    <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+	    {%- for cssfile in css_files %}
+	    <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
+	    {%- endfor %}
+	
+    {%- if not embedded %}
+	    <script type="text/javascript">
+	      var DOCUMENTATION_OPTIONS = {
+	        URL_ROOT:    '{{ url_root }}',
+	        VERSION:     '{{ release|e }}',
+	        COLLAPSE_INDEX: false,
+	        FILE_SUFFIX: '{{ '' if no_search_suffix else file_suffix }}',
+	        HAS_SOURCE:  {{ has_source|lower }}
+	      };
+	    </script>
+	    {%- for scriptfile in script_files %}
+	    <script type="text/javascript" src="{{ pathto(scriptfile, 1) }}"></script>
+	    {%- endfor %}
+
+	    {%- if favicon %}
+	    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+	    {%- endif %}
+	{%- endif %}
+	
+	{%- block linktags %}
+	    {%- if hasdoc('about') %}
+	    <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
+	    {%- endif %}
+	    {%- if hasdoc('genindex') %}
+	    <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+	    {%- endif %}
+	    {%- if hasdoc('search') %}
+	    <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+	    {%- endif %}
+	    {%- if hasdoc('copyright') %}
+	    <link rel="copyright" title="{{ _('Copyright') }}" href="{{ pathto('copyright') }}" />
+	    {%- endif %}
+	    <link rel="top" title="{{ docstitle|e }}" href="{{ pathto('index') }}" />
+	    {%- if parents %}
+	    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
+	    {%- endif %}
+	    {%- if next %}
+	    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+	    {%- endif %}
+	    {%- if prev %}
+	    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+	    {%- endif %}
+	{%- endblock %}
+		{%- block extrahead %} {% endblock %}
+	</head>
+	<body>
+	{%- block content %}
+		<div id="table-contents">
+			<div class="toctree-wrapper compound">
+			{{ toctree(collapse=true) }}
+			</div>
+		</div>
+
+		<div id="brand" class="{{ project_abbreviation }}">
+			<a href="http://{{ project_domain }}/"><img src="{{ pathto('_static/asset/img/' + project_abbreviation + '-logo.gif', 1) }}" alt="{{ project }}"></a>
+			<p>{{ release }} User Guide</p>
+			{%- if show_source and has_source and sourcename %}
+		    <p><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
+			           rel="nofollow">{{ _('Show Source') }}</a></p>
+			{%- endif %}
+		</div><!-- /#brand -->
+
+		<div id="header">
+			<form method="get" action="http://www.google.com/search">
+				<fieldset>
+					<input type="text" name="q" id="q" value="">
+					<input type="hidden" name="as_sitesearch" id="as_sitesearch" value="{{ project_domain }}/user_guide/" />
+					<input class="grades" type="submit" value="search">
+				</fieldset>
+			</form>
+			<ul>
+				{%- block rootrellink %}
+				<li><a href="{{ pathto(master_doc) }}">Home</a>&nbsp;&nbsp;{{ reldelim1 }}</li>
+				<li><a id="toc-link" href="{{ pathto(master_doc) }}">Table of Contents</a>&nbsp;&nbsp;{{ reldelim1 }}</li>
+				{%- endblock %}
+				
+				{%- for parent in parents %}
+				<li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>&nbsp;&nbsp; {{ reldelim1 }}</li>
+		        {%- endfor %}
+
+				<li><strong>{{ title }}</strong></li>
+			</ul>
+		</div><!-- /#header -->
+
+		<div class="section" id="content">
+			{{ body }}
+		</div>
+	{%- endblock %}
+
+		{% if pagename not in exclude_comments -%}
+		<!-- {user_guide_comments} -->
+		{% endif %}
+	
+	{%- block footer %}			
+		<div id="footer">
+			<p class="top">
+				{% if prev %}
+				<span class="prev">Previous Topic: <a href="{{ prev.link }}">{{ prev.title }}</a></span>
+				{% endif %}
+				{% if next %}
+				<span class="next">Next Topic: <a href="{{ next.link }}">{{ next.title }}</a></span>
+				{% endif %}
+				<a href="#header" title="Return to top">Return to top</a>
+			</p>
+			<p><a href="{{ project_url }}">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a> &ndash; Last updated: {{ last_updated }}</p>
+		</div><!-- /#footer -->
+	{%- endblock %}
+	
+	<script src="{{ pathto('_static/asset/js/jquery-ui-min.js', 1) }}" type="text/javascript" charset="utf-8" async></script>
+	<script type="text/javascript" charset="utf-8">
+		$('#toc-link').click(function(){
+			$('#table-contents').animate({ left: '0' },1000);
+			return false;
+		});
+		$('html').click(function(){
+			if ($('#table-contents').css("left") == '0px'){
+				$('#table-contents').animate({ left: '-520' },1000);
+			}
+		});
+		$('#table-contents').click(function(event){
+			event.stopPropagation();
+		});
+/*		$('*:not(#table-contents,#toc-link)').click(function(){
+			if ($('#table-contents').css("left") == '0px'){
+				$('#table-contents').animate({ left: '-520' },1000);
+			}
+		});
+/*		$("#toc-link").click(function () {
+			$('#table-contents').show("slide", { direction: "left" }, 100);
+			event.stopPropagation();
+			return false;
+		});
+		$('*:not(#table-contents,#toc-link)').click(function () {
+			if ($('#table-contents').is(":visible")) {
+				$('#table-contents').hide("slide", { direction: "left" }, 100);
+				event.stopPropagation();	
+			}
+		}); */
+	</script>
+	</body>
+</html>

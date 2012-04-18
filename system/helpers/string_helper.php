@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter String Helpers
@@ -21,7 +31,7 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/string_helper.html
  */
 
@@ -38,7 +48,6 @@
  *
  * this/that/theother
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -57,7 +66,6 @@ if ( ! function_exists('trim_slashes'))
  *
  * Removes slashes contained in a string or in an array
  *
- * @access	public
  * @param	mixed	string or array
  * @return	mixed	string or array
  */
@@ -88,7 +96,6 @@ if ( ! function_exists('strip_slashes'))
  *
  * Removes single and double quotes from a string
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -107,7 +114,6 @@ if ( ! function_exists('strip_quotes'))
  *
  * Converts single and double quotes to entities
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -133,7 +139,6 @@ if ( ! function_exists('quotes_to_entities'))
  *
  * http://www.some-site.com/index.php
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -141,7 +146,7 @@ if ( ! function_exists('reduce_double_slashes'))
 {
 	function reduce_double_slashes($str)
 	{
-		return preg_replace("#(^|[^:])//+#", "\\1/", $str);
+		return preg_replace('#(^|[^:])//+#', '\\1/', $str);
 	}
 }
 
@@ -158,7 +163,6 @@ if ( ! function_exists('reduce_double_slashes'))
  *
  * Fred, Bill, Joe, Jimmy
  *
- * @access	public
  * @param	string
  * @param	string	the character you wish to reduce
  * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
@@ -172,7 +176,7 @@ if ( ! function_exists('reduce_multiples'))
 
 		if ($trim === TRUE)
 		{
-			$str = trim($str, $character);
+			return trim($str, $character);
 		}
 
 		return $str;
@@ -186,9 +190,8 @@ if ( ! function_exists('reduce_multiples'))
  *
  * Useful for generating passwords or hashes.
  *
- * @access	public
  * @param	string	type of random string.  basic, alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
- * @param	integer	number of characters
+ * @param	int	number of characters
  * @return	string
  */
 if ( ! function_exists('random_string'))
@@ -215,9 +218,9 @@ if ( ! function_exists('random_string'))
 						case 'nozero'	:	$pool = '123456789';
 							break;
 					}
-					
+
 					$str = substr(str_shuffle(str_repeat($pool, ceil($len/strlen($pool)))),0,$len);
-					
+
 					return $str;
 				break;
 			case 'unique'	:
@@ -242,16 +245,19 @@ if ( ! function_exists('random_string'))
 /**
  * Add's _1 to a string or increment the ending number to allow _2, _3, etc
  *
- * @param   string  $str  required
- * @param   string  $separator  What should the duplicate number be appended with
- * @param   string  $first  Which number should be used for the first dupe increment
- * @return  string
+ * @param	string	required
+ * @param	string	What should the duplicate number be appended with
+ * @param	string	Which number should be used for the first dupe increment
+ * @return	string
  */
-function increment_string($str, $separator = '_', $first = 1)
+if ( ! function_exists('increment_string'))
 {
-	preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
+	function increment_string($str, $separator = '_', $first = 1)
+	{
+		preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
 
-	return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+		return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -259,9 +265,8 @@ function increment_string($str, $separator = '_', $first = 1)
 /**
  * Alternator
  *
- * Allows strings to be alternated.  See docs...
+ * Allows strings to be alternated. See docs...
  *
- * @access	public
  * @param	string (as many parameters as needed)
  * @return	string
  */
@@ -286,19 +291,17 @@ if ( ! function_exists('alternator'))
 /**
  * Repeater function
  *
- * @access	public
  * @param	string
- * @param	integer	number of repeats
+ * @param	int	number of repeats
  * @return	string
  */
 if ( ! function_exists('repeater'))
 {
 	function repeater($data, $num = 1)
 	{
-		return (($num > 0) ? str_repeat($data, $num) : '');
+		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }
-
 
 /* End of file string_helper.php */
 /* Location: ./system/helpers/string_helper.php */

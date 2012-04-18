@@ -1,13 +1,25 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
@@ -24,20 +36,17 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class CI_Controller {
 
 	private static $instance;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		self::$instance =& $this;
-		
+
 		// Assign all the class objects that were instantiated by the
 		// bootstrap file (CodeIgniter.php) to local class variables
 		// so that CI can run as one big super object.
@@ -47,10 +56,8 @@ class CI_Controller {
 		}
 
 		$this->load =& load_class('Loader', 'core');
-
 		$this->load->initialize();
-		
-		log_message('debug', "Controller Class Initialized");
+		log_message('debug', 'Controller Class Initialized');
 	}
 
 	public static function &get_instance()
@@ -58,7 +65,6 @@ class CI_Controller {
 		return self::$instance;
 	}
 }
-// END Controller class
 
 /* End of file Controller.php */
 /* Location: ./system/core/Controller.php */
