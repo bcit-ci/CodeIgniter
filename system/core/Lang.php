@@ -51,6 +51,9 @@ class CI_Lang {
 	 */
 	public $is_loaded	= array();
 
+	/**
+	 * Initialize language class
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Language Class Initialized');

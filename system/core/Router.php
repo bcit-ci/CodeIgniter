@@ -211,7 +211,6 @@ class CI_Router {
 	 * input, and sets the current class/method
 	 *
 	 * @param	array
-	 * @param	bool
 	 * @return	void
 	 */
 	protected function _set_request($segments = array())

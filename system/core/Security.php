@@ -102,6 +102,9 @@ class CI_Security {
 						'Redirect\s+302'
 					);
 
+	/**
+	 * Initialize security class
+	 */
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
@@ -558,8 +561,8 @@ class CI_Security {
 	 * Callback function for xss_clean() to remove whitespace from
 	 * things like j a v a s c r i p t
 	 *
-	 * @param	type
-	 * @return	type
+	 * @param	array
+	 * @return	string
 	 */
 	protected function _compact_exploded_words($matches)
 	{
@@ -568,8 +571,8 @@ class CI_Security {
 
 	// --------------------------------------------------------------------
 
-	/*
-	 * Remove Evil HTML Attributes (like evenhandlers and style)
+	/**
+	 * Remove Evil HTML Attributes (like event handlers and style)
 	 *
 	 * It removes the evil attribute and either:
 	 * 	- Everything up until a space
