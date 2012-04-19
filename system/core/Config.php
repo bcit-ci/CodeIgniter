@@ -46,12 +46,14 @@ class CI_Config {
 	 * @var array
 	 */
 	public $config = array();
+	
 	/**
 	 * List of all loaded config files
 	 *
 	 * @var array
 	 */
 	public $is_loaded = array();
+	
 	/**
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.

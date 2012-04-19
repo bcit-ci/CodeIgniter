@@ -50,35 +50,35 @@ class CI_Output {
 	 *
 	 * @var int
 	 */
-	public $cache_expiration	= 0;
+	public $cache_expiration = 0;
 	
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
-	public $headers			= array();
+	public $headers = array();
 	
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
-	public $mime_types		= array();
+	public $mime_types = array();
 	
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
-	public $enable_profiler		= FALSE;
+	public $enable_profiler = FALSE;
 	
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
-	protected $_zlib_oc		= FALSE;
+	protected $_zlib_oc = FALSE;
 	
 	/**
 	 * List of profiler sections
@@ -92,7 +92,7 @@ class CI_Output {
 	 *
 	 * @var bool
 	 */
-	public $parse_exec_vars		= TRUE;
+	public $parse_exec_vars = TRUE;
 
 	/**
 	 * Set up Output class
