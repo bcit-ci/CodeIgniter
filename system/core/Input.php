@@ -430,7 +430,7 @@ class CI_Input {
 			'CFG',
 			'URI',
 			'RTR',
-			'OUT'
+			'OUT',
 			'IN'
 		);
 
