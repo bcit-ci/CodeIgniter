@@ -36,12 +36,6 @@
  */
 class CI_Exceptions {
 
-	public $action;
-	public $severity;
-	public $message;
-	public $filename;
-	public $line;
-
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
@@ -69,6 +63,9 @@ class CI_Exceptions {
 				E_STRICT		=>	'Runtime Notice'
 			);
 
+	/**
+	 * Initialize execption class
+	 */
 	public function __construct()
 	{
 		$this->ob_level = ob_get_level();

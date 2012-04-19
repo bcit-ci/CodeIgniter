@@ -138,7 +138,6 @@ class CI_Loader {
 	 *
 	 * This method is called once in CI_Controller.
 	 *
-	 * @param 	array
 	 * @return 	object
 	 */
 	public function initialize()
@@ -1123,7 +1122,6 @@ class CI_Loader {
 	 * The config/autoload.php file contains an array that permits sub-systems,
 	 * libraries, and helpers to be loaded automatically.
 	 *
-	 * @param	array
 	 * @return	void
 	 */
 	protected function _ci_autoloader()

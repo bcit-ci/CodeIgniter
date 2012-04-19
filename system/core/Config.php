@@ -188,7 +188,6 @@ class CI_Config {
 	/**
 	 * Fetch a config file item
 	 *
-	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name
 	 * @param	bool

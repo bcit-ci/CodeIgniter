@@ -41,8 +41,16 @@
  */
 class CI_Controller {
 
+	/**
+	 * Reference to the global CI instance
+	 *
+	 * @var object
+	 */
 	private static $instance;
 
+	/**
+	 * Set up controller properties and methods
+	 */
 	public function __construct()
 	{
 		self::$instance =& $this;
@@ -60,6 +68,11 @@ class CI_Controller {
 		log_message('debug', 'Controller Class Initialized');
 	}
 
+	/**
+	 * Return the CI object 
+	 *
+	 * @return object
+	 */
 	public static function &get_instance()
 	{
 		return self::$instance;
