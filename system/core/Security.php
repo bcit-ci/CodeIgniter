@@ -41,14 +41,14 @@ class CI_Security {
 	 *
 	 * @var string
 	 */
-	protected $_xss_hash			= '';
+	protected $_xss_hash = '';
 
 	/**
 	 * Random Hash for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_hash			= '';
+	protected $_csrf_hash = '';
 
 	/**
 	 * Expiration time for Cross Site Request Forgery Protection Cookie
@@ -56,21 +56,21 @@ class CI_Security {
 	 *
 	 * @var int
 	 */
-	protected $_csrf_expire			= 7200;
+	protected $_csrf_expire = 7200;
 
 	/**
 	 * Token name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_token_name		= 'ci_csrf_token';
+	protected $_csrf_token_name = 'ci_csrf_token';
 
 	/**
 	 * Cookie name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_cookie_name		= 'ci_csrf_token';
+	protected $_csrf_cookie_name = 'ci_csrf_token';
 
 	/**
 	 * List of never allowed strings
@@ -78,17 +78,17 @@ class CI_Security {
 	 * @var array
 	 */
 	protected $_never_allowed_str = array(
-						'document.cookie'	=> '[removed]',
-						'document.write'	=> '[removed]',
-						'.parentNode'		=> '[removed]',
-						'.innerHTML'		=> '[removed]',
-						'window.location'	=> '[removed]',
-						'-moz-binding'		=> '[removed]',
-						'<!--'				=> '&lt;!--',
-						'-->'				=> '--&gt;',
-						'<![CDATA['			=> '&lt;![CDATA[',
-						'<comment>'			=> '&lt;comment&gt;'
-					);
+		'document.cookie'	=> '[removed]',
+		'document.write'	=> '[removed]',
+		'.parentNode'		=> '[removed]',
+		'.innerHTML'		=> '[removed]',
+		'window.location'	=> '[removed]',
+		'-moz-binding'		=> '[removed]',
+		'<!--'				=> '&lt;!--',
+		'-->'				=> '--&gt;',
+		'<![CDATA['			=> '&lt;![CDATA[',
+		'<comment>'			=> '&lt;comment&gt;'
+	);
 
 	/**
 	 * List of never allowed regex replacement
@@ -96,11 +96,11 @@ class CI_Security {
 	 * @var array
 	 */
 	protected $_never_allowed_regex = array(
-						'javascript\s*:',
-						'expression\s*(\(|&\#40;)', // CSS and IE
-						'vbscript\s*:', // IE, surprise!
-						'Redirect\s+302'
-					);
+		'javascript\s*:',
+		'expression\s*(\(|&\#40;)', // CSS and IE
+		'vbscript\s*:', // IE, surprise!
+		'Redirect\s+302'
+	);
 
 	/**
 	 * Initialize security class
@@ -365,9 +365,9 @@ class CI_Security {
 		 * These words are compacted back to their correct state.
 		 */
 		$words = array(
-				'javascript', 'expression', 'vbscript', 'script',
-				'applet', 'alert', 'document', 'write', 'cookie', 'window'
-			);
+			'javascript', 'expression', 'vbscript', 'script',
+			'applet', 'alert', 'document', 'write', 'cookie', 'window'
+		);
 
 		foreach ($words as $word)
 		{
@@ -525,23 +525,23 @@ class CI_Security {
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
 		$bad = array(
-				'../', '<!--', '-->', '<', '>',
-				"'", '"', '&', '$', '#',
-				'{', '}', '[', ']', '=',
-				';', '?', '%20', '%22',
-				'%3c',		// <
-				'%253c',	// <
-				'%3e',		// >
-				'%0e',		// >
-				'%28',		// (
-				'%29',		// )
-				'%2528',	// (
-				'%26',		// &
-				'%24',		// $
-				'%3f',		// ?
-				'%3b',		// ;
-				'%3d'		// =
-			);
+			'../', '<!--', '-->', '<', '>',
+			"'", '"', '&', '$', '#',
+			'{', '}', '[', ']', '=',
+			';', '?', '%20', '%22',
+			'%3c',		// <
+			'%253c',	// <
+			'%3e',		// >
+			'%0e',		// >
+			'%28',		// (
+			'%29',		// )
+			'%2528',	// (
+			'%26',		// &
+			'%24',		// $
+			'%3f',		// ?
+			'%3b',		// ;
+			'%3d'		// =
+		);
 
 		if ( ! $relative_path)
 		{
