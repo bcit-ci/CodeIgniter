@@ -335,7 +335,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Start the Query Timer
-		$time_start = list($sm, $ss) = explode(' ', microtime());
+		$time_start = microtime(TRUE);
 
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
@@ -370,12 +370,12 @@ abstract class CI_DB_driver {
 		}
 
 		// Stop and aggregate the query time results
-		$time_end = list($em, $es) = explode(' ', microtime());
-		$this->benchmark += ($em + $es) - ($sm + $ss);
+		$time_end = microtime(TRUE);
+		$this->benchmark += $time_end - $time_start;
 
 		if ($this->save_queries == TRUE)
 		{
-			$this->query_times[] = ($em + $es) - ($sm + $ss);
+			$this->query_times[] = $time_end - $time_start;
 		}
 
 		// Increment the query counter
