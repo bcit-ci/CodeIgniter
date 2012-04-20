@@ -36,8 +36,16 @@
  */
 class CI_Cache_file extends CI_Driver {
 
+	/**
+	 * Directory in which to save cache files
+	 *
+	 * @var string
+	 */
 	protected $_cache_path;
 
+	/**
+	 * Initialize file-based cache
+	 */
 	public function __construct()
 	{
 		$CI =& get_instance();
@@ -86,10 +94,10 @@ class CI_Cache_file extends CI_Driver {
 	public function save($id, $data, $ttl = 60)
 	{
 		$contents = array(
-				'time'		=> time(),
-				'ttl'		=> $ttl,
-				'data'		=> $data
-			);
+			'time'		=> time(),
+			'ttl'		=> $ttl,
+			'data'		=> $data
+		);
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
