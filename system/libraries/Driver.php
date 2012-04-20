@@ -39,11 +39,27 @@
  */
 class CI_Driver_Library {
 
-	protected $valid_drivers	= array();
+	/**
+	 * Array of drivers that are available to use with the driver class
+	 *
+	 * @var array
+	 */
+	protected $valid_drivers = array();
+	
+	/**
+	 * Name of the current class - usually the driver class
+	 *
+	 * @var string
+	 */
 	protected static $lib_name;
 
-	// The first time a child is used it won't exist, so we instantiate it
-	// subsequents calls will go straight to the proper child.
+	/**
+	 * The first time a child is used it won't exist, so we instantiate it
+	 * subsequents calls will go straight to the proper child.
+	 *
+	 * @param mixed $child
+	 * @return mixed
+	 */
 	public function __get($child)
 	{
 		if ( ! isset($this->lib_name))
@@ -100,6 +116,8 @@ class CI_Driver_Library {
 
 }
 
+// --------------------------------------------------------------------------
+
 /**
  * CodeIgniter Driver Class
  *
@@ -114,11 +132,32 @@ class CI_Driver_Library {
  */
 class CI_Driver {
 
+	/**
+	 * Instance of the parent class
+	 *
+	 * @var object
+	 */
 	protected $_parent;
 
+	/**
+	 * List of methods in the parent class
+	 *
+	 * @var array
+	 */
 	protected $_methods = array();
+	
+	/**
+	 * List of properties in the parent class
+	 *
+	 * @var array
+	 */
 	protected $_properties = array();
 
+	/**
+	 * Array of methods and properties for the parent class(es)
+	 *
+	 * @var array
+	 */
 	protected static $_reflections = array();
 
 	/**
