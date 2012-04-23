@@ -40,7 +40,7 @@
 /**
  * CodeIgniter Version
  *
- * @var string
+ * @var	string
  *
  */
 	define('CI_VERSION', '3.0-dev');

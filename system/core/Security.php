@@ -41,14 +41,14 @@ class CI_Security {
 	 *
 	 * @var string
 	 */
-	protected $_xss_hash = '';
+	protected $_xss_hash =	'';
 
 	/**
 	 * Random Hash for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_hash = '';
+	protected $_csrf_hash =	'';
 
 	/**
 	 * Expiration time for Cross Site Request Forgery Protection Cookie
@@ -56,28 +56,28 @@ class CI_Security {
 	 *
 	 * @var int
 	 */
-	protected $_csrf_expire = 7200;
+	protected $_csrf_expire =	7200;
 
 	/**
 	 * Token name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_token_name = 'ci_csrf_token';
+	protected $_csrf_token_name =	'ci_csrf_token';
 
 	/**
 	 * Cookie name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 */
-	protected $_csrf_cookie_name = 'ci_csrf_token';
+	protected $_csrf_cookie_name =	'ci_csrf_token';
 
 	/**
 	 * List of never allowed strings
 	 *
 	 * @var array
 	 */
-	protected $_never_allowed_str = array(
+	protected $_never_allowed_str =	array(
 		'document.cookie'	=> '[removed]',
 		'document.write'	=> '[removed]',
 		'.parentNode'		=> '[removed]',
@@ -95,7 +95,7 @@ class CI_Security {
 	 *
 	 * @var array
 	 */
-	protected $_never_allowed_regex = array(
+	protected $_never_allowed_regex =	array(
 		'javascript\s*:',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!

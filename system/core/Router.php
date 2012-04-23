@@ -50,35 +50,35 @@ class CI_Router {
 	 *
 	 * @var array
 	 */
-	public $routes = array();
+	public $routes =	array();
 	
 	/**
 	 * List of error routes
 	 *
 	 * @var array
 	 */
-	public $error_routes = array();
+	public $error_routes =	array();
 	
 	/**
 	 * Current class name
 	 *
 	 * @var string
 	 */
-	public $class = '';
+	public $class =	'';
 	
 	/**
 	 * Current method name
 	 *
 	 * @var string
 	 */
-	public $method = 'index';
+	public $method =	'index';
 	
 	/**
 	 * Sub-directory that contains the requested controller class
 	 *
 	 * @var string
 	 */
-	public $directory = '';
+	public $directory =	'';
 	
 	/**
 	 * Default controller (and method if specific)
