@@ -101,7 +101,7 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 		
-		//Clean output buffer
+		// Clean output buffer
 		ob_clean();
 
 		// Generate the server headers
