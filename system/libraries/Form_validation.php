@@ -348,7 +348,7 @@ class CI_Form_validation {
 			}
 
 			// Is there a validation rule for the particular URI being accessed?
-			$uri = ($group == '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
+			$uri = ($group == '') ? $this->CI->uri->rsegment(1) . '/' .$this->CI->uri->rsegment(2) : $group;
 
 			if ($uri != '' && isset($this->_config_rules[$uri]))
 			{
