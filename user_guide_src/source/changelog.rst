@@ -207,6 +207,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
 -  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
+-  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 
 Version 2.1.1
 =============
