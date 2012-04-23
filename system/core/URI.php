@@ -42,7 +42,7 @@ class CI_URI {
 	 *
 	 * @var array
 	 */
-	public $keyval = array();
+	public $keyval =	array();
 	
 	/**
 	 * Current uri string
@@ -56,7 +56,7 @@ class CI_URI {
 	 *
 	 * @var array
 	 */
-	public $segments = array();
+	public $segments =	array();
 	
 	/**
 	 * Re-indexed list of uri segments
@@ -64,7 +64,7 @@ class CI_URI {
 	 *
 	 * @var array
 	 */
-	public $rsegments = array();
+	public $rsegments =	array();
 
 	/**
 	 * Constructor

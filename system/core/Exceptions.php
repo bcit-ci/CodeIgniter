@@ -39,14 +39,14 @@ class CI_Exceptions {
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
-	 * @var int
+	 * @var	int
 	 */
 	public $ob_level;
 
 	/**
 	 * List if available error levels
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $levels = array(
 		E_ERROR			=>	'Error',
