@@ -47,6 +47,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected static $_default_config = array(
 		'host' => '127.0.0.1',
+		'password' => null,
 		'port' => 6379,
 		'timeout' => 0
 	);
@@ -205,6 +206,10 @@ class CI_Cache_redis extends CI_Driver
 		catch (RedisException $e)
 		{
 			show_error('Redis connection refused. ' . $e->getMessage());
+		}
+
+		if (isset($config['password'])) {
+			$this->_redis->auth($config['password']);
 		}
 	}
 
