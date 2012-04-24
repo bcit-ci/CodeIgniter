@@ -251,7 +251,7 @@ class CI_Session {
 			/* Are we in a multi-session scenario? If so, set whether the current
 			 * session id is allowed to be updated.
 			 */
-			 if($this->sess_use_multisessions)
+			 if ($this->sess_use_multisessions)
 			 {
 			 	// Load the php session based on the current session id.
 				$this->_get_multi_session($session['session_id']);
@@ -262,7 +262,7 @@ class CI_Session {
 				 * or if this session is no longer allowed to update and has exired.
 				 *  If so, kill it.
 				 */
-				if(!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_multisession_expiration) > $this->now))
+				if (!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_multisession_expiration) > $this->now))
 				{
 					$this->sess_destroy();
 					
@@ -364,7 +364,7 @@ class CI_Session {
 			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
 			
 			//Are we using multiple sessions?
-			if($this->sess_use_multisessions)
+			if ($this->sess_use_multisessions)
 			{
 				/* Setup the php session to store information on whether
 				 * or not the session can be updated
@@ -395,7 +395,7 @@ class CI_Session {
 		}
 
 		// We only allow sessions to update if they are allowed
-		if($this->sess_use_database && $this->sess_use_multisessions && $this->prevent_update)
+		if ($this->sess_use_database && $this->sess_use_multisessions && $this->prevent_update)
 		{
 			return;
 		}
@@ -459,7 +459,7 @@ class CI_Session {
 
 
 			//Are we allowing multiple sessions?
-			if($this->sess_use_multisessions)
+			if ($this->sess_use_multisessions)
 			{
 				//Set the session as no longer allowing updates
 				$_SESSION['prevent_update'] = 1;
@@ -905,10 +905,10 @@ class CI_Session {
 		 */
 		 
 		//Don't allow cookies for the php session
-	 	ini_set("session.use_cookies", '0');
-		ini_set("session.use_only_cookies", '0');
+	 	ini_set('session.use_cookies', '0');
+		ini_set('session.use_only_cookies', '0');
 		//Make sure that we clean up old sessions in a timely fashion
-		ini_set("session.gc_maxlifetime", ($this->sess_multisession_expiration + 10));
+		ini_set('session.gc_maxlifetime', ($this->sess_multisession_expiration + 10));
 		
 		//Start a session using our internally generated session id
 		session_id($session_id);
