@@ -761,7 +761,7 @@ class CI_Email {
 	{
 		if ($this->alt_message != '')
 		{
-			return ($this->wordwrap) ? $this->word_wrap($this->alt_message) : $this->alt_messasge;
+			return ($this->wordwrap) ? $this->word_wrap($this->alt_message) : $this->alt_message;
 		}
 
 		$body = (preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match)) ? $match[1] : $this->_body;
