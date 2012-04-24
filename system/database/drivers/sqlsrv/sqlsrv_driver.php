@@ -440,7 +440,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.$where;
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
 	}
 
 	// --------------------------------------------------------------------
