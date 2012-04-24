@@ -367,11 +367,12 @@ class CI_Email {
 	 * @return	object
 	 */
 	public function subject($subject)
-    {
-    	$subject = '=?UTF-8?B?'.base64_encode($subject).'?=';
-    	parent::_set_header('Subject', $subject);
+	{
+		$subject = '=?UTF-8?B?'.base64_encode($subject).'?=';
+		$this->_set_header('Subject', $subject);
 		return $this;
-    }
+	}
+
 
 	// --------------------------------------------------------------------
 
