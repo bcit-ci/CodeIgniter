@@ -760,14 +760,7 @@ class CI_Email {
 	{
 		if ($this->alt_message != '')
 		{
-			if ($this->wordwrap === TRUE)
-			{
-				return $this->word_wrap($this->alt_message);
-			}
-			else
-			{
-				return $this->alt_message;
-			}
+			return ($this->wordwrap) ? $this->word_wrap($this->alt_message) : $this->alt_messasge;
 		}
 
 		$body = (preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match)) ? $match[1] : $this->_body;
@@ -778,14 +771,7 @@ class CI_Email {
 			$body = str_replace(str_repeat("\n", $i), "\n\n", $body);
 		}
 
-		if ($this->wordwrap === TRUE)
-		{
-			return $this->word_wrap($body);
-		}
-		else
-		{
-			return $body;
-		}
+		return ($this->wordwrap) ? $this->word_wrap($body) : $body;
 	}
 
 
