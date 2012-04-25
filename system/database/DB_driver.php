@@ -130,12 +130,17 @@ abstract class CI_DB_driver {
 						$this->$key = $val;
 					}
 
+					// Run pre hook
+					$this->_hook_db_connect_pre();
+					
 					// Try to connect
 					$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 					// If a connection is made break the foreach loop
 					if ($this->conn_id)
 					{
+						// Run post hook
+						$this->_hook_db_connect_post();
 						break;
 					}
 				}
@@ -337,6 +342,9 @@ abstract class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = microtime(TRUE);
 
+		// Run pre hook
+		$this->_hook_query_pre($sql);
+		
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
 		{
@@ -381,6 +389,9 @@ abstract class CI_DB_driver {
 		// Increment the query counter
 		$this->query_count++;
 
+		// Run post hook
+		$this->_hook_query_post($sql);
+		
 		// Was the query a "write" type?
 		// If so we'll simply return true
 		if ($this->is_write_type($sql) === TRUE)
@@ -470,7 +481,15 @@ abstract class CI_DB_driver {
 			$this->initialize();
 		}
 
-		return $this->_execute($sql);
+		// Run pre hook
+		$this->_hook_query_pre($sql);
+		
+		$ret = $this->_execute($sql);
+		
+		//Run post hook
+		$this->_hook_query_post($sql);
+		
+		return $ret;
 	}
 
 	// --------------------------------------------------------------------
@@ -1386,10 +1405,51 @@ abstract class CI_DB_driver {
 	 *
 	 * @return	void
 	 */
+	 
+	 
 	protected function _reset_select()
 	{
 	}
+	
+	/**
+	 * Overridable hook method that is executed immediately BEFORE db connect
+	 * 	
+	 * @return	void
+	 */
+	public function _hook_db_connect_pre()
+	{		
+	}
+	
+	/**
+	 * Overridable hook method that is executed immediately AFTER successful db connect
+	 * 	
+	 * @return	void
+	 */
+	public function _hook_db_connect_post() 
+	{		
+	}
+	
+	/**
+	 * Overridable method that is executed immediately BEFORE query
+	 * Note: This method is NOT called in the event of query cache
+	 * 	
+	 * @param	string	An SQL query string
+	 * @return	void
+	 */
+	public function _hook_query_pre($sql) 
+	{
+	}
 
+	/**
+	 * Overridable method that is executed immediately AFTER successful query
+	 * Note: This method is NOT called in the event of query cache
+	 * 
+	 * @param	string	An SQL query string
+	 * @return	void
+	 */
+	public function _hook_db_connect_post($sql) 
+	{		
+	}
 }
 
 /* End of file DB_driver.php */
