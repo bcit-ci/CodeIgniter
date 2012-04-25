@@ -99,7 +99,7 @@ The function returns FALSE (boolean) if there are no items in the POST.
 
 ::
 
-	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter 
+	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 	$this->input->post(); // returns all POST items without XSS filter
 
 $this->input->get()
@@ -119,9 +119,9 @@ The function returns FALSE (boolean) if there are no items in the GET.
 
 ::
 
-	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter 
+	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 	$this->input->get(); // returns all GET items without XSS filtering
-	
+
 
 $this->input->get_post()
 =========================
@@ -298,3 +298,13 @@ see if PHP is being run on the command line.
 
 	$this->input->is_cli_request()
 
+$this->input->method();
+=====================================
+
+Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (default lowercase).
+
+::
+
+	echo $this->input->method(TRUE); // Outputs: POST
+	echo $this->input->method(FALSE); // Outputs: post
+	echo $this->input->method(); // Outputs: post
