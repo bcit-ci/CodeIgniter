@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,21 +25,25 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
- * Database Utility Class
+ * Database Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_forge {
+abstract class CI_DB_forge {
 
 	public $fields		= array();
 	public $keys		= array();
 	public $primary_keys	= array();
 	public $db_char_set	=	'';
+
+	// Platform specific SQL strings
+	protected $_create_database	= 'CREATE DATABASE %s';
+	protected $_drop_database	= 'DROP DATABASE %s';
+	protected $_drop_table		= 'DROP TABLE IF EXISTS %s';
+	protected $_rename_table	= 'ALTER TABLE %s RENAME TO %s';
 
 	public function __construct()
 	{
@@ -59,8 +63,16 @@ class CI_DB_forge {
 	 */
 	public function create_database($db_name)
 	{
-		$sql = $this->_create_database($db_name);
-		return is_bool($sql) ? $sql : $this->db->query($sql);
+		if ($this->_create_database === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		}
+		elseif ( ! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
+		}
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -73,8 +85,21 @@ class CI_DB_forge {
 	 */
 	public function drop_database($db_name)
 	{
-		$sql = $this->_drop_database($db_name);
-		return is_bool($sql) ? $sql : $this->db->query($sql);
+		if ($db_name == '')
+		{
+			show_error('A table name is required for that operation.');
+			return FALSE;
+		}
+		elseif ($this->_drop_database === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		}
+		elseif ( ! $this->db->query(sprintf($this->_drop_database, $db_name)))
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
+		}
+
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -197,8 +222,16 @@ class CI_DB_forge {
 	 */
 	public function drop_table($table_name)
 	{
-		$sql = $this->_drop_table($this->db->dbprefix.$table_name);
-		return is_bool($sql) ? $sql : $this->db->query($sql);
+		if ($table_name == '')
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
+		}
+		elseif ($this->_drop_table === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		}
+
+		return $this->db->query(sprintf($this->_drop_table, $this->db->escape_identifiers($this->db->dbprefix.$table_name)));
 	}
 
 	// --------------------------------------------------------------------
@@ -215,9 +248,17 @@ class CI_DB_forge {
 		if ($table_name == '' OR $new_table_name == '')
 		{
 			show_error('A table name is required for that operation.');
+			return FALSE;
+		}
+		elseif ($this->_rename_table === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		return $this->db->query($this->_rename_table($this->db->dbprefix.$table_name, $this->db->dbprefix.$new_table_name));
+		return $this->db->query(sprintf($this->_rename_table,
+						$this->db->escape_identifiers($this->db->dbprefix.$table_name),
+						$this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
+					);
 	}
 
 	// --------------------------------------------------------------------

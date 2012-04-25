@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -47,11 +47,17 @@ class CI_DB_result {
 	public $num_rows			= 0;
 	public $row_data			= NULL;
 
+	public function __construct(&$driver_object)
+	{
+		$this->conn_id = $driver_object->conn_id;
+		$this->result_id = $driver_object->result_id;
+	}
+
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array
+	 * @return	object
 	 */
 	public function result($type = 'object')
 	{
@@ -102,9 +108,9 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Query result.  "object" version.
+	 * Query result. "object" version.
 	 *
-	 * @return	object
+	 * @return	array
 	 */
 	public function result_object()
 	{
@@ -218,7 +224,7 @@ class CI_DB_result {
 			return;
 		}
 
-		if ($key != '' AND ! is_null($value))
+		if ($key != '' && ! is_null($value))
 		{
 			$this->row_data[$key] = $value;
 		}
@@ -239,7 +245,7 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
@@ -260,7 +266,7 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
@@ -283,14 +289,13 @@ class CI_DB_result {
 			return $result;
 		}
 
-		if ($n != $this->current_row AND isset($result[$n]))
+		if ($n != $this->current_row && isset($result[$n]))
 		{
 			$this->current_row = $n;
 		}
 
 		return $result[$this->current_row];
 	}
-
 
 	// --------------------------------------------------------------------
 
@@ -368,9 +373,9 @@ class CI_DB_result {
 	/**
 	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
-	 * is used.  When caching is enabled we do not load the other driver.
+	 * is used. When caching is enabled we do not load the other driver.
 	 * These functions are primarily here to prevent undefined function errors
-	 * when a cached result object is in use.  They are not otherwise fully
+	 * when a cached result object is in use. They are not otherwise fully
 	 * operational due to the unavailability of the database resource IDs with
 	 * cached results.
 	 */
@@ -378,8 +383,8 @@ class CI_DB_result {
 	public function num_fields() { return 0; }
 	public function list_fields() { return array(); }
 	public function field_data() { return array(); }
-	public function free_result() { return TRUE; }
-	protected function _data_seek() { return TRUE; }
+	public function free_result() { $this->result_id = FALSE; }
+	protected function _data_seek() { return FALSE; }
 	protected function _fetch_assoc() { return array(); }
 	protected function _fetch_object() { return array(); }
 

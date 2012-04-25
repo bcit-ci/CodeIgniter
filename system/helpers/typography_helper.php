@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Typography Helpers
  *
@@ -42,7 +40,6 @@
 /**
  * Convert newlines to HTML line breaks except within PRE tags
  *
- * @access	public
  * @param	string
  * @return	string
  */
@@ -61,8 +58,6 @@ if ( ! function_exists('nl2br_except_pre'))
 /**
  * Auto Typography Wrapper Function
  *
- *
- * @access	public
  * @param	string
  * @param	bool	whether to allow javascript event handlers
  * @param	bool	whether to reduce multiple instances of double newlines to two
@@ -86,7 +81,6 @@ if ( ! function_exists('auto_typography'))
  *
  * This function is a replacement for html_entity_decode()
  *
- * @access	public
  * @param	string
  * @param	string
  * @return	string
