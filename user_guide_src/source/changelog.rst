@@ -29,6 +29,7 @@ Release Date: Not Released
    -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added Romanian and Greek characters in foreign_characters.php
    -  Updated support for doc files in mimes.php.
    -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
    -  Changed logger to only chmod when file is first created.
