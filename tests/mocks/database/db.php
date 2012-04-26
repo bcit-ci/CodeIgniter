@@ -45,19 +45,18 @@ class Mock_Database_DB {
 		);
 
 		$config = array_merge($this->config[$group], $params);
+		$dsnstring = ( ! empty($config['dsn'])) ? $config['dsn'] : FALSE;
+		$pdodriver = ( ! empty($config['pdodriver'])) ? $config['pdodriver'] : FALSE;
+		$failover = ( ! empty($config['failover'])) ? $config['failover'] : FALSE;
 
-		if ( ! empty($config['dsn']))
-		{
-			$dsn = $config['dsn'];
-		}
-		else
-		{
-			$dsn = $config['dbdriver'].'://'.$config['username'].':'.$config['password']
+		$dsn = $config['dbdriver'].'://'.$config['username'].':'.$config['password']
 			       .'@'.$config['hostname'].'/'.$config['database'];
 
-		}
-
+		// Build the parameter
 		$other_params = array_slice($config, 6);
+		if ($dsnstring) $other_params['dsn'] = $dsnstring;
+		if ($pdodriver) $other_params['pdodriver'] = $pdodriver;
+		if ($failover) $other_params['failover'] = $failover;
 
 		return $dsn.'?'.http_build_query($other_params);
 	}

@@ -43,28 +43,28 @@ class CI_Input {
 	 *
 	 * @var string
 	 */
-	public $ip_address = FALSE;
+	public $ip_address =	FALSE;
 	
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
 	 * @var string
 	 */
-	public $user_agent = FALSE;
+	public $user_agent =	FALSE;
 	
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
 	 * @var bool
 	 */
-	protected $_allow_get_array = TRUE;
+	protected $_allow_get_array =	TRUE;
 	
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
-	protected $_standardize_newlines = TRUE;
+	protected $_standardize_newlines =	TRUE;
 	
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
@@ -72,7 +72,7 @@ class CI_Input {
 	 *
 	 * @var bool
 	 */
-	protected $_enable_xss = FALSE;
+	protected $_enable_xss =	FALSE;
 	
 	/**
 	 * Enables a CSRF cookie token to be set.
@@ -80,14 +80,14 @@ class CI_Input {
 	 *
 	 * @var bool
 	 */
-	protected $_enable_csrf = FALSE;
+	protected $_enable_csrf =	FALSE;
 	
 	/**
 	 * List of all HTTP request headers
 	 *
 	 * @var array
 	 */
-	protected $headers = array();
+	protected $headers =	array();
 
 	/**
 	 * Constructor

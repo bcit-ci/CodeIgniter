@@ -1891,6 +1891,7 @@ class CI_Email {
 						'tiff'	=>	'image/tiff',
 						'tif'	=>	'image/tiff',
 						'css'	=>	'text/css',
+						'ics'	=>	'text/calendar',
 						'html'	=>	'text/html',
 						'htm'	=>	'text/html',
 						'shtml'	=>	'text/html',
