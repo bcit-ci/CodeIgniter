@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+env:
+  - DB=mysql
+  - DB=pgsql
+  - DB=sqlite
+
+before_script:
+  - pyrus channel-discover pear.php-tools.net
+  - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.2.tgz
+  - phpenv rehash
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
+
+script: phpunit --configuration tests/travis/$DB.phpunit.xml
+
+branches:
+  only:
+    - develop
+    - master

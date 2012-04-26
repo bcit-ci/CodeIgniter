@@ -123,7 +123,7 @@ this code and save it to your applications/controllers/ folder::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -219,7 +219,7 @@ Your controller should now look like this::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -321,7 +321,7 @@ password to MD5, and running the username through the "xss_clean"
 function, which removes malicious data.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, MD5, etc.**
+rule, like htmlspecialchars, trim, md5, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the original
@@ -523,7 +523,7 @@ Changing the Error Delimiters
 
 By default, the Form Validation class adds a paragraph tag (<p>) around
 each error message shown. You can either change these delimiters
-globally or individually.
+globally, individually, or change the defaults in a config file.
 
 #. **Changing delimiters Globally**
    To globally change the error delimiters, in your controller function,
@@ -542,6 +542,12 @@ globally or individually.
    Or::
 
       <?php echo validation_errors('<div class="error">', '</div>'); ?>
+
+#. **Set delimiters in a config file**
+   You can add your error delimiters in application/config/form_validation.php as follows::
+   
+      $config['error_prefix'] = '<div class="error_prefix">';
+      $config['error_suffix'] = '</div>';
 
 
 Showing Errors Individually
@@ -602,7 +608,7 @@ call the reset_validation() function before setting up rules and validating the 
 
 For more info please see the :ref:`function-reference` section below.
 
--.. _saving-groups:
+.. _saving-groups:
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -869,7 +875,7 @@ Rule                      Parameter  Description                                
                                      underscores or dashes.                                                                                               
 **numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
 **integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               Yes        Returns FALSE if the form element is not exactly the parameter value.                                                
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
@@ -886,8 +892,9 @@ Rule                      Parameter  Description                                
 
 		$this->form_validation->required($string);
 
-.. note:: You can also use any native PHP functions that permit one
-	parameter.
+.. note:: You can also use any native PHP functions that permit up
+	to two parameters, where at least one is required (to pass
+	the field data).
 
 ******************
 Prepping Reference
@@ -970,7 +977,7 @@ $this->form_validation->set_data();
 		$_POST array.
 
 $this->form_validation->reset_validation();
-========================================
+===========================================
 
  .. php:method:: reset_validation ()
 

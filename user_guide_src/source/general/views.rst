@@ -49,7 +49,7 @@ replace the echo statement with the view loading function::
 	<?php
 	class Blog extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->view('blogview');
 		}
@@ -74,14 +74,14 @@ might look something like this::
 
 	class Page extends CI_Controller {
 
-	   function index()
-	   {
-	      $data['page_title'] = 'Your title';
-	      $this->load->view('header');
-	      $this->load->view('menu');
-	      $this->load->view('content', $data);
-	      $this->load->view('footer');
-	   }
+		public function index()
+		{
+			$data['page_title'] = 'Your title';
+			$this->load->view('header');
+			$this->load->view('menu');
+			$this->load->view('content', $data);
+			$this->load->view('footer');
+		}
 
 	}
 	?>
@@ -126,7 +126,7 @@ Let's try it with your controller file. Open it add this code::
 	<?php
 	class Blog extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$data['title'] = "My Real Title";
 			$data['heading'] = "My Real Heading";
@@ -164,7 +164,7 @@ Here's a simple example. Add this to your controller::
 	<?php
 	class Blog extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$data['todo_list'] = array('Clean House', 'Call Mom', 'Run Errands');
 

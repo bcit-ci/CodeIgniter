@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -34,31 +34,7 @@
  */
 class CI_DB_mysql_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _create_database($name)
-	{
-		return 'CREATE DATABASE '.$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	string
-	 */
-	public function _drop_database($name)
-	{
-		return 'DROP DATABASE '.$name;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
 	/**
 	 * Process Fields
@@ -66,7 +42,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	private function _process_fields($fields)
+	protected function _process_fields($fields)
 	{
 		$current_field_count = 0;
 		$sql = '';
@@ -138,7 +114,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -180,19 +156,6 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @param	string	table name
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE IF EXISTS '.$this->db->protect_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -204,7 +167,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $fields, $after_field = '')
+	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
@@ -216,22 +179,6 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 
 		return $sql.$this->_process_fields($fields)
 			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }

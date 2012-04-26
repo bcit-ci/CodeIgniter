@@ -1,8 +1,8 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -89,5 +89,5 @@ $config['migration_version'] = 0;
 */
 $config['migration_path'] = APPPATH . 'migrations/';
 
-
 /* End of file migration.php */
+/* Location: ./application/config/migration.php */

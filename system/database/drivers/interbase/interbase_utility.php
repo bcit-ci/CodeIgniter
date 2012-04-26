@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Interbase/Firebird Utility Class
  *
@@ -36,56 +34,7 @@
  */
 class CI_DB_interbase_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * I don't believe you can do a database listing with Firebird
-	 * since each database is its own file.  I suppose we could
-	 * try reading a directory looking for Firebird files, but
-	 * that doesn't seem like a terribly good idea
-	 *
-	 * @return	bool
-	 */
-	public function _list_databases()
-	{
-		if ($this->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Is optimization even supported in Interbase/Firebird?
-	 *
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	public function _optimize_table($table)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Table repairs are not supported in Interbase/Firebird
-	 *
-	 * @param	string	the table name
-	 * @return	object
-	 */
-	public function _repair_table($table)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= FALSE;
 
 	/**
 	 * Interbase/Firebird Export
@@ -93,22 +42,20 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 	 * @param	string	$filename
 	 * @return	mixed
 	 */
-	public function backup($filename)
+	protected function backup($filename)
 	{
 		if ($service = ibase_service_attach($this->db->hostname, $this->db->username, $this->db->password))
 		{
 			$res = ibase_backup($service, $this->db->database, $filename.'.fbk');
-			
-			//Close the service connection	
+
+			// Close the service connection
 			ibase_service_detach($service);
-			
 			return $res;
 		}
-		else
-		{
-			return FALSE;
-		}
+
+		return FALSE;
 	}
+
 }
 
 /* End of file interbase_utility.php */

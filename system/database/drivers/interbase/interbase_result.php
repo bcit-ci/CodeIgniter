@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Interbase/Firebird Result Class
  *
@@ -43,18 +41,18 @@ class CI_DB_interbase_result extends CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @return	integer
+	 * @return	int
 	 */
 	public function num_rows()
 	{
-		if( ! is_null($this->num_rows))
+		if (is_int($this->num_rows))
 		{
 			return $this->num_rows;
 		}
-		
-		//Get the results so that you can get an accurate rowcount
+
+		// Get the results so that you can get an accurate rowcount
 		$this->result();
-		
+
 		return $this->num_rows;
 	}
 
@@ -63,7 +61,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	integer
+	 * @return	int
 	 */
 	public function num_fields()
 	{
@@ -102,20 +100,17 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		
 		$retval = array();
-		for ($i = 0, $num_fields = $this->num_fields(); $i < $num_fields; $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$info = ibase_field_info($this->result_id, $i);
-		
-			$F				= new stdClass();
-			$F->name		= $info['name'];
-			$F->type		= $info['type'];
-			$F->max_length	= $info['length'];
-			$F->primary_key = 0;
-			$F->default		= '';
 
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $info['name'];
+			$retval[$i]->type		= $info['type'];
+			$retval[$i]->max_length		= $info['length'];
+			$retval[$i]->primary_key	= 0;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -126,31 +121,11 @@ class CI_DB_interbase_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	null
+	 * @return	void
 	 */
 	public function free_result()
 	{
 		@ibase_free_result($this->result_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	array
-	 */
-	protected function _data_seek($n = 0)
-	{
-		//Set the row count to 0
-		$this->num_rows = 0;
-	
-		//Interbase driver doesn't implement a suitable function
-		return FALSE;	
 	}
 
 	// --------------------------------------------------------------------
@@ -169,7 +144,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 			//Increment row count
 			$this->num_rows++;
 		}
-	
+
 		return $row;
 	}
 
@@ -189,10 +164,10 @@ class CI_DB_interbase_result extends CI_DB_result {
 			//Increment row count
 			$this->num_rows++;
 		}
-		
+
 		return $row;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -202,29 +177,20 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function result_object()
 	{
-		if (count($this->result_object) > 0)
+		if (count($this->result_object) === $this->num_rows)
 		{
 			return $this->result_object;
 		}
-		
-		// Convert result array to object so that 
+
+		// Convert result array to object so that
 		// We don't have to get the result again
-		if (count($this->result_array) > 0)
+		if (($c = count($this->result_array)) > 0)
 		{
-			$i = 0;
-		
-			foreach ($this->result_array as $array)
+			for ($i = 0; $i < $c; $i++)
 			{
-				$this->result_object[$i] = new StdClass();
-			
-				foreach ($array as $key => $val)
-				{
-					$this->result_object[$i]->{$key} = $val;
-				}
-				
-				++$i;
+				$this->result_object[$i] = (object) $this->result_array[$i];
 			}
-			
+
 			return $this->result_object;
 		}
 
@@ -254,20 +220,20 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	public function result_array()
 	{
-		if (count($this->result_array) > 0)
+		if (count($this->result_array) === $this->num_rows)
 		{
 			return $this->result_array;
 		}
-		
+
 		// Since the object and array are really similar, just case
 		// the result object to an array  if need be
-		if (count($this->result_object) > 0)
+		if (($c = count($this->result_object)) > 0)
 		{
-			foreach ($this->result_object as $obj)
+			for ($i = 0; $i < $c; $i++)
 			{
-				$this->result_array[] = (array) $obj;
+				$this->result_array[$i] = (array) $this->result_object[$i];
 			}
-		
+
 			return $this->result_array;
 		}
 
