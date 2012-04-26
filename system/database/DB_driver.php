@@ -335,7 +335,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Start the Query Timer
-		$time_start = list($sm, $ss) = explode(' ', microtime());
+		$time_start = microtime(TRUE);
 
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
@@ -370,12 +370,12 @@ abstract class CI_DB_driver {
 		}
 
 		// Stop and aggregate the query time results
-		$time_end = list($em, $es) = explode(' ', microtime());
-		$this->benchmark += ($em + $es) - ($sm + $ss);
+		$time_end = microtime(TRUE);
+		$this->benchmark += $time_end - $time_start;
 
 		if ($this->save_queries == TRUE)
 		{
-			$this->query_times[] = ($em + $es) - ($sm + $ss);
+			$this->query_times[] = $time_end - $time_start;
 		}
 
 		// Increment the query counter
@@ -637,7 +637,7 @@ abstract class CI_DB_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|OPTIMIZE|REINDEX)\s+/i', $sql);
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -901,6 +901,43 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Escape the SQL Identifiers
+	 *
+	 * This function escapes column and table names
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function escape_identifiers($item)
+	{
+		if ($this->_escape_char == '')
+		{
+			return $item;
+		}
+
+		foreach ($this->_reserved_identifiers as $id)
+		{
+			if (strpos($item, '.'.$id) !== FALSE)
+			{
+				$item = str_replace('.', $this->_escape_char.'.', $item);
+
+				// remove duplicates if the user already included the escape
+				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
+			}
+		}
+
+		if (strpos($item, '.') !== FALSE)
+		{
+			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
+		}
+
+		// remove duplicates if the user already included the escape
+		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an insert string
 	 *
 	 * @param	string	the table upon which the query will be performed
@@ -913,7 +950,7 @@ abstract class CI_DB_driver {
 
 		foreach ($data as $key => $val)
 		{
-			$fields[] = $this->_escape_identifiers($key);
+			$fields[] = $this->escape_identifiers($key);
 			$values[] = $this->escape($val);
 		}
 
@@ -1171,7 +1208,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Protect Identifiers
 	 *
-	 * This function is used extensively by the Active Record class, and by
+	 * This function is used extensively by the Query Builder class, and by
 	 * a couple functions in this class.
 	 * It takes a column or table name (optionally with an alias) and inserts
 	 * the table prefix onto it. Some logic is necessary in order to deal with
@@ -1246,7 +1283,7 @@ abstract class CI_DB_driver {
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified? If so,
 			// we have nothing more to do other than escape the item
-			if (in_array($parts[0], $this->ar_aliased_tables))
+			if (in_array($parts[0], $this->qb_aliased_tables))
 			{
 				if ($protect_identifiers === TRUE)
 				{
@@ -1254,7 +1291,7 @@ abstract class CI_DB_driver {
 					{
 						if ( ! in_array($val, $this->_reserved_identifiers))
 						{
-							$parts[$key] = $this->_escape_identifiers($val);
+							$parts[$key] = $this->escape_identifiers($val);
 						}
 					}
 
@@ -1311,7 +1348,7 @@ abstract class CI_DB_driver {
 
 			if ($protect_identifiers === TRUE)
 			{
-				$item = $this->_escape_identifiers($item);
+				$item = $this->escape_identifiers($item);
 			}
 
 			return $item.$alias;
@@ -1334,7 +1371,7 @@ abstract class CI_DB_driver {
 
 		if ($protect_identifiers === TRUE && ! in_array($item, $this->_reserved_identifiers))
 		{
-			$item = $this->_escape_identifiers($item);
+			$item = $this->escape_identifiers($item);
 		}
 
 		return $item.$alias;
@@ -1343,7 +1380,7 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Dummy method that allows Active Record class to be disabled
+	 * Dummy method that allows Query Builder class to be disabled
 	 *
 	 * This function is used extensively by every db driver.
 	 *

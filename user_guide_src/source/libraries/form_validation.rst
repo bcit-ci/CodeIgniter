@@ -608,7 +608,7 @@ call the reset_validation() function before setting up rules and validating the 
 
 For more info please see the :ref:`function-reference` section below.
 
--.. _saving-groups:
+.. _saving-groups:
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -977,7 +977,7 @@ $this->form_validation->set_data();
 		$_POST array.
 
 $this->form_validation->reset_validation();
-========================================
+===========================================
 
  .. php:method:: reset_validation ()
 
