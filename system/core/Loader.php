@@ -673,7 +673,7 @@ class CI_Loader {
 
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
-		array_unshift($config->_config_paths, $path);
+		array_push($config->_config_paths, $path);
 	}
 
 	// --------------------------------------------------------------------
@@ -713,7 +713,7 @@ class CI_Loader {
 			array_shift($this->_ci_model_paths);
 			array_shift($this->_ci_helper_paths);
 			array_shift($this->_ci_view_paths);
-			array_shift($config->_config_paths);
+			array_pop($config->_config_paths);
 		}
 		else
 		{
