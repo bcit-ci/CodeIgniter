@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Number Helpers
  *
@@ -42,7 +40,6 @@
 /**
  * Formats a numbers as bytes, based on size, and adds the appropriate suffix
  *
- * @access	public
  * @param	mixed	// will be cast as int
  * @return	string
  */

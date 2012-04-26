@@ -533,7 +533,7 @@ Query grouping
 **************
 
 Query grouping allows you to create groups of WHERE clauses by enclosing them in parentheses. This will allow
-you to create queries with complex WHERE clauses. Nested groups are supported. Example:
+you to create queries with complex WHERE clauses. Nested groups are supported. Example::
 
 	$this->db->select('*')->from('my_table')
 		->group_start()
@@ -921,9 +921,9 @@ Method chaining allows you to simplify your syntax by connecting
 multiple functions. Consider this example::
 
 	$query = $this->db->select('title')
-				->where('id', $id)
-				->limit(10, 20)
-				->get('mytable');
+			->where('id', $id)
+			->limit(10, 20)
+			->get('mytable');
 
 .. _ar-caching:
 

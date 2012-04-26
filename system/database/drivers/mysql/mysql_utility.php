@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -34,54 +34,17 @@
  */
 class CI_DB_mysql_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	string
-	 */
-	public function _list_databases()
-	{
-		return 'SHOW DATABASES';
-	}
+	protected $_list_databases	= 'SHOW DATABASES';
+	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
+	protected $_repair_table	= 'REPAIR TABLE %s';
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _optimize_table($table)
-	{
-		return 'OPTIMIZE TABLE '.$this->db->protect_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _repair_table($table)
-	{
-		return 'REPAIR TABLE '.$this->db->protect_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
 	/**
 	 * MySQL Export
 	 *
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		if (count($params) === 0)
 		{

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Interbase/Firebird Forge Class
  *
@@ -36,18 +34,22 @@
  */
 class CI_DB_interbase_forge extends CI_DB_forge {
 
+	protected $_drop_table	= 'DROP TABLE %s';
+
 	/**
 	 * Create database
 	 *
 	 * @param	string	the database name
 	 * @return	string
 	 */
-	protected function _create_database($filename='')
+	public function create_database($db_name)
 	{
-		// Firebird databases are flat files, so a path is required 
+		// Firebird databases are flat files, so a path is required
+
 		// Hostname is needed for remote access
-		return 'CREATE DATABASE "'.$this->hostname.':'.$filename.'"';
-		
+		empty($this->db->hostname) OR $db_name = $this->hostname.':'.$db_name;
+
+		return parent::create_database('"'.$db_name.'"');
 	}
 
 	// --------------------------------------------------------------------
@@ -55,14 +57,20 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @param	string	the database name - not used in this driver 
-	 *	- the current db is dropped
+	 * @param	string	the database name
+	 *		- not used in this driver, the current db is dropped
 	 * @return	bool
 	 */
-	protected function _drop_database($name='')
+	public function drop_database($db_name = '')
 	{
-		return ibase_drop_db($this->conn_id);
+		if ( ! ibase_drop_db($this->conn_id))
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
+		}
+
+		return TRUE;
 	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -72,7 +80,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	array	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
-	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
+	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	string
 	 */
 	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
@@ -167,18 +175,6 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	string
-	 */
-	protected function _drop_table($table)
-	{
-		return 'DROP TABLE '.$name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -189,7 +185,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	 * @param	string	the table name
 	 * @param	string	the column definition
 	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
+	 * @param	bool	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
@@ -222,21 +218,6 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	protected function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
-	}
 }
 
 /* End of file interbase_forge.php */

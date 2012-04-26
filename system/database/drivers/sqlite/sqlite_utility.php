@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -34,50 +34,7 @@
  */
 class CI_DB_sqlite_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * I don't believe you can do a database listing with SQLite
-	 * since each database is its own file. I suppose we could
-	 * try reading a directory looking for SQLite files, but
-	 * that doesn't seem like a terribly good idea
-	 *
-	 * @return	bool
-	 */
-	public function _list_databases()
-	{
-		return ($this->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		// Not supported
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		// Not supported
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= FALSE;
 
 	/**
 	 * SQLite Export
@@ -85,7 +42,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
