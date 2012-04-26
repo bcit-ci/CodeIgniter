@@ -279,7 +279,7 @@ if ( ! function_exists('form_multiselect'))
 {
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if ( ! strpos($extra, 'multiple'))
+		if ( ! strpos(strtolower($extra), 'multiple="multiple"'))
 		{
 			$extra .= ' multiple="multiple"';
 		}
