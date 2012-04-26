@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * System Initialization File
  *
@@ -42,7 +40,7 @@
 /**
  * CodeIgniter Version
  *
- * @var string
+ * @var	string
  *
  */
 	define('CI_VERSION', '3.0-dev');
@@ -230,6 +228,13 @@
 	// Load the base controller class
 	require BASEPATH.'core/Controller.php';
 
+	/**
+	 * Reference to the CI_Controller method.
+	 *
+	 * Returns current CI instance object
+	 *
+	 * @return object
+	 */
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();

@@ -44,49 +44,59 @@ class CI_Output {
 	 * @var string
 	 */
 	public $final_output;
+	
 	/**
 	 * Cache expiration time
 	 *
 	 * @var int
 	 */
-	public $cache_expiration	= 0;
+	public $cache_expiration =	0;
+	
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
-	public $headers			= array();
+	public $headers =	array();
+	
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
-	public $mime_types		= array();
+	public $mime_types =	array();
+	
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
-	public $enable_profiler		= FALSE;
+	public $enable_profiler =	FALSE;
+	
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
-	protected $_zlib_oc		= FALSE;
+	protected $_zlib_oc =	FALSE;
+	
 	/**
 	 * List of profiler sections
 	 *
 	 * @var array
 	 */
-	protected $_profiler_sections = array();
+	protected $_profiler_sections =	array();
+	
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
 	 * @var bool
 	 */
-	public $parse_exec_vars		= TRUE;
+	public $parse_exec_vars =	TRUE;
 
+	/**
+	 * Set up Output class
+	 */
 	public function __construct()
 	{
 		$this->_zlib_oc = @ini_get('zlib.output_compression');
