@@ -42,7 +42,7 @@ class CI_Controller {
 	/**
 	 * Reference to the global CI instance
 	 *
-	 * @var object
+	 * @var	object
 	 */
 	private static $instance;
 
