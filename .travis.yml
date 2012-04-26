@@ -26,4 +26,3 @@ branches:
   only:
     - develop
     - master
-    - pdo-patch
