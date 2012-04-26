@@ -195,6 +195,7 @@ Bug fixes for 3.0
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
 -  Fixed a bug (#1242) Added Windows path compatibility to function read_dir of ZIP library
+-  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories
 
 Version 2.1.1
 =============
