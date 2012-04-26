@@ -16,12 +16,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link	http://codeigniter.com
- * @since	Version 1.0
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -40,7 +40,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _create_database()
+	public function create_database($db_name = '')
 	{
 		// In SQLite, a database is created when you connect to the database.
 		// We'll return TRUE so that an error isn't generated
@@ -52,10 +52,10 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @param	string	the database name
+	 * @param	string	the database name (ignored)
 	 * @return	bool
 	 */
-	public function _drop_database($name)
+	public function drop_database($db_name = '')
 	{
 		// In SQLite, a database is dropped when we delete a file
 		if (@file_exists($this->db->database))
@@ -85,7 +85,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -95,10 +95,10 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).'(';
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
-		foreach ($fields as $field=>$attributes)
+		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
 			// numeric, we know it was assigned by PHP and the developer manually
@@ -156,19 +156,6 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE '.$table.' IF EXISTS';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -183,7 +170,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		/* SQLite only supports adding new columns and it does
 		 * NOT support the AFTER statement. Each new column will
@@ -202,21 +189,6 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
-	}
 }
 
 /* End of file sqlite3_forge.php */

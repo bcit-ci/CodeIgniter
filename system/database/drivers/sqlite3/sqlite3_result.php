@@ -16,12 +16,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license	http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link	http://codeigniter.com
- * @since	Version 1.0
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -198,8 +198,6 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 			$this->row_data[$row_index++] = $row;
 		}
 
-		// Un-comment the following line, in case it becomes needed
-		// $this->_data_seek();
 		return $this->result_array = $this->row_data;
 	}
 
@@ -266,8 +264,6 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 			$this->num_rows = count($this->result_object);
 		}
 
-		// Un-comment the following line, in case it becomes needed
-		// $this->_data_seek();
 		return $this->result_object;
 	}
 
