@@ -226,6 +226,28 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Remove cookie
+	 * 
+	 * Accepts the name of the cookie and expires it accordingly
+	 *
+	 * @param 	string 	the name of the cookie
+	 * @return 	bool
+	 */
+	public function delete_cookie($name = '')
+	{
+		// Check if the cookie exists, just a failsafe, one never knows.... :)
+		if ( ! empty($name) && $this->cookie($name)) 
+		{
+			$this->set_cookie($name, '', 0);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	* Set cookie
 	*
 	* Accepts seven parameters, or you can submit an associative
