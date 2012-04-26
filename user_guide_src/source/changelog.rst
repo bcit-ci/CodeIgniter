@@ -55,8 +55,11 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added the ability to insert objects with insert_batch() in :doc:`Active Record <database/active_record>`.
-   -  Added new :doc:`Active Record <database/active_record>` methods that return
+   -  Renamed the Active Record class to Query Builder to remove confusion with 
+      the Active Record design pattern
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
+   -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
@@ -201,6 +204,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#23, #1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
+-  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.

@@ -50,7 +50,7 @@ Protecting identifiers
 **********************
 
 In many databases it is advisable to protect table and field names - for
-example with backticks in MySQL. **Active Record queries are
+example with backticks in MySQL. **Query Builder queries are
 automatically protected**, however if you need to manually protect an
 identifier you can use::
 

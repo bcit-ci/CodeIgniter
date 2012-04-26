@@ -323,16 +323,16 @@ class CI_Loader {
 	 *
 	 * @param	string	the DB credentials
 	 * @param	bool	whether to return the DB object
-	 * @param	bool	whether to enable active record (this allows us to override the config setting)
+	 * @param	bool	whether to enable query builder (this allows us to override the config setting)
 	 * @return	object
 	 */
-	public function database($params = '', $return = FALSE, $active_record = NULL)
+	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
 		// Grab the super object
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return == FALSE && $active_record == NULL && isset($CI->db) && is_object($CI->db))
+		if (class_exists('CI_DB') && $return == FALSE && $query_builder == NULL && isset($CI->db) && is_object($CI->db))
 		{
 			return FALSE;
 		}
@@ -341,7 +341,7 @@ class CI_Loader {
 
 		if ($return === TRUE)
 		{
-			return DB($params, $active_record);
+			return DB($params, $query_builder);
 		}
 
 		// Initialize the db variable. Needed to prevent
@@ -349,7 +349,7 @@ class CI_Loader {
 		$CI->db = '';
 
 		// Load the DB class
-		$CI->db =& DB($params, $active_record);
+		$CI->db =& DB($params, $query_builder);
 	}
 
 	// --------------------------------------------------------------------
@@ -683,7 +683,7 @@ class CI_Loader {
 
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
-		array_unshift($config->_config_paths, $path);
+		array_push($config->_config_paths, $path);
 	}
 
 	// --------------------------------------------------------------------
@@ -723,7 +723,7 @@ class CI_Loader {
 			array_shift($this->_ci_model_paths);
 			array_shift($this->_ci_helper_paths);
 			array_shift($this->_ci_view_paths);
-			array_shift($config->_config_paths);
+			array_pop($config->_config_paths);
 		}
 		else
 		{
