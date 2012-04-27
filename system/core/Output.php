@@ -44,49 +44,49 @@ class CI_Output {
 	 * @var string
 	 */
 	public $final_output;
-	
+
 	/**
 	 * Cache expiration time
 	 *
 	 * @var int
 	 */
 	public $cache_expiration =	0;
-	
+
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
 	public $headers =	array();
-	
+
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
 	public $mime_types =	array();
-	
+
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
 	public $enable_profiler =	FALSE;
-	
+
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
 	protected $_zlib_oc =	FALSE;
-	
+
 	/**
 	 * List of profiler sections
 	 *
 	 * @var array
 	 */
 	protected $_profiler_sections =	array();
-	
+
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
@@ -181,9 +181,8 @@ class CI_Output {
 	 * For an individual header, the value is returned. For an array
 	 * of headers, a key-value array is returned.
 	 *
-	 * @access	public
 	 * @param	string
-	 * @return	array|bool
+	 * @return	array
 	 */
 	public function get_header($header = NULL)
 	{
@@ -213,14 +212,14 @@ class CI_Output {
 				$value = trim($header_array[1]);
 
 				// Add new or replace existing when specified
-				if ( ! isset($headers[$field]) OR $output_header[1])
+				if ( ! isset($headers[$field]) || $output_header[1])
 				{
 					$headers[$field] = $value;
 				}
 			}
 		}
 
-		if ( ! empty($headers) AND empty($header))
+		if ( ! empty($headers) && empty($header))
 		{
 			return $headers;
 		}
