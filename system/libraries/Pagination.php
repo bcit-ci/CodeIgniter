@@ -155,8 +155,13 @@ class CI_Pagination {
 			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
 
+<<<<<<< HEAD
+		// Set current page to 1 if using page numbers instead of offset
+		if ($this->use_page_numbers AND $this->cur_page == 0)
+=======
 		// Set current page to 1 if it's not valid or if using page numbers instead of offset
 		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page == 0))
+>>>>>>> upstream/develop
 		{
 			$this->cur_page = $base_page;
 		}
@@ -196,9 +201,10 @@ class CI_Pagination {
 
 		// Is pagination being used over GET or POST? If get, add a per_page query
 		// string. If post, add a trailing slash to the base URL if needed
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		if ($CI->config->item('enable_query_strings') === TRUE || $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
+			$separator = (strpos($this->base_url, '?') !== FALSE) ? '&amp;' : '?';
+			$this->base_url = rtrim($this->base_url).$separator.$this->query_string_segment.'=';
 		}
 		else
 		{
@@ -220,7 +226,11 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
+<<<<<<< HEAD
+			if (($i == 0 OR ($this->use_page_numbers && $i === 1)) && $this->first_url != '')
+=======
 			if ($i == $base_page && $this->first_url != '')
+>>>>>>> upstream/develop
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
