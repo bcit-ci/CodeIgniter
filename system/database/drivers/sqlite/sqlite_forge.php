@@ -40,7 +40,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 * @param	string	the database name
 	 * @return	bool
 	 */
-	public function _create_database()
+	public function create_database($db_name = '')
 	{
 		// In SQLite, a database is created when you connect to the database.
 		// We'll return TRUE so that an error isn't generated
@@ -52,10 +52,10 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @param	string	the database name
+	 * @param	string	the database name (ignored)
 	 * @return	bool
 	 */
-	public function _drop_database($name)
+	public function drop_database($db_name = '')
 	{
 		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
 		{
@@ -77,7 +77,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -147,18 +147,6 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	string
-	 */
-	public function _drop_table($table)
-	{
-		return 'DROP TABLE '.$table.' IF EXISTS';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -173,7 +161,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		/* SQLite only supports adding new columns and it does
 		 * NOT support the AFTER statement. Each new column will
@@ -190,22 +178,6 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
 			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
 			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }

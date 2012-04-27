@@ -131,23 +131,6 @@ class CI_DB_interbase_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	array
-	 */
-	protected function _data_seek($n = 0)
-	{
-		// Interbase driver doesn't implement a suitable function
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
