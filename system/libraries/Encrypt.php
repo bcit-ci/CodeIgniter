@@ -38,12 +38,44 @@
  */
 class CI_Encrypt {
 
+	/**
+	 * Reference to the user's encryption key
+	 *
+	 * @var string
+	 */
 	public $encryption_key		= '';
+	
+	/**
+	 * Type of hash operation
+	 * 
+	 * @var string
+	 */
 	protected $_hash_type		= 'sha1';
+	
+	/**
+	 * Flag for the existance of mcrypt
+	 *
+	 * @var bool
+	 */
 	protected $_mcrypt_exists	= FALSE;
+	
+	/**
+	 * Current cipher to be used with mcrypt
+	 *
+	 * @var string
+	 */
 	protected $_mcrypt_cipher;
+	
+	/**
+	 * Method for encrypting/decrypting data
+	 *
+	 * @var int
+	 */
 	protected $_mcrypt_mode;
 
+	/**
+	 * Initialize Encryption class
+	 */
 	public function __construct()
 	{
 		$this->_mcrypt_exists = function_exists('mcrypt_encrypt');
@@ -349,7 +381,8 @@ class CI_Encrypt {
 	 *
 	 * Function description
 	 *
-	 * @param	string
+	 * @param	string	$data
+	 * @param	string	$key
 	 * @return	string
 	 */
 	protected function _remove_cipher_noise($data, $key)

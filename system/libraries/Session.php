@@ -36,26 +36,151 @@
  */
 class CI_Session {
 
+	/** 
+	 * Whether to encrypt the session cookie
+	 *
+	 * @var bool
+	 */
 	public $sess_encrypt_cookie		= FALSE;
+	
+	/**
+	 * Whether to use to the database for session storage
+	 *
+	 * @var bool
+	 */
 	public $sess_use_database		= FALSE;
+	
+	/**
+	 * Name of the database table in which to store sessions
+	 *
+	 * @var string
+	 */
 	public $sess_table_name			= '';
+	
+	/**
+	 * Length of time (in seconds) for sessions to expire
+	 *
+	 * @var int
+	 */
 	public $sess_expiration			= 7200;
+	
+	/**
+	 * Whether to kill session on close of browser window
+	 *
+	 * @var bool
+	 */
 	public $sess_expire_on_close		= FALSE;
+	
+	/**
+	 * Whether to match session on ip address
+	 *
+	 * @var bool
+	 */
 	public $sess_match_ip			= FALSE;
+	
+	/**
+	 * Whether to match session on user-agent
+	 *
+	 * @var bool
+	 */
 	public $sess_match_useragent		= TRUE;
+	
+	/**
+	 * Name of session cookie
+	 *
+	 * @var string
+	 */
 	public $sess_cookie_name		= 'ci_session';
+	
+	/**
+	 * Session cookie prefix
+	 *
+	 * @var string
+	 */
 	public $cookie_prefix			= '';
+	
+	/**
+	 * Session cookie path
+	 *
+	 * @var string
+	 */
 	public $cookie_path			= '';
+	
+	/**
+	 * Session cookie domain
+	 *
+	 * @var string
+	 */
 	public $cookie_domain			= '';
+	
+	/**
+	 * Whether to set the cookie only on HTTPS connections
+	 *
+	 * @var bool
+	 */
 	public $cookie_secure			= FALSE;
+	
+	/**
+	 * Whether cookie should be allowed only to be sent by the server
+	 *
+	 * @var bool
+	 */
 	public $cookie_httponly 		= FALSE;
+	
+	/**
+	 * Interval at which to update session
+	 *
+	 * @var int
+	 */
 	public $sess_time_to_update		= 300;
+	
+	/**
+	 * Key with which to encrypt the session cookie
+	 *
+	 * @var string
+	 */
 	public $encryption_key			= '';
+	
+	/**
+	 * String to indicate flash data cookies
+	 *
+	 * @var string
+	 */
 	public $flashdata_key			= 'flash';
+	
+	/**
+	 * Function to use to get the current time
+	 *
+	 * @var string
+	 */
 	public $time_reference			= 'time';
+	
+	/**
+	 * Probablity level of garbage collection of old sessions
+	 *
+	 * @var int
+	 */
 	public $gc_probability			= 5;
+	
+	/**
+	 * Session data
+	 *
+	 * @var array
+	 */
 	public $userdata			= array();
+	
+	/**
+	 * Reference to CodeIgniter instance
+	 *
+	 * @var object
+	 */
 	public $CI;
+	
+	/**
+	 * Current time
+	 *
+	 * @var int
+	 */
 	public $now;
 
 	/**
@@ -63,6 +188,8 @@ class CI_Session {
 	 *
 	 * The constructor runs the session routines automatically
 	 * whenever the class is instantiated.
+	 *
+	 * @param	array
 	 */
 	public function __construct($params = array())
 	{
@@ -525,6 +652,7 @@ class CI_Session {
 	/**
 	 * Delete a session variable from the "userdata" array
 	 *
+	 * @param	array
 	 * @return	void
 	 */
 	public function unset_userdata($newdata = array())
@@ -664,6 +792,7 @@ class CI_Session {
 	/**
 	 * Write the session cookie
 	 *
+	 * @param	mixed
 	 * @return	void
 	 */
 	protected function _set_cookie($cookie_data = NULL)

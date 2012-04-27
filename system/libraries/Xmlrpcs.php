@@ -48,12 +48,39 @@ if ( ! class_exists('CI_Xmlrpc'))
  */
 class CI_Xmlrpcs extends CI_Xmlrpc
 {
-	public $methods		= array();	//array of methods mapped to function names and signatures
-	public $debug_msg	= '';		// Debug Message
-	public $system_methods	= array();	// XML RPC Server methods
-	public $controller_obj;
-	public $object		= FALSE;
+	/**
+	 * array of methods mapped to function names and signatures
+	 *
+	 * @var array
+	 */
+	public $methods = array();
+	
+	/**
+	 * Debug Message
+	 *
+	 * @var string
+	 */
+	public $debug_msg = '';
+	
+	/**
+	 * XML RPC Server methods
+	 *
+	 * @var array
+	 */
+	public $system_methods	= array();
+	
+	/**
+	 * Configuration object
+	 *
+	 * @var object
+	 */
+	public $object = FALSE;
 
+	/**
+	 * Initialize XMLRPC class
+	 *
+	 * @param array $config
+	 */
 	public function __construct($config = array())
 	{
 		parent::__construct();

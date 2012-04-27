@@ -36,14 +36,60 @@
  */
 class CI_Log {
 
+	/**
+	 * Path to save log files
+	 *
+	 * @var string
+	 */
 	protected $_log_path;
+	
+	/**
+	 * Level of logging
+	 *
+	 * @var int
+	 */
 	protected $_threshold		= 1;
+	
+	/**
+	 * Highest level of logging
+	 *
+	 * @var int
+	 */
 	protected $_threshold_max	= 0;
+	
+	/**
+	 * Array of threshold levels to log
+	 *
+	 * @var array
+	 */
 	protected $_threshold_array	= array();
+	
+	/**
+	 * Format of timestamp for log files
+	 *
+	 * @var string
+	 */
 	protected $_date_fmt		= 'Y-m-d H:i:s';
+	
+	/**
+	 * Whether or not the logger can write to the log files
+	 *
+	 * @var bool
+	 */
 	protected $_enabled		= TRUE;
+	
+	/**
+	 * Predefined logging levels
+	 *
+	 * @var array
+	 */
 	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
+	/**
+	 * Initialize Logging class
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$config =& get_config();
