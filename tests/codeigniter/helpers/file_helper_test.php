@@ -1,12 +1,11 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
-require BASEPATH.'helpers/file_helper.php';
+class File_helper_Test extends CI_TestCase {
 
-class File_helper_Test extends CI_TestCase
-{
 	public function set_up()
 	{
+		$this->helper('file');
+		
 		vfsStreamWrapper::register();
 		vfsStreamWrapper::setRoot(new vfsStreamDirectory('testDir'));
 		
