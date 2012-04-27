@@ -44,6 +44,8 @@ class CI_Session {
 	public $sess_match_ip			= FALSE;
 	public $sess_match_useragent		= TRUE;
 	public $sess_cookie_name		= 'ci_session';
+	public $sess_use_multisessions 		= FALSE;
+	public $sess_multisession_expiration	= 10;
 	public $cookie_prefix			= '';
 	public $cookie_path			= '';
 	public $cookie_domain			= '';
@@ -57,6 +59,7 @@ class CI_Session {
 	public $userdata			= array();
 	public $CI;
 	public $now;
+	private $prevent_update			= FALSE;
 
 	/**
 	 * Session Constructor
@@ -73,7 +76,8 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
+		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key', 'sess_use_multisessions', 'sess_multiple_sesson_expiration') as $key)
+
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
@@ -243,6 +247,30 @@ class CI_Session {
 					}
 				}
 			}
+			
+			/* Are we in a multi-session scenario? If so, set whether the current
+			 * session id is allowed to be updated.
+			 */
+			 if ($this->sess_use_multisessions)
+			 {
+			 	// Load the php session based on the current session id.
+				$this->_get_multi_session($session['session_id']);
+
+			 	$this->prevent_update = isset($_SESSION['prevent_update'])?$_SESSION['prevent_update']:0;
+				
+				/* Check to see if this session doesn't exist (previously destroyed) 
+				 * or if this session is no longer allowed to update and has exired.
+				 *  If so, kill it.
+				 */
+				if (!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_multisession_expiration) > $this->now))
+				{
+					$this->sess_destroy();
+					
+					//Destroy the php session
+					session_destroy();
+					return FALSE;
+				}
+			 }
 		}
 
 		// Session is valid!
@@ -334,6 +362,17 @@ class CI_Session {
 		if ($this->sess_use_database === TRUE)
 		{
 			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			
+			//Are we using multiple sessions?
+			if ($this->sess_use_multisessions)
+			{
+				/* Setup the php session to store information on whether
+				 * or not the session can be updated
+				 */
+				$this->_get_multi_session($this->userdata['session_id']);
+				$_SESSION['prevent_update'] = 0;
+				session_write_close();
+			}
 		}
 
 		// Write the cookie
@@ -355,14 +394,21 @@ class CI_Session {
 			return;
 		}
 
+		// We only allow sessions to update if they are allowed
+		if ($this->sess_use_database && $this->sess_use_multisessions && $this->prevent_update)
+		{
+			return;
+		}
+
 		// _set_cookie() will handle this for us if we aren't using database sessions
 		// by pushing all userdata to the cookie.
 		$cookie_data = NULL;
 
 		/* Changing the session ID during an AJAX call causes problems,
-		 * so we'll only update our last_activity
+		 * so we'll only update our last_activity, but only if we are not
+		 * using multiple sessions.
 		 */
-		if ($this->CI->input->is_ajax_request())
+		if ($this->CI->input->is_ajax_request() && !$this->sess_use_multisessions)
 		{
 			$this->userdata['last_activity'] = $this->now;
 
@@ -411,7 +457,33 @@ class CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+
+			//Are we allowing multiple sessions?
+			if ($this->sess_use_multisessions)
+			{
+				//Set the session as no longer allowing updates
+				$_SESSION['prevent_update'] = 1;
+				//Release the session lock so other requests can process
+				session_write_close();
+				
+				/* Create a new entry for the updated session id. This will be the only
+				 * session id that can continue to update.
+				 */ 
+				$this->_get_multi_session($new_sessid);
+				$_SESSION['prevent_update'] = 0;
+				
+				//Write the new session id to the database 
+				$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $cookie_data));
+				
+				//Make sure the user data is copied over
+				$this->sess_write();
+				
+				//Release the session lock for the new session
+				session_write_close();
+			}
+			else {
+				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid, 'prevent_update' => 1), array('session_id' => $old_sessid)));	
+			}
 		}
 
 		// Write the cookie
@@ -813,6 +885,35 @@ class CI_Session {
 		}
 	}
 
+	/**
+	 * Multi-Sessions Setup
+	 * 
+	 * Sets up a php session to handle a flag which
+	 * indicates if a session id can update itself
+	 * or not.
+	 * 
+	 * @param string
+	 * @return void
+	 */
+	 protected function _get_multi_session($session_id)
+	 {
+		 /* This is a bit of a hack, but we need to pass around info on 
+		 * if the current session can be updated or not. Starting a php
+		 * session will effectively block all subsequent requests for the
+		 * same session id so that we can prevent race conditions that might
+		 * allow erroneous updates to the session id.
+		 */
+		 
+		//Don't allow cookies for the php session
+	 	ini_set('session.use_cookies', '0');
+		ini_set('session.use_only_cookies', '0');
+		//Make sure that we clean up old sessions in a timely fashion
+		ini_set('session.gc_maxlifetime', ($this->sess_multisession_expiration + 10));
+		
+		//Start a session using our internally generated session id
+		session_id($session_id);
+		session_start();
+	 }
 }
 
 /* End of file Session.php */
