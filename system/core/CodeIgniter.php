@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * System Initialization File
  *
@@ -42,7 +40,7 @@
 /**
  * CodeIgniter Version
  *
- * @var string
+ * @var	string
  *
  */
 	define('CI_VERSION', '3.0-dev');
@@ -230,6 +228,13 @@
 	// Load the base controller class
 	require BASEPATH.'core/Controller.php';
 
+	/**
+	 * Reference to the CI_Controller method.
+	 *
+	 * Returns current CI instance object
+	 *
+	 * @return object
+	 */
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();
@@ -275,12 +280,12 @@
 		{
 			$x = explode('/', $RTR->routes['404_override'], 2);
 			$class = $x[0];
-			$method = (isset($x[1]) ? $x[1] : 'index');
+			$method = isset($x[1]) ? $x[1] : 'index';
 			if ( ! class_exists($class))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
-					show_404("{$class}/{$method}");
+					show_404($class.'/'.$method);
 				}
 
 				include_once(APPPATH.'controllers/'.$class.'.php');
@@ -288,7 +293,7 @@
 		}
 		else
 		{
-			show_404("{$class}/{$method}");
+			show_404($class.'/'.$method);
 		}
 	}
 
@@ -337,12 +342,12 @@
 			{
 				$x = explode('/', $RTR->routes['404_override'], 2);
 				$class = $x[0];
-				$method = (isset($x[1]) ? $x[1] : 'index');
+				$method = isset($x[1]) ? $x[1] : 'index';
 				if ( ! class_exists($class))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 					{
-						show_404("{$class}/{$method}");
+						show_404($class.'/'.$method);
 					}
 
 					include_once(APPPATH.'controllers/'.$class.'.php');
@@ -352,7 +357,7 @@
 			}
 			else
 			{
-				show_404("{$class}/{$method}");
+				show_404($class.'/'.$method);
 			}
 		}
 
@@ -393,7 +398,7 @@
  *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
-	if (class_exists('CI_DB') && isset($CI->db))
+	if (class_exists('CI_DB') && isset($CI->db) && ! $CI->db->pconnect)
 	{
 		$CI->db->close();
 	}

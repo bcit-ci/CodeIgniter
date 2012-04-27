@@ -29,7 +29,7 @@
  * SQLite3 Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -417,9 +417,10 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	object (ignored)
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close($conn_id)
 	{
 		$this->conn_id->close();
 	}
