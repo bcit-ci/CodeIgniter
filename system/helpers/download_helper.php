@@ -42,7 +42,6 @@
  *
  * Generates headers that force a download to happen
  *
- * @access	public
  * @param	string	filename
  * @param	mixed	the data to be downloaded
  * @param	bool	wether to try and send the actual file MIME type
@@ -101,6 +100,9 @@ if ( ! function_exists('force_download'))
 			$x[count($x) - 1] = strtoupper($extension);
 			$filename = implode('.', $x);
 		}
+		
+		// Clean output buffer
+		ob_clean();
 
 		// Generate the server headers
 		header('Content-Type: '.$mime);

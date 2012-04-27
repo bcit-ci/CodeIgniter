@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Model Class
  *
@@ -38,6 +36,9 @@
  */
 class CI_Model {
 
+	/**
+	 * Initialize CI_Model Class
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Model Class Initialized');

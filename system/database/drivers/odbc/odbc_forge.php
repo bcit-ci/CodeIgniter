@@ -34,43 +34,8 @@
  */
 class CI_DB_odbc_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _create_database()
-	{
-		// ODBC has no "create database" command since it's
-		// designed to connect to an existing database
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _drop_database($name)
-	{
-		// ODBC has no "drop database" command since it's
-		// designed to connect to an existing database
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_drop_database	= 'DROP DATABASE %s';
+	protected $_drop_table		= 'DROP TABLE %s';
 
 	/**
 	 * Create Table
@@ -82,7 +47,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
 	 * @return	bool
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -91,7 +56,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field => $attributes)
@@ -179,23 +144,6 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Drop Table
-	 *
-	 * @return	bool
-	 */
-	public function _drop_table($table)
-	{
-		// Not a supported ODBC feature
-		if ($this->db->db_debug)
-		{
-			return $this->db->display_error('db_unsuported_feature');
-		}
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Alter table query
 	 *
 	 * Generates a platform-specific query so that a table can be altered
@@ -210,7 +158,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
@@ -243,23 +191,6 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 
 		return $sql;
 
-	}
-
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }
