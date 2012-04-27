@@ -36,19 +36,53 @@
  */
 class CI_Cart {
 
-	// These are the regular expression rules that we use to validate the product ID and product name
-	public $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
-	public $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
-	public $product_name_safe	= TRUE; // only allow safe product names
+	/**
+	 * These are the regular expression rules that we use to validate the product ID and product name
+	 * alpha-numeric, dashes, underscores, or periods
+	 * 
+	 * @var string
+	 */
+	public $product_id_rules	= '\.a-z0-9_-';
+	
+	/**
+	 * These are the regular expression rules that we use to validate the product ID and product name
+	 * alpha-numeric, dashes, underscores, colons or periods
+	 *
+	 * @var string
+	 */
+	public $product_name_rules	= '\.\:\-_ a-z0-9';
+	
+	/**
+	 * only allow safe product names
+	 *
+	 * @var bool
+	 */
+	public $product_name_safe	= TRUE;
 
+	// --------------------------------------------------------------------------
 	// Protected variables. Do not change!
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Reference to CodeIgniter instance
+	 *
+	 * @var object
+	 */
 	protected $CI;
+	
+	/**
+	 * Contents of the cart
+	 *
+	 * @var array
+	 */
 	protected $_cart_contents	= array();
 
 	/**
 	 * Shopping Class Constructor
 	 *
 	 * The constructor loads the Session class, used to store the shopping cart contents.
+	 *
+	 * @param	array
 	 */
 	public function __construct($params = array())
 	{
@@ -245,7 +279,6 @@ class CI_Cart {
 	 * product ID and quantity for each item.
 	 *
 	 * @param	array
-	 * @param	string
 	 * @return	bool
 	 */
 	public function update($items = array())
@@ -396,6 +429,7 @@ class CI_Cart {
 	 *
 	 * Removes an item from the cart
 	 *
+	 * @param	int
 	 * @return	bool
 	 */
 	 public function remove($rowid)
@@ -427,6 +461,7 @@ class CI_Cart {
 	 *
 	 * Returns the entire cart array
 	 *
+	 * @param	bool
 	 * @return	array
 	 */
 	public function contents($newest_first = FALSE)
@@ -449,6 +484,7 @@ class CI_Cart {
 	 * Returns TRUE if the rowid passed to this function correlates to an item
 	 * that has options associated with it.
 	 *
+	 * @param	mixed
 	 * @return	bool
 	 */
 	public function has_options($rowid = '')
