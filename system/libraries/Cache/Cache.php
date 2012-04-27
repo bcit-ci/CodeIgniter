@@ -59,7 +59,7 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Reference to the driver
 	 *
-	 * @var mixe
+	 * @var mixed
 	 */
 	protected $_adapter = 'dummy';
 	

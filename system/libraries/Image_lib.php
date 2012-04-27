@@ -161,11 +161,15 @@ class CI_Image_lib {
 	public $wm_type			= 'text';
 	
 	/**
+	 * Default transparency for watermark
+	 * 
 	 * @var int
 	 */
 	public $wm_x_transp		= 4;
 	
 	/**
+	 * Default transparency for watermark
+	 *
 	 * @var int
 	 */
 	public $wm_y_transp		= 4;
@@ -258,21 +262,109 @@ class CI_Image_lib {
 	// Private Vars
 	// --------------------------------------------------------------------------
 	
+	/**
+	 * Source image folder
+	 *
+	 * @var string
+	 */
 	public $source_folder		= '';
+	
+	/**
+	 * Destination image folder
+	 *
+	 * @var string
+	 */
 	public $dest_folder		= '';
+	
+	/**
+	 * Image mime-type
+	 *
+	 * @var string
+	 */
 	public $mime_type			= '';
+	
+	/**
+	 * Original image width 
+	 *
+	 * @var int
+	 */
 	public $orig_width			= '';
+	
+	/**
+	 * Original image height
+	 *
+	 * @var int
+	 */
 	public $orig_height		= '';
+	
+	/**
+	 * Image format
+	 * 
+	 * @var string
+	 */
 	public $image_type			= '';
+	
+	/**
+	 * Size of current image
+	 *
+	 * @var string
+	 */
 	public $size_str			= '';
+	
+	/**
+	 * Full path to source image
+	 *
+	 * @var string
+	 */
 	public $full_src_path		= '';
+	
+	/**
+	 * Full path to destination image
+	 *
+	 * @var string
+	 */
 	public $full_dst_path		= '';
+	
+	/**
+	 * Name of function to create image
+	 *
+	 * @var string
+	 */
 	public $create_fnc			= 'imagecreatetruecolor';
+	
+	/**
+	 * Name of function to copy image
+	 *
+	 * @var string
+	 */
 	public $copy_fnc			= 'imagecopyresampled';
+	
+	/**
+	 * Error messages
+	 *
+	 * @var array
+	 */
 	public $error_msg			= array();
+	
+	/**
+	 * Whether to have a drop shadow on watermark
+	 *
+	 * @var bool
+	 */
 	protected $wm_use_drop_shadow	= FALSE;
+	
+	/**
+	 * Whether to use truetype fonts
+	 *
+	 * @var bool
+	 */
 	public $wm_use_truetype	= FALSE;
 
+	/**
+	 * Initialize Image Library
+	 *
+	 * @param	array	$props
+	 */
 	public function __construct($props = array())
 	{
 		if (count($props) > 0)
@@ -991,7 +1083,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the type
 	 * of watermarking based on the specified preference.
 	 *
-	 * @param	string
 	 * @return	bool
 	 */
 	public function watermark()
@@ -1247,6 +1338,7 @@ class CI_Image_lib {
 	 * based on the type of image being processed
 	 *
 	 * @param	string
+	 * @param	string
 	 * @return	resource
 	 */
 	public function image_create_gd($path = '', $image_type = '')
@@ -1448,6 +1540,7 @@ class CI_Image_lib {
 	 * A helper function that gets info about the file
 	 *
 	 * @param	string
+	 * @param	bool
 	 * @return	mixed
 	 */
 	public function get_image_properties($path = '', $return = FALSE)
@@ -1638,6 +1731,7 @@ class CI_Image_lib {
 	/**
 	 * Show error messages
 	 *
+	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
