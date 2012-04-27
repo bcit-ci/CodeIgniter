@@ -49,80 +49,105 @@
  */
 if ( ! function_exists('force_download'))
 {
-	function force_download($filename = '', $data = '', $set_mime = FALSE)
+	function force_download($filename = '', $data = '')
 	{
-		if ($filename == '' OR $data == '')
+		$fileinfo = array();
+		//Check if content already loaded or not
+		if(is_array($filename)){
+			//content not available
+			if(!isset($filename['path'])){
+				return FALSE;
+			} else if(!file_exists($filename['path'])){
+				return FALSE;
+			}
+			if(!isset($filename['name'])){
+				$filename['name'] = end(explode(DIRECTORY_SEPARATOR, $filename['path']));
+			}
+			$filename['size'] = filesize($filename['path']);
+			$filename['type'] = "path";
+			$fileinfo = $filename;
+		} else {
+			//content available
+			if ($filename == '' OR $data == '')
+			{
+				return FALSE;
+			}
+			$fileinfo['name'] = $filename;
+			$fileinfo['size'] = strlen($data);
+			$fileinfo['type'] = "var";
+		}
+		// Try to determine if the filename includes a file extension.
+		// We need it in order to set the MIME type
+		if (FALSE === strpos($fileinfo['name'], '.'))
 		{
 			return FALSE;
 		}
 
-		// Set the default MIME type to send
-		$mime = 'application/octet-stream';
-
-		$x = explode('.', $filename);
+		// Grab the file extension
+		$x = explode('.', $fileinfo['name']);
 		$extension = end($x);
 
-		if ($set_mime === TRUE)
+		// Load the mime types
+		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-			if (count($x) === 1 OR $extension === '')
-			{
-				/* If we're going to detect the MIME type,
-				 * we'll need a file extension.
-				 */
-				return FALSE;
-			}
-
-			// Load the mime types
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-
-			// Only change the default MIME if we can find one
-			if (isset($mimes[$extension]))
-			{
-				$mime = is_array($mimes[$extension]) ? $mimes[$extension][0] : $mimes[$extension];
-			}
+			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 		}
-
-		/* It was reported that browsers on Android 2.1 (and possibly older as well)
-		 * need to have the filename extension upper-cased in order to be able to
-		 * download it.
-		 *
-		 * Reference: http://digiblog.de/2011/04/19/android-and-the-download-file-headers/
-		 */
-		if (count($x) !== 1 && isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/Android\s(1|2\.[01])/', $_SERVER['HTTP_USER_AGENT']))
+		elseif (is_file(APPPATH.'config/mimes.php'))
 		{
-			$x[count($x) - 1] = strtoupper($extension);
-			$filename = implode('.', $x);
+			include(APPPATH.'config/mimes.php');
 		}
 		
 		// Clean output buffer
 		ob_clean();
 
-		// Generate the server headers
-		header('Content-Type: '.$mime);
-		header('Content-Disposition: attachment; filename="'.$filename.'"');
-		header('Expires: 0');
-		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
-
-		// Internet Explorer-specific headers
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
+		// Set a default mime if we can't find it
+		if ( ! isset($mimes[$extension]))
 		{
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
+			$mime = 'application/octet-stream';
 		}
 		else
 		{
+			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
+		}
+		// Generate the server headers
+		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE)
+		{
+			header('Content-Type: "'.$mime.'"');
+			header('Content-Disposition: attachment; filename="'.$fileinfo['name'].'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header("Content-Transfer-Encoding: binary");
+			header('Pragma: public');
+			header("Content-Length: ".$fileinfo['size']);
+		}
+		else
+		{
+			header('Content-Type: "'.$mime.'"');
+			header('Content-Disposition: attachment; filename="'.$fileinfo['name'].'"');
+			header("Content-Transfer-Encoding: binary");
+			header('Expires: 0');
 			header('Pragma: no-cache');
+			header("Content-Length: ".$fileinfo['size']);
 		}
 
-		exit($data);
+		switch($fileinfo['type']){
+			case "var":
+				exit($data);
+				break;
+			case "path":
+				$chunksize = 1*(1024*1024); // how many bytes per chunk
+				$buffer = '';
+				$handle = fopen($fileinfo['path'], 'rb');
+				if ($handle === false) {
+					return false;
+				}
+				while (!feof($handle)) {
+					$buffer = fread($handle, $chunksize);
+					print $buffer;
+				}
+				return fclose($handle);
+				break;
+		}
 	}
 }
 
