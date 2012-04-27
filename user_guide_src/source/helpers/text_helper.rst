@@ -46,6 +46,9 @@ more or less then what you specify. Example
 The third parameter is an optional suffix added to the string, if
 undeclared this helper uses an ellipsis.
 
+**Note:** If you need to truncate to an exact number of characters please see
+the :ref:`ellipsize` function below.
+
 ascii_to_entities()
 ===================
 
@@ -135,6 +138,8 @@ complete words. Example
 	echo word_wrap($string, 25);
 
 	// Would produce:  Here is a simple string of text that will help us demonstrate this function
+
+.. _ellipsize:
 
 ellipsize()
 ===========

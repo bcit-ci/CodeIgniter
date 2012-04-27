@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -18,14 +18,12 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter HTML Helpers
@@ -42,20 +40,17 @@
 /**
  * Heading
  *
- * Generates an HTML heading tag.  First param is the data.
- * Second param is the size of the heading tag.
+ * Generates an HTML heading tag.
  *
- * @access	public
- * @param	string
- * @param	integer
+ * @param	string	content
+ * @param	int	heading level
  * @return	string
  */
 if ( ! function_exists('heading'))
 {
 	function heading($data = '', $h = '1', $attributes = '')
 	{
-		$attributes = ($attributes != '') ? ' '.$attributes : $attributes;
-		return "<h".$h.$attributes.">".$data."</h".$h.">";
+		return '<h'.$h.($attributes != '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
 	}
 }
 
@@ -66,7 +61,6 @@ if ( ! function_exists('heading'))
  *
  * Generates an HTML unordered list from an single or multi-dimensional array.
  *
- * @access	public
  * @param	array
  * @param	mixed
  * @return	string
@@ -86,7 +80,6 @@ if ( ! function_exists('ul'))
  *
  * Generates an HTML ordered list from an single or multi-dimensional array.
  *
- * @access	public
  * @param	array
  * @param	mixed
  * @return	string
@@ -106,11 +99,10 @@ if ( ! function_exists('ol'))
  *
  * Generates an HTML ordered list from an single or multi-dimensional array.
  *
- * @access	private
  * @param	string
  * @param	mixed
  * @param	mixed
- * @param	integer
+ * @param	int
  * @return	string
  */
 if ( ! function_exists('_list'))
@@ -124,7 +116,7 @@ if ( ! function_exists('_list'))
 		}
 
 		// Set the indentation based on the depth
-		$out = str_repeat(" ", $depth);
+		$out = str_repeat(' ', $depth);
 
 		// Were any attributes submitted?  If so generate a string
 		if (is_array($attributes))
@@ -132,17 +124,17 @@ if ( ! function_exists('_list'))
 			$atts = '';
 			foreach ($attributes as $key => $val)
 			{
-				$atts .= ' ' . $key . '="' . $val . '"';
+				$atts .= ' '.$key.'="'.$val.'"';
 			}
 			$attributes = $atts;
 		}
-		elseif (is_string($attributes) AND strlen($attributes) > 0)
+		elseif (is_string($attributes) && strlen($attributes) > 0)
 		{
-			$attributes = ' '. $attributes;
+			$attributes = ' '.$attributes;
 		}
 
 		// Write the opening list tag
-		$out .= "<".$type.$attributes.">\n";
+		$out .= '<'.$type.$attributes.">\n";
 
 		// Cycle through the list elements.  If an array is
 		// encountered we will recursively call _list()
@@ -152,8 +144,7 @@ if ( ! function_exists('_list'))
 		{
 			$_last_list_item = $key;
 
-			$out .= str_repeat(" ", $depth + 2);
-			$out .= "<li>";
+			$out .= str_repeat(' ', $depth + 2).'<li>';
 
 			if ( ! is_array($val))
 			{
@@ -161,21 +152,14 @@ if ( ! function_exists('_list'))
 			}
 			else
 			{
-				$out .= $_last_list_item."\n";
-				$out .= _list($type, $val, '', $depth + 4);
-				$out .= str_repeat(" ", $depth + 2);
+				$out .= $_last_list_item."\n"._list($type, $val, '', $depth + 4).str_repeat(' ', $depth + 2);
 			}
 
 			$out .= "</li>\n";
 		}
 
-		// Set the indentation for the closing tag
-		$out .= str_repeat(" ", $depth);
-
-		// Write the closing list tag
-		$out .= "</".$type.">\n";
-
-		return $out;
+		// Set the indentation for the closing tag and apply it
+		return $out.str_repeat(' ', $depth).'</'.$type.">\n";
 	}
 }
 
@@ -184,15 +168,14 @@ if ( ! function_exists('_list'))
 /**
  * Generates HTML BR tags based on number supplied
  *
- * @access	public
- * @param	integer
+ * @param	int
  * @return	string
  */
 if ( ! function_exists('br'))
 {
 	function br($num = 1)
 	{
-		return str_repeat("<br />", $num);
+		return str_repeat('<br />', $num);
 	}
 }
 
@@ -203,8 +186,8 @@ if ( ! function_exists('br'))
  *
  * Generates an <img /> element
  *
- * @access	public
  * @param	mixed
+ * @param	bool
  * @return	string
  */
 if ( ! function_exists('img'))
@@ -224,10 +207,9 @@ if ( ! function_exists('img'))
 
 		$img = '<img';
 
-		foreach ($src as $k=>$v)
+		foreach ($src as $k => $v)
 		{
-
-			if ($k == 'src' AND strpos($v, '://') === FALSE)
+			if ($k === 'src' && strpos($v, '://') === FALSE)
 			{
 				$CI =& get_instance();
 
@@ -242,13 +224,11 @@ if ( ! function_exists('img'))
 			}
 			else
 			{
-				$img .= " $k=\"$v\"";
+				$img .= ' '.$k.'="'.$v.'"';
 			}
 		}
 
-		$img .= '/>';
-
-		return $img;
+		return $img.'/>';
 	}
 }
 
@@ -260,10 +240,9 @@ if ( ! function_exists('img'))
  * Generates a page document type declaration
  *
  * Valid options are xhtml-11, xhtml-strict, xhtml-trans, xhtml-frame,
- * html4-strict, html4-trans, and html4-frame.  Values are saved in the
+ * html4-strict, html4-trans, and html4-frame. Values are saved in the
  * doctypes config file.
  *
- * @access	public
  * @param	string	type	The doctype to be generated
  * @return	string
  */
@@ -275,7 +254,7 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($_doctypes))
 		{
-			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
+			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
 			}
@@ -290,14 +269,7 @@ if ( ! function_exists('doctype'))
 			}
 		}
 
-		if (isset($_doctypes[$type]))
-		{
-			return $_doctypes[$type];
-		}
-		else
-		{
-			return FALSE;
-		}
+		return isset($_doctypes[$type]) ? $_doctypes[$type] : FALSE;
 	}
 }
 
@@ -308,13 +280,12 @@ if ( ! function_exists('doctype'))
  *
  * Generates link to a CSS file
  *
- * @access	public
  * @param	mixed	stylesheet hrefs or an array
  * @param	string	rel
  * @param	string	type
  * @param	string	title
  * @param	string	media
- * @param	boolean	should index_page be added to the css path
+ * @param	bool	should index_page be added to the css path
  * @return	string
  */
 if ( ! function_exists('link_tag'))
@@ -322,14 +293,13 @@ if ( ! function_exists('link_tag'))
 	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
 	{
 		$CI =& get_instance();
-
 		$link = '<link ';
 
 		if (is_array($href))
 		{
-			foreach ($href as $k=>$v)
+			foreach ($href as $k => $v)
 			{
-				if ($k == 'href' AND strpos($v, '://') === FALSE)
+				if ($k === 'href' && strpos($v, '://') === FALSE)
 				{
 					if ($index_page === TRUE)
 					{
@@ -342,15 +312,13 @@ if ( ! function_exists('link_tag'))
 				}
 				else
 				{
-					$link .= "$k=\"$v\" ";
+					$link .= $k.'="'.$v.'" ';
 				}
 			}
-
-			$link .= "/>";
 		}
 		else
 		{
-			if ( strpos($href, '://') !== FALSE)
+			if (strpos($href, '://') !== FALSE)
 			{
 				$link .= 'href="'.$href.'" ';
 			}
@@ -365,21 +333,18 @@ if ( ! function_exists('link_tag'))
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
 
-			if ($media	!= '')
+			if ($media != '')
 			{
 				$link .= 'media="'.$media.'" ';
 			}
 
-			if ($title	!= '')
+			if ($title != '')
 			{
 				$link .= 'title="'.$title.'" ';
 			}
-
-			$link .= '/>';
 		}
-		$link .= "\n";
 
-		return $link;
+		return $link."/>\n";
 	}
 }
 
@@ -388,8 +353,10 @@ if ( ! function_exists('link_tag'))
 /**
  * Generates meta tags from an array of key/values
  *
- * @access	public
  * @param	array
+ * @param	string
+ * @param	string
+ * @param	string
  * @return	string
  */
 if ( ! function_exists('meta'))
@@ -402,13 +369,10 @@ if ( ! function_exists('meta'))
 		{
 			$name = array(array('name' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline));
 		}
-		else
+		elseif (isset($name['name']))
 		{
 			// Turn single array into multidimensional
-			if (isset($name['name']))
-			{
-				$name = array($name);
-			}
+			$name = array($name);
 		}
 
 		$str = '';
@@ -431,18 +395,16 @@ if ( ! function_exists('meta'))
 /**
  * Generates non-breaking space entities based on number supplied
  *
- * @access	public
- * @param	integer
+ * @param	int
  * @return	string
  */
 if ( ! function_exists('nbs'))
 {
 	function nbs($num = 1)
 	{
-		return str_repeat("&nbsp;", $num);
+		return str_repeat('&nbsp;', $num);
 	}
 }
-
 
 /* End of file html_helper.php */
 /* Location: ./system/helpers/html_helper.php */

@@ -28,7 +28,7 @@ code.
     <?php 
     class Pages extends CI_Controller { 
 
-        public function view($page == 'home') 
+        public function view($page = 'home') 
         {
 	
         }
@@ -62,7 +62,7 @@ following code.
         </head>
         <body>
 
-            <h1>CodeIgniter 2 Tutorial<h1>
+            <h1>CodeIgniter 2 Tutorial</h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also
@@ -72,7 +72,7 @@ includes the following code:
 
 ::
 
-            <em>&copy; 2011</em>
+            <em>&copy; 2012</em>
         </body>
     <html>
 
@@ -97,7 +97,7 @@ page actually exists:
     public function view($page = 'home')
     {
                 
-        if ( ! file_exists('application/views/pages/'.$page.'.php'))
+        if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
         {
             // Whoops, we don't have a page for that!
             show_404();
