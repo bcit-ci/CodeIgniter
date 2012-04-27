@@ -45,20 +45,22 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	public $config = array();
+	public $config =	array();
+	
 	/**
 	 * List of all loaded config files
 	 *
 	 * @var array
 	 */
-	public $is_loaded = array();
+	public $is_loaded =	array();
+	
 	/**
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.
 	 *
 	 * @var array
 	 */
-	public $_config_paths = array(APPPATH);
+	public $_config_paths =	array(APPPATH);
 
 	/**
 	 * Constructor
@@ -187,7 +189,6 @@ class CI_Config {
 
 	/**
 	 * Fetch a config file item
-	 *
 	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name

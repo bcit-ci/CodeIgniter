@@ -43,45 +43,51 @@ class CI_Input {
 	 *
 	 * @var string
 	 */
-	public $ip_address				= FALSE;
+	public $ip_address =	FALSE;
+	
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
 	 * @var string
 	 */
-	public $user_agent				= FALSE;
+	public $user_agent =	FALSE;
+	
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
 	 * @var bool
 	 */
-	protected $_allow_get_array		= TRUE;
+	protected $_allow_get_array =	TRUE;
+	
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
-	protected $_standardize_newlines	= TRUE;
+	protected $_standardize_newlines =	TRUE;
+	
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
 	 *
 	 * @var bool
 	 */
-	protected $_enable_xss			= FALSE;
+	protected $_enable_xss =	FALSE;
+	
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
 	 *
 	 * @var bool
 	 */
-	protected $_enable_csrf			= FALSE;
+	protected $_enable_csrf =	FALSE;
+	
 	/**
 	 * List of all HTTP request headers
 	 *
 	 * @var array
 	 */
-	protected $headers			= array();
+	protected $headers =	array();
 
 	/**
 	 * Constructor
@@ -141,12 +147,12 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch an item from the GET array
-	*
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
+	 * Fetch an item from the GET array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	public function get($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
@@ -168,12 +174,12 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch an item from the POST array
-	*
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
+	 * Fetch an item from the POST array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	public function post($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
@@ -196,12 +202,12 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch an item from either the GET array or the POST
-	*
-	* @param	string	The index key
-	* @param	bool	XSS cleaning
-	* @return	string
-	*/
+	 * Fetch an item from either the GET array or the POST
+	 *
+	 * @param	string	The index key
+	 * @param	bool	XSS cleaning
+	 * @return	string
+	 */
 	public function get_post($index = '', $xss_clean = FALSE)
 	{
 		return isset($_POST[$index])
@@ -212,12 +218,12 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch an item from the COOKIE array
-	*
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
+	 * Fetch an item from the COOKIE array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	public function cookie($index = '', $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
@@ -226,21 +232,21 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
-	* Set cookie
-	*
-	* Accepts seven parameters, or you can submit an associative
-	* array in the first parameter containing all the values.
-	*
-	* @param	mixed
-	* @param	string	the value of the cookie
-	* @param	string	the number of seconds until expiration
-	* @param	string	the cookie domain.  Usually:  .yourdomain.com
-	* @param	string	the cookie path
-	* @param	string	the cookie prefix
-	* @param	bool	true makes the cookie secure
-	* @param	bool	true makes the cookie accessible via http(s) only (no javascript)
-	* @return	void
-	*/
+	 * Set cookie
+	 *
+	 * Accepts seven parameters, or you can submit an associative
+	 * array in the first parameter containing all the values.
+	 *
+	 * @param	mixed
+	 * @param	string	the value of the cookie
+	 * @param	string	the number of seconds until expiration
+	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
+	 * @param	string	the cookie path
+	 * @param	string	the cookie prefix
+	 * @param	bool	true makes the cookie secure
+	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
+	 * @return	void
+	 */
 	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))
@@ -291,12 +297,12 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch an item from the SERVER array
-	*
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
+	 * Fetch an item from the SERVER array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	public function server($index = '', $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
@@ -305,10 +311,10 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Fetch the IP Address
-	*
-	* @return	string
-	*/
+	 * Fetch the IP Address
+	 *
+	 * @return	string
+	 */
 	public function ip_address()
 	{
 		if ($this->ip_address !== FALSE)
@@ -362,13 +368,13 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Validate IP Address
-	*
-	* Updated version suggested by Geert De Deckere
-	*
-	* @param	string
-	* @return	bool
-	*/
+	 * Validate IP Address
+	 *
+	 * Updated version suggested by Geert De Deckere
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
 	public function valid_ip($ip)
 	{
 		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
@@ -377,10 +383,10 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* User Agent
-	*
-	* @return	string
-	*/
+	 * User Agent
+	 *
+	 * @return	string
+	 */
 	public function user_agent()
 	{
 		if ($this->user_agent !== FALSE)
@@ -394,24 +400,39 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Sanitize Globals
-	*
-	* This function does the following:
-	*
-	* - Unsets $_GET data (if query strings are not enabled)
-	* - Unsets all globals if register_globals is enabled
-	* - Standardizes newline characters to \n
-	*
-	* @return	void
-	*/
+	 * Sanitize Globals
+	 *
+	 * This function does the following:
+	 *
+	 * - Unsets $_GET data (if query strings are not enabled)
+	 * - Unsets all globals if register_globals is enabled
+	 * - Standardizes newline characters to \n
+	 *
+	 * @return	void
+	 */
 	protected function _sanitize_globals()
 	{
 		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array('_SERVER', '_GET', '_POST', '_FILES', '_REQUEST',
-					'_SESSION', '_ENV', 'GLOBALS', 'HTTP_RAW_POST_DATA',
-					'system_folder', 'application_folder', 'BM', 'EXT',
-					'CFG', 'URI', 'RTR', 'OUT', 'IN'
-				);
+		$protected = array(
+			'_SERVER',
+			'_GET',
+			'_POST',
+			'_FILES',
+			'_REQUEST',
+			'_SESSION',
+			'_ENV',
+			'GLOBALS',
+			'HTTP_RAW_POST_DATA',
+			'system_folder',
+			'application_folder',
+			'BM',
+			'EXT',
+			'CFG',
+			'URI',
+			'RTR',
+			'OUT',
+			'IN'
+		);
 
 		// Unset globals for securiy.
 		// This is effectively the same as register_globals = off
@@ -493,14 +514,14 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Clean Input Data
-	*
-	* This is a helper function. It escapes data and
-	* standardizes newline characters to \n
-	*
-	* @param	string
-	* @return	string
-	*/
+	 * Clean Input Data
+	 *
+	 * This is a helper function. It escapes data and
+	 * standardizes newline characters to \n
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	protected function _clean_input_data($str)
 	{
 		if (is_array($str))
@@ -550,15 +571,15 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	* Clean Keys
-	*
-	* This is a helper function. To prevent malicious users
-	* from trying to exploit keys we make sure that keys are
-	* only named with alpha-numeric text and a few other items.
-	*
-	* @param	string
-	* @return	string
-	*/
+	 * Clean Keys
+	 *
+	 * This is a helper function. To prevent malicious users
+	 * from trying to exploit keys we make sure that keys are
+	 * only named with alpha-numeric text and a few other items.
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	protected function _clean_input_keys($str)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
