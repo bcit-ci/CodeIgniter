@@ -43,19 +43,21 @@ class CI_Hooks {
 	 *
 	 * @var bool
 	 */
-	public $enabled		= FALSE;
+	public $enabled =	FALSE;
+	
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
 	 * @var array
 	 */
-	public $hooks		= array();
+	public $hooks =	array();
+	
 	/**
 	 * Determines wether hook is in progress, used to prevent infinte loops
 	 *
 	 * @var bool
 	 */
-	public $in_progress	= FALSE;
+	public $in_progress	=	FALSE;
 
 	/**
 	 * Initialize the Hooks Preferences
