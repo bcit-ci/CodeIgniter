@@ -42,23 +42,45 @@
  */
 class CI_Profiler {
 
+	/**
+	 * List of profiler sections available to show
+	 *
+	 * @var array
+	 */
 	protected $_available_sections = array(
-						'benchmarks',
-						'get',
-						'memory_usage',
-						'post',
-						'uri_string',
-						'controller_info',
-						'queries',
-						'http_headers',
-						'session_data',
-						'config'
-					);
+		'benchmarks',
+		'get',
+		'memory_usage',
+		'post',
+		'uri_string',
+		'controller_info',
+		'queries',
+		'http_headers',
+		'session_data',
+		'config'
+	);
 
+	/**
+	 * Number of queries to show before making the additional queries togglable
+	 *
+	 * @var int
+	 */
 	protected $_query_toggle_count = 25;
 
+	/**
+	 * Reference to the CodeIgniter singleton
+	 *
+	 * @var object
+	 */
 	protected $CI;
 
+	/**
+	 * Constructor
+	 *
+	 * Initialize Profiler
+	 *
+	 * @param array $config
+	 */
 	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
