@@ -360,7 +360,7 @@ Preference              Default Value       Options                 Description
                                                                     image headers.
 **quality**             90%                 1 - 100%                Sets the quality of the image. The higher the quality the larger the
                                                                     file size.
-**padding**             None                A number                The amount of padding, set in pixels, that will be applied to the
+**wm_padding**          None                A number                The amount of padding, set in pixels, that will be applied to the
                                                                     watermark to set it away from the edge of your images.
 **wm_vrt_alignment**    bottom              top, middle, bottom     Sets the vertical alignment for the watermark image.
 **wm_hor_alignment**    center              left, center, right     Sets the horizontal alignment for the watermark image.
@@ -390,13 +390,11 @@ Preference              Default Value       Options             Description
 **wm_font_size**        16                  None                The size of the text. Note: If you are not using the True Type option
                                                                 above, the number is set using a range of 1 - 5. Otherwise, you can use
                                                                 any valid pixel size for the font you're using.
-**wm_font_color**       ffffff              None                The font color, specified in hex. Note, you must use the full 6
-                                                                character hex value (ie, 993300), rather than the three character
-                                                                abbreviated version (ie fff).
+**wm_font_color**       ffffff              None                The font color, specified in hex. Both the full 6-length (ie, 993300) and
+                                                                the short three character abbreviated version (ie, fff) are supported.
 **wm_shadow_color**     None                None                The color of the drop shadow, specified in hex. If you leave this blank
-                                                                a drop shadow will not be used. Note, you must use the full 6 character
-                                                                hex value (ie, 993300), rather than the three character abbreviated
-                                                                version (ie fff).
+                                                                a drop shadow will not be used. Both the full 6-length (ie, 993300) and
+                                                                the short three character abbreviated version (ie, fff) are supported.
 **wm_shadow_distance**  3                   None                The distance (in pixels) from the font that the drop shadow should
                                                                 appear.
 ======================= =================== =================== ==========================================================================
