@@ -44,36 +44,42 @@ class CI_Router {
 	 * @var object
 	 */
 	public $config;
+	
 	/**
 	 * List of routes
 	 *
 	 * @var array
 	 */
-	public $routes			= array();
+	public $routes =	array();
+	
 	/**
 	 * List of error routes
 	 *
 	 * @var array
 	 */
-	public $error_routes	= array();
+	public $error_routes =	array();
+	
 	/**
 	 * Current class name
 	 *
 	 * @var string
 	 */
-	public $class			= '';
+	public $class =	'';
+	
 	/**
 	 * Current method name
 	 *
 	 * @var string
 	 */
-	public $method			= 'index';
+	public $method =	'index';
+	
 	/**
 	 * Sub-directory that contains the requested controller class
 	 *
 	 * @var string
 	 */
-	public $directory		= '';
+	public $directory =	'';
+	
 	/**
 	 * Default controller (and method if specific)
 	 *
@@ -211,7 +217,6 @@ class CI_Router {
 	 * input, and sets the current class/method
 	 *
 	 * @param	array
-	 * @param	bool
 	 * @return	void
 	 */
 	protected function _set_request($segments = array())
@@ -237,9 +242,12 @@ class CI_Router {
 			$segments[1] = 'index';
 		}
 
+		// This is being routed to a file in a sub directory
+		$this->directory and array_unshift($segments, trim($this->directory, '/'));
+
 		// Update our "routed" segment array to contain the segments.
 		// Note: If there is no custom routing, this array will be
-		// identical to $this->uri->segments
+		// identical to $this->uri->segments		
 		$this->uri->rsegments = $segments;
 	}
 

@@ -29,6 +29,7 @@ Release Date: Not Released
    -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added Romanian and Greek characters in foreign_characters.php
    -  Updated support for doc files in mimes.php.
    -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
    -  Changed logger to only chmod when file is first created.
@@ -54,7 +55,11 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return
+   -  Renamed the Active Record class to Query Builder to remove confusion with 
+      the Active Record design pattern
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
+   -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
       the SQL string of queries without executing them: get_compiled_select(),
       get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
@@ -196,9 +201,10 @@ Bug fixes for 3.0
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 -  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
 -  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
--  Fixed a bug (#1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
+-  Fixed a bug (#23, #1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
+-  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
@@ -206,11 +212,13 @@ Bug fixes for 3.0
 -  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
 -  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
+-  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
+-  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 
 Version 2.1.1
 =============
 
-Release Date: November 14, 2011
+Release Date: Not Released
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
