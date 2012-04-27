@@ -42,7 +42,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	mixed	the fields
 	 * @return	string
 	 */
-	protected function _process_fields($fields, $primary_keys=array())
+	protected function _process_fields($fields, $primary_keys = array())
 	{
 		$sql = '';
 		$current_field_count = 0;
@@ -54,15 +54,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			// entered the field information, so we'll simply add it to the list
 			if (is_numeric($field))
 			{
-				$sql .= "\n\t$attributes";
+				$sql .= "\n\t".$attributes;
 			}
 			else
 			{
-				$attributes = array_change_key_case($attributes, CASE_UPPER);
-
 				$sql .= "\n\t".$this->db->protect_identifiers($field);
 
-				$is_unsigned = (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE);
+				$attributes = array_change_key_case($attributes, CASE_UPPER);
+				$is_unsigned = ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE);
 
 				// Convert datatypes to be PostgreSQL-compatible
 				switch (strtoupper($attributes['TYPE']))
@@ -94,44 +93,24 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					case 'BLOB':
 						$attributes['TYPE'] = 'BYTEA';
 						break;
+					default:
+						break;
 				}
 
 				// If this is an auto-incrementing primary key, use the serial data type instead
-				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes) 
-					&& $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$sql .= ' SERIAL';
-				}
-				else
-				{
-					$sql .=  ' '.$attributes['TYPE'];
-				}
+				$sql .= (in_array($field, $primary_keys) && ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+					? ' SERIAL' : ' '.$attributes['TYPE'];
 
 				// Modified to prevent constraints with integer data types
-				if (array_key_exists('CONSTRAINT', $attributes) && strpos($attributes['TYPE'], 'INT') === false)
+				if ( ! empty($attributes['CONSTRAINT']) && strpos($attributes['TYPE'], 'INT') === FALSE)
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
 
-				if (array_key_exists('DEFAULT', $attributes))
-				{
-					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
-				}
-
-				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
-				{
-					$sql .= ' NULL';
-				}
-				else
-				{
-					$sql .= ' NOT NULL';
-				}
-
-				// Added new attribute to create unqite fields. Also works with MySQL
-				if (array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE)
-				{
-					$sql .= ' UNIQUE';
-				}
+				$sql .= (isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
+					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
+					// Added new attribute to create unqite fields. Also works with MySQL
+					.(( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE) ? ' UNIQUE' : '');
 			}
 
 			// don't add a comma on the end of the last field
@@ -179,7 +158,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$primary_keys[$index] = $this->db->protect_identifiers($key);
 			}
 
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
 		$sql .= "\n);";
@@ -199,7 +178,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 				foreach ($key as $field)
 				{
-					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
+					$sql .= 'CREATE INDEX '.$table.'_'.str_replace(array('"', "'"), '', $field).'_index ON '.$table.' ('.$field.'); ';
 				}
 			}
 		}
@@ -220,7 +199,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the table name
 	 * @param	string	the column definition
 	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
+	 * @param	bool	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
@@ -229,19 +208,13 @@ class CI_DB_postgre_forge extends CI_DB_forge {
  		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
 
  		// DROP has everything it needs now.
- 		if ($alter_type == 'DROP')
+ 		if ($alter_type === 'DROP')
  		{
  			return $sql.$this->db->protect_identifiers($fields);
  		}
 
- 		$sql .= $this->_process_fields($fields);
-
- 		if ($after_field != '')
- 		{
- 			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
- 		}
-
- 		return $sql;
+ 		return $sql.$this->_process_fields($fields)
+			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
  	}
 
 }

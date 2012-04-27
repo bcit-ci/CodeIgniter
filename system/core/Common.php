@@ -39,17 +39,17 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Determines if the current version of PHP is greater then the supplied value
- *
- * Since there are a few places where we conditionally test for PHP > 5
- * we'll set a static variable.
- *
- * @param	string
- * @return	bool	TRUE if the current version is $version or higher
- */
 if ( ! function_exists('is_php'))
 {
+	/**
+	 * Determines if the current version of PHP is greater then the supplied value
+	 *
+	 * Since there are a few places where we conditionally test for PHP > 5
+	 * we'll set a static variable.
+	 *
+	 * @param	string
+	 * @return	bool	TRUE if the current version is $version or higher
+	 */
 	function is_php($version = '5.0.0')
 	{
 		static $_is_php;
@@ -66,18 +66,18 @@ if ( ! function_exists('is_php'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Tests for file writability
- *
- * is_writable() returns TRUE on Windows servers when you really can't write to
- * the file, based on the read-only attribute. is_writable() is also unreliable
- * on Unix servers if safe_mode is on.
- *
- * @param	string
- * @return	void
- */
 if ( ! function_exists('is_really_writable'))
 {
+	/**
+	 * Tests for file writability
+	 *
+	 * is_writable() returns TRUE on Windows servers when you really can't write to
+	 * the file, based on the read-only attribute. is_writable() is also unreliable
+	 * on Unix servers if safe_mode is on.
+	 *
+	 * @param	string
+	 * @return	void
+	 */
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
@@ -114,20 +114,20 @@ if ( ! function_exists('is_really_writable'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Class registry
- *
- * This function acts as a singleton. If the requested class does not
- * exist it is instantiated and set to a static variable. If it has
- * previously been instantiated the variable is returned.
- *
- * @param	string	the class name being requested
- * @param	string	the directory where the class should be found
- * @param	string	the class name prefix
- * @return	object
- */
 if ( ! function_exists('load_class'))
 {
+	/**
+	 * Class registry
+	 *
+	 * This function acts as a singleton. If the requested class does not
+	 * exist it is instantiated and set to a static variable. If it has
+	 * previously been instantiated the variable is returned.
+	 *
+	 * @param	string	the class name being requested
+	 * @param	string	the directory where the class should be found
+	 * @param	string	the class name prefix
+	 * @return	object
+	 */
 	function &load_class($class, $directory = 'libraries', $prefix = 'CI_')
 	{
 		static $_classes = array();
@@ -187,15 +187,15 @@ if ( ! function_exists('load_class'))
 
 // --------------------------------------------------------------------
 
-/**
- * Keeps track of which libraries have been loaded. This function is
- * called by the load_class() function above
- *
- * @param	string
- * @return	array
- */
 if ( ! function_exists('is_loaded'))
 {
+	/**
+	 * Keeps track of which libraries have been loaded. This function is
+	 * called by the load_class() function above
+	 *
+	 * @param	string
+	 * @return	array
+	 */
 	function &is_loaded($class = '')
 	{
 		static $_is_loaded = array();
@@ -211,17 +211,17 @@ if ( ! function_exists('is_loaded'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Loads the main config.php file
- *
- * This function lets us grab the config file even if the Config class
- * hasn't been instantiated yet
- *
- * @param	array
- * @return	array
- */
 if ( ! function_exists('get_config'))
 {
+	/**
+	 * Loads the main config.php file
+	 *
+	 * This function lets us grab the config file even if the Config class
+	 * hasn't been instantiated yet
+	 *
+	 * @param	array
+	 * @return	array
+	 */
 	function &get_config($replace = array())
 	{
 		static $_config;
@@ -271,14 +271,14 @@ if ( ! function_exists('get_config'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Returns the specified config item
- *
- * @param	string
- * @return	mixed
- */
 if ( ! function_exists('config_item'))
 {
+	/**
+	 * Returns the specified config item
+	 *
+	 * @param	string
+	 * @return	mixed
+	 */
 	function config_item($item)
 	{
 		static $_config_item = array();
@@ -300,22 +300,22 @@ if ( ! function_exists('config_item'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Error Handler
- *
- * This function lets us invoke the exception class and
- * display errors using the standard error template located
- * in application/errors/errors.php
- * This function will send the error page directly to the
- * browser and exit.
- *
- * @param	string
- * @param	int
- * @param	string
- * @return	void
- */
 if ( ! function_exists('show_error'))
 {
+	/**
+	 * Error Handler
+	 *
+	 * This function lets us invoke the exception class and
+	 * display errors using the standard error template located
+	 * in application/errors/errors.php
+	 * This function will send the error page directly to the
+	 * browser and exit.
+	 *
+	 * @param	string
+	 * @param	int
+	 * @param	string
+	 * @return	void
+	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
 		$_error =& load_class('Exceptions', 'core');
@@ -326,19 +326,19 @@ if ( ! function_exists('show_error'))
 
 // ------------------------------------------------------------------------
 
-/**
- * 404 Page Handler
- *
- * This function is similar to the show_error() function above
- * However, instead of the standard error template it displays
- * 404 errors.
- *
- * @param	string
- * @param	bool
- * @return	void
- */
 if ( ! function_exists('show_404'))
 {
+	/**
+	 * 404 Page Handler
+	 *
+	 * This function is similar to the show_error() function above
+	 * However, instead of the standard error template it displays
+	 * 404 errors.
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	void
+	 */
 	function show_404($page = '', $log_error = TRUE)
 	{
 		$_error =& load_class('Exceptions', 'core');
@@ -349,19 +349,19 @@ if ( ! function_exists('show_404'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Error Logging Interface
- *
- * We use this as a simple mechanism to access the logging
- * class and send messages to be logged.
- *
- * @param	string
- * @param	string
- * @param	bool
- * @return	void
- */
 if ( ! function_exists('log_message'))
 {
+	/**
+	 * Error Logging Interface
+	 *
+	 * We use this as a simple mechanism to access the logging
+	 * class and send messages to be logged.
+	 *
+	 * @param	string
+	 * @param	string
+	 * @param	bool
+	 * @return	void
+	 */
 	function log_message($level = 'error', $message, $php_error = FALSE)
 	{
 		static $_log;
@@ -378,59 +378,59 @@ if ( ! function_exists('log_message'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Set HTTP Status Header
- *
- * @param	int	the status code
- * @param	string
- * @return	void
- */
 if ( ! function_exists('set_status_header'))
 {
+	/**
+	 * Set HTTP Status Header
+	 *
+	 * @param	int	the status code
+	 * @param	string
+	 * @return	void
+	 */
 	function set_status_header($code = 200, $text = '')
 	{
 		$stati = array(
-					200	=> 'OK',
-					201	=> 'Created',
-					202	=> 'Accepted',
-					203	=> 'Non-Authoritative Information',
-					204	=> 'No Content',
-					205	=> 'Reset Content',
-					206	=> 'Partial Content',
+			200	=> 'OK',
+			201	=> 'Created',
+			202	=> 'Accepted',
+			203	=> 'Non-Authoritative Information',
+			204	=> 'No Content',
+			205	=> 'Reset Content',
+			206	=> 'Partial Content',
 
-					300	=> 'Multiple Choices',
-					301	=> 'Moved Permanently',
-					302	=> 'Found',
-					304	=> 'Not Modified',
-					305	=> 'Use Proxy',
-					307	=> 'Temporary Redirect',
+			300	=> 'Multiple Choices',
+			301	=> 'Moved Permanently',
+			302	=> 'Found',
+			304	=> 'Not Modified',
+			305	=> 'Use Proxy',
+			307	=> 'Temporary Redirect',
 
-					400	=> 'Bad Request',
-					401	=> 'Unauthorized',
-					403	=> 'Forbidden',
-					404	=> 'Not Found',
-					405	=> 'Method Not Allowed',
-					406	=> 'Not Acceptable',
-					407	=> 'Proxy Authentication Required',
-					408	=> 'Request Timeout',
-					409	=> 'Conflict',
-					410	=> 'Gone',
-					411	=> 'Length Required',
-					412	=> 'Precondition Failed',
-					413	=> 'Request Entity Too Large',
-					414	=> 'Request-URI Too Long',
-					415	=> 'Unsupported Media Type',
-					416	=> 'Requested Range Not Satisfiable',
-					417	=> 'Expectation Failed',
-					422	=> 'Unprocessable Entity',
+			400	=> 'Bad Request',
+			401	=> 'Unauthorized',
+			403	=> 'Forbidden',
+			404	=> 'Not Found',
+			405	=> 'Method Not Allowed',
+			406	=> 'Not Acceptable',
+			407	=> 'Proxy Authentication Required',
+			408	=> 'Request Timeout',
+			409	=> 'Conflict',
+			410	=> 'Gone',
+			411	=> 'Length Required',
+			412	=> 'Precondition Failed',
+			413	=> 'Request Entity Too Large',
+			414	=> 'Request-URI Too Long',
+			415	=> 'Unsupported Media Type',
+			416	=> 'Requested Range Not Satisfiable',
+			417	=> 'Expectation Failed',
+			422	=> 'Unprocessable Entity',
 
-					500	=> 'Internal Server Error',
-					501	=> 'Not Implemented',
-					502	=> 'Bad Gateway',
-					503	=> 'Service Unavailable',
-					504	=> 'Gateway Timeout',
-					505	=> 'HTTP Version Not Supported'
-			);
+			500	=> 'Internal Server Error',
+			501	=> 'Not Implemented',
+			502	=> 'Bad Gateway',
+			503	=> 'Service Unavailable',
+			504	=> 'Gateway Timeout',
+			505	=> 'HTTP Version Not Supported'
+		);
 
 		if ($code == '' OR ! is_numeric($code))
 		{
@@ -466,25 +466,25 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
-/**
- * Exception Handler
- *
- * This is the custom exception handler that is declaired at the top
- * of Codeigniter.php. The main reason we use this is to permit
- * PHP errors to be logged in our own log files since the user may
- * not have access to server logs. Since this function
- * effectively intercepts PHP errors, however, we also need
- * to display errors based on the current error_reporting level.
- * We do that with the use of a PHP error template.
- *
- * @param	int
- * @param	string
- * @param	string
- * @param	int
- * @return	void
- */
 if ( ! function_exists('_exception_handler'))
 {
+	/**
+	 * Exception Handler
+	 *
+	 * This is the custom exception handler that is declaired at the top
+	 * of Codeigniter.php. The main reason we use this is to permit
+	 * PHP errors to be logged in our own log files since the user may
+	 * not have access to server logs. Since this function
+	 * effectively intercepts PHP errors, however, we also need
+	 * to display errors based on the current error_reporting level.
+	 * We do that with the use of a PHP error template.
+	 *
+	 * @param	int
+	 * @param	string
+	 * @param	string
+	 * @param	int
+	 * @return	void
+	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
 		 // We don't bother with "strict" notices since they tend to fill up
@@ -518,18 +518,18 @@ if ( ! function_exists('_exception_handler'))
 
 // --------------------------------------------------------------------
 
-/**
- * Remove Invisible Characters
- *
- * This prevents sandwiching null characters
- * between ascii characters, like Java\0script.
- *
- * @param	string
- * @param	bool
- * @return	string
- */
 if ( ! function_exists('remove_invisible_characters'))
 {
+	/**
+	 * Remove Invisible Characters
+	 *
+	 * This prevents sandwiching null characters
+	 * between ascii characters, like Java\0script.
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
 		$non_displayables = array();
@@ -556,14 +556,14 @@ if ( ! function_exists('remove_invisible_characters'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Returns HTML escaped variable
- *
- * @param	mixed
- * @return	mixed
- */
 if ( ! function_exists('html_escape'))
 {
+	/**
+	 * Returns HTML escaped variable
+	 *
+	 * @param	mixed
+	 * @return	mixed
+	 */
 	function html_escape($var)
 	{
 		return is_array($var)
