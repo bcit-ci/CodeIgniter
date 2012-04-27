@@ -37,17 +37,18 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Heading
- *
- * Generates an HTML heading tag.
- *
- * @param	string	content
- * @param	int	heading level
- * @return	string
- */
 if ( ! function_exists('heading'))
 {
+	/**
+	 * Heading
+	 *
+	 * Generates an HTML heading tag.
+	 *
+	 * @param	string	content
+	 * @param	int	heading level
+	 * @param	string
+	 * @return	string
+	 */
 	function heading($data = '', $h = '1', $attributes = '')
 	{
 		return '<h'.$h.($attributes != '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
@@ -56,17 +57,17 @@ if ( ! function_exists('heading'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Unordered List
- *
- * Generates an HTML unordered list from an single or multi-dimensional array.
- *
- * @param	array
- * @param	mixed
- * @return	string
- */
 if ( ! function_exists('ul'))
 {
+	/**
+	 * Unordered List
+	 *
+	 * Generates an HTML unordered list from an single or multi-dimensional array.
+	 *
+	 * @param	array
+	 * @param	mixed
+	 * @return	string
+	 */
 	function ul($list, $attributes = '')
 	{
 		return _list('ul', $list, $attributes);
@@ -75,17 +76,17 @@ if ( ! function_exists('ul'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Ordered List
- *
- * Generates an HTML ordered list from an single or multi-dimensional array.
- *
- * @param	array
- * @param	mixed
- * @return	string
- */
 if ( ! function_exists('ol'))
 {
+	/**
+	 * Ordered List
+	 *
+	 * Generates an HTML ordered list from an single or multi-dimensional array.
+	 *
+	 * @param	array
+	 * @param	mixed
+	 * @return	string
+	 */
 	function ol($list, $attributes = '')
 	{
 		return _list('ol', $list, $attributes);
@@ -94,19 +95,19 @@ if ( ! function_exists('ol'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Generates the list
- *
- * Generates an HTML ordered list from an single or multi-dimensional array.
- *
- * @param	string
- * @param	mixed
- * @param	mixed
- * @param	int
- * @return	string
- */
 if ( ! function_exists('_list'))
 {
+	/**
+	 * Generates the list
+	 *
+	 * Generates an HTML ordered list from an single or multi-dimensional array.
+	 *
+	 * @param	string
+	 * @param	mixed
+	 * @param	mixed
+	 * @param	int
+	 * @return	string
+	 */
 	function _list($type = 'ul', $list, $attributes = '', $depth = 0)
 	{
 		// If an array wasn't submitted there's nothing to do...
@@ -165,14 +166,14 @@ if ( ! function_exists('_list'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Generates HTML BR tags based on number supplied
- *
- * @param	int
- * @return	string
- */
 if ( ! function_exists('br'))
 {
+	/**
+	 * Generates HTML BR tags based on number supplied
+	 *
+	 * @param	int
+	 * @return	string
+	 */
 	function br($num = 1)
 	{
 		return str_repeat('<br />', $num);
@@ -181,17 +182,17 @@ if ( ! function_exists('br'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Image
- *
- * Generates an <img /> element
- *
- * @param	mixed
- * @param	bool
- * @return	string
- */
 if ( ! function_exists('img'))
 {
+	/**
+	 * Image
+	 *
+	 * Generates an <img /> element
+	 *
+	 * @param	mixed
+	 * @param	bool
+	 * @return	string
+	 */
 	function img($src = '', $index_page = FALSE)
 	{
 		if ( ! is_array($src) )
@@ -234,20 +235,20 @@ if ( ! function_exists('img'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Doctype
- *
- * Generates a page document type declaration
- *
- * Valid options are xhtml-11, xhtml-strict, xhtml-trans, xhtml-frame,
- * html4-strict, html4-trans, and html4-frame. Values are saved in the
- * doctypes config file.
- *
- * @param	string	type	The doctype to be generated
- * @return	string
- */
 if ( ! function_exists('doctype'))
 {
+	/**
+	 * Doctype
+	 *
+	 * Generates a page document type declaration
+	 *
+	 * Valid options are xhtml-11, xhtml-strict, xhtml-trans, xhtml-frame,
+	 * html4-strict, html4-trans, and html4-frame. Values are saved in the
+	 * doctypes config file.
+	 *
+	 * @param	string	type	The doctype to be generated
+	 * @return	string
+	 */
 	function doctype($type = 'xhtml1-strict')
 	{
 		global $_doctypes;
@@ -275,21 +276,21 @@ if ( ! function_exists('doctype'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Link
- *
- * Generates link to a CSS file
- *
- * @param	mixed	stylesheet hrefs or an array
- * @param	string	rel
- * @param	string	type
- * @param	string	title
- * @param	string	media
- * @param	bool	should index_page be added to the css path
- * @return	string
- */
 if ( ! function_exists('link_tag'))
 {
+	/**
+	 * Link
+	 *
+	 * Generates link to a CSS file
+	 *
+	 * @param	mixed	stylesheet hrefs or an array
+	 * @param	string	rel
+	 * @param	string	type
+	 * @param	string	title
+	 * @param	string	media
+	 * @param	bool	should index_page be added to the css path
+	 * @return	string
+	 */
 	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
 	{
 		$CI =& get_instance();
@@ -350,17 +351,17 @@ if ( ! function_exists('link_tag'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Generates meta tags from an array of key/values
- *
- * @param	array
- * @param	string
- * @param	string
- * @param	string
- * @return	string
- */
 if ( ! function_exists('meta'))
 {
+	/**
+	 * Generates meta tags from an array of key/values
+	 *
+	 * @param	array
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
 	function meta($name = '', $content = '', $type = 'name', $newline = "\n")
 	{
 		// Since we allow the data to be passes as a string, a simple array
@@ -392,14 +393,14 @@ if ( ! function_exists('meta'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Generates non-breaking space entities based on number supplied
- *
- * @param	int
- * @return	string
- */
 if ( ! function_exists('nbs'))
 {
+	/**
+	 * Generates non-breaking space entities based on number supplied
+	 *
+	 * @param	int
+	 * @return	string
+	 */
 	function nbs($num = 1)
 	{
 		return str_repeat('&nbsp;', $num);
