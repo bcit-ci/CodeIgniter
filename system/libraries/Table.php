@@ -140,7 +140,7 @@ class CI_Table {
 	 * @param	mixed
 	 * @return	void
 	 */
-	public function set_heading($args=array())
+	public function set_heading($args = array())
 	{
 		$args = func_get_args();
 		$this->heading = $this->_prep_args($args);
