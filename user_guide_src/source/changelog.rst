@@ -213,6 +213,7 @@ Bug fixes for 3.0
 -  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
+-  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 
 Version 2.1.1
 =============
