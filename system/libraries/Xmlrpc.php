@@ -104,24 +104,24 @@ class CI_Xmlrpc {
 			);
 
 		// Array of Valid Parents for Various XML-RPC elements
-		$this->valid_parents = array('BOOLEAN'			=> array('VALUE'),
-						'I4'				=> array('VALUE'),
-						'INT'				=> array('VALUE'),
-						'STRING'			=> array('VALUE'),
-						'DOUBLE'			=> array('VALUE'),
-						'DATETIME.ISO8601'	=> array('VALUE'),
-						'BASE64'			=> array('VALUE'),
-						'ARRAY'			=> array('VALUE'),
-						'STRUCT'			=> array('VALUE'),
-						'PARAM'			=> array('PARAMS'),
-						'METHODNAME'		=> array('METHODCALL'),
-						'PARAMS'			=> array('METHODCALL', 'METHODRESPONSE'),
-						'MEMBER'			=> array('STRUCT'),
-						'NAME'				=> array('MEMBER'),
-						'DATA'				=> array('ARRAY'),
-						'FAULT'			=> array('METHODRESPONSE'),
-						'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
-					 );
+		$this->valid_parents = array('BOOLEAN' => array('VALUE'),
+			'I4'				=> array('VALUE'),
+			'INT'				=> array('VALUE'),
+			'STRING'			=> array('VALUE'),
+			'DOUBLE'			=> array('VALUE'),
+			'DATETIME.ISO8601'	=> array('VALUE'),
+			'BASE64'			=> array('VALUE'),
+			'ARRAY'			=> array('VALUE'),
+			'STRUCT'			=> array('VALUE'),
+			'PARAM'			=> array('PARAMS'),
+			'METHODNAME'		=> array('METHODCALL'),
+			'PARAMS'			=> array('METHODCALL', 'METHODRESPONSE'),
+			'MEMBER'			=> array('STRUCT'),
+			'NAME'				=> array('MEMBER'),
+			'DATA'				=> array('ARRAY'),
+			'FAULT'			=> array('METHODRESPONSE'),
+			'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
+		 );
 
 
 		// XML-RPC Responses

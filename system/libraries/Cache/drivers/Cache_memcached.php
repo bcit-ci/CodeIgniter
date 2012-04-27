@@ -36,15 +36,25 @@
  */
 class CI_Cache_memcached extends CI_Driver {
 
-	protected $_memcached;	// Holds the memcached object
+	/**
+	 * Holds the memcached object
+	 *
+	 * @var object
+	 */
+	protected $_memcached;
 
+	/**
+	 * Memcached configuration
+	 *
+	 * @var array
+	 */
 	protected $_memcache_conf	= array(
-					'default' => array(
-						'default_host'		=> '127.0.0.1',
-						'default_port'		=> 11211,
-						'default_weight'	=> 1
-					)
-				);
+		'default' => array(
+			'default_host'		=> '127.0.0.1',
+			'default_port'		=> 11211,
+			'default_weight'	=> 1
+		)
+	);
 
 	/**
 	 * Fetch from cache
