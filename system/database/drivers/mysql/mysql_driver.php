@@ -29,7 +29,7 @@
  * MySQL Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -460,39 +460,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = ($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '';
-		if (count($like) > 0)
-		{
-			$where .= ($where == '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -529,36 +496,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
-	 * @return	string
-	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
-	{
-		$conditions = '';
-
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
-		}
-
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
 	}
 
 	// --------------------------------------------------------------------

@@ -128,7 +128,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{
