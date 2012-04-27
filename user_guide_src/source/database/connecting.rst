@@ -36,7 +36,7 @@ Available Parameters
    string.
 #. TRUE/FALSE (boolean). Whether to return the connection ID (see
    Connecting to Multiple Databases below).
-#. TRUE/FALSE (boolean). Whether to enable the Active Record class. Set
+#. TRUE/FALSE (boolean). Whether to enable the Query Builder class. Set
    to TRUE by default.
 
 Manually Connecting to a Database
