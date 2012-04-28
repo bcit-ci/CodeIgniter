@@ -29,7 +29,7 @@
  * SQLSRV Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -440,7 +440,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.$where;
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
 	}
 
 	// --------------------------------------------------------------------

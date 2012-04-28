@@ -37,16 +37,16 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Read File
- *
- * Opens the file specfied in the path and returns it as a string.
- *
- * @param	string	path to file
- * @return	string
- */
 if ( ! function_exists('read_file'))
 {
+	/**
+	 * Read File
+	 *
+	 * Opens the file specfied in the path and returns it as a string.
+	 *
+	 * @param	string	path to file
+	 * @return	string
+	 */
 	function read_file($file)
 	{
 		if ( ! file_exists($file))
@@ -81,18 +81,19 @@ if ( ! function_exists('read_file'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Write File
- *
- * Writes data to the file specified in the path.
- * Creates a new file if non-existent.
- *
- * @param	string	path to file
- * @param	string	file data
- * @return	bool
- */
 if ( ! function_exists('write_file'))
 {
+	/**
+	 * Write File
+	 *
+	 * Writes data to the file specified in the path.
+	 * Creates a new file if non-existent.
+	 *
+	 * @param	string	path to file
+	 * @param	string	file data
+	 * @param	int
+	 * @return	bool
+	 */
 	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
 	{
 		if ( ! $fp = @fopen($path, $mode))
@@ -111,22 +112,22 @@ if ( ! function_exists('write_file'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Delete Files
- *
- * Deletes all files contained in the supplied directory path.
- * Files must be writable or owned by the system in order to be deleted.
- * If the second parameter is set to TRUE, any directories contained
- * within the supplied base directory will be nuked as well.
- *
- * @param	string	path to file
- * @param	bool	whether to delete any directories found in the path
- * @param	int
- * @param	bool	whether to skip deleting .htaccess and index page files
- * @return	bool
- */
 if ( ! function_exists('delete_files'))
 {
+	/**
+	 * Delete Files
+	 *
+	 * Deletes all files contained in the supplied directory path.
+	 * Files must be writable or owned by the system in order to be deleted.
+	 * If the second parameter is set to TRUE, any directories contained
+	 * within the supplied base directory will be nuked as well.
+	 *
+	 * @param	string	path to file
+	 * @param	bool	whether to delete any directories found in the path
+	 * @param	int
+	 * @param	bool	whether to skip deleting .htaccess and index page files
+	 * @return	bool
+	 */
 	function delete_files($path, $del_dir = FALSE, $level = 0, $htdocs = FALSE)
 	{
 		// Trim the trailing slash
@@ -145,7 +146,7 @@ if ( ! function_exists('delete_files'))
 				{
 					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1, $htdocs);
 				}
-				elseif ($htdocs === TRUE && ! preg_match('/^(\.htaccess|index\.(html|htm|php))$/', $filename))
+				elseif ($htdocs === TRUE && ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
 					@unlink($path.DIRECTORY_SEPARATOR.$filename);
 				}
@@ -164,19 +165,19 @@ if ( ! function_exists('delete_files'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Get Filenames
- *
- * Reads the specified directory and builds an array containing the filenames.
- * Any sub-folders contained within the specified path are read as well.
- *
- * @param	string	path to source
- * @param	bool	whether to include the path as part of the filename
- * @param	bool	internal variable to determine recursion status - do not use in calls
- * @return	array
- */
 if ( ! function_exists('get_filenames'))
 {
+	/**
+	 * Get Filenames
+	 *
+	 * Reads the specified directory and builds an array containing the filenames.
+	 * Any sub-folders contained within the specified path are read as well.
+	 *
+	 * @param	string	path to source
+	 * @param	bool	whether to include the path as part of the filename
+	 * @param	bool	internal variable to determine recursion status - do not use in calls
+	 * @return	array
+	 */
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
@@ -212,21 +213,21 @@ if ( ! function_exists('get_filenames'))
 
 // --------------------------------------------------------------------
 
-/**
- * Get Directory File Information
- *
- * Reads the specified directory and builds an array containing the filenames,
- * filesize, dates, and permissions
- *
- * Any sub-folders contained within the specified path are read as well.
- *
- * @param	string	path to source
- * @param	bool	Look only at the top level directory specified?
- * @param	bool	internal variable to determine recursion status - do not use in calls
- * @return	array
- */
 if ( ! function_exists('get_dir_file_info'))
 {
+	/**
+	 * Get Directory File Information
+	 *
+	 * Reads the specified directory and builds an array containing the filenames,
+	 * filesize, dates, and permissions
+	 *
+	 * Any sub-folders contained within the specified path are read as well.
+	 *
+	 * @param	string	path to source
+	 * @param	bool	Look only at the top level directory specified?
+	 * @param	bool	internal variable to determine recursion status - do not use in calls
+	 * @return	array
+	 */
 	function get_dir_file_info($source_dir, $top_level_only = TRUE, $_recursion = FALSE)
 	{
 		static $_filedata = array();
@@ -265,20 +266,20 @@ if ( ! function_exists('get_dir_file_info'))
 
 // --------------------------------------------------------------------
 
-/**
-* Get File Info
-*
-* Given a file and path, returns the name, path, size, date modified
-* Second parameter allows you to explicitly declare what information you want returned
-* Options are: name, server_path, size, date, readable, writable, executable, fileperms
-* Returns FALSE if the file cannot be found.
-*
-* @param	string	path to file
-* @param	mixed	array or comma separated string of information returned
-* @return	array
-*/
 if ( ! function_exists('get_file_info'))
 {
+	/**
+	 * Get File Info
+	 *
+	 * Given a file and path, returns the name, path, size, date modified
+	 * Second parameter allows you to explicitly declare what information you want returned
+	 * Options are: name, server_path, size, date, readable, writable, executable, fileperms
+	 * Returns FALSE if the file cannot be found.
+	 *
+	 * @param	string	path to file
+	 * @param	mixed	array or comma separated string of information returned
+	 * @return	array
+	 */
 	function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
 	{
 
@@ -330,20 +331,20 @@ if ( ! function_exists('get_file_info'))
 
 // --------------------------------------------------------------------
 
-/**
- * Get Mime by Extension
- *
- * Translates a file extension into a mime type based on config/mimes.php.
- * Returns FALSE if it can't determine the type, or open the mime config file
- *
- * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
- * It should NOT be trusted, and should certainly NOT be used for security
- *
- * @param	string	path to file
- * @return	mixed
- */
 if ( ! function_exists('get_mime_by_extension'))
 {
+	/**
+	 * Get Mime by Extension
+	 *
+	 * Translates a file extension into a mime type based on config/mimes.php.
+	 * Returns FALSE if it can't determine the type, or open the mime config file
+	 *
+	 * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
+	 * It should NOT be trusted, and should certainly NOT be used for security
+	 *
+	 * @param	string	path to file
+	 * @return	mixed
+	 */
 	function get_mime_by_extension($file)
 	{
 		$extension = strtolower(substr(strrchr($file, '.'), 1));
@@ -386,17 +387,17 @@ if ( ! function_exists('get_mime_by_extension'))
 
 // --------------------------------------------------------------------
 
-/**
- * Symbolic Permissions
- *
- * Takes a numeric value representing a file's permissions and returns
- * standard symbolic notation representing that value
- *
- * @param	int
- * @return	string
- */
 if ( ! function_exists('symbolic_permissions'))
 {
+	/**
+	 * Symbolic Permissions
+	 *
+	 * Takes a numeric value representing a file's permissions and returns
+	 * standard symbolic notation representing that value
+	 *
+	 * @param	int
+	 * @return	string
+	 */
 	function symbolic_permissions($perms)
 	{
 		if (($perms & 0xC000) === 0xC000)
@@ -453,17 +454,17 @@ if ( ! function_exists('symbolic_permissions'))
 
 // --------------------------------------------------------------------
 
-/**
- * Octal Permissions
- *
- * Takes a numeric value representing a file's permissions and returns
- * a three character string representing the file's octal permissions
- *
- * @param	int
- * @return	string
- */
 if ( ! function_exists('octal_permissions'))
 {
+	/**
+	 * Octal Permissions
+	 *
+	 * Takes a numeric value representing a file's permissions and returns
+	 * a three character string representing the file's octal permissions
+	 *
+	 * @param	int
+	 * @return	string
+	 */
 	function octal_permissions($perms)
 	{
 		return substr(sprintf('%o', $perms), -3);
