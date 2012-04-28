@@ -30,7 +30,11 @@ $lang['migration_not_found']			= "This migration could not be found.";
 $lang['migration_multiple_version']		= "This are multiple migrations with the same version number: %d.";
 $lang['migration_class_doesnt_exist']	= "The migration class \"%s\" could not be found.";
 $lang['migration_missing_up_method']	= "The migration class \"%s\" is missing an 'up' method.";
+<<<<<<< HEAD
 $lang['migration_missing_down_method']	= "The migration class \"%s\" is missing a 'down' method.";
+=======
+$lang['migration_missing_down_method']	= "The migration class \"%s\" is missing an 'down' method.";
+>>>>>>> 55ac2138482154c3aed7d6a6a2b6f196d0a04d9e
 $lang['migration_invalid_filename']		= "Migration \"%s\" has an invalid filename.";
 
 
