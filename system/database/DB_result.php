@@ -127,9 +127,31 @@ class CI_DB_result {
 			return array();
 		}
 
+		// Build a mapping from the old key to the new key, if a new key
+		// needs to be used. The need for this arises when selecting with 
+		// queries such as TRIM(UPPER(`model`)), this will change it to 
+		// just the word 'model'
+		$new_keys = array();
+		if ($row = $this->_fetch_object()) 
+		{
+			$keys = array_keys((array)$row);
+			foreach ($keys as $key) 
+			{
+				if (preg_match('/\(`(\w+)`\)/', $key, $match)) 
+				{
+					$new_keys[$key] = $match[1];
+				}
+			}
+		}
+
 		$this->_data_seek(0);
 		while ($row = $this->_fetch_object())
 		{
+			foreach ($new_keys as $old_key => $new_key)
+			{
+				$row->$new_key = $row->$old_key;
+				unset($row->$old_key);
+			}
 			$this->result_object[] = $row;
 		}
 
