@@ -40,12 +40,15 @@
 	<p>Backtrace: </p>
 	<?php foreach(debug_backtrace() as $error): ?>
 
-		<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
+		<?php if(isset($error['file']) &&
+		         strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+
 			<p style="margin-left:10px">
 			File: <?php echo $error['file'] ?><br />
 			Line: <?php echo $error['line'] ?><br />
 			Function: <?php echo $error['function'] ?>
 			</p>
+
 		<?php endif ?>
 
 	<?php endforeach ?></p>
