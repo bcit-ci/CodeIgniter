@@ -219,15 +219,15 @@ class CI_URI {
 			$_GET = array();
 		}
 
-		if ($uri == '/' OR empty($uri))
-		{
-			return '/';
-		}
-
 		$uri = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		$uri = str_replace(array('//', '../'), '/', trim($uri, '/'));
+		if (empty($uri))
+		{
+			$uri = '/';
+		}
+		return $uri;
 	}
 
 	/**
