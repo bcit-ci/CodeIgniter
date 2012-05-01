@@ -108,18 +108,18 @@ class CI_URI {
 
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			$uri = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
+			if ($uri)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') != '')
+			$uri = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			if ($uri)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -239,7 +239,7 @@ class CI_URI {
 	 */
 	protected function _parse_get()
 	{
-		if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
+		if (is_array($_GET) && count($_GET) === 1 && key($_GET) !== '')
 		{
 			 return key($_GET);
 		}
