@@ -124,9 +124,8 @@ class CI_URI {
 			}
 
 			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
-			{
-				$this->_set_uri_string(key($_GET));
+			if ($uri = $this->_parse_get()) {
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -145,6 +144,11 @@ class CI_URI {
 		elseif ($uri === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_cli_args());
+			return;
+		}
+		elseif ($uri === '_GET')
+		{
+			$this->_set_uri_string($this->_parse_get());
 			return;
 		}
 
@@ -224,6 +228,25 @@ class CI_URI {
 
 		// Do some final cleaning of the URI and return it
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+	}
+
+	/**
+	 * Read URI from _GET
+	 *
+	 * This is the last resort for getting a URI.
+	 *
+	 * @return	string
+	 */
+	protected function _parse_get()
+	{
+		if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
+		{
+			 return key($_GET);
+		}
+		else
+		{
+			 return '';
+		}
 	}
 
 	// --------------------------------------------------------------------
