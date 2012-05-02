@@ -645,7 +645,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return implode('/', $this->rsegment_array());
+		return '/'.implode('/', $this->rsegment_array());
 	}
 
 }

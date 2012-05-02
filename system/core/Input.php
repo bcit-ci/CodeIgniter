@@ -226,7 +226,6 @@ class CI_Input {
 	 */
 	public function cookie($index = '', $xss_clean = FALSE)
 	{
-		$index = config_item('cookie_prefix').$index;
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
