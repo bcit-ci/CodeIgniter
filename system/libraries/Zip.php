@@ -42,13 +42,53 @@
  */
 class CI_Zip  {
 
+	/**
+	 * Zip data in string form
+	 *
+	 * @var string
+	 */
 	public $zipdata		= '';
+	
+	/**
+	 * Zip data for a directory in string form
+	 *
+	 * @var string
+	 */
 	public $directory	= '';
+	
+	/**
+	 * Number of files/folder in zip file
+	 *
+	 * @var int
+	 */
 	public $entries		= 0;
+	
+	/**
+	 * Number of files in zip
+	 *
+	 * @var int
+	 */
 	public $file_num	= 0;
+	
+	/**
+	 * relative offset of local header
+	 *
+	 * @var int
+	 */
 	public $offset		= 0;
+	
+	/**
+	 * Reference to time at init
+	 *
+	 * @var int
+	 */
 	public $now;
 
+	/**
+	 * Initialize zip compression class
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$this->now = time();
