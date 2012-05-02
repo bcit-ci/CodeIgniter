@@ -8,11 +8,7 @@
         <target>./api/</target>
     </transformer>
     <files>
-        <directory>.</directory>
-        <ignore>./application/*</ignore>
-        <ignore>./tests/*</ignore>
-        <ignore>./user_guide_src/*</ignore>
-        <ignore>./views/*</ignore>
+        <directory>./system</directory>
     </files>
 
     <logging>
