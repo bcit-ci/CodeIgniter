@@ -70,7 +70,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param	mixed	unique identifier of the item in the cache
-	 * @param	bool	TRUE, simulating success
+	 * @return	bool	TRUE, simulating success
 	 */
 	public function delete($id)
 	{

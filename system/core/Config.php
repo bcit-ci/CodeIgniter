@@ -66,11 +66,6 @@ class CI_Config {
 	 * Constructor
 	 *
 	 * Sets the $config data from the primary config.php file as a class variable
-	 *
-	 * @param   string	the config file name
-	 * @param   boolean  if configuration values should be loaded into their own section
-	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
-	 * @return  boolean  if the file was successfully loaded or not
 	 */
 	public function __construct()
 	{
@@ -192,7 +187,6 @@ class CI_Config {
 	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function item($item, $index = '')
@@ -211,7 +205,6 @@ class CI_Config {
 	 * Fetch a config file item - adds slash after item (if item is not empty)
 	 *
 	 * @param	string	the config item name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function slash_item($item)
