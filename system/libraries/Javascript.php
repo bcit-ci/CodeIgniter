@@ -723,7 +723,7 @@ class CI_Javascript {
 		{
 			if (is_object($result))
 			{
-				$json_result = $result->result_array();
+				$json_result = is_callable(array($result, 'result_array')) ? $result->result_array() : (array) $result;
 			}
 			elseif (is_array($result))
 			{

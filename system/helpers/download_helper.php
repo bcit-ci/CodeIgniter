@@ -37,18 +37,18 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Force Download
- *
- * Generates headers that force a download to happen
- *
- * @param	string	filename
- * @param	mixed	the data to be downloaded
- * @param	bool	wether to try and send the actual file MIME type
- * @return	void
- */
 if ( ! function_exists('force_download'))
 {
+	/**
+	 * Force Download
+	 *
+	 * Generates headers that force a download to happen
+	 *
+	 * @param	string	filename
+	 * @param	mixed	the data to be downloaded
+	 * @param	bool	wether to try and send the actual file MIME type
+	 * @return	void
+	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
 		if ($filename == '' OR $data == '')
