@@ -37,14 +37,14 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Validate email address
- *
- * @param	string
- * @return	bool
- */
 if ( ! function_exists('valid_email'))
 {
+	/**
+	 * Validate email address
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
 	function valid_email($address)
 	{
 		return (bool) preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', $address);
@@ -53,16 +53,16 @@ if ( ! function_exists('valid_email'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Send an email
- *
- * @param	string
- * @param	string
- * @param	string
- * @return	bool
- */
 if ( ! function_exists('send_email'))
 {
+	/**
+	 * Send an email
+	 *
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
 	function send_email($recipient, $subject = 'Test email', $message = 'Hello World')
 	{
 		return mail($recipient, $subject, $message);

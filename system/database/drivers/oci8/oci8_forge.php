@@ -34,31 +34,9 @@
  */
 class CI_DB_oci8_forge extends CI_DB_forge {
 
-	/**
-	 * Create database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _create_database($name)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	the database name
-	 * @return	bool
-	 */
-	public function _drop_database($name)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_create_database	= FALSE;
+	protected $_drop_database	= FALSE;
+	protected $_drop_table		= 'DROP TABLE %s';
 
 	/**
 	 * Create Table
@@ -68,9 +46,9 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @return	string
 	 */
-	public function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
+	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
 		$sql = 'CREATE TABLE ';
 
@@ -79,7 +57,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			$sql .= 'IF NOT EXISTS ';
 		}
 
-		$sql .= $this->db->_escape_identifiers($table).' (';
+		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field => $attributes)
@@ -128,23 +106,11 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 					$key = array($this->db->protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).")";
+				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).')';
 			}
 		}
 
 		return $sql."\n)";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop Table
-	 *
-	 * @return	bool
-	 */
-	public function _drop_table($table)
-	{
-		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -164,55 +130,21 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * @param	string	the field after which we should add the new field
 	 * @return	string
 	 */
-	public function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
+	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		if ($alter_type === 'DROP')
 		{
 			return $sql;
 		}
 
-		$sql .= " $column_definition";
+		return $sql.' '.$column_definition
+			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
+			.($null === NULL ? ' NULL' : ' NOT NULL')
+			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
 
-		if ($default_value != '')
-		{
-			$sql .= " DEFAULT \"$default_value\"";
-		}
-
-		if ($null === NULL)
-		{
-			$sql .= ' NULL';
-		}
-		else
-		{
-			$sql .= ' NOT NULL';
-		}
-
-		if ($after_field != '')
-		{
-			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
-		}
-
-		return $sql;
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rename a table
-	 *
-	 * Generates a platform-specific query so that a table can be renamed
-	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	string
-	 */
-	public function _rename_table($table_name, $new_table_name)
-	{
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table_name).' RENAME TO '.$this->db->protect_identifiers($new_table_name);
 	}
 
 }

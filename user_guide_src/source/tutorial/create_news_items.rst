@@ -94,7 +94,7 @@ Model
 -----
 
 The only thing that remains is writing a method that writes the data to
-the database. You'll use the Active Record class to insert the
+the database. You'll use the Query Builder class to insert the
 information and use the input library to get the posted data. Open up
 the model created earlier and add the following:
 
