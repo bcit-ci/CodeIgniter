@@ -43,7 +43,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @mysqli_num_rows($this->result_id);
+		return $this->result_id->num_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -55,7 +55,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return @mysqli_num_fields($this->result_id);
+		return $this->result_id->field_count;
 	}
 
 	// --------------------------------------------------------------------
@@ -70,7 +70,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		while ($field = mysqli_fetch_field($this->result_id))
+		while ($field = $this->result_id->fetch_field())
 		{
 			$field_names[] = $field->name;
 		}
@@ -90,7 +90,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		$field_data = mysqli_fetch_fields($this->result_id);
+		$field_data = $this->result_id->fetch_fields();
 		for ($i = 0, $c = count($field_data); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -115,7 +115,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	{
 		if (is_object($this->result_id))
 		{
-			mysqli_free_result($this->result_id);
+			$this->result_id->free();
 			$this->result_id = FALSE;
 		}
 	}
@@ -125,15 +125,15 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	/**
 	 * Data Seek
 	 *
-	 * Moves the internal pointer to the desired offset.  We call
+	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{
-		return mysqli_data_seek($this->result_id, $n);
+		return $this->result_id->data_seek($n);
 	}
 
 	// --------------------------------------------------------------------
@@ -147,7 +147,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return mysqli_fetch_assoc($this->result_id);
+		return $this->result_id->fetch_assoc();
 	}
 
 	// --------------------------------------------------------------------
@@ -161,7 +161,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		return mysqli_fetch_object($this->result_id);
+		return $this->result_id->fetch_object();
 	}
 
 }

@@ -70,7 +70,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$field_names[] = pg_field_name($this->result_id, $i);
 		}
@@ -90,16 +90,14 @@ class CI_DB_postgre_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		for ($i = 0; $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$F				= new stdClass();
-			$F->name		= pg_field_name($this->result_id, $i);
-			$F->type		= pg_field_type($this->result_id, $i);
-			$F->max_length	= pg_field_size($this->result_id, $i);
-			$F->primary_key = 0;
-			$F->default		= '';
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= pg_field_name($this->result_id, $i);
+			$retval[$i]->type		= pg_field_type($this->result_id, $i);
+			$retval[$i]->max_length		= pg_field_size($this->result_id, $i);
+			$retval[$i]->primary_key	= 0;
+			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -130,7 +128,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	array
+	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
 	{

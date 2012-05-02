@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Logging Class
  *
@@ -38,16 +36,59 @@
  */
 class CI_Log {
 
+	/**
+	 * Path to save log files
+	 *
+	 * @var string
+	 */
 	protected $_log_path;
+	
+	/**
+	 * Level of logging
+	 *
+	 * @var int
+	 */
 	protected $_threshold		= 1;
+	
+	/**
+	 * Highest level of logging
+	 *
+	 * @var int
+	 */
 	protected $_threshold_max	= 0;
+	
+	/**
+	 * Array of threshold levels to log
+	 *
+	 * @var array
+	 */
 	protected $_threshold_array	= array();
+	
+	/**
+	 * Format of timestamp for log files
+	 *
+	 * @var string
+	 */
 	protected $_date_fmt		= 'Y-m-d H:i:s';
-	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	
+	/**
+	 * Whether or not the logger can write to the log files
+	 *
+	 * @var bool
+	 */
+	protected $_enabled		= TRUE;
+	
+	/**
+	 * Predefined logging levels
+	 *
+	 * @var array
+	 */
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
 	/**
-	 * Constructor
+	 * Initialize Logging class
+	 *
+	 * @return void
 	 */
 	public function __construct()
 	{
@@ -98,7 +139,7 @@ class CI_Log {
 		$level = strtoupper($level);
 
 		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
-			AND ! isset($this->_threshold_array[$this->_levels[$level]]))
+			&& ! isset($this->_threshold_array[$this->_levels[$level]]))
 		{
 			return FALSE;
 		}
@@ -125,15 +166,15 @@ class CI_Log {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		if (isset($newfile) AND $newfile === TRUE)
+		if (isset($newfile) && $newfile === TRUE)
 		{
 			@chmod($filepath, FILE_WRITE_MODE);
 		}
+
 		return TRUE;
 	}
 
 }
-// END Log Class
 
 /* End of file Log.php */
 /* Location: ./system/libraries/Log.php */
