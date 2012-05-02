@@ -61,6 +61,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $pdodriver;
 	public $options = array();
 
+	/**
+	 * Initialize the pdo driver 
+	 *
+	 * @param	array
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
@@ -147,6 +152,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -300,20 +306,6 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		return (int) $row->numrows;
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @param	bool
-	 * @return	string
-	 */
-	 protected function _list_tables()
-	 {
-	 }
 	 
 	// --------------------------------------------------------------------
 
@@ -329,20 +321,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		return 'SHOW COLUMNS FROM '.$this->escape_identifiers($table);
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	 protected function _field_data($table)
-	 {
-	 }
 
 	// --------------------------------------------------------------------
 
@@ -403,6 +381,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
+	 * @param	array	the indexes
 	 * @param	array	the where clause
 	 * @return	string
 	 */

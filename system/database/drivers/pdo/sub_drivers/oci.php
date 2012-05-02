@@ -33,7 +33,9 @@
 class CI_OCI_PDO_Driver {
 
 	/**
-	 * Save the connection object for later use
+	 * Initialize the parent driver class
+	 *
+	 * @param	array
 	 */
 	public function __construct($params)
 	{

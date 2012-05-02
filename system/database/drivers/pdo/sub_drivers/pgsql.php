@@ -33,10 +33,12 @@
 class CI_PgSQL_PDO_Driver extends CI_DB_pdo_driver {
 
 	/**
-	 * Save the connection object for later use
+	 * Initialize the parent driver class
+	 *
+	 * @param	array
 	 */
 	public function __construct($params)
-	{	
+	{
 		parent::__construct($params);
 	}
 	
