@@ -214,6 +214,7 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
+-  Fixed a bug (#1242) Added Windows path compatibility to function read_dir of ZIP library
 
 Version 2.1.1
 =============
