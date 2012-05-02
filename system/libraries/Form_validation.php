@@ -1005,7 +1005,7 @@ class CI_Form_validation {
 
 		return (MB_ENABLED === TRUE)
 			? ($val <= mb_strlen($str))
-			: ($val <= strlen(str));
+			: ($val <= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
