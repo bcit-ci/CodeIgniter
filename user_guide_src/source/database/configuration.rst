@@ -106,18 +106,18 @@ Note: The name "test" is arbitrary. It can be anything you want. By
 default we've used the word "default" for the primary connection, but it
 too can be renamed to something more relevant to your project.
 
-Active Record
+Query Builder
 -------------
 
-The :doc:`Active Record Class <active_record>` is globally enabled or
-disabled by setting the $active_record variable in the database
+The :doc:`Query Builder Class <query_builder>` is globally enabled or
+disabled by setting the $query_builder variable in the database
 configuration file to TRUE/FALSE (boolean). If you are not using the
-active record class, setting it to FALSE will utilize fewer resources
+query builder class, setting it to FALSE will utilize fewer resources
 when the database classes are initialized.
 
 ::
 
-	$active_record = TRUE;
+	$query_builder = TRUE;
 
 .. note:: that some CodeIgniter classes such as Sessions require Active
 	Records be enabled to access certain functionality.
@@ -132,9 +132,9 @@ Explanation of Values:
 **username**		The username used to connect to the database.
 **password**		The password used to connect to the database.
 **database**		The name of the database you want to connect to.
-**dbdriver**		The database type. ie: mysql, postgres, odbc, etc. Must be specified in lower case.
+**dbdriver**		The database type. ie: mysql, postgre, odbc, etc. Must be specified in lower case.
 **dbprefix**		An optional table prefix which will added to the table name when running :doc:
-			`Active Record <active_record>` queries. This permits multiple CodeIgniter installations
+			`Query Builder <query_builder>` queries. This permits multiple CodeIgniter installations
 			to share one database.
 **pconnect**		TRUE/FALSE (boolean) - Whether to use a persistent connection.
 **db_debug**		TRUE/FALSE (boolean) - Whether database errors should be displayed.
@@ -166,8 +166,8 @@ Explanation of Values:
 				$db['default']['port'] =  5432;
 ======================  ==================================================================================================
 
-.. note:: Depending on what database platform you are using (MySQL,
-	Postgres, etc.) not all values will be needed. For example, when using
-	SQLite you will not need to supply a username or password, and the
-	database name will be the path to your database file. The information
-	above assumes you are using MySQL.
+.. note:: Depending on what database platform you are using (MySQL, PostgreSQL,
+	etc.) not all values will be needed. For example, when using SQLite you
+	will not need to supply a username or password, and the database name
+	will be the path to your database file. The information above assumes
+	you are using MySQL.

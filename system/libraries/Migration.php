@@ -39,14 +39,53 @@
  */
 class CI_Migration {
 
+	/**
+	 * Whether the library is enabled
+	 *
+	 * @var bool
+	 */
 	protected $_migration_enabled = FALSE;
+	
+	/**
+	 * Path to migration classes
+	 *
+	 * @var string
+	 */
 	protected $_migration_path = NULL;
+	
+	/**
+	 * Current migration version
+	 *
+	 * @var mixed
+	 */
 	protected $_migration_version = 0;
+	
+	/**
+	 * Database table with migration info
+	 *
+	 * @var string
+	 */
 	protected $_migration_table = 'migrations';
+	
+	/**
+	 * Whether to automatically run migrations
+	 *
+	 * @var bool
+	 */
 	protected $_migration_auto_latest = FALSE;
 
+	/**
+	 * Error message
+	 *
+	 * @var string
+	 */
 	protected $_error_string = '';
 
+	/**
+	 * Initialize Migration Class
+	 *
+	 * @param	array
+	 */
 	public function __construct($config = array())
 	{
 		# Only run this constructor on main library load

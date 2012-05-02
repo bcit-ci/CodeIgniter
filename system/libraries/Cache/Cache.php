@@ -36,16 +36,38 @@
  */
 class CI_Cache extends CI_Driver_Library {
 
-	protected $valid_drivers 	= array(
-						'cache_apc',
-						'cache_file',
-						'cache_memcached',
-						'cache_dummy',
-						'cache_wincache'
-					);
+	/**
+	 * Valid cache drivers
+	 *
+	 * @var array
+	 */
+	protected $valid_drivers = array(
+		'cache_apc',
+		'cache_file',
+		'cache_memcached',
+		'cache_dummy',
+		'cache_wincache'
+	);
 
-	protected $_cache_path		= NULL;	// Path of cache files (if file-based cache)
-	protected $_adapter		= 'dummy';
+	/**
+	 * Path of cache files (if file-based cache)
+	 *
+	 * @var string
+	 */
+	protected $_cache_path = NULL;
+	
+	/**
+	 * Reference to the driver
+	 *
+	 * @var mixed
+	 */
+	protected $_adapter = 'dummy';
+	
+	/**
+	 * Fallback driver
+	 *
+	 * @param string
+	 */
 	protected $_backup_driver;
 
 	/**
@@ -59,9 +81,9 @@ class CI_Cache extends CI_Driver_Library {
 	public function __construct($config = array())
 	{
 		$default_config = array(
-				'adapter',
-				'memcached'
-			);
+			'adapter',
+			'memcached'
+		);
 
 		foreach ($default_config as $key)
 		{

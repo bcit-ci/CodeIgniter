@@ -24,8 +24,6 @@
  * @since		Version 1.0
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * URI Class
  *
@@ -44,26 +42,29 @@ class CI_URI {
 	 *
 	 * @var array
 	 */
-	public $keyval		= array();
+	public $keyval =	array();
+	
 	/**
 	 * Current uri string
 	 *
 	 * @var string
 	 */
 	public $uri_string;
+	
 	/**
 	 * List of uri segments
 	 *
 	 * @var array
 	 */
-	public $segments	= array();
+	public $segments =	array();
+	
 	/**
 	 * Re-indexed list of uri segments
 	 * Starts at 1 instead of 0
 	 *
 	 * @var array
 	 */
-	public $rsegments	= array();
+	public $rsegments =	array();
 
 	/**
 	 * Constructor
@@ -326,6 +327,7 @@ class CI_URI {
 	}
 
 	// --------------------------------------------------------------------
+	
 	/**
 	 * Re-index Segments
 	 *
@@ -406,6 +408,9 @@ class CI_URI {
 	{
 		return $this->_uri_to_assoc($n, $default, 'segment');
 	}
+	
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Identical to above only it uses the re-routed segment array
 	 *
@@ -500,7 +505,6 @@ class CI_URI {
 
 	/**
 	 * Generate a URI string from an associative array
-	 *
 	 *
 	 * @param	array	an associative array of key/values
 	 * @return	array
@@ -641,7 +645,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return '/'.implode('/', $this->rsegment_array());
+		return implode('/', $this->rsegment_array());
 	}
 
 }
