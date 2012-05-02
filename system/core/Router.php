@@ -242,12 +242,9 @@ class CI_Router {
 			$segments[1] = 'index';
 		}
 
-		// This is being routed to a file in a sub directory
-		$this->directory and array_unshift($segments, trim($this->directory, '/'));
-
 		// Update our "routed" segment array to contain the segments.
 		// Note: If there is no custom routing, this array will be
-		// identical to $this->uri->segments		
+		// identical to $this->uri->segments
 		$this->uri->rsegments = $segments;
 	}
 
