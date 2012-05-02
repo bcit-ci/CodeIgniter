@@ -77,6 +77,14 @@ Appends data onto the output string. Usage example::
 
 	$this->output->append_output($data);
 
+$this->output->get_header();
+=============================
+
+Retrieves headers that have been set by the Output class, or by using
+the traditional header() function. Example::
+
+	$this->output->get_header('Content-Type');
+
 $this->output->set_header();
 =============================
 

@@ -44,49 +44,49 @@ class CI_Output {
 	 * @var string
 	 */
 	public $final_output;
-	
+
 	/**
 	 * Cache expiration time
 	 *
 	 * @var int
 	 */
 	public $cache_expiration =	0;
-	
+
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
 	public $headers =	array();
-	
+
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
 	public $mime_types =	array();
-	
+
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
 	public $enable_profiler =	FALSE;
-	
+
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
 	protected $_zlib_oc =	FALSE;
-	
+
 	/**
 	 * List of profiler sections
 	 *
 	 * @var array
 	 */
 	protected $_profiler_sections =	array();
-	
+
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
@@ -168,6 +168,69 @@ class CI_Output {
 		}
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Header
+	 *
+	 * Retrieve an individual header or an array of headers that have
+	 * already been sent via Output class or header() function.
+	 *
+	 * For an individual header, the value is returned. For an array
+	 * of headers, a key-value array is returned.
+	 *
+	 * @param	string
+	 * @return	array
+	 */
+	public function get_header($header = NULL)
+	{
+		$headers = array();
+
+		// Get headers that have already been sent
+		$sent_headers = headers_list();
+		if ( ! empty($sent_headers))
+		{
+			foreach ($sent_headers as $sent_header)
+			{
+				$header_array = explode(':', $sent_header);
+				$field = trim($header_array[0]);
+				$value = trim($header_array[1]);
+				$headers[$field] = $value;
+			}
+		}
+
+		// Get headers set via the Output class
+		$output_headers = $this->headers;
+		if ( ! empty($output_headers))
+		{
+			foreach ($output_headers as $output_header)
+			{
+				$header_array = explode(':', $output_header[0]);
+				$field = trim($header_array[0]);
+				$value = trim($header_array[1]);
+
+				// Add new or replace existing when specified
+				if ( ! isset($headers[$field]) || $output_header[1])
+				{
+					$headers[$field] = $value;
+				}
+			}
+		}
+
+		if ( ! empty($headers) && empty($header))
+		{
+			return $headers;
+		}
+		elseif (isset($headers[$header]))
+		{
+			return $headers[$header];
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
 	// --------------------------------------------------------------------

@@ -55,7 +55,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with 
+   -  Renamed the Active Record class to Query Builder to remove confusion with
       the Active Record design pattern
    -  Added new :doc:`Query Builder <database/query_builder>` methods that return
    -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
@@ -146,6 +146,7 @@ Release Date: Not Released
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
+   -  Added get_header() method to the :doc:`Output Library <libraries/output>`.
 
 Bug fixes for 3.0
 ------------------
