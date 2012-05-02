@@ -281,7 +281,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$v = trim($v);
 					$this->_track_aliases($v);
 
-					$v = $this->qb_from[] = $this->protect_identifiers($v, TRUE, NULL, FALSE);
+					$this->qb_from[] = $v = $this->protect_identifiers($v, TRUE, NULL, FALSE);
 
 					if ($this->qb_caching === TRUE)
 					{
