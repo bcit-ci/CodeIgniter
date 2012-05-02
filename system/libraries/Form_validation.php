@@ -36,17 +36,81 @@
  */
 class CI_Form_validation {
 
+	/**
+	 * Reference to the CodeIgniter instance
+	 *
+	 * @var object
+	 */
 	protected $CI;
-	protected $_field_data		= array();
-	protected $_config_rules	= array();
+	
+	/**
+	 * Validation data for the current form submission
+	 *
+	 * @var array
+	 */
+	protected $_field_data = array();
+	
+	/**
+	 * Validation rules for the current form
+	 *
+	 * @var array
+	 */
+	protected $_config_rules = array();
+	
+	/**
+	 * Array of validation errors
+	 *
+	 * @var array
+	 */
 	protected $_error_array		= array();
+	
+	/**
+	 * Array of custom error messages
+	 *
+	 * @var array
+	 */
 	protected $_error_messages	= array();
+	
+	/**
+	 * Start tag for error wrapping
+	 *
+	 * @var string
+	 */
 	protected $_error_prefix	= '<p>';
+	
+	/**
+	 * End tag for error wrapping
+	 * 
+	 * @var string
+	 */
 	protected $_error_suffix	= '</p>';
+	
+	/**
+	 * Custom error message
+	 *
+	 * @var string
+	 */
 	protected $error_string		= '';
+	
+	/**
+	 * Whether the form data has been validated as safe
+	 *
+	 * @var bool
+	 */
 	protected $_safe_form_data	= FALSE;
+	
+	/**
+	 * Custom data to validate
+	 *
+	 * @var array
+	 */
 	protected $validation_data	= array();
 
+	/**
+	 * Initialize Form_Validation class
+	 *
+	 * @param array $rules
+	 */
 	public function __construct($rules = array())
 	{
 		$this->CI =& get_instance();
@@ -86,8 +150,9 @@ class CI_Form_validation {
 	 * This function takes an array of field names and validation
 	 * rules as input, validates the info, and stores it
 	 *
-	 * @param	mixed
-	 * @param	string
+	 * @param	mixed	$field
+	 * @param	string	$label
+	 * @param	mixed	$rules
 	 * @return	object
 	 */
 	public function set_rules($field, $label = '', $rules = '')
@@ -241,6 +306,8 @@ class CI_Form_validation {
 	 * Gets the error message associated with a particular field
 	 *
 	 * @param	string	the field name
+	 * @param	string	the html start tag
+	 * @param 	strign	the html end tag
 	 * @return	string
 	 */
 	public function error($field = '', $prefix = '', $suffix = '')
@@ -326,6 +393,7 @@ class CI_Form_validation {
 	 *
 	 * This function does all the work.
 	 *
+	 * @param	string	$group
 	 * @return	bool
 	 */
 	public function run($group = '')
@@ -768,6 +836,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	public function set_select($field = '', $value = '', $default = FALSE)
@@ -803,6 +872,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	public function set_radio($field = '', $value = '', $default = FALSE)
@@ -838,6 +908,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	public function set_checkbox($field = '', $value = '', $default = FALSE)
@@ -1116,6 +1187,7 @@ class CI_Form_validation {
 	 * Greater than
 	 *
 	 * @param	string
+	 * @param	int
 	 * @return	bool
 	 */
 	public function greater_than($str, $min)
@@ -1129,6 +1201,7 @@ class CI_Form_validation {
 	 * Equal to or Greater than
 	 *
 	 * @param	string
+	 * @param	int
 	 * @return	bool
 	 */
 	public function greater_than_equal_to($str, $min)
@@ -1142,6 +1215,7 @@ class CI_Form_validation {
 	 * Less than
 	 *
 	 * @param	string
+	 * @param	int
 	 * @return	bool
 	 */
 	public function less_than($str, $max)
@@ -1155,6 +1229,7 @@ class CI_Form_validation {
 	 * Equal to or Less than
 	 *
 	 * @param	string
+	 * @param	int
 	 * @return	bool
 	 */
 	public function less_than_equal_to($str, $max)
