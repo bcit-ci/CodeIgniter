@@ -146,6 +146,8 @@ Release Date: Not Released
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
+   -  Added $config['header_ips'] to enable/disable trusting custom IP headers (HTTP_X_FORWARDED_FOR, HTTP_CLIENT_IP, HTTP_CLUSTER_CLIENT_IP) in CI_Input::ip_address().
+   -  Changed handling of $config['proxy_ips'] to also accept arrays instead of only strings.
 
 Bug fixes for 3.0
 ------------------
@@ -214,6 +216,8 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
+-  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` did not check for HTTP_X_CLUSTER_CLIENT_IP.
+-  Fixed a bug in CI_Input::ip_address() where if HTTP_CLIENT_IP was automatically trusted, if available.
 
 Version 2.1.1
 =============
