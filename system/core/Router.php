@@ -266,21 +266,30 @@ class CI_Router {
 		{
 			return $segments;
 		}
-
+		
 		// Does the requested controller exist in the root folder?
 		if (file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
 		{
 			return $segments;
 		}
-
-		// Is the controller in a sub-folder?
-		if (is_dir(APPPATH.'controllers/'.$segments[0]))
-		{
-			// Set the directory and remove it from the segment array
-			$this->set_directory($segments[0]);
-			$segments = array_slice($segments, 1);
-
-			if (count($segments) > 0)
+		
+                $dir_segments = array();
+                
+                // If not, maybe it exists inside sub-folder(s)
+                foreach ($segments as $segment)
+                {
+                        if (is_dir(APPPATH.'controllers/'.(count($dir_segments) > 0 ? implode('/', $dir_segments).'/' : '').$segment))
+                                $dir_segments[] = $segment;
+                }
+                
+                // Did we find sub-folders?
+                if (count($dir_segments) > 0)
+                {
+                        // Set the directory path and remove it from the segment array
+                        $this->set_directory(implode('|', $dir_segments));
+                        $segments = array_slice($segments, count($dir_segments));
+                        
+                        if (count($segments) > 0)
 			{
 				// Does the requested controller exist in the sub-folder?
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
@@ -455,6 +464,7 @@ class CI_Router {
 	public function set_directory($dir)
 	{
 		$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		$this->directory = str_replace('|', '/', $dir).'/';
 	}
 
 	// --------------------------------------------------------------------
