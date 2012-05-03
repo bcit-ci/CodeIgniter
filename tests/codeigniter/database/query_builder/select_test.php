@@ -41,10 +41,10 @@ class Select_test extends CI_TestCase {
 	{
 		$job_min = $this->db->select_min('id')
 		                    ->get('job')
-		                    ->result_array();
+		                    ->row();
 		
 		// Minimum id was 1
-		$this->assertEquals('1', $job_min[0]['id']);
+		$this->assertEquals('1', $job_min->id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -56,10 +56,10 @@ class Select_test extends CI_TestCase {
 	{
 		$job_max = $this->db->select_max('id')
 		                    ->get('job')
-		                    ->result_array();
+		                    ->row();
 		
 		// Maximum id was 4
-		$this->assertEquals('4', $job_max[0]['id']);
+		$this->assertEquals('4', $job_max->id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -71,10 +71,10 @@ class Select_test extends CI_TestCase {
 	{
 		$job_avg = $this->db->select_avg('id')
 		                    ->get('job')
-		                    ->result_array();
+		                    ->row();
 		
 		// Average should be 2.5
-		$this->assertEquals('2.5', $job_avg[0]['id']);
+		$this->assertEquals('2.5', $job_avg->id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -86,10 +86,10 @@ class Select_test extends CI_TestCase {
 	{
 		$job_sum = $this->db->select_sum('id')
 		                    ->get('job')
-		                    ->result_array();
+		                    ->row();
 		
 		// Sum of ids should be 10
-		$this->assertEquals('10', $job_sum[0]['id']);
+		$this->assertEquals('10', $job_sum->id);
 	}
 	
 }
