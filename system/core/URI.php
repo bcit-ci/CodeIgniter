@@ -193,6 +193,8 @@ class CI_URI {
 		$uri_array = parse_url($_SERVER['REQUEST_URI']);
 		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
 		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
+		$path = urldecode($path);
+		$query = urldecode($query);
 
 		if (strpos($path, $_SERVER['SCRIPT_NAME']) === 0)
 		{
@@ -212,7 +214,7 @@ class CI_URI {
 			$path = $parts[0];
 			$query = isset($parts[1]) ? $parts[1] : '';
 
-			$_SERVER['QUERY_STRING'] = $query;
+			$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
 		}
 
