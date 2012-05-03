@@ -30,11 +30,10 @@ class Insert_test extends CI_TestCase {
 		// Do normal insert
 		$this->assertTrue($this->db->insert('job', $job_data));
 
-		$jobs = $this->db->get('job')->result_array();
-		$job1 = $jobs[0];
+		$job1 = $this->db->get('job')->row();
 
 		// Check the result
-		$this->assertEquals('Grocery Sales', $job1['name']);
+		$this->assertEquals('Grocery Sales', $job1->name);
 
 	}
 
