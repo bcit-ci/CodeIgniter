@@ -220,7 +220,7 @@ class CI_URI {
 
 		// Do some final cleaning of the URI and return it
 		$path = str_replace(array('//', '../'), '/', trim($path, '/'));
-		if (empty($path))
+		if ($path == '')
 		{
 			$path = '/';
 		}
