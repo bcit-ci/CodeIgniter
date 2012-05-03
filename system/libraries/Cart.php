@@ -244,7 +244,7 @@ class CI_Cart {
 		// This becomes the unique "row ID"
 		if (isset($items['options']) && count($items['options']) > 0)
 		{
-			$rowid = md5($items['id'].implode('', $items['options']));
+			$rowid = md5($items['id'].serialize($items['options']));
 		}
 		else
 		{
