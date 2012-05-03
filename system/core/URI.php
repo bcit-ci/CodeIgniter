@@ -107,26 +107,31 @@ class CI_URI {
 			}
 
 			// Is there a PATH_INFO variable?
-			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			//
+			// This exactly what we want, and was part of the original CGI standard.
+			// Most webservers provide it by default.  Unfortunately *PHP* broke it
+			// a couple of times.  Apparently fixed in PHP 5.2.4.
+			// <https://bugs.php.net/bug.php?id=31892>
+			//
+			// getenv() will work around it on some servers.
+			$uri = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
+			if ($uri)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') != '')
+			$uri = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'];
+			if ($uri)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
 			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
-			{
-				$this->_set_uri_string(key($_GET));
+			if ($uri = $this->_parse_get()) {
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -145,6 +150,11 @@ class CI_URI {
 		elseif ($uri === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_cli_args());
+			return;
+		}
+		elseif ($uri === '_GET')
+		{
+			$this->_set_uri_string($this->_parse_get());
 			return;
 		}
 
@@ -186,44 +196,60 @@ class CI_URI {
 			return '';
 		}
 
-		$uri = $_SERVER['REQUEST_URI'];
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		$uri_array = parse_url($_SERVER['REQUEST_URI']);
+		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
+		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
+		$path = urldecode($path);
+		$query = urldecode($query);
+
+		if (strpos($path, $_SERVER['SCRIPT_NAME']) === 0)
 		{
-			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+			$path = substr($path, strlen($_SERVER['SCRIPT_NAME']));
 		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif (strpos($path, dirname($_SERVER['SCRIPT_NAME'])) === 0)
 		{
-			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$path = substr($path, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
 
-		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
-		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
-		if (strncmp($uri, '?/', 2) === 0)
+		// Try to find a correct URI even on servers that require the URI to be in the query string (Nginx)
+		// Also adjust the QUERY_STRING server var and $_GET array
+		// (but we don't do the same when using uri_protocol 'QUERY_STRING'?)
+		if ($path == '' && strncmp($query, '/', 1) === 0)
 		{
-			$uri = substr($uri, 2);
-		}
-		$parts = preg_split('#\?#i', $uri, 2);
-		$uri = $parts[0];
-		if (isset($parts[1]))
-		{
-			$_SERVER['QUERY_STRING'] = $parts[1];
+			$parts = preg_split('#\?#i', $query, 2);
+			$path = $parts[0];
+			$query = isset($parts[1]) ? $parts[1] : '';
+
+			$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
+		}
+
+		// Do some final cleaning of the URI and return it
+		$path = str_replace(array('//', '../'), '/', trim($path, '/'));
+		if ($path == '')
+		{
+			$path = '/';
+		}
+		return $path;
+	}
+
+	/**
+	 * Read URI from _GET
+	 *
+	 * This is the last resort for getting a URI.
+	 *
+	 * @return	string
+	 */
+	protected function _parse_get()
+	{
+		if (is_array($_GET) && count($_GET) === 1 && key($_GET) !== '')
+		{
+			 return key($_GET);
 		}
 		else
 		{
-			$_SERVER['QUERY_STRING'] = '';
-			$_GET = array();
+			 return '';
 		}
-
-		if ($uri == '/' OR empty($uri))
-		{
-			return '/';
-		}
-
-		$uri = parse_url($uri, PHP_URL_PATH);
-
-		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
 	}
 
 	// --------------------------------------------------------------------

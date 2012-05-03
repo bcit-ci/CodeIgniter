@@ -92,7 +92,7 @@ class URI_test extends CI_TestCase {
 		
 		unset($_SERVER['QUERY_STRING']);
 		
-		$_GET['/controller/method/'] = '';
+		$_GET = array('/controller/method/' => '');
 		
 		$this->uri->_fetch_uri_string();
 		$this->assertEquals($a, $b);
@@ -100,6 +100,7 @@ class URI_test extends CI_TestCase {
 		// Test coverage implies that these will work
 		// uri_protocol: REQUEST_URI
 		// uri_protocol: CLI
+		// uri_protocol: _GET
 				
 	}
 	
