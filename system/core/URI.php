@@ -117,6 +117,7 @@ class CI_URI {
 
 			// No PATH_INFO?... What about QUERY_STRING?
 			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path = urldecode($path);
 			if (trim($path, '/') != '')
 			{
 				$this->_set_uri_string($path);
@@ -138,6 +139,13 @@ class CI_URI {
 		elseif ($uri === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_cli_args());
+			return;
+		}
+		elseif ($uri === 'QUERY_STRING')
+		{
+			$query = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path = urldecode($query);
+			$this->_set_uri_string($path);
 			return;
 		}
 
@@ -182,6 +190,8 @@ class CI_URI {
 		$uri_array = parse_url($_SERVER['REQUEST_URI']);
 		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
 		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
+		$path = urldecode($path);
+		$query = urldecode($query);
 
 		if (strpos($path, $_SERVER['SCRIPT_NAME']) === 0)
 		{
@@ -193,14 +203,15 @@ class CI_URI {
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
-		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
+		// URI is found
 		if ($path == '' && strncmp($query, '/', 1) === 0)
 		{
 			$parts = explode('?', $query, 2);
 			$path = $parts[0];
 			$query = isset($parts[1]) ? $parts[1] : '';
 
-			$_SERVER['QUERY_STRING'] = $query;
+			// also fix up the QUERY_STRING server var and $_GET array.
+			$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
 		}
 
