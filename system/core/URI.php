@@ -107,7 +107,13 @@ class CI_URI {
 			}
 
 			// Is there a PATH_INFO variable?
-			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
+			//
+			// This exactly what we want, and was part of the original CGI standard.
+			// Most webservers provide it by default.  Unfortunately *PHP* broke it
+			// a couple of times.  Apparently fixed in PHP 5.2.4.
+			// <https://bugs.php.net/bug.php?id=31892>
+			//
+			// getenv() will work around it on some servers.
 			$uri = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
 			if ($uri)
 			{
@@ -116,7 +122,7 @@ class CI_URI {
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$uri = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$uri = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'];
 			if ($uri)
 			{
 				$this->_set_uri_string($uri);

@@ -618,7 +618,9 @@ class CI_Input {
 		}
 		else
 		{
-			$headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+			if (isset($_SERVER['CONTENT_TYPE'])) {
+				$headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+			}
 
 			foreach ($_SERVER as $key => $val)
 			{
