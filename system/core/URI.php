@@ -100,7 +100,7 @@ class CI_URI {
 			}
 
 			// Let's try the REQUEST_URI first, this will work in most situations
-			if ($uri = $this->_detect_uri())
+			if ($uri = $this->_parse_request_uri())
 			{
 				$this->_set_uri_string($uri);
 				return;
@@ -116,9 +116,7 @@ class CI_URI {
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			$path = urldecode($path);
-			if (trim($path, '/') != '')
+			if ($path = $this->_parse_query_string())
 			{
 				$this->_set_uri_string($path);
 				return;
@@ -133,7 +131,7 @@ class CI_URI {
 
 		if ($uri === 'REQUEST_URI')
 		{
-			$this->_set_uri_string($this->_detect_uri());
+			$this->_set_uri_string($this->_parse_request_uri());
 			return;
 		}
 		elseif ($uri === 'CLI')
@@ -143,9 +141,7 @@ class CI_URI {
 		}
 		elseif ($uri === 'QUERY_STRING')
 		{
-			$query = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			$path = urldecode($query);
-			$this->_set_uri_string($path);
+			$this->_set_uri_string($this->_parse_query_string());
 			return;
 		}
 
@@ -173,14 +169,44 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Detects the URI
+	 * Fetch the uri from QUERY_STRING
+	 *
+	 * This function will detect the URI automatically and fix the query string
+	 * if necessary.
+	 *
+	 * @return	string	the URI path
+	 */
+	function _parse_query_string()
+	{
+		$query_string = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+		if (trim($query_string, '/') == '')
+		{
+			return '';
+		}
+		$uri = urldecode($query_string);
+	
+		$parts = explode('?', $uri, 2);
+		$path = $parts[0];
+		$query = isset($parts[1]) ? $parts[1] : '';
+
+		// Set QUERY_STRING (it's url-encoded) and parse it into $_GET
+		$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
+		
+		return $path;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch the uri from REQUEST_URI
 	 *
 	 * This function will detect the URI automatically and fix the query string
 	 * if necessary.
 	 *
 	 * @return	string
 	 */
-	protected function _detect_uri()
+	protected function _parse_request_uri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI']) OR ! isset($_SERVER['SCRIPT_NAME']))
 		{
