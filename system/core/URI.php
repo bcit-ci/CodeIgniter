@@ -238,13 +238,12 @@ class CI_URI {
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
 		}
 
-		if ($path == '/' OR empty($path))
-		{
+		// Do some final cleaning of the URI and return it
+		$path = str_replace(array('//', '../'), '/', trim($path, '/'));
+		if ($path == '') {
 			return '/';
 		}
-
-		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($path, '/'));
+		return $path;
 	}
 
 	// --------------------------------------------------------------------
