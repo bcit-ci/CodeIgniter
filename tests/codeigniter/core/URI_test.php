@@ -88,15 +88,6 @@ class URI_test extends CI_TestCase {
 		
 		$this->assertEquals($a, $b);
 		
-		// At this point your server is a labotomy victim
-		
-		unset($_SERVER['QUERY_STRING']);
-		
-		$_GET['/controller/method/'] = '';
-		
-		$this->uri->_fetch_uri_string();
-		$this->assertEquals($a, $b);
-
 		// Test coverage implies that these will work
 		// uri_protocol: REQUEST_URI
 		// uri_protocol: CLI
