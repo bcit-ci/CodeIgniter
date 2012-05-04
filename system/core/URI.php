@@ -178,45 +178,39 @@ class CI_URI {
 		{
 			return '';
 		}
+		
+		$uri_array = parse_url($_SERVER['REQUEST_URI']);
+		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
+		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
 
-		$uri = $_SERVER['REQUEST_URI'];
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		if (strpos($path, $_SERVER['SCRIPT_NAME']) === 0)
 		{
-			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+			$path = substr($path, strlen($_SERVER['SCRIPT_NAME']));
 		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif (strpos($path, dirname($_SERVER['SCRIPT_NAME'])) === 0)
 		{
-			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$path = substr($path, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
-		if (strncmp($uri, '?/', 2) === 0)
+		if ($path == '' && strncmp($query, '/', 1) === 0)
 		{
-			$uri = substr($uri, 2);
-		}
-		$parts = preg_split('#\?#i', $uri, 2);
-		$uri = $parts[0];
-		if (isset($parts[1]))
-		{
-			$_SERVER['QUERY_STRING'] = $parts[1];
+			$parts = explode('?', $query, 2);
+			$path = $parts[0];
+			$query = isset($parts[1]) ? $parts[1] : '';
+
+			$_SERVER['QUERY_STRING'] = $query;
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
 		}
-		else
-		{
-			$_SERVER['QUERY_STRING'] = '';
-			$_GET = array();
-		}
 
-		if ($uri == '/' OR empty($uri))
+		if ($path == '/' OR empty($path))
 		{
 			return '/';
 		}
 
-		$uri = parse_url($uri, PHP_URL_PATH);
-
 		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		return str_replace(array('//', '../'), '/', trim($path, '/'));
 	}
 
 	// --------------------------------------------------------------------
