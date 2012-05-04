@@ -22,16 +22,32 @@ class Group_test extends CI_TestCase {
 	 */
 	public function test_group_by()
 	{
-		$jobs = $this->db->select('job.name as job_name, job.id as job_id')
+		$jobs = $this->db->select('name')
 							  ->from('job')
-							  ->group_by('job_name HAVING SUM(job_id) > 2')
+							  ->group_by('name')
+		                      ->get()
+		                      ->result_array();
+		
+		// Check the result
+		$this->assertEquals(4, count($jobs));
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * @see ./mocks/schema/skeleton.php
+	 */
+	public function test_having_by()
+	{
+		$jobs = $this->db->select('name')
+							  ->from('job')
+							  ->group_by('name')
+							  ->having('SUM(id) > 2')
 		                      ->get()
 		                      ->result_array();
 		
 		// Check the result
 		$this->assertEquals(2, count($jobs));
-		$this->assertEquals('Accountant', $jobs[0]['job_name']);
-		$this->assertEquals('Musician', $jobs[1]['job_name']);
 	}
 	
 }
