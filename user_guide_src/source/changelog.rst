@@ -55,7 +55,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with 
+   -  Renamed the Active Record class to Query Builder to remove confusion with
       the Active Record design pattern
    -  Added new :doc:`Query Builder <database/query_builder>` methods that return
    -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
@@ -215,6 +215,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 -  Fixed a bug (#1242) Added Windows path compatibility to function read_dir of ZIP library
+-  Fixed a bug (#1314) sess_destroy() did not destroy userdata.
 
 Version 2.1.1
 =============
