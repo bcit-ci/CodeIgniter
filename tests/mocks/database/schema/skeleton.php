@@ -100,7 +100,7 @@ class Mock_Database_Schema_Skeleton {
 				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com'),
 				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com'),
 				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com'),
-			)
+			),
 			'job' => array(
 				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored'), 
 				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
