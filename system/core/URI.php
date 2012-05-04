@@ -99,18 +99,10 @@ class CI_URI {
 				return;
 			}
 
-			// Let's try the REQUEST_URI first, this will work in most situations
-			if ($uri = $this->_parse_request_uri())
-			{
-				$this->_set_uri_string($uri);
-				return;
-			}
-
 			// Is there a PATH_INFO variable?
-			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			if (isset($_SERVER['PATH_INFO']))
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($_SERVER['PATH_INFO']);
 				return;
 			}
 
@@ -118,6 +110,13 @@ class CI_URI {
 			if ($path = $this->_parse_query_string())
 			{
 				$this->_set_uri_string($path);
+				return;
+			}
+
+			// Let's try the REQUEST_URI, this will work in most situations
+			if ($uri = $this->_parse_request_uri())
+			{
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -177,12 +176,11 @@ class CI_URI {
 	 */
 	function _parse_query_string()
 	{
-		$query_string = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-		if (trim($query_string, '/') == '')
+		if ( ! isset($_SERVER['QUERY_STRING']))
 		{
 			return '';
 		}
-		$uri = urldecode($query_string);
+		$uri = urldecode($_SERVER['QUERY_STRING']);
 	
 		$parts = explode('?', $uri, 2);
 		$path = $parts[0];
