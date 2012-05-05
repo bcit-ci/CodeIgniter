@@ -216,13 +216,15 @@ class CI_URI {
 		$path = urldecode($path);
 		$query = urldecode($query);
 
-		if (strpos($path, $_SERVER['SCRIPT_NAME']) === 0)
+		$script_name = $_SERVER['SCRIPT_NAME'];
+		$script_dir = dirname($script_name);
+		if ($path === $script_name || strpos($path, $script_name.'/') === 0)
 		{
-			$path = substr($path, strlen($_SERVER['SCRIPT_NAME']));
+			$path = substr($path, strlen($script_name));
 		}
-		elseif (strpos($path, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif ($path === $script_dir || strpos($path, $script_dir.'/') === 0)
 		{
-			$path = substr($path, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$path = substr($path, strlen($script_dir));
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
