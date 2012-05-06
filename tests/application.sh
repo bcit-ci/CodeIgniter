@@ -33,7 +33,7 @@ then
 	/etc/init.d/selenium start
 	/etc/init.d/selenium restart
 	ps aux | grep 2.21
-	sleep 5	
+	sleep 8
 	echo -e "${green} Selenium OK ${endColor}"
 	echo -e "${green} Application Test READY ${endColor}"
 else
