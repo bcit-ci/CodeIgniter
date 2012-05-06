@@ -180,14 +180,12 @@ class CI_URI {
 		{
 			return '';
 		}
-		$uri = urldecode($_SERVER['QUERY_STRING']);
-	
-		$parts = explode('?', $uri, 2);
-		$path = $parts[0];
+		$parts = explode('?', $_SERVER['QUERY_STRING'], 2);
+		$path = urldecode($parts[0]);
 		$query = isset($parts[1]) ? $parts[1] : '';
 
-		// Set QUERY_STRING (it's url-encoded) and parse it into $_GET
-		$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
+		// Set QUERY_STRING and parse it into $_GET
+		$_SERVER['QUERY_STRING'] = $query;
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
 		
 		return $path;
@@ -214,7 +212,6 @@ class CI_URI {
 		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
 		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
 		$path = urldecode($path);
-		$query = urldecode($query);
 
 		$script_name = $_SERVER['SCRIPT_NAME'];
 		$script_dir = dirname($script_name);
@@ -229,15 +226,19 @@ class CI_URI {
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found
-		if ($path == '' && strncmp($query, '/', 1) === 0)
+		if ($path == '')
 		{
 			$parts = explode('?', $query, 2);
-			$path = $parts[0];
-			$query = isset($parts[1]) ? $parts[1] : '';
+			$maybe_path = urldecode($parts[0]);
+			if (strncmp($maybe_path, '/', 1) === 0)
+			{
+				$path = $maybe_path;
+				$query = isset($parts[1]) ? $parts[1] : '';
 
-			// also fix up the QUERY_STRING server var and $_GET array.
-			$_SERVER['QUERY_STRING'] = str_replace('%', '%25', $query);
-			parse_str($_SERVER['QUERY_STRING'], $_GET);
+				// also fix up the QUERY_STRING server var and $_GET array.
+				$_SERVER['QUERY_STRING'] = $query;
+				parse_str($_SERVER['QUERY_STRING'], $_GET);
+			}
 		}
 
 		// Do some final cleaning of the URI and return it
