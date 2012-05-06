@@ -30,4 +30,3 @@ branches:
   only:
     - develop
     - master
-    - app-selenium-tests
