@@ -42,7 +42,7 @@ if ( ! function_exists('read_file'))
 	/**
 	 * Read File
 	 *
-	 * Opens the file specfied in the path and returns it as a string.
+	 * Opens the file specified in the path and returns it as a string.
 	 *
 	 * @param	string	path to file
 	 * @return	string
