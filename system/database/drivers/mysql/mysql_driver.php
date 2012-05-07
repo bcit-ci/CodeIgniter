@@ -220,7 +220,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->simple_query('SET AUTOCOMMIT=0');
 		$this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
 		return TRUE;
 	}
@@ -241,7 +240,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		$this->simple_query('COMMIT');
-		$this->simple_query('SET AUTOCOMMIT=1');
 		return TRUE;
 	}
 
@@ -261,7 +259,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		$this->simple_query('ROLLBACK');
-		$this->simple_query('SET AUTOCOMMIT=1');
 		return TRUE;
 	}
 
