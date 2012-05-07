@@ -76,7 +76,7 @@ if ( ! function_exists('form_open'))
 
 		if (is_array($hidden) && count($hidden) > 0)
 		{
-			$form .= sprintf('<div style="display:none;">%s</div>', form_hidden($hidden));
+			$form .= sprintf("\n%s", form_hidden($hidden));
 		}
 
 		return $form;
