@@ -104,24 +104,24 @@ class CI_Xmlrpc {
 			);
 
 		// Array of Valid Parents for Various XML-RPC elements
-		$this->valid_parents = array('BOOLEAN'			=> array('VALUE'),
-						'I4'				=> array('VALUE'),
-						'INT'				=> array('VALUE'),
-						'STRING'			=> array('VALUE'),
-						'DOUBLE'			=> array('VALUE'),
-						'DATETIME.ISO8601'	=> array('VALUE'),
-						'BASE64'			=> array('VALUE'),
-						'ARRAY'			=> array('VALUE'),
-						'STRUCT'			=> array('VALUE'),
-						'PARAM'			=> array('PARAMS'),
-						'METHODNAME'		=> array('METHODCALL'),
-						'PARAMS'			=> array('METHODCALL', 'METHODRESPONSE'),
-						'MEMBER'			=> array('STRUCT'),
-						'NAME'				=> array('MEMBER'),
-						'DATA'				=> array('ARRAY'),
-						'FAULT'			=> array('METHODRESPONSE'),
-						'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
-					 );
+		$this->valid_parents = array('BOOLEAN' => array('VALUE'),
+			'I4'				=> array('VALUE'),
+			'INT'				=> array('VALUE'),
+			'STRING'			=> array('VALUE'),
+			'DOUBLE'			=> array('VALUE'),
+			'DATETIME.ISO8601'	=> array('VALUE'),
+			'BASE64'			=> array('VALUE'),
+			'ARRAY'			=> array('VALUE'),
+			'STRUCT'			=> array('VALUE'),
+			'PARAM'			=> array('PARAMS'),
+			'METHODNAME'		=> array('METHODCALL'),
+			'PARAMS'			=> array('METHODCALL', 'METHODRESPONSE'),
+			'MEMBER'			=> array('STRUCT'),
+			'NAME'				=> array('MEMBER'),
+			'DATA'				=> array('ARRAY'),
+			'FAULT'			=> array('METHODRESPONSE'),
+			'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
+		 );
 
 
 		// XML-RPC Responses
@@ -436,7 +436,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstr, $this->timeout);
+		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstring, $this->timeout);
 
 		if ( ! is_resource($fp))
 		{
@@ -458,7 +458,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 
-		if ( ! fputs($fp, $op, strlen($op)))
+		if ( ! fwrite($fp, $op, strlen($op)))
 		{
 			error_log($this->xmlrpcstr['http_error']);
 			return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error']);
@@ -1076,7 +1076,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 					// we have an I4/INT
 					// we must check that only 0123456789-<space> are characters here
 					$this->xh[$the_parser]['value'] = preg_match('/^[+-]?[0-9\t ]+$/', $this->xh[$the_parser]['ac'])
-										? (int) $this->xh[$the_parset]['ac']
+										? (int) $this->xh[$the_parser]['ac']
 										: 'ERROR_NON_NUMERIC_FOUND';
 				}
 				$this->xh[$the_parser]['ac'] = '';

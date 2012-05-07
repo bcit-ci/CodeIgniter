@@ -45,75 +45,86 @@ class CI_Loader {
 	 * @var int
 	 */
 	protected $_ci_ob_level;
+	
 	/**
 	 * List of paths to load views from
 	 *
 	 * @var array
 	 */
-	protected $_ci_view_paths		= array();
+	protected $_ci_view_paths =	array();
+	
 	/**
 	 * List of paths to load libraries from
 	 *
 	 * @var array
 	 */
-	protected $_ci_library_paths	= array();
+	protected $_ci_library_paths =	array();
+	
 	/**
 	 * List of paths to load models from
 	 *
 	 * @var array
 	 */
-	protected $_ci_model_paths		= array();
+	protected $_ci_model_paths =	array();
+	
 	/**
 	 * List of paths to load helpers from
 	 *
 	 * @var array
 	 */
-	protected $_ci_helper_paths		= array();
+	protected $_ci_helper_paths =	array();
+	
 	/**
 	 * List of loaded base classes
 	 *
 	 * @var array
 	 */
-	protected $_base_classes		= array(); // Set by the controller class
+	protected $_base_classes =	array(); // Set by the controller class
+	
 	/**
 	 * List of cached variables
 	 *
 	 * @var array
 	 */
-	protected $_ci_cached_vars		= array();
+	protected $_ci_cached_vars =	array();
+	
 	/**
 	 * List of loaded classes
 	 *
 	 * @var array
 	 */
-	protected $_ci_classes			= array();
+	protected $_ci_classes =	array();
+	
 	/**
 	 * List of loaded files
 	 *
 	 * @var array
 	 */
-	protected $_ci_loaded_files		= array();
+	protected $_ci_loaded_files =	array();
+	
 	/**
 	 * List of loaded models
 	 *
 	 * @var array
 	 */
-	protected $_ci_models			= array();
+	protected $_ci_models =	array();
+	
 	/**
 	 * List of loaded helpers
 	 *
 	 * @var array
 	 */
-	protected $_ci_helpers			= array();
+	protected $_ci_helpers =	array();
+	
 	/**
 	 * List of class name mappings
 	 *
 	 * @var array
 	 */
-	protected $_ci_varmap			= array(
-							'unit_test' => 'unit',
-							'user_agent' => 'agent'
-							);
+	protected $_ci_varmap =	array(
+		'unit_test' => 'unit',
+		'user_agent' => 'agent'
+	);
 
 	/**
 	 * Constructor
@@ -138,7 +149,6 @@ class CI_Loader {
 	 *
 	 * This method is called once in CI_Controller.
 	 *
-	 * @param 	array
 	 * @return 	object
 	 */
 	public function initialize()
@@ -313,16 +323,16 @@ class CI_Loader {
 	 *
 	 * @param	string	the DB credentials
 	 * @param	bool	whether to return the DB object
-	 * @param	bool	whether to enable active record (this allows us to override the config setting)
+	 * @param	bool	whether to enable query builder (this allows us to override the config setting)
 	 * @return	object
 	 */
-	public function database($params = '', $return = FALSE, $active_record = NULL)
+	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
 		// Grab the super object
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return == FALSE && $active_record == NULL && isset($CI->db) && is_object($CI->db))
+		if (class_exists('CI_DB') && $return == FALSE && $query_builder == NULL && isset($CI->db) && is_object($CI->db))
 		{
 			return FALSE;
 		}
@@ -331,7 +341,7 @@ class CI_Loader {
 
 		if ($return === TRUE)
 		{
-			return DB($params, $active_record);
+			return DB($params, $query_builder);
 		}
 
 		// Initialize the db variable. Needed to prevent
@@ -339,7 +349,7 @@ class CI_Loader {
 		$CI->db = '';
 
 		// Load the DB class
-		$CI->db =& DB($params, $active_record);
+		$CI->db =& DB($params, $query_builder);
 	}
 
 	// --------------------------------------------------------------------
@@ -673,7 +683,7 @@ class CI_Loader {
 
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
-		array_unshift($config->_config_paths, $path);
+		array_push($config->_config_paths, $path);
 	}
 
 	// --------------------------------------------------------------------
@@ -713,7 +723,7 @@ class CI_Loader {
 			array_shift($this->_ci_model_paths);
 			array_shift($this->_ci_helper_paths);
 			array_shift($this->_ci_view_paths);
-			array_shift($config->_config_paths);
+			array_pop($config->_config_paths);
 		}
 		else
 		{
@@ -1123,7 +1133,6 @@ class CI_Loader {
 	 * The config/autoload.php file contains an array that permits sub-systems,
 	 * libraries, and helpers to be loaded automatically.
 	 *
-	 * @param	array
 	 * @return	void
 	 */
 	protected function _ci_autoloader()

@@ -59,7 +59,7 @@ be numerically indexed. Here is an example of a typical array::
 				[1] => config.html        
 				[database] => Array
 					(              
-						[0] => active_record.html              
+						[0] => query_builder.html              
 						[1] => binds.html              
 						[2] => configuration.html
 						[3] => connecting.html              
