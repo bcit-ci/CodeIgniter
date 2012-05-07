@@ -482,7 +482,8 @@ class CI_Output {
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$output);
+			$cache = serialize( array( $expire, $this->headers, $output ) );
+			fwrite($fp, $cache );
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -525,22 +526,27 @@ class CI_Output {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		// Strip out the embedded timestamp
-		if ( ! preg_match('/(\d+TS--->)/', $cache, $match))
-		{
-			return FALSE;
-		}
+		list( $expire, $headers, $output ) = unserialize( $cache );
 
 		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
+		if (time() >= $expire && is_really_writable($cache_path))
 		{
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
 		}
 
+		// Output the headers 
+		if ( count( $headers ) > 0 )
+		{
+			foreach ( $headers as $header )
+			{
+				header( $header[0], $header[1] );
+			}
+		}
+
 		// Display the cache
-		$this->_display(str_replace($match[0], '', $cache));
+		$this->_display($output);
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
