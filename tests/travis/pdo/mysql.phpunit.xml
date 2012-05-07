@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+	bootstrap="../../Bootstrap.php"
+	colors="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false">
+	<php>
+        <const name="DB_DRIVER" value="pdo/mysql"/>
+    </php>
+	<testsuites>
+		<testsuite name="CodeIgniter Core Test Suite">
+			<file>../../codeigniter/Setup_test.php</file>
+			<directory suffix="test.php">../../codeigniter/core</directory>
+			<directory suffix="test.php">../../codeigniter/helpers</directory>
+			<directory suffix="test.php">../../codeigniter/libraries</directory>
+			<directory suffix="test.php">../../codeigniter/database</directory>
+		</testsuite>
+	</testsuites>
+	<filters>
+		<blacklist>
+			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
+			<directory suffix=".php">PHP_LIBDIR</directory>
+			<directory suffix=".php">PROJECT_BASE.'tests'</directory>
+			<directory suffix=".php">'../../../system/core/CodeIgniter.php'</directory>
+		</blacklist>
+	</filters>
+</phpunit>

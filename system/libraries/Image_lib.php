@@ -36,56 +36,335 @@
  */
 class CI_Image_lib {
 
-	public $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
+	/**
+	 * PHP extension/library to use for image manipulation
+	 * Can be:  imagemagick, netpbm, gd, gd2
+	 *
+	 * @var string
+	 */
+	public $image_library		= 'gd2';
+	
+	/**
+	 * Path to the graphic library (if applicable)
+	 *
+	 * @var string
+	 */
 	public $library_path		= '';
-	public $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
+	
+	/**
+	 * Whether to send to browser or write to disk
+	 *
+	 * @var bool
+	 */
+	public $dynamic_output		= FALSE;
+	
+	/**
+	 * Path to original image
+	 *
+	 * @var string
+	 */
 	public $source_image		= '';
+	
+	/**
+	 * Path to the modified image
+	 *
+	 * @var string
+	 */
 	public $new_image			= '';
+	
+	/**
+	 * Image width
+	 *
+	 * @var int
+	 */
 	public $width				= '';
+	
+	/**
+	 * Image height
+	 *
+	 * @var int
+	 */
 	public $height				= '';
+	
+	/**
+	 * Quality percentage of new image
+	 *
+	 * @var int
+	 */
 	public $quality			= '90';
+	
+	/**
+	 * Whether to create a thumbnail
+	 *
+	 * @var bool
+	 */
 	public $create_thumb		= FALSE;
+	
+	/**
+	 * String to add to thumbnail version of image
+	 *
+	 * @var string
+	 */
 	public $thumb_marker		= '_thumb';
-	public $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
-	public $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
+	
+	/**
+	 * Whether to maintain aspect ratio when resizing or use hard values
+	 *
+	 * @var bool
+	 */
+	public $maintain_ratio		= TRUE;
+	
+	/**
+	 * auto, height, or width.  Determines what to use as the master dimension
+	 *
+	 * @var string
+	 */
+	public $master_dim			= 'auto';
+	
+	/**
+	 * Angle at to rotate image
+	 *
+	 * @var string
+	 */
 	public $rotation_angle		= '';
+	
+	/**
+	 * X Coordinate for manipulation of the current image
+	 *
+	 * @var int
+	 */
 	public $x_axis				= '';
+	
+	/**
+	 * Y Coordinate for manipulation of the current image
+	 *
+	 * @var int
+	 */
 	public $y_axis				= '';
 
+	// --------------------------------------------------------------------------
 	// Watermark Vars
-	public $wm_text			= '';			// Watermark text if graphic is not used
-	public $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Watermark text if graphic is not used
+	 *
+	 * @var string
+	 */
+	public $wm_text			= '';
+	
+	/**
+	 * Type of watermarking.  Options:  text/overlay
+	 *
+	 * @var string
+	 */
+	public $wm_type			= 'text';
+	
+	/**
+	 * Default transparency for watermark
+	 * 
+	 * @var int
+	 */
 	public $wm_x_transp		= 4;
+	
+	/**
+	 * Default transparency for watermark
+	 *
+	 * @var int
+	 */
 	public $wm_y_transp		= 4;
-	public $wm_overlay_path	= '';			// Watermark image path
-	public $wm_font_path		= '';			// TT font
-	public $wm_font_size		= 17;			// Font size (different versions of GD will either use points or pixels)
-	public $wm_vrt_alignment	= 'B';			// Vertical alignment:   T M B
-	public $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
-	public $wm_padding			= 0;			// Padding around text
-	public $wm_hor_offset		= 0;			// Lets you push text to the right
-	public $wm_vrt_offset		= 0;			// Lets you push  text down
-	protected $wm_font_color		= '#ffffff';	// Text color
-	protected $wm_shadow_color		= '';	// Dropshadow color
-	public $wm_shadow_distance	= 2;			// Dropshadow distance
-	public $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
+	
+	/**
+	 * Watermark image path
+	 * 
+	 * @var string
+	 */
+	public $wm_overlay_path	= '';
+	
+	/**
+	 * TT font
+	 *
+	 * @var string
+	 */
+	public $wm_font_path		= '';
+	
+	/**
+	 * Font size (different versions of GD will either use points or pixels)
+	 *
+	 * @var int
+	 */
+	public $wm_font_size		= 17;
+	
+	/**
+	 * Vertical alignment:   T M B
+	 *
+	 * @var string
+	 */
+	public $wm_vrt_alignment	= 'B';
+	
+	/**
+	 * Horizontal alignment: L R C
+	 *
+	 * @var string
+	 */
+	public $wm_hor_alignment	= 'C';
+	
+	/**
+	 * Padding around text
+	 *
+	 * @var int
+	 */
+	public $wm_padding			= 0;
+	
+	/**
+	 * Lets you push text to the right
+	 *
+	 * @var int
+	 */
+	public $wm_hor_offset		= 0;
+	
+	/**
+	 * Lets you push text down
+	 *
+	 * @var int
+	 */
+	public $wm_vrt_offset		= 0;
+	
+	/**
+	 * Text color
+	 *
+	 * @var string
+	 */
+	protected $wm_font_color		= '#ffffff';
+	
+	/**
+	 * Dropshadow color
+	 *
+	 * @var string
+	 */
+	protected $wm_shadow_color		= '';
+	
+	/**
+	 * Dropshadow distance
+	 *
+	 * @var int
+	 */
+	public $wm_shadow_distance	= 2;
+	
+	/**
+	 * Image opacity: 1 - 100  Only works with image
+	 *
+	 * @var int
+	 */
+	public $wm_opacity			= 50;
 
+	// --------------------------------------------------------------------------
 	// Private Vars
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Source image folder
+	 *
+	 * @var string
+	 */
 	public $source_folder		= '';
+	
+	/**
+	 * Destination image folder
+	 *
+	 * @var string
+	 */
 	public $dest_folder		= '';
+	
+	/**
+	 * Image mime-type
+	 *
+	 * @var string
+	 */
 	public $mime_type			= '';
+	
+	/**
+	 * Original image width 
+	 *
+	 * @var int
+	 */
 	public $orig_width			= '';
+	
+	/**
+	 * Original image height
+	 *
+	 * @var int
+	 */
 	public $orig_height		= '';
+	
+	/**
+	 * Image format
+	 * 
+	 * @var string
+	 */
 	public $image_type			= '';
+	
+	/**
+	 * Size of current image
+	 *
+	 * @var string
+	 */
 	public $size_str			= '';
+	
+	/**
+	 * Full path to source image
+	 *
+	 * @var string
+	 */
 	public $full_src_path		= '';
+	
+	/**
+	 * Full path to destination image
+	 *
+	 * @var string
+	 */
 	public $full_dst_path		= '';
+	
+	/**
+	 * Name of function to create image
+	 *
+	 * @var string
+	 */
 	public $create_fnc			= 'imagecreatetruecolor';
+	
+	/**
+	 * Name of function to copy image
+	 *
+	 * @var string
+	 */
 	public $copy_fnc			= 'imagecopyresampled';
+	
+	/**
+	 * Error messages
+	 *
+	 * @var array
+	 */
 	public $error_msg			= array();
+	
+	/**
+	 * Whether to have a drop shadow on watermark
+	 *
+	 * @var bool
+	 */
 	protected $wm_use_drop_shadow	= FALSE;
+	
+	/**
+	 * Whether to use truetype fonts
+	 *
+	 * @var bool
+	 */
 	public $wm_use_truetype	= FALSE;
 
+	/**
+	 * Initialize Image Library
+	 *
+	 * @param	array	$props
+	 */
 	public function __construct($props = array())
 	{
 		if (count($props) > 0)
@@ -804,7 +1083,6 @@ class CI_Image_lib {
 	 * This is a wrapper function that chooses the type
 	 * of watermarking based on the specified preference.
 	 *
-	 * @param	string
 	 * @return	bool
 	 */
 	public function watermark()
@@ -1060,6 +1338,7 @@ class CI_Image_lib {
 	 * based on the type of image being processed
 	 *
 	 * @param	string
+	 * @param	string
 	 * @return	resource
 	 */
 	public function image_create_gd($path = '', $image_type = '')
@@ -1261,6 +1540,7 @@ class CI_Image_lib {
 	 * A helper function that gets info about the file
 	 *
 	 * @param	string
+	 * @param	bool
 	 * @return	mixed
 	 */
 	public function get_image_properties($path = '', $return = FALSE)
@@ -1451,6 +1731,7 @@ class CI_Image_lib {
 	/**
 	 * Show error messages
 	 *
+	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
