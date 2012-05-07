@@ -164,7 +164,6 @@ class CI_Router {
 		$this->uri->_remove_url_suffix(); // Remove the URL suffix
 		$this->uri->_explode_segments(); // Compile the segments into an array
 		$this->_parse_routes(); // Parse any custom routing that may exist
-		$this->uri->_reindex_segments(); // Re-index the segment array so that it starts with 1 rather than 0
 	}
 
 	// --------------------------------------------------------------------
@@ -194,9 +193,6 @@ class CI_Router {
 			$this->set_method('index');
 			$this->_set_request(array($this->default_controller, 'index'));
 		}
-
-		// re-index the routed segments array so it starts with 1 rather than 0
-		$this->uri->_reindex_segments();
 
 		log_message('debug', 'No URI present. Default controller set.');
 	}
@@ -239,6 +235,9 @@ class CI_Router {
 		// Note: If there is no custom routing, this array will be
 		// identical to $this->uri->segments
 		$this->uri->rsegments = $segments;
+
+		// re-index the routed segments array so it starts with 1 rather than 0
+		$this->uri->_reindex_segments();
 	}
 
 	// --------------------------------------------------------------------
