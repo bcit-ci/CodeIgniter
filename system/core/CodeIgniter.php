@@ -273,7 +273,7 @@
 
 	if ( ! class_exists($class)
 		OR strpos($method, '_') === 0
-		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
+		OR is_callable(array('CI_Controller', $method))
 		)
 	{
 		if ( ! empty($RTR->routes['404_override']))
@@ -333,9 +333,8 @@
 	}
 	else
 	{
-		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
-		// methods, so we'll use this workaround for consistent behavior
-		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
+		// Check the method is callable.
+		if ( ! is_callable($CI, $method))
 		{
 			// Check and see if we are using a 404 override and use it.
 			if ( ! empty($RTR->routes['404_override']))
