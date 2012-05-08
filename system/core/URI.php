@@ -59,8 +59,7 @@ class CI_URI {
 	public $segments =	array();
 	
 	/**
-	 * Re-indexed list of uri segments
-	 * Starts at 1 instead of 0
+	 * List of routed uri segments
 	 *
 	 * @var array
 	 */
