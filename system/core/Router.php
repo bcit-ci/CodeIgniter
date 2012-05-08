@@ -232,12 +232,9 @@ class CI_Router {
 		}
 
 		// Update our "routed" segment array to contain the segments.
-		// Note: If there is no custom routing, this array will be
+		// Note: If there is no custom routing, the array will be
 		// identical to $this->uri->segments
-		$this->uri->rsegments = $segments;
-
-		// re-index the routed segments array so it starts with 1 rather than 0
-		$this->uri->_reindex_segments();
+		$this->uri->_set_rsegments($segments);
 	}
 
 	// --------------------------------------------------------------------
@@ -345,8 +342,13 @@ class CI_Router {
 	 */
 	protected function _parse_routes()
 	{
+		// $uri->segments array starts at 1.
+		// Copy it to an array starting at 0,
+		// so we can do normal array manipulation.
+		$segments = array_values($this->uri->segments);
+
 		// Turn the segment array into a URI string
-		$uri = implode('/', $this->uri->segments);
+		$uri = implode('/', $segments);
 
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
@@ -375,7 +377,7 @@ class CI_Router {
 
 		// If we got this far it means we didn't encounter a
 		// matching route so we'll set the site default route
-		$this->_set_request($this->uri->segments);
+		$this->_set_request($segments);
 	}
 
 	// --------------------------------------------------------------------
