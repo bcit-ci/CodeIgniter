@@ -189,7 +189,7 @@ class CI_URI {
 		// Set QUERY_STRING and parse it into $_GET
 		$_SERVER['QUERY_STRING'] = $query;
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
-		
+
 		return $path;
 	}
 
@@ -209,7 +209,7 @@ class CI_URI {
 		{
 			return '';
 		}
-		
+
 		$uri_array = parse_url($_SERVER['REQUEST_URI']);
 		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
 		$query = isset($uri_array['query']) ? $uri_array['query'] : '';

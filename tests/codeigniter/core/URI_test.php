@@ -56,7 +56,7 @@ class URI_test extends CI_TestCase {
 		$_SERVER = array(
 			'SCRIPT_NAME' => '/subfolder/index.php',
 			'REQUEST_URI' => '/subfolder/index.php/controller/method'
-		);	
+		);
 		$this->uri->_fetch_uri_string();
 		
 		$a = 'controller/method';
