@@ -100,9 +100,10 @@ class CI_URI {
 			}
 
 			// Is there a PATH_INFO variable?
-			if (isset($_SERVER['PATH_INFO']))
+			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+			if ($path != '')
 			{
-				$this->_set_uri_string($_SERVER['PATH_INFO']);
+				$this->_set_uri_string($path);
 				return;
 			}
 
@@ -176,7 +177,8 @@ class CI_URI {
 	 */
 	function _parse_query_string()
 	{
-		if ( ! isset($_SERVER['QUERY_STRING']))
+		$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+		if ($query == '')
 		{
 			return '';
 		}
