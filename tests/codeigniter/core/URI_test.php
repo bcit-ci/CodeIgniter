@@ -44,17 +44,19 @@ class URI_test extends CI_TestCase {
 		
 		foreach($requests as $request => $expected)
 		{
-			$_SERVER['SCRIPT_NAME'] = '/index.php';
-			$_SERVER['REQUEST_URI'] = $request;
-			
+			$_SERVER = array(
+				'SCRIPT_NAME' => '/index.php',
+				'REQUEST_URI' => $request
+			);
 			$this->uri->_fetch_uri_string();
 			$this->assertEquals($expected, $this->uri->uri_string );
 		}
 		
 		// Test a subfolder
-		$_SERVER['SCRIPT_NAME'] = '/subfolder/index.php';
-		$_SERVER['REQUEST_URI'] = '/subfolder/index.php/controller/method';
-		
+		$_SERVER = array(
+			'SCRIPT_NAME' => '/subfolder/index.php',
+			'REQUEST_URI' => '/subfolder/index.php/controller/method'
+		);
 		$this->uri->_fetch_uri_string();
 		
 		$a = 'controller/method';
@@ -62,11 +64,8 @@ class URI_test extends CI_TestCase {
 		
 		$this->assertEquals($a, $b);
 		
-		// death to request uri
-		unset($_SERVER['REQUEST_URI']);
-		
-		// life to path info
-		$_SERVER['PATH_INFO'] = '/controller/method/';
+		// death to request uri; life to path info
+		$_SERVER = array('PATH_INFO' => '/controller/method/');
 		
 		$this->uri->_fetch_uri_string();
 		
@@ -77,9 +76,7 @@ class URI_test extends CI_TestCase {
 		
 		// death to path info
 		// At this point your server must be seriously drunk
-		unset($_SERVER['PATH_INFO']);
-		
-		$_SERVER['QUERY_STRING'] = '/controller/method/';
+		$_SERVER = array('QUERY_STRING' => '/controller/method/');
 		
 		$this->uri->_fetch_uri_string();
 
@@ -88,15 +85,6 @@ class URI_test extends CI_TestCase {
 		
 		$this->assertEquals($a, $b);
 		
-		// At this point your server is a labotomy victim
-		
-		unset($_SERVER['QUERY_STRING']);
-		
-		$_GET['/controller/method/'] = '';
-		
-		$this->uri->_fetch_uri_string();
-		$this->assertEquals($a, $b);
-
 		// Test coverage implies that these will work
 		// uri_protocol: REQUEST_URI
 		// uri_protocol: CLI

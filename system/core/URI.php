@@ -99,34 +99,25 @@ class CI_URI {
 				return;
 			}
 
-			// Let's try the REQUEST_URI first, this will work in most situations
-			if ($uri = $this->_detect_uri())
-			{
-				$this->_set_uri_string($uri);
-				return;
-			}
-
 			// Is there a PATH_INFO variable?
-			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+			if ($path != '')
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') != '')
+			if ($path = $this->_parse_query_string())
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
-			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
+			// Let's try the REQUEST_URI, this will work in most situations
+			if ($uri = $this->_parse_request_uri())
 			{
-				$this->_set_uri_string(key($_GET));
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -139,7 +130,7 @@ class CI_URI {
 
 		if ($uri === 'REQUEST_URI')
 		{
-			$this->_set_uri_string($this->_detect_uri());
+			$this->_set_uri_string($this->_parse_request_uri());
 			return;
 		}
 		elseif ($uri === 'CLI')
@@ -147,8 +138,13 @@ class CI_URI {
 			$this->_set_uri_string($this->_parse_cli_args());
 			return;
 		}
+		elseif ($uri === 'QUERY_STRING')
+		{
+			$this->_set_uri_string($this->_parse_query_string());
+			return;
+		}
 
-		$path = (isset($_SERVER[$uri])) ? $_SERVER[$uri] : @getenv($uri);
+		$path = isset($_SERVER[$uri]) ? $_SERVER[$uri] : '';
 		$this->_set_uri_string($path);
 	}
 
@@ -172,58 +168,87 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Detects the URI
+	 * Fetch the uri from QUERY_STRING
+	 *
+	 * This function will detect the URI automatically and fix the query string
+	 * if necessary.
+	 *
+	 * @return	string	the URI path
+	 */
+	function _parse_query_string()
+	{
+		$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+		if ($query == '')
+		{
+			return '';
+		}
+		$parts = explode('?', $_SERVER['QUERY_STRING'], 2);
+		$path = urldecode($parts[0]);
+		$query = isset($parts[1]) ? $parts[1] : '';
+
+		// Set QUERY_STRING and parse it into $_GET
+		$_SERVER['QUERY_STRING'] = $query;
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
+
+		return $path;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch the uri from REQUEST_URI
 	 *
 	 * This function will detect the URI automatically and fix the query string
 	 * if necessary.
 	 *
 	 * @return	string
 	 */
-	protected function _detect_uri()
+	protected function _parse_request_uri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI']) OR ! isset($_SERVER['SCRIPT_NAME']))
 		{
 			return '';
 		}
 
-		$uri = $_SERVER['REQUEST_URI'];
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		$uri_array = parse_url($_SERVER['REQUEST_URI']);
+		$path = isset($uri_array['path']) ? $uri_array['path'] : '';
+		$query = isset($uri_array['query']) ? $uri_array['query'] : '';
+		$path = urldecode($path);
+
+		$script_name = $_SERVER['SCRIPT_NAME'];
+		$script_dir = dirname($script_name);
+		if ($path === $script_name || strpos($path, $script_name.'/') === 0)
 		{
-			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+			$path = substr($path, strlen($script_name));
 		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif ($path === $script_dir || strpos($path, $script_dir.'/') === 0)
 		{
-			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$path = substr($path, strlen($script_dir));
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
-		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
-		if (strncmp($uri, '?/', 2) === 0)
+		// URI is found
+		if ($path == '')
 		{
-			$uri = substr($uri, 2);
-		}
-		$parts = preg_split('#\?#i', $uri, 2);
-		$uri = $parts[0];
-		if (isset($parts[1]))
-		{
-			$_SERVER['QUERY_STRING'] = $parts[1];
-			parse_str($_SERVER['QUERY_STRING'], $_GET);
-		}
-		else
-		{
-			$_SERVER['QUERY_STRING'] = '';
-			$_GET = array();
-		}
+			$parts = explode('?', $query, 2);
+			$maybe_path = urldecode($parts[0]);
+			if (strncmp($maybe_path, '/', 1) === 0)
+			{
+				$path = $maybe_path;
+				$query = isset($parts[1]) ? $parts[1] : '';
 
-		if ($uri == '/' OR empty($uri))
-		{
-			return '/';
+				// also fix up the QUERY_STRING server var and $_GET array.
+				$_SERVER['QUERY_STRING'] = $query;
+				parse_str($_SERVER['QUERY_STRING'], $_GET);
+			}
 		}
-
-		$uri = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		$path = str_replace(array('//', '../'), '/', trim($path, '/'));
+		if ($path == '') {
+			return '/';
+		}
+		return $path;
 	}
 
 	// --------------------------------------------------------------------
