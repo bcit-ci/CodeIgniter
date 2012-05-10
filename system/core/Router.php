@@ -79,7 +79,14 @@ class CI_Router {
 	 * @var string
 	 */
 	public $default_controller;
-
+	
+	/**
+	 * Controller to show for 404 errors (and method if specific)
+	 *
+	 * @var string
+	 */
+	public $controller_404;
+	
 	/**
 	 * Constructor
 	 *
@@ -142,9 +149,13 @@ class CI_Router {
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
 
-		// Set the default controller so we can display it in the event
-		// the URI doesn't correlated to a valid controller.
+		// Set the default controller used for the empty URI, or
+		// if the URI matches only a directory.  (Think "index page").
 		$this->default_controller = empty($this->routes['default_controller']) ? FALSE : $this->routes['default_controller'];
+
+		// Set the 404 controller so we can display it in the event
+		// the URI doesn't match a valid controller.
+		$this->controller_404 = empty($this->routes['404_override']) ? FALSE : $this->routes['404_override'];
 
 		// Were there any query string segments? If so, we'll validate them and bail out since we're done.
 		if (count($segments) > 0)
@@ -190,6 +201,28 @@ class CI_Router {
 		log_message('debug', 'No URI present. Default controller set.');
 	}
 	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the 404_override controller
+	 *
+	 * If there is no 404_override controller,
+	 * this function will abort by calling show_404().
+	 *
+	 * @param	string
+	 * @return	void
+	 */
+	protected function _set_404($page)
+	{
+		if ($this->controller_404 === FALSE)
+		{
+			show_404($page);
+		}
+
+		$segments = explode('/', $this->controller_404);
+		$this->_set_request_novalidate($segments);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
