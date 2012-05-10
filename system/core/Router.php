@@ -117,22 +117,16 @@ class CI_Router {
 		$segments = array();
 		if ($this->config->item('enable_query_strings') === TRUE && isset($_GET[$this->config->item('controller_trigger')]))
 		{
-			if (isset($_GET[$this->config->item('directory_trigger')]))
-			{
-				$this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
-				$segments[] = $this->fetch_directory();
-			}
-
-			if (isset($_GET[$this->config->item('controller_trigger')]))
-			{
-				$this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
-				$segments[] = $this->fetch_class();
-			}
+			$this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
 
 			if (isset($_GET[$this->config->item('function_trigger')]))
 			{
 				$this->set_method(trim($this->uri->_filter_uri($_GET[$this->config->item('function_trigger')])));
-				$segments[] = $this->fetch_method();
+			}
+
+			if (isset($_GET[$this->config->item('directory_trigger')]))
+			{
+				$this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
 			}
 		}
 
@@ -158,9 +152,14 @@ class CI_Router {
 		$this->controller_404 = empty($this->routes['404_override']) ? FALSE : $this->routes['404_override'];
 
 		// Were there any query string segments? If so, we'll validate them and bail out since we're done.
-		if (count($segments) > 0)
+		if ($this->class != '')
 		{
-			return $this->_validate_request($segments);
+			if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$this->class.'.php'))
+			{
+				$this->_set_404($this->fetch_directory().$this->class);
+			}
+
+			return;
 		}
 
 		// Fetch the complete URI string
