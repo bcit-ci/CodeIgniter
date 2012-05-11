@@ -59,8 +59,7 @@ class CI_URI {
 	public $segments =	array();
 	
 	/**
-	 * Re-indexed list of uri segments
-	 * Starts at 1 instead of 0
+	 * List of routed uri segments
 	 *
 	 * @var array
 	 */
@@ -324,27 +323,31 @@ class CI_URI {
 				$this->segments[] = $val;
 			}
 		}
+
+		// We re-index the $this->segments array so that it
+		// starts at 1 rather than 0. Doing so makes it simpler to
+		// use functions like $this->uri->segment(n) since there is
+		// a 1:1 relationship between the segment array and the actual segments.
+		array_unshift($this->segments, NULL);
+		unset($this->segments[0]);
 	}
 
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Re-index Segments
-	 *
-	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather than 0. Doing so makes it simpler to
-	 * use functions like $this->uri->segment(n) since there is
-	 * a 1:1 relationship between the segment array and the actual segments.
+	 * Set the routed URI Segments
 	 *
 	 * Called by CI_Router
 	 *
 	 * @return	void
 	 */
-	public function _reindex_segments()
+	public function _set_rsegments($segments)
 	{
-		array_unshift($this->segments, NULL);
+		// Take a copy of the array, so we don't re-index the caller's copy
+		$this->rsegments = array_values($segments);
+
+		// re-index to match $this->segments
 		array_unshift($this->rsegments, NULL);
-		unset($this->segments[0]);
 		unset($this->rsegments[0]);
 	}
 

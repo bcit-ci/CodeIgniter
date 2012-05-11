@@ -120,7 +120,7 @@ class URI_test extends CI_TestCase {
 			$this->uri->uri_string = $uri;
 			$this->uri->_explode_segments();
 			
-			$b = $this->uri->segments;
+			$b = array_values($this->uri->segments);
 			
 			$this->assertEquals($a, $b);
 		}

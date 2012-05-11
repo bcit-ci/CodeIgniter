@@ -273,27 +273,28 @@
 
 	if ( ! class_exists($class)
 		OR strpos($method, '_') === 0
-		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
+		OR is_callable(array('CI_Controller', $method))
 		)
 	{
-		if ( ! empty($RTR->routes['404_override']))
-		{
-			$x = explode('/', $RTR->routes['404_override'], 2);
-			$class = $x[0];
-			$method = isset($x[1]) ? $x[1] : 'index';
-			if ( ! class_exists($class))
-			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-				{
-					show_404($class.'/'.$method);
-				}
+		$RTR->_set_404($class.'/'.$method);
+		$class  = $RTR->fetch_class();
+		$method = $RTR->fetch_method();
+		include_once(APPPATH.'controllers/'.$class.'.php');
+	}
 
-				include_once(APPPATH.'controllers/'.$class.'.php');
-			}
-		}
-		else
+/*
+ * ------------------------------------------------------
+ *  Check the requested method exists
+ * ------------------------------------------------------
+ */
+	if ( ! method_exists($class, '_remap'))
+	{
+		if ( ! is_callable(array($class, $method)))
 		{
-			show_404($class.'/'.$method);
+			$RTR->_set_404($class.'/'.$method);
+			$class  = $RTR->fetch_class();
+			$method = $RTR->fetch_method();
+			include_once(APPPATH.'controllers/'.$RTR->fetch_directory().$class.'.php');
 		}
 	}
 
@@ -333,34 +334,6 @@
 	}
 	else
 	{
-		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
-		// methods, so we'll use this workaround for consistent behavior
-		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
-		{
-			// Check and see if we are using a 404 override and use it.
-			if ( ! empty($RTR->routes['404_override']))
-			{
-				$x = explode('/', $RTR->routes['404_override'], 2);
-				$class = $x[0];
-				$method = isset($x[1]) ? $x[1] : 'index';
-				if ( ! class_exists($class))
-				{
-					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-					{
-						show_404($class.'/'.$method);
-					}
-
-					include_once(APPPATH.'controllers/'.$class.'.php');
-					unset($CI);
-					$CI = new $class();
-				}
-			}
-			else
-			{
-				show_404($class.'/'.$method);
-			}
-		}
-
 		// Call the requested method.
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience
 		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
