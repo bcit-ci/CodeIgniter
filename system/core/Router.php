@@ -219,6 +219,11 @@ class CI_Router {
 		}
 
 		$segments = explode('/', $this->controller_404);
+
+		if ( ! file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
+		{
+			show_404($segments[0]);
+		}
 		$this->_set_request_novalidate($segments);
 	}
 
