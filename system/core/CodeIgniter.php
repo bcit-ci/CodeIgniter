@@ -284,6 +284,22 @@
 
 /*
  * ------------------------------------------------------
+ *  Check the requested method exists
+ * ------------------------------------------------------
+ */
+	if ( ! method_exists($class, '_remap'))
+	{
+		if ( ! is_callable(array($class, $method)))
+		{
+			$RTR->_set_404($class.'/'.$method);
+			$class  = $RTR->fetch_class();
+			$method = $RTR->fetch_method();
+			include_once(APPPATH.'controllers/'.$RTR->fetch_directory().$class.'.php');
+		}
+	}
+
+/*
+ * ------------------------------------------------------
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
@@ -318,18 +334,6 @@
 	}
 	else
 	{
-		// Check the method is callable.
-		if ( ! is_callable($CI, $method))
-		{
-			$RTR->_set_404($class.'/'.$method);
-			$class  = $RTR->fetch_class();
-			$method = $RTR->fetch_method();
-			include_once(APPPATH.'controllers/'.$class.'.php');
-
-			unset($CI);
-			$CI = new $class();
-		}
-
 		// Call the requested method.
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience
 		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));

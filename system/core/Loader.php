@@ -149,17 +149,12 @@ class CI_Loader {
 	 *
 	 * This method is called once in CI_Controller.
 	 *
-	 * @return 	object
+	 * @return 	void
 	 */
 	public function initialize()
 	{
-		$this->_ci_classes = array();
-		$this->_ci_loaded_files = array();
-		$this->_ci_models = array();
 		$this->_base_classes =& is_loaded();
-
 		$this->_ci_autoloader();
-		return $this;
 	}
 
 	// --------------------------------------------------------------------
