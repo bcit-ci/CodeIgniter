@@ -276,25 +276,10 @@
 		OR is_callable(array('CI_Controller', $method))
 		)
 	{
-		if ( ! empty($RTR->routes['404_override']))
-		{
-			$x = explode('/', $RTR->routes['404_override'], 2);
-			$class = $x[0];
-			$method = isset($x[1]) ? $x[1] : 'index';
-			if ( ! class_exists($class))
-			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-				{
-					show_404($class.'/'.$method);
-				}
-
-				include_once(APPPATH.'controllers/'.$class.'.php');
-			}
-		}
-		else
-		{
-			show_404($class.'/'.$method);
-		}
+		$RTR->_set_404($class.'/'.$method);
+		$class  = $RTR->fetch_class();
+		$method = $RTR->fetch_method();
+		include_once(APPPATH.'controllers/'.$class.'.php');
 	}
 
 /*
@@ -336,28 +321,13 @@
 		// Check the method is callable.
 		if ( ! is_callable($CI, $method))
 		{
-			// Check and see if we are using a 404 override and use it.
-			if ( ! empty($RTR->routes['404_override']))
-			{
-				$x = explode('/', $RTR->routes['404_override'], 2);
-				$class = $x[0];
-				$method = isset($x[1]) ? $x[1] : 'index';
-				if ( ! class_exists($class))
-				{
-					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-					{
-						show_404($class.'/'.$method);
-					}
+			$RTR->_set_404($class.'/'.$method);
+			$class  = $RTR->fetch_class();
+			$method = $RTR->fetch_method();
+			include_once(APPPATH.'controllers/'.$class.'.php');
 
-					include_once(APPPATH.'controllers/'.$class.'.php');
-					unset($CI);
-					$CI = new $class();
-				}
-			}
-			else
-			{
-				show_404($class.'/'.$method);
-			}
+			unset($CI);
+			$CI = new $class();
 		}
 
 		// Call the requested method.

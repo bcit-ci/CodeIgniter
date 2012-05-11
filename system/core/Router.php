@@ -211,7 +211,7 @@ class CI_Router {
 	 * @param	string
 	 * @return	void
 	 */
-	protected function _set_404($page)
+	public function _set_404($page)
 	{
 		if ($this->controller_404 === FALSE)
 		{
