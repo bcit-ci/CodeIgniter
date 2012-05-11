@@ -432,7 +432,21 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$k .= ' IS NULL';
 			}
 
-			if ( ! is_null($v))
+			if ( is_bool($v))
+			{
+				if ($escape === TRUE)
+				{
+					$k = $this->protect_identifiers($k, FALSE, $escape);
+
+					$v = ' '.($v ? 'TRUE' : 'FALSE');
+				}
+
+				if ( ! $this->_has_operator($k))
+				{
+					$k .= ' =';
+				}
+			}
+			else if ( ! is_null($v))
 			{
 				if ($escape === TRUE)
 				{
