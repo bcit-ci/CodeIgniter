@@ -219,17 +219,12 @@ class CI_Router {
 
 		$this->set_class($segments[0]);
 
-		if (isset($segments[1]))
+		if ( ! isset($segments[1]))
 		{
-			// A standard method request
-			$this->set_method($segments[1]);
-		}
-		else
-		{
-			// This lets the "routed" segment array identify that the default
-			// index method is being used.
+			// Use the default index method
 			$segments[1] = 'index';
 		}
+		$this->set_method($segments[1]);
 
 		// Update our "routed" segment array to contain the segments.
 		// Note: If there is no custom routing, the array will be
