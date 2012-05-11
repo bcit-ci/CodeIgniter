@@ -696,7 +696,7 @@ abstract class CI_DB_driver {
 		}
 		elseif (is_bool($str))
 		{
-			return ($str === FALSE) ? 0 : 1;
+			return ($str === FALSE) ? "FALSE" : "TRUE";
 		}
 		elseif (is_null($str))
 		{
