@@ -179,31 +179,25 @@ class CI_Router {
 		{
 			show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
-		// Is the method being specified?
-		if (strpos($this->default_controller, '/') !== FALSE)
+		$segments = explode('/', $this->default_controller);
+
+		if ( ! file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
 		{
-			$x = explode('/', $this->default_controller);
-			$this->set_class($x[0]);
-			$this->set_method($x[1]);
-			$this->_set_request($x);
+			show_404($segments[0]);
 		}
-		else
-		{
-			$this->set_class($this->default_controller);
-			$this->set_method('index');
-			$this->_set_request(array($this->default_controller, 'index'));
-		}
+		$this->_set_request_novalidate($segments);
 
 		log_message('debug', 'No URI present. Default controller set.');
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
 	 * Set the Route
 	 *
 	 * This function takes an array of URI segments as
-	 * input, and sets the current class/method
+	 * input, sets the current class/method, and makes
+	 * sure we know how to find the class.
 	 *
 	 * @param	array
 	 * @return	void
@@ -217,6 +211,22 @@ class CI_Router {
 			return $this->_set_default_controller();
 		}
 
+		$this->_set_request_novalidate($segments);
+	}
+ 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the Route
+	 *
+	 * This function takes an array of URI segments as
+	 * input, and sets the current class/method
+	 *
+	 * @param	array
+	 * @return	void
+	 */
+	protected function _set_request_novalidate($segments)
+	{
 		$this->set_class($segments[0]);
 
 		if ( ! isset($segments[1]))
