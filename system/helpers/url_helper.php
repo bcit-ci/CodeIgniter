@@ -463,12 +463,21 @@ if ( ! function_exists('prep_url'))
  * @param	string	the string
  * @param	string	the separator
  * @param	bool
+ * @param	bool
  * @return	string
  */
 if ( ! function_exists('url_title'))
 {
-	function url_title($str, $separator = '-', $lowercase = FALSE)
+	function url_title($str, $separator = '-', $lowercase = FALSE, $convert_accents = TRUE)
 	{
+		if($convert_accents)
+		{
+			$CI =& get_instance();
+			$CI->load->helper('text');
+			
+			$str = convert_accented_characters($str);
+		}
+
 		if ($separator === 'dash')
 		{
 			$separator = '-';
