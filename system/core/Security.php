@@ -95,13 +95,14 @@ class CI_Security {
 	 *
 	 * @var array
 	 */
-	protected $_never_allowed_regex =	array(
+	protected $_never_allowed_regex = array(
 		'javascript\s*:',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
-		'Redirect\s+302'
+		'Redirect\s+302',
+		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
-
+	
 	/**
 	 * Initialize security class
 	 */
@@ -365,9 +366,10 @@ class CI_Security {
 		 * These words are compacted back to their correct state.
 		 */
 		$words = array(
-			'javascript', 'expression', 'vbscript', 'script',
+			'javascript', 'expression', 'vbscript', 'script', 'base64',
 			'applet', 'alert', 'document', 'write', 'cookie', 'window'
 		);
+
 
 		foreach ($words as $word)
 		{
@@ -605,10 +607,11 @@ class CI_Security {
 			$attribs = array();
 
 			// find occurrences of illegal attribute strings without quotes
-			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*([^\s]*)/is', $str, $matches, PREG_SET_ORDER);
+			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is', $str, $matches, PREG_SET_ORDER);
 
 			foreach ($matches as $attr)
 			{
+
 				$attribs[] = preg_quote($attr[0], '/');
 			}
 
@@ -623,7 +626,7 @@ class CI_Security {
 			// replace illegal attribute strings that are inside an html tag
 			if (count($attribs) > 0)
 			{
-				$str = preg_replace('/<(\/?[^><]+?)([^A-Za-z\-])('.implode('|', $attribs).')([\s><])([><]*)/i', '<$1$2$4$5', $str, -1, $count);
+				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)(".implode('|', $attribs).")(.*?)([\s><])([><]*)/i", '<$1 $3$5$6$7', $str, -1, $count);
 			}
 
 		} while ($count);
@@ -664,7 +667,7 @@ class CI_Security {
 	protected function _js_link_removal($match)
 	{
 		return str_replace($match[1],
-					preg_replace('#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+					preg_replace('#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
@@ -804,7 +807,7 @@ class CI_Security {
 
 		foreach ($this->_never_allowed_regex as $regex)
 		{
-			$str = preg_replace('#'.$regex.'#i', '[removed]', $str);
+			$str = preg_replace('#'.$regex.'#is', '[removed]', $str);
 		}
 
 		return $str;
