@@ -231,20 +231,20 @@ if ( ! function_exists('get_config'))
 			return $_config[0];
 		}
 
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-		{
-			$file_path = APPPATH.'config/config.php';
+		$file_path = APPPATH.'config/config.php';
+		$found = false;
+		if (file_exists($file_path)) {
+			$found = true;
+			require($file_path);
 		}
 
-		// Fetch the config file
-		if ( ! file_exists($file_path))
+		// Is the config file in the environment folder?
+		if (defined(ENVIRONMENT) && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
-			set_status_header(503);
+			require($file_path);			
+		} else if (!$found) {
 			exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
