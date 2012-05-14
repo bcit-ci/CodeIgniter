@@ -436,7 +436,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstr, $this->timeout);
+		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstring, $this->timeout);
 
 		if ( ! is_resource($fp))
 		{
@@ -458,7 +458,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 
-		if ( ! fputs($fp, $op, strlen($op)))
+		if ( ! fwrite($fp, $op, strlen($op)))
 		{
 			error_log($this->xmlrpcstr['http_error']);
 			return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error']);
@@ -1076,7 +1076,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 					// we have an I4/INT
 					// we must check that only 0123456789-<space> are characters here
 					$this->xh[$the_parser]['value'] = preg_match('/^[+-]?[0-9\t ]+$/', $this->xh[$the_parser]['ac'])
-										? (int) $this->xh[$the_parset]['ac']
+										? (int) $this->xh[$the_parser]['ac']
 										: 'ERROR_NON_NUMERIC_FOUND';
 				}
 				$this->xh[$the_parser]['ac'] = '';

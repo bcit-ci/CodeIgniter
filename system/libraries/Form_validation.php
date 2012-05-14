@@ -448,7 +448,7 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
-			elseif ( ! empty($validation_array[$field]))
+			elseif (isset($validation_array[$field]) && $validation_array[$field] !== '')
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
@@ -1005,7 +1005,7 @@ class CI_Form_validation {
 
 		return (MB_ENABLED === TRUE)
 			? ($val <= mb_strlen($str))
-			: ($val <= strlen(str));
+			: ($val <= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
