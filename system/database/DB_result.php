@@ -334,7 +334,7 @@ class CI_DB_result {
 	public function next_row($type = 'object')
 	{
                 if ($this->EOF) {
-			return $false;
+			return false;
 		}
 
                 if($type=='object'){
