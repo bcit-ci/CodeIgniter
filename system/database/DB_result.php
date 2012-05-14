@@ -46,6 +46,7 @@ class CI_DB_result {
 	public $current_row			= 0;
 	public $num_rows			= 0;
 	public $row_data			= NULL;
+	public $EOF				=false;
 
 	public function __construct(&$driver_object)
 	{
@@ -332,18 +333,27 @@ class CI_DB_result {
 	 */
 	public function next_row($type = 'object')
 	{
-		$result = $this->result($type);
-		if (count($result) === 0)
-		{
-			return $result;
+                if ($this->EOF) {
+			return $false;
 		}
 
-		if (isset($result[$this->current_row + 1]))
+                if($type=='object'){
+                    $rtnres=$this->_fetch_object();
+                } else {
+                    $rtnres=$this->_fetch_assoc();
+                }
+
+		if (($this->current_row + 1)<$this->num_rows())
 		{
 			++$this->current_row;
-		}
+                        
+		} else {
+			$this->EOF=true;
+                }
+		
+		return $rtnres;
 
-		return $result[$this->current_row];
+                        
 	}
 
 	// --------------------------------------------------------------------
