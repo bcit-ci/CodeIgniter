@@ -725,7 +725,7 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return '.'.end($x);
+		return (count($x) !== 1) ? '.'.end($x) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -849,6 +849,10 @@ class CI_Upload {
 			if ( ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes))
 			{
 				return TRUE; // its an image, no "triggers" detected in the first 256 bytes, we're good
+			}
+			else
+			{
+				return FALSE;
 			}
 		}
 
