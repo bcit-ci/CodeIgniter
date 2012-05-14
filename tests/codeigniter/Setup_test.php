@@ -2,12 +2,12 @@
 
 class Setup_test extends PHPUnit_Framework_TestCase {
 	
-	function test_nonsense()
+	function test_bootstrap_constants()
 	{
-		$this->markTestIncomplete('not implemented');
-		// ensure that our bootstrapped test environment
-		// is a good representation of an isolated CI install
-		//die('here');
+		$this->assertTrue(defined('PROJECT_BASE'));
+		$this->assertTrue(defined('BASEPATH'));
+		$this->assertTrue(defined('APPPATH'));
+		$this->assertTrue(defined('VIEWPATH'));
 	}
 	
 }
