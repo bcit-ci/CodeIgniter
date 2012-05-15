@@ -321,20 +321,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function escape($str)
 	{
-		if (is_string($str) OR method_exists($str, '__toString'))
-		{
-			return "'".$this->escape_str($str)."'";
-		}
-		elseif (is_bool($str))
+		if (is_bool($str))
 		{
 			return ($str) ? 'TRUE' : 'FALSE';
 		}
-		elseif (is_null($str))
-		{
-			return 'NULL';
-		}
 
-		return $str;
+		return parent::escape($str);
 	}
 	
 	// --------------------------------------------------------------------
