@@ -37,12 +37,6 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	protected $_create_database	= FALSE;
 	protected $_drop_database	= FALSE;
 
-	public function __construct( $db_object = NULL )
-	{
-		// Sending the requested database object to the parent Database Forge Object
-		parent::__construct($db_object);	
-	}
-	
 	/**
 	 * Process Fields
 	 *
