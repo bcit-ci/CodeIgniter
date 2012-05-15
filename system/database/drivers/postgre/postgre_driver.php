@@ -327,7 +327,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 		elseif (is_bool($str))
 		{
-			return $str ? "TRUE" : "FALSE";
+			return ($str) ? 'TRUE' : 'FALSE';
 		}
 		elseif (is_null($str))
 		{
@@ -629,7 +629,7 @@ class CI_DB_postgre_driver extends CI_DB {
 					$k = $this->protect_identifiers($k, FALSE, $escape);
 					$v = ' '.$this->escape($v);
 				}
-				else if (is_bool($v))
+				elseif (is_bool($v))
 				{
 					$v = ' '.($v ? 'TRUE' : 'FALSE');
 				}
