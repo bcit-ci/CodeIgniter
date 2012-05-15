@@ -1,7 +1,18 @@
 <?php
 
-class Mock_Libraries_Table extends CI_Table {
+class Mock_Core_Security extends CI_Security {
 	
+	public function csrf_set_cookie()
+	{
+		return $this;
+	}
+
+	// Overide inaccesible protected properties
+	public function __get($property)
+	{
+		return isset($this->{'_'.$property}) ? $this->{'_'.$property} : NULL;
+	}
+
 	// Overide inaccesible protected method
 	public function __call($method, $params)
 	{
@@ -12,4 +23,5 @@ class Mock_Libraries_Table extends CI_Table {
 
 		throw new BadMethodCallException('Method '.$method.' was not found');
 	}
+
 }
