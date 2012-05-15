@@ -76,10 +76,10 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		{
 			return $this->data_cache['db_names'];
 		}
-
-		for ($i = 0, $c = count($query); $i < $c; $i++)
-		{
-			$this->data_cache['db_names'] = current($query[$i]);
+		
+		foreach($query->result_array() as $row)
+		{			
+			$this->data_cache['db_names'][] = current($row);
 		}
 
 		return $this->data_cache['db_names'];
