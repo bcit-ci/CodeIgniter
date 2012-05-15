@@ -275,7 +275,7 @@ Managing multiple databases
 
 If you need to manage other databases you are connected to, you can send the database object as the first parameter.
 
-Load the Forge Class as follows, with your database as the first parameter::
+Load the Forge Class as follows, with your database object as the first parameter::
 
 	$DBFORGE = $this->load->dbforge($DB1, TRUE);
 

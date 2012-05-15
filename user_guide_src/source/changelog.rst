@@ -55,7 +55,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added multiple database management functionality to the :doc:`Database Forge Class <database/forge>`
+   -  Added multiple database management functionality to the :doc:`Database Forge Class <database/forge>` and :doc:`Database Utility Class <database/utilities>`
    -  Renamed the Active Record class to Query Builder to remove confusion with
       the Active Record design pattern
    -  Added new :doc:`Query Builder <database/query_builder>` methods that return

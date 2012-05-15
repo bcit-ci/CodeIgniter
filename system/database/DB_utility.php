@@ -42,11 +42,18 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	protected $_optimize_table	= FALSE;
 	protected $_repair_table	= FALSE;
 
-	public function __construct()
-	{
+	public function __construct( $db_object = NULL )
+	{		
 		// Assign the main database object to $this->db
 		$CI =& get_instance();
-		$this->db =& $CI->db;
+		if( is_null($db_object))
+		{
+			$this->db = $CI->db;
+		}
+		else
+		{
+			$this->db = $db_object;	
+		}		
 		log_message('debug', 'Database Utility Class Initialized');
 	}
 
@@ -76,7 +83,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		{
 			return $this->data_cache['db_names'];
 		}
-		
+
 		foreach($query->result_array() as $row)
 		{			
 			$this->data_cache['db_names'][] = current($row);

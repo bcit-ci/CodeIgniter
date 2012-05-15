@@ -15,7 +15,7 @@ Function Reference
 Initializing the Utility Class
 ==============================
 
-.. important:: In order to initialize the Utility class, your database
+.. important:: In order to initialize the Utility class without parameters, your database
 	driver must already be running, since the utilities class relies on it.
 
 Load the Utility Class as follows::
@@ -226,3 +226,32 @@ Preference      Default Value           Options                 Description
 **add_insert**  TRUE                    TRUE/FALSE              Whether to include INSERT statements in your SQL export file.
 **newline**     "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
 =============== ======================= ======================= ========================================================================
+
+
+***************************
+Managing multiple databases
+***************************
+
+.. note:: For information on connecting to mulitple databases, see the :doc:`connecting to your database page <connecting>`.
+
+If you need to manage other databases you are connected to, you can send the database object as the first parameter.
+
+Load the Database Utility Class as follows, with your database object as the first parameter::
+
+	$DBUTL = $this->load->dbutil($DB1, TRUE);
+
+By setting the second parameter to TRUE (boolean) the function will return the Database Utility object.
+
+.. note:: When you use the Database Utility class this way, you will use your object name to issue commands rather than the syntax used throughout this guide. In other words, rather than issuing commands with:
+	
+	|
+	| $this->dbutil->list_databases();
+	| $this->dbutil->database_exists('table');
+	| etc...
+	|
+	| You will instead use:
+	|
+	| $DBUTIL->list_databases();
+	| $DBUTIL->database_exists('table');
+	| etc...
+

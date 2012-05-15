@@ -357,26 +357,41 @@ class CI_Loader {
 	/**
 	 * Load the Utilities Class
 	 *
+	 * @param	object	whether to user another DB object
+	 * @param	bool	whether to return the Database Utility object	 
 	 * @return	string
 	 */
-	public function dbutil()
+	public function dbutil( $db_object = NULL, $return = FALSE )
 	{
-		if ( ! class_exists('CI_DB'))
+		$CI =& get_instance();
+		
+		if( is_null($db_object))
 		{
-			$this->database();
+			if ( ! class_exists('CI_DB'))
+			{
+				$this->database();
+			}
+			
+			$dbdriver = $CI->db->dbdriver;
+		}
+		else
+		{
+			$dbdriver = $db_object->dbdriver;
+		}		
+
+		// Since DB_Utility extends from DB_Forge, we need to require that one too.
+		require_once(BASEPATH.'database/DB_forge.php');
+		require_once(BASEPATH.'database/drivers/'.$dbdriver.'/'.$dbdriver.'_forge.php');
+		require_once(BASEPATH.'database/DB_utility.php');
+		require_once(BASEPATH.'database/drivers/'.$dbdriver.'/'.$dbdriver.'_utility.php');
+		$class = 'CI_DB_'.$dbdriver.'_utility';
+
+		if($return === TRUE)
+		{
+			return new $class($db_object);
 		}
 
-		$CI =& get_instance();
-
-		// for backwards compatibility, load dbforge so we can extend dbutils off it
-		// this use is deprecated and strongly discouraged
-		$CI->load->dbforge();
-
-		require_once(BASEPATH.'database/DB_utility.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
-
-		$CI->dbutil = new $class();
+		$CI->dbutil = new $class($db_object);
 	}
 
 	// --------------------------------------------------------------------
