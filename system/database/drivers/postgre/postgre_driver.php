@@ -328,7 +328,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		return parent::escape($str);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -623,7 +623,7 @@ class CI_DB_postgre_driver extends CI_DB {
 				}
 				elseif (is_bool($v))
 				{
-					$v = ' '.($v ? 'TRUE' : 'FALSE');
+					$v = ($v ? ' TRUE' : ' FALSE');
 				}
 
 				if ( ! $this->_has_operator($k))
@@ -647,7 +647,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		return $this;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
