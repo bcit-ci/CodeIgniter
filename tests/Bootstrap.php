@@ -12,6 +12,9 @@ define('BASEPATH',		PROJECT_BASE.'system/');
 define('APPPATH',		PROJECT_BASE.'application/');
 define('VIEWPATH',		PROJECT_BASE.'');
 
+// Set cookie for security test
+$_COOKIE['ci_csrf_cookie'] = md5(uniqid(rand(), TRUE));
+
 // Prep our test environment
 require_once 'vfsStream/vfsStream.php';
 include_once $dir.'/mocks/core/common.php';
