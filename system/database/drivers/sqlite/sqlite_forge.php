@@ -33,6 +33,12 @@
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlite_forge extends CI_DB_forge {
+	
+	public function __construct( $db_object = NULL )
+	{
+		// Sending the requested database object to the parent Database Forge Object
+		parent::__construct($db_object);	
+	}	
 
 	/**
 	 * Create database

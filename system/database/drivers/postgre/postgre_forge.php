@@ -36,6 +36,12 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 	protected $_drop_table	= 'DROP TABLE IF EXISTS %s CASCADE';
 
+	public function __construct( $db_object = NULL )
+	{
+		// Sending the requested database object to the parent Database Forge Object
+		parent::__construct($db_object);	
+	}
+	
 	/**
 	 * Process Fields
 	 *

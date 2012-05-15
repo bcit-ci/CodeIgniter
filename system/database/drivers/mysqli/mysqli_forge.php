@@ -36,6 +36,12 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
+	public function __construct( $db_object = NULL )
+	{
+		// Sending the requested database object to the parent Database Forge Object
+		parent::__construct($db_object);	
+	}
+
 	/**
 	 * Process Fields
 	 *

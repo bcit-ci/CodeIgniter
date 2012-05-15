@@ -384,22 +384,38 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
+	 * @param	object	whether to user another DB object
+	 * @param	bool	whether to return the Database Forge object
 	 * @return	string
 	 */
-	public function dbforge()
+	public function dbforge( $db_object = NULL, $return = FALSE )
 	{
-		if ( ! class_exists('CI_DB'))
-		{
-			$this->database();
-		}
-
 		$CI =& get_instance();
+		
+		if( is_null($db_object))
+		{
+			if ( ! class_exists('CI_DB'))
+			{
+				$this->database();
+			}
+			
+			$dbdriver = $CI->db->dbdriver;
+		}
+		else
+		{
+			$dbdriver = $db_object->dbdriver;
+		}			
 
 		require_once(BASEPATH.'database/DB_forge.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+		require_once(BASEPATH.'database/drivers/'.$dbdriver.'/'.$dbdriver.'_forge.php');
+		$class = 'CI_DB_'.$dbdriver.'_forge';
+		
+		if($return === TRUE)
+		{
+			return new $class($db_object);
+		}
 
-		$CI->dbforge = new $class();
+		$CI->dbforge = new $class($db_object);
 	}
 
 	// --------------------------------------------------------------------

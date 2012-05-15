@@ -37,6 +37,12 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	protected $_drop_database	= 'DROP DATABASE %s';
 	protected $_drop_table		= 'DROP TABLE %s';
 
+	public function __construct( $db_object = NULL )
+	{
+		// Sending the requested database object to the parent Database Forge Object
+		parent::__construct($db_object);	
+	}
+	
 	/**
 	 * Create Table
 	 *

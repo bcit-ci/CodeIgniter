@@ -11,7 +11,7 @@ database.
 Initializing the Forge Class
 ****************************
 
-.. important:: In order to initialize the Forge class, your database
+.. important:: In order to initialize the Forge class without parameters, your database
 	driver must already be running, since the forge class relies on it.
 
 Load the Forge Class as follows::
@@ -266,3 +266,31 @@ change the name you can add a "name" key into the field defining array.
 	);
 	$this->dbforge->modify_column('table_name', $fields);
 	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
+	
+***************************
+Managing multiple databases
+***************************
+
+.. note:: For information on connecting to mulitple databases, see the :doc:`connecting to your database page <connecting>`.
+
+If you need to manage other databases you are connected to, you can send the database object as the first parameter.
+
+Load the Forge Class as follows, with your database as the first parameter::
+
+	$DBFORGE = $this->load->dbforge($DB1, TRUE);
+
+By setting the second parameter to TRUE (boolean) the function will return the Database Forge object.
+
+.. note:: When you use the Database Forge class this way, you will use your object name to issue commands rather than the syntax used throughout this guide. In other words, rather than issuing commands with:
+	
+	|
+	| $this->dbforge->add_field();
+	| $this->dbforge->create_table();
+	| etc...
+	|
+	| You will instead use:
+	|
+	| $DBFORGE->add_field();
+	| $DBFORGE->create_table();
+	| etc...
+
