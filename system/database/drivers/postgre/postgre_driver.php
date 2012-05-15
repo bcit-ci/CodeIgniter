@@ -311,6 +311,35 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * "Smart" Escape String
+	 *
+	 * Escapes data based on type
+	 * Sets boolean and null types
+	 *
+	 * @param	string
+	 * @return	mixed
+	 */
+	public function escape($str)
+	{
+		if (is_string($str) OR method_exists($str, '__toString'))
+		{
+			return "'".$this->escape_str($str)."'";
+		}
+		elseif (is_bool($str))
+		{
+			return $str ? "TRUE" : "FALSE";
+		}
+		elseif (is_null($str))
+		{
+			return 'NULL';
+		}
+
+		return $str;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Affected Rows
 	 *
 	 * @return	int
@@ -555,6 +584,78 @@ class CI_DB_postgre_driver extends CI_DB {
 		return $sql.' LIMIT '.$limit.($offset == 0 ? '' : ' OFFSET '.$offset);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Where
+	 *
+	 * Called by where() or or_where()
+	 *
+	 * @param	mixed
+	 * @param	mixed
+	 * @param	string
+	 * @return	object
+	 *
+	 */
+	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
+	{
+		$type = $this->_group_get_type($type);
+
+		if ( ! is_array($key))
+		{
+			$key = array($key => $value);
+		}
+
+		// If the escape value was not set will will base it on the global setting
+		if ( ! is_bool($escape))
+		{
+			$escape = $this->_protect_identifiers;
+		}
+
+		foreach ($key as $k => $v)
+		{
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
+
+			if (is_null($v) && ! $this->_has_operator($k))
+			{
+				// value appears not to have been set, assign the test to IS NULL
+				$k .= ' IS NULL';
+			}
+
+			if ( ! is_null($v))
+			{
+				if ($escape === TRUE)
+				{
+					$k = $this->protect_identifiers($k, FALSE, $escape);
+					$v = ' '.$this->escape($v);
+				}
+				else if (is_bool($v))
+				{
+					$v = ' '.($v ? 'TRUE' : 'FALSE');
+				}
+
+				if ( ! $this->_has_operator($k))
+				{
+					$k .= ' = ';
+				}
+			}
+			else
+			{
+				$k = $this->protect_identifiers($k, FALSE, $escape);
+			}
+
+			$this->qb_where[] = $prefix.$k.$v;
+			if ($this->qb_caching === TRUE)
+			{
+				$this->qb_cache_where[] = $prefix.$k.$v;
+				$this->qb_cache_exists[] = 'where';
+			}
+
+		}
+
+		return $this;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
