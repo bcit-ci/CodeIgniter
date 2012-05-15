@@ -22,7 +22,7 @@ Release Date: Not Released
    -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
-   -  Added Windows 7 to the list of user platforms.
+   -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
@@ -100,6 +100,7 @@ Release Date: Not Released
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
    -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
+   -  Added escaping boolean data type for PosgreSQL
 
 -  Libraries
 
@@ -214,8 +215,9 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
--  Fixed a bug (#1242) Added Windows path compatibility to function read_dir of ZIP library
--  Fixed a bug (#1314) sess_destroy() did not destroy userdata.
+-  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library
+-  Fixed a bug (#1314) - sess_destroy() did not destroy userdata.
+-  Fixed a bug (#1349) - get_extension() in the `File Uploading Library <libraries/file_uploading>` returned the original filename when it didn't have an actual extension.
 
 Version 2.1.1
 =============
