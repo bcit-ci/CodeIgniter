@@ -4,19 +4,13 @@ class Security_test extends CI_TestCase {
 	
 	public function set_up()
 	{
+		// Set cookie for security test
+		$_COOKIE['ci_csrf_cookie'] = md5(uniqid(rand(), TRUE));
+
+		// Set config for Security class
 		$this->ci_set_config('csrf_protection', TRUE);
 		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
-		// @see : ./Bootstrap.php Line 16
 		$this->ci_set_config('csrf_cookie_name', 'ci_csrf_cookie');
-		$this->ci_set_config('csrf_expire', 7200);
-		$this->ci_set_config('csrf_regenerate', TRUE);
-		$this->ci_set_config('csrf_exclude_uris', array());
-
-		$this->ci_set_config('cookie_prefix', "");
-		$this->ci_set_config('cookie_domain', "");
-		$this->ci_set_config('cookie_path', "/");
-		$this->ci_set_config('cookie_secure', FALSE);
-		$this->ci_set_config('cookie_httponly',	FALSE);
 
 		$this->security = new Mock_Core_Security();
 	}
