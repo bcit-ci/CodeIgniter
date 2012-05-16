@@ -50,6 +50,13 @@ if ( ! function_exists('valid_email'))
 	 */
 	function valid_email($email)
 	{
+		// Use PHP's filters if they exist
+		if (function_exists('filter_var'))
+		{
+			return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+		}
+	
+		// Fallback based on RFC822
 		$qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
 
 		$dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
