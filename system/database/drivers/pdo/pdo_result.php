@@ -84,19 +84,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 		// Define the output
 		$output = array('assoc', 'object');
 
+		// Initial value
+		$this->result_assoc = array() and $this->result_object = array();
+
 		// Fetch the result
-		foreach ($output as $type)
+		while ($row = $this->_fetch_assoc())
 		{
-			// Define the method and handler
-			$res_method  = '_fetch_'.$type;
-			$res_handler = 'result_'.$type;
-
-			$this->$res_handler = array();
-
-			while ($row = $this->$res_method())
-			{
-				$this->{$res_handler}[] = $row;
-			}
+			$this->result_assoc[] = $row;
+			$this->result_object[] = (object) $row;
 		}
 
 		// Save this as buffer and marked the fetch flag
@@ -249,7 +244,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		return $this->result_id->fetchObject();
+		return $this->result_id->fetch(PDO::FETCH_OBJ);
 	}
 
 }
