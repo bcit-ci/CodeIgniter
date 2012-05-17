@@ -201,7 +201,7 @@ if ( ! function_exists('underscore'))
  *
  * @param	string	$str
  * @param 	string	$separator
- * @return	str
+ * @return	string
  */
 if ( ! function_exists('humanize'))
 {
