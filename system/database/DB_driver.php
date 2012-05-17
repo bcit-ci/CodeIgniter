@@ -265,6 +265,12 @@ class CI_DB_driver {
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
 
+		// Compile binds if needed
+		if ($binds !== FALSE)
+		{
+			$sql = $this->compile_binds($sql, $binds);
+		}
+
 		// Is query caching enabled?  If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
@@ -278,12 +284,6 @@ class CI_DB_driver {
 					return $cache;
 				}
 			}
-		}
-
-		// Compile binds if needed
-		if ($binds !== FALSE)
-		{
-			$sql = $this->compile_binds($sql, $binds);
 		}
 
 		// Save the  query for debugging
@@ -1015,8 +1015,14 @@ class CI_DB_driver {
 		else
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
-
-			return call_user_func_array($function, $args);
+			if (is_null($args))
+			{
+				return call_user_func($function);
+			}
+			else
+			{
+				return call_user_func_array($function, $args);
+			}
 		}
 	}
 
@@ -1381,7 +1387,21 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Dummy method that allows Active Record class to be disabled
+	 *
+	 * This function is used extensively by every db driver.
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	protected function _reset_select()
+	{
+	
+	}
 
 }
 
