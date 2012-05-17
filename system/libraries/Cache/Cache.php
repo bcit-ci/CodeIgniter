@@ -55,14 +55,14 @@ class CI_Cache extends CI_Driver_Library {
 	 * @var string
 	 */
 	protected $_cache_path = NULL;
-	
+
 	/**
 	 * Reference to the driver
 	 *
 	 * @var mixed
 	 */
 	protected $_adapter = 'dummy';
-	
+
 	/**
 	 * Fallback driver
 	 *

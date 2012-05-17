@@ -44,49 +44,49 @@ class CI_Output {
 	 * @var string
 	 */
 	public $final_output;
-	
+
 	/**
 	 * Cache expiration time
 	 *
 	 * @var int
 	 */
 	public $cache_expiration =	0;
-	
+
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
 	public $headers =	array();
-	
+
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
 	public $mime_types =	array();
-	
+
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
 	public $enable_profiler =	FALSE;
-	
+
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
 	protected $_zlib_oc =	FALSE;
-	
+
 	/**
 	 * List of profiler sections
 	 *
 	 * @var array
 	 */
 	protected $_profiler_sections =	array();
-	
+
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
@@ -96,6 +96,8 @@ class CI_Output {
 
 	/**
 	 * Set up Output class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -177,7 +179,7 @@ class CI_Output {
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
 	 *
-	 * Note:  If a file is cached, headers will not be sent.  We need to figure out
+	 * Note: If a file is cached, headers will not be sent. We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
 	 * @param	string

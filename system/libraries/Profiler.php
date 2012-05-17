@@ -527,6 +527,7 @@ class CI_Profiler {
 
 		return $output.'</div>';
 	}
+
 }
 
 /* End of file Profiler.php */

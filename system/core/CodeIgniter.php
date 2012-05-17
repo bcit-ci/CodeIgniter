@@ -31,7 +31,7 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	codeigniter
+ * @subpackage	CodeIgniter
  * @category	Front-controller
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
