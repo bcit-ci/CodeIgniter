@@ -52,6 +52,7 @@ Release Date: Not Released
    -  set_realpath() can now also handle file paths as opposed to just directories.
    -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
    -  Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
+   -  Removed deprecated helper function ``js_insert_smiley()`` from smiley helper.
 
 -  Database
 
