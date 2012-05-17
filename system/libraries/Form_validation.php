@@ -42,63 +42,63 @@ class CI_Form_validation {
 	 * @var object
 	 */
 	protected $CI;
-	
+
 	/**
 	 * Validation data for the current form submission
 	 *
 	 * @var array
 	 */
-	protected $_field_data = array();
-	
+	protected $_field_data		= array();
+
 	/**
 	 * Validation rules for the current form
 	 *
 	 * @var array
 	 */
-	protected $_config_rules = array();
-	
+	protected $_config_rules	= array();
+
 	/**
 	 * Array of validation errors
 	 *
 	 * @var array
 	 */
 	protected $_error_array		= array();
-	
+
 	/**
 	 * Array of custom error messages
 	 *
 	 * @var array
 	 */
 	protected $_error_messages	= array();
-	
+
 	/**
 	 * Start tag for error wrapping
 	 *
 	 * @var string
 	 */
 	protected $_error_prefix	= '<p>';
-	
+
 	/**
 	 * End tag for error wrapping
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_error_suffix	= '</p>';
-	
+
 	/**
 	 * Custom error message
 	 *
 	 * @var string
 	 */
 	protected $error_string		= '';
-	
+
 	/**
 	 * Whether the form data has been validated as safe
 	 *
 	 * @var bool
 	 */
 	protected $_safe_form_data	= FALSE;
-	
+
 	/**
 	 * Custom data to validate
 	 *
@@ -109,7 +109,8 @@ class CI_Form_validation {
 	/**
 	 * Initialize Form_Validation class
 	 *
-	 * @param array $rules
+	 * @param	array	$rules
+	 * @return	void
 	 */
 	public function __construct($rules = array())
 	{
@@ -222,13 +223,13 @@ class CI_Form_validation {
 
 		// Build our master array
 		$this->_field_data[$field] = array(
-			'field'				=> $field,
-			'label'				=> $label,
-			'rules'				=> $rules,
-			'is_array'			=> $is_array,
-			'keys'				=> $indexes,
-			'postdata'			=> NULL,
-			'error'				=> ''
+			'field'		=> $field,
+			'label'		=> $label,
+			'rules'		=> $rules,
+			'is_array'	=> $is_array,
+			'keys'		=> $indexes,
+			'postdata'	=> NULL,
+			'error'		=> ''
 		);
 
 		return $this;
@@ -448,7 +449,7 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
-			elseif ( ! empty($validation_array[$field]))
+			elseif (isset($validation_array[$field]) && $validation_array[$field] !== '')
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
@@ -595,16 +596,13 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				if ( ! isset($this->_error_messages[$type]))
-				{
-					if (FALSE === ($line = $this->CI->lang->line($type)))
-					{
-						$line = 'The field was not set';
-					}
-				}
-				else
+				if (isset($this->_error_messages[$type]))
 				{
 					$line = $this->_error_messages[$type];
+				}
+				elseif (FALSE === ($line = $this->CI->lang->line($type)))
+				{
+					$line = 'The field was not set';
 				}
 
 				// Build the error message
@@ -956,12 +954,8 @@ class CI_Form_validation {
 	public function matches($str, $field)
 	{
 		$validation_array = empty($this->validation_data) ? $_POST : $this->validation_data;
-		if ( ! isset($validation_array[$field]))
-		{
-			return FALSE;
-		}
 
-		return ($str === $validation_array[$field]);
+		return isset($validation_array[$field]) ? ($str === $validation_array[$field]) : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1005,7 +999,7 @@ class CI_Form_validation {
 
 		return (MB_ENABLED === TRUE)
 			? ($val <= mb_strlen($str))
-			: ($val <= strlen(str));
+			: ($val <= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1276,7 +1270,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return (bool) ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
+		return ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
 	}
 
 	// --------------------------------------------------------------------

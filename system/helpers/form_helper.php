@@ -184,7 +184,6 @@ if ( ! function_exists('form_input'))
 
 // ------------------------------------------------------------------------
 
-
 if ( ! function_exists('form_password'))
 {
 	/**
