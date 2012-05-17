@@ -29,8 +29,8 @@ class Benchmark_test extends CI_TestCase {
 		$this->benchmark->mark('code_start');
 		sleep(1);
 		$this->benchmark->mark('code_end');
-
-		$this->assertEquals('1.00', $this->benchmark->elapsed_time('code_start', 'code_end', 3));
+		
+		$this->assertEquals('1.0', $this->benchmark->elapsed_time('code_start', 'code_end', 1));
 	}
 
 	// --------------------------------------------------------------------
