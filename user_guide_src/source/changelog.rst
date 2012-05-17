@@ -22,7 +22,7 @@ Release Date: Not Released
    -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
-   -  Added Windows 7 to the list of user platforms.
+   -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
@@ -56,7 +56,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with 
+   -  Renamed the Active Record class to Query Builder to remove confusion with
       the Active Record design pattern
    -  Added new :doc:`Query Builder <database/query_builder>` methods that return
    -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
@@ -78,6 +78,7 @@ Release Date: Not Released
 	 -  pg_version() is now used to get the database version number, when possible.
 	 -  Added db_set_charset() support.
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+	 -  Added boolean data type support in escape().
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
@@ -215,6 +216,9 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
+-  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library
+-  Fixed a bug (#1314) - sess_destroy() did not destroy userdata.
+-  Fixed a bug (#1349) - get_extension() in the `File Uploading Library <libraries/file_uploading>` returned the original filename when it didn't have an actual extension.
 
 Version 2.1.1
 =============

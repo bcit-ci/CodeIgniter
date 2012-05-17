@@ -44,28 +44,28 @@ class CI_Encrypt {
 	 * @var string
 	 */
 	public $encryption_key		= '';
-	
+
 	/**
 	 * Type of hash operation
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_hash_type		= 'sha1';
-	
+
 	/**
 	 * Flag for the existance of mcrypt
 	 *
 	 * @var bool
 	 */
 	protected $_mcrypt_exists	= FALSE;
-	
+
 	/**
 	 * Current cipher to be used with mcrypt
 	 *
 	 * @var string
 	 */
 	protected $_mcrypt_cipher;
-	
+
 	/**
 	 * Method for encrypting/decrypting data
 	 *
@@ -75,6 +75,8 @@ class CI_Encrypt {
 
 	/**
 	 * Initialize Encryption class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{

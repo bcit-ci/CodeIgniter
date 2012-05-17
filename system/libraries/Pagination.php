@@ -73,6 +73,7 @@ class CI_Pagination {
 	 * Constructor
 	 *
 	 * @param	array	initialization parameters
+	 * @return	void
 	 */
 	public function __construct($params = array())
 	{
