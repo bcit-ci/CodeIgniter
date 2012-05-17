@@ -45,7 +45,7 @@ if ( ! function_exists('singular'))
 	 * Takes a plural word and makes it singular
 	 *
 	 * @param	string
-	 * @return	str
+	 * @return	string
 	 */
 	function singular($str)
 	{
@@ -110,7 +110,7 @@ if ( ! function_exists('plural'))
 	 *
 	 * @param	string
 	 * @param	bool
-	 * @return	str
+	 * @return	string
 	 */
 	function plural($str, $force = FALSE)
 	{
@@ -166,7 +166,7 @@ if ( ! function_exists('camelize'))
 	 * Takes multiple words separated by spaces or underscores and camelizes them
 	 *
 	 * @param	string
-	 * @return	str
+	 * @return	string
 	 */
 	function camelize($str)
 	{
@@ -184,7 +184,7 @@ if ( ! function_exists('underscore'))
 	 * Takes multiple words separated by spaces and underscores them
 	 *
 	 * @param	string
-	 * @return	str
+	 * @return	string
 	 */
 	function underscore($str)
 	{
@@ -203,7 +203,7 @@ if ( ! function_exists('humanize'))
 	 *
 	 * @param	string	$str
 	 * @param 	string	$separator
-	 * @return	str
+	 * @return	string
 	 */
 	function humanize($str, $separator = '_')
 	{
