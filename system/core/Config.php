@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Config Class
  *
@@ -46,14 +44,14 @@ class CI_Config {
 	 * @var array
 	 */
 	public $config =	array();
-	
+
 	/**
 	 * List of all loaded config files
 	 *
 	 * @var array
 	 */
 	public $is_loaded =	array();
-	
+
 	/**
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.
@@ -77,9 +75,9 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-				$base_url .= '://'. $_SERVER['HTTP_HOST']
-					. str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+				$base_url = ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+				$base_url .= '://'.$_SERVER['HTTP_HOST']
+					.str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
 			else
 			{
@@ -96,9 +94,9 @@ class CI_Config {
 	 * Load Config File
 	 *
 	 * @param	string	the config file name
-	 * @param	boolean	if configuration values should be loaded into their own section
-	 * @param	boolean	true if errors should just return false, false if an error message should be displayed
-	 * @return	boolean	if the file was loaded correctly
+	 * @param	bool	if configuration values should be loaded into their own section
+	 * @param	bool	true if errors should just return false, false if an error message should be displayed
+	 * @return	bool	if the file was loaded correctly
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
@@ -254,8 +252,8 @@ class CI_Config {
 	 * Base URL
 	 * Returns base_url [. uri_string]
 	 *
-	 * @param string $uri
-	 * @return string
+	 * @param	string	$uri
+	 * @return	string
 	 */
 	public function base_url($uri = '')
 	{
@@ -267,8 +265,8 @@ class CI_Config {
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
-	 * @param  mixed $uri
-	 * @return string
+	 * @param	mixed	$uri
+	 * @return	string
 	 */
 	protected function _uri_string($uri)
 	{
@@ -345,6 +343,7 @@ class CI_Config {
 			}
 		}
 	}
+
 }
 
 /* End of file Config.php */
