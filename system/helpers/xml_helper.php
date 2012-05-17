@@ -37,15 +37,15 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Convert Reserved XML characters to Entities
- *
- * @param	string
- * @param	bool
- * @return	string
- */
 if ( ! function_exists('xml_convert'))
 {
+	/**
+	 * Convert Reserved XML characters to Entities
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function xml_convert($str, $protect_all = FALSE)
 	{
 		$temp = '__TEMP_AMPERSANDS__';

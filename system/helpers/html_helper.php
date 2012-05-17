@@ -379,10 +379,10 @@ if ( ! function_exists('meta'))
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= ( ! isset($meta['type']) OR $meta['type'] == 'name') ? 'name' : 'http-equiv';
-			$name		= ( ! isset($meta['name']))		? ''	: $meta['name'];
-			$content	= ( ! isset($meta['content']))	? ''	: $meta['content'];
-			$newline	= ( ! isset($meta['newline']))	? "\n"	: $meta['newline'];
+			$type		= ( ! isset($meta['type']) OR $meta['type'] === 'name') ? 'name' : 'http-equiv';
+			$name		= isset($meta['name'])					? $meta['name'] : '';
+			$content	= isset($meta['content'])				? $meta['content'] : '';
+			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
 
 			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
 		}
