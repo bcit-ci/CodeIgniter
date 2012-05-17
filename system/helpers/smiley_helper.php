@@ -130,7 +130,7 @@ if ( ! function_exists('get_clickable_smileys'))
 	 *
 	 * @param	string	the URL to the folder containing the smiley images
 	 * @param	array
-	 * @param 	array
+	 * @param	array
 	 * @return	array
 	 */
 	function get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
