@@ -73,6 +73,7 @@ class CI_Pagination {
 	 * Constructor
 	 *
 	 * @param	array	initialization parameters
+	 * @return	void
 	 */
 	public function __construct($params = array())
 	{
@@ -94,16 +95,15 @@ class CI_Pagination {
 		{
 			foreach ($params as $key => $val)
 			{
-				if (isset($this->$key))
+				if ($key === 'anchor_class')
+				{
+					$this->anchor_class = ($val != '') ? 'class="'.$val.'" ' : '';
+				}
+				elseif (isset($this->$key))
 				{
 					$this->$key = $val;
 				}
 			}
-		}
-
-		if ($this->anchor_class != '')
-		{
-			$this->anchor_class = 'class="'.$this->anchor_class.'" ';
 		}
 	}
 

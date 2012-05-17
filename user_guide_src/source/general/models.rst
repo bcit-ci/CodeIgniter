@@ -55,7 +55,7 @@ model class might look like::
 	}
 
 .. note:: The functions in the above example use the :doc:`Active
-	Record <../database/active_record>` database functions.
+	Record <../database/query_builder>` database functions.
 
 .. note:: For the sake of simplicity in this example we're using $_POST
 	directly. This is generally bad practice, and a more common approach

@@ -39,14 +39,54 @@
  */
 class CI_Migration {
 
+	/**
+	 * Whether the library is enabled
+	 *
+	 * @var bool
+	 */
 	protected $_migration_enabled = FALSE;
+
+	/**
+	 * Path to migration classes
+	 *
+	 * @var string
+	 */
 	protected $_migration_path = NULL;
+
+	/**
+	 * Current migration version
+	 *
+	 * @var mixed
+	 */
 	protected $_migration_version = 0;
+
+	/**
+	 * Database table with migration info
+	 *
+	 * @var string
+	 */
 	protected $_migration_table = 'migrations';
+
+	/**
+	 * Whether to automatically run migrations
+	 *
+	 * @var bool
+	 */
 	protected $_migration_auto_latest = FALSE;
 
+	/**
+	 * Error message
+	 *
+	 * @var string
+	 */
 	protected $_error_string = '';
 
+	/**
+	 * Initialize Migration Class
+	 *
+	 * @param	array
+	 * @return	void
+	 */
 	public function __construct($config = array())
 	{
 		# Only run this constructor on main library load
@@ -57,7 +97,7 @@ class CI_Migration {
 
 		foreach ($config as $key => $val)
 		{
-			$this->{'_' . $key} = $val;
+			$this->{'_'.$key} = $val;
 		}
 
 		log_message('debug', 'Migrations class initialized');
@@ -301,7 +341,6 @@ class CI_Migration {
 		}
 
 		sort($files);
-
 		return $files;
 	}
 
@@ -345,6 +384,7 @@ class CI_Migration {
 	{
 		return get_instance()->$var;
 	}
+
 }
 
 /* End of file Migration.php */

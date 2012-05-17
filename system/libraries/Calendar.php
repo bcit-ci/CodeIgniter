@@ -38,15 +38,61 @@
  */
 class CI_Calendar {
 
+	/**
+	 * Reference to CodeIgniter instance
+	 *
+	 * @var object
+	 */
 	protected $CI;
-	public $lang;
+
+	/**
+	 * Current local time
+	 *
+	 * @var int
+	 */
 	public $local_time;
+
+	/**
+	 * Calendar layout template
+	 *
+	 * @var string
+	 */
 	public $template		= '';
+
+	/**
+	 * Day of the week to start the calendar on
+	 *
+	 * @var string
+	 */
 	public $start_day		= 'sunday';
+
+	/**
+	 * How to display months
+	 *
+	 * @var string
+	 */
 	public $month_type		= 'long';
+
+	/**
+	 * How to display names of days
+	 *
+	 * @var string
+	 */
 	public $day_type		= 'abr';
-	public $show_next_prev	= FALSE;
-	public $next_prev_url	= '';
+
+	/**
+	 * Whether to show next/prev month links
+	 *
+	 * @var bool
+	 */
+	public $show_next_prev		= FALSE;
+
+	/**
+	 * Url base to use for next/prev month links
+	 *
+	 * @var bool
+	 */
+	public $next_prev_url		= '';
 
 	/**
 	 * Constructor
@@ -141,7 +187,7 @@ class CI_Calendar {
 
 		// Set the starting day of the week
 		$start_days	= array('sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6);
-		$start_day = ( ! isset($start_days[$this->start_day])) ? 0 : $start_days[$this->start_day];
+		$start_day	= isset($start_days[$this->start_day]) ? $start_days[$this->start_day] : 0;
 
 		// Set the starting day number
 		$local_date = mktime(12, 0, 0, $month, 1, $year);
@@ -244,9 +290,7 @@ class CI_Calendar {
 			$out .= "\n".$this->temp['cal_row_end']."\n";
 		}
 
-		$out .= "\n".$this->temp['table_close'];
-
-		return $out;
+		return $out .= "\n".$this->temp['table_close'];
 	}
 
 	// --------------------------------------------------------------------
@@ -271,14 +315,9 @@ class CI_Calendar {
 			$month_names = array('01' => 'cal_january', '02' => 'cal_february', '03' => 'cal_march', '04' => 'cal_april', '05' => 'cal_mayl', '06' => 'cal_june', '07' => 'cal_july', '08' => 'cal_august', '09' => 'cal_september', '10' => 'cal_october', '11' => 'cal_november', '12' => 'cal_december');
 		}
 
-		$month = $month_names[$month];
-
-		if ($this->CI->lang->line($month) === FALSE)
-		{
-			return ucfirst(substr($month, 4));
-		}
-
-		return $this->CI->lang->line($month);
+		return ($this->CI->lang->line($month_names[$month]) === FALSE)
+			? ucfirst(substr($month_names[$month], 4))
+			: $this->CI->lang->line($month_names[$month]);
 	}
 
 	// --------------------------------------------------------------------
@@ -299,11 +338,11 @@ class CI_Calendar {
 			$this->day_type = $day_type;
 		}
 
-		if ($this->day_type == 'long')
+		if ($this->day_type === 'long')
 		{
 			$day_names = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
 		}
-		elseif ($this->day_type == 'short')
+		elseif ($this->day_type === 'short')
 		{
 			$day_names = array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
 		}
@@ -402,29 +441,29 @@ class CI_Calendar {
 	 */
 	public function default_template()
 	{
-		return  array (
-						'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
-						'heading_row_start'			=> '<tr>',
-						'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
-						'heading_title_cell'		=> '<th colspan="{colspan}">{heading}</th>',
-						'heading_next_cell'			=> '<th><a href="{next_url}">&gt;&gt;</a></th>',
-						'heading_row_end'			=> '</tr>',
-						'week_row_start'			=> '<tr>',
-						'week_day_cell'				=> '<td>{week_day}</td>',
-						'week_row_end'				=> '</tr>',
-						'cal_row_start'				=> '<tr>',
-						'cal_cell_start'			=> '<td>',
-						'cal_cell_start_today'		=> '<td>',
-						'cal_cell_content'			=> '<a href="{content}">{day}</a>',
-						'cal_cell_content_today'	=> '<a href="{content}"><strong>{day}</strong></a>',
-						'cal_cell_no_content'		=> '{day}',
-						'cal_cell_no_content_today'	=> '<strong>{day}</strong>',
-						'cal_cell_blank'			=> '&nbsp;',
-						'cal_cell_end'				=> '</td>',
-						'cal_cell_end_today'		=> '</td>',
-						'cal_row_end'				=> '</tr>',
-						'table_close'				=> '</table>'
-					);
+		return  array(
+			'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
+			'heading_row_start'			=> '<tr>',
+			'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
+			'heading_title_cell'		=> '<th colspan="{colspan}">{heading}</th>',
+			'heading_next_cell'			=> '<th><a href="{next_url}">&gt;&gt;</a></th>',
+			'heading_row_end'			=> '</tr>',
+			'week_row_start'			=> '<tr>',
+			'week_day_cell'				=> '<td>{week_day}</td>',
+			'week_row_end'				=> '</tr>',
+			'cal_row_start'				=> '<tr>',
+			'cal_cell_start'			=> '<td>',
+			'cal_cell_start_today'		=> '<td>',
+			'cal_cell_content'			=> '<a href="{content}">{day}</a>',
+			'cal_cell_content_today'	=> '<a href="{content}"><strong>{day}</strong></a>',
+			'cal_cell_no_content'		=> '{day}',
+			'cal_cell_no_content_today'	=> '<strong>{day}</strong>',
+			'cal_cell_blank'			=> '&nbsp;',
+			'cal_cell_end'				=> '</td>',
+			'cal_cell_end_today'		=> '</td>',
+			'cal_row_end'				=> '</tr>',
+			'table_close'				=> '</table>'
+		);
 	}
 
 	// --------------------------------------------------------------------
