@@ -42,15 +42,12 @@ if ( ! function_exists('valid_email'))
 	/**
 	 * Validate email address
 	 *
-	 * Updated to be more accurate to RFC822
-	 * see: http://www.iamcal.com/publish/articles/php/parsing_email/
-	 *
 	 * @param	string
 	 * @return	bool
 	 */
 	function valid_email($email)
 	{
-		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+		return filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 }
 
