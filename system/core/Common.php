@@ -31,7 +31,7 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	codeigniter
+ * @subpackage	CodeIgniter
  * @category	Common Functions
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
@@ -57,7 +57,7 @@ if ( ! function_exists('is_php'))
 
 		if ( ! isset($_is_php[$version]))
 		{
-			$_is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? FALSE : TRUE;
+			$_is_php[$version] = (version_compare(PHP_VERSION, $version) >= 0);
 		}
 
 		return $_is_php[$version];
@@ -506,7 +506,7 @@ if ( ! function_exists('_exception_handler'))
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
-		// Should we log the error?  No?  We're done...
+		// Should we log the error? No? We're done...
 		if (config_item('log_threshold') == 0)
 		{
 			return;

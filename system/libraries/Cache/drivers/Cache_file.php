@@ -45,6 +45,8 @@ class CI_Cache_file extends CI_Driver {
 
 	/**
 	 * Initialize file-based cache
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{

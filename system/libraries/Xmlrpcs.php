@@ -54,21 +54,21 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * @var array
 	 */
 	public $methods = array();
-	
+
 	/**
 	 * Debug Message
 	 *
 	 * @var string
 	 */
 	public $debug_msg = '';
-	
+
 	/**
 	 * XML RPC Server methods
 	 *
 	 * @var array
 	 */
 	public $system_methods	= array();
-	
+
 	/**
 	 * Configuration object
 	 *
@@ -79,7 +79,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	/**
 	 * Initialize XMLRPC class
 	 *
-	 * @param array $config
+	 * @param	array	$config
+	 * @return	void
 	 */
 	public function __construct($config = array())
 	{
