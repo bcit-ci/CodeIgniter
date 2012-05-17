@@ -101,17 +101,6 @@
 
 /*
  * ------------------------------------------------------
- *  Set a liberal script execution time limit
- * ------------------------------------------------------
- */
-	if (function_exists('set_time_limit') && @ini_get('safe_mode') == 0
-		&& php_sapi_name() !== 'cli') // Do not override the Time Limit value if running from Command Line
-	{
-		@set_time_limit(300);
-	}
-
-/*
- * ------------------------------------------------------
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
