@@ -44,7 +44,6 @@ class CI_FTP {
 	public $debug		= FALSE;
 	public $conn_id		= FALSE;
 
-
 	public function __construct($config = array())
 	{
 		if (count($config) > 0)
@@ -538,7 +537,6 @@ class CI_FTP {
 
 		return FALSE;
 	}
-
 
 	// --------------------------------------------------------------------
 
