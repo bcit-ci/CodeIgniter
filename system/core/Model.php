@@ -38,6 +38,8 @@ class CI_Model {
 
 	/**
 	 * Initialize CI_Model Class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -57,6 +59,7 @@ class CI_Model {
 		$CI =& get_instance();
 		return $CI->$key;
 	}
+
 }
 
 /* End of file Model.php */

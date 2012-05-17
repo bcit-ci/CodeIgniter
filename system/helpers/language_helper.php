@@ -37,17 +37,17 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Lang
- *
- * Fetches a language variable and optionally outputs a form label
- *
- * @param	string	the language line
- * @param	string	the id of the form element
- * @return	string
- */
 if ( ! function_exists('lang'))
 {
+	/**
+	 * Lang
+	 *
+	 * Fetches a language variable and optionally outputs a form label
+	 *
+	 * @param	string	the language line
+	 * @param	string	the id of the form element
+	 * @return	string
+	 */
 	function lang($line, $id = '')
 	{
 		$CI =& get_instance();
