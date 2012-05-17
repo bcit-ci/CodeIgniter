@@ -48,6 +48,8 @@ class CI_Controller {
 
 	/**
 	 * Set up controller properties and methods
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -67,14 +69,15 @@ class CI_Controller {
 	}
 
 	/**
-	 * Return the CI object 
+	 * Return the CI object
 	 *
-	 * @return object
+	 * @return	object
 	 */
 	public static function &get_instance()
 	{
 		return self::$instance;
 	}
+
 }
 
 /* End of file Controller.php */
