@@ -190,6 +190,7 @@ class CI_Session {
 	 * whenever the class is instantiated.
 	 *
 	 * @param	array
+	 * @return	void
 	 */
 	public function __construct($params = array())
 	{

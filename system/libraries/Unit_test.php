@@ -350,11 +350,11 @@ class CI_Unit_test {
  */
 function is_true($test)
 {
-	return (is_bool($test) && $test === TRUE);
+	return ($test === TRUE);
 }
 function is_false($test)
 {
-	return (is_bool($test) && $test === FALSE);
+	return ($test === FALSE);
 }
 
 /* End of file Unit_test.php */
