@@ -38,321 +38,321 @@ class CI_Image_lib {
 
 	/**
 	 * PHP extension/library to use for image manipulation
-	 * Can be:  imagemagick, netpbm, gd, gd2
+	 * Can be: imagemagick, netpbm, gd, gd2
 	 *
 	 * @var string
 	 */
 	public $image_library		= 'gd2';
-	
+
 	/**
 	 * Path to the graphic library (if applicable)
 	 *
 	 * @var string
 	 */
 	public $library_path		= '';
-	
+
 	/**
 	 * Whether to send to browser or write to disk
 	 *
 	 * @var bool
 	 */
 	public $dynamic_output		= FALSE;
-	
+
 	/**
 	 * Path to original image
 	 *
 	 * @var string
 	 */
 	public $source_image		= '';
-	
+
 	/**
 	 * Path to the modified image
 	 *
 	 * @var string
 	 */
-	public $new_image			= '';
-	
+	public $new_image		= '';
+
 	/**
 	 * Image width
 	 *
 	 * @var int
 	 */
-	public $width				= '';
-	
+	public $width			= '';
+
 	/**
 	 * Image height
 	 *
 	 * @var int
 	 */
-	public $height				= '';
-	
+	public $height			= '';
+
 	/**
 	 * Quality percentage of new image
 	 *
 	 * @var int
 	 */
-	public $quality			= '90';
-	
+	public $quality			= 90;
+
 	/**
 	 * Whether to create a thumbnail
 	 *
 	 * @var bool
 	 */
 	public $create_thumb		= FALSE;
-	
+
 	/**
 	 * String to add to thumbnail version of image
 	 *
 	 * @var string
 	 */
 	public $thumb_marker		= '_thumb';
-	
+
 	/**
 	 * Whether to maintain aspect ratio when resizing or use hard values
 	 *
 	 * @var bool
 	 */
 	public $maintain_ratio		= TRUE;
-	
+
 	/**
 	 * auto, height, or width.  Determines what to use as the master dimension
 	 *
 	 * @var string
 	 */
-	public $master_dim			= 'auto';
-	
+	public $master_dim		= 'auto';
+
 	/**
 	 * Angle at to rotate image
 	 *
 	 * @var string
 	 */
 	public $rotation_angle		= '';
-	
+
 	/**
 	 * X Coordinate for manipulation of the current image
 	 *
 	 * @var int
 	 */
-	public $x_axis				= '';
-	
+	public $x_axis			= '';
+
 	/**
 	 * Y Coordinate for manipulation of the current image
 	 *
 	 * @var int
 	 */
-	public $y_axis				= '';
+	public $y_axis			= '';
 
 	// --------------------------------------------------------------------------
 	// Watermark Vars
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Watermark text if graphic is not used
 	 *
 	 * @var string
 	 */
 	public $wm_text			= '';
-	
+
 	/**
 	 * Type of watermarking.  Options:  text/overlay
 	 *
 	 * @var string
 	 */
 	public $wm_type			= 'text';
-	
+
 	/**
 	 * Default transparency for watermark
-	 * 
+	 *
 	 * @var int
 	 */
 	public $wm_x_transp		= 4;
-	
+
 	/**
 	 * Default transparency for watermark
 	 *
 	 * @var int
 	 */
 	public $wm_y_transp		= 4;
-	
+
 	/**
 	 * Watermark image path
-	 * 
+	 *
 	 * @var string
 	 */
-	public $wm_overlay_path	= '';
-	
+	public $wm_overlay_path		= '';
+
 	/**
 	 * TT font
 	 *
 	 * @var string
 	 */
 	public $wm_font_path		= '';
-	
+
 	/**
 	 * Font size (different versions of GD will either use points or pixels)
 	 *
 	 * @var int
 	 */
 	public $wm_font_size		= 17;
-	
+
 	/**
 	 * Vertical alignment:   T M B
 	 *
 	 * @var string
 	 */
 	public $wm_vrt_alignment	= 'B';
-	
+
 	/**
 	 * Horizontal alignment: L R C
 	 *
 	 * @var string
 	 */
 	public $wm_hor_alignment	= 'C';
-	
+
 	/**
 	 * Padding around text
 	 *
 	 * @var int
 	 */
 	public $wm_padding			= 0;
-	
+
 	/**
 	 * Lets you push text to the right
 	 *
 	 * @var int
 	 */
 	public $wm_hor_offset		= 0;
-	
+
 	/**
 	 * Lets you push text down
 	 *
 	 * @var int
 	 */
 	public $wm_vrt_offset		= 0;
-	
+
 	/**
 	 * Text color
 	 *
 	 * @var string
 	 */
-	protected $wm_font_color		= '#ffffff';
-	
+	protected $wm_font_color	= '#ffffff';
+
 	/**
 	 * Dropshadow color
 	 *
 	 * @var string
 	 */
-	protected $wm_shadow_color		= '';
-	
+	protected $wm_shadow_color	= '';
+
 	/**
 	 * Dropshadow distance
 	 *
 	 * @var int
 	 */
 	public $wm_shadow_distance	= 2;
-	
+
 	/**
 	 * Image opacity: 1 - 100  Only works with image
 	 *
 	 * @var int
 	 */
-	public $wm_opacity			= 50;
+	public $wm_opacity		= 50;
 
 	// --------------------------------------------------------------------------
 	// Private Vars
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Source image folder
 	 *
 	 * @var string
 	 */
 	public $source_folder		= '';
-	
+
 	/**
 	 * Destination image folder
 	 *
 	 * @var string
 	 */
 	public $dest_folder		= '';
-	
+
 	/**
 	 * Image mime-type
 	 *
 	 * @var string
 	 */
-	public $mime_type			= '';
-	
+	public $mime_type		= '';
+
 	/**
-	 * Original image width 
+	 * Original image width
 	 *
 	 * @var int
 	 */
-	public $orig_width			= '';
-	
+	public $orig_width		= '';
+
 	/**
 	 * Original image height
 	 *
 	 * @var int
 	 */
 	public $orig_height		= '';
-	
+
 	/**
 	 * Image format
-	 * 
+	 *
 	 * @var string
 	 */
-	public $image_type			= '';
-	
+	public $image_type		= '';
+
 	/**
 	 * Size of current image
 	 *
 	 * @var string
 	 */
-	public $size_str			= '';
-	
+	public $size_str		= '';
+
 	/**
 	 * Full path to source image
 	 *
 	 * @var string
 	 */
 	public $full_src_path		= '';
-	
+
 	/**
 	 * Full path to destination image
 	 *
 	 * @var string
 	 */
 	public $full_dst_path		= '';
-	
+
 	/**
 	 * Name of function to create image
 	 *
 	 * @var string
 	 */
-	public $create_fnc			= 'imagecreatetruecolor';
-	
+	public $create_fnc		= 'imagecreatetruecolor';
+
 	/**
 	 * Name of function to copy image
 	 *
 	 * @var string
 	 */
-	public $copy_fnc			= 'imagecopyresampled';
-	
+	public $copy_fnc		= 'imagecopyresampled';
+
 	/**
 	 * Error messages
 	 *
 	 * @var array
 	 */
-	public $error_msg			= array();
-	
+	public $error_msg		= array();
+
 	/**
 	 * Whether to have a drop shadow on watermark
 	 *
 	 * @var bool
 	 */
 	protected $wm_use_drop_shadow	= FALSE;
-	
+
 	/**
 	 * Whether to use truetype fonts
 	 *
@@ -364,6 +364,7 @@ class CI_Image_lib {
 	 * Initialize Image Library
 	 *
 	 * @param	array	$props
+	 * @return	void
 	 */
 	public function __construct($props = array())
 	{
@@ -395,7 +396,7 @@ class CI_Image_lib {
 
 		$this->image_library 		= 'gd2';
 		$this->dynamic_output 		= FALSE;
-		$this->quality 				= '90';
+		$this->quality 				= 90;
 		$this->create_thumb 		= FALSE;
 		$this->thumb_marker 		= '_thumb';
 		$this->maintain_ratio 		= TRUE;
@@ -895,16 +896,16 @@ class CI_Image_lib {
 		switch ($this->image_type)
 		{
 			case 1 :
-						$cmd_in		= 'giftopnm';
-						$cmd_out	= 'ppmtogif';
+				$cmd_in		= 'giftopnm';
+				$cmd_out	= 'ppmtogif';
 				break;
 			case 2 :
-						$cmd_in		= 'jpegtopnm';
-						$cmd_out	= 'ppmtojpeg';
+				$cmd_in		= 'jpegtopnm';
+				$cmd_out	= 'ppmtojpeg';
 				break;
 			case 3 :
-						$cmd_in		= 'pngtopnm';
-						$cmd_out	= 'ppmtopng';
+				$cmd_in		= 'pngtopnm';
+				$cmd_out	= 'ppmtopng';
 				break;
 		}
 
@@ -916,15 +917,15 @@ class CI_Image_lib {
 		{
 			switch ($this->rotation_angle)
 			{
-				case 90		:	$angle = 'r270';
+				case 90:	$angle = 'r270';
 					break;
-				case 180	:	$angle = 'r180';
+				case 180:	$angle = 'r180';
 					break;
-				case 270	:	$angle = 'r90';
+				case 270:	$angle = 'r90';
 					break;
-				case 'vrt'	:	$angle = 'tb';
+				case 'vrt':	$angle = 'tb';
 					break;
-				case 'hor'	:	$angle = 'lr';
+				case 'hor':	$angle = 'lr';
 					break;
 			}
 
@@ -1401,49 +1402,49 @@ class CI_Image_lib {
 	{
 		switch ($this->image_type)
 		{
-			case 1 :
-						if ( ! function_exists('imagegif'))
-						{
-							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
-							return FALSE;
-						}
+			case 1:
+				if ( ! function_exists('imagegif'))
+				{
+					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
+					return FALSE;
+				}
 
-						if ( ! @imagegif($resource, $this->full_dst_path))
-						{
-							$this->set_error('imglib_save_failed');
-							return FALSE;
-						}
-				break;
-			case 2	:
-						if ( ! function_exists('imagejpeg'))
-						{
-							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
-							return FALSE;
-						}
+				if ( ! @imagegif($resource, $this->full_dst_path))
+				{
+					$this->set_error('imglib_save_failed');
+					return FALSE;
+				}
+			break;
+			case 2:
+				if ( ! function_exists('imagejpeg'))
+				{
+					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
+					return FALSE;
+				}
 
-						if ( ! @imagejpeg($resource, $this->full_dst_path, $this->quality))
-						{
-							$this->set_error('imglib_save_failed');
-							return FALSE;
-						}
-				break;
-			case 3	:
-						if ( ! function_exists('imagepng'))
-						{
-							$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
-							return FALSE;
-						}
+				if ( ! @imagejpeg($resource, $this->full_dst_path, $this->quality))
+				{
+					$this->set_error('imglib_save_failed');
+					return FALSE;
+				}
+			break;
+			case 3:
+				if ( ! function_exists('imagepng'))
+				{
+					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
+					return FALSE;
+				}
 
-						if ( ! @imagepng($resource, $this->full_dst_path))
-						{
-							$this->set_error('imglib_save_failed');
-							return FALSE;
-						}
-				break;
-			default		:
-							$this->set_error(array('imglib_unsupported_imagecreate'));
-							return FALSE;
-				break;
+				if ( ! @imagepng($resource, $this->full_dst_path))
+				{
+					$this->set_error('imglib_save_failed');
+					return FALSE;
+				}
+			break;
+			default:
+				$this->set_error(array('imglib_unsupported_imagecreate'));
+				return FALSE;
+			break;
 		}
 
 		return TRUE;
@@ -1466,13 +1467,13 @@ class CI_Image_lib {
 
 		switch ($this->image_type)
 		{
-			case 1		:	imagegif($resource);
+			case 1	:	imagegif($resource);
 				break;
-			case 2		:	imagejpeg($resource, '', $this->quality);
+			case 2	:	imagejpeg($resource, '', $this->quality);
 				break;
-			case 3		:	imagepng($resource);
+			case 3	:	imagepng($resource);
 				break;
-			default		:	echo 'Unable to display the image';
+			default:	echo 'Unable to display the image';
 				break;
 		}
 	}
@@ -1613,8 +1614,10 @@ class CI_Image_lib {
 
 		foreach ($allowed as $item)
 		{
-			if ( ! isset($vals[$item]) OR $vals[$item] == '')
+			if (empty($vals[$item]))
+			{
 				$vals[$item] = 0;
+			}
 		}
 
 		if ($vals['width'] == 0 OR $vals['height'] == 0)
@@ -1712,7 +1715,6 @@ class CI_Image_lib {
 		{
 			foreach ($msg as $val)
 			{
-
 				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
