@@ -32,8 +32,8 @@
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @author		EllisLab Dev Team
  * @category	Loader
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/loader.html
  */
 class CI_Loader {
@@ -45,77 +45,77 @@ class CI_Loader {
 	 * @var int
 	 */
 	protected $_ci_ob_level;
-	
+
 	/**
 	 * List of paths to load views from
 	 *
 	 * @var array
 	 */
 	protected $_ci_view_paths =	array();
-	
+
 	/**
 	 * List of paths to load libraries from
 	 *
 	 * @var array
 	 */
 	protected $_ci_library_paths =	array();
-	
+
 	/**
 	 * List of paths to load models from
 	 *
 	 * @var array
 	 */
 	protected $_ci_model_paths =	array();
-	
+
 	/**
 	 * List of paths to load helpers from
 	 *
 	 * @var array
 	 */
 	protected $_ci_helper_paths =	array();
-	
+
 	/**
 	 * List of loaded base classes
 	 *
 	 * @var array
 	 */
 	protected $_base_classes =	array(); // Set by the controller class
-	
+
 	/**
 	 * List of cached variables
 	 *
 	 * @var array
 	 */
 	protected $_ci_cached_vars =	array();
-	
+
 	/**
 	 * List of loaded classes
 	 *
 	 * @var array
 	 */
 	protected $_ci_classes =	array();
-	
+
 	/**
 	 * List of loaded files
 	 *
 	 * @var array
 	 */
 	protected $_ci_loaded_files =	array();
-	
+
 	/**
 	 * List of loaded models
 	 *
 	 * @var array
 	 */
 	protected $_ci_models =	array();
-	
+
 	/**
 	 * List of loaded helpers
 	 *
 	 * @var array
 	 */
 	protected $_ci_helpers =	array();
-	
+
 	/**
 	 * List of class name mappings
 	 *
@@ -130,6 +130,8 @@ class CI_Loader {
 	 * Constructor
 	 *
 	 * Sets the path to the view files and gets the initial output buffering level
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -178,12 +180,7 @@ class CI_Loader {
 	 */
 	public function is_loaded($class)
 	{
-		if (isset($this->_ci_classes[$class]))
-		{
-			return $this->_ci_classes[$class];
-		}
-
-		return FALSE;
+		return isset($this->_ci_classes[$class]) ? $this->_ci_classes[$class] : FALSE;
 	}
 
 	// --------------------------------------------------------------------

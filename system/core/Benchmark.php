@@ -25,13 +25,11 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Benchmark Class
  *
  * This class enables you to mark points and calculate the time difference
- * between them.  Memory consumption can also be displayed.
+ * between them. Memory consumption can also be displayed.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
