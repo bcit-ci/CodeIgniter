@@ -1,4 +1,4 @@
-Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=develop)](http://travis-ci.org/EllisLab/CodeIgniter)
+[![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=develop)](http://travis-ci.org/EllisLab/CodeIgniter)
 
 # What is CodeIgniter #
 
@@ -65,12 +65,12 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 - Set up Git (Windows, Mac & Linux)
 - Go to the CodeIgniter repo
 - Fork it
-- Clone your CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git
+- Clone your CodeIgniter repo: `git@github.com:<your-name>/CodeIgniter.git`
 - Checkout the "develop" branch At this point you are ready to start making changes.
 - Fix existing bugs on the Issue tracker after taking a look to see nobody else is working on them.
 - Commit the files
 - Push your develop branch to your fork
-- Send a pull request http://help.github.com/send-pull-requests/
+- Send a [pull request](http://help.github.com/send-pull-requests/)
 
 The Reactor Engineers will now be alerted about the change and at least one of the team will respond. If your change fails to meet the guidelines it will be bounced, or feedback will be provided to help you improve it.
 
@@ -83,7 +83,7 @@ If you are using command-line you can do the following:
 
 	git checkout develop
     git remote add codeigniter git://github.com/EllisLab/CodeIgniter.git
-    git fetch codeigniter/develop
+    git fetch codeigniter develop
     git merge codeigniter/develop
     git push origin develop
 
