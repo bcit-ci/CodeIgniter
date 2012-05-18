@@ -102,9 +102,11 @@ class CI_Security {
 		'Redirect\s+302',
 		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
-	
+
 	/**
 	 * Initialize security class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -201,11 +203,11 @@ class CI_Security {
 		}
 
 		setcookie(
-			$this->_csrf_cookie_name, 
-			$this->_csrf_hash, 
-			$expire, 
-			config_item('cookie_path'), 
-			config_item('cookie_domain'), 
+			$this->_csrf_cookie_name,
+			$this->_csrf_hash,
+			$expire,
+			config_item('cookie_path'),
+			config_item('cookie_domain'),
 			$secure_cookie,
 			config_item('cookie_httponly')
 		);
@@ -626,7 +628,7 @@ class CI_Security {
 			// replace illegal attribute strings that are inside an html tag
 			if (count($attribs) > 0)
 			{
-				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)(".implode('|', $attribs).")(.*?)([\s><])([><]*)/i", '<$1 $3$5$6$7', $str, -1, $count);
+				$str = preg_replace('/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><])([><]*)/i', '<$1 $3$5$6$7', $str, -1, $count);
 			}
 
 		} while ($count);
@@ -829,7 +831,7 @@ class CI_Security {
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
 			if (isset($_COOKIE[$this->_csrf_cookie_name]) &&
-				$_COOKIE[$this->_csrf_cookie_name] != '')
+				preg_match('#^[0-9a-f]{32}$#iS', $_COOKIE[$this->_csrf_cookie_name]) === 1)
 			{
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
