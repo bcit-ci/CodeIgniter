@@ -244,6 +244,8 @@ Bug fixes for 2.1.1
 -  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.
 -  Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.
 -  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
+-  Fixed a bug - CI_DB_pdo_driver::affect_row was not being initialized properly with SELECT queries, cause it was relying on PDOStatement::rowCount().
+-  Fixed a bug - CI_DB_pdo_result::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().
 
 Version 2.1.0
 =============
