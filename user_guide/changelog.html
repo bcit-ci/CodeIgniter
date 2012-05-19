@@ -87,6 +87,7 @@ Change Log
 	<li>Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.</li>
 	<li>Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.</li>
 	<li>Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.</li>
+	<li>Fixed a bug - CI_DB_pdo_driver::affect_row was not being initialized properly with SELECT queries, cause it was relying on PDOStatement::rowCount().</li>
 </ul>
 
 
