@@ -149,7 +149,7 @@ The result is returned as $type could be 'object' (default) or 'array' that will
 
 	$query = $this->db->query("YOUR QUERY");
 	
-	while ($row=$query->unbuffered_rows())
+	while ($row = $query->unbuffered_rows())
 	{	
 		echo $row->title;
 		echo $row->name;
