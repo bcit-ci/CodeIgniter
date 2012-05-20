@@ -233,7 +233,8 @@ if ( ! function_exists('get_config'))
 
 		$file_path = APPPATH.'config/config.php';
 		$found = false;
-		if (file_exists($file_path)) {
+		if (file_exists($file_path)) 
+		{
 			$found = true;
 			require($file_path);
 		}
@@ -242,7 +243,10 @@ if ( ! function_exists('get_config'))
 		if (defined(ENVIRONMENT) && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
 			require($file_path);			
-		} else if (!$found) {
+		} 
+		else if (!$found) 
+		{
+			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
 
