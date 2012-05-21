@@ -81,9 +81,7 @@ class CI_Email {
 	protected $_cc_array		= array();
 	protected $_bcc_array		= array();
 	protected $_headers		= array();
-	protected $_attach_name		= array();
-	protected $_attach_type		= array();
-	protected $_attach_disp		= array();
+	protected $_attachments		= array();
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
 	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	protected $_bit_depths		= array('7bit', '8bit');
@@ -171,9 +169,7 @@ class CI_Email {
 
 		if ($clear_attachments !== FALSE)
 		{
-			$this->_attach_name = array();
-			$this->_attach_type = array();
-			$this->_attach_disp = array();
+			$this->_attachments = array();
 		}
 
 		return $this;
@@ -409,9 +405,11 @@ class CI_Email {
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
-		$this->_attach_name[] = array($filename, $newname);
-		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
-		$this->_attach_type[] = $mime;
+		$this->_attachments[] = array(
+			'name'	=> array($filename, $newname),
+			'disp'	=> empty($disposition) ? 'attachment' : $disposition, // Can also be 'inline'  Not sure if it matters
+			'type'	=> $mime
+		);
 		return $this;
 	}
 
@@ -629,9 +627,9 @@ class CI_Email {
 	{
 		if ($this->mailtype === 'html')
 		{
-			return (count($this->_attach_name) == 0) ? 'html' : 'html-attach';
+			return (count($this->_attachments) == 0) ? 'html' : 'html-attach';
 		}
-		elseif	($this->mailtype === 'text' && count($this->_attach_name) > 0)
+		elseif	($this->mailtype === 'text' && count($this->_attachments) > 0)
 		{
 			return 'plain-attach';
 		}
@@ -1035,49 +1033,41 @@ class CI_Email {
 			break;
 		}
 
-		$attachment = array();
-		for ($i = 0, $c = count($this->_attach_name), $z = 0; $i < $c; $i++)
+		foreach ($this->_attachments as $attachment)
 		{
-			$filename = $this->_attach_name[$i][0];
-			$basename = is_null($this->_attach_name[$i][1]) ? basename($filename) : $this->_attach_name[$i][1];
-			$ctype = $this->_attach_type[$i];
-			$file_content = '';
+			$filename = $attachment['name'][0];
+			$basename = empty($attachment['name'][1]) ? basename($filename) : $attachment['name'][1];
+			$attachment['content'] = '';
 
-			if ($this->_attach_type[$i] == '')
+			if ($attachment['type'] == '')
 			{
 				if ( ! file_exists($filename))
 				{
 					$this->_set_error_message('lang:email_attachment_missing', $filename);
 					return FALSE;
 				}
-
-				$file = filesize($filename) +1;
-
-				if ( ! $fp = fopen($filename, FOPEN_READ))
+				
+				if ( ! $file = fopen($filename, FOPEN_READ))
 				{
 					$this->_set_error_message('lang:email_attachment_unreadable', $filename);
 					return FALSE;
 				}
-
-				$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-				$file_content = fread($fp, $file);
-				fclose($fp);
+				
+				$attachment['type'] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+				$attachment['content'] = fread($file, filesize($filename) + 1);
+				
+				fclose($file);
 			}
-			else
-			{
-				$file_content =& $this->_attach_content[$i];
-			}
-
-			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
-				.'Content-type: '.$ctype.'; '
+			
+			$body .= '--'.$this->_atc_boundary.$this->newline
+				.'Content-type: '.$attachment['type'].'; '
 				.'name="'.$basename.'"'.$this->newline
-				.'Content-Disposition: '.$this->_attach_disp[$i].';'.$this->newline
-				.'Content-Transfer-Encoding: base64'.$this->newline;
-
-			$attachment[$z++] = chunk_split(base64_encode($file_content));
+				.'Content-Disposition: '.$attachment['disp'].';'.$this->newline
+				.'Content-Transfer-Encoding: base64'.$this->newline.$this->newline
+				.chunk_split(base64_encode($attachment['content'])).$this->newline;
 		}
-
-		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
+		
+		$body .= '--'.$this->_atc_boundary.'--';
 		$this->_finalbody = ($this->_get_protocol() === 'mail') ? $body : $hdr.$body;
 		return;
 	}
