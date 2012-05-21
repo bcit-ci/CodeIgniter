@@ -525,9 +525,8 @@ class CI_Session {
 		// by pushing all userdata to the cookie.
 		$cookie_data = NULL;
 
-		/* Changing the session ID during an AJAX call causes problems,
-		 * so we'll only update our last_activity
-		 */
+		// Changing the session ID during an AJAX call causes problems,
+		// so we'll only update our last_activity
 		if ($this->CI->input->is_ajax_request())
 		{
 			$this->userdata['last_activity'] = $this->now;
