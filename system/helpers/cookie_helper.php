@@ -101,5 +101,29 @@ if ( ! function_exists('delete_cookie'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+/**
+ * User has granted consent to the use of cookies
+ *
+ * @return	void
+ */
+function cookie_consent_granted()
+{
+	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
+	set_cookie($consent_cookie_name, 1, 31536000);
+}
+
+/**
+ * User has withdrawn consent to the use of cookies
+ *
+ * @return	void
+ */
+function cookie_consent_withdrawn()
+{
+	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
+	delete_cookie($consent_cookie_name);
+}
+
 /* End of file cookie_helper.php */
 /* Location: ./system/helpers/cookie_helper.php */
