@@ -122,6 +122,7 @@ function cookie_consent_granted()
  */
 function cookie_consent_withdrawn()
 {
+	$CI =& get_instance();
 	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
 	delete_cookie($consent_cookie_name);
 }
