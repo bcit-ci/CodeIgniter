@@ -135,6 +135,20 @@ class CI_Session {
 	public $sess_time_to_update		= 300;
 
 	/**
+	 * Is cookie usage consent required
+	 *
+	 * @var bool
+	 */
+	public $cookie_consent_required	= FALSE;
+
+	/**
+	 * Has cookie usage consent been given
+	 *
+	 * @var bool
+	 */
+	public $cookie_consent_given	= FALSE;
+
+	/**
 	 * Key with which to encrypt the session cookie
 	 *
 	 * @var string
