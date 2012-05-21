@@ -270,6 +270,16 @@ class CI_Session {
 		$consent_cookie_value = $this->CI->input->cookie($consent_cookie_name);
 		$this->cookie_consent_given = ($consent_cookie_value === 1) ? TRUE : FALSE;
 
+		// If cookie usage consent hasn't been given then destroy any existing sessions
+		if ($this->cookie_consent_required === TRUE)
+		{
+			// Consent has not been given so don't do anything
+			if ( ! $this->cookie_consent_given)
+			{
+				$this->sess_destroy();
+			}
+		}
+
 		// Delete 'old' flashdata (from last request)
 		$this->_flashdata_sweep();
 
