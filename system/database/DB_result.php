@@ -371,6 +371,19 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Returns an unbuffered row and move pointer to next row
+	 *
+	 * @return	mixed	either a result object or array
+	 */
+	public function unbuffered_row($type = 'object')
+	{
+		return ($type !== 'array') ? $this->_fetch_object() : $this->_fetch_assoc();
+		
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
 	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
 	 * is used. When caching is enabled we do not load the other driver.
