@@ -92,6 +92,13 @@ abstract class CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
+	public function __destruct()
+	{
+		$this->close();
+	}
+
+	// --------------------------------------------------------------------	
+
 	/**
 	 * Initialize Database Settings
 	 *
