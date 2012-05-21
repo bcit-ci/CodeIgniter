@@ -265,6 +265,11 @@ class CI_Session {
 			$this->sess_update();
 		}
 
+		// Check if cookie usage consent has been given by the user
+		$consent_cookie_name = $this->cookie_prefix.'cookie_consent_given';
+		$consent_cookie_value = $this->CI->input->cookie($consent_cookie_name);
+		$this->cookie_consent_given = ($consent_cookie_value === 1) ? TRUE : FALSE;
+
 		// Delete 'old' flashdata (from last request)
 		$this->_flashdata_sweep();
 
