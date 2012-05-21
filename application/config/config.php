@@ -298,6 +298,7 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_path'   =  Typically will be a forward slash
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript) 
+| 'cookie_consent_required'	= don't write any session cookies until the user has approved cookie use
 |
 */
 $config['cookie_prefix']	= "";
@@ -305,6 +306,7 @@ $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
+$config['cookie_consent_required']	= TRUE;
 
 /*
 |--------------------------------------------------------------------------
