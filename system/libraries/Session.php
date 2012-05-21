@@ -418,16 +418,6 @@ class CI_Session {
 	 */
 	public function sess_write()
 	{
-		// Check if cookie use consent is required by the user
-		if ($this->cookie_consent_required === TRUE)
-		{
-			// Consent has not been given so don't do anything
-			if ( ! $this->cookie_consent_given)
-			{
-				return;
-			}
-		}
-
 		// Are we saving custom data to the DB?  If not, all we do is update the cookie
 		if ($this->sess_use_database === FALSE)
 		{
