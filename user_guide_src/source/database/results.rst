@@ -136,6 +136,26 @@ parameter:
 	| **$row = $query->next_row('array')**
 	| **$row = $query->previous_row('array')**
 
+.. note:: all the functions above will load the whole result into memory (prefetching) use unbuffered_row() for processing large result sets.
+
+unbuffered_row($type)
+=====
+
+This function returns a single result row without prefetching the whole result in memory as row() does.
+If your query has more than one row, it returns the current row and moves the internal data pointer ahead. 
+The result is returned as $type could be 'object' (default) or 'array' that will return an associative array.
+
+
+
+	$query = $this->db->query("YOUR QUERY");
+	
+	while ($row = $query->unbuffered_row())
+	{	
+		echo $row->title;
+		echo $row->name;
+		echo $row->body;
+	}
+
 ***********************
 Result Helper Functions
 ***********************

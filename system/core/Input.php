@@ -44,28 +44,28 @@ class CI_Input {
 	 * @var string
 	 */
 	public $ip_address =	FALSE;
-	
+
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
 	 * @var string
 	 */
 	public $user_agent =	FALSE;
-	
+
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
 	 * @var bool
 	 */
 	protected $_allow_get_array =	TRUE;
-	
+
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
 	protected $_standardize_newlines =	TRUE;
-	
+
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
@@ -73,7 +73,7 @@ class CI_Input {
 	 * @var bool
 	 */
 	protected $_enable_xss =	FALSE;
-	
+
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
@@ -81,7 +81,7 @@ class CI_Input {
 	 * @var bool
 	 */
 	protected $_enable_csrf =	FALSE;
-	
+
 	/**
 	 * List of all HTTP request headers
 	 *
@@ -94,6 +94,8 @@ class CI_Input {
 	 *
 	 * Sets whether to globally enable the XSS processing
 	 * and whether to allow the $_GET array
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -438,15 +440,7 @@ class CI_Input {
 		// This is effectively the same as register_globals = off
 		foreach (array($_GET, $_POST, $_COOKIE) as $global)
 		{
-			if ( ! is_array($global))
-			{
-				if ( ! in_array($global, $protected))
-				{
-					global $$global;
-					$$global = NULL;
-				}
-			}
-			else
+			if (is_array($global))
 			{
 				foreach ($global as $key => $val)
 				{
@@ -456,6 +450,11 @@ class CI_Input {
 						$$key = NULL;
 					}
 				}
+			}
+			elseif ( ! in_array($global, $protected))
+			{
+				global $$global;
+				$$global = NULL;
 			}
 		}
 
@@ -605,7 +604,7 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
-	 * @param	bool XSS cleaning
+	 * @param	bool	XSS cleaning
 	 * @return	array
 	 */
 	public function request_headers($xss_clean = FALSE)

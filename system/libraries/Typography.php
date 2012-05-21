@@ -38,7 +38,7 @@ class CI_Typography {
 
 	/**
 	 * Block level elements that should not be wrapped inside <p> tags
-	 * 
+	 *
 	 * @var string
 	 */
 	public $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
@@ -52,7 +52,7 @@ class CI_Typography {
 
 	/**
 	 * Tags we want the parser to completely ignore when splitting the string.
-	 * 
+	 *
 	 * @var string
 	 */
 	public $inline_elements = 'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
