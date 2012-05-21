@@ -112,7 +112,7 @@ function cookie_consent_granted()
 {
 	$CI =& get_instance();
 	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
-	set_cookie($consent_cookie_name, 1, 31536000);
+	set_cookie($consent_cookie_name, '1', 31536000);
 }
 
 /**

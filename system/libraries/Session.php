@@ -268,7 +268,7 @@ class CI_Session {
 		// Check if cookie usage consent has been given by the user
 		$consent_cookie_name = $this->cookie_prefix.'cookie_consent_given';
 		$consent_cookie_value = $this->CI->input->cookie($consent_cookie_name);
-		$this->cookie_consent_given = ($consent_cookie_value === 1) ? TRUE : FALSE;
+		$this->cookie_consent_given = ($consent_cookie_value === '1') ? TRUE : FALSE;
 
 		// If cookie usage consent hasn't been given then destroy any existing sessions
 		if ($this->cookie_consent_required === TRUE)
