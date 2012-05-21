@@ -110,9 +110,7 @@ if ( ! function_exists('delete_cookie'))
  */
 function cookie_consent_granted()
 {
-	$CI =& get_instance();
-	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
-	set_cookie($consent_cookie_name, '1', 31536000);
+	set_cookie('cookie_consent_given', '1', 31536000);
 }
 
 /**
@@ -122,8 +120,7 @@ function cookie_consent_granted()
  */
 function cookie_consent_withdrawn()
 {
-	$CI =& get_instance();
-	$consent_cookie_name = $CI->config->item('cookie_prefix').'cookie_consent_given';
+	$consent_cookie_name = 'cookie_consent_given';
 	delete_cookie($consent_cookie_name);
 }
 
