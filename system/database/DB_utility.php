@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -32,10 +32,15 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_utility extends CI_DB_forge {
+abstract class CI_DB_utility extends CI_DB_forge {
 
 	public $db;
 	public $data_cache		= array();
+
+	// Platform specific SQL strings
+	// Just setting those defaults to FALSE as they are mostly MySQL-specific
+	protected $_optimize_table	= FALSE;
+	protected $_repair_table	= FALSE;
 
 	public function __construct()
 	{
@@ -50,7 +55,7 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * List databases
 	 *
-	 * @return	bool
+	 * @return	array
 	 */
 	public function list_databases()
 	{
@@ -59,18 +64,25 @@ class CI_DB_utility extends CI_DB_forge {
 		{
 			return $this->data_cache['db_names'];
 		}
-
-		$query = $this->db->query($this->_list_databases());
-		$dbs = array();
-		if ($query->num_rows() > 0)
+		elseif ($this->_list_databases === FALSE)
 		{
-			foreach ($query->result_array() as $row)
-			{
-				$dbs[] = current($row);
-			}
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		return $this->data_cache['db_names'] = $dbs;
+		$this->data_cache['db_names'] = array();
+
+		$query = $this->db->query($this->_list_databases);
+		if ($query === FALSE)
+		{
+			return $this->data_cache['db_names'];
+		}
+
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			$this->data_cache['db_names'] = current($query[$i]);
+		}
+
+		return $this->data_cache['db_names'];
 	}
 
 	// --------------------------------------------------------------------
@@ -79,23 +91,12 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Determine if a particular database exists
 	 *
 	 * @param	string
-	 * @return	boolean
+	 * @return	bool
 	 */
 	public function database_exists($database_name)
 	{
-		// Some databases won't have access to the list_databases() function, so
-		// this is intended to allow them to override with their own functions as
-		// defined in $driver_utility.php
-		if (method_exists($this, '_database_exists'))
-		{
-			return $this->_database_exists($database_name);
-		}
-		else
-		{
-			return ( ! in_array($database_name, $this->list_databases())) ? FALSE : TRUE;
-		}
+		return in_array($database_name, $this->list_databases());
 	}
-
 
 	// --------------------------------------------------------------------
 
@@ -103,24 +104,23 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Optimize Table
 	 *
 	 * @param	string	the table name
-	 * @return	bool
+	 * @return	mixed
 	 */
 	public function optimize_table($table_name)
 	{
-		$sql = $this->_optimize_table($table_name);
-
-		if (is_bool($sql))
+		if ($this->_optimize_table === FALSE)
 		{
-			show_error('db_must_use_set');
-			return FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		$query = $this->db->query($sql);
-		$res = $query->result_array();
+		$query = $this->db->query(sprintf($this->_optimize_table, $this->db->escape_identifiers($table_name)));
+		if ($query !== FALSE)
+		{
+			$query = $query->result_array();
+			return current($res);
+		}
 
-		// Note: Due to a bug in current() that affects some versions
-		// of PHP we can not pass function call directly into it
-		return current($res);
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -128,26 +128,26 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Optimize Database
 	 *
-	 * @return	array
+	 * @return	mixed
 	 */
 	public function optimize_database()
 	{
+		if ($this->_optimize_table === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		}
+
 		$result = array();
 		foreach ($this->db->list_tables() as $table_name)
 		{
-			$sql = $this->_optimize_table($table_name);
-
-			if (is_bool($sql))
+			$res = $this->db->query(sprintf($this->_optimize_table, $this->db->escape_identifiers($table_name)));
+			if (is_bool($res))
 			{
-				return $sql;
+				return $res;
 			}
 
-			$query = $this->db->query($sql);
-
 			// Build the result array...
-			// Note: Due to a bug in current() that affects some versions
-			// of PHP we can not pass function call directly into it
-			$res = $query->result_array();
+			$res = $res->result_array();
 			$res = current($res);
 			$key = str_replace($this->db->database.'.', '', current($res));
 			$keys = array_keys($res);
@@ -165,23 +165,23 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Repair Table
 	 *
 	 * @param	string	the table name
-	 * @return	bool
+	 * @return	mixed
 	 */
 	public function repair_table($table_name)
 	{
-		$sql = $this->_repair_table($table_name);
-
-		if (is_bool($sql))
+		if ($this->_repair_table === FALSE)
 		{
-			return $sql;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		$query = $this->db->query($sql);
+		$query = $this->db->query(sprintf($this->_repair_table, $this->db->escape_identifiers($table_name)));
+		if (is_bool($query))
+		{
+			return $query;
+		}
 
-		// Note: Due to a bug in current() that affects some versions
-		// of PHP we can not pass function call directly into it
-		$res = $query->result_array();
-		return current($res);
+		$query = $query->result_array();
+		return current($query);
 	}
 
 	// --------------------------------------------------------------------
@@ -257,18 +257,18 @@ class CI_DB_utility extends CI_DB_forge {
 		$CI->load->helper('xml');
 
 		// Generate the result
-		$xml = "<{$root}>".$newline;
+		$xml = '<'.$root.'>'.$newline;
 		foreach ($query->result_array() as $row)
 		{
-			$xml .= $tab."<{$element}>".$newline;
+			$xml .= $tab.'<'.$element.'>'.$newline;
 			foreach ($row as $key => $val)
 			{
-				$xml .= $tab.$tab."<{$key}>".xml_convert($val)."</{$key}>".$newline;
+				$xml .= $tab.$tab.'<'.$key.'>'.xml_convert($val).'</'.$key.'>'.$newline;
 			}
-			$xml .= $tab."</{$element}>".$newline;
+			$xml .= $tab.'</'.$element.'>'.$newline;
 		}
 
-		return $xml .= "</$root>".$newline;
+		return $xml.'</'.$root.'>'.$newline;
 	}
 
 	// --------------------------------------------------------------------
@@ -328,8 +328,8 @@ class CI_DB_utility extends CI_DB_forge {
 
 		// Is the encoder supported? If not, we'll either issue an
 		// error or use plain text depending on the debug settings
-		if (($prefs['format'] === 'gzip' AND ! @function_exists('gzencode'))
-			OR ($prefs['format'] === 'zip'  AND ! @function_exists('gzcompress')))
+		if (($prefs['format'] === 'gzip' && ! @function_exists('gzencode'))
+			OR ($prefs['format'] === 'zip' && ! @function_exists('gzcompress')))
 		{
 			if ($this->db->db_debug)
 			{

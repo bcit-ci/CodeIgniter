@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Language Helpers
  *
@@ -39,18 +37,17 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Lang
- *
- * Fetches a language variable and optionally outputs a form label
- *
- * @access	public
- * @param	string	the language line
- * @param	string	the id of the form element
- * @return	string
- */
 if ( ! function_exists('lang'))
 {
+	/**
+	 * Lang
+	 *
+	 * Fetches a language variable and optionally outputs a form label
+	 *
+	 * @param	string	the language line
+	 * @param	string	the id of the form element
+	 * @return	string
+	 */
 	function lang($line, $id = '')
 	{
 		$CI =& get_instance();
@@ -58,7 +55,7 @@ if ( ! function_exists('lang'))
 
 		if ($id != '')
 		{
-			$line = '<label for="'.$id.'">'.$line."</label>";
+			$line = '<label for="'.$id.'">'.$line.'</label>';
 		}
 
 		return $line;

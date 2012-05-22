@@ -136,6 +136,26 @@ parameter:
 	| **$row = $query->next_row('array')**
 	| **$row = $query->previous_row('array')**
 
+.. note:: all the functions above will load the whole result into memory (prefetching) use unbuffered_row() for processing large result sets.
+
+unbuffered_row($type)
+=====
+
+This function returns a single result row without prefetching the whole result in memory as row() does.
+If your query has more than one row, it returns the current row and moves the internal data pointer ahead. 
+The result is returned as $type could be 'object' (default) or 'array' that will return an associative array.
+
+
+
+	$query = $this->db->query("YOUR QUERY");
+	
+	while ($row = $query->unbuffered_row())
+	{	
+		echo $row->title;
+		echo $row->name;
+		echo $row->body;
+	}
+
 ***********************
 Result Helper Functions
 ***********************
@@ -150,6 +170,12 @@ is the variable that the query result object is assigned to::
 	
 	echo $query->num_rows();
 
+.. note::
+	Not all database drivers have a native way of getting the total
+	number of rows for a result set. When this is the case, all of
+	the data is prefetched and count() is manually called on the
+	resulting array in order to achieve the same functionality.
+	
 $query->num_fields()
 =====================
 
@@ -182,5 +208,4 @@ Example::
 
 	$row = $query2->row();
 	echo $row->name;
-	$query2->free_result();// The $query2 result object will no longer be available
-
+	$query2->free_result(); // The $query2 result object will no longer be available

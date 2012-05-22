@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Language Class
  *
@@ -43,14 +41,20 @@ class CI_Lang {
 	 *
 	 * @var array
 	 */
-	public $language	= array();
+	public $language =	array();
+
 	/**
 	 * List of loaded language files
 	 *
 	 * @var array
 	 */
-	public $is_loaded	= array();
+	public $is_loaded =	array();
 
+	/**
+	 * Initialize language class
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Language Class Initialized');
@@ -74,22 +78,20 @@ class CI_Lang {
 
 		if ($add_suffix == TRUE)
 		{
-			$langfile = str_replace('_lang.', '', $langfile).'_lang';
+			$langfile = str_replace('_lang', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
-		{
-			return;
-		}
-
-		$config =& get_config();
-
 		if ($idiom == '')
 		{
-			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
-			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+			$config =& get_config();
+			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+		}
+
+		if ($return == FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
+		{
+			return;
 		}
 
 		// Determine where the language file is and load it
@@ -121,6 +123,11 @@ class CI_Lang {
 		if ( ! isset($lang) OR ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+
+			if ($return == TRUE)
+			{
+				return array();
+			}
 			return;
 		}
 
@@ -129,9 +136,8 @@ class CI_Lang {
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
+		$this->is_loaded[$langfile] = $idiom;
 		$this->language = array_merge($this->language, $lang);
-		unset($lang);
 
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;

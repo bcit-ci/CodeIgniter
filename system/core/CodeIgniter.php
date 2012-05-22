@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,15 +25,13 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * System Initialization File
  *
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	codeigniter
+ * @subpackage	CodeIgniter
  * @category	Front-controller
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
@@ -42,7 +40,7 @@
 /**
  * CodeIgniter Version
  *
- * @var string
+ * @var	string
  *
  */
 	define('CI_VERSION', '3.0-dev');
@@ -133,7 +131,7 @@
  *  Is there a "pre_system" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('pre_system');
+	$EXT->call_hook('pre_system');
 
 /*
  * ------------------------------------------------------
@@ -155,7 +153,7 @@
  *
  * Note: Order here is rather important as the UTF-8
  * class needs to be used very early on, but it cannot
- * properly determine if UTf-8 can be supported until
+ * properly determine if UTF-8 can be supported until
  * after the Config class is instantiated.
  *
  */
@@ -194,7 +192,7 @@
  *	Is there a valid cache file? If so, we're done...
  * ------------------------------------------------------
  */
-	if ($EXT->_call_hook('cache_override') === FALSE
+	if ($EXT->call_hook('cache_override') === FALSE
 		&& $OUT->_display_cache($CFG, $URI) == TRUE)
 	{
 		exit;
@@ -230,6 +228,13 @@
 	// Load the base controller class
 	require BASEPATH.'core/Controller.php';
 
+	/**
+	 * Reference to the CI_Controller method.
+	 *
+	 * Returns current CI instance object
+	 *
+	 * @return object
+	 */
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();
@@ -275,12 +280,12 @@
 		{
 			$x = explode('/', $RTR->routes['404_override'], 2);
 			$class = $x[0];
-			$method = (isset($x[1]) ? $x[1] : 'index');
+			$method = isset($x[1]) ? $x[1] : 'index';
 			if ( ! class_exists($class))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
-					show_404("{$class}/{$method}");
+					show_404($class.'/'.$method);
 				}
 
 				include_once(APPPATH.'controllers/'.$class.'.php');
@@ -288,7 +293,7 @@
 		}
 		else
 		{
-			show_404("{$class}/{$method}");
+			show_404($class.'/'.$method);
 		}
 	}
 
@@ -297,7 +302,7 @@
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('pre_controller');
+	$EXT->call_hook('pre_controller');
 
 /*
  * ------------------------------------------------------
@@ -314,7 +319,7 @@
  *  Is there a "post_controller_constructor" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_controller_constructor');
+	$EXT->call_hook('post_controller_constructor');
 
 /*
  * ------------------------------------------------------
@@ -337,12 +342,12 @@
 			{
 				$x = explode('/', $RTR->routes['404_override'], 2);
 				$class = $x[0];
-				$method = (isset($x[1]) ? $x[1] : 'index');
+				$method = isset($x[1]) ? $x[1] : 'index';
 				if ( ! class_exists($class))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 					{
-						show_404("{$class}/{$method}");
+						show_404($class.'/'.$method);
 					}
 
 					include_once(APPPATH.'controllers/'.$class.'.php');
@@ -352,7 +357,7 @@
 			}
 			else
 			{
-				show_404("{$class}/{$method}");
+				show_404($class.'/'.$method);
 			}
 		}
 
@@ -369,14 +374,14 @@
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_controller');
+	$EXT->call_hook('post_controller');
 
 /*
  * ------------------------------------------------------
  *  Send the final rendered output to the browser
  * ------------------------------------------------------
  */
-	if ($EXT->_call_hook('display_override') === FALSE)
+	if ($EXT->call_hook('display_override') === FALSE)
 	{
 		$OUT->_display();
 	}
@@ -386,14 +391,14 @@
  *  Is there a "post_system" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_system');
+	$EXT->call_hook('post_system');
 
 /*
  * ------------------------------------------------------
  *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
-	if (class_exists('CI_DB') && isset($CI->db))
+	if (class_exists('CI_DB') && isset($CI->db) && ! $CI->db->pconnect)
 	{
 		$CI->db->close();
 	}

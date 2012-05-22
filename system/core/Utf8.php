@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Utf8 Class
  *
@@ -44,6 +42,8 @@ class CI_Utf8 {
 	 * Constructor
 	 *
 	 * Determines if UTF-8 support is to be enabled
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -126,7 +126,7 @@ class CI_Utf8 {
 	 * Attempts to convert a string to UTF-8
 	 *
 	 * @param	string
-	 * @param	string	- input encoding
+	 * @param	string	input encoding
 	 * @return	string
 	 */
 	public function convert_to_utf8($str, $encoding)
