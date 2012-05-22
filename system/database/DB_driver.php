@@ -90,7 +90,7 @@ abstract class CI_DB_driver {
 		log_message('debug', 'Database Driver Class Initialized');
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Initialize Database Settings
