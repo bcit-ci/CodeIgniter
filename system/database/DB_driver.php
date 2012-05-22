@@ -1390,6 +1390,23 @@ abstract class CI_DB_driver {
 	{
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * Closes the database connection, if needed.
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		if ($this->conn_id && ! $this->pconnect)
+		{
+			$this->close();
+		}
+	}
+
 }
 
 /* End of file DB_driver.php */
