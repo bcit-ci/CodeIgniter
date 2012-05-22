@@ -90,13 +90,6 @@ abstract class CI_DB_driver {
 		log_message('debug', 'Database Driver Class Initialized');
 	}
 
-	// --------------------------------------------------------------------
-
-	public function __destruct()
-	{
-		$this->close();
-	}
-
 	// --------------------------------------------------------------------	
 
 	/**
@@ -1395,6 +1388,23 @@ abstract class CI_DB_driver {
 	 */
 	protected function _reset_select()
 	{
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * Closes the database connection, if needed.
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		if ($this->conn_id && ! $this->pconnect)
+		{
+			$this->close();
+		}
 	}
 
 }
