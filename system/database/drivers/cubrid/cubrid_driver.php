@@ -485,7 +485,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
@@ -506,12 +506,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@cubrid_close($conn_id);
+		@cubrid_close($this->conn_id);
 	}
 
 }
