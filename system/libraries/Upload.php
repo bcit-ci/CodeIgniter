@@ -868,6 +868,10 @@ class CI_Upload {
 			{
 				return TRUE; // its an image, no "triggers" detected in the first 256 bytes, we're good
 			}
+			else
+			{
+				return FALSE;
+			}
 		}
 
 		if (($data = @file_get_contents($file)) === FALSE)
