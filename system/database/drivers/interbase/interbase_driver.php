@@ -472,12 +472,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@ibase_close($conn_id);
+		@ibase_close($this->conn_id);
 	}
 
 }

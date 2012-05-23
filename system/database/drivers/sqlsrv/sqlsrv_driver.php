@@ -510,12 +510,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlsrv_close($conn_id);
+		@sqlsrv_close($this->conn_id);
 	}
 
 }
