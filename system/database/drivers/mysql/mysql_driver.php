@@ -520,12 +520,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@mysql_close($conn_id);
+		@mysql_close($this->conn_id);
 	}
 
 }

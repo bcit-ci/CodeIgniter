@@ -450,12 +450,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlite_close($conn_id);
+		@sqlite_close($this->conn_id);
 	}
 
 }
