@@ -523,13 +523,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	object
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
 		$this->conn_id->close();
-		$this->conn_id = FALSE;
 	}
 
 }

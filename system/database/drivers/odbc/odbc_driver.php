@@ -402,12 +402,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@odbc_close($conn_id);
+		@odbc_close($this->conn_id);
 	}
 
 }
