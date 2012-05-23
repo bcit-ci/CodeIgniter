@@ -967,12 +967,12 @@ class CI_Upload {
 		
 		$parts		= explode('.', $filename);
 		$ext		= array_pop($parts);
-		$filename	= array_shift($parts);
 		
-		if ($this->convert_dots === TRUE) {
-			$filename = implode('_', $filename);
+		if ($this->convert_dots === TRUE)
+		{
+			$filename = implode('_', $parts);
 		} else {
-			$filename = implode('.', $filename);
+			$filename = implode('.', $parts);
 		}
 
 		return $filename.'.'.$ext;
