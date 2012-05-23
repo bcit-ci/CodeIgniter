@@ -378,11 +378,10 @@ class CI_DB_result {
 	public function unbuffered_row($type = 'object')
 	{
 		return ($type !== 'array') ? $this->_fetch_object() : $this->_fetch_assoc();
-		
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * The following functions are normally overloaded by the identically named
 	 * methods in the platform-specific driver -- except when query caching
