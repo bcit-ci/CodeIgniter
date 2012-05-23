@@ -358,10 +358,10 @@ class CI_URI {
 	 * This function returns the URI segment based on the number provided.
 	 *
 	 * @param	int
-	 * @param	bool
+	 * @param	mixed
 	 * @return	string
 	 */
-	public function segment($n, $no_result = FALSE)
+	public function segment($n, $no_result = NULL)
 	{
 		return isset($this->segments[$n]) ? $this->segments[$n] : $no_result;
 	}
@@ -376,10 +376,10 @@ class CI_URI {
 	 * same result as $this->segment()
 	 *
 	 * @param	int
-	 * @param	bool
+	 * @param	mixed
 	 * @return	string
 	 */
-	public function rsegment($n, $no_result = FALSE)
+	public function rsegment($n, $no_result = NULL)
 	{
 		return isset($this->rsegments[$n]) ? $this->rsegments[$n] : $no_result;
 	}
@@ -462,7 +462,7 @@ class CI_URI {
 		{
 			return (count($default) === 0)
 				? array()
-				: array_fill_keys($default, FALSE);
+				: array_fill_keys($default, NULL);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
@@ -477,7 +477,7 @@ class CI_URI {
 			}
 			else
 			{
-				$retval[$seg] = FALSE;
+				$retval[$seg] = NULL;
 				$lastval = $seg;
 			}
 
@@ -490,7 +490,7 @@ class CI_URI {
 			{
 				if ( ! array_key_exists($val, $retval))
 				{
-					$retval[$val] = FALSE;
+					$retval[$val] = NULL;
 				}
 			}
 		}
@@ -511,7 +511,7 @@ class CI_URI {
 	public function assoc_to_uri($array)
 	{
 		$temp = array();
-		foreach ( (array) $array as $key => $val)
+		foreach ((array) $array as $key => $val)
 		{
 			$temp[] = $key;
 			$temp[] = $val;
@@ -644,7 +644,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return '/'.implode('/', $this->rsegment_array());
+		return implode('/', $this->rsegment_array());
 	}
 
 }

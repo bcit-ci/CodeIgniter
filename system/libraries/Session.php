@@ -276,7 +276,7 @@ class CI_Session {
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
 
 		// No cookie?  Goodbye cruel world!...
-		if ($session === FALSE)
+		if ($session === NULL)
 		{
 			log_message('debug', 'A session cookie was not found.');
 			return FALSE;
@@ -586,7 +586,7 @@ class CI_Session {
 	 */
 	public function userdata($item)
 	{
-		return isset($this->userdata[$item]) ? $this->userdata[$item] : FALSE;
+		return isset($this->userdata[$item]) ? $this->userdata[$item] : NULL;
 	}
 
 	// --------------------------------------------------------------------
@@ -715,7 +715,7 @@ class CI_Session {
 	{
 		// 'old' flashdata gets removed. Here we mark all
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
-		// Note the function will return FALSE if the $key
+		// Note the function will return NULL if the $key
 		// provided cannot be found
 		$value = $this->userdata($this->flashdata_key.':old:'.$key);
 
