@@ -661,7 +661,11 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			$v = $this->escape_like_str($v);
 
-			if ($side == 'before')
+			if ($side == 'none')
+			{
+				$like_statement = $prefix." $k $not LIKE '{$v}'";
+			}
+			elseif ($side == 'before')
 			{
 				$like_statement = $prefix." $k $not LIKE '%{$v}'";
 			}
