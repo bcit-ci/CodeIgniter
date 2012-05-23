@@ -30,7 +30,7 @@
 /**
  * Firebird/Interbase specific methods for the PDO driver
  */
-class CI_Firebird_PDO_Driver extends CI_DB_pdo_driver{
+class CI_firebird_PDO_Driver extends CI_DB_pdo_driver{
 
 	/**
 	 * Initialize the parent driver class

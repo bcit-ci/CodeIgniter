@@ -30,7 +30,7 @@
 /**
  * Sqlite specific methods for the PDO driver
  */
-class CI_SQLite_PDO_Driver extends CI_DB_pdo_driver{
+class CI_sqlite_PDO_Driver extends CI_DB_pdo_driver{
 
 	/**
 	 * Initialize the parent driver class

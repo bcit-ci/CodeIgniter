@@ -30,7 +30,7 @@
 /**
  * Postgresql specific methods for the PDO driver
  */
-class CI_PgSQL_PDO_Driver extends CI_DB_pdo_driver {
+class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 
 	/**
 	 * Initialize the parent driver class

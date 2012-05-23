@@ -30,7 +30,7 @@
 /**
  * Cubrid specific methods for the PDO driver
  */
-class CI_Cubrid_PDO_Driver extends CI_DB_pdo_driver {
+class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 
 	/**
 	 * Initialize the parent driver class
