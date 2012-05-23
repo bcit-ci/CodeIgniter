@@ -28,11 +28,13 @@ class Input_test extends CI_TestCase {
 		$this->assertTrue( ! $this->input->get());
 		$this->assertTrue( ! $this->input->get('foo'));
 
-		$this->assertTrue($this->input->get() == FALSE);
-		$this->assertTrue($this->input->get('foo') == FALSE);
+		// Test we're getting empty results
+		$this->assertTrue($this->input->get() == NULL);
+		$this->assertTrue($this->input->get('foo') == NULL);
 
-		$this->assertTrue($this->input->get() === FALSE);
-		$this->assertTrue($this->input->get('foo') === FALSE);
+		// Test new 3.0 behaviour for non existant results (used to be FALSE)
+		$this->assertTrue($this->input->get() === NULL);
+		$this->assertTrue($this->input->get('foo') === NULL);
 	}
 
 	// --------------------------------------------------------------------
@@ -68,11 +70,11 @@ class Input_test extends CI_TestCase {
 		$this->assertTrue( ! $this->input->post());
 		$this->assertTrue( ! $this->input->post('foo'));
 
-		$this->assertTrue($this->input->post() == FALSE);
-		$this->assertTrue($this->input->post('foo') == FALSE);
+		$this->assertTrue($this->input->post() == NULL);
+		$this->assertTrue($this->input->post('foo') == NULL);
 
-		$this->assertTrue($this->input->post() === FALSE);
-		$this->assertTrue($this->input->post('foo') === FALSE);
+		$this->assertTrue($this->input->post() === NULL);
+		$this->assertTrue($this->input->post('foo') === NULL);
 	}
 
 	// --------------------------------------------------------------------
