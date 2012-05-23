@@ -9,8 +9,7 @@ Release Date: Not Released
 
 -  License
 
-   -  CodeIgniter has been relicensed with the Open Software License (3.0),
-      eliminating its old proprietary licensing.
+   -  CodeIgniter has been relicensed with the Open Software License (3.0), eliminating its old proprietary licensing.
 
       -  All system files are licensed with OSL 3.0.
       -  Config, error, and sample files shipped in the application folder are
@@ -43,7 +42,7 @@ Release Date: Not Released
 
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
-   -  Changed humanize to include a second param for the separator.
+   -  Changed humanize() to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
@@ -56,21 +55,17 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with
-      the Active Record design pattern
-   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
+   -  Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
    -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
-   -  Added new :doc:`Query Builder <database/query_builder>` methods that return
-      the SQL string of queries without executing them: get_compiled_select(),
-      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-   -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Adding $escape parameter to the order_by() method, this enables ordering by custom fields.
    -  Improved support for the MySQLi driver, including:
 	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 -  Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the "interbase" driver
+   -  Added Interbase/Firebird database support via the "interbase" driver.
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
@@ -102,7 +97,7 @@ Release Date: Not Released
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
    -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
-   -  Added unbuffered_row() function for getting a row without prefetching whole result (consume less memory)
+   -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
 
 -  Libraries
 
@@ -110,17 +105,15 @@ Release Date: Not Released
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
    -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
-   -  Cart library changes include:
+   -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
-	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
-	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
+	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
+	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability.
    -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The initialize() method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
-	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
-	    if they are set manually after initialization.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
 	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
-   -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
@@ -153,26 +146,26 @@ Release Date: Not Released
 Bug fixes for 3.0
 ------------------
 
--  Unlink raised an error if cache file did not exist when you try to delete it.
+-  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
 -  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
 -  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
--  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors
--  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely
--  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
+-  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors.
+-  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely.
+-  Fixed a bug (#157, #174) - the Image_lib clear() function now resets all variables to their default values.
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
 -  Fixed a bug (#795) - Fixed form method and accept-charset when passing an empty array.
--  Fixed a bug (#797) - timespan was using incorrect seconds for year and month.
+-  Fixed a bug (#797) - timespan() was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
--  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
--  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
+-  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
+-  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on ``db_pconnect()``.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
--  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
+-  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
--  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'.
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
@@ -183,7 +176,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#129) - ODBC's num_rows() returned -1 in some cases, due to not all subdrivers supporting the odbc_num_rows() function.
 -  Fixed a bug (#153) - E_NOTICE being generated by getimagesize() in the :doc:`File Uploading Library <libraries/file_uploading>`.
 -  Fixed a bug (#611) - SQLSRV's error handling methods used to issue warnings when there's no actual error.
--  Fixed a bug (#1036) - is_write_type() method in the :doc:`Database Library <database/index>` didn't return TRUE for RENAME and OPTIMIZE queries.
+-  Fixed a bug (#1036) - is_write_type() method in the :doc:`Database Library <database/index>` didn't return TRUE for RENAME queries.
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
@@ -207,7 +200,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#23, #1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
 -  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
 -  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
--  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories
+-  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories.
 -  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
 -  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
@@ -217,7 +210,7 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
--  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library
+-  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library.
 -  Fixed a bug (#1314) - sess_destroy() did not destroy userdata.
 -  Fixed a bug (#1349) - get_extension() in the `File Uploading Library <libraries/file_uploading>` returned the original filename when it didn't have an actual extension.
 

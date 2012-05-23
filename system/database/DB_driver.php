@@ -1152,9 +1152,23 @@ abstract class CI_DB_driver {
 	{
 		if ($this->conn_id)
 		{
-			$this->_close($this->conn_id);
+			$this->_close();
 			$this->conn_id = FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Close DB Connection
+	 *
+	 * This method would be overriden by most of the drivers.
+	 *
+	 * @return	void
+	 */
+	protected function _close()
+	{
+		$this->conn_id = FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1401,7 +1415,7 @@ abstract class CI_DB_driver {
 	 */
 	public function __destruct()
 	{
-		if ($this->conn_id && ! $this->pconnect)
+		if ( ! $this->pconnect)
 		{
 			$this->close();
 		}
