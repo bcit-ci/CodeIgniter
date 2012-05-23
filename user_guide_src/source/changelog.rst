@@ -160,7 +160,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#797) - timespan() was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
--  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on ``db_pconnect()``.
+-  Fixed a bug (#406) - sqlsrv DB driver not returning resource on ``db_pconnect()``.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
