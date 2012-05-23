@@ -523,12 +523,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@mssql_close($conn_id);
+		@mssql_close($this->conn_id);
 	}
 
 }
