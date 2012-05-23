@@ -672,22 +672,22 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$k = $this->protect_identifiers($k);
 			$prefix = (count($this->qb_like) === 0) ? '' : $type;
 			$v = $this->escape_like_str($v);
-
+			
 			if ($side === 'none')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}'";
+				$like_statement = "{$prefix} $k $not LIKE '{$v}'";
 			}
 			elseif ($side === 'before')
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}'";
+				$like_statement = "{$prefix} $k $not LIKE '%{$v}'";
 			}
 			elseif ($side === 'after')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}%'";
+				$like_statement = "{$prefix} $k $not LIKE '{$v}%'";
 			}
 			else
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}%'";
+				$like_statement = "{$prefix} $k $not LIKE '%{$v}%'";
 			}
 
 			// some platforms require an escape sequence definition for LIKE wildcards
