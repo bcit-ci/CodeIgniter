@@ -13,11 +13,16 @@ define('APPPATH',		PROJECT_BASE.'application/');
 define('VIEWPATH',		PROJECT_BASE.'');
 
 // Get vfsStream either via PEAR or composer
-if (file_exists('vfsStream/vfsStream.php'))
+foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
 {
-	require_once 'vfsStream/vfsStream.php';
+	if (file_exists($path.DIRECTORY_SEPARATOR.'vfsStream/vfsStream.phps'))
+	{
+		require_once 'vfsStream/vfsStream.php';
+		break;
+	}
 }
-else
+
+if ( ! class_exists('vfsStream') && file_exists(PROJECT_BASE.'vendor/autoload.php'))
 {
 	include_once PROJECT_BASE.'vendor/autoload.php';
 	class_alias('org\bovigo\vfs\vfsStream', 'vfsStream');
