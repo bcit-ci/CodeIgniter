@@ -211,8 +211,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->protect_identifiers(trim($alias));
-		
+		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->escape_identifiers(trim($alias));
+
 		$this->qb_select[] = $sql;
 		$this->qb_no_escape[] = NULL;
 
@@ -256,7 +256,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function distinct($val = TRUE)
 	{
-		$this->qb_distinct = (is_bool($val)) ? $val : TRUE;
+		$this->qb_distinct = is_bool($val) ? $val : TRUE;
 		return $this;
 	}
 
@@ -272,7 +272,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function from($from)
 	{
-		foreach ((array)$from as $val)
+		foreach ((array) $from as $val)
 		{
 			if (strpos($val, ',') !== FALSE)
 			{
@@ -1111,6 +1111,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $result;
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * "Count All Results" query
 	 *
@@ -1139,6 +1141,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$row = $result->row();
 		return (int) $row->numrows;
 	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1401,16 +1404,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table == '')
-		{
-			if ( ! isset($this->qb_from[0]))
-			{
-				return ($this->db_debug) ? $this->display_error('db_must_set_table') : FALSE;
-			}
-		}
-		else
+		if ($table != '')
 		{
 			$this->qb_from[0] = $table;
+		}
+		elseif ( ! isset($this->qb_from[0]))
+		{
+			return ($this->db_debug) ? $this->display_error('db_must_set_table') : FALSE;
 		}
 
 		return TRUE;
@@ -1600,16 +1600,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table == '')
-		{
-			if ( ! isset($this->qb_from[0]))
-			{
-				return ($this->db_debug) ? $this->display_error('db_must_set_table') : FALSE;
-			}
-		}
-		else
+		if ($table != '')
 		{
 			$this->qb_from[0] = $table;
+		}
+		elseif ( ! isset($this->qb_from[0]))
+		{
+			return ($this->db_debug) ? $this->display_error('db_must_set_table') : FALSE;
 		}
 
 		return TRUE;
@@ -1696,15 +1693,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				{
 					$index_set = TRUE;
 				}
-				else
-				{
-					$not[] = $k.'-'.$v;
-				}
 
 				$clean[$this->protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
 			}
 
-			if ($index_set == FALSE)
+			if ($index_set === FALSE)
 			{
 				return $this->display_error('db_batch_missing_index');
 			}
@@ -2102,7 +2095,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	object
 	 * @return	array
 	 */
-	public function _object_to_array($object)
+	protected function _object_to_array($object)
 	{
 		if ( ! is_object($object))
 		{
@@ -2132,7 +2125,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	object
 	 * @return	array
 	 */
-	public function _object_to_array_batch($object)
+	protected function _object_to_array_batch($object)
 	{
 		if ( ! is_object($object))
 		{
