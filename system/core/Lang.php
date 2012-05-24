@@ -65,14 +65,14 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
+	 * @param	mixed	the name of the language file to be loaded
 	 * @param	string	the language (english, etc.)
 	 * @param	bool	return loaded array of translations
 	 * @param 	bool	add suffix to $langfile
 	 * @param 	string	alternative path to look for language file
 	 * @return	mixed
 	 */
-	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
 		$langfile = str_replace('.php', '', $langfile);
 

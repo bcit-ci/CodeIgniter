@@ -242,7 +242,7 @@ class CI_DB_result {
 		$result = $this->custom_result_object($type);
 		if (count($result) === 0)
 		{
-			return $result;
+			return NULL;
 		}
 
 		if ($n != $this->current_row && isset($result[$n]))
@@ -252,6 +252,8 @@ class CI_DB_result {
 
 		return $result[$this->current_row];
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Returns a single result row - object version
@@ -263,7 +265,7 @@ class CI_DB_result {
 		$result = $this->result_object();
 		if (count($result) === 0)
 		{
-			return $result;
+			return NULL;
 		}
 
 		if ($n != $this->current_row && isset($result[$n]))
@@ -286,7 +288,7 @@ class CI_DB_result {
 		$result = $this->result_array();
 		if (count($result) === 0)
 		{
-			return $result;
+			return NULL;
 		}
 
 		if ($n != $this->current_row && isset($result[$n]))
@@ -307,7 +309,7 @@ class CI_DB_result {
 	public function first_row($type = 'object')
 	{
 		$result = $this->result($type);
-		return (count($result) === 0) ? $result : $result[0];
+		return (count($result) === 0) ? NULL : $result[0];
 	}
 
 	// --------------------------------------------------------------------
@@ -320,7 +322,7 @@ class CI_DB_result {
 	public function last_row($type = 'object')
 	{
 		$result = $this->result($type);
-		return (count($result) === 0) ? $result : $result[count($result) - 1];
+		return (count($result) === 0) ? NULL : $result[count($result) - 1];
 	}
 
 	// --------------------------------------------------------------------
@@ -335,7 +337,7 @@ class CI_DB_result {
 		$result = $this->result($type);
 		if (count($result) === 0)
 		{
-			return $result;
+			return NULL;
 		}
 
 		if (isset($result[$this->current_row + 1]))
@@ -358,7 +360,7 @@ class CI_DB_result {
 		$result = $this->result($type);
 		if (count($result) === 0)
 		{
-			return $result;
+			return NULL;
 		}
 
 		if (isset($result[$this->current_row - 1]))
