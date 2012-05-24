@@ -135,7 +135,7 @@ class CI_Input {
 	{
 		if ( ! isset($array[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		if ($xss_clean === TRUE)
@@ -659,7 +659,7 @@ class CI_Input {
 
 		if ( ! isset($this->headers[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		return ($xss_clean === TRUE)

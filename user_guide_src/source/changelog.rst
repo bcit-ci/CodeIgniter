@@ -37,6 +37,7 @@ Release Date: Not Released
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Added some more doctypes.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
+   -  Moved error templates to "application/views/errors"
 
 -  Helpers
 
