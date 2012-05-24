@@ -13,8 +13,8 @@ env:
   - DB=pdo/sqlite
 
 before_script:
-  - pyrus channel-discover pear.php-tools.net
-  - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.2.tgz
+  - pyrus channel-discover pear.bovigo.org
+  - pyrus install bovigo/vfsStream-beta
   - phpenv rehash
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
@@ -25,4 +25,4 @@ script: phpunit --configuration tests/travis/$DB.phpunit.xml
 branches:
   only:
     - develop
-    - master
+    - travis-ci
