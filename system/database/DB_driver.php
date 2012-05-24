@@ -1263,15 +1263,20 @@ class CI_DB_driver {
 		}
 
 		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/[\t ]+/', ' ', $item);
+		$item = preg_replace('/\s+/', ' ', $item);
 
 		// If the item has an alias declaration we remove it and set it aside.
 		// Basically we remove everything to the right of the first space
-		$alias = '';
-		if (strpos($item, ' ') !== FALSE)
+		if (preg_match('/^([^\s]+) (AS )*(.+)$/i', $item, $matches))
 		{
-			$alias = strstr($item, " ");
-			$item = substr($item, 0, - strlen($alias));
+			$item = $matches[1];
+
+			// Escape the alias
+			$alias = ' '.$matches[2].$this->escape_identifiers($matches[3]);
+		}
+		else
+		{
+			$alias = '';
 		}
 
 		// This is basically a bug fix for queries that use MAX, MIN, etc.
@@ -1387,7 +1392,7 @@ class CI_DB_driver {
 
 		return $item.$alias;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1395,16 +1400,13 @@ class CI_DB_driver {
 	 *
 	 * This function is used extensively by every db driver.
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	protected function _reset_select()
 	{
-	
 	}
 
 }
-
 
 /* End of file DB_driver.php */
 /* Location: ./system/database/DB_driver.php */
