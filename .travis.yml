@@ -14,7 +14,7 @@ env:
 
 before_script:
   - pyrus channel-discover pear.bovigo.org
-  - pyrus install http://pear.bovigo.org/get/vfsStream-0.12.0.tgz
+  - pyrus install -f bovigo/vfsStream-beta
   - phpenv rehash
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
