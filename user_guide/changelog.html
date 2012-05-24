@@ -80,6 +80,7 @@ Change Log
 
 <h3>Bug fixes for 2.1.1</h3>
 <ul>
+	<li>Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.</li>
 	<li>Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.</li>
 	<li>Fixed a bug - form_open() compared $action against site_url() instead of base_url()</li>
 	<li>Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.</li>
