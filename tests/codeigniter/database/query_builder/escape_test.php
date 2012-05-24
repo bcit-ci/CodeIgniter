@@ -23,13 +23,10 @@ class Escape_test extends CI_TestCase {
 	public function test_escape_like_percent_sign()
 	{
 		$string = $this->db->escape_like_str('\%foo');
-		$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%'"; 
-		$sql .= (strpos(DB_DRIVER, 'mysql') !== FALSE) ? ";" : "ESCAPE '!';";
+		$res = $this->db->select('value')->from('misc')->like('key', $string, 'after')->get();
 
-		$res = $this->db->query($sql)->result_array();
-		
 		// Check the result
-		$this->assertEquals(1, count($res));
+		$this->assertEquals(1, count($res->result_array()));
 	}
 
 	// ------------------------------------------------------------------------
@@ -40,11 +37,10 @@ class Escape_test extends CI_TestCase {
 	public function test_escape_like_backslash_sign()
 	{
 		$string = $this->db->escape_like_str('\\');
-		$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%'";
-		$sql .= (strpos(DB_DRIVER, 'mysql') !== FALSE) ? ";" : "ESCAPE '!';";
-		$res = $this->db->query($sql)->result_array();
-		
+		$res = $this->db->select('value')->from('misc')->like('key', $string, 'after')->get();
+
 		// Check the result
-		$this->assertEquals(2, count($res));
+		$this->assertEquals(2, count($res->result_array()));
 	}
+
 }
