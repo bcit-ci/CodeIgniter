@@ -255,7 +255,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function from($from)
 	{
-		foreach ((array)$from as $val)
+		foreach ((array) $from as $val)
 		{
 			if (strpos($val, ',') !== FALSE)
 			{
@@ -1647,7 +1647,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		if (strpos($table, " ") !== FALSE)
 		{
 			// if the alias is written with the AS keyword, remove it
-			$table = preg_replace('/ AS /i', ' ', $table);
+			$table = preg_replace('/\s+AS\s+/i', ' ', $table);
 
 			// Grab the alias
 			$table = trim(strrchr($table, " "));
