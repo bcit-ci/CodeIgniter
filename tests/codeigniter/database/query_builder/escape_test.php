@@ -23,7 +23,10 @@ class Escape_test extends CI_TestCase {
 	public function test_escape_like_percent_sign()
 	{
 		$string = $this->db->escape_like_str('\%foo');
-		$res = $this->db->select('value')->from('misc')->like('key', $string, 'after')->get();
+		$this->db->select('value');
+		$this->db->from('misc');
+		$this->db->like('key', $string, 'after');
+		$res = $this->db->get();
 
 		// Check the result
 		$this->assertEquals(1, count($res->result_array()));
@@ -38,6 +41,10 @@ class Escape_test extends CI_TestCase {
 	{
 		$string = $this->db->escape_like_str('\\');
 		$res = $this->db->select('value')->from('misc')->like('key', $string, 'after')->get();
+		$this->db->select('value');
+		$this->db->from('misc');
+		$this->db->like('key', $string, 'after');
+		$res = $this->db->get();
 
 		// Check the result
 		$this->assertEquals(2, count($res->result_array()));
