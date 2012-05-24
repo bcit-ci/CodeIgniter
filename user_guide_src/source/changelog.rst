@@ -75,6 +75,7 @@ Release Date: Not Released
 	 -  Added db_set_charset() support.
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
 	 -  Added boolean data type support in escape().
+	 -  Added update_batch() support.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
@@ -218,6 +219,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#44, #110) - :doc:`Upload library <libraries/file_uploading>`'s clean_file_name() method didn't clear '!' and '#' characters.
 -  Fixed a bug (#121) - ``CI_DB_result::row()`` returned an array when there's no actual result to be returned.
 -  Fixed a bug (#319) - SQLSRV's affected_rows() method failed due to a scrollable cursor being created for write-type queries.
+-  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
 
 Version 2.1.1
 =============
