@@ -15,7 +15,7 @@ define('VIEWPATH',		PROJECT_BASE.'');
 // Get vfsStream either via PEAR or composer
 foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
 {
-	if (file_exists($path.DIRECTORY_SEPARATOR.'vfsStream/vfsStream.phps'))
+	if (file_exists($path.DIRECTORY_SEPARATOR.'vfsStream/vfsStream.php'))
 	{
 		require_once 'vfsStream/vfsStream.php';
 		break;
