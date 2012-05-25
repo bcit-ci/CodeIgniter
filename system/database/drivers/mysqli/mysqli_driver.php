@@ -47,7 +47,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	// clause and character used for LIKE escape sequences - not used in MySQL
 	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '';
+	protected $_like_escape_chr = '\\';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -291,7 +291,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;

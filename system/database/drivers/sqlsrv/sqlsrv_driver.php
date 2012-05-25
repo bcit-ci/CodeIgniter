@@ -132,11 +132,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id,
-					$sql,
-					NULL,
-					array('Scrollable'=> SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE)
-			);
+		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+			? sqlsrv_query($this->conn_id, $sql)
+			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
 
 	// --------------------------------------------------------------------
@@ -237,7 +235,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return sqlrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------

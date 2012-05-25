@@ -88,6 +88,23 @@ class Mock_Database_Schema_Skeleton {
 		));
 		static::$forge->add_key('id', TRUE);
 		static::$forge->create_table('job', (strpos(static::$driver, 'pgsql') === FALSE));
+
+		// Misc Table
+		static::$forge->add_field(array(
+			'id' => array(
+				'type' => 'INTEGER',
+				'constraint' => 3,
+			),
+			'key' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 40,
+			),
+			'value' => array(
+				'type' => 'TEXT',
+			),
+		));
+		static::$forge->add_key('id', TRUE);
+		static::$forge->create_table('misc', (strpos(static::$driver, 'pgsql') === FALSE));
 	}
 
 	/**
@@ -110,6 +127,10 @@ class Mock_Database_Schema_Skeleton {
 				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
     			array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
 			    array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician'),
+			),
+			'misc' => array(
+				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx'), 
+				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%'),
 			),
 		);
 

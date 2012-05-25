@@ -79,13 +79,13 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
-		if ($this->pdodriver == 'mysql')
+		if ($this->pdodriver === 'mysql')
 		{
 			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '';
+			$this->_like_escape_chr = '\\';
 		}
-		elseif ($this->pdodriver == 'odbc')
+		elseif ($this->pdodriver === 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 		}
