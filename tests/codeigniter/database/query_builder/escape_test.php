@@ -13,6 +13,9 @@ class Escape_test extends CI_TestCase {
 
 		Mock_Database_Schema_Skeleton::create_tables();
 		Mock_Database_Schema_Skeleton::create_data();
+
+		$this->pre = (strpos(DB_DRIVER, 'pgsql') === FALSE) ? '`' : '"';
+		$this->esc = (strpos(DB_DRIVER, 'mysql') === FALSE) ? '!' : '';
 	}
 
 	// ------------------------------------------------------------------------
@@ -22,15 +25,14 @@ class Escape_test extends CI_TestCase {
 	 */
 	public function test_escape_like_percent_sign()
 	{
-		$string = '\%foo'
-;
-		$this->db->select('value');
-		$this->db->from('misc');
-		$this->db->like('key', $string, 'after');
-		$res = $this->db->get();
+		$string = $this->db->escape_like_str('\%foo');
 
+		$sql = "SELECT {$this->pre}value{$this->pre} FROM {$this->pre}misc{$this->pre} WHERE {$this->pre}key{$this->pre} LIKE '$string%' ESCAPE '$this->esc';";
+
+		$res = $this->db->query($sql)->result_array();
+		
 		// Check the result
-		$this->assertEquals(1, count($res->result_array()));
+		$this->assertEquals(1, count($res));
 	}
 
 	// ------------------------------------------------------------------------
@@ -40,15 +42,14 @@ class Escape_test extends CI_TestCase {
 	 */
 	public function test_escape_like_backslash_sign()
 	{
-		$string = '\\';
+		$string = $this->db->escape_like_str('\\');
 
-		$this->db->select('value');
-		$this->db->from('misc');
-		$this->db->like('key', $string, 'after');
-		$res = $this->db->get();
+		$sql = "SELECT {$this->pre}value{$this->pre} FROM {$this->pre}misc{$this->pre} WHERE {$this->pre}key{$this->pre} LIKE '$string%' ESCAPE '$this->esc';";
 
+		$res = $this->db->query($sql)->result_array();
+		
 		// Check the result
-		$this->assertEquals(2, count($res->result_array()));
+		$this->assertEquals(2, count($res));
 	}
 
 }
