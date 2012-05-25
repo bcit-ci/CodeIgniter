@@ -212,7 +212,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		$out = rtrim($out).$newline;
 
 		// Next blast through the result array and build out the rows
-		foreach ($query->result_array() as $row)
+		while ($row = $query->unbuffered_row('array'))
 		{
 			foreach ($row as $item)
 			{
@@ -258,7 +258,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 
 		// Generate the result
 		$xml = '<'.$root.'>'.$newline;
-		foreach ($query->result_array() as $row)
+		while ($row = $query->unbuffered_row())
 		{
 			$xml .= $tab.'<'.$element.'>'.$newline;
 			foreach ($row as $key => $val)
