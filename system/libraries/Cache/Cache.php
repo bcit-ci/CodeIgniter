@@ -122,7 +122,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function get($id)
 	{
-		if( $this->save_queries )
+		if ($this->save_queries)
 			$this->queries[] = "get( '{$id}' )";
 
 		// Start the Query Timer
@@ -133,7 +133,7 @@ class CI_Cache extends CI_Driver_Library {
 		// Stop and aggregate the query time results
 		$time_end = list($em, $es) = explode(' ', microtime());
 
-		if ($this->save_queries == TRUE)
+		if ($this->save_queries)
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
 
 		$this->query_count++;
@@ -153,7 +153,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		if( $this->save_queries )
+		if ($this->save_queries)
 			$this->queries[] = "save( '{$id}' )";
 
 		// Start the Query Timer
@@ -164,7 +164,7 @@ class CI_Cache extends CI_Driver_Library {
 		// Stop and aggregate the query time results
 		$time_end = list($em, $es) = explode(' ', microtime());
 
-		if ($this->save_queries == TRUE)
+		if ($this->save_queries)
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
 
 		$this->query_count++;
@@ -182,7 +182,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function delete($id)
 	{
-		if( $this->save_queries )
+		if ($this->save_queries)
 			$this->queries[] = "delete( '{$id}' )";
 
 		// Start the Query Timer
@@ -193,7 +193,7 @@ class CI_Cache extends CI_Driver_Library {
 		// Stop and aggregate the query time results
 		$time_end = list($em, $es) = explode(' ', microtime());
 
-		if ($this->save_queries == TRUE)
+		if ($this->save_queries)
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
 
 		$this->query_count++;
