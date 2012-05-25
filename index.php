@@ -52,20 +52,23 @@
  * By default development will show errors but testing and live will hide them.
  */
 
-if (defined('ENVIRONMENT'))
+// By default show all except notifications, deprecated and strict errors
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
+
+// Show or hide errors depending on current environment
+switch (ENVIRONMENT)
 {
-	switch (ENVIRONMENT)
-	{
-		case 'development':
-			error_reporting(-1);
-		break;
-		case 'testing':
-		case 'production':
-			error_reporting(0);
-		break;
-		default:
-			exit('The application environment is not set correctly.');
-	}
+	case 'development':
+		ini_set('display_errors', 1);
+	break;
+
+	case 'testing':
+	case 'production':
+		ini_set('display_errors', 0);
+	break;
+
+	default:
+		exit('The application environment is not set correctly.');
 }
 
 /*
