@@ -62,6 +62,7 @@ class CI_Upload {
 	public $xss_clean		= FALSE;
 	public $temp_prefix		= 'temp_file_';
 	public $client_name		= '';
+	public $convert_dots		= TRUE;
 
 	protected $_file_name_override	= '';
 
@@ -117,7 +118,8 @@ class CI_Upload {
 					'remove_spaces'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
-					'client_name'			=> ''
+					'client_name'			=> '',
+					'convert_dots'			=> TRUE
 				);
 
 
@@ -960,25 +962,19 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
+		if (strpos($filename, '.') === FALSE)
 		{
 			return $filename;
 		}
-
+		
 		$parts		= explode('.', $filename);
 		$ext		= array_pop($parts);
-		$filename	= array_shift($parts);
-
-		foreach ($parts as $part)
+		
+		if ($this->convert_dots === TRUE)
 		{
-			if ( ! in_array(strtolower($part), $this->allowed_types) OR $this->mimes_types(strtolower($part)) === FALSE)
-			{
-				$filename .= '.'.$part.'_';
-			}
-			else
-			{
-				$filename .= '.'.$part;
-			}
+			$filename = implode('_', $parts);
+		} else {
+			$filename = implode('.', $parts);
 		}
 
 		return $filename.'.'.$ext;
