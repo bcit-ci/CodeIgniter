@@ -67,6 +67,12 @@ class CI_Output {
 	public $mime_types =	array();
 
 	/**
+	 * Mime type of the current page
+	 *
+	 * @var string
+	 */
+	protected $mime_type		= 'text/html';
+	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
@@ -227,6 +233,8 @@ class CI_Output {
 			}
 		}
 
+		$this->mime_type = $mime_type;
+		
 		$header = 'Content-Type: '.$mime_type;
 
 		$this->headers[] = array($header, TRUE);
@@ -335,6 +343,9 @@ class CI_Output {
 	 */
 	public function _display($output = '')
 	{
+		
+
+
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
@@ -377,17 +388,7 @@ class CI_Output {
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
-
-		// --------------------------------------------------------------------
-
-		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE
-			&& extension_loaded('zlib')
-			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
-		{
-			ob_start('ob_gzhandler');
-		}
-
+		
 		// --------------------------------------------------------------------
 
 		// Are there any server headers to send?
@@ -399,18 +400,46 @@ class CI_Output {
 			}
 		}
 
+
 		// --------------------------------------------------------------------
 
-		// Does the $CI object exist?
-		// If not we know we are dealing with a cache file so we'll
-		// simply echo out the data and exit.
-		if ( ! isset($CI))
+		// Is compression requested?
+		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE
+			&& extension_loaded('zlib')
+			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
-			echo $output;
-			log_message('debug', 'Final output sent to browser');
+			if (isset($CI))
+			{
+				ob_start('ob_gzhandler');
+			}
+			else
+			{
+				// If $CI doesn't exist then we know we're serving up
+				// a cached file.  Since cached files are already gzip
+				// encoded, 
+				ini_set('zlib.output_compression', 'Off');
+				header('Content-Encoding: gzip');
+				header('Content-Length: '.strlen($output));
+				
+				// Simply echo the gzipped content straight from the
+				// cache file and exit.
+				echo $output;
+				log_message('debug', 'Final (compressed) output sent to browser');
+				log_message('debug', 'Total execution time: '.$elapsed);
+				return TRUE;
+			}
+		}
+		elseif ( ! isset($CI))
+		{
+			// If output compression is not enabled or supported
+			// yet we are serving up a compressed cached file, we need
+			// to decompress the file first before serving it.
+			echo gzinflate(substr($output, 10, -8)); 
+			log_message('debug', 'Final (uncompressed) output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
 			return TRUE;
 		}
+
 
 		// --------------------------------------------------------------------
 
@@ -484,7 +513,7 @@ class CI_Output {
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$output);
+			fwrite($fp, $expire.'TS--->'.$this->mime_type.'MT--->'.gzencode($output, 6));
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -496,6 +525,9 @@ class CI_Output {
 		@chmod($cache_path, FILE_WRITE_MODE);
 
 		log_message('debug', 'Cache file written: '.$cache_path);
+
+		// Send HTTP cache-control headers to browser to match file cache settings.
+		$this->set_cache_header($_SERVER['REQUEST_TIME'],$expire);
 	}
 
 	// --------------------------------------------------------------------
@@ -522,30 +554,73 @@ class CI_Output {
 
 		flock($fp, LOCK_SH);
 
-		$cache = (filesize($filepath) > 0) ? fread($fp, filesize($filepath)) : '';
+		$cache = (filesize($filepath) > 0)
+			? fread($fp, filesize($filepath))
+			: '';
 
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		// Strip out the embedded timestamp
-		if ( ! preg_match('/(\d+TS--->)/', $cache, $match))
+		// Strip out the embedded timestamp and mime-type
+		if ( ! preg_match('/(\d+TS--->)(.*MT--->)/', $cache, $match))
 		{
 			return FALSE;
 		}
+		
+		$last_modified = filemtime($cache_path);
+		$expire = trim(str_replace('TS--->', '', $match[1]));
 
-		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
+		// Has the file expired?
+		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
 		{
+			// If so we'll delete it.
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
 		}
+		else
+		{	
+			// Or else send the HTTP cache control headers.
+			$this->set_cache_header($last_modified,$expire);
+		}
+
+		// Set the HTTP content-type header
+		$this->set_content_type(trim(str_replace('MT--->', '', $match[2])));
 
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
+
+
+	// --------------------------------------------------------------------
+	/**
+	 * Set the HTTP headers to match the server-side file cache settings
+	 * in order to reduce bandwidth.
+	 *
+	 * @param 	int		timestamp of when the page was last modified
+	 * @param 	int		timestamp of when should the requested page expire from cache
+	 * @return	void
+	 */
+	public function set_cache_header($last_modified,$expiration)
+	{
+		$max_age = $expiration - $_SERVER['REQUEST_TIME'];
+
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])))
+		{
+			$this->set_status_header(304);
+			exit;
+		}
+		else
+		{
+			header('Pragma: public'); 
+			header('Cache-Control: max-age=' . $max_age . ', public');
+			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
+			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
+		}
+	}
+
 
 }
 
