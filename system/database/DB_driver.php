@@ -742,6 +742,35 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * "Count All" query
+	 *
+	 * Generates a platform-specific query string that counts all records in
+	 * the specified database
+	 *
+	 * @param	string
+	 * @return	int
+	 */
+	public function count_all($table = '')
+	{
+		if ($table == '')
+		{
+			return 0;
+		}
+
+		$query = $this->query($this->_count_string.$this->escape_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		if ($query->num_rows() == 0)
+		{
+			return 0;
+		}
+
+		$query = $query->row();
+		$this->_reset_select();
+		return (int) $query->numrows;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Returns an array of table names
 	 *
 	 * @return	array
@@ -1395,8 +1424,7 @@ abstract class CI_DB_driver {
 
 	/**
 	 * Dummy method that allows Query Builder class to be disabled
-	 *
-	 * This function is used extensively by every db driver.
+	 * and keep count_all() working.
 	 *
 	 * @return	void
 	 */
