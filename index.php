@@ -174,17 +174,19 @@ if (defined('ENVIRONMENT'))
 		chdir(dirname(__FILE__));
 	}
 
-	if (realpath($system_path) !== FALSE)
+	// Set the absolute path to the system folder
+	if (($_systempath = realpath($system_path)) !== FALSE)
 	{
-		$system_path = realpath($system_path).'/';
+		$system_path = $_systempath;
 	}
 
-	// ensure there's a trailing slash
+	// Ensure there's a trailing slash
 	$system_path = rtrim($system_path, '/').'/';
 
 	// Is the system path correct?
 	if ( ! is_dir($system_path))
 	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
 	}
 
@@ -212,13 +214,22 @@ if (defined('ENVIRONMENT'))
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
-		define('APPPATH', $application_folder.'/');
+		// Set the absolute path to the application folder
+		if (($_appath = realpath($application_folder)) !== FALSE)
+		{
+			$application_folder = $_appath;
+		}
+
+		// Ensure there's a trailing slash
+		$application_folder = rtrim($application_folder, '/').'/';
+
+		define('APPPATH', str_replace('\\', '/', $application_folder));
 	}
 	else
 	{
 		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
@@ -228,17 +239,17 @@ if (defined('ENVIRONMENT'))
 	// The path to the "views" folder
 	if (is_dir($view_folder))
 	{
-		define ('VIEWPATH', $view_folder .'/');
+		define('VIEWPATH', $view_folder.'/');
 	}
 	else
 	{
 		if ( ! is_dir(APPPATH.'views/'))
 		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
 
-		define ('VIEWPATH', APPPATH.'views/' );
+		define('VIEWPATH', APPPATH.'views/');
 	}
 
 /*
