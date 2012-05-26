@@ -245,30 +245,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$result = $this->conn_id->querySingle($this->_count_string.$this->protect_identifiers('numrows')
-							.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-
-		return empty($result) ? 0 : (int) $result;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
