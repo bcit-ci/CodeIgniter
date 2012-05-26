@@ -370,6 +370,24 @@ echo doctype('html4-trans');<br />
 </table>
 
 
+<h2><a name="progress"></a>progress()</h2>
+<p>Lets your create an html5 progress element.</p>
+<code>
+	&lt;progress value="25"&gt;25%&lt;/progress&gt;
+</code>
+<p>The tag has 3 parameters:</p>
+<code>
+	progress(<var>value of the progress meter</var>, <var>the content</var>, <var>extra attributes</var>);
+</code>
+<p>The first parameter is the value, or an array of attributes. The second is the content data, and the third parameter can contain a string of attributes you would like added to the progress bar.</p>
+<code>
+	echo progress(50, '50%', 'max="100"');
+</code>
+<p>Would produce: &lt;progress value="50" max="100"&gt;50%&lt;/progress&gt;</p>
+<code>
+	echo progress(array('value'=>'0.75', 'step'=>'0.1', 'min'=>'0', 'max'=>1), 'we are at 75%');
+</code>
+<p>Would produce: &lt;progress value="75" step="0.1" min="0" max="1"&gt;we are at 75%&lt;/progress&gt;</p>
 
 
 </div>
