@@ -1272,7 +1272,7 @@ class CI_DB_driver {
 			$item = $matches[1];
 
 			// Escape the alias
-			$alias = ' '.$matches[2].$this->escape_identifiers($matches[3]);
+			$alias = ' '.$matches[2].$this->_escape_identifiers($matches[3]);
 		}
 		else
 		{
