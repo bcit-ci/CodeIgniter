@@ -291,6 +291,26 @@ class Table_test extends CI_TestCase {
 		);
 	}
 	
-	// Test main generate method
-	// --------------------------------------------------------------------
+	function test_generate()
+	{
+		// Prepare the data
+		$data = array(
+			array('Name', 'Color', 'Size'),
+			array('Fred', 'Blue', 'Small'),
+			array('Mary', 'Red', 'Large'),
+			array('John', 'Green', 'Medium')	
+		);
+
+		$table = $this->table->generate($data);
+
+		// Test the table header
+		$this->assertTrue(strpos($table, '<th>Name</th>') !== FALSE);
+		$this->assertTrue(strpos($table, '<th>Color</th>') !== FALSE);
+		$this->assertTrue(strpos($table, '<th>Size</th>') !== FALSE);
+
+		// Test the first entry
+		$this->assertTrue(strpos($table, '<td>Fred</td>') !== FALSE);
+		$this->assertTrue(strpos($table, '<td>Blue</td>') !== FALSE);
+		$this->assertTrue(strpos($table, '<td>Small</td>') !== FALSE);
+	}
 }
