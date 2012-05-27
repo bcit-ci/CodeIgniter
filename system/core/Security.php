@@ -191,6 +191,7 @@ class CI_Security {
 	 * Set Cross Site Request Forgery Protection Cookie
 	 *
 	 * @return	object
+	 * @codeCoverageIgnore
 	 */
 	public function csrf_set_cookie()
 	{

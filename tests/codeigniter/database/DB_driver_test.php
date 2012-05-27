@@ -2,8 +2,6 @@
 
 class DB_driver_test extends CI_TestCase {
 
-	// ------------------------------------------------------------------------
-
 	public function test_initialize()
 	{
 		$config = Mock_Database_DB::config(DB_DRIVER);
@@ -32,5 +30,5 @@ class DB_driver_test extends CI_TestCase {
 	{
 		return new Mock_Database_Drivers_Postgre($config);
 	}
-	
+
 }
