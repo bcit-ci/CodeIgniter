@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -24,8 +24,6 @@
  * @since		Version 1.3.1
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Unit Testing Class
@@ -60,7 +58,7 @@ class CI_Unit_test {
 							'notes'
 						);
 
-		log_message('debug', "Unit Testing Class Initialized");
+		log_message('debug', 'Unit Testing Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -75,7 +73,7 @@ class CI_Unit_test {
 	 */
 	public function set_test_items($items = array())
 	{
-		if ( ! empty($items) AND is_array($items))
+		if ( ! empty($items) && is_array($items))
 		{
 			$this->_test_items_visible = $items;
 		}
@@ -102,8 +100,8 @@ class CI_Unit_test {
 
 		if (in_array($expected, array('is_object', 'is_string', 'is_bool', 'is_true', 'is_false', 'is_int', 'is_numeric', 'is_float', 'is_double', 'is_array', 'is_null'), TRUE))
 		{
-			$expected = str_replace('is_float', 'is_double', $expected);
-			$result = ($expected($test)) ? TRUE : FALSE;
+			$expected = str_replace('is_double', 'is_float', $expected);
+			$result = $expected($test);
 			$extype = str_replace(array('true', 'false'), 'bool', str_replace('is_', '', $expected));
 		}
 		else
@@ -186,7 +184,7 @@ class CI_Unit_test {
 	 * Causes the evaluation to use === rather than ==
 	 *
 	 * @param	bool
-	 * @return	null
+	 * @return	void
 	 */
 	public function use_strict($state = TRUE)
 	{
@@ -201,7 +199,7 @@ class CI_Unit_test {
 	 * Enables/disables unit testing
 	 *
 	 * @param	bool
-	 * @return	null
+	 * @return	void
 	 */
 	public function active($state = TRUE)
 	{
@@ -311,10 +309,10 @@ class CI_Unit_test {
 	 */
 	protected function _default_template()
 	{
-		$this->_template = "\n".'<table style="width:100%; font-size:small; margin:10px 0; border-collapse:collapse; border:1px solid #CCC;">{rows}'."\n".'</table>';
+		$this->_template = "\n".'<table style="width:100%; font-size:small; margin:10px 0; border-collapse:collapse; border:1px solid #CCC;">{rows}'."\n</table>";
 
 		$this->_template_rows = "\n\t<tr>\n\t\t".'<th style="text-align: left; border-bottom:1px solid #CCC;">{item}</th>'
-					. "\n\t\t".'<td style="border-bottom:1px solid #CCC;">{result}</td>'."\n\t</tr>";
+					."\n\t\t".'<td style="border-bottom:1px solid #CCC;">{result}</td>'."\n\t</tr>";
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +331,7 @@ class CI_Unit_test {
 			return;
 		}
 
-		if (is_null($this->_template) OR ! preg_match("/\{rows\}(.*?)\{\/rows\}/si", $this->_template, $match))
+		if (is_null($this->_template) OR ! preg_match('/\{rows\}(.*?)\{\/rows\}/si', $this->_template, $match))
 		{
 			$this->_default_template();
 			return;
@@ -344,7 +342,6 @@ class CI_Unit_test {
 	}
 
 }
-// END Unit_test Class
 
 /**
  * Helper functions to test boolean true/false
@@ -353,13 +350,12 @@ class CI_Unit_test {
  */
 function is_true($test)
 {
-	return (is_bool($test) AND $test === TRUE) ? TRUE : FALSE;
+	return ($test === TRUE);
 }
 function is_false($test)
 {
-	return (is_bool($test) AND $test === FALSE) ? TRUE : FALSE;
+	return ($test === FALSE);
 }
-
 
 /* End of file Unit_test.php */
 /* Location: ./system/libraries/Unit_test.php */

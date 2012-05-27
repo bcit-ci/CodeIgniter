@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Logging Class
  *
@@ -38,16 +36,59 @@
  */
 class CI_Log {
 
+	/**
+	 * Path to save log files
+	 *
+	 * @var string
+	 */
 	protected $_log_path;
-	protected $_threshold		= 1;
-	protected $_threshold_max	= 0;
-	protected $_threshold_array	= array();
-	protected $_date_fmt		= 'Y-m-d H:i:s';
-	protected $_enabled			= TRUE;
-	protected $_levels			= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
 	/**
-	 * Constructor
+	 * Level of logging
+	 *
+	 * @var int
+	 */
+	protected $_threshold		= 1;
+
+	/**
+	 * Highest level of logging
+	 *
+	 * @var int
+	 */
+	protected $_threshold_max	= 0;
+
+	/**
+	 * Array of threshold levels to log
+	 *
+	 * @var array
+	 */
+	protected $_threshold_array	= array();
+
+	/**
+	 * Format of timestamp for log files
+	 *
+	 * @var string
+	 */
+	protected $_date_fmt		= 'Y-m-d H:i:s';
+
+	/**
+	 * Whether or not the logger can write to the log files
+	 *
+	 * @var bool
+	 */
+	protected $_enabled		= TRUE;
+
+	/**
+	 * Predefined logging levels
+	 *
+	 * @var array
+	 */
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+
+	/**
+	 * Initialize Logging class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -98,7 +139,7 @@ class CI_Log {
 		$level = strtoupper($level);
 
 		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
-			AND ! isset($this->_threshold_array[$this->_levels[$level]]))
+			&& ! isset($this->_threshold_array[$this->_levels[$level]]))
 		{
 			return FALSE;
 		}
@@ -110,7 +151,7 @@ class CI_Log {
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= "<"."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			$message .= '<'."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
@@ -118,22 +159,22 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
+		$message .= $level.' '.($level === 'INFO' ? ' -' : '-').' '.date($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
 		fwrite($fp, $message);
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		if (isset($newfile) AND $newfile === TRUE)
+		if (isset($newfile) && $newfile === TRUE)
 		{
 			@chmod($filepath, FILE_WRITE_MODE);
 		}
+
 		return TRUE;
 	}
 
 }
-// END Log Class
 
 /* End of file Log.php */
 /* Location: ./system/libraries/Log.php */

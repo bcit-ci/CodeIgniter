@@ -1,13 +1,13 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Academic Free License version 3.0
- * 
+ *
  * This source file is subject to the Academic Free License (AFL 3.0) that is
  * bundled with this package in the files license_afl.txt / license_afl.rst.
  * It is also available through the world wide web at this URL:
@@ -35,19 +35,22 @@
 <p>Filename: <?php echo $filepath; ?></p>
 <p>Line Number: <?php echo $line; ?></p>
 
-<?php if(defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
-	
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
+
 	<p>Backtrace: </p>
 	<?php foreach(debug_backtrace() as $error): ?>
-	
-		<?php if(isset($error['file']) &&  ! stristr($error['file'], SYSDIR)): ?>
+
+		<?php if(isset($error['file']) &&
+		         strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+
 			<p style="margin-left:10px">
 			File: <?php echo $error['file'] ?><br />
 			Line: <?php echo $error['line'] ?><br />
 			Function: <?php echo $error['function'] ?>
 			</p>
+
 		<?php endif ?>
-	
+
 	<?php endforeach ?></p>
 
 <?php endif ?>

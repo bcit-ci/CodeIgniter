@@ -25,7 +25,7 @@ The segment numbers would be this:
 #. metro
 #. crime_is_up
 
-By default the function returns FALSE (boolean) if the segment does not
+By default the function returns NULL if the segment does not
 exist. There is an optional second parameter that permits you to set
 your own default value if the segment is missing. For example, this
 would tell the function to return the number zero in the event of

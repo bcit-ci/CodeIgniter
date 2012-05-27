@@ -50,7 +50,7 @@ Protecting identifiers
 **********************
 
 In many databases it is advisable to protect table and field names - for
-example with backticks in MySQL. **Active Record queries are
+example with backticks in MySQL. **Query Builder queries are
 automatically protected**, however if you need to manually protect an
 identifier you can use::
 
@@ -112,3 +112,20 @@ The secondary benefit of using binds is that the values are
 automatically escaped, producing safer queries. You don't have to
 remember to manually escape data; the engine does it automatically for
 you.
+
+***************
+Handling Errors
+***************
+
+$this->db->error();
+===================
+
+If you need to get the last error that has occured, the error() method
+will return an array containing its code and message. Here's a quick
+example::
+
+	if ( ! $this->db->simple_query('SELECT `example_field` FROM `example_table`'))
+	{
+		$error = $this->db->error(); // Has keys 'code' and 'message'
+	}
+

@@ -41,7 +41,7 @@ CodeIgniter Uses M-V-C
 CodeIgniter uses the Model-View-Controller approach, which allows great
 separation between logic and presentation. This is particularly good for
 projects in which designers are working with your template files, as the
-code these file contain will be minimized. We describe MVC in more
+code these files contain will be minimized. We describe MVC in more
 detail on its own page.
 
 CodeIgniter Generates Clean URLs
