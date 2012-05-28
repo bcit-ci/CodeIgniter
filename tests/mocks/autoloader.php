@@ -22,7 +22,7 @@ function autoload($class)
 	);
 
 	$ci_libraries = array(
-		'Calendar', 'Cart', 'Driver',
+		'Calendar', 'Cart', 'Driver_Library',
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
 		'Log', 'Migration', 'Pagination',
@@ -50,7 +50,7 @@ function autoload($class)
 		elseif (in_array($subclass, $ci_libraries))
 		{
 			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR;
-			$class = $subclass;
+			$class = ($subclass == 'Driver_Library') ? 'Driver' : $subclass;
 		}
 		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) == 3)
 		{
