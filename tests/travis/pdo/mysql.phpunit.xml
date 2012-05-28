@@ -17,10 +17,9 @@
 			<directory suffix="test.php">../../codeigniter</directory>
 		</testsuite>
 	</testsuites>
-	<filters>
-		<blacklist>
-			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
-			<directory suffix=".php">PHP_LIBDIR</directory>
-		</blacklist>
-	</filters>
+	<filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../../../system</directory>
+        </whitelist>
+	</filter>
 </phpunit>
