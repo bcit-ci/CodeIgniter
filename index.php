@@ -52,18 +52,16 @@
  * By default development will show errors but testing and live will hide them.
  */
 
-// By default show all except notifications, deprecated and strict errors
-error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
-
-// Show or hide errors depending on current environment
 switch (ENVIRONMENT)
 {
 	case 'development':
+		error_reporting(E_ALL);
 		ini_set('display_errors', 1);
 	break;
 
 	case 'testing':
 	case 'production':
+		error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
 		ini_set('display_errors', 0);
 	break;
 
