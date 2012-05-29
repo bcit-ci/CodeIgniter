@@ -219,7 +219,7 @@ class CI_Pagination {
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
 			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
-	 		$data=generate_data_link($first_url);
+	 		$data=$this->generate_data_link($first_url);
 			$output .= $this->first_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$this->first_link.'</'.$this->tag_anchor_type.'>'.$this->first_tag_close;
 		} 
 
@@ -230,12 +230,12 @@ class CI_Pagination {
 
 			if ($i == $base_page && $this->first_url != '')
 			{
-				$data=generate_data_link($this->first_url);
+				$data=$this->generate_data_link($this->first_url);
 				$output .= $this->prev_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$this->prev_link.'</'.$this->tag_anchor_type.'>'.$this->prev_tag_close;
 			}
 			else
 			{
-				$data=generate_data_link($this->base_url.$i);
+				$data=$this->generate_data_link($this->base_url.$i);
 				$i = ($i == $base_page) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$this->prev_link.'</'.$this->tag_anchor_type.'>'.$this->prev_tag_close;
 			}
@@ -262,13 +262,13 @@ class CI_Pagination {
 
 						if ($n == '' && $this->first_url != '')
 						{
-							$data=generate_data_link($this->first_url);
+							$data=$this->generate_data_link($this->first_url);
 							$output .= $this->num_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$loop.'</'.$this->tag_anchor_type.'>'.$this->num_tag_close;
 						}
 						else
 						{
 							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
-							$data=generate_data_link($this->base_url.$n);
+							$data=$this->generate_data_link($this->base_url.$n);
 							$output .= $this->num_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$loop.'</'.$this->tag_anchor_type.'>'.$this->num_tag_close;
 						}
 					}
@@ -280,7 +280,7 @@ class CI_Pagination {
 		if ($this->next_link !== FALSE && $this->cur_page < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
-			$data=generate_data_link($this->base_url.$this->prefix.$i.$this->suffix);
+			$data=$this->generate_data_link($this->base_url.$this->prefix.$i.$this->suffix);
 			$output .= $this->next_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$this->next_link.'</'.$this->tag_anchor_type.'>'.$this->next_tag_close;
 		}
 
@@ -288,7 +288,7 @@ class CI_Pagination {
 		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links) < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
-			$data=generate_data_link($this->base_url.$this->prefix.$i.$this->suffix);
+			$data=$this->generate_data_link($this->base_url.$this->prefix.$i.$this->suffix);
 			$output .= $this->last_tag_open.'<'.$this->tag_anchor_type.' '.$data['js'].' '.$this->anchor_class.' '.$data['href'].'>'.$this->last_link.'</'.$this->tag_anchor_type.'>'.$this->last_tag_close;
 		}
 
