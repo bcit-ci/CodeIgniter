@@ -69,7 +69,7 @@ Once loaded you can generate a captcha like this
 		'img_width'  => '150',     
 		'img_height' => 30,     
 		'expiration' => 7200,     
-		'colors' => 'colors' => array(
+		'colors' => array(
 			'bg_color' => array(255, 255, 255),
                         'border_color' => array(255, 255, 255),
                         'text_color' => array(153, 153, 204),
