@@ -68,7 +68,6 @@ Once loaded you can generate a captcha like this
 		'font_path'  => './path/to/fonts/texb.ttf',     
 		'img_width'  => '150',     
 		'img_height' => 30,     
-		'expiration' => 7200,     
 		'colors' => array(
 			'bg_color' => array(255, 255, 255),
                         'border_color' => array(255, 255, 255),
@@ -76,6 +75,7 @@ Once loaded you can generate a captcha like this
                         'grid_color' => array(190, 190, 255),
                         'shadow_color' => array(255, 240, 240)
 		),     
+		'expiration' => 7200     
 	);
 
 	$cap = create_captcha($vals); echo $cap['image'];
