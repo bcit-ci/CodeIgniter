@@ -130,7 +130,8 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Assign colors
 		// -----------------------------------
-	        if(!is_array($colors)){
+	        if(!is_array($colors))
+	        {
 	            $colors = array(
 	                'bg_color' => array(255,255,255),
 	                'border_color' => array(153,102,102),
