@@ -62,14 +62,14 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $options = array();
 
 	/**
-	 * Initialize the pdo driver 
+	 * Initialize the pdo driver
 	 *
 	 * @param	array
 	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
-		
+
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 
 		$this->trans_enabled = FALSE;
@@ -86,7 +86,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	public function db_connect()
 	{
 		$this->connect();
-		
+
 		return $this->conn_id;
 	}
 
@@ -99,7 +99,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$this->options[PDO::ATTR_PERSISTENT] = TRUE;	
+		$this->options[PDO::ATTR_PERSISTENT] = TRUE;
 		$this->connect();
 
 		return $this->conn_id;
@@ -306,7 +306,40 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		return (int) $row->numrows;
 	}
-	 
+
+	/**
+	 * Show table query
+	 *
+	 * Generates a platform-specific query string so that the table names can be fetched
+	 *
+	 * @param	bool
+	 * @return	string
+	 */
+	protected function _list_tables($prefix_limit = FALSE)
+	{
+		if ($this->pdodriver == 'pgsql')
+		{
+			// Analog function to show all tables in postgre
+			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
+		}
+		elseif ($this->pdodriver == 'sqlite')
+		{
+			// Analog function to show all tables in sqlite
+			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+		}
+		else
+		{
+			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
+		}
+
+		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		{
+			return FALSE;
+		}
+
+		return $sql;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
