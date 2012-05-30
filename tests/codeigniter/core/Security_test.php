@@ -70,4 +70,36 @@ class Security_test extends CI_TestCase {
 
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_string);
 	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_xss_hash()
+	{
+		$this->assertEmpty($this->security->xss_hash);
+
+		// Perform hash
+		$this->security->xss_hash();
+
+		$this->assertTrue(preg_match('#^[0-9a-f]{32}$#iS', $this->security->xss_hash) === 1);
+	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_entity_decode()
+	{
+		$encoded = '&lt;div&gt;Hello &lt;b&gt;Booya&lt;/b&gt;&lt;/div&gt;';
+		$decoded = $this->security->entity_decode($encoded);
+
+		$this->assertEquals('<div>Hello <b>Booya</b></div>', $decoded);
+	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_sanitize_filename()
+	{
+		$filename = './<!--foo-->';
+		$safe_filename = $this->security->sanitize_filename($filename);
+
+		$this->assertEquals('foo', $safe_filename);
+	}
 }
