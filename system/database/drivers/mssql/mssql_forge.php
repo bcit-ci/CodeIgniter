@@ -48,16 +48,13 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 */
 	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-		$sql = 'CREATE TABLE ';
+		$sql = ($if_not_exists === TRUE)
+			? "IF NOT EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'".$table."') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\n"
+			: '';
 
-		if ($if_not_exists === TRUE)
-		{
-			$sql .= 'IF NOT EXISTS ';
-		}
+		$sql .= 'CREATE TABLE '.$this->db->escape_identifiers($table).' (';
 
-		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
-
 		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
@@ -65,15 +62,13 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			// entered the field information, so we'll simply add it to the list
 			if (is_numeric($field))
 			{
-				$sql .= "\n\t$attributes";
+				$sql .= "\n\t".$attributes;
 			}
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field);
-
-				$sql .=  ' '.$attributes['TYPE'];
+				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
@@ -115,7 +110,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -131,13 +126,11 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 					$key = array($this->db->protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tFOREIGN KEY (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tFOREIGN KEY (".implode(', ', $key).')';
 			}
 		}
 
-		$sql .= "\n)";
-
-		return $sql;
+		return $sql."\n)";
 	}
 
 	// --------------------------------------------------------------------
@@ -167,21 +160,14 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			return $sql;
 		}
 
-		$sql .= " $column_definition";
+		$sql .= " ".$column_definition;
 
 		if ($default_value != '')
 		{
-			$sql .= " DEFAULT \"$default_value\"";
+			$sql .= " DEFAULT '".$default_value."'";
 		}
 
-		if ($null === NULL)
-		{
-			$sql .= ' NULL';
-		}
-		else
-		{
-			$sql .= ' NOT NULL';
-		}
+		$sql .= ($null === NULL) ? ' NULL' : ' NOT NULL';
 
 		if ($after_field != '')
 		{
@@ -189,7 +175,6 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		}
 
 		return $sql;
-
 	}
 
 }

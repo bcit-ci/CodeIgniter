@@ -419,7 +419,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 				OR $n < $this->current_row)
 			{
 				// No such row exists
-				return array();
+				return NULL;
 			}
 
 			// Get the next row index that would actually need to be fetched
@@ -460,7 +460,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 				$this->num_rows = 0;
 			}
 
-			return array();
+			return NULL;
 		}
 
 		$this->current_row = $n;
@@ -507,7 +507,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 			return (object) $row;
 		}
 
-		return array();
+		return NULL;
 	}
 
 	// --------------------------------------------------------------------
@@ -539,19 +539,19 @@ class CI_DB_oci8_result extends CI_DB_result {
 			}
 			else
 			{
-				return array();
+				return NULL;
 			}
 		}
 		elseif ( ! class_exists($class_name)) // No such class exists
 		{
-			return array();
+			return NULL;
 		}
 
 		$row = $this->row_array($n);
-		// An array would mean that the row doesn't exist
-		if (is_array($row))
+		// A non-array would mean that the row doesn't exist
+		if ( ! is_array($row))
 		{
-			return $row;
+			return NULL;
 		}
 
 		// Convert to the desired class and return

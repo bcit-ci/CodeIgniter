@@ -47,7 +47,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// clause and character used for LIKE escape sequences - not used in MySQL
 	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '';
+	protected $_like_escape_chr = '\\';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -291,7 +291,9 @@ class CI_DB_mysql_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -319,35 +321,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	public function insert_id()
 	{
 		return @mysql_insert_id($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
 	}
 
 	// --------------------------------------------------------------------
