@@ -68,7 +68,14 @@ Once loaded you can generate a captcha like this
 		'font_path'  => './path/to/fonts/texb.ttf',     
 		'img_width'  => '150',     
 		'img_height' => 30,     
-		'expiration' => 7200     
+		'expiration' => 7200,     
+		'colors' => 'colors' => array(
+			'bg_color' => array(255, 255, 255),
+                        'border_color' => array(255, 255, 255),
+                        'text_color' => array(153, 153, 204),
+                        'grid_color' => array(190, 190, 255),
+                        'shadow_color' => array(255, 240, 240)
+		),     
 	);
 
 	$cap = create_captcha($vals); echo $cap['image'];
@@ -82,6 +89,7 @@ Once loaded you can generate a captcha like this
 -  If you do not specify a path to a TRUE TYPE font, the native ugly GD
    font will be used.
 -  The "captcha" folder must be writable (666, or 777)
+-  if supplied, "colors" needs to have all the keys
 -  The "expiration" (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
