@@ -46,9 +46,10 @@ if ( ! function_exists('create_captcha'))
 	 * @param	string	path to create the image in
 	 * @param	string	URL to the CAPTCHA image folder
 	 * @param	string	server path to font
+	 * @param	array   color configuration with bg_color, border_color, text_color, grid_color, shadow_color rgb arrays
 	 * @return	string
 	 */
-	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
+	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '', $colors = null)
 	{
 		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 'img_width' => '150', 'img_height' => '30', 'font_path' => '', 'expiration' => 7200);
 
@@ -120,11 +121,20 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Assign colors
 		// -----------------------------------
-		$bg_color	= imagecolorallocate($im, 255, 255, 255);
-		$border_color	= imagecolorallocate($im, 153, 102, 102);
-		$text_color	= imagecolorallocate($im, 204, 153, 153);
-		$grid_color	= imagecolorallocate($im, 255, 182, 182);
-		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
+	        if(!is_array($colors)){
+	            $colors = array(
+	                'bg_color' => array(255,255,255),
+	                'border_color' => array(153,102,102),
+	                'text_color' => array(204,153,153),
+	                'grid_color' => array(255,182,182),
+	                'shadow_color' => array(255, 240, 240),
+	            );
+	        }
+		$bg_color       = imagecolorallocate($im, $colors['bg_color'][0],$colors['bg_color'][1],$colors['bg_color'][2]);
+        	$border_color   = imagecolorallocate($im, $colors['border_color'][0],$colors['border_color'][1],$colors['border_color'][2]);
+        	$text_color     = imagecolorallocate($im, $colors['text_color'][0],$colors['text_color'][1],$colors['text_color'][2]);
+        	$grid_color     = imagecolorallocate($im, $colors['grid_color'][0],$colors['grid_color'][1],$colors['grid_color'][2]);
+		$shadow_color   = imagecolorallocate($im, $colors['shadow_color'][0],$colors['shadow_color'][1],$colors['shadow_color'][2]);
 
 		//  Create the rectangle
 		ImageFilledRectangle($im, 0, 0, $img_width, $img_height, $bg_color);
