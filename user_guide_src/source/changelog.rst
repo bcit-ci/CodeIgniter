@@ -40,7 +40,7 @@ Release Date: Not Released
    -  Moved error templates to "application/views/errors"
 
 -  Helpers
-
+   -  create_captcha() accepts additional colors parameter, allowing for color customization
    -  url_title() will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed humanize() to include a second param for the separator.
