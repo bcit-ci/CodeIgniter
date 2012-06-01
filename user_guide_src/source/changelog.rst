@@ -38,6 +38,7 @@ Release Date: Not Released
    -  Added some more doctypes.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
    -  Moved error templates to "application/views/errors"
+   -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per Env.
 
 -  Helpers
 
