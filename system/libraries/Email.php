@@ -166,8 +166,8 @@ class CI_Email {
 		$this->_headers		= array();
 		$this->_debug_msg	= array();
 
-		$this->_set_header('User-Agent', $this->useragent);
-		$this->_set_header('Date', $this->_set_date());
+		$this->set_header('User-Agent', $this->useragent);
+		$this->set_header('Date', $this->_set_date());
 
 		if ($clear_attachments !== FALSE)
 		{
@@ -215,8 +215,8 @@ class CI_Email {
 			}
 		}
 
-		$this->_set_header('From', $name.' <'.$from.'>');
-		$this->_set_header('Return-Path', '<'.$from.'>');
+		$this->set_header('From', $name.' <'.$from.'>');
+		$this->set_header('Return-Path', '<'.$from.'>');
 
 		return $this;
 	}
@@ -252,7 +252,7 @@ class CI_Email {
 			$name = '"'.$name.'"';
 		}
 
-		$this->_set_header('Reply-To', $name.' <'.$replyto.'>');
+		$this->set_header('Reply-To', $name.' <'.$replyto.'>');
 		$this->_replyto_flag = TRUE;
 
 		return $this;
@@ -278,7 +278,7 @@ class CI_Email {
 
 		if ($this->_get_protocol() !== 'mail')
 		{
-			$this->_set_header('To', implode(', ', $to));
+			$this->set_header('To', implode(', ', $to));
 		}
 
 		switch ($this->_get_protocol())
@@ -312,7 +312,7 @@ class CI_Email {
 			$this->validate_email($cc);
 		}
 
-		$this->_set_header('Cc', implode(', ', $cc));
+		$this->set_header('Cc', implode(', ', $cc));
 
 		if ($this->_get_protocol() === 'smtp')
 		{
@@ -352,7 +352,7 @@ class CI_Email {
 		}
 		else
 		{
-			$this->_set_header('Bcc', implode(', ', $bcc));
+			$this->set_header('Bcc', implode(', ', $bcc));
 		}
 
 		return $this;
@@ -369,7 +369,7 @@ class CI_Email {
 	public function subject($subject)
 	{
 		$subject = $this->_prep_q_encoding($subject);
-		$this->_set_header('Subject', $subject);
+		$this->set_header('Subject', $subject);
 		return $this;
 	}
 
@@ -424,7 +424,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	void
 	 */
-	protected function _set_header($header, $value)
+	public function set_header($header, $value)
 	{
 		$this->_headers[$header] = $value;
 	}
@@ -867,11 +867,11 @@ class CI_Email {
 	 */
 	protected function _build_headers()
 	{
-		$this->_set_header('X-Sender', $this->clean_email($this->_headers['From']));
-		$this->_set_header('X-Mailer', $this->useragent);
-		$this->_set_header('X-Priority', $this->_priorities[$this->priority - 1]);
-		$this->_set_header('Message-ID', $this->_get_message_id());
-		$this->_set_header('Mime-Version', '1.0');
+		$this->set_header('X-Sender', $this->clean_email($this->_headers['From']));
+		$this->set_header('X-Mailer', $this->useragent);
+		$this->set_header('X-Priority', $this->_priorities[$this->priority - 1]);
+		$this->set_header('Message-ID', $this->_get_message_id());
+		$this->set_header('Mime-Version', '1.0');
 	}
 
 	// --------------------------------------------------------------------
@@ -1305,7 +1305,7 @@ class CI_Email {
 
 			if ($this->protocol !== 'smtp')
 			{
-				$this->_set_header('Bcc', implode(', ', $bcc));
+				$this->set_header('Bcc', implode(', ', $bcc));
 			}
 			else
 			{
