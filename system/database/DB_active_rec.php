@@ -422,7 +422,17 @@ class CI_DB_active_record extends CI_DB_driver {
 			{
 				if ($escape === TRUE)
 				{
-					$k = $this->_protect_identifiers($k, FALSE, $escape);
+				  // Preserve operator, if any
+					if ($this->_has_operator($k)){
+					  $parts = explode(' ', $k);
+						$k = '';
+						for ($i=0; $i < count($parts)-1; $i++){
+					    $k .= $this->_protect_identifiers($parts[$i], FALSE, $escape).' ';
+						}
+						$k .= $parts[count($parts)-1];
+					} else {
+					  $k = $this->_protect_identifiers($k, FALSE, $escape);
+					}
 
 					$v = ' '.$this->escape($v);
 				}
