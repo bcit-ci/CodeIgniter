@@ -485,7 +485,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.' LIMIT '.($offset === 0 ? '' : $offset.', ').$limit;
+		return $sql.' LIMIT '.($offset == 0 ? '' : $offset.', ').$limit;
 	}
 
 	// --------------------------------------------------------------------
