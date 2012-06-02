@@ -416,12 +416,12 @@ class CI_Jquery extends CI_Javascript {
 
 		$animations = substr($animations, 0, -2); // remove the last ", "
 
-		if ($speed != '')
+		if ($speed !== '')
 		{
 			$speed = ', '.$speed;
 		}
 
-		if ($extra != '')
+		if ($extra !== '')
 		{
 			$extra = ', '.$extra;
 		}
@@ -446,7 +446,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -471,7 +471,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -496,7 +496,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -537,7 +537,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -562,7 +562,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -587,7 +587,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -644,7 +644,7 @@ class CI_Jquery extends CI_Javascript {
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
-		if ($callback != '')
+		if ($callback !== '')
 		{
 			$callback = ", function(){\n{$callback}\n}";
 		}
@@ -672,7 +672,7 @@ class CI_Jquery extends CI_Javascript {
 		$controller = (strpos('://', $controller) === FALSE) ? $controller : $this->CI->config->site_url($controller);
 
 		// ajaxStart and ajaxStop are better choices here... but this is a stop gap
-		if ($this->CI->config->item('javascript_ajax_img') == '')
+		if ($this->CI->config->item('javascript_ajax_img') === '')
 		{
 			$loading_notifier = 'Loading...';
 		}
@@ -685,7 +685,7 @@ class CI_Jquery extends CI_Javascript {
 			."\t\t$(".$container.').prepend("'.$loading_notifier."\");\n"; // to replace with an image
 
 		$request_options = '';
-		if ($options != '')
+		if ($options !== '')
 		{
 			$request_options .= ', {'
 					.(is_array($options) ? "'".implode("', '", $options)."'" : "'".str_replace(':', "':'", $options)."'")
@@ -709,12 +709,12 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _zebraTables($class = '', $odd = 'odd', $hover = '')
 	{
-		$class = ($class != '') ? '.'.$class : '';
+		$class = ($class !== '') ? '.'.$class : '';
 		$zebra  = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
 
 		$this->jquery_code_for_compile[] = $zebra;
 
-		if ($hover != '')
+		if ($hover !== '')
 		{
 			$hover = $this->hover("table{$class} tbody tr", "$(this).addClass('hover');", "$(this).removeClass('hover');");
 		}
@@ -739,7 +739,7 @@ class CI_Jquery extends CI_Javascript {
 		// may want to make this configurable down the road
 		$corner_location = '/plugins/jquery.corner.js';
 
-		if ($corner_style != '')
+		if ($corner_style !== '')
 		{
 			$corner_style = '"'.$corner_style.'"';
 		}
@@ -972,7 +972,7 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _prep_element($element)
 	{
-		if ($element != 'this')
+		if ($element !== 'this')
 		{
 			$element = '"'.$element.'"';
 		}
