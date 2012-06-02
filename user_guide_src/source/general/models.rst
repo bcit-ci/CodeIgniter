@@ -104,7 +104,7 @@ Your models will typically be loaded and called from within your
 :doc:`controller <controllers>` functions. To load a model you will use
 the following function::
 
-	$this->load->model('Model_name');
+	$this->load->model('model_name');
 
 If your model is located in a sub-folder, include the relative path from
 your models folder. For example, if you have a model located at
@@ -115,14 +115,14 @@ application/models/blog/queries.php you'll load it using::
 Once loaded, you will access your model functions using an object with
 the same name as your class::
 
-	$this->load->model('Model_name');
+	$this->load->model('model_name');
 
-	$this->Model_name->function();
+	$this->model_name->function();
 
 If you would like your model assigned to a different object name you can
 specify it via the second parameter of the loading function::
 
-	$this->load->model('Model_name', 'fubar');
+	$this->load->model('model_name', 'fubar');
 
 	$this->fubar->function();
 
@@ -133,7 +133,7 @@ view::
 
 	    function blog()
 	    {
-	        $this->load->model('Blog');
+	        $this->load->model('blog');
 
 	        $data['query'] = $this->Blog->get_last_ten_entries();
 
@@ -165,7 +165,7 @@ database. The following options for connecting are available to you:
    defined in your database config file will be used:
    ::
 
-	$this->load->model('Model_name', '', TRUE);
+	$this->load->model('model_name', '', TRUE);
 
 -  You can manually pass database connectivity settings via the third
    parameter::
