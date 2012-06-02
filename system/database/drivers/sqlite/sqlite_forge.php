@@ -194,7 +194,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		if ($alter_type === 'DROP')
 		{
 			// SQLite does not support dropping columns
 			// http://www.sqlite.org/omitted.html
@@ -204,7 +204,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 		$sql .= " $column_definition";
 
-		if ($default_value != '')
+		if ($default_value !== '')
 		{
 			$sql .= " DEFAULT \"$default_value\"";
 		}
@@ -218,7 +218,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			$sql .= ' NOT NULL';
 		}
 
-		if ($after_field != '')
+		if ($after_field !== '')
 		{
 			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}

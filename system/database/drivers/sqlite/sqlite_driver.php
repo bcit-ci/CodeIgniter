@@ -279,7 +279,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	{
 		$sql = "SELECT name from sqlite_master WHERE type='table'";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
 			$sql .= " AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -404,7 +404,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($offset == 0)
+		if ($offset === 0)
 		{
 			$offset = '';
 		}

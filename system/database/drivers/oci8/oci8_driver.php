@@ -262,7 +262,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function stored_procedure($package, $procedure, $params)
 	{
-		if ($package == '' OR $procedure == '' OR ! is_array($params))
+		if ($package === '' OR $procedure === '' OR ! is_array($params))
 		{
 			if ($this->db_debug)
 			{
@@ -466,7 +466,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$sql = 'SELECT TABLE_NAME FROM ALL_TABLES';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." WHERE TABLE_NAME LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -634,7 +634,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$this->limit_used = TRUE;
 		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit).')'
-			.($offset != 0 ? ' WHERE rnum >= '.$offset : '');
+			.($offset !== 0 ? ' WHERE rnum >= '.$offset : '');
 	}
 
 	// --------------------------------------------------------------------

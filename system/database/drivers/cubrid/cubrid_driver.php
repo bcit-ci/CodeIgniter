@@ -74,7 +74,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 		else
 		{
 			// If no port is defined by the user, use the default value
-			$this->port == '' OR $this->port = 33000;
+			$this->port === '' OR $this->port = 33000;
 		}
 	}
 
@@ -340,7 +340,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	{
 		$sql = 'SHOW TABLES';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -435,7 +435,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
@@ -451,7 +451,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN ('.implode(',', $ids).')';
 	}
 
@@ -469,7 +469,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.'LIMIT '.($offset == 0 ? '' : $offset.', ').$limit;
+		return $sql.'LIMIT '.($offset === 0 ? '' : $offset.', ').$limit;
 	}
 
 	// --------------------------------------------------------------------
