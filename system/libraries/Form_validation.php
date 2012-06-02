@@ -188,13 +188,13 @@ class CI_Form_validation {
 		}
 
 		// No fields? Nothing to do...
-		if ( ! is_string($field) OR ! is_string($rules) OR $field == '')
+		if ( ! is_string($field) OR ! is_string($rules) OR $field === '')
 		{
 			return $this;
 		}
 
 		// If the field label wasn't passed we use the field name
-		$label = ($label == '') ? $field : $label;
+		$label = ($label === '') ? $field : $label;
 
 		// Is the field name an array? If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
@@ -207,7 +207,7 @@ class CI_Form_validation {
 
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
-				if ($matches[1][$i] != '')
+				if ($matches[1][$i] !== '')
 				{
 					$indexes[] = $matches[1][$i];
 				}
@@ -318,12 +318,12 @@ class CI_Form_validation {
 			return '';
 		}
 
-		if ($prefix == '')
+		if ($prefix === '')
 		{
 			$prefix = $this->_error_prefix;
 		}
 
-		if ($suffix == '')
+		if ($suffix === '')
 		{
 			$suffix = $this->_error_suffix;
 		}
@@ -364,12 +364,12 @@ class CI_Form_validation {
 			return '';
 		}
 
-		if ($prefix == '')
+		if ($prefix === '')
 		{
 			$prefix = $this->_error_prefix;
 		}
 
-		if ($suffix == '')
+		if ($suffix === '')
 		{
 			$suffix = $this->_error_suffix;
 		}
@@ -378,7 +378,7 @@ class CI_Form_validation {
 		$str = '';
 		foreach ($this->_error_array as $val)
 		{
-			if ($val != '')
+			if ($val !== '')
 			{
 				$str .= $prefix.$val.$suffix."\n";
 			}
@@ -417,9 +417,9 @@ class CI_Form_validation {
 			}
 
 			// Is there a validation rule for the particular URI being accessed?
-			$uri = ($group == '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
+			$uri = ($group === '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
 
-			if ($uri != '' && isset($this->_config_rules[$uri]))
+			if ($uri !== '' && isset($this->_config_rules[$uri]))
 			{
 				$this->set_rules($this->_config_rules[$uri]);
 			}
@@ -629,7 +629,7 @@ class CI_Form_validation {
 
 			// We set the $postdata variable with the current data in our master array so that
 			// each cycle of the loop is dealing with the processed data from the last cycle
-			if ($row['is_array'] == TRUE && is_array($this->_field_data[$row['field']]['postdata']))
+			if ($row['is_array'] === TRUE && is_array($this->_field_data[$row['field']]['postdata']))
 			{
 				// We shouldn't need this safety, but just in case there isn't an array index
 				// associated with this cycle we'll bail out
@@ -852,7 +852,7 @@ class CI_Form_validation {
 				return '';
 			}
 		}
-		elseif (($field == '' OR $value == '') OR ($field != $value))
+		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
 			return '';
 		}
@@ -888,7 +888,7 @@ class CI_Form_validation {
 				return '';
 			}
 		}
-		elseif (($field == '' OR $value == '') OR ($field != $value))
+		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
 			return '';
 		}
@@ -1040,8 +1040,8 @@ class CI_Form_validation {
 		}
 
 		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) == $val)
-			: (strlen($str) == $val);
+			? (mb_strlen($str) === $val)
+			: (strlen($str) === $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -1254,7 +1254,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str != 0 && preg_match('/^[0-9]+$/', $str));
+		return ($str !== 0 && preg_match('/^[0-9]+$/', $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1296,7 +1296,7 @@ class CI_Form_validation {
 			return $data;
 		}
 
-		if ($this->_safe_form_data == FALSE OR $data === '')
+		if ($this->_safe_form_data === FALSE OR $data === '')
 		{
 			return $data;
 		}
@@ -1314,7 +1314,7 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str == '')
+		if ($str === 'http://' OR $str === '')
 		{
 			return '';
 		}
