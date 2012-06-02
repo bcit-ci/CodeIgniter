@@ -775,7 +775,7 @@ class CI_Loader {
 		$file_exists = FALSE;
 
 		// Set the path to the requested file
-		if ($_ci_path !== '')
+		if (is_string($_ci_path) && $_ci_path !== '')
 		{
 			$_ci_x = explode('/', $_ci_path);
 			$_ci_file = end($_ci_x);
