@@ -622,7 +622,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		if ($this->pdodriver === 'cubrid' OR $this->pdodriver === 'sqlite')
 		{
-			$offset = ($offset === 0) ? '' : $offset.', ';
+			$offset = ($offset == 0) ? '' : $offset.', ';
 
 			return $sql.'LIMIT '.$offset.$limit;
 		}
