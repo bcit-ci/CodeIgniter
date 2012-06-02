@@ -50,9 +50,9 @@ function autoload($class)
 		elseif (in_array($subclass, $ci_libraries))
 		{
 			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR;
-			$class = ($subclass == 'Driver_Library') ? 'Driver' : $subclass;
+			$class = ($subclass === 'Driver_Library') ? 'Driver' : $subclass;
 		}
-		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) == 3)
+		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) === 3)
 		{
 			$driver_path = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR;
 			$dir = $driver_path.$m[1].DIRECTORY_SEPARATOR;
@@ -77,7 +77,7 @@ function autoload($class)
 
 		// If the autoload call came from `class_exists` or `file_exists`, 
 		// we skipped and return FALSE
-		if ($trace[2]['function'] == 'class_exists' OR $trace[2]['function'] == 'file_exists')
+		if ($trace[2]['function'] === 'class_exists' OR $trace[2]['function'] === 'file_exists')
 		{
 			return FALSE;
 		}
