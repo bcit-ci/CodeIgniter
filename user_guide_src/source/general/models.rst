@@ -16,7 +16,7 @@ blog. You might have a model class that contains functions to insert,
 update, and retrieve your blog data. Here is an example of what such a
 model class might look like::
 
-	class Blogmodel extends CI_Model {
+	class Blog_model extends CI_Model {
 
 	    var $title   = '';
 	    var $content = '';
