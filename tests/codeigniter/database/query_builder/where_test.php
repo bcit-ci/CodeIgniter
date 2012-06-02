@@ -74,7 +74,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_custom_string()
 	{
-		$where = "id > 2 AND name != 'Accountant'";
+		$where = "id > 2 AND name !== 'Accountant'";
 		$jobs = $this->db->where($where)
 							->get('job')
 							->result_array();
