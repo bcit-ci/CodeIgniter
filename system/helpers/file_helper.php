@@ -154,7 +154,7 @@ if ( ! function_exists('delete_files'))
 		}
 		@closedir($current_dir);
 
-		if ($del_dir == TRUE && $level > 0)
+		if ($del_dir === TRUE && $level > 0)
 		{
 			return @rmdir($path);
 		}
@@ -199,7 +199,7 @@ if ( ! function_exists('get_filenames'))
 				}
 				elseif ($file[0] !== '.')
 				{
-					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
+					$_filedata[] = ($include_path === TRUE) ? $source_dir.$file : $file;
 				}
 			}
 			closedir($fp);
