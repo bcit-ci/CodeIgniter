@@ -259,7 +259,7 @@ if ( ! function_exists('alternator'))
 	{
 		static $i;
 
-		if (func_num_args() == 0)
+		if (func_num_args() === 0)
 		{
 			$i = 0;
 			return '';

@@ -64,7 +64,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		if ($this->port != '')
+		if ($this->port !== '')
 		{
 			$this->hostname .= ','.$this->port;
 		}
@@ -81,7 +81,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		if ($this->port != '')
+		if ($this->port !== '')
 		{
 			$this->hostname .= ','.$this->port;
 		}
@@ -316,7 +316,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
 
 		// for future compatibility
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
 			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			return FALSE; // not currently supported

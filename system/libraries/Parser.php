@@ -109,7 +109,7 @@ class CI_Parser {
 	 */
 	protected function _parse($template, $data, $return = FALSE)
 	{
-		if ($template == '')
+		if ($template === '')
 		{
 			return FALSE;
 		}
@@ -121,7 +121,7 @@ class CI_Parser {
 					: $template = $this->_parse_single($key, (string) $val, $template);
 		}
 
-		if ($return == FALSE)
+		if ($return === FALSE)
 		{
 			$this->CI->output->append_output($template);
 		}

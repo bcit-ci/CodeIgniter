@@ -404,7 +404,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($offset == 0)
+		if ($offset === 0)
 		{
 			$offset = '';
 		}

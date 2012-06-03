@@ -93,7 +93,7 @@ class CI_Unit_test {
 	 */
 	public function run($test, $expected = TRUE, $test_name = 'undefined', $notes = '')
 	{
-		if ($this->active == FALSE)
+		if ($this->active === FALSE)
 		{
 			return FALSE;
 		}
@@ -106,7 +106,7 @@ class CI_Unit_test {
 		}
 		else
 		{
-			$result = ($this->strict == TRUE) ? ($test === $expected) : ($test == $expected);
+			$result = ($this->strict === TRUE) ? ($test === $expected) : ($test === $expected);
 			$extype = gettype($expected);
 		}
 
@@ -155,13 +155,13 @@ class CI_Unit_test {
 
 			foreach ($res as $key => $val)
 			{
-				if ($key == $CI->lang->line('ut_result'))
+				if ($key === $CI->lang->line('ut_result'))
 				{
-					if ($val == $CI->lang->line('ut_passed'))
+					if ($val === $CI->lang->line('ut_passed'))
 					{
 						$val = '<span style="color: #0C0;">'.$val.'</span>';
 					}
-					elseif ($val == $CI->lang->line('ut_failed'))
+					elseif ($val === $CI->lang->line('ut_failed'))
 					{
 						$val = '<span style="color: #C00;">'.$val.'</span>';
 					}

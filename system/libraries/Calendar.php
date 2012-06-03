@@ -155,7 +155,7 @@ class CI_Calendar {
 	public function generate($year = '', $month = '', $data = array())
 	{
 		// Set and validate the supplied month/year
-		if ($year == '')
+		if ($year === '')
 		{
 			$year  = date('Y', $this->local_time);
 		}
@@ -168,7 +168,7 @@ class CI_Calendar {
 			$year = '20'.$year;
 		}
 
-		if ($month == '')
+		if ($month === '')
 		{
 			$month = date('m', $this->local_time);
 		}
@@ -205,7 +205,7 @@ class CI_Calendar {
 		$cur_month	= date('m', $this->local_time);
 		$cur_day	= date('j', $this->local_time);
 
-		$is_current_month = ($cur_year == $year && $cur_month == $month);
+		$is_current_month = ($cur_year === $year && $cur_month === $month);
 
 		// Generate the template data array
 		$this->parse_template();
@@ -214,7 +214,7 @@ class CI_Calendar {
 		$out = $this->temp['table_open']."\n\n".$this->temp['heading_row_start']."\n";
 
 		// "previous" month link
-		if ($this->show_next_prev == TRUE)
+		if ($this->show_next_prev === TRUE)
 		{
 			// Add a trailing slash to the  URL if needed
 			$this->next_prev_url = preg_replace('/(.+?)\/*$/', '\\1/',  $this->next_prev_url);
@@ -224,7 +224,7 @@ class CI_Calendar {
 		}
 
 		// Heading containing the month/year
-		$colspan = ($this->show_next_prev == TRUE) ? 5 : 7;
+		$colspan = ($this->show_next_prev === TRUE) ? 5 : 7;
 
 		$this->temp['heading_title_cell'] = str_replace('{colspan}', $colspan,
 								str_replace('{heading}', $this->get_month_name($month).'&nbsp;'.$year, $this->temp['heading_title_cell']));
@@ -232,7 +232,7 @@ class CI_Calendar {
 		$out .= $this->temp['heading_title_cell']."\n";
 
 		// "next" month link
-		if ($this->show_next_prev == TRUE)
+		if ($this->show_next_prev === TRUE)
 		{
 			$adjusted_date = $this->adjust_date($month + 1, $year);
 			$out .= str_replace('{next_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_next_cell']);
@@ -258,21 +258,21 @@ class CI_Calendar {
 
 			for ($i = 0; $i < 7; $i++)
 			{
-				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
+				$out .= ($is_current_month === TRUE && $day === $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
 
 				if ($day > 0 && $day <= $total_days)
 				{
 					if (isset($data[$day]))
 					{
 						// Cells with content
-						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
+						$temp = ($is_current_month === TRUE && $day === $cur_day) ?
 								$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
 					{
 						// Cells with no content
-						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
+						$temp = ($is_current_month === TRUE && $day === $cur_day) ?
 								$this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
 						$out .= str_replace('{day}', $day, $temp);
 					}
@@ -283,7 +283,7 @@ class CI_Calendar {
 					$out .= $this->temp['cal_cell_blank'];
 				}
 
-				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
+				$out .= ($is_current_month === TRUE && $day === $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
 				$day++;
 			}
 
@@ -306,7 +306,7 @@ class CI_Calendar {
 	 */
 	public function get_month_name($month)
 	{
-		if ($this->month_type == 'short')
+		if ($this->month_type === 'short')
 		{
 			$month_names = array('01' => 'cal_jan', '02' => 'cal_feb', '03' => 'cal_mar', '04' => 'cal_apr', '05' => 'cal_may', '06' => 'cal_jun', '07' => 'cal_jul', '08' => 'cal_aug', '09' => 'cal_sep', '10' => 'cal_oct', '11' => 'cal_nov', '12' => 'cal_dec');
 		}
@@ -333,7 +333,7 @@ class CI_Calendar {
 	 */
 	public function get_day_names($day_type = '')
 	{
-		if ($day_type != '')
+		if ($day_type !== '')
 		{
 			$this->day_type = $day_type;
 		}
@@ -419,9 +419,9 @@ class CI_Calendar {
 		}
 
 		// Is the year a leap year?
-		if ($month == 2)
+		if ($month === 2)
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0))
+			if ($year % 400 === 0 OR ($year % 4 === 0 && $year % 100 !== 0))
 			{
 				return 29;
 			}
@@ -480,7 +480,7 @@ class CI_Calendar {
 	{
 		$this->temp = $this->default_template();
 
-		if ($this->template == '')
+		if ($this->template === '')
 		{
 			return;
 		}
