@@ -256,7 +256,7 @@ class CI_Xmlrpc {
 	 */
 	public function set_debug($flag = TRUE)
 	{
-		$this->debug = ($flag == TRUE);
+		$this->debug = ($flag === TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -277,7 +277,7 @@ class CI_Xmlrpc {
 			}
 			else
 			{
-				if (is_array($value[0]) && ($value[1] == 'struct' OR $value[1] == 'array'))
+				if (is_array($value[0]) && ($value[1] === 'struct' OR $value[1] === 'array'))
 				{
 					while (list($k) = each($value[0]))
 					{
@@ -496,7 +496,7 @@ class XML_RPC_Response
 	 */
 	public function __construct($val, $code = 0, $fstr = '')
 	{
-		if ($code != 0)
+		if ($code !== 0)
 		{
 			// error
 			$this->errno = $code;
@@ -636,11 +636,11 @@ class XML_RPC_Response
 	{
 		$kind = $xmlrpc_val->kindOf();
 
-		if ($kind == 'scalar')
+		if ($kind === 'scalar')
 		{
 			return $xmlrpc_val->scalarval();
 		}
-		elseif ($kind == 'array')
+		elseif ($kind === 'array')
 		{
 			reset($xmlrpc_val->me);
 			$b = current($xmlrpc_val->me);
@@ -652,7 +652,7 @@ class XML_RPC_Response
 			}
 			return $arr;
 		}
-		elseif ($kind == 'struct')
+		elseif ($kind === 'struct')
 		{
 			reset($xmlrpc_val->me['struct']);
 			$arr = array();
@@ -680,7 +680,7 @@ class XML_RPC_Response
 		$t = 0;
 		if (preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})/', $time, $regs))
 		{
-			$fnc = ($utc == TRUE) ? 'gmmktime' : 'mktime';
+			$fnc = ($utc === TRUE) ? 'gmmktime' : 'mktime';
 			$t = $fnc($regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1]);
 		}
 		return $t;
@@ -873,7 +873,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			$errstr_v = $v->me['struct']['faultString'];
 			$errno = $errno_v->scalarval();
 
-			if ($errno == 0)
+			if ($errno === 0)
 			{
 				// FAULT returned, errno needs to reflect that
 				$errno = -1;
@@ -921,9 +921,9 @@ class XML_RPC_Message extends CI_Xmlrpc
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
 		// Evaluate and check for correct nesting of XML elements
-		if (count($this->xh[$the_parser]['stack']) == 0)
+		if (count($this->xh[$the_parser]['stack']) === 0)
 		{
-			if ($name != 'METHODRESPONSE' && $name != 'METHODCALL')
+			if ($name !== 'METHODRESPONSE' && $name !== 'METHODCALL')
 			{
 				$this->xh[$the_parser]['isf'] = 2;
 				$this->xh[$the_parser]['isf_reason'] = 'Top level XML-RPC element is missing';
@@ -968,7 +968,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			case 'DOUBLE':
 			case 'DATETIME.ISO8601':
 			case 'BASE64':
-				if ($this->xh[$the_parser]['vt'] != 'value')
+				if ($this->xh[$the_parser]['vt'] !== 'value')
 				{
 					//two data elements inside a value: an error occurred!
 					$this->xh[$the_parser]['isf'] = 2;
@@ -1002,7 +1002,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		// Add current element name to stack, to allow validation of nesting
 		array_unshift($this->xh[$the_parser]['stack'], $name);
 
-		$name == 'VALUE' OR $this->xh[$the_parser]['lv'] = 0;
+		$name === 'VALUE' OR $this->xh[$the_parser]['lv'] = 0;
 	}
 
 	// --------------------------------------------------------------------
@@ -1045,20 +1045,20 @@ class XML_RPC_Message extends CI_Xmlrpc
 			case 'BASE64':
 				$this->xh[$the_parser]['vt'] = strtolower($name);
 
-				if ($name == 'STRING')
+				if ($name === 'STRING')
 				{
 					$this->xh[$the_parser]['value'] = $this->xh[$the_parser]['ac'];
 				}
-				elseif ($name == 'DATETIME.ISO8601')
+				elseif ($name === 'DATETIME.ISO8601')
 				{
 					$this->xh[$the_parser]['vt']	= $this->xmlrpcDateTime;
 					$this->xh[$the_parser]['value'] = $this->xh[$the_parser]['ac'];
 				}
-				elseif ($name == 'BASE64')
+				elseif ($name === 'BASE64')
 				{
 					$this->xh[$the_parser]['value'] = base64_decode($this->xh[$the_parser]['ac']);
 				}
-				elseif ($name == 'BOOLEAN')
+				elseif ($name === 'BOOLEAN')
 				{
 					// Translated BOOLEAN values to TRUE AND FALSE
 					$this->xh[$the_parser]['value'] = (bool) $this->xh[$the_parser]['ac'];
@@ -1093,7 +1093,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				// build the XML-RPC value out of the data received, and substitute it
 				$temp = new XML_RPC_Values($this->xh[$the_parser]['value'], $this->xh[$the_parser]['vt']);
 
-				if (count($this->xh[$the_parser]['valuestack']) && $this->xh[$the_parser]['valuestack'][0]['type'] == 'ARRAY')
+				if (count($this->xh[$the_parser]['valuestack']) && $this->xh[$the_parser]['valuestack'][0]['type'] === 'ARRAY')
 				{
 					// Array
 					$this->xh[$the_parser]['valuestack'][0]['values'][] = $temp;
@@ -1151,9 +1151,9 @@ class XML_RPC_Message extends CI_Xmlrpc
 		if ($this->xh[$the_parser]['isf'] > 1) return; // XML Fault found already
 
 		// If a value has not been found
-		if ($this->xh[$the_parser]['lv'] != 3)
+		if ($this->xh[$the_parser]['lv'] !== 3)
 		{
-			if ($this->xh[$the_parser]['lv'] == 1)
+			if ($this->xh[$the_parser]['lv'] === 1)
 			{
 				$this->xh[$the_parser]['lv'] = 2; // Found a value
 			}
@@ -1204,7 +1204,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					// 'bits' is for the MetaWeblog API image bits
 					// @todo - this needs to be made more general purpose
-					$array[$key] = ($key == 'bits' OR $this->xss_clean == FALSE) ? $array[$key] : $CI->security->xss_clean($array[$key]);
+					$array[$key] = ($key === 'bits' OR $this->xss_clean === FALSE) ? $array[$key] : $CI->security->xss_clean($array[$key]);
 				}
 			}
 
@@ -1242,11 +1242,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 	{
 		$kind = $param->kindOf();
 
-		if ($kind == 'scalar')
+		if ($kind === 'scalar')
 		{
 			return $param->scalarval();
 		}
-		elseif ($kind == 'array')
+		elseif ($kind === 'array')
 		{
 			reset($param->me);
 			$b = current($param->me);
@@ -1259,7 +1259,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 			return $arr;
 		}
-		elseif ($kind == 'struct')
+		elseif ($kind === 'struct')
 		{
 			reset($param->me['struct']);
 			$arr = array();
@@ -1298,19 +1298,19 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		parent::__construct();
 
-		if ($val != -1 OR $type != '')
+		if ($val !== -1 OR $type !== '')
 		{
-			$type = $type == '' ? 'string' : $type;
+			$type = $type === '' ? 'string' : $type;
 
-			if ($this->xmlrpcTypes[$type] == 1)
+			if ($this->xmlrpcTypes[$type] === 1)
 			{
 				$this->addScalar($val,$type);
 			}
-			elseif ($this->xmlrpcTypes[$type] == 2)
+			elseif ($this->xmlrpcTypes[$type] === 2)
 			{
 				$this->addArray($val);
 			}
-			elseif ($this->xmlrpcTypes[$type] == 3)
+			elseif ($this->xmlrpcTypes[$type] === 3)
 			{
 				$this->addStruct($val);
 			}
@@ -1330,24 +1330,24 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		$typeof = $this->xmlrpcTypes[$type];
 
-		if ($this->mytype == 1)
+		if ($this->mytype === 1)
 		{
 			echo '<strong>XML_RPC_Values</strong>: scalar can have only one value<br />';
 			return 0;
 		}
 
-		if ($typeof != 1)
+		if ($typeof !== 1)
 		{
 			echo '<strong>XML_RPC_Values</strong>: not a scalar type (${typeof})<br />';
 			return 0;
 		}
 
-		if ($type == $this->xmlrpcBoolean)
+		if ($type === $this->xmlrpcBoolean)
 		{
 			$val = (int) (strcasecmp($val,'true') === 0 OR $val === 1 OR ($val === TRUE && strcasecmp($val, 'false')));
 		}
 
-		if ($this->mytype == 2)
+		if ($this->mytype === 2)
 		{
 			// adding to an array here
 			$ar = $this->me['array'];
@@ -1374,7 +1374,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 */
 	public function addArray($vals)
 	{
-		if ($this->mytype != 0)
+		if ($this->mytype !== 0)
 		{
 			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
 			return 0;
@@ -1395,7 +1395,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 */
 	public function addStruct($vals)
 	{
-		if ($this->mytype != 0)
+		if ($this->mytype !== 0)
 		{
 			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
 			return 0;

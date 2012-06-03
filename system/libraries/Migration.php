@@ -109,7 +109,7 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path != '' OR $this->_migration_path = APPPATH.'migrations/';
+		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations/';
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -179,7 +179,7 @@ class CI_Migration {
 
 		// We now prepare to actually DO the migrations
 		// But first let's make sure that everything is the way it should be
-		for ($i = $start; $i != $stop; $i += $step)
+		for ($i = $start; $i !== $stop; $i += $step)
 		{
 			$f = glob(sprintf($this->_migration_path.'%03d_*.php', $i));
 

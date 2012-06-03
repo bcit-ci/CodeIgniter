@@ -64,7 +64,7 @@ class CI_DB_odbc_driver extends CI_DB {
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 
 		// Legacy support for DSN in the hostname field
-		if ($this->dsn == '')
+		if ($this->dsn === '')
 		{
 			$this->dsn = $this->hostname;
 		}
@@ -256,7 +256,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		$sql = "SHOW TABLES FROM `".$this->database."`";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
 			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			return FALSE; // not currently supported

@@ -158,12 +158,12 @@ if ( ! function_exists('anchor'))
 			$site_url = site_url($uri);
 		}
 
-		if ($title == '')
+		if ($title === '')
 		{
 			$title = $site_url;
 		}
 
-		if ($attributes != '')
+		if ($attributes !== '')
 		{
 			$attributes = _parse_attributes($attributes);
 		}
@@ -192,7 +192,7 @@ if ( ! function_exists('anchor_popup'))
 		$title = (string) $title;
 		$site_url = preg_match('!^\w+://! i', $uri) ? $uri : site_url($uri);
 
-		if ($title == '')
+		if ($title === '')
 		{
 			$title = $site_url;
 		}
@@ -213,7 +213,7 @@ if ( ! function_exists('anchor_popup'))
 			unset($attributes[$key]);
 		}
 
-		if ($attributes != '')
+		if ($attributes !== '')
 		{
 			$attributes = _parse_attributes($attributes);
 		}
@@ -238,7 +238,7 @@ if ( ! function_exists('mailto'))
 	{
 		$title = (string) $title;
 
-		if ($title == '')
+		if ($title === '')
 		{
 			$title = $email;
 		}
@@ -265,7 +265,7 @@ if ( ! function_exists('safe_mailto'))
 	{
 		$title = (string) $title;
 
-		if ($title == '')
+		if ($title === '')
 		{
 			$title = $email;
 		}
@@ -279,7 +279,7 @@ if ( ! function_exists('safe_mailto'))
 
 		$x[] = '"';
 
-		if ($attributes != '')
+		if ($attributes !== '')
 		{
 			if (is_array($attributes))
 			{
@@ -345,7 +345,7 @@ if ( ! function_exists('safe_mailto'))
 	for ($i = 0, $c = count($x); $i < $c; $i++) { ?>l[<?php echo $i; ?>]='<?php echo $x[$i]; ?>';<?php } ?>
 
 	for (var i = l.length-1; i >= 0; i=i-1){
-	if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";");
+	if (l[i].substring(0, 1) === '|') document.write("&#"+unescape(l[i].substring(1))+";");
 	else document.write(unescape(l[i]));}
 	//]]>
 	</script><?php
@@ -436,7 +436,7 @@ if ( ! function_exists('prep_url'))
 	 */
 	function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str == '')
+		if ($str === 'http://' OR $str === '')
 		{
 			return '';
 		}
@@ -562,13 +562,13 @@ if ( ! function_exists('_parse_attributes'))
 	{
 		if (is_string($attributes))
 		{
-			return ($attributes != '') ? ' '.$attributes : '';
+			return ($attributes !== '') ? ' '.$attributes : '';
 		}
 
 		$att = '';
 		foreach ($attributes as $key => $val)
 		{
-			if ($javascript == TRUE)
+			if ($javascript === TRUE)
 			{
 				$att .= $key.'='.$val.',';
 			}
@@ -578,7 +578,7 @@ if ( ! function_exists('_parse_attributes'))
 			}
 		}
 
-		if ($javascript == TRUE && $att != '')
+		if ($javascript === TRUE && $att !== '')
 		{
 			return substr($att, 0, -1);
 		}

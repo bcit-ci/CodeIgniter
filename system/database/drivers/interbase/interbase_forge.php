@@ -195,7 +195,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 		$sql .= " {$column_definition}";
 
-		if ($default_value != '')
+		if ($default_value !== '')
 		{
 			$sql .= " DEFAULT \"{$default_value}\"";
 		}
@@ -209,7 +209,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 			$sql .= ' NOT NULL';
 		}
 
-		if ($after_field != '')
+		if ($after_field !== '')
 		{
 			$sql .= ' AFTER ' . $this->db->protect_identifiers($after_field);
 		}

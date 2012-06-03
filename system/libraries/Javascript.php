@@ -615,7 +615,7 @@ class CI_Javascript {
 		{
 			$this->_javascript_location = $external_file;
 		}
-		elseif ($this->CI->config->item('javascript_location') != '')
+		elseif ($this->CI->config->item('javascript_location') !== '')
 		{
 			$this->_javascript_location = $this->CI->config->item('javascript_location');
 		}
@@ -667,7 +667,7 @@ class CI_Javascript {
 	protected function _open_script($src = '')
 	{
 		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
-			.($src == '' ? '>' : ' src="'.$src.'">');
+			.($src === '' ? '>' : ' src="'.$src.'">');
 	}
 
 	// --------------------------------------------------------------------
