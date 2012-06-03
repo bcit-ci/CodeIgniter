@@ -19,6 +19,7 @@ Release Date: Not Released
 -  General Changes
 
    -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
+   -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
