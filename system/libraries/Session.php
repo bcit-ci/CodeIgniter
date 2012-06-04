@@ -359,7 +359,7 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) && $row->user_data !== '')
+			if ( ! empty($row->user_data))
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 

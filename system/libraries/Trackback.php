@@ -132,7 +132,7 @@ class CI_Trackback {
 	{
 		foreach (array('url', 'title', 'blog_name', 'excerpt') as $val)
 		{
-			if ( ! isset($_POST[$val]) OR $_POST[$val] === '')
+			if (empty($_POST[$val]))
 			{
 				$this->set_error('The following required POST variable is missing: '.$val);
 				return FALSE;

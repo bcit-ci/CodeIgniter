@@ -193,7 +193,7 @@ class CI_Cart {
 		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
-		if ( ! is_numeric($items['qty']) OR $items['qty'] === 0)
+		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
 		{
 			return FALSE;
 		}
@@ -358,7 +358,7 @@ class CI_Cart {
 
 		// Is the quantity zero?  If so we will remove the item from the cart.
 		// If the quantity is greater than zero we are updating
-		if ($items['qty'] === 0)
+		if ($items['qty'] == 0)
 		{
 			unset($this->_cart_contents[$items['rowid']]);
 		}
