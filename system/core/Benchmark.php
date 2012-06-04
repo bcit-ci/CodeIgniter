@@ -79,7 +79,7 @@ class CI_Benchmark {
 	 */
 	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
 	{
-		if ($point1 == '')
+		if ($point1 === '')
 		{
 			return '{elapsed_time}';
 		}

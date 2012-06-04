@@ -263,23 +263,27 @@ class CI_Input {
 			}
 		}
 
-		if ($prefix == '' && config_item('cookie_prefix') != '')
+		if ($prefix === '' && config_item('cookie_prefix') !== '')
 		{
 			$prefix = config_item('cookie_prefix');
 		}
+
 		if ($domain == '' && config_item('cookie_domain') != '')
 		{
 			$domain = config_item('cookie_domain');
 		}
-		if ($path == '/' && config_item('cookie_path') !== '/')
+
+		if ($path === '/' && config_item('cookie_path') !== '/')
 		{
 			$path = config_item('cookie_path');
 		}
-		if ($secure == FALSE && config_item('cookie_secure') != FALSE)
+
+		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
 		{
 			$secure = config_item('cookie_secure');
 		}
-		if ($httponly == FALSE && config_item('cookie_httponly') != FALSE)
+
+		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
 		{
 			$httponly = config_item('cookie_httponly');
 		}
@@ -459,7 +463,7 @@ class CI_Input {
 		}
 
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if ($this->_allow_get_array == FALSE)
+		if ($this->_allow_get_array === FALSE)
 		{
 			$_GET = array();
 		}
@@ -502,7 +506,7 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf == TRUE)
+		if ($this->_enable_csrf === TRUE)
 		{
 			$this->security->csrf_verify();
 		}
@@ -559,7 +563,7 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines == TRUE && strpos($str, "\r") !== FALSE)
+		if ($this->_standardize_newlines === TRUE && strpos($str, "\r") !== FALSE)
 		{
 			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 		}

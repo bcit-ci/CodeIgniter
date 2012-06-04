@@ -200,7 +200,7 @@ if ( ! function_exists('is_loaded'))
 	{
 		static $_is_loaded = array();
 
-		if ($class != '')
+		if ($class !== '')
 		{
 			$_is_loaded[strtolower($class)] = $class;
 		}
@@ -231,20 +231,24 @@ if ( ! function_exists('get_config'))
 			return $_config[0];
 		}
 
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		$file_path = APPPATH.'config/config.php';
+		$found = FALSE;
+		if (file_exists($file_path)) 
 		{
-			$file_path = APPPATH.'config/config.php';
+			$found = TRUE;
+			require($file_path);
 		}
 
-		// Fetch the config file
-		if ( ! file_exists($file_path))
+		// Is the config file in the environment folder?
+		if (defined(ENVIRONMENT) && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		{
+			require($file_path);			
+		} 
+		elseif ( ! $found) 
 		{
 			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
@@ -366,7 +370,7 @@ if ( ! function_exists('log_message'))
 	{
 		static $_log;
 
-		if (config_item('log_threshold') == 0)
+		if (config_item('log_threshold') === 0)
 		{
 			return;
 		}
@@ -436,13 +440,12 @@ if ( ! function_exists('set_status_header'))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
-
-		if (isset($stati[$code]) && $text == '')
+		elseif (isset($stati[$code]) && $text === '')
 		{
 			$text = $stati[$code];
 		}
 
-		if ($text == '')
+		if ($text === '')
 		{
 			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
 		}
@@ -491,13 +494,13 @@ if ( ! function_exists('_exception_handler'))
 
 		// Should we display the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) == $severity)
+		if (($severity & error_reporting()) === $severity)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
 		// Should we log the error? No? We're done...
-		if (config_item('log_threshold') == 0)
+		if (config_item('log_threshold') === 0)
 		{
 			return;
 		}

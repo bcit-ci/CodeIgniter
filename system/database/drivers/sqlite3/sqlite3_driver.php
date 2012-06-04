@@ -87,7 +87,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	public function db_pconnect()
 	{
 		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
-		return $this->db_pconnect();
+		return $this->db_connect();
 	}
 
 	// --------------------------------------------------------------------
@@ -104,7 +104,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		$version = $this->conn_id->version();
+		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
 

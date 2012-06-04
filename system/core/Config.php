@@ -100,7 +100,7 @@ class CI_Config {
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
-		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
+		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
 
 		foreach ($this->_config_paths as $path)
@@ -211,7 +211,7 @@ class CI_Config {
 		{
 			return FALSE;
 		}
-		elseif (trim($this->config[$item]) == '')
+		elseif (trim($this->config[$item]) === '')
 		{
 			return '';
 		}
@@ -230,14 +230,14 @@ class CI_Config {
 	 */
 	public function site_url($uri = '')
 	{
-		if ($uri == '')
+		if ($uri === '')
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
-		if ($this->item('enable_query_strings') == FALSE)
+		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
+			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
 			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
 		}
 		else
@@ -270,7 +270,7 @@ class CI_Config {
 	 */
 	protected function _uri_string($uri)
 	{
-		if ($this->item('enable_query_strings') == FALSE)
+		if ($this->item('enable_query_strings') === FALSE)
 		{
 			if (is_array($uri))
 			{

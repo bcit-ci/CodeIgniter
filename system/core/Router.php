@@ -435,7 +435,7 @@ class CI_Router {
 	 */
 	public function fetch_method()
 	{
-		return ($this->method == $this->fetch_class()) ? 'index' : $this->method;
+		return ($this->method === $this->fetch_class()) ? 'index' : $this->method;
 	}
 
 	// --------------------------------------------------------------------
@@ -483,7 +483,7 @@ class CI_Router {
 			$this->set_directory($routing['directory']);
 		}
 
-		if (isset($routing['controller']) && $routing['controller'] != '')
+		if ( ! empty($routing['controller']))
 		{
 			$this->set_class($routing['controller']);
 		}

@@ -71,9 +71,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return ($this->port != '')
-			? @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port)
-			: @new mysqli($this->hostname, $this->username, $this->password, $this->database);
+		return empty($this->port)
+			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
+			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
 	}
 
 	// --------------------------------------------------------------------
@@ -91,9 +91,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return $this->db_connect();
 		}
 
-		return ($this->port != '')
-			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port)
-			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database);
+		return empty($this->port)
+			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database)
+			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port);
 	}
 
 	// --------------------------------------------------------------------
@@ -337,7 +337,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		$sql = 'SHOW TABLES FROM '.$this->_escape_char.$this->database.$this->_escape_char;
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -370,7 +370,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function field_data($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
@@ -451,7 +451,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
@@ -466,10 +466,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 				.'ELSE '.$k.' END, ';
 		}
 
-		$where = ($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '';
+		$where = ($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '';
 
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
 	}
 

@@ -97,7 +97,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$val = trim($val);
 
-			if ($val != '')
+			if ($val !== '')
 			{
 				$this->qb_select[] = $val;
 				$this->qb_no_escape[] = $escape;
@@ -194,7 +194,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
 	{
-		if ( ! is_string($select) OR $select == '')
+		if ( ! is_string($select) OR $select === '')
 		{
 			$this->display_error('db_invalid_query');
 		}
@@ -206,7 +206,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			show_error('Invalid function type: '.$type);
 		}
 
-		if ($alias == '')
+		if ($alias === '')
 		{
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
@@ -325,7 +325,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function join($table, $cond, $type = '')
 	{
-		if ($type != '')
+		if ($type !== '')
 		{
 			$type = strtoupper(trim($type));
 
@@ -675,23 +675,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($side === 'none')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}'";
+				$like_statement = "{$prefix} $k $not LIKE '{$v}'";
 			}
 			elseif ($side === 'before')
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}'";
+				$like_statement = "{$prefix} $k $not LIKE '%{$v}'";
 			}
 			elseif ($side === 'after')
 			{
-				$like_statement = $prefix." $k $not LIKE '{$v}%'";
+				$like_statement = "{$prefix} $k $not LIKE '{$v}%'";
 			}
 			else
 			{
-				$like_statement = $prefix." $k $not LIKE '%{$v}%'";
+				$like_statement = "{$prefix} $k $not LIKE '%{$v}%'";
 			}
 
 			// some platforms require an escape sequence definition for LIKE wildcards
-			if ($this->_like_escape_str != '')
+			if ($this->_like_escape_str !== '')
 			{
 				$like_statement = $like_statement.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			}
@@ -829,7 +829,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$val = trim($val);
 
-			if ($val != '')
+			if ($val !== '')
 			{
 				$this->qb_groupby[] = $val = $this->protect_identifiers($val);
 
@@ -908,7 +908,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$k .= ' = ';
 			}
 
-			if ($v != '')
+			if ($v !== '')
 			{
 				$v = ' '.$this->escape($v);
 			}
@@ -941,7 +941,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$orderby = ''; // Random results want or don't need a field name
 			$direction = $this->_random_keyword;
 		}
-		elseif (trim($direction) != '')
+		elseif (trim($direction) !== '')
 		{
 			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
 		}
@@ -963,7 +963,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			$orderby = implode(', ', $temp);
 		}
-		elseif ($direction != $this->_random_keyword)
+		elseif ($direction !== $this->_random_keyword)
 		{
 			if ($escape === TRUE)
 			{
@@ -1064,7 +1064,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
 	{
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->_track_aliases($table);
 			$this->from($table);
@@ -1095,7 +1095,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function get($table = '', $limit = null, $offset = null)
 	{
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->_track_aliases($table);
 			$this->from($table);
@@ -1124,7 +1124,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function count_all_results($table = '')
 	{
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->_track_aliases($table);
 			$this->from($table);
@@ -1156,7 +1156,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function get_where($table = '', $where = null, $limit = null, $offset = null)
 	{
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->from($table);
 		}
@@ -1204,7 +1204,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1404,7 +1404,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->qb_from[0] = $table;
 		}
@@ -1439,7 +1439,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1530,7 +1530,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		if ($where != NULL)
+		if ($where !== NULL)
 		{
 			$this->where($where);
 		}
@@ -1595,12 +1595,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _validate_update($table = '')
 	{
-		if (count($this->qb_set) == 0)
+		if (count($this->qb_set) === 0)
 		{
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table != '')
+		if ($table !== '')
 		{
 			$this->qb_from[0] = $table;
 		}
@@ -1644,7 +1644,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1689,7 +1689,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$clean = array();
 			foreach ($v as $k2 => $v2)
 			{
-				if ($k2 == $index)
+				if ($k2 === $index)
 				{
 					$index_set = TRUE;
 				}
@@ -1720,7 +1720,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function empty_table($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1753,7 +1753,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function truncate($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1827,7 +1827,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
-		if ($table == '')
+		if ($table === '')
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1851,7 +1851,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
-		if ($where != '')
+		if ($where !== '')
 		{
 			$this->where($where);
 		}
@@ -1912,7 +1912,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function dbprefix($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			$this->display_error('db_table_name_required');
 		}
@@ -2072,7 +2072,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$sql .= "\nORDER BY ".implode(', ', $this->qb_orderby);
 			if ($this->qb_order !== FALSE)
 			{
-				$sql .= ($this->qb_order == 'desc') ? ' DESC' : ' ASC';
+				$sql .= ($this->qb_order === 'desc') ? ' DESC' : ' ASC';
 			}
 		}
 
@@ -2106,7 +2106,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		foreach (get_object_vars($object) as $key => $val)
 		{
 			// There are some built in keys we need to ignore for this conversion
-			if ( ! is_object($val) && ! is_array($val) && $key != '_parent_name')
+			if ( ! is_object($val) && ! is_array($val) && $key !== '_parent_name')
 			{
 				$array[$key] = $val;
 			}

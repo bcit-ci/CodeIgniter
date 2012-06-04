@@ -54,7 +54,7 @@ if ( ! function_exists('xml_convert'))
 		// ampersands won't get messed up
 		$str = preg_replace('/&#(\d+);/', $temp.'\\1;', $str);
 
-		if ($protect_all == TRUE)
+		if ($protect_all === TRUE)
 		{
 			$str = preg_replace('/&(\w+);/', $temp.'\\1;', $str);
 		}
@@ -66,7 +66,7 @@ if ( ! function_exists('xml_convert'))
 		// Decode the temp markers back to entities
 		$str = preg_replace('/'.$temp.'(\d+);/', '&#\\1;', $str);
 
-		if ($protect_all == TRUE)
+		if ($protect_all === TRUE)
 		{
 			return preg_replace('/'.$temp.'(\w+);/', '&\\1;', $str);
 		}
