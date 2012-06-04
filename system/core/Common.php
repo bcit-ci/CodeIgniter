@@ -436,12 +436,11 @@ if ( ! function_exists('set_status_header'))
 			505	=> 'HTTP Version Not Supported'
 		);
 
-		if ($code === '' OR ! is_numeric($code))
+		if ($code == '' OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
-
-		if (isset($stati[$code]) && $text === '')
+		elseif (isset($stati[$code]) && $text === '')
 		{
 			$text = $stati[$code];
 		}

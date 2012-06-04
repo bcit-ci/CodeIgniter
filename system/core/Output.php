@@ -101,7 +101,7 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
-		$this->_zlib_oc = @ini_get('zlib.output_compression');
+		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		// Get mime types for later
 		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
@@ -160,7 +160,7 @@ class CI_Output {
 	 */
 	public function append_output($output)
 	{
-		if ($this->final_output === '')
+		if ($this->final_output == '')
 		{
 			$this->final_output = $output;
 		}
@@ -505,7 +505,7 @@ class CI_Output {
 	 *
 	 * @param 	object	config class
 	 * @param 	object	uri class
-	 * @return	void
+	 * @return	bool
 	 */
 	public function _display_cache(&$CFG, &$URI)
 	{

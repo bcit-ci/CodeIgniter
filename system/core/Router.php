@@ -165,7 +165,7 @@ class CI_Router {
 		$this->uri->_fetch_uri_string();
 
 		// Is there a URI string? If not, the default controller specified in the "routes" file will be shown.
-		if ($this->uri->uri_string === '')
+		if ($this->uri->uri_string == '')
 		{
 			return $this->_set_default_controller();
 		}
@@ -483,14 +483,14 @@ class CI_Router {
 			$this->set_directory($routing['directory']);
 		}
 
-		if (isset($routing['controller']) && $routing['controller'] !== '')
+		if ( ! empty($routing['controller']))
 		{
 			$this->set_class($routing['controller']);
 		}
 
 		if (isset($routing['function']))
 		{
-			$routing['function'] = ($routing['function'] === '') ? 'index' : $routing['function'];
+			$routing['function'] = ($routing['function'] == '') ? 'index' : $routing['function'];
 			$this->set_method($routing['function']);
 		}
 	}
