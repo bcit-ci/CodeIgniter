@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -39,39 +39,39 @@ class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 	 */
 	public function __construct($params)
 	{
-		parent::__construct($params)
-		
+		parent::__construct($params);
+
 		// Set the escape character to the silly backtick
 		$this->_escape_char = '`';
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
 	public function connect()
-	{	
+	{
 		// Create the connection dsn
 		if ( ! empty($this->dsn))
 		{
 			$dsn = $this->dsn;
 		}
 		else
-		{		
+		{
 			$dsn = "cubrid:host={$this->hostname};dbname={$this->database}";
-				
+
 			if ( ! empty($this->port))
 			{
 				$dsn .= ';port='.$this->port;
 			}
 		}
-	
-		try 
+
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -81,9 +81,9 @@ class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
@@ -93,9 +93,9 @@ class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 	{
 		return FALSE;
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -108,9 +108,9 @@ class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
