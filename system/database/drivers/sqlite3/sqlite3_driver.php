@@ -104,7 +104,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		$version = $this->conn_id->version();
+		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
 
