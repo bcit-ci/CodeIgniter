@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -41,9 +41,9 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 	{
 		parent::__construct($params);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
@@ -57,24 +57,24 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 		else
 		{
 			$dsn = "pgsql:dbname={$this->database}";
-			
+
 			if ( ! empty($this->hostname))
 			{
 				$dsn .= ";host={$this->hostname}";
 			}
-		
+
 			if ( ! empty($this->port))
 			{
 				$dsn .= ';port='.$this->port;
 			}
 		}
-	
+
 		// Connecting...
-		try 
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -84,9 +84,9 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Override for insert_id method
 	 *
@@ -101,24 +101,25 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 			$query = $query->row();
 			return $query->ins_id;
 		}
-		
+
 		return $this->conn_id->lastInsertId($name);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		return "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -131,9 +132,9 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
@@ -149,7 +150,7 @@ class CI_pgsql_PDO_Driver extends CI_DB_pdo_driver {
 	{
 		$sql .= 'LIMIT '.$limit;
 		$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
-			
+
 		return $sql;
 	}
 

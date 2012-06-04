@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -40,21 +40,21 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 	public function __construct($params)
 	{
 		parent::__construct($params);
-			
+
 		// Set the escape character to the silly backtick
 		$this->_escape_char = '`';
 		$this->_like_escape_str = '';
 		$this->_like_escape_chr = '';
-		
+
 		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
 		if ( ! is_php('5.3.6'))
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES {$this->char_set} COLLATE '{$this->dbcollat}'";
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
@@ -66,26 +66,26 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 			$dsn = $this->dsn;
 		}
 		else
-		{		
+		{
 			$dsn = "mysql:host={$this->hostname};dbname={$this->database}";
-				
+
 			if ( ! empty($this->port))
 			{
 				$dsn .= ';port='.$this->port;
 			}
-			
+
 			if ( ! empty($this->charset))
 			{
 				$dsn .= ';charset='.$this->charset;
 			}
 		}
-	
+
 		// Connecting...
-		try 
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -95,21 +95,22 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		return "SHOW TABLES";
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -122,9 +123,9 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		return 'SELECT * FROM '.$this->_from_tables($table).' LIMIT 1';
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
@@ -142,9 +143,9 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 
 		return $sql.'LIMIT '.$offset.$limit;
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Return MySQL-specific truncate command
 	 *

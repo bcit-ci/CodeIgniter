@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -41,9 +41,9 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		parent::__construct($params);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
@@ -55,36 +55,36 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 			$dsn = $this->dsn;
 		}
 		else
-		{		
+		{
 			$dsn = "{$this->pdodriver}:Server={$this->hostname}";
-	
+
 			if ( ! empty($this->port))
 			{
 				$dsn .= ','.$this->port;
 			}
-			
+
 			$dsn .= ';Database='.$this->database;
-			
+
 			// if the driver is dblib, the connection string is more similar to other drivers
 			if (empty($this->dsn) && $this->pdodriver == 'dblib')
 			{
 				$dsn = "dblib:host={$this->hostname}";
-				
+
 				if ( ! empty($this->port))
 				{
 					$dsn .= ':'.$this->port;
 				}
-				
+
 				$dsn .= ';dbname='.$this->database;
 			}
 		}
-	
+
 		// Connecting...
-		try 
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -93,9 +93,9 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Manipulate the query string for the current database
 	 *
@@ -107,9 +107,9 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 		$sql = preg_replace('`"(.*)"`imx', '[\1]', $sql);
 		return str_replace('"."', '].[', $sql);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Override for insert_id method
 	 *
@@ -124,24 +124,25 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 			$query = $query->row();
 			return $query->ins_id;
 		}
-		
+
 		return $this->conn_id->lastInsertId($name);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -154,9 +155,9 @@ class CI_SQLSrv_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		return 'SELECT TOP 1 * FROM '.$this->_from_tables($table);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *

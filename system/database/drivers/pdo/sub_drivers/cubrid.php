@@ -87,9 +87,10 @@ class CI_cubrid_PDO_Driver extends CI_DB_pdo_driver {
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($param_limit = FALSE)
 	{
 		return FALSE;
 	}

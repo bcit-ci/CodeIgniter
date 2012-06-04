@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -41,9 +41,9 @@ class CI_firebird_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		parent::__construct($params);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
@@ -52,13 +52,13 @@ class CI_firebird_PDO_Driver extends CI_DB_pdo_driver{
 		$dsn = ( ! empty($this->dsn))
 			? $this->dsn
 			: "firebird:dbname={$this->host}:{$this->database};";
-	
+
 		// Connecting...
-		try 
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -68,25 +68,26 @@ class CI_firebird_PDO_Driver extends CI_DB_pdo_driver{
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		return  <<<SQL
-			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS" 
+			SELECT "RDB\$RELATION_NAME" FROM "RDB\$RELATIONS"
 			WHERE "RDB\$RELATION_NAME" NOT LIKE 'RDB$%'
 			AND "RDB\$RELATION_NAME" NOT LIKE 'MON$%'
 SQL;
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -99,9 +100,9 @@ SQL;
 	{
 		return 'SELECT FIRST 1 * FROM '.$this->_from_tables($table);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
@@ -117,14 +118,14 @@ SQL;
 	{
 		// Keep the current sql string safe for a moment
 		$orig_sql = $sql;
-		
+
 		$sql = 'FIRST '. (int) $limit;
 
 		if ($offset > 0)
 		{
 			$sql .= ' SKIP '. (int) $offset;
 		}
-		
+
 		return preg_replace('`SELECT`i', "SELECT {$sql}", $orig_sql);
 	}
 }

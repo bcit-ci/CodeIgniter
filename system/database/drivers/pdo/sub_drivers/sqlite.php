@@ -5,9 +5,9 @@
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -41,9 +41,9 @@ class CI_sqlite_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		parent::__construct($params);
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Establish the database connection
 	 */
@@ -52,19 +52,19 @@ class CI_sqlite_PDO_Driver extends CI_DB_pdo_driver{
 		$dsn = ( ! empty($this->dsn))
 			? $this->dsn
 			: "sqlite:";
-			
+
 		if ($this->database !== ':memory')
         {
             //$dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
             $dsn .= (strpos($dsn, $this->database) === FALSE) ? $this->database : '';
         }
-	
+
 		// Connecting...
-		try 
+		try
 		{
 			$this->conn_id = new PDO($dsn, $this->username, $this->password, $this->options);
-		} 
-		catch (PDOException $e) 
+		}
+		catch (PDOException $e)
 		{
 			if ($this->db_debug && empty($this->failover))
 			{
@@ -74,21 +74,22 @@ class CI_sqlite_PDO_Driver extends CI_DB_pdo_driver{
 			return FALSE;
 		}
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * SQL string to list the tables in the database
 	 *
+	 * @param	bool
 	 * @return	string
 	 */
-	public function _list_tables()
+	public function _list_tables($prefix_limit = FALSE)
 	{
 		return "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
 	}
-	
+
 	// --------------------------------------------------------------------------
-	
+
 	/**
 	 * Field data query
 	 *
@@ -101,7 +102,7 @@ class CI_sqlite_PDO_Driver extends CI_DB_pdo_driver{
 	{
 		return 'PRAGMA table_info('.$this->_from_tables($table).')';
 	}
-	
+
 	// --------------------------------------------------------------------------
 
 	/**
