@@ -111,8 +111,8 @@ class CI_URI {
 
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
+			if (trim($path, '/') !== '' && $path !== '/'.SELF)
 			{
 				$this->_set_uri_string($path);
 				return;
@@ -120,14 +120,14 @@ class CI_URI {
 
 			// No PATH_INFO?... What about QUERY_STRING?
 			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') != '')
+			if (trim($path, '/') !== '')
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
+			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
 			{
 				$this->_set_uri_string(key($_GET));
 				return;
@@ -218,7 +218,7 @@ class CI_URI {
 			$_GET = array();
 		}
 
-		if ($uri == '/' OR empty($uri))
+		if ($uri === '/' OR empty($uri))
 		{
 			return '/';
 		}
@@ -270,7 +270,7 @@ class CI_URI {
 	 */
 	public function _filter_uri($str)
 	{
-		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
+		if ($str !== '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') === FALSE)
 		{
 			// preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards
 			// compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
@@ -298,7 +298,7 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') != '')
+		if  ($this->config->item('url_suffix') !== '')
 		{
 			$this->uri_string = preg_replace('|'.preg_quote($this->config->item('url_suffix')).'$|', '', $this->uri_string);
 		}
@@ -321,7 +321,7 @@ class CI_URI {
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));
 
-			if ($val != '')
+			if ($val !== '')
 			{
 				$this->segments[] = $val;
 			}

@@ -223,7 +223,7 @@ class CI_Upload {
 		}
 
 		// if we're overriding, let's now make sure the new name and type is allowed
-		if ($this->_file_name_override != '')
+		if ($this->_file_name_override !== '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
 
@@ -276,7 +276,7 @@ class CI_Upload {
 		}
 
 		// Remove white spaces in the name
-		if ($this->remove_spaces == TRUE)
+		if ($this->remove_spaces === TRUE)
 		{
 			$this->file_name = preg_replace('/\s+/', '_', $this->file_name);
 		}
@@ -289,7 +289,7 @@ class CI_Upload {
 		 */
 		$this->orig_name = $this->file_name;
 
-		if ($this->overwrite == FALSE)
+		if ($this->overwrite === FALSE)
 		{
 			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
 
@@ -397,7 +397,7 @@ class CI_Upload {
 	 */
 	public function set_filename($path, $filename)
 	{
-		if ($this->encrypt_name == TRUE)
+		if ($this->encrypt_name === TRUE)
 		{
 			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
@@ -420,7 +420,7 @@ class CI_Upload {
 			}
 		}
 
-		if ($new_filename == '')
+		if ($new_filename === '')
 		{
 			$this->set_error('upload_bad_filename');
 			return FALSE;
@@ -545,7 +545,7 @@ class CI_Upload {
 	 */
 	public function set_xss_clean($flag = FALSE)
 	{
-		$this->xss_clean = ($flag == TRUE);
+		$this->xss_clean = ($flag === TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -641,7 +641,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		return ($this->max_size == 0 OR $this->max_size > $this->file_size);
+		return ($this->max_size === 0 OR $this->max_size > $this->file_size);
 	}
 
 	// --------------------------------------------------------------------
@@ -687,7 +687,7 @@ class CI_Upload {
 	 */
 	public function validate_upload_path()
 	{
-		if ($this->upload_path == '')
+		if ($this->upload_path === '')
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
@@ -814,7 +814,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit') != '')
+		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit'))
 		{
 			$current = ini_get('memory_limit') * 1024 * 1024;
 
@@ -884,14 +884,14 @@ class CI_Upload {
 		{
 			foreach ($msg as $val)
 			{
-				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
+				$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
 		}
 		else
 		{
-			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -926,7 +926,7 @@ class CI_Upload {
 	{
 		global $mimes;
 
-		if (count($this->mimes) == 0)
+		if (count($this->mimes) === 0)
 		{
 			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
@@ -960,7 +960,7 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
+		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
 		{
 			return $filename;
 		}

@@ -214,7 +214,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
  		}
 
  		return $sql.$this->_process_fields($fields)
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field !== '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
  	}
 
 }

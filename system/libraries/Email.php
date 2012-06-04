@@ -104,7 +104,7 @@ class CI_Email {
 		}
 		else
 		{
-			$this->_smtp_auth = ! ($this->smtp_user == '' && $this->smtp_pass == '');
+			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
 			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
@@ -139,7 +139,7 @@ class CI_Email {
 		}
 		$this->clear();
 
-		$this->_smtp_auth = ! ($this->smtp_user == '' && $this->smtp_pass == '');
+		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
 		$this->_safe_mode = (bool) @ini_get('safe_mode');
 
 		return $this;
@@ -201,7 +201,7 @@ class CI_Email {
 		}
 
 		// prepare the display name
-		if ($name != '')
+		if ($name !== '')
 		{
 			// only use Q encoding if there are characters that would require it
 			if ( ! preg_match('/[\200-\377]/', $name))
@@ -242,7 +242,7 @@ class CI_Email {
 			$this->validate_email($this->_str_to_array($replyto));
 		}
 
-		if ($name == '')
+		if ($name === '')
 		{
 			$name = $replyto;
 		}
@@ -333,7 +333,7 @@ class CI_Email {
 	 */
 	public function bcc($bcc, $limit = '')
 	{
-		if ($limit != '' && is_numeric($limit))
+		if ($limit !== '' && is_numeric($limit))
 		{
 			$this->bcc_batch_mode = TRUE;
 			$this->bcc_batch_size = $limit;
@@ -586,7 +586,7 @@ class CI_Email {
 		$this->protocol = strtolower($this->protocol);
 		in_array($this->protocol, $this->_protocols, TRUE) OR $this->protocol = 'mail';
 
-		if ($return == TRUE)
+		if ($return === TRUE)
 		{
 			return $this->protocol;
 		}
@@ -612,7 +612,7 @@ class CI_Email {
 			}
 		}
 
-		if ($return == TRUE)
+		if ($return === TRUE)
 		{
 			return $this->_encoding;
 		}
@@ -629,7 +629,7 @@ class CI_Email {
 	{
 		if ($this->mailtype === 'html')
 		{
-			return (count($this->_attach_name) == 0) ? 'html' : 'html-attach';
+			return (count($this->_attach_name) === 0) ? 'html' : 'html-attach';
 		}
 		elseif	($this->mailtype === 'text' && count($this->_attach_name) > 0)
 		{
@@ -750,7 +750,7 @@ class CI_Email {
 	 */
 	protected function _get_alt_message()
 	{
-		if ($this->alt_message != '')
+		if ($this->alt_message !== '')
 		{
 			return $this->word_wrap($this->alt_message, '76');
 		}
@@ -778,9 +778,9 @@ class CI_Email {
 	public function word_wrap($str, $charlim = '')
 	{
 		// Se the character limit
-		if ($charlim == '')
+		if ($charlim === '')
 		{
-			$charlim = ($this->wrapchars == '') ? 76 : $this->wrapchars;
+			$charlim = ($this->wrapchars === '') ? 76 : $this->wrapchars;
 		}
 
 		// Reduce multiple spaces
@@ -838,7 +838,7 @@ class CI_Email {
 
 			// If $temp contains data it means we had to split up an over-length
 			// word into smaller chunks so we'll add it back to our current line
-			if ($temp != '')
+			if ($temp !== '')
 			{
 				$output .= $temp.$this->newline;
 			}
@@ -896,7 +896,7 @@ class CI_Email {
 		{
 			$val = trim($val);
 
-			if ($val != '')
+			if ($val !== '')
 			{
 				$this->_header_str .= $key.': '.$val.$this->newline;
 			}
@@ -1043,7 +1043,7 @@ class CI_Email {
 			$ctype = $this->_attach_type[$i];
 			$file_content = '';
 
-			if ($this->_attach_type[$i] == '')
+			if ($this->_attach_type[$i] === '')
 			{
 				if ( ! file_exists($filename))
 				{
@@ -1099,7 +1099,7 @@ class CI_Email {
 		// Set the character limit
 		// Don't allow over 76, as that will make servers and MUAs barf
 		// all over quoted-printable data
-		if ($charlim == '' OR $charlim > 76)
+		if ($charlim === '' OR $charlim > 76)
 		{
 			$charlim = 76;
 		}
@@ -1240,7 +1240,7 @@ class CI_Email {
 	 */
 	public function send()
 	{
-		if ($this->_replyto_flag == FALSE)
+		if ($this->_replyto_flag === FALSE)
 		{
 			$this->reply_to($this->_headers['From']);
 		}
@@ -1284,7 +1284,7 @@ class CI_Email {
 				$set .= ', '.$this->_bcc_array[$i];
 			}
 
-			if ($i == $float)
+			if ($i === $float)
 			{
 				$chunk[] = substr($set, 1);
 				$float += $this->bcc_batch_size;
@@ -1377,7 +1377,7 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
-		if ($this->_safe_mode == TRUE)
+		if ($this->_safe_mode === TRUE)
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
 		}
@@ -1430,7 +1430,7 @@ class CI_Email {
 	 */
 	protected function _send_with_smtp()
 	{
-		if ($this->smtp_host == '')
+		if ($this->smtp_host === '')
 		{
 			$this->_set_error_message('lang:email_no_hostname');
 			return FALSE;
@@ -1452,7 +1452,7 @@ class CI_Email {
 		{
 			foreach ($this->_cc_array as $val)
 			{
-				if ($val != '')
+				if ($val !== '')
 				{
 					$this->_send_command('to', $val);
 				}
@@ -1463,7 +1463,7 @@ class CI_Email {
 		{
 			foreach ($this->_bcc_array as $val)
 			{
-				if ($val != '')
+				if ($val !== '')
 				{
 					$this->_send_command('to', $val);
 				}
@@ -1501,7 +1501,7 @@ class CI_Email {
 	 */
 	protected function _smtp_connect()
 	{
-		$ssl = ($this->smtp_crypto == 'ssl') ? 'ssl://' : NULL;
+		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 							$this->smtp_port,
@@ -1517,7 +1517,7 @@ class CI_Email {
 
 		$this->_set_error_message($this->_get_smtp_data());
 
-		if ($this->smtp_crypto == 'tls')
+		if ($this->smtp_crypto === 'tls')
 		{
 			$this->_send_command('hello');
 			$this->_send_command('starttls');
@@ -1599,13 +1599,13 @@ class CI_Email {
 
 		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-		if (substr($reply, 0, 3) != $resp)
+		if (substr($reply, 0, 3) !== $resp)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
 		}
 
-		if ($cmd == 'quit')
+		if ($cmd === 'quit')
 		{
 			fclose($this->_smtp_connect);
 		}
@@ -1627,7 +1627,7 @@ class CI_Email {
 			return TRUE;
 		}
 
-		if ($this->smtp_user == '' && $this->smtp_pass == '')
+		if ($this->smtp_user === '' && $this->smtp_pass === '')
 		{
 			$this->_set_error_message('lang:email_no_smtp_unpw');
 			return FALSE;
@@ -1699,7 +1699,7 @@ class CI_Email {
 		{
 			$data .= $str;
 
-			if ($str[3] == ' ')
+			if ($str[3] === ' ')
 			{
 				break;
 			}
