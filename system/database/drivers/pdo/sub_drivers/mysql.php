@@ -44,7 +44,7 @@ class CI_mysql_PDO_Driver extends CI_DB_pdo_driver{
 		// Set the escape character to the silly backtick
 		$this->_escape_char = '`';
 		$this->_like_escape_str = '';
-		$this->_like_escape_chr = '';
+		$this->_like_escape_chr = '\\';
 
 		// Refer : http://php.net/manual/en/ref.pdo-mysql.connection.php
 		if ( ! is_php('5.3.6'))
