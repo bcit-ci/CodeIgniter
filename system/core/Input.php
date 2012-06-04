@@ -267,18 +267,22 @@ class CI_Input {
 		{
 			$prefix = config_item('cookie_prefix');
 		}
-		if ($domain === '' && config_item('cookie_domain') !== '')
+
+		if ($domain == '' && config_item('cookie_domain') != '')
 		{
 			$domain = config_item('cookie_domain');
 		}
+
 		if ($path === '/' && config_item('cookie_path') !== '/')
 		{
 			$path = config_item('cookie_path');
 		}
+
 		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
 		{
 			$secure = config_item('cookie_secure');
 		}
+
 		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
 		{
 			$httponly = config_item('cookie_httponly');
@@ -324,7 +328,7 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
-		if (config_item('proxy_ips') !== '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
+		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
 			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
 			$proxies = is_array($proxies) ? $proxies : array($proxies);

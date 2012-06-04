@@ -189,7 +189,7 @@ class CI_Config {
 	 */
 	public function item($item, $index = '')
 	{
-		if ($index === '')
+		if ($index == '')
 		{
 			return isset($this->config[$item]) ? $this->config[$item] : FALSE;
 		}
