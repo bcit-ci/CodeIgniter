@@ -1535,7 +1535,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->where($where);
 		}
 
-		if ($limit !== NULL)
+		if ($limit != NULL)
 		{
 			$this->limit($limit);
 		}
@@ -1856,7 +1856,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->where($where);
 		}
 
-		if ($limit !== NULL)
+		if ($limit != NULL)
 		{
 			$this->limit($limit);
 		}

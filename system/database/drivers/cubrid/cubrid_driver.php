@@ -74,7 +74,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 		else
 		{
 			// If no port is defined by the user, use the default value
-			$this->port === '' OR $this->port = 33000;
+			empty($this->port) OR $this->port = 33000;
 		}
 	}
 

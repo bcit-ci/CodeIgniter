@@ -64,7 +64,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		if ($this->port !== '')
+		if ( ! empty($this->port))
 		{
 			$this->hostname .= ','.$this->port;
 		}
@@ -81,7 +81,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		if ($this->port !== '')
+		if ( ! empty($this->port))
 		{
 			$this->hostname .= ','.$this->port;
 		}
