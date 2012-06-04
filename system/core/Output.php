@@ -106,15 +106,13 @@ class CI_Output {
 		// Get mime types for later
 		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+			$this->mime_types = include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
-			include APPPATH.'config/mimes.php';
+			$this->mime_types = include APPPATH.'config/mimes.php';
 		}
 
-
-		$this->mime_types = $mimes;
 		log_message('debug', 'Output Class Initialized');
 	}
 

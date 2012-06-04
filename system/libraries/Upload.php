@@ -930,18 +930,16 @@ class CI_Upload {
 		{
 			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+				$this->mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 			}
 			elseif (is_file(APPPATH.'config/mimes.php'))
 			{
-				include(APPPATH.'config/mimes.php');
+				$this->mimes = include(APPPATH.'config/mimes.php');
 			}
 			else
 			{
 				return FALSE;
 			}
-
-			$this->mimes = $mimes;
 		}
 
 		return isset($this->mimes[$mime]) ? $this->mimes[$mime] : FALSE;
