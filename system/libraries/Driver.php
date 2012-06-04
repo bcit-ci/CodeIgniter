@@ -51,7 +51,7 @@ class CI_Driver_Library {
 	 *
 	 * @var string
 	 */
-	protected static $lib_name;
+	protected $lib_name;
 
 	/**
 	 * The first time a child is used it won't exist, so we instantiate it
