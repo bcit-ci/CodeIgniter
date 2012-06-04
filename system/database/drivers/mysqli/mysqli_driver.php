@@ -71,9 +71,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return ($this->port !== '')
-			? @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port)
-			: @new mysqli($this->hostname, $this->username, $this->password, $this->database);
+		return empty($this->port)
+			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
+			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
 	}
 
 	// --------------------------------------------------------------------
@@ -91,9 +91,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return $this->db_connect();
 		}
 
-		return ($this->port !== '')
-			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port)
-			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database);
+		return empty($this->port)
+			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database)
+			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port);
 	}
 
 	// --------------------------------------------------------------------

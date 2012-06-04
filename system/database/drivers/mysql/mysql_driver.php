@@ -68,7 +68,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		if ($this->port !== '')
+		if ( ! empty($this->port))
 		{
 			$this->hostname .= ':'.$this->port;
 		}

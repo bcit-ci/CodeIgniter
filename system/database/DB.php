@@ -106,7 +106,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	// No DB specified yet? Beat them senseless...
-	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] === '')
+	if (empty($params['dbdriver']))
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
@@ -157,7 +157,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		$DB->initialize();
 	}
 
-	if (isset($params['stricton']) && $params['stricton'] === TRUE)
+	if ( ! empty($params['stricton']))
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
