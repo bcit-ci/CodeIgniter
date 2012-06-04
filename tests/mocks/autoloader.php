@@ -7,9 +7,9 @@
 // Prototype :
 //
 // $mock_table = new Mock_Libraries_Table(); 			// Will load ./mocks/libraries/table.php
-// $mock_database_driver = new Mock_Database_Driver();	// Will load ./mocks/database/driver.php 
+// $mock_database_driver = new Mock_Database_Driver();	// Will load ./mocks/database/driver.php
 // and so on...
-function autoload($class) 
+function autoload($class)
 {
 	$dir = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
 
@@ -75,13 +75,13 @@ function autoload($class)
 	{
 		$trace = debug_backtrace();
 
-		// If the autoload call came from `class_exists` or `file_exists`, 
+		// If the autoload call came from `class_exists` or `file_exists`,
 		// we skipped and return FALSE
 		if ($trace[2]['function'] === 'class_exists' OR $trace[2]['function'] === 'file_exists')
 		{
 			return FALSE;
 		}
-		
+
 	    throw new InvalidArgumentException("Unable to load $class.");
 	}
 
