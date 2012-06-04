@@ -50,7 +50,7 @@ if ( ! function_exists('now'))
 	{
 		$CI =& get_instance();
 
-		if (strtolower($CI->config->item('time_reference')) == 'gmt')
+		if (strtolower($CI->config->item('time_reference')) === 'gmt')
 		{
 			$now = time();
 			$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
@@ -90,12 +90,12 @@ if ( ! function_exists('mdate'))
 	 */
 	function mdate($datestr = '', $time = '')
 	{
-		if ($datestr == '')
+		if ($datestr === '')
 		{
 			return '';
 		}
 
-		$time = ($time == '') ? now() : $time;
+		$time = ($time === '') ? now() : $time;
 
 		$datestr = str_replace(
 			'%\\',
@@ -280,14 +280,14 @@ if ( ! function_exists('days_in_month'))
 			return 0;
 		}
 
-		if ( ! is_numeric($year) OR strlen($year) != 4)
+		if ( ! is_numeric($year) OR strlen($year) !== 4)
 		{
 			$year = date('Y');
 		}
 
 		if ($month == 2)
 		{
-			if ($year % 400 == 0 OR ($year % 4 == 0 && $year % 100 != 0))
+			if ($year % 400 === 0 OR ($year % 4 === 0 && $year % 100 !== 0))
 			{
 				return 29;
 			}
@@ -310,7 +310,7 @@ if ( ! function_exists('local_to_gmt'))
 	 */
 	function local_to_gmt($time = '')
 	{
-		if ($time == '')
+		if ($time === '')
 		{
 			$time = time();
 		}
@@ -344,14 +344,14 @@ if ( ! function_exists('gmt_to_local'))
 	 */
 	function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
 	{
-		if ($time == '')
+		if ($time === '')
 		{
 			return now();
 		}
 
 		$time += timezones($timezone) * 3600;
 
-		if ($dst == TRUE)
+		if ($dst === TRUE)
 		{
 			$time += 3600;
 		}
@@ -410,7 +410,7 @@ if ( ! function_exists('unix_to_human'))
 	{
 		$r  = date('Y', $time).'-'.date('m', $time).'-'.date('d', $time).' ';
 
-		if ($fmt == 'us')
+		if ($fmt === 'us')
 		{
 			$r .= date('h', $time).':'.date('i', $time);
 		}
@@ -424,7 +424,7 @@ if ( ! function_exists('unix_to_human'))
 			$r .= ':'.date('s', $time);
 		}
 
-		if ($fmt == 'us')
+		if ($fmt === 'us')
 		{
 			$r .= ' '.date('A', $time);
 		}
@@ -447,7 +447,7 @@ if ( ! function_exists('human_to_unix'))
 	 */
 	function human_to_unix($datestr = '')
 	{
-		if ($datestr == '')
+		if ($datestr === '')
 		{
 			return FALSE;
 		}
@@ -472,9 +472,9 @@ if ( ! function_exists('human_to_unix'))
 		$hour = (strlen($ex[0]) === 1) ? '0'.$ex[0] : $ex[0];
 		$min  = (strlen($ex[1]) === 1) ? '0'.$ex[1] : $ex[1];
 
-		if (isset($ex['2']) && preg_match('/[0-9]{1,2}/', $ex[2]))
+		if (isset($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
 		{
-			$sec  = (strlen($ex[2]) === 1) ? '0'.$ex[2] : $ex[2];
+			$sec = (strlen($ex[2]) === 1) ? '0'.$ex[2] : $ex[2];
 		}
 		else
 		{
@@ -482,7 +482,7 @@ if ( ! function_exists('human_to_unix'))
 			$sec = '00';
 		}
 
-		if (isset($split['2']))
+		if (isset($split[2]))
 		{
 			$ampm = strtolower($split[2]);
 
@@ -562,7 +562,7 @@ if ( ! function_exists('nice_date'))
 		// Any other kind of string, when converted into UNIX time,
 		// produces "0 seconds after epoc..." is probably bad...
 		// return "Invalid Date".
-		if (date('U', strtotime($bad_date)) == '0')
+		if (date('U', strtotime($bad_date)) === '0')
 		{
 			return 'Invalid Date';
 		}
@@ -591,11 +591,11 @@ if ( ! function_exists('timezone_menu'))
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		$default = ($default == 'GMT') ? 'UTC' : $default;
+		$default = ($default === 'GMT') ? 'UTC' : $default;
 
 		$menu = '<select name="'.$name.'"';
 
-		if ($class != '')
+		if ($class !== '')
 		{
 			$menu .= ' class="'.$class.'"';
 		}
@@ -604,7 +604,7 @@ if ( ! function_exists('timezone_menu'))
 
 		foreach (timezones() as $key => $val)
 		{
-			$selected = ($default == $key) ? ' selected="selected"' : '';
+			$selected = ($default === $key) ? ' selected="selected"' : '';
 			$menu .= '<option value="'.$key.'"'.$selected.'>'.$CI->lang->line($key)."</option>\n";
 		}
 
@@ -673,12 +673,12 @@ if ( ! function_exists('timezones'))
 			'UP14'		=> +14
 		);
 
-		if ($tz == '')
+		if ($tz === '')
 		{
 			return $zones;
 		}
 
-		$tz = ($tz == 'GMT') ? 'UTC' : $tz;
+		$tz = ($tz === 'GMT') ? 'UTC' : $tz;
 
 		return isset($zones[$tz]) ? $zones[$tz] : 0;
 	}

@@ -101,7 +101,7 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
-		$this->_zlib_oc = @ini_get('zlib.output_compression');
+		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		// Get mime types for later
 		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
@@ -192,7 +192,7 @@ class CI_Output {
 		// but it will not modify the content-length header to compensate for
 		// the reduction, causing the browser to hang waiting for more data.
 		// We'll just skip content-length in those cases.
-		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) == 0)
+		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) === 0)
 		{
 			return;
 		}
@@ -349,7 +349,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Set the output data
-		if ($output == '')
+		if ($output === '')
 		{
 			$output =& $this->final_output;
 		}
@@ -381,7 +381,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE
+		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
 			&& extension_loaded('zlib')
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
@@ -416,7 +416,7 @@ class CI_Output {
 
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
-		if ($this->enable_profiler == TRUE)
+		if ($this->enable_profiler === TRUE)
 		{
 			$CI->load->library('profiler');
 			if ( ! empty($this->_profiler_sections))
@@ -460,7 +460,7 @@ class CI_Output {
 	{
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
-		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
@@ -505,11 +505,11 @@ class CI_Output {
 	 *
 	 * @param 	object	config class
 	 * @param 	object	uri class
-	 * @return	void
+	 * @return	bool
 	 */
 	public function _display_cache(&$CFG, &$URI)
 	{
-		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
 		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;

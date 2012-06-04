@@ -55,7 +55,7 @@ if ( ! function_exists('smiley_js'))
 		static $do_setup = TRUE;
 		$r = '';
 
-		if ($alias != '' && ! is_array($alias))
+		if ($alias !== '' && ! is_array($alias))
 		{
 			$alias = array($alias => $field_id);
 		}
@@ -184,7 +184,7 @@ if ( ! function_exists('parse_smileys'))
 	 */
 	function parse_smileys($str = '', $image_url = '', $smileys = NULL)
 	{
-		if ($image_url == '' OR ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array())))
+		if ($image_url === '' OR ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array())))
 		{
 			return $str;
 		}

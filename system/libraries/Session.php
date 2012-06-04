@@ -206,7 +206,7 @@ class CI_Session {
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
 
-		if ($this->encryption_key == '')
+		if ($this->encryption_key === '')
 		{
 			show_error('In order to use the Session class you are required to set an encryption key in your config file.');
 		}
@@ -215,13 +215,13 @@ class CI_Session {
 		$this->CI->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$this->CI->load->library('encrypt');
 		}
 
 		// Are we using a database? If so, load it
-		if ($this->sess_use_database === TRUE && $this->sess_table_name != '')
+		if ($this->sess_use_database === TRUE && $this->sess_table_name !== '')
 		{
 			$this->CI->load->database();
 		}
@@ -232,7 +232,7 @@ class CI_Session {
 
 		// Set the session length. If the session expiration is
 		// set to zero we'll set the expiration two years from now.
-		if ($this->sess_expiration == 0)
+		if ($this->sess_expiration === 0)
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
@@ -283,7 +283,7 @@ class CI_Session {
 		}
 
 		// Decrypt the cookie data
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$session = $this->CI->encrypt->decode($session);
 		}
@@ -320,14 +320,14 @@ class CI_Session {
 		}
 
 		// Does the IP match?
-		if ($this->sess_match_ip == TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
+		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
+		if ($this->sess_match_useragent === TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -338,12 +338,12 @@ class CI_Session {
 		{
 			$this->CI->db->where('session_id', $session['session_id']);
 
-			if ($this->sess_match_ip == TRUE)
+			if ($this->sess_match_ip === TRUE)
 			{
 				$this->CI->db->where('ip_address', $session['ip_address']);
 			}
 
-			if ($this->sess_match_useragent == TRUE)
+			if ($this->sess_match_useragent === TRUE)
 			{
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
@@ -359,7 +359,7 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) && $row->user_data != '')
+			if ( ! empty($row->user_data))
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 
@@ -809,7 +809,7 @@ class CI_Session {
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
@@ -929,7 +929,7 @@ class CI_Session {
 	 */
 	protected function _sess_gc()
 	{
-		if ($this->sess_use_database != TRUE)
+		if ($this->sess_use_database !== TRUE)
 		{
 			return;
 		}

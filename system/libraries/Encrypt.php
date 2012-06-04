@@ -97,9 +97,9 @@ class CI_Encrypt {
 	 */
 	public function get_key($key = '')
 	{
-		if ($key == '')
+		if ($key === '')
 		{
-			if ($this->encryption_key != '')
+			if ($this->encryption_key !== '')
 			{
 				return $this->encryption_key;
 			}
@@ -449,7 +449,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_cipher()
 	{
-		if ($this->_mcrypt_cipher == '')
+		if ($this->_mcrypt_cipher === '')
 		{
 			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
@@ -466,7 +466,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_mode()
 	{
-		if ($this->_mcrypt_mode == '')
+		if ($this->_mcrypt_mode === '')
 		{
 			return $this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}

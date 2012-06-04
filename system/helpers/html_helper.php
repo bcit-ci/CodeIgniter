@@ -51,7 +51,7 @@ if ( ! function_exists('heading'))
 	 */
 	function heading($data = '', $h = '1', $attributes = '')
 	{
-		return '<h'.$h.($attributes != '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
+		return '<h'.$h.($attributes !== '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
 	}
 }
 
@@ -334,12 +334,12 @@ if ( ! function_exists('link_tag'))
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
 
-			if ($media != '')
+			if ($media !== '')
 			{
 				$link .= 'media="'.$media.'" ';
 			}
 
-			if ($title != '')
+			if ($title !== '')
 			{
 				$link .= 'title="'.$title.'" ';
 			}

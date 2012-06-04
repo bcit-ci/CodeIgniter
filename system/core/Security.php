@@ -162,7 +162,7 @@ class CI_Security {
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name]) OR ! isset($_COOKIE[$this->_csrf_cookie_name])
-			OR $_POST[$this->_csrf_token_name] != $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+			OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
 		{
 			$this->csrf_show_error();
 		}
@@ -408,7 +408,7 @@ class CI_Security {
 				$str = preg_replace('#<(/*)(script|xss)(.*?)\>#si', '[removed]', $str);
 			}
 		}
-		while($original != $str);
+		while($original !== $str);
 
 		unset($original);
 
@@ -475,7 +475,7 @@ class CI_Security {
 	 */
 	public function xss_hash()
 	{
-		if ($this->_xss_hash == '')
+		if ($this->_xss_hash === '')
 		{
 			mt_srand();
 			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
@@ -825,7 +825,7 @@ class CI_Security {
 	 */
 	protected function _csrf_set_hash()
 	{
-		if ($this->_csrf_hash == '')
+		if ($this->_csrf_hash === '')
 		{
 			// If the cookie exists we will use it's value.
 			// We don't necessarily want to regenerate it with

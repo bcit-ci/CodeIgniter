@@ -317,12 +317,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->pdodriver == 'pgsql')
+		if ($this->pdodriver === 'pgsql')
 		{
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
-		elseif ($this->pdodriver == 'sqlite')
+		elseif ($this->pdodriver === 'sqlite')
 		{
 			// Analog function to show all tables in sqlite
 			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
@@ -332,7 +332,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 		}
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
 			return FALSE;
 		}
@@ -430,7 +430,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}

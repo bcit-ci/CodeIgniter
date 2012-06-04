@@ -356,13 +356,13 @@ class CI_DB_postgre_driver extends CI_DB {
 		$table	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
 		$column	= (func_num_args() > 1) ? func_get_arg(1) : NULL;
 
-		if ($table == NULL && $v >= '8.1')
+		if ($table === NULL && $v >= '8.1')
 		{
 			$sql = 'SELECT LASTVAL() AS ins_id';
 		}
-		elseif ($table != NULL)
+		elseif ($table !== NULL)
 		{
-			if ($column != NULL && $v >= '8.0')
+			if ($column !== NULL && $v >= '8.0')
 			{
 				$sql = 'SELECT pg_get_serial_sequence(\''.$table."', '".$column."') AS seq";
 				$query = $this->query($sql);
@@ -401,7 +401,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -528,7 +528,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] =  'WHEN '.$val[$index].' THEN '.$val[$field];
 				}
@@ -544,7 +544,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
 	}
 
