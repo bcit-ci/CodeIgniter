@@ -285,7 +285,7 @@ if ( ! function_exists('days_in_month'))
 			$year = date('Y');
 		}
 
-		if ($month === 2)
+		if ($month == 2)
 		{
 			if ($year % 400 === 0 OR ($year % 4 === 0 && $year % 100 !== 0))
 			{
@@ -472,9 +472,9 @@ if ( ! function_exists('human_to_unix'))
 		$hour = (strlen($ex[0]) === 1) ? '0'.$ex[0] : $ex[0];
 		$min  = (strlen($ex[1]) === 1) ? '0'.$ex[1] : $ex[1];
 
-		if (isset($ex['2']) && preg_match('/[0-9]{1,2}/', $ex[2]))
+		if (isset($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
 		{
-			$sec  = (strlen($ex[2]) === 1) ? '0'.$ex[2] : $ex[2];
+			$sec = (strlen($ex[2]) === 1) ? '0'.$ex[2] : $ex[2];
 		}
 		else
 		{
@@ -482,7 +482,7 @@ if ( ! function_exists('human_to_unix'))
 			$sec = '00';
 		}
 
-		if (isset($split['2']))
+		if (isset($split[2]))
 		{
 			$ampm = strtolower($split[2]);
 
@@ -491,7 +491,7 @@ if ( ! function_exists('human_to_unix'))
 				$hour += 12;
 			}
 
-			if (substr($ampm, 0, 1) === 'a' && $hour === 12)
+			if (substr($ampm, 0, 1) === 'a' && $hour == 12)
 			{
 				$hour =  '00';
 			}

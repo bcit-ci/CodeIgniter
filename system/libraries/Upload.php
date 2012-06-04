@@ -809,12 +809,12 @@ class CI_Upload {
 	{
 		$file = $this->file_temp;
 
-		if (filesize($file) === 0)
+		if (filesize($file) == 0)
 		{
 			return FALSE;
 		}
 
-		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit') !== '')
+		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit'))
 		{
 			$current = ini_get('memory_limit') * 1024 * 1024;
 

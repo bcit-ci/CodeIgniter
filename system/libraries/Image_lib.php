@@ -610,8 +610,8 @@ class CI_Image_lib {
 		}
 
 		// Set the x/y coordinates
-		$this->x_axis = ($this->x_axis === '' OR ! preg_match('/^[0-9]+$/', $this->x_axis)) ? 0 : $this->x_axis;
-		$this->y_axis = ($this->y_axis === '' OR ! preg_match('/^[0-9]+$/', $this->y_axis)) ? 0 : $this->y_axis;
+		is_numeric($this->x_axis) OR $this->x_axis = 0;
+		is_numeric($this->y_axis) OR $this->y_axis = 0;
 
 		// Watermark-related Stuff...
 		if ($this->wm_overlay_path !== '')
@@ -750,7 +750,7 @@ class CI_Image_lib {
 			if ($this->gd_version() !== FALSE)
 			{
 				$gd_version = str_replace('0', '', $this->gd_version());
-				$v2_override = ($gd_version === 2) ? TRUE : FALSE;
+				$v2_override = ($gd_version === 2);
 			}
 		}
 		else
