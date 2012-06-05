@@ -18,13 +18,21 @@ class Lang_test extends CI_TestCase {
 	public function test_load()
 	{
 		$this->assertTrue($this->lang->load('profiler', 'english'));
+		$this->_test_line();
+	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_load_with_unspecified_language()
+	{
+		$this->assertTrue($this->lang->load('profiler'));
+		$this->_test_line();
 	}
 	
 	// --------------------------------------------------------------------
 
-	public function test_line()
+	private function _test_line()
 	{
-		$this->assertTrue($this->lang->load('profiler', 'english'));
 		$this->assertEquals('URI STRING', $this->lang->line('profiler_uri_string'));
 	}
 	
