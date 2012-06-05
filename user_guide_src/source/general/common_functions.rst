@@ -79,3 +79,8 @@ html_escape($mixed)
 This function provides short cut for htmlspecialchars() function. It
 accepts string and array. To prevent Cross Site Scripting (XSS), it is
 very useful.
+
+get_mimes()
+=============
+
+This function returns the MIMEs array from config/mimes.php.
