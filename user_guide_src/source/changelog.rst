@@ -227,6 +227,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
+-  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
 
 Version 2.1.1
 =============
