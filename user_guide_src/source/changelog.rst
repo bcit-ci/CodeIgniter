@@ -132,7 +132,7 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Enabled public access to Email library's set_header() for adding additional headers to e-mails.
+   -  Enabled public access to Email library's set_header() for adding additional headers to e-mails. Original function _set_header() now renamed to set_header().
 
 -  Core
 
