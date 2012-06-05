@@ -104,10 +104,9 @@ class CI_Encrypt {
 				return $this->encryption_key;
 			}
 
-			$CI =& get_instance();
-			$key = $CI->config->item('encryption_key');
+			$config =& get_config();
 
-			if ($key === FALSE)
+			if ( ! isset($config['encryption_key']))
 			{
 				show_error('In order to use the encryption class requires that you set an encryption key in your config file.');
 			}
