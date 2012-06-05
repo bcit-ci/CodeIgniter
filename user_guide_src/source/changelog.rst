@@ -147,6 +147,7 @@ Release Date: Not Released
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
+   -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
 
 Bug fixes for 3.0
 ------------------
@@ -225,6 +226,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
 -  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
+-  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 
 Version 2.1.1
 =============
