@@ -261,7 +261,7 @@ class CI_Loader {
 			$model = substr($model, $last_slash);
 		}
 
-		if ($name === '')
+		if (empty($name))
 		{
 			$name = $model;
 		}

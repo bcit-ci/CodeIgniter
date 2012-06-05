@@ -78,6 +78,8 @@ class CI_Upload {
 			$this->initialize($props);
 		}
 
+		$this->mimes =& get_mimes();
+
 		log_message('debug', 'Upload Class Initialized');
 	}
 
@@ -113,7 +115,6 @@ class CI_Upload {
 					'image_type'			=> '',
 					'image_size_str'		=> '',
 					'error_msg'			=> array(),
-					'mimes'				=> array(),
 					'remove_spaces'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
@@ -924,26 +925,6 @@ class CI_Upload {
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if (count($this->mimes) === 0)
-		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				return FALSE;
-			}
-
-			$this->mimes = $mimes;
-		}
-
 		return isset($this->mimes[$mime]) ? $this->mimes[$mime] : FALSE;
 	}
 
