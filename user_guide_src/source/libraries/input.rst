@@ -242,15 +242,6 @@ validates the IP automatically.
 	     echo 'Valid';
 	}
 
-$this->input->ip_version($ip)
-============================
-
-Takes an IP address as input and returns the version : 4 or 6.
-::
-
-	$ip = '175.123.74.43';
-	echo $this->input->ip_version($ip); // 4
-
 $this->input->user_agent()
 ===========================
 
