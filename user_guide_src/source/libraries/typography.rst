@@ -65,8 +65,7 @@ format_characters()
 This function is similar to the auto_typography function above, except
 that it only does character conversion:
 
--  Quotes are converted to correctly facing curly quote entities, except
-   those that appear within tags.
+-  Quotes are converted to correctly facing curly quote entities.
 -  Apostrophes are converted to curly apostrophe entities.
 -  Double dashes (either like -- this or like--this) are converted to
    em—dashes.
