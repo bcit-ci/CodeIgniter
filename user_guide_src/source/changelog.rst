@@ -225,6 +225,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
 -  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
+-  Fixed a bug (#1374) - :doc:`Table Library <libraries/table>` was generating an extra td tag at the start of the tr.
 
 Version 2.1.1
 =============
