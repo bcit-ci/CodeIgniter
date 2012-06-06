@@ -228,7 +228,7 @@ $this->input->valid_ip($ip)
 ============================
 
 Takes an IP address as input and returns TRUE or FALSE (boolean) if it
-is valid or not (works with IPv4 and IPv6). Note: The $this->input->ip_address() function above
+is valid or not. Note: The $this->input->ip_address() function above
 validates the IP automatically.
 
 ::
