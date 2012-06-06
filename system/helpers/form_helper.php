@@ -378,7 +378,7 @@ if ( ! function_exists('form_checkbox'))
 		{
 			$checked = $data['checked'];
 
-			if ($checked === FALSE)
+			if ($checked == FALSE)
 			{
 				unset($data['checked']);
 			}
@@ -388,7 +388,7 @@ if ( ! function_exists('form_checkbox'))
 			}
 		}
 
-		if ($checked === TRUE)
+		if ($checked == TRUE)
 		{
 			$defaults['checked'] = 'checked';
 		}
