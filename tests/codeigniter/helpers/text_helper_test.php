@@ -167,10 +167,10 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_default_word_wrap_charlim()
 	{
-		$string = "Here is a simple string of text that will help us demonstrate this function.";
+		$string = "Here is a longer string of text that will help us demonstrate the default charlim of this function.";
 		$word_wrapped = word_wrap($string);
-		$matches = preg_split("/\n/", $word_wrapped, 1);
-		$this->assertEquals(strlen($matches[0]) - 1, 76);
+		$matches = preg_split("/\n/", $word_wrapped, 0);
+		$this->assertEquals(strlen($matches[0]), 73);
 	}
 
 }
