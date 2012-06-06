@@ -23,6 +23,7 @@ Release Date: Not Released
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
@@ -79,8 +80,8 @@ Release Date: Not Released
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
 	 -  Added boolean data type support in escape().
 	 -  Added update_batch() support.
+	 -  Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
-   -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
@@ -134,8 +135,8 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Enabled public access to Email library's set_header() for adding additional headers to e-mails. Original function _set_header() now renamed to set_header().
    -  Input library now supports IPv6 and has a ip_version() method.
+   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
@@ -150,6 +151,7 @@ Release Date: Not Released
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
+   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
 
 Bug fixes for 3.0
 ------------------
@@ -230,6 +232,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
+-  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 
 Version 2.1.1
 =============
