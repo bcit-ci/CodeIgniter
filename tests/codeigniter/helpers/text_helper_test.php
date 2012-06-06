@@ -122,7 +122,7 @@ class Text_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------	
 
-	public function test_ellipsizing()
+	public function test_ellipsize()
 	{
 		$strs = array(
 			'0'		=> array(
