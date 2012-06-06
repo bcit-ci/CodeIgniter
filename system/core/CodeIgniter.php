@@ -73,9 +73,9 @@
  */
 	set_error_handler('_exception_handler');
 
-	if ( ! is_php('5.3'))
+	if ( ! is_php('5.4'))
 	{
-		@set_magic_quotes_runtime(0); // Kill magic quotes
+		@ini_set('magic_quotes_runtime', 0); // Kill magic quotes
 	}
 
 /*
