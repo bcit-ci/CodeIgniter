@@ -14,19 +14,12 @@
     </php>
 	<testsuites>
 		<testsuite name="CodeIgniter Core Test Suite">
-			<file>../../codeigniter/Setup_test.php</file>
-			<directory suffix="test.php">../../codeigniter/core</directory>
-			<directory suffix="test.php">../../codeigniter/helpers</directory>
-			<directory suffix="test.php">../../codeigniter/libraries</directory>
-			<directory suffix="test.php">../../codeigniter/database</directory>
+			<directory suffix="test.php">../../codeigniter</directory>
 		</testsuite>
 	</testsuites>
-	<filters>
-		<blacklist>
-			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
-			<directory suffix=".php">PHP_LIBDIR</directory>
-			<directory suffix=".php">PROJECT_BASE.'tests'</directory>
-			<directory suffix=".php">'../../../system/core/CodeIgniter.php'</directory>
-		</blacklist>
-	</filters>
+	<filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../../../system</directory>
+        </whitelist>
+	</filter>
 </phpunit>

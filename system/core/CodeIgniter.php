@@ -31,7 +31,7 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	codeigniter
+ * @subpackage	CodeIgniter
  * @category	Front-controller
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
@@ -73,9 +73,9 @@
  */
 	set_error_handler('_exception_handler');
 
-	if ( ! is_php('5.3'))
+	if ( ! is_php('5.4'))
 	{
-		@set_magic_quotes_runtime(0); // Kill magic quotes
+		@ini_set('magic_quotes_runtime', 0); // Kill magic quotes
 	}
 
 /*
@@ -94,20 +94,9 @@
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
-	if (isset($assign_to_config['subclass_prefix']) && $assign_to_config['subclass_prefix'] != '')
+	if ( ! empty($assign_to_config['subclass_prefix']))
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
-	}
-
-/*
- * ------------------------------------------------------
- *  Set a liberal script execution time limit
- * ------------------------------------------------------
- */
-	if (function_exists('set_time_limit') && @ini_get('safe_mode') == 0
-		&& php_sapi_name() !== 'cli') // Do not override the Time Limit value if running from Command Line
-	{
-		@set_time_limit(300);
 	}
 
 /*
@@ -193,7 +182,7 @@
  * ------------------------------------------------------
  */
 	if ($EXT->call_hook('cache_override') === FALSE
-		&& $OUT->_display_cache($CFG, $URI) == TRUE)
+		&& $OUT->_display_cache($CFG, $URI) === TRUE)
 	{
 		exit;
 	}
@@ -392,16 +381,6 @@
  * ------------------------------------------------------
  */
 	$EXT->call_hook('post_system');
-
-/*
- * ------------------------------------------------------
- *  Close the DB connection if one exists
- * ------------------------------------------------------
- */
-	if (class_exists('CI_DB') && isset($CI->db) && ! $CI->db->pconnect)
-	{
-		$CI->db->close();
-	}
 
 /* End of file CodeIgniter.php */
 /* Location: ./system/core/CodeIgniter.php */

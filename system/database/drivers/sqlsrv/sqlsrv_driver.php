@@ -132,11 +132,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id,
-					$sql,
-					NULL,
-					array('Scrollable'=> SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE)
-			);
+		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+			? sqlsrv_query($this->conn_id, $sql)
+			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
 
 	// --------------------------------------------------------------------
@@ -237,7 +235,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return sqlrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -276,35 +274,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		return $this->data_cache['version'] = $info['SQLServerVersion'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -510,12 +479,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlsrv_close($conn_id);
+		@sqlsrv_close($this->conn_id);
 	}
 
 }

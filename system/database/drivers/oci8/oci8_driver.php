@@ -262,7 +262,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function stored_procedure($package, $procedure, $params)
 	{
-		if ($package == '' OR $procedure == '' OR ! is_array($params))
+		if ($package === '' OR $procedure === '' OR ! is_array($params))
 		{
 			if ($this->db_debug)
 			{
@@ -455,35 +455,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query == FALSE)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -495,7 +466,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$sql = 'SELECT TABLE_NAME FROM ALL_TABLES';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." WHERE TABLE_NAME LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -663,7 +634,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$this->limit_used = TRUE;
 		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit).')'
-			.($offset != 0 ? ' WHERE rnum >= '.$offset : '');
+			.($offset !== 0 ? ' WHERE rnum >= '.$offset : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -671,12 +642,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@oci_close($conn_id);
+		@oci_close($this->conn_id);
 	}
 
 }

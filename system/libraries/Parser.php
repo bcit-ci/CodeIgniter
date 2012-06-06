@@ -42,14 +42,14 @@ class CI_Parser {
 	 * @var string
 	 */
 	public $l_delim = '{';
-	
+
 	/**
 	 * Right delimeter character for psuedo vars
 	 *
 	 * @var string
 	 */
 	public $r_delim = '}';
-	
+
 	/**
 	 * Reference to CodeIgniter instance
 	 *
@@ -109,24 +109,19 @@ class CI_Parser {
 	 */
 	protected function _parse($template, $data, $return = FALSE)
 	{
-		if ($template == '')
+		if ($template === '')
 		{
 			return FALSE;
 		}
 
 		foreach ($data as $key => $val)
 		{
-			if (is_array($val))
-			{
-				$template = $this->_parse_pair($key, $val, $template);
-			}
-			else
-			{
-				$template = $this->_parse_single($key, (string)$val, $template);
-			}
+			$template = is_array($val)
+					? $this->_parse_pair($key, $val, $template)
+					: $template = $this->_parse_single($key, (string) $val, $template);
 		}
 
-		if ($return == FALSE)
+		if ($return === FALSE)
 		{
 			$this->CI->output->append_output($template);
 		}
@@ -189,14 +184,9 @@ class CI_Parser {
 			$temp = $match[1];
 			foreach ($row as $key => $val)
 			{
-				if ( ! is_array($val))
-				{
-					$temp = $this->_parse_single($key, $val, $temp);
-				}
-				else
-				{
-					$temp = $this->_parse_pair($key, $val, $temp);
-				}
+				$temp = is_array($val)
+						? $this->_parse_pair($key, $val, $temp)
+						: $this->_parse_single($key, $val, $temp);
 			}
 
 			$str .= $temp;

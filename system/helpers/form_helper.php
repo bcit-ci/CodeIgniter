@@ -52,7 +52,7 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
-		if ($attributes == '')
+		if ($attributes === '')
 		{
 			$attributes = 'method="post"';
 		}
@@ -183,7 +183,6 @@ if ( ! function_exists('form_input'))
 }
 
 // ------------------------------------------------------------------------
-
 
 if ( ! function_exists('form_password'))
 {
@@ -326,7 +325,7 @@ if ( ! function_exists('form_dropdown'))
 			$selected = array($_POST[$name]);
 		}
 
-		if ($extra != '') $extra = ' '.$extra;
+		if ($extra !== '') $extra = ' '.$extra;
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
@@ -379,7 +378,7 @@ if ( ! function_exists('form_checkbox'))
 		{
 			$checked = $data['checked'];
 
-			if ($checked == FALSE)
+			if ($checked === FALSE)
 			{
 				unset($data['checked']);
 			}
@@ -389,7 +388,7 @@ if ( ! function_exists('form_checkbox'))
 			}
 		}
 
-		if ($checked == TRUE)
+		if ($checked === TRUE)
 		{
 			$defaults['checked'] = 'checked';
 		}
@@ -507,7 +506,7 @@ if ( ! function_exists('form_label'))
 
 		$label = '<label';
 
-		if ($id != '')
+		if ($id !== '')
 		{
 			$label .= ' for="'.$id.'"';
 		}
@@ -541,7 +540,7 @@ if ( ! function_exists('form_fieldset'))
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
 		$fieldset = '<fieldset'._attributes_to_string($attributes, FALSE).">\n";
-		if ($legend_text != '')
+		if ($legend_text !== '')
 		{
 			return $fieldset.'<legend>'.$legend_text."</legend>\n";
 		}
@@ -624,7 +623,7 @@ if ( ! function_exists('form_prep'))
 			return $str;
 		}
 
-		if ($field_name != '')
+		if ($field_name !== '')
 		{
 			$prepped_fields[$field_name] = $field_name;
 		}
@@ -687,7 +686,7 @@ if ( ! function_exists('set_select'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 && $default == TRUE)
+				if (count($_POST) === 0 && $default === TRUE)
 				{
 					return ' selected="selected"';
 				}
@@ -703,7 +702,7 @@ if ( ! function_exists('set_select'))
 					return '';
 				}
 			}
-			elseif (($field == '' OR $value == '') OR ($field != $value))
+			elseif (($field === '' OR $value === '') OR ($field !== $value))
 			{
 				return '';
 			}
@@ -738,7 +737,7 @@ if ( ! function_exists('set_checkbox'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 && $default == TRUE)
+				if (count($_POST) === 0 && $default === TRUE)
 				{
 					return ' checked="checked"';
 				}
@@ -754,7 +753,7 @@ if ( ! function_exists('set_checkbox'))
 					return '';
 				}
 			}
-			elseif (($field == '' OR $value == '') OR ($field != $value))
+			elseif (($field === '' OR $value === '') OR ($field !== $value))
 			{
 				return '';
 			}
@@ -789,7 +788,7 @@ if ( ! function_exists('set_radio'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				if (count($_POST) === 0 && $default == TRUE)
+				if (count($_POST) === 0 && $default === TRUE)
 				{
 					return ' checked="checked"';
 				}
@@ -807,7 +806,7 @@ if ( ! function_exists('set_radio'))
 			}
 			else
 			{
-				if (($field == '' OR $value == '') OR ($field != $value))
+				if (($field === '' OR $value === '') OR ($field !== $value))
 				{
 					return '';
 				}
@@ -908,7 +907,7 @@ if ( ! function_exists('_parse_form_attributes'))
 
 		foreach ($default as $key => $val)
 		{
-			if ($key == 'value')
+			if ($key === 'value')
 			{
 				$val = form_prep($val, $default['name']);
 			}
@@ -937,12 +936,12 @@ if ( ! function_exists('_attributes_to_string'))
 	{
 		if (is_string($attributes) && strlen($attributes) > 0)
 		{
-			if ($formtag == TRUE && strpos($attributes, 'method=') === FALSE)
+			if ($formtag === TRUE && strpos($attributes, 'method=') === FALSE)
 			{
 				$attributes .= ' method="post"';
 			}
 
-			if ($formtag == TRUE && strpos($attributes, 'accept-charset=') === FALSE)
+			if ($formtag === TRUE && strpos($attributes, 'accept-charset=') === FALSE)
 			{
 				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 			}
