@@ -143,4 +143,31 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
 	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_valid_ip()
+	{
+		$ip_v4 = '175.123.74.43';
+		$this->assertTrue($this->input->valid_ip($ip_v4));
+
+		$ip_v6 = array('2001:0db8:0000:85a3:0000:0000:ac1f:8001', '2001:db8:0:85a3:0:0:ac1f:8001', '2001:db8:0:85a3::ac1f:8001');
+		foreach($ip_v6 as $ip) {
+			$this->assertTrue($this->input->valid_ip($ip));
+		}
+	}
+
+	// --------------------------------------------------------------------
+	
+	public function test_ip_version()
+	{
+		$ip_v4 = '175.123.74.43';
+		$this->assertEquals('4', $this->input->ip_version($ip_v4));
+
+		$ip_v6 = array('2001:0db8:0000:85a3:0000:0000:ac1f:8001', '2001:db8:0:85a3:0:0:ac1f:8001', '2001:db8:0:85a3::ac1f:8001');
+		foreach($ip_v6 as $ip) {
+			$this->assertEquals('6', $this->input->ip_version($ip));
+		}
+	}
+
 }
