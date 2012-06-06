@@ -31,6 +31,7 @@ time CodeIgniter runs:
 -  Log
 -  Output
 -  Router
+-  Security
 -  URI
 -  Utf8
 
