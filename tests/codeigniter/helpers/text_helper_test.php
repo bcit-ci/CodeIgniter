@@ -160,8 +160,17 @@ class Text_helper_test extends CI_TestCase {
 	{
 		$string = "Here is a simple string of text that will help us demonstrate this function.";
 		$word_wraped = word_wrap($string, 25);
-		preg_match_all("/\r\n|\n/", $word_wraped, $matches);
-		$this->assertEquals(count($matches[0]), 4);
+		$this->assertEquals(substr_count($word_wraped, "\n"), 4);
+	}
+
+	// ------------------------------------------------------------------------	
+
+	public function test_default_word_wrap_charlim()
+	{
+		$string = "Here is a simple string of text that will help us demonstrate this function.";
+		$word_wraped = word_wrap($string);
+		$matches = preg_split("/\n/", $word_wraped, 1);
+		$this->assertEquals(strlen($matches[0]) - 1, 76);
 	}
 
 }
