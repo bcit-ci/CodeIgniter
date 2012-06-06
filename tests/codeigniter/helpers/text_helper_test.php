@@ -159,8 +159,8 @@ class Text_helper_test extends CI_TestCase {
 	public function test_word_wrap()
 	{
 		$string = "Here is a simple string of text that will help us demonstrate this function.";
-		$word_wraped = word_wrap($string, 25);
-		$this->assertEquals(substr_count($word_wraped, "\n"), 4);
+		$word_wrapped = word_wrap($string, 25);
+		$this->assertEquals(substr_count($word_wrapped, "\n"), 4);
 	}
 
 	// ------------------------------------------------------------------------	
@@ -168,8 +168,8 @@ class Text_helper_test extends CI_TestCase {
 	public function test_default_word_wrap_charlim()
 	{
 		$string = "Here is a simple string of text that will help us demonstrate this function.";
-		$word_wraped = word_wrap($string);
-		$matches = preg_split("/\n/", $word_wraped, 1);
+		$word_wrapped = word_wrap($string);
+		$matches = preg_split("/\n/", $word_wrapped, 1);
 		$this->assertEquals(strlen($matches[0]) - 1, 76);
 	}
 
