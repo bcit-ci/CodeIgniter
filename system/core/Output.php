@@ -200,7 +200,7 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	public function set_content_type($mime_type)
+	public function set_content_type($mime_type, $charset = NULL)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
@@ -218,7 +218,13 @@ class CI_Output {
 			}
 		}
 
-		$header = 'Content-Type: '.$mime_type;
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
+
+		$header = 'Content-Type: '.$mime_type
+			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
