@@ -44,13 +44,13 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is greater then the supplied value
 	 *
-	 * Since there are a few places where we conditionally test for PHP > 5
+	 * Since there are a few places where we conditionally test for PHP > 5.3
 	 * we'll set a static variable.
 	 *
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
-	function is_php($version = '5.0.0')
+	function is_php($version = '5.3.0')
 	{
 		static $_is_php;
 		$version = (string) $version;
@@ -233,7 +233,7 @@ if ( ! function_exists('get_config'))
 
 		$file_path = APPPATH.'config/config.php';
 		$found = FALSE;
-		if (file_exists($file_path)) 
+		if (file_exists($file_path))
 		{
 			$found = TRUE;
 			require($file_path);
@@ -242,9 +242,9 @@ if ( ! function_exists('get_config'))
 		// Is the config file in the environment folder?
 		if (defined(ENVIRONMENT) && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
-			require($file_path);			
-		} 
-		elseif ( ! $found) 
+			require($file_path);
+		}
+		elseif ( ! $found)
 		{
 			set_status_header(503);
 			exit('The configuration file does not exist.');
@@ -299,6 +299,32 @@ if ( ! function_exists('config_item'))
 		}
 
 		return $_config_item[$item];
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('get_mimes'))
+{
+	/**
+	 * Returns the MIME types array from config/mimes.php
+	 *
+	 * @return	array
+	 */
+	function &get_mimes()
+	{
+		static $_mimes = array();
+
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		{
+			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+		}
+		elseif (is_file(APPPATH.'config/mimes.php'))
+		{
+			$_mimes = include(APPPATH.'config/mimes.php');
+		}
+
+		return $_mimes;
 	}
 }
 
