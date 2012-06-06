@@ -383,7 +383,7 @@ class CI_Input {
 	 */
 	public function valid_ip($ip)
 	{
-		if($this->ip_version($ip) === '4')
+		if ($this->ip_version($ip) === '4')
 		{
 			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 		}
