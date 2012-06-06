@@ -169,8 +169,7 @@ class Text_helper_test extends CI_TestCase {
 	{
 		$string = "Here is a longer string of text that will help us demonstrate the default charlim of this function.";
 		$word_wrapped = word_wrap($string);
-		$matches = preg_split("/\n/", $word_wrapped, 0);
-		$this->assertEquals(strlen($matches[0]), 73);
+		$this->assertEquals(strpos($word_wrapped, "\n"), 73);
 	}
 
 }
