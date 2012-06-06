@@ -383,7 +383,27 @@ class CI_Input {
 	 */
 	public function valid_ip($ip)
 	{
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		if($this->ip_version($ip) === '4')
+		{
+			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		}
+		else
+		{
+			return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Return ip version
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function ip_version($ip)
+	{
+		return strpos($ip, ":") === false ? '4' : '6';
 	}
 
 	// --------------------------------------------------------------------
