@@ -135,7 +135,7 @@ Release Date: Not Released
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Enabled public access to Email library's set_header() for adding additional headers to e-mails. Original function _set_header() now renamed to set_header().
-   - Input library now supports IPv6 and has a ip_version() method.
+   -  Input library now supports IPv6 and has a ip_version() method.
 
 -  Core
 
