@@ -44,49 +44,49 @@ class CI_Table {
 	 * @var array
 	 */
 	public $rows		= array();
-	
+
 	/**
 	 * Data for table heading
 	 *
 	 * @var array
 	 */
 	public $heading		= array();
-	
+
 	/**
 	 * Whether or not to automatically create the table header
 	 *
 	 * @var bool
 	 */
 	public $auto_heading	= TRUE;
-	
+
 	/**
 	 * Table caption
 	 *
 	 * @var string
 	 */
 	public $caption		= NULL;
-	
+
 	/**
-	 * Table layout template 
+	 * Table layout template
 	 *
 	 * @var array
 	 */
 	public $template	= NULL;
-	
+
 	/**
 	 * Newline setting
 	 *
 	 * @var string
 	 */
 	public $newline		= "\n";
-	
+
 	/**
 	 * Contents of empty cells
 	 *
 	 * @var string
 	 */
 	public $empty_cells	= '';
-	
+
 	/**
 	 * Callback for custom table layout
 	 *
@@ -169,7 +169,7 @@ class CI_Table {
 		// will want headings from a one-dimensional array
 		$this->auto_heading = FALSE;
 
-		if ($col_limit == 0)
+		if ($col_limit === 0)
 		{
 			return $array;
 		}
@@ -298,7 +298,7 @@ class CI_Table {
 			}
 			elseif (is_array($table_data))
 			{
-				$set_heading = (count($this->heading) !== 0 OR $this->auto_heading != FALSE);
+				$set_heading = (count($this->heading) !== 0 OR $this->auto_heading !== FALSE);
 				$this->_set_from_array($table_data, $set_heading);
 			}
 		}
@@ -336,7 +336,7 @@ class CI_Table {
 
 				foreach ($heading as $key => $val)
 				{
-					if ($key != 'data')
+					if ($key !== 'data')
 					{
 						$temp = str_replace('<th', '<th '.$key.'="'.$val.'"', $temp);
 					}
@@ -481,7 +481,7 @@ class CI_Table {
 		foreach ($data as $row)
 		{
 			// If a heading hasn't already been set we'll use the first row of the array as the heading
-			if ($i++ === 0 && count($data) > 1 && count($this->heading) === 0 && $set_heading == TRUE)
+			if ($i++ === 0 && count($data) > 1 && count($this->heading) === 0 && $set_heading === TRUE)
 			{
 				$this->heading = $this->_prep_args($row);
 			}
@@ -501,7 +501,7 @@ class CI_Table {
 	 */
 	protected function _compile_template()
 	{
-		if ($this->template == NULL)
+		if ($this->template === NULL)
 		{
 			$this->template = $this->_default_template();
 			return;

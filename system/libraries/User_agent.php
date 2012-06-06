@@ -51,14 +51,14 @@ class CI_User_agent {
 	 * @var bool
 	 */
 	public $is_browser = FALSE;
-	
+
 	/**
 	 * Flag for if the user-agent is a robot
 	 *
 	 * @var bool
 	 */
 	public $is_robot = FALSE;
-	
+
 	/**
 	 * Flag for if the user-agent is a mobile browser
 	 *
@@ -72,7 +72,7 @@ class CI_User_agent {
 	 * @var array
 	 */
 	public $languages = array();
-	
+
 	/**
 	 * Character sets accepted by the current user agent
 	 *
@@ -86,21 +86,21 @@ class CI_User_agent {
 	 * @var array
 	 */
 	public $platforms = array();
-	
+
 	/**
 	 * List of browsers to compare against current user agent
 	 *
 	 * @var array
 	 */
 	public $browsers = array();
-	
+
 	/**
 	 * List of mobile browsers to compare against current user agent
 	 *
 	 * @var array
 	 */
 	public $mobiles = array();
-	
+
 	/**
 	 * List of robots to compare against current user agent
 	 *
@@ -114,28 +114,28 @@ class CI_User_agent {
 	 * @var string
 	 */
 	public $platform = '';
-	
+
 	/**
 	 * Current user-agent browser
 	 *
 	 * @var string
 	 */
 	public $browser = '';
-	
+
 	/**
 	 * Current user-agent version
 	 *
 	 * @var string
 	 */
 	public $version = '';
-	
+
 	/**
 	 * Current user-agent mobile name
 	 *
 	 * @var string
 	 */
 	public $mobile = '';
-	
+
 	/**
 	 * Current user-agent robot name
 	 *
@@ -330,7 +330,7 @@ class CI_User_agent {
 		{
 			foreach ($this->mobiles as $key => $val)
 			{
-				if (FALSE !== (strpos(strtolower($this->agent), $key)))
+				if (FALSE !== (stripos($this->agent, $key)))
 				{
 					$this->is_mobile = TRUE;
 					$this->mobile = $val;
@@ -604,7 +604,7 @@ class CI_User_agent {
 	/**
 	 * Test for a particular character set
 	 *
-	 * @param	string $charset
+	 * @param	string	$charset
 	 * @return	bool
 	 */
 	public function accept_charset($charset = 'utf-8')

@@ -77,7 +77,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 * @param	string	unique identifier
 	 * @param	mixed	data being cached
 	 * @param	int	time to live
-	 * @return	bool true on success, false on failure
+	 * @return	bool	true on success, false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
@@ -99,7 +99,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param	mixed	key to be deleted.
-	 * @return	bool true on success, false on failure
+	 * @return	bool	true on success, false on failure
 	 */
 	public function delete($id)
 	{
@@ -212,7 +212,7 @@ class CI_Cache_memcached extends CI_Driver {
 				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
 			}
 
-			if (get_class($this->_memcached) == 'Memcache')
+			if (get_class($this->_memcached) === 'Memcache')
 			{
 				// Third parameter is persistance and defaults to TRUE.
 				$this->_memcached->addServer(

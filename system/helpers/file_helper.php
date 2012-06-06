@@ -154,7 +154,7 @@ if ( ! function_exists('delete_files'))
 		}
 		@closedir($current_dir);
 
-		if ($del_dir == TRUE && $level > 0)
+		if ($del_dir === TRUE && $level > 0)
 		{
 			return @rmdir($path);
 		}
@@ -199,7 +199,7 @@ if ( ! function_exists('get_filenames'))
 				}
 				elseif ($file[0] !== '.')
 				{
-					$_filedata[] = ($include_path == TRUE) ? $source_dir.$file : $file;
+					$_filedata[] = ($include_path === TRUE) ? $source_dir.$file : $file;
 				}
 			}
 			closedir($fp);
@@ -349,36 +349,23 @@ if ( ! function_exists('get_mime_by_extension'))
 	{
 		$extension = strtolower(substr(strrchr($file, '.'), 1));
 
-		global $mimes;
+		static $mimes;
 
 		if ( ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
+			$mimes =& get_mimes();
 
-			if ( ! is_array($mimes))
+			if (empty($mimes))
 			{
 				return FALSE;
 			}
 		}
 
-		if (array_key_exists($extension, $mimes))
+		if (isset($mimes[$extension]))
 		{
-			if (is_array($mimes[$extension]))
-			{
-				// Multiple mime types, just give the first one
-				return current($mimes[$extension]);
-			}
-			else
-			{
-				return $mimes[$extension];
-			}
+			return is_array($mimes[$extension])
+				? current($mimes[$extension]) // Multiple mime types, just give the first one
+				: $mimes[$extension];
 		}
 
 		return FALSE;

@@ -37,21 +37,21 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Word Limiter
- *
- * Limits a string to X number of words.
- *
- * @param	string
- * @param	int
- * @param	string	the end character. Usually an ellipsis
- * @return	string
- */
 if ( ! function_exists('word_limiter'))
 {
+	/**
+	 * Word Limiter
+	 *
+	 * Limits a string to X number of words.
+	 *
+	 * @param	string
+	 * @param	int
+	 * @param	string	the end character. Usually an ellipsis
+	 * @return	string
+	 */
 	function word_limiter($str, $limit = 100, $end_char = '&#8230;')
 	{
-		if (trim($str) == '')
+		if (trim($str) === '')
 		{
 			return $str;
 		}
@@ -69,19 +69,19 @@ if ( ! function_exists('word_limiter'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Character Limiter
- *
- * Limits the string based on the character count. Preserves complete words
- * so the character count may not be exactly as specified.
- *
- * @param	string
- * @param	int
- * @param	string	the end character. Usually an ellipsis
- * @return	string
- */
 if ( ! function_exists('character_limiter'))
 {
+	/**
+	 * Character Limiter
+	 *
+	 * Limits the string based on the character count.  Preserves complete words
+	 * so the character count may not be exactly as specified.
+	 *
+	 * @param	string
+	 * @param	int
+	 * @param	string	the end character. Usually an ellipsis
+	 * @return	string
+	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
 	{
 		if (strlen($str) < $n)
@@ -112,16 +112,16 @@ if ( ! function_exists('character_limiter'))
 
 // ------------------------------------------------------------------------
 
-/**
- * High ASCII to Entities
- *
- * Converts High ascii text and MS Word special characters to character entities
- *
- * @param	string
- * @return	string
- */
 if ( ! function_exists('ascii_to_entities'))
 {
+	/**
+	 * High ASCII to Entities
+	 *
+	 * Converts High ascii text and MS Word special characters to character entities
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function ascii_to_entities($str)
 	{
 		$count	= 1;
@@ -174,17 +174,17 @@ if ( ! function_exists('ascii_to_entities'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Entities to ASCII
- *
- * Converts character entities back to ASCII
- *
- * @param	string
- * @param	bool
- * @return	string
- */
 if ( ! function_exists('entities_to_ascii'))
 {
+	/**
+	 * Entities to ASCII
+	 *
+	 * Converts character entities back to ASCII
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function entities_to_ascii($str, $all = TRUE)
 	{
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches))
@@ -227,20 +227,20 @@ if ( ! function_exists('entities_to_ascii'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Word Censoring Function
- *
- * Supply a string and an array of disallowed words and any
- * matched words will be converted to #### or to the replacement
- * word you've submitted.
- *
- * @param	string	the text string
- * @param	string	the array of censoered words
- * @param	string	the optional replacement value
- * @return	string
- */
 if ( ! function_exists('word_censor'))
 {
+	/**
+	 * Word Censoring Function
+	 *
+	 * Supply a string and an array of disallowed words and any
+	 * matched words will be converted to #### or to the replacement
+	 * word you've submitted.
+	 *
+	 * @param	string	the text string
+	 * @param	string	the array of censoered words
+	 * @param	string	the optional replacement value
+	 * @return	string
+	 */
 	function word_censor($str, $censored, $replacement = '')
 	{
 		if ( ! is_array($censored))
@@ -258,7 +258,7 @@ if ( ! function_exists('word_censor'))
 
 		foreach ($censored as $badword)
 		{
-			if ($replacement != '')
+			if ($replacement !== '')
 			{
 				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", $str);
 			}
@@ -274,16 +274,16 @@ if ( ! function_exists('word_censor'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Code Highlighter
- *
- * Colorizes code strings
- *
- * @param	string	the text string
- * @return	string
- */
 if ( ! function_exists('highlight_code'))
 {
+	/**
+	 * Code Highlighter
+	 *
+	 * Colorizes code strings
+	 *
+	 * @param	string	the text string
+	 * @return	string
+	 */
 	function highlight_code($str)
 	{
 		/* The highlight string function encodes and highlights
@@ -323,27 +323,27 @@ if ( ! function_exists('highlight_code'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Phrase Highlighter
- *
- * Highlights a phrase within a text string
- *
- * @param	string	the text string
- * @param	string	the phrase you'd like to highlight
- * @param	string	the openging tag to precede the phrase with
- * @param	string	the closing tag to end the phrase with
- * @return	string
- */
 if ( ! function_exists('highlight_phrase'))
 {
+	/**
+	 * Phrase Highlighter
+	 *
+	 * Highlights a phrase within a text string
+	 *
+	 * @param	string	the text string
+	 * @param	string	the phrase you'd like to highlight
+	 * @param	string	the openging tag to precede the phrase with
+	 * @param	string	the closing tag to end the phrase with
+	 * @return	string
+	 */
 	function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
 	{
-		if ($str == '')
+		if ($str === '')
 		{
 			return '';
 		}
 
-		if ($phrase != '')
+		if ($phrase !== '')
 		{
 			return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str);
 		}
@@ -354,14 +354,14 @@ if ( ! function_exists('highlight_phrase'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Convert Accented Foreign Characters to ASCII
- *
- * @param	string	the text string
- * @return	string
- */
 if ( ! function_exists('convert_accented_characters'))
 {
+	/**
+	 * Convert Accented Foreign Characters to ASCII
+	 *
+	 * @param	string	the text string
+	 * @return	string
+	 */
 	function convert_accented_characters($str)
 	{
 		global $foreign_characters;
@@ -464,7 +464,7 @@ if ( ! function_exists('word_wrap'))
 
 			// If $temp contains data it means we had to split up an over-length
 			// word into smaller chunks so we'll add it back to our current line
-			if ($temp != '')
+			if ($temp !== '')
 			{
 				$output .= $temp."\n".$line."\n";
 			}
@@ -490,19 +490,19 @@ if ( ! function_exists('word_wrap'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Ellipsize String
- *
- * This function will strip tags from a string, split it at its max_length and ellipsize
- *
- * @param	string	string to ellipsize
- * @param	int	max length of string
- * @param	mixed	int (1|0) or float, .5, .2, etc for position to split
- * @param	string	ellipsis ; Default '...'
- * @return	string	ellipsized string
- */
 if ( ! function_exists('ellipsize'))
 {
+	/**
+	 * Ellipsize String
+	 *
+	 * This function will strip tags from a string, split it at its max_length and ellipsize
+	 *
+	 * @param	string	string to ellipsize
+	 * @param	int	max length of string
+	 * @param	mixed	int (1|0) or float, .5, .2, etc for position to split
+	 * @param	string	ellipsis ; Default '...'
+	 * @return	string	ellipsized string
+	 */
 	function ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
 	{
 		// Strip tags

@@ -73,6 +73,7 @@ class CI_Pagination {
 	 * Constructor
 	 *
 	 * @param	array	initialization parameters
+	 * @return	void
 	 */
 	public function __construct($params = array())
 	{
@@ -96,7 +97,7 @@ class CI_Pagination {
 			{
 				if ($key === 'anchor_class')
 				{
-					$this->anchor_class = ($val != '') ? 'class="'.$val.'" ' : '';
+					$this->anchor_class = ($val !== '') ? 'class="'.$val.'" ' : '';
 				}
 				elseif (isset($this->$key))
 				{
@@ -116,7 +117,7 @@ class CI_Pagination {
 	public function create_links()
 	{
 		// If our item count or per-page total is zero there is no need to continue.
-		if ($this->total_rows == 0 OR $this->per_page == 0)
+		if ($this->total_rows === 0 OR $this->per_page === 0)
 		{
 			return '';
 		}
@@ -137,25 +138,25 @@ class CI_Pagination {
 		$CI =& get_instance();
 
 		// See if we are using a prefix or suffix on links
-		if ($this->prefix != '' OR $this->suffix != '')
+		if ($this->prefix !== '' OR $this->suffix !== '')
 		{
 			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
 		}
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			if ($CI->input->get($this->query_string_segment) != $base_page)
+			if ($CI->input->get($this->query_string_segment) !== $base_page)
 			{
 				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
 		}
-		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) != $base_page)
+		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) !== $base_page)
 		{
 			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
 		}
 
 		// Set current page to 1 if it's not valid or if using page numbers instead of offset
-		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page == 0))
+		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page === 0))
 		{
 			$this->cur_page = $base_page;
 		}
@@ -210,22 +211,22 @@ class CI_Pagination {
 		// Render the "First" link
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
-			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
+			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
 			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "previous" link
-		if  ($this->prev_link !== FALSE && $this->cur_page != 1)
+		if  ($this->prev_link !== FALSE && $this->cur_page !== 1)
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			if ($i == $base_page && $this->first_url != '')
+			if ($i === $base_page && $this->first_url !== '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
-				$i = ($i == $base_page) ? '' : $this->prefix.$i.$this->suffix;
+				$i = ($i === $base_page) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 
@@ -241,21 +242,21 @@ class CI_Pagination {
 
 				if ($i >= $base_page)
 				{
-					if ($this->cur_page == $loop)
+					if ($this->cur_page === $loop)
 					{
 						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
 					}
 					else
 					{
-						$n = ($i == $base_page) ? '' : $i;
+						$n = ($i === $base_page) ? '' : $i;
 
-						if ($n == '' && $this->first_url != '')
+						if ($n === '' && $this->first_url !== '')
 						{
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
 						}
 						else
 						{
-							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
+							$n = ($n === '') ? '' : $this->prefix.$n.$this->suffix;
 
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
 						}
