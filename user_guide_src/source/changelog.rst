@@ -23,6 +23,7 @@ Release Date: Not Released
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
@@ -79,8 +80,8 @@ Release Date: Not Released
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
 	 -  Added boolean data type support in escape().
 	 -  Added update_batch() support.
+	 -  Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
-   -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
