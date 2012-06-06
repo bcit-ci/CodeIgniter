@@ -135,7 +135,7 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Enabled public access to Email library's set_header() for adding additional headers to e-mails. Original function _set_header() now renamed to set_header().
+   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
@@ -150,6 +150,7 @@ Release Date: Not Released
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
+   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
 
 Bug fixes for 3.0
 ------------------
@@ -230,6 +231,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
+-  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 
 Version 2.1.1
 =============
