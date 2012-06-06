@@ -156,4 +156,12 @@ class Text_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------	
 
+	public function test_word_wrap()
+	{
+		$string = "Here is a simple string of text that will help us demonstrate this function.";
+		$word_wraped = word_wrap($string, 25);
+		preg_match_all("/\r\n|\n/", $word_wraped, $matches);
+		$this->assertEquals(count($matches[0]), 4);
+	}
+
 }
