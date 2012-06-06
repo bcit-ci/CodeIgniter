@@ -403,7 +403,7 @@ class CI_Input {
 	 */
 	public function ip_version($ip)
 	{
-		return strpos($ip, ":") === false ? 4 : 6;
+		return strpos($ip, ":") === FALSE ? 4 : 6;
 	}
 
 	// --------------------------------------------------------------------
