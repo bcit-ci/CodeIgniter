@@ -233,6 +233,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
+-  Fixed a bug (#1374) - :doc:`Table Library <libraries/table>` was generating an extra td tag at the start of the tr.
 
 Version 2.1.1
 =============
