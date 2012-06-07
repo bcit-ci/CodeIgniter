@@ -70,7 +70,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
 
-				if (array_key_exists('CONSTRAINT', $attributes))
+				if (stripos($attributes['TYPE'], 'INT') === FALSE && ! empty($attributes['CONSTRAINT']))
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}

@@ -173,7 +173,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#797) - timespan() was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
--  Fixed a bug (#406) - sqlsrv DB driver not returning resource on ``db_pconnect()``.
+-  Fixed a bug (#406) - SQLSRV DB driver not returning resource on ``db_pconnect()``.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
@@ -231,12 +231,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#121) - ``CI_DB_result::row()`` returned an array when there's no actual result to be returned.
 -  Fixed a bug (#319) - SQLSRV's affected_rows() method failed due to a scrollable cursor being created for write-type queries.
 -  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
--  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
+-  Fixed a bug (#784, #862) - :doc:`Database Forge <database/forge>` method ``create_table()`` failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
--  Fixed a bug (#1374) - :doc:`Table Library <libraries/table>` was generating an extra td tag at the start of the tr.
+-  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 
 Version 2.1.1
 =============
