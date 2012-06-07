@@ -71,7 +71,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (time() >  $data['time'] + $data['ttl'])
 		{
@@ -165,7 +165,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (is_array($data))
 		{

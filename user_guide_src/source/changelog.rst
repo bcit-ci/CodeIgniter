@@ -23,6 +23,7 @@ Release Date: Not Released
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
    -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
@@ -43,19 +44,21 @@ Release Date: Not Released
 
 -  Helpers
 
-   -  create_captcha() accepts additional colors parameter, allowing for color customization
-   -  url_title() will now trim extra dashes from beginning and end.
+   -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
+   -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
-   -  Changed humanize() to include a second param for the separator.
+   -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
-   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
-   -  form_dropdown() will now also take an array for unity with other form helpers.
-   -  set_realpath() can now also handle file paths as opposed to just directories.
-   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
-   -  Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
-   -  Removed deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
+   -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+   -  Removed previously deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  :doc:`File Helper <helpers/file_helper>` changes include:
+	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
+	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
+	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
 
 -  Database
 
@@ -79,8 +82,8 @@ Release Date: Not Released
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
 	 -  Added boolean data type support in escape().
 	 -  Added update_batch() support.
+	 -  Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
-   -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
@@ -134,7 +137,8 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Enabled public access to Email library's set_header() for adding additional headers to e-mails. Original function _set_header() now renamed to set_header().
+   -  Input library now supports IPv6.
+   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
@@ -149,6 +153,7 @@ Release Date: Not Released
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
+   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
 
 Bug fixes for 3.0
 ------------------
@@ -167,7 +172,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#797) - timespan() was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
--  Fixed a bug (#406) - sqlsrv DB driver not returning resource on ``db_pconnect()``.
+-  Fixed a bug (#406) - SQLSRV DB driver not returning resource on ``db_pconnect()``.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
@@ -225,10 +230,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#121) - ``CI_DB_result::row()`` returned an array when there's no actual result to be returned.
 -  Fixed a bug (#319) - SQLSRV's affected_rows() method failed due to a scrollable cursor being created for write-type queries.
 -  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
--  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
+-  Fixed a bug (#784, #862) - :doc:`Database Forge <database/forge>` method ``create_table()`` failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
 -  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
 -  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
+-  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
+-  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 
 Version 2.1.1
 =============
