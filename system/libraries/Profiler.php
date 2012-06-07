@@ -402,7 +402,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#5a0099;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_memory_usage')."&nbsp;&nbsp;</legend>\n"
 			.'<div style="color:#5a0099;font-weight:normal;padding:4px 0 4px 0;">'
-			.((function_exists('memory_get_usage') && ($usage = memory_get_usage()) !== '') ? number_format($usage).' bytes' : $this->CI->lang->line('profiler_no_memory'))
+			.(($usage = memory_get_usage()) != '' ? number_format($usage).' bytes' : $this->CI->lang->line('profiler_no_memory'))
 			.'</div></fieldset>';
 	}
 
