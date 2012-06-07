@@ -302,7 +302,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 1';
+		return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------

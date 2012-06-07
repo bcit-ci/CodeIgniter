@@ -103,7 +103,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field).' '.$attributes['TYPE'];
+				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
 
 				empty($attributes['CONSTRAINT']) OR $sql .= '('.$attributes['CONSTRAINT'].')';
 
@@ -114,7 +114,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 				if (isset($attributes['DEFAULT']))
 				{
-					$sql .= " DEFAULT'".$attributes['DEFAULT']."'";
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
 				}
 
 
@@ -136,21 +136,16 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
 		{
 			foreach ($keys as $key)
 			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
+				$key = is_array($key)
+					? $this->db->escape_identifiers($key)
+					: array($this->db->escape_identifiers($key);
 
 				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';
 			}
@@ -190,7 +185,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name)
 			.' '.$column_definition
-			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
+			.($default_value != '' ? " DEFAULT '".$default_value."'" : '')
 			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
 			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
 	}
