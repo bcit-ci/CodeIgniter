@@ -52,7 +52,7 @@ if ( ! function_exists('read_file'))
 	 */
 	function read_file($file)
 	{
-		return file_get_contents($file);
+		return @file_get_contents($file);
 	}
 }
 
