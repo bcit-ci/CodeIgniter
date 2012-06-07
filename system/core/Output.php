@@ -200,7 +200,7 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	public function set_content_type($mime_type)
+	public function set_content_type($mime_type, $charset = NULL)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
@@ -218,7 +218,13 @@ class CI_Output {
 			}
 		}
 
-		$header = 'Content-Type: '.$mime_type;
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
+
+		$header = 'Content-Type: '.$mime_type
+			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
@@ -364,7 +370,7 @@ class CI_Output {
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	= function_exists('memory_get_usage') ? round(memory_get_usage()/1024/1024, 2).'MB' : '0';
+			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
