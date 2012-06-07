@@ -41,7 +41,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 * SQLSRV Export
 	 *
 	 * @param	array	Preferences
-	 * @return	mixed
+	 * @return	bool
 	 */
 	protected function _backup($params = array())
 	{

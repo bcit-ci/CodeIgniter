@@ -55,7 +55,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' NEWID()'; // not currently supported
+	protected $_random_keyword = ' NEWID()';
 
 	/**
 	 * Non-persistent database connection
@@ -146,13 +146,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -160,7 +155,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		return sqlsrv_begin_transaction($this->conn_id);
 	}
@@ -174,13 +169,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -197,13 +187,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -397,7 +382,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
