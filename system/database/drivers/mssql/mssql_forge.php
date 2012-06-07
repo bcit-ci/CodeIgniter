@@ -151,7 +151,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		return $sql.' '.$column_definition
 			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
 			.($null === NULL ? ' NULL' : ' NOT NULL')
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field != '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
 	}
 
 }
