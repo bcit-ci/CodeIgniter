@@ -162,7 +162,8 @@ return array(
 	'flac'  =>	'audio/x-flac',
 	'ogg'   =>	'audio/ogg',
 	'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
-	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml')
+	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml'),
+	'ics'	=>	'text/calendar'
 );
 
 /* End of file mimes.php */
