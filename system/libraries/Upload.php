@@ -78,6 +78,8 @@ class CI_Upload {
 			$this->initialize($props);
 		}
 
+		$this->mimes =& get_mimes();
+
 		log_message('debug', 'Upload Class Initialized');
 	}
 
@@ -113,7 +115,6 @@ class CI_Upload {
 					'image_type'			=> '',
 					'image_size_str'		=> '',
 					'error_msg'			=> array(),
-					'mimes'				=> array(),
 					'remove_spaces'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
@@ -223,7 +224,7 @@ class CI_Upload {
 		}
 
 		// if we're overriding, let's now make sure the new name and type is allowed
-		if ($this->_file_name_override != '')
+		if ($this->_file_name_override !== '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
 
@@ -276,7 +277,7 @@ class CI_Upload {
 		}
 
 		// Remove white spaces in the name
-		if ($this->remove_spaces == TRUE)
+		if ($this->remove_spaces === TRUE)
 		{
 			$this->file_name = preg_replace('/\s+/', '_', $this->file_name);
 		}
@@ -289,7 +290,7 @@ class CI_Upload {
 		 */
 		$this->orig_name = $this->file_name;
 
-		if ($this->overwrite == FALSE)
+		if ($this->overwrite === FALSE)
 		{
 			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
 
@@ -397,7 +398,7 @@ class CI_Upload {
 	 */
 	public function set_filename($path, $filename)
 	{
-		if ($this->encrypt_name == TRUE)
+		if ($this->encrypt_name === TRUE)
 		{
 			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
@@ -420,7 +421,7 @@ class CI_Upload {
 			}
 		}
 
-		if ($new_filename == '')
+		if ($new_filename === '')
 		{
 			$this->set_error('upload_bad_filename');
 			return FALSE;
@@ -545,7 +546,7 @@ class CI_Upload {
 	 */
 	public function set_xss_clean($flag = FALSE)
 	{
-		$this->xss_clean = ($flag == TRUE);
+		$this->xss_clean = ($flag === TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -641,7 +642,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		return ($this->max_size == 0 OR $this->max_size > $this->file_size);
+		return ($this->max_size === 0 OR $this->max_size > $this->file_size);
 	}
 
 	// --------------------------------------------------------------------
@@ -687,13 +688,13 @@ class CI_Upload {
 	 */
 	public function validate_upload_path()
 	{
-		if ($this->upload_path == '')
+		if ($this->upload_path === '')
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 
-		if (function_exists('realpath') && @realpath($this->upload_path) !== FALSE)
+		if (@realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
@@ -725,7 +726,7 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return '.'.end($x);
+		return (count($x) !== 1) ? '.'.end($x) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -747,6 +748,8 @@ class CI_Upload {
 				';',
 				'?',
 				'/',
+				'!',
+				'#',
 				'%20',
 				'%22',
 				'%3c',		// <
@@ -812,17 +815,17 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit') != '')
+		if (memory_get_usage() && ($memory_limit = ini_get('memory_limit')))
 		{
-			$current = ini_get('memory_limit') * 1024 * 1024;
+			$memory_limit *= 1024 * 1024;
 
 			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
 			// into scientific notation. number_format() ensures this number is an integer
 			// http://bugs.php.net/bug.php?id=43053
 
-			$new_memory = number_format(ceil(filesize($file) + $current), 0, '.', '');
+			$memory_limit = number_format(ceil(filesize($file) + $memory_limit), 0, '.', '');
 
-			ini_set('memory_limit', $new_memory); // When an integer is used, the value is measured in bytes. - PHP.net
+			ini_set('memory_limit', $memory_limit); // When an integer is used, the value is measured in bytes. - PHP.net
 		}
 
 		// If the file being uploaded is an image, then we should have no problem with XSS attacks (in theory), but
@@ -846,10 +849,8 @@ class CI_Upload {
 			// <a, <body, <head, <html, <img, <plaintext, <pre, <script, <table, <title
 			// title is basically just in SVG, but we filter it anyhow
 
-			if ( ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes))
-			{
-				return TRUE; // its an image, no "triggers" detected in the first 256 bytes, we're good
-			}
+			// if its an image or no "triggers" detected in the first 256 bytes - we're good
+			return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
 		}
 
 		if (($data = @file_get_contents($file)) === FALSE)
@@ -878,14 +879,14 @@ class CI_Upload {
 		{
 			foreach ($msg as $val)
 			{
-				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
+				$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
 		}
 		else
 		{
-			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -918,26 +919,6 @@ class CI_Upload {
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if (count($this->mimes) == 0)
-		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				return FALSE;
-			}
-
-			$this->mimes = $mimes;
-		}
-
 		return isset($this->mimes[$mime]) ? $this->mimes[$mime] : FALSE;
 	}
 
@@ -954,7 +935,7 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
+		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
 		{
 			return $filename;
 		}
@@ -1032,7 +1013,7 @@ class CI_Upload {
 		 */
 		if (DIRECTORY_SEPARATOR !== '\\')
 		{
-			$cmd = 'file --brief --mime ' . escapeshellarg($file['tmp_name']) . ' 2>&1';
+			$cmd = 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1';
 
 			if (function_exists('exec'))
 			{

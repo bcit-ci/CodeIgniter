@@ -41,3 +41,8 @@ need to rename the `$active_record` variable to `$query_builder`.
     $active_group = 'default';
     // $active_record = TRUE;
     $query_builder = TRUE;
+    
+Step 5: Move your errors folder
+===============================
+
+In version 3.0.0, the errors folder has been moved from "application/errors" to "application/views/errors".

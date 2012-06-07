@@ -184,7 +184,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 
 		return 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name)
 			.' '.$column_definition
-			.($default_value != '' ? ' DEFAULT '.$default_value : '')
+			.($default_value !== '' ? ' DEFAULT '.$default_value : '')
 			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
 			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
 	}
