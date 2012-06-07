@@ -357,12 +357,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return implode(', ', $tables);
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
