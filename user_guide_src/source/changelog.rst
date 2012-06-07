@@ -44,19 +44,21 @@ Release Date: Not Released
 
 -  Helpers
 
-   -  create_captcha() accepts additional colors parameter, allowing for color customization
-   -  url_title() will now trim extra dashes from beginning and end.
+   -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
+   -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
-   -  Changed humanize() to include a second param for the separator.
+   -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
-   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
-   -  form_dropdown() will now also take an array for unity with other form helpers.
-   -  set_realpath() can now also handle file paths as opposed to just directories.
-   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
-   -  Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
-   -  Removed deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
+   -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+   -  Removed previously deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  :doc:`File Helper <helpers/file_helper>` changes include:
+	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
+	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
+	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
 
 -  Database
 
