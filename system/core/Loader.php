@@ -32,8 +32,8 @@
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @author		EllisLab Dev Team
  * @category	Loader
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/loader.html
  */
 class CI_Loader {
@@ -45,77 +45,77 @@ class CI_Loader {
 	 * @var int
 	 */
 	protected $_ci_ob_level;
-	
+
 	/**
 	 * List of paths to load views from
 	 *
 	 * @var array
 	 */
 	protected $_ci_view_paths =	array();
-	
+
 	/**
 	 * List of paths to load libraries from
 	 *
 	 * @var array
 	 */
 	protected $_ci_library_paths =	array();
-	
+
 	/**
 	 * List of paths to load models from
 	 *
 	 * @var array
 	 */
 	protected $_ci_model_paths =	array();
-	
+
 	/**
 	 * List of paths to load helpers from
 	 *
 	 * @var array
 	 */
 	protected $_ci_helper_paths =	array();
-	
+
 	/**
 	 * List of loaded base classes
 	 *
 	 * @var array
 	 */
 	protected $_base_classes =	array(); // Set by the controller class
-	
+
 	/**
 	 * List of cached variables
 	 *
 	 * @var array
 	 */
 	protected $_ci_cached_vars =	array();
-	
+
 	/**
 	 * List of loaded classes
 	 *
 	 * @var array
 	 */
 	protected $_ci_classes =	array();
-	
+
 	/**
 	 * List of loaded files
 	 *
 	 * @var array
 	 */
 	protected $_ci_loaded_files =	array();
-	
+
 	/**
 	 * List of loaded models
 	 *
 	 * @var array
 	 */
 	protected $_ci_models =	array();
-	
+
 	/**
 	 * List of loaded helpers
 	 *
 	 * @var array
 	 */
 	protected $_ci_helpers =	array();
-	
+
 	/**
 	 * List of class name mappings
 	 *
@@ -130,6 +130,8 @@ class CI_Loader {
 	 * Constructor
 	 *
 	 * Sets the path to the view files and gets the initial output buffering level
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -178,12 +180,7 @@ class CI_Loader {
 	 */
 	public function is_loaded($class)
 	{
-		if (isset($this->_ci_classes[$class]))
-		{
-			return $this->_ci_classes[$class];
-		}
-
-		return FALSE;
+		return isset($this->_ci_classes[$class]) ? $this->_ci_classes[$class] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -211,7 +208,7 @@ class CI_Loader {
 			return;
 		}
 
-		if ($library == '' OR isset($this->_base_classes[$library]))
+		if ($library === '' OR isset($this->_base_classes[$library]))
 		{
 			return FALSE;
 		}
@@ -247,7 +244,7 @@ class CI_Loader {
 			return;
 		}
 
-		if ($model == '')
+		if ($model === '')
 		{
 			return;
 		}
@@ -264,7 +261,7 @@ class CI_Loader {
 			$model = substr($model, $last_slash);
 		}
 
-		if ($name == '')
+		if (empty($name))
 		{
 			$name = $model;
 		}
@@ -332,7 +329,7 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return == FALSE && $query_builder == NULL && isset($CI->db) && is_object($CI->db))
+		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($CI->db) && is_object($CI->db))
 		{
 			return FALSE;
 		}
@@ -455,7 +452,7 @@ class CI_Loader {
 	 */
 	public function vars($vars = array(), $val = '')
 	{
-		if ($val != '' && is_string($vars))
+		if ($val !== '' && is_string($vars))
 		{
 			$vars = array($vars => $val);
 		}
@@ -645,7 +642,7 @@ class CI_Loader {
 			require BASEPATH.'libraries/Driver.php';
 		}
 
-		if ($library == '')
+		if ($library === '')
 		{
 			return FALSE;
 		}
@@ -717,7 +714,7 @@ class CI_Loader {
 	{
 		$config =& $this->_ci_get_component('config');
 
-		if ($path == '')
+		if ($path === '')
 		{
 			array_shift($this->_ci_library_paths);
 			array_shift($this->_ci_model_paths);
@@ -778,7 +775,7 @@ class CI_Loader {
 		$file_exists = FALSE;
 
 		// Set the path to the requested file
-		if ($_ci_path != '')
+		if (is_string($_ci_path) && $_ci_path !== '')
 		{
 			$_ci_x = explode('/', $_ci_path);
 			$_ci_file = end($_ci_x);
@@ -786,7 +783,7 @@ class CI_Loader {
 		else
 		{
 			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
-			$_ci_file = ($_ci_ext == '') ? $_ci_view.'.php' : $_ci_view;
+			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
 
 			foreach ($this->_ci_view_paths as $view_file => $cascade)
 			{
@@ -850,7 +847,7 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') == TRUE)
+		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') === TRUE)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
@@ -1003,7 +1000,7 @@ class CI_Loader {
 		} // END FOREACH
 
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
-		if ($subdir == '')
+		if ($subdir === '')
 		{
 			$path = strtolower($class).'/'.$class;
 			return $this->_ci_load_class($path, $params);
@@ -1011,7 +1008,7 @@ class CI_Loader {
 
 		// If we got this far we were unable to find the requested class.
 		// We do not issue errors if the load call failed due to a duplicate request
-		if ($is_duplicate == FALSE)
+		if ($is_duplicate === FALSE)
 		{
 			log_message('error', 'Unable to load the requested class: '.$class);
 			show_error('Unable to load the requested class: '.$class);
@@ -1070,7 +1067,7 @@ class CI_Loader {
 			}
 		}
 
-		if ($prefix == '')
+		if ($prefix === '')
 		{
 			if (class_exists('CI_'.$class))
 			{

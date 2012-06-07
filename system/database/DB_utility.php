@@ -212,7 +212,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		$out = rtrim($out).$newline;
 
 		// Next blast through the result array and build out the rows
-		foreach ($query->result_array() as $row)
+		while ($row = $query->unbuffered_row('array'))
 		{
 			foreach ($row as $item)
 			{
@@ -258,7 +258,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 
 		// Generate the result
 		$xml = '<'.$root.'>'.$newline;
-		foreach ($query->result_array() as $row)
+		while ($row = $query->unbuffered_row())
 		{
 			$xml .= $tab.'<'.$element.'>'.$newline;
 			foreach ($row as $key => $val)
@@ -343,7 +343,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		if ($prefs['format'] === 'zip')
 		{
 			// Set the filename if not provided (only needed with Zip files)
-			if ($prefs['filename'] == '')
+			if ($prefs['filename'] === '')
 			{
 				$prefs['filename'] = (count($prefs['tables']) === 1 ? $prefs['tables'] : $this->db->database)
 							.date('Y-m-d_H-i', time()).'.sql';
@@ -369,7 +369,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 			$CI->zip->add_data($prefs['filename'], $this->_backup($prefs));
 			return $CI->zip->get_zip();
 		}
-		elseif ($prefs['format'] == 'txt') // Was a text file requested?
+		elseif ($prefs['format'] === 'txt') // Was a text file requested?
 		{
 			return $this->_backup($prefs);
 		}

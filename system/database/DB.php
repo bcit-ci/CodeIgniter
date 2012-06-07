@@ -53,7 +53,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			show_error('No database connection settings were found in the database config file.');
 		}
 
-		if ($params != '')
+		if ($params !== '')
 		{
 			$active_group = $params;
 		}
@@ -106,7 +106,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	// No DB specified yet? Beat them senseless...
-	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
+	if (empty($params['dbdriver']))
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
@@ -118,10 +118,17 @@ function &DB($params = '', $query_builder_override = NULL)
 	{
 		$query_builder = $query_builder_override;
 	}
+	// Backwards compatibility work-around for keeping the
+	// $active_record config variable working. Should be
+	// removed in v3.1
+	elseif ( ! isset($query_builder) && isset($active_record))
+	{
+		$query_builder = $active_record;
+	}
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
-	if ( ! isset($query_builder) OR $query_builder == TRUE)
+	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
 		if ( ! class_exists('CI_DB'))
@@ -145,12 +152,12 @@ function &DB($params = '', $query_builder_override = NULL)
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
-	if ($DB->autoinit == TRUE)
+	if ($DB->autoinit === TRUE)
 	{
 		$DB->initialize();
 	}
 
-	if (isset($params['stricton']) && $params['stricton'] == TRUE)
+	if ( ! empty($params['stricton']))
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
