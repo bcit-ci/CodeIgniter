@@ -705,7 +705,7 @@ if ( ! function_exists('set_select'))
 					return '';
 				}
 			}
-			elseif (($field == '' OR $value == '') OR ($field != $value))
+			elseif (($field == '' OR $value == '') OR $field !== $value)
 			{
 				return '';
 			}
@@ -756,7 +756,7 @@ if ( ! function_exists('set_checkbox'))
 					return '';
 				}
 			}
-			elseif (($field == '' OR $value == '') OR ($field != $value))
+			elseif (($field == '' OR $value == '') OR $field !== $value)
 			{
 				return '';
 			}
@@ -809,7 +809,7 @@ if ( ! function_exists('set_radio'))
 			}
 			else
 			{
-				if (($field == '' OR $value == '') OR ($field != $value))
+				if (($field == '' OR $value == '') OR $field !== $value)
 				{
 					return '';
 				}
