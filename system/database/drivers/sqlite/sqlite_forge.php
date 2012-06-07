@@ -145,7 +145,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 			{
 				$key = is_array($key)
 					? $this->db->escape_identifiers($key)
-					: array($this->db->escape_identifiers($key);
+					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';
 			}
