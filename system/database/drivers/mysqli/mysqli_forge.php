@@ -62,7 +62,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 				$sql .= "\n\t".$this->db->escape_identifiers($field);
 
-				empty($attributes['NAME']) OR $sql .= ' '.$this->db->protect_identifiers($attributes['NAME']).' ';
+				empty($attributes['NAME']) OR $sql .= ' '.$this->db->escape_identifiers($attributes['NAME']).' ';
 
 				if ( ! empty($attributes['TYPE']))
 				{
@@ -152,7 +152,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 				if (is_array($key))
 				{
 					$key_name = $this->db->escape_identifiers(implode('_', $key));
-					$key = $this->db->escape_identifiers($key);
+					$key = $this->db->protect_identifiers($key);
 				}
 				else
 				{
