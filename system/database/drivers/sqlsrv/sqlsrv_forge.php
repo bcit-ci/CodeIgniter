@@ -67,6 +67,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
+				$attributes['TYPE'] = preg_replace('/(INT)\(\d+\)/i', '$1', $attributes['TYPE']);
 
 				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
 
