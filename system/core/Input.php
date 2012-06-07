@@ -383,7 +383,7 @@ class CI_Input {
 	 */
 	public function valid_ip($ip)
 	{
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP);
 	}
 
 	// --------------------------------------------------------------------

@@ -247,7 +247,7 @@ class CI_Table {
 			{
 				foreach ($args[0] as $key => $val)
 				{
-					$args[$key] = (is_array($val) && isset($val['data'])) ? $val : array('data' => $val);
+					$ret_args[$key] = (is_array($val) && isset($val['data'])) ? $val : array('data' => $val);
 				}
 			}
 		}
@@ -257,12 +257,12 @@ class CI_Table {
 			{
 				if ( ! is_array($val))
 				{
-					$args[$key] = array('data' => $val);
+					$ret_args[$key] = array('data' => $val);
 				}
 			}
 		}
 
-		return $args;
+		return $ret_args;
 	}
 
 	// --------------------------------------------------------------------
