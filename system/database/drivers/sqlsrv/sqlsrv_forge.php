@@ -48,16 +48,13 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-		$sql = 'CREATE TABLE ';
+		$sql = ($if_not_exists === TRUE)
+			? "IF NOT EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'".$table."') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\n"
+			: '';
 
-		if ($if_not_exists === TRUE)
-		{
-			$sql .= 'IF NOT EXISTS ';
-		}
+		$sql .= 'CREATE TABLE '.$this->db->escape_identifiers($table).' (';
 
-		$sql .= $this->db->escape_identifiers($table).' (';
 		$current_field_count = 0;
-
 		foreach ($fields as $field => $attributes)
 		{
 			// Numeric field names aren't allowed in databases, so if the key is
@@ -71,13 +68,30 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field)
-					.' '.$attributes['TYPE']
-					.( ! empty($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.(( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
-					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
+				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
+
+				if (stripos($attributes['TYPE'], 'INT') === FALSE && ! empty($attributes['CONSTRAINT']))
+				{
+					$sql .= '('.$attributes['CONSTRAINT'].')';
+				}
+
+				if ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
+				{
+					$sql .= ' UNSIGNED';
+				}
+
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= ( ! empty($attributes['NULL']) && $attribues['NULL'] === TRUE)
+					? ' NULL' : ' NOT NULL';
+
+				if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+				{
+					$sql .= ' AUTO_INCREMENT';
+				}
 			}
 
 			// don't add a comma on the end of the last field
@@ -89,21 +103,16 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
 		{
 			foreach ($keys as $key)
 			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
+				$key = is_array($key)
+					? $this->db->escape_identifiers($key)
+					: array($this->escape_identifiers($key));
 
 				$sql .= ",\n\tFOREIGN KEY (".implode(', ', $key).')';
 			}
@@ -131,10 +140,10 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' '.$this->db->escape_identifiers($column_name);
 
 		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		if ($alter_type === 'DROP')
 		{
 			return $sql;
 		}
@@ -142,7 +151,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 		return $sql.' '.$column_definition
 			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
 			.($null === NULL ? ' NULL' : ' NOT NULL')
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field != '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
 	}
 
 }

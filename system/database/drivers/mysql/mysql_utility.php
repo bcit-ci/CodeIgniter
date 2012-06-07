@@ -76,7 +76,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			// Write out the table schema
 			$output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
 
-			if ($add_drop == TRUE)
+			if ($add_drop === TRUE)
 			{
 				$output .= 'DROP TABLE IF EXISTS '.$this->db->protect_identifiers($table).';'.$newline.$newline;
 			}
@@ -92,7 +92,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// If inserts are not needed we're done...
-			if ($add_insert == FALSE)
+			if ($add_insert === FALSE)
 			{
 				continue;
 			}
@@ -100,7 +100,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			// Grab all the data from the current table
 			$query = $this->db->query('SELECT * FROM '.$this->db->protect_identifiers($table));
 
-			if ($query->num_rows() == 0)
+			if ($query->num_rows() === 0)
 			{
 				continue;
 			}
@@ -143,7 +143,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					else
 					{
 						// Escape the data if it's not an integer
-						$val_str .= ($is_int[$i] == FALSE) ? $this->db->escape($v) : $v;
+						$val_str .= ($is_int[$i] === FALSE) ? $this->db->escape($v) : $v;
 					}
 
 					// Append a comma

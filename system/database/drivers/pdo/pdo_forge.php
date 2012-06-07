@@ -80,7 +80,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
 					// Exception for Postgre numeric which not too happy with constraint within those type
-					if ( ! ($this->db->pdodriver == 'pgsql' && in_array($attributes['TYPE'], $numeric)))
+					if ( ! ($this->db->pdodriver === 'pgsql' && in_array($attributes['TYPE'], $numeric)))
 					{
 						$sql .= '('.$attributes['CONSTRAINT'].')';
 					}
@@ -168,14 +168,14 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 		$sql = 'ALTER TABLE `'.$this->db->protect_identifiers($table).'` '.$alter_type.' '.$this->db->protect_identifiers($column_name);
 
 		// DROP has everything it needs now.
-		if ($alter_type == 'DROP')
+		if ($alter_type === 'DROP')
 		{
 			return $sql;
 		}
 
 		$sql .= " $column_definition";
 
-		if ($default_value != '')
+		if ($default_value !== '')
 		{
 			$sql .= " DEFAULT \"$default_value\"";
 		}
@@ -189,7 +189,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 			$sql .= ' NOT NULL';
 		}
 
-		if ($after_field != '')
+		if ($after_field !== '')
 		{
 			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
 		}
