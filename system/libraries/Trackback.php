@@ -88,7 +88,7 @@ class CI_Trackback {
 			}
 
 			// Convert High ASCII Characters
-			if ($this->convert_ascii == TRUE && in_array($item, array('excerpt', 'title', 'blog_name')))
+			if ($this->convert_ascii === TRUE && in_array($item, array('excerpt', 'title', 'blog_name')))
 			{
 				$$item = $this->convert_ascii($$item);
 			}
@@ -106,7 +106,7 @@ class CI_Trackback {
 		{
 			foreach ($ping_url as $url)
 			{
-				if ($this->process($url, $data) == FALSE)
+				if ($this->process($url, $data) === FALSE)
 				{
 					$return = FALSE;
 				}
@@ -132,7 +132,7 @@ class CI_Trackback {
 	{
 		foreach (array('url', 'title', 'blog_name', 'excerpt') as $val)
 		{
-			if ( ! isset($_POST[$val]) OR $_POST[$val] == '')
+			if (empty($_POST[$val]))
 			{
 				$this->set_error('The following required POST variable is missing: '.$val);
 				return FALSE;
@@ -140,14 +140,14 @@ class CI_Trackback {
 
 			$this->data['charset'] = isset($_POST['charset']) ? strtoupper(trim($_POST['charset'])) : 'auto';
 
-			if ($val != 'url' && MB_ENABLED === TRUE)
+			if ($val !== 'url' && MB_ENABLED === TRUE)
 			{
 				$_POST[$val] = mb_convert_encoding($_POST[$val], $this->charset, $this->data['charset']);
 			}
 
-			$_POST[$val] = ($val != 'url') ? $this->convert_xml(strip_tags($_POST[$val])) : strip_tags($_POST[$val]);
+			$_POST[$val] = ($val !== 'url') ? $this->convert_xml(strip_tags($_POST[$val])) : strip_tags($_POST[$val]);
 
-			if ($val == 'excerpt')
+			if ($val === 'excerpt')
 			{
 				$_POST['excerpt'] = $this->limit_characters($_POST['excerpt']);
 			}

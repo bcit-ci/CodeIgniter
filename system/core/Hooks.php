@@ -44,14 +44,14 @@ class CI_Hooks {
 	 * @var bool
 	 */
 	public $enabled =	FALSE;
-	
+
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
 	 * @var array
 	 */
 	public $hooks =	array();
-	
+
 	/**
 	 * Determines wether hook is in progress, used to prevent infinte loops
 	 *
@@ -72,7 +72,7 @@ class CI_Hooks {
 
 		// If hooks are not enabled in the config file
 		// there is nothing else to do
-		if ($CFG->item('enable_hooks') == FALSE)
+		if ($CFG->item('enable_hooks') === FALSE)
 		{
 			return;
 		}
@@ -152,7 +152,7 @@ class CI_Hooks {
 
 		// If the script being called happens to have the same
 		// hook call within it a loop can happen
-		if ($this->in_progress == TRUE)
+		if ($this->in_progress === TRUE)
 		{
 			return;
 		}

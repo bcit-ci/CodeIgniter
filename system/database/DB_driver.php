@@ -113,7 +113,7 @@ abstract class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Connect to the database and set the connection ID
-		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+		$this->conn_id = ($this->pconnect === FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 		// No connection resource? Check if there is a failover else throw an error
 		if ( ! $this->conn_id)
@@ -131,7 +131,7 @@ abstract class CI_DB_driver {
 					}
 
 					// Try to connect
-					$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+					$this->conn_id = ($this->pconnect === FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 					// If a connection is made break the foreach loop
 					if ($this->conn_id)
@@ -297,7 +297,7 @@ abstract class CI_DB_driver {
 	 */
 	public function query($sql, $binds = FALSE, $return_object = TRUE)
 	{
-		if ($sql == '')
+		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
 
@@ -305,7 +305,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Verify table prefix and replace if necessary
-		if ($this->dbprefix != '' && $this->swap_pre != '' && $this->dbprefix != $this->swap_pre)
+		if ($this->dbprefix !== '' && $this->swap_pre !== '' && $this->dbprefix !== $this->swap_pre)
 		{
 			$sql = preg_replace('/(\W)'.$this->swap_pre.'(\S+?)/', '\\1'.$this->dbprefix.'\\2', $sql);
 		}
@@ -319,7 +319,7 @@ abstract class CI_DB_driver {
 		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on == TRUE && stripos($sql, 'SELECT') !== FALSE && $this->_cache_init())
+		if ($this->cache_on === TRUE && stripos($sql, 'SELECT') !== FALSE && $this->_cache_init())
 		{
 			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
@@ -329,7 +329,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Save the  query for debugging
-		if ($this->save_queries == TRUE)
+		if ($this->save_queries === TRUE)
 		{
 			$this->queries[] = $sql;
 		}
@@ -340,7 +340,7 @@ abstract class CI_DB_driver {
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql)))
 		{
-			if ($this->save_queries == TRUE)
+			if ($this->save_queries === TRUE)
 			{
 				$this->query_times[] = 0;
 			}
@@ -373,7 +373,7 @@ abstract class CI_DB_driver {
 		$time_end = microtime(TRUE);
 		$this->benchmark += $time_end - $time_start;
 
-		if ($this->save_queries == TRUE)
+		if ($this->save_queries === TRUE)
 		{
 			$this->query_times[] = $time_end - $time_start;
 		}
@@ -387,7 +387,7 @@ abstract class CI_DB_driver {
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
-			if ($this->cache_on == TRUE && $this->cache_autodel == TRUE && $this->_cache_init())
+			if ($this->cache_on === TRUE && $this->cache_autodel === TRUE && $this->_cache_init())
 			{
 				$this->CACHE->delete();
 			}
@@ -409,7 +409,7 @@ abstract class CI_DB_driver {
 
 		// Is query caching enabled? If so, we'll serialize the
 		// result object and save it to a cache file.
-		if ($this->cache_on == TRUE && $this->_cache_init())
+		if ($this->cache_on === TRUE && $this->_cache_init())
 		{
 			// We'll create a new instance of the result object
 			// only without the platform specific driver since
@@ -742,6 +742,35 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * "Count All" query
+	 *
+	 * Generates a platform-specific query string that counts all records in
+	 * the specified database
+	 *
+	 * @param	string
+	 * @return	int
+	 */
+	public function count_all($table = '')
+	{
+		if ($table === '')
+		{
+			return 0;
+		}
+
+		$query = $this->query($this->_count_string.$this->escape_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		if ($query->num_rows() === 0)
+		{
+			return 0;
+		}
+
+		$query = $query->row();
+		$this->_reset_select();
+		return (int) $query->numrows;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Returns an array of table names
 	 *
 	 * @return	array
@@ -821,7 +850,7 @@ abstract class CI_DB_driver {
 			return $this->data_cache['field_names'][$table];
 		}
 
-		if ($table == '')
+		if ($table === '')
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
@@ -889,7 +918,7 @@ abstract class CI_DB_driver {
 	 */
 	public function field_data($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
@@ -910,7 +939,7 @@ abstract class CI_DB_driver {
 	 */
 	public function escape_identifiers($item)
 	{
-		if ($this->_escape_char == '')
+		if ($this->_escape_char === '')
 		{
 			return $item;
 		}
@@ -969,7 +998,7 @@ abstract class CI_DB_driver {
 	 */
 	public function update_string($table, $data, $where)
 	{
-		if ($where == '')
+		if ($where === '')
 		{
 			return FALSE;
 		}
@@ -989,7 +1018,7 @@ abstract class CI_DB_driver {
 			$dest = array();
 			foreach ($where as $key => $val)
 			{
-				$prefix = (count($dest) == 0) ? '' : ' AND ';
+				$prefix = (count($dest) === 0) ? '' : ' AND ';
 				$key = $this->protect_identifiers($key);
 
 				if ($val !== '')
@@ -1033,7 +1062,7 @@ abstract class CI_DB_driver {
 	 */
 	public function call_function($function)
 	{
-		$driver = ($this->dbdriver == 'postgre') ? 'pg_' : $this->dbdriver.'_';
+		$driver = ($this->dbdriver === 'postgre') ? 'pg_' : $this->dbdriver.'_';
 
 		if (FALSE === strpos($driver, $function))
 		{
@@ -1152,9 +1181,23 @@ abstract class CI_DB_driver {
 	{
 		if ($this->conn_id)
 		{
-			$this->_close($this->conn_id);
+			$this->_close();
 			$this->conn_id = FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Close DB Connection
+	 *
+	 * This method would be overriden by most of the drivers.
+	 *
+	 * @return	void
+	 */
+	protected function _close()
+	{
+		$this->conn_id = FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1174,7 +1217,7 @@ abstract class CI_DB_driver {
 
 		$heading = $LANG->line('db_error_heading');
 
-		if ($native == TRUE)
+		if ($native === TRUE)
 		{
 			$message = (array) $error;
 		}
@@ -1302,7 +1345,7 @@ abstract class CI_DB_driver {
 			}
 
 			// Is there a table prefix defined in the config file? If not, no need to do anything
-			if ($this->dbprefix != '')
+			if ($this->dbprefix !== '')
 			{
 				// We now add the table prefix based on some logic.
 				// Do we have 4 segments (hostname.database.table.column)?
@@ -1326,13 +1369,13 @@ abstract class CI_DB_driver {
 
 				// This flag is set when the supplied $item does not contain a field name.
 				// This can happen when this function is being called from a JOIN.
-				if ($field_exists == FALSE)
+				if ($field_exists === FALSE)
 				{
 					$i++;
 				}
 
 				// Verify table prefix and replace if necessary
-				if ($this->swap_pre != '' && strpos($parts[$i], $this->swap_pre) === 0)
+				if ($this->swap_pre !== '' && strpos($parts[$i], $this->swap_pre) === 0)
 				{
 					$parts[$i] = preg_replace('/^'.$this->swap_pre.'(\S+?)/', $this->dbprefix.'\\1', $parts[$i]);
 				}
@@ -1355,15 +1398,15 @@ abstract class CI_DB_driver {
 		}
 
 		// Is there a table prefix? If not, no need to insert it
-		if ($this->dbprefix != '')
+		if ($this->dbprefix !== '')
 		{
 			// Verify table prefix and replace if necessary
-			if ($this->swap_pre != '' && strpos($item, $this->swap_pre) === 0)
+			if ($this->swap_pre !== '' && strpos($item, $this->swap_pre) === 0)
 			{
 				$item = preg_replace('/^'.$this->swap_pre.'(\S+?)/', $this->dbprefix.'\\1', $item);
 			}
 			// Do we prefix an item with no segments?
-			elseif ($prefix_single == TRUE && strpos($item, $this->dbprefix) !== 0)
+			elseif ($prefix_single === TRUE && strpos($item, $this->dbprefix) !== 0)
 			{
 				$item = $this->dbprefix.$item;
 			}
@@ -1381,8 +1424,7 @@ abstract class CI_DB_driver {
 
 	/**
 	 * Dummy method that allows Query Builder class to be disabled
-	 *
-	 * This function is used extensively by every db driver.
+	 * and keep count_all() working.
 	 *
 	 * @return	void
 	 */
