@@ -404,7 +404,7 @@ class CI_Input {
 			}
 			else
 			{
-				return $this->_valid_ipv4($ip) OR $this->_valid_ipv6($ip);
+				return FALSE;
 			}
 		}
 
