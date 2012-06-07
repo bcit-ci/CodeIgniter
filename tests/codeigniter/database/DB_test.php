@@ -2,8 +2,6 @@
 
 class DB_test extends CI_TestCase {
 
-	// ------------------------------------------------------------------------
-
 	public function test_db_invalid()
 	{
 		$connection = new Mock_Database_DB(array(
@@ -45,5 +43,5 @@ class DB_test extends CI_TestCase {
 		$this->assertTrue($db instanceof CI_DB);
 		$this->assertTrue($db instanceof CI_DB_Driver);
 	}
-	
+
 }

@@ -64,7 +64,7 @@ class CI_DB_odbc_driver extends CI_DB {
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 
 		// Legacy support for DSN in the hostname field
-		if ($this->dsn == '')
+		if (empty($this->dsn))
 		{
 			$this->dsn = $this->hostname;
 		}
@@ -245,36 +245,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string . $this->protect_identifiers('numrows') . " FROM " . $this->protect_identifiers($table, TRUE, NULL, FALSE));
-
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -284,9 +254,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SHOW TABLES FROM `".$this->database."`";
+		$sql = 'SHOW TABLES FROM '.$this->database;
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			return FALSE; // not currently supported
@@ -402,12 +372,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@odbc_close($conn_id);
+		@odbc_close($this->conn_id);
 	}
 
 }

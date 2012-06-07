@@ -95,15 +95,18 @@ class CI_Security {
 	 *
 	 * @var array
 	 */
-	protected $_never_allowed_regex =	array(
+	protected $_never_allowed_regex = array(
 		'javascript\s*:',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
-		'Redirect\s+302'
+		'Redirect\s+302',
+		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
 
 	/**
 	 * Initialize security class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -159,7 +162,7 @@ class CI_Security {
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name]) OR ! isset($_COOKIE[$this->_csrf_cookie_name])
-			OR $_POST[$this->_csrf_token_name] != $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+			OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
 		{
 			$this->csrf_show_error();
 		}
@@ -188,6 +191,7 @@ class CI_Security {
 	 * Set Cross Site Request Forgery Protection Cookie
 	 *
 	 * @return	object
+	 * @codeCoverageIgnore
 	 */
 	public function csrf_set_cookie()
 	{
@@ -200,11 +204,11 @@ class CI_Security {
 		}
 
 		setcookie(
-			$this->_csrf_cookie_name, 
-			$this->_csrf_hash, 
-			$expire, 
-			config_item('cookie_path'), 
-			config_item('cookie_domain'), 
+			$this->_csrf_cookie_name,
+			$this->_csrf_hash,
+			$expire,
+			config_item('cookie_path'),
+			config_item('cookie_domain'),
 			$secure_cookie,
 			config_item('cookie_httponly')
 		);
@@ -365,9 +369,10 @@ class CI_Security {
 		 * These words are compacted back to their correct state.
 		 */
 		$words = array(
-			'javascript', 'expression', 'vbscript', 'script',
+			'javascript', 'expression', 'vbscript', 'script', 'base64',
 			'applet', 'alert', 'document', 'write', 'cookie', 'window'
 		);
+
 
 		foreach ($words as $word)
 		{
@@ -403,7 +408,7 @@ class CI_Security {
 				$str = preg_replace('#<(/*)(script|xss)(.*?)\>#si', '[removed]', $str);
 			}
 		}
-		while($original != $str);
+		while($original !== $str);
 
 		unset($original);
 
@@ -470,7 +475,7 @@ class CI_Security {
 	 */
 	public function xss_hash()
 	{
-		if ($this->_xss_hash == '')
+		if ($this->_xss_hash === '')
 		{
 			mt_srand();
 			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
@@ -605,10 +610,11 @@ class CI_Security {
 			$attribs = array();
 
 			// find occurrences of illegal attribute strings without quotes
-			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*([^\s]*)/is', $str, $matches, PREG_SET_ORDER);
+			preg_match_all('/('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is', $str, $matches, PREG_SET_ORDER);
 
 			foreach ($matches as $attr)
 			{
+
 				$attribs[] = preg_quote($attr[0], '/');
 			}
 
@@ -623,7 +629,7 @@ class CI_Security {
 			// replace illegal attribute strings that are inside an html tag
 			if (count($attribs) > 0)
 			{
-				$str = preg_replace('/<(\/?[^><]+?)([^A-Za-z\-])('.implode('|', $attribs).')([\s><])([><]*)/i', '<$1$2$4$5', $str, -1, $count);
+				$str = preg_replace('/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><])([><]*)/i', '<$1 $3$5$6$7', $str, -1, $count);
 			}
 
 		} while ($count);
@@ -664,7 +670,7 @@ class CI_Security {
 	protected function _js_link_removal($match)
 	{
 		return str_replace($match[1],
-					preg_replace('#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+					preg_replace('#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
@@ -804,7 +810,7 @@ class CI_Security {
 
 		foreach ($this->_never_allowed_regex as $regex)
 		{
-			$str = preg_replace('#'.$regex.'#i', '[removed]', $str);
+			$str = preg_replace('#'.$regex.'#is', '[removed]', $str);
 		}
 
 		return $str;
@@ -819,14 +825,14 @@ class CI_Security {
 	 */
 	protected function _csrf_set_hash()
 	{
-		if ($this->_csrf_hash == '')
+		if ($this->_csrf_hash === '')
 		{
 			// If the cookie exists we will use it's value.
 			// We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
 			if (isset($_COOKIE[$this->_csrf_cookie_name]) &&
-				$_COOKIE[$this->_csrf_cookie_name] != '')
+				preg_match('#^[0-9a-f]{32}$#iS', $_COOKIE[$this->_csrf_cookie_name]) === 1)
 			{
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}

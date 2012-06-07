@@ -116,12 +116,12 @@ assign it to a variable if you want the data returned::
 
 	$string = $this->load->view('myfile', '', true);
 
-$this->load->model('Model_name');
+$this->load->model('model_name');
 ==================================
 
 ::
 
-	$this->load->model('Model_name');
+	$this->load->model('model_name');
 
 
 If your model is located in a sub-folder, include the relative path from
@@ -134,7 +134,7 @@ application/models/blog/queries.php you'll load it using::
 If you would like your model assigned to a different object name you can
 specify it via the second parameter of the loading function::
 
-	$this->load->model('Model_name', 'fubar');
+	$this->load->model('model_name', 'fubar');
 
 	$this->fubar->function();
 

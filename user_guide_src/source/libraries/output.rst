@@ -49,6 +49,10 @@ data, JPEG's, XML, etc easily.
 .. important:: Make sure any non-mime string you pass to this method
 	exists in config/mimes.php or it will have no effect.
 
+You can also set the character set of the document, by passing a second argument::
+
+	$this->output->set_content_type('css', 'utf-8');
+
 $this->output->get_content_type();
 ==========================================
 
