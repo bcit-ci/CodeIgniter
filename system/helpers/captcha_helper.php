@@ -64,7 +64,7 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		if ($img_path == '' OR $img_url == ''
+		if ($img_path === '' OR $img_url === ''
 			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
 			OR ! extension_loaded('gd'))
 		{
@@ -93,7 +93,7 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-		if ($word == '')
+		if ($word === '')
 		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$word = '';
@@ -156,7 +156,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext'));
+		$use_font = ($font_path !== '' && file_exists($font_path) && function_exists('imagettftext'));
 		if ($use_font === FALSE)
 		{
 			$font_size = 5;

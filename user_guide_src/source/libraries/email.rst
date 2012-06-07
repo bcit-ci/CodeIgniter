@@ -182,6 +182,14 @@ formatting which is added to the header string for people who do not
 accept HTML email. If you do not set your own message CodeIgniter will
 extract the message from your HTML email and strip the tags.
 
+$this->email->set_header()
+-----------------------
+
+Appends additional headers to the e-mail::
+
+	$this->email->set_header('Header1', 'Value1');
+	$this->email->set_header('Header2', 'Value2');
+
 $this->email->clear()
 ---------------------
 

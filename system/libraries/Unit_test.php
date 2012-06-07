@@ -93,7 +93,7 @@ class CI_Unit_test {
 	 */
 	public function run($test, $expected = TRUE, $test_name = 'undefined', $notes = '')
 	{
-		if ($this->active == FALSE)
+		if ($this->active === FALSE)
 		{
 			return FALSE;
 		}
@@ -106,7 +106,7 @@ class CI_Unit_test {
 		}
 		else
 		{
-			$result = ($this->strict == TRUE) ? ($test === $expected) : ($test == $expected);
+			$result = ($this->strict === TRUE) ? ($test === $expected) : ($test === $expected);
 			$extype = gettype($expected);
 		}
 
@@ -124,7 +124,7 @@ class CI_Unit_test {
 
 		$this->results[] = $report;
 
-		return($this->report($this->result($report)));
+		return $this->report($this->result($report));
 	}
 
 	// --------------------------------------------------------------------
@@ -155,13 +155,13 @@ class CI_Unit_test {
 
 			foreach ($res as $key => $val)
 			{
-				if ($key == $CI->lang->line('ut_result'))
+				if ($key === $CI->lang->line('ut_result'))
 				{
-					if ($val == $CI->lang->line('ut_passed'))
+					if ($val === $CI->lang->line('ut_passed'))
 					{
 						$val = '<span style="color: #0C0;">'.$val.'</span>';
 					}
-					elseif ($val == $CI->lang->line('ut_failed'))
+					elseif ($val === $CI->lang->line('ut_failed'))
 					{
 						$val = '<span style="color: #C00;">'.$val.'</span>';
 					}
@@ -289,15 +289,11 @@ class CI_Unit_test {
 	 */
 	protected function _backtrace()
 	{
-		if (function_exists('debug_backtrace'))
-		{
-			$back = debug_backtrace();
-			return array(
-					'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
-					'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
-				);
-		}
-		return array('file' => 'Unknown', 'line' => 'Unknown');
+		$back = debug_backtrace();
+		return array(
+				'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
+				'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
+			);
 	}
 
 	// --------------------------------------------------------------------
@@ -350,11 +346,11 @@ class CI_Unit_test {
  */
 function is_true($test)
 {
-	return (is_bool($test) && $test === TRUE);
+	return ($test === TRUE);
 }
 function is_false($test)
 {
-	return (is_bool($test) && $test === FALSE);
+	return ($test === FALSE);
 }
 
 /* End of file Unit_test.php */

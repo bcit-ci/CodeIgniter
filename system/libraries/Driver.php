@@ -45,20 +45,20 @@ class CI_Driver_Library {
 	 * @var array
 	 */
 	protected $valid_drivers = array();
-	
+
 	/**
 	 * Name of the current class - usually the driver class
 	 *
 	 * @var string
 	 */
-	protected static $lib_name;
+	protected $lib_name;
 
 	/**
 	 * The first time a child is used it won't exist, so we instantiate it
 	 * subsequents calls will go straight to the proper child.
 	 *
-	 * @param mixed $child
-	 * @return mixed
+	 * @param	mixed	$child
+	 * @return	mixed
 	 */
 	public function __get($child)
 	{
@@ -145,7 +145,7 @@ class CI_Driver {
 	 * @var array
 	 */
 	protected $_methods = array();
-	
+
 	/**
 	 * List of properties in the parent class
 	 *

@@ -183,8 +183,6 @@ Resources
 
 -  `User Guide <http://codeigniter.com/user_guide/>`_
 -  `Community Forums <http://codeigniter.com/forums/>`_
--  `User
-   Voice <http://codeigniter.uservoice.com/forums/40508-codeigniter-reactor>`_
 -  `Community Wiki <http://codeigniter.com/wiki/>`_
 -  `Community IRC <http://codeigniter.com/irc/>`_
 

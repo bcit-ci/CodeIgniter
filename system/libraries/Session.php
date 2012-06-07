@@ -36,146 +36,146 @@
  */
 class CI_Session {
 
-	/** 
+	/**
 	 * Whether to encrypt the session cookie
 	 *
 	 * @var bool
 	 */
 	public $sess_encrypt_cookie		= FALSE;
-	
+
 	/**
 	 * Whether to use to the database for session storage
 	 *
 	 * @var bool
 	 */
 	public $sess_use_database		= FALSE;
-	
+
 	/**
 	 * Name of the database table in which to store sessions
 	 *
 	 * @var string
 	 */
 	public $sess_table_name			= '';
-	
+
 	/**
 	 * Length of time (in seconds) for sessions to expire
 	 *
 	 * @var int
 	 */
 	public $sess_expiration			= 7200;
-	
+
 	/**
 	 * Whether to kill session on close of browser window
 	 *
 	 * @var bool
 	 */
 	public $sess_expire_on_close		= FALSE;
-	
+
 	/**
 	 * Whether to match session on ip address
 	 *
 	 * @var bool
 	 */
 	public $sess_match_ip			= FALSE;
-	
+
 	/**
 	 * Whether to match session on user-agent
 	 *
 	 * @var bool
 	 */
 	public $sess_match_useragent		= TRUE;
-	
+
 	/**
 	 * Name of session cookie
 	 *
 	 * @var string
 	 */
 	public $sess_cookie_name		= 'ci_session';
-	
+
 	/**
 	 * Session cookie prefix
 	 *
 	 * @var string
 	 */
 	public $cookie_prefix			= '';
-	
+
 	/**
 	 * Session cookie path
 	 *
 	 * @var string
 	 */
 	public $cookie_path			= '';
-	
+
 	/**
 	 * Session cookie domain
 	 *
 	 * @var string
 	 */
 	public $cookie_domain			= '';
-	
+
 	/**
 	 * Whether to set the cookie only on HTTPS connections
 	 *
 	 * @var bool
 	 */
 	public $cookie_secure			= FALSE;
-	
+
 	/**
 	 * Whether cookie should be allowed only to be sent by the server
 	 *
 	 * @var bool
 	 */
 	public $cookie_httponly 		= FALSE;
-	
+
 	/**
 	 * Interval at which to update session
 	 *
 	 * @var int
 	 */
 	public $sess_time_to_update		= 300;
-	
+
 	/**
 	 * Key with which to encrypt the session cookie
 	 *
 	 * @var string
 	 */
 	public $encryption_key			= '';
-	
+
 	/**
 	 * String to indicate flash data cookies
 	 *
 	 * @var string
 	 */
 	public $flashdata_key			= 'flash';
-	
+
 	/**
 	 * Function to use to get the current time
 	 *
 	 * @var string
 	 */
 	public $time_reference			= 'time';
-	
+
 	/**
 	 * Probablity level of garbage collection of old sessions
 	 *
 	 * @var int
 	 */
 	public $gc_probability			= 5;
-	
+
 	/**
 	 * Session data
 	 *
 	 * @var array
 	 */
 	public $userdata			= array();
-	
+
 	/**
 	 * Reference to CodeIgniter instance
 	 *
 	 * @var object
 	 */
 	public $CI;
-	
+
 	/**
 	 * Current time
 	 *
@@ -190,6 +190,7 @@ class CI_Session {
 	 * whenever the class is instantiated.
 	 *
 	 * @param	array
+	 * @return	void
 	 */
 	public function __construct($params = array())
 	{
@@ -205,7 +206,7 @@ class CI_Session {
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
 
-		if ($this->encryption_key == '')
+		if ($this->encryption_key === '')
 		{
 			show_error('In order to use the Session class you are required to set an encryption key in your config file.');
 		}
@@ -214,13 +215,13 @@ class CI_Session {
 		$this->CI->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$this->CI->load->library('encrypt');
 		}
 
 		// Are we using a database? If so, load it
-		if ($this->sess_use_database === TRUE && $this->sess_table_name != '')
+		if ($this->sess_use_database === TRUE && $this->sess_table_name !== '')
 		{
 			$this->CI->load->database();
 		}
@@ -231,7 +232,7 @@ class CI_Session {
 
 		// Set the session length. If the session expiration is
 		// set to zero we'll set the expiration two years from now.
-		if ($this->sess_expiration == 0)
+		if ($this->sess_expiration === 0)
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
@@ -275,14 +276,14 @@ class CI_Session {
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
 
 		// No cookie?  Goodbye cruel world!...
-		if ($session === FALSE)
+		if ($session === NULL)
 		{
 			log_message('debug', 'A session cookie was not found.');
 			return FALSE;
 		}
 
 		// Decrypt the cookie data
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$session = $this->CI->encrypt->decode($session);
 		}
@@ -319,14 +320,14 @@ class CI_Session {
 		}
 
 		// Does the IP match?
-		if ($this->sess_match_ip == TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
+		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
+		if ($this->sess_match_useragent === TRUE && trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -337,12 +338,12 @@ class CI_Session {
 		{
 			$this->CI->db->where('session_id', $session['session_id']);
 
-			if ($this->sess_match_ip == TRUE)
+			if ($this->sess_match_ip === TRUE)
 			{
 				$this->CI->db->where('ip_address', $session['ip_address']);
 			}
 
-			if ($this->sess_match_useragent == TRUE)
+			if ($this->sess_match_useragent === TRUE)
 			{
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
@@ -358,7 +359,7 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) && $row->user_data != '')
+			if ( ! empty($row->user_data))
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 
@@ -570,6 +571,9 @@ class CI_Session {
 				$this->cookie_domain,
 				0
 			);
+
+		// Kill session data
+		$this->userdata = array();
 	}
 
 	// --------------------------------------------------------------------
@@ -582,7 +586,7 @@ class CI_Session {
 	 */
 	public function userdata($item)
 	{
-		return isset($this->userdata[$item]) ? $this->userdata[$item] : FALSE;
+		return isset($this->userdata[$item]) ? $this->userdata[$item] : NULL;
 	}
 
 	// --------------------------------------------------------------------
@@ -711,7 +715,7 @@ class CI_Session {
 	{
 		// 'old' flashdata gets removed. Here we mark all
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
-		// Note the function will return FALSE if the $key
+		// Note the function will return NULL if the $key
 		// provided cannot be found
 		$value = $this->userdata($this->flashdata_key.':old:'.$key);
 
@@ -805,7 +809,7 @@ class CI_Session {
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
@@ -925,7 +929,7 @@ class CI_Session {
 	 */
 	protected function _sess_gc()
 	{
-		if ($this->sess_use_database != TRUE)
+		if ($this->sess_use_database !== TRUE)
 		{
 			return;
 		}
