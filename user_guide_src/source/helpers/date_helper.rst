@@ -330,36 +330,46 @@ Generates a pull-down menu of timezones, like this one:
 
 	<form action="#">
 		<select name="timezones">
-			<option value='UM12'>(UTC - 12:00) Enitwetok, Kwajalien</option>
-			<option value='UM11'>(UTC - 11:00) Nome, Midway Island, Samoa</option>
-			<option value='UM10'>(UTC - 10:00) Hawaii</option>
-			<option value='UM9'>(UTC - 9:00) Alaska</option>
-			<option value='UM8'>(UTC - 8:00) Pacific Time</option>
-			<option value='UM7'>(UTC - 7:00) Mountain Time</option>
-			<option value='UM6'>(UTC - 6:00) Central Time, Mexico City</option>
-			<option value='UM5'>(UTC - 5:00) Eastern Time, Bogota, Lima, Quito</option>
-			<option value='UM4'>(UTC - 4:00) Atlantic Time, Caracas, La Paz</option>
-			<option value='UM25'>(UTC - 3:30) Newfoundland</option>
-			<option value='UM3'>(UTC - 3:00) Brazil, Buenos Aires, Georgetown, Falkland Is.</option>
-			<option value='UM2'>(UTC - 2:00) Mid-Atlantic, Ascention Is., St Helena</option>
-			<option value='UM1'>(UTC - 1:00) Azores, Cape Verde Islands</option>
-			<option value='UTC' selected='selected'>(UTC) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
-			<option value='UP1'>(UTC + 1:00) Berlin, Brussels, Copenhagen, Madrid, Paris, Rome</option>
-			<option value='UP2'>(UTC + 2:00) Kaliningrad, South Africa, Warsaw</option>
-			<option value='UP3'>(UTC + 3:00) Baghdad, Riyadh, Moscow, Nairobi</option>
-			<option value='UP25'>(UTC + 3:30) Tehran</option>
-			<option value='UP4'>(UTC + 4:00) Adu Dhabi, Baku, Muscat, Tbilisi</option>
-			<option value='UP35'>(UTC + 4:30) Kabul</option>
-			<option value='UP5'>(UTC + 5:00) Islamabad, Karachi, Tashkent</option>
-			<option value='UP45'>(UTC + 5:30) Bombay, Calcutta, Madras, New Delhi</option>
-			<option value='UP6'>(UTC + 6:00) Almaty, Colomba, Dhaka</option>
-			<option value='UP7'>(UTC + 7:00) Bangkok, Hanoi, Jakarta</option>
-			<option value='UP8'>(UTC + 8:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
-			<option value='UP9'>(UTC + 9:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
-			<option value='UP85'>(UTC + 9:30) Adelaide, Darwin</option>
-			<option value='UP10'>(UTC + 10:00) Melbourne, Papua New Guinea, Sydney, Vladivostok</option>
-			<option value='UP11'>(UTC + 11:00) Magadan, New Caledonia, Solomon Islands</option>
-			<option value='UP12'>(UTC + 12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+			<option value='UM12'>(UTC -12:00) Baker/Howland Island</option>
+			<option value='UM11'>(UTC -11:00) Samoa Time Zone, Niue</option>
+			<option value='UM10'>(UTC -10:00) Hawaii-Aleutian Standard Time, Cook Islands, Tahiti</option>
+			<option value='UM95'>(UTC -9:30) Marquesas Islands</option>
+			<option value='UM9'>(UTC -9:00) Alaska Standard Time, Gambier Islands</option>
+			<option value='UM8'>(UTC -8:00) Pacific Standard Time, Clipperton Island</option>
+			<option value='UM7'>(UTC -7:00) Mountain Standard Time</option>
+			<option value='UM6'>(UTC -6:00) Central Standard Time</option>
+			<option value='UM5'>(UTC -5:00) Eastern Standard Time, Western Caribbean Standard Time</option>
+			<option value='UM45'>(UTC -4:30) Venezuelan Standard Time</option>
+			<option value='UM4'>(UTC -4:00) Atlantic Standard Time, Eastern Caribbean Standard Time</option>
+			<option value='UM35'>(UTC -3:30) Newfoundland Standard Time</option>
+			<option value='UM3'>(UTC -3:00) Argentina, Brazil, French Guiana, Uruguay</option>
+			<option value='UM2'>(UTC -2:00) South Georgia/South Sandwich Islands</option>
+			<option value='UM1'>(UTC -1:00) Azores, Cape Verde Islands</option>
+			<option value='UTC' selected='selected'>(UTC) Greenwich Mean Time, Western European Time</option>
+			<option value='UP1'>(UTC +1:00) Central European Time, West Africa Time</option>
+			<option value='UP2'>(UTC +2:00) Central Africa Time, Eastern European Time, Kaliningrad Time</option>
+			<option value='UP3'>(UTC +3:00) Moscow Time, East Africa Time</option>
+			<option value='UP35'>(UTC +3:30) Iran Standard Time</option>
+			<option value='UP4'>(UTC +4:00) Azerbaijan Standard Time, Samara Time</option>
+			<option value='UP45'>(UTC +4:30) Afghanistan</option>
+			<option value='UP5'>(UTC +5:00) Pakistan Standard Time, Yekaterinburg Time</option>
+			<option value='UP55'>(UTC +5:30) Indian Standard Time, Sri Lanka Time</option>
+			<option value='UP575'>(UTC +5:45) Nepal Time</option>
+			<option value='UP6'>(UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time</option>
+			<option value='UP65'>(UTC +6:30) Cocos Islands, Myanmar</option>
+			<option value='UP7'>(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam</option>
+			<option value='UP8'>(UTC +8:00) Australian Western Standard Time, Beijing Time, Irkutsk Time</option>
+			<option value='UP875'>(UTC +8:45) Australian Central Western Standard Time</option>
+			<option value='UP9'>(UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk Time</option>
+			<option value='UP95'>(UTC +9:30) Australian Central Standard Time</option>
+			<option value='UP10'>(UTC +10:00) Australian Eastern Standard Time, Vladivostok Time</option>
+			<option value='UP105'>(UTC +10:30) Lord Howe Island</option>
+			<option value='UP11'>(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu</option>
+			<option value='UP115'>(UTC +11:30) Norfolk Island</option>
+			<option value='UP12'>(UTC +12:00) Fiji, Gilbert Islands, Kamchatka Time, New Zealand Standard Time</option>
+			<option value='UP1275'>(UTC +12:45) Chatham Islands Standard Time</option>
+			<option value='UP13'>(UTC +13:00) Phoenix Islands Time, Tonga</option>
+			<option value='UP14'>(UTC +14:00) Line Islands</option>
 		</select>
 	</form>
 
@@ -396,66 +406,88 @@ Timezone Reference
 
 The following table indicates each timezone and its location.
 
+Note some of the location lists have been abridged for clarity and formatting.
+
 +------------+----------------------------------------------------------------+
 | Time Zone  | Location                                                       |
 +============+================================================================+
-| UM12       | (UTC - 12:00) Enitwetok, Kwajalien                             |
+| UM12       | (UTC - 12:00) Baker/Howland Island	                          |
 +------------+----------------------------------------------------------------+
-| UM11       | (UTC - 11:00) Nome, Midway Island, Samoa                       |
+| UM11       | (UTC - 11:00) Samoa Time Zone, Niue						      |
 +------------+----------------------------------------------------------------+
-| UM10       | (UTC - 10:00) Hawaii                                           |
+| UM10       | (UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands	  |
 +------------+----------------------------------------------------------------+
-| UM9        | (UTC - 9:00) Alaska                                            |
+| UM95       | (UTC - 09:30) Marquesas Islands							      |
 +------------+----------------------------------------------------------------+
-| UM8        | (UTC - 8:00) Pacific Time                                      |
+| UM9        | (UTC - 09:00) Alaska Standard Time, Gambier Islands		      |
 +------------+----------------------------------------------------------------+
-| UM7        | (UTC - 7:00) Mountain Time                                     |
+| UM8        | (UTC - 08:00) Pacific Standard Time, Clipperton Island	      |
 +------------+----------------------------------------------------------------+
-| UM6        | (UTC - 6:00) Central Time, Mexico City                         |
+| UM7        | (UTC - 11:00) Mountain Standard Time						      |
 +------------+----------------------------------------------------------------+
-| UM5        | (UTC - 5:00) Eastern Time, Bogota, Lima, Quito                 |
+| UM6        | (UTC - 06:00) Central Standard Time						      |
 +------------+----------------------------------------------------------------+
-| UM4        | (UTC - 4:00) Atlantic Time, Caracas, La Paz                    |
+| UM5        | (UTC - 05:00) Eastern Standard Time, Western Caribbean		  |
 +------------+----------------------------------------------------------------+
-| UM25       | (UTC - 3:30) Newfoundland                                      |
+| UM45       | (UTC - 04:30) Venezuelan Standard Time					      |
 +------------+----------------------------------------------------------------+
-| UM3        | (UTC - 3:00) Brazil, Buenos Aires, Georgetown, Falkland Is.    |
+| UM4        | (UTC - 04:00) Atlantic Standard Time, Eastern Caribbean		  |
 +------------+----------------------------------------------------------------+
-| UM2        | (UTC - 2:00) Mid-Atlantic, Ascention Is., St Helena            |
+| UM35       | (UTC - 03:30) Newfoundland Standard Time					      |
 +------------+----------------------------------------------------------------+
-| UM1        | (UTC - 1:00) Azores, Cape Verde Islands                        |
+| UM3        | (UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay	      |
 +------------+----------------------------------------------------------------+
-| UTC        | (UTC) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia  |
+| UM2        | (UTC - 02:00) South Georgia/South Sandwich Islands		      |
 +------------+----------------------------------------------------------------+
-| UP1        | (UTC + 1:00) Berlin, Brussels, Copenhagen, Madrid, Paris, Rome |
+| UM1        | (UTC -1:00) Azores, Cape Verde Islands						  |
 +------------+----------------------------------------------------------------+
-| UP2        | (UTC + 2:00) Kaliningrad, South Africa, Warsaw                 |
+| UTC        | (UTC) Greenwich Mean Time, Western European Time				  |
 +------------+----------------------------------------------------------------+
-| UP3        | (UTC + 3:00) Baghdad, Riyadh, Moscow, Nairobi                  |
+| UP1        | (UTC +1:00) Central European Time, West Africa Time			  |
 +------------+----------------------------------------------------------------+
-| UP25       | (UTC + 3:30) Tehran                                            |
+| UP2        | (UTC +2:00) Central Africa Time, Eastern European Time		  |
 +------------+----------------------------------------------------------------+
-| UP4        | (UTC + 4:00) Adu Dhabi, Baku, Muscat, Tbilisi                  |
+| UP3        | (UTC +3:00) Moscow Time, East Africa Time			  		  |
 +------------+----------------------------------------------------------------+
-| UP35       | (UTC + 4:30) Kabul                                             |
+| UP35       | (UTC +3:30) Iran Standard Time								  |
 +------------+----------------------------------------------------------------+
-| UP5        | (UTC + 5:00) Islamabad, Karachi, Tashkent                      |
+| UP4        | (UTC +4:00) Azerbaijan Standard Time, Samara Time			  |
 +------------+----------------------------------------------------------------+
-| UP45       | (UTC + 5:30) Bombay, Calcutta, Madras, New Delhi               |
+| UP45       | (UTC +4:30) Afghanistan										  |
 +------------+----------------------------------------------------------------+
-| UP6        | (UTC + 6:00) Almaty, Colomba, Dhaka                            |
+| UP5        | (UTC +5:00) Pakistan Standard Time, Yekaterinburg Time		  |
 +------------+----------------------------------------------------------------+
-| UP7        | (UTC + 7:00) Bangkok, Hanoi, Jakarta                           |
+| UP55       | (UTC +5:30) Indian Standard Time, Sri Lanka Time				  |
 +------------+----------------------------------------------------------------+
-| UP8        | (UTC + 8:00) Beijing, Hong Kong, Perth, Singapore, Taipei      |
+| UP575      | (UTC +5:45) Nepal Time										  |
 +------------+----------------------------------------------------------------+
-| UP9        | (UTC + 9:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk             |
+| UP6        | (UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time   |
 +------------+----------------------------------------------------------------+
-| UP85       | (UTC + 9:30) Adelaide, Darwin                                  |
+| UP65       | (UTC +6:30) Cocos Islands, Myanmar							  |
 +------------+----------------------------------------------------------------+
-| UP10       | (UTC + 10:00) Melbourne, Papua New Guinea, Sydney, Vladivostok |
+| UP7        | (UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam|
 +------------+----------------------------------------------------------------+
-| UP11       | (UTC + 11:00) Magadan, New Caledonia, Solomon Islands          |
+| UP8        | (UTC +8:00) Australian Western Standard Time, Beijing Time	  |
 +------------+----------------------------------------------------------------+
-| UP12       | (UTC + 12:00) Auckland, Wellington, Fiji, Marshall Island      |
+| UP875      | (UTC +8:45) Australian Central Western Standard Time		      |
++------------+----------------------------------------------------------------+
+| UP9        | (UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk  |
++------------+----------------------------------------------------------------+
+| UP95       | (UTC +9:30) Australian Central Standard Time					  |
++------------+----------------------------------------------------------------+
+| UP10       | (UTC +10:00) Australian Eastern Standard Time, Vladivostok Time|
++------------+----------------------------------------------------------------+
+| UP105      | (UTC +10:30) Lord Howe Island								  |
++------------+----------------------------------------------------------------+
+| UP11       | (UTC +11:00) Magadan Time, Solomon Islands, Vanuatu            |
++------------+----------------------------------------------------------------+
+| UP115      | (UTC +11:30) Norfolk Island									  |
++------------+----------------------------------------------------------------+
+| UP12       | (UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand     |
++------------+----------------------------------------------------------------+
+| UP1275     | (UTC +12:45) Chatham Islands Standard Time					  |
++------------+----------------------------------------------------------------+
+| UP13       | (UTC +13:00) Phoenix Islands Time, Tonga						  |
++------------+----------------------------------------------------------------+
+| UP14       | (UTC +14:00) Line Islands									  |
 +------------+----------------------------------------------------------------+

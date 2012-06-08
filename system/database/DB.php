@@ -32,9 +32,9 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  * @param 	string
- * @param 	bool	Determines if active record should be used or not
+ * @param 	bool	Determines if query builder should be used or not
  */
-function &DB($params = '', $active_record_override = NULL)
+function &DB($params = '', $query_builder_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) && strpos($params, '://') === FALSE)
@@ -53,7 +53,7 @@ function &DB($params = '', $active_record_override = NULL)
 			show_error('No database connection settings were found in the database config file.');
 		}
 
-		if ($params != '')
+		if ($params !== '')
 		{
 			$active_group = $params;
 		}
@@ -106,27 +106,34 @@ function &DB($params = '', $active_record_override = NULL)
 	}
 
 	// No DB specified yet? Beat them senseless...
-	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
+	if (empty($params['dbdriver']))
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
 
-	// Load the DB classes. Note: Since the active record class is optional
+	// Load the DB classes. Note: Since the query builder class is optional
 	// we need to dynamically create a class that extends proper parent class
-	// based on whether we're using the active record class or not.
-	if ($active_record_override !== NULL)
+	// based on whether we're using the query builder class or not.
+	if ($query_builder_override !== NULL)
 	{
-		$active_record = $active_record_override;
+		$query_builder = $query_builder_override;
+	}
+	// Backwards compatibility work-around for keeping the
+	// $active_record config variable working. Should be
+	// removed in v3.1
+	elseif ( ! isset($query_builder) && isset($active_record))
+	{
+		$query_builder = $active_record;
 	}
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
-	if ( ! isset($active_record) OR $active_record == TRUE)
+	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
-		require_once(BASEPATH.'database/DB_active_rec.php');
+		require_once(BASEPATH.'database/DB_query_builder.php');
 		if ( ! class_exists('CI_DB'))
 		{
-			class CI_DB extends CI_DB_active_record { }
+			class CI_DB extends CI_DB_query_builder { }
 		}
 	}
 	elseif ( ! class_exists('CI_DB'))
@@ -145,12 +152,12 @@ function &DB($params = '', $active_record_override = NULL)
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
-	if ($DB->autoinit == TRUE)
+	if ($DB->autoinit === TRUE)
 	{
 		$DB->initialize();
 	}
 
-	if (isset($params['stricton']) && $params['stricton'] == TRUE)
+	if ( ! empty($params['stricton']))
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
