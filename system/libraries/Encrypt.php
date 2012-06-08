@@ -104,8 +104,7 @@ class CI_Encrypt {
 				return $this->encryption_key;
 			}
 
-			$CI =& get_instance();
-			$key = $CI->config->item('encryption_key');
+			$key = config_item('encryption_key');
 
 			if ($key === FALSE)
 			{
