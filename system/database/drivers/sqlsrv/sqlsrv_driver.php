@@ -43,7 +43,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	public $dbdriver = 'sqlsrv';
 
 	// The character used for escaping
-	protected $_escape_char = '';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " ESCAPE '%s' ";
@@ -56,6 +56,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' NEWID()';
+
+	// SQLSRV-specific properties
+	protected $_quoted_identifier = TRUE;
 
 	/**
 	 * Non-persistent database connection
@@ -83,7 +86,15 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		return sqlsrv_connect($this->hostname, $connection);
+		$conn_id = sqlsrv_connect($this->hostname, $connection);
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query->qi;
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $conn_id;
 	}
 
 	// --------------------------------------------------------------------
