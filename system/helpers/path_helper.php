@@ -37,15 +37,15 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Set Realpath
- *
- * @param	string
- * @param	bool	checks to see if the path exists
- * @return	string
- */
 if ( ! function_exists('set_realpath'))
 {
+	/**
+	 * Set Realpath
+	 *
+	 * @param	string
+	 * @param	bool	checks to see if the path exists
+	 * @return	string
+	 */
 	function set_realpath($path, $check_existance = FALSE)
 	{
 		// Security check to make sure the path is NOT a URL. No remote file inclusion!
@@ -55,7 +55,7 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		if (function_exists('realpath') && @realpath($path) !== FALSE)
+		if (@realpath($path) !== FALSE)
 		{
 			$path = realpath($path);
 		}

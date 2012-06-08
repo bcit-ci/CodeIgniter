@@ -92,12 +92,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 		$retval = array();
 		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
-			$F 				= new stdClass();
-			$F->name 		= $field['Name'];
-			$F->type 		= $field['Type'];
+			$F 		= new stdClass();
+			$F->name 	= $field['Name'];
+			$F->type 	= $field['Type'];
 			$F->max_length	= $field['Size'];
 			$F->primary_key = 0;
-			$F->default		= '';
+			$F->default	= '';
 
 			$retval[] = $F;
 		}

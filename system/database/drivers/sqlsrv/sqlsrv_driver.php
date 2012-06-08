@@ -29,7 +29,7 @@
  * SQLSRV Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -55,7 +55,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' NEWID()'; // not currently supported
+	protected $_random_keyword = ' NEWID()';
 
 	/**
 	 * Non-persistent database connection
@@ -132,11 +132,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id,
-					$sql,
-					NULL,
-					array('Scrollable'=> SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE)
-			);
+		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+			? sqlsrv_query($this->conn_id, $sql)
+			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
 
 	// --------------------------------------------------------------------
@@ -148,13 +146,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -162,7 +155,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		return sqlsrv_begin_transaction($this->conn_id);
 	}
@@ -176,13 +169,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -199,13 +187,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -237,7 +220,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return sqlrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -276,35 +259,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		return $this->data_cache['version'] = $info['SQLServerVersion'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -403,12 +357,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return implode(', ', $tables);
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
@@ -428,7 +377,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
@@ -510,12 +459,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlsrv_close($conn_id);
+		@sqlsrv_close($this->conn_id);
 	}
 
 }

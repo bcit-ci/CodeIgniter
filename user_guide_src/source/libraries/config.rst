@@ -149,11 +149,13 @@ folders:
 -  Your own custom configuration files
 
 .. note::
-	CodeIgniter always tries to load the configuration files for
-	the current environment first. If the file does not exist, the global
-	config file (i.e., the one in application/config/) is loaded. This means
-	you are not obligated to place **all** of your configuration files in an
-	environment folder − only the files that change per environment.
+	CodeIgniter always loads the global config file first (i.e., the one in application/config/),
+	then tries to load the configuration files for the current environment.
+	This means you are not obligated to place **all** of your configuration files in an
+	environment folder. Only the files that change per environment. Additionally you don't
+	have to copy **all** the config items in the environment config file. Only the config items
+	that you wish to change for your environment. The config items declared in your environment
+	folders always overwrite those in your global config files.
 
 Helper Functions
 ================

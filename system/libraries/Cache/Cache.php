@@ -36,6 +36,11 @@
  */
 class CI_Cache extends CI_Driver_Library {
 
+	/**
+	 * Valid cache drivers
+	 *
+	 * @var array
+	 */
 	protected $valid_drivers 	= array(
 		'cache_apc',
 		'cache_dummy',
@@ -45,9 +50,26 @@ class CI_Cache extends CI_Driver_Library {
 		'cache_wincache'
 	);
 
-	protected $_cache_path		= NULL;	// Path of cache files (if file-based cache)
-	protected $_adapter			= 'dummy';
-	protected $_backup_driver;
+	/**
+	 * Path of cache files (if file-based cache)
+	 *
+	 * @var string
+	 */
+	protected $_cache_path = NULL;
+
+	/**
+	 * Reference to the driver
+	 *
+	 * @var mixed
+	 */
+	protected $_adapter = 'dummy';
+
+	/**
+	 * Fallback driver
+	 *
+	 * @param string
+	 */
+	protected $_backup_driver = 'dummy';
 
 	/**
 	 * Constructor
@@ -60,9 +82,9 @@ class CI_Cache extends CI_Driver_Library {
 	public function __construct($config = array())
 	{
 		$default_config = array(
-				'adapter',
-				'memcached'
-			);
+			'adapter',
+			'memcached'
+		);
 
 		foreach ($default_config as $key)
 		{
@@ -79,6 +101,22 @@ class CI_Cache extends CI_Driver_Library {
 			if (in_array('cache_'.$config['backup'], $this->valid_drivers))
 			{
 				$this->_backup_driver = $config['backup'];
+			}
+		}
+
+		// If the specified adapter isn't available, check the backup.
+		if ( ! $this->is_supported($this->_adapter))
+		{
+			if ( ! $this->is_supported($this->_backup_driver))
+			{
+				// Backup isn't supported either. Default to 'Dummy' driver.
+				log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup_driver.'" are both unavailable. Cache is now using "Dummy" adapter.');
+				$this->_adapter = 'dummy';
+			}
+			else
+			{
+				// Backup is supported. Set it to primary.
+				$this->_adapter = $this->_backup_driver;
 			}
 		}
 	}
@@ -183,26 +221,6 @@ class CI_Cache extends CI_Driver_Library {
 		}
 
 		return $support[$driver];
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * __get()
-	 *
-	 * @param	child
-	 * @return	object
-	 */
-	public function __get($child)
-	{
-		$obj = parent::__get($child);
-
-		if ( ! $this->is_supported($child))
-		{
-			$this->_adapter = $this->_backup_driver;
-		}
-
-		return $obj;
 	}
 
 }

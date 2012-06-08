@@ -32,6 +32,9 @@ The path can be a relative or full server path. Returns FALSE (boolean) on failu
 	controller or view files. CodeIgniter uses a front controller so paths
 	are always relative to the main site index.
 
+.. note:: This function is DEPRECATED. Use the native ``file_get_contents()``
+	instead.
+
 If your server is running an `open_basedir` restriction this function might not work if you are trying to access a file above the calling script.
 
 write_file('path', $data)
