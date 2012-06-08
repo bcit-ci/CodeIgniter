@@ -462,6 +462,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
+		// As of SQL Server 2012 (11.0.*) OFFSET is supported
+		if ($offset != 0 && version_compare($this->version(), '11', '>='))
+		{
+			return $sql .= ' OFFSET '. (int) $offset .' ROW FETCH NEXT '. (int) $limit .' ROW ONLY';
+		}
+
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
 	}
 
