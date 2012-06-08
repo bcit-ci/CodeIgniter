@@ -87,7 +87,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		$sql .= $this->db->protect_identifiers($table).'(';
+		$sql .= $this->db->escape_identifiers($table).'(';
 		$current_field_count = 0;
 
 		foreach ($fields as $field => $attributes)
@@ -135,7 +135,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->protect_identifiers($primary_keys);
+			$primary_keys = $this->db->escape_identifiers($primary_keys);
 			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
@@ -144,7 +144,7 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 			foreach ($keys as $key)
 			{
 				$key = is_array($key)
-					? $this->db->protect_identifiers($key)
+					? $this->db->escape_identifiers($key)
 					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';

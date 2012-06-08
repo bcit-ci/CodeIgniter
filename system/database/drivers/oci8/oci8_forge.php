@@ -100,7 +100,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -108,7 +108,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			foreach ($keys as $key)
 			{
 				$key = is_array($key)
-					? $this->db->protect_identifiers($key)
+					? $this->db->escape_identifiers($key)
 					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).')';
