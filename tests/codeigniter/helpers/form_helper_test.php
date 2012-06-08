@@ -53,6 +53,24 @@ EOH;
 		$this->assertEquals($expected, form_url($data));
 	}
 	
+	public function test_form_search()
+	{
+		$expected = <<<EOH
+<input type="search" name="search" value="sth to search" maxlength="40" size="50" style="width:30%"  />
+
+EOH;
+	
+		$data = array(
+			'name'        => 'search',
+			'value'       => 'sth to search',
+			'maxlength'   => '40',
+			'size'        => '50',
+			'style'       => 'width:30%',
+		);
+
+		$this->assertEquals($expected, form_search($data));
+	}
+	
 	public function test_form_password()
 	{				
 		$expected = <<<EOH

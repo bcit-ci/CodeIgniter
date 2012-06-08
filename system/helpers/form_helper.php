@@ -210,6 +210,32 @@ if ( ! function_exists('form_url'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('form_search'))
+{
+	/**
+	 * Search Field
+	 *
+	 * Identical to the input function but adds the "search" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function form_search($data = '', $value = '', $extra = '')
+	{
+		if ( ! is_array($data))
+		{
+			$data = array('name' => $data);
+		}
+
+		$data['type'] = 'search';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('form_password'))
 {
 	/**
