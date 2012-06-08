@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -47,7 +47,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected static $_default_config = array(
 		'host' => '127.0.0.1',
-		'password' => null,
+		'password' => NULL,
 		'port' => 6379,
 		'timeout' => 0
 	);
@@ -185,13 +185,13 @@ class CI_Cache_redis extends CI_Driver
 	 * @return void
 	 * @see Redis::connect()
 	 */
-	private function _setup_redis()
+	protected function _setup_redis()
 	{
 		$config = array();
 		$CI =& get_instance();
 
 		if ($CI->config->load('redis', TRUE, TRUE))
-        {
+		{
 			$config += $CI->config->item('redis');
 		}
 
@@ -208,7 +208,8 @@ class CI_Cache_redis extends CI_Driver
 			show_error('Redis connection refused. ' . $e->getMessage());
 		}
 
-		if (isset($config['password'])) {
+		if (isset($config['password']))
+		{
 			$this->_redis->auth($config['password']);
 		}
 	}
