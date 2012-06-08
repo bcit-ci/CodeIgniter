@@ -55,9 +55,9 @@ class CI_DB_Cache {
 	 */
 	public function check_path($path = '')
 	{
-		if ($path == '')
+		if ($path === '')
 		{
-			if ($this->db->cachedir == '')
+			if ($this->db->cachedir === '')
 			{
 				return $this->db->cache_off();
 			}
@@ -99,7 +99,7 @@ class CI_DB_Cache {
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
 
-		if (FALSE === ($cachedata = read_file($filepath)))
+		if (FALSE === ($cachedata = file_get_contents($filepath)))
 		{
 			return FALSE;
 		}
@@ -154,12 +154,12 @@ class CI_DB_Cache {
 	 */
 	public function delete($segment_one = '', $segment_two = '')
 	{
-		if ($segment_one == '')
+		if ($segment_one === '')
 		{
 			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
 
-		if ($segment_two == '')
+		if ($segment_two === '')
 		{
 			$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		}
@@ -177,7 +177,7 @@ class CI_DB_Cache {
 	 */
 	public function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE);
+		delete_files($this->db->cachedir, TRUE, 0, TRUE);
 	}
 
 }

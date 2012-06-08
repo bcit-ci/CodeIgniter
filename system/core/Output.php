@@ -43,66 +43,69 @@ class CI_Output {
 	 *
 	 * @var string
 	 */
-	protected $final_output;
+	public $final_output;
+
 	/**
 	 * Cache expiration time
 	 *
 	 * @var int
 	 */
-	protected $cache_expiration	= 0;
+	public $cache_expiration =	0;
+
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 */
-	protected $headers			= array();
+	public $headers =	array();
+
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 */
-	protected $mime_types		= array();
+	public $mimes =		array();
+
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 */
-	protected $enable_profiler	= FALSE;
+	public $enable_profiler =	FALSE;
+
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 */
-	protected $_zlib_oc			= FALSE;
+	protected $_zlib_oc =	FALSE;
+
 	/**
 	 * List of profiler sections
 	 *
 	 * @var array
 	 */
-	protected $_profiler_sections = array();
+	protected $_profiler_sections =	array();
+
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
 	 * @var bool
 	 */
-	protected $parse_exec_vars	= TRUE;
+	public $parse_exec_vars =	TRUE;
 
+	/**
+	 * Set up Output class
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
-		$this->_zlib_oc = @ini_get('zlib.output_compression');
+		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
-		}
-		else
-		{
-			include APPPATH.'config/mimes.php';
-		}
+		$this->mimes =& get_mimes();
 
-
-		$this->mime_types = $mimes;
 		log_message('debug', 'Output Class Initialized');
 	}
 
@@ -167,7 +170,7 @@ class CI_Output {
 	 *
 	 * Lets you set a server header which will be outputted with the final display.
 	 *
-	 * Note:  If a file is cached, headers will not be sent.  We need to figure out
+	 * Note: If a file is cached, headers will not be sent. We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
 	 * @param	string
@@ -180,7 +183,7 @@ class CI_Output {
 		// but it will not modify the content-length header to compensate for
 		// the reduction, causing the browser to hang waiting for more data.
 		// We'll just skip content-length in those cases.
-		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) == 0)
+		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) === 0)
 		{
 			return;
 		}
@@ -197,16 +200,16 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	public function set_content_type($mime_type)
+	public function set_content_type($mime_type, $charset = NULL)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
 			$extension = ltrim($mime_type, '.');
 
 			// Is this extension supported?
-			if (isset($this->mime_types[$extension]))
+			if (isset($this->mimes[$extension]))
 			{
-				$mime_type =& $this->mime_types[$extension];
+				$mime_type =& $this->mimes[$extension];
 
 				if (is_array($mime_type))
 				{
@@ -215,10 +218,36 @@ class CI_Output {
 			}
 		}
 
-		$header = 'Content-Type: '.$mime_type;
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
+
+		$header = 'Content-Type: '.$mime_type
+			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Current Content Type Header
+	 *
+	 * @return	string	'text/html', if not already set
+	 */
+	public function get_content_type()
+	{
+		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
+		{
+			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
+			{
+				return $matches[1];
+			}
+		}
+
+		return 'text/html';
 	}
 
 	// --------------------------------------------------------------------
@@ -317,7 +346,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Set the output data
-		if ($output == '')
+		if ($output === '')
 		{
 			$output =& $this->final_output;
 		}
@@ -341,7 +370,7 @@ class CI_Output {
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	= function_exists('memory_get_usage') ? round(memory_get_usage()/1024/1024, 2).'MB' : '0';
+			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
@@ -349,7 +378,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE
+		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
 			&& extension_loaded('zlib')
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
@@ -384,7 +413,7 @@ class CI_Output {
 
 		// Do we need to generate profile data?
 		// If so, load the Profile class and run it.
-		if ($this->enable_profiler == TRUE)
+		if ($this->enable_profiler === TRUE)
 		{
 			$CI->load->library('profiler');
 			if ( ! empty($this->_profiler_sections))
@@ -428,7 +457,7 @@ class CI_Output {
 	{
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
-		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
@@ -473,11 +502,11 @@ class CI_Output {
 	 *
 	 * @param 	object	config class
 	 * @param 	object	uri class
-	 * @return	void
+	 * @return	bool
 	 */
 	public function _display_cache(&$CFG, &$URI)
 	{
-		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
 		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;

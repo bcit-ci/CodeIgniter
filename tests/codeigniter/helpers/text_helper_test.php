@@ -1,13 +1,13 @@
 <?php
 
-require_once(BASEPATH.'helpers/text_helper.php');
+class Text_helper_test extends CI_TestCase {
 
-class Text_helper_test extends CI_TestCase
-{
 	private $_long_string;
 	
 	public function set_up()
 	{
+		$this->helper('text');
+		
 		$this->_long_string = 'Once upon a time, a framework had no tests.  It sad.  So some nice people began to write tests.  The more time that went on, the happier it became.  Everyone was happy.';
 	}
 	
@@ -122,7 +122,7 @@ class Text_helper_test extends CI_TestCase
 
 	// ------------------------------------------------------------------------	
 
-	public function test_ellipsizing()
+	public function test_ellipsize()
 	{
 		$strs = array(
 			'0'		=> array(
@@ -155,5 +155,21 @@ class Text_helper_test extends CI_TestCase
 	}
 
 	// ------------------------------------------------------------------------	
+
+	public function test_word_wrap()
+	{
+		$string = "Here is a simple string of text that will help us demonstrate this function.";
+		$word_wrapped = word_wrap($string, 25);
+		$this->assertEquals(substr_count($word_wrapped, "\n"), 4);
+	}
+
+	// ------------------------------------------------------------------------	
+
+	public function test_default_word_wrap_charlim()
+	{
+		$string = "Here is a longer string of text that will help us demonstrate the default charlim of this function.";
+		$word_wrapped = word_wrap($string);
+		$this->assertEquals(strpos($word_wrapped, "\n"), 73);
+	}
 
 }

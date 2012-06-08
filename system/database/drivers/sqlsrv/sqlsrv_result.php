@@ -92,12 +92,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 		$retval = array();
 		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
-			$F 				= new stdClass();
-			$F->name 		= $field['Name'];
-			$F->type 		= $field['Type'];
+			$F 		= new stdClass();
+			$F->name 	= $field['Name'];
+			$F->type 	= $field['Type'];
 			$F->max_length	= $field['Size'];
 			$F->primary_key = 0;
-			$F->default		= '';
+			$F->default	= '';
 
 			$retval[] = $F;
 		}
@@ -119,22 +119,6 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 			sqlsrv_free_stmt($this->result_id);
 			$this->result_id = FALSE;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	void
-	 */
-	protected function _data_seek($n = 0)
-	{
-		// Not implemented
 	}
 
 	// --------------------------------------------------------------------

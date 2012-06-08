@@ -34,47 +34,9 @@
  */
 class CI_DB_mysqli_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	string
-	 */
-	public function _list_databases()
-	{
-		return 'SHOW DATABASES';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _optimize_table($table)
-	{
-		return 'OPTIMIZE TABLE '.$this->db->_escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _repair_table($table)
-	{
-		return 'REPAIR TABLE '.$this->db->_escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= 'SHOW DATABASES';
+	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
+	protected $_repair_table	= 'REPAIR TABLE %s';
 
 	/**
 	 * MySQLi Export
@@ -82,7 +44,7 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');

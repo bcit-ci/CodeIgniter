@@ -29,7 +29,7 @@
  * SQLSRV Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -43,7 +43,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	public $dbdriver = 'sqlsrv';
 
 	// The character used for escaping
-	protected $_escape_char = '';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " ESCAPE '%s' ";
@@ -55,7 +55,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * used for the count_all() and count_all_results() functions.
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = ' NEWID()';
+
+	// SQLSRV-specific properties
+	protected $_quoted_identifier = TRUE;
 
 	/**
 	 * Non-persistent database connection
@@ -68,12 +71,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
 
 		$connection = array(
-			'UID'				=> empty($this->username) ? '' : $this->username,
-			'PWD'				=> empty($this->password) ? '' : $this->password,
-			'Database'			=> $this->database,
-			'ConnectionPooling' => $pooling ? 1 : 0,
+			'UID'			=> empty($this->username) ? '' : $this->username,
+			'PWD'			=> empty($this->password) ? '' : $this->password,
+			'Database'		=> $this->database,
+			'ConnectionPooling'	=> $pooling ? 1 : 0,
 			'CharacterSet'		=> $character_set,
-			'ReturnDatesAsStrings' => 1
+			'ReturnDatesAsStrings'	=> 1
 		);
 
 		// If the username and password are both empty, assume this is a
@@ -83,7 +86,15 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		return sqlsrv_connect($this->hostname, $connection);
+		$conn_id = sqlsrv_connect($this->hostname, $connection);
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query->qi;
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -132,11 +143,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return sqlsrv_query($this->conn_id,
-					$sql,
-					NULL,
-					array('Scrollable'=> SQLSRV_CURSOR_STATIC, 'SendStreamParamsAtExec' => TRUE)
-			);
+		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+			? sqlsrv_query($this->conn_id, $sql)
+			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
 
 	// --------------------------------------------------------------------
@@ -148,13 +157,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -162,7 +166,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		return sqlsrv_begin_transaction($this->conn_id);
 	}
@@ -176,13 +180,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -199,13 +198,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -237,7 +231,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @sqlrv_rows_affected($this->conn_id);
+		return sqlrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -254,23 +248,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$query = $this->query('SELECT @@IDENTITY AS insert_id');
 		$query = $query->row();
 		return $query->insert_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Parse major version
-	 *
-	 * Grabs the major version number from the
-	 * database server version string passed in.
-	 *
-	 * @param	string	$version
-	 * @return	int	major version number
-	 */
-	protected function _parse_major_version($version)
-	{
-		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
-		return $ver_info[1]; // return the major version b/c that's all we're interested in.
 	}
 
 	// --------------------------------------------------------------------
@@ -293,35 +270,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		return $this->data_cache['version'] = $info['SQLServerVersion'];
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -410,21 +358,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		return $item;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This function implicitly groups FROM tables so there is no confusion
@@ -435,29 +368,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return implode(', ', $tables);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
@@ -470,18 +381,26 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key." = ".$val;
+			$valstr[] = $key.' = '.$val;
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).' WHERE '.implode(' ', $where);
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
 	}
 
 	// --------------------------------------------------------------------
@@ -490,15 +409,16 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return 'TRUNCATE TABLE '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -510,12 +430,22 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
+	 * @param	array	the like clause
 	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where)
+	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		return 'DELETE FROM '.$table.' WHERE '.implode(' ', $where);
+		$conditions = array();
+
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
+
+		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
+
+		return ($limit)
+			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
+			: 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------
@@ -532,7 +462,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
+		// As of SQL Server 2012 (11.0.*) OFFSET is supported
+		return version_compare($this->version(), '11', '>=')
+			? $sql.' OFFSET '.(int) $offset.' ROWS FETCH NEXT '.(int) $limit.' ROWS ONLY'
+			: preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -540,12 +473,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlsrv_close($conn_id);
+		@sqlsrv_close($this->conn_id);
 	}
 
 }

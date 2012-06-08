@@ -36,8 +36,7 @@ alpha, alunum, numeric, nozero, unique, md5, encrypt and sha1
 -  **unique**: Encrypted with MD5 and uniqid(). Note: The length
    parameter is not available for this type. Returns a fixed length 32
    character string.
--  **sha1**: An encrypted random number based on do_hash() from the
-   :doc:`security helper <security_helper>`.
+-  **sha1**: An encrypted random number based on ``sha1()``.
 
 Usage example
 
