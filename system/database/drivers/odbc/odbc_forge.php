@@ -104,7 +104,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -112,7 +112,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 			foreach ($keys as $key)
 			{
 				$key = is_array($key)
-					? $this->db->protect_identifiers($key)
+					? $this->db->escape_identifiers($key)
 					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tFOREIGN KEY (".implode(', ', $key).')';

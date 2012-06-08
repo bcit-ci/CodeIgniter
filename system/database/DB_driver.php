@@ -934,13 +934,22 @@ abstract class CI_DB_driver {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param	mixed
+	 * @return	mixed
 	 */
 	public function escape_identifiers($item)
 	{
 		if ($this->_escape_char === '')
 		{
+			return $item;
+		}
+		elseif (is_array($item))
+		{
+			foreach ($item as $key => $value)
+			{
+				$item[$key] = $this->escape_identifiers($value);
+			}
+
 			return $item;
 		}
 

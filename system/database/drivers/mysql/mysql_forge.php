@@ -142,7 +142,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$key_name = $this->db->escape_identifiers(implode('_', $primary_keys));
-			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -152,7 +152,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 				if (is_array($key))
 				{
 					$key_name = $this->db->escape_identifiers(implode('_', $key));
-					$key = $this->db->protect_identifiers($key);
+					$key = $this->db->escape_identifiers($key);
 				}
 				else
 				{

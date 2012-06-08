@@ -158,13 +158,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			// Something seems to break when passing an array to escape_identifiers()
-			foreach ($primary_keys as $index => $key)
-			{
-				$primary_keys[$index] = $this->db->escape_identifiers($key);
-			}
-
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		$sql .= "\n);";
@@ -174,7 +168,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			foreach ($keys as $key)
 			{
 				$key = is_array($key)
-					? $this->db->protect_identifiers($key)
+					? $this->db->escape_identifiers($key)
 					: array($this->db->escape_identifiers($key));
 
 				foreach ($key as $field)
