@@ -35,6 +35,24 @@ EOH;
 		$this->assertEquals($expected, form_input($data));
 	}
 	
+	public function test_form_url()
+	{
+		$expected = <<<EOH
+<input type="url" name="homepage" value="http://somepage.sk" maxlength="100" style="width:50%" required="required"  />
+
+EOH;
+	
+		$data = array(
+			'name'        => 'homepage',
+			'value'       => 'http://somepage.sk',
+			'maxlength'   => '100',
+			'style'       => 'width:50%',
+			'required'    => 'required'
+		);
+
+		$this->assertEquals($expected, form_url($data));
+	}
+	
 	public function test_form_password()
 	{				
 		$expected = <<<EOH

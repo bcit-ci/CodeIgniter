@@ -184,6 +184,32 @@ if ( ! function_exists('form_input'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('form_url'))
+{
+	/**
+	 * URL Field
+	 *
+	 * Identical to the input function but adds the "url" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function form_url($data = '', $value = '', $extra = '')
+	{
+		if ( ! is_array($data))
+		{
+			$data = array('name' => $data);
+		}
+
+		$data['type'] = 'url';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('form_password'))
 {
 	/**
