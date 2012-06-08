@@ -94,7 +94,6 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_escape_char = '"';
 		}
 
-		$this->trans_enabled = FALSE;
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
