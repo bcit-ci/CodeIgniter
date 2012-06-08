@@ -71,6 +71,26 @@ EOH;
 		$this->assertEquals($expected, form_search($data));
 	}
 	
+	public function test_form_email()
+ 	{
+ 		$expected = <<<EOH
+<input type="email" name="email" value="my@address.sk" id="email_input" maxlength="100" size="50" style="width:50%" pattern="[^ @]*@[^ @]*"  />
+
+EOH;
+ 	
+ 		$data = array(
+			'name'        => 'email',
+			'id'          => 'email_input',
+			'value'       => 'my@address.sk',
+ 			'maxlength'   => '100',
+ 			'size'        => '50',
+ 			'style'       => 'width:50%',
+ 			'pattern'     => '[^ @]*@[^ @]*'
+		);
+ 
+ 		$this->assertEquals($expected, form_email($data));
+ 	}
+	
 	public function test_form_password()
 	{				
 		$expected = <<<EOH
