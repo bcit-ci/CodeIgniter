@@ -46,7 +46,8 @@ Step 5: Change your use of the Date helper's now() function
 ===========================================================
 
 Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`
-You must replace $config['time_reference'] with $config['timezone'] in your config.php file.
+You must replace $config['time_reference'] with $config['timezone'] in your config.php file. You can select all
+PHP supported timezones, listed here: `PHP's supported timezones <http://www.php.net/timezones>`_.
 
 Step 6: Move your errors folder
 ===============================
