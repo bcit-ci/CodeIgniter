@@ -43,7 +43,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	public $dbdriver = 'mssql';
 
 	// The character used for escaping
-	protected $_escape_char = '';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " ESCAPE '%s' ";
@@ -57,6 +57,17 @@ class CI_DB_mssql_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' NEWID()';
 
+	// MSSQL-specific properties
+	protected $_quoted_identifier = TRUE;
+
+	/*
+	 * Constructor
+	 *
+	 * Appends the port number to the hostname, if needed.
+	 *
+	 * @param	array
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
@@ -67,6 +78,8 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -74,7 +87,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @mssql_connect($this->hostname, $this->username, $this->password);
+		return $this->_mssql_connect();
 	}
 
 	// --------------------------------------------------------------------
@@ -86,7 +99,35 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @mssql_pconnect($this->hostname, $this->username, $this->password);
+		return $this->_mssql_connect(TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/*
+	 * MSSQL Connect
+	 *
+	 * @param	bool
+	 * @return	resource
+	 */
+	protected function _mssql_connect($persistent = FALSE)
+	{
+		$conn_id = ($persistent)
+				? @mssql_pconnect($this->hostname, $this->username, $this->password)
+				: @mssql_connect($this->hostname, $this->username, $this->password);
+
+		if ( ! $conn_id)
+		{
+			return FALSE;
+		}
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query->qi;
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -106,7 +147,7 @@ class CI_DB_mssql_driver extends CI_DB {
 
 		// Note: The brackets are required in the event that the DB name
 		// contains reserved characters
-		if (@mssql_select_db('['.$database.']', $this->conn_id))
+		if (@mssql_select_db($this->escape_identifiers($database), $this->conn_id))
 		{
 			$this->database = $database;
 			return TRUE;

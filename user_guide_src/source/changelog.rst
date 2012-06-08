@@ -88,10 +88,16 @@ Release Date: Not Released
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
-   -  Added DSN string support for CUBRID.
-   -  Added persistent connections support for CUBRID.
-   -  Added random ordering support for MSSQL, SQLSRV.
    -  Added support for SQLite3 database driver.
+   -  Improved support of the CUBRID driver, including:
+	 - Added DSN string support.
+	 - Added persistent connections support.
+	 - Improved list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
+   -  Improved support of the MSSQL and SQLSRV drivers, including:
+	 - Added random ordering support.
+	 - Added support for optimize_table() in :doc:`Database Utility <database/utilities>`.
+	 - Added escaping with QUOTE_IDENTIFIER setting detection.
+	 - Added port handling support for UNIX-based systems (MSSQL driver).
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
 	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
@@ -104,10 +110,7 @@ Release Date: Not Released
    -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
-   -  Added MSSQL, SQLSRV support for optimize_table() in :doc:`Database Utility <database/utilities>`.
-   -  Improved CUBRID support for list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
-   -  Added port handling support for MSSQL on UNIX-based systems.
 
 -  Libraries
 
@@ -238,6 +241,7 @@ Bug fixes for 3.0
 -  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
+-  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
 
 Version 2.1.1
 =============

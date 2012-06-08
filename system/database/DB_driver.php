@@ -944,24 +944,29 @@ abstract class CI_DB_driver {
 			return $item;
 		}
 
+		static $preg_ec = array();
+
+		if (empty($preg_ec))
+		{
+			if (is_array($this->_escape_char))
+			{
+				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+			}
+			else
+			{
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+			}
+		}
+
 		foreach ($this->_reserved_identifiers as $id)
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
+				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[0].'$1'.$preg_ec[1], $item);
 			}
 		}
 
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[0].'$1'.$preg_ec[1].'$2', $item);
 	}
 
 	// --------------------------------------------------------------------
