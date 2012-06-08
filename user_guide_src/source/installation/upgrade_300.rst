@@ -32,8 +32,23 @@ Step 3: Remove $autoload['core'] from your config/autoload.php
 Use of the `$autoload['core']` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to `$autoload['libraries']` instead.
 
-Step 4: Change your use of the Date helper's now() function
-==========================================================
+Step 4: Update your config/database.php
+=======================================
+
+Due to 3.0.0's renaming of Active Record to Query Builder, inside your _config/database.php_, you will
+need to rename the `$active_record` variable to `$query_builder`.
+
+    $active_group = 'default';
+    // $active_record = TRUE;
+    $query_builder = TRUE;
+
+Step 5: Change your use of the Date helper's now() function
+===========================================================
 
 Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`
 You must replace $config['time_reference'] with $config['timezone'] in your config.php file.
+
+Step 6: Move your errors folder
+===============================
+
+In version 3.0.0, the errors folder has been moved from "application/errors" to "application/views/errors".

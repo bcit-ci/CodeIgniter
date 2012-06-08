@@ -59,8 +59,6 @@ class CI_DB_odbc_result extends CI_DB_result {
 		return $this->num_rows;
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Number of fields in the result set
 	 *
@@ -140,22 +138,6 @@ class CI_DB_odbc_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @return	bool
-	 */
-	protected function _data_seek($n = 0)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
@@ -164,14 +146,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		if (function_exists('odbc_fetch_array'))
-		{
-			return odbc_fetch_array($this->result_id);
-		}
-		else
-		{
-			return $this->_odbc_fetch_array($this->result_id);
-		}
+		return function_exists('odbc_fetch_array')
+			? odbc_fetch_array($this->result_id)
+			: $this->_odbc_fetch_array($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -185,14 +162,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	protected function _fetch_object()
 	{
-		if (function_exists('odbc_fetch_object'))
-		{
-			return odbc_fetch_object($this->result_id);
-		}
-		else
-		{
-			return $this->_odbc_fetch_object($this->result_id);
-		}
+		return function_exists('odbc_fetch_object')
+			? odbc_fetch_object($this->result_id)
+			: $this->_odbc_fetch_object($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -208,15 +180,18 @@ class CI_DB_odbc_result extends CI_DB_result {
 	protected function _odbc_fetch_object(& $odbc_result)
 	{
 		$rs = array();
-		$rs_obj = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs))
+		if ( ! odbc_fetch_into($odbc_result, $rs))
 		{
-			foreach ($rs as $k => $v)
-			{
-				$field_name = odbc_field_name($odbc_result, $k+1);
-				$rs_obj->$field_name = $v;
-			}
+			return FALSE;
 		}
+
+		$rs_obj = new stdClass();
+		foreach ($rs as $k => $v)
+		{
+			$field_name = odbc_field_name($odbc_result, $k+1);
+			$rs_obj->$field_name = $v;
+		}
+
 		return $rs_obj;
 	}
 
@@ -233,16 +208,18 @@ class CI_DB_odbc_result extends CI_DB_result {
 	protected function _odbc_fetch_array(& $odbc_result)
 	{
 		$rs = array();
-		$rs_assoc = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs))
+		if ( ! odbc_fetch_into($odbc_result, $rs))
 		{
-			$rs_assoc = array();
-			foreach ($rs as $k => $v)
-			{
-				$field_name = odbc_field_name($odbc_result, $k+1);
-				$rs_assoc[$field_name] = $v;
-			}
+			return FALSE;
 		}
+
+		$rs_assoc = array();
+		foreach ($rs as $k => $v)
+		{
+			$field_name = odbc_field_name($odbc_result, $k+1);
+			$rs_assoc[$field_name] = $v;
+		}
+
 		return $rs_assoc;
 	}
 

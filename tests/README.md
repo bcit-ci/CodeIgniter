@@ -1,12 +1,6 @@
 # CodeIgniter Unit Tests #
 
-Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=feature/unit-tests)](http://travis-ci.org/EllisLab/CodeIgniter)
-
-*Do not merge to default until these issues have been addressed*
-
-- Clean up naming conventions
-- Figure out config stuff
-- Figure out database testing
+Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=develop)](http://travis-ci.org/EllisLab/CodeIgniter)
 
 ### Introduction:
 
@@ -27,8 +21,8 @@ PHP Unit >= 3.5.6
 
 vfsStream
 
-	pear channel-discover pear.php-tools.net
-	pear install pat/vfsStream-alpha
+	pear channel-discover pear.bovigo.org
+	pear install bovigo/vfsStream-beta
 
 #### Installation of PEAR and PHPUnit on Ubuntu
 
@@ -43,11 +37,11 @@ vfsStream
 	pear channel-discover pear.phpunit.de
 	pear channel-discover pear.symfony-project.com
 	pear channel-discover components.ez.no
-	pear channel-discover pear.php-tools.net 
+	pear channel-discover pear.bovigo.org
 
 	# Finally install PHPUnit and vfsStream (including dependencies)
 	pear install --alldeps phpunit/PHPUnit
-	pear install --alldeps pat/vfsStream-alpha
+	pear install --alldeps bovigo/vfsStream-beta
 
 	# Finally, run 'phpunit' from within the ./tests directory
 	# and you should be on your way!

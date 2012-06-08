@@ -36,14 +36,24 @@
  */
 class CI_Cache_file extends CI_Driver {
 
+	/**
+	 * Directory in which to save cache files
+	 *
+	 * @var string
+	 */
 	protected $_cache_path;
 
+	/**
+	 * Initialize file-based cache
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		$CI =& get_instance();
 		$CI->load->helper('file');
 		$path = $CI->config->item('cache_path');
-		$this->_cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$this->_cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 	}
 
 	// ------------------------------------------------------------------------
@@ -61,7 +71,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (time() >  $data['time'] + $data['ttl'])
 		{
@@ -86,10 +96,10 @@ class CI_Cache_file extends CI_Driver {
 	public function save($id, $data, $ttl = 60)
 	{
 		$contents = array(
-				'time'		=> time(),
-				'ttl'		=> $ttl,
-				'data'		=> $data
-			);
+			'time'		=> time(),
+			'ttl'		=> $ttl,
+			'data'		=> $data
+		);
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
@@ -155,7 +165,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (is_array($data))
 		{

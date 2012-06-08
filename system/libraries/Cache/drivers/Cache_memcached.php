@@ -36,15 +36,25 @@
  */
 class CI_Cache_memcached extends CI_Driver {
 
-	protected $_memcached;	// Holds the memcached object
+	/**
+	 * Holds the memcached object
+	 *
+	 * @var object
+	 */
+	protected $_memcached;
 
+	/**
+	 * Memcached configuration
+	 *
+	 * @var array
+	 */
 	protected $_memcache_conf	= array(
-					'default' => array(
-						'default_host'		=> '127.0.0.1',
-						'default_port'		=> 11211,
-						'default_weight'	=> 1
-					)
-				);
+		'default' => array(
+			'default_host'		=> '127.0.0.1',
+			'default_port'		=> 11211,
+			'default_weight'	=> 1
+		)
+	);
 
 	/**
 	 * Fetch from cache
@@ -67,7 +77,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 * @param	string	unique identifier
 	 * @param	mixed	data being cached
 	 * @param	int	time to live
-	 * @return	bool true on success, false on failure
+	 * @return	bool	true on success, false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
@@ -89,7 +99,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param	mixed	key to be deleted.
-	 * @return	bool true on success, false on failure
+	 * @return	bool	true on success, false on failure
 	 */
 	public function delete($id)
 	{
@@ -189,20 +199,20 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			if ( ! array_key_exists('hostname', $cache_server))
 			{
-				$cache_server['hostname'] = $this->_default_options['default_host'];
+				$cache_server['hostname'] = $this->_memcache_conf['default']['default_host'];
 			}
 
 			if ( ! array_key_exists('port', $cache_server))
 			{
-				$cache_server['port'] = $this->_default_options['default_port'];
+				$cache_server['port'] = $this->_memcache_conf['default']['default_port'];
 			}
 
 			if ( ! array_key_exists('weight', $cache_server))
 			{
-				$cache_server['weight'] = $this->_default_options['default_weight'];
+				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
 			}
 
-			if (get_class($this->_memcached) == 'Memcache')
+			if (get_class($this->_memcached) === 'Memcache')
 			{
 				// Third parameter is persistance and defaults to TRUE.
 				$this->_memcached->addServer(

@@ -9,8 +9,7 @@ Release Date: Not Released
 
 -  License
 
-   -  CodeIgniter has been relicensed with the Open Software License (3.0),
-      eliminating its old proprietary licensing.
+   -  CodeIgniter has been relicensed with the Open Software License (3.0), eliminating its old proprietary licensing.
 
       -  All system files are licensed with OSL 3.0.
       -  Config, error, and sample files shipped in the application folder are
@@ -20,52 +19,62 @@ Release Date: Not Released
 -  General Changes
 
    -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
+   -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
-   -  Added Windows 7 to the list of user platforms.
+   -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
    -  Added support for pgp and gpg to mimes.php.
    -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
+   -  Added support for ics Calendar files to mimes.php
+   -  Updated support for xml ('application/xml') and xsl ('application/xml', 'text/xsl') files in mimes.php.
    -  Updated support for doc files in mimes.php.
-   -  Added application/xml for xml and application/xml, text/xsl for xsl in mimes.php.
+   -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Added some more doctypes.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
+   -  Moved error templates to "application/views/errors"
+   -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per Env.
 
 -  Helpers
 
    -  Date helper will now return now() based on the timezone you specify.
-   -  url_title() will now trim extra dashes from beginning and end.
+   -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
+   -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
-   -  Changed humanize to include a second param for the separator.
+   -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
-   -  Added a work-around in force_download() for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
-   -  form_dropdown() will now also take an array for unity with other form helpers.
-   -  set_realpath() can now also handle file paths as opposed to just directories.
-   -  do_hash() now uses PHP's native hash() function, supporting more algorithms.
+   -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
+   -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+   -  Removed previously deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  :doc:`File Helper <helpers/file_helper>` changes include:
+	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
+	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
+	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
 
 -  Database
 
-   -  Added new :doc:`Active Record <database/active_record>` methods that return
-      the SQL string of queries without executing them: get_compiled_select(),
-      get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-   -  Taking care of LIKE condition when used with MySQL UPDATE statement.
-   -  Adding $escape parameter to the order_by function, this enables ordering by custom fields.
+   -  Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
+   -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
+   -  Added new :doc:`Query Builder <database/query_builder>` methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+   -  Adding $escape parameter to the order_by() method, this enables ordering by custom fields.
    -  Improved support for the MySQLi driver, including:
 	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 -  Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the "interbase" driver
+   -  Added Interbase/Firebird database support via the "interbase" driver.
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
@@ -73,42 +82,71 @@ Release Date: Not Released
 	 -  pg_version() is now used to get the database version number, when possible.
 	 -  Added db_set_charset() support.
 	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+	 -  Added boolean data type support in escape().
+	 -  Added update_batch() support.
+	 -  Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
-   -  Removed limit() and order_by() support for UPDATE and DELETE queries in PostgreSQL driver. Postgres does not support those features.
-   -  Removed protect_identifiers() and renamed _protect_identifiers() to it instead - it was just an alias.
+   -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
-   -  Added DSN string support for CUBRID.
-   -  Added persistent connections support for CUBRID.
-   -  Added DSN string support (Easy Connect and TNS) for Oracle.
+   -  Added support for SQLite3 database driver.
+   -  Improved support of the CUBRID driver, including:
+	 - Added DSN string support.
+	 - Added persistent connections support.
+	 - Improved list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
+   -  Improved support of the MSSQL and SQLSRV drivers, including:
+	 - Added random ordering support.
+	 - Added support for optimize_table() in :doc:`Database Utility <database/utilities>`.
+	 - Added escaping with QUOTE_IDENTIFIER setting detection.
+	 - Added port handling support for UNIX-based systems (MSSQL driver).
+	 - Added OFFSET support for SQL Server 2012 and above.
+   -  Improved support of the Oracle (OCI8) driver, including:
+	 -  Added DSN string support (Easy Connect and TNS).
+	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
+	 -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
+	 -  Generally improved for speed and cleaned up all of its components.
+	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+   -  Added replace() support for SQLite.
+   -  Renamed internal method _escape_identifiers() to escape_identifiers().
+   -  Updated escape_identifiers() to accept an array of fields as well as strings.
+   -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
+   -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
 
 -  Libraries
 
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname)
-   -  Cart library changes include:
+   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
+   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
+   -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
-	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe"
-	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatability
-   -  Image manipulation library changes include:
+	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
+	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
+   -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The initialize() method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
-	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method
-	    if they are set manually after initialization.
+	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
 	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
-   -  Minor speed optimizations and method & property visibility declarations in the Calendar Library.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  :doc:`Form Validation library <libraries/form_validation>` changes include:
+	 -  Added method error_array() to return all error messages as an array.
+	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
+	 -  Added method reset_validation(), which resets internal validation variables in case of multiple validation routines.
+	 -  Added support for setting error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
+	 -  _execute() now considers input data to be invalid if a specified rule is not found.
+	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
+	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
+   -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
-   -  Form Validation library now allows setting of error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
-   -  Added function error_array() to return all error messages as an array in the Form_validation class.
-   -  Added function set_data() to Form_validation library, which can be used in place of the default $_POST array.
-   -  Added function reset_validation() to form validation library, which resets internal validation variables in case of multiple validation routines.
-   -  Changed the Session library to select only one row when using database sessions.
-   -  Added a Wincache driver to the `Caching Library <libraries/caching>`.
+   -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
+   -  Input library now supports IPv6.
+   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
@@ -120,31 +158,34 @@ Release Date: Not Released
    -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
-   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks.html>`.
+   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
+   -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
+   -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
+   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
 
 Bug fixes for 3.0
 ------------------
 
--  Unlink raised an error if cache file did not exist when you try to delete it.
+-  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
--  Fixed a bug (#159, #163) that mishandled Active Record nested transactions because _trans_depth was not getting incremented.
+-  Fixed a bug (#159, #163) that mishandled Query Builder nested transactions because _trans_depth was not getting incremented.
 -  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
 -  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
--  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors
--  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely
--  Fixed bugs (#157 and #174) - the Image_lib clear() function now resets all variables to their default values.
+-  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors.
+-  Fixed a bug (#608) - Fixes an issue with the Image_lib class not clearing properties completely.
+-  Fixed a bug (#157, #174) - the Image_lib clear() function now resets all variables to their default values.
 -  Fixed a bug where using $this->dbforge->create_table() with PostgreSQL database could lead to fetching whole table.
 -  Fixed a bug (#795) - Fixed form method and accept-charset when passing an empty array.
--  Fixed a bug (#797) - timespan was using incorrect seconds for year and month.
+-  Fixed a bug (#797) - timespan() was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
--  Fixed a bug (#696) - make oci_execute calls inside num_rows non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
--  Fixed a bug (#406) - sqlsrv DB driver not reuturning resource on <samp>db_pconnect()</samp>.
+-  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
+-  Fixed a bug (#406) - SQLSRV DB driver not returning resource on ``db_pconnect()``.
 -  Fixed a bug in CI_Image_lib::gd_loaded() where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
--  In Pagination library, when use_page_numbers=TRUE previous link and page 1 link do not have the same url
+-  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
 -  Fixed a bug (#561) - Errors in :doc:`XML-RPC Library <libraries/xmlrpc>` were not properly escaped.
 -  Fixed a bug (#904) - ``CI_Loader::initialize()`` caused a PHP Fatal error to be triggered if error level E_STRICT is used.
--  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'
+-  Fixed a hosting edge case where an empty $_SERVER['HTTPS'] variable would evaluate to 'on'.
 -  Fixed a bug (#154) - ``CI_Session::sess_update()`` caused the session to be destroyed on pages where multiple AJAX requests were executed at once.
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
@@ -155,7 +196,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#129) - ODBC's num_rows() returned -1 in some cases, due to not all subdrivers supporting the odbc_num_rows() function.
 -  Fixed a bug (#153) - E_NOTICE being generated by getimagesize() in the :doc:`File Uploading Library <libraries/file_uploading>`.
 -  Fixed a bug (#611) - SQLSRV's error handling methods used to issue warnings when there's no actual error.
--  Fixed a bug (#1036) - is_write_type() method in the :doc:`Database Library <database/index>` didn't return TRUE for RENAME and OPTIMIZE queries.
+-  Fixed a bug (#1036) - is_write_type() method in the :doc:`Database Library <database/index>` didn't return TRUE for RENAME queries.
 -  Fixed a bug in PDO's _version() method where it used to return the client version as opposed to the server one.
 -  Fixed a bug in PDO's insert_id() method where it could've failed if it's used with Postgre versions prior to 8.1.
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
@@ -168,11 +209,42 @@ Bug fixes for 3.0
 -  Fixed a bug (#499) - a CSRF cookie was created even with CSRF protection being disabled.
 -  Fixed a bug (#306) - ODBC's insert_id() method was calling non-existent function odbc_insert_id(), which resulted in a fatal error.
 -  Fixed a bug in Oracle's DB_result class where the cursor id passed to it was always NULL.
--  Fixed a bug (#64) - Regular expression in DB_active_rec.php failed to handle queries containing SQL bracket delimiters in the join condition.
+-  Fixed a bug (#64) - Regular expression in DB_query_builder.php failed to handle queries containing SQL bracket delimiters in the join condition.
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
--  Fixed a bug in PostgreSQL's escape_str() where it didn't properly escape LIKE wild characters.
+-  Fixed a bug (#136) - PostgreSQL, MySQL and MySQLi's escape_str() method didn't properly escape LIKE wild characters.
+-  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
+-  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
+-  Fixed a bug (#14) - create_database() method in the :doc:`Database Forge Library <database/forge>` didn't utilize the configured database character set.
+-  Fixed a bug (#23, #1238) - delete_all() in the `Database Caching Library <database/caching>` used to delete .htaccess and index.html files, which is a potential security risk.
+-  Fixed a bug in :doc:`Trackback Library <libraries/trackback>` method validate_url() where it didn't actually do anything, due to input not being passed by reference.
+-  Fixed a bug (#11, #183, #863) - CI_Form_validation::_execute() silently continued to the next rule, if a rule method/function is not found.
+-  Fixed a bug (#122) Where routed uri string was being reported incorrectly in sub-directories.
+-  Fixed a bug (#1242) - read_dir() in the :doc:`Zip Library <libraries/zip>` wasn't compatible with Windows.
+-  Fixed a bug (#306) - ODBC driver didn't have an _insert_batch() method, which resulted in fatal error being triggered when insert_batch() is used with it.
+-  Fixed a bug in MSSQL and SQLSrv's _truncate() where the TABLE keyword was missing.
+-  Fixed a bug in PDO's trans_commit() method where it failed due to an erroneous property name.
+-  Fixed a bug (#798) - update() used to ignore LIKE conditions that were set with like().
+-  Fixed a bug in Oracle's and MSSQL's delete() methods where an erroneous SQL statement was generated when used with limit().
+-  Fixed a bug in SQLSRV's delete() method where like() and limit() conditions were ignored.
+-  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
+-  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
+-  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library.
+-  Fixed a bug (#1314) - sess_destroy() did not destroy userdata.
+-  Fixed a bug (#1349) - get_extension() in the :doc:`File Uploading Library <libraries/file_uploading>` returned the original filename when it didn't have an actual extension.
+-  Fixed a bug (#1273) - E_NOTICE being generated by :doc:`Query Builder <database/query_builder>`'s set_update_batch() method.
+-  Fixed a bug (#44, #110) - :doc:`Upload library <libraries/file_uploading>`'s clean_file_name() method didn't clear '!' and '#' characters.
+-  Fixed a bug (#121) - ``CI_DB_result::row()`` returned an array when there's no actual result to be returned.
+-  Fixed a bug (#319) - SQLSRV's affected_rows() method failed due to a scrollable cursor being created for write-type queries.
+-  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
+-  Fixed a bug (#784, #862) - :doc:`Database Forge <database/forge>` method ``create_table()`` failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
+-  Fixed a bug (#1419) - libraries/Driver.php had a static variable that was causing an error.
+-  Fixed a bug (#1411) - the :doc:`Email library <libraries/email>` used its own short list of MIMEs instead the one from config/mimes.php.
+-  Fixed a bug where the magic_quotes_runtime setting wasn't turned off for PHP 5.3 (where it is indeed deprecated, but not non-existent).
+-  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
+-  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
+-  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
 
 Version 2.1.1
 =============
@@ -195,7 +267,9 @@ Bug fixes for 2.1.1
 -  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
 -  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
--  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found
+-  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.
+-  Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.
+-  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
 
 Version 2.1.0
 =============

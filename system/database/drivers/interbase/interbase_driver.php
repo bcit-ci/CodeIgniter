@@ -29,7 +29,7 @@
  * Firebird/Interbase Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -80,19 +80,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	public function db_pconnect()
 	{
 		return @ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select the database
-	 *
-	 * @return	bool
-	 */
-	public function db_select()
-	{
-		// Connection selects the database
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -257,35 +244,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * List table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -297,7 +255,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	{
 		$sql = 'SELECT "RDB$RELATION_NAME" FROM "RDB$RELATIONS" WHERE "RDB$RELATION_NAME" NOT LIKE \'RDB$%\' AND "RDB$RELATION_NAME" NOT LIKE \'MON$%\'';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
@@ -356,38 +314,6 @@ class CI_DB_interbase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This public function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _escape_identifiers($item)
-	{
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * From Tables
 	 *
 	 * This public function implicitly groups FROM tables so there is no confusion
@@ -398,30 +324,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		//Interbase/Firebird doesn't like grouped tables
-		return implode(', ', $tables);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
@@ -435,20 +338,26 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	array	the limit clause (ignored)
+	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
 
-		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
 
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.(($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '')
+			.$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
 
@@ -459,15 +368,16 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This public function maps to "DELETE FROM table"
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
 	{
-		return $this->_delete($table);
+		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -479,25 +389,18 @@ class CI_DB_interbase_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the where clause
-	 * @param	string	the limit clause
+	 * @param	array	the like clause
+	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $where)
-					.((count($where) > 0 && count($like) > 0) ? ' AND ' : '')
-					.implode("\n", $like);
-		}
-		else
-		{
-			$conditions = '';
-		}
+		$conditions = array();
 
-		//$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
+		empty($where) OR $conditions[] = implode(' ', $where);
+		empty($like) OR $conditions[] = implode(' ', $like);
 
-		return 'DELETE FROM '.$table.' '.$conditions;
+		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -534,12 +437,11 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@ibase_close($conn_id);
+		@ibase_close($this->conn_id);
 	}
 
 }

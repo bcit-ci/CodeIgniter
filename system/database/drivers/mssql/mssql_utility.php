@@ -34,55 +34,16 @@
  */
 class CI_DB_mssql_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	string
-	 */
-	public function _list_databases()
-	{
-		return "EXEC sp_helpdb"; // Can also be: EXEC sp_databases
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * Generates a platform-specific query so that a table can be optimized
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _optimize_table($table)
-	{
-		return FALSE; // Is this supported in MS SQL?
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * Generates a platform-specific query so that a table can be repaired
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		return FALSE; // Is this supported in MS SQL?
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= 'EXEC sp_helpdb'; // Can also be: EXEC sp_databases
+	protected $_optimize_table	= 'ALTER INDEX all ON %s REORGANIZE';
 
 	/**
 	 * MSSQL Export
 	 *
 	 * @param	array	Preferences
-	 * @return	mixed
+	 * @return	bool
 	 */
-	public function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');
