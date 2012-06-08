@@ -35,6 +35,62 @@ EOH;
 		$this->assertEquals($expected, form_input($data));
 	}
 	
+	public function test_form_url()
+	{
+		$expected = <<<EOH
+<input type="url" name="homepage" value="http://somepage.sk" maxlength="100" style="width:50%" required="required"  />
+
+EOH;
+	
+		$data = array(
+			'name'        => 'homepage',
+			'value'       => 'http://somepage.sk',
+			'maxlength'   => '100',
+			'style'       => 'width:50%',
+			'required'    => 'required'
+		);
+
+		$this->assertEquals($expected, form_url($data));
+	}
+	
+	public function test_form_search()
+	{
+		$expected = <<<EOH
+<input type="search" name="search" value="sth to search" maxlength="40" size="50" style="width:30%"  />
+
+EOH;
+	
+		$data = array(
+			'name'        => 'search',
+			'value'       => 'sth to search',
+			'maxlength'   => '40',
+			'size'        => '50',
+			'style'       => 'width:30%',
+		);
+
+		$this->assertEquals($expected, form_search($data));
+	}
+	
+	public function test_form_email()
+ 	{
+ 		$expected = <<<EOH
+<input type="email" name="email" value="my@address.sk" id="email_input" maxlength="100" size="50" style="width:50%" pattern="[^ @]*@[^ @]*"  />
+
+EOH;
+ 	
+ 		$data = array(
+			'name'        => 'email',
+			'id'          => 'email_input',
+			'value'       => 'my@address.sk',
+ 			'maxlength'   => '100',
+ 			'size'        => '50',
+ 			'style'       => 'width:50%',
+ 			'pattern'     => '[^ @]*@[^ @]*'
+		);
+ 
+ 		$this->assertEquals($expected, form_email($data));
+ 	}
+	
 	public function test_form_password()
 	{				
 		$expected = <<<EOH
