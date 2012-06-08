@@ -547,7 +547,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if ($key === NULL OR $values === NULL)
 		{
-			return;
+			return $this;
 		}
 
 		$type = $this->_group_get_type($type);
