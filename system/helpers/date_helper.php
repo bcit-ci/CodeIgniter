@@ -57,10 +57,16 @@ if ( ! function_exists('now'))
 			$timezone	= $CI->config->item('timezone');
 		}
 
-		$timezone	= new DateTimeZone($timezone);
-		$now		= new DateTime('now', $timezone);
-		$offset		= $timezone->getOffset($now);
-		$time		= time() + $offset;
+		$time			= time();
+		if(strtolower($timezone) != 'local')
+		{
+			$local		= new DateTime(NULL, new DateTimeZone(date_default_timezone_get()));
+			$now		= new DateTime(NULL, new DateTimeZone($timezone));
+			$lcl_offset	= $local->getOffset();
+			$tz_offset	= $now->getOffset();
+			$offset		= $tz_offset - $lcl_offset;
+			$time		= $time + $offset;
+		}
 
 		return $time;
 	}
