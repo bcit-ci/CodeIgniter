@@ -21,7 +21,8 @@ now()
 =====
 
 Returns the current time as a Unix timestamp, based on the "timezone" parameter.
-All PHP available timezones are supported.
+All PHP available timezones are supported. You can also use 'local' timezone, and
+it will return time().
 
 .. php:method:: now($timezone = NULL)
 

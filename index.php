@@ -162,8 +162,6 @@ if (defined('ENVIRONMENT'))
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
-date_default_timezone_set('UTC');
-
 /*
  * ---------------------------------------------------------------
  *  Resolve the system path for increased reliability
