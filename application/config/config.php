@@ -363,10 +363,11 @@ $config['compress_output'] = FALSE;
 |--------------------------------------------------------------------------
 |
 | You can set any PHP supported timezones to be the master timezone when
-| you call the now() function.
+| you call the now() function. 'local' string can be used to get the local
+| time.
 |
 */
-$config['timezone'] = 'UTC';
+$config['timezone'] = 'local';
 
 
 /*
