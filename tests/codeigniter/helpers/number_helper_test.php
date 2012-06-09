@@ -25,7 +25,7 @@ class Number_helper_test extends CI_TestCase {
 		// a cheap class to act as our super object.
 		// Make sure it has a lang attribute.
 
-		$obj = new StdClass;
+		$obj = new stdClass;
 		$obj->lang = $lang;
 		$this->ci_instance($obj);
 	}
