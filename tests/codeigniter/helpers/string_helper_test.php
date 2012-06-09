@@ -10,18 +10,18 @@ class String_helper_test extends CI_TestCase {
 	public function test_strip_slashes()
 	{
 		$expected = array(
-			"Is your name O'reilly?", 
+			"Is your name O'reilly?",
 			"No, my name is O'connor."
 		);
-		
+
 		$str = array(
 			"Is your name O\'reilly?",
 			"No, my name is O\'connor."
 		);
-		
+
 		$this->assertEquals($expected, strip_slashes($str));
 	}
-	
+
 	public function test_trim_slashes()
 	{
 		$strs = array(
@@ -144,4 +144,5 @@ class String_helper_test extends CI_TestCase {
 		$this->assertEquals('file-1', increment_string('file', '-', '1'));
 		$this->assertEquals(124, increment_string('123', ''));
 	}
+
 }

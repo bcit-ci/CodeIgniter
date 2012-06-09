@@ -14,5 +14,5 @@ class Email_helper_test extends CI_TestCase {
 		$this->assertEquals(TRUE, valid_email('test@test.com'));
 		$this->assertEquals(TRUE, valid_email('my.test@test.com'));
 	}
-	
+
 }
