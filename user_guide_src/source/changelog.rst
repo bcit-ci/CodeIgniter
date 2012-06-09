@@ -143,6 +143,7 @@ Release Date: Not Released
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
+   -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Input library now supports IPv6.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
