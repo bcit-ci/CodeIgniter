@@ -16,13 +16,11 @@ class Date_helper_test extends CI_TestCase {
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('local'));
-		
+
 		// Add the stub to our test instance
 		$this->ci_instance_var('config', $config);
 
-		$expected = time();
-		$test = now();
-		$this->assertEquals($expected, $test);
+		$this->assertEquals(time(), now());
 	}
 
 	// ------------------------------------------------------------------------
@@ -34,7 +32,7 @@ class Date_helper_test extends CI_TestCase {
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('gmt'));
-		
+
 		// Add the stub to our stdClass
 		$this->ci_instance_var('config', $config);
 
@@ -204,8 +202,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_mysql_to_unix()
 	{
 		$time = time();
-		$this->assertEquals($time, 
-				mysql_to_unix(date("Y-m-d H:i:s", $time)));
+		$this->assertEquals($time, mysql_to_unix(date("Y-m-d H:i:s", $time)));
 	}
 
 	// ------------------------------------------------------------------------
