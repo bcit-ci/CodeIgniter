@@ -10,7 +10,7 @@ return array(
 		'password' => 'sqlite',
 		'database' => 'sqlite',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'sqlite',
+		'pdodriver' => 'sqlite'
 	),
 
 	// Database configuration with failover
@@ -29,9 +29,9 @@ return array(
 				'username' => 'sqlite',
 				'password' => 'sqlite',
 				'database' => 'sqlite',
-				'dbdriver' => 'pdo', 
-				'pdodriver' => 'sqlite',
-			),
-		),
-	),
+				'dbdriver' => 'pdo',
+				'pdodriver' => 'sqlite'
+			)
+		)
+	)
 );
