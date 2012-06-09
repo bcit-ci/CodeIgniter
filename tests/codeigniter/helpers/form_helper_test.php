@@ -3,26 +3,26 @@
 require BASEPATH . 'core/Common.php';
 require BASEPATH . 'helpers/form_helper.php';
 
-class Form_helper_test extends CI_TestCase 
+class Form_helper_test extends CI_TestCase
 {
 	public function test_form_hidden()
-	{				
+	{
 		$expected = <<<EOH
 
 <input type="hidden" name="username" value="johndoe" />
 
 EOH;
-	
+
 		$this->assertEquals($expected, form_hidden('username', 'johndoe'));
 	}
-	
+
 	public function test_form_input()
 	{
 		$expected = <<<EOH
 <input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%"  />
 
 EOH;
-	
+
 		$data = array(
 			'name'        => 'username',
 			'id'          => 'username',
@@ -34,37 +34,37 @@ EOH;
 
 		$this->assertEquals($expected, form_input($data));
 	}
-	
+
 	public function test_form_password()
-	{				
+	{
 		$expected = <<<EOH
 <input type="password" name="password" value=""  />
 
 EOH;
-	
+
 		$this->assertEquals($expected, form_password('password'));
 	}
-	
+
 	public function test_form_upload()
-	{				
+	{
 		$expected = <<<EOH
 <input type="file" name="attachment" value=""  />
 
 EOH;
-	
+
 		$this->assertEquals($expected, form_upload('attachment'));
 	}
-	
+
 	public function test_form_textarea()
-	{				
+	{
 		$expected = <<<EOH
 <textarea name="notes" cols="40" rows="10" >Notes</textarea>
 
 EOH;
-	
+
 		$this->assertEquals($expected, form_textarea('notes', 'Notes'));
 	}
-	
+
 	public function test_form_dropdown()
 	{
 		$expected = <<<EOH
@@ -76,16 +76,16 @@ EOH;
 </select>
 
 EOH;
-		
+
 		$options = array(
-			'small'  => 'Small Shirt',
-			'med'    => 'Medium Shirt',
-			'large'   => 'Large Shirt',
-			'xlarge' => 'Extra Large Shirt',
+			'small'		=> 'Small Shirt',
+			'med'		=> 'Medium Shirt',
+			'large'		=> 'Large Shirt',
+			'xlarge'	=> 'Extra Large Shirt',
 		);
-		
+
 		$this->assertEquals($expected, form_dropdown('shirts', $options, 'large'));
-		
+
 		$expected = <<<EOH
 <select name="shirts" multiple="multiple">
 <option value="small" selected="selected">Small Shirt</option>
@@ -95,22 +95,22 @@ EOH;
 </select>
 
 EOH;
-		
+
 		$shirts_on_sale = array('small', 'large');
-		
+
 		$this->assertEquals($expected, form_dropdown('shirts', $options, $shirts_on_sale));
-		
+
 		$options = array(
 			'Swedish Cars' => array(
-				'volvo'  => 'Volvo',
-				'saab'    => 'Saab'
+				'volvo'	=> 'Volvo',
+				'saab'	=> 'Saab'
 			),
 			'German Cars' => array(
-				'mercedes'  => 'Mercedes',
-				'audi'    => 'Audi'
+				'mercedes'	=> 'Mercedes',
+				'audi'		=> 'Audi'
 			)
 		);
-		
+
 		$expected = <<<EOH
 <select name="cars" multiple="multiple">
 <optgroup label="Swedish Cars">
@@ -124,13 +124,10 @@ EOH;
 </select>
 
 EOH;
-		
-		$cars_on_sale = array('volvo', 'audi');
-		
-		$this->assertEquals($expected, form_dropdown('cars', $options, $cars_on_sale));
-		
+
+		$this->assertEquals($expected, form_dropdown('cars', $options, array('volvo', 'audi')));
 	}
-	
+
 	public function test_form_multiselect()
 	{
 		$expected = <<<EOH
@@ -142,17 +139,17 @@ EOH;
 </select>
 
 EOH;
-		
+
 		$options = array(
-                  'small'  => 'Small Shirt',
-                  'med'    => 'Medium Shirt',
-                  'large'   => 'Large Shirt',
-                  'xlarge' => 'Extra Large Shirt',
-                );
-		
+			'small'		=> 'Small Shirt',
+			'med'		=> 'Medium Shirt',
+			'large'		=> 'Large Shirt',
+			'xlarge'	=> 'Extra Large Shirt',
+		);
+
 		$this->assertEquals($expected, form_multiselect('shirts[]', $options, array('med', 'large')));
 	}
-	
+
 	public function test_form_fieldset()
 	{
 		$expected = <<<EOH
@@ -160,7 +157,7 @@ EOH;
 <legend>Address Information</legend>
 
 EOH;
-		
+
 		$this->assertEquals($expected, form_fieldset('Address Information'));
 	}
 
@@ -169,10 +166,10 @@ EOH;
 		$expected = <<<EOH
 </fieldset></div></div>
 EOH;
-		
+
 		$this->assertEquals($expected, form_fieldset_close('</div></div>'));
 	}
-	
+
 	public function test_form_checkbox()
 	{
 		$expected = <<<EOH
@@ -182,7 +179,7 @@ EOH;
 
 		$this->assertEquals($expected, form_checkbox('newsletter', 'accept', TRUE));
 	}
-	
+
 	public function test_form_radio()
 	{
 		$expected = <<<EOH
@@ -192,7 +189,7 @@ EOH;
 
 		$this->assertEquals($expected, form_radio('newsletter', 'accept', TRUE));
 	}
-	
+
 	public function test_form_submit()
 	{
 		$expected = <<<EOH
@@ -202,7 +199,7 @@ EOH;
 
 		$this->assertEquals($expected, form_submit('mysubmit', 'Submit Post!'));
 	}
-	
+
 	public function test_form_label()
 	{
 		$expected = <<<EOH
@@ -211,7 +208,7 @@ EOH;
 
 		$this->assertEquals($expected, form_label('What is your Name', 'username'));
 	}
-	
+
 	public function test_form_reset()
 	{
 		$expected = <<<EOH
@@ -221,7 +218,7 @@ EOH;
 
 		$this->assertEquals($expected, form_reset('myreset', 'Reset'));
 	}
-	
+
 	public function test_form_button()
 	{
 		$expected = <<<EOH
@@ -229,9 +226,9 @@ EOH;
 
 EOH;
 
-		$this->assertEquals($expected, form_button('name','content'));
+		$this->assertEquals($expected, form_button('name', 'content'));
 	}
-	
+
 	public function test_form_close()
 	{
 		$expected = <<<EOH
@@ -240,13 +237,14 @@ EOH;
 
 		$this->assertEquals($expected, form_close('</div></div>'));
 	}
-	
+
 	public function test_form_prep()
 	{
-		$expected = "Here is a string containing &quot;quoted&quot; text.";
-		
+		$expected = 'Here is a string containing &quot;quoted&quot; text.';
+
 		$this->assertEquals($expected, form_prep('Here is a string containing "quoted" text.'));
 	}
+
 }
 
 /* End of file form_helper_test.php */
