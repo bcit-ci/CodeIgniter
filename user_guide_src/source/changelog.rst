@@ -145,7 +145,6 @@ Release Date: Not Released
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Input library now supports IPv6.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 
 -  Core
@@ -256,6 +255,8 @@ Release Date: Not Released
 
 -  Libraries
    -  Further improved MIME type detection in the :doc:`File Uploading Library <libraries/file_uploading>`.
+   -  Added support for IPv6 to the :doc:`Input Library <libraries/input>`.
+   -  Added support for the IP format parameter to the :doc:`Form Validation Library <libraries/form_validation>`.
 
 -  Helpers
    -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
@@ -270,6 +271,9 @@ Bug fixes for 2.1.1
 -  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.
 -  Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.
 -  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
+-  Fixed a bug - CI_DB_pdo_driver::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().
+-  Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.
+-  Fixed a bud (#1387) - Active Record's ``from()`` method didn't escape table aliases.
 
 Version 2.1.0
 =============
