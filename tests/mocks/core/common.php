@@ -18,7 +18,8 @@ if ( ! function_exists('get_config'))
 	function &get_config()
 	{
 		$test = CI_TestCase::instance();
-		return $test->ci_get_config();
+		$config = $test->ci_get_config();
+		return $config;
 	}
 }
 
