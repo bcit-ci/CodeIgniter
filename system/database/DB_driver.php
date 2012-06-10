@@ -1062,7 +1062,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL)/i', trim($str));
+		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL|BETWEEN)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
