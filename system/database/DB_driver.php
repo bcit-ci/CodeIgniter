@@ -1312,7 +1312,7 @@ abstract class CI_DB_driver {
 		// way to deal with this, but I'm not thinking of it -- Rick
 		if (strpos($item, '(') !== FALSE)
 		{
-			return $item.$alias;
+			return $item;
 		}
 
 		// Convert tabs or multiple spaces into single spaces
