@@ -1334,7 +1334,7 @@ abstract class CI_DB_driver {
 
 		// If the item has an alias declaration we remove it and set it aside.
 		// Basically we remove everything to the right of the first space
-		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', 'Test table]', $matches);
+		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', $item, $matches);
 
 		if (isset($matches[4]))
 		{
