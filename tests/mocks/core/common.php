@@ -7,7 +7,8 @@ if ( ! function_exists('get_instance'))
 	function &get_instance()
 	{
 		$test = CI_TestCase::instance();
-		return $test->ci_instance();
+		$test = $test->ci_instance();
+		return $test;
 	}
 }
 
