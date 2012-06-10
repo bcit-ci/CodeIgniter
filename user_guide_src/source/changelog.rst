@@ -246,6 +246,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
 -  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
 -  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
+-  Fixed a bug where _has_operator() didn't detect BETWEEN.
 
 Version 2.1.1
 =============
