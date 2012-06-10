@@ -1300,27 +1300,10 @@ abstract class CI_DB_driver {
 			$escaped_array = array();
 			foreach ($item as $k => $v)
 			{
-				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v);
+				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v, $prefix_single, $protect_identifiers, $field_exists);
 			}
 
 			return $escaped_array;
-		}
-
-		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/\s+/', ' ', $item);
-
-		// If the item has an alias declaration we remove it and set it aside.
-		// Basically we remove everything to the right of the first space
-		if (preg_match('/^([^\s]+) (AS )*(.+)$/i', $item, $matches))
-		{
-			$item = $matches[1];
-
-			// Escape the alias
-			$alias = ' '.$matches[2].$this->escape_identifiers($matches[3]);
-		}
-		else
-		{
-			$alias = '';
 		}
 
 		// This is basically a bug fix for queries that use MAX, MIN, etc.
@@ -1330,6 +1313,48 @@ abstract class CI_DB_driver {
 		if (strpos($item, '(') !== FALSE)
 		{
 			return $item.$alias;
+		}
+
+		// Convert tabs or multiple spaces into single spaces
+		$item = preg_replace('/\s+/', ' ', $item);
+
+		static $preg_ec = array();
+
+		if (empty($preg_ec))
+		{
+			if (is_array($this->_escape_char))
+			{
+				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+			}
+			else
+			{
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+			}
+		}
+
+		// If the item has an alias declaration we remove it and set it aside.
+		// Basically we remove everything to the right of the first space
+		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', 'Test table]', $matches);
+
+		if (isset($matches[4]))
+		{
+			$item = $matches[1];
+
+			// Escape the alias, if needed
+			if ($protect_identifiers === TRUE)
+			{
+				$alias = empty($matches[5])
+					? ' '.$this->escape_identifiers(ltrim($matches[4]))
+					: $matches[4].' '.$this->escape_identifiers(ltrim($matches[5]));
+			}
+			else
+			{
+				$alias = $matches[4].$matches[5];
+			}
+		}
+		else
+		{
+			$alias = '';
 		}
 
 		// Break the string apart if it contains periods, then insert the table prefix
