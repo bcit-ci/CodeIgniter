@@ -244,6 +244,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 -  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
+-  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
+-  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
 
 Version 2.1.1
 =============
