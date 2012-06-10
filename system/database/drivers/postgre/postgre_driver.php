@@ -616,7 +616,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
 
 			$k = $this->_has_operator($k)
-				? $this->protect_identifiers(substr($k, 0, strrpos(rtrim($k), ' ')), FALSE, $escape).strrchr(rtrim($k), ' ')
+				? $this->protect_identifiers(substr($k, 0, strpos(rtrim($k), ' ')), FALSE, $escape).strchr(rtrim($k), ' ')
 				: $this->protect_identifiers($k, FALSE, $escape);
 
 			if (is_null($v) && ! $this->_has_operator($k))
