@@ -50,25 +50,20 @@ if ( ! function_exists('now'))
 	 */
 	function now($timezone = NULL)
 	{
-		$CI			=& get_instance();
-
-		if (is_null($timezone))
+		if (empty($timezone))
 		{
-			$timezone	= $CI->config->item('timezone');
+			$timezone = config_item('timezone');
 		}
 
-		$time			= time();
-		if(strtolower($timezone) != 'local')
+		if ($timezone === 'local' OR $timezone === date_default_timezone_get())
 		{
-			$local		= new DateTime(NULL, new DateTimeZone(date_default_timezone_get()));
-			$now		= new DateTime(NULL, new DateTimeZone($timezone));
-			$lcl_offset	= $local->getOffset();
-			$tz_offset	= $now->getOffset();
-			$offset		= $tz_offset - $lcl_offset;
-			$time		= $time + $offset;
+			return time();
 		}
 
-		return $time;
+		$datetime = new DateTime('now', new DateTimeZone($timezone));
+		sscanf($datetime->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 }
 
