@@ -1599,7 +1599,7 @@ class CI_Email {
 
 		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-		if (substr($reply, 0, 3) !== $resp)
+		if ( (int) substr($reply, 0, 3) !== $resp)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
