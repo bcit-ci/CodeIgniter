@@ -69,6 +69,8 @@ Change Log
 	<li>Libraries
 		<ul>
 			<li>Further improved MIME type detection in the <a href="libraries/file_uploading.html">File Uploading Library</a>.</li>
+			<li>Added support for IPv6 to the <a href="libraries/input.html">Input Library</a>.</li>
+			<li>Added support for the IP format parameter to the <a href="libraries/form_validation.html">Form Validation Library</a>.</li>
 		</ul>
 	</li>
 	<li>Helpers
@@ -86,6 +88,10 @@ Change Log
 	<li>Fixed a bug (#538) - Windows paths were ignored when using the <a href="libraries/image_lib.html">Image Manipulation Class</a> to create a new file.</li>
 	<li>Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.</li>
 	<li>Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.</li>
+	<li>Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.</li>
+	<li>Fixed a bug - CI_DB_pdo_result::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().</li>
+	<li>Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.</li>
+	<li>Fixed a bug (#1387) - Active Record's <samp>from()</samp> method didn't escape table aliases.</li>
 </ul>
 
 

@@ -365,18 +365,70 @@ class CI_Input {
 	/**
 	* Validate IP Address
 	*
-	* Updated version suggested by Geert De Deckere
-	*
 	* @access	public
 	* @param	string
-	* @return	string
+	* @param	string	ipv4 or ipv6
+	* @return	bool
 	*/
-	function valid_ip($ip)
+	public function valid_ip($ip, $which = '')
+	{
+		$which = strtolower($which);
+
+		// First check if filter_var is available
+		if (is_callable('filter_var'))
+		{
+			switch ($which) {
+				case 'ipv4':
+					$flag = FILTER_FLAG_IPV4;
+					break;
+				case 'ipv6':
+					$flag = FILTER_FLAG_IPV6;
+					break;
+				default:
+					$flag = '';
+					break;
+			}
+
+			return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flag);
+		}
+
+		if ($which !== 'ipv6' && $which !== 'ipv4')
+		{
+			if (strpos($ip, ':') !== FALSE)
+			{
+				$which = 'ipv6';
+			}
+			elseif (strpos($ip, '.') !== FALSE)
+			{
+				$which = 'ipv4';
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
+		$func = '_valid_'.$which;
+		return $this->$func($ip);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	* Validate IPv4 Address
+	*
+	* Updated version suggested by Geert De Deckere
+	*
+	* @access	protected
+	* @param	string
+	* @return	bool
+	*/
+	protected function _valid_ipv4($ip)
 	{
 		$ip_segments = explode('.', $ip);
 
 		// Always 4 segments needed
-		if (count($ip_segments) != 4)
+		if (count($ip_segments) !== 4)
 		{
 			return FALSE;
 		}
@@ -385,6 +437,7 @@ class CI_Input {
 		{
 			return FALSE;
 		}
+
 		// Check each segment
 		foreach ($ip_segments as $segment)
 		{
@@ -397,6 +450,80 @@ class CI_Input {
 		}
 
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	* Validate IPv6 Address
+	*
+	* @access	protected
+	* @param	string
+	* @return	bool
+	*/
+	protected function _valid_ipv6($str)
+	{
+		// 8 groups, separated by :
+		// 0-ffff per group
+		// one set of consecutive 0 groups can be collapsed to ::
+
+		$groups = 8;
+		$collapsed = FALSE;
+
+		$chunks = array_filter(
+			preg_split('/(:{1,2})/', $str, NULL, PREG_SPLIT_DELIM_CAPTURE)
+		);
+
+		// Rule out easy nonsense
+		if (current($chunks) == ':' OR end($chunks) == ':')
+		{
+			return FALSE;
+		}
+
+		// PHP supports IPv4-mapped IPv6 addresses, so we'll expect those as well
+		if (strpos(end($chunks), '.') !== FALSE)
+		{
+			$ipv4 = array_pop($chunks);
+
+			if ( ! $this->_valid_ipv4($ipv4))
+			{
+				return FALSE;
+			}
+
+			$groups--;
+		}
+
+		while ($seg = array_pop($chunks))
+		{
+			if ($seg[0] == ':')
+			{
+				if (--$groups == 0)
+				{
+					return FALSE;	// too many groups
+				}
+
+				if (strlen($seg) > 2)
+				{
+					return FALSE;	// long separator
+				}
+
+				if ($seg == '::')
+				{
+					if ($collapsed)
+					{
+						return FALSE;	// multiple collapsed
+					}
+
+					$collapsed = TRUE;
+				}
+			}
+			elseif (preg_match("/[^0-9a-f]/i", $seg) OR strlen($seg) > 4)
+			{
+				return FALSE; // invalid segment
+			}
+		}
+
+		return $collapsed OR $groups == 1;
 	}
 
 	// --------------------------------------------------------------------

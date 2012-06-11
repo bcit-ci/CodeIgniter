@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Upgrading from 2.0.3 to 2.1.0 : CodeIgniter User Guide</title>
+<title>Upgrading from 2.1.0 to 2.1.1 : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -69,6 +69,11 @@ Upgrading from 2.1.0 to 2.1.1
 
 <p>This config file has been updated to contain more user mime-types, please copy it to <kbd>application/config/mimes.php</kbd>.</p>
 
+<h2>Step 3: Update your IP address tables:</h2>
+
+<p>This upgrade adds support for IPv6 IP addresses. In order to store them, you need to enlarge your <var>ip_address</var> columns to 45 characters. For example, CodeIgniter's session table will need to change:</p>
+
+<code>ALTER TABLE ci_sessions CHANGE ip_address ip_address varchar(45) default '0' NOT NULL</code>
 
 </div>
 <!-- END CONTENT -->
