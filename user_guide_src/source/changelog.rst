@@ -98,7 +98,7 @@ Release Date: Not Released
 	 - Added support for optimize_table() in :doc:`Database Utility <database/utilities>`.
 	 - Added escaping with QUOTE_IDENTIFIER setting detection.
 	 - Added port handling support for UNIX-based systems (MSSQL driver).
-	 - Added OFFSET support for SQL Server 2012 and above.
+	 - Added OFFSET support for SQL Server 2005 and above.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 -  Added DSN string support (Easy Connect and TNS).
 	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.

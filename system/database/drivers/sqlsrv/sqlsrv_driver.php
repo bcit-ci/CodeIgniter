@@ -463,9 +463,28 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	protected function _limit($sql, $limit, $offset)
 	{
 		// As of SQL Server 2012 (11.0.*) OFFSET is supported
-		return version_compare($this->version(), '11', '>=')
-			? $sql.' OFFSET '.(int) $offset.' ROWS FETCH NEXT '.(int) $limit.' ROWS ONLY'
-			: preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.($limit + $offset).' ', $sql);
+		if (version_compare($this->version(), '11', '>='))
+		{
+			return $sql.' OFFSET '.(int) $offset.' ROWS FETCH NEXT '.(int) $limit.' ROWS ONLY';
+		}
+
+		$limit = $offset + $limit;
+
+		// An ORDER BY clause is required for ROW_NUMBER() to work
+		if ($offset && ! empty($this->qb_orderby))
+		{
+			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
+
+			// We have to strip the ORDER BY clause
+			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
+
+			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
+				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
+				."\n) ".$this->escape_identifiers('CI_subquery')
+				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.((int) $offset + 1).' AND '.$limit;
+		}
+
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
 	}
 
 	// --------------------------------------------------------------------
