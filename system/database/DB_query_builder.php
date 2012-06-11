@@ -953,7 +953,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$part = trim($part);
 				if ( ! in_array($part, $this->qb_aliased_tables))
 				{
-					$part = $this->protect_identifiers(trim($part));
+					$part = preg_match('/^(.+)\s+(ASC|DESC)$/i', $part, $matches)
+						? $this->protect_identifiers(rtrim($matches[1])).' '.$matches[2]
+						: $this->protect_identifiers($part);
 				}
 
 				$temp[] = $part;
@@ -963,7 +965,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif ($direction !== $this->_random_keyword && $escape === TRUE)
 		{
-			$orderby = $this->protect_identifiers($orderby);
+			$part = preg_match('/^(.+)\s+(ASC|DESC)$/i', $orderby, $matches)
+				? $this->protect_identifiers(rtrim($matches[1])).' '.$matches[2]
+				: $this->protect_identifiers($orderby);
 		}
 
 		$this->qb_orderby[] = $orderby_statement = $orderby.$direction;
