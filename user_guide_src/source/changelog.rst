@@ -146,6 +146,7 @@ Release Date: Not Released
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+   -  Added a index parameter to the data() function in the Upload library.
 
 -  Core
 
