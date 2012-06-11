@@ -35,7 +35,6 @@
 abstract class CI_DB_utility extends CI_DB_forge {
 
 	public $db;
-	public $data_cache		= array();
 
 	// Platform specific SQL strings
 	// Just setting those defaults to FALSE as they are mostly MySQL-specific
@@ -60,29 +59,29 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	public function list_databases()
 	{
 		// Is there a cached result?
-		if (isset($this->data_cache['db_names']))
+		if (isset($this->db->data_cache['db_names']))
 		{
-			return $this->data_cache['db_names'];
+			return $this->db->data_cache['db_names'];
 		}
 		elseif ($this->_list_databases === FALSE)
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		$this->data_cache['db_names'] = array();
+		$this->db->data_cache['db_names'] = array();
 
 		$query = $this->db->query($this->_list_databases);
 		if ($query === FALSE)
 		{
-			return $this->data_cache['db_names'];
+			return $this->db->data_cache['db_names'];
 		}
 
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
-			$this->data_cache['db_names'] = current($query[$i]);
+			$this->db->data_cache['db_names'] = current($query[$i]);
 		}
 
-		return $this->data_cache['db_names'];
+		return $this->db->data_cache['db_names'];
 	}
 
 	// --------------------------------------------------------------------

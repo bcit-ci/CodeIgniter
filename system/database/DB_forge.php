@@ -72,6 +72,11 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
 
+		if ( ! empty($this->db->data_cache['db_names']))
+		{
+			$this->db->data_cache['db_names'][] = $db_name;
+		}
+
 		return TRUE;
 	}
 
@@ -97,6 +102,15 @@ abstract class CI_DB_forge {
 		elseif ( ! $this->db->query(sprintf($this->_drop_database, $db_name)))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
+		}
+
+		if ( ! empty($this->db->data_cache['db_names']))
+		{
+			$key = array_search(strtolower($db_name), array_map('strtolower', $this->db->data_cache['db_names']), TRUE);
+			if ($key !== FALSE)
+			{
+				unset($this->db->data_cache['db_names'][$key]);
+			}
 		}
 
 		return TRUE;
@@ -209,7 +223,18 @@ abstract class CI_DB_forge {
 
 		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
 		$this->_reset();
-		return is_bool($sql) ? $sql : $this->db->query($sql);
+
+		if (is_bool($sql))
+		{
+			return $sql;
+		}
+
+		if (($result = $this->db->query($sql)) !== FALSE && ! empty($this->db->data_cache['table_names']))
+		{
+			$this->db->data_cache['table_names'][] = $$this->db->dbprefix.$table;
+		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -231,7 +256,19 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		return $this->db->query(sprintf($this->_drop_table, $this->db->escape_identifiers($this->db->dbprefix.$table_name)));
+		$result = $this->db->query(sprintf($this->_drop_table, $this->db->escape_identifiers($this->db->dbprefix.$table_name)));
+
+		// Update table list cache
+		if ($result && ! empty($this->db->data_cache['table_names']))
+		{
+			$key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
+			if ($key !== FALSE)
+			{
+				unset($this->db->data_cache['table_names'][$key]);
+			}
+		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -255,10 +292,21 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		return $this->db->query(sprintf($this->_rename_table,
+		$result = $this->db->query(sprintf($this->_rename_table,
 						$this->db->escape_identifiers($this->db->dbprefix.$table_name),
 						$this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
 					);
+
+		if ($result && ! empty($this->db->data_cache['table_names']))
+		{
+			$key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
+			if ($key !== FALSE)
+			{
+				$this->db->data_cache['table_names'][$key] = $this->db->dbprefix.$new_table_name;
+			}
+		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
