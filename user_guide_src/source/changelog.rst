@@ -249,6 +249,7 @@ Bug fixes for 3.0
 -  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
 -  Fixed a bug where _has_operator() didn't detect BETWEEN.
 -  Fixed a bug where :doc:`Query Builder <database/query_builder>`'s join failed with identifiers containing dashes.
+-  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
 
 Version 2.1.1
 =============

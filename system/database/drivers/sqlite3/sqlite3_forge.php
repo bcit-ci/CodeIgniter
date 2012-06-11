@@ -66,6 +66,14 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			{
 				return $this->db->db_debug ? $this->db->display_error('db_unable_to_drop') : FALSE;
 			}
+			elseif ( ! empty($this->db->data_cache['db_names']))
+			{
+				$key = array_search(strtolower($this->db->database), array_map('strtolower', $this->db->data_cache['db_names']), TRUE);
+				if ($key !== FALSE)
+				{
+					unset($this->db->data_cache['db_names'][$key]);
+				}
+			}
 
 			return TRUE;
 		}
