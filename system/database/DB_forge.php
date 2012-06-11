@@ -34,6 +34,8 @@
  */
 abstract class CI_DB_forge {
 
+	protected $db = NULL;
+
 	public $fields		= array();
 	public $keys		= array();
 	public $primary_keys	= array();
@@ -45,11 +47,18 @@ abstract class CI_DB_forge {
 	protected $_drop_table		= 'DROP TABLE IF EXISTS %s';
 	protected $_rename_table	= 'ALTER TABLE %s RENAME TO %s';
 
-	public function __construct()
+	public function __construct( $db_object = NULL )
 	{
-		// Assign the main database object to $this->db
+		// Assign the main database object or the provided database object to $this->db
 		$CI =& get_instance();
-		$this->db =& $CI->db;
+		if( is_null($db_object))
+		{
+			$this->db = $CI->db;
+		}
+		else
+		{
+			$this->db = $db_object;	
+		}
 		log_message('debug', 'Database Forge Class Initialized');
 	}
 

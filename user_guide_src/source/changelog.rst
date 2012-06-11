@@ -63,7 +63,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
+   -  Added multiple database management functionality to the :doc:`Database Forge Class <database/forge>` and :doc:`Database Utility Class <database/utilities>`
    -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
    -  Added new :doc:`Query Builder <database/query_builder>` methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
    -  Adding $escape parameter to the order_by() method, this enables ordering by custom fields.
