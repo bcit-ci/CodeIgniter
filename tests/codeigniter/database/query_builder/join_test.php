@@ -34,5 +34,5 @@ class Join_test extends CI_TestCase {
 		$this->assertEquals('Derek Jones', $job_user[0]['user_name']);
 		$this->assertEquals('Developer', $job_user[0]['job_name']);
 	}
-	
+
 }

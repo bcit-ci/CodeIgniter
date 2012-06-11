@@ -73,11 +73,22 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field).' '.$attributes['TYPE']
-					.((isset($attributes['UNSINGED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
-					.((isset($attributes['NULL']) && $attributes['NULL'] === TRUE) ? '' : ' NOT NULL')
-					.(isset($attributes['CONSTRAINT']) ? ' CONSTRAINT '.$attributes['CONSTRAINT'] : '');
+				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
+
+				if (isset($attributes['UNSINGED']) && $attributes['UNSIGNED'] === TRUE)
+				{
+					$sql .= ' UNSIGNED';
+				}
+
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= (isset($attributes['NULL']) && $attributes['NULL'] === TRUE)
+					? '' : ' NOT NULL';
+
+				empty($attributes['CONSTRAINT']) OR ' CONSTRAINT '.$attributes['CONSTRAINT'];
 			}
 
 			// don't add a comma on the end of the last field
@@ -89,22 +100,16 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $primary_keys).')';
+			$sql .= ",\n\tCONSTRAINT ".$table.' PRIMARY KEY ('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
 		{
 			foreach ($keys as $key)
 			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
+				$key = is_array($key)
+					? $this->db->escape_identifiers($key)
+					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).')';
 			}
@@ -132,7 +137,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name);
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' '.$this->db->escape_identifiers($column_name);
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')
@@ -141,9 +146,9 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		}
 
 		return $sql.' '.$column_definition
-			.($default_value != '' ? ' DEFAULT "'.$default_value.'"' : '')
+			.($default_value !== '' ? ' DEFAULT "'.$default_value.'"' : '')
 			.($null === NULL ? ' NULL' : ' NOT NULL')
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
 
 	}
 

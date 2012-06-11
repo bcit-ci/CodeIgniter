@@ -8,9 +8,8 @@ class Path_helper_test extends CI_TestCase {
 	}
 
 	public function test_set_realpath()
-	{				
-		$expected = getcwd() . DIRECTORY_SEPARATOR;
-		$this->assertEquals($expected, set_realpath(getcwd()));		
+	{
+		$this->assertEquals(getcwd().DIRECTORY_SEPARATOR, set_realpath(getcwd()));
 	}
 
 	public function test_set_realpath_nonexistent_directory()

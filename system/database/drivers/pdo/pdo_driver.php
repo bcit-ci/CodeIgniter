@@ -65,7 +65,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) == 2)
+		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) === 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
@@ -79,13 +79,13 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
-		if ($this->pdodriver == 'mysql')
+		if ($this->pdodriver === 'mysql')
 		{
 			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '';
+			$this->_like_escape_chr = '\\';
 		}
-		elseif ($this->pdodriver == 'odbc')
+		elseif ($this->pdodriver === 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 		}
@@ -409,38 +409,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$sql = $this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
-		$query = $this->query($sql);
-
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-
-		return (int) $row->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -450,12 +418,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->pdodriver == 'pgsql')
+		if ($this->pdodriver === 'pgsql')
 		{
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
-		elseif ($this->pdodriver == 'sqlite')
+		elseif ($this->pdodriver === 'sqlite')
 		{
 			// Analog function to show all tables in sqlite
 			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
@@ -465,7 +433,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 		}
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
 			return FALSE;
 		}
@@ -500,17 +468,17 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->pdodriver == 'mysql' or $this->pdodriver == 'pgsql')
+		if ($this->pdodriver === 'mysql' or $this->pdodriver === 'pgsql')
 		{
 			// Analog function for mysql and postgre
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 		}
-		elseif ($this->pdodriver == 'oci')
+		elseif ($this->pdodriver === 'oci')
 		{
 			// Analog function for oci
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
 		}
-		elseif ($this->pdodriver == 'sqlite')
+		elseif ($this->pdodriver === 'sqlite')
 		{
 			// Analog function for sqlite
 			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
@@ -551,27 +519,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return (count($tables) === 1) ? $tables[0] : '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -584,7 +531,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids   = array();
-		$where = ($where != '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$where = ($where !== '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
 		{
@@ -592,7 +539,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
@@ -652,7 +599,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($this->pdodriver == 'cubrid' OR $this->pdodriver == 'sqlite')
+		if ($this->pdodriver === 'cubrid' OR $this->pdodriver === 'sqlite')
 		{
 			$offset = ($offset == 0) ? '' : $offset.', ';
 
@@ -665,19 +612,6 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return $sql;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Close DB Connection
-	 *
-	 * @param	object
-	 * @return	void
-	 */
-	protected function _close($conn_id)
-	{
-		$this->conn_id = NULL;
 	}
 
 }

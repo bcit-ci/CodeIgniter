@@ -94,7 +94,7 @@ abstract class CI_DB_forge {
 	 */
 	public function drop_database($db_name)
 	{
-		if ($db_name == '')
+		if ($db_name === '')
 		{
 			show_error('A table name is required for that operation.');
 			return FALSE;
@@ -132,7 +132,7 @@ abstract class CI_DB_forge {
 			return;
 		}
 
-		if ($key == '')
+		if ($key === '')
 		{
 			show_error('Key information is required for that operation.');
 		}
@@ -159,7 +159,7 @@ abstract class CI_DB_forge {
 	 */
 	public function add_field($field = '')
 	{
-		if ($field == '')
+		if ($field === '')
 		{
 			show_error('Field information is required.');
 		}
@@ -206,7 +206,7 @@ abstract class CI_DB_forge {
 	 */
 	public function create_table($table = '', $if_not_exists = FALSE)
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			show_error('A table name is required for that operation.');
 		}
@@ -231,7 +231,7 @@ abstract class CI_DB_forge {
 	 */
 	public function drop_table($table_name)
 	{
-		if ($table_name == '')
+		if ($table_name === '')
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
 		}
@@ -254,7 +254,7 @@ abstract class CI_DB_forge {
 	 */
 	public function rename_table($table_name, $new_table_name)
 	{
-		if ($table_name == '' OR $new_table_name == '')
+		if ($table_name === '' OR $new_table_name === '')
 		{
 			show_error('A table name is required for that operation.');
 			return FALSE;
@@ -282,7 +282,7 @@ abstract class CI_DB_forge {
 	 */
 	public function add_column($table = '', $field = array(), $after_field = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			show_error('A table name is required for that operation.');
 		}
@@ -293,7 +293,7 @@ abstract class CI_DB_forge {
 		{
 			$this->add_field(array($k => $field[$k]));
 
-			if (count($this->fields) == 0)
+			if (count($this->fields) === 0)
 			{
 				show_error('Field information is required.');
 			}
@@ -321,12 +321,12 @@ abstract class CI_DB_forge {
 	 */
 	public function drop_column($table = '', $column_name = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			show_error('A table name is required for that operation.');
 		}
 
-		if ($column_name == '')
+		if ($column_name === '')
 		{
 			show_error('A column name is required for that operation.');
 		}
@@ -346,7 +346,7 @@ abstract class CI_DB_forge {
 	 */
 	public function modify_column($table = '', $field = array())
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			show_error('A table name is required for that operation.');
 		}

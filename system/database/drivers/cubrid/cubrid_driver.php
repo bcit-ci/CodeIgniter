@@ -74,7 +74,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 		else
 		{
 			// If no port is defined by the user, use the default value
-			$this->port == '' OR $this->port = 33000;
+			empty($this->port) OR $this->port = 33000;
 		}
 	}
 
@@ -329,35 +329,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified table
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * List table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -369,7 +340,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	{
 		$sql = 'SHOW TABLES';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -425,27 +396,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -464,7 +414,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
@@ -480,12 +430,12 @@ class CI_DB_cubrid_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN ('.implode(',', $ids).')';
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Limit string
 	 *
@@ -506,12 +456,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@cubrid_close($conn_id);
+		@cubrid_close($this->conn_id);
 	}
 
 }

@@ -44,28 +44,28 @@ class CI_Input {
 	 * @var string
 	 */
 	public $ip_address =	FALSE;
-	
+
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
 	 * @var string
 	 */
 	public $user_agent =	FALSE;
-	
+
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
 	 * @var bool
 	 */
 	protected $_allow_get_array =	TRUE;
-	
+
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
 	 * @var bool
 	 */
 	protected $_standardize_newlines =	TRUE;
-	
+
 	/**
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
@@ -73,7 +73,7 @@ class CI_Input {
 	 * @var bool
 	 */
 	protected $_enable_xss =	FALSE;
-	
+
 	/**
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
@@ -81,7 +81,7 @@ class CI_Input {
 	 * @var bool
 	 */
 	protected $_enable_csrf =	FALSE;
-	
+
 	/**
 	 * List of all HTTP request headers
 	 *
@@ -94,6 +94,8 @@ class CI_Input {
 	 *
 	 * Sets whether to globally enable the XSS processing
 	 * and whether to allow the $_GET array
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -133,7 +135,7 @@ class CI_Input {
 	{
 		if ( ! isset($array[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		if ($xss_clean === TRUE)
@@ -261,23 +263,27 @@ class CI_Input {
 			}
 		}
 
-		if ($prefix == '' && config_item('cookie_prefix') != '')
+		if ($prefix === '' && config_item('cookie_prefix') !== '')
 		{
 			$prefix = config_item('cookie_prefix');
 		}
+
 		if ($domain == '' && config_item('cookie_domain') != '')
 		{
 			$domain = config_item('cookie_domain');
 		}
-		if ($path == '/' && config_item('cookie_path') !== '/')
+
+		if ($path === '/' && config_item('cookie_path') !== '/')
 		{
 			$path = config_item('cookie_path');
 		}
-		if ($secure == FALSE && config_item('cookie_secure') != FALSE)
+
+		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
 		{
 			$secure = config_item('cookie_secure');
 		}
-		if ($httponly == FALSE && config_item('cookie_httponly') != FALSE)
+
+		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
 		{
 			$httponly = config_item('cookie_httponly');
 		}
@@ -370,14 +376,26 @@ class CI_Input {
 	/**
 	 * Validate IP Address
 	 *
-	 * Updated version suggested by Geert De Deckere
-	 *
 	 * @param	string
+	 * @param	string	'ipv4' or 'ipv6'
 	 * @return	bool
 	 */
-	public function valid_ip($ip)
+	public function valid_ip($ip, $which = '')
 	{
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		switch (strtolower($which))
+		{
+			case 'ipv4':
+				$which = FILTER_FLAG_IPV4;
+				break;
+			case 'ipv6':
+				$which = FILTER_FLAG_IPV6;
+				break;
+			default:
+				$which = NULL;
+				break;
+		}
+
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which);
 	}
 
 	// --------------------------------------------------------------------
@@ -438,15 +456,7 @@ class CI_Input {
 		// This is effectively the same as register_globals = off
 		foreach (array($_GET, $_POST, $_COOKIE) as $global)
 		{
-			if ( ! is_array($global))
-			{
-				if ( ! in_array($global, $protected))
-				{
-					global $$global;
-					$$global = NULL;
-				}
-			}
-			else
+			if (is_array($global))
 			{
 				foreach ($global as $key => $val)
 				{
@@ -457,10 +467,15 @@ class CI_Input {
 					}
 				}
 			}
+			elseif ( ! in_array($global, $protected))
+			{
+				global $$global;
+				$$global = NULL;
+			}
 		}
 
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if ($this->_allow_get_array == FALSE)
+		if ($this->_allow_get_array === FALSE)
 		{
 			$_GET = array();
 		}
@@ -503,7 +518,7 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf == TRUE)
+		if ($this->_enable_csrf === TRUE)
 		{
 			$this->security->csrf_verify();
 		}
@@ -560,7 +575,7 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines == TRUE && strpos($str, "\r") !== FALSE)
+		if ($this->_standardize_newlines === TRUE && strpos($str, "\r") !== FALSE)
 		{
 			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 		}
@@ -605,7 +620,7 @@ class CI_Input {
 	 * In Apache, you can simply call apache_request_headers(), however for
 	 * people running other webservers the function is undefined.
 	 *
-	 * @param	bool XSS cleaning
+	 * @param	bool	XSS cleaning
 	 * @return	array
 	 */
 	public function request_headers($xss_clean = FALSE)
@@ -660,7 +675,7 @@ class CI_Input {
 
 		if ( ! isset($this->headers[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		return ($xss_clean === TRUE)

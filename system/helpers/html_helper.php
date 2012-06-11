@@ -51,7 +51,7 @@ if ( ! function_exists('heading'))
 	 */
 	function heading($data = '', $h = '1', $attributes = '')
 	{
-		return '<h'.$h.($attributes != '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
+		return '<h'.$h.($attributes !== '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
 	}
 }
 
@@ -334,12 +334,12 @@ if ( ! function_exists('link_tag'))
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
 
-			if ($media != '')
+			if ($media !== '')
 			{
 				$link .= 'media="'.$media.'" ';
 			}
 
-			if ($title != '')
+			if ($title !== '')
 			{
 				$link .= 'title="'.$title.'" ';
 			}
@@ -379,10 +379,10 @@ if ( ! function_exists('meta'))
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= ( ! isset($meta['type']) OR $meta['type'] == 'name') ? 'name' : 'http-equiv';
-			$name		= ( ! isset($meta['name']))		? ''	: $meta['name'];
-			$content	= ( ! isset($meta['content']))	? ''	: $meta['content'];
-			$newline	= ( ! isset($meta['newline']))	? "\n"	: $meta['newline'];
+			$type		= ( ! isset($meta['type']) OR $meta['type'] === 'name') ? 'name' : 'http-equiv';
+			$name		= isset($meta['name'])					? $meta['name'] : '';
+			$content	= isset($meta['content'])				? $meta['content'] : '';
+			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
 
 			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
 		}

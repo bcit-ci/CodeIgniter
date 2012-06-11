@@ -43,7 +43,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	public $dbdriver = 'sqlite';
 
 	// The character used to escape with - not needed for SQLite
-	protected $_escape_char = '';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " ESCAPE '%s' ";
@@ -127,7 +127,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @sqlite_query($this->conn_id, $sql);
+		return $this->is_write_type($sql)
+			? @sqlite_exec($this->conn_id, $sql)
+			: @sqlite_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -139,13 +141,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -153,7 +150,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
 		$this->simple_query('BEGIN TRANSACTION');
 		return TRUE;
@@ -168,13 +165,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -192,13 +184,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -268,35 +255,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * List table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -306,12 +264,13 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT name from sqlite_master WHERE type='table'";
+		$sql = "SELECT name FROM sqlite_master WHERE type='table'";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix != '')
 		{
-			$sql .= " AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql." AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
+
 		return $sql;
 	}
 
@@ -343,7 +302,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -361,27 +320,6 @@ class CI_DB_sqlite_driver extends CI_DB {
 		$error = array('code' => sqlite_last_error($this->conn_id));
 		$error['message'] = sqlite_error_string($error['code']);
 		return $error;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -433,16 +371,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($offset == 0)
-		{
-			$offset = '';
-		}
-		else
-		{
-			$offset .= ", ";
-		}
-
-		return $sql."LIMIT ".$offset.$limit;
+		return $sql.'LIMIT '.($offset == 0 ? '' : $offset.', ').$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -450,12 +379,11 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@sqlite_close($conn_id);
+		@sqlite_close($this->conn_id);
 	}
 
 }

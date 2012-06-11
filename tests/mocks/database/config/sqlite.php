@@ -9,7 +9,7 @@ return array(
 		'username' => 'sqlite',
 		'password' => 'sqlite',
 		'database' => realpath(__DIR__.'/..').'/ci_test.sqlite',
-		'dbdriver' => 'sqlite3',
+		'dbdriver' => 'sqlite3'
 	),
 
 	// Database configuration with failover
@@ -27,8 +27,8 @@ return array(
 				'username' => 'sqlite',
 				'password' => 'sqlite',
 				'database' => realpath(__DIR__.'/..').'/ci_test.sqlite',
-				'dbdriver' => 'sqlite3',
-			),
-		),
-	),
+				'dbdriver' => 'sqlite3'
+			)
+		)
+	)
 );

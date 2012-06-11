@@ -58,7 +58,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			}
 			else
 			{
-				$sql .= "\n\t".$this->db->protect_identifiers($field);
+				$sql .= "\n\t".$this->db->escape_identifiers($field);
 
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 				$is_unsigned = ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE);
@@ -107,10 +107,19 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					$sql .= '('.$attributes['CONSTRAINT'].')';
 				}
 
-				$sql .= (isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
-					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					// Added new attribute to create unqite fields. Also works with MySQL
-					.(( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE) ? ' UNIQUE' : '');
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
+					? ' NULL' : ' NOT NULL';
+
+				// Added new attribute to create unique fields. Also works with MySQL
+				if ( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE)
+				{
+					$sql .= ' UNIQUE';
+				}
 			}
 
 			// don't add a comma on the end of the last field
@@ -139,26 +148,17 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		if ($if_not_exists === TRUE)
+		// PostgreSQL doesn't support IF NOT EXISTS syntax so we check if table exists manually
+		if ($if_not_exists === TRUE && $this->db->table_exists($table))
 		{
-			// PostgreSQL doesn't support IF NOT EXISTS syntax so we check if table exists manually
-			if ($this->db->table_exists($table))
-			{
-				return TRUE;
-			}
+			return TRUE;
 		}
 
 		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
 		{
-			// Something seems to break when passing an array to protect_identifiers()
-			foreach ($primary_keys as $index => $key)
-			{
-				$primary_keys[$index] = $this->db->protect_identifiers($key);
-			}
-
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		$sql .= "\n);";
@@ -167,18 +167,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		{
 			foreach ($keys as $key)
 			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
+				$key = is_array($key)
+					? $this->db->escape_identifiers($key)
+					: array($this->db->escape_identifiers($key));
 
 				foreach ($key as $field)
 				{
-					$sql .= 'CREATE INDEX '.$table.'_'.str_replace(array('"', "'"), '', $field).'_index ON '.$table.' ('.$field.'); ';
+					$sql .= "\nCREATE INDEX ".$this->db->escape_identifiers($table.'_'.str_replace(array('"', "'"), '', $field).'_index')
+						.' ON '.$this->db->escape_identifiers($table).' ('.$this->db->escape_identifiers($field).');';
 				}
 			}
 		}
@@ -205,16 +201,16 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
  	{
- 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
+ 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' ';
 
  		// DROP has everything it needs now.
  		if ($alter_type === 'DROP')
  		{
- 			return $sql.$this->db->protect_identifiers($fields);
+ 			return $sql.$this->db->escape_identifiers($fields);
  		}
 
  		return $sql.$this->_process_fields($fields)
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
  	}
 
 }

@@ -47,7 +47,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// clause and character used for LIKE escape sequences - not used in MySQL
 	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '';
+	protected $_like_escape_chr = '\\';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -68,7 +68,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		if ($this->port != '')
+		if ( ! empty($this->port))
 		{
 			$this->hostname .= ':'.$this->port;
 		}
@@ -291,7 +291,9 @@ class CI_DB_mysql_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -324,35 +326,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * List table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -364,7 +337,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		$sql = 'SHOW TABLES FROM '.$this->_escape_char.$this->database.$this->_escape_char;
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
@@ -397,7 +370,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function field_data($table = '')
 	{
-		if ($table == '')
+		if ($table === '')
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
@@ -439,27 +412,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	string	table name
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -478,7 +430,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 			foreach (array_keys($val) as $field)
 			{
-				if ($field != $index)
+				if ($field !== $index)
 				{
 					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
@@ -494,7 +446,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where != '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
 	}
 
@@ -520,12 +472,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@mysql_close($conn_id);
+		@mysql_close($this->conn_id);
 	}
 
 }

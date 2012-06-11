@@ -32,8 +32,8 @@
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @author		EllisLab Dev Team
  * @category	Libraries
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/routing.html
  */
 class CI_Router {
@@ -44,42 +44,42 @@ class CI_Router {
 	 * @var object
 	 */
 	public $config;
-	
+
 	/**
 	 * List of routes
 	 *
 	 * @var array
 	 */
 	public $routes =	array();
-	
+
 	/**
 	 * List of error routes
 	 *
 	 * @var array
 	 */
 	public $error_routes =	array();
-	
+
 	/**
 	 * Current class name
 	 *
 	 * @var string
 	 */
-	public $class =	'';
-	
+	public $class =		'';
+
 	/**
 	 * Current method name
 	 *
 	 * @var string
 	 */
 	public $method =	'index';
-	
+
 	/**
 	 * Sub-directory that contains the requested controller class
 	 *
 	 * @var string
 	 */
 	public $directory =	'';
-	
+
 	/**
 	 * Default controller (and method if specific)
 	 *
@@ -91,6 +91,8 @@ class CI_Router {
 	 * Constructor
 	 *
 	 * Runs the route mapping function.
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -433,12 +435,7 @@ class CI_Router {
 	 */
 	public function fetch_method()
 	{
-		if ($this->method == $this->fetch_class())
-		{
-			return 'index';
-		}
-
-		return $this->method;
+		return ($this->method === $this->fetch_class()) ? 'index' : $this->method;
 	}
 
 	// --------------------------------------------------------------------
@@ -486,7 +483,7 @@ class CI_Router {
 			$this->set_directory($routing['directory']);
 		}
 
-		if (isset($routing['controller']) && $routing['controller'] != '')
+		if ( ! empty($routing['controller']))
 		{
 			$this->set_class($routing['controller']);
 		}

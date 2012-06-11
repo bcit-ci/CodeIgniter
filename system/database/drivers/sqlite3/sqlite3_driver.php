@@ -87,7 +87,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	public function db_pconnect()
 	{
 		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
-		return $this->db_pconnect();
+		return $this->db_connect();
 	}
 
 	// --------------------------------------------------------------------
@@ -104,7 +104,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		$version = $this->conn_id->version();
+		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
 
@@ -245,30 +245,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$result = $this->conn_id->querySingle($this->_count_string.$this->protect_identifiers('numrows')
-							.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-
-		return empty($result) ? 0 : (int) $result;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -342,27 +318,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Replace statement
 	 *
 	 * Generates a platform-specific replace string from the supplied data
@@ -417,10 +372,9 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	object (ignored)
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
 		$this->conn_id->close();
 	}

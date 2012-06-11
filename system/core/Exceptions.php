@@ -65,6 +65,8 @@ class CI_Exceptions {
 
 	/**
 	 * Initialize execption class
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -87,7 +89,7 @@ class CI_Exceptions {
 	 */
 	public function log_exception($severity, $message, $filepath, $line)
 	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
+		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
 	}
 
@@ -127,21 +129,21 @@ class CI_Exceptions {
 	 * @param	string	the heading
 	 * @param	string	the message
 	 * @param	string	the template name
-	 * @param 	int		the status code
+	 * @param 	int	the status code
 	 * @return	string
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		set_status_header($status_code);
 
-		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
 
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/'.$template.'.php');
+		include(APPPATH.'views/errors/'.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -160,7 +162,7 @@ class CI_Exceptions {
 	 */
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
+		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 		$filepath = str_replace('\\', '/', $filepath);
 
 		// For safety reasons we do not show the full file path
@@ -175,7 +177,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/'.'error_php.php');
+		include(APPPATH.'views/errors/error_php.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;

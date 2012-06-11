@@ -42,42 +42,42 @@ class CI_Log {
 	 * @var string
 	 */
 	protected $_log_path;
-	
+
 	/**
 	 * Level of logging
 	 *
 	 * @var int
 	 */
 	protected $_threshold		= 1;
-	
+
 	/**
 	 * Highest level of logging
 	 *
 	 * @var int
 	 */
 	protected $_threshold_max	= 0;
-	
+
 	/**
 	 * Array of threshold levels to log
 	 *
 	 * @var array
 	 */
 	protected $_threshold_array	= array();
-	
+
 	/**
 	 * Format of timestamp for log files
 	 *
 	 * @var string
 	 */
 	protected $_date_fmt		= 'Y-m-d H:i:s';
-	
+
 	/**
 	 * Whether or not the logger can write to the log files
 	 *
 	 * @var bool
 	 */
 	protected $_enabled		= TRUE;
-	
+
 	/**
 	 * Predefined logging levels
 	 *
@@ -88,13 +88,13 @@ class CI_Log {
 	/**
 	 * Initialize Logging class
 	 *
-	 * @return void
+	 * @return	void
 	 */
 	public function __construct()
 	{
 		$config =& get_config();
 
-		$this->_log_path = ($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -111,7 +111,7 @@ class CI_Log {
 			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
-		if ($config['log_date_format'] != '')
+		if ($config['log_date_format'] !== '')
 		{
 			$this->_date_fmt = $config['log_date_format'];
 		}
@@ -151,7 +151,7 @@ class CI_Log {
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= "<"."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			$message .= '<'."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
@@ -159,7 +159,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
+		$message .= $level.' '.($level === 'INFO' ? ' -' : '-').' '.date($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
 		fwrite($fp, $message);
