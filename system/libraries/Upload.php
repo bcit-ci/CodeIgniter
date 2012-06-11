@@ -369,12 +369,12 @@ class CI_Upload {
 				'image_size_str'	=> $this->image_size_str,
 			);
 
-		if ($index === NULL OR ! isset($data[$index]))
+		if ( ! empty($index))
 		{
-			return $data;
+			return isset($data[$index]) ? $data[$index] : NULL;
 		}
 
-		return $data[$index];
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
