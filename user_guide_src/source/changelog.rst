@@ -63,14 +63,17 @@ Release Date: Not Released
 
 -  Database
 
-   -  Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
-   -  Added the ability to insert objects with insert_batch() in :doc:`Query Builder <database/query_builder>`.
-   -  Added new :doc:`Query Builder <database/query_builder>` methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-   -  Adding $escape parameter to the order_by() method, this enables ordering by custom fields.
+   -  :doc:`Query Builder <database/query_builder>` changes include:
+	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
+	 - Added the ability to insert objects with insert_batch().
+	 - Added new methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
+	 - Added an optional order_by() parameter that allows to disable escaping (useful for custom fields).
+	 - Added an optional join() parameter that allows to disable escaping.
+	 - Added support for join() with multiple conditions.
    -  Improved support for the MySQLi driver, including:
-	 -  OOP style of the PHP extension is now used, instead of the procedural aliases.
-	 -  Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
-	 -  Added persistent connections support for PHP >= 5.3.
+	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
+	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
+	 - Added persistent connections support for PHP >= 5.3.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver.
@@ -78,14 +81,16 @@ Release Date: Not Released
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
    -  Improved support of the PostgreSQL driver, including:
-	 -  pg_version() is now used to get the database version number, when possible.
-	 -  Added db_set_charset() support.
-	 -  Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
-	 -  Added boolean data type support in escape().
-	 -  Added update_batch() support.
-	 -  Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
+	 - pg_version() is now used to get the database version number, when possible.
+	 - Added db_set_charset() support.
+	 - Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+	 - Added boolean data type support in escape().
+	 - Added update_batch() support.
+	 - Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
+   -  Renamed internal method _escape_identifiers() to escape_identifiers().
+   -  Updated escape_identifiers() to accept an array of fields as well as strings.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added support for SQLite3 database driver.
@@ -100,16 +105,15 @@ Release Date: Not Released
 	 - Added port handling support for UNIX-based systems (MSSQL driver).
 	 - Added OFFSET support for SQL Server 2005 and above.
    -  Improved support of the Oracle (OCI8) driver, including:
-	 -  Added DSN string support (Easy Connect and TNS).
-	 -  Added support for dropping tables to :doc:`Database Forge <database/forge>`.
-	 -  Added support for listing database schemas to :doc:`Database Utilities <database/utilities>`.
-	 -  Generally improved for speed and cleaned up all of its components.
-	 -  *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
-	 -  num_rows() is now only called explicitly by the developer and no longer re-executes statements.
-   -  Added replace() support for SQLite.
-   -  Renamed internal method _escape_identifiers() to escape_identifiers().
-   -  Updated escape_identifiers() to accept an array of fields as well as strings.
-   -  Added SQLite support for drop_table() in :doc:`Database Forge <database/forge>`.
+	 - Added DSN string support (Easy Connect and TNS).
+	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
+	 - Added support for list_databases() in :doc:`Database Utilities <database/utilities>`.
+	 - Generally improved for speed and cleaned up all of its components.
+	 - *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
+	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+   -  Improved support of the Sqlite driver, including:
+	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
+	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
