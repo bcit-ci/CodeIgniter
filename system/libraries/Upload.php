@@ -347,26 +347,34 @@ class CI_Upload {
 	 * Returns an associative array containing all of the information
 	 * related to the upload, allowing the developer easy access in one array.
 	 *
+	 * @param	string
 	 * @return	array
 	 */
-	public function data()
+	public function data($index = NULL)
 	{
-		return array(
-				'file_name'		=> $this->file_name,
-				'file_type'		=> $this->file_type,
-				'file_path'		=> $this->upload_path,
-				'full_path'		=> $this->upload_path.$this->file_name,
-				'raw_name'		=> str_replace($this->file_ext, '', $this->file_name),
-				'orig_name'		=> $this->orig_name,
+		$data = array(
+				'file_name'			=> $this->file_name,
+				'file_type'			=> $this->file_type,
+				'file_path'			=> $this->upload_path,
+				'full_path'			=> $this->upload_path.$this->file_name,
+				'raw_name'			=> str_replace($this->file_ext, '', $this->file_name),
+				'orig_name'			=> $this->orig_name,
 				'client_name'		=> $this->client_name,
-				'file_ext'		=> $this->file_ext,
-				'file_size'		=> $this->file_size,
-				'is_image'		=> $this->is_image(),
+				'file_ext'			=> $this->file_ext,
+				'file_size'			=> $this->file_size,
+				'is_image'			=> $this->is_image(),
 				'image_width'		=> $this->image_width,
 				'image_height'		=> $this->image_height,
 				'image_type'		=> $this->image_type,
 				'image_size_str'	=> $this->image_size_str,
 			);
+
+		if ($index === NULL OR ! isset($data[$index]))
+		{
+			return $data;
+		}
+
+		return $data[$index];
 	}
 
 	// --------------------------------------------------------------------
