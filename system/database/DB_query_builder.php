@@ -965,7 +965,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif ($direction !== $this->_random_keyword && $escape === TRUE)
 		{
-			$part = preg_match('/^(.+)\s+(ASC|DESC)$/i', $orderby, $matches)
+			$orderby = preg_match('/^(.+)\s+(ASC|DESC)$/i', $orderby, $matches)
 				? $this->protect_identifiers(rtrim($matches[1])).' '.$matches[2]
 				: $this->protect_identifiers($orderby);
 		}
