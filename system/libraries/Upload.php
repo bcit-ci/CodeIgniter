@@ -348,7 +348,7 @@ class CI_Upload {
 	 * related to the upload, allowing the developer easy access in one array.
 	 *
 	 * @param	string
-	 * @return	array
+	 * @return	mixed
 	 */
 	public function data($index = NULL)
 	{
