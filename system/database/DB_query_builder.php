@@ -343,7 +343,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\[\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+		if (preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/', $cond, $match))
 		{
 			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
 		}
