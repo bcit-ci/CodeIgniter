@@ -178,9 +178,11 @@ if (defined('ENVIRONMENT'))
 	{
 		$system_path = realpath($system_path).'/';
 	}
-
-	// ensure there's a trailing slash
-	$system_path = rtrim($system_path, '/').'/';
+	else
+	{
+		// Ensure there's a trailing slash
+		$system_path = rtrim($system_path, '/').'/';
+	}
 
 	// Is the system path correct?
 	if ( ! is_dir($system_path))
@@ -196,10 +198,6 @@ if (defined('ENVIRONMENT'))
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-	// The PHP file extension
-	// this global constant is deprecated.
-	define('EXT', '.php');
-
 	// Path to the system folder
 	define('BASEPATH', str_replace('\\', '/', $system_path));
 
@@ -212,6 +210,11 @@ if (defined('ENVIRONMENT'))
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
+		if (realpath($system_path) !== FALSE)
+		{
+			$application_folder = realpath($application_folder);
+		}
+
 		define('APPPATH', $application_folder.'/');
 	}
 	else
@@ -226,20 +229,33 @@ if (defined('ENVIRONMENT'))
 	}
 
 	// The path to the "views" folder
-	if (is_dir($view_folder))
+	if ( ! is_dir($view_folder))
 	{
-		define ('VIEWPATH', $view_folder .'/');
-	}
-	else
-	{
-		if ( ! is_dir(APPPATH.'views/'))
+		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.'/'))
+		{
+			$view_folder = APPPATH.$view_folder;
+		}
+		elseif ( ! is_dir(APPPATH.'views/'))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, '503');
 			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
 		}
-
-		define ('VIEWPATH', APPPATH.'views/' );
+		else
+		{
+			$view_folder = APPPATH.'views';
+		}
 	}
+
+	if (realpath($view_folder) !== FALSE)
+	{
+		$view_folder = realpath($view_folder).'/';
+	}
+	else
+	{
+		$view_folder = rtrim($view_folder, '/').'/';
+	}
+
+	define ('VIEWPATH', $view_folder);
 
 /*
  * --------------------------------------------------------------------

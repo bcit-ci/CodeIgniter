@@ -33,15 +33,18 @@ Release Date: Not Released
    -  Added support for ics Calendar files to mimes.php
    -  Updated support for xml ('application/xml') and xsl ('application/xml', 'text/xsl') files in mimes.php.
    -  Updated support for doc files in mimes.php.
+   -  Added some more doctypes.
    -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
-   -  Added some more doctypes.
+   -  Removed previously deprecated EXT constant.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
    -  Moved error templates to "application/views/errors"
-   -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per Env.
+   -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
+   -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
+   -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
 
 -  Helpers
 
@@ -255,6 +258,7 @@ Bug fixes for 3.0
 -  Fixed a bug where :doc:`Query Builder <database/query_builder>`'s join() method failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
 -  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s join() method only escaped one set of conditions.
+-  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
 
 Version 2.1.1
 =============
