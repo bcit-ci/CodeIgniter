@@ -83,6 +83,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates the SELECT portion of the query
 	 *
 	 * @param	string
+	 * @param	mixed
 	 * @return	object
 	 */
 	public function select($select = '*', $escape = NULL)
@@ -91,6 +92,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$select = explode(',', $select);
 		}
+
+		// If the escape value was not set will will base it on the global setting
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($select as $val)
 		{
@@ -320,15 +324,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string
 	 * @param	string	the join condition
 	 * @param	string	the type of join
+	 * @param	string	wether not to try to escape identifiers
 	 * @return	object
 	 */
-	public function join($table, $cond, $type = '')
+	public function join($table, $cond, $type = '', $escape = TRUE)
 	{
 		if ($type !== '')
 		{
 			$type = strtoupper(trim($type));
 
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER')))
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
 			{
 				$type = '';
 			}
@@ -342,10 +347,37 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// in the protect_identifiers to know whether to add a table prefix
 		$this->_track_aliases($table);
 
-		// Strip apart the condition and protect the identifiers
-		if (preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/', $cond, $match))
+		// Split multiple conditions
+		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
+		{
+			$newcond = '';
+			$m[0][] = array('', strlen($cond));
+
+			for ($i = 0, $c = count($m[0]), $s = 0;
+				$i < $c;
+				$s += $m[0][$i][1] + strlen($m[0][$i][0]), $i++)
+			{
+				$temp = substr($cond, $s, $m[0][$i][1]);
+
+				$newcond .= preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $temp, $match)
+						? $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3])
+						: $temp;
+
+				$newcond .= $m[0][$i][0];
+			}
+
+			$cond = $newcond;
+		}
+		// Split apart the condition and protect the identifiers
+		elseif ($escape === TRUE && preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $cond, $match))
 		{
 			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
+		}
+
+		// Do we want to escape the table name?
+		if ($escape === TRUE)
+		{
+			$table = $this->protect_identifiers($table, TRUE, NULL, FALSE);
 		}
 
 		// Assemble the JOIN statement
@@ -370,6 +402,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	mixed
+	 * @param	bool
 	 * @return	object
 	 */
 	public function where($key, $value = NULL, $escape = TRUE)
@@ -387,6 +420,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	mixed
 	 * @param	mixed
+	 * @param	bool
 	 * @return	object
 	 */
 	public function or_where($key, $value = NULL, $escape = TRUE)
@@ -404,6 +438,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
+	 * @param	mixed
 	 * @return	object
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
@@ -416,10 +451,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// If the escape value was not set will will base it on the global setting
-		if ( ! is_bool($escape))
-		{
-			$escape = $this->_protect_identifiers;
-		}
+		$escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
@@ -851,6 +883,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @return	object
 	 */
 	public function having($key, $value = '', $escape = TRUE)
@@ -867,6 +900,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool
 	 * @return	object
 	 */
 	public function or_having($key, $value = '', $escape = TRUE)
@@ -883,6 +917,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	string
+	 * @param	bool
 	 * @return	object
 	 */
 	protected function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
