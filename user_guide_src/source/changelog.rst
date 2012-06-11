@@ -248,6 +248,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
 -  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
 -  Fixed a bug where _has_operator() didn't detect BETWEEN.
+-  Fixed a bug where :doc:`Query Builder <database/query_builder>`'s join failed with identifiers containing dashes.
 
 Version 2.1.1
 =============
