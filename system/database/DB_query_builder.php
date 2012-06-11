@@ -53,7 +53,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_keys			= array();
 	protected $qb_limit			= FALSE;
 	protected $qb_offset			= FALSE;
-	protected $qb_order			= FALSE;
 	protected $qb_orderby			= array();
 	protected $qb_set			= array();
 	protected $qb_wherein			= array();
@@ -942,7 +941,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif (trim($direction) !== '')
 		{
-			$direction = (in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE)) ? ' '.$direction : ' ASC';
+			$direction = in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE) ? ' '.$direction : ' ASC';
 		}
 
 
@@ -962,12 +961,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			$orderby = implode(', ', $temp);
 		}
-		elseif ($direction !== $this->_random_keyword)
+		elseif ($direction !== $this->_random_keyword && $escape === TRUE)
 		{
-			if ($escape === TRUE)
-			{
-				$orderby = $this->protect_identifiers($orderby);
-			}
+			$orderby = $this->protect_identifiers($orderby);
 		}
 
 		$this->qb_orderby[] = $orderby_statement = $orderby.$direction;
@@ -994,7 +990,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$this->qb_limit = (int) $value;
 
-		if ( ! is_null($offset))
+		if ( ! empty($offset))
 		{
 			$this->qb_offset = (int) $offset;
 		}
@@ -1069,7 +1065,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		$select =  $this->_compile_select();
+		$select = $this->_compile_select();
 
 		if ($reset === TRUE)
 		{
@@ -1092,7 +1088,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get($table = '', $limit = null, $offset = null)
+	public function get($table = '', $limit = NULL, $offset = NULL)
 	{
 		if ($table !== '')
 		{
@@ -1100,7 +1096,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		if ( ! is_null($limit))
+		if ( ! empty($limit))
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1165,7 +1161,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->where($where);
 		}
 
-		if ( ! is_null($limit))
+		if ( ! empty($limit))
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1274,11 +1270,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			ksort($row); // puts $row in the same order as our keys
 
-			if ($escape === FALSE)
-			{
-				$this->qb_set[] =  '('.implode(',', $row).')';
-			}
-			else
+			if ($escape !== FALSE)
 			{
 				$clean = array();
 				foreach ($row as $value)
@@ -1286,8 +1278,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$clean[] = $this->escape($value);
 				}
 
-				$this->qb_set[] =  '('.implode(',', $clean).')';
+				$row = $clean;
 			}
+
+			$this->qb_set[] =  '('.implode(',', $row).')';
 		}
 
 		foreach ($keys as $k)
@@ -1552,7 +1546,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->where($where);
 		}
 
-		if ($limit != NULL)
+		if ( ! empty($limit))
 		{
 			$this->limit($limit);
 		}
@@ -1873,7 +1867,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->where($where);
 		}
 
-		if ($limit != NULL)
+		if ( ! empty($limit))
 		{
 			$this->limit($limit);
 		}
@@ -1914,7 +1908,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		return 'DELETE FROM '.$table
 			.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '')
-			.($limit ? ' LIMIT '.$limit : '');
+			.($limit ? ' LIMIT '.(int) $limit : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -2087,10 +2081,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		if (count($this->qb_orderby) > 0)
 		{
 			$sql .= "\nORDER BY ".implode(', ', $this->qb_orderby);
-			if ($this->qb_order !== FALSE)
-			{
-				$sql .= ($this->qb_order === 'desc') ? ' DESC' : ' ASC';
-			}
 		}
 
 		// Write the "LIMIT" portion of the query
@@ -2320,8 +2310,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					'qb_no_escape'		=> array(),
 					'qb_distinct'		=> FALSE,
 					'qb_limit'		=> FALSE,
-					'qb_offset'		=> FALSE,
-					'qb_order'		=> FALSE
+					'qb_offset'		=> FALSE
 					)
 				);
 	}
@@ -2344,8 +2333,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_like'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),
-			'qb_limit'	=> FALSE,
-			'qb_order'	=> FALSE
+			'qb_limit'	=> FALSE
 			)
 		);
 	}
