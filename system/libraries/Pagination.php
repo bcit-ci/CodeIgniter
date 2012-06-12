@@ -36,38 +36,38 @@
  */
 class CI_Pagination {
 
-	protected $base_url				= ''; // The page we are linking to
-	protected $prefix				= ''; // A custom prefix added to the path.
-	protected $suffix				= ''; // A custom suffix added to the path.
-	protected $total_rows			= 0; // Total number of items (database results)
-	protected $per_page				= 10; // Max number of items you want shown per page
-	protected $num_links			= 2; // Number of "digit" links to show before/after the currently viewed page
-	protected $cur_page				= 0; // The current page being viewed
-	protected $use_page_numbers		= FALSE; // Use page number for segment instead of offset
-	protected $first_link			= '&lsaquo; First';
-	protected $next_link			= '&gt;';
-	protected $prev_link			= '&lt;';
-	protected $last_link			= 'Last &rsaquo;';
-	protected $uri_segment			= 3;
-	protected $full_tag_open		= '';
-	protected $full_tag_close		= '';
-	protected $first_tag_open		= '';
-	protected $first_tag_close		= '&nbsp;';
-	protected $last_tag_open		= '&nbsp;';
-	protected $last_tag_close		= '';
-	protected $first_url			= ''; // Alternative URL for the First Page.
-	protected $cur_tag_open			= '&nbsp;<strong>';
-	protected $cur_tag_close		= '</strong>';
-	protected $next_tag_open		= '&nbsp;';
-	protected $next_tag_close		= '&nbsp;';
-	protected $prev_tag_open		= '&nbsp;';
-	protected $prev_tag_close		= '';
-	protected $num_tag_open			= '&nbsp;';
-	protected $num_tag_close		= '';
-	protected $page_query_string	= FALSE;
-	protected $query_string_segment = 'per_page';
-	protected $display_pages		= TRUE;
-	protected $anchor_class			= '';
+	public $base_url				= ''; // The page we are linking to
+	public $prefix				= ''; // A custom prefix added to the path.
+	public $suffix				= ''; // A custom suffix added to the path.
+	public $total_rows			= 0; // Total number of items (database results)
+	public $per_page				= 10; // Max number of items you want shown per page
+	public $num_links			= 2; // Number of "digit" links to show before/after the currently viewed page
+	public $cur_page				= 0; // The current page being viewed
+	public $use_page_numbers		= FALSE; // Use page number for segment instead of offset
+	public $first_link			= '&lsaquo; First';
+	public $next_link			= '&gt;';
+	public $prev_link			= '&lt;';
+	public $last_link			= 'Last &rsaquo;';
+	public $uri_segment			= 3;
+	public $full_tag_open		= '';
+	public $full_tag_close		= '';
+	public $first_tag_open		= '';
+	public $first_tag_close		= '&nbsp;';
+	public $last_tag_open		= '&nbsp;';
+	public $last_tag_close		= '';
+	public $first_url			= ''; // Alternative URL for the First Page.
+	public $cur_tag_open			= '&nbsp;<strong>';
+	public $cur_tag_close		= '</strong>';
+	public $next_tag_open		= '&nbsp;';
+	public $next_tag_close		= '&nbsp;';
+	public $prev_tag_open		= '&nbsp;';
+	public $prev_tag_close		= '';
+	public $num_tag_open			= '&nbsp;';
+	public $num_tag_close		= '';
+	public $page_query_string	= FALSE;
+	public $query_string_segment = 'per_page';
+	public $display_pages		= TRUE;
+	public $anchor_class			= '';
 
 	/**
 	 * Constructor
@@ -97,7 +97,7 @@ class CI_Pagination {
 			{
 				if ($key === 'anchor_class')
 				{
-					$this->anchor_class = ($val !== '') ? 'class="'.$val.'" ' : '';
+					$this->anchor_class = ($val) ? 'class="'.$val.'" ' : '';
 				}
 				elseif (isset($this->$key))
 				{
@@ -145,7 +145,7 @@ class CI_Pagination {
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			if ($CI->input->get($this->query_string_segment) !== $base_page)
+			if ($CI->input->get($this->query_string_segment) != $base_page)
 			{
 				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
 			}
