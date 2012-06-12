@@ -147,6 +147,7 @@ Release Date: Not Released
 	 -  _execute() now considers input data to be invalid if a specified rule is not found.
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
+	 -  Updated set_rules() to accept an array of rules as well as a string.
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
