@@ -325,7 +325,10 @@ if ( ! function_exists('form_dropdown'))
 			$selected = array($_POST[$name]);
 		}
 
-		if ($extra !== '') $extra = ' '.$extra;
+		if ($extra != '')
+		{
+			$extra = ' '.$extra;
+		}
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
@@ -378,7 +381,7 @@ if ( ! function_exists('form_checkbox'))
 		{
 			$checked = $data['checked'];
 
-			if ($checked === FALSE)
+			if ($checked == FALSE)
 			{
 				unset($data['checked']);
 			}
@@ -388,7 +391,7 @@ if ( ! function_exists('form_checkbox'))
 			}
 		}
 
-		if ($checked === TRUE)
+		if ($checked == TRUE)
 		{
 			$defaults['checked'] = 'checked';
 		}
@@ -702,7 +705,7 @@ if ( ! function_exists('set_select'))
 					return '';
 				}
 			}
-			elseif (($field === '' OR $value === '') OR ($field !== $value))
+			elseif (($field == '' OR $value == '') OR $field !== $value)
 			{
 				return '';
 			}
@@ -753,7 +756,7 @@ if ( ! function_exists('set_checkbox'))
 					return '';
 				}
 			}
-			elseif (($field === '' OR $value === '') OR ($field !== $value))
+			elseif (($field == '' OR $value == '') OR $field !== $value)
 			{
 				return '';
 			}
@@ -806,7 +809,7 @@ if ( ! function_exists('set_radio'))
 			}
 			else
 			{
-				if (($field === '' OR $value === '') OR ($field !== $value))
+				if (($field == '' OR $value == '') OR $field !== $value)
 				{
 					return '';
 				}

@@ -261,7 +261,7 @@ class CI_Loader {
 			$model = substr($model, $last_slash);
 		}
 
-		if ($name === '')
+		if (empty($name))
 		{
 			$name = $model;
 		}
@@ -668,7 +668,7 @@ class CI_Loader {
 	 * @param 	bool
 	 * @return	void
 	 */
-	public function add_package_path($path, $view_cascade=TRUE)
+	public function add_package_path($path, $view_cascade = TRUE)
 	{
 		$path = rtrim($path, '/').'/';
 

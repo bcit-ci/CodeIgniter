@@ -26,7 +26,7 @@
  */
 
 /**
- * CodeIgniter Memcached Caching Class
+ * CodeIgniter File Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -71,7 +71,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (time() >  $data['time'] + $data['ttl'])
 		{
@@ -165,19 +165,19 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (is_array($data))
 		{
 			$mtime = filemtime($this->_cache_path.$id);
 
-			if ( ! isset($data['data']['ttl']))
+			if ( ! isset($data['ttl']))
 			{
 				return FALSE;
 			}
 
 			return array(
-				'expire' => $mtime + $data['data']['ttl'],
+				'expire' => $mtime + $data['ttl'],
 				'mtime'	 => $mtime
 			);
 		}
