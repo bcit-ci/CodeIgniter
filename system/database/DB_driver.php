@@ -596,7 +596,12 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (preg_match_all('/(>|<|=|!|BETWEEN\s|AND\s)\s*('.preg_quote($this->bind_marker).')/i', $sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
+		if (empty($binds)) OR empty($this->bind_marker))
+		{
+			return $sql;
+		}
+		elseif (preg_match_all('/(>|<|=|!|BETWEEN\s|AND\s)\s*('.preg_quote($this->bind_marker).')/i',
+					$sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
 		{
 			return $sql;
 		}
@@ -610,10 +615,9 @@ abstract class CI_DB_driver {
 			$binds = array_values($binds);
 		}
 
-
-		for ($i = count($matches) - 1; $i >= 0; $i--)
+		for ($i = count($matches) - 1, $l = strlen($this->bind_marker); $i >= 0; $i--)
 		{
-			$sql = substr_replace($sql, $this->escape($binds[$i]), $matches[$i][2][1], 1);
+			$sql = substr_replace($sql, $this->escape($binds[$i]), $matches[$i][2][1], $l);
 		}
 
 		return $sql;
