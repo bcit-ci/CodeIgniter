@@ -241,7 +241,7 @@ class CI_Input {
 	 *
 	 * @param	mixed
 	 * @param	string	the value of the cookie
-	 * @param	string	the number of seconds until expiration
+	 * @param	int	the number of seconds until expiration
 	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
 	 * @param	string	the cookie path
 	 * @param	string	the cookie prefix
@@ -249,7 +249,7 @@ class CI_Input {
 	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	public function set_cookie($name = '', $value = '', $expire = 0, $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))
 		{
