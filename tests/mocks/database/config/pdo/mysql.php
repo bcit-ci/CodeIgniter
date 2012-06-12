@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'pdo/mysql' => array(
 		'dsn' => '',
@@ -10,7 +10,7 @@ return array(
 		'password' => '',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'mysql',
+		'pdodriver' => 'mysql'
 	),
 
 	// Database configuration with failover
@@ -30,8 +30,8 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
-				'pdodriver' => 'mysql',
-			),
-		),
-	),
+				'pdodriver' => 'mysql'
+			)
+		)
+	)
 );

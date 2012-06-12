@@ -347,11 +347,12 @@ class CI_Upload {
 	 * Returns an associative array containing all of the information
 	 * related to the upload, allowing the developer easy access in one array.
 	 *
-	 * @return	array
+	 * @param	string
+	 * @return	mixed
 	 */
-	public function data()
+	public function data($index = NULL)
 	{
-		return array(
+		$data = array(
 				'file_name'		=> $this->file_name,
 				'file_type'		=> $this->file_type,
 				'file_path'		=> $this->upload_path,
@@ -367,6 +368,13 @@ class CI_Upload {
 				'image_type'		=> $this->image_type,
 				'image_size_str'	=> $this->image_size_str,
 			);
+
+		if ( ! empty($index))
+		{
+			return isset($data[$index]) ? $data[$index] : NULL;
+		}
+
+		return $data;
 	}
 
 	// --------------------------------------------------------------------

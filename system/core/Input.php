@@ -376,14 +376,26 @@ class CI_Input {
 	/**
 	 * Validate IP Address
 	 *
-	 * Updated version suggested by Geert De Deckere
-	 *
 	 * @param	string
+	 * @param	string	'ipv4' or 'ipv6'
 	 * @return	bool
 	 */
-	public function valid_ip($ip)
+	public function valid_ip($ip, $which = '')
 	{
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP);
+		switch (strtolower($which))
+		{
+			case 'ipv4':
+				$which = FILTER_FLAG_IPV4;
+				break;
+			case 'ipv6':
+				$which = FILTER_FLAG_IPV6;
+				break;
+			default:
+				$which = NULL;
+				break;
+		}
+
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which);
 	}
 
 	// --------------------------------------------------------------------

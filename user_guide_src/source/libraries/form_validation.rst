@@ -884,6 +884,7 @@ Rule                      Parameter  Description                                
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+                                     Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 

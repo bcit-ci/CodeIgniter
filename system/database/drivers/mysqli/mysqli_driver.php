@@ -412,27 +412,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data

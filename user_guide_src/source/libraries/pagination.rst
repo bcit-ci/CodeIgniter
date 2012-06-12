@@ -254,3 +254,27 @@ Adding a class to every anchor
 If you want to add a class attribute to every link rendered by the
 pagination class, you can set the config "anchor_class" equal to the
 classname you want.
+
+::
+
+	$config['anchor_class'] = 'myclass'; // class="myclass"
+
+**********************************
+Changing the "rel" attribute value
+**********************************
+
+By default, the rel attribute will be automatically put under the
+following conditions:
+
+- rel="start" for the "first" link
+- rel="prev" for the "previous" link
+- rel="next" for the "next" link
+
+If you want to disable the rel attribute, or change its value, you
+can set the 'attr_rel' config option::
+
+	// Disable
+	$config['attr_rel'] = FALSE;
+
+	// Use a custom value on all anchors
+	$config['attr_rel'] = 'custom_value'; // produces: rel="custom_value"

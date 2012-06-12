@@ -22,10 +22,7 @@ class Count_test extends CI_TestCase {
 	 */
 	public function test_count_all()
 	{
-		$job_count = $this->db->count_all('job');
-		
-		// Check the result
-		$this->assertEquals(4, $job_count);
+		$this->assertEquals(4, $this->db->count_all('job'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -35,10 +32,7 @@ class Count_test extends CI_TestCase {
 	 */
 	public function test_count_all_results()
 	{
-		$job_count = $this->db->like('name', 'ian')
-		                      ->count_all_results('job');
-		
-		// Check the result
-		$this->assertEquals(2, $job_count);
+		$this->assertEquals(2, $this->db->like('name', 'ian')->count_all_results('job'));
 	}
+
 }

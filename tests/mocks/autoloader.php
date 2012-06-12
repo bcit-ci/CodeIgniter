@@ -74,7 +74,7 @@ function autoload($class)
 		}
 	}
 
-	$file = (isset($file)) ? $file : $dir.$class.'.php';
+	$file = isset($file) ? $file : $dir.$class.'.php';
 
 	if ( ! file_exists($file))
 	{
