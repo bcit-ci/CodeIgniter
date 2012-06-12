@@ -211,7 +211,7 @@ if (defined('ENVIRONMENT'))
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
-		if (($_temp = realpath($system_path)) !== FALSE)
+		if (($_temp = realpath($application_folder)) !== FALSE)
 		{
 			$application_folder = $_temp;
 		}
@@ -256,7 +256,7 @@ if (defined('ENVIRONMENT'))
 		$view_folder = rtrim($view_folder, '/').'/';
 	}
 
-	define ('VIEWPATH', $view_folder);
+	define('VIEWPATH', $view_folder);
 
 /*
  * --------------------------------------------------------------------
