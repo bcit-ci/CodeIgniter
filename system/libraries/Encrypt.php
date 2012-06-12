@@ -213,6 +213,7 @@ class CI_Encrypt {
 		$dec = base64_decode($string);
 		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
 		{
+			$this->set_mode($current_mode);
 			return FALSE;
 		}
 
