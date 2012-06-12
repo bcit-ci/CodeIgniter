@@ -52,7 +52,7 @@ if ( ! function_exists('now'))
 	{
 		if (empty($timezone))
 		{
-			$timezone = config_item('timezone');
+			$timezone = config_item('time_reference');
 		}
 
 		if ($timezone === 'local' OR $timezone === date_default_timezone_get())
