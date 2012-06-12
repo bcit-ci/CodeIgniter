@@ -49,18 +49,18 @@ class CI_Exceptions {
 	 * @var	array
 	 */
 	public $levels = array(
-		E_ERROR			=>	'Error',
-		E_WARNING		=>	'Warning',
-		E_PARSE			=>	'Parsing Error',
-		E_NOTICE		=>	'Notice',
-		E_CORE_ERROR		=>	'Core Error',
-		E_CORE_WARNING		=>	'Core Warning',
-		E_COMPILE_ERROR		=>	'Compile Error',
-		E_COMPILE_WARNING	=>	'Compile Warning',
-		E_USER_ERROR		=>	'User Error',
-		E_USER_WARNING		=>	'User Warning',
-		E_USER_NOTICE		=>	'User Notice',
-		E_STRICT		=>	'Runtime Notice'
+		E_ERROR           =>	'Error',
+		E_WARNING         =>	'Warning',
+		E_PARSE           =>	'Parsing Error',
+		E_NOTICE          =>	'Notice',
+		E_CORE_ERROR      =>	'Core Error',
+		E_CORE_WARNING    =>	'Core Warning',
+		E_COMPILE_ERROR   =>	'Compile Error',
+		E_COMPILE_WARNING =>	'Compile Warning',
+		E_USER_ERROR      =>	'User Error',
+		E_USER_WARNING    =>	'User Warning',
+		E_USER_NOTICE     =>	'User Notice',
+		E_STRICT          =>	'Runtime Notice'
 	);
 
 	/**
@@ -132,18 +132,20 @@ class CI_Exceptions {
 	 * @param 	int	the status code
 	 * @return	string
 	 */
-	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		set_status_header($status_code);
 
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
+		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+		
+		$idiom = $this->_get_idiom();
 
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'views/errors/'.$template.'.php');
+		include(APPPATH.'errors/'.$idiom.'/'.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -160,11 +162,13 @@ class CI_Exceptions {
 	 * @param	string	the error line number
 	 * @return	string
 	 */
-	public function show_php_error($severity, $message, $filepath, $line)
+	function show_php_error($severity, $message, $filepath, $line)
 	{
-		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-		$filepath = str_replace('\\', '/', $filepath);
+		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 
+		$filepath = str_replace("\\", "/", $filepath);
+		$idiom = $this->_get_idiom();
+		
 		// For safety reasons we do not show the full file path
 		if (FALSE !== strpos($filepath, '/'))
 		{
@@ -177,11 +181,31 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'views/errors/error_php.php');
+		include(APPPATH.'errors/'.$idiom.'/error_php.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Getting the language.
+	 *
+	 * This function will return the language so that we show the error page
+	 * based on from the language directory
+	 *
+	 * @return	string
+	 */
+
+	function _get_idiom(){
+
+		$config =& get_config();
+		$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
+		$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+
+		return $idiom;
+	}	
 
 }
 
