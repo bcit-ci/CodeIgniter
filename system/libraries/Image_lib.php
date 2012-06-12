@@ -1314,6 +1314,13 @@ class CI_Image_lib {
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 			}
 		}
+		
+		// png we can actually preserve transparency
+		if ($this->image_type == 3) 
+		{
+			imagealphablending($src_img, FALSE);
+			imagesavealpha($src_img, TRUE);
+		}
 
 		// Output the final image
 		if ($this->dynamic_output === TRUE)
