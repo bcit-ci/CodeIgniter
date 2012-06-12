@@ -596,35 +596,27 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (strpos($sql, $this->bind_marker) === FALSE)
+		if (preg_match_all('/(>|<|=|!)\s*('.preg_quote($this->bind_marker).')/i', $sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
 		{
 			return $sql;
 		}
-
-		if ( ! is_array($binds))
+		elseif ( ! is_array($binds))
 		{
 			$binds = array($binds);
 		}
-
-		// Get the sql segments around the bind markers
-		$segments = explode($this->bind_marker, $sql);
-
-		// The count of bind should be 1 less then the count of segments
-		// If there are more bind arguments trim it down
-		if (count($binds) >= count($segments))
+		else
 		{
-			$binds = array_slice($binds, 0, count($segments)-1);
+			// Make sure we're using numeric keys
+			$binds = array_values($binds);
 		}
 
-		// Construct the binded query
-		$result = $segments[0];
-		$i = 0;
-		foreach ($binds as $bind)
+
+		for ($i = count($matches) - 1; $i >= 0; $i--)
 		{
-			$result .= $this->escape($bind).$segments[++$i];
+			$sql = substr_replace($sql, $this->escape($binds[$i]), $matches[$i][2][1], 1);
 		}
 
-		return $result;
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
