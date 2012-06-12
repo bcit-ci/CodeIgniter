@@ -221,6 +221,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#319) - SQLSRV's affected_rows() method failed due to a scrollable cursor being created for write-type queries.
 -  Fixed a bug (#356) - PostgreSQL driver didn't have an _update_batch() method, which resulted in fatal error being triggered when update_batch() is used with it.
 -  Fixed a bug (#862) - create_table() failed on SQLSRV/MSSQL when used with 'IF NOT EXISTS'.
+-  Fixed a bug (#1000) - Change syntax of $view_file to $_ci_view_file to prevent being overwritten by application.
 
 Version 2.1.1
 =============
