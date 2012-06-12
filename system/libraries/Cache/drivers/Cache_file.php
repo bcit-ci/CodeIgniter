@@ -26,7 +26,7 @@
  */
 
 /**
- * CodeIgniter Memcached Caching Class
+ * CodeIgniter File Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
