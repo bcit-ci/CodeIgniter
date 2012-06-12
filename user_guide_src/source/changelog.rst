@@ -262,6 +262,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s join() method only escaped one set of conditions.
 -  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
 -  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
+-  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
 
 Version 2.1.1
 =============
