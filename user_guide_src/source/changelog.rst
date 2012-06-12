@@ -77,6 +77,7 @@ Release Date: Not Released
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 - Added persistent connections support for PHP >= 5.3.
+	 - Added support for backup() in :doc:`Database Utilities <database/utilities>`.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the "interbase" driver.
@@ -86,7 +87,7 @@ Release Date: Not Released
    -  Improved support of the PostgreSQL driver, including:
 	 - pg_version() is now used to get the database version number, when possible.
 	 - Added db_set_charset() support.
-	 - Added _optimize_table() support for the :doc:`Database Utility Class <database/utilities>` (rebuilds table indexes).
+	 - Added support for optimize_table() in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
 	 - Added boolean data type support in escape().
 	 - Added update_batch() support.
 	 - Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
@@ -114,7 +115,7 @@ Release Date: Not Released
 	 - Generally improved for speed and cleaned up all of its components.
 	 - *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
-   -  Improved support of the Sqlite driver, including:
+   -  Improved support of the SQLite driver, including:
 	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
 	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
