@@ -256,10 +256,11 @@ Bug fixes for 3.0
 -  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
 -  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
 -  Fixed a bug where _has_operator() didn't detect BETWEEN.
--  Fixed a bug where :doc:`Query Builder <database/query_builder>`'s join() method failed with identifiers containing dashes.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s join() method where it failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
 -  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s join() method only escaped one set of conditions.
 -  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
+-  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 
 Version 2.1.1
 =============
