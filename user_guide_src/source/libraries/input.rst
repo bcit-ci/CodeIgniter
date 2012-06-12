@@ -242,6 +242,9 @@ validates the IP automatically.
 	     echo 'Valid';
 	}
 
+Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
+an IP format. The default checks for both formats.
+
 $this->input->user_agent()
 ===========================
 

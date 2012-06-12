@@ -64,7 +64,7 @@ class CI_Output {
 	 *
 	 * @var array
 	 */
-	public $mime_types =	array();
+	public $mimes =		array();
 
 	/**
 	 * Determines wether profiler is enabled
@@ -104,17 +104,8 @@ class CI_Output {
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
-		}
-		else
-		{
-			include APPPATH.'config/mimes.php';
-		}
+		$this->mimes =& get_mimes();
 
-
-		$this->mime_types = $mimes;
 		log_message('debug', 'Output Class Initialized');
 	}
 
@@ -209,16 +200,16 @@ class CI_Output {
 	 * @param	string	extension of the file we're outputting
 	 * @return	void
 	 */
-	public function set_content_type($mime_type)
+	public function set_content_type($mime_type, $charset = NULL)
 	{
 		if (strpos($mime_type, '/') === FALSE)
 		{
 			$extension = ltrim($mime_type, '.');
 
 			// Is this extension supported?
-			if (isset($this->mime_types[$extension]))
+			if (isset($this->mimes[$extension]))
 			{
-				$mime_type =& $this->mime_types[$extension];
+				$mime_type =& $this->mimes[$extension];
 
 				if (is_array($mime_type))
 				{
@@ -227,7 +218,13 @@ class CI_Output {
 			}
 		}
 
-		$header = 'Content-Type: '.$mime_type;
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
+
+		$header = 'Content-Type: '.$mime_type
+			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
@@ -373,7 +370,7 @@ class CI_Output {
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	= function_exists('memory_get_usage') ? round(memory_get_usage()/1024/1024, 2).'MB' : '0';
+			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
 
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}

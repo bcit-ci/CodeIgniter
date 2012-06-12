@@ -69,7 +69,7 @@ function autoload($class)
 		}
 	}
 
-	$file = (isset($file)) ? $file : $dir.$class.'.php';
+	$file = isset($file) ? $file : $dir.$class.'.php';
 
 	if ( ! file_exists($file))
 	{
@@ -82,7 +82,7 @@ function autoload($class)
 			return FALSE;
 		}
 
-	    throw new InvalidArgumentException("Unable to load $class.");
+		throw new InvalidArgumentException("Unable to load {$class}.");
 	}
 
 	include_once($file);

@@ -78,6 +78,8 @@ class CI_Upload {
 			$this->initialize($props);
 		}
 
+		$this->mimes =& get_mimes();
+
 		log_message('debug', 'Upload Class Initialized');
 	}
 
@@ -113,7 +115,6 @@ class CI_Upload {
 					'image_type'			=> '',
 					'image_size_str'		=> '',
 					'error_msg'			=> array(),
-					'mimes'				=> array(),
 					'remove_spaces'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
@@ -346,11 +347,12 @@ class CI_Upload {
 	 * Returns an associative array containing all of the information
 	 * related to the upload, allowing the developer easy access in one array.
 	 *
-	 * @return	array
+	 * @param	string
+	 * @return	mixed
 	 */
-	public function data()
+	public function data($index = NULL)
 	{
-		return array(
+		$data = array(
 				'file_name'		=> $this->file_name,
 				'file_type'		=> $this->file_type,
 				'file_path'		=> $this->upload_path,
@@ -366,6 +368,13 @@ class CI_Upload {
 				'image_type'		=> $this->image_type,
 				'image_size_str'	=> $this->image_size_str,
 			);
+
+		if ( ! empty($index))
+		{
+			return isset($data[$index]) ? $data[$index] : NULL;
+		}
+
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
@@ -693,7 +702,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('realpath') && @realpath($this->upload_path) !== FALSE)
+		if (@realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
@@ -814,17 +823,17 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit'))
+		if (memory_get_usage() && ($memory_limit = ini_get('memory_limit')))
 		{
-			$current = ini_get('memory_limit') * 1024 * 1024;
+			$memory_limit *= 1024 * 1024;
 
 			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
 			// into scientific notation. number_format() ensures this number is an integer
 			// http://bugs.php.net/bug.php?id=43053
 
-			$new_memory = number_format(ceil(filesize($file) + $current), 0, '.', '');
+			$memory_limit = number_format(ceil(filesize($file) + $memory_limit), 0, '.', '');
 
-			ini_set('memory_limit', $new_memory); // When an integer is used, the value is measured in bytes. - PHP.net
+			ini_set('memory_limit', $memory_limit); // When an integer is used, the value is measured in bytes. - PHP.net
 		}
 
 		// If the file being uploaded is an image, then we should have no problem with XSS attacks (in theory), but
@@ -848,14 +857,8 @@ class CI_Upload {
 			// <a, <body, <head, <html, <img, <plaintext, <pre, <script, <table, <title
 			// title is basically just in SVG, but we filter it anyhow
 
-			if ( ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes))
-			{
-				return TRUE; // its an image, no "triggers" detected in the first 256 bytes, we're good
-			}
-			else
-			{
-				return FALSE;
-			}
+			// if its an image or no "triggers" detected in the first 256 bytes - we're good
+			return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
 		}
 
 		if (($data = @file_get_contents($file)) === FALSE)
@@ -924,26 +927,6 @@ class CI_Upload {
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if (count($this->mimes) === 0)
-		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				return FALSE;
-			}
-
-			$this->mimes = $mimes;
-		}
-
 		return isset($this->mimes[$mime]) ? $this->mimes[$mime] : FALSE;
 	}
 

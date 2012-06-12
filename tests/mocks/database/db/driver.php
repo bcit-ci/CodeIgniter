@@ -1,7 +1,7 @@
 <?php
 
 class Mock_Database_DB_Driver extends CI_DB_driver {
-	
+
 	/**
 	 * @var object The actual Driver
 	 */
@@ -16,7 +16,10 @@ class Mock_Database_DB_Driver extends CI_DB_driver {
 	 */
 	public function __construct($driver_class, $config = array())
 	{
-		if (is_string($driver_class)) $this->ci_db_driver = new $driver_class($config);
+		if (is_string($driver_class))
+		{
+			$this->ci_db_driver = new $driver_class($config);
+		}
 	}
 
 	/**

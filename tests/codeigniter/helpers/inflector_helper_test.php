@@ -1,12 +1,12 @@
 <?php
 
 class Inflector_helper_test extends CI_TestCase {
-	
+
 	public function set_up()
 	{
 		$this->helper('inflector');
 	}
-	
+
 	public function test_singular()
 	{
 		$strs = array(
@@ -16,15 +16,15 @@ class Inflector_helper_test extends CI_TestCase {
 			'smells'		=> 'smell',
 			'equipment'		=> 'equipment'
 		);
-		
+
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, singular($str));
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function test_plural()
 	{
 		$strs = array(
@@ -35,15 +35,15 @@ class Inflector_helper_test extends CI_TestCase {
 			'witch'			=> 'witches',
 			'equipment'		=> 'equipment'
 		);
-		
+
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, plural($str));
-		}		
-	}	
+		}
+	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_camelize()
 	{
 		$strs = array(
@@ -52,15 +52,15 @@ class Inflector_helper_test extends CI_TestCase {
 			'i-am-playing-a-trick'	=> 'i-am-playing-a-trick',
 			'what_do_you_think-yo?'	=> 'whatDoYouThink-yo?',
 		);
-		
+
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, camelize($str));
 		}
-	}	
+	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_underscore()
 	{
 		$strs = array(
@@ -69,7 +69,7 @@ class Inflector_helper_test extends CI_TestCase {
 			'i-am-playing-a-trick'	=> 'i-am-playing-a-trick',
 			'what_do_you_think-yo?'	=> 'what_do_you_think-yo?',
 		);
-		
+
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, underscore($str));
@@ -77,7 +77,7 @@ class Inflector_helper_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_humanize()
 	{
 		$strs = array(
@@ -86,10 +86,11 @@ class Inflector_helper_test extends CI_TestCase {
 			'i-am-playing-a-trick'	=> 'I-am-playing-a-trick',
 			'what_do_you_think-yo?'	=> 'What Do You Think-yo?',
 		);
-		
+
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, humanize($str));
 		}
 	}
+
 }
