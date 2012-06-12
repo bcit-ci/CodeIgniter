@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Typography Helpers
  *
@@ -39,15 +37,14 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Convert newlines to HTML line breaks except within PRE tags
- *
- * @access	public
- * @param	string
- * @return	string
- */
 if ( ! function_exists('nl2br_except_pre'))
 {
+	/**
+	 * Convert newlines to HTML line breaks except within PRE tags
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function nl2br_except_pre($str)
 	{
 		$CI =& get_instance();
@@ -58,18 +55,16 @@ if ( ! function_exists('nl2br_except_pre'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Auto Typography Wrapper Function
- *
- *
- * @access	public
- * @param	string
- * @param	bool	whether to allow javascript event handlers
- * @param	bool	whether to reduce multiple instances of double newlines to two
- * @return	string
- */
 if ( ! function_exists('auto_typography'))
 {
+	/**
+	 * Auto Typography Wrapper Function
+	 *
+	 * @param	string
+	 * @param	bool	whether to allow javascript event handlers
+	 * @param	bool	whether to reduce multiple instances of double newlines to two
+	 * @return	string
+	 */
 	function auto_typography($str, $strip_js_event_handlers = TRUE, $reduce_linebreaks = FALSE)
 	{
 		$CI =& get_instance();
@@ -78,21 +73,19 @@ if ( ! function_exists('auto_typography'))
 	}
 }
 
-
 // --------------------------------------------------------------------
 
-/**
- * HTML Entities Decode
- *
- * This function is a replacement for html_entity_decode()
- *
- * @access	public
- * @param	string
- * @param	string
- * @return	string
- */
 if ( ! function_exists('entity_decode'))
 {
+	/**
+	 * HTML Entities Decode
+	 *
+	 * This function is a replacement for html_entity_decode()
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
 	function entity_decode($str, $charset = NULL)
 	{
 		global $SEC;

@@ -117,7 +117,7 @@ query. Example::
 	echo $this->dbutil->csv_from_result($query);
 
 The second, third, and fourth parameters allow you to set the delimiter
-newline, and enclosure characters respectively. By default tabs are
+newline, and enclosure characters respectively. By default commas are
 used as the delimiter, "\n" is used as a new line, and a double-quote
 is used as the enclosure. Example::
 
@@ -161,7 +161,11 @@ $this->dbutil->backup()
 Permits you to backup your full database or individual tables. The
 backup data can be compressed in either Zip or Gzip format.
 
-.. note:: This features is only available for MySQL databases.
+.. note:: This features is only available for MySQL and Interbase/Firebird databases.
+
+.. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
+	
+		Eg. $this->dbutil->backup('db_backup_filename');
 
 .. note:: Due to the limited execution time and memory available to PHP,
 	backing up very large databases may not be possible. If your database is

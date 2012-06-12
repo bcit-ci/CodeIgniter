@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -177,7 +177,7 @@ class CI_DB_Cache {
 	 */
 	public function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE);
+		delete_files($this->db->cachedir, TRUE, 0, TRUE);
 	}
 
 }

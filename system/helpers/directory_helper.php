@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Directory Helpers
  *
@@ -39,20 +37,20 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Create a Directory Map
- *
- * Reads the specified directory and builds an array
- * representation of it.  Sub-folders contained with the
- * directory will be mapped as well.
- *
- * @access	public
- * @param	string	path to source
- * @param	int		depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
- * @return	array
- */
 if ( ! function_exists('directory_map'))
 {
+	/**
+	 * Create a Directory Map
+	 *
+	 * Reads the specified directory and builds an array
+	 * representation of it. Sub-folders contained with the
+	 * directory will be mapped as well.
+	 *
+	 * @param	string	path to source
+	 * @param	int	depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+	 * @param	bool	whether to show hidden files
+	 * @return	array
+	 */
 	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
 	{
 		if ($fp = @opendir($source_dir))
@@ -64,7 +62,7 @@ if ( ! function_exists('directory_map'))
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				// Remove '.', '..', and hidden files [optional]
-				if ( ! trim($file, '.') OR ($hidden == FALSE && $file[0] == '.'))
+				if ( ! trim($file, '.') OR ($hidden == FALSE && $file[0] === '.'))
 				{
 					continue;
 				}
@@ -86,7 +84,6 @@ if ( ! function_exists('directory_map'))
 		return FALSE;
 	}
 }
-
 
 /* End of file directory_helper.php */
 /* Location: ./system/helpers/directory_helper.php */

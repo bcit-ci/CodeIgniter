@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Dummy Caching Class
  *
@@ -36,7 +34,6 @@
  * @author		EllisLab Dev Team
  * @link
  */
-
 class CI_Cache_dummy extends CI_Driver {
 
 	/**
@@ -44,8 +41,8 @@ class CI_Cache_dummy extends CI_Driver {
 	 *
 	 * Since this is the dummy class, it's always going to return FALSE.
 	 *
-	 * @param 	string
-	 * @return 	Boolean		FALSE
+	 * @param	string
+	 * @return	bool	FALSE
 	 */
 	public function get($id)
 	{
@@ -57,11 +54,10 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
-	 * @param 	string		Unique Key
-	 * @param 	mixed		Data to store
-	 * @param 	int			Length of time (in seconds) to cache the data
-	 *
-	 * @return 	boolean		TRUE, Simulating success
+	 * @param	string	Unique Key
+	 * @param	mixed	Data to store
+	 * @param	int	Length of time (in seconds) to cache the data
+	 * @return	bool	TRUE, Simulating success
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
@@ -73,8 +69,8 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param 	mixed		unique identifier of the item in the cache
-	 * @param 	boolean		TRUE, simulating success
+	 * @param	mixed	unique identifier of the item in the cache
+	 * @return	bool	TRUE, simulating success
 	 */
 	public function delete($id)
 	{
@@ -86,7 +82,7 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Clean the cache
 	 *
-	 * @return 	boolean		TRUE, simulating success
+	 * @return	bool	TRUE, simulating success
 	 */
 	public function clean()
 	{
@@ -98,8 +94,8 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param 	string		user/filehits
-	 * @return 	boolean		FALSE
+	 * @param	string	user/filehits
+	 * @return	bool	FALSE
 	 */
 	 public function cache_info($type = NULL)
 	 {
@@ -111,8 +107,8 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param 	mixed		key to get cache metadata on
-	 * @return 	boolean		FALSE
+	 * @param	mixed	key to get cache metadata on
+	 * @return	bool	FALSE
 	 */
 	public function get_metadata($id)
 	{
@@ -125,17 +121,14 @@ class CI_Cache_dummy extends CI_Driver {
 	 * Is this caching driver supported on the system?
 	 * Of course this one is.
 	 *
-	 * @return TRUE;
+	 * @return	bool	TRUE
 	 */
 	public function is_supported()
 	{
 		return TRUE;
 	}
 
-	// ------------------------------------------------------------------------
-
 }
-// End Class
 
 /* End of file Cache_dummy.php */
 /* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -25,13 +25,11 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Benchmark Class
  *
  * This class enables you to mark points and calculate the time difference
- * between them.  Memory consumption can also be displayed.
+ * between them. Memory consumption can also be displayed.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -46,7 +44,7 @@ class CI_Benchmark {
 	 *
 	 * @var array
 	 */
-	public $marker = array();
+	public $marker =	array();
 
 	// --------------------------------------------------------------------
 
@@ -61,7 +59,7 @@ class CI_Benchmark {
 	 */
 	public function mark($name)
 	{
-		$this->marker[$name] = microtime();
+		$this->marker[$name] = microtime(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -93,13 +91,10 @@ class CI_Benchmark {
 
 		if ( ! isset($this->marker[$point2]))
 		{
-			$this->marker[$point2] = microtime();
+			$this->marker[$point2] = microtime(TRUE);
 		}
 
-		list($sm, $ss) = explode(' ', $this->marker[$point1]);
-		list($em, $es) = explode(' ', $this->marker[$point2]);
-
-		return number_format(($em + $es) - ($sm + $ss), $decimals);
+		return number_format($this->marker[$point2] - $this->marker[$point1], $decimals);
 	}
 
 	// --------------------------------------------------------------------

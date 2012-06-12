@@ -94,7 +94,7 @@ overly long and verbose names.
 
 	class Super_class {
 
-		function __construct()
+		public function __construct()
 		{
 
 		}
@@ -149,7 +149,7 @@ months down the line. There is not a required format for comments, but
 the following are recommended.
 
 `DocBlock <http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock>`_
-style comments preceding class and method declarations so they can be
+style comments preceding class, method, and property declarations so they can be
 picked up by IDEs::
 
 	/**
@@ -168,11 +168,21 @@ picked up by IDEs::
 	/**
 	 * Encodes string for use in XML
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	string
 	 */
 	function xml_encode($str)
+	
+::
+
+	/**
+	 * Data for class manipulation
+	 *
+	 * @var	array
+	 */
+	public $data
+	
+	
 
 Use single line comments within code, leaving a blank line between large
 comment blocks and code.

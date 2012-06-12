@@ -2,7 +2,7 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -29,7 +29,7 @@
  * MySQL Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -47,7 +47,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// clause and character used for LIKE escape sequences - not used in MySQL
 	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '';
+	protected $_like_escape_chr = '\\';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -119,11 +119,23 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
+	 * @param	string	database name
 	 * @return	bool
 	 */
-	public function db_select()
+	public function db_select($database = '')
 	{
-		return @mysql_select_db($this->database, $this->conn_id);
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
+		if (@mysql_select_db($database, $this->conn_id))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -132,26 +144,25 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * Set client character set
 	 *
 	 * @param	string
-	 * @param	string
 	 * @return	bool
 	 */
-	public function db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset)
 	{
-		return function_exists('mysql_set_charset')
-			? @mysql_set_charset($charset, $this->conn_id)
-			: @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
+		return @mysql_set_charset($charset, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
 	 * @return	string
 	 */
-	protected function _version()
+	public function version()
 	{
-		return 'SELECT version() AS ver';
+		return isset($this->data_cache['version'])
+			? $this->data_cache['version']
+			: $this->data_cache['version'] = @mysql_get_server_info($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -275,23 +286,14 @@ class CI_DB_mysql_driver extends CI_DB {
 	   		return $str;
 	   	}
 
-		if (function_exists('mysql_real_escape_string') && is_resource($this->conn_id))
-		{
-			$str = mysql_real_escape_string($str, $this->conn_id);
-		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			$str = mysql_escape_string($str);
-		}
-		else
-		{
-			$str = addslashes($str);
-		}
+		$str = is_resource($this->conn_id) ? mysql_real_escape_string($str, $this->conn_id) : addslashes($str);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -319,35 +321,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	public function insert_id()
 	{
 		return @mysql_insert_id($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -390,77 +363,50 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	the table name
-	 * @return	string
+	 * @return	object
 	 */
-	public function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'DESCRIBE '.$table;
+		if ($table == '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$query = $this->query('DESCRIBE '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			preg_match('/([a-z]+)(\(\d+\))?/', $query[$i]->Type, $matches);
+
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->Field;
+			$retval[$i]->type		= empty($matches[1]) ? NULL : $matches[1];
+			$retval[$i]->default		= $query[$i]->Default;
+			$retval[$i]->max_length		= empty($matches[2]) ? NULL : preg_replace('/[^\d]/', '', $matches[2]);
+			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
+		}
+
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
+	 *
+	 * @return	array
 	 */
-	protected function _error_message()
+	public function error()
 	{
-		return mysql_error($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
-	 *
-	 * @return	int
-	 */
-	protected function _error_number()
-	{
-		return mysql_errno($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function _escape_identifiers($item)
-	{
-		if ($this->_escape_char == '')
-		{
-			return $item;
-		}
-
-		foreach ($this->_reserved_identifiers as $id)
-		{
-			if (strpos($item, '.'.$id) !== FALSE)
-			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
-			}
-		}
-
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+		return array('code' => mysql_errno($this->conn_id), 'message' => mysql_error($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------
@@ -485,92 +431,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-
-	/**
-	 * Replace statement
-	 *
-	 * Generates a platform-specific replace string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _replace($table, $keys, $values)
-	{
-		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert_batch statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert_batch($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
-	}
-
-	// --------------------------------------------------------------------
-
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = ($where != '' && count($where) > 0) ? ' WHERE '.implode(' ', $where) : '';
-		if (count($like) > 0)
-		{
-			$where .= ($where == '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
 
 	/**
 	 * Update_Batch statement
@@ -614,53 +474,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'TRUNCATE '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
-	 * @return	string
-	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
-	{
-		$conditions = '';
-
-		if (count($where) > 0 OR count($like) > 0)
-		{
-			$conditions = "\nWHERE ".implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= ' AND ';
-			}
-			$conditions .= implode("\n", $like);
-		}
-
-		return 'DELETE FROM '.$table.$conditions.( ! $limit ? '' : ' LIMIT '.$limit);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Limit string
 	 *
 	 * Generates a platform-specific LIMIT clause
@@ -680,12 +493,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@mysql_close($conn_id);
+		@mysql_close($this->conn_id);
 	}
 
 }
