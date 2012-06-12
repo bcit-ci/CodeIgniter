@@ -30,11 +30,9 @@ it will return time().
 	:returns: integer
 
 ::
+	echo now("Australia/Victoria");
 
-	$tz = "Australia/Victoria";
-	echo now($tz);
-
-If a timezone is not provided, it will return time() based on "timezone" setting.
+If a timezone is not provided, it will return time() based on "time_reference" setting.
 
 mdate()
 =======

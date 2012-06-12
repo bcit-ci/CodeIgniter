@@ -359,7 +359,7 @@ $config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Master Timezone
+| Master Time Reference
 |--------------------------------------------------------------------------
 |
 | You can set any PHP supported timezones to be the master timezone when
@@ -367,7 +367,7 @@ $config['compress_output'] = FALSE;
 | time.
 |
 */
-$config['timezone'] = 'local';
+$config['time_reference'] = 'local';
 
 
 /*

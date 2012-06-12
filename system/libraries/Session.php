@@ -786,9 +786,17 @@ class CI_Session {
 	 */
 	protected function _get_time()
 	{
-		return (strtolower($this->time_reference) === 'gmt')
-			? mktime(gmdate('H'), gmdate('i'), gmdate('s'), gmdate('m'), gmdate('d'), gmdate('Y'))
-			: time();
+		$timezone = config_item('time_reference');
+
+		if ($timezone === 'local' OR $timezone === date_default_timezone_get())
+		{
+			return time();
+		}
+
+		$datetime = new DateTime('now', new DateTimeZone($timezone));
+		sscanf($datetime->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 
 	// --------------------------------------------------------------------

@@ -45,9 +45,8 @@ need to rename the `$active_record` variable to `$query_builder`.
 Step 5: Change your use of the Date helper's now() function
 ===========================================================
 
-Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`
-You must replace $config['time_reference'] with $config['timezone'] in your config.php file. You can select all
-PHP supported timezones, listed here: `Supported timezones <http://www.php.net/timezones>`_. You can also
+Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`.
+You can now select all PHP supported timezones in the `time_reference` setting, listed here: `Supported timezones <http://www.php.net/timezones>`_. You can also
 use 'local' if you want to get time().
 
 Step 6: Move your errors folder
