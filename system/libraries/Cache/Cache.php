@@ -123,18 +123,22 @@ class CI_Cache extends CI_Driver_Library {
 	public function get($id)
 	{
 		if ($this->save_queries)
+		{
 			$this->queries[] = "get( '{$id}' )";
+		}
 
 		// Start the Query Timer
-		$time_start = list($sm, $ss) = explode(' ', microtime());
+		$time_start = list($sm, $ss) = explode(' ', microtime(TRUE));
 
 		$item =  $this->{$this->_adapter}->get($id);
 
 		// Stop and aggregate the query time results
-		$time_end = list($em, $es) = explode(' ', microtime());
+		$time_end = list($em, $es) = explode(' ', microtime(TRUE));
 
 		if ($this->save_queries)
+		{
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
+		}
 
 		$this->query_count++;
 
@@ -154,18 +158,22 @@ class CI_Cache extends CI_Driver_Library {
 	public function save($id, $data, $ttl = 60)
 	{
 		if ($this->save_queries)
+		{
 			$this->queries[] = "save( '{$id}' )";
+		}
 
 		// Start the Query Timer
-		$time_start = list($sm, $ss) = explode(' ', microtime());
+		$time_start = list($sm, $ss) = explode(' ', microtime(TRUE));
 
 		$response = $this->{$this->_adapter}->save($id, $data, $ttl);
 
 		// Stop and aggregate the query time results
-		$time_end = list($em, $es) = explode(' ', microtime());
+		$time_end = list($em, $es) = explode(' ', microtime(TRUE));
 
 		if ($this->save_queries)
+		{
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
+		}
 
 		$this->query_count++;
 
@@ -183,18 +191,22 @@ class CI_Cache extends CI_Driver_Library {
 	public function delete($id)
 	{
 		if ($this->save_queries)
+		{
 			$this->queries[] = "delete( '{$id}' )";
+		}
 
 		// Start the Query Timer
-		$time_start = list($sm, $ss) = explode(' ', microtime());
+		$time_start = list($sm, $ss) = explode(' ', microtime(TRUE));
 
 		$response = $this->{$this->_adapter}->delete($id);
 
 		// Stop and aggregate the query time results
-		$time_end = list($em, $es) = explode(' ', microtime());
+		$time_end = list($em, $es) = explode(' ', microtime(TRUE));
 
 		if ($this->save_queries)
+		{
 			$this->query_times[] = ($em + $es) - ($sm + $ss);
+		}
 
 		$this->query_count++;
 
