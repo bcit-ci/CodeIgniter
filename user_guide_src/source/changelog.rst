@@ -154,7 +154,8 @@ Release Date: Not Released
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
-   -  Added an "index" parameter to the data() method in the :doc:`Upload library <libraries/file_uploading>`.
+   -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
+   -  Added support for the anchor "rel" attribute in the :doc:`Pagination Library <libraries/pagination>`.
 
 -  Core
 
@@ -177,7 +178,7 @@ Bug fixes for 3.0
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Query Builder nested transactions because _trans_depth was not getting incremented.
--  Fixed a bug (#737, #75) where pagination anchor class was not set properly when using initialize method.
+-  Fixed a bug (#737, #75) - :doc:`Pagination <libraries/pagination>` anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - auto_link() now recognizes URLs that come after a word boundary.
 -  Fixed a bug (#724) - is_unique in form validation now checks that you are connected to a database.
 -  Fixed a bug (#647) - _get_mod_time() in Zip library no longer generates stat failed errors.

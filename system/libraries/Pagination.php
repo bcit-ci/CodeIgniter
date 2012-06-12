@@ -68,6 +68,7 @@ class CI_Pagination {
 	public $query_string_segment = 'per_page';
 	public $display_pages		= TRUE;
 	public $anchor_class			= '';
+	public $attr_rel			= TRUE;
 
 	/**
 	 * Constructor
@@ -212,7 +213,8 @@ class CI_Pagination {
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
 			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
-			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
+			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'"'.$this->_attr_rel('start').'>'
+				.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "previous" link
@@ -222,12 +224,14 @@ class CI_Pagination {
 
 			if ($i === $base_page && $this->first_url !== '')
 			{
-				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'"'.$this->_attr_rel('prev').'>'
+					.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
 				$i = ($i === $base_page) ? '' : $this->prefix.$i.$this->suffix;
-				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'"'.$this->_attr_rel('prev').'>'
+					.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 
 		}
@@ -252,13 +256,15 @@ class CI_Pagination {
 
 						if ($n === '' && $this->first_url !== '')
 						{
-							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'"'.$this->_attr_rel('start').'>'
+								.$loop.'</a>'.$this->num_tag_close;
 						}
 						else
 						{
 							$n = ($n === '') ? '' : $this->prefix.$n.$this->suffix;
 
-							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
+							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'"'.$this->_attr_rel().'>'
+								.$loop.'</a>'.$this->num_tag_close;
 						}
 					}
 				}
@@ -270,7 +276,8 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
 
-			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$this->_attr_rel('next').'>'
+				.$this->next_link.'</a>'.$this->next_tag_close;
 		}
 
 		// Render the "Last" link
@@ -278,7 +285,8 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
-			$output .= $this->last_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->last_link.'</a>'.$this->last_tag_close;
+			$output .= $this->last_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$this->_attr_rel().'>'
+				.$this->last_link.'</a>'.$this->last_tag_close;
 		}
 
 		// Kill double slashes. Note: Sometimes we can end up with a double slash
@@ -287,6 +295,28 @@ class CI_Pagination {
 
 		// Add the wrapper HTML if exists
 		return $this->full_tag_open.$output.$this->full_tag_close;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add "rel" attribute
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _attr_rel($value = '')
+	{
+		if (empty($this->attr_rel) OR ($this->attr_rel === TRUE && empty($value)))
+		{
+			return '';
+		}
+		elseif ( ! is_bool($this->attr_rel))
+		{
+			$value = $this->attr_rel;
+		}
+
+		return ' rel="'.$value.'"';
 	}
 
 }
