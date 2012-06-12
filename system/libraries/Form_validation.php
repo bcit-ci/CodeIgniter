@@ -187,6 +187,12 @@ class CI_Form_validation {
 			return $this;
 		}
 
+		// Convert an array of rules to a string
+		if (is_array($rules))
+		{
+			$rules = implode('|', $rules);
+		}
+
 		// No fields? Nothing to do...
 		if ( ! is_string($field) OR ! is_string($rules) OR $field === '')
 		{
