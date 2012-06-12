@@ -596,7 +596,7 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (preg_match_all('/(>|<|=|!)\s*('.preg_quote($this->bind_marker).')/i', $sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
+		if (preg_match_all('/(>|<|=|!|BETWEEN\s|AND\s)\s*('.preg_quote($this->bind_marker).')/i', $sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
 		{
 			return $sql;
 		}
