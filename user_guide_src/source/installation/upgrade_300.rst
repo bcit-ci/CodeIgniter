@@ -41,8 +41,15 @@ need to rename the `$active_record` variable to `$query_builder`.
     $active_group = 'default';
     // $active_record = TRUE;
     $query_builder = TRUE;
-    
-Step 5: Move your errors folder
+
+Step 5: Change your use of the Date helper's now() function
+===========================================================
+
+Function now() has been modified. You can see the changes in :doc:`Date Helper <../helpers/date_helper>`.
+You can now select all PHP supported timezones in the `time_reference` setting, listed here:
+`Supported timezones <http://www.php.net/timezones>`_. You can also use 'local' if you want to get time().
+
+Step 6: Move your errors folder
 ===============================
 
 In version 3.0.0, the errors folder has been moved from "application/errors" to "application/views/errors".
