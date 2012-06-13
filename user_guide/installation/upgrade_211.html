@@ -65,7 +65,11 @@ Upgrading from 2.1.0 to 2.1.1
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
 	
-<h2>Step 2: Update your IP address tables:</h2>
+<h2>Step 2: Replace config/mimes.php</h2>
+
+<p>This config file has been updated to contain more user mime-types, please copy it to <kbd>application/config/mimes.php</kbd>.</p>
+
+<h2>Step 3: Update your IP address tables:</h2>
 
 <p>This upgrade adds support for IPv6 IP addresses. In order to store them, you need to enlarge your <var>ip_address</var> columns to 45 characters. For example, CodeIgniter's session table will need to change:</p>
 
@@ -83,7 +87,7 @@ Previous Topic:&nbsp;&nbsp;<a href="index.html">Installation Instructions</a>
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="troubleshooting.html">Troubleshooting</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2011 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>
