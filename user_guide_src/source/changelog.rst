@@ -48,6 +48,7 @@ Release Date: Not Released
 
 -  Helpers
 
+   -  Date helper will now return now() based on the timezone you specify.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.

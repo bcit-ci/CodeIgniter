@@ -42,29 +42,28 @@ if ( ! function_exists('now'))
 	/**
 	 * Get "now" time
 	 *
-	 * Returns time() or its GMT equivalent based on the config file preference
+	 * Returns time() based on the timezone parameter or on the
+	 * "time_reference" setting
 	 *
+	 * @param	string
 	 * @return	int
 	 */
-	function now()
+	function now($timezone = NULL)
 	{
-		$CI =& get_instance();
-
-		if (strtolower($CI->config->item('time_reference')) === 'gmt')
+		if (empty($timezone))
 		{
-			$now = time();
-			$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
-
-			if (strlen($system_time) < 10)
-			{
-				$system_time = time();
-				log_message('error', 'The Date class could not set a proper GMT timestamp so the local time() value was used.');
-			}
-
-			return $system_time;
+			$timezone = config_item('time_reference');
 		}
 
-		return time();
+		if ($timezone === 'local' OR $timezone === date_default_timezone_get())
+		{
+			return time();
+		}
+
+		$datetime = new DateTime('now', new DateTimeZone($timezone));
+		sscanf($datetime->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 }
 
