@@ -602,7 +602,7 @@ abstract class CI_DB_driver {
 		}
 		elseif ( ! is_array($binds))
 		{
-			$binds = array($this->escape($binds));
+			$binds = array($binds);
 			$bind_count = 1;
 		}
 		else
@@ -610,18 +610,14 @@ abstract class CI_DB_driver {
 			// Make sure we're using numeric keys
 			$binds = array_values($binds);
 			$bind_count = count($binds);
-
-			// Escape the bind values
-			for ($i = 0; $i < $bind_count; $i++)
-			{
-				$binds[$i] = $this->escape($binds[$i]);
-			}
 		}
+
+		// We'll need the marker length later
+		$ml = strlen($this->bind_marker);
 
 		// Make sure not to replace a chunk inside a string that happens to match the bind marker
 		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
 		{
-			$ml = strlen($this->bind_marker);
 			$c = preg_match_all('/'.preg_quote($this->bind_marker).'/i',
 				str_replace($matches[0],
 					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
@@ -633,18 +629,18 @@ abstract class CI_DB_driver {
 			{
 				return $sql;
 			}
-
-			do
-			{
-				$c--;
-				$sql = substr_replace($sql, $binds[$c], $matches[0][$c][1], $ml);
-			}
-			while ($c !== 0);
 		}
-		elseif (substr_count($sql, $this->bind_marker) === count($binds))
+		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker).'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
 		{
-			return str_replace($this->bind_marker, $binds, $sql, $bind_count);
+			return $sql;
 		}
+
+		do
+		{
+			$c--;
+			$sql = substr_replace($sql, $this->escape($binds[$c]), $matches[0][$c][1], $ml);
+		}
+		while ($c !== 0);
 
 		return $sql;
 	}
