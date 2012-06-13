@@ -1269,7 +1269,7 @@ class CI_DB_driver {
 		// Basically we remove everything to the right of the first space
 		if (strpos($item, ' ') !== FALSE)
 		{
-			$alias = strstr(' ', $item);
+			$alias = strstr($item, ' ');
 			$item = substr($item, 0, - strlen($alias));
 		}
 		else
