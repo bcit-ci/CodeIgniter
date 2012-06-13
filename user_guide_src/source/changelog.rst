@@ -265,6 +265,7 @@ Bug fixes for 3.0
 -  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
+-  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
 
 Version 2.1.1
 =============
