@@ -266,11 +266,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
+-  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
 
 Version 2.1.1
 =============
 
-Release Date: Not Released
+Release Date: June 13, 2012
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
@@ -295,7 +296,6 @@ Bug fixes for 2.1.1
 -  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
 -  Fixed a bug - CI_DB_pdo_driver::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().
 -  Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.
--  Fixed a bud (#1387) - Active Record's ``from()`` method didn't escape table aliases.
 
 Version 2.1.0
 =============
