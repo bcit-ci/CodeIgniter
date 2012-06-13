@@ -1263,16 +1263,14 @@ class CI_DB_driver {
 		}
 
 		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/\s+/', ' ', $item);
+		$item = preg_replace('/[\t ]+/', ' ', $item);
 
 		// If the item has an alias declaration we remove it and set it aside.
 		// Basically we remove everything to the right of the first space
-		if (preg_match('/^([^\s]+) (AS )*(.+)$/i', $item, $matches))
+		if (strpos($item, ' ') !== FALSE)
 		{
-			$item = $matches[1];
-
-			// Escape the alias
-			$alias = ' '.$matches[2].$this->_escape_identifiers($matches[3]);
+			$alias = strstr($item, ' ');
+			$item = substr($item, 0, - strlen($alias));
 		}
 		else
 		{
