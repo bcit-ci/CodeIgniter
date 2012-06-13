@@ -596,28 +596,54 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (empty($binds) OR empty($this->bind_marker))
-		{
-			return $sql;
-		}
-		elseif (preg_match_all('/(>|<|=|!|BETWEEN\s|AND\s)\s*('.preg_quote($this->bind_marker).')/i',
-					$sql, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) !== count($binds))
+		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
 		{
 			return $sql;
 		}
 		elseif ( ! is_array($binds))
 		{
-			$binds = array($binds);
+			$binds = array($this->escape($binds));
+			$bind_count = 1;
 		}
 		else
 		{
 			// Make sure we're using numeric keys
 			$binds = array_values($binds);
+			$bind_count = count($binds);
+
+			// Escape the bind values
+			for ($i = 0; $i < $bind_count; $i++)
+			{
+				$binds[$i] = $this->escape($binds[$i]);
+			}
 		}
 
-		for ($i = count($matches) - 1, $l = strlen($this->bind_marker); $i >= 0; $i--)
+		// Make sure not to replace a chunk inside a string that happens to match the bind marker
+		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
 		{
-			$sql = substr_replace($sql, $this->escape($binds[$i]), $matches[$i][2][1], $l);
+			$ml = strlen($this->bind_marker);
+			$c = preg_match_all('/'.preg_quote($this->bind_marker).'/i',
+				str_replace($matches[0],
+					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
+					$sql, $c),
+				$matches, PREG_OFFSET_CAPTURE);
+
+			// Bind values' count must match the count of markers in the query
+			if ($bind_count !== $c)
+			{
+				return $sql;
+			}
+
+			do
+			{
+				$c--;
+				$sql = substr_replace($sql, $binds[$c], $matches[0][$c][1], $ml);
+			}
+			while ($c !== 0);
+		}
+		elseif (substr_count($sql, $this->bind_marker) === count($binds))
+		{
+			return str_replace($this->bind_marker, $binds, $sql, $bind_count);
 		}
 
 		return $sql;
