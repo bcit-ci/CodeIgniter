@@ -596,7 +596,7 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (empty($binds)) OR empty($this->bind_marker))
+		if (empty($binds) OR empty($this->bind_marker))
 		{
 			return $sql;
 		}
