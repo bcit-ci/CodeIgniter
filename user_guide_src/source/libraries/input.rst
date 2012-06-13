@@ -59,9 +59,10 @@ With CodeIgniter's built in functions you can simply do this::
 
 	$something = $this->input->post('something');
 
-The three functions are:
+The four methods are:
 
 -  $this->input->post()
+-  $this->input->get()
 -  $this->input->cookie()
 -  $this->input->server()
 
