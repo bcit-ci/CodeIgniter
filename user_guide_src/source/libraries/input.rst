@@ -42,14 +42,14 @@ this::
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
 
-Using POST, COOKIE, or SERVER Data
-==================================
+Using POST, GET, COOKIE, or SERVER Data
+=======================================
 
-CodeIgniter comes with three helper functions that let you fetch POST,
+CodeIgniter comes with four helper methods that let you fetch POST, GET,
 COOKIE or SERVER items. The main advantage of using the provided
 functions rather than fetching an item directly ($_POST['something'])
-is that the functions will check to see if the item is set and return
-false (boolean) if not. This lets you conveniently use data without
+is that the methods will check to see if the item is set and return
+NULL if not. This lets you conveniently use data without
 having to test whether an item exists first. In other words, normally
 you might do something like this::
 
@@ -73,8 +73,8 @@ looking for::
 
 	$this->input->post('some_data');
 
-The function returns FALSE (boolean) if the item you are attempting to
-retrieve does not exist.
+The function returns NULL if the item you are attempting to retrieve
+does not exist.
 
 The second optional parameter lets you run the data through the XSS
 filter. It's enabled by setting the second parameter to boolean TRUE;
@@ -130,7 +130,9 @@ $this->input->cookie()
 This function is identical to the post function, only it fetches cookie
 data::
 
-	$this->input->cookie('some_data', TRUE);
+	$this->input->cookie('some_cookie');
+	$this->input->cookie('some_cookie, TRUE); // with XSS filter
+
 
 $this->input->server()
 ======================
@@ -194,25 +196,6 @@ If you prefer, you can set the cookie by passing data using individual
 parameters::
 
 	$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
-
-$this->input->cookie()
-======================
-
-Lets you fetch a cookie. The first parameter will contain the name of
-the cookie you are looking for (including any prefixes)::
-
-	cookie('some_cookie');
-
-The function returns NULL if the item you are attempting to
-retrieve does not exist.
-
-The second optional parameter lets you run the data through the XSS
-filter. It's enabled by setting the second parameter to boolean TRUE;
-
-::
-
-	cookie('some_cookie', TRUE);
-
 
 $this->input->ip_address()
 ===========================
