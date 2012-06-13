@@ -20,9 +20,12 @@ The following functions are available:
 now()
 =====
 
-Returns the current time as a Unix timestamp, based on the "timezone" parameter.
-All PHP available timezones are supported. You can also use 'local' timezone, and
-it will return time().
+Returns the current time as a Unix timestamp, referenced either to your
+server's local time or any PHP suported timezone, based on the "time reference"
+setting in your config file. If you do not intend to set your master time reference
+to any other PHP suported timezone (which you'll typically do if you run a site that
+lets each user set their own timezone settings) there is no benefit to using this
+function over PHP's time() function.
 
 .. php:method:: now($timezone = NULL)
 

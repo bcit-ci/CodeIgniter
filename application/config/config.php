@@ -362,9 +362,10 @@ $config['compress_output'] = FALSE;
 | Master Time Reference
 |--------------------------------------------------------------------------
 |
-| You can set any PHP supported timezones to be the master timezone when
-| you call the now() function. 'local' string can be used to get the local
-| time.
+| Options are 'local' or any PHP supported timezone.  This pref tells the
+| system whether to use your server's local time as the master 'now'
+| reference, or convert it to any PHP supported timezone. See the 'date
+| helper' page of the user guide for information regarding date handling.
 |
 */
 $config['time_reference'] = 'local';

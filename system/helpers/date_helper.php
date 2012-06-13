@@ -42,8 +42,8 @@ if ( ! function_exists('now'))
 	/**
 	 * Get "now" time
 	 *
-	 * Returns time() based on the timezone parameter or on the "timezone"
-	 * setting
+	 * Returns time() based on the timezone parameter or on the
+	 * "time_reference" setting
 	 *
 	 * @param	string
 	 * @return	int
