@@ -48,7 +48,7 @@ Release Date: Not Released
 
 -  Helpers
 
-   -  Date helper will now return now() based on the timezone you specify.
+   -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
@@ -173,6 +173,7 @@ Release Date: Not Released
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
+   -  $config['time_reference'] now supports all timezone strings supported by PHP.
 
 Bug fixes for 3.0
 ------------------
