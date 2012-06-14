@@ -33,7 +33,7 @@ class Date_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
-	public function test_now_gmt()
+	public function test_now_utc()
 	{
 		/*
 
@@ -41,18 +41,17 @@ class Date_helper_test extends CI_TestCase {
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
 			   ->method('item')
-			   ->will($this->returnValue('gmt'));
+			   ->will($this->returnValue('UTC'));
 
 		// Add the stub to our stdClass
 		$this->ci_instance_var('config', $config);
 
 		*/
 
-		$this->ci_set_config('time_reference', 'gmt');
+		$this->ci_set_config('time_reference', 'UTC');
 
-		$t = time();
 		$this->assertEquals(
-			mktime(gmdate('H', $t), gmdate('i', $t), gmdate('s', $t), gmdate('m', $t), gmdate('d', $t), gmdate('Y', $t)),
+			gmmktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y')),
 			now()
 		);
 	}
