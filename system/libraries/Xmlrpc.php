@@ -778,7 +778,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		// Check for HTTP 200 Response
-		if (strncmp($data, 'HTTP', 4) === 0 && ! preg_match('/^HTTP\/[0-9\.]+ 200 /', $data))
+		if (strpos($data, 'HTTP') === 0 && ! preg_match('/^HTTP\/[0-9\.]+ 200 /', $data))
 		{
 			$errstr = substr($data, 0, strpos($data, "\n")-1);
 			return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error'].' ('.$errstr.')');

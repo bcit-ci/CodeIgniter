@@ -303,7 +303,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$methName = $m->method_name;
 
 		// Check to see if it is a system call
-		$system_call = (strncmp($methName, 'system', 5) === 0);
+		$system_call = (strpos($methName, 'system') === 0);
 
 		if ($this->xss_clean === FALSE)
 		{
