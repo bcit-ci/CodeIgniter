@@ -21,13 +21,21 @@ now()
 =====
 
 Returns the current time as a Unix timestamp, referenced either to your
-server's local time or GMT, based on the "time reference" setting in
-your config file. If you do not intend to set your master time reference
-to GMT (which you'll typically do if you run a site that lets each user
-set their own timezone settings) there is no benefit to using this
+server's local time or any PHP suported timezone, based on the "time reference"
+setting in your config file. If you do not intend to set your master time reference
+to any other PHP suported timezone (which you'll typically do if you run a site that
+lets each user set their own timezone settings) there is no benefit to using this
 function over PHP's time() function.
 
-.. php:method:: now()
+.. php:method:: now($timezone = NULL)
+
+	:param string 	$timezone: The timezone you want to be returned
+	:returns: integer
+
+::
+	echo now("Australia/Victoria");
+
+If a timezone is not provided, it will return time() based on "time_reference" setting.
 
 mdate()
 =======

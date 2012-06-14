@@ -149,11 +149,11 @@ class CI_Session {
 	public $flashdata_key			= 'flash';
 
 	/**
-	 * Function to use to get the current time
+	 * Timezone to use for the current time
 	 *
 	 * @var string
 	 */
-	public $time_reference			= 'time';
+	public $time_reference			= 'local';
 
 	/**
 	 * Probablity level of garbage collection of old sessions
@@ -203,7 +203,7 @@ class CI_Session {
 		// manually via the $params array above or via the config file
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
 		{
-			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
+			$this->$key = isset($params[$key]) ? $params[$key] : $this->CI->config->item($key);
 		}
 
 		if ($this->encryption_key === '')
@@ -786,9 +786,15 @@ class CI_Session {
 	 */
 	protected function _get_time()
 	{
-		return (strtolower($this->time_reference) === 'gmt')
-			? mktime(gmdate('H'), gmdate('i'), gmdate('s'), gmdate('m'), gmdate('d'), gmdate('Y'))
-			: time();
+		if ($this->time_reference === 'local' OR $this->time_reference === date_default_timezone_get())
+		{
+			return time();
+		}
+
+		$datetime = new DateTime('now', new DateTimeZone($this->time_reference));
+		sscanf($datetime->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 
 	// --------------------------------------------------------------------
