@@ -1035,7 +1035,7 @@ class CI_Form_validation {
 	 * Exact Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function exact_length($str, $val)
@@ -1044,6 +1044,8 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
+
+		$val = (int) $val;
 
 		return (MB_ENABLED === TRUE)
 			? (mb_strlen($str) === $val)
