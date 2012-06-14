@@ -304,6 +304,10 @@ Give it a try! Submit your form without the proper data and you'll see
 new error messages that correspond to your new rules. There are numerous
 rules available which you can read about in the validation reference.
 
+.. note:: You can also pass an array of rules to set_rules(), instead of a string. Example::
+
+	$this->form_validation->set_rules('username', 'Username', array('required', 'min_length[5]'));
+
 Prepping Data
 =============
 
@@ -935,7 +939,7 @@ $this->form_validation->set_rules();
 
 		:param string $field: The field name
 		:param string $label: The field label
-		:param string $rules: The rules, seperated by a pipe "|"
+		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
 	
 		Permits you to set validation rules, as described in the tutorial

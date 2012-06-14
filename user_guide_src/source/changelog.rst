@@ -48,6 +48,7 @@ Release Date: Not Released
 
 -  Helpers
 
+   -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  ``url_title()`` will now trim extra dashes from beginning and end.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
@@ -147,6 +148,7 @@ Release Date: Not Released
 	 -  _execute() now considers input data to be invalid if a specified rule is not found.
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
+	 -  Updated set_rules() to accept an array of rules as well as a string.
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
@@ -171,6 +173,7 @@ Release Date: Not Released
    -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
+   -  $config['time_reference'] now supports all timezone strings supported by PHP.
 
 Bug fixes for 3.0
 ------------------
@@ -264,11 +267,14 @@ Bug fixes for 3.0
 -  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
+-  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
+-  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
+-  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
 
 Version 2.1.1
 =============
 
-Release Date: Not Released
+Release Date: June 13, 2012
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
@@ -293,7 +299,6 @@ Bug fixes for 2.1.1
 -  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
 -  Fixed a bug - CI_DB_pdo_driver::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().
 -  Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.
--  Fixed a bud (#1387) - Active Record's ``from()`` method didn't escape table aliases.
 
 Version 2.1.0
 =============
