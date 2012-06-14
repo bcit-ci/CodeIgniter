@@ -269,6 +269,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
+-  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
 
 Version 2.1.1
 =============
