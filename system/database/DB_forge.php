@@ -231,7 +231,7 @@ abstract class CI_DB_forge {
 
 		if (($result = $this->db->query($sql)) !== FALSE && ! empty($this->db->data_cache['table_names']))
 		{
-			$this->db->data_cache['table_names'][] = $$this->db->dbprefix.$table;
+			$this->db->data_cache['table_names'][] = $this->db->dbprefix.$table;
 		}
 
 		return $result;
