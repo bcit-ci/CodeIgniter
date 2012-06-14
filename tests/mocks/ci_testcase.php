@@ -1,11 +1,11 @@
 <?php
 
 class CI_TestCase extends PHPUnit_Framework_TestCase {
-	
+
 	protected $ci_config;
 	protected $ci_instance;
 	protected static $ci_test_instance;
-		
+
 	private $global_map = array(
 		'benchmark'	=> 'bm',
 		'config'	=> 'cfg',
@@ -19,18 +19,17 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'loader'	=> 'load',
 		'model'		=> 'model'
 	);
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function __construct()
 	{
 		parent::__construct();
-		
 		$this->ci_config = array();
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function setUp()
 	{
 		if (method_exists($this, 'set_up'))
@@ -38,10 +37,10 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			$this->set_up();
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
-	
-	public function tearDown() 
+
+	public function tearDown()
 	{
 		if (method_exists($this, 'tear_down'))
 		{
@@ -50,15 +49,15 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public static function instance()
 	{
 		return self::$ci_test_instance;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
-	function ci_set_config($key, $val = '')
+
+	public function ci_set_config($key, $val = '')
 	{
 		if (is_array($key))
 		{
@@ -71,36 +70,36 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
-	function ci_get_config()
+
+	public function ci_get_config()
 	{
 		return $this->ci_config;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
-	function ci_instance($obj = FALSE)
+
+	public function ci_instance($obj = FALSE)
 	{
 		if ( ! is_object($obj))
 		{
 			return $this->ci_instance;
 		}
-		
+
 		$this->ci_instance = $obj;
 	}
-	
+
 	// --------------------------------------------------------------------
-	
-	function ci_instance_var($name, $obj = FALSE)
+
+	public function ci_instance_var($name, $obj = FALSE)
 	{
 		if ( ! is_object($obj))
 		{
 			return $this->ci_instance->$name;
 		}
-		
+
 		$this->ci_instance->$name =& $obj;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -112,10 +111,10 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	 * test can modify the variable it assigns to and
 	 * still maintain the global.
 	 */
-	function &ci_core_class($name)
+	public function &ci_core_class($name)
 	{
 		$name = strtolower($name);
-		
+
 		if (isset($this->global_map[$name]))
 		{
 			$class_name = ucfirst($name);
@@ -130,29 +129,29 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		{
 			throw new Exception('Not a valid core class.');
 		}
-		
+
 		if ( ! class_exists('CI_'.$class_name))
 		{
 			require_once BASEPATH.'core/'.$class_name.'.php';
 		}
-		
+
 		$GLOBALS[strtoupper($global_name)] = 'CI_'.$class_name;
 		return $GLOBALS[strtoupper($global_name)];
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	// convenience function for global mocks
-	function ci_set_core_class($name, $obj)
+	public function ci_set_core_class($name, $obj)
 	{
 		$orig =& $this->ci_core_class($name);
 		$orig = $obj;
 	}
-	
+
 	// --------------------------------------------------------------------
 	// Internals
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Overwrite runBare
 	 *
@@ -169,28 +168,27 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
-	function helper($name)
+
+	public function helper($name)
 	{
 		require_once(BASEPATH.'helpers/'.$name.'_helper.php');
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * This overload is useful to create a stub, that need to have a specific method.
 	 */
-	function __call($method, $args)
+	public function __call($method, $args)
 	{
-		if ($this->{$method} instanceof Closure) 
+		if ($this->{$method} instanceof Closure)
 		{
 			return call_user_func_array($this->{$method},$args);
-		} 
-		else 
+		}
+		else
 		{
 			return parent::__call($method, $args);
 		}
 	}
-}
 
-// EOF
+}

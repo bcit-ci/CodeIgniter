@@ -92,12 +92,12 @@ class CI_DB_mssql_result extends CI_DB_result {
 		$retval = array();
 		while ($field = mssql_fetch_field($this->result_id))
 		{
-			$F				= new stdClass();
-			$F->name		= $field->name;
-			$F->type		= $field->type;
+			$F		= new stdClass();
+			$F->name	= $field->name;
+			$F->type	= $field->type;
 			$F->max_length	= $field->max_length;
 			$F->primary_key = 0;
-			$F->default		= '';
+			$F->default	= '';
 
 			$retval[] = $F;
 		}

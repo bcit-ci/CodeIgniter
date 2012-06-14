@@ -304,6 +304,10 @@ Give it a try! Submit your form without the proper data and you'll see
 new error messages that correspond to your new rules. There are numerous
 rules available which you can read about in the validation reference.
 
+.. note:: You can also pass an array of rules to set_rules(), instead of a string. Example::
+
+	$this->form_validation->set_rules('username', 'Username', array('required', 'min_length[5]'));
+
 Prepping Data
 =============
 
@@ -884,6 +888,7 @@ Rule                      Parameter  Description                                
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+                                     Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
@@ -934,7 +939,7 @@ $this->form_validation->set_rules();
 
 		:param string $field: The field name
 		:param string $label: The field label
-		:param string $rules: The rules, seperated by a pipe "|"
+		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
 	
 		Permits you to set validation rules, as described in the tutorial

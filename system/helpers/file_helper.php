@@ -44,38 +44,15 @@ if ( ! function_exists('read_file'))
 	 *
 	 * Opens the file specfied in the path and returns it as a string.
 	 *
+	 * This function is DEPRECATED and should be removed in
+	 * CodeIgniter 3.1+. Use file_get_contents() instead.
+	 *
 	 * @param	string	path to file
 	 * @return	string
 	 */
 	function read_file($file)
 	{
-		if ( ! file_exists($file))
-		{
-			return FALSE;
-		}
-
-		if (function_exists('file_get_contents'))
-		{
-			return file_get_contents($file);
-		}
-
-		if ( ! $fp = @fopen($file, FOPEN_READ))
-		{
-			return FALSE;
-		}
-
-		flock($fp, LOCK_SH);
-
-		$data = '';
-		if (filesize($file) > 0)
-		{
-			$data =& fread($fp, filesize($file));
-		}
-
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
-		return $data;
+		return @file_get_contents($file);
 	}
 }
 
@@ -353,32 +330,19 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				$mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				$mimes = include(APPPATH.'config/mimes.php');
-			}
+			$mimes =& get_mimes();
 
-			if ( ! is_array($mimes))
+			if (empty($mimes))
 			{
 				return FALSE;
 			}
 		}
 
-		if (array_key_exists($extension, $mimes))
+		if (isset($mimes[$extension]))
 		{
-			if (is_array($mimes[$extension]))
-			{
-				// Multiple mime types, just give the first one
-				return current($mimes[$extension]);
-			}
-			else
-			{
-				return $mimes[$extension];
-			}
+			return is_array($mimes[$extension])
+				? current($mimes[$extension]) // Multiple mime types, just give the first one
+				: $mimes[$extension];
 		}
 
 		return FALSE;

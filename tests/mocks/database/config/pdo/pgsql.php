@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'pdo/pgsql' => array(
 		'dsn' => 'pgsql:host=localhost;port=5432;dbname=ci_test;',
@@ -10,7 +10,7 @@ return array(
 		'password' => '',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'pgsql',
+		'pdodriver' => 'pgsql'
 	),
 
 	// Database configuration with failover
@@ -30,8 +30,8 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
-				'pdodriver' => 'pgsql',
-			),
-		),
-	),
+				'pdodriver' => 'pgsql'
+			)
+		)
+	)
 );

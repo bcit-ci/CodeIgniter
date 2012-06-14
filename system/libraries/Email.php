@@ -166,8 +166,8 @@ class CI_Email {
 		$this->_headers		= array();
 		$this->_debug_msg	= array();
 
-		$this->_set_header('User-Agent', $this->useragent);
-		$this->_set_header('Date', $this->_set_date());
+		$this->set_header('User-Agent', $this->useragent);
+		$this->set_header('Date', $this->_set_date());
 
 		if ($clear_attachments !== FALSE)
 		{
@@ -215,8 +215,8 @@ class CI_Email {
 			}
 		}
 
-		$this->_set_header('From', $name.' <'.$from.'>');
-		$this->_set_header('Return-Path', '<'.$from.'>');
+		$this->set_header('From', $name.' <'.$from.'>');
+		$this->set_header('Return-Path', '<'.$from.'>');
 
 		return $this;
 	}
@@ -247,12 +247,12 @@ class CI_Email {
 			$name = $replyto;
 		}
 
-		if (strncmp($name, '"', 1) !== 0)
+		if (strpos($name, '"') !== 0)
 		{
 			$name = '"'.$name.'"';
 		}
 
-		$this->_set_header('Reply-To', $name.' <'.$replyto.'>');
+		$this->set_header('Reply-To', $name.' <'.$replyto.'>');
 		$this->_replyto_flag = TRUE;
 
 		return $this;
@@ -278,7 +278,7 @@ class CI_Email {
 
 		if ($this->_get_protocol() !== 'mail')
 		{
-			$this->_set_header('To', implode(', ', $to));
+			$this->set_header('To', implode(', ', $to));
 		}
 
 		switch ($this->_get_protocol())
@@ -312,7 +312,7 @@ class CI_Email {
 			$this->validate_email($cc);
 		}
 
-		$this->_set_header('Cc', implode(', ', $cc));
+		$this->set_header('Cc', implode(', ', $cc));
 
 		if ($this->_get_protocol() === 'smtp')
 		{
@@ -352,7 +352,7 @@ class CI_Email {
 		}
 		else
 		{
-			$this->_set_header('Bcc', implode(', ', $bcc));
+			$this->set_header('Bcc', implode(', ', $bcc));
 		}
 
 		return $this;
@@ -369,7 +369,7 @@ class CI_Email {
 	public function subject($subject)
 	{
 		$subject = $this->_prep_q_encoding($subject);
-		$this->_set_header('Subject', $subject);
+		$this->set_header('Subject', $subject);
 		return $this;
 	}
 
@@ -424,7 +424,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	void
 	 */
-	protected function _set_header($header, $value)
+	public function set_header($header, $value)
 	{
 		$this->_headers[$header] = $value;
 	}
@@ -606,7 +606,7 @@ class CI_Email {
 
 		foreach ($this->_base_charsets as $charset)
 		{
-			if (strncmp($charset, $this->charset, strlen($charset)) === 0)
+			if (strpos($charset, $this->charset) === 0)
 			{
 				$this->_encoding = '7bit';
 			}
@@ -651,7 +651,7 @@ class CI_Email {
 	protected function _set_date()
 	{
 		$timezone = date('Z');
-		$operator = (strncmp($timezone, '-', 1) === 0) ? '-' : '+';
+		$operator = ($timezone[0] === '-') ? '-' : '+';
 		$timezone = abs($timezone);
 		$timezone = floor($timezone/3600) * 100 + ($timezone % 3600) / 60;
 
@@ -867,11 +867,11 @@ class CI_Email {
 	 */
 	protected function _build_headers()
 	{
-		$this->_set_header('X-Sender', $this->clean_email($this->_headers['From']));
-		$this->_set_header('X-Mailer', $this->useragent);
-		$this->_set_header('X-Priority', $this->_priorities[$this->priority - 1]);
-		$this->_set_header('Message-ID', $this->_get_message_id());
-		$this->_set_header('Mime-Version', '1.0');
+		$this->set_header('X-Sender', $this->clean_email($this->_headers['From']));
+		$this->set_header('X-Mailer', $this->useragent);
+		$this->set_header('X-Priority', $this->_priorities[$this->priority - 1]);
+		$this->set_header('Message-ID', $this->_get_message_id());
+		$this->set_header('Mime-Version', '1.0');
 	}
 
 	// --------------------------------------------------------------------
@@ -1305,7 +1305,7 @@ class CI_Email {
 
 			if ($this->protocol !== 'smtp')
 			{
-				$this->_set_header('Bcc', implode(', ', $bcc));
+				$this->set_header('Bcc', implode(', ', $bcc));
 			}
 			else
 			{
@@ -1481,7 +1481,7 @@ class CI_Email {
 
 		$this->_set_error_message($reply);
 
-		if (strncmp($reply, '250', 3) !== 0)
+		if (strpos($reply, '250') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
@@ -1599,7 +1599,7 @@ class CI_Email {
 
 		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-		if (substr($reply, 0, 3) !== $resp)
+		if ( (int) substr($reply, 0, 3) !== $resp)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
@@ -1637,7 +1637,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '334', 3) !== 0)
+		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
@@ -1647,7 +1647,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '334', 3) !== 0)
+		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_auth_un', $reply);
 			return FALSE;
@@ -1657,7 +1657,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '235', 3) !== 0)
+		if (strpos($reply, '235') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_auth_pw', $reply);
 			return FALSE;
@@ -1816,98 +1816,23 @@ class CI_Email {
 	 */
 	protected function _mime_types($ext = '')
 	{
-		$mimes = array(
-						'hqx'	=>	'application/mac-binhex40',
-						'cpt'	=>	'application/mac-compactpro',
-						'doc'	=>	'application/msword',
-						'bin'	=>	'application/macbinary',
-						'dms'	=>	'application/octet-stream',
-						'lha'	=>	'application/octet-stream',
-						'lzh'	=>	'application/octet-stream',
-						'exe'	=>	'application/octet-stream',
-						'class'	=>	'application/octet-stream',
-						'psd'	=>	'application/octet-stream',
-						'so'	=>	'application/octet-stream',
-						'sea'	=>	'application/octet-stream',
-						'dll'	=>	'application/octet-stream',
-						'oda'	=>	'application/oda',
-						'pdf'	=>	'application/pdf',
-						'ai'	=>	'application/postscript',
-						'eps'	=>	'application/postscript',
-						'ps'	=>	'application/postscript',
-						'smi'	=>	'application/smil',
-						'smil'	=>	'application/smil',
-						'mif'	=>	'application/vnd.mif',
-						'xls'	=>	'application/vnd.ms-excel',
-						'ppt'	=>	'application/vnd.ms-powerpoint',
-						'wbxml'	=>	'application/vnd.wap.wbxml',
-						'wmlc'	=>	'application/vnd.wap.wmlc',
-						'dcr'	=>	'application/x-director',
-						'dir'	=>	'application/x-director',
-						'dxr'	=>	'application/x-director',
-						'dvi'	=>	'application/x-dvi',
-						'gtar'	=>	'application/x-gtar',
-						'php'	=>	'application/x-httpd-php',
-						'php4'	=>	'application/x-httpd-php',
-						'php3'	=>	'application/x-httpd-php',
-						'phtml'	=>	'application/x-httpd-php',
-						'phps'	=>	'application/x-httpd-php-source',
-						'js'	=>	'application/x-javascript',
-						'swf'	=>	'application/x-shockwave-flash',
-						'sit'	=>	'application/x-stuffit',
-						'tar'	=>	'application/x-tar',
-						'tgz'	=>	'application/x-tar',
-						'xhtml'	=>	'application/xhtml+xml',
-						'xht'	=>	'application/xhtml+xml',
-						'zip'	=>	'application/zip',
-						'mid'	=>	'audio/midi',
-						'midi'	=>	'audio/midi',
-						'mpga'	=>	'audio/mpeg',
-						'mp2'	=>	'audio/mpeg',
-						'mp3'	=>	'audio/mpeg',
-						'aif'	=>	'audio/x-aiff',
-						'aiff'	=>	'audio/x-aiff',
-						'aifc'	=>	'audio/x-aiff',
-						'ram'	=>	'audio/x-pn-realaudio',
-						'rm'	=>	'audio/x-pn-realaudio',
-						'rpm'	=>	'audio/x-pn-realaudio-plugin',
-						'ra'	=>	'audio/x-realaudio',
-						'rv'	=>	'video/vnd.rn-realvideo',
-						'wav'	=>	'audio/x-wav',
-						'bmp'	=>	'image/bmp',
-						'gif'	=>	'image/gif',
-						'jpeg'	=>	'image/jpeg',
-						'jpg'	=>	'image/jpeg',
-						'jpe'	=>	'image/jpeg',
-						'png'	=>	'image/png',
-						'tiff'	=>	'image/tiff',
-						'tif'	=>	'image/tiff',
-						'css'	=>	'text/css',
-						'ics'	=>	'text/calendar',
-						'html'	=>	'text/html',
-						'htm'	=>	'text/html',
-						'shtml'	=>	'text/html',
-						'txt'	=>	'text/plain',
-						'text'	=>	'text/plain',
-						'log'	=>	'text/plain',
-						'rtx'	=>	'text/richtext',
-						'rtf'	=>	'text/rtf',
-						'xml'	=>	'text/xml',
-						'xsl'	=>	'text/xml',
-						'mpeg'	=>	'video/mpeg',
-						'mpg'	=>	'video/mpeg',
-						'mpe'	=>	'video/mpeg',
-						'qt'	=>	'video/quicktime',
-						'mov'	=>	'video/quicktime',
-						'avi'	=>	'video/x-msvideo',
-						'movie'	=>	'video/x-sgi-movie',
-						'doc'	=>	'application/msword',
-						'word'	=>	'application/msword',
-						'xl'	=>	'application/excel',
-						'eml'	=>	'message/rfc822'
-					);
+		static $mimes;
 
-		return isset($mimes[strtolower($ext)]) ? $mimes[strtolower($ext)] : 'application/x-unknown-content-type';
+		$ext = strtolower($ext);
+
+		if ( ! is_array($mimes))
+		{
+			$mimes =& get_mimes();
+		}
+
+		if (isset($mimes[$ext]))
+		{
+			return is_array($mimes[$ext])
+				? current($mimes[$ext])
+				: $mimes[$ext];
+		}
+
+		return 'application/x-unknown-content-type';
 	}
 
 }

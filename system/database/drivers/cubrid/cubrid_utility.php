@@ -41,12 +41,12 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 */
 	public function list_databases()
 	{
-		if (isset($this->data_cache['db_names']))
+		if (isset($this->db->data_cache['db_names']))
 		{
-			return $this->data_cache['db_names'];
+			return $this->db->data_cache['db_names'];
 		}
 
-		return $this->data_cache['db_names'] = cubrid_list_dbs($this->db->conn_id);
+		return $this->db->data_cache['db_names'] = cubrid_list_dbs($this->db->conn_id);
 	}
 
 	// --------------------------------------------------------------------

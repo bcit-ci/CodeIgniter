@@ -620,7 +620,7 @@ class CI_Javascript {
 			$this->_javascript_location = $this->CI->config->item('javascript_location');
 		}
 
-		if ($relative === TRUE OR strncmp($external_file, 'http://', 7) === 0 OR strncmp($external_file, 'https://', 8) === 0)
+		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR strpos($external_file, 'https://') === 0)
 		{
 			$str = $this->_open_script($external_file);
 		}

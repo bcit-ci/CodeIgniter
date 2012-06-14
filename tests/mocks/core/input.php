@@ -1,10 +1,10 @@
 <?php
 
 class Mock_Core_Input extends CI_Input {
-	
+
 	/**
-	 * Since we use GLOBAL to fetch Security and Utf8 classes, 
-	 * we need to use inversion of control to mock up 
+	 * Since we use GLOBAL to fetch Security and Utf8 classes,
+	 * we need to use inversion of control to mock up
 	 * the same process within CI_Input class constructor.
 	 *
 	 * @covers CI_Input::__construct()
