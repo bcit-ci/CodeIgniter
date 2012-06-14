@@ -314,13 +314,13 @@ if ( ! function_exists('local_to_gmt'))
 			$time = time();
 		}
 
-		return mktime(
-			gmdate('H', $time),
-			gmdate('i', $time),
-			gmdate('s', $time),
-			gmdate('m', $time),
-			gmdate('d', $time),
-			gmdate('Y', $time)
+		return gmmktime(
+			date('H', $time),
+			date('i', $time),
+			date('s', $time),
+			date('m', $time),
+			date('d', $time),
+			date('Y', $time)
 		);
 	}
 }
@@ -375,9 +375,7 @@ if ( ! function_exists('mysql_to_unix'))
 		// since the formatting changed with MySQL 4.1
 		// YYYY-MM-DD HH:MM:SS
 
-		$time = str_replace('-', '', $time);
-		$time = str_replace(':', '', $time);
-		$time = str_replace(' ', '', $time);
+		$time = str_replace(array('-', ':', ' '), '', $time);
 
 		// YYYYMMDDHHMMSS
 		return mktime(
