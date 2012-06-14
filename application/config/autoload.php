@@ -76,6 +76,14 @@ $autoload['packages'] = array();
 | Prototype:
 |
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
+|
+| You may also include the object name you would like a library to
+| be instantiated as (excluding the database driver).
+|
+| Prototype:
+|
+|	$autoload['libraries'] = array(array('form_validation' => 'validation'), 'session', 'xmlrpc');
+|
 */
 
 $autoload['libraries'] = array();
@@ -132,6 +140,13 @@ $autoload['language'] = array();
 | Prototype:
 |
 |	$autoload['model'] = array('model1', 'model2');
+|
+| You may also include the object name you would like a model to be
+| instantiated as.
+|
+| Prototype:
+|
+|	$autoload['model'] = array(array('long_model_name' => 'model1'), 'model2');
 |
 */
 

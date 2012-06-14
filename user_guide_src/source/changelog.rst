@@ -45,6 +45,7 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
+   -  $autoload['libraries'] and $autoload['models'] now allow passing the library/model object name to instantiate.
 
 -  Helpers
 
