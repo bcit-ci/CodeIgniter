@@ -993,7 +993,7 @@ class CI_Form_validation {
 	 * Minimum Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function min_length($str, $val)
@@ -1014,7 +1014,7 @@ class CI_Form_validation {
 	 * Max Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function max_length($str, $val)
@@ -1045,11 +1045,9 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		$val = (int) $val;
-
 		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === $val)
-			: (strlen($str) === $val);
+			? (mb_strlen($str) === intval($val))
+			: (strlen($str) === intval($val));
 	}
 
 	// --------------------------------------------------------------------
