@@ -1004,8 +1004,8 @@ class CI_Form_validation {
 		}
 
 		return (MB_ENABLED === TRUE)
-			? ($val <= mb_strlen($str))
-			: ($val <= strlen($str));
+			? (intval($val) <= mb_strlen($str))
+			: (intval($val) <= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1025,8 +1025,8 @@ class CI_Form_validation {
 		}
 
 		return (MB_ENABLED === TRUE)
-			? ($val >= mb_strlen($str))
-			: ($val >= strlen($str));
+			? (intval($val) >= mb_strlen($str))
+			: (intval($val) >= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
