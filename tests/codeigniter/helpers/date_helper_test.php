@@ -13,6 +13,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_now_local()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
@@ -22,6 +24,10 @@ class Date_helper_test extends CI_TestCase {
 		// Add the stub to our test instance
 		$this->ci_instance_var('config', $config);
 
+		*/
+
+		$this->ci_set_config('time_reference', 'local');
+
 		$this->assertEquals(time(), now());
 	}
 
@@ -29,6 +35,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_now_gmt()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
@@ -37,6 +45,10 @@ class Date_helper_test extends CI_TestCase {
 
 		// Add the stub to our stdClass
 		$this->ci_instance_var('config', $config);
+
+		*/
+
+		$this->ci_set_config('time_reference', 'gmt');
 
 		$t = time();
 		$this->assertEquals(
