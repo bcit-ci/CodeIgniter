@@ -1,14 +1,14 @@
 <?php
 
 class Benchmark_test extends CI_TestCase {
-	
+
 	public function set_up()
 	{
 		$this->benchmark = new Mock_Core_Benchmark();
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function test_mark()
 	{
 		$this->assertEmpty($this->benchmark->marker);
@@ -18,7 +18,7 @@ class Benchmark_test extends CI_TestCase {
 		$this->assertEquals(1, count($this->benchmark->marker));
 		$this->assertArrayHasKey('code_start', $this->benchmark->marker);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	public function test_elapsed_time()
@@ -29,7 +29,7 @@ class Benchmark_test extends CI_TestCase {
 		$this->benchmark->mark('code_start');
 		sleep(1);
 		$this->benchmark->mark('code_end');
-		
+
 		$this->assertEquals('1.0', $this->benchmark->elapsed_time('code_start', 'code_end', 1));
 	}
 
@@ -39,4 +39,5 @@ class Benchmark_test extends CI_TestCase {
 	{
 		$this->assertEquals('{memory_usage}', $this->benchmark->memory_usage());
 	}
+
 }

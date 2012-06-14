@@ -146,7 +146,7 @@ full URL::
 
 The function would return this::
 
-	/news/local/345
+	news/local/345
 
 $this->uri->ruri_string()
 ==========================

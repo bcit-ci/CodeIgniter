@@ -1,6 +1,6 @@
 <?php
 
-class Mock_Libraries_Table extends CI_Table {
+class Mock_Libraries_Encrypt extends CI_Encrypt {
 
 	// Overide inaccesible protected method
 	public function __call($method, $params)

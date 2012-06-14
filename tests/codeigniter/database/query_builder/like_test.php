@@ -86,5 +86,5 @@ class Like_test extends CI_TestCase {
 		$this->assertEquals('Accountant', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
 	}
-	
+
 }

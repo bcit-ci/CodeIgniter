@@ -77,6 +77,9 @@ if ( ! function_exists('do_hash'))
 	/**
 	 * Hash encode a string
 	 *
+	 * This function is DEPRECATED and should be removed in
+	 * CodeIgniter 3.1+. Use hash() instead.
+	 *
 	 * @param	string
 	 * @param	string
 	 * @return	string

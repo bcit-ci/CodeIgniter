@@ -65,7 +65,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Get the table schema
-			$query = $this->db->query('SHOW CREATE TABLE '.$this->db->protect_identifiers($this->db->database).'.'.$this->db->protect_identifiers($table));
+			$query = $this->db->query('SHOW CREATE TABLE '.$this->db->escape_identifiers($this->db->database.'.'.$table));
 
 			// No result means the table name was invalid
 			if ($query === FALSE)
@@ -120,7 +120,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 							TRUE);
 
 				// Create a string of field names
-				$field_str .= $this->db->protect_identifiers($field->name).', ';
+				$field_str .= $this->db->escape_identifiers($field->name).', ';
 				$i++;
 			}
 

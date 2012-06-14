@@ -596,35 +596,53 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (strpos($sql, $this->bind_marker) === FALSE)
+		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
+		{
+			return $sql;
+		}
+		elseif ( ! is_array($binds))
+		{
+			$binds = array($binds);
+			$bind_count = 1;
+		}
+		else
+		{
+			// Make sure we're using numeric keys
+			$binds = array_values($binds);
+			$bind_count = count($binds);
+		}
+
+		// We'll need the marker length later
+		$ml = strlen($this->bind_marker);
+
+		// Make sure not to replace a chunk inside a string that happens to match the bind marker
+		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
+		{
+			$c = preg_match_all('/'.preg_quote($this->bind_marker).'/i',
+				str_replace($matches[0],
+					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
+					$sql, $c),
+				$matches, PREG_OFFSET_CAPTURE);
+
+			// Bind values' count must match the count of markers in the query
+			if ($bind_count !== $c)
+			{
+				return $sql;
+			}
+		}
+		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker).'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
 		{
 			return $sql;
 		}
 
-		if ( ! is_array($binds))
+		do
 		{
-			$binds = array($binds);
+			$c--;
+			$sql = substr_replace($sql, $this->escape($binds[$c]), $matches[0][$c][1], $ml);
 		}
+		while ($c !== 0);
 
-		// Get the sql segments around the bind markers
-		$segments = explode($this->bind_marker, $sql);
-
-		// The count of bind should be 1 less then the count of segments
-		// If there are more bind arguments trim it down
-		if (count($binds) >= count($segments))
-		{
-			$binds = array_slice($binds, 0, count($segments)-1);
-		}
-
-		// Construct the binded query
-		$result = $segments[0];
-		$i = 0;
-		foreach ($binds as $bind)
-		{
-			$result .= $this->escape($bind).$segments[++$i];
-		}
-
-		return $result;
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -934,8 +952,8 @@ abstract class CI_DB_driver {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param	mixed
+	 * @return	mixed
 	 */
 	public function escape_identifiers($item)
 	{
@@ -943,25 +961,39 @@ abstract class CI_DB_driver {
 		{
 			return $item;
 		}
+		elseif (is_array($item))
+		{
+			foreach ($item as $key => $value)
+			{
+				$item[$key] = $this->escape_identifiers($value);
+			}
+
+			return $item;
+		}
+
+		static $preg_ec = array();
+
+		if (empty($preg_ec))
+		{
+			if (is_array($this->_escape_char))
+			{
+				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+			}
+			else
+			{
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+			}
+		}
 
 		foreach ($this->_reserved_identifiers as $id)
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$item = str_replace('.', $this->_escape_char.'.', $item);
-
-				// remove duplicates if the user already included the escape
-				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item);
+				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[0].'$1'.$preg_ec[1].'.', $item);
 			}
 		}
 
-		if (strpos($item, '.') !== FALSE)
-		{
-			$item = str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item);
-		}
-
-		// remove duplicates if the user already included the escape
-		return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $this->_escape_char.$item.$this->_escape_char);
+		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[0].'$1'.$preg_ec[1].'$2', $item);
 	}
 
 	// --------------------------------------------------------------------
@@ -1048,7 +1080,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL)/i', trim($str));
+		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL|BETWEEN)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1286,25 +1318,10 @@ abstract class CI_DB_driver {
 			$escaped_array = array();
 			foreach ($item as $k => $v)
 			{
-				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v);
+				$escaped_array[$this->protect_identifiers($k)] = $this->protect_identifiers($v, $prefix_single, $protect_identifiers, $field_exists);
 			}
 
 			return $escaped_array;
-		}
-
-		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/[\t ]+/', ' ', $item);
-
-		// If the item has an alias declaration we remove it and set it aside.
-		// Basically we remove everything to the right of the first space
-		if (strpos($item, ' ') !== FALSE)
-		{
-			$alias = strstr($item, ' ');
-			$item = substr($item, 0, - strlen($alias));
-		}
-		else
-		{
-			$alias = '';
 		}
 
 		// This is basically a bug fix for queries that use MAX, MIN, etc.
@@ -1313,7 +1330,49 @@ abstract class CI_DB_driver {
 		// way to deal with this, but I'm not thinking of it -- Rick
 		if (strpos($item, '(') !== FALSE)
 		{
-			return $item.$alias;
+			return $item;
+		}
+
+		// Convert tabs or multiple spaces into single spaces
+		$item = preg_replace('/\s+/', ' ', $item);
+
+		static $preg_ec = array();
+
+		if (empty($preg_ec))
+		{
+			if (is_array($this->_escape_char))
+			{
+				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+			}
+			else
+			{
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+			}
+		}
+
+		// If the item has an alias declaration we remove it and set it aside.
+		// Basically we remove everything to the right of the first space
+		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', $item, $matches);
+
+		if (isset($matches[4]))
+		{
+			$item = $matches[1];
+
+			// Escape the alias, if needed
+			if ($protect_identifiers === TRUE)
+			{
+				$alias = empty($matches[5])
+					? ' '.$this->escape_identifiers(ltrim($matches[4]))
+					: $matches[4].' '.$this->escape_identifiers(ltrim($matches[5]));
+			}
+			else
+			{
+				$alias = $matches[4].$matches[5];
+			}
+		}
+		else
+		{
+			$alias = '';
 		}
 
 		// Break the string apart if it contains periods, then insert the table prefix

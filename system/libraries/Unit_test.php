@@ -124,7 +124,7 @@ class CI_Unit_test {
 
 		$this->results[] = $report;
 
-		return($this->report($this->result($report)));
+		return $this->report($this->result($report));
 	}
 
 	// --------------------------------------------------------------------
@@ -289,15 +289,11 @@ class CI_Unit_test {
 	 */
 	protected function _backtrace()
 	{
-		if (function_exists('debug_backtrace'))
-		{
-			$back = debug_backtrace();
-			return array(
-					'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
-					'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
-				);
-		}
-		return array('file' => 'Unknown', 'line' => 'Unknown');
+		$back = debug_backtrace();
+		return array(
+				'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
+				'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
+			);
 	}
 
 	// --------------------------------------------------------------------
