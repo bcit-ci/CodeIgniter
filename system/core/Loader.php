@@ -239,7 +239,19 @@ class CI_Loader {
 		{
 			foreach ($model as $babe)
 			{
-				$this->model($babe);
+				// Check if $babe is an array
+				if (is_array($babe))
+				{
+					if ( ! empty($babe))
+					{
+						// Use the first key as the model to load, and its value as the object name
+						$this->model(key($babe), $babe[key($babe)]);
+					}
+				}
+				else
+				{
+					$this->model($babe);
+				}
 			}
 			return;
 		}
@@ -1189,7 +1201,20 @@ class CI_Loader {
 			// Load all other libraries
 			foreach ($autoload['libraries'] as $item)
 			{
-				$this->library($item);
+				// Check if $item is an array
+				if (is_array($item))
+				{
+					if ( ! empty($item))
+					{
+						// Use the first key as the library to load, and its value as the object name
+						$this->library(key($item), NULL, $item[key($item)]);
+					}
+				}
+
+				else
+				{
+					$this->library($item);
+				}
 			}
 		}
 
