@@ -482,7 +482,7 @@ class CI_Session {
 				session_write_close();
 			}
 			else {
-				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid, 'prevent_update' => 1), array('session_id' => $old_sessid)));	
+				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));	
 			}
 		}
 
