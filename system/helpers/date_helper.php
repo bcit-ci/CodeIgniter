@@ -436,51 +436,33 @@ if ( ! function_exists('human_to_unix'))
 
 		$datestr = preg_replace('/\040+/', ' ', trim($datestr));
 
-		if ( ! preg_match('/^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}(?::[0-9]{1,2})?(?:\s[AP]M)?$/i', $datestr))
+		if ( ! preg_match('/^(\d{2}|\d{4})\-[0-9]{1,2}\-[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}(?::[0-9]{1,2})?(?:\s[AP]M)?$/i', $datestr))
 		{
 			return FALSE;
 		}
 
 		$split = explode(' ', $datestr);
 
-		$ex = explode('-', $split['0']);
-
-		$year  = (strlen($ex[0]) === 2) ? '20'.$ex[0] : $ex[0];
-		$month = (strlen($ex[1]) === 1) ? '0'.$ex[1]  : $ex[1];
-		$day   = (strlen($ex[2]) === 1) ? '0'.$ex[2]  : $ex[2];
+		list($year, $month, $day) = explode('-', $split[0]);
 
 		$ex = explode(':', $split['1']);
 
-		$hour = (strlen($ex[0]) === 1) ? '0'.$ex[0] : $ex[0];
-		$min  = (strlen($ex[1]) === 1) ? '0'.$ex[1] : $ex[1];
-
-		if (isset($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
-		{
-			$sec = (strlen($ex[2]) === 1) ? '0'.$ex[2] : $ex[2];
-		}
-		else
-		{
-			// Unless specified, seconds get set to zero.
-			$sec = '00';
-		}
+		$hour	= (int) $ex[0];
+		$min	= (int) $ex[1];
+		$sec	= ( ! empty($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
+				? (int) $ex[2] : 0;
 
 		if (isset($split[2]))
 		{
 			$ampm = strtolower($split[2]);
 
-			if (substr($ampm, 0, 1) === 'p' && $hour < 12)
+			if ($ampm[0] === 'p' && $hour < 12)
 			{
 				$hour += 12;
 			}
-
-			if (substr($ampm, 0, 1) === 'a' && $hour == 12)
+			elseif ($ampm[0] === 'a' && $hour === 12)
 			{
-				$hour =  '00';
-			}
-
-			if (strlen($hour) === 1)
-			{
-				$hour = '0'.$hour;
+				$hour = 0;
 			}
 		}
 
@@ -508,7 +490,7 @@ if ( ! function_exists('nice_date'))
 		}
 
 		// Date like: YYYYMM
-		if (preg_match('/^\d{6}$/', $bad_date))
+		if (preg_match('/^\d{6}$/i', $bad_date))
 		{
 			if (in_array(substr($bad_date, 0, 2), array('19', '20')))
 			{
@@ -525,20 +507,15 @@ if ( ! function_exists('nice_date'))
 		}
 
 		// Date Like: YYYYMMDD
-		if (preg_match('/^\d{8}$/', $bad_date))
+		if (preg_match('/^(\d{2})\d{2}(\d{4})$/i', $bad_date, $matches))
 		{
-			$month	= substr($bad_date, 0, 2);
-			$day	= substr($bad_date, 2, 2);
-			$year	= substr($bad_date, 4, 4);
-
-			return date($format, strtotime($month.'/01/'.$year));
+			return date($format, strtotime($matches[1].'/01/'.$matches[2]));
 		}
 
 		// Date Like: MM-DD-YYYY __or__ M-D-YYYY (or anything in between)
-		if (preg_match('/^\d{1,2}-\d{1,2}-\d{4}$/', $bad_date, $matches))
+		if (preg_match('/^(\d{1,2})-(\d{1,2})-(\d{4})$/i', $bad_date, $matches))
 		{
-			list($m, $d, $y) = explode('-', $bad_date);
-			return date($format, strtotime($y.'-'.$m.'-'.$d));
+			return date($format, strtotime($matches[3].'-'.$matches[1].'-'.$matches[2]));
 		}
 
 		// Any other kind of string, when converted into UNIX time,
