@@ -276,6 +276,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
 -  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
+-  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
 
 Version 2.1.1
 =============
