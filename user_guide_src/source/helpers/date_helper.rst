@@ -247,16 +247,18 @@ Example
 
 ::
 
-	$bad_time = 199605  // Should Produce: 1996-05-01
-	$better_time = nice_date($bad_time,'Y-m-d');
-	$bad_time = 9-11-2001 // Should Produce: 2001-09-11
-	$better_time = nice_date($human,'Y-m-d');
+	$bad_date = '199605';
+	// Should Produce: 1996-05-01
+	$better_date = nice_date($bad_date, 'Y-m-d');
+
+	$bad_date = '9-11-2001';
+	// Should Produce: 2001-09-11
+	$better_date = nice_date($bad_date, 'Y-m-d');
 
 timespan()
 ==========
 
 Formats a unix timestamp so that is appears similar to this
-
 ::
 
 	1 Year, 10 Months, 2 Weeks, 5 Days, 10 Hours, 16 Minutes
