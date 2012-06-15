@@ -244,8 +244,10 @@ class CI_Loader {
 				{
 					if ( ! empty($babe))
 					{
+						$key = key($babe);
+
 						// Use the first key as the model to load, and its value as the object name
-						$this->model(key($babe), $babe[key($babe)]);
+						$this->model($key, $babe[$key]);
 					}
 				}
 				else
@@ -1206,8 +1208,10 @@ class CI_Loader {
 				{
 					if ( ! empty($item))
 					{
+						$key = key($item);
+
 						// Use the first key as the library to load, and its value as the object name
-						$this->library(key($item), NULL, $item[key($item)]);
+						$this->library($key, NULL, $item[$key]);
 					}
 				}
 
