@@ -275,6 +275,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
+-  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
 
 Version 2.1.1
 =============
