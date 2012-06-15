@@ -488,6 +488,10 @@ if ( ! function_exists('nice_date'))
 		{
 			return 'Unknown';
 		}
+		elseif (empty($format))
+		{
+			$format = 'U';
+		}
 
 		// Date like: YYYYMM
 		if (preg_match('/^\d{6}$/i', $bad_date))

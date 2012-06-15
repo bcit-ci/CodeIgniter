@@ -270,6 +270,7 @@ Bug fixes for 3.0
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
+-  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
 
 Version 2.1.1
 =============
