@@ -998,14 +998,18 @@ class CI_Form_validation {
 	 */
 	public function min_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
+		else
+		{
+			$val = (int) $val;
+		}
 
 		return (MB_ENABLED === TRUE)
-			? (intval($val) <= mb_strlen($str))
-			: (intval($val) <= strlen($str));
+			? ($val <= mb_strlen($str))
+			: ($val <= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1019,14 +1023,18 @@ class CI_Form_validation {
 	 */
 	public function max_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
+		else
+		{
+			$val = (int) $val;
+		}
 
 		return (MB_ENABLED === TRUE)
-			? (intval($val) >= mb_strlen($str))
-			: (intval($val) >= strlen($str));
+			? ($val >= mb_strlen($str))
+			: ($val >= strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1040,14 +1048,18 @@ class CI_Form_validation {
 	 */
 	public function exact_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
 		}
+		else
+		{
+			$val = (int) $val;
+		}
 
 		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === intval($val))
-			: (strlen($str) === intval($val));
+			? (mb_strlen($str) === $val)
+			: (strlen($str) === $val);
 	}
 
 	// --------------------------------------------------------------------
