@@ -993,14 +993,18 @@ class CI_Form_validation {
 	 * Minimum Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function min_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
+		}
+		else
+		{
+			$val = (int) $val;
 		}
 
 		return (MB_ENABLED === TRUE)
@@ -1014,14 +1018,18 @@ class CI_Form_validation {
 	 * Max Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function max_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
+		}
+		else
+		{
+			$val = (int) $val;
 		}
 
 		return (MB_ENABLED === TRUE)
@@ -1035,14 +1043,18 @@ class CI_Form_validation {
 	 * Exact Length
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	string
 	 * @return	bool
 	 */
 	public function exact_length($str, $val)
 	{
-		if (preg_match('/[^0-9]/', $val))
+		if ( ! is_numeric($val))
 		{
 			return FALSE;
+		}
+		else
+		{
+			$val = (int) $val;
 		}
 
 		return (MB_ENABLED === TRUE)
@@ -1370,7 +1382,7 @@ class CI_Form_validation {
 	 */
 	public function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?', '?>'),  array('&lt;?', '?&gt;'), $str);
 	}
 
 	// --------------------------------------------------------------------

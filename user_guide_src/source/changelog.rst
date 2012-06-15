@@ -175,6 +175,7 @@ Release Date: Not Released
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
+   -  Added support for HTTP code 303 ("See Other") in set_status_header().
 
 Bug fixes for 3.0
 ------------------
@@ -270,6 +271,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
+-  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
+-  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
 
 Version 2.1.1
 =============

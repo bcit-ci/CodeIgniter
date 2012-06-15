@@ -381,7 +381,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$this->protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
+		$this->qb_join[] = $join = $type.'JOIN '.$table.' ON '.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -451,7 +451,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// If the escape value was not set will will base it on the global setting
-		$escape = $this->_protect_identifiers;
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
@@ -932,10 +932,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$prefix = (count($this->qb_having) === 0) ? '' : $type;
 
-			if ($escape === TRUE)
-			{
-				$k = $this->protect_identifiers($k);
-			}
+			$k = $this->_has_operator($k)
+				? $this->protect_identifiers(substr($k, 0, strpos(rtrim($k), ' ')), FALSE, $escape).strchr(rtrim($k), ' ')
+				: $this->protect_identifiers($k, FALSE, $escape);
 
 			if ( ! $this->_has_operator($k))
 			{

@@ -13,6 +13,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_now_local()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
@@ -22,25 +24,34 @@ class Date_helper_test extends CI_TestCase {
 		// Add the stub to our test instance
 		$this->ci_instance_var('config', $config);
 
+		*/
+
+		$this->ci_set_config('time_reference', 'local');
+
 		$this->assertEquals(time(), now());
 	}
 
 	// ------------------------------------------------------------------------
 
-	public function test_now_gmt()
+	public function test_now_utc()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
 			   ->method('item')
-			   ->will($this->returnValue('gmt'));
+			   ->will($this->returnValue('UTC'));
 
 		// Add the stub to our stdClass
 		$this->ci_instance_var('config', $config);
 
-		$t = time();
+		*/
+
+		$this->ci_set_config('time_reference', 'UTC');
+
 		$this->assertEquals(
-			mktime(gmdate('H', $t), gmdate('i', $t), gmdate('s', $t), gmdate('m', $t), gmdate('d', $t), gmdate('Y', $t)),
+			gmmktime(date('G'), date('i'), date('s'), date('n'), date('j'), date('Y')),
 			now()
 		);
 	}
@@ -185,9 +196,9 @@ class Date_helper_test extends CI_TestCase {
 	public function test_local_to_gmt()
 	{
 		$this->assertEquals(
-			mktime(
-				gmdate('H', $this->time), gmdate('i', $this->time), gmdate('s', $this->time),
-				gmdate('m', $this->time), gmdate('d', $this->time), gmdate('Y', $this->time)
+			gmmktime(
+				date('G', $this->time), date('i', $this->time), date('s', $this->time),
+				date('n', $this->time), date('j', $this->time), date('Y', $this->time)
 			),
 			local_to_gmt($this->time)
 		);
