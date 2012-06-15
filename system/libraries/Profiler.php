@@ -116,6 +116,12 @@ class CI_Profiler {
 	 */
 	public function set_sections($config)
 	{
+		if (isset($config['query_toggle_count']))
+		{
+			$this->_query_toggle_count = (int) $config['query_toggle_count'];
+			unset($config['query_toggle_count']);
+		}
+
 		foreach ($config as $method => $enable)
 		{
 			if (in_array($method, $this->_available_sections))
