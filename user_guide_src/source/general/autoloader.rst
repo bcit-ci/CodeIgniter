@@ -19,5 +19,10 @@ To autoload resources, open the application/config/autoload.php file and
 add the item you want loaded to the autoload array. You'll find
 instructions in that file corresponding to each type of item.
 
+When auto-loading libraries and models, you may also pass the object name
+you would like them to be instantiated as. Instead of listing the library
+or model name, pass an single-item array where the key is the library/model
+name, and the value is its instantiated object name.
+
 .. note:: Do not include the file extension (.php) when adding items to
 	the autoload array.
