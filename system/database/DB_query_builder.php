@@ -451,7 +451,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// If the escape value was not set will will base it on the global setting
-		$escape = $this->_protect_identifiers;
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
