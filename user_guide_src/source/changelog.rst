@@ -174,6 +174,7 @@ Release Date: Not Released
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
+   -  Added support for HTTP code 303 ("See Other") in set_status_header().
 
 Bug fixes for 3.0
 ------------------
