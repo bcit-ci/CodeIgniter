@@ -1382,7 +1382,7 @@ class CI_Form_validation {
 	 */
 	public function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?', '?>'),  array('&lt;?', '?&gt;'), $str);
 	}
 
 	// --------------------------------------------------------------------
