@@ -304,13 +304,13 @@ if ( ! function_exists('local_to_gmt'))
 			$time = time();
 		}
 
-		return gmmktime(
-			date('G', $time),
-			date('i', $time),
-			date('s', $time),
-			date('n', $time),
-			date('j', $time),
-			date('Y', $time)
+		return mktime(
+			gmdate('G', $time),
+			gmdate('i', $time),
+			gmdate('s', $time),
+			gmdate('n', $time),
+			gmdate('j', $time),
+			gmdate('Y', $time)
 		);
 	}
 }
