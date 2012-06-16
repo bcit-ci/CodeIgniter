@@ -262,7 +262,7 @@ class CI_Session {
 				 * or if this session is no longer allowed to update and has exired.
 				 *  If so, kill it.
 				 */
-				if (!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_multisession_expiration) > $this->now))
+				if (!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_expiration + $this->sess_multisession_expiration) < $this->now))
 				{
 					$this->sess_destroy();
 					
