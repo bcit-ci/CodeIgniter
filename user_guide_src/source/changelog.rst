@@ -163,12 +163,12 @@ Release Date: Not Released
 
 -  Core
 
-   -  Changed private functions in CI_URI to protected so MY_URI can override them.
+   -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
-   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Added method() to the :doc:`Input Library <libraries/input>` to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
@@ -177,6 +177,7 @@ Release Date: Not Released
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
+   -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
 
 Bug fixes for 3.0
 ------------------
@@ -276,6 +277,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
 -  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
 -  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
+-  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method site_url() added a question mark to the URL string when query strings are enabled even if it already existed.
 
 Version 2.1.1
 =============
