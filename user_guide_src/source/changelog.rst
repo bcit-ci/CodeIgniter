@@ -74,8 +74,7 @@ Release Date: Not Released
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
 	 - Added the ability to insert objects with insert_batch().
 	 - Added new methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-	 - Added an optional order_by() parameter that allows to disable escaping (useful for custom fields).
-	 - Added an optional join() parameter that allows to disable escaping.
+	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods join(), order_by(), where_in(), or_where_in(), where_not_in(), or_where_not_in().
 	 - Added support for join() with multiple conditions.
    -  Improved support for the MySQLi driver, including:
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
