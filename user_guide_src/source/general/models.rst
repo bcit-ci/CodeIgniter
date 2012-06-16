@@ -18,9 +18,9 @@ model class might look like::
 
 	class Blog_model extends CI_Model {
 
-	    var $title   = '';
-	    var $content = '';
-	    var $date    = '';
+	    public $title   = '';
+	    public $content = '';
+	    public $date    = '';
 
 	    function __construct()
 	    {
