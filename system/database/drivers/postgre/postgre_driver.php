@@ -606,10 +606,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		// If the escape value was not set will will base it on the global setting
-		if ( ! is_bool($escape))
-		{
-			$escape = $this->_protect_identifiers;
-		}
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
