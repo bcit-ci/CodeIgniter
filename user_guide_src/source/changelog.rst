@@ -162,7 +162,10 @@ Release Date: Not Released
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
-   -  Added support for the anchor "rel" attribute in the :doc:`Pagination Library <libraries/pagination>`.
+   -  :doc:`Pagination Library <libraries/pagination>` changes include:
+	 -  Added support for the anchor "rel" attribute.
+	 -  Added support for setting custom attributes.
+	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 
 -  Core
 
