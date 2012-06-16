@@ -74,7 +74,7 @@ class CI_Output {
 	protected $mime_type		= 'text/html';
 
 	/**
-	 * Determines wether profiler is enabled
+	 * Determines whether profiler is enabled
 	 *
 	 * @var book
 	 */
