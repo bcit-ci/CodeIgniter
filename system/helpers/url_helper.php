@@ -204,7 +204,7 @@ if ( ! function_exists('anchor_popup'))
 
 		if ( ! is_array($attributes))
 		{
-			$attributes = array();
+			$attributes = array($attributes);
 		}
 
 		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
@@ -213,10 +213,7 @@ if ( ! function_exists('anchor_popup'))
 			unset($attributes[$key]);
 		}
 
-		if ($attributes !== '')
-		{
-			$attributes = _parse_attributes($attributes);
-		}
+		$attributes = empty($attributes) ? '' : _parse_attributes($attributes);
 
 		return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"".$attributes.'>'.$title.'</a>';
 	}
