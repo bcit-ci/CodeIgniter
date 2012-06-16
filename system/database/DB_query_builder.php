@@ -324,7 +324,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string
 	 * @param	string	the join condition
 	 * @param	string	the type of join
-	 * @param	string	wether not to try to escape identifiers
+	 * @param	string	whether not to try to escape identifiers
 	 * @return	object
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
