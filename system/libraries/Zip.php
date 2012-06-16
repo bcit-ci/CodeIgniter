@@ -40,7 +40,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/zip.html
  */
-class CI_Zip  {
+class CI_Zip {
 
 	/**
 	 * Zip data in string form
