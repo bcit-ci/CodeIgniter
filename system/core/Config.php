@@ -235,14 +235,26 @@ class CI_Config {
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
+		$uri = $this->_uri_string($uri);
+
 		if ($this->item('enable_query_strings') === FALSE)
 		{
 			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+
+			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			{
+				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+			}
+			else
+			{
+				$uri .= $suffix;
+			}
+
+			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
 		}
-		elseif (is_array($uri) OR strpos($uri, '?') === FALSE)
+		elseif (strpos($uri, '?') === FALSE)
 		{
-			$uri = '?'.$this->_uri_string($uri);
+			$uri = '?'.$uri;
 		}
 
 		return $this->slash_item('base_url').$this->item('index_page').$uri;
