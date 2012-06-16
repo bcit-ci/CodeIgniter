@@ -327,7 +327,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	wether not to try to escape identifiers
 	 * @return	object
 	 */
-	public function join($table, $cond, $type = '', $escape = TRUE)
+	public function join($table, $cond, $type = '', $escape = NULL)
 	{
 		if ($type !== '')
 		{
@@ -346,6 +346,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Extract any aliases that might exist. We use this information
 		// in the protect_identifiers to know whether to add a table prefix
 		$this->_track_aliases($table);
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		// Split multiple conditions
 		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
@@ -888,7 +890,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function having($key, $value = '', $escape = TRUE)
+	public function having($key, $value = '', $escape = NULL)
 	{
 		return $this->_having($key, $value, 'AND ', $escape);
 	}
@@ -905,7 +907,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function or_having($key, $value = '', $escape = TRUE)
+	public function or_having($key, $value = '', $escape = NULL)
 	{
 		return $this->_having($key, $value, 'OR ', $escape);
 	}
@@ -923,12 +925,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	protected function _having($key, $value = '', $type = 'AND ', $escape = TRUE)
+	protected function _having($key, $value = '', $type = 'AND ', $escape = NULL)
 	{
 		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
 		}
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
@@ -1057,14 +1061,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The "set" function.  Allows key/value pairs to be set for inserting or updating
+	 * The "set" function.
+	 *
+	 * Allows key/value pairs to be set for inserting or updating
 	 *
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
 	 * @return	object
 	 */
-	public function set($key, $value = '', $escape = TRUE)
+	public function set($key, $value = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array($key);
 
@@ -1073,16 +1079,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$key = array($key => $value);
 		}
 
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
+
 		foreach ($key as $k => $v)
 		{
-			if ($escape === FALSE)
-			{
-				$this->qb_set[$this->protect_identifiers($k)] = $v;
-			}
-			else
-			{
-				$this->qb_set[$this->protect_identifiers($k, FALSE, TRUE)] = $this->escape($v);
-			}
+			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = ($escape)
+				? $this->escape($v) : $v;
 		}
 
 		return $this;
@@ -1288,7 +1290,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function set_insert_batch($key, $value = '', $escape = TRUE)
+	public function set_insert_batch($key, $value = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array_batch($key);
 
@@ -1296,6 +1298,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$key = array($key => $value);
 		}
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		$keys = array_keys($this->_object_to_array(current($key)));
 		sort($keys);
@@ -1328,7 +1332,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($keys as $k)
 		{
-			$this->qb_keys[] = $this->protect_identifiers($k);
+			$this->qb_keys[] = $this->protect_identifiers($k, FALSE, $escape);
 		}
 
 		return $this;
@@ -1727,7 +1731,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function set_update_batch($key, $index = '', $escape = TRUE)
+	public function set_update_batch($key, $index = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array_batch($key);
 
@@ -1735,6 +1739,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			// @todo error
 		}
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
@@ -1747,7 +1753,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$index_set = TRUE;
 				}
 
-				$clean[$this->protect_identifiers($k2)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
+				$clean[$this->protect_identifiers($k2, FALSE, $escape)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
 			}
 
 			if ($index_set === FALSE)
