@@ -155,7 +155,7 @@ class CI_Calendar {
 	public function generate($year = '', $month = '', $data = array())
 	{
 		// Set and validate the supplied month/year
-		if ($year === '')
+		if (empty($year))
 		{
 			$year  = date('Y', $this->local_time);
 		}
@@ -168,7 +168,7 @@ class CI_Calendar {
 			$year = '20'.$year;
 		}
 
-		if ($month === '')
+		if (empty($month))
 		{
 			$month = date('m', $this->local_time);
 		}
