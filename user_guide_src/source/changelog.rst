@@ -53,7 +53,10 @@ Release Date: Not Released
 
    -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
-   -  ``url_title()`` will now trim extra dashes from beginning and end.
+   -  :doc:`URL Helper <helpers/url_helper>` changes include:
+	 - ``url_title()`` will now trim extra dashes from beginning and end.
+	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
+	 - Added JS window name support to ``anchor_popup()`` function.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
