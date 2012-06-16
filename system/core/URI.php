@@ -302,9 +302,11 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') !== '')
+		$suffix = (string) $this->config->item('url_suffix');
+
+		if ($suffix !== '' && ($offset = strrpos($this->uri_string, $suffix)) !== FALSE)
 		{
-			$this->uri_string = preg_replace('|'.preg_quote($this->config->item('url_suffix')).'$|', '', $this->uri_string);
+			$this->uri_string = substr_replace($this->uri_string, '', $offset, strlen($suffix));
 		}
 	}
 
