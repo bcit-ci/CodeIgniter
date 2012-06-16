@@ -967,7 +967,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	enable field name escaping
 	 * @return	object
 	 */
-	public function order_by($orderby, $direction = '', $escape = TRUE)
+	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
 		if (strtolower($direction) === 'random')
 		{
@@ -979,8 +979,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$direction = in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE) ? ' '.$direction : ' ASC';
 		}
 
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		if ((strpos($orderby, ',') !== FALSE) && $escape === TRUE)
+		if ($escape === TRUE && strpos($orderby, ',') !== FALSE)
 		{
 			$temp = array();
 			foreach (explode(',', $orderby) as $part)
