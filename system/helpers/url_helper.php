@@ -199,15 +199,23 @@ if ( ! function_exists('anchor_popup'))
 
 		if ($attributes === FALSE)
 		{
-			return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url."', '_blank');\">".$title.'</a>';
+			return '<a href="'.$site_url.'" onclick="window.open(\''.$site_url."', '_blank'); return false;\">".$title.'</a>';
 		}
 
 		if ( ! is_array($attributes))
 		{
 			$attributes = array($attributes);
+
+			// Ref: http://www.w3schools.com/jsref/met_win_open.asp
+			$window_name = '_blank';
+		}
+		elseif ( ! empty($attributes['window_name']))
+		{
+			$window_name = $attributes['window_name'];
+			unset($attributes['window_name']);
 		}
 
-		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
+		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0') as $key => $val)
 		{
 			$atts[$key] = isset($attributes[$key]) ? $attributes[$key] : $val;
 			unset($attributes[$key]);
@@ -215,7 +223,9 @@ if ( ! function_exists('anchor_popup'))
 
 		$attributes = empty($attributes) ? '' : _parse_attributes($attributes);
 
-		return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"".$attributes.'>'.$title.'</a>';
+		return '<a href="'.$site_url
+			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._parse_attributes($atts, TRUE)."'); return false;\""
+			.$attributes.'>'.$title.'</a>';
 	}
 }
 
