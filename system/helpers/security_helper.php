@@ -80,6 +80,7 @@ if ( ! function_exists('do_hash'))
 	 * This function is DEPRECATED and should be removed in
 	 * CodeIgniter 3.1+. Use hash() instead.
 	 *
+	 * @deprecated
 	 * @param	string
 	 * @param	string
 	 * @return	string
