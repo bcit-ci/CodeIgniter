@@ -368,12 +368,20 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$newcond .= $m[0][$i][0];
 			}
 
-			$cond = $newcond;
+			$cond = ' ON '.$newcond;
 		}
 		// Split apart the condition and protect the identifiers
 		elseif ($escape === TRUE && preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $cond, $match))
 		{
-			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
+			$cond = ' ON '.$this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
+		}
+		elseif ( ! $this->_has_operator($cond))
+		{
+			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
+		}
+		else
+		{
+			$cond = ' ON '.$cond;
 		}
 
 		// Do we want to escape the table name?
@@ -383,7 +391,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$table.' ON '.$cond;
+		$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
