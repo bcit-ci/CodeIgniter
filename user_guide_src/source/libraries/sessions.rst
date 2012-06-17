@@ -282,6 +282,20 @@ To clear the current session::
 	variables will no longer be available. If you only want some items
 	destroyed and not all, use unset_userdata().
 
+Changing session's expiration time
+==================================
+
+You can change the expiration time for the current session calling to the
+following function:
+
+	$this->session->set_expiration($seconds);
+
+You can pass 0, for making the session expire on close, a negative value,
+to destroy the session or a positive value, and that number of seconds will
+be added to the current time.
+
+This gives you the possibility to do "Remember Me" type of scripts.
+
 Session Preferences
 ===================
 

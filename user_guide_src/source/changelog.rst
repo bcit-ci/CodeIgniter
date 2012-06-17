@@ -131,6 +131,7 @@ Release Date: Not Released
 
 -  Libraries
 
+   -  Added the possibility to change the expiration time for the current session in the :doc:`Session Library <libraries/sessions>`.
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
