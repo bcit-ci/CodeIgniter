@@ -1086,6 +1086,20 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Returns the SQL string operator
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _get_operator($str)
+	{
+		return preg_match('/(=|!|<|>| IS NULL| IS NOT NULL| BETWEEN)/i', $str, $match)
+			? $match[1] : FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Enables a native PHP function to be run, using a platform agnostic wrapper.
 	 *
 	 * @param	string	the function name
@@ -1336,39 +1350,21 @@ abstract class CI_DB_driver {
 		// Convert tabs or multiple spaces into single spaces
 		$item = preg_replace('/\s+/', ' ', $item);
 
-		static $preg_ec = array();
-
-		if (empty($preg_ec))
-		{
-			if (is_array($this->_escape_char))
-			{
-				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
-			}
-			else
-			{
-				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
-			}
-		}
-
 		// If the item has an alias declaration we remove it and set it aside.
-		// Basically we remove everything to the right of the first space
-		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', $item, $matches);
-
-		if (isset($matches[4]))
+		// Note: strripos() is used in order to support spaces in table names
+		if ($offset = strripos($item, ' AS '))
 		{
-			$item = $matches[1];
-
-			// Escape the alias, if needed
-			if ($protect_identifiers === TRUE)
-			{
-				$alias = empty($matches[5])
-					? ' '.$this->escape_identifiers(ltrim($matches[4]))
-					: $matches[4].' '.$this->escape_identifiers(ltrim($matches[5]));
-			}
-			else
-			{
-				$alias = $matches[4].$matches[5];
-			}
+			$alias = ($protect_identifiers)
+					? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
+		}
+		elseif ($offset = strrpos($item, ' '))
+		{
+			$alias = ($protect_identifiers)
+					? ' '.$this->escape_identifiers(substr($item, $offset + 1))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
 		}
 		else
 		{

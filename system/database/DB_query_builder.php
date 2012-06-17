@@ -459,8 +459,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
 
-			$k = $this->_has_operator($k)
-				? $this->protect_identifiers(substr($k, 0, strpos(rtrim($k), ' ')), FALSE, $escape).strchr(rtrim($k), ' ')
+			$k = (($op = $this->_get_operator($k)) !== FALSE)
+				? $this->protect_identifiers(substr($k, 0, strpos($k, $op)), FALSE, $escape).strstr($k, $op)
 				: $this->protect_identifiers($k, FALSE, $escape);
 
 			if (is_null($v) && ! $this->_has_operator($k))
