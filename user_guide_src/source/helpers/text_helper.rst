@@ -122,9 +122,9 @@ opening/closing HTML tags you would like the phrase wrapped in. Example
 	$string = "Here is a nice text string about nothing in particular.";
 	$string = highlight_phrase($string, "nice text", '<span style="color:#990000">', '</span>');
 
-The above text returns:
+The above text returns::
 
-Here is a nice text string about nothing in particular.
+	Here is a <span style="color:#990000">nice text</span> string about nothing in particular.
 
 word_wrap()
 ===========
