@@ -287,6 +287,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method site_url() added a question mark to the URL string when query strings are enabled even if it already existed.
 -  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method site_url() always appended ``$config['url_suffix']`` to the end of the URL string, regardless of wether a query string exists in it.
 -  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
+-  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 
 Version 2.1.1
 =============

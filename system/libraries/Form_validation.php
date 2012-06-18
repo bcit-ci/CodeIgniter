@@ -649,7 +649,12 @@ class CI_Form_validation {
 			}
 			else
 			{
-				$postdata = $this->_field_data[$row['field']]['postdata'];
+				// If we get an array field, but it's not expected - then it is most likely
+				// somebody messing with the form on the client side, so we'll just consider
+				// it an empty field
+				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
+						? NULL
+						: $this->_field_data[$row['field']]['postdata'];
 			}
 
 			// Is the rule a callback?
