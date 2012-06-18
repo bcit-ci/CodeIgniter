@@ -1042,12 +1042,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function limit($value, $offset = NULL)
 	{
-		$this->qb_limit = (int) $value;
-
-		if ( ! empty($offset))
-		{
-			$this->qb_offset = (int) $offset;
-		}
+		is_null($value) OR $this->qb_limit = (int) $value;
+		empty($offset) OR $this->qb_offset = (int) $offset;
 
 		return $this;
 	}
@@ -1062,7 +1058,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function offset($offset)
 	{
-		$this->qb_offset = (int) $offset;
+		empty($offset) OR $this->qb_offset = (int) $offset;
 		return $this;
 	}
 
