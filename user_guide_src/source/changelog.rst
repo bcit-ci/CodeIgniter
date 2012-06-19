@@ -51,6 +51,7 @@ Release Date: Not Released
 
 -  Helpers
 
+   -  ``form_button()`` and ``form_submit()`` no longer set an unnecessary name attribute by default.
    -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
