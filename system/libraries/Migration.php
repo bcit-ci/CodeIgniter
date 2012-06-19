@@ -117,26 +117,14 @@ class CI_Migration {
 		// Load migration language
 		$this->lang->load('migration');
 
-		// They'll probably be using dbforge
-		$this->load->dbforge();
-
 		// Make sure the migration table name was set.
 		if (empty($this->_migration_table))
 		{
 			show_error('Migrations configuration file (migration.php) must have "migration_table" set.');
 		}
 
-		// If the migrations table is missing, make it
-		if ( ! $this->db->table_exists($this->_migration_table))
-		{
-			$this->dbforge->add_field(array(
-				'version' => array('type' => 'INT', 'constraint' => 3),
-			));
-
-			$this->dbforge->create_table($this->_migration_table, TRUE);
-
-			$this->db->insert($this->_migration_table, array('version' => 0));
-		}
+		// Load dbforge and make sure migrations table exists
+		$this->_load_db();
 
 		// Do we auto migrate to the latest migration?
 		if ($this->_migration_auto_latest === TRUE && ! $this->latest())
@@ -342,6 +330,31 @@ class CI_Migration {
 
 		sort($files);
 		return $files;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Loads database utility, creates migrations table if missing
+	 *
+	 * @return	void	Load dbforge lib
+	 */
+	protected function _load_db()
+	{
+		// They'll probably be using dbforge
+		$this->load->dbforge();
+		
+		// If the migrations table is missing, make it
+		if ( ! $this->db->table_exists($this->_migration_table))
+		{
+			$this->dbforge->add_field(array(
+				'version' => array('type' => 'INT', 'constraint' => 3),
+			));
+
+			$this->dbforge->create_table($this->_migration_table, TRUE);
+
+			$this->db->insert($this->_migration_table, array('version' => 0));
+		}
 	}
 
 	// --------------------------------------------------------------------
