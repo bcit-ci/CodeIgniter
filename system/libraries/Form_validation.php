@@ -459,15 +459,6 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
-
-			// This block will threat regex_match in a different way, then others callbacks will continue
-			// working normally
-			$rules = $row['rules'];
-			$regex_match_str = preg_replace("/.*(regex_match\[\/.*\/\]).*/", "$1", $rules);
-			if($regex_match_str == $rules)
-			{
-				$regex_match_str = '';
-			}
 			
 			// This block will threat regex_match in a different way, then others callbacks will continue
 			// working normally
