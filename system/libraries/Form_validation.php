@@ -460,7 +460,9 @@ class CI_Form_validation {
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
 
-			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
+			$regexp_split   = array("/\|\s*([a-zA-Z_]+\|)/","/\|\s*([a-zA-Z_^|]+\[[^|]*\])/");
+			$exploded_rules = explode("\n", preg_replace($regexp_split, "\n$1", $row['rules']));
+			$this->_execute($row, $exploded_rules, $this->_field_data[$field]['postdata']);
 		}
 
 		// Did we end up with any errors?
