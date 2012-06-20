@@ -460,9 +460,27 @@ class CI_Form_validation {
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
 
-			$regexp_split   = array("/\|\s*([a-zA-Z_]+\|)/","/\|\s*([a-zA-Z_^|]+\[[^|]*\])/");
-			$exploded_rules = explode("\n", preg_replace($regexp_split, "\n$1", $row['rules']));
-			$this->_execute($row, $exploded_rules, $this->_field_data[$field]['postdata']);
+			// This block will threat regex_match in a different way, then others callbacks will continue
+			// working normally
+			$rules = $row['rules'];
+			$regex_match_str = preg_replace("/.*(regex_match\[\/.*\/\]).*/", "$1", $rules);
+			if($regex_match_str == $rules)
+			{
+				$regex_match_str = '';
+			}
+			
+			// This block will threat regex_match in a different way, then others callbacks will continue
+			// working normally
+			$rules = $row['rules'];
+			$regex_match_str = preg_replace("/.*(regex_match\[\/.*\/\]).*/", "$1", $rules, 1, $count);
+			if($count === 0)
+			{
+				$regex_match_str = '';
+			}
+			$rules = str_replace($regex_match_str, "", $rules);
+			$exploded_rules   = explode('|', $rules);
+			$exploded_rules[] = $regex_match_str;
+			$this->_execute($row, array_filter($exploded_rules), $this->_field_data[$field]['postdata']);
 		}
 
 		// Did we end up with any errors?
