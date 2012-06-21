@@ -48,11 +48,9 @@ class Date_helper_test extends CI_TestCase {
 
 		*/
 
-		$this->ci_set_config('time_reference', 'UTC');
-
 		$this->assertEquals(
-			gmmktime(date('G'), date('i'), date('s'), date('n'), date('j'), date('Y')),
-			now()
+			mktime(gmdate('G'), gmdate('i'), gmdate('s'), gmdate('n'), gmdate('j'), gmdate('Y')),
+			now('UTC')
 		);
 	}
 
