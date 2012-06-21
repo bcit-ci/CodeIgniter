@@ -571,8 +571,7 @@ class CI_Form_validation {
 		{
 			foreach ($postdata as $key => $val)
 			{
-				$this->_execute($row, $rules, $val, $cycles);
-				$cycles++;
+				$this->_execute($row, $rules, $val, $key);
 			}
 
 			return;
