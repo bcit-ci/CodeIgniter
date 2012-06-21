@@ -453,8 +453,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
@@ -465,7 +463,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
 
 			$k = (($op = $this->_get_operator($k)) !== FALSE)
 				? $this->protect_identifiers(substr($k, 0, strpos($k, $op)), FALSE, $escape).strstr($k, $op)
@@ -590,8 +588,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return $this;
 		}
 
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($values))
 		{
 			$values = array($values);
@@ -606,7 +602,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_wherein[] = $this->escape($value);
 		}
 
-		$prefix = (count($this->qb_where) === 0) ? '' : $type;
+		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
 		$this->qb_where[] = $where_in = $prefix.$this->protect_identifiers($key, FALSE, $escape).$not.' IN ('.implode(', ', $this->qb_wherein).') ';
 
 		if ($this->qb_caching === TRUE)
@@ -702,8 +698,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
 	{
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($field))
 		{
 			$field = array($field => $match);
@@ -712,7 +706,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		foreach ($field as $k => $v)
 		{
 			$k = $this->protect_identifiers($k);
-			$prefix = (count($this->qb_like) === 0) ? '' : $type;
+			$prefix = (count($this->qb_like) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
 			$v = $this->escape_like_str($v);
 
 			if ($side === 'none')
