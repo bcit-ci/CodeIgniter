@@ -1120,6 +1120,35 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Valid DNI
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_dni($str)
+	{
+		
+		if ( !preg_match("/^[0-9]{7,8}[a-zA-Z]{1}$/" , $str) )
+		{
+			return FALSE;
+		}
+		else
+		{
+			$string = "TRWAGMYFPDXBNJZSQVHLCKET";
+			$numbers = substr($str, 0 , -1);
+			$position = $numbers % 23;
+			$letter = substr($str,-1);
+			$letter2 = substr($string,$position,$position+1);
+			if ($letter != $letter2)
+				return FALSE;
+		}
+		return TRUE;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Alpha
