@@ -115,7 +115,7 @@ Supported formats:
 local_to_gmt()
 ==============
 
-Takes a Unix timestamp as input and returns it as GMT. 
+Takes a Unix timestamp as input and returns it as GMT.
 
 .. php:method:: local_to_gmt($time = '')
 
@@ -159,7 +159,7 @@ Example
 mysql_to_unix()
 ===============
 
-Takes a MySQL Timestamp as input and returns it as Unix. 
+Takes a MySQL Timestamp as input and returns it as Unix.
 
 .. php:method:: mysql_to_unix($time = '')
 
@@ -212,7 +212,7 @@ human_to_unix()
 The opposite of the above function. Takes a "human" time as input and
 returns it as Unix. This function is useful if you accept "human"
 formatted dates submitted via a form. Returns FALSE (boolean) if the
-date string passed to it is not formatted as indicated above. 
+date string passed to it is not formatted as indicated above.
 
 .. php:method:: human_to_unix($datestr = '')
 
@@ -235,9 +235,9 @@ them into something useful. It also accepts well-formed dates.
 
 The function will return a Unix timestamp by default. You can,
 optionally, pass a format string (the same type as the PHP date function
-accepts) as the second parameter. 
+accepts) as the second parameter.
 
-.. php:method:: nice_date($bad_date = '', $format = FALSE) 
+.. php:method:: nice_date($bad_date = '', $format = FALSE)
 
 	:param integer 	$bad_date: The terribly formatted date-like string
 	:param string 	$format: Date format to return (same as php date function)
@@ -265,10 +265,10 @@ Formats a unix timestamp so that is appears similar to this
 
 The first parameter must contain a Unix timestamp. The second parameter
 must contain a timestamp that is greater that the first timestamp. If
-the second parameter empty, the current time will be used. The third 
-parameter is optional and limits the number of time units to display. 
-The most common purpose for this function is to show how much time has 
-elapsed from some point in time in the past to now. 
+the second parameter empty, the current time will be used. The third
+parameter is optional and limits the number of time units to display.
+The most common purpose for this function is to show how much time has
+elapsed from some point in time in the past to now.
 
 .. php:method:: timespan($seconds = 1, $time = '', $units = '')
 
@@ -293,7 +293,7 @@ days_in_month()
 ===============
 
 Returns the number of days in a given month/year. Takes leap years into
-account. 
+account.
 
 .. php:method:: days_in_month($month = 0, $year = '')
 
@@ -390,14 +390,15 @@ allowed to set their local timezone value.
 The first parameter lets you set the "selected" state of the menu. For
 example, to set Pacific time as the default you will do this
 
-.. php:method:: timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
+.. php:method:: timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
 
 	:param string 	$default: timezone
 	:param string	$class: classname
 	:param string	$name: menu name
+	:param mixed	$attributes: attributes
 	:returns: string
 
-Example: 
+Example:
 
 ::
 
@@ -406,6 +407,8 @@ Example:
 Please see the timezone reference below to see the values of this menu.
 
 The second parameter lets you set a CSS class name for the menu.
+
+The fourth parameter lets you set one or more attributes on the generated select tag.
 
 .. note:: The text contained in the menu is found in the following
 	language file: `language/<your_lang>/date_lang.php`
