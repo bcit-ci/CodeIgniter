@@ -11,6 +11,7 @@ env:
   - DB=pdo/mysql
   - DB=pdo/pgsql
   - DB=pdo/sqlite
+  - DB=application
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
@@ -18,6 +19,9 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
+  - cd tests
+  - sh -c "if [ '$DB' = 'application' ]; then ./application.sh; fi"
+  - cd ../
 
 script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
