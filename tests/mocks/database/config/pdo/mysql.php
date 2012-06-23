@@ -10,7 +10,7 @@ return array(
 		'password' => '',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'mysql'
+		'subdriver' => 'mysql'
 	),
 
 	// Database configuration with failover
@@ -21,7 +21,7 @@ return array(
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'mysql',
+		'subdriver' => 'mysql',
 		'failover' => array(
 			array(
 				'dsn' => '',
@@ -30,7 +30,7 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
-				'pdodriver' => 'mysql'
+				'subdriver' => 'mysql'
 			)
 		)
 	)

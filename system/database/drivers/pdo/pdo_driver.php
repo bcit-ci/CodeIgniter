@@ -57,8 +57,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
-	// need to track the pdo driver and options
-	public $pdodriver;
+	// need to track the PDO options
 	public $options = array();
 
 	public function __construct($params)
@@ -69,7 +68,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
-			$this->pdodriver = end($match);
+			$this->subdriver = end($match);
 		}
 		else
 		{
@@ -79,17 +78,17 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
-		if ($this->pdodriver === 'mysql')
+		if ($this->subdriver === 'mysql')
 		{
 			$this->_escape_char = '`';
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '\\';
 		}
-		elseif ($this->pdodriver === 'odbc')
+		elseif ($this->subdriver === 'odbc')
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 		}
-		elseif ( ! in_array($this->pdodriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
+		elseif ( ! in_array($this->subdriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
 		{
 			$this->_escape_char = '"';
 		}
@@ -109,10 +108,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		if (strpos($this->hostname, ':'))
 		{
 			// hostname generally would have this prototype
-			// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
-			// We need to get the prefix (pdodriver used by PDO).
+			// $db['hostname'] = 'subdriver:host(/Server(/DSN))=hostname(/DSN);';
+			// We need to get the prefix (subdriver used by PDO).
 			$dsnarray = explode(':', $this->hostname);
-			$this->pdodriver = $dsnarray[0];
+			$this->subdriver = $dsnarray[0];
 
 			// End dsn with a semicolon for extra backward compability
 			// if database property was not empty.
@@ -124,25 +123,25 @@ class CI_DB_pdo_driver extends CI_DB {
 		else
 		{
 			// Invalid DSN, display an error
-			if ( ! array_key_exists('pdodriver', $params))
+			if ( ! array_key_exists('subdriver', $params))
 			{
 				show_error('Invalid DB Connection String for PDO');
 			}
 
 			// Assuming that the following DSN string format is used:
-			// $dsn = 'pdo://username:password@hostname:port/database?pdodriver=pgsql';
-			$this->dsn = $this->pdodriver.':';
+			// $dsn = 'pdo://username:password@hostname:port/database?subdriver=pgsql';
+			$this->dsn = $this->subdriver.':';
 
 			// Add hostname to the DSN for databases that need it
 			if ( ! empty($this->hostname)
 				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+				&& in_array($this->subdriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
 			{
 			    $this->dsn .= 'host='.$this->hostname.';';
 			}
 
 			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->pdodriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
+			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
 			{
 			    $this->dsn .= 'port='.$this->port.';';
 			}
@@ -150,18 +149,18 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// Add the database name to the DSN, if needed
 	    if (stripos($this->dsn, 'dbname') === FALSE
-	       && in_array($this->pdodriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+	       && in_array($this->subdriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 	    {
 	        $this->dsn .= 'dbname='.$this->database.';';
 	    }
-	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->pdodriver, array('ibm', 'sqlsrv')))
+	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->subdriver, array('ibm', 'sqlsrv')))
 	    {
 	    	if (stripos($this->dsn, 'dsn') === FALSE)
 	    	{
 		        $this->dsn .= 'database='.$this->database.';';
 	    	}
 	    }
-	    elseif ($this->pdodriver === 'sqlite' && $this->dsn === 'sqlite:')
+	    elseif ($this->subdriver === 'sqlite' && $this->dsn === 'sqlite:')
 	    {
 	        if ($this->database !== ':memory')
 	        {
@@ -177,7 +176,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->pdodriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
+	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
 	    {
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
@@ -225,7 +224,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		 *
 		 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 		 */
-		if ($this->pdodriver === 'mysql' && ! is_php('5.3.6') && ! empty($this->char_set))
+		if ($this->subdriver === 'mysql' && ! is_php('5.3.6') && ! empty($this->char_set))
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
 					.( ! empty($this->db_collat) ? " COLLATE '".$this->dbcollat."'" : '');
@@ -396,7 +395,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if ($this->pdodriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
+		if ($this->subdriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
 		{
 			$query = $this->query('SELECT LASTVAL() AS ins_id');
 			$query = $query->row();
@@ -418,12 +417,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->pdodriver === 'pgsql')
+		if ($this->subdriver === 'pgsql')
 		{
 			// Analog function to show all tables in postgre
 			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
 		}
-		elseif ($this->pdodriver === 'sqlite')
+		elseif ($this->subdriver === 'sqlite')
 		{
 			// Analog function to show all tables in sqlite
 			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
@@ -468,17 +467,17 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->pdodriver === 'mysql' or $this->pdodriver === 'pgsql')
+		if ($this->subdriver === 'mysql' or $this->subdriver === 'pgsql')
 		{
 			// Analog function for mysql and postgre
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
 		}
-		elseif ($this->pdodriver === 'oci')
+		elseif ($this->subdriver === 'oci')
 		{
 			// Analog function for oci
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
 		}
-		elseif ($this->pdodriver === 'sqlite')
+		elseif ($this->subdriver === 'sqlite')
 		{
 			// Analog function for sqlite
 			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
@@ -599,7 +598,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($this->pdodriver === 'cubrid' OR $this->pdodriver === 'sqlite')
+		if ($this->subdriver === 'cubrid' OR $this->subdriver === 'sqlite')
 		{
 			$offset = ($offset == 0) ? '' : $offset.', ';
 
