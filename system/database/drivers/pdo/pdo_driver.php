@@ -43,7 +43,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $dbdriver = 'pdo';
 
 	// the character used to excape - not necessary for PDO
-	protected $_escape_char = '';
+	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " ESCAPE '%s' ";
@@ -86,11 +86,8 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		elseif ($this->subdriver === 'odbc')
 		{
+			$this->_escape_char = '';
 			$this->_like_escape_str = " {escape '%s'} ";
-		}
-		elseif ( ! in_array($this->subdriver, array('sqlsrv', 'mssql', 'dblib', 'sybase')))
-		{
-			$this->_escape_char = '"';
 		}
 
 		$this->trans_enabled = FALSE;
@@ -135,24 +132,24 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Add hostname to the DSN for databases that need it
 			if ( ! empty($this->hostname)
 				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->subdriver, array('informix', 'mysql', 'pgsql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+				&& in_array($this->subdriver, array('informix', 'mysql', 'sybase', 'mssql', 'dblib', 'cubrid')))
 			{
 			    $this->dsn .= 'host='.$this->hostname.';';
 			}
 
 			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'mysql', 'pgsql', 'ibm', 'cubrid')))
+			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'mysql', 'ibm', 'cubrid')))
 			{
 			    $this->dsn .= 'port='.$this->port.';';
 			}
 		}
 
 		// Add the database name to the DSN, if needed
-	    if (stripos($this->dsn, 'dbname') === FALSE
-	       && in_array($this->subdriver, array('4D', 'pgsql', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
-	    {
-	        $this->dsn .= 'dbname='.$this->database.';';
-	    }
+		if (stripos($this->dsn, 'dbname') === FALSE
+			&& in_array($this->subdriver, array('4D', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+		{
+			$this->dsn .= 'dbname='.$this->database.';';
+		}
 	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->subdriver, array('ibm', 'sqlsrv')))
 	    {
 	    	if (stripos($this->dsn, 'dsn') === FALSE)
@@ -395,13 +392,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		if ($this->subdriver === 'pgsql' && $name === NULL && $this->version() >= '8.1')
-		{
-			$query = $this->query('SELECT LASTVAL() AS ins_id');
-			$query = $query->row();
-			return $query->ins_id;
-		}
-
 		return $this->conn_id->lastInsertId($name);
 	}
 
@@ -417,12 +407,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->subdriver === 'pgsql')
-		{
-			// Analog function to show all tables in postgre
-			$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'public'";
-		}
-		elseif ($this->subdriver === 'sqlite')
+		if ($this->subdriver === 'sqlite')
 		{
 			// Analog function to show all tables in sqlite
 			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
@@ -467,7 +452,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->subdriver === 'mysql' or $this->subdriver === 'pgsql')
+		if ($this->subdriver === 'mysql')
 		{
 			// Analog function for mysql and postgre
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
