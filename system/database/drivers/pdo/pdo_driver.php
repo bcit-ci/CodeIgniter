@@ -78,13 +78,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
-		if ($this->subdriver === 'mysql')
-		{
-			$this->_escape_char = '`';
-			$this->_like_escape_str = '';
-			$this->_like_escape_chr = '\\';
-		}
-		elseif ($this->subdriver === 'odbc')
+		if ($this->subdriver === 'odbc')
 		{
 			$this->_escape_char = '';
 			$this->_like_escape_str = " {escape '%s'} ";
@@ -132,13 +126,13 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Add hostname to the DSN for databases that need it
 			if ( ! empty($this->hostname)
 				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->subdriver, array('informix', 'mysql', 'sybase', 'mssql', 'dblib', 'cubrid')))
+				&& in_array($this->subdriver, array('informix', 'sybase', 'mssql', 'dblib', 'cubrid')))
 			{
 			    $this->dsn .= 'host='.$this->hostname.';';
 			}
 
 			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'mysql', 'ibm', 'cubrid')))
+			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'ibm', 'cubrid')))
 			{
 			    $this->dsn .= 'port='.$this->port.';';
 			}
@@ -146,7 +140,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		// Add the database name to the DSN, if needed
 		if (stripos($this->dsn, 'dbname') === FALSE
-			&& in_array($this->subdriver, array('4D', 'mysql', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+			&& in_array($this->subdriver, array('4D', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
 		{
 			$this->dsn .= 'dbname='.$this->database.';';
 		}
@@ -173,7 +167,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'mysql', 'sybase', 'mssql', 'dblib', 'oci')))
+	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib', 'oci')))
 	    {
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
@@ -215,17 +209,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
 		$persistent === FALSE OR $this->options[PDO::ATTR_PERSISTENT] = TRUE;
-
-		/* Prior to PHP 5.3.6, even if the charset was supplied in the DSN
-		 * on connect - it was ignored. This is a work-around for the issue.
-		 *
-		 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
-		 */
-		if ($this->subdriver === 'mysql' && ! is_php('5.3.6') && ! empty($this->char_set))
-		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
-					.( ! empty($this->db_collat) ? " COLLATE '".$this->dbcollat."'" : '');
-		}
 
 		// Connecting...
 		try
@@ -452,12 +435,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->subdriver === 'mysql')
-		{
-			// Analog function for mysql and postgre
-			return 'SELECT * FROM '.$this->escape_identifiers($table).' LIMIT 1';
-		}
-		elseif ($this->subdriver === 'oci')
+		if ($this->subdriver === 'oci')
 		{
 			// Analog function for oci
 			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
