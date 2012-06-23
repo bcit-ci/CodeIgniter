@@ -625,6 +625,11 @@ class CI_Output {
 
 				$size_before = strlen($output);
 
+				if ($size_before === 0)
+				{
+					return '';
+				}
+
 				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
 				// We'll want to return them to this unprocessed state later.
 				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
