@@ -112,6 +112,21 @@ the pagination link will become.
 Note that "per_page" is the default query string passed, however can be
 configured using $config['query_string_segment'] = 'your_string'
 
+$config['reuse_query_string'] = FALSE;
+====================================
+
+By default your Query String arguments (nothing to do with other 
+query string options) will be ignored. Setting this config to 
+TRUE will add existing query string arguments back into the 
+URL after the URI segment and before the suffix
+
+::
+
+	http://example.com/index.php/test/page/20?query=search%term
+
+This helps you mix together normal :doc:`URI Segments <../general/urls>`
+as well as query string arguments, which until 3.0 was not possible.
+
 ***********************
 Adding Enclosing Markup
 ***********************
