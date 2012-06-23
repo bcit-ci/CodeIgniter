@@ -12,7 +12,7 @@ class DB_driver_test extends CI_TestCase {
 	}
 
 	protected function pdo($config)
-	{
+	{	
 		return new Mock_Database_Drivers_PDO($config);
 	}
 

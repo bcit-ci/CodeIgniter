@@ -11,6 +11,11 @@ class Mock_Database_Drivers_PDO extends Mock_Database_DB_Driver {
 	 */
 	public function __construct($config = array())
 	{
-		parent::__construct('CI_DB_pdo_driver', $config);
+		if ( ! empty($config))
+		{
+			$class = 'CI_'.$config['pdodriver'].'_PDO_driver';
+		}
+	
+		parent::__construct($class, $config);
 	}
 }

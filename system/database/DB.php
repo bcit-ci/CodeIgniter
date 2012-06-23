@@ -142,14 +142,80 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	// Load the DB driver
-	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+	if ($params['dbdriver'] !== 'pdo')
+	{
+		$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+	}
+	else
+	{
+		// Require the main pdo driver class
+		require_once(BASEPATH.'database/drivers/pdo/pdo_driver.php');
+	
+		$match = array();
+		
+		if (empty($params['dsn']))
+		{
+			$params['dsn'] = '';
+		}
 
+		if (preg_match('/([^;]+):/', $params['dsn'], $match) && count($match) == 2)
+		{
+			// If there is a minimum valid dsn string pattern found, we're done
+			// This is for general PDO users, who tend to have a full DSN string.
+			$pdodriver = end($match);
+		}
+		else
+		{
+			// Try to build a complete DSN string from params
+			if (strpos($params['hostname'], ':'))
+			{
+				// hostname generally would have this prototype
+				// $db['hostname'] = 'pdodriver:host(/Server(/DSN))=hostname(/DSN);';
+				// We need to get the prefix (pdodriver used by PDO).
+				$dsnarray = explode(':', $params['hostname']);
+				$pdodriver = $dsnarray[0];
+
+				// Extract the hostname from the partial dsn
+				$params['hostname'] = preg_replace('`(host|server)=`', '', $dsnarray[1]);
+			}
+			else
+			{
+				// Invalid DSN, display an error
+				if ( ! array_key_exists('pdodriver', $params))
+				{
+					show_error('Invalid DB Connection String for PDO');
+				}
+				else
+				{
+					$pdodriver = $params['pdodriver'];
+				}
+			}
+		}
+		
+		// Load the sub driver for database-specific stuff
+		$pdodriver = strtolower($pdodriver);
+		$params['pdodriver'] = $pdodriver;
+
+		// So many libraries for connecting to the same database!
+		// Since SQL Server is a fork of Sybase, this should cover
+		// a lot of bases with one sub-driver
+		if (in_array($pdodriver, array('dblib','mssql','sybase','sqlsrv')))
+		{
+			$pdodriver = 'sqlsrv';
+		}
+
+		$driver_file = BASEPATH."database/drivers/pdo/sub_drivers/{$pdodriver}.php";
+	}
+	
 	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
 
 	require_once($driver_file);
 
 	// Instantiate the DB adapter
-	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
+	$driver = ($params['dbdriver'] !== 'pdo') 
+		? 'CI_DB_'.$params['dbdriver'].'_driver'
+		: "CI_{$pdodriver}_PDO_Driver";
+		
 	$DB = new $driver($params);
 
 	if ($DB->autoinit === TRUE)
