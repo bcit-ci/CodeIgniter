@@ -156,7 +156,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	$DB = new $driver($params);
 
 	// Check for a subdriver
-	if ( ! empty($DB->subdriver) && empty($params['subdriver']))
+	if ( ! empty($DB->subdriver))
 	{
 		$driver_file = BASEPATH.'database/drivers/'.$param['dbdriver'].'/subdrivers/'.$params['dbdriver'].'_'.$params['subdriver'].'_driver.php';
 
