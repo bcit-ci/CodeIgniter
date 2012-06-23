@@ -46,6 +46,7 @@ abstract class CI_DB_driver {
 	public $hostname;
 	public $database;
 	public $dbdriver		= 'mysql';
+	public $subdriver;
 	public $dbprefix		= '';
 	public $char_set		= 'utf8';
 	public $dbcollat		= 'utf8_general_ci';
