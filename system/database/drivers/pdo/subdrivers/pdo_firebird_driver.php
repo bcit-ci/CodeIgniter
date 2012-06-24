@@ -26,7 +26,7 @@
  */
 
 /**
- * PDO DBLIB Database Adapter Class
+ * PDO Firebird Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the query builder
@@ -38,13 +38,16 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
+class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 
-	public $subdriver = 'dblib';
+	public $subdriver = 'firebird';
 
-	protected $_random_keyword = ' NEWID()';
-
-	protected $_quoted_identifier;
+	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	protected $_random_keyword = ' RANDOM()'; // Currently not supported
 
 	/**
 	 * Constructor
@@ -60,25 +63,23 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
+			$this->dsn = 'firebird:';
 
-			if ( ! empty($this->port))
+			if ( ! empty($this->database))
 			{
-				$this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
+				$this->dsn .= 'dbname='.$this->database;
+			}
+			elseif ( ! empty($this->hostname))
+			{
+				$this->dsn .= 'dbname='.$this->hostname;
 			}
 
-			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
 			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
-			empty($this->appname) OR $this->dsn .= ';appname='.$this->appname;
+			empty($this->role) OR $this->dsn .= ';role='.$this->role;
 		}
-		else
+		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 9) === FALSE)
 		{
-			if ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE)
-			{
-				$this->dsn .= ';charset='.$this->char_set;
-			}
-
-			$this->subdriver = 'dblib';
+			$this->dsn .= ';charset='.$this->char_set;
 		}
 	}
 
@@ -94,17 +95,15 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT '.$this->escape_identifiers('name')
-			.' FROM '.$this->escape_identifiers('sysobjects')
-			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
+		$sql = 'SELECT "RDB$RELATION_NAME" FROM "RDB$RELATIONS" WHERE "RDB$RELATION_NAME" NOT LIKE \'RDB$%\' AND "RDB$RELATION_NAME" NOT LIKE \'MON$%\'';
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
-			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
+			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-		return $sql.' ORDER BY '.$this->escape_identifiers('name');
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -119,7 +118,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
+		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -134,7 +133,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
+		return 'SELECT FIRST 1 * FROM '.$this->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -146,7 +145,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 * about operator precedence in harmony with SQL standards
 	 *
 	 * @param	array
-	 * @return	string
+	 * @return 	string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -163,11 +162,11 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 * @param	string	the table name
 	 * @param	array	the update data
 	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
+	 * @param	array	the orderby clause
 	 * @param	array	the limit clause (ignored)
 	 * @param	array	the like clause
 	 * @return	string
-         */
+	 */
 	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
 	{
 		foreach ($values as $key => $val)
@@ -182,7 +181,9 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.$where
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -197,10 +198,10 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 *
 	 * @param	string	the table name
 	 * @return	string
-	 */
+         */
 	protected function _truncate($table)
 	{
-		return 'TRUNCATE TABLE '.$table;
+		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -213,7 +214,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	array	the like clause
-	 * @param	string	the limit clause
+	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
@@ -223,11 +224,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 		empty($where) OR $conditions[] = implode(' ', $where);
 		empty($like) OR $conditions[] = implode(' ', $like);
 
-		$conditions = (count($conditions) > 0) ? ' WHERE '.implde(' AND ', $conditions) : '';
-
-		return ($limit)
-			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
-			: 'DELETE FROM '.$table.$conditions;
+		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -244,27 +241,22 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		$limit = $offset + $limit;
-
-		// As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
-		// however an ORDER BY clause is required for it to work
-		if (version_compare($this->version(), '9', '>=') && $offset && ! empty($this->qb_orderby))
+		// Limit clause depends on if Interbase or Firebird
+		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
-
-			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
-
-			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
-				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
-				."\n) ".$this->escape_identifiers('CI_subquery')
-				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.((int) $offset + 1).' AND '.$limit;
+			$select = 'FIRST '. (int) $limit
+				.($offset > 0 ? ' SKIP '. (int) $offset : '');
+		}
+		else
+		{
+			$select = 'ROWS '
+				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
 		}
 
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
+		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
 	}
 
 }
 
-/* End of file pdo_dblib_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_dblib_driver.php */
+/* End of file pdo_firebird_driver.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_firebird_driver.php */

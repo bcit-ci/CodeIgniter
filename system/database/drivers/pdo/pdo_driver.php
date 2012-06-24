@@ -143,7 +143,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		// Add the database name to the DSN, if needed
-		if (stripos($this->dsn, 'dbname') === FALSE && in_array($this->subdriver, array('4D', 'firebird', 'cubrid')))
+		if (stripos($this->dsn, 'dbname') === FALSE && in_array($this->subdriver, array('4D', 'cubrid')))
 		{
 			$this->dsn .= 'dbname='.$this->database.';';
 		}

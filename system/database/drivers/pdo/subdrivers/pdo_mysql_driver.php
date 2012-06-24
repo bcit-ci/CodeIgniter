@@ -70,6 +70,10 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
 			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
 		}
+		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE && is_php('5.3.6'))
+		{
+			$this->dsn .= ';charset='.$this->char_set;
+		}
 	}
 
 	// --------------------------------------------------------------------
