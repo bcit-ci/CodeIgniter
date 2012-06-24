@@ -57,6 +57,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
+	protected $trans_enabled = FALSE;
+
 	// need to track the PDO options
 	public $options = array();
 
@@ -80,6 +82,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->subdriver = 'dblib';
 		}
+		elseif ($this->subdriver === '4D')
+		{
+			$this->subdriver = '4d';
+		}
 
 		// clause and character used for LIKE escape sequences
 		// this one depends on the driver being used
@@ -88,9 +94,6 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_escape_char = '';
 			$this->_like_escape_str = " {escape '%s'} ";
 		}
-
-		$this->trans_enabled = FALSE;
-//		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
 	/**
@@ -142,22 +145,12 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		// Add the database name to the DSN, if needed
-		if (stripos($this->dsn, 'dbname') === FALSE && $this->subdriver === '4D')
-		{
-			$this->dsn .= 'dbname='.$this->database.';';
-		}
-		elseif (stripos($this->dsn, 'database') === FALSE && $this->subdriver === 'ibm')
+		if (stripos($this->dsn, 'database') === FALSE && $this->subdriver === 'ibm')
 		{
 			if (stripos($this->dsn, 'dsn') === FALSE)
 			{
 				$this->dsn .= 'database='.$this->database.';';
 			}
-		}
-
-		// Add charset to the DSN, if needed
-		if ( ! empty($this->char_set) && $this->subdriver === '4D')
-		{
-			$this->dsn .= 'charset='.$this->char_set.';';
 		}
 	}
 
@@ -484,24 +477,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql .= ' WHERE '.$where.$index.' IN ('.implode(',', $ids).')';
 
 		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the truncate() command,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------

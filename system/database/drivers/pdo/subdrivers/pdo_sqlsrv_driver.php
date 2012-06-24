@@ -278,7 +278,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 		empty($where) OR $conditions[] = implode(' ', $where);
 		empty($like) OR $conditions[] = implode(' ', $like);
 
-		$conditions = (count($conditions) > 0) ? ' WHERE '.implde(' AND ', $conditions) : '';
+		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
 
 		return ($limit)
 			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
