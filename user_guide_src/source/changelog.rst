@@ -190,6 +190,7 @@ Release Date: Not Released
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
+   -  Added ability to override configurable settings from index.php in config.php
 
 Bug fixes for 3.0
 ------------------
