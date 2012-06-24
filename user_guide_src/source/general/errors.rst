@@ -51,7 +51,7 @@ log_message('level', 'message')
 
 This function lets you write messages to your log files. You must supply
 one of three "levels" in the first parameter, indicating what type of
-message it is (debug, error, info), with the message itself in the
+message it is (debug, info, error), with the message itself in the
 second parameter. Example::
 
 	if ($some_var == "")
@@ -69,13 +69,13 @@ There are three message types:
 
 #. Error Messages. These are actual errors, such as PHP errors or user
    errors.
-#. Debug Messages. These are messages that assist in debugging. For
-   example, if a class has been initialized, you could log this as
-   debugging info.
 #. Informational Messages. These are the lowest priority messages,
    simply giving information regarding some process. CodeIgniter doesn't
    natively generate any info messages but you may want to in your
    application.
+#. Debug Messages. These are messages that assist in debugging. For
+   example, if a class has been initialized, you could log this as
+   debugging info.
 
 .. note:: In order for the log file to actually be written, the "logs"
 	folder must be writable. In addition, you must set the "threshold" for
