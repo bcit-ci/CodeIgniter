@@ -182,23 +182,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			.$index.' IN('.implode(',', $ids).')';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		return $sql.' LIMIT '.($offset == 0 ? '' : $offset.', ').$limit;
-	}
-
 }
 
 /* End of file pdo_mysql_driver.php */
