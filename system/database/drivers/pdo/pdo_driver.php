@@ -167,7 +167,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	    }
 
 	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib', 'oci')))
+	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib')))
 	    {
 	        $this->dsn .= 'charset='.$this->char_set.';';
 	    }
@@ -178,37 +178,13 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	object
-	 */
-	public function db_connect()
-	{
-		return $this->_pdo_connect();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	object
-	 */
-	public function db_pconnect()
-	{
-		return $this->_pdo_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * PDO connection
-	 *
 	 * @param	bool
 	 * @return	object
 	 */
-	protected function _pdo_connect($persistent = FALSE)
+	public function db_connect($persistent = FALSE)
 	{
 		$this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_SILENT;
-		$persistent === FALSE OR $this->options[PDO::ATTR_PERSISTENT] = TRUE;
+		$this->options[PDO::ATTR_PERSISTENT] = $persistent;
 
 		// Connecting...
 		try
@@ -224,6 +200,18 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Persistent database connection
+	 *
+	 * @return	object
+	 */
+	public function db_pconnect()
+	{
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -435,12 +423,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->subdriver === 'oci')
-		{
-			// Analog function for oci
-			return 'SELECT * FROM '.$this->escape_identifiers($table).' WHERE ROWNUM <= 1';
-		}
-		elseif ($this->subdriver === 'sqlite')
+		if ($this->subdriver === 'sqlite')
 		{
 			// Analog function for sqlite
 			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
