@@ -26,7 +26,7 @@
  */
 
 /**
- * PDO SQLSRV Database Adapter Class
+ * PDO DBLIB Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the query builder
@@ -38,9 +38,9 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
+class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 
-	public $subdriver = 'sqlsrv';
+	public $subdriver = 'dblib';
 
 	protected $_random_keyword = ' NEWID()';
 
@@ -60,81 +60,26 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = 'sqlsrv:Server='.(empty($this->hostname) ? 'localhost' : $this->hostname);
+			$this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
 
-			empty($this->port) OR $this->dsn .= ','.$this->port;
-			empty($this->database) OR $this->dsn .= ';Database='.$this->database;
-
-			// Some custom options
-
-			if (isset($this->QuotedId))
+			if ( ! empty($this->port))
 			{
-				$this->dsn .= ';QuotedId='.$this->QuotedId;
-				$this->_quoted_identifier = (bool) $this->QuotedId;
+				$this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
 			}
 
-			if (isset($this->ConnectionPooling))
-			{
-				$this->dsn .= ';ConnectionPooling='.$this->ConnectionPooling;
-			}
-
-			if (isset($this->Encrypt))
-			{
-				$this->dsn .= ';Encrypt='.$this->Encrypt;
-			}
-
-			if (isset($this->TraceOn))
-			{
-				$this->dsn .= ';TraceOn='.$this->TraceOn;
-			}
-
-			if (isset($this->TrustServerCertificate))
-			{
-				$this->dsn .= ';TrustServerCertificate='.$this->TrustServerCertificate;
-			}
-
-			empty($this->APP) OR $this->dsn .= ';APP='.$this->APP;
-			empty($this->Failover_Partner) OR $this->dsn .= ';Failover_Partner='.$this->Failover_Partner;
-			empty($this->LoginTimeout) OR $this->dsn .= ';LoginTimeout='.$this->LoginTimeout;
-			empty($this->MultipleActiveResultSets) OR $this->dsn .= ';MultipleActiveResultSets='.$this->MultipleActiveResultSets;
-			empty($this->TraceFile) OR $this->dsn .= ';TraceFile='.$this->TraceFile;
-			empty($this->WSID) OR $this->dsn .= ';WSID='.$this->WSID;
+			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
+			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
+			empty($this->appname) OR $this->dsn .= ';appname='.$this->appname;
 		}
-		elseif (preg_match('/QuotedId=(0|1)/', $this->dsn, $match))
+		else
 		{
-			$this->_quoted_identifier = (bool) $match[1];
+			if ( ! empty($this->char_set) && strpos($this->dsn, 'charset=') === FALSE)
+			{
+				$this->dsn .= ';charset='.$this->char_set;
+			}
+
+			$this->subdriver = 'dblib';
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Non-persistent database connection
-	 *
-	 * @param	bool
-	 * @return	object
-	 */
-	public function db_connect($persistent = FALSE)
-	{
-		if ( ! empty($this->char_set) && preg_match('/utf[^8]*8/i', $this->char_set))
-		{
-			$this->options[PDO::SQLSRV_ENCODING_UTF8] = 1;
-		}
-
-		$pdo_obj = parent::db_connect($persistent);
-
-		if ( ! is_object($pdo_obj) OR is_bool($this->_quoted_identifier))
-		{
-			return $pdo_obj;
-		}
-
-		// Determine how identifiers are escaped
-		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
-		$query = $query->row_array();
-		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
-		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
-
-		return $pdo_obj;
 	}
 
 	// --------------------------------------------------------------------
@@ -299,16 +244,11 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		// As of SQL Server 2012 (11.0.*) OFFSET is supported
-		if (version_compare($this->version(), '11', '>='))
-		{
-			return $sql.' OFFSET '.(int) $offset.' ROWS FETCH NEXT '.(int) $limit.' ROWS ONLY';
-		}
-
 		$limit = $offset + $limit;
 
-		// An ORDER BY clause is required for ROW_NUMBER() to work
-		if ($offset && ! empty($this->qb_orderby))
+		// As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
+		// however an ORDER BY clause is required for it to work
+		if (version_compare($this->version(), '9', '>=') && $offset && ! empty($this->qb_orderby))
 		{
 			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
 
@@ -326,5 +266,5 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 
 }
 
-/* End of file pdo_sqlsrv_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_sqlsrv_driver.php */
+/* End of file pdo_dblib_driver.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_dblib_driver.php */
