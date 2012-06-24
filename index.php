@@ -40,9 +40,9 @@
  *     testing
  *     production
  *
- * NOTE: If you change these, also change the error_reporting() code below
+ * NOTE: If you change these, also change the error_reporting variable below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	$environment = isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development';
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -52,16 +52,16 @@
  * By default development will show errors but testing and live will hide them.
  */
 
-if (defined('ENVIRONMENT'))
+if (isset($environment))
 {
-	switch (ENVIRONMENT)
+	switch ($environment)
 	{
 		case 'development':
-			error_reporting(-1);
+			$error_reporting = -1;
 		break;
 		case 'testing':
 		case 'production':
-			error_reporting(0);
+			$error_reporting = 0;
 		break;
 		default:
 			exit('The application environment is not set correctly.');
@@ -161,6 +161,26 @@ if (defined('ENVIRONMENT'))
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
+
+/*
+ * ---------------------------------------------------------------
+ *  Allow config.php to override configurable settings
+ * ---------------------------------------------------------------
+ */
+
+	// include config.php (if present)
+	$config_file = dirname(__FILE__) . '/config.php';
+	if(file_exists($config_file))
+	{
+		include $config_file;
+	}
+
+	// set up environment
+	if(isset($environment))
+	{
+		define('ENVIRONMENT', $environment);
+		error_reporting($error_reporting);
+	}
 
 /*
  * ---------------------------------------------------------------
