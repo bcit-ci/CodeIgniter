@@ -582,7 +582,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.' LIMIT '.$limit.($offset == 0 ? '' : ' OFFSET '.$offset);
+		return $sql.' LIMIT '.$limit.($offset ? ' OFFSET '.$offset : '');
 	}
 
 	// --------------------------------------------------------------------

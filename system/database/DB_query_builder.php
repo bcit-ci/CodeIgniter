@@ -1061,6 +1061,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Limit string
+	 *
+	 * Generates a platform-specific LIMIT clause
+	 *
+	 * @param	string	the sql query string
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
+	 * @return	string
+	 */
+	protected function _limit($sql, $limit, $offset)
+	{
+		return $sql.' LIMIT '.($offset ? $offset.', ' : '').$limit;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * The "set" function.
 	 *
 	 * Allows key/value pairs to be set for inserting or updating

@@ -599,19 +599,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($this->pdodriver === 'cubrid' OR $this->pdodriver === 'sqlite')
+		if ($this->pdodriver === 'pgsql')
 		{
-			$offset = ($offset == 0) ? '' : $offset.', ';
-
-			return $sql.'LIMIT '.$offset.$limit;
+			return $sql.' LIMIT '.$limit.($offset ? ' OFFSET '.$offset : '');
 		}
-		else
-		{
-			$sql .= 'LIMIT '.$limit;
-			$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
 
-			return $sql;
-		}
+		return $sql.' LIMIT '.($offset ? $offset.', ' : '').$limit;
 	}
 
 }
