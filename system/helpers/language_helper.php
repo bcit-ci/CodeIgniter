@@ -62,5 +62,40 @@ if ( ! function_exists('lang'))
 	}
 }
 
+if ( ! function_exists('lang_format'))
+{
+	/**
+	 * Lang Format
+	 *
+	 * Fetches a language variable and optionally replaces placeholders with
+	 * actual values
+	 *
+	 * @param	string	the language line
+	 * @param	string	the actual value(s) for the placeholder(s)
+	 * @param	string	the placeholder string
+	 * @return	string
+	 */
+	function lang_format($line, $values = NULL, $placeholder = '?')
+	{
+		$line = lang($line);
+
+		if($values !== NULL && ($position = strpos($line, $placeholder)) !== FALSE)
+		{
+			$values = is_array($values) ? $values : array($values);
+			$placeholder_length = strlen($placeholder);
+			$index = 0;
+
+			do
+			{
+				$line = substr_replace($line, $values[$index++], $position, $placeholder_length);
+				$position = strpos($line, $placeholder, $position + $placeholder_length);
+			}
+			while($position !== FALSE);
+		}
+
+		return $line;
+	}
+}
+
 /* End of file language_helper.php */
 /* Location: ./system/helpers/language_helper.php */
