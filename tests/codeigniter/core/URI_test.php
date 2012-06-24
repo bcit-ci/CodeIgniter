@@ -36,6 +36,7 @@ class URI_test extends CI_TestCase {
 		// Test a variety of request uris
 		$requests = array(
 			'/index.php/controller/method' => 'controller/method',
+			'/?/controller/method' => 'controller/method',
 			'/index.php?/controller/method' => 'controller/method',
 			'/index.php?/controller/method/?var=foo' => 'controller/method'
 		);
