@@ -634,7 +634,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$this->limit_used = TRUE;
 		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit).')'
-			.($offset !== 0 ? ' WHERE rnum >= '.$offset : '');
+			.($offset ? ' WHERE rnum >= '.$offset : '');
 	}
 
 	// --------------------------------------------------------------------

@@ -421,12 +421,12 @@ class CI_DB_interbase_driver extends CI_DB {
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
 			$select = 'FIRST '. (int) $limit
-				.($offset > 0 ? ' SKIP '. (int) $offset : '');
+				.($offset ? ' SKIP '. (int) $offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($offset ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
 		}
 
 		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
