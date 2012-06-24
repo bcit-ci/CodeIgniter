@@ -68,12 +68,17 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
-			$this->subdriver = end($match);
+			$this->subdriver = $match[1];
 		}
 		else
 		{
 			// Try to build a complete DSN string from params
 			$this->_connect_string($params);
+		}
+
+		if (in_array($this->subdriver, array('mssql', 'sybase'), TRUE))
+		{
+			$this->subdriver = 'dblib';
 		}
 
 		// clause and character used for LIKE escape sequences
@@ -124,9 +129,8 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->dsn = $this->subdriver.':';
 
 			// Add hostname to the DSN for databases that need it
-			if ( ! empty($this->hostname)
-				&& strpos($this->hostname, ':') === FALSE
-				&& in_array($this->subdriver, array('informix', 'sybase', 'mssql', 'dblib', 'cubrid')))
+			if ( ! empty($this->hostname) && strpos($this->hostname, ':') === FALSE
+				&& in_array($this->subdriver, array('informix', 'cubrid')))
 			{
 			    $this->dsn .= 'host='.$this->hostname.';';
 			}
@@ -134,17 +138,16 @@ class CI_DB_pdo_driver extends CI_DB {
 			// Add a port to the DSN for databases that can use it
 			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'ibm', 'cubrid')))
 			{
-			    $this->dsn .= 'port='.$this->port.';';
+				$this->dsn .= 'port='.$this->port.';';
 			}
 		}
 
 		// Add the database name to the DSN, if needed
-		if (stripos($this->dsn, 'dbname') === FALSE
-			&& in_array($this->subdriver, array('4D', 'firebird', 'sybase', 'mssql', 'dblib', 'cubrid')))
+		if (stripos($this->dsn, 'dbname') === FALSE && in_array($this->subdriver, array('4D', 'firebird', 'cubrid')))
 		{
 			$this->dsn .= 'dbname='.$this->database.';';
 		}
-		elseif (stripos($this->dsn, 'database') === FALSE && $this->subdriver === ibm')
+		elseif (stripos($this->dsn, 'database') === FALSE && $this->subdriver === 'ibm')
 		{
 			if (stripos($this->dsn, 'dsn') === FALSE)
 			{
@@ -153,7 +156,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		// Add charset to the DSN, if needed
-		if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib')))
+		if ( ! empty($this->char_set) && $this->subdriver === '4D')
 		{
 			$this->dsn .= 'charset='.$this->char_set.';';
 		}
