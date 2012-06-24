@@ -26,7 +26,7 @@
  */
 
 /**
- * PDO Oracle Database Adapter Class
+ * PDO SQLite Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the query builder

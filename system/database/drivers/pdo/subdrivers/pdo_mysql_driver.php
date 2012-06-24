@@ -68,25 +68,32 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 
 			empty($this->port) OR $this->dsn .= ';port='.$this->port;
 			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
-
-			if ( ! empty($this->char_set))
-			{
-				/* Prior to PHP 5.3.6, even if the charset was supplied in the DSN
-				 * on connect - it was ignored. This is a work-around for the issue.
-				 *
-				 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
-				 */
-				if (is_php('5.3.6'))
-				{
-					$this->dsn .= ';charset='.$this->char_set;
-				}
-				else
-				{
-					$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
-						.(empty($this->db_collat) ? '' : " COLLATE '".$this->dbcollat."'");
-				}
-			}
+			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Non-persistent database connection
+	 *
+	 * @param	bool
+	 * @return	object
+	 */
+	public function db_connect($persistent = FALSE)
+	{
+		/* Prior to PHP 5.3.6, even if the charset was supplied in the DSN
+		 * on connect - it was ignored. This is a work-around for the issue.
+		 *
+		 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
+		 */
+		if ( ! is_php('5.3.6'))
+		{
+			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
+				.(empty($this->db_collat) ? '' : " COLLATE '".$this->dbcollat."'");
+		}
+
+		return parent::db_connect($persistent);
 	}
 
 	// --------------------------------------------------------------------
