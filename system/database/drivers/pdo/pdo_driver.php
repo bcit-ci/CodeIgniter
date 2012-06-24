@@ -85,7 +85,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 
 		$this->trans_enabled = FALSE;
-		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
+//		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
 
 	/**
@@ -144,19 +144,19 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->dsn .= 'dbname='.$this->database.';';
 		}
-	    elseif (stripos($this->dsn, 'database') === FALSE && in_array($this->subdriver, array('ibm', 'sqlsrv')))
-	    {
-	    	if (stripos($this->dsn, 'dsn') === FALSE)
-	    	{
-		        $this->dsn .= 'database='.$this->database.';';
-	    	}
-	    }
+		elseif (stripos($this->dsn, 'database') === FALSE && $this->subdriver === ibm')
+		{
+			if (stripos($this->dsn, 'dsn') === FALSE)
+			{
+				$this->dsn .= 'database='.$this->database.';';
+			}
+		}
 
-	    // Add charset to the DSN, if needed
-	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib')))
-	    {
-	        $this->dsn .= 'charset='.$this->char_set.';';
-	    }
+		// Add charset to the DSN, if needed
+		if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib')))
+		{
+			$this->dsn .= 'charset='.$this->char_set.';';
+		}
 	}
 
 	// --------------------------------------------------------------------
