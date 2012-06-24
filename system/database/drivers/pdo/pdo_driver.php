@@ -129,21 +129,20 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->dsn = $this->subdriver.':';
 
 			// Add hostname to the DSN for databases that need it
-			if ( ! empty($this->hostname) && strpos($this->hostname, ':') === FALSE
-				&& in_array($this->subdriver, array('informix', 'cubrid')))
+			if ( ! empty($this->hostname) && strpos($this->hostname, ':') === FALSE && $this->subdriver === 'informix')
 			{
 			    $this->dsn .= 'host='.$this->hostname.';';
 			}
 
 			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'ibm', 'cubrid')))
+			if ( ! empty($this->port) && in_array($this->subdriver, array('informix', 'ibm'), TRUE))
 			{
 				$this->dsn .= 'port='.$this->port.';';
 			}
 		}
 
 		// Add the database name to the DSN, if needed
-		if (stripos($this->dsn, 'dbname') === FALSE && in_array($this->subdriver, array('4D', 'cubrid')))
+		if (stripos($this->dsn, 'dbname') === FALSE && $this->subdriver === '4D')
 		{
 			$this->dsn .= 'dbname='.$this->database.';';
 		}
