@@ -151,20 +151,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		        $this->dsn .= 'database='.$this->database.';';
 	    	}
 	    }
-	    elseif ($this->subdriver === 'sqlite' && $this->dsn === 'sqlite:')
-	    {
-	        if ($this->database !== ':memory')
-	        {
-	            if ( ! file_exists($this->database))
-	            {
-	                show_error('Invalid DB Connection string for PDO SQLite');
-	            }
-
-	            $this->dsn .= (strpos($this->database, DIRECTORY_SEPARATOR) !== 0) ? DIRECTORY_SEPARATOR : '';
-	        }
-
-	        $this->dsn .= $this->database;
-	    }
 
 	    // Add charset to the DSN, if needed
 	    if ( ! empty($this->char_set) && in_array($this->subdriver, array('4D', 'sybase', 'mssql', 'dblib')))
@@ -378,15 +364,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		if ($this->subdriver === 'sqlite')
-		{
-			// Analog function to show all tables in sqlite
-			$sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
-		}
-		else
-		{
-			$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
-		}
+		$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
 
 		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
@@ -423,12 +401,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		if ($this->subdriver === 'sqlite')
-		{
-			// Analog function for sqlite
-			return 'PRAGMA table_info('.$this->escape_identifiers($table).')';
-		}
-
 		return 'SELECT TOP 1 FROM '.$this->escape_identifiers($table);
 	}
 
@@ -544,19 +516,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		if ($this->subdriver === 'cubrid' OR $this->subdriver === 'sqlite')
-		{
-			$offset = ($offset == 0) ? '' : $offset.', ';
-
-			return $sql.'LIMIT '.$offset.$limit;
-		}
-		else
-		{
-			$sql .= 'LIMIT '.$limit;
-			$sql .= ($offset > 0) ? ' OFFSET '.$offset : '';
-
-			return $sql;
-		}
+		$offset = ($offset == 0) ? '' : $offset.', ';
+		return $sql.'LIMIT '.$offset.$limit;
 	}
 
 }
