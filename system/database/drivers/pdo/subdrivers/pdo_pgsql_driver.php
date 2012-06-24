@@ -265,7 +265,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.' LIMIT '.$limit.($offset == 0 ? '' : ' OFFSET '.$offset);
+		return $sql.' LIMIT '.$limit.($offset ? '' : ' OFFSET '.$offset);
 	}
 
 	// --------------------------------------------------------------------

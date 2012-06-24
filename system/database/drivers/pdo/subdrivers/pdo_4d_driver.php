@@ -26,7 +26,7 @@
  */
 
 /**
- * PDO DBLIB Database Adapter Class
+ * PDO 4D Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the query builder
@@ -38,13 +38,14 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
+class CI_DB_pdo_4d_driver extends CI_DB_pdo_driver {
 
-	public $subdriver = 'dblib';
+	public $subdriver = '4d';
 
-	protected $_random_keyword = ' NEWID()';
+	// The character used for escaping
+	protected $_escape_char = array('[', ']');
 
-	protected $_quoted_identifier;
+	protected $_random_keyword = ' RAND()';
 
 	/**
 	 * Constructor
@@ -60,25 +61,15 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
+			$this->dsn = '4D:host='.(empty($this->hostname) ? 'localhost' : $this->hostname);
 
-			if ( ! empty($this->port))
-			{
-				$this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
-			}
-
+			empty($this->port) OR $this->dsn .= ';port='.$this->port;
 			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
 			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
-			empty($this->appname) OR $this->dsn .= ';appname='.$this->appname;
 		}
-		else
+		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 3) === FALSE)
 		{
-			if ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE)
-			{
-				$this->dsn .= ';charset='.$this->char_set;
-			}
-
-			$this->subdriver = 'dblib';
+			$this->dsn .= ';charset='.$this->char_set;
 		}
 	}
 
@@ -94,17 +85,13 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT '.$this->escape_identifiers('name')
-			.' FROM '.$this->escape_identifiers('sysobjects')
-			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
+		return 'SELECT '.$this->escape_identifiers('TABLE_NAME').' FROM '.$this->escape_identifiers('_USER_TABLES');
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
-			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
+			$sql .= ' WHERE '.$this->escape_identifiers('TABLE_NAME')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
-
-		return $sql.' ORDER BY '.$this->escape_identifiers('name');
 	}
 
 	// --------------------------------------------------------------------
@@ -119,7 +106,8 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
+		return 'SELECT '.$this->escape_identifiers('COLUMN_NAME').' FROM '.$this->escape_identifiers('_USER_COLUMNS')
+			.' WHERE '.$this->escape_identifiers('TABLE_NAME').' = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -134,7 +122,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
+		return 'SELECT * FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE).' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -213,7 +201,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	array	the like clause
-	 * @param	string	the limit clause
+	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
@@ -225,9 +213,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 
 		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
 
-		return ($limit)
-			? 'WITH ci_delete AS (SELECT TOP '.$limit.' * FROM '.$table.$conditions.') DELETE FROM ci_delete'
-			: 'DELETE FROM '.$table.$conditions;
+		return 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------
@@ -244,27 +230,10 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		$limit = $offset + $limit;
-
-		// As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
-		// however an ORDER BY clause is required for it to work
-		if (version_compare($this->version(), '9', '>=') && $offset && ! empty($this->qb_orderby))
-		{
-			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
-
-			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
-
-			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
-				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
-				."\n) ".$this->escape_identifiers('CI_subquery')
-				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.((int) $offset + 1).' AND '.$limit;
-		}
-
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
+		return $sql.' LIMIT '.$limit.($offset ? ' OFFSET '.$offset : '');
 	}
 
 }
 
-/* End of file pdo_dblib_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_dblib_driver.php */
+/* End of file pdo_4d_driver.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_4d_driver.php */
