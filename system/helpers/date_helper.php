@@ -547,9 +547,10 @@ if ( ! function_exists('timezone_menu'))
 	 * @param	string	timezone
 	 * @param	string	classname
 	 * @param	string	menu name
+	 * @param	mixed	attributes
 	 * @return	string
 	 */
-	function timezone_menu($default = 'UTC', $class = '', $name = 'timezones')
+	function timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
@@ -563,7 +564,22 @@ if ( ! function_exists('timezone_menu'))
 			$menu .= ' class="'.$class.'"';
 		}
 
-		$menu .= ">\n";
+		// Generate a string from the attributes submitted, if any
+		if (is_array($attributes))
+		{
+			$atts = '';
+			foreach ($attributes as $key => $val)
+			{
+				$atts .= ' '.$key.'="'.$val.'"';
+			}
+			$attributes = $atts;
+		}
+		elseif (is_string($attributes) && strlen($attributes) > 0)
+		{
+			$attributes = ' '.$attributes;
+		}
+
+		$menu .= $attributes.">\n";
 
 		foreach (timezones() as $key => $val)
 		{

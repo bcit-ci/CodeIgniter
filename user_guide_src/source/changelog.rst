@@ -70,6 +70,7 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
+   -  :doc:`Date Helper <helpers/date_helper>` Added optional fourth parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag
 
 -  Database
 
