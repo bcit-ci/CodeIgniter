@@ -235,7 +235,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	int	$inc_by
 	 * @return	int
 	 */
-	public function insert_id($generator_name, $inc_by=0)
+	public function insert_id($generator_name, $inc_by = 0)
 	{
 		//If a generator hasn't been used before it will return 0
 		return ibase_gen_id('"'.$generator_name.'"', $inc_by);
@@ -257,7 +257,8 @@ class CI_DB_interbase_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;
@@ -275,7 +276,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = \''.$this->escape_str($table)."'";
+		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -290,10 +291,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		// Need to find a more efficient way to do this
-		// but Interbase/Firebird seems to lack the
-		// limit clause
-		return 'SELECT * FROM '.$table;
+		return $this->_limit('SELECT * FROM '.$this->protect_identifiers($table), 1, NULL);
 	}
 
 	// --------------------------------------------------------------------
@@ -360,7 +358,6 @@ class CI_DB_interbase_driver extends CI_DB {
 			.$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
-
 
 	// --------------------------------------------------------------------
 
