@@ -158,12 +158,12 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Check for a subdriver
 	if ( ! empty($DB->subdriver))
 	{
-		$driver_file = BASEPATH.'database/drivers/'.$param['dbdriver'].'/subdrivers/'.$params['dbdriver'].'_'.$params['subdriver'].'_driver.php';
+		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
 
 		if (file_exists($driver_file))
 		{
 			require_once($driver_file);
-			$driver = 'CI_DB_'.$params['dbdriver'].'_'.$params['subdriver'].'_driver';
+			$driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
 			$DB = new $driver($params);
 		}
 	}
