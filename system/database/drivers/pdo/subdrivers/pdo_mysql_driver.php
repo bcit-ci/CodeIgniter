@@ -91,7 +91,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		 *
 		 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 		 */
-		if ( ! is_php('5.3.6'))
+		if ( ! is_php('5.3.6') && ! empty($this->char_set))
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
 				.(empty($this->db_collat) ? '' : " COLLATE '".$this->dbcollat."'");
