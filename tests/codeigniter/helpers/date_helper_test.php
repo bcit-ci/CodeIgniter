@@ -5,153 +5,163 @@ class Date_helper_test extends CI_TestCase {
 	public function set_up()
 	{
 		$this->helper('date');
+
+		$this->time = time();
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_now_local()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('local'));
-		
+
 		// Add the stub to our test instance
 		$this->ci_instance_var('config', $config);
 
-		$expected = time();
-		$test = now();
-		$this->assertEquals($expected, $test);
+		*/
+
+		$this->ci_set_config('time_reference', 'local');
+
+		$this->assertEquals(time(), now());
 	}
 
 	// ------------------------------------------------------------------------
 
-	public function test_now_gmt()
+	public function test_now_utc()
 	{
+		/*
+
 		// This stub job, is simply to cater $config['time_reference']
 		$config = $this->getMock('CI_Config');
 		$config->expects($this->any())
 			   ->method('item')
-			   ->will($this->returnValue('gmt'));
-		
+			   ->will($this->returnValue('UTC'));
+
 		// Add the stub to our stdClass
 		$this->ci_instance_var('config', $config);
 
-		$t = time();
-		$expected = mktime(gmdate("H", $t), gmdate("i", $t), gmdate("s", $t), gmdate("m", $t), gmdate("d", $t), gmdate("Y", $t));
-		$test = now();
-		$this->assertEquals($expected, $test);
+		*/
+
+		$this->assertEquals(
+			mktime(gmdate('G'), gmdate('i'), gmdate('s'), gmdate('n'), gmdate('j'), gmdate('Y')),
+			now('UTC')
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_mdate()
 	{
-		$time = time();
-		$expected = date("Y-m-d - h:i a", $time);
-		$test = mdate("%Y-%m-%d - %h:%i %a", $time);
-		$this->assertEquals($expected, $test);
+		$this->assertEquals(
+			date('Y-m-d - h:i a', $this->time),
+			mdate('%Y-%m-%d - %h:%i %a', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rfc822()
 	{
-		$time = time();
-		$format = 'DATE_RFC822';
-		$expected = date("D, d M y H:i:s O", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date('D, d M y H:i:s O', $this->time),
+			standard_date('DATE_RFC822', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_atom()
 	{
-		$time = time();
-		$format = 'DATE_ATOM';
-		$expected = date("Y-m-d\TH:i:sO", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date("Y-m-d\TH:i:sO", $this->time),
+			standard_date('DATE_ATOM', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_cookie()
 	{
-		$time = time();
-		$format = 'DATE_COOKIE';
-		$expected = date("l, d-M-y H:i:s \U\T\C", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date("l, d-M-y H:i:s \U\T\C", $this->time),
+			standard_date('DATE_COOKIE', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_iso8601()
 	{
-		$time = time();
-		$format = 'DATE_ISO8601';
-		$expected = date("Y-m-d\TH:i:sO", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date("Y-m-d\TH:i:sO", $this->time),
+			standard_date('DATE_ISO8601', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rfc850()
 	{
-		$time = time();
-		$format = 'DATE_RFC850';
-		$expected = date("l, d-M-y H:i:s \U\T\C", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date("l, d-M-y H:i:s \U\T\C", $this->time),
+			standard_date('DATE_RFC850', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rfc1036()
 	{
-		$time = time();
-		$format = 'DATE_RFC1036';
-		$expected = date("D, d M y H:i:s O", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date('D, d M y H:i:s O', $this->time),
+			standard_date('DATE_RFC1036', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rfc1123()
 	{
-		$time = time();
-		$format = 'DATE_RFC1123';
-		$expected = date("D, d M Y H:i:s O", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date('D, d M Y H:i:s O', $this->time),
+			standard_date('DATE_RFC1123', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rfc2822()
 	{
-		$time = time();
-		$format = 'DATE_RFC2822';
-		$expected = date("D, d M Y H:i:s O", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date('D, d M Y H:i:s O', $this->time),
+			standard_date('DATE_RFC2822', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_rss()
 	{
-		$time = time();
-		$format = 'DATE_RSS';
-		$expected = date("D, d M Y H:i:s O", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date('D, d M Y H:i:s O', $this->time),
+			standard_date('DATE_RSS', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_standard_date_w3c()
 	{
-		$time = time();
-		$format = 'DATE_W3C';
-		$expected = date("Y-m-d\TH:i:sO", $time);
-		$this->assertEquals($expected, standard_date($format, $time));
+		$this->assertEquals(
+			date("Y-m-d\TH:i:sO", $this->time),
+			standard_date('DATE_W3C', $this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -183,39 +193,36 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_local_to_gmt()
 	{
-		$t = time();
-		$expected = mktime(gmdate("H", $t), gmdate("i", $t), gmdate("s", $t), gmdate("m", $t), gmdate("d", $t), gmdate("Y", $t));
-		$this->assertEquals($expected, local_to_gmt($t));
+		$this->assertEquals(
+			mktime(
+				gmdate('G', $this->time), gmdate('i', $this->time), gmdate('s', $this->time),
+				gmdate('n', $this->time), gmdate('j', $this->time), gmdate('Y', $this->time)
+			),
+			local_to_gmt($this->time)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_gmt_to_local()
 	{
-		$timestamp = '1140153693';
-		$timezone = 'UM8';
-		$daylight_saving = TRUE;
-
-		$this->assertEquals(1140128493, gmt_to_local($timestamp, $timezone, $daylight_saving));
+		$this->assertEquals(1140128493, gmt_to_local('1140153693', 'UM8', TRUE));
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_mysql_to_unix()
 	{
-		$time = time();
-		$this->assertEquals($time, 
-				mysql_to_unix(date("Y-m-d H:i:s", $time)));
+		$this->assertEquals($this->time, mysql_to_unix(date('Y-m-d H:i:s', $this->time)));
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_unix_to_human()
 	{
-		$time = time();
-		$this->assertEquals(date("Y-m-d h:i A", $time), unix_to_human($time));
-		$this->assertEquals(date("Y-m-d h:i:s A", $time), unix_to_human($time, TRUE, 'us'));
-		$this->assertEquals(date("Y-m-d H:i:s", $time), unix_to_human($time, TRUE, 'eu'));
+		$this->assertEquals(date('Y-m-d h:i A', $this->time), unix_to_human($this->time));
+		$this->assertEquals(date('Y-m-d h:i:s A', $this->time), unix_to_human($this->time, TRUE, 'us'));
+		$this->assertEquals(date('Y-m-d H:i:s', $this->time), unix_to_human($this->time, TRUE, 'eu'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -223,8 +230,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_human_to_unix()
 	{
 		$date = '2000-12-31 10:00:00 PM';
-		$expected = strtotime($date);
-		$this->assertEquals($expected, human_to_unix($date));
+		$this->assertEquals(strtotime($date), human_to_unix($date));
 		$this->assertFalse(human_to_unix());
 	}
 
@@ -283,6 +289,7 @@ class Date_helper_test extends CI_TestCase {
 		$this->assertArrayHasKey('UP3', timezones());
 		$this->assertEquals(0, timezones('non_existant'));
 	}
+
 }
 
 /* End of file date_helper_test.php */

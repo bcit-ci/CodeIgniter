@@ -66,6 +66,14 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			{
 				return $this->db->db_debug ? $this->db->display_error('db_unable_to_drop') : FALSE;
 			}
+			elseif ( ! empty($this->db->data_cache['db_names']))
+			{
+				$key = array_search(strtolower($this->db->database), array_map('strtolower', $this->db->data_cache['db_names']), TRUE);
+				if ($key !== FALSE)
+				{
+					unset($this->db->data_cache['db_names'][$key]);
+				}
+			}
 
 			return TRUE;
 		}
@@ -111,13 +119,27 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field)
-					.' '.$attributes['TYPE']
-					.( ! empty($attributes['CONSTRAINT']) ? '('.$attributes['CONSTRAINT'].')' : '')
-					.(( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(isset($attributes['DEFAULT']) ? ' DEFAULT \''.$attributes['DEFAULT'].'\'' : '')
-					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
+				$sql .= "\n\t".$this->db->escape_identifiers($field).' '.$attributes['TYPE'];
+
+				empty($attributes['CONSTRAINT']) OR $sql .= '('.$attributes['CONSTRAINT'].')';
+
+				if ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
+				{
+					$sql .= ' UNSIGNED';
+				}
+
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
+					? ' NULL' : ' NOT NULL';
+
+				if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+				{
+					$sql .= ' AUTO_INCREMENT';
+				}
 			}
 
 			// don't add a comma on the end of the last field
@@ -129,22 +151,16 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$primary_keys = $this->db->protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
 		{
 			foreach ($keys as $key)
 			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
+				$key = is_array($key)
+					? $this->db->escape_identifiers($key)
+					: array($this->db->escape_identifiers($key));
 
 				$sql .= ",\n\tUNIQUE (".implode(', ', $key).')';
 			}
@@ -182,9 +198,9 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			return FALSE;
 		}
 
-		return 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' '.$this->db->protect_identifiers($column_name)
+		return 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' '.$this->db->escape_identifiers($column_name)
 			.' '.$column_definition
-			.($default_value != '' ? ' DEFAULT '.$default_value : '')
+			.($default_value !== '' ? ' DEFAULT '.$default_value : '')
 			// If NOT NULL is specified, the field must have a DEFAULT value other than NULL
 			.(($null !== NULL && $default_value !== 'NULL') ? ' NOT NULL' : ' NULL');
 	}

@@ -41,7 +41,7 @@ class CI_DB_mssql_utility extends CI_DB_utility {
 	 * MSSQL Export
 	 *
 	 * @param	array	Preferences
-	 * @return	mixed
+	 * @return	bool
 	 */
 	protected function _backup($params = array())
 	{

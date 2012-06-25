@@ -48,12 +48,40 @@ if ( ! class_exists('CI_Xmlrpc'))
  */
 class CI_Xmlrpcs extends CI_Xmlrpc
 {
-	public $methods		= array();	//array of methods mapped to function names and signatures
-	public $debug_msg	= '';		// Debug Message
-	public $system_methods	= array();	// XML RPC Server methods
-	public $controller_obj;
-	public $object		= FALSE;
+	/**
+	 * array of methods mapped to function names and signatures
+	 *
+	 * @var array
+	 */
+	public $methods = array();
 
+	/**
+	 * Debug Message
+	 *
+	 * @var string
+	 */
+	public $debug_msg = '';
+
+	/**
+	 * XML RPC Server methods
+	 *
+	 * @var array
+	 */
+	public $system_methods	= array();
+
+	/**
+	 * Configuration object
+	 *
+	 * @var object
+	 */
+	public $object = FALSE;
+
+	/**
+	 * Initialize XMLRPC class
+	 *
+	 * @param	array	$config
+	 * @return	void
+	 */
 	public function __construct($config = array())
 	{
 		parent::__construct();
@@ -180,7 +208,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//  Get Data
 		//-------------------------------------
 
-		if ($data == '')
+		if ($data === '')
 		{
 			$data = $HTTP_RAW_POST_DATA;
 		}
@@ -275,9 +303,9 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$methName = $m->method_name;
 
 		// Check to see if it is a system call
-		$system_call = (strncmp($methName, 'system', 5) === 0);
+		$system_call = (strpos($methName, 'system') === 0);
 
-		if ($this->xss_clean == FALSE)
+		if ($this->xss_clean === FALSE)
 		{
 			$m->xss_clean = FALSE;
 		}
@@ -296,7 +324,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		//-------------------------------------
 
 		$method_parts = explode('.', $this->methods[$methName]['function']);
-		$objectCall = (isset($method_parts[1]) && $method_parts[1] != '');
+		$objectCall = (isset($method_parts[1]) && $method_parts[1] !== '');
 
 		if ($system_call === TRUE)
 		{
@@ -328,9 +356,9 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 					for ($n = 0, $mc = count($m->params); $n < $mc; $n++)
 					{
 						$p = $m->params[$n];
-						$pt = ($p->kindOf() == 'scalar') ? $p->scalarval() : $p->kindOf();
+						$pt = ($p->kindOf() === 'scalar') ? $p->scalarval() : $p->kindOf();
 
-						if ($pt != $current_sig[$n+1])
+						if ($pt !== $current_sig[$n+1])
 						{
 							$pno = $n+1;
 							$wanted = $current_sig[$n+1];
@@ -499,7 +527,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 			$attempt = $this->_execute($m);
 
-			if ($attempt->faultCode() != 0)
+			if ($attempt->faultCode() !== 0)
 			{
 				return $attempt;
 			}
@@ -539,7 +567,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 */
 	public function do_multicall($call)
 	{
-		if ($call->kindOf() != 'struct')
+		if ($call->kindOf() !== 'struct')
 		{
 			return $this->multicall_error('notstruct');
 		}
@@ -549,13 +577,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		}
 
 		list($scalar_type,$scalar_value)=each($methName->me);
-		$scalar_type = $scalar_type == $this->xmlrpcI4 ? $this->xmlrpcInt : $scalar_type;
+		$scalar_type = $scalar_type === $this->xmlrpcI4 ? $this->xmlrpcInt : $scalar_type;
 
-		if ($methName->kindOf() != 'scalar' OR $scalar_type != 'string')
+		if ($methName->kindOf() !== 'scalar' OR $scalar_type !== 'string')
 		{
 			return $this->multicall_error('notstring');
 		}
-		elseif ($scalar_value == 'system.multicall')
+		elseif ($scalar_value === 'system.multicall')
 		{
 			return $this->multicall_error('recursion');
 		}
@@ -563,7 +591,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		{
 			return $this->multicall_error('noparams');
 		}
-		elseif ($params->kindOf() != 'array')
+		elseif ($params->kindOf() !== 'array')
 		{
 			return $this->multicall_error('notarray');
 		}
@@ -578,7 +606,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 
 		$result = $this->_execute($msg);
 
-		if ($result->faultCode() != 0)
+		if ($result->faultCode() !== 0)
 		{
 			return $this->multicall_error($result);
 		}

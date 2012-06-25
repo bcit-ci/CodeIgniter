@@ -37,21 +37,21 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Force Download
- *
- * Generates headers that force a download to happen
- *
- * @param	string	filename
- * @param	mixed	the data to be downloaded
- * @param	bool	wether to try and send the actual file MIME type
- * @return	void
- */
 if ( ! function_exists('force_download'))
 {
+	/**
+	 * Force Download
+	 *
+	 * Generates headers that force a download to happen
+	 *
+	 * @param	string	filename
+	 * @param	mixed	the data to be downloaded
+	 * @param	bool	whether to try and send the actual file MIME type
+	 * @return	void
+	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
-		if ($filename == '' OR $data == '')
+		if ($filename === '' OR $data === '')
 		{
 			return FALSE;
 		}
@@ -73,14 +73,7 @@ if ( ! function_exists('force_download'))
 			}
 
 			// Load the mime types
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
+			$mimes =& get_mimes();
 
 			// Only change the default MIME if we can find one
 			if (isset($mimes[$extension]))
@@ -100,6 +93,9 @@ if ( ! function_exists('force_download'))
 			$x[count($x) - 1] = strtoupper($extension);
 			$filename = implode('.', $x);
 		}
+
+		// Clean output buffer
+		ob_clean();
 
 		// Generate the server headers
 		header('Content-Type: '.$mime);

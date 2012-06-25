@@ -72,4 +72,5 @@ class Url_helper_test extends CI_TestCase {
 			$this->assertEquals($out, auto_link($in, 'url'));
 		}
 	}
+
 }

@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Config Class
  *
@@ -45,30 +43,27 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	public $config = array();
+	public $config =	array();
+
 	/**
 	 * List of all loaded config files
 	 *
 	 * @var array
 	 */
-	public $is_loaded = array();
+	public $is_loaded =	array();
+
 	/**
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.
 	 *
 	 * @var array
 	 */
-	public $_config_paths = array(APPPATH);
+	public $_config_paths =	array(APPPATH);
 
 	/**
 	 * Constructor
 	 *
 	 * Sets the $config data from the primary config.php file as a class variable
-	 *
-	 * @param   string	the config file name
-	 * @param   boolean  if configuration values should be loaded into their own section
-	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
-	 * @return  boolean  if the file was successfully loaded or not
 	 */
 	public function __construct()
 	{
@@ -80,9 +75,9 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-				$base_url .= '://'. $_SERVER['HTTP_HOST']
-					. str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+				$base_url = ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+				$base_url .= '://'.$_SERVER['HTTP_HOST']
+					.str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
 			else
 			{
@@ -99,13 +94,13 @@ class CI_Config {
 	 * Load Config File
 	 *
 	 * @param	string	the config file name
-	 * @param	boolean	if configuration values should be loaded into their own section
-	 * @param	boolean	true if errors should just return false, false if an error message should be displayed
-	 * @return	boolean	if the file was loaded correctly
+	 * @param	bool	if configuration values should be loaded into their own section
+	 * @param	bool	true if errors should just return false, false if an error message should be displayed
+	 * @return	bool	if the file was loaded correctly
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
-		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
+		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
 
 		foreach ($this->_config_paths as $path)
@@ -188,10 +183,8 @@ class CI_Config {
 	/**
 	 * Fetch a config file item
 	 *
-	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function item($item, $index = '')
@@ -210,7 +203,6 @@ class CI_Config {
 	 * Fetch a config file item - adds slash after item (if item is not empty)
 	 *
 	 * @param	string	the config item name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function slash_item($item)
@@ -219,7 +211,7 @@ class CI_Config {
 		{
 			return FALSE;
 		}
-		elseif (trim($this->config[$item]) == '')
+		elseif (trim($this->config[$item]) === '')
 		{
 			return '';
 		}
@@ -233,25 +225,39 @@ class CI_Config {
 	 * Site URL
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	string	the URI string
+	 * @param	mixed	the URI string or an array of segments
 	 * @return	string
 	 */
 	public function site_url($uri = '')
 	{
-		if ($uri == '')
+		if (empty($uri))
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
-		if ($this->item('enable_query_strings') == FALSE)
+		$uri = $this->_uri_string($uri);
+
+		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
+
+			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			{
+				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+			}
+			else
+			{
+				$uri .= $suffix;
+			}
+
+			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
 		}
-		else
+		elseif (strpos($uri, '?') === FALSE)
 		{
-			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
+			$uri = '?'.$uri;
 		}
+
+		return $this->slash_item('base_url').$this->item('index_page').$uri;
 	}
 
 	// -------------------------------------------------------------
@@ -260,8 +266,8 @@ class CI_Config {
 	 * Base URL
 	 * Returns base_url [. uri_string]
 	 *
-	 * @param string $uri
-	 * @return string
+	 * @param	string	$uri
+	 * @return	string
 	 */
 	public function base_url($uri = '')
 	{
@@ -273,12 +279,12 @@ class CI_Config {
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
-	 * @param  mixed $uri
-	 * @return string
+	 * @param	mixed	$uri
+	 * @return	string
 	 */
 	protected function _uri_string($uri)
 	{
-		if ($this->item('enable_query_strings') == FALSE)
+		if ($this->item('enable_query_strings') === FALSE)
 		{
 			if (is_array($uri))
 			{
@@ -288,15 +294,7 @@ class CI_Config {
 		}
 		elseif (is_array($uri))
 		{
-			$i = 0;
-			$str = '';
-			foreach ($uri as $key => $val)
-			{
-				$prefix = ($i === 0) ? '' : '&';
-				$str .= $prefix.$key.'='.$val;
-				$i++;
-			}
-			return $str;
+			return http_build_query($uri);
 		}
 
 		return $uri;
@@ -351,6 +349,7 @@ class CI_Config {
 			}
 		}
 	}
+
 }
 
 /* End of file Config.php */

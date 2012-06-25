@@ -615,12 +615,12 @@ class CI_Javascript {
 		{
 			$this->_javascript_location = $external_file;
 		}
-		elseif ($this->CI->config->item('javascript_location') != '')
+		elseif ($this->CI->config->item('javascript_location') !== '')
 		{
 			$this->_javascript_location = $this->CI->config->item('javascript_location');
 		}
 
-		if ($relative === TRUE OR strncmp($external_file, 'http://', 7) === 0 OR strncmp($external_file, 'https://', 8) === 0)
+		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR strpos($external_file, 'https://') === 0)
 		{
 			$str = $this->_open_script($external_file);
 		}
@@ -667,7 +667,7 @@ class CI_Javascript {
 	protected function _open_script($src = '')
 	{
 		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
-			.($src == '' ? '>' : ' src="'.$src.'">');
+			.($src === '' ? '>' : ' src="'.$src.'">');
 	}
 
 	// --------------------------------------------------------------------
@@ -723,7 +723,7 @@ class CI_Javascript {
 		{
 			if (is_object($result))
 			{
-				$json_result = $result->result_array();
+				$json_result = is_callable(array($result, 'result_array')) ? $result->result_array() : (array) $result;
 			}
 			elseif (is_array($result))
 			{

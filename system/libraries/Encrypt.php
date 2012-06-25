@@ -38,12 +38,46 @@
  */
 class CI_Encrypt {
 
+	/**
+	 * Reference to the user's encryption key
+	 *
+	 * @var string
+	 */
 	public $encryption_key		= '';
+
+	/**
+	 * Type of hash operation
+	 *
+	 * @var string
+	 */
 	protected $_hash_type		= 'sha1';
+
+	/**
+	 * Flag for the existance of mcrypt
+	 *
+	 * @var bool
+	 */
 	protected $_mcrypt_exists	= FALSE;
+
+	/**
+	 * Current cipher to be used with mcrypt
+	 *
+	 * @var string
+	 */
 	protected $_mcrypt_cipher;
+
+	/**
+	 * Method for encrypting/decrypting data
+	 *
+	 * @var int
+	 */
 	protected $_mcrypt_mode;
 
+	/**
+	 * Initialize Encryption class
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		$this->_mcrypt_exists = function_exists('mcrypt_encrypt');
@@ -63,15 +97,14 @@ class CI_Encrypt {
 	 */
 	public function get_key($key = '')
 	{
-		if ($key == '')
+		if ($key === '')
 		{
-			if ($this->encryption_key != '')
+			if ($this->encryption_key !== '')
 			{
 				return $this->encryption_key;
 			}
 
-			$CI =& get_instance();
-			$key = $CI->config->item('encryption_key');
+			$key = config_item('encryption_key');
 
 			if ($key === FALSE)
 			{
@@ -180,6 +213,7 @@ class CI_Encrypt {
 		$dec = base64_decode($string);
 		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
 		{
+			$this->set_mode($current_mode);
 			return FALSE;
 		}
 
@@ -349,7 +383,8 @@ class CI_Encrypt {
 	 *
 	 * Function description
 	 *
-	 * @param	string
+	 * @param	string	$data
+	 * @param	string	$key
 	 * @return	string
 	 */
 	protected function _remove_cipher_noise($data, $key)
@@ -414,7 +449,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_cipher()
 	{
-		if ($this->_mcrypt_cipher == '')
+		if ($this->_mcrypt_cipher === NULL)
 		{
 			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
@@ -431,7 +466,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_mode()
 	{
-		if ($this->_mcrypt_mode == '')
+		if ($this->_mcrypt_mode === NULL)
 		{
 			return $this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
