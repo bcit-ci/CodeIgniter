@@ -131,20 +131,6 @@ class CI_DB_pdo_driver extends CI_DB {
 			// $dsn = 'pdo://username:password@hostname:port/database?subdriver=pgsql';
 			$this->dsn = $this->subdriver.':';
 
-			// Add a port to the DSN for databases that can use it
-			if ( ! empty($this->port) && $this->subdriver === 'ibm')
-			{
-				$this->dsn .= 'port='.$this->port.';';
-			}
-		}
-
-		// Add the database name to the DSN, if needed
-		if (stripos($this->dsn, 'database') === FALSE && $this->subdriver === 'ibm')
-		{
-			if (stripos($this->dsn, 'dsn') === FALSE)
-			{
-				$this->dsn .= 'database='.$this->database.';';
-			}
 		}
 	}
 
@@ -436,7 +422,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
-		$ids   = array();
+		$ids = array();
 		$where = ($where !== '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
@@ -471,24 +457,6 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql .= ' WHERE '.$where.$index.' IN ('.implode(',', $ids).')';
 
 		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		$offset = ($offset == 0) ? '' : $offset.', ';
-		return $sql.'LIMIT '.$offset.$limit;
 	}
 
 }
