@@ -105,8 +105,6 @@ class CI_DB_pdo_driver extends CI_DB {
 			{
 				show_error('Invalid or non-existent PDO subdriver');
 			}
-
-			throw new Exception('Invalid or non-existent PDO subdriver');
 		}
 
 		$this->dsn = NULL;
