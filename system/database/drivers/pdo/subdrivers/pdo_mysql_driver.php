@@ -193,6 +193,24 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			.$index.' IN('.implode(',', $ids).')';
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Truncate statement
+	 *
+	 * Generates a platform-specific truncate string from the supplied data
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _truncate($table)
+	{
+		return 'TRUNCATE '.$table;
+	}
+
 }
 
 /* End of file pdo_mysql_driver.php */
