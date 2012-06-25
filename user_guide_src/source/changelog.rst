@@ -172,6 +172,7 @@ Release Date: Not Released
 	 -  Added support for setting custom attributes.
 	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
+   -  Allow safe_mode to be manually set in the :doc:`Email Library <libraries/email>`.
 
 -  Core
 
