@@ -353,23 +353,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		return $sql.' LIMIT '.($offset ? $offset.',' : '').$limit;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
