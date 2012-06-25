@@ -24,7 +24,7 @@ return array(
 		'subdriver' => 'mysql',
 		'failover' => array(
 			array(
-				'dsn' => '',
+				'dsn' => 'mysql:host=localhost;dbname=ci_test',
 				'hostname' => 'localhost',
 				'username' => 'travis',
 				'password' => '',
