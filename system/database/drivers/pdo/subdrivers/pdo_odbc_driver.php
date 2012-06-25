@@ -65,25 +65,54 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
+			$this->dsn = 'odbc:';
 
-			if ( ! empty($this->port))
+			// Pre-defined DSN
+			if (empty($this->hostname) && empty($this->HOSTNAME) && empty($this->port) && empty($this->PORT))
 			{
-				$this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
+				if (isset($this->DSN))
+				{
+					$this->dsn .= 'DSN='.$this->DSN;
+				}
+				elseif ( ! empty($this->database))
+				{
+					$this->dsn .= 'DSN='.$this->database;
+				}
+
+				return;
 			}
 
-			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
-			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
-			empty($this->appname) OR $this->dsn .= ';appname='.$this->appname;
-		}
-		else
-		{
-			if ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE)
+			// If the DSN is not pre-configured - try to build an IBM DB2 connection string
+			$this->dsn .= 'DRIVER='.(isset($this->DRIVER) ? '{'.$this->DRIVER.'}' : '{IBM DB2 ODBC DRIVER}').';';
+
+			if (isset($this->DATABASE))
 			{
-				$this->dsn .= ';charset='.$this->char_set;
+				$this->dsn .= 'DATABASE='.$this->DATABASE.';';
+			}
+			elseif ( ! empty($this->database))
+			{
+				$this->dsn .= 'DATABASE='.$this->database.';';
 			}
 
-			$this->subdriver = 'odbc';
+			if (isset($this->HOSTNAME))
+			{
+				$this->dsn .= 'HOSTNAME='.$this->HOSTNAME.';';
+			}
+			else
+			{
+				$this->dsn .= 'HOSTNAME='.(empty($this->hostname) ? 'localhost;' : $this->hostname.';');
+			}
+
+			if (isset($this->PORT))
+			{
+				$this->dsn .= 'PORT='.$this->port.';';
+			}
+			elseif ( ! empty($this->port))
+			{
+				$this->dsn .= ';PORT='.$this->port.';';
+			}
+
+			$this->dsn .= 'PROTOCOL='.(isset($this->PROTOCOL) ? $this->PROTOCOL.';' : 'TCPIP;');
 		}
 	}
 
