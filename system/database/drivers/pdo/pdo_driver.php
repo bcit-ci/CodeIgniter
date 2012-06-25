@@ -42,7 +42,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	public $dbdriver = 'pdo';
 
-	// the character used to excape - not necessary for PDO
+	// The character used to escaping
 	protected $_escape_char = '"';
 
 	// clause and character used for LIKE escape sequences
@@ -62,6 +62,14 @@ class CI_DB_pdo_driver extends CI_DB {
 	// need to track the PDO options
 	public $options = array();
 
+	/**
+	 * Constructor
+	 *
+	 * Validates the DSN string and/or detects the subdriver
+	 *
+	 * @param	array
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
@@ -71,14 +79,17 @@ class CI_DB_pdo_driver extends CI_DB {
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
 			$this->subdriver = $match[1];
+			return;
 		}
-		else
+		// Legacy support for DSN specified in the hostname field
+		elseif (preg_match('/([^;]+):/', $this->hostname, $match) && count($match) === 2)
 		{
-			// Try to build a complete DSN string from params
-			$this->_connect_string($params);
+			$this->dsn = $this->hostname;
+			$this->hostname = NULL;
+			$this->subdriver = $match[1];
+			return;
 		}
-
-		if (in_array($this->subdriver, array('mssql', 'sybase'), TRUE))
+		elseif (in_array($this->subdriver, array('mssql', 'sybase'), TRUE))
 		{
 			$this->subdriver = 'dblib';
 		}
@@ -86,52 +97,19 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->subdriver = '4d';
 		}
-
-		// clause and character used for LIKE escape sequences
-		// this one depends on the driver being used
-		if ($this->subdriver === 'odbc')
+		elseif ( ! in_array($this->subdriver, array('4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'sqlite', 'sqlsrv'), TRUE))
 		{
-			$this->_escape_char = '';
-			$this->_like_escape_str = " {escape '%s'} ";
-		}
-	}
+			log_message('error', 'PDO: Invalid or non-existent subdriver');
 
-	/**
-	 * Connection String
-	 *
-	 * @param	array
-	 * @return	void
-	 */
-	protected function _connect_string($params)
-	{
-		if (strpos($this->hostname, ':'))
-		{
-			// hostname generally would have this prototype
-			// $db['hostname'] = 'subdriver:host(/Server(/DSN))=hostname(/DSN);';
-			// We need to get the prefix (subdriver used by PDO).
-			$dsnarray = explode(':', $this->hostname);
-			$this->subdriver = $dsnarray[0];
-
-			// End dsn with a semicolon for extra backward compability
-			// if database property was not empty.
-			if ( ! empty($this->database))
+			if ($this->db_debug)
 			{
-				$this->dsn .= rtrim($this->hostname, ';').';';
-			}
-		}
-		else
-		{
-			// Invalid DSN, display an error
-			if ( ! array_key_exists('subdriver', $params))
-			{
-				show_error('Invalid DB Connection String for PDO');
+				show_error('Invalid or non-existent PDO subdriver');
 			}
 
-			// Assuming that the following DSN string format is used:
-			// $dsn = 'pdo://username:password@hostname:port/database?subdriver=pgsql';
-			$this->dsn = $this->subdriver.':';
-
+			throw new Exception('Invalid or non-existent PDO subdriver');
 		}
+
+		$this->dsn = NULL;
 	}
 
 	// --------------------------------------------------------------------
@@ -330,43 +308,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @param	bool
-	 * @return	string
-	 */
-	protected function _list_tables($prefix_limit = FALSE)
-	{
-		$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
-
-		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
-		{
-			return FALSE;
-		}
-
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show column query
-	 *
-	 * Generates a platform-specific query string so that the column names can be fetched
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _list_columns($table = '')
-	{
-		return 'SHOW COLUMNS FROM '.$this->escape_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Field data query
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
@@ -376,7 +317,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 FROM '.$this->escape_identifiers($table);
+		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------
