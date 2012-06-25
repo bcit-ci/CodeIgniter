@@ -470,8 +470,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			if ($escape === TRUE)
 			{
 				$k = (($op = $this->_get_operator($k)) !== FALSE)
-					? $this->escape_identifiers(substr($k, 0, strpos($k, $op))).strstr($k, $op)
-					: $this->escape_identifiers($k);
+					? $this->escape_identifiers(trim(substr($k, 0, strpos($k, $op)))).' '.strstr($k, $op)
+					: $this->escape_identifiers(trim($k));
 			}
 
 			if (is_null($v) && ! $this->_has_operator($k))
@@ -609,7 +609,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($escape === TRUE)
 		{
-			$key = $this->escape_identifiers($key);
+			$key = $this->escape_identifiers(trim($key));
 		}
 
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
