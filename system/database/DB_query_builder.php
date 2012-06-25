@@ -467,9 +467,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
-			$k = (($op = $this->_get_operator($k)) !== FALSE)
-				? $this->protect_identifiers(substr($k, 0, strpos($k, $op)), FALSE, $escape).strstr($k, $op)
-				: $this->protect_identifiers($k, FALSE, $escape);
+			if ($escape === TRUE)
+			{
+				$k = (($op = $this->_get_operator($k)) !== FALSE)
+					? $this->escape_identifiers(substr($k, 0, strpos($k, $op))).strstr($k, $op)
+					: $this->escape_identifiers($k);
+			}
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -604,8 +607,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_wherein[] = $this->escape($value);
 		}
 
+		if ($escape === TRUE)
+		{
+			$key = $this->escape_identifiers($key);
+		}
+
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
-		$this->qb_where[] = $where_in = $prefix.$this->protect_identifiers($key, FALSE, $escape).$not.' IN ('.implode(', ', $this->qb_wherein).') ';
+		$this->qb_where[] = $where_in = $prefix.$key.$not.' IN ('.implode(', ', $this->qb_wherein).') ';
 
 		if ($this->qb_caching === TRUE)
 		{
