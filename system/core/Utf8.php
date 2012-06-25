@@ -47,7 +47,7 @@ class CI_Utf8 {
 	 */
 	public function __construct()
 	{
-		log_message('debug', 'Utf8 Class Initialized');
+		log_message('info', 'Utf8 Class Initialized');
 
 		global $CFG;
 
@@ -59,7 +59,7 @@ class CI_Utf8 {
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
-			log_message('debug', 'UTF-8 Support Enabled');
+			log_message('info', 'UTF-8 Support Enabled');
 
 			// set internal encoding for multibyte string functions if necessary
 			// and set a flag so we don't have to repeatedly use extension_loaded()
@@ -77,7 +77,7 @@ class CI_Utf8 {
 		else
 		{
 			define('UTF8_ENABLED', FALSE);
-			log_message('debug', 'UTF-8 Support Disabled');
+			log_message('info', 'UTF-8 Support Disabled');
 		}
 	}
 

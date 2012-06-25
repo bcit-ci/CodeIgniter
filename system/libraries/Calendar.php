@@ -118,7 +118,7 @@ class CI_Calendar {
 			$this->initialize($config);
 		}
 
-		log_message('debug', 'Calendar Class Initialized');
+		log_message('info', 'Calendar Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

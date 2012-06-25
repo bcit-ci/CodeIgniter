@@ -47,7 +47,7 @@ class CI_Trackback {
 
 	public function __construct()
 	{
-		log_message('debug', 'Trackback Class Initialized');
+		log_message('info', 'Trackback Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
