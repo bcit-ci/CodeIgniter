@@ -85,6 +85,32 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Non-persistent database connection
+	 *
+	 * @param	bool
+	 * @return	object
+	 */
+	public function db_connect($persistent = FALSE)
+	{
+		$pdo_obj = parent::db_connect($persistent);
+
+		if ( ! is_object($pdo_obj))
+		{
+			return $pdo_obj;
+		}
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $pdo_obj;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -119,22 +145,9 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _field_data($table)
-	{
-		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
+		return 'SELECT '.$this->escape_identifiers('column_name')
+				.' FROM '.$this->escape_identifiers('information_schema.columns')
+				.' WHERE '.$this->escape_identifiers('table_name').' = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------

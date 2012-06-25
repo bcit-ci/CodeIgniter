@@ -26,7 +26,7 @@
  */
 
 /**
- * PDO PostgreSQL Database Adapter Class
+ * PDO ODBC Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
  * creates dynamically based on whether the query builder
@@ -38,11 +38,18 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
+class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 
-	public $subdriver = 'pgsql';
+	public $subdriver = 'odbc';
 
-	protected $_random_keyword = ' RANDOM()';
+	// The character used for escaping - not used in ODBC
+	protected $_escape_char = '';
+
+	// clause and character used for LIKE escape sequences
+	protected $_like_escape_chr = '!';
+	protected $_like_escape_str = " {escape '%s'} ";
+
+	protected $_random_keyword = ' RAND()';
 
 	/**
 	 * Constructor
@@ -58,31 +65,26 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = 'pgsql:host='.(empty($this->hostname) ? 'localhost' : $this->hostname);
+			$this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
 
-			empty($this->port) OR $this->dsn .= ';port='.$this->port;
+			if ( ! empty($this->port))
+			{
+				$this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
+			}
+
 			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
+			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
+			empty($this->appname) OR $this->dsn .= ';appname='.$this->appname;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert ID
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function insert_id($name = NULL)
-	{
-		if ($name === NULL && version_compare($this->version(), '8.1', '>='))
+		else
 		{
-			$query = $this->query('SELECT LASTVAL() AS ins_id');
-			$query = $query->row();
-			return $query->ins_id;
-		}
+			if ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE)
+			{
+				$this->dsn .= ';charset='.$this->char_set;
+			}
 
-		return $this->conn_id->lastInsertId($name);
+			$this->subdriver = 'odbc';
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -97,16 +99,15 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \'public\'';
+		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
 
-		if ($prefix_limit === TRUE && $this->dbprefix !== '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql.' AND "table_name" LIKE \''
-				.$this->escape_like_str($this->dbprefix)."%' "
+			return $sql." AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-		return $sql;
+                return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -121,22 +122,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _field_data($table)
-	{
-		return 'SELECT * FROM '.$this->protect_identifiers($table).' LIMIT 1';
+		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -190,42 +176,19 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update_Batch statement
+	 * Truncate statement
 	 *
-	 * Generates a platform-specific batch update string from the supplied data
+	 * Generates a platform-specific truncate string from the supplied data
+	 *
+	 * If the database does not support the truncate() command,
+	 * then this method maps to 'DELETE FROM table'
 	 *
 	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _truncate($table)
 	{
-		$ids = array();
-		foreach ($values as $key => $val)
-		{
-			$ids[] = $val[$index];
-
-			foreach (array_keys($val) as $field)
-			{
-				if ($field !== $index)
-				{
-					$final[$field][] =  'WHEN '.$val[$index].' THEN '.$val[$field];
-				}
-			}
-		}
-
-		$cases = '';
-		foreach ($final as $k => $v)
-		{
-			$cases .= $k.' = (CASE '.$k."\n"
-				.implode("\n", $v)."\n"
-				.'ELSE '.$k.' END), ';
-		}
-
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN('.implode(',', $ids).')';
+		return 'DELETE FROM '.$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -238,7 +201,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 * @param	string	the table name
 	 * @param	array	the where clause
 	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
+	 * @param	string	the limit clause
 	 * @return	string
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
@@ -248,7 +211,9 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 		empty($where) OR $conditions[] = implode(' ', $where);
 		empty($like) OR $conditions[] = implode(' ', $like);
 
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
+
+		return 'DELETE FROM '.$table.$conditions;
 	}
 
 	// --------------------------------------------------------------------
@@ -265,77 +230,10 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.' LIMIT '.$limit.($offset ? '' : ' OFFSET '.$offset);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Where
-	 *
-	 * Called by where() or or_where()
-	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	string
-	 * @return	object
-	 */
-	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
-	{
-		if ( ! is_array($key))
-		{
-			$key = array($key => $value);
-		}
-
-		// If the escape value was not set will will base it on the global setting
-		is_bool($escape) OR $escape = $this->_protect_identifiers;
-
-		foreach ($key as $k => $v)
-		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
-				? $this->_group_get_type('')
-				: $this->_group_get_type($type);
-
-			$k = (($op = $this->_get_operator($k)) !== FALSE)
-				? $this->protect_identifiers(substr($k, 0, strpos($k, $op)), FALSE, $escape).strstr($k, $op)
-				: $this->protect_identifiers($k, FALSE, $escape);
-
-			if (is_null($v) && ! $this->_has_operator($k))
-			{
-				// value appears not to have been set, assign the test to IS NULL
-				$k .= ' IS NULL';
-			}
-
-			if ( ! is_null($v))
-			{
-				if ($escape === TRUE)
-				{
-					$v = ' '.$this->escape($v);
-				}
-				elseif (is_bool($v))
-				{
-					$v = ($v ? ' TRUE' : ' FALSE');
-				}
-
-				if ( ! $this->_has_operator($k))
-				{
-					$k .= ' = ';
-				}
-			}
-
-			$this->qb_where[] = $prefix.$k.$v;
-			if ($this->qb_caching === TRUE)
-			{
-				$this->qb_cache_where[] = $prefix.$k.$v;
-				$this->qb_cache_exists[] = 'where';
-			}
-
-		}
-
-		return $this;
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
 	}
 
 }
 
-/* End of file pdo_pgsql_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_pgsql_driver.php */
+/* End of file pdo_odbc_driver.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_odbc_driver.php */

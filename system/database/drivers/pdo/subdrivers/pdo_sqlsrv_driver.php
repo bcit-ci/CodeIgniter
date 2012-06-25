@@ -174,22 +174,9 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _field_data($table)
-	{
-		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
+		return 'SELECT '.$this->escape_identifiers('column_name')
+			.' FROM '.$this->escape_identifiers('information_schema.columns')
+			.' WHERE '.$this->escape_identifiers('table_name').' = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
