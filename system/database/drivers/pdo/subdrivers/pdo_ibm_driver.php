@@ -213,24 +213,6 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the truncate() command,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'TRUNCATE TABLE '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Delete statement
 	 *
 	 * Generates a platform-specific delete string from the supplied data
