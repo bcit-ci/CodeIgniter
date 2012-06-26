@@ -84,6 +84,14 @@ filter. It's enabled by setting the second parameter to boolean TRUE;
 
 	$this->input->post('some_data', TRUE);
 
+The third optional parameter lets you return a value other than NULL if 
+the item you are attempting to retrieve does not exist. You can either set
+the second parameter to NULL or specify TRUE/FALSE as required.
+
+::
+	
+	$this->input->post('some_data', NULL, 'No');
+
 To return an array of all POST items call without any parameters.
 
 To return all POST items and pass them through the XSS filter set the
@@ -109,11 +117,19 @@ To return an array of all GET items call without any parameters.
 To return all GET items and pass them through the XSS filter set the
 first parameter NULL while setting the second parameter to boolean;
 
+To set a return value other than NULL, specify it in the third parameter.
+Either set the second parameter to NULL or specify TRUE/FALSE as required.
+
+::
+	
+	$this->input->get('some_data', NULL, 'No');
+
 The function returns NULL if there are no items in the GET.
 
 ::
 
 	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
+	$this->input->get('id', TRUE, 0); // returns 0 (with XSS filter) if 'id' not found
 	$this->input->get(); // returns all GET items without XSS filtering
 
 
@@ -123,7 +139,7 @@ $this->input->get_post()
 This function will search through both the post and get streams for
 data, looking first in post, and then in get::
 
-	$this->input->get_post('some_data', TRUE);
+	$this->input->get_post('some_data', TRUE, 'value if not found');
 
 $this->input->cookie()
 ======================

@@ -153,9 +153,10 @@ class CI_Input {
 	 *
 	 * @param	string
 	 * @param	bool
+	 * @param	string
 	 * @return	string
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL && ! empty($_GET))
@@ -169,8 +170,17 @@ class CI_Input {
 			}
 			return $get;
 		}
+		
+		// Get requested field value
+		$getval = $this->_fetch_from_array($_GET, $index, $xss_clean);
 
-		return $this->_fetch_from_array($_GET, $index, $xss_clean);
+		// If the field wasn't found, return $not_found_value
+		if (is_null($getval) OR $getval === FALSE) 
+		{
+			$getval = $not_found_value;
+		}
+
+		return $getval;
 	}
 
 	// --------------------------------------------------------------------
@@ -180,9 +190,10 @@ class CI_Input {
 	 *
 	 * @param	string
 	 * @param	bool
+	 * @param	string
 	 * @return	string
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL && ! empty($_POST))
@@ -196,8 +207,17 @@ class CI_Input {
 			}
 			return $post;
 		}
+		
+		// Get requested field value
+		$postval = $this->_fetch_from_array($_POST, $index, $xss_clean);
 
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
+		// If the field wasn't found, return $not_found_value
+		if (is_null($postval) OR $postval === FALSE) 
+		{
+			$postval = $not_found_value;
+		}
+
+		return $postval;
 	}
 
 
@@ -210,11 +230,11 @@ class CI_Input {
 	 * @param	bool	XSS cleaning
 	 * @return	string
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index = '', $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		return isset($_POST[$index])
-			? $this->post($index, $xss_clean)
-			: $this->get($index, $xss_clean);
+			? $this->post($index, $xss_clean, $not_found_value)
+			: $this->get($index, $xss_clean, $not_found_value);
 	}
 
 	// --------------------------------------------------------------------

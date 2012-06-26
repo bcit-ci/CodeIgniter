@@ -175,6 +175,7 @@ Release Date: Not Released
 
 -  Core
 
+   -  Added optional third parameters to input->get, input->post, input->post_get to specify return value instead of NULL
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
