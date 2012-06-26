@@ -153,9 +153,10 @@ class CI_Input {
 	 *
 	 * @param	string
 	 * @param	bool
+	 * @param	string
 	 * @return	string
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL && ! empty($_GET))
@@ -169,8 +170,14 @@ class CI_Input {
 			}
 			return $get;
 		}
+		
+		// Get requested field value
+		$getval = $this->_fetch_from_array($_GET, $index, $xss_clean);
 
-		return $this->_fetch_from_array($_GET, $index, $xss_clean);
+		// If the field wasn't found, return $not_found_value
+		if ( is_null($getval) || $getval === FALSE ) $getval = $not_found_value;
+
+		return $getval;
 	}
 
 	// --------------------------------------------------------------------
@@ -180,6 +187,7 @@ class CI_Input {
 	 *
 	 * @param	string
 	 * @param	bool
+	 * @param	string
 	 * @return	string
 	 */
 	public function post($index = NULL, $xss_clean = FALSE, $not_found_value = NULL)
@@ -201,7 +209,7 @@ class CI_Input {
 		$postval = $this->_fetch_from_array($_POST, $index, $xss_clean);
 
 		// If the field wasn't found, return $not_found_value
-		if ( is_null($retval) || $retval === FALSE ) $postval = $not_found_value;
+		if ( is_null($postval) || $postval === FALSE ) $postval = $not_found_value;
 
 		return $postval;
 	}
