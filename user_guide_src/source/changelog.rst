@@ -70,7 +70,8 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
-   -  :doc:`Date Helper <helpers/date_helper>` Added optional fourth parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag
+   -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
+   -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
 -  Database
 
@@ -190,6 +191,7 @@ Release Date: Not Released
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
+   -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
 
 Bug fixes for 3.0
 ------------------
@@ -294,6 +296,7 @@ Bug fixes for 3.0
 -  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
+-  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 
 Version 2.1.1
 =============
