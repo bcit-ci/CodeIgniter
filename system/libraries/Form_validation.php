@@ -1277,7 +1277,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str !== 0 && preg_match('/^[0-9]+$/', $str));
+		return ($str && preg_match('/^[0-9]+$/', $str));
 	}
 
 	// --------------------------------------------------------------------
