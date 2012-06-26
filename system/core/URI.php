@@ -207,6 +207,12 @@ class CI_URI {
 		if (strpos($uri, '?/') === 0)
 		{
 			$uri = substr($uri, 2);
+		} 
+		// This section allows to use URL without index.php but with just '?'
+		// Eg:- http://localhost:8080/ci/?/welcome
+		else if (strpos($uri, '/?/') === 0) 
+		{
+			$uri = substr($uri, 3);
 		}
 
 		$parts = explode('?', $uri, 2);
