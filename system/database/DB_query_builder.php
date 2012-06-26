@@ -1218,7 +1218,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get_where($table = '', $where = null, $limit = null, $offset = null)
+	public function get_where($table = '', $where = NULL, $limit = NULL, $offset = NULL)
 	{
 		if ($table !== '')
 		{
