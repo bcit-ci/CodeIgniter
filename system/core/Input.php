@@ -175,7 +175,10 @@ class CI_Input {
 		$getval = $this->_fetch_from_array($_GET, $index, $xss_clean);
 
 		// If the field wasn't found, return $not_found_value
-		if ( is_null($getval) || $getval === FALSE ) $getval = $not_found_value;
+		if ( is_null($getval) || $getval === FALSE ) 
+		{
+			$getval = $not_found_value;
+		}
 
 		return $getval;
 	}
@@ -209,7 +212,10 @@ class CI_Input {
 		$postval = $this->_fetch_from_array($_POST, $index, $xss_clean);
 
 		// If the field wasn't found, return $not_found_value
-		if ( is_null($postval) || $postval === FALSE ) $postval = $not_found_value;
+		if ( is_null($postval) || $postval === FALSE ) 
+		{
+			$postval = $not_found_value;
+		}
 
 		return $postval;
 	}
@@ -224,11 +230,11 @@ class CI_Input {
 	 * @param	bool	XSS cleaning
 	 * @return	string
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index = '', $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		return isset($_POST[$index])
-			? $this->post($index, $xss_clean)
-			: $this->get($index, $xss_clean);
+			? $this->post($index, $xss_clean, $not_found_value)
+			: $this->get($index, $xss_clean, $not_found_value);
 	}
 
 	// --------------------------------------------------------------------

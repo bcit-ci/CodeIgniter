@@ -139,7 +139,7 @@ $this->input->get_post()
 This function will search through both the post and get streams for
 data, looking first in post, and then in get::
 
-	$this->input->get_post('some_data', TRUE);
+	$this->input->get_post('some_data', TRUE, 'value if not found');
 
 $this->input->cookie()
 ======================
