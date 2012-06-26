@@ -526,7 +526,7 @@ if ( ! function_exists('redirect'))
 	 * @param	int
 	 * @return	string
 	 */
-	function redirect($uri = '', $method = 'auto', $http_response_code = 302)
+	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
 		if ( ! preg_match('#^https?://#i', $uri))
 		{
@@ -538,14 +538,22 @@ if ( ! function_exists('redirect'))
 		{
 			$method = 'refresh';
 		}
+		elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
+		{
+			// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+			$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
+					&& $_SERVER['REQUEST_METHOD'] === 'POST'
+					&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+				? 303 : 302;
+		}
 
-		switch($method)
+		switch ($method)
 		{
 			case 'refresh':
 				header('Refresh:0;url='.$uri);
 				break;
 			default:
-				header('Location: '.$uri, TRUE, $http_response_code);
+				header('Location: '.$uri, TRUE, $code);
 				break;
 		}
 		exit;
