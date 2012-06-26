@@ -597,7 +597,7 @@ function. Here is an example using an array::
 	// Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
 
 The first parameter will contain the table name, the second is an
-associative array of values.
+associative array of values and the third is a boolean value (defaulted to FALSE) to delay the insert.
 
 Here is an example using an object::
 
@@ -615,6 +615,11 @@ Here is an example using an object::
 
 The first parameter will contain the table name, the second is an
 object.
+
+Here is an example with a delayed insert (MYISAM tables only)::
+
+    $this->db->insert('mytable, $data, TRUE);
+	// Produces: INSERT DELAYED INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
 
 .. note:: All values are escaped automatically producing safer queries.
 
