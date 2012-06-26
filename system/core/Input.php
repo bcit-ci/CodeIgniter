@@ -175,7 +175,7 @@ class CI_Input {
 		$getval = $this->_fetch_from_array($_GET, $index, $xss_clean);
 
 		// If the field wasn't found, return $not_found_value
-		if ( is_null($getval) || $getval === FALSE ) 
+		if ( is_null($getval) OR $getval === FALSE ) 
 		{
 			$getval = $not_found_value;
 		}
@@ -212,7 +212,7 @@ class CI_Input {
 		$postval = $this->_fetch_from_array($_POST, $index, $xss_clean);
 
 		// If the field wasn't found, return $not_found_value
-		if ( is_null($postval) || $postval === FALSE ) 
+		if ( is_null($postval) OR $postval === FALSE ) 
 		{
 			$postval = $not_found_value;
 		}
