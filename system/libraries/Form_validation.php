@@ -1360,7 +1360,7 @@ class CI_Form_validation {
 	 */
 	public function strip_image_tags($str)
 	{
-		return $this->CI->input->strip_image_tags($str);
+		return $this->CI->security->strip_image_tags($str);
 	}
 
 	// --------------------------------------------------------------------
