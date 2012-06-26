@@ -21,9 +21,9 @@ Here is a simple example showing how to create pagination in one of your
 
 	$config['base_url'] = 'http://example.com/index.php/test/page/';
 	$config['total_rows'] = 200;
-	$config['per_page'] = 20; 
+	$config['per_page'] = 20;
 
-	$this->pagination->initialize($config); 
+	$this->pagination->initialize($config);
 
 	echo $this->pagination->create_links();
 
@@ -115,9 +115,9 @@ configured using $config['query_string_segment'] = 'your_string'
 $config['reuse_query_string'] = FALSE;
 ====================================
 
-By default your Query String arguments (nothing to do with other 
-query string options) will be ignored. Setting this config to 
-TRUE will add existing query string arguments back into the 
+By default your Query String arguments (nothing to do with other
+query string options) will be ignored. Setting this config to
+TRUE will add existing query string arguments back into the
 URL after the URI segment and before the suffix
 
 ::
@@ -126,6 +126,18 @@ URL after the URI segment and before the suffix
 
 This helps you mix together normal :doc:`URI Segments <../general/urls>`
 as well as query string arguments, which until 3.0 was not possible.
+
+$config['prefix'] = '';
+==================================
+
+A custom prefix added to the path. The prefix value will be right before
+the offset segment.
+
+$config['suffix'] = '';
+==================================
+
+A custom suffix added to the path. The sufix value will be right after
+the offset segment.
 
 ***********************
 Adding Enclosing Markup
