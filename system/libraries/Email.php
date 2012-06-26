@@ -60,11 +60,11 @@ class CI_Email {
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
 	public $dsn		= FALSE;		// Delivery Status Notification
-	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
+	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override. Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	public $safe_mode		= FALSE;	// TRUE/FALSE - Turns safe mode on/off
 
-	protected $_safe_mode		= FALSE;
 	protected $_subject		= '';
 	protected $_body		= '';
 	protected $_finalbody		= '';
@@ -105,7 +105,7 @@ class CI_Email {
 		else
 		{
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-			$this->_safe_mode = (bool) @ini_get('safe_mode');
+			$this->set_safe_mode();
 		}
 
 		log_message('debug', 'Email Class Initialized');
@@ -140,7 +140,9 @@ class CI_Email {
 		$this->clear();
 
 		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		$this->_safe_mode = (bool) @ini_get('safe_mode');
+
+		if ( ! isset($config['safe_mode']))
+			$this->set_safe_mode();
 
 		return $this;
 	}
@@ -544,6 +546,24 @@ class CI_Email {
 	public function set_crlf($crlf = "\n")
 	{
 		$this->crlf = ($crlf !== "\n" && $crlf !== "\r\n" && $crlf !== "\r") ? "\n" : $crlf;
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set safe mode
+	 *
+	 * @param	bool
+	 * @return	object
+	 */
+	public function set_safe_mode($safe_mode = NULL)
+	{
+		if (is_null($safe_mode))
+			$this->safe_mode = (bool) @ini_get('safe_mode');
+		else
+			$this->safe_mode = (bool) $safe_mode;
+
 		return $this;
 	}
 
@@ -1377,7 +1397,7 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
-		if ($this->_safe_mode === TRUE)
+		if ($this->safe_mode === TRUE)
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
 		}
