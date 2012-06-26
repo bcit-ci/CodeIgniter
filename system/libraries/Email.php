@@ -409,6 +409,36 @@ class CI_Email {
 		$this->_attachments[$ind]['name'] = array($filename,$newname);
 		$this->_attachments[$ind]['disp'] = empty($disposition) ? 'attachment' : $disposition;
 		$this->_attachments[$ind]['type'] = $mime;
+		
+		if ($this->_attachments[$ind]['type'] === '')
+		{
+			if ( ! file_exists($filename))
+			{
+				$this->_set_error_message('lang:email_attachment_missing', $filename);
+				unset($this->_attachments[$ind]);
+				return FALSE;
+			}
+
+			$file = filesize($filename) +1;
+
+			if ( ! $fp = fopen($filename, FOPEN_READ))
+			{
+				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
+				unset($this->_attachments[$ind]);
+				return FALSE;
+			}
+
+			$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+			$file_content = fread($fp, $file);
+			fclose($fp);
+		}
+		else
+		{
+			$file_content = $filename;
+		}
+		
+		$this->_attachments[$ind]['content'] = chunk_split(base64_encode($file_content));
+		
 		return $this;
 	}
 
@@ -1037,41 +1067,14 @@ class CI_Email {
 		{
 			$filename = $this->_attachments[$i]['name'][0];
 			$basename = is_null($this->_attachments[$i]['name'][1]) ? basename($filename) : $this->_attachments[$i]['name'][1];
-			$ctype = $this->_attachments[$i]['type'];
-			$file_content = '';
-
-			if ($this->_attachments[$i]['type'] === '')
-			{
-				if ( ! file_exists($filename))
-				{
-					$this->_set_error_message('lang:email_attachment_missing', $filename);
-					return FALSE;
-				}
-
-				$file = filesize($filename) +1;
-
-				if ( ! $fp = fopen($filename, FOPEN_READ))
-				{
-					$this->_set_error_message('lang:email_attachment_unreadable', $filename);
-					return FALSE;
-				}
-
-				$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-				$file_content = fread($fp, $file);
-				fclose($fp);
-			}
-			else
-			{
-				$file_content =& $this->_attachments[$i]['content'];
-			}
 
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
-				.'Content-type: '.$ctype.'; '
+				.'Content-type: '.$this->_attachments[$i]['type'].'; '
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disp'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline;
 
-			$attachment[$z++] = chunk_split(base64_encode($file_content));
+			$attachment[$z++] = $this->_attachments[$i]['content'];
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
