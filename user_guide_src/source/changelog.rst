@@ -57,6 +57,7 @@ Release Date: Not Released
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
 	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
 	 - Added JS window name support to ``anchor_popup()`` function.
+	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
