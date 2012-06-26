@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Inflector Helpers
  *
@@ -37,19 +35,18 @@
  * @link		http://codeigniter.com/user_guide/helpers/inflector_helper.html
  */
 
-
 // --------------------------------------------------------------------
 
-/**
- * Singular
- *
- * Takes a plural word and makes it singular
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('singular'))
 {
+	/**
+	 * Singular
+	 *
+	 * Takes a plural word and makes it singular
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function singular($str)
 	{
 		$result = strval($str);
@@ -58,7 +55,7 @@ if ( ! function_exists('singular'))
 		{
 			return $result;
 		}
-		
+
 		$singular_rules = array(
 			'/(matr)ices$/'         => '\1ix',
 			'/(vert|ind)ices$/'     => '\1ex',
@@ -104,19 +101,19 @@ if ( ! function_exists('singular'))
 
 // --------------------------------------------------------------------
 
-/**
- * Plural
- *
- * Takes a singular word and makes it plural
- *
- * @param	string
- * @param	bool
- * @return	str
- */
 if ( ! function_exists('plural'))
 {
+	/**
+	 * Plural
+	 *
+	 * Takes a singular word and makes it plural
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function plural($str, $force = FALSE)
-	{	
+	{
 		$result = strval($str);
 
 		if ( ! is_countable($result))
@@ -145,7 +142,7 @@ if ( ! function_exists('plural'))
 			'/s$/'                     => 's',          // no change (compatibility)
 			'/$/'                      => 's',
 		);
-		
+
 		foreach ($plural_rules as $rule => $replacement)
 		{
 			if (preg_match($rule, $result))
@@ -161,34 +158,34 @@ if ( ! function_exists('plural'))
 
 // --------------------------------------------------------------------
 
-/**
- * Camelize
- *
- * Takes multiple words separated by spaces or underscores and camelizes them
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('camelize'))
 {
+	/**
+	 * Camelize
+	 *
+	 * Takes multiple words separated by spaces or underscores and camelizes them
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function camelize($str)
 	{
-		return substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
+		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
 	}
 }
 
 // --------------------------------------------------------------------
 
-/**
- * Underscore
- *
- * Takes multiple words separated by spaces and underscores them
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('underscore'))
 {
+	/**
+	 * Underscore
+	 *
+	 * Takes multiple words separated by spaces and underscores them
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function underscore($str)
 	{
 		return preg_replace('/[\s]+/', '_', strtolower(trim($str)));
@@ -197,37 +194,41 @@ if ( ! function_exists('underscore'))
 
 // --------------------------------------------------------------------
 
-/**
- * Humanize
- *
- * Takes multiple words separated by the separator and changes them to spaces
- *
- * @param	string $str
- * @param 	string $separator
- * @return	str
- */
 if ( ! function_exists('humanize'))
 {
+	/**
+	 * Humanize
+	 *
+	 * Takes multiple words separated by the separator and changes them to spaces
+	 *
+	 * @param	string	$str
+	 * @param 	string	$separator
+	 * @return	string
+	 */
 	function humanize($str, $separator = '_')
 	{
 		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
 	}
 }
 
-/**
- * Checks if the given word has a plural version.
- *
- * @param   string  the word to check
- * @return  bool    if the word is countable
- */
+// --------------------------------------------------------------------
+
 if ( ! function_exists('is_countable'))
 {
+	/**
+	 * Checks if the given word has a plural version.
+	 *
+	 * @param	string	the word to check
+	 * @return	bool	if the word is countable
+	 */
 	function is_countable($word)
 	{
-		return ! (in_array(strtolower(strval($word)), array(
-			'equipment', 'information', 'rice', 'money',
-			'species', 'series', 'fish', 'meta'
-		)));
+		return ! in_array(strtolower(strval($word)),
+					array(
+						'equipment', 'information', 'rice', 'money',
+						'species', 'series', 'fish', 'meta'
+					)
+			);
 	}
 }
 

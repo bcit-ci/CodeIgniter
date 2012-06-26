@@ -168,19 +168,20 @@ browser settings. Here is an example with attributes
 
 ::
 
-	$atts = array(               
-		'width'      => '800',               
-		'height'     => '600',               
-		'scrollbars' => 'yes',               
-		'status'     => 'yes',               
-		'resizable'  => 'yes',               
-		'screenx'    => '0',               
-		'screeny'    => '0'             
+	$atts = array(
+		'width'       => '800',
+		'height'      => '600',
+		'scrollbars'  => 'yes',
+		'status'      => 'yes',
+		'resizable'   => 'yes',
+		'screenx'     => '0',
+		'screeny'     => '0',
+		'window_name' => '_blank'
 	);
 
 	echo anchor_popup('news/local/123', 'Click Me!', $atts);
 
-Note: The above attributes are the function defaults so you only need to
+.. note:: The above attributes are the function defaults so you only need to
 set the ones that are different from what you need. If you want the
 function to use all of its defaults simply pass an empty array in the
 third parameter
@@ -188,6 +189,13 @@ third parameter
 ::
 
 	echo anchor_popup('news/local/123', 'Click Me!', array());
+
+.. note:: The 'window_name' is not really an attribute, but an argument to
+	the JavaScript `window.open() <http://www.w3schools.com/jsref/met_win_open.asp>`
+	method, which accepts either a window name or a window target.
+
+.. note:: Any other attribute than the listed above will be parsed as an
+	HTML attribute to the anchor tag.
 
 mailto()
 ========

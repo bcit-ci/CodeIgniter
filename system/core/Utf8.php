@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * Utf8 Class
  *
@@ -44,6 +42,8 @@ class CI_Utf8 {
 	 * Constructor
 	 *
 	 * Determines if UTF-8 support is to be enabled
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -54,7 +54,7 @@ class CI_Utf8 {
 		if (
 			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
 			&& function_exists('iconv')			// iconv must be installed
-			&& @ini_get('mbstring.func_overload') != 1	// Multibyte string function overloading cannot be enabled
+			&& (bool) @ini_get('mbstring.func_overload') !== TRUE	// Multibyte string function overloading cannot be enabled
 			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
 			)
 		{
@@ -126,7 +126,7 @@ class CI_Utf8 {
 	 * Attempts to convert a string to UTF-8
 	 *
 	 * @param	string
-	 * @param	string	- input encoding
+	 * @param	string	input encoding
 	 * @return	string
 	 */
 	public function convert_to_utf8($str, $encoding)

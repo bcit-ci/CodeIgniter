@@ -90,24 +90,24 @@ this code and save it to your applications/controllers/ folder::
 
 	class Upload extends CI_Controller {
 
-		function __construct()
+		public function __construct()
 		{
 			parent::__construct();
 			$this->load->helper(array('form', 'url'));
 		}
 
-		function index()
+		public function index()
 		{
 			$this->load->view('upload_form', array('error' => ' ' ));
 		}
 
-		function do_upload()
+		public function do_upload()
 		{
-			$config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$config['max_size']	= '100';
-			$config['max_width']  = '1024';
-			$config['max_height']  = '768';
+			$config['upload_path']		= './uploads/';
+			$config['allowed_types']	= 'gif|jpg|png';
+			$config['max_size']		= 100;
+			$config['max_width']		= 1024;
+			$config['max_height']		= 768;
 
 			$this->load->library('upload', $config);
 
@@ -215,6 +215,9 @@ Preference                   Default Value     Options                 Descripti
                                                                        that can not be discerned by the person uploading it.
 **remove_spaces**            TRUE              TRUE/FALSE (boolean)    If set to TRUE, any spaces in the file name will be converted to
                                                                        underscores. This is recommended.
+**detect_mime**              TRUE              TRUE/FALSE (boolean)    If set to TRUE, a server side detection of the file type will be
+                                                                       performed to avoid code injection attacks. DO NOT disable this option
+                                                                       unless you have no other option as that would cause a security risk.
 ============================ ================= ======================= ======================================================================
 
 Setting preferences in a config file
@@ -286,6 +289,10 @@ data related to the file you uploaded. Here is the array prototype::
 	    [image_type]   => jpeg
 	    [image_size_str] => width="800" height="200"
 	)
+
+To return one element from the array::
+
+	$this->upload->data('file_name');	// Returns: mypic.jpg
 
 Explanation
 ***********

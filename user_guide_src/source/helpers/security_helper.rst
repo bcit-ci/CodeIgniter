@@ -34,16 +34,19 @@ More info can be found there.
 do_hash()
 =========
 
-Permits you to create SHA1 or MD5 one way hashes suitable for encrypting
-passwords. Will create SHA1 by default. Examples
+Permits you to create one way hashes suitable for encrypting
+passwords. Will create SHA1 by default. See `hash_algos() <http://php.net/function.hash_algos>`_
+for a full list of supported algorithms.
 
 ::
 
 	$str = do_hash($str); // SHA1
 	$str = do_hash($str, 'md5'); // MD5
 
-.. note:: This function was formerly named dohash(), which has been
-	deprecated in favor of `do_hash()`.
+.. note:: This function was formerly named ``dohash()``, which has been
+	removed in favor of ``do_hash()``.
+
+.. note:: This function is DEPRECATED. Use the native ``hash()`` instead.
 
 strip_image_tags()
 ==================

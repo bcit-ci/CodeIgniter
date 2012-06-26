@@ -34,43 +34,8 @@
  */
 class CI_DB_postgre_utility extends CI_DB_utility {
 
-	/**
-	 * List databases
-	 *
-	 * @return	string
-	 */
-	public function _list_databases()
-	{
-		return 'SELECT datname FROM pg_database';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Optimize table query
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	public function _optimize_table($table)
-	{
-		return 'REINDEX TABLE '.$this->db->protect_identifiers($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Repair table query
-	 *
-	 * @param	string	the table name
-	 * @return	bool
-	 */
-	public function _repair_table($table)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
+	protected $_list_databases	= 'SELECT datname FROM pg_database';
+	protected $_optimize_table	= 'REINDEX TABLE %s';
 
 	/**
 	 * Postgre Export
@@ -78,7 +43,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 * @param	array	Preferences
 	 * @return	mixed
 	 */
-	function _backup($params = array())
+	protected function _backup($params = array())
 	{
 		// Currently unsupported
 		return $this->db->display_error('db_unsuported_feature');

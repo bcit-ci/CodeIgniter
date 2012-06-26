@@ -104,6 +104,7 @@ Preference          Default Value          Options                      Descript
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **bcc_batch_mode**  FALSE                  TRUE or FALSE (boolean)      Enable BCC Batch Mode.
 **bcc_batch_size**  200                    None                         Number of emails in each BCC batch.
+**dsn**             FALSE                  TRUE or FALSE (boolean)      Enable notify message from server
 =================== ====================== ============================ =======================================================================
 
 Email Function Reference
@@ -181,6 +182,14 @@ formatting which is added to the header string for people who do not
 accept HTML email. If you do not set your own message CodeIgniter will
 extract the message from your HTML email and strip the tags.
 
+$this->email->set_header()
+-----------------------
+
+Appends additional headers to the e-mail::
+
+	$this->email->set_header('Header1', 'Value1');
+	$this->email->set_header('Header2', 'Value2');
+
 $this->email->clear()
 ---------------------
 
@@ -228,11 +237,20 @@ use the function multiple times. For example::
 	$this->email->attach('/path/to/photo2.jpg');
 	$this->email->attach('/path/to/photo3.jpg');
 
-If you'd like to change the disposition or add a custom file name, you can use the second and third paramaters. To use the default disposition (attachment), leave the second parameter blank. Here's an example::
-  
-	$this->email->attach('/path/to/photo1.jpg', 'inline');
-	$this->email->attach('/path/to/photo1.jpg', '', 'birthday.jpg');
-	
+To use the default disposition (attachment), leave the second parameter blank,
+otherwise use a custom disposition::
+
+	$this->email->attach('image.jpg', 'inline');
+
+If you'd like to use a custom file name, you can use the third paramater::
+
+	$this->email->attach('filename.pdf', 'attachment', 'report.pdf');
+
+If you need to use a buffer string instead of a real - physical - file you can
+use the first parameter as buffer, the third parameter as file name and the fourth
+parameter as mime-type::
+
+	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
 $this->email->print_debugger()
 -------------------------------
