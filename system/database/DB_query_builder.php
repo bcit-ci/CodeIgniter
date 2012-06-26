@@ -1406,9 +1406,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
+     * @param   bool	TRUE: delay inserts for MYISAM tables only; FALSE: do not delay
 	 * @return	object
 	 */
-	public function insert($table = '', $set = NULL)
+	public function insert($table = '', $set = NULL, $delayed = FALSE)
 	{
 		if ( ! is_null($set))
 		{
@@ -1425,7 +1426,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$this->qb_from[0], TRUE, NULL, FALSE
 			),
 			array_keys($this->qb_set),
-			array_values($this->qb_set)
+			array_values($this->qb_set),
+            $delayed
 		);
 
 		$this->_reset_write();
@@ -1442,12 +1444,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table name
 	 * @param	array	the insert keys
 	 * @param	array	the insert values
+     * @param   bool    to delay the insert
 	 * @return	string
 	 */
-	protected function _insert($table, $keys, $values)
+	protected function _insert($table, $keys, $values, $delayed)
 	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
+            return 'INSERT '.($delayed === FALSE ? '':'DELAYED ').'INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';      
+    }
 
 	// --------------------------------------------------------------------
 
