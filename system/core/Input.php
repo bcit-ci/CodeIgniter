@@ -182,7 +182,7 @@ class CI_Input {
 	 * @param	bool
 	 * @return	string
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE, $not_found_value = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL && ! empty($_POST))
@@ -196,8 +196,14 @@ class CI_Input {
 			}
 			return $post;
 		}
+		
+		// Get requested field value
+		$postval = $this->_fetch_from_array($_POST, $index, $xss_clean);
 
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
+		// If the field wasn't found, return $not_found_value
+		if ( is_null($retval) || $retval === FALSE ) $postval = $not_found_value;
+
+		return $postval;
 	}
 
 
