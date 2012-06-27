@@ -108,7 +108,7 @@ class CI_Table {
 			$this->template[$key] = $val;
 		}
 
-		log_message('debug', 'Table Class Initialized');
+		log_message('info', 'Table Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

@@ -108,7 +108,7 @@ class CI_Email {
 			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
-		log_message('debug', 'Email Class Initialized');
+		log_message('info', 'Email Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

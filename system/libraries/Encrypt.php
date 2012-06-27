@@ -81,7 +81,7 @@ class CI_Encrypt {
 	public function __construct()
 	{
 		$this->_mcrypt_exists = function_exists('mcrypt_encrypt');
-		log_message('debug', 'Encrypt Class Initialized');
+		log_message('info', 'Encrypt Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

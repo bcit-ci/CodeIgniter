@@ -51,7 +51,7 @@ class CI_FTP {
 			$this->initialize($config);
 		}
 
-		log_message('debug', 'FTP Class Initialized');
+		log_message('info', 'FTP Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

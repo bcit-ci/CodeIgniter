@@ -194,7 +194,7 @@ class CI_Session {
 	 */
 	public function __construct($params = array())
 	{
-		log_message('debug', 'Session Class Initialized');
+		log_message('info', 'Session Class Initialized');
 
 		// Set the super object to a local variable for use throughout the class
 		$this->CI =& get_instance();

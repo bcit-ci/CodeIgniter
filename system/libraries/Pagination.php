@@ -80,7 +80,7 @@ class CI_Pagination {
 	public function __construct($params = array())
 	{
 		$this->initialize($params);
-		log_message('debug', 'Pagination Class Initialized');
+		log_message('info', 'Pagination Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

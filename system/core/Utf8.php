@@ -47,7 +47,7 @@ class CI_Utf8 {
 	 */
 	public function __construct()
 	{
-		log_message('debug', 'Utf8 Class Initialized');
+		log_message('info', 'Utf8 Class Initialized');
 
 		global $CFG;
 

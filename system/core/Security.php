@@ -132,7 +132,7 @@ class CI_Security {
 			$this->_csrf_set_hash();
 		}
 
-		log_message('debug', 'Security Class Initialized');
+		log_message('info', 'Security Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

@@ -79,7 +79,7 @@ class CI_URI {
 	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
-		log_message('debug', 'URI Class Initialized');
+		log_message('info', 'URI Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
