@@ -183,7 +183,7 @@ accept HTML email. If you do not set your own message CodeIgniter will
 extract the message from your HTML email and strip the tags.
 
 $this->email->set_header()
------------------------
+--------------------------
 
 Appends additional headers to the e-mail::
 
