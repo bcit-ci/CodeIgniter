@@ -706,7 +706,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function valid_email($address)
+	public function valid_email($email)
 	{
 		return filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
