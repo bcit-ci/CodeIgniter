@@ -1129,7 +1129,7 @@ class CI_Form_validation {
 	 */
 	public function alpha($str)
 	{
-		return (bool) preg_match('/^[a-z]+$/i', $str);
+		return ctype_alpha($str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1142,7 +1142,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_numeric($str)
 	{
-		return (bool) preg_match('/^[a-z0-9]+$/i', $str);
+		return ctype_alnum((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1264,7 +1264,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural($str)
 	{
-		return (bool) preg_match('/^[0-9]+$/', $str);
+		return ctype_digit((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1277,7 +1277,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str != 0 && preg_match('/^[0-9]+$/', $str));
+		return ($str != 0 && ctype_digit((string) $str));
 	}
 
 	// --------------------------------------------------------------------
