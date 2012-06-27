@@ -230,8 +230,8 @@ $this->email->attach()
 ----------------------
 
 Enables you to send an attachment. Put the file path/name in the first
-parameter. Note: Use a file path, not a URL. For multiple attachments
-use the function multiple times. For example::
+parameter. For multiple attachments use the function multiple times. 
+For example::
 
 	$this->email->attach('/path/to/photo1.jpg');
 	$this->email->attach('/path/to/photo2.jpg');

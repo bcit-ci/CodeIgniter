@@ -409,6 +409,7 @@ class CI_Email {
 		$this->_attachments[$ind]['name'] = array($filename,$newname);
 		$this->_attachments[$ind]['disp'] = empty($disposition) ? 'attachment' : $disposition;
 		$this->_attachments[$ind]['type'] = $mime;
+		$this->_attachments[$ind]['cid'] = NULL;
 		
 		if ($this->_attachments[$ind]['type'] === '')
 		{
@@ -419,8 +420,6 @@ class CI_Email {
 				return FALSE;
 			}
 
-			$file = filesize($filename) +1;
-
 			if ( ! $fp = fopen($filename, FOPEN_READ))
 			{
 				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
@@ -429,7 +428,7 @@ class CI_Email {
 			}
 
 			$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-			$file_content = fread($fp, $file);
+			$file_content = stream_get_contents($fp);
 			fclose($fp);
 		}
 		else
@@ -1093,7 +1092,8 @@ class CI_Email {
 				.'Content-type: '.$this->_attachments[$i]['type'].'; '
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disp'].';'.$this->newline
-				.'Content-Transfer-Encoding: base64'.$this->newline;
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.($this->_attachments[$i]['cid'] ? "Content-ID: <".$this->_attachments[$i]['cid'].">".$this->newline : '');
 
 			$attachment[$z++] = $this->_attachments[$i]['content'];
 		}
