@@ -445,7 +445,7 @@ class CI_FTP {
 	 * Set file permissions
 	 *
 	 * @param	string	the file path
-	 * @param	string	the permissions
+	 * @param	int	the permissions
 	 * @return	bool
 	 */
 	public function chmod($path, $perm)
