@@ -51,7 +51,7 @@ class CI_Email {
 	public $wrapchars	= 76;			// Number of characters to wrap at.
 	public $mailtype	= 'text';		// text/html  Defines email formatting
 	public $charset		= 'utf-8';		// Default char set: iso-8859-1 or us-ascii
-	public $multipart	= 'mixed';		// "mixed" (in the body) or "related" (separate)
+	public $multipart	= 'related';	// "related" (separate) or "mixed" (in the body)
 	public $alt_message	= '';			// Alternative message for HTML emails
 	public $validate	= FALSE;		// TRUE/FALSE.  Enables email validation
 	public $priority	= 3;			// Default priority (1 - 5)

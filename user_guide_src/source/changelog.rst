@@ -142,6 +142,7 @@ Release Date: Not Released
    -  Email attachments opening by stream_get_contents() instead of fread. Thats enable to attach file paths a whole urls.
    -  Added method Email::attach_cid() returning CID which enables to embed an attachment to html.
    -  Unification of Email properties like Email->attach_name etc... to one associative array Email->_attachments
+   -  Change multipart type from mixed to related in Email library. It makes better results in some Email clients especially for inlnine attachments.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
