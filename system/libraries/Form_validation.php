@@ -1076,7 +1076,7 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		return filter_var($str, FILTER_VALIDATE_EMAIL);
+		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	}
 
 	// --------------------------------------------------------------------

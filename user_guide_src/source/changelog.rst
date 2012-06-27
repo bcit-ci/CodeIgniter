@@ -48,6 +48,7 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
+   -  Updated email validation methods to use filter_var() instead of PCRE.
 
 -  Helpers
 
@@ -73,7 +74,6 @@ Release Date: Not Released
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
    -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
-   -  Updated email validation methods to use filter_var so they are more accurate.
 
 -  Database
 
