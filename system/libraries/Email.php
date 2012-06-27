@@ -708,7 +708,7 @@ class CI_Email {
 	 */
 	public function valid_email($email)
 	{
-		return filter_var($email, FILTER_VALIDATE_EMAIL);
+		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
 	// --------------------------------------------------------------------
