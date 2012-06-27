@@ -139,6 +139,7 @@ Release Date: Not Released
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
    -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  Email attachments are creating in function Email::attach() - it's faster for sending many emails with same attachments
+   -  Added method Email::attach_cid() returning CID which enables to embed an attachment to html.
    -  Unification of Email properties like Email->attach_name etc... to one associative array Email->_attachments
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.

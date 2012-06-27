@@ -441,6 +441,27 @@ class CI_Email {
 		
 		return $this;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Sets and return id of attachment (useful for attached inline pictures)
+	 *
+	 * @param string
+	 * @return	id
+	 */
+	public function attach_cid($filename)
+	{
+		foreach($this->_attachments as $ind => $attach)
+		{
+			if($attach['name'] == $filename)
+			{
+				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$ind]['name']) . "@");
+				return $this->_attachments[$ind]['cid'];
+			}
+		}
+		return FALSE;
+	}
 
 	// --------------------------------------------------------------------
 
