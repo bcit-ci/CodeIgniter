@@ -30,9 +30,12 @@ Release Date: Not Released
    -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
    -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
-   -  Added support for ics Calendar files to mimes.php
+   -  Added support for ics Calendar files to mimes.php.
+   -  Added support for rar archives to mimes.php.
    -  Updated support for xml ('application/xml') and xsl ('application/xml', 'text/xsl') files in mimes.php.
    -  Updated support for doc files in mimes.php.
+   -  Updated support for php files in mimes.php.
+   -  Updated support for zip files in mimes.php.
    -  Added some more doctypes.
    -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
@@ -50,7 +53,11 @@ Release Date: Not Released
 
    -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
-   -  ``url_title()`` will now trim extra dashes from beginning and end.
+   -  :doc:`URL Helper <helpers/url_helper>` changes include:
+	 - ``url_title()`` will now trim extra dashes from beginning and end.
+	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
+	 - Added JS window name support to ``anchor_popup()`` function.
+	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
@@ -64,6 +71,8 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
+   -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
+   -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
 -  Database
 
@@ -71,9 +80,11 @@ Release Date: Not Released
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
 	 - Added the ability to insert objects with insert_batch().
 	 - Added new methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-	 - Added an optional order_by() parameter that allows to disable escaping (useful for custom fields).
-	 - Added an optional join() parameter that allows to disable escaping.
+	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods join(), order_by(), where_in(), or_where_in(), where_not_in(), or_where_not_in().
 	 - Added support for join() with multiple conditions.
+	 - Added support for USING in join().
+	 - Changed limit() to ignore NULL values instead of always casting to integer.
+	 - Changed offset() to ignore empty values instead of always casting to integer.
    -  Improved support for the MySQLi driver, including:
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
@@ -140,6 +151,7 @@ Release Date: Not Released
 	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
+   -  Added $config['csrf_exclude_uris'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which allows you list URIs which will not have the CSRF validation functions run.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
 	 -  Added method error_array() to return all error messages as an array.
 	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
@@ -157,16 +169,20 @@ Release Date: Not Released
    -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
-   -  Added support for the anchor "rel" attribute in the :doc:`Pagination Library <libraries/pagination>`.
+   -  :doc:`Pagination Library <libraries/pagination>` changes include:
+	 -  Added support for the anchor "rel" attribute.
+	 -  Added support for setting custom attributes.
+	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
+	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
 
 -  Core
 
-   -  Changed private functions in CI_URI to protected so MY_URI can override them.
+   -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
-   -  Added method get_vars() to CI_Loader to retrieve all variables loaded with $this->load->vars().
+   -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added method() to CI_Input to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Added method() to the :doc:`Input Library <libraries/input>` to retrieve $_SERVER['REQUEST_METHOD'].
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
    -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
@@ -174,6 +190,9 @@ Release Date: Not Released
    -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
    -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
+   -  Added support for HTTP code 303 ("See Other") in set_status_header().
+   -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
+   -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
 
 Bug fixes for 3.0
 ------------------
@@ -270,6 +289,15 @@ Bug fixes for 3.0
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method _detect_uri() failed with paths containing a colon.
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>`'s from() method didn't escape table aliases.
+-  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
+-  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
+-  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
+-  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method site_url() added a question mark to the URL string when query strings are enabled even if it already existed.
+-  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method site_url() always appended ``$config['url_suffix']`` to the end of the URL string, regardless of wether a query string exists in it.
+-  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
+-  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
+-  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
+-  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 
 Version 2.1.1
 =============
@@ -334,7 +362,7 @@ Release Date: November 14, 2011
       injection.
    -  Added additional option 'none' for the optional third argument for
       $this->db->like() in the :doc:`Database
-      Driver <database/active_record>`.
+      Driver <database/query_builder>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
    -  Added failover if the main connections in the config should fail
 
@@ -432,7 +460,6 @@ Release Date: August 20, 2011
    -  Added insert_batch() function to the PostgreSQL database driver.
       Thanks to epallerols for the patch.
    -  Added "application/x-csv" to mimes.php.
-   -  Added CSRF protection URI whitelisting.
    -  Fixed a bug where :doc:`Email library <libraries/email>`
       attachments with a "." in the name would using invalid MIME-types.
 
@@ -1609,27 +1636,27 @@ Release Date: January 30, 2008
 -  Active Record
 
    -  Added protect_identifiers() in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  All AR queries are backticked if appropriate to the database.
    -  Added where_in(), or_where_in(), where_not_in(),
       or_where_not_in(), not_like() and or_not_like() to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added support for limit() into update() and delete() statements in
-      :doc:`Active Record <./database/active_record>`.
+      :doc:`Active Record <./database/query_builder>`.
    -  Added empty_table() and truncate_table() to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added the ability to pass an array of tables to the delete()
-      statement in :doc:`Active Record <./database/active_record>`.
+      statement in :doc:`Active Record <./database/query_builder>`.
    -  Added count_all_results() function to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added select_max(), select_min(), select_avg() and
-      select_sum() to :doc:`Active Record <./database/active_record>`.
+      select_sum() to :doc:`Active Record <./database/query_builder>`.
    -  Added the ability to use aliases with joins in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added a third parameter to Active Record's like() clause to
       control where the wildcard goes.
    -  Added a third parameter to set() in :doc:`Active
-      Record <./database/active_record>` that withholds escaping
+      Record <./database/query_builder>` that withholds escaping
       data.
    -  Changed the behaviour of variables submitted to the where() clause
       with no values to auto set "IS NULL"
@@ -1737,7 +1764,7 @@ Release Date: January 30, 2008
       the table of contents of the userguide.
    -  Moved part of the userguide menu javascript to an external file.
    -  Documented distinct() in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Documented the timezones() function in the :doc:`Date
       Helper <./helpers/date_helper>`.
    -  Documented unset_userdata in the :doc:`Session
@@ -2313,9 +2340,9 @@ Release Date: April 11, 2006
    function <./general/views>`: $this->load->view('my_view',
    $object);
 -  Added getwhere function to :doc:`Active Record
-   class <./database/active_record>`.
+   class <./database/query_builder>`.
 -  Added count_all function to :doc:`Active Record
-   class <./database/active_record>`.
+   class <./database/query_builder>`.
 -  Added language file for scaffolding and fixed a scaffolding bug that
    occurs when there are no rows in the specified table.
 -  Added :doc:`$this->db->last_query() <./database/queries>`, which
@@ -2340,7 +2367,7 @@ Release Date: April 3, 2006
 -  Added support for :doc:`Models <general/models>`.
 -  Redesigned the database libraries to support additional RDBMs
    (Postgres, MySQLi, etc.).
--  Redesigned the :doc:`Active Record class <./database/active_record>`
+-  Redesigned the :doc:`Active Record class <./database/query_builder>`
    to enable more varied types of queries with simpler syntax, and
    advanced features like JOINs.
 -  Added a feature to the database class that lets you run :doc:`custom
@@ -2373,7 +2400,7 @@ Release Date: April 3, 2006
    whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful
    way to manage objects that utilizes a bit less resources.
 -  Deprecated: $this->db->use_table() has been deprecated. Please read
-   the :doc:`Active Record <./database/active_record>` page for
+   the :doc:`Active Record <./database/query_builder>` page for
    information.
 -  Deprecated: $this->db->smart_escape_str() has been deprecated.
    Please use this instead: $this->db->escape()

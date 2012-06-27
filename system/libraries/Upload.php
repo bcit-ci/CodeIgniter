@@ -59,6 +59,7 @@ class CI_Upload {
 	public $error_msg		= array();
 	public $mimes			= array();
 	public $remove_spaces		= TRUE;
+	public $detect_mime		= TRUE;
 	public $xss_clean		= FALSE;
 	public $temp_prefix		= 'temp_file_';
 	public $client_name		= '';
@@ -116,6 +117,7 @@ class CI_Upload {
 					'image_size_str'		=> '',
 					'error_msg'			=> array(),
 					'remove_spaces'			=> TRUE,
+					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
 					'client_name'			=> ''
@@ -209,7 +211,13 @@ class CI_Upload {
 		// Set the uploaded data as class variables
 		$this->file_temp = $_FILES[$field]['tmp_name'];
 		$this->file_size = $_FILES[$field]['size'];
-		$this->_file_mime_type($_FILES[$field]);
+
+		// Skip MIME type detection?
+		if ($this->detect_mime !== FALSE)
+		{
+			$this->_file_mime_type($_FILES[$field]);
+		}
+
 		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
@@ -990,7 +998,7 @@ class CI_Upload {
 		 */
 		if (function_exists('finfo_file'))
 		{
-			$finfo = finfo_open(FILEINFO_MIME);
+			$finfo = @finfo_open(FILEINFO_MIME);
 			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
 			{
 				$mime = @finfo_file($finfo, $file['tmp_name']);
@@ -1021,7 +1029,9 @@ class CI_Upload {
 		 */
 		if (DIRECTORY_SEPARATOR !== '\\')
 		{
-			$cmd = 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1';
+			$cmd = function_exists('escapeshellarg')
+				? 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1'
+				: 'file --brief --mime '.$file['tmp_name'].' 2>&1';
 
 			if (function_exists('exec'))
 			{

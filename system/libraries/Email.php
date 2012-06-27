@@ -247,7 +247,7 @@ class CI_Email {
 			$name = $replyto;
 		}
 
-		if (strncmp($name, '"', 1) !== 0)
+		if (strpos($name, '"') !== 0)
 		{
 			$name = '"'.$name.'"';
 		}
@@ -606,7 +606,7 @@ class CI_Email {
 
 		foreach ($this->_base_charsets as $charset)
 		{
-			if (strncmp($charset, $this->charset, strlen($charset)) === 0)
+			if (strpos($charset, $this->charset) === 0)
 			{
 				$this->_encoding = '7bit';
 			}
@@ -651,7 +651,7 @@ class CI_Email {
 	protected function _set_date()
 	{
 		$timezone = date('Z');
-		$operator = (strncmp($timezone, '-', 1) === 0) ? '-' : '+';
+		$operator = ($timezone[0] === '-') ? '-' : '+';
 		$timezone = abs($timezone);
 		$timezone = floor($timezone/3600) * 100 + ($timezone % 3600) / 60;
 
@@ -1481,7 +1481,7 @@ class CI_Email {
 
 		$this->_set_error_message($reply);
 
-		if (strncmp($reply, '250', 3) !== 0)
+		if (strpos($reply, '250') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
@@ -1637,7 +1637,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '334', 3) !== 0)
+		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
@@ -1647,7 +1647,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '334', 3) !== 0)
+		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_auth_un', $reply);
 			return FALSE;
@@ -1657,7 +1657,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strncmp($reply, '235', 3) !== 0)
+		if (strpos($reply, '235') !== 0)
 		{
 			$this->_set_error_message('lang:email_smtp_auth_pw', $reply);
 			return FALSE;

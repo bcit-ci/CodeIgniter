@@ -179,7 +179,7 @@ class CI_Migration {
 
 		// We now prepare to actually DO the migrations
 		// But first let's make sure that everything is the way it should be
-		for ($i = $start; $i !== $stop; $i += $step)
+		for ($i = $start; $i != $stop; $i += $step)
 		{
 			$f = glob(sprintf($this->_migration_path.'%03d_*.php', $i));
 

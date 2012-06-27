@@ -225,25 +225,39 @@ class CI_Config {
 	 * Site URL
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	string	the URI string
+	 * @param	mixed	the URI string or an array of segments
 	 * @return	string
 	 */
 	public function site_url($uri = '')
 	{
-		if ($uri === '')
+		if (empty($uri))
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
+		$uri = $this->_uri_string($uri);
+
 		if ($this->item('enable_query_strings') === FALSE)
 		{
 			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+
+			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			{
+				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+			}
+			else
+			{
+				$uri .= $suffix;
+			}
+
+			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
 		}
-		else
+		elseif (strpos($uri, '?') === FALSE)
 		{
-			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
+			$uri = '?'.$uri;
 		}
+
+		return $this->slash_item('base_url').$this->item('index_page').$uri;
 	}
 
 	// -------------------------------------------------------------
@@ -280,15 +294,7 @@ class CI_Config {
 		}
 		elseif (is_array($uri))
 		{
-			$i = 0;
-			$str = '';
-			foreach ($uri as $key => $val)
-			{
-				$prefix = ($i === 0) ? '' : '&';
-				$str .= $prefix.$key.'='.$val;
-				$i++;
-			}
-			return $str;
+			return http_build_query($uri);
 		}
 
 		return $uri;

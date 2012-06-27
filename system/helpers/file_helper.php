@@ -47,6 +47,7 @@ if ( ! function_exists('read_file'))
 	 * This function is DEPRECATED and should be removed in
 	 * CodeIgniter 3.1+. Use file_get_contents() instead.
 	 *
+	 * @deprecated
 	 * @param	string	path to file
 	 * @return	string
 	 */

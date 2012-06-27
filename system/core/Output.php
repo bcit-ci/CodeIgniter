@@ -67,7 +67,14 @@ class CI_Output {
 	public $mimes =		array();
 
 	/**
-	 * Determines wether profiler is enabled
+	 * Mime-type for the current page
+	 *
+	 * @var string
+	 */
+	protected $mime_type		= 'text/html';
+
+	/**
+	 * Determines whether profiler is enabled
 	 *
 	 * @var book
 	 */
@@ -78,7 +85,7 @@ class CI_Output {
 	 *
 	 * @var bool
 	 */
-	protected $_zlib_oc =	FALSE;
+	protected $_zlib_oc =		FALSE;
 
 	/**
 	 * List of profiler sections
@@ -174,7 +181,7 @@ class CI_Output {
 	 * how to permit header data to be saved with the cache data...
 	 *
 	 * @param	string
-	 * @param 	bool
+	 * @param	bool
 	 * @return	void
 	 */
 	public function set_header($header, $replace = TRUE)
@@ -217,6 +224,8 @@ class CI_Output {
 				}
 			}
 		}
+
+		$this->mime_type = $mime_type;
 
 		if (empty($charset))
 		{
@@ -292,6 +301,12 @@ class CI_Output {
 	 */
 	public function set_profiler_sections($sections)
 	{
+		if (isset($sections['query_toggle_count']))
+		{
+			$this->_profiler_sections['query_toggle_count'] = (int) $sections['query_toggle_count'];
+			unset($sections['query_toggle_count']);
+		}
+
 		foreach ($sections as $section => $enable)
 		{
 			$this->_profiler_sections[$section] = ($enable !== FALSE);
@@ -327,7 +342,7 @@ class CI_Output {
 	 * with any server headers and profile data. It also stops the
 	 * benchmark timer so the page rendering speed and memory usage can be shown.
 	 *
-	 * @param 	string
+	 * @param	string
 	 * @return	mixed
 	 */
 	public function _display($output = '')
@@ -350,6 +365,15 @@ class CI_Output {
 		{
 			$output =& $this->final_output;
 		}
+
+		// --------------------------------------------------------------------
+
+		// Is minify requested?
+		if ($CFG->item('minify_output') === TRUE)
+		{
+			$output = $this->minify($output, $this->mime_type);
+		}
+
 
 		// --------------------------------------------------------------------
 
@@ -450,7 +474,7 @@ class CI_Output {
 	/**
 	 * Write a Cache File
 	 *
-	 * @param 	string
+	 * @param	string
 	 * @return	void
 	 */
 	public function _write_cache($output)
@@ -493,6 +517,9 @@ class CI_Output {
 		@chmod($cache_path, FILE_WRITE_MODE);
 
 		log_message('debug', 'Cache file written: '.$cache_path);
+
+		// Send HTTP cache-control headers to browser to match file cache settings.
+		$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
 	}
 
 	// --------------------------------------------------------------------
@@ -500,8 +527,8 @@ class CI_Output {
 	/**
 	 * Update/serve a cached file
 	 *
-	 * @param 	object	config class
-	 * @param 	object	uri class
+	 * @param	object	config class
+	 * @param	object	uri class
 	 * @return	bool
 	 */
 	public function _display_cache(&$CFG, &$URI)
@@ -530,18 +557,161 @@ class CI_Output {
 			return FALSE;
 		}
 
-		// Has the file expired? If so we'll delete it.
-		if (time() >= trim(str_replace('TS--->', '', $match[1])) && is_really_writable($cache_path))
+		$last_modified = filemtime($cache_path);
+		$expire = trim(str_replace('TS--->', '', $match[1]));
+
+		// Has the file expired?
+		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
 		{
+			// If so we'll delete it.
 			@unlink($filepath);
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
+		}
+		else
+		{
+			// Or else send the HTTP cache control headers.
+			$this->set_cache_header($last_modified, $expire);
 		}
 
 		// Display the cache
 		$this->_display(str_replace($match[0], '', $cache));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set the HTTP headers to match the server-side file cache settings
+	 * in order to reduce bandwidth.
+	 *
+	 * @param	int	timestamp of when the page was last modified
+	 * @param	int	timestamp of when should the requested page expire from cache
+	 * @return	void
+	 */
+	public function set_cache_header($last_modified, $expiration)
+	{
+		$max_age = $expiration - $_SERVER['REQUEST_TIME'];
+
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		{
+			$this->set_status_header(304);
+			exit;
+		}
+		else
+		{
+			header('Pragma: public');
+			header('Cache-Control: max-age=' . $max_age . ', public');
+			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
+			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Reduce excessive size of HTML content.
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	public function minify($output, $type = 'text/html')
+	{
+		switch ($type)
+		{
+			case 'text/html':
+
+				$size_before = strlen($output);
+
+				if ($size_before === 0)
+				{
+					return '';
+				}
+
+				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
+				// We'll want to return them to this unprocessed state later.
+				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
+				preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
+				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
+				preg_match_all('{<script.+</script>}msU', $output, $javascript_clean);
+
+				// Minify the CSS in all the <style> tags.
+				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
+				foreach ($style_clean[0] as $s)
+				{
+					$output = str_replace($s, $this->minify($s, 'text/css'), $output);
+				}
+
+				// Minify the javascript in <script> tags.
+				foreach ($javascript_clean[0] as $s)
+				{
+					$javascript_mini[] = $this->minify($s, 'text/javascript');
+				}
+
+				// Replace multiple spaces with a single space.
+				$output = preg_replace('!\s{2,}!', ' ', $output);
+
+				// Remove comments (non-MSIE conditionals)
+				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
+
+				// Remove spaces around block-level elements.
+				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
+
+				// Replace mangled <pre> etc. tags with unprocessed ones.
+
+				if ( ! empty($pres_clean))
+				{
+					preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
+					$output = str_replace($pres_messed[0], $pres_clean[0], $output);
+				}
+
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
+					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
+				}
+
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
+					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
+				}
+
+				if (isset($javascript_mini))
+				{
+					preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
+					$output = str_replace($javascript_messed[0], $javascript_mini, $output);
+				}
+
+				$size_removed = $size_before - strlen($output);
+				$savings_percent = round(($size_removed / $size_before * 100));
+
+				log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
+
+			break;
+
+			case 'text/css':
+
+				//Remove CSS comments
+				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+
+				// Remove spaces around curly brackets, colons,
+				// semi-colons, parenthesis, commas
+				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
+
+			break;
+
+			case 'text/javascript':
+
+				// Currently leaves JavaScript untouched.
+			break;
+
+			default: break;
+		}
+
+		return $output;
 	}
 
 }

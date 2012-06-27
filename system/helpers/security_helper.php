@@ -80,6 +80,7 @@ if ( ! function_exists('do_hash'))
 	 * This function is DEPRECATED and should be removed in
 	 * CodeIgniter 3.1+. Use hash() instead.
 	 *
+	 * @deprecated
 	 * @param	string
 	 * @param	string
 	 * @return	string
@@ -107,7 +108,8 @@ if ( ! function_exists('strip_image_tags'))
 	 */
 	function strip_image_tags($str)
 	{
-		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+		$CI =& get_instance();
+		return $CI->security->strip_image_tags($str);
 	}
 }
 
@@ -123,7 +125,7 @@ if ( ! function_exists('encode_php_tags'))
 	 */
 	function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?', '?>'),  array('&lt;?', '?&gt;'), $str);
 	}
 }
 
