@@ -62,9 +62,11 @@ if ( ! function_exists('form_open'))
 		{
 			$action = $CI->config->site_url($action);
 		}
-
-		// If no action is provided then set to the current url
-		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
+		elseif ( ! $action)
+		{
+			// If no action is provided then set to the current url
+			$action = $CI->config->site_url($CI->uri->uri_string());
+		}
 
 		$form = '<form action="'.$action.'"'._attributes_to_string($attributes, TRUE).">\n";
 
@@ -76,7 +78,7 @@ if ( ! function_exists('form_open'))
 
 		if (is_array($hidden) && count($hidden) > 0)
 		{
-			$form .= sprintf('<div style="display:none;">%s</div>', form_hidden($hidden));
+			$form .= '<div style="display:none;">'.form_hidden($hidden).'</div>';
 		}
 
 		return $form;

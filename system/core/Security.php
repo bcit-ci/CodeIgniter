@@ -561,6 +561,19 @@ class CI_Security {
 	// ----------------------------------------------------------------
 
 	/**
+	 * Strip Image Tags
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function strip_image_tags($str)
+	{
+		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
 	 * Compact Exploded Words
 	 *
 	 * Callback function for xss_clean() to remove whitespace from

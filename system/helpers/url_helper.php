@@ -199,26 +199,33 @@ if ( ! function_exists('anchor_popup'))
 
 		if ($attributes === FALSE)
 		{
-			return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url."', '_blank');\">".$title.'</a>';
+			return '<a href="'.$site_url.'" onclick="window.open(\''.$site_url."', '_blank'); return false;\">".$title.'</a>';
 		}
 
 		if ( ! is_array($attributes))
 		{
-			$attributes = array();
+			$attributes = array($attributes);
+
+			// Ref: http://www.w3schools.com/jsref/met_win_open.asp
+			$window_name = '_blank';
+		}
+		elseif ( ! empty($attributes['window_name']))
+		{
+			$window_name = $attributes['window_name'];
+			unset($attributes['window_name']);
 		}
 
-		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
+		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0') as $key => $val)
 		{
 			$atts[$key] = isset($attributes[$key]) ? $attributes[$key] : $val;
 			unset($attributes[$key]);
 		}
 
-		if ($attributes !== '')
-		{
-			$attributes = _parse_attributes($attributes);
-		}
+		$attributes = empty($attributes) ? '' : _parse_attributes($attributes);
 
-		return '<a href="javascript:void(0);" onclick="window.open(\''.$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"".$attributes.'>'.$title.'</a>';
+		return '<a href="'.$site_url
+			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._parse_attributes($atts, TRUE)."'); return false;\""
+			.$attributes.'>'.$title.'</a>';
 	}
 }
 
@@ -519,7 +526,7 @@ if ( ! function_exists('redirect'))
 	 * @param	int
 	 * @return	string
 	 */
-	function redirect($uri = '', $method = 'auto', $http_response_code = 302)
+	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
 		if ( ! preg_match('#^https?://#i', $uri))
 		{
@@ -531,14 +538,22 @@ if ( ! function_exists('redirect'))
 		{
 			$method = 'refresh';
 		}
+		elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
+		{
+			// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+			$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
+					&& $_SERVER['REQUEST_METHOD'] === 'POST'
+					&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+				? 303 : 302;
+		}
 
-		switch($method)
+		switch ($method)
 		{
 			case 'refresh':
 				header('Refresh:0;url='.$uri);
 				break;
 			default:
-				header('Location: '.$uri, TRUE, $http_response_code);
+				header('Location: '.$uri, TRUE, $code);
 				break;
 		}
 		exit;

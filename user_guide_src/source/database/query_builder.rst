@@ -603,9 +603,9 @@ Here is an example using an object::
 
 	/*
 	class Myclass {
-		var  $title = 'My Title';
-		var  $content = 'My Content';
-		var  $date = 'My Date';
+		public $title = 'My Title';
+		public $content = 'My Content';
+		public $date = 'My Date';
 	}
 	*/
 
@@ -730,9 +730,9 @@ Or an object::
 
 	/*
 	class Myclass {
-		var  $title = 'My Title';
-		var  $content = 'My Content';
-		var  $date = 'My Date';
+		public $title = 'My Title';
+		public $content = 'My Content';
+		public $date = 'My Date';
 	}
 	*/
 
@@ -766,9 +766,9 @@ Or you can supply an object::
 
 	/*
 	class Myclass {
-		var  $title = 'My Title';
-		var  $content = 'My Content';
-		var  $date = 'My Date';
+		public $title = 'My Title';
+		public $content = 'My Content';
+		public $date = 'My Date';
 	}
 	*/
 

@@ -48,11 +48,9 @@ class Date_helper_test extends CI_TestCase {
 
 		*/
 
-		$this->ci_set_config('time_reference', 'UTC');
-
 		$this->assertEquals(
-			gmmktime(date('G'), date('i'), date('s'), date('n'), date('j'), date('Y')),
-			now()
+			mktime(gmdate('G'), gmdate('i'), gmdate('s'), gmdate('n'), gmdate('j'), gmdate('Y')),
+			now('UTC')
 		);
 	}
 
@@ -196,9 +194,9 @@ class Date_helper_test extends CI_TestCase {
 	public function test_local_to_gmt()
 	{
 		$this->assertEquals(
-			gmmktime(
-				date('G', $this->time), date('i', $this->time), date('s', $this->time),
-				date('n', $this->time), date('j', $this->time), date('Y', $this->time)
+			mktime(
+				gmdate('G', $this->time), gmdate('i', $this->time), gmdate('s', $this->time),
+				gmdate('n', $this->time), gmdate('j', $this->time), gmdate('Y', $this->time)
 			),
 			local_to_gmt($this->time)
 		);

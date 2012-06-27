@@ -431,6 +431,7 @@ if ( ! function_exists('set_status_header'))
 			300	=> 'Multiple Choices',
 			301	=> 'Moved Permanently',
 			302	=> 'Found',
+			303	=> 'See Other',
 			304	=> 'Not Modified',
 			305	=> 'Use Proxy',
 			307	=> 'Temporary Redirect',
@@ -462,18 +463,23 @@ if ( ! function_exists('set_status_header'))
 			505	=> 'HTTP Version Not Supported'
 		);
 
-		if ($code == '' OR ! is_numeric($code))
+		if (empty($code) OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
-		elseif (isset($stati[$code]) && $text === '')
-		{
-			$text = $stati[$code];
-		}
 
-		if ($text === '')
+		is_int($code) OR $code = (int) $code;
+
+		if (empty($text))
 		{
-			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
+			if (isset($stati[$code]))
+			{
+				$text = $stati[$code];
+			}
+			else
+			{
+				show_error('No status text available. Please check your status code number or supply your own message text.', 500);
+			}
 		}
 
 		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;

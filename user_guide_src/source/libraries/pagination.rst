@@ -21,9 +21,9 @@ Here is a simple example showing how to create pagination in one of your
 
 	$config['base_url'] = 'http://example.com/index.php/test/page/';
 	$config['total_rows'] = 200;
-	$config['per_page'] = 20; 
+	$config['per_page'] = 20;
 
-	$this->pagination->initialize($config); 
+	$this->pagination->initialize($config);
 
 	echo $this->pagination->create_links();
 
@@ -111,6 +111,33 @@ the pagination link will become.
 
 Note that "per_page" is the default query string passed, however can be
 configured using $config['query_string_segment'] = 'your_string'
+
+$config['reuse_query_string'] = FALSE;
+======================================
+
+By default your Query String arguments (nothing to do with other
+query string options) will be ignored. Setting this config to
+TRUE will add existing query string arguments back into the
+URL after the URI segment and before the suffix
+
+::
+
+	http://example.com/index.php/test/page/20?query=search%term
+
+This helps you mix together normal :doc:`URI Segments <../general/urls>`
+as well as query string arguments, which until 3.0 was not possible.
+
+$config['prefix'] = '';
+==================================
+
+A custom prefix added to the path. The prefix value will be right before
+the offset segment.
+
+$config['suffix'] = '';
+==================================
+
+A custom suffix added to the path. The sufix value will be right after
+the offset segment.
 
 ***********************
 Adding Enclosing Markup
@@ -247,34 +274,30 @@ adding::
 
 	 $config['display_pages'] = FALSE;
 
-******************************
-Adding a class to every anchor
-******************************
+****************************
+Adding attributes to anchors
+****************************
 
-If you want to add a class attribute to every link rendered by the
-pagination class, you can set the config "anchor_class" equal to the
-classname you want.
+If you want to add an extra attribute to be added to every link rendered
+by the pagination class, you can set them as key/value pairs in the
+"attributes" config
 
 ::
 
-	$config['anchor_class'] = 'myclass'; // class="myclass"
+	// Produces: class="myclass"
+	$config['attributes'] = array('class' => 'myclass');
 
-**********************************
-Changing the "rel" attribute value
-**********************************
+.. note:: Usage of the old method of setting classes via "anchor_class"
+	is deprecated.
 
-By default, the rel attribute will be automatically put under the
-following conditions:
+*****************************
+Disabling the "rel" attribute
+*****************************
 
-- rel="start" for the "first" link
-- rel="prev" for the "previous" link
-- rel="next" for the "next" link
+By default the rel attribute is dynamically generated and appended to
+the appropriate anchors. If for some reason you want to turn it off,
+you can pass boolean FALSE as a regular attribute
 
-If you want to disable the rel attribute, or change its value, you
-can set the 'attr_rel' config option::
+::
 
-	// Disable
-	$config['attr_rel'] = FALSE;
-
-	// Use a custom value on all anchors
-	$config['attr_rel'] = 'custom_value'; // produces: rel="custom_value"
+	$config['attributes']['rel'] = FALSE;
