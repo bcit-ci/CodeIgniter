@@ -73,6 +73,7 @@ Release Date: Not Released
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
    -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
+   -  Updated email validation methods to use filter_var so they are more accurate.
 
 -  Database
 
