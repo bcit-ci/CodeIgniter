@@ -295,13 +295,17 @@ abstract class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	public function query($sql, $binds = FALSE, $return_object = TRUE)
+	public function query($sql, $binds = FALSE, $return_object = NULL)
 	{
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
 
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
+		}
+		elseif ( ! is_bool($return_object))
+		{
+			$return_object = ! $this->is_write_type($sql);
 		}
 
 		// Verify table prefix and replace if necessary
@@ -319,7 +323,7 @@ abstract class CI_DB_driver {
 		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on === TRUE && stripos($sql, 'SELECT') !== FALSE && $this->_cache_init())
+		if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
 		{
 			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
@@ -328,7 +332,7 @@ abstract class CI_DB_driver {
 			}
 		}
 
-		// Save the  query for debugging
+		// Save the query for debugging
 		if ($this->save_queries === TRUE)
 		{
 			$this->queries[] = $sql;
@@ -352,7 +356,7 @@ abstract class CI_DB_driver {
 			$error = $this->error();
 
 			// Log errors
-			log_message('error', 'Query error: '.$error['message'] . ' - Invalid query: ' . $sql);
+			log_message('error', 'Query error: '.$error['message'].' - Invalid query: '.$sql);
 
 			if ($this->db_debug)
 			{
@@ -381,12 +385,10 @@ abstract class CI_DB_driver {
 		// Increment the query counter
 		$this->query_count++;
 
-		// Was the query a "write" type?
-		// If so we'll simply return true
-		if ($this->is_write_type($sql) === TRUE)
+		// Will we have a result object instantiated? If not - we'll simply return TRUE
+		if ($return_object !== TRUE)
 		{
-			// If caching is enabled we'll auto-cleanup any
-			// existing files related to this particular URI
+			// If caching is enabled we'll auto-cleanup any existing files related to this particular URI
 			if ($this->cache_on === TRUE && $this->cache_autodel === TRUE && $this->_cache_init())
 			{
 				$this->CACHE->delete();
@@ -396,8 +398,6 @@ abstract class CI_DB_driver {
 		}
 
 		// Return TRUE if we don't need to create a result object
-		// Currently only the Oracle driver uses this when stored
-		// procedures are used
 		if ($return_object !== TRUE)
 		{
 			return TRUE;
