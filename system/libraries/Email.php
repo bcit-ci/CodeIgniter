@@ -427,7 +427,7 @@ class CI_Email {
 				return FALSE;
 			}
 
-			$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+			$this->_attachments[$ind]['type'] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 			$file_content = stream_get_contents($fp);
 			fclose($fp);
 		}
@@ -453,9 +453,9 @@ class CI_Email {
 	{
 		foreach($this->_attachments as $ind => $attach)
 		{
-			if($attach['name'] == $filename)
+			if($attach['name'][0] == $filename)
 			{
-				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$ind]['name']) . "@");
+				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$ind]['name'][0]) . "@");
 				return $this->_attachments[$ind]['cid'];
 			}
 		}
