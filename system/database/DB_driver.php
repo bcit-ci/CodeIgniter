@@ -970,6 +970,11 @@ abstract class CI_DB_driver {
 
 			return $item;
 		}
+		// Avoid breaking functions inside queries
+		elseif (strpos($item, '(') !== FALSE)
+		{
+			return $item;
+		}
 
 		static $preg_ec = array();
 
