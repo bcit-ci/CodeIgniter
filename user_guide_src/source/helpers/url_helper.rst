@@ -182,9 +182,9 @@ browser settings. Here is an example with attributes
 	echo anchor_popup('news/local/123', 'Click Me!', $atts);
 
 .. note:: The above attributes are the function defaults so you only need to
-set the ones that are different from what you need. If you want the
-function to use all of its defaults simply pass an empty array in the
-third parameter
+	set the ones that are different from what you need. If you want the
+	function to use all of its defaults simply pass an empty array in the
+	third parameter
 
 ::
 

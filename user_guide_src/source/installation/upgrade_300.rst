@@ -35,7 +35,7 @@ Move any entries that you might have listed there to `$autoload['libraries']` in
 Step 4: Update your config/database.php
 =======================================
 
-Due to 3.0.0's renaming of Active Record to Query Builder, inside your _config/database.php_, you will
+Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
 need to rename the `$active_record` variable to `$query_builder`.
 
     $active_group = 'default';
@@ -45,4 +45,4 @@ need to rename the `$active_record` variable to `$query_builder`.
 Step 5: Move your errors folder
 ===============================
 
-In version 3.0.0, the errors folder has been moved from _application/errors_ to _application/views/errors_.
+In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
