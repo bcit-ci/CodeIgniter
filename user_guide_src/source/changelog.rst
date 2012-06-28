@@ -48,6 +48,7 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
+   -  Updated email validation methods to use filter_var() instead of PCRE.
 
 -  Helpers
 
@@ -57,6 +58,7 @@ Release Date: Not Released
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
 	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
 	 - Added JS window name support to ``anchor_popup()`` function.
+	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
@@ -70,7 +72,8 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
-   -  :doc:`Date Helper <helpers/date_helper>` Added optional fourth parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag
+   -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
+   -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
 -  Database
 
@@ -191,6 +194,7 @@ Release Date: Not Released
    -  $config['time_reference'] now supports all timezone strings supported by PHP.
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
+   -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
 
 Bug fixes for 3.0
 ------------------
@@ -295,6 +299,8 @@ Bug fixes for 3.0
 -  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
+-  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
+-  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 
 Version 2.1.1
 =============
@@ -359,7 +365,7 @@ Release Date: November 14, 2011
       injection.
    -  Added additional option 'none' for the optional third argument for
       $this->db->like() in the :doc:`Database
-      Driver <database/active_record>`.
+      Driver <database/query_builder>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
    -  Added failover if the main connections in the config should fail
 
@@ -1633,27 +1639,27 @@ Release Date: January 30, 2008
 -  Active Record
 
    -  Added protect_identifiers() in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  All AR queries are backticked if appropriate to the database.
    -  Added where_in(), or_where_in(), where_not_in(),
       or_where_not_in(), not_like() and or_not_like() to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added support for limit() into update() and delete() statements in
-      :doc:`Active Record <./database/active_record>`.
+      :doc:`Active Record <./database/query_builder>`.
    -  Added empty_table() and truncate_table() to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added the ability to pass an array of tables to the delete()
-      statement in :doc:`Active Record <./database/active_record>`.
+      statement in :doc:`Active Record <./database/query_builder>`.
    -  Added count_all_results() function to :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added select_max(), select_min(), select_avg() and
-      select_sum() to :doc:`Active Record <./database/active_record>`.
+      select_sum() to :doc:`Active Record <./database/query_builder>`.
    -  Added the ability to use aliases with joins in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Added a third parameter to Active Record's like() clause to
       control where the wildcard goes.
    -  Added a third parameter to set() in :doc:`Active
-      Record <./database/active_record>` that withholds escaping
+      Record <./database/query_builder>` that withholds escaping
       data.
    -  Changed the behaviour of variables submitted to the where() clause
       with no values to auto set "IS NULL"
@@ -1761,7 +1767,7 @@ Release Date: January 30, 2008
       the table of contents of the userguide.
    -  Moved part of the userguide menu javascript to an external file.
    -  Documented distinct() in :doc:`Active
-      Record <./database/active_record>`.
+      Record <./database/query_builder>`.
    -  Documented the timezones() function in the :doc:`Date
       Helper <./helpers/date_helper>`.
    -  Documented unset_userdata in the :doc:`Session
@@ -2337,9 +2343,9 @@ Release Date: April 11, 2006
    function <./general/views>`: $this->load->view('my_view',
    $object);
 -  Added getwhere function to :doc:`Active Record
-   class <./database/active_record>`.
+   class <./database/query_builder>`.
 -  Added count_all function to :doc:`Active Record
-   class <./database/active_record>`.
+   class <./database/query_builder>`.
 -  Added language file for scaffolding and fixed a scaffolding bug that
    occurs when there are no rows in the specified table.
 -  Added :doc:`$this->db->last_query() <./database/queries>`, which
@@ -2364,7 +2370,7 @@ Release Date: April 3, 2006
 -  Added support for :doc:`Models <general/models>`.
 -  Redesigned the database libraries to support additional RDBMs
    (Postgres, MySQLi, etc.).
--  Redesigned the :doc:`Active Record class <./database/active_record>`
+-  Redesigned the :doc:`Active Record class <./database/query_builder>`
    to enable more varied types of queries with simpler syntax, and
    advanced features like JOINs.
 -  Added a feature to the database class that lets you run :doc:`custom
@@ -2397,7 +2403,7 @@ Release Date: April 3, 2006
    whether PHP 4 or 5 is being run, since PHP 5 allows a more graceful
    way to manage objects that utilizes a bit less resources.
 -  Deprecated: $this->db->use_table() has been deprecated. Please read
-   the :doc:`Active Record <./database/active_record>` page for
+   the :doc:`Active Record <./database/query_builder>` page for
    information.
 -  Deprecated: $this->db->smart_escape_str() has been deprecated.
    Please use this instead: $this->db->escape()

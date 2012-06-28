@@ -108,7 +108,8 @@ if ( ! function_exists('strip_image_tags'))
 	 */
 	function strip_image_tags($str)
 	{
-		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+		$CI =& get_instance();
+		return $CI->security->strip_image_tags($str);
 	}
 }
 
