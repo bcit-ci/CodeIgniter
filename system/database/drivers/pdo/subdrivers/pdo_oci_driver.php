@@ -220,8 +220,8 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit).')'
-			.($offset ? ' WHERE rnum >= '.$offset : '');
+		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit + 1).')'
+			.($offset ? ' WHERE rnum >= '.($offset + 1): '');
 	}
 
 }
