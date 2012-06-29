@@ -117,6 +117,13 @@ Sets the email address and name of the person sending the email::
 
 	$this->email->from('you@example.com', 'Your Name');
 
+::
+
+	$this->email->from('you@example.com', 'Your Name', 'returned_emails@example.com');
+	
+Third parameter is redirect for undelivered emails (may not be configured with
+protocol 'smtp').
+
 $this->email->reply_to()
 -------------------------
 
