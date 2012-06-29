@@ -714,15 +714,28 @@ class CI_Session {
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * @return void
+	 */
 	protected function _sess_write_db()
 	{
+        // Generate a query string to execute, instead of using active record
+		// reference: https://github.com/EllisLab/CodeIgniter/pull/1163#issuecomment-4884026
 		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $this->_custom_userdata()));
+		$this->CI->db->query(
+			$this->CI->db->update_string(
+				$this->sess_table_name,
+				array('last_activity' => $this->userdata['last_activity'], 'user_data' => $this->_custom_userdata()),
+				array('session_id', $this->userdata['session_id'])
+			)
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * @return string
+	 */
 	protected function _custom_userdata()
 	{
 		$custom_userdata = $this->userdata;
@@ -941,7 +954,7 @@ class CI_Session {
 	{
 		if (is_string($val))
 		{
-	 		$val= str_replace('{{slash}}', '\\', $val);
+			$val= str_replace('{{slash}}', '\\', $val);
 		}
 	}
 
