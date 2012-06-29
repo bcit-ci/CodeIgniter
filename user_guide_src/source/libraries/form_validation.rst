@@ -123,7 +123,7 @@ this code and save it to your applications/controllers/ folder::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -219,7 +219,7 @@ Your controller should now look like this::
 
 	class Form extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper(array('form', 'url'));
 
@@ -304,6 +304,10 @@ Give it a try! Submit your form without the proper data and you'll see
 new error messages that correspond to your new rules. There are numerous
 rules available which you can read about in the validation reference.
 
+.. note:: You can also pass an array of rules to set_rules(), instead of a string. Example::
+
+	$this->form_validation->set_rules('username', 'Username', array('required', 'min_length[5]'));
+
 Prepping Data
 =============
 
@@ -321,7 +325,7 @@ password to MD5, and running the username through the "xss_clean"
 function, which removes malicious data.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, MD5, etc.**
+rule, like htmlspecialchars, trim, md5, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the original
@@ -523,7 +527,7 @@ Changing the Error Delimiters
 
 By default, the Form Validation class adds a paragraph tag (<p>) around
 each error message shown. You can either change these delimiters
-globally or individually.
+globally, individually, or change the defaults in a config file.
 
 #. **Changing delimiters Globally**
    To globally change the error delimiters, in your controller function,
@@ -542,6 +546,12 @@ globally or individually.
    Or::
 
       <?php echo validation_errors('<div class="error">', '</div>'); ?>
+
+#. **Set delimiters in a config file**
+   You can add your error delimiters in application/config/form_validation.php as follows::
+   
+      $config['error_prefix'] = '<div class="error_prefix">';
+      $config['error_suffix'] = '</div>';
 
 
 Showing Errors Individually
@@ -602,7 +612,7 @@ call the reset_validation() function before setting up rules and validating the 
 
 For more info please see the :ref:`function-reference` section below.
 
--.. _saving-groups:
+.. _saving-groups:
 
 ************************************************
 Saving Sets of Validation Rules to a Config File
@@ -878,6 +888,7 @@ Rule                      Parameter  Description                                
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+                                     Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
@@ -886,8 +897,9 @@ Rule                      Parameter  Description                                
 
 		$this->form_validation->required($string);
 
-.. note:: You can also use any native PHP functions that permit one
-	parameter.
+.. note:: You can also use any native PHP functions that permit up
+	to two parameters, where at least one is required (to pass
+	the field data).
 
 ******************
 Prepping Reference
@@ -927,7 +939,7 @@ $this->form_validation->set_rules();
 
 		:param string $field: The field name
 		:param string $label: The field label
-		:param string $rules: The rules, seperated by a pipe "|"
+		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
 	
 		Permits you to set validation rules, as described in the tutorial
@@ -970,7 +982,7 @@ $this->form_validation->set_data();
 		$_POST array.
 
 $this->form_validation->reset_validation();
-========================================
+===========================================
 
  .. php:method:: reset_validation ()
 

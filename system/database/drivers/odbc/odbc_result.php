@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -24,8 +24,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * ODBC Result Class
@@ -60,8 +58,6 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 		return $this->num_rows;
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Number of fields in the result set
@@ -128,9 +124,9 @@ class CI_DB_odbc_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	null
+	 * @return	void
 	 */
-	function free_result()
+	public function free_result()
 	{
 		if (is_resource($this->result_id))
 		{
@@ -142,40 +138,17 @@ class CI_DB_odbc_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _data_seek($n = 0)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
-		if (function_exists('odbc_fetch_object'))
-		{
-			return odbc_fetch_array($this->result_id);
-		}
-		else
-		{
-			return $this->_odbc_fetch_array($this->result_id);
-		}
+		return function_exists('odbc_fetch_array')
+			? odbc_fetch_array($this->result_id)
+			: $this->_odbc_fetch_array($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -185,21 +158,16 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
+	protected function _fetch_object()
 	{
-		if (function_exists('odbc_fetch_object'))
-		{
-			return odbc_fetch_object($this->result_id);
-		}
-		else
-		{
-			return $this->_odbc_fetch_object($this->result_id);
-		}
+		return function_exists('odbc_fetch_object')
+			? odbc_fetch_object($this->result_id)
+			: $this->_odbc_fetch_object($this->result_id);
 	}
 
+	// --------------------------------------------------------------------
 
 	/**
 	 * Result - object
@@ -207,21 +175,27 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * subsititutes the odbc_fetch_object function when
 	 * not available (odbc_fetch_object requires unixODBC)
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _odbc_fetch_object(& $odbc_result) {
+	protected function _odbc_fetch_object(& $odbc_result)
+	{
 		$rs = array();
-		$rs_obj = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs)) {
-			foreach ($rs as $k=>$v) {
-				$field_name= odbc_field_name($odbc_result, $k+1);
-				$rs_obj->$field_name = $v;
-			}
+		if ( ! odbc_fetch_into($odbc_result, $rs))
+		{
+			return FALSE;
 		}
+
+		$rs_obj = new stdClass();
+		foreach ($rs as $k => $v)
+		{
+			$field_name = odbc_field_name($odbc_result, $k+1);
+			$rs_obj->$field_name = $v;
+		}
+
 		return $rs_obj;
 	}
 
+	// --------------------------------------------------------------------
 
 	/**
 	 * Result - array
@@ -229,19 +203,23 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 * subsititutes the odbc_fetch_array function when
 	 * not available (odbc_fetch_array requires unixODBC)
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _odbc_fetch_array(& $odbc_result) {
+	protected function _odbc_fetch_array(& $odbc_result)
+	{
 		$rs = array();
-		$rs_assoc = FALSE;
-		if (odbc_fetch_into($odbc_result, $rs)) {
-			$rs_assoc=array();
-			foreach ($rs as $k=>$v) {
-				$field_name= odbc_field_name($odbc_result, $k+1);
-				$rs_assoc[$field_name] = $v;
-			}
+		if ( ! odbc_fetch_into($odbc_result, $rs))
+		{
+			return FALSE;
 		}
+
+		$rs_assoc = array();
+		foreach ($rs as $k => $v)
+		{
+			$field_name = odbc_field_name($odbc_result, $k+1);
+			$rs_assoc[$field_name] = $v;
+		}
+
 		return $rs_assoc;
 	}
 

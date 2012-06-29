@@ -9,6 +9,9 @@
 {%- if project == 'ExpressionEngine' %}{% set project_abbreviation = 'ee' %}{% set project_domain = 'expressionengine.com' %}{% endif -%}
 {%- if project == 'CodeIgniter' %}{% set project_abbreviation = 'ci' %}{% set project_domain = 'codeigniter.com' %}{% endif -%}
 {%- if project == 'MojoMotor' %}{% set project_abbreviation = 'mm' %}{% set project_domain = 'mojomotor.com' %}{% endif -%}
+{%- set exclude_comments = ['index', 'license', 'changelog',
+							'development/index', 'development/extension_hooks/index',
+							'development/guidelines/template'] %}
 
 <html>
 	<head>
@@ -85,10 +88,6 @@
 		<div id="brand" class="{{ project_abbreviation }}">
 			<a href="http://{{ project_domain }}/"><img src="{{ pathto('_static/asset/img/' + project_abbreviation + '-logo.gif', 1) }}" alt="{{ project }}"></a>
 			<p>{{ release }} User Guide</p>
-			{%- if show_source and has_source and sourcename %}
-		    <p><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
-			           rel="nofollow">{{ _('Show Source') }}</a></p>
-			{%- endif %}
 		</div><!-- /#brand -->
 
 		<div id="header">
@@ -101,15 +100,16 @@
 			</form>
 			<ul>
 				{%- block rootrellink %}
-				<li><a href="{{ pathto(master_doc) }}">Home</a>&nbsp;&nbsp;{{ reldelim1 }}</li>
-				<li><a id="toc-link" href="{{ pathto(master_doc) }}">Table of Contents</a>&nbsp;&nbsp;{{ reldelim1 }}</li>
+				<li><a href="{{ pathto(master_doc) }}">User Guide Home</a>{%- if pagename != 'index' %}&nbsp;&nbsp;{{ reldelim1 }}{%- endif %}</li>
 				{%- endblock %}
 				
 				{%- for parent in parents %}
 				<li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>&nbsp;&nbsp; {{ reldelim1 }}</li>
 		        {%- endfor %}
 
+				{%- if pagename != 'index' %}
 				<li><strong>{{ title }}</strong></li>
+				{%- endif %}
 			</ul>
 		</div><!-- /#header -->
 
@@ -124,49 +124,9 @@
 	
 	{%- block footer %}			
 		<div id="footer">
-			<p class="top">
-				{% if prev %}
-				<span class="prev">Previous Topic: <a href="{{ prev.link }}">{{ prev.title }}</a></span>
-				{% endif %}
-				{% if next %}
-				<span class="next">Next Topic: <a href="{{ next.link }}">{{ next.title }}</a></span>
-				{% endif %}
-				<a href="#header" title="Return to top">Return to top</a>
-			</p>
-			<p><a href="{{ project_url }}">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a> &ndash; Last updated: {{ last_updated }}</p>
+			<p class="top"><a href="#header" title="Return to top">Return to top</a></p>
+			<p><a href="{{ project_url }}">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a></p>
 		</div><!-- /#footer -->
 	{%- endblock %}
-	
-	<script src="{{ pathto('_static/asset/js/jquery-ui-min.js', 1) }}" type="text/javascript" charset="utf-8" async></script>
-	<script type="text/javascript" charset="utf-8">
-		$('#toc-link').click(function(){
-			$('#table-contents').animate({ left: '0' },1000);
-			return false;
-		});
-		$('html').click(function(){
-			if ($('#table-contents').css("left") == '0px'){
-				$('#table-contents').animate({ left: '-520' },1000);
-			}
-		});
-		$('#table-contents').click(function(event){
-			event.stopPropagation();
-		});
-/*		$('*:not(#table-contents,#toc-link)').click(function(){
-			if ($('#table-contents').css("left") == '0px'){
-				$('#table-contents').animate({ left: '-520' },1000);
-			}
-		});
-/*		$("#toc-link").click(function () {
-			$('#table-contents').show("slide", { direction: "left" }, 100);
-			event.stopPropagation();
-			return false;
-		});
-		$('*:not(#table-contents,#toc-link)').click(function () {
-			if ($('#table-contents').is(":visible")) {
-				$('#table-contents').hide("slide", { direction: "left" }, 100);
-				event.stopPropagation();	
-			}
-		}); */
-	</script>
 	</body>
 </html>

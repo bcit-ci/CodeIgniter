@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * CodeIgniter Model Class
  *
@@ -38,6 +36,11 @@
  */
 class CI_Model {
 
+	/**
+	 * Initialize CI_Model Class
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Model Class Initialized');
@@ -56,6 +59,7 @@ class CI_Model {
 		$CI =& get_instance();
 		return $CI->$key;
 	}
+
 }
 
 /* End of file Model.php */

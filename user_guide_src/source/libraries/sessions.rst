@@ -209,6 +209,10 @@ set_userdata().
 To read a flashdata variable::
 
 	$this->session->flashdata('item');
+	
+An array of all flashdata can be retrieved as follows::
+
+	$this->session->all_flashdata();
 
 
 If you find that you need to preserve a flashdata variable through an
@@ -241,7 +245,7 @@ session class::
 
 	CREATE TABLE IF NOT EXISTS  `ci_sessions` (
 		session_id varchar(40) DEFAULT '0' NOT NULL,
-		ip_address varchar(16) DEFAULT '0' NOT NULL,
+		ip_address varchar(45) DEFAULT '0' NOT NULL,
 		user_agent varchar(120) NOT NULL,
 		last_activity int(10) unsigned DEFAULT 0 NOT NULL,
 		user_data text NOT NULL,
