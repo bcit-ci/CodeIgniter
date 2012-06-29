@@ -138,6 +138,7 @@ Release Date: Not Released
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
    -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
+   -  Added third parameter $return_path for method Email::from().
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
