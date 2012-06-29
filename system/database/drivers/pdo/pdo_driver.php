@@ -9,7 +9,7 @@
  * @license		http://codeigniter.com/user_guide/license.html
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com
- * @since		Version 2.1.1
+ * @since		Version 2.1.2
  * @filesource
  */
 
