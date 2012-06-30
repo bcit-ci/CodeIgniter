@@ -276,7 +276,6 @@ $config['encryption_key'] = '';
 | 'sess_match_ip'			= Whether to match the user's IP address when reading the session data
 | 'sess_match_useragent'	= Whether to match the User Agent when reading the session data
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
-| 'gc_probability'			= percent chance that stale sessions to be deleted
 |
 */
 $config['sess_cookie_name']		= 'ci_session';
@@ -288,7 +287,6 @@ $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
-$config['gc_probability']		= 5;
 
 /*
 |--------------------------------------------------------------------------
