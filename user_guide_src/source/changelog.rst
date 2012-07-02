@@ -150,6 +150,7 @@ Release Date: Not Released
 	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
 	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
+	 -  Property maintain_ratio is now taken into account when resizing images using ImageMagick library
    -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
    -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
    -  Added $config['csrf_exclude_uris'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which allows you list URIs which will not have the CSRF validation functions run.
