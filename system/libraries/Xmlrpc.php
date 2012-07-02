@@ -440,7 +440,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		if ($this->proxy === FALSE) 
+		if ($this->proxy === FALSE)
 		{
 			$server = $this->server;
 			$port = $this->port;
