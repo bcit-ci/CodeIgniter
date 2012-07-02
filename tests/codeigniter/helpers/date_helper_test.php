@@ -79,7 +79,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_atom()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date('Y-m-d\TH:i:sP', $this->time),
 			standard_date('DATE_ATOM', $this->time)
 		);
 	}
@@ -99,7 +99,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_iso8601()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date('Y-m-d\TH:i:sP', $this->time),
 			standard_date('DATE_ISO8601', $this->time)
 		);
 	}
@@ -139,7 +139,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc2822()
 	{
 		$this->assertEquals(
-			date('D, d M Y H:i:s O', $this->time),
+			date('r', $this->time),
 			standard_date('DATE_RFC2822', $this->time)
 		);
 	}
@@ -159,7 +159,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_w3c()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date('Y-m-d\TH:i:sP', $this->time),
 			standard_date('DATE_W3C', $this->time)
 		);
 	}
