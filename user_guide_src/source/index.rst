@@ -91,6 +91,17 @@ Helper Reference
 	
 	helpers/index
 
+***************************
+Contributing to CodeIgniter
+***************************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	contributing/index
+	DCO
+
 .. toctree::
 	:glob:
 	:titlesonly:
