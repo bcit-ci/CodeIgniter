@@ -174,7 +174,7 @@ class CI_Xmlrpc {
 	 * @param	int	port
 	 * @return	void
 	 */
-	public function server($url, $port = 80, $proxy=FALSE, $proxy_port = 8080)
+	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
 		if (strpos($url, 'http') !== 0)
 		{
@@ -440,12 +440,15 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		$server = $this->server;
-		$port = $this->port;
-		if ($this->proxy !== FALSE) {
+		if ($this->proxy === FALSE) 
+		{
+			$server = $this->server;
+			$port = $this->port;
+		} else {
 			$server = $this->proxy;
 			$port = $this->proxy_port;
 		}
+
 		$fp = @fsockopen($server, $port, $this->errno, $this->errstring, $this->timeout);
 
 		if ( ! is_resource($fp))
