@@ -444,7 +444,9 @@ class XML_RPC_Client extends CI_Xmlrpc
 		{
 			$server = $this->server;
 			$port = $this->port;
-		} else {
+		}
+		else
+		{
 			$server = $this->proxy;
 			$port = $this->proxy_port;
 		}
