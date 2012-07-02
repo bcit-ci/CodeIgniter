@@ -982,11 +982,15 @@ abstract class CI_DB_driver {
 		{
 			if (is_array($this->_escape_char))
 			{
-				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+				$preg_ec = array(
+						preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]),
+						$this->_escape_char[0], $this->_escape_char[1]
+						);
 			}
 			else
 			{
 				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+				$preg_ec[2] = $preg_ec[3] = $this->_escape_char;
 			}
 		}
 
@@ -994,11 +998,11 @@ abstract class CI_DB_driver {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[0].'$1'.$preg_ec[1].'.', $item);
+				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[2].'$1'.$preg_ec[3].'.', $item);
 			}
 		}
 
-		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[0].'$1'.$preg_ec[1].'$2', $item);
+		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[2].'$1'.$preg_ec[3].'$2', $item);
 	}
 
 	// --------------------------------------------------------------------
