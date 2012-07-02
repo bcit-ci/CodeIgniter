@@ -23,13 +23,13 @@ Changelog and New Features
 **************************
 
 You can find a list of all changes for each release in the `user
-guide change log <https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide/changelog.html>`_.
+guide change log <https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
 
 *******************
 Server Requirements
 *******************
 
--  PHP version 5.1.6 or newer.
+-  PHP version 5.2.4 or newer.
 
 ************
 Installation
@@ -90,9 +90,9 @@ must also be updated for every change. Also PHPDoc blocks must be maintained.
 Compatibility
 =============
 
-CodeIgniter is compatible with PHP 5.1.6 so all code supplied must stick to
-this requirement. If PHP 5.2 or 5.3 functions or features are used then there
-must be a fallback for PHP 5.1.6.
+CodeIgniter is compatible with PHP 5.2.4 so all code supplied must stick to
+this requirement. If PHP 5.3 or 5.4 functions or features are used then there
+must be a fallback for PHP 5.2.4.
 
 Branching
 =========
@@ -183,8 +183,6 @@ Resources
 
 -  `User Guide <http://codeigniter.com/user_guide/>`_
 -  `Community Forums <http://codeigniter.com/forums/>`_
--  `User
-   Voice <http://codeigniter.uservoice.com/forums/40508-codeigniter-reactor>`_
 -  `Community Wiki <http://codeigniter.com/wiki/>`_
 -  `Community IRC <http://codeigniter.com/irc/>`_
 

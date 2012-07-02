@@ -1,8 +1,8 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -44,7 +44,7 @@ $config['migration_enabled'] = FALSE;
 |
 | This is the name of the table that will store the current migrations state.
 | When migrations runs it will store in a database table which migration
-| level the system is at. It then compares the migration level in the this
+| level the system is at. It then compares the migration level in this
 | table to the $config['migration_version'] if they are not the same it
 | will migrate up. This must be set.
 |
@@ -89,5 +89,5 @@ $config['migration_version'] = 0;
 */
 $config['migration_path'] = APPPATH . 'migrations/';
 
-
 /* End of file migration.php */
+/* Location: ./application/config/migration.php */

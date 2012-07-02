@@ -26,7 +26,7 @@ Usage Examples
 
 In this example a connection is opened to the FTP server, and a local
 file is read and uploaded in ASCII mode. The file permissions are set to
-755. Note: Setting permissions requires PHP 5.
+755.
 
 ::
 
@@ -136,8 +136,7 @@ Example::
 **Mode options are:** ascii, binary, and auto (the default). If auto is
 used it will base the mode on the file extension of the source file.
 
-Permissions are available if you are running PHP 5 and can be passed as
-an octal value in the fourth parameter.
+If set, permissions have to be passed as an octal value.
 
 $this->ftp->download()
 ======================

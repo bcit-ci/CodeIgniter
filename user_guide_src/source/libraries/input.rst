@@ -18,7 +18,7 @@ The security filtering function is called automatically when a new
 :doc:`controller <../general/controllers>` is invoked. It does the
 following:
 
--  If $config['allow_get_array'] is FALSE(default is TRUE), destroys
+-  If $config['allow_get_array'] is FALSE (default is TRUE), destroys
    the global GET array.
 -  Destroys all global variables in the event register_globals is
    turned on.
@@ -42,33 +42,27 @@ this::
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
 
-Using POST, COOKIE, or SERVER Data
-==================================
+Using POST, GET, COOKIE, or SERVER Data
+=======================================
 
-CodeIgniter comes with three helper functions that let you fetch POST,
+CodeIgniter comes with four helper methods that let you fetch POST, GET,
 COOKIE or SERVER items. The main advantage of using the provided
 functions rather than fetching an item directly ($_POST['something'])
-is that the functions will check to see if the item is set and return
-false (boolean) if not. This lets you conveniently use data without
+is that the methods will check to see if the item is set and return
+NULL if not. This lets you conveniently use data without
 having to test whether an item exists first. In other words, normally
 you might do something like this::
 
-	if ( ! isset($_POST['something']))
-	{
-	    $something = FALSE;
-	}
-	else
-	{
-	    $something = $_POST['something'];
-	}
+	$something = isset($_POST['something']) ? $_POST['something'] : NULL;
 
 With CodeIgniter's built in functions you can simply do this::
 
 	$something = $this->input->post('something');
 
-The three functions are:
+The four methods are:
 
 -  $this->input->post()
+-  $this->input->get()
 -  $this->input->cookie()
 -  $this->input->server()
 
@@ -80,8 +74,8 @@ looking for::
 
 	$this->input->post('some_data');
 
-The function returns FALSE (boolean) if the item you are attempting to
-retrieve does not exist.
+The function returns NULL if the item you are attempting to retrieve
+does not exist.
 
 The second optional parameter lets you run the data through the XSS
 filter. It's enabled by setting the second parameter to boolean TRUE;
@@ -95,11 +89,11 @@ To return an array of all POST items call without any parameters.
 To return all POST items and pass them through the XSS filter set the
 first parameter NULL while setting the second parameter to boolean;
 
-The function returns FALSE (boolean) if there are no items in the POST.
+The function returns NULL if there are no items in the POST.
 
 ::
 
-	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter 
+	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 	$this->input->post(); // returns all POST items without XSS filter
 
 $this->input->get()
@@ -115,13 +109,13 @@ To return an array of all GET items call without any parameters.
 To return all GET items and pass them through the XSS filter set the
 first parameter NULL while setting the second parameter to boolean;
 
-The function returns FALSE (boolean) if there are no items in the GET.
+The function returns NULL if there are no items in the GET.
 
 ::
 
-	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter 
+	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 	$this->input->get(); // returns all GET items without XSS filtering
-	
+
 
 $this->input->get_post()
 =========================
@@ -137,7 +131,9 @@ $this->input->cookie()
 This function is identical to the post function, only it fetches cookie
 data::
 
-	$this->input->cookie('some_data', TRUE);
+	$this->input->cookie('some_cookie');
+	$this->input->cookie('some_cookie, TRUE); // with XSS filter
+
 
 $this->input->server()
 ======================
@@ -202,25 +198,6 @@ parameters::
 
 	$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 
-$this->input->cookie()
-======================
-
-Lets you fetch a cookie. The first parameter will contain the name of
-the cookie you are looking for (including any prefixes)::
-
-	cookie('some_cookie');
-
-The function returns FALSE (boolean) if the item you are attempting to
-retrieve does not exist.
-
-The second optional parameter lets you run the data through the XSS
-filter. It's enabled by setting the second parameter to boolean TRUE;
-
-::
-
-	cookie('some_cookie', TRUE);
-
-
 $this->input->ip_address()
 ===========================
 
@@ -248,6 +225,9 @@ validates the IP automatically.
 	{
 	     echo 'Valid';
 	}
+
+Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
+an IP format. The default checks for both formats.
 
 $this->input->user_agent()
 ===========================
@@ -298,3 +278,13 @@ see if PHP is being run on the command line.
 
 	$this->input->is_cli_request()
 
+$this->input->method();
+=====================================
+
+Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (default lowercase).
+
+::
+
+	echo $this->input->method(TRUE); // Outputs: POST
+	echo $this->input->method(FALSE); // Outputs: post
+	echo $this->input->method(); // Outputs: post

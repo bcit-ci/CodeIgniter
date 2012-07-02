@@ -1,13 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
- * 
+ *
  * Licensed under the Open Software License version 3.0
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0) that is
  * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
@@ -25,8 +25,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
 /**
  * PDO Result Class
  *
@@ -39,14 +37,68 @@
 class CI_DB_pdo_result extends CI_DB_result {
 
 	/**
+	 * @var bool  Hold the flag whether a result handler already fetched before
+	 */
+	protected $is_fetched = FALSE;
+
+	/**
+	 * @var mixed Hold the fetched assoc array of a result handler
+	 */
+	protected $result_assoc;
+
+	/**
 	 * Number of rows in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_rows()
+	public function num_rows()
 	{
-		return $this->result_id->rowCount();
+		if (empty($this->result_id) OR ! is_object($this->result_id))
+		{
+			// invalid result handler
+			return 0;
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		{
+			// If rowCount return something, we're done.
+			return $num_rows;
+		}
+
+		// Fetch the result, instead perform another extra query
+		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
+	}
+
+	/**
+	 * Fetch the result handler
+	 *
+	 * @return	mixed
+	 */
+	public function result_assoc()
+	{
+		// If the result already fetched before, use that one
+		if (count($this->result_array) > 0 OR $this->is_fetched)
+		{
+			return $this->result_array();
+		}
+
+		// Define the output
+		$output = array('assoc', 'object');
+
+		// Initial value
+		$this->result_assoc = array() and $this->result_object = array();
+
+		// Fetch the result
+		while ($row = $this->_fetch_assoc())
+		{
+			$this->result_assoc[] = $row;
+			$this->result_object[] = (object) $row;
+		}
+
+		// Save this as buffer and marked the fetch flag
+		$this->result_array = $this->result_assoc;
+		$this->is_fetched = TRUE;
+
+		return $this->result_assoc;
 	}
 
 	// --------------------------------------------------------------------
@@ -54,10 +106,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_fields()
+	public function num_fields()
 	{
 		return $this->result_id->columnCount();
 	}
@@ -69,15 +120,15 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @access	public
-	 * @return	array
+	 * @return	bool
 	 */
-	function list_fields()
+	public function list_fields()
 	{
 		if ($this->db->db_debug)
 		{
 			return $this->db->display_error('db_unsuported_feature');
 		}
+
 		return FALSE;
 	}
 
@@ -88,20 +139,58 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function field_data()
+	public function field_data()
 	{
 		$data = array();
-	
+
 		try
 		{
-			for($i = 0; $i < $this->num_fields(); $i++)
+			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
 			{
-				$data[] = $this->result_id->getColumnMeta($i);
+				foreach ($this->result_array() as $field)
+				{
+					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
+
+					$F		= new stdClass();
+					$F->name	= $field['name'];
+					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
+					$F->default	= NULL;
+					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
+					$F->primary_key = (int) $field['pk'];
+					$F->pdo_type	= NULL;
+
+					$data[] = $F;
+				}
 			}
-			
+			else
+			{
+				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
+				{
+					$field = $this->result_id->getColumnMeta($i);
+
+					$F		= new stdClass();
+					$F->name	= $field['name'];
+					$F->type	= $field['native_type'];
+					$F->default	= NULL;
+					$F->pdo_type	= $field['pdo_type'];
+
+					if ($field['precision'] < 0)
+					{
+						$F->max_length	= NULL;
+						$F->primary_key = 0;
+					}
+					else
+					{
+						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
+						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
+					}
+
+					$data[] = $F;
+				}
+			}
+
 			return $data;
 		}
 		catch (Exception $e)
@@ -110,6 +199,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 			{
 				return $this->db->display_error('db_unsuported_feature');
 			}
+
 			return FALSE;
 		}
 	}
@@ -119,9 +209,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	null
+	 * @return	void
 	 */
-	function free_result()
+	public function free_result()
 	{
 		if (is_object($this->result_id))
 		{
@@ -132,31 +222,13 @@ class CI_DB_pdo_result extends CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset.  We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero
-	 *
-	 * @access	private
-	 * @return	array
-	 */
-	function _data_seek($n = 0)
-	{
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @access	private
 	 * @return	array
 	 */
-	function _fetch_assoc()
+	protected function _fetch_assoc()
 	{
 		return $this->result_id->fetch(PDO::FETCH_ASSOC);
 	}
@@ -168,16 +240,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @access	private
 	 * @return	object
 	 */
-	function _fetch_object()
-	{	
-		return $this->result_id->fetchObject();
+	protected function _fetch_object()
+	{
+		return $this->result_id->fetch(PDO::FETCH_OBJ);
 	}
 
 }
-
 
 /* End of file pdo_result.php */
 /* Location: ./system/database/drivers/pdo/pdo_result.php */
