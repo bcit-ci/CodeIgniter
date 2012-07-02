@@ -158,6 +158,8 @@ class CI_DB_oci8_driver extends CI_DB {
 		$this->dsn = '';
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -179,9 +181,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return ( ! empty($this->char_set))
-			? @oci_pconnect($this->username, $this->password, $this->dsn, $this->char_set)
-			: @oci_pconnect($this->username, $this->password, $this->dsn);
+		return empty($this->char_set)
+			? @oci_pconnect($this->username, $this->password, $this->dsn)
+			: @oci_pconnect($this->username, $this->password, $this->dsn, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -217,6 +219,8 @@ class CI_DB_oci8_driver extends CI_DB {
 		return @oci_execute($this->stmt_id, $this->commit_mode);
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Generate a statement ID
 	 *
@@ -236,7 +240,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Get cursor. Returns a cursor from the database
 	 *
-	 * @return	cursor id
+	 * @return	resource
 	 */
 	public function get_cursor()
 	{
@@ -300,6 +304,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Bind parameters
 	 *
+	 * @param	array
 	 * @return	void
 	 */
 	protected function _bind_params($params)
@@ -328,6 +333,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -636,8 +642,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	protected function _limit($sql, $limit, $offset)
 	{
 		$this->limit_used = TRUE;
-		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit).')'
-			.($offset ? ' WHERE rnum >= '.$offset : '');
+		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit + 1).')'
+			.($offset ? ' WHERE rnum >= '.($offset + 1): '');
 	}
 
 	// --------------------------------------------------------------------

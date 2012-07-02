@@ -136,7 +136,7 @@ Release Date: Not Released
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
 
 -  Libraries
-
+   -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
@@ -299,6 +299,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
+-  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 
 Version 2.1.1
 =============

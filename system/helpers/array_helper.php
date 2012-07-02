@@ -50,7 +50,7 @@ if ( ! function_exists('element'))
 	 * @param	mixed
 	 * @return	mixed	depends on what the array contains
 	 */
-	function element($item, $array, $default = FALSE)
+	function element($item, $array, $default = NULL)
 	{
 		return empty($array[$item]) ? $default : $array[$item];
 	}
@@ -87,7 +87,7 @@ if ( ! function_exists('elements'))
 	 * @param	mixed
 	 * @return	mixed	depends on what the array contains
 	 */
-	function elements($items, $array, $default = FALSE)
+	function elements($items, $array, $default = NULL)
 	{
 		$return = array();
 
