@@ -86,7 +86,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		$conn_id = sqlsrv_connect($this->hostname, $connection);
+		$this->conn_id = sqlsrv_connect($this->hostname, $connection);
 
 		// Determine how identifiers are escaped
 		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
@@ -94,7 +94,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
 		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
 
-		return $conn_id;
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------

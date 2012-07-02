@@ -83,11 +83,27 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return $this->_mssql_connect();
+		$this->conn_id = ($persistent)
+				? @mssql_pconnect($this->hostname, $this->username, $this->password)
+				: @mssql_connect($this->hostname, $this->username, $this->password);
+
+		if ( ! $this->conn_id)
+		{
+			return FALSE;
+		}
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -99,35 +115,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return $this->_mssql_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/*
-	 * MSSQL Connect
-	 *
-	 * @param	bool
-	 * @return	resource
-	 */
-	protected function _mssql_connect($persistent = FALSE)
-	{
-		$conn_id = ($persistent)
-				? @mssql_pconnect($this->hostname, $this->username, $this->password)
-				: @mssql_connect($this->hostname, $this->username, $this->password);
-
-		if ( ! $conn_id)
-		{
-			return FALSE;
-		}
-
-		// Determine how identifiers are escaped
-		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
-		$query = $query->row_array();
-		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
-		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
-
-		return $conn_id;
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
