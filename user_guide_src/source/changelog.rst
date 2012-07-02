@@ -137,7 +137,7 @@ Release Date: Not Released
    -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
-
+   -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
    -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).

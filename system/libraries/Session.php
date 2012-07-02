@@ -155,12 +155,6 @@ class CI_Session {
 	 */
 	public $time_reference			= 'local';
 
-	/**
-	 * Probablity level of garbage collection of old sessions
-	 *
-	 * @var int
-	 */
-	public $gc_probability			= 5;
 
 	/**
 	 * Session data
@@ -940,8 +934,11 @@ class CI_Session {
 			return;
 		}
 
+		$probability = ini_get('session.gc_probability');
+		$divisor = ini_get('session.gc_divisor');
+
 		srand(time());
-		if ((rand() % 100) < $this->gc_probability)
+		if ((mt_rand(0, $divisor) / $divisor) < $probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
 
