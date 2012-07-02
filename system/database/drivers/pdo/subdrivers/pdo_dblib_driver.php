@@ -92,11 +92,11 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		$pdo_obj = parent::db_connect($persistent);
+		$this->conn_id = parent::db_connect($persistent);
 
-		if ( ! is_object($pdo_obj))
+		if ( ! is_object($this->conn_id))
 		{
-			return $pdo_obj;
+			return $this->conn_id;
 		}
 
 		// Determine how identifiers are escaped
@@ -105,7 +105,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
 		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
 
-		return $pdo_obj;
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------

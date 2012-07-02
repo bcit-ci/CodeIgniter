@@ -121,11 +121,11 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 			$this->options[PDO::SQLSRV_ENCODING_UTF8] = 1;
 		}
 
-		$pdo_obj = parent::db_connect($persistent);
+		$this->conn_id = parent::db_connect($persistent);
 
-		if ( ! is_object($pdo_obj) OR is_bool($this->_quoted_identifier))
+		if ( ! is_object($this->conn_id) OR is_bool($this->_quoted_identifier))
 		{
-			return $pdo_obj;
+			return $this->conn_id;
 		}
 
 		// Determine how identifiers are escaped
@@ -134,7 +134,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
 		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
 
-		return $pdo_obj;
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
