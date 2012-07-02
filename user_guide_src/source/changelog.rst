@@ -301,10 +301,18 @@ Bug fixes for 3.0
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 -  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 
+Version 2.1.2
+=============
+
+Release Date: June 29, 2012
+
+-  General Changes
+   -  Improved security in ``xss_clean()``.
+
 Version 2.1.1
 =============
 
-Release Date: June 13, 2012
+Release Date: June 12, 2012
 
 -  General Changes
    -  Fixed support for docx, xlsx files in mimes.php.
@@ -315,20 +323,20 @@ Release Date: June 13, 2012
    -  Added support for the IP format parameter to the :doc:`Form Validation Library <libraries/form_validation>`.
 
 -  Helpers
-   -  url_title() performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
+   -  ``url_title()`` performance and output improved. You can now use any string as the word delimiter, but 'dash' and 'underscore' are still supported.
 
 Bug fixes for 2.1.1
 -------------------
 
--  Fixed a bug (#697) - A wrong array key was used in the Upload library to check for mime-types.
--  Fixed a bug - form_open() compared $action against site_url() instead of base_url().
--  Fixed a bug - CI_Upload::_file_mime_type() could've failed if mime_content_type() is used for the detection and returns FALSE.
+-  Fixed a bug (#697) - A wrong array key was used in the :doc:`File Uploading Library <libraries/file_uploading>` to check for mime-types.
+-  Fixed a bug - ``form_open()`` compared $action against ``site_url()`` instead of ``base_url()``.
+-  Fixed a bug - ``CI_Upload::_file_mime_type()`` could've failed if ``mime_content_type()`` is used for the detection and returns FALSE.
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
 -  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.
 -  Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.
 -  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
--  Fixed a bug - CI_DB_pdo_driver::num_rows() was not returning properly value with SELECT queries, cause it was relying on PDOStatement::rowCount().
--  Fixed a bug (#1059) - CI_Image_lib::clear() was not correctly clearing all necessary object properties, namely width and height.
+-  Fixed a bug - ``CI_DB_pdo_driver::num_rows()`` was not returning properly value with SELECT queries, cause it was relying on ``PDOStatement::rowCount()``.
+-  Fixed a bug (#1059) - ``CI_Image_lib::clear()`` was not correctly clearing all necessary object properties, namely width and height.
 
 Version 2.1.0
 =============
