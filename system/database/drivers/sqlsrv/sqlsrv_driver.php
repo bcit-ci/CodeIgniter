@@ -143,7 +143,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+		return ($this->is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
 			? sqlsrv_query($this->conn_id, $sql)
 			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
