@@ -300,9 +300,9 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
 |
 */
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= '';
+$config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
 
