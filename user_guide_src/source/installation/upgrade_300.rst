@@ -46,3 +46,9 @@ Step 5: Move your errors folder
 ===============================
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
+
+Step 6: Check the calls to Array Helper's element() and elements() functions
+============================================================================
+
+The default return value of these functions, when the required elements
+don't exist, has been changed from FALSE to NULL.
