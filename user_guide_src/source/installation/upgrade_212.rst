@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.0.3 to 2.1.0
+Upgrading from 2.1.1 to 2.1.2
 #############################
 
 Before performing an update you should take your site offline by
@@ -14,9 +14,3 @@ they will need to be made fresh in this new one.
 
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
-
-Step 2: Replace config/user_agents.php
-======================================
-
-This config file has been updated to contain more user agent types,
-please copy it to _application/config/user_agents.php*.
