@@ -52,7 +52,7 @@ if ( ! function_exists('element'))
 	 */
 	function element($item, $array, $default = NULL)
 	{
-		return empty($array[$item]) ? $default : $array[$item];
+		return ! isset($array[$item]) ? $default : $array[$item];
 	}
 }
 
