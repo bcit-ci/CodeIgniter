@@ -136,6 +136,7 @@ Release Date: Not Released
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
 
 -  Libraries
+
    -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
@@ -175,7 +176,7 @@ Release Date: Not Released
 	 -  Added support for setting custom attributes.
 	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
-   -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc.rst>`.
+   -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
 
 -  Core
 
