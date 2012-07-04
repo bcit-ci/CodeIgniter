@@ -52,7 +52,11 @@ Release Date: Not Released
 
 -  Helpers
 
-   -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
+   -  :doc:`Date Helper <helpers/date_helper>` changes include:
+	 - ``now()`` now works with all timezone strings supported by PHP.
+	 - Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
+	 - Added an optional parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
+	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://bg2.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
@@ -63,7 +67,6 @@ Release Date: Not Released
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
-   -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
@@ -72,7 +75,6 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
-   -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
 -  Database

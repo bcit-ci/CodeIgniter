@@ -117,6 +117,19 @@ if ( ! function_exists('standard_date'))
 	 *
 	 * Returns a date formatted according to the submitted standard.
 	 *
+	 * As of PHP 5.2, the DateTime extension provides constants that
+	 * serve for the exact same purpose and are used with date().
+	 * Due to that, this function is DEPRECATED and should be removed
+	 * in CodeIgniter 3.1+.
+	 *
+	 * Here are two examples of how you should replace it:
+	 *
+	 *	date(DATE_RFC822, now()); // default
+	 *	date(DATE_W3C, $time); // a different format and time
+	 *
+	 * Reference: http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
+	 *
+	 * @deprecated
 	 * @param	string	the chosen format
 	 * @param	int	Unix timestamp
 	 * @return	string
