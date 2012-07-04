@@ -43,7 +43,7 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	public $config =	array();
+	public $config = array();
 
 	/**
 	 * List of all loaded config files
@@ -172,7 +172,7 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.$file.'.php'.' does not exist.');
+			show_error('The configuration file '.$file.'.php does not exist.');
 		}
 
 		return TRUE;
@@ -271,7 +271,7 @@ class CI_Config {
 	 */
 	public function base_url($uri = '')
 	{
-		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
+		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
 	}
 
 	// -------------------------------------------------------------
