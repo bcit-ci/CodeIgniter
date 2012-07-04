@@ -175,7 +175,7 @@ This function retrieves the URL to your site, plus an optional path such
 as to a stylesheet or image.
 
 The two functions above are normally accessed via the corresponding
-functions in the :doc:`URL Helper <helpers/url_helper>`.
+functions in the :doc:`URL Helper </helpers/url_helper>`.
 
 $this->config->system_url();
 *****************************

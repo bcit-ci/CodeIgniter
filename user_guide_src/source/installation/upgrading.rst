@@ -8,6 +8,7 @@ upgrading from.
 -  :doc:`Upgrading from 2.1.2 to 3.0.0 <upgrade_300>`
 -  :doc:`Upgrading from 2.1.1 to 2.1.2 <upgrade_212>`
 -  :doc:`Upgrading from 2.1.0 to 2.1.1 <upgrade_211>`
+-  :doc:`Upgrading from 2.0.3 to 2.1.0 <upgrade_210>`
 -  :doc:`Upgrading from 2.0.2 to 2.0.3 <upgrade_203>`
 -  :doc:`Upgrading from 2.0.1 to 2.0.2 <upgrade_202>`
 -  :doc:`Upgrading from 2.0 to 2.0.1 <upgrade_201>`
