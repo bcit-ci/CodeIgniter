@@ -121,22 +121,20 @@ if ( ! function_exists('standard_date'))
 	 * @param	int	Unix timestamp
 	 * @return	string
 	 */
-	function standard_date($fmt = 'DATE_RFC822', $time = '')
+	function standard_date($fmt = 'DATE_RFC822', $time = NULL)
 	{
-		$formats = array(
-				'DATE_ATOM'		=>	'%Y-%m-%dT%H:%i:%s%P',
-				'DATE_COOKIE'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
-				'DATE_ISO8601'	=>	'%Y-%m-%dT%H:%i:%s%P',
-				'DATE_RFC822'	=>	'%D, %d %M %y %H:%i:%s %O',
-				'DATE_RFC850'	=>	'%l, %d-%M-%y %H:%i:%s UTC',
-				'DATE_RFC1036'	=>	'%D, %d %M %y %H:%i:%s %O',
-				'DATE_RFC1123'	=>	'%D, %d %M %Y %H:%i:%s %O',
-				'DATE_RFC2822'	=>	'%r',
-				'DATE_RSS'		=>	'%D, %d %M %Y %H:%i:%s %O',
-				'DATE_W3C'		=>	'%Y-%m-%dT%H:%i:%s%P'
-				);
+		if (empty($time))
+		{
+			$time = now();
+		}
 
-		return isset($formats[$fmt]) ? mdate($formats[$fmt], $time) : FALSE;
+		// Procedural style pre-defined constants from the DateTime extension
+		if (strpos($fmt, 'DATE_') !== 0 OR defined($fmt) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return date(constant($fmt), $time);
 	}
 }
 
