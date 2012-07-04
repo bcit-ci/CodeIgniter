@@ -13,16 +13,14 @@ env:
   - DB=pdo/sqlite
 
 before_script:
-  - pyrus channel-discover pear.php-tools.net
-  - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.2.tgz
-  - phpenv rehash
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: phpunit --configuration tests/travis/$DB.phpunit.xml
+script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
 branches:
   only:
     - develop
-    - master

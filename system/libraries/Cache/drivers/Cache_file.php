@@ -26,7 +26,7 @@
  */
 
 /**
- * CodeIgniter Memcached Caching Class
+ * CodeIgniter File Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -53,7 +53,7 @@ class CI_Cache_file extends CI_Driver {
 		$CI =& get_instance();
 		$CI->load->helper('file');
 		$path = $CI->config->item('cache_path');
-		$this->_cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+		$this->_cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 	}
 
 	// ------------------------------------------------------------------------
@@ -71,9 +71,9 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
-		if (time() >  $data['time'] + $data['ttl'])
+		if ($data['ttl'] > 0 && time() >  $data['time'] + $data['ttl'])
 		{
 			unlink($this->_cache_path.$id);
 			return FALSE;
@@ -165,19 +165,19 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-		$data = unserialize(read_file($this->_cache_path.$id));
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
 		if (is_array($data))
 		{
 			$mtime = filemtime($this->_cache_path.$id);
 
-			if ( ! isset($data['data']['ttl']))
+			if ( ! isset($data['ttl']))
 			{
 				return FALSE;
 			}
 
 			return array(
-				'expire' => $mtime + $data['data']['ttl'],
+				'expire' => $mtime + $data['ttl'],
 				'mtime'	 => $mtime
 			);
 		}

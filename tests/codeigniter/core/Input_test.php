@@ -1,7 +1,7 @@
 <?php
 
 class Input_test extends CI_TestCase {
-	
+
 	public function set_up()
 	{
 		// Set server variable to GET as default, since this will leave unset in STDIN env
@@ -17,9 +17,9 @@ class Input_test extends CI_TestCase {
 
 		$this->input = new Mock_Core_Input($security, $utf8);
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_not_exists()
 	{
 		$this->assertEmpty($this->input->get());
@@ -28,15 +28,17 @@ class Input_test extends CI_TestCase {
 		$this->assertTrue( ! $this->input->get());
 		$this->assertTrue( ! $this->input->get('foo'));
 
-		$this->assertTrue($this->input->get() == FALSE);
-		$this->assertTrue($this->input->get('foo') == FALSE);
+		// Test we're getting empty results
+		$this->assertTrue($this->input->get() === NULL);
+		$this->assertTrue($this->input->get('foo') === NULL);
 
-		$this->assertTrue($this->input->get() === FALSE);
-		$this->assertTrue($this->input->get('foo') === FALSE);
+		// Test new 3.0 behaviour for non existant results (used to be FALSE)
+		$this->assertTrue($this->input->get() === NULL);
+		$this->assertTrue($this->input->get('foo') === NULL);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_exist()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
@@ -47,7 +49,7 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_exist_with_xss_clean()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
@@ -59,7 +61,7 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_post_not_exists()
 	{
 		$this->assertEmpty($this->input->post());
@@ -68,15 +70,15 @@ class Input_test extends CI_TestCase {
 		$this->assertTrue( ! $this->input->post());
 		$this->assertTrue( ! $this->input->post('foo'));
 
-		$this->assertTrue($this->input->post() == FALSE);
-		$this->assertTrue($this->input->post('foo') == FALSE);
+		$this->assertTrue($this->input->post() === NULL);
+		$this->assertTrue($this->input->post('foo') === NULL);
 
-		$this->assertTrue($this->input->post() === FALSE);
-		$this->assertTrue($this->input->post('foo') === FALSE);
+		$this->assertTrue($this->input->post() === NULL);
+		$this->assertTrue($this->input->post('foo') === NULL);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_post_exist()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
@@ -87,7 +89,7 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_post_exist_with_xss_clean()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
@@ -99,7 +101,7 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_post()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
@@ -109,7 +111,7 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_cookie()
 	{
 		$_COOKIE['foo'] = 'bar';
@@ -118,14 +120,14 @@ class Input_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_server()
 	{
 		$this->assertEquals('GET', $this->input->server('REQUEST_METHOD'));
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_fetch_from_array()
 	{
 		$data = array(
@@ -141,4 +143,19 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
 	}
+
+	// --------------------------------------------------------------------
+
+	public function test_valid_ip()
+	{
+		$ip_v4 = '192.18.0.1';
+		$this->assertTrue($this->input->valid_ip($ip_v4));
+
+		$ip_v6 = array('2001:0db8:0000:85a3:0000:0000:ac1f:8001', '2001:db8:0:85a3:0:0:ac1f:8001', '2001:db8:0:85a3::ac1f:8001');
+		foreach ($ip_v6 as $ip)
+		{
+			$this->assertTrue($this->input->valid_ip($ip));
+		}
+	}
+
 }

@@ -23,11 +23,10 @@ class Distinct_test extends CI_TestCase {
 	public function test_distinct()
 	{
 		$users = $this->db->select('country')
-							  ->distinct()
-		                      ->get('user')
-		                      ->result_array();
-		
-		// Check the result
+					->distinct()
+					->get('user')
+					->result_array();
+
 		$this->assertEquals(3, count($users));
 	}
 

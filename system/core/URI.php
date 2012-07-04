@@ -111,23 +111,23 @@ class CI_URI {
 
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') != '' && $path !== '/'.SELF)
+			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
+			if (trim($path, '/') !== '' && $path !== '/'.SELF)
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') != '')
+			$path = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			if (trim($path, '/') !== '')
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// As a last ditch effort lets try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') != '')
+			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
 			{
 				$this->_set_uri_string(key($_GET));
 				return;
@@ -163,7 +163,7 @@ class CI_URI {
 	 * @param 	string
 	 * @return	void
 	 */
-	public function _set_uri_string($str)
+	protected function _set_uri_string($str)
 	{
 		// Filter out control characters
 		$str = remove_invisible_characters($str, FALSE);
@@ -177,8 +177,8 @@ class CI_URI {
 	/**
 	 * Detects the URI
 	 *
-	 * This function will detect the URI automatically and fix the query string
-	 * if necessary.
+	 * This function will detect the URI automatically
+	 * and fix the query string if necessary.
 	 *
 	 * @return	string
 	 */
@@ -189,23 +189,27 @@ class CI_URI {
 			return '';
 		}
 
-		$uri = $_SERVER['REQUEST_URI'];
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		if (strpos($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']) === 0)
 		{
-			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+			$uri = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif (strpos($_SERVER['REQUEST_URI'], dirname($_SERVER['SCRIPT_NAME'])) === 0)
 		{
-			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			$uri = substr($_SERVER['REQUEST_URI'], strlen(dirname($_SERVER['SCRIPT_NAME'])));
+		}
+		else
+		{
+			$uri = $_SERVER['REQUEST_URI'];
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
-		if (strncmp($uri, '?/', 2) === 0)
+		if (strpos($uri, '?/') === 0)
 		{
 			$uri = substr($uri, 2);
 		}
-		$parts = preg_split('#\?#i', $uri, 2);
+
+		$parts = explode('?', $uri, 2);
 		$uri = $parts[0];
 		if (isset($parts[1]))
 		{
@@ -218,12 +222,12 @@ class CI_URI {
 			$_GET = array();
 		}
 
-		if ($uri == '/' OR empty($uri))
+		if ($uri === '/' OR empty($uri))
 		{
 			return '/';
 		}
 
-		$uri = parse_url($uri, PHP_URL_PATH);
+		$uri = parse_url('pseudo://hostname/'.$uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
@@ -270,11 +274,11 @@ class CI_URI {
 	 */
 	public function _filter_uri($str)
 	{
-		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
+		if ($str !== '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') === FALSE)
 		{
 			// preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards
 			// compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
-			if ( ! preg_match('|^['.str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-')).']+$|i', $str))
+			if ( ! preg_match('|^['.str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-')).']+$|i', urldecode($str)))
 			{
 				show_error('The URI you submitted has disallowed characters.', 400);
 			}
@@ -298,9 +302,11 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') != '')
+		$suffix = (string) $this->config->item('url_suffix');
+
+		if ($suffix !== '' && ($offset = strrpos($this->uri_string, $suffix)) !== FALSE)
 		{
-			$this->uri_string = preg_replace('|'.preg_quote($this->config->item('url_suffix')).'$|', '', $this->uri_string);
+			$this->uri_string = substr_replace($this->uri_string, '', $offset, strlen($suffix));
 		}
 	}
 
@@ -321,7 +327,7 @@ class CI_URI {
 			// Filter segments for security
 			$val = trim($this->_filter_uri($val));
 
-			if ($val != '')
+			if ($val !== '')
 			{
 				$this->segments[] = $val;
 			}
@@ -358,10 +364,10 @@ class CI_URI {
 	 * This function returns the URI segment based on the number provided.
 	 *
 	 * @param	int
-	 * @param	bool
+	 * @param	mixed
 	 * @return	string
 	 */
-	public function segment($n, $no_result = FALSE)
+	public function segment($n, $no_result = NULL)
 	{
 		return isset($this->segments[$n]) ? $this->segments[$n] : $no_result;
 	}
@@ -376,10 +382,10 @@ class CI_URI {
 	 * same result as $this->segment()
 	 *
 	 * @param	int
-	 * @param	bool
+	 * @param	mixed
 	 * @return	string
 	 */
-	public function rsegment($n, $no_result = FALSE)
+	public function rsegment($n, $no_result = NULL)
 	{
 		return isset($this->rsegments[$n]) ? $this->rsegments[$n] : $no_result;
 	}
@@ -462,7 +468,7 @@ class CI_URI {
 		{
 			return (count($default) === 0)
 				? array()
-				: array_fill_keys($default, FALSE);
+				: array_fill_keys($default, NULL);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
@@ -477,7 +483,7 @@ class CI_URI {
 			}
 			else
 			{
-				$retval[$seg] = FALSE;
+				$retval[$seg] = NULL;
 				$lastval = $seg;
 			}
 
@@ -490,7 +496,7 @@ class CI_URI {
 			{
 				if ( ! array_key_exists($val, $retval))
 				{
-					$retval[$val] = FALSE;
+					$retval[$val] = NULL;
 				}
 			}
 		}
@@ -511,7 +517,7 @@ class CI_URI {
 	public function assoc_to_uri($array)
 	{
 		$temp = array();
-		foreach ( (array) $array as $key => $val)
+		foreach ((array) $array as $key => $val)
 		{
 			$temp[] = $key;
 			$temp[] = $val;
@@ -644,7 +650,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return '/'.implode('/', $this->rsegment_array());
+		return implode('/', $this->rsegment_array());
 	}
 
 }

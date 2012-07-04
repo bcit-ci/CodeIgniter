@@ -1,7 +1,7 @@
 <?php
 
 class Mock_Libraries_Table extends CI_Table {
-	
+
 	// Overide inaccesible protected method
 	public function __call($method, $params)
 	{
@@ -12,4 +12,5 @@ class Mock_Libraries_Table extends CI_Table {
 
 		throw new BadMethodCallException('Method '.$method.' was not found');
 	}
+
 }

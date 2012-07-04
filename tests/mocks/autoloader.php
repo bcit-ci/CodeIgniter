@@ -7,9 +7,9 @@
 // Prototype :
 //
 // $mock_table = new Mock_Libraries_Table(); 			// Will load ./mocks/libraries/table.php
-// $mock_database_driver = new Mock_Database_Driver();	// Will load ./mocks/database/driver.php 
+// $mock_database_driver = new Mock_Database_Driver();	// Will load ./mocks/database/driver.php
 // and so on...
-function autoload($class) 
+function autoload($class)
 {
 	$dir = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
 
@@ -22,7 +22,7 @@ function autoload($class)
 	);
 
 	$ci_libraries = array(
-		'Calendar', 'Cart', 'Driver',
+		'Calendar', 'Cart', 'Driver_Library',
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
 		'Log', 'Migration', 'Pagination',
@@ -50,9 +50,9 @@ function autoload($class)
 		elseif (in_array($subclass, $ci_libraries))
 		{
 			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR;
-			$class = $subclass;
+			$class = ($subclass === 'Driver_Library') ? 'Driver' : $subclass;
 		}
-		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) == 3)
+		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) === 3)
 		{
 			$driver_path = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR;
 			$dir = $driver_path.$m[1].DIRECTORY_SEPARATOR;
@@ -75,14 +75,19 @@ function autoload($class)
 	{
 		$trace = debug_backtrace();
 
-		// If the autoload call came from `class_exists` or `file_exists`, 
-		// we skipped and return FALSE
-		if ($trace[2]['function'] == 'class_exists' OR $trace[2]['function'] == 'file_exists')
+		if ($trace[2]['function'] === 'class_exists' OR $trace[2]['function'] === 'file_exists')
 		{
+			// If the autoload call came from `class_exists` or `file_exists`,
+			// we skipped and return FALSE
 			return FALSE;
 		}
-		
-	    throw new InvalidArgumentException("Unable to load $class.");
+		elseif (($autoloader = spl_autoload_functions()) && end($autoloader) !== __FUNCTION__)
+		{
+			// If there was other custom autoloader, passed away
+			return FALSE;
+		}
+
+		throw new InvalidArgumentException("Unable to load {$class}.");
 	}
 
 	include_once($file);

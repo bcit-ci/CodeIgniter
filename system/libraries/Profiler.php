@@ -116,6 +116,12 @@ class CI_Profiler {
 	 */
 	public function set_sections($config)
 	{
+		if (isset($config['query_toggle_count']))
+		{
+			$this->_query_toggle_count = (int) $config['query_toggle_count'];
+			unset($config['query_toggle_count']);
+		}
+
 		foreach ($config as $method => $enable)
 		{
 			if (in_array($method, $this->_available_sections))
@@ -219,7 +225,7 @@ class CI_Profiler {
 
 			$show_hide_js = '(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_hide').'\'?\''.$this->CI->lang->line('profiler_section_show').'\':\''.$this->CI->lang->line('profiler_section_hide').'\';">'.$this->CI->lang->line('profiler_section_hide').'</span>)';
 
-			if ($hide_queries != '')
+			if ($hide_queries !== '')
 			{
 				$show_hide_js = '(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show').'</span>)';
 			}
@@ -315,7 +321,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data')."&nbsp;&nbsp;</legend>\n";
 
-		if (count($_POST) == 0)
+		if (count($_POST) === 0)
 		{
 			$output .= '<div style="color:#009900;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->lang->line('profiler_no_post').'</div>';
 		}
@@ -365,7 +371,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_uri_string')."&nbsp;&nbsp;</legend>\n"
 			.'<div style="color:#000;font-weight:normal;padding:4px 0 4px 0;">'
-			.($this->CI->uri->uri_string == '' ? $this->CI->lang->line('profiler_no_uri') : $this->CI->uri->uri_string)
+			.($this->CI->uri->uri_string === '' ? $this->CI->lang->line('profiler_no_uri') : $this->CI->uri->uri_string)
 			.'</div></fieldset>';
 	}
 
@@ -402,7 +408,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#5a0099;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_memory_usage')."&nbsp;&nbsp;</legend>\n"
 			.'<div style="color:#5a0099;font-weight:normal;padding:4px 0 4px 0;">'
-			.((function_exists('memory_get_usage') && ($usage = memory_get_usage()) != '') ? number_format($usage).' bytes' : $this->CI->lang->line('profiler_no_memory'))
+			.(($usage = memory_get_usage()) != '' ? number_format($usage).' bytes' : $this->CI->lang->line('profiler_no_memory'))
 			.'</div></fieldset>';
 	}
 

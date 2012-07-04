@@ -60,13 +60,13 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t".$this->db->protect_identifiers($field)
-					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '')
-				;
+				$sql .= "\n\t".$this->db->escape_identifiers($field);
+
+				empty($attributes['NAME']) OR $sql .= ' '.$this->db->escape_identifiers($attributes['NAME']).' ';
 
 				if ( ! empty($attributes['TYPE']))
 				{
-					$sql .=  ' '.$attributes['TYPE'];
+					$sql .= ' '.$attributes['TYPE'];
 
 					if ( ! empty($attributes['CONSTRAINT']))
 					{
@@ -87,10 +87,23 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 					}
 				}
 
-				$sql .= (( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE) ? ' UNSIGNED' : '')
-					.(isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
-					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '');
+				if ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
+				{
+					$sql .= ' UNSIGNED';
+				}
+
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
+					? ' NULL' : ' NOT NULL';
+
+				if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+				{
+					$sql .= ' AUTO_INCREMENT';
+				}
 			}
 
 			// don't add a comma on the end of the last field
@@ -128,8 +141,8 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 		if (count($primary_keys) > 0)
 		{
-			$key_name = $this->db->protect_identifiers(implode('_', $primary_keys));
-			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$key_name = $this->db->escape_identifiers(implode('_', $primary_keys));
+			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -138,12 +151,12 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->protect_identifiers(implode('_', $key));
-					$key = $this->db->protect_identifiers($key);
+					$key_name = $this->db->escape_identifiers(implode('_', $key));
+					$key = $this->db->escape_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->protect_identifiers($key);
+					$key_name = $this->db->escape_identifiers($key);
 					$key = array($key_name);
 				}
 
@@ -170,16 +183,16 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' ';
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')
 		{
-			return $sql.$this->db->protect_identifiers($fields);
+			return $sql.$this->db->escape_identifiers($fields);
 		}
 
 		return $sql.$this->_process_fields($fields)
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
 	}
 
 }

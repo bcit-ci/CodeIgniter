@@ -60,8 +60,10 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
-				$sql .= "\n\t".$this->db->protect_identifiers($field)
-					.( ! empty($attributes['NAME']) ? ' '.$this->db->protect_identifiers($attributes['NAME']).' ' : '');
+
+				$sql .= "\n\t".$this->db->escape_identifiers($field);
+
+				empty($attributes['NAME']) OR $sql .= ' '.$this->db->escape_identifiers($attributes['NAME']).' ';
 
 				if ( ! empty($attributes['TYPE']))
 				{
@@ -69,7 +71,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 
 					if ( ! empty($attributes['CONSTRAINT']))
 					{
-						switch ($attributes['TYPE'])
+						switch (strtolower($attributes['TYPE']))
 						{
 							case 'decimal':
 							case 'float':
@@ -98,10 +100,23 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 				}
 			 */
 
-				$sql .= (isset($attributes['DEFAULT']) ? " DEFAULT '".$attributes['DEFAULT']."'" : '')
-					.(( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL')
-					.(( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' AUTO_INCREMENT' : '')
-					.(( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE) ? ' UNIQUE' : '');
+				if (isset($attributes['DEFAULT']))
+				{
+					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+				}
+
+				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
+					? ' NULL' : ' NOT NULL';
+
+				if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+				{
+					$sql .= ' AUTO_INCREMENT';
+				}
+
+				if ( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE)
+				{
+					$sql .= ' UNIQUE';
+				}
 			}
 
 			// don't add a comma on the end of the last field
@@ -142,8 +157,8 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
 		{
-			$key_name = $this->db->protect_identifiers('pk_'.$table.'_'.implode('_', $primary_keys));
-			$sql .= ",\n\tCONSTRAINT ".$key_name.' PRIMARY KEY('.implode(', ', $this->db->protect_identifiers($primary_keys)).')';
+			$key_name = $this->db->escape_identifiers('pk_'.$table.'_'.implode('_', $primary_keys));
+			$sql .= ",\n\tCONSTRAINT ".$key_name.' PRIMARY KEY('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -152,12 +167,12 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			{
 				if (is_array($key))
 				{
-					$key_name = $this->db->protect_identifiers('idx_'.$table.implode('_', $key));
-					$key = $this->db->protect_identifiers($key);
+					$key_name = $this->db->escape_identifiers('idx_'.$table.implode('_', $key));
+					$key = $this->db->escape_identifiers($key);
 				}
 				else
 				{
-					$key_name = $this->db->protect_identifiers('idx_'.$table.$key);
+					$key_name = $this->db->escape_identifiers('idx_'.$table.$key);
 					$key = array($key_name);
 				}
 
@@ -184,16 +199,16 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
-		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' ';
 
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')
 		{
-			return $sql.$this->db->protect_identifiers($fields);
+			return $sql.$this->db->escape_identifiers($fields);
 		}
 
 		return $sql.$this->_process_fields($fields)
-			.($after_field != '' ? ' AFTER '.$this->db->protect_identifiers($after_field) : '');
+			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
 	}
 
 }

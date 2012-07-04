@@ -57,25 +57,28 @@ file.
 To connect manually to a desired database you can pass an array of
 values::
 
-	$config['hostname'] = "localhost"; 
-	$config['username'] = "myusername"; 
-	$config['password'] = "mypassword"; 
-	$config['database'] = "mydatabase"; 
-	$config['dbdriver'] = "mysql"; 
-	$config['dbprefix'] = ""; 
-	$config['pconnect'] = FALSE; 
-	$config['db_debug'] = TRUE; 
-	$config['cache_on'] = FALSE; 
-	$config['cachedir'] = ""; 
-	$config['char_set'] = "utf8"; 
-	$config['dbcollat'] = "utf8_general_ci";  
+	$config['hostname'] = 'localhost';
+	$config['username'] = 'myusername';
+	$config['password'] = 'mypassword';
+	$config['database'] = 'mydatabase';
+	$config['dbdriver'] = 'mysqli';
+	$config['dbprefix'] = '';
+	$config['pconnect'] = FALSE;
+	$config['db_debug'] = TRUE;
+	$config['cache_on'] = FALSE;
+	$config['cachedir'] = '';
+	$config['char_set'] = 'utf8';
+	$config['dbcollat'] = 'utf8_general_ci';
 	$this->load->database($config);
 
 For information on each of these values please see the :doc:`configuration
 page <configuration>`.
 
-.. note:: For the PDO driver, $config['hostname'] should look like
-	this: 'mysql:host=localhost'
+.. note:: For the PDO driver, you should use the $config['dsn'] setting
+	instead of 'hostname' and 'database':
+
+	|
+	| $config['dsn'] = 'mysql:host=localhost;dbname=mydatabase';
 
 Or you can submit your database values as a Data Source Name. DSNs must
 have this prototype::
@@ -150,4 +153,3 @@ connections, you can explicitly close the connection.
 ::
 
 	$this->db->close();
-
