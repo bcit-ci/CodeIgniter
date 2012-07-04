@@ -110,6 +110,7 @@ Contributing to CodeIgniter
 	*
 	overview/index
 	general/requirements
+	general/welcome
 	installation/index
 	general/index
 	libraries/index
