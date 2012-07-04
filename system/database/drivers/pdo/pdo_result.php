@@ -124,12 +124,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		if ($this->db->db_debug)
+		$field_names = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			return $this->db->display_error('db_unsuported_feature');
+			$field_names[$i] = @$this->result_id->getColumnMeta();
+			$field_names[$i] = $field_names[$i]['name'];
 		}
 
-		return FALSE;
+		return $field_names;
 	}
 
 	// --------------------------------------------------------------------
