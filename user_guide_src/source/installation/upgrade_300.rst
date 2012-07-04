@@ -102,6 +102,32 @@ CodeIgniter 3.1+.
 .. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
 	rather than later.
 
+Date helper standard_date()
+===========================
+
+:doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
+to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
+which when combined with ``date()`` provide the same functionality. Furthermore, they have the
+exact same names as the ones suppored by ``standard_date()``. Here are examples of how to replace
+it's usage:
+
+::
+
+	// Old way
+	standard_date(); // defaults to stanard_date('DATE_RFC822', now());
+
+	// Replacement
+	date(DATE_RFC822, now());
+
+	// Old way
+	standard_date('DATE_ATOM', $time);
+
+	// Replacement
+	date(DATE_ATOM, $time);
+
+.. note:: This function is still available, but you're strongly encouraged to remove its' usage sooner
+	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
+
 Pagination library 'anchor_class' setting
 =========================================
 
@@ -111,5 +137,5 @@ attribute to your anchors via the 'attributes' configuration setting. This inclu
 As a result of that, the 'anchor_class' setting is now deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This setting is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
 	rather than later.
