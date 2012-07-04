@@ -108,13 +108,13 @@ Date helper standard_date()
 :doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
 to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
-exact same names as the ones suppored by ``standard_date()``. Here are examples of how to replace
+exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
 it's usage:
 
 ::
 
 	// Old way
-	standard_date(); // defaults to stanard_date('DATE_RFC822', now());
+	standard_date(); // defaults to standard_date('DATE_RFC822', now());
 
 	// Replacement
 	date(DATE_RFC822, now());
