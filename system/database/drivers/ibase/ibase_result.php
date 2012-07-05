@@ -34,7 +34,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_result extends CI_DB_result {
+class CI_DB_ibase_result extends CI_DB_result {
 
 	public $num_rows;
 
@@ -256,5 +256,5 @@ class CI_DB_interbase_result extends CI_DB_result {
 
 }
 
-/* End of file interbase_result.php */
-/* Location: ./system/database/drivers/interbase/interbase_result.php */
+/* End of file ibase_result.php */
+/* Location: ./system/database/drivers/ibase/ibase_result.php */

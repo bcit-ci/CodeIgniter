@@ -95,7 +95,7 @@ Release Date: Not Released
 	 - Added support for backup() in :doc:`Database Utilities <database/utilities>`.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the "interbase" driver.
+   -  Added Interbase/Firebird database support via the 'ibase' driver.
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
