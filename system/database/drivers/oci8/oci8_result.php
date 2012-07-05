@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.4.1
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
@@ -41,20 +42,24 @@ class CI_DB_oci8_result extends CI_DB_result {
 	public $limit_used;
 	public $commit_mode;
 
-	/* Overwriting the parent here, so we have a way to know if it's
-	 * already called or not:
+	/**
+	 * Constructor
+	 *
+	 * @param	object
+	 * @return	void
 	 */
-	public $num_rows;
-
 	public function __construct(&$driver_object)
 	{
 		parent::__construct($driver_object);
+
 		$this->stmt_id = $driver_object->stmt_id;
 		$this->curs_id = $driver_object->curs_id;
 		$this->limit_used = $driver_object->limit_used;
 		$this->commit_mode =& $driver_object->commit_mode;
 		$driver_object->stmt_id = FALSE;
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Number of rows in the result set.

@@ -33,10 +33,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_odbc_result extends CI_DB_result {
-
-	public $num_rows;
 
 	/**
 	 * Number of rows in the result set
@@ -58,6 +57,8 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 		return $this->num_rows;
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Number of fields in the result set
