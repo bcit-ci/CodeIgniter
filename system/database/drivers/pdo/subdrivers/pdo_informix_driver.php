@@ -81,7 +81,7 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 			}
 			else
 			{
-				$this->dsn .= 'host='.(empty($this->hostname) ? 'localhost' : $this->hostname);
+				$this->dsn .= 'host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
 			}
 
 			if (isset($this->service))

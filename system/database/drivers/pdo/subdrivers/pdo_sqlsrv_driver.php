@@ -60,7 +60,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 
 		if (empty($this->dsn))
 		{
-			$this->dsn = 'sqlsrv:Server='.(empty($this->hostname) ? 'localhost' : $this->hostname);
+			$this->dsn = 'sqlsrv:Server='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
 
 			empty($this->port) OR $this->dsn .= ','.$this->port;
 			empty($this->database) OR $this->dsn .= ';Database='.$this->database;
