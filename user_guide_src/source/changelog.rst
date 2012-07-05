@@ -128,7 +128,6 @@ Release Date: Not Released
 	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
 	 - Added support for list_databases() in :doc:`Database Utilities <database/utilities>`.
 	 - Generally improved for speed and cleaned up all of its components.
-	 - *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Improved support of the SQLite driver, including:
 	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
