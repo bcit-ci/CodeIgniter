@@ -46,9 +46,9 @@ function &DB($params = '', $query_builder_override = NULL)
 			show_error('The configuration file database.php does not exist.');
 		}
 
-		include($file_path);
+		include ($file_path);
 		//make packages contain database config files
-		foreach(get_instance()->load->get_package_paths() as $path)
+		foreach (get_instance()->load->get_package_paths() as $path)
 		{
 			if ($path !== APPPATH)
 			{
