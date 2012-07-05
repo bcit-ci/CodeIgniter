@@ -107,19 +107,43 @@ class CI_DB_result {
 	 */
 	public function custom_result_object($class_name)
 	{
-		if (array_key_exists($class_name, $this->custom_result_object))
+		if (isset($this->custom_result_object[$class_name]))
 		{
 			return $this->custom_result_object[$class_name];
 		}
-
-		if ($this->result_id === FALSE OR $this->num_rows === 0)
+		elseif ( ! $this->result_id OR $this->num_rows === 0)
 		{
 			return array();
 		}
 
-		// add the data to the object
+		// Don't fetch the result set again if we already have it
+		$_data = NULL;
+		if (($c = count($this->result_array)) > 0)
+		{
+			$_data = 'result_array';
+		}
+		elseif (($c = count($this->result_object)) > 0)
+		{
+			$_data = 'result_object';
+		}
+
+		if ($_data !== NULL)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->custom_result_object[$class_name][$i] = new $class_name();
+
+				foreach ($this->$_data as $key => $value)
+				{
+					$this->custom_result_object[$class_name][$i]->$key = $value;
+				}
+			}
+
+			return $this->custom_result_object[$class_name];
+		}
+
 		$this->_data_seek(0);
-		$result_object = array();
+		$this->custom_result_object[$class_name] = array();
 
 		while ($row = $this->_fetch_object())
 		{
@@ -129,11 +153,10 @@ class CI_DB_result {
 				$object->$key = $value;
 			}
 
-			$result_object[] = $object;
+			$custom_result_object[$class_name][] = $object;
 		}
 
-		// return the array
-		return $this->custom_result_object[$class_name] = $result_object;
+		return $this->custom_result_object[$class_name];
 	}
 
 	// --------------------------------------------------------------------
@@ -150,12 +173,22 @@ class CI_DB_result {
 			return $this->result_object;
 		}
 
-		// In the event that query caching is on the result_id variable
-		// will return FALSE since there isn't a valid SQL resource so
-		// we'll simply return an empty array.
-		if ($this->result_id === FALSE OR $this->num_rows === 0)
+		// In the event that query caching is on, the result_id variable
+		// will not be a valid resource so we'll simply return an empty
+		// array.
+		if ( ! $this->result_id OR $this->num_rows === 0)
 		{
 			return array();
+		}
+
+		if (($c = count($this->result_array)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_object[$i] = (object) $this->result_array[$i];
+			}
+
+			return $this->result_object;
 		}
 
 		$this->_data_seek(0);
@@ -181,12 +214,22 @@ class CI_DB_result {
 			return $this->result_array;
 		}
 
-		// In the event that query caching is on the result_id variable
-		// will return FALSE since there isn't a valid SQL resource so
-		// we'll simply return an empty array.
-		if ($this->result_id === FALSE OR $this->num_rows === 0)
+		// In the event that query caching is on, the result_id variable
+		// will not be a valid resource so we'll simply return an empty
+		// array.
+		if ( ! $this->result_id OR $this->num_rows === 0)
 		{
 			return array();
+		}
+
+		if (($c = count($this->result_object)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_array[$i] = (array) $this->result_object[$i];
+			}
+
+			return $this->result_array;
 		}
 
 		$this->_data_seek(0);
