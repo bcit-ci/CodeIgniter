@@ -33,6 +33,7 @@
  * @category	Database
  * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.1
  */
 class CI_DB_cubrid_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @cubrid_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @cubrid_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------

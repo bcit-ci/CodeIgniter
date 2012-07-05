@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_sqlite_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @sqlite_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @sqlite_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
