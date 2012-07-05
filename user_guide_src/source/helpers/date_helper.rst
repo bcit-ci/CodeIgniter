@@ -40,7 +40,7 @@ If a timezone is not provided, it will return time() based on "time_reference" s
 mdate()
 =======
 
-This function is identical to PHPs `date() <http://www.php.net/date>`_
+This function is identical to PHP's `date() <http://www.php.net/date>`_
 function, except that it lets you use MySQL style date codes, where each
 code letter is preceded with a percent sign: %Y %m %d etc.
 
@@ -85,21 +85,28 @@ Example
 The first parameter must contain the format, the second parameter must
 contain the date as a Unix timestamp.
 
+.. note:: This function is DEPRECATED. Use the native ``date()`` combined
+	with `DateTime's format constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_
+	instead:
+
+	|
+	| echo date(DATE_RFC822, time());
+
 Supported formats:
 
 ===============	=======================	======================================
 Constant		Description				Example
 ===============	=======================	======================================
-DATE_ATOM		Atom					2005-08-15T16:13:03+0000
-DATE_COOKIE		HTTP Cookies			Sun, 14 Aug 2005 16:13:03 UTC
-DATE_ISO8601   	ISO-8601				2005-08-14T16:13:03+00:00
-DATE_RFC822		RFC 822					Sun, 14 Aug 05 16:13:03 UTC
-DATE_RFC850		RFC 850					Sunday, 14-Aug-05 16:13:03 UTC
-DATE_RFC1036	RFC 1036				Sunday, 14-Aug-05 16:13:03 UTC
-DATE_RFC1123	RFC 1123				Sun, 14 Aug 2005 16:13:03 UTC
-DATE_RFC2822 	RFC 2822				Sun, 14 Aug 2005 16:13:03 +0000
-DATE_RSS		RSS						Sun, 14 Aug 2005 16:13:03 UTC
-DATE_W3C		W3C						2005-08-14T16:13:03+0000
+DATE_ATOM	Atom			2005-08-15T16:13:03+0000
+DATE_COOKIE	HTTP Cookies		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_ISO8601   	ISO-8601		2005-08-14T16:13:03+00:00
+DATE_RFC822	RFC 822			Sun, 14 Aug 05 16:13:03 UTC
+DATE_RFC850	RFC 850			Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1036	RFC 1036		Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1123	RFC 1123		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_RFC2822 	RFC 2822		Sun, 14 Aug 2005 16:13:03 +0000
+DATE_RSS	RSS			Sun, 14 Aug 2005 16:13:03 UTC
+DATE_W3C	W3C			2005-08-14T16:13:03+0000
 ===============	=======================	======================================
 
 local_to_gmt()

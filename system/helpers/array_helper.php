@@ -43,7 +43,7 @@ if ( ! function_exists('element'))
 	 * Element
 	 *
 	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns FALSE (or whatever you specify as the default value.)
+	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
 	 *
 	 * @param	string
 	 * @param	array
@@ -52,7 +52,7 @@ if ( ! function_exists('element'))
 	 */
 	function element($item, $array, $default = NULL)
 	{
-		return empty($array[$item]) ? $default : $array[$item];
+		return array_key_exists($item, $array) ? $array[$item] : $default;
 	}
 }
 
@@ -95,7 +95,7 @@ if ( ! function_exists('elements'))
 
 		foreach ($items as $item)
 		{
-			$return[$item] = isset($array[$item]) ? $array[$item] : $default;
+			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
 		}
 
 		return $return;

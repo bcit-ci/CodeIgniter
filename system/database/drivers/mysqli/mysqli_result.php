@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_mysqli_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return $this->result_id->num_rows;
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = $this->result_id->num_rows;
 	}
 
 	// --------------------------------------------------------------------

@@ -91,6 +91,17 @@ Helper Reference
 	
 	helpers/index
 
+***************************
+Contributing to CodeIgniter
+***************************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	contributing/index
+	DCO
+
 .. toctree::
 	:glob:
 	:titlesonly:
@@ -99,6 +110,7 @@ Helper Reference
 	*
 	overview/index
 	general/requirements
+	general/welcome
 	installation/index
 	general/index
 	libraries/index
