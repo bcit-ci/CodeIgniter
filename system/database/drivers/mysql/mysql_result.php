@@ -38,15 +38,30 @@
 class CI_DB_mysql_result extends CI_DB_result {
 
 	/**
+	 * Constructor
+	 *
+	 * @param	object
+	 * @return	void
+	 */
+	public function __construct(&$driver_object)
+	{
+		parent::__construct($driver_object);
+
+		// Required, due to mysql_data_seek() causing nightmares
+		// with empty result sets
+		$this->num_rows = @mysql_num_rows($this->result_id);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Number of rows in the result set
 	 *
 	 * @return	int
 	 */
 	public function num_rows()
 	{
-		return is_int($this->num_rows)
-			? $this->num_rows
-			: $this->num_rows = @mysql_num_rows($this->result_id);
+		return $this->num_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -135,7 +150,9 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	protected function _data_seek($n = 0)
 	{
-		return @mysql_data_seek($this->result_id, $n);
+		return $this->num_rows
+			? @mysql_data_seek($this->result_id, $n)
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
