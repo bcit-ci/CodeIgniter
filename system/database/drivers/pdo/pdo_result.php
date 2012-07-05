@@ -56,7 +56,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			return $this->num_rows = count($this->result_object);
 		}
-		elseif (($this->num_rows = $this->restul_id->rowCount()) > 0)
+		elseif (($this->num_rows = $this->result_id->rowCount()) > 0)
 		{
 			return $this->num_rows;
 		}
