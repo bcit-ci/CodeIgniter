@@ -313,18 +313,19 @@ class CI_DB_result {
 	 */
 	public function custom_row_object($n, $type)
 	{
-		$result = $this->custom_result_object($type);
-		if (count($result) === 0)
+		isset($this->custom_result_object[$type]) OR $this->custom_result_object($type);
+
+		if (count($this->custom_result_object[$type]) === 0)
 		{
 			return NULL;
 		}
 
-		if ($n !== $this->current_row && isset($result[$n]))
+		if ($n !== $this->current_row && isset($this->custom_result_object[$type][$n]))
 		{
 			$this->current_row = $n;
 		}
 
-		return $result[$this->current_row];
+		return $this->custom_result_object[$type][$this->current_row];
 	}
 
 	// --------------------------------------------------------------------
