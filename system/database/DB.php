@@ -29,8 +29,8 @@
  * Initialize the database
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	EllisLab Dev Team
+ * @link	http://codeigniter.com/user_guide/database/
  * @param 	string
  * @param 	bool	Determines if query builder should be used or not
  */
@@ -159,7 +159,10 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
 
-	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
+	if ( ! file_exists($driver_file))
+	{
+		show_error('Invalid DB driver');
+	}
 
 	require_once($driver_file);
 
