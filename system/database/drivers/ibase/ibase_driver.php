@@ -38,9 +38,9 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_driver extends CI_DB {
+class CI_DB_ibase_driver extends CI_DB {
 
-	public $dbdriver = 'interbase';
+	public $dbdriver = 'ibase';
 
 	// The character used to escape with
 	protected $_escape_char = '"';
@@ -443,5 +443,5 @@ class CI_DB_interbase_driver extends CI_DB {
 
 }
 
-/* End of file interbase_driver.php */
-/* Location: ./system/database/drivers/interbase/interbase_driver.php */
+/* End of file ibase_driver.php */
+/* Location: ./system/database/drivers/ibase/ibase_driver.php */
