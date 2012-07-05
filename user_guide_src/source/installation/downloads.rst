@@ -2,8 +2,14 @@
 Downloading CodeIgniter
 #######################
 
--  `CodeIgniter V 2.1.0 (Current
+-  `CodeIgniter V 3.0.0 (Current
    version) <http://codeigniter.com/downloads/>`_
+-  `CodeIgniter V
+   2.1.2 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.2.zip>`_
+-  `CodeIgniter V
+   2.1.1 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.1.zip>`_
+-  `CodeIgniter V
+   2.1.0 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.0.zip>`_
 -  `CodeIgniter V
    2.0.3 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.0.3.zip>`_
 -  `CodeIgniter V

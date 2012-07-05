@@ -29,8 +29,8 @@
  * Initialize the database
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	EllisLab Dev Team
+ * @link	http://codeigniter.com/user_guide/database/
  * @param 	string
  * @param 	bool	Determines if query builder should be used or not
  */
@@ -47,6 +47,21 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 
 		include($file_path);
+		//make packages contain database config files
+		foreach(get_instance()->load->get_package_paths() as $path)
+		{
+			if ($path !== APPPATH)
+			{
+				if (file_exists ($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
+				{
+					include ($file_path);
+				}
+				elseif ( file_exists ($file_path = $path.'config/database.php'))
+				{
+					include ($file_path);
+				}
+			}
+		}
 
 		if ( ! isset($db) OR count($db) === 0)
 		{
