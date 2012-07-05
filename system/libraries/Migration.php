@@ -322,9 +322,9 @@ class CI_Migration {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the latest migration
+	 * Retrieves list of available migration scripts
 	 *
-	 * @return	mixed	true if already latest, false if failed, int if upgraded
+	 * @return	array	list of migration file paths sorted by version
 	 */
 	protected function find_migrations()
 	{
