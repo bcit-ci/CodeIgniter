@@ -33,11 +33,9 @@
  * @category	Database
  * @author	Andrey Andreev
  * @link	http://codeigniter.com/user_guide/database/
+ * @since	3.0
  */
 class CI_DB_sqlite3_result extends CI_DB_result {
-
-	// Overwriting the parent here, so we have a way to know if it's already set
-	public $num_rows;
 
 	// num_fields() might be called multiple times, so we'll use this one to cache it's result
 	protected $_num_fields;
