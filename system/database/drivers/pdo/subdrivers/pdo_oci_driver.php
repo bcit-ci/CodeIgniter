@@ -76,7 +76,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 			}
 			else
 			{
-				$this->dsn .= '//'.(empty($this->hostname) ? 'localhost' : $this->hostname)
+				$this->dsn .= '//'.(empty($this->hostname) ? '127.0.0.1' : $this->hostname)
 					.(empty($this->port) ? '' : ':'.$this->port).'/';
 
 				empty($this->database) OR $this->dsn .= $this->database;
