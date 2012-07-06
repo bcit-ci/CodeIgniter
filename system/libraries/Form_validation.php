@@ -35,6 +35,7 @@ class CI_Form_validation {
 	protected $_error_suffix		= '</p>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
+	protected $params				= array();
 
 	/**
 	 * Constructor
@@ -48,6 +49,9 @@ class CI_Form_validation {
 
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
+		
+		// Parse http request parameters
+		parse_str(file_get_contents('php://input'), $this->params);
 
 		// Set the character encoding in MB.
 		if (function_exists('mb_internal_encoding'))
@@ -74,7 +78,7 @@ class CI_Form_validation {
 	public function set_rules($field, $label = '', $rules = '')
 	{
 		// No reason to set rules if we have no POST data
-		if (count($_POST) == 0)
+		if (count($this->params) == 0)
 		{
 			return $this;
 		}
@@ -281,7 +285,7 @@ class CI_Form_validation {
 	public function run($group = '')
 	{
 		// Do we even have any data to process?  Mm?
-		if (count($_POST) == 0)
+		if (count($this->params) == 0)
 		{
 			return FALSE;
 		}
@@ -320,21 +324,21 @@ class CI_Form_validation {
 		$this->CI->lang->load('form_validation');
 
 		// Cycle through the rules for each field, match the
-		// corresponding $_POST item and test for errors
+		// corresponding http request item and test for errors
 		foreach ($this->_field_data as $field => $row)
 		{
-			// Fetch the data from the corresponding $_POST array and cache it in the _field_data array.
+			// Fetch the data from the corresponding http request array and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
 
 			if ($row['is_array'] == TRUE)
 			{
-				$this->_field_data[$field]['postdata'] = $this->_reduce_array($_POST, $row['keys']);
+				$this->_field_data[$field]['postdata'] = $this->_reduce_array($this->params, $row['keys']);
 			}
 			else
 			{
-				if (isset($_POST[$field]) AND $_POST[$field] != "")
+				if (isset($this->params[$field]) AND $this->params[$field] != "")
 				{
-					$this->_field_data[$field]['postdata'] = $_POST[$field];
+					$this->_field_data[$field]['postdata'] = $this->params[$field];
 				}
 			}
 
@@ -365,7 +369,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Traverse a multidimensional $_POST array index until the data is found
+	 * Traverse a multidimensional http request array index until the data is found
 	 *
 	 * @access	private
 	 * @param	array
@@ -400,7 +404,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Re-populate the _POST array with our finalized and processed data
+	 * Re-populate the http request array with our finalized and processed data
 	 *
 	 * @access	private
 	 * @return	null
@@ -413,15 +417,15 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] == FALSE)
 				{
-					if (isset($_POST[$row['field']]))
+					if (isset($this->params[$row['field']]))
 					{
-						$_POST[$row['field']] = $this->prep_for_form($row['postdata']);
+						$this->params[$row['field']] = $this->prep_for_form($row['postdata']);
 					}
 				}
 				else
 				{
 					// start with a reference
-					$post_ref =& $_POST;
+					$post_ref =& $this->params;
 
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) == 1)
@@ -469,7 +473,7 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
-		// If the $_POST data is an array we will run a recursive call
+		// If the http request data is an array we will run a recursive call
 		if (is_array($postdata))
 		{
 			foreach ($postdata as $key => $val)
@@ -928,12 +932,12 @@ class CI_Form_validation {
 	 */
 	public function matches($str, $field)
 	{
-		if ( ! isset($_POST[$field]))
+		if ( ! isset($this->params[$field]))
 		{
 			return FALSE;
 		}
 
-		$field = $_POST[$field];
+		$field = $this->params[$field];
 
 		return ($str !== $field) ? FALSE : TRUE;
 	}
