@@ -970,7 +970,7 @@ abstract class CI_DB_driver {
 	 */
 	public function escape_identifiers($item)
 	{
-		if ($this->_escape_char === '')
+		if ($this->_escape_char === '' OR empty($item))
 		{
 			return $item;
 		}
@@ -983,8 +983,8 @@ abstract class CI_DB_driver {
 
 			return $item;
 		}
-		// Avoid breaking functions inside queries
-		elseif (strpos($item, '(') !== FALSE)
+		// Avoid breaking functions and literal values inside queries
+		elseif (ctype_digit($item) OR $item[0] === "'" OR strpos($item, '(') !== FALSE)
 		{
 			return $item;
 		}
