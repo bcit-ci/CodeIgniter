@@ -72,7 +72,7 @@ $this->uri->slash_rsegment(n)
 ==============================
 
 This function is identical to the previous one, except that it lets you
-add slashes a specific segment from your re-routed URI in the event you
+add slashes to a specific segment from your re-routed URI in the event you
 are using CodeIgniter's :doc:`URI Routing <../general/routing>`
 feature.
 
