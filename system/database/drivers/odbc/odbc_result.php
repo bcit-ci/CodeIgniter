@@ -33,10 +33,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_odbc_result extends CI_DB_result {
-
-	public $num_rows;
 
 	/**
 	 * Number of rows in the result set
@@ -49,15 +48,25 @@ class CI_DB_odbc_result extends CI_DB_result {
 		{
 			return $this->num_rows;
 		}
-
-		// Work-around for ODBC subdrivers that don't support num_rows()
-		if (($this->num_rows = @odbc_num_rows($this->result_id)) === -1)
+		elseif (($this->num_rows = @odbc_num_rows($this->result_id)) !== -1)
 		{
-			$this->num_rows = count($this->result_array());
+			return $this->num_rows;
 		}
 
-		return $this->num_rows;
+		// Work-around for ODBC subdrivers that don't support num_rows()
+		if (count($this->result_array) > 0)
+		{
+			return $this->num_rows = count($this->result_array);
+		}
+		elseif (count($this->result_object) > 0)
+		{
+			return $this->num_rows = count($this->result_object);
+		}
+
+		return $this->num_rows = count($this->result_array());
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Number of fields in the result set
@@ -146,9 +155,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return function_exists('odbc_fetch_array')
-			? odbc_fetch_array($this->result_id)
-			: $this->_odbc_fetch_array($this->result_id);
+		return odbc_fetch_array($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -158,57 +165,47 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return function_exists('odbc_fetch_object')
-			? odbc_fetch_object($this->result_id)
-			: $this->_odbc_fetch_object($this->result_id);
-	}
+		$row = odbc_fetch_object($this->result_id);
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Result - object
-	 *
-	 * subsititutes the odbc_fetch_object function when
-	 * not available (odbc_fetch_object requires unixODBC)
-	 *
-	 * @return	object
-	 */
-	protected function _odbc_fetch_object(& $odbc_result)
-	{
-		$rs = array();
-		if ( ! odbc_fetch_into($odbc_result, $rs))
+		if ($class_name === 'stdClass' OR ! $row)
 		{
-			return FALSE;
+			return $row;
 		}
 
-		$rs_obj = new stdClass();
-		foreach ($rs as $k => $v)
+		$class_name = new $class_name();
+		foreach ($row as $key => $value)
 		{
-			$field_name = odbc_field_name($odbc_result, $k+1);
-			$rs_obj->$field_name = $v;
+			$class_name->$key = $value;
 		}
 
-		return $rs_obj;
+		return $class_name;
 	}
 
-	// --------------------------------------------------------------------
+}
 
+// --------------------------------------------------------------------
+
+if ( ! function_exists('odbc_fetch_array'))
+{
 	/**
-	 * Result - array
+	 * ODBC Fetch array
 	 *
-	 * subsititutes the odbc_fetch_array function when
-	 * not available (odbc_fetch_array requires unixODBC)
+	 * Emulates the native odbc_fetch_array() function when
+	 * it is not available (odbc_fetch_array() requires unixODBC)
 	 *
+	 * @param	resource
+	 * @param	int
 	 * @return	array
 	 */
-	protected function _odbc_fetch_array(& $odbc_result)
+	function odbc_fetch_array(& $result, $rownumber = 1)
 	{
 		$rs = array();
-		if ( ! odbc_fetch_into($odbc_result, $rs))
+		if ( ! odbc_fetch_into($result, $rs, $rownumber))
 		{
 			return FALSE;
 		}
@@ -216,83 +213,45 @@ class CI_DB_odbc_result extends CI_DB_result {
 		$rs_assoc = array();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($odbc_result, $k+1);
+			$field_name = odbc_field_name($result, $k+1);
 			$rs_assoc[$field_name] = $v;
 		}
 
 		return $rs_assoc;
 	}
+}
 
-	// --------------------------------------------------------------------
+// --------------------------------------------------------------------
 
+if ( ! function_exists('odbc_fetch_object'))
+{
 	/**
-	 * Query result. Array version.
+	 * ODBC Fetch object
 	 *
-	 * @return	array
-	 */
-	public function result_array()
-	{
-		if (count($this->result_array) > 0)
-		{
-			return $this->result_array;
-		}
-		elseif (($c = count($this->result_object)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
-			}
-		}
-		elseif ($this->result_id === FALSE)
-		{
-			return array();
-		}
-		else
-		{
-			while ($row = $this->_fetch_assoc())
-			{
-				$this->result_array[] = $row;
-			}
-		}
-
-		return $this->result_array;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Query result. Object version.
+	 * Emulates the native odbc_fetch_object() function when
+	 * it is not available.
 	 *
-	 * @return	array
+	 * @param	resource
+	 * @param	int
+	 * @return	object
 	 */
-	public function result_object()
+	function odbc_fetch_object(& $result, $rownumber = 1)
 	{
-		if (count($this->result_object) > 0)
+		$rs = array();
+		if ( ! odbc_fetch_into($result, $rs, $rownumber))
 		{
-			return $this->result_object;
-		}
-		elseif (($c = count($this->result_array)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_object[$i] = (object) $this->result_array[$i];
-			}
-		}
-		elseif ($this->result_id === FALSE)
-		{
-			return array();
-		}
-		else
-		{
-			while ($row = $this->_fetch_object())
-			{
-				$this->result_object[] = $row;
-			}
+			return FALSE;
 		}
 
-		return $this->result_object;
+		$rs_object = new stdClass();
+		foreach ($rs as $k => $v)
+		{
+			$field_name = odbc_field_name($result, $k+1);
+			$rs_object->$field_name = $v;
+		}
+
+		return $rs_object;
 	}
-
 }
 
 /* End of file odbc_result.php */

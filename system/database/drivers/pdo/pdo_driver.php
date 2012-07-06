@@ -49,12 +49,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword;
 
 	// need to track the pdo driver and options
@@ -256,9 +250,20 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function version()
 	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		// Not all subdrivers support the getAttribute() method
+		try
+		{
+			return $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+		}
+		catch (PDOException $e)
+		{
+			return parent::version();
+		}
 	}
 
 	// --------------------------------------------------------------------

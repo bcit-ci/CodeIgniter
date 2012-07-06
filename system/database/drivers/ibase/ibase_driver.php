@@ -38,9 +38,9 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_driver extends CI_DB {
+class CI_DB_ibase_driver extends CI_DB {
 
-	public $dbdriver = 'interbase';
+	public $dbdriver = 'ibase';
 
 	// The character used to escape with
 	protected $_escape_char = '"';
@@ -49,13 +49,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string	= 'SELECT COUNT(*) AS ';
-	protected $_random_keyword	= ' Random()'; // database specific random keyword
+	protected $_random_keyword = ' Random()'; // database specific random keyword
 
 	// Keeps track of the resource for the current transaction
 	protected $trans;
@@ -443,5 +437,5 @@ class CI_DB_interbase_driver extends CI_DB {
 
 }
 
-/* End of file interbase_driver.php */
-/* Location: ./system/database/drivers/interbase/interbase_driver.php */
+/* End of file ibase_driver.php */
+/* Location: ./system/database/drivers/ibase/ibase_driver.php */
