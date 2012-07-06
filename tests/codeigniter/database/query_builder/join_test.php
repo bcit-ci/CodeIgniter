@@ -52,7 +52,7 @@ class Join_test extends CI_TestCase {
 				->join('table2', "table1.field1 = table2.field2 AND table1.field1 = 'foo' AND table2.field2 = 0", 'LEFT')
 				->get_compiled_select();
 
-		$this->assertEquals($sql, $result);
+		$this->assertEquals($expected, $result);
 	}
 
 }
