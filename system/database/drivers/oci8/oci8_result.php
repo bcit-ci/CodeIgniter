@@ -167,12 +167,27 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_object($id);
+		$row = ($this->curs_id)
+			? oci_fetch_object($this->curs_id)
+			: oci_fetch_object($this->stmt_id);
+
+		if ($class_name === 'stdClass' OR ! $row)
+		{
+			return $row;
+		}
+
+		$class_name = new $class_name();
+		foreach ($row as $key => $value)
+		{
+			$class_name->$key = $value;
+		}
+
+		return $class_name;
 	}
 
 	// --------------------------------------------------------------------

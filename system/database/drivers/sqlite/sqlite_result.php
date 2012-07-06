@@ -143,17 +143,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		if (function_exists('sqlite_fetch_object'))
-		{
-			return sqlite_fetch_object($this->result_id);
-		}
-
-		$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
-		return is_array($arr) ? (object) $arr : FALSE;
+		return sqlite_fetch_object($this->result_id, $class_name);
 	}
 
 }

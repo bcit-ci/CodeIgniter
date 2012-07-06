@@ -26,13 +26,13 @@
  */
 
 /**
- * SQLite Result Class
+ * SQLite3 Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
- * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/database/
+ * @author		Andrey Andreev
+ * @link		http://codeigniter.com/user_guide/database/
  * @since	3.0
  */
 class CI_DB_sqlite3_result extends CI_DB_result {
@@ -134,13 +134,28 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		// No native support for fetching as an object
-		$row = $this->_fetch_assoc();
-		return ($row !== FALSE) ? (object) $row : FALSE;
+		// No native support for fetching rows as objects
+		if (($row = $this->result_id->fetchArray(SQLITE3_ASSOC)) === FALSE)
+		{
+			return FALSE;
+		}
+		elseif ($class_name === 'stdClass')
+		{
+			return (object) $row;
+		}
+
+		$class_name = new $class_name();
+		foreach (array_keys($row) as $key)
+		{
+			$class_name->$key = $row[$key];
+		}
+
+		return $class_name;
 	}
 
 	// --------------------------------------------------------------------
