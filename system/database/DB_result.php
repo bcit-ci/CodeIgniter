@@ -156,15 +156,9 @@ class CI_DB_result {
 		$this->_data_seek(0);
 		$this->custom_result_object[$class_name] = array();
 
-		while ($row = $this->_fetch_object())
+		while ($row = $this->_fetch_object($class_name))
 		{
-			$object = new $class_name();
-			foreach ($row as $key => $value)
-			{
-				$object->$key = $value;
-			}
-
-			$custom_result_object[$class_name][] = $object;
+			$custom_result_object[$class_name][] = $row;
 		}
 
 		return $this->custom_result_object[$class_name];
@@ -461,11 +455,21 @@ class CI_DB_result {
 	/**
 	 * Returns an unbuffered row and move pointer to next row
 	 *
+	 * @param	string	'array', 'object' or a custom class name
 	 * @return	mixed	either a result object or array
 	 */
 	public function unbuffered_row($type = 'object')
 	{
-		return ($type !== 'array') ? $this->_fetch_object() : $this->_fetch_assoc();
+		if ($type === 'array')
+		{
+			return $this->_fetch_assoc();
+		}
+		elseif ($type === 'object')
+		{
+			return $this->_fetch_object();
+		}
+
+		return $this->_fetch_object($type);
 	}
 
 	// --------------------------------------------------------------------
