@@ -1071,6 +1071,7 @@ class CI_Email {
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
 				.'Content-type: '.$ctype.'; '
 				.'name="'.$basename.'"'.$this->newline
+				.'Content-ID: <'.$basename.'>;'.$this->newline
 				.'Content-Disposition: '.$this->_attach_disp[$i].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline;
 
