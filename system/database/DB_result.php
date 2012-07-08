@@ -144,7 +144,7 @@ class CI_DB_result {
 			{
 				$this->custom_result_object[$class_name][$i] = new $class_name();
 
-				foreach ($this->$_data as $key => $value)
+				foreach ($this->{$_data}[$i] as $key => $value)
 				{
 					$this->custom_result_object[$class_name][$i]->$key = $value;
 				}
