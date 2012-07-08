@@ -160,11 +160,12 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return cubrid_fetch_object($this->result_id);
+		return cubrid_fetch_object($this->result_id, $class_name);
 	}
 
 }

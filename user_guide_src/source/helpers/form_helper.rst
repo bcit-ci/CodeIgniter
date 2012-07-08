@@ -543,3 +543,7 @@ This function is identical to the **set_checkbox()** function above.
 	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
 	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
 
+.. note:: If you are using the Form Validation class, you must always specify a rule for your field,
+	even if empty, in order for the set_*() functions to work. This is because if a Form Validation object
+	is defined, the control for set_*() is handed over to a method of the class instead of the generic helper
+	function.

@@ -160,11 +160,12 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetch_object();
+		return $this->result_id->fetch_object($class_name);
 	}
 
 }

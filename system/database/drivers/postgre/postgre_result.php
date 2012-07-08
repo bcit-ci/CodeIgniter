@@ -159,11 +159,12 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return pg_fetch_object($this->result_id);
+		return pg_fetch_object($this->result_id, NULL, $class_name);
 	}
 
 }
