@@ -36,11 +36,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	{
 		if (is_numeric(stripos($this->result_id->queryString, 'SELECT')))
 		{
-			$dbh = $this->conn_id;
-			$query = $dbh->query($this->result_id->queryString);
-			$result = $query->fetchAll();
-			unset($dbh, $query);
-			return count($result);
+			$count = count($this->result_id->fetchAll());
+			$this->result_id->execute();
+			return $count;
 		}
 		else
 		{
