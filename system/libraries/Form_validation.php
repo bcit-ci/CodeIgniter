@@ -460,6 +460,12 @@ class CI_Form_validation {
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
 
+			// Don't try to validate if we have no rules set
+			if (empty($row['rules']))
+			{
+				continue;
+			}
+
 			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
 		}
 

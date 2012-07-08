@@ -168,6 +168,7 @@ Release Date: Not Released
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
+	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
@@ -308,6 +309,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 -  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` didn't properly format *W3C* and *ATOM* standard dates.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>` method join() where literal values were escaped as if they were fields.
 
 Version 2.1.2
 =============

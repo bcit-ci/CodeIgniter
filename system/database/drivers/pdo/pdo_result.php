@@ -205,11 +205,12 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetch(PDO::FETCH_OBJ);
+		return $this->result_id->fetchObject($class_name);
 	}
 
 }
