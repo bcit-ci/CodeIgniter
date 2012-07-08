@@ -24,7 +24,6 @@
  * @since		Version 2.0
  * @filesource
  */
-
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
