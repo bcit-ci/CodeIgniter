@@ -26,26 +26,27 @@
  */
 class CI_DB_pdo_result extends CI_DB_result {
 
+	public $num_rows;
+
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function num_rows()
+	public function num_rows()
 	{
-		if (is_numeric(stripos($this->result_id->queryString, 'SELECT')))
+		if (is_int($this->num_rows))
 		{
-			$dbh = $this->conn_id;
-			$query = $dbh->query($this->result_id->queryString);
-			$result = $query->fetchAll();
-			unset($dbh, $query);
-			return count($result);
+			return $this->num_rows;
 		}
-		else
+		elseif (($this->num_rows = $this->result_id->rowCount()) > 0)
 		{
-			return $this->result_id->rowCount();	
+			return $this->num_rows;
 		}
+
+		$this->num_rows = count($this->result_id->fetchAll());
+		$this->result_id->execute();
+		return $this->num_rows;
 	}
 
 	// --------------------------------------------------------------------
