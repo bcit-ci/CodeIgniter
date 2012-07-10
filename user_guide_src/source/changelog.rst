@@ -137,6 +137,7 @@ Release Date: Not Released
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
    -  Added capability for packages to hold database.php config files 
+   -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
 
@@ -167,6 +168,7 @@ Release Date: Not Released
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
+	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.

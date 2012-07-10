@@ -170,6 +170,19 @@ function &DB($params = '', $query_builder_override = NULL)
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
+	// Check for a subdriver
+	if ( ! empty($DB->subdriver))
+	{
+		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
+
+		if (file_exists($driver_file))
+		{
+			require_once($driver_file);
+			$driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
+			$DB = new $driver($params);
+		}
+	}
+
 	if ($DB->autoinit === TRUE)
 	{
 		$DB->initialize();
