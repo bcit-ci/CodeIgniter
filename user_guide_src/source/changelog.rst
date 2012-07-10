@@ -48,7 +48,8 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
-   -  Updated email validation methods to use filter_var() instead of PCRE.
+   -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
+   -  Changed environment defaults to report all errors in 'development' and only fatal ones in 'testing' and 'production' but only display them in 'development'.
 
 -  Helpers
 
@@ -186,7 +187,6 @@ Release Date: Not Released
 
 -  Core
 
-   -  _exception_handler now respects php.ini's display_errors
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
@@ -203,6 +203,8 @@ Release Date: Not Released
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
+   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
+
 
 Bug fixes for 3.0
 ------------------
@@ -311,6 +313,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` didn't properly format *W3C* and *ATOM* standard dates.
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` method join() where literal values were escaped as if they were fields.
+-  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
 
 Version 2.1.2
 =============
