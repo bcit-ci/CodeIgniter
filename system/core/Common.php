@@ -172,7 +172,7 @@ if ( ! function_exists('load_class'))
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
-			// self-referencing loop with the Excptions class
+			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			exit('Unable to locate the specified class: '.$class.'.php');
 		}
