@@ -34,7 +34,6 @@
  */
 class CI_DB_pdo_forge extends CI_DB_forge {
 
-	protected $_drop_database	= 'DROP DATABASE %s';
 	protected $_drop_table		= 'DROP TABLE %s';
 
 	/**
@@ -78,7 +77,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 				if ( ! empty($attributes['CONSTRAINT']))
 				{
 					// Exception for Postgre numeric which not too happy with constraint within those type
-					if ( ! ($this->db->pdodriver === 'pgsql' && in_array($attributes['TYPE'], $numeric)))
+					if ( ! ($this->db->subdriver === 'pgsql' && in_array($attributes['TYPE'], $numeric)))
 					{
 						$sql .= '('.$attributes['CONSTRAINT'].')';
 					}
