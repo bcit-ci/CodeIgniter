@@ -45,7 +45,8 @@ abstract class CI_DB_driver {
 	public $password;
 	public $hostname;
 	public $database;
-	public $dbdriver		= 'mysql';
+	public $dbdriver		= 'mysqli';
+	public $subdriver;
 	public $dbprefix		= '';
 	public $char_set		= 'utf8';
 	public $dbcollat		= 'utf8_general_ci';
@@ -77,6 +78,19 @@ abstract class CI_DB_driver {
 	protected $_protect_identifiers		= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
+	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	protected $_count_string = 'SELECT COUNT(*) AS ';
+
+	/**
+	 * Constructor
+	 *
+	 * @param	array
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		if (is_array($params))
@@ -855,7 +869,7 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch MySQL Field Names
+	 * Fetch Field Names
 	 *
 	 * @param	string	the table name
 	 * @return	array
@@ -957,7 +971,7 @@ abstract class CI_DB_driver {
 	 */
 	public function escape_identifiers($item)
 	{
-		if ($this->_escape_char === '')
+		if ($this->_escape_char === '' OR empty($item))
 		{
 			return $item;
 		}
@@ -970,8 +984,8 @@ abstract class CI_DB_driver {
 
 			return $item;
 		}
-		// Avoid breaking functions inside queries
-		elseif (strpos($item, '(') !== FALSE)
+		// Avoid breaking functions and literal values inside queries
+		elseif (ctype_digit($item) OR $item[0] === "'" OR strpos($item, '(') !== FALSE)
 		{
 			return $item;
 		}
@@ -1030,6 +1044,23 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an update string
 	 *
 	 * @param	string	the table upon which the query will be performed
@@ -1077,6 +1108,41 @@ abstract class CI_DB_driver {
 		}
 
 		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $dest);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
+	 * @param	array	the like clause
+	 * @return	string
+	 */
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	{
+		foreach ($values as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.$where
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
+			.($limit ? ' LIMIT '.$limit : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -1170,7 +1236,6 @@ abstract class CI_DB_driver {
 	{
 		return $this->cache_on = FALSE;
 	}
-
 
 	// --------------------------------------------------------------------
 

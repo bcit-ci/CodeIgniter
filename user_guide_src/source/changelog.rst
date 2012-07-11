@@ -48,11 +48,16 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
-   -  Updated email validation methods to use filter_var() instead of PCRE.
+   -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
+   -  Changed environment defaults to report all errors in 'development' and only fatal ones in 'testing' and 'production' but only display them in 'development'.
 
 -  Helpers
 
-   -  :doc:`Date Helper <helpers/date_helper>` function now() now works with all timezone strings supported by PHP.
+   -  :doc:`Date Helper <helpers/date_helper>` changes include:
+	 - ``now()`` now works with all timezone strings supported by PHP.
+	 - Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
+	 - Added an optional parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
+	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://bg2.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
@@ -63,7 +68,6 @@ Release Date: Not Released
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
-   -  Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
@@ -72,7 +76,6 @@ Release Date: Not Released
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
-   -  Added an optional parameter to :doc:`Date Helper <helpers/date_helper>` function ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
 -  Database
@@ -93,7 +96,7 @@ Release Date: Not Released
 	 - Added support for backup() in :doc:`Database Utilities <database/utilities>`.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the "interbase" driver.
+   -  Added Interbase/Firebird database support via the 'ibase' driver.
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
@@ -126,7 +129,6 @@ Release Date: Not Released
 	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
 	 - Added support for list_databases() in :doc:`Database Utilities <database/utilities>`.
 	 - Generally improved for speed and cleaned up all of its components.
-	 - *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Improved support of the SQLite driver, including:
 	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
@@ -134,8 +136,12 @@ Release Date: Not Released
    -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
+   -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
+   -  Added capability for packages to hold database.php config files 
+   -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
+
    -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
@@ -163,6 +169,7 @@ Release Date: Not Released
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
+	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
@@ -176,7 +183,7 @@ Release Date: Not Released
 	 -  Added support for setting custom attributes.
 	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
-   -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc.rst>`.
+   -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
 
 -  Core
 
@@ -196,6 +203,8 @@ Release Date: Not Released
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
+   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
+
 
 Bug fixes for 3.0
 ------------------
@@ -303,6 +312,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 -  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` didn't properly format *W3C* and *ATOM* standard dates.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>` method join() where literal values were escaped as if they were fields.
+-  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
 
 Version 2.1.2
 =============

@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_postgre_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @pg_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @pg_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -156,11 +159,12 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return pg_fetch_object($this->result_id);
+		return pg_fetch_object($this->result_id, NULL, $class_name);
 	}
 
 }
