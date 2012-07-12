@@ -75,7 +75,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_cache_set				= array();
 
 	protected $qb_no_escape 			= array();
-	protected $qb_cache_no_escape			= array();
+	protected $qb_cache_no_escape		        = array();
+	
+	protected $qb_function 				= array();
 
 	/**
 	 * Select
@@ -88,6 +90,22 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function select($select = '*', $escape = NULL)
 	{
+		// is there a function? For ex. date_format('<date>', '<format>')
+		$pattern = '/[\w_]+\s*(\(.*?\))[\s\w]*/';
+
+		do 
+		{
+			preg_match($pattern, $select, $matches);
+			
+			if (count($matches) > 0) 
+			{
+				$this->qb_function[] = $matches[0];
+				
+				$select = str_replace($matches[0], '[function]', $select);
+			}
+			
+		} while(count($matches) > 0);
+	
 		if (is_string($select))
 		{
 			$select = explode(',', $select);
@@ -2048,6 +2066,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				foreach ($this->qb_select as $key => $val)
 				{
 					$no_escape = isset($this->qb_no_escape[$key]) ? $this->qb_no_escape[$key] : NULL;
+					
+						if ($this->qb_select[$key] == '[function]')
+						{
+							$this->qb_select[$key] = array_shift($this->qb_function);
+							continue;
+						}
+					
 					$this->qb_select[$key] = $this->protect_identifiers($val, FALSE, $no_escape);
 				}
 
