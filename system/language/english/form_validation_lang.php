@@ -51,6 +51,5 @@ $lang['less_than_equal_to']		= "The %s field must contain a number less than or 
 $lang['greater_than']			= "The %s field must contain a number greater than %s.";
 $lang['greater_than_equal_to']	= "The %s field must contain a number greater than or equal to %s.";
 
-
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/english/form_validation_lang.php */
