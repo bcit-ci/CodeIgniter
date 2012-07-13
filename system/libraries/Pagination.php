@@ -231,7 +231,7 @@ class CI_Pagination {
 		if ($this->reuse_query_string === TRUE)
 		{
 			$get = $CI->input->get();
-			
+
 			// Unset the controll, method, old-school routing options
 			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
 
@@ -248,9 +248,9 @@ class CI_Pagination {
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
 			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
-			
+
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
-				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
 			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
 				.$this->first_link.'</a>'.$this->first_tag_close;
