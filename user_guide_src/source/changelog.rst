@@ -314,6 +314,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` didn't properly format *W3C* and *ATOM* standard dates.
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` method join() where literal values were escaped as if they were fields.
 -  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
+-  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
 
 Version 2.1.2
 =============
