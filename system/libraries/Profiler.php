@@ -240,12 +240,44 @@ class CI_Profiler {
 			if (count($db->queries) === 0)
 			{
 				$output .= '<tr><td style="width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px;">'
-						.$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
+					.$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
 			}
 			else
 			{
 				foreach ($db->queries as $key => $val)
 				{
+					$explain_table = '';
+					$show_hide_explain_js = '';
+					// perform EXPLAIN only for SELECT statements
+					if (stripos($val, 'SELECT') !== FALSE)
+					{
+						// retrieve information from EXPLAIN statement
+						$show_hide_explain_js = '<br/><span style="cursor: pointer; font-size: 11px;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'_exp_'.$key.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\'('.$this->CI->lang->line('profiler_explain_show').')\'?\'('.$this->CI->lang->line('profiler_explain_hide').')\':\'('.$this->CI->lang->line('profiler_explain_show').')\';">('.$this->CI->lang->line('profiler_explain_show').')</span>';
+						$explain_table .= '<table style="border:1px solid #000; width:100%;">';
+						$exp_results = $db->query('EXPLAIN ' . $val);
+						foreach ($exp_results->result_array() as $exp_result)
+						{
+							foreach($exp_result as $exp_key => $exp_value)
+							{
+								// skip the id property
+								if ($exp_key == 'id')
+								{
+									continue;
+								}
+
+								// add a table row only if the property has some value
+								if (isset($exp_value) && $exp_value !== '')
+								{
+									$explain_table .= '<tr><td style="color:#900; padding: 5px; vertical-align: top; width: 1%; font-weight: normal; background-color:#ddd;">'
+										.$exp_key.'</td><td style="padding: 5px; vertical-align: top;width: 99%; font-weight: normal; background-color:#ddd;">'
+										.$exp_value."</td></tr>\n";
+								}
+							}
+						}
+						$explain_table .= '</table>';
+						// nest the explain table in the main query table
+						$explain_table = '<tr style="display:none;" id="ci_profiler_queries_db_'.$count.'_exp_'.$key.'"><td>&nbsp;</td><td>'.$explain_table.'</td></tr>';
+					}
 					$time = number_format($db->query_times[$key], 4);
 					$val = highlight_code($val, ENT_QUOTES);
 
@@ -255,8 +287,9 @@ class CI_Profiler {
 					}
 
 					$output .= '<tr><td style="padding:5px;vertical-align:top;width:1%;color:#900;font-weight:normal;background-color:#ddd;">'
-							.$time.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;font-weight:normal;background-color:#ddd;">'
-							.$val."</td></tr>\n";
+						.$time.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;font-weight:normal;background-color:#ddd;">'
+						.$val.$show_hide_explain_js.'</td></tr>'
+						.$explain_table."\n";
 				}
 			}
 

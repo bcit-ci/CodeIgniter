@@ -203,7 +203,7 @@ class CI_Pagination {
 
 		if ( ! $this->use_page_numbers)
 		{
-			$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
+			$this->cur_page = (int) floor(($this->cur_page/$this->per_page) + 1);
 		}
 
 		// Calculate the start and end numbers. These determine
