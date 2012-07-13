@@ -237,9 +237,9 @@ class CI_Loader {
 	{
 		if (is_array($model))
 		{
-			foreach ($model as $single_model)
+			foreach ($model as $class)
 			{
-				$this->model($single_model);
+				$this->model($class);
 			}
 			return;
 		}
