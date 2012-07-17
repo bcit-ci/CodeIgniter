@@ -692,7 +692,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Like
 	 *
-	 * Called by like() or orlike()
+	 * Called by like() or or_like()
 	 *
 	 * @param	mixed
 	 * @param	mixed
@@ -708,8 +708,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($field as $k => $v)
 		{
-			$k = $this->protect_identifiers($k);
-			$prefix = (count($this->qb_like) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+				? $this->_group_get_type('') : $this->_group_get_type($type);
 			$v = $this->escape_like_str($v);
 
 			if ($side === 'none')
@@ -735,13 +735,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$like_statement = $like_statement.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			}
 
-			$this->qb_like[] = $like_statement;
+			$this->qb_where[] = array('condition' => $like_statement, 'escape' => $this->_protect_identifiers);
 			if ($this->qb_caching === TRUE)
 			{
-				$this->qb_cache_like[] = $like_statement;
-				$this->qb_cache_exists[] = 'like';
+				$this->qb_cache_where[] = $like_statement;
+				$this->qb_cache_exists[] = 'where';
 			}
-
 		}
 
 		return $this;
@@ -2132,13 +2131,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		else
 		{
 			$sql = '';
-		}
-
-		// LIKE
-		if (count($this->qb_like) > 0)
-		{
-			$sql .= ($sql === '') ? "\nWHERE " : "\nAND ";
-			$sql .= implode("\n", $this->qb_like);
 		}
 
 		// GROUP BY
