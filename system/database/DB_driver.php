@@ -1168,8 +1168,21 @@ abstract class CI_DB_driver {
 	 */
 	protected function _get_operator($str)
 	{
-		return preg_match('/(=|!|<|>| IS NULL| IS NOT NULL| BETWEEN)/i', $str, $match)
-			? $match[1] : FALSE;
+		static $_operators = array(
+			'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
+			'\s*<>?\s*',			// <, <>
+			'\s*>\s*',			// >
+			'\s+IS NULL',			// IS NULL
+			'\s+IS NOT NULL',		// IS NOT NULL
+			'\s+LIKE\s+',			// LIKE
+			'\s+NOT LIKE\s+',		// NOT LIKE
+			'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
+			'\s+IN\s*\([^\)]+\)',		// IN(list)
+			'\s+NOT IN\s*\([^\)]+\)'	// NOT IN (list)
+		);
+
+		return preg_match('/'.implode('|', $_operators).'/i', $str, $match)
+			? $match[0] : FALSE;
 	}
 
 	// --------------------------------------------------------------------

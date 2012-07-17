@@ -467,13 +467,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
-			if ($escape === TRUE)
-			{
-				$k = (($op = $this->_get_operator($k)) !== FALSE)
-					? $this->escape_identifiers(trim(substr($k, 0, strpos($k, $op)))).' '.strstr($k, $op)
-					: $this->escape_identifiers(trim($k));
-			}
-
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
 				// value appears not to have been set, assign the test to IS NULL
@@ -493,10 +486,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				}
 			}
 
-			$this->qb_where[] = $prefix.$k.$v;
+			$this->qb_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
 			{
-				$this->qb_cache_where[] = $prefix.$k.$v;
+				// check this shit
+				$this->qb_cache_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 				$this->qb_cache_exists[] = 'where';
 			}
 
@@ -607,14 +601,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_wherein[] = $this->escape($value);
 		}
 
-		if ($escape === TRUE)
-		{
-			$key = $this->escape_identifiers(trim($key));
-		}
-
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
-		$this->qb_where[] = $where_in = $prefix.$key.$not.' IN ('.implode(', ', $this->qb_wherein).') ';
+		$where_in = array(
+			'condition' => $prefix.$key.$not.' IN('.implode(', ', $this->qb_wherein).')',
+			'escape' => $escape
+		);
 
+		$this->qb_where[] = $where_in;
 		if ($this->qb_caching === TRUE)
 		{
 			$this->qb_cache_where[] = $where_in;
@@ -769,11 +762,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$this->qb_where_group_started = TRUE;
 		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
-		$this->qb_where[] = $value = $prefix.$not.str_repeat(' ', ++$this->qb_where_group_count).' (';
+		$where = array(
+			'condition' => $prefix.$not.str_repeat(' ', ++$this->qb_where_group_count).' (',
+			'escape' => FALSE
+		);
 
+		$this->qb_where[] = $where;
 		if ($this->qb_caching)
 		{
-			$this->qb_cache_where[] = $value;
+			$this->qb_cache_where[] = $where;
 		}
 
 		return $this;
@@ -825,11 +822,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	public function group_end()
 	{
 		$this->qb_where_group_started = FALSE;
-		$this->qb_where[] = $value = str_repeat(' ', $this->qb_where_group_count--) . ')';
+		$where = array(
+			'condition' => str_repeat(' ', $this->qb_where_group_count--).')',
+			'escape' => FALSE
+		);
 
+		$this->qb_where[] = $where;
 		if ($this->qb_caching)
 		{
-			$this->qb_cache_where[] = $value;
+			$this->qb_cache_where[] = $where;
 		}
 
 		return $this;
@@ -2067,47 +2068,95 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$sql .= "\n".implode("\n", $this->qb_join);
 		}
 
-		// Write the "WHERE" portion of the query
-		if (count($this->qb_where) > 0 OR count($this->qb_like) > 0)
-		{
-			$sql .= "\nWHERE ";
-		}
-
-		$sql .= implode("\n", $this->qb_where);
-
-		// Write the "LIKE" portion of the query
-		if (count($this->qb_like) > 0)
-		{
-			if (count($this->qb_where) > 0)
-			{
-				$sql .= "\nAND ";
-			}
-
-			$sql .= implode("\n", $this->qb_like);
-		}
-
-		// Write the "GROUP BY" portion of the query
-		if (count($this->qb_groupby) > 0)
-		{
-			$sql .= "\nGROUP BY ".implode(', ', $this->qb_groupby);
-		}
-
-		// Write the "HAVING" portion of the query
-		if (count($this->qb_having) > 0)
-		{
-			$sql .= "\nHAVING ".implode("\n", $this->qb_having);
-		}
-
-		// Write the "ORDER BY" portion of the query
-		if (count($this->qb_orderby) > 0)
-		{
-			$sql .= "\nORDER BY ".implode(', ', $this->qb_orderby);
-		}
+		$sql .= $this->_compile_conditions();
 
 		// Write the "LIMIT" portion of the query
 		if (is_numeric($this->qb_limit))
 		{
 			return $this->_limit($sql."\n", $this->qb_limit, $this->qb_offset);
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Compile WHERE statement
+	 *
+	 * Escapes identifiers in WHERE, LIKE, HAVING, GROUP BY, ORDER BY
+	 * statements at execution time. Required so that aliases are tracked
+	 * properly, regardless of wether e.g. where() is called prior to
+	 * join() and dbprefix is added only if needed.
+	 *
+	 * @return	string
+	 */
+	protected function _compile_conditions()
+	{
+		// WHERE
+		if (count($this->qb_where) > 0)
+		{
+			$sql = "\nWHERE ";
+
+			for ($i = 0, $c = count($this->qb_where); $i < $c; $i++)
+			{
+				if ($this->qb_where[$i]['escape'] === FALSE)
+				{
+					$this->qb_where[$i] = $this->qb_where[$i]['condition'];
+					continue;
+				}
+
+				$op = preg_quote($this->_get_operator($this->qb_where[$i]['condition']));
+				if ( ! preg_match('/^(\s*(?:AND|OR)\s+)?(\(?)(.*)('.$op.')(.*(?<!\)))?(\)?)$/i', $this->qb_where[$i]['condition'], $matches))
+				{
+					$this->qb_where[$i] = $this->qb_where[$i]['condition'];
+					continue;
+				}
+
+				// $matches = array(
+				//	0 => 'OR (test <= foo)',	/* the whole thing */
+				//	1 => 'OR ',			/* optional */
+				//	2 => '(',			/* optional */
+				//	3 => 'test',			/* the field name */
+				//	4 => ' <= ',			/* $op */
+				//	5 => 'foo',			/* optional, if $op is e.g. 'IS NULL' */
+				//	6 => ')'			/* optional */
+				// );
+				empty($matches[5]) OR $matches[5] = ' '.$this->protect_identifiers(trim($matches[5]));
+				$this->qb_where[$i] = $matches[1].$matches[2].$this->protect_identifiers(trim($matches[3]))
+						.' '.trim($matches[4]).$matches[5].$matches[6];
+			}
+
+			$sql .= implode("\n", $this->qb_where);
+		}
+		else
+		{
+			$sql = '';
+		}
+
+		// LIKE
+		if (count($this->qb_like) > 0)
+		{
+			$sql .= ($sql === '') ? "\nWHERE " : "\nAND ";
+			$sql .= implode("\n", $this->qb_like);
+		}
+
+		// GROUP BY
+		if (count($this->qb_groupby) > 0)
+		{
+			$sql .= "\nGROUP BY ".implode(', ', $this->qb_groupby);
+		}
+
+		// HAVING
+		if (count($this->qb_having) > 0)
+		{
+			$sql .= "\nHAVING ".implode("\n", $this->qb_having);
+		}
+
+		// ORDER BY
+		if (count($this->qb_orderby) > 0)
+		{
+			$sql .= "\nORDER BY ".implode(', ', $this->qb_orderby);
 		}
 
 		return $sql;
