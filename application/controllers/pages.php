@@ -40,11 +40,13 @@ class Pages extends CI_Controller {
 	 * map to /index.php/pages/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function welcome()
+	public function view($page = 'welcome')
 	{
-		$this->load->view('static/pages/welcome');
+
+		$this->load->view('pages/'.$page);
+
 	}
 }
 
 /* End of file pages.php */
-/* Location: ./application/controllers/static/pages.php */
+/* Location: ./application/controllers/pages.php */
