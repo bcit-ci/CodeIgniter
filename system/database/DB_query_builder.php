@@ -1255,7 +1255,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if ( ! is_null($set))
 		{
-			$this->set_insert_batch($set);
+			if (count($set) == 0) {
+				$this->set_insert_batch($set);
+			}
+			else {
+				return FALSE;
+			}
 		}
 
 		if (count($this->qb_set) === 0)
