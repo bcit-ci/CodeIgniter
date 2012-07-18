@@ -475,27 +475,13 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -507,10 +493,10 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
+	 * @param	string	the where key
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
 		foreach ($values as $key => $val)
@@ -534,9 +520,9 @@ class CI_DB_postgre_driver extends CI_DB {
 				.'ELSE '.$k.' END), ';
 		}
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN('.implode(',', $ids).')';
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
+
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_where();
 	}
 
 	// --------------------------------------------------------------------
@@ -547,19 +533,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -584,12 +563,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Where
 	 *
-	 * Called by where() or or_where()
+	 * Called by where(), or_where()
 	 *
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
-	 * @param	mixed
+	 * @param	bool
 	 * @return	object
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
@@ -608,13 +587,6 @@ class CI_DB_postgre_driver extends CI_DB {
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
-			if ($escape === TRUE)
-			{
-				$k = (($op = $this->_get_operator($k)) !== FALSE)
-					? $this->escape_identifiers(trim(substr($k, 0, strpos($k, $op)))).' '.strstr($k, $op)
-					: $this->escape_identifiers(trim($k));
-			}
-
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
 				// value appears not to have been set, assign the test to IS NULL
@@ -623,13 +595,13 @@ class CI_DB_postgre_driver extends CI_DB {
 
 			if ( ! is_null($v))
 			{
-				if ($escape === TRUE)
+				if (is_bool($v))
 				{
-					$v = ' '.$this->escape($v);
+					$v = ' '.($v ? 'TRUE' : 'FALSE');
 				}
-				elseif (is_bool($v))
+				elseif ($escape === TRUE)
 				{
-					$v = ($v ? ' TRUE' : ' FALSE');
+					$v = ' '.(is_int($v) ? $v : $this->escape($v));
 				}
 
 				if ( ! $this->_has_operator($k))
@@ -638,10 +610,11 @@ class CI_DB_postgre_driver extends CI_DB {
 				}
 			}
 
-			$this->qb_where[] = $prefix.$k.$v;
+			$this->qb_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
 			{
-				$this->qb_cache_where[] = $prefix.$k.$v;
+				// check this shit
+				$this->qb_cache_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 				$this->qb_cache_exists[] = 'where';
 			}
 

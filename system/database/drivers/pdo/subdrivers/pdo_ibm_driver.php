@@ -187,27 +187,13 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
 	 * @return	string
          */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -218,21 +204,12 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
-
-		return 'DELETE FROM '.$table.$conditions;
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
