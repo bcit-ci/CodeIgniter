@@ -211,7 +211,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 
 		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_where();
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------
@@ -250,18 +250,21 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Where
+	 * WHERE, HAVING
 	 *
-	 * Called by where(), or_where()
+	 * Called by where(), or_where(), having(), or_having()
 	 *
+	 * @param	string	'qb_where' or 'qb_having'
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
 	 * @return	object
 	 */
-	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
+	protected function _wh($qb_key, $key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
+		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
+
 		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
@@ -272,7 +275,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+			$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
@@ -299,12 +302,11 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 				}
 			}
 
-			$this->qb_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
+			$this->{$qb_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
 			{
-				// check this shit
-				$this->qb_cache_where[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
-				$this->qb_cache_exists[] = 'where';
+				$this->{$qb_cache_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
+				$this->qb_cache_exists[] = substr($qb_key, 3);
 			}
 
 		}

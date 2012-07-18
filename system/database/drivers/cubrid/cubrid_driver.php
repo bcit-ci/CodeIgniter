@@ -425,7 +425,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_where();
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------

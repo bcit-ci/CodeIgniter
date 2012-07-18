@@ -429,7 +429,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	{
 		if ($this->qb_limit)
 		{
-			return 'WITH ci_delete AS (SELECT TOP '.(int) $this->qb_limit.' * FROM '.$table.$this->_compile_where().') DELETE FROM ci_delete';
+			return 'WITH ci_delete AS (SELECT TOP '.(int) $this->qb_limit.' * FROM '.$table.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
 		}
 
 		return parent::_delete($table);
