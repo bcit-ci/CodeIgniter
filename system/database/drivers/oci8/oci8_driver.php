@@ -611,20 +611,17 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
+		if ($this->qb_limit)
+		{
+			$this->where('rownum <= ', (int) $this->qb_limit, FALSE);
+			$this->qb_limit = FALSE;
+		}
 
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-		empty($limit) OR $conditions[] = 'rownum <= '.$limit;
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------

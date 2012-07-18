@@ -412,10 +412,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
+	 * @param	string	the where key
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
 		foreach ($values as $key => $val)
@@ -439,11 +439,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 				.'ELSE '.$k.' END, ';
 		}
 
-		$where = ($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '';
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN('.implode(',', $ids).')';
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_where();
 	}
 
 	// --------------------------------------------------------------------
