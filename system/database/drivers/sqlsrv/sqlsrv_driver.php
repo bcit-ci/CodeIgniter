@@ -454,13 +454,13 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// An ORDER BY clause is required for ROW_NUMBER() to work
 		if ($this->qb_offset && ! empty($this->qb_orderby))
 		{
-			$orderby = trim($this->_compile_order_by());
+			$orderby = $this->_compile_order_by();
 
 			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
+			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
-				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
+				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.trim($orderby).') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
 				."\n) ".$this->escape_identifiers('CI_subquery')
 				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.($this->qb_offset + 1).' AND '.$limit;
 		}

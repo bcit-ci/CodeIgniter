@@ -948,54 +948,50 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Sets the ORDER BY value
 	 *
 	 * @param	string
-	 * @param	string	direction: asc or desc
+	 * @param	string	direction: ASC or DESC
 	 * @param	bool	enable field name escaping
 	 * @return	object
 	 */
 	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
-		if (strtolower($direction) === 'random')
+		$direction = trim($direction);
+
+		if (strtolower($direction) === 'random' OR $orderby === $this->_random_keyword)
 		{
-			$orderby = ''; // Random results want or don't need a field name
-			$direction = $this->_random_keyword;
+			// Random ordered results don't need a field name
+			$orderby = $this->_random_keyword;
+			$direction = '';
 		}
-		elseif (trim($direction) !== '')
+		elseif (empty($orderby))
 		{
-			$direction = in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE) ? ' '.$direction : ' ASC';
+			return $this;
+		}
+		elseif ($direction !== '')
+		{
+			$direction = in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE) ? ' '.$direction : '';
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		if ($escape === TRUE && strpos($orderby, ',') !== FALSE)
+		if ($escape === FALSE)
 		{
-			$temp = array();
-			foreach (explode(',', $orderby) as $part)
+			$qb_orderby[] = array(array('field' => $orderby, 'direction' => $direction, $escape => FALSE));
+		}
+		else
+		{
+			$qb_orderby = array();
+			foreach (explode(',', $orderby) as $field)
 			{
-				$part = trim($part);
-				if ( ! in_array($part, $this->qb_aliased_tables))
-				{
-					$part = preg_match('/^(.+)\s+(ASC|DESC)$/i', $part, $matches)
-						? $this->protect_identifiers(rtrim($matches[1])).' '.$matches[2]
-						: $this->protect_identifiers($part);
-				}
-
-				$temp[] = $part;
+				$qb_orderby[] = ($direction === '' && preg_match('/\s+(ASC|DESC)$/i', rtrim($field), $match, PREG_OFFSET_CAPTURE))
+					? array('field' => ltrim(substr($field, 0, $match[0][1])), 'direction' => ' '.$match[1][0], 'escape' => TRUE)
+					: array('field' => trim($field), 'direction' => $direction, 'escape' => TRUE);
 			}
-
-			$orderby = implode(', ', $temp);
-		}
-		elseif ($direction !== $this->_random_keyword && $escape === TRUE)
-		{
-			$orderby = preg_match('/^(.+)\s+(ASC|DESC)$/i', $orderby, $matches)
-				? $this->protect_identifiers(rtrim($matches[1])).' '.$matches[2]
-				: $this->protect_identifiers($orderby);
 		}
 
-		$this->qb_orderby[] = $orderby_statement = $orderby.$direction;
-
+		$this->qb_orderby = array_merge($this->qb_orderby, $qb_orderby);
 		if ($this->qb_caching === TRUE)
 		{
-			$this->qb_cache_orderby[] = $orderby_statement;
+			$this->qb_cache_orderby = array_merge($this->qb_cache_orderby, $qb_orderby);
 			$this->qb_cache_exists[] = 'orderby';
 		}
 
@@ -2023,20 +2019,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$sql .= "\n".implode("\n", $this->qb_join);
 		}
 
-		// WHERE
-		$sql .= $this->_compile_wh('qb_where');
-
-		// GROUP BY
-		$sql .= $this->_compile_group_by();
-
-		// HAVING
-		$sql .= $this->_compile_wh('qb_having');
-
-		// ORDER BY
-		if (count($this->qb_orderby) > 0)
-		{
-			$sql .= "\nORDER BY ".implode(', ', $this->qb_orderby);
-		}
+		$sql .= $this->_compile_wh('qb_where')
+			.$this->_compile_group_by()
+			.$this->_compile_wh('qb_having')
+			.$this->_compile_order_by(); // ORDER BY
 
 		// LIMIT
 		if ($this->qb_limit)
@@ -2129,6 +2115,41 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 
 			$sql .= implode(', ', $this->qb_groupby);
+		}
+
+		return '';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Compile ORDER BY
+	 *
+	 * Escapes identifiers in ORDER BY statements at execution time.
+	 *
+	 * Required so that aliases are tracked properly, regardless of wether
+	 * order_by() is called prior to from(), join() and dbprefix is added
+	 * only if needed.
+	 *
+	 * @return	string	SQL statement
+	 */
+	protected function _compile_order_by()
+	{
+		if (count($this->qb_orderby) > 0)
+		{
+			$sql = "\nORDER BY ";
+
+			for ($i = 0, $c = count($this->qb_orderby); $i < $c; $i++)
+			{
+				if ($this->qb_orderby[$i]['escape'] !== FALSE)
+				{
+					$this->qb_orderby[$i]['field'] = $this->protect_identifiers($field);
+				}
+
+				$this->qb_orderby[$i] = $this->qb_orderby[$i]['field'].$this->qb_orderby[$i]['direction'];
+			}
+
+			$sql .= implode(', ', $this->qb_orderby);
 		}
 
 		return '';
