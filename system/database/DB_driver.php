@@ -1157,29 +1157,28 @@ abstract class CI_DB_driver {
 	 */
 	protected function _get_operator($str)
 	{
-		static $_operators = array(
-			'\s*(?:<|>|!)?=\s*',				// =, <=, >=, !=
-			'\s*<>?\s*',					// <, <>
-			'\s*>\s*',					// >
-			'\s+IS NULL',					// IS NULL
-			'\s+IS NOT NULL',				// IS NOT NULL
-			'\s+BETWEEN\s+\S+\s+AND\s+\S+',			// BETWEEN value AND value
-			'\s+IN\s*\([^\)]+\)',				// IN(list)
-			'\s+NOT IN\s*\([^\)]+\)'			// NOT IN (list)
-		);
+		static $_operators;
 
-		static $_like = array(
-			'\s+LIKE\s+\S+',	// LIKE 'expr'
-			'\s+NOT LIKE\s+\S+',	// NOT LIKE 'expr'
-		);
-
-		if ($this->_like_escape_str !== '')
+		if (empty($_operators))
 		{
-			$_like[0] .= preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)));
-			$_like[1] .= preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)));
-		}
+			$_les = ($this->_like_escape_str !== '')
+				? preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)))
+				: '';
 
-		$_operators = array_merge($_operators, $_like);
+			$_operators = array(
+				'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
+				'\s*<>?\s*',			// <, <>
+				'\s*>\s*',			// >
+				'\s+IS NULL',			// IS NULL
+				'\s+IS NOT NULL',		// IS NOT NULL
+				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
+				'\s+IN\s*\([^\)]+\)',		// IN(list)
+				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
+				'\s+LIKE\s+\S+'.$_les,		// LIKE 'expr'[ ESCAPE '%s']
+				'\s+NOT LIKE\s+\S+'.$_les	// NOT LIKE 'expr'[ ESCAPE '%s']
+			);
+
+		}
 
 		return preg_match('/'.implode('|', $_operators).'/i', $str, $match)
 			? $match[0] : FALSE;
