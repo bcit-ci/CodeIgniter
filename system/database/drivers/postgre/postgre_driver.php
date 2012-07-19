@@ -549,13 +549,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		return $sql.' LIMIT '.$limit.($offset ? ' OFFSET '.$offset : '');
+		return $sql.' LIMIT '.$this->qb_limit.($this->qb_offset ? ' OFFSET '.$this->qb_offset : '');
 	}
 
 	// --------------------------------------------------------------------

@@ -617,7 +617,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		if ($this->qb_limit)
 		{
-			$this->where('rownum <= ', (int) $this->qb_limit, FALSE);
+			$this->where('rownum <= ',$this->qb_limit, FALSE);
 			$this->qb_limit = FALSE;
 		}
 
@@ -632,15 +632,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
 		$this->limit_used = TRUE;
-		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit + 1).')'
-			.($offset ? ' WHERE rnum >= '.($offset + 1): '');
+		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($this->qb_offset + $this->qb_limit + 1).')'
+			.($this->qb_offset ? ' WHERE rnum >= '.($this->qb_offset + 1): '');
 	}
 
 	// --------------------------------------------------------------------

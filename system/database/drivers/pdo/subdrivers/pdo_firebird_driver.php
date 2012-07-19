@@ -211,22 +211,20 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
 		// Limit clause depends on if Interbase or Firebird
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$select = 'FIRST '. (int) $limit
-				.($offset > 0 ? ' SKIP '. (int) $offset : '');
+			$select = 'FIRST '.$this->qb_limit
+				.($this->qb_offset > 0 ? ' SKIP '.$this->qb_offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($this->qb_offset > 0 ? $this->qb_offset.' TO '.($this->qb_limit + $this->qb_offset) : $this->qb_limit);
 		}
 
 		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);

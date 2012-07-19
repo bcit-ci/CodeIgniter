@@ -1130,7 +1130,7 @@ abstract class CI_DB_driver {
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
 			.$this->_compile_where()
 			.(empty($this->qb_orderby) ? '' : ' ORDER BY '.implode(', ', $this->qb_orderby))
-			.($this->qb_limit ? ' LIMIT '.(int) $this->qb_limit : '');
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
 	// --------------------------------------------------------------------

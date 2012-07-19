@@ -874,14 +874,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * GROUP BY
 	 *
 	 * @param	string
+	 * @param	bool
 	 * @return	object
 	 */
-	public function group_by($by)
+	public function group_by($by, $escape = NULL)
 	{
 		if (is_string($by))
 		{
 			$by = explode(',', $by);
 		}
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($by as $val)
 		{
@@ -1005,7 +1008,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	int	the offset value
 	 * @return	object
 	 */
-	public function limit($value, $offset = NULL)
+	public function limit($value, $offset = FALSE)
 	{
 		is_null($value) OR $this->qb_limit = (int) $value;
 		empty($offset) OR $this->qb_offset = (int) $offset;
@@ -1035,13 +1038,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		return $sql.' LIMIT '.($offset ? $offset.', ' : '').$limit;
+		return $sql.' LIMIT '.($this->qb_offset ? $this->qb_offset.', ' : '').$this->qb_limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -1881,7 +1882,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected function _delete($table)
 	{
 		return 'DELETE FROM '.$table.$this->_compile_wh('qb_where')
-			.($this->qb_limit ? ' LIMIT '.(int) $this->qb_limit : '');
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -2023,10 +2024,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$sql .= $this->_compile_wh('qb_where');
 
 		// GROUP BY
-		if (count($this->qb_groupby) > 0)
-		{
-			$sql .= "\nGROUP BY ".implode(', ', $this->qb_groupby);
-		}
+		$sql .= $this->_compile_group_by();
 
 		// HAVING
 		$sql .= $this->_compile_wh('qb_having');
@@ -2038,9 +2036,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// LIMIT
-		if (is_numeric($this->qb_limit))
+		if ($this->qb_limit)
 		{
-			return $this->_limit($sql."\n", $this->qb_limit, $this->qb_offset);
+			return $this->_limit($sql."\n");
 		}
 
 		return $sql;
@@ -2096,6 +2094,31 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 
 			return implode("\n", $this->$qb_key);
+		}
+
+		return '';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Compile GROUP BY
+	 *
+	 * Escapes identifiers in GROUP BY statements at execution time.
+	 *
+	 * Required so that aliases are tracked properly, regardless of wether
+	 * group_by() is called prior to from(), join() and dbprefix is added
+	 * only if needed.
+	 *
+	 * @return	string	SQL statement
+	 */
+	protected function _compile_group_by()
+	{
+		if (count($this->qb_groupby) > 0)
+		{
+			$sql = "\nGROUP BY ";
+
+			$sql .= implode(', ', $this->qb_groupby);
 		}
 
 		return '';

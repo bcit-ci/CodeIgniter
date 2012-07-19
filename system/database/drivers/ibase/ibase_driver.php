@@ -285,7 +285,10 @@ class CI_DB_ibase_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return $this->_limit('SELECT * FROM '.$this->protect_identifiers($table), 1, NULL);
+		$this->qb_limit = 1;
+		$sql = $this->_limit('SELECT * FROM '.$this->protect_identifiers($table));
+		$this->qb_limit = 0;
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -378,22 +381,20 @@ class CI_DB_ibase_driver extends CI_DB {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
 		// Limit clause depends on if Interbase or Firebird
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$select = 'FIRST '. (int) $limit
-				.($offset ? ' SKIP '. (int) $offset : '');
+			$select = 'FIRST '.$this->qb_limit
+				.($this->qb_offset ? ' SKIP '.$this->qb_offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($this->qb_offset ? $this->qb_offset.' TO '.($this->qb_limit + $this->qb_offset) : $this->qb_limit);
 		}
 
 		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
