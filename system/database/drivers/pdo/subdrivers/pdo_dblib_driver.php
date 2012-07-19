@@ -198,7 +198,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	{
 		if ($this->qb_limit)
 		{
-			return 'WITH ci_delete AS (SELECT TOP '.(int) $this->qb_limit.' * FROM '.$table.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
+			return 'WITH ci_delete AS (SELECT TOP '.$this->qb_limit.' * FROM '.$table.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
 		}
 
 		return parent::_delete($table);
@@ -212,19 +212,17 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		$limit = $offset + $limit;
+		$limit = $this->qb_offset + $this->qb_limit;
 
 		// As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
 		// however an ORDER BY clause is required for it to work
-		if (version_compare($this->version(), '9', '>=') && $offset && ! empty($this->qb_orderby))
+		if (version_compare($this->version(), '9', '>=') && $this->qb_offset && ! empty($this->qb_orderby))
 		{
-			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
+			$orderby = trim($this->_compile_order_by());
 
 			// We have to strip the ORDER BY clause
 			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
@@ -232,7 +230,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
 				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
 				."\n) ".$this->escape_identifiers('CI_subquery')
-				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.((int) $offset + 1).' AND '.$limit;
+				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.($this->qb_offset + 1).' AND '.$limit;
 		}
 
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);

@@ -232,13 +232,11 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific LIMIT clause
 	 *
 	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		$select = 'SELECT '.($offset ? 'SKIP '.$offset : '').'FIRST '.$limit.' ';
+		$select = 'SELECT '.($this->qb_offset ? 'SKIP '.$this->qb_offset : '').'FIRST '.$this->qb_limit.' ';
 		return preg_replace('/^(SELECT\s)/i', $select, $sql, 1);
 	}
 
