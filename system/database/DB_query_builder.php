@@ -54,7 +54,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_offset			= FALSE;
 	protected $qb_orderby			= array();
 	protected $qb_set			= array();
-	protected $qb_wherein			= array();
 	protected $qb_aliased_tables		= array();
 	protected $qb_store_array		= array();
 	protected $qb_where_group_started	= FALSE;
@@ -597,14 +596,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$not = ($not) ? ' NOT' : '';
 
+		$where_in = array();
 		foreach ($values as $value)
 		{
-			$this->qb_wherein[] = $this->escape($value);
+			$wherein[] = $this->escape($value);
 		}
 
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
 		$where_in = array(
-			'condition' => $prefix.$key.$not.' IN('.implode(', ', $this->qb_wherein).')',
+			'condition' => $prefix.$key.$not.' IN('.implode(', ', $where_in).')',
 			'escape' => $escape
 		);
 
@@ -615,8 +615,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_cache_exists[] = 'where';
 		}
 
-		// reset the array for multiple calls
-		$this->qb_wherein = array();
 		return $this;
 	}
 
@@ -1856,7 +1854,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		if (count($this->qb_where) === 0 && count($this->qb_wherein) === 0)
+		if (count($this->qb_where) === 0)
 		{
 			return ($this->db_debug) ? $this->display_error('db_del_must_use_where') : FALSE;
 		}
@@ -2315,7 +2313,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					'qb_groupby'		=> array(),
 					'qb_having'		=> array(),
 					'qb_orderby'		=> array(),
-					'qb_wherein'		=> array(),
 					'qb_aliased_tables'	=> array(),
 					'qb_no_escape'		=> array(),
 					'qb_distinct'		=> FALSE,
