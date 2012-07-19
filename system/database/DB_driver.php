@@ -1118,6 +1118,7 @@ abstract class CI_DB_driver {
 	 * Generates a platform-specific update string from the supplied data
 	 *
 	 * @param	string	the table name
+	 * @param	array	the update data
 	 * @return	string
 	 */
 	protected function _update($table, $values)
