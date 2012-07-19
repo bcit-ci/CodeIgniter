@@ -212,6 +212,13 @@ class CI_Session {
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE)
 		{
+		    // Are we using multi-sessions? If so, grab a lock on the session
+		    if ($this->sess_use_multisessions)
+            {
+                // Load the php session based on the current session id.
+                $this->_get_multi_session($session['session_id']);
+            }
+            
 			$this->CI->db->where('session_id', $session['session_id']);
 
 			if ($this->sess_match_ip == TRUE)
@@ -230,6 +237,13 @@ class CI_Session {
 			if ($query->num_rows() === 0)
 			{
 				$this->sess_destroy();
+                
+                //Kill the multi-session we started
+                if ($this->sess_use_multisessions)
+                {
+                    session_destroy();
+                }
+                
 				return FALSE;
 			}
 
@@ -248,21 +262,16 @@ class CI_Session {
 				}
 			}
 			
-			/* Are we in a multi-session scenario? If so, set whether the current
-			 * session id is allowed to be updated.
-			 */
+			// Are we in a multi-session scenario? If so, set whether the current
+			// session id is allowed to be updated.
 			 if ($this->sess_use_multisessions)
 			 {
-			 	// Load the php session based on the current session id.
-				$this->_get_multi_session($session['session_id']);
-
-			 	$this->prevent_update = isset($_SESSION['prevent_update'])?$_SESSION['prevent_update']:0;
-				
-				/* Check to see if this session doesn't exist (previously destroyed) 
-				 * or if this session is no longer allowed to update and has exired.
-				 *  If so, kill it.
-				 */
-				if (!isset($_SESSION['prevent_update']) || ($this->prevent_update && ($session['last_activity'] + $this->sess_expiration + $this->sess_multisession_expiration) < $this->now))
+			 	$this->prevent_update = isset($row->prevent_update)?$row->prevent_update:NULL;
+                
+				// Check to see if this session doesn't exist (previously destroyed) 
+				// or if this session is no longer allowed to update and has exired.
+				//  If so, kill it.
+				if (is_null($this->prevent_update) || ($this->prevent_update && ($row->last_activity + $this->sess_multisession_expiration) < $this->now))
 				{
 					$this->sess_destroy();
 					
@@ -295,6 +304,13 @@ class CI_Session {
 			$this->_set_cookie();
 			return;
 		}
+
+        // If we have enabled multi-session and have one that
+        // can no longer be updated, prevent the session write.
+        if($this->sess_use_multisessions && $this->prevent_update)
+        {
+            return;
+        }
 
 		// set the custom userdata, the session data we will set in a second
 		$custom_userdata = $this->userdata;
@@ -355,6 +371,7 @@ class CI_Session {
 					'ip_address'	=> $this->CI->input->ip_address(),
 					'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 					'last_activity'	=> $this->now,
+					'prevent_update'   => 0,
 					'user_data'	=> ''
 				);
 
@@ -370,8 +387,11 @@ class CI_Session {
 				 * or not the session can be updated
 				 */
 				$this->_get_multi_session($this->userdata['session_id']);
-				$_SESSION['prevent_update'] = 0;
-				session_write_close();
+				$this->prevent_update = FALSE;
+                
+                unset($this->userdata['prevent_update']);
+                
+				session_write_close();  
 			}
 		}
 
@@ -391,12 +411,18 @@ class CI_Session {
 		// We only update the session every five minutes by default
 		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
 		{
+		    if ($this->sess_use_database && $this->sess_use_multisessions)
+            {
+                session_write_close();
+            }
+            
 			return;
 		}
 
 		// We only allow sessions to update if they are allowed
 		if ($this->sess_use_database && $this->sess_use_multisessions && $this->prevent_update)
 		{
+		    session_write_close();
 			return;
 		}
 
@@ -457,12 +483,15 @@ class CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-
 			//Are we allowing multiple sessions?
 			if ($this->sess_use_multisessions)
 			{
 				//Set the session as no longer allowing updates
-				$_SESSION['prevent_update'] = 1;
+				$this->prevent_update = TRUE;
+                
+                //Update the current session
+                $this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'prevent_update' => 1), array('session_id' => $old_sessid)));
+                
 				//Release the session lock so other requests can process
 				session_write_close();
 				
@@ -470,10 +499,10 @@ class CI_Session {
 				 * session id that can continue to update.
 				 */ 
 				$this->_get_multi_session($new_sessid);
-				$_SESSION['prevent_update'] = 0;
+				$this->prevent_update = FALSE;
 				
 				//Write the new session id to the database 
-				$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $cookie_data));
+				$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $cookie_data + array('prevent_update' => 0)));
 				
 				//Make sure the user data is copied over
 				$this->sess_write();
@@ -881,6 +910,16 @@ class CI_Session {
 			$this->CI->db->where('last_activity < '.$expire);
 			$this->CI->db->delete($this->sess_table_name);
 
+            // Clean up old multi-sessions if they are enabled
+            if($this->sess_use_multisessions)
+            {
+                $expire = $this->now - $this->sess_multisession_expiration;
+                
+                $this->CI->db->where('last_activity < '.$expire);
+                $this->CI->db->where('prevent_update = 1');
+                $this->CI->db->delete($this->sess_table_name);
+            }
+
 			log_message('debug', 'Session garbage collection performed.');
 		}
 	}
@@ -907,8 +946,6 @@ class CI_Session {
 		//Don't allow cookies for the php session
 	 	ini_set('session.use_cookies', '0');
 		ini_set('session.use_only_cookies', '0');
-		//Make sure that we clean up old sessions in a timely fashion
-		ini_set('session.gc_maxlifetime', ($this->sess_multisession_expiration + 10));
 		
 		//Start a session using our internally generated session id
 		session_id($session_id);
