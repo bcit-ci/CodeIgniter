@@ -879,12 +879,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function group_by($by, $escape = NULL)
 	{
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
+
 		if (is_string($by))
 		{
-			$by = explode(',', $by);
+			$by = ($escape === TRUE)
+				? explode(',', $by)
+				: array($by);
 		}
-
-		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($by as $val)
 		{
@@ -892,8 +894,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($val !== '')
 			{
-				$this->qb_groupby[] = $val = $this->protect_identifiers($val);
+				$val = array('field' => $val, 'escape' => $escape);
 
+				$this->qb_groupby[] = $val;
 				if ($this->qb_caching === TRUE)
 				{
 					$this->qb_cache_groupby[] = $val;
@@ -2117,6 +2120,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		if (count($this->qb_groupby) > 0)
 		{
 			$sql = "\nGROUP BY ";
+
+			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
+			{
+				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE)
+					? $this->qb_groupby[$i]['field']
+					: $this->protect_identifiers($qb_groupby[$i]['field']);
+			}
 
 			$sql .= implode(', ', $this->qb_groupby);
 		}
