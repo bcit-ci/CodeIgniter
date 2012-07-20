@@ -855,7 +855,14 @@ class CI_Image_lib {
 		}
 		else // Resize
 		{
-			$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			if($this->maintain_ratio === TRUE)
+			{
+				$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			}
+			else
+			{
+				$cmd .= ' -resize '.$this->width.'x'.$this->height.'\! "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			}
 		}
 
 		$retval = 1;

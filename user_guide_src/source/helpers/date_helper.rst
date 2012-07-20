@@ -40,7 +40,7 @@ If a timezone is not provided, it will return time() based on "time_reference" s
 mdate()
 =======
 
-This function is identical to PHPs `date() <http://www.php.net/date>`_
+This function is identical to PHP's `date() <http://www.php.net/date>`_
 function, except that it lets you use MySQL style date codes, where each
 code letter is preceded with a percent sign: %Y %m %d etc.
 
@@ -85,32 +85,29 @@ Example
 The first parameter must contain the format, the second parameter must
 contain the date as a Unix timestamp.
 
+.. note:: This function is DEPRECATED. Use the native ``date()`` combined
+	with `DateTime's format constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_
+	instead:
+
+	|
+	| echo date(DATE_RFC822, time());
+
 Supported formats:
 
-+----------------+------------------------+-----------------------------------+
-| Constant       | Description            | Example                           |
-+================+========================+===================================+
-| DATE_ATOM      | Atom                   | 2005-08-15T16:13:03+0000          |
-+----------------+------------------------+-----------------------------------+
-| DATE_COOKIE    | HTTP Cookies           | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_ISO8601   | ISO-8601               | 2005-08-14T16:13:03+00:00         |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC822    | RFC 822                | Sun, 14 Aug 05 16:13:03 UTC       |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC850    | RFC 850                | Sunday, 14-Aug-05 16:13:03 UTC    |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC1036   | RFC 1036               | Sunday, 14-Aug-05 16:13:03 UTC    |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC1123   | RFC 1123               | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC2822   | RFC 2822               | Sun, 14 Aug 2005 16:13:03 +0000   |
-+----------------+------------------------+-----------------------------------+
-| DATE_RSS       | RSS                    | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_W3C       | W3C                    | 2005-08-14T16:13:03+0000          |
-+----------------+------------------------+-----------------------------------+
-
+===============	=======================	======================================
+Constant		Description				Example
+===============	=======================	======================================
+DATE_ATOM	Atom			2005-08-15T16:13:03+0000
+DATE_COOKIE	HTTP Cookies		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_ISO8601   	ISO-8601		2005-08-14T16:13:03+00:00
+DATE_RFC822	RFC 822			Sun, 14 Aug 05 16:13:03 UTC
+DATE_RFC850	RFC 850			Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1036	RFC 1036		Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1123	RFC 1123		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_RFC2822 	RFC 2822		Sun, 14 Aug 2005 16:13:03 +0000
+DATE_RSS	RSS			Sun, 14 Aug 2005 16:13:03 UTC
+DATE_W3C	W3C			2005-08-14T16:13:03+0000
+===============	=======================	======================================
 
 local_to_gmt()
 ==============
@@ -421,86 +418,47 @@ The following table indicates each timezone and its location.
 
 Note some of the location lists have been abridged for clarity and formatting.
 
-+------------+----------------------------------------------------------------+
-| Time Zone  | Location                                                       |
-+============+================================================================+
-| UM12       | (UTC - 12:00) Baker/Howland Island	                          |
-+------------+----------------------------------------------------------------+
-| UM11       | (UTC - 11:00) Samoa Time Zone, Niue						      |
-+------------+----------------------------------------------------------------+
-| UM10       | (UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands	  |
-+------------+----------------------------------------------------------------+
-| UM95       | (UTC - 09:30) Marquesas Islands							      |
-+------------+----------------------------------------------------------------+
-| UM9        | (UTC - 09:00) Alaska Standard Time, Gambier Islands		      |
-+------------+----------------------------------------------------------------+
-| UM8        | (UTC - 08:00) Pacific Standard Time, Clipperton Island	      |
-+------------+----------------------------------------------------------------+
-| UM7        | (UTC - 11:00) Mountain Standard Time						      |
-+------------+----------------------------------------------------------------+
-| UM6        | (UTC - 06:00) Central Standard Time						      |
-+------------+----------------------------------------------------------------+
-| UM5        | (UTC - 05:00) Eastern Standard Time, Western Caribbean		  |
-+------------+----------------------------------------------------------------+
-| UM45       | (UTC - 04:30) Venezuelan Standard Time					      |
-+------------+----------------------------------------------------------------+
-| UM4        | (UTC - 04:00) Atlantic Standard Time, Eastern Caribbean		  |
-+------------+----------------------------------------------------------------+
-| UM35       | (UTC - 03:30) Newfoundland Standard Time					      |
-+------------+----------------------------------------------------------------+
-| UM3        | (UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay	      |
-+------------+----------------------------------------------------------------+
-| UM2        | (UTC - 02:00) South Georgia/South Sandwich Islands		      |
-+------------+----------------------------------------------------------------+
-| UM1        | (UTC -1:00) Azores, Cape Verde Islands						  |
-+------------+----------------------------------------------------------------+
-| UTC        | (UTC) Greenwich Mean Time, Western European Time				  |
-+------------+----------------------------------------------------------------+
-| UP1        | (UTC +1:00) Central European Time, West Africa Time			  |
-+------------+----------------------------------------------------------------+
-| UP2        | (UTC +2:00) Central Africa Time, Eastern European Time		  |
-+------------+----------------------------------------------------------------+
-| UP3        | (UTC +3:00) Moscow Time, East Africa Time			  		  |
-+------------+----------------------------------------------------------------+
-| UP35       | (UTC +3:30) Iran Standard Time								  |
-+------------+----------------------------------------------------------------+
-| UP4        | (UTC +4:00) Azerbaijan Standard Time, Samara Time			  |
-+------------+----------------------------------------------------------------+
-| UP45       | (UTC +4:30) Afghanistan										  |
-+------------+----------------------------------------------------------------+
-| UP5        | (UTC +5:00) Pakistan Standard Time, Yekaterinburg Time		  |
-+------------+----------------------------------------------------------------+
-| UP55       | (UTC +5:30) Indian Standard Time, Sri Lanka Time				  |
-+------------+----------------------------------------------------------------+
-| UP575      | (UTC +5:45) Nepal Time										  |
-+------------+----------------------------------------------------------------+
-| UP6        | (UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time   |
-+------------+----------------------------------------------------------------+
-| UP65       | (UTC +6:30) Cocos Islands, Myanmar							  |
-+------------+----------------------------------------------------------------+
-| UP7        | (UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam|
-+------------+----------------------------------------------------------------+
-| UP8        | (UTC +8:00) Australian Western Standard Time, Beijing Time	  |
-+------------+----------------------------------------------------------------+
-| UP875      | (UTC +8:45) Australian Central Western Standard Time		      |
-+------------+----------------------------------------------------------------+
-| UP9        | (UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk  |
-+------------+----------------------------------------------------------------+
-| UP95       | (UTC +9:30) Australian Central Standard Time					  |
-+------------+----------------------------------------------------------------+
-| UP10       | (UTC +10:00) Australian Eastern Standard Time, Vladivostok Time|
-+------------+----------------------------------------------------------------+
-| UP105      | (UTC +10:30) Lord Howe Island								  |
-+------------+----------------------------------------------------------------+
-| UP11       | (UTC +11:00) Magadan Time, Solomon Islands, Vanuatu            |
-+------------+----------------------------------------------------------------+
-| UP115      | (UTC +11:30) Norfolk Island									  |
-+------------+----------------------------------------------------------------+
-| UP12       | (UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand     |
-+------------+----------------------------------------------------------------+
-| UP1275     | (UTC +12:45) Chatham Islands Standard Time					  |
-+------------+----------------------------------------------------------------+
-| UP13       | (UTC +13:00) Phoenix Islands Time, Tonga						  |
-+------------+----------------------------------------------------------------+
-| UP14       | (UTC +14:00) Line Islands									  |
-+------------+----------------------------------------------------------------+
+===========	=====================================================================
+Time Zone	Location
+===========	=====================================================================
+UM2			(UTC - 12:00) Baker/Howland Island
+UM1			(UTC - 11:00) Samoa Time Zone, Niue
+UM0			(UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
+UM95		(UTC - 09:30) Marquesas Islands
+UM9			(UTC - 09:00) Alaska Standard Time, Gambier Islands
+UM8			(UTC - 08:00) Pacific Standard Time, Clipperton Island
+UM7			(UTC - 11:00) Mountain Standard Time
+UM6			(UTC - 06:00) Central Standard Time
+UM5			(UTC - 05:00) Eastern Standard Time, Western Caribbean
+UM45		(UTC - 04:30) Venezuelan Standard Time
+UM4			(UTC - 04:00) Atlantic Standard Time, Eastern Caribbean
+UM35		(UTC - 03:30) Newfoundland Standard Time
+UM3			(UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay
+UM2			(UTC - 02:00) South Georgia/South Sandwich Islands
+UM			(UTC -1:00) Azores, Cape Verde Islands
+UTC			(UTC) Greenwich Mean Time, Western European Time
+UP1			(UTC +1:00) Central European Time, West Africa Time
+UP2			(UTC +2:00) Central Africa Time, Eastern European Time
+UP3			(UTC +3:00) Moscow Time, East Africa Time
+UP35		(UTC +3:30) Iran Standard Time
+UP4			(UTC +4:00) Azerbaijan Standard Time, Samara Time
+UP45		(UTC +4:30) Afghanistan
+UP5			(UTC +5:00) Pakistan Standard Time, Yekaterinburg Time
+UP55		(UTC +5:30) Indian Standard Time, Sri Lanka Time
+UP575		(UTC +5:45) Nepal Time
+UP6			(UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time
+UP65		(UTC +6:30) Cocos Islands, Myanmar
+UP7			(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam
+UP8			(UTC +8:00) Australian Western Standard Time, Beijing Time
+UP875		(UTC +8:45) Australian Central Western Standard Time
+UP9			(UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk
+UP95		(UTC +9:30) Australian Central Standard Time
+UP10		(UTC +10:00) Australian Eastern Standard Time, Vladivostok Time
+UP105		(UTC +10:30) Lord Howe Island
+UP11		(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
+UP115		(UTC +11:30) Norfolk Island
+UP12		(UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
+UP1275		(UTC +12:45) Chatham Islands Standard Time
+UP1			(UTC +13:00) Phoenix Islands Time, Tonga
+UP14		(UTC +14:00) Line Islands
+===========	=====================================================================

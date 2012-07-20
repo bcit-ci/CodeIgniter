@@ -395,20 +395,20 @@ class CI_Security {
 
 			if (preg_match('/<a/i', $str))
 			{
-				$str = preg_replace_callback('#<a\s+([^>]*?)(>|$)#si', array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback('#<a\s+([^>]*?)(?:>|$)#si', array($this, '_js_link_removal'), $str);
 			}
 
 			if (preg_match('/<img/i', $str))
 			{
-				$str = preg_replace_callback('#<img\s+([^>]*?)(\s?/?>|$)#si', array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback('#<img\s+([^>]*?)(?:\s?/?>|$)#si', array($this, '_js_img_removal'), $str);
 			}
 
-			if (preg_match('/(script|xss)/i', $str))
+			if (preg_match('/script|xss/i', $str))
 			{
-				$str = preg_replace('#<(/*)(script|xss)(.*?)\>#si', '[removed]', $str);
+				$str = preg_replace('#</*(?:script|xss).*?>#si', '[removed]', $str);
 			}
 		}
-		while($original !== $str);
+		while ($original !== $str);
 
 		unset($original);
 
@@ -561,6 +561,19 @@ class CI_Security {
 	// ----------------------------------------------------------------
 
 	/**
+	 * Strip Image Tags
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function strip_image_tags($str)
+	{
+		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
 	 * Compact Exploded Words
 	 *
 	 * Callback function for xss_clean() to remove whitespace from
@@ -670,7 +683,7 @@ class CI_Security {
 	protected function _js_link_removal($match)
 	{
 		return str_replace($match[1],
-					preg_replace('#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
+					preg_replace('#href=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
@@ -693,7 +706,7 @@ class CI_Security {
 	protected function _js_img_removal($match)
 	{
 		return str_replace($match[1],
-					preg_replace('#src=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+					preg_replace('#src=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),

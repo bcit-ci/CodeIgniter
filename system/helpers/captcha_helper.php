@@ -32,7 +32,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/captcha_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -185,7 +185,6 @@ if ( ! function_exists('create_captcha'))
 				$x += $font_size;
 			}
 		}
-
 
 		// Create the border
 		imagerectangle($im, 0, 0, $img_width - 1, $img_height - 1, $border_color);

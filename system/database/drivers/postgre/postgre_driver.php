@@ -48,12 +48,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
@@ -535,7 +529,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		$cases = '';
 		foreach ($final as $k => $v)
 		{
-			$cases .= $k.' = (CASE '.$k."\n"
+			$cases .= $k.' = (CASE '.$index."\n"
 				.implode("\n", $v)."\n"
 				.'ELSE '.$k.' END), ';
 		}

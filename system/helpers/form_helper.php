@@ -340,8 +340,13 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$key = (string) $key;
 
-			if (is_array($val) && ! empty($val))
+			if (is_array($val))
 			{
+				if (empty($val))
+				{
+					continue;
+				}
+
 				$form .= '<optgroup label="'.$key."\">\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)

@@ -72,10 +72,11 @@ The basic prototype for a model class is this::
 
 	class Model_name extends CI_Model {
 
-	    function __construct()
-	    {
-	        parent::__construct();
-	    }
+		public function __construct()
+		{
+			parent::__construct();
+		}
+
 	}
 
 Where **Model_name** is the name of your class. Class names **must** have
@@ -87,10 +88,11 @@ example, if your class is this::
 
 	class User_model extends CI_Model {
 
-	    function __construct()
-	    {
-	        parent::__construct();
-	    }
+		public function __construct()
+		{
+			parent::__construct();
+		}
+
 	}
 
 Your file will be this::
@@ -102,7 +104,7 @@ Loading a Model
 
 Your models will typically be loaded and called from within your
 :doc:`controller <controllers>` functions. To load a model you will use
-the following function::
+the following method::
 
 	$this->load->model('model_name');
 
@@ -112,33 +114,34 @@ application/models/blog/queries.php you'll load it using::
 
 	$this->load->model('blog/queries');
 
-Once loaded, you will access your model functions using an object with
-the same name as your class::
+Once loaded, you will access your model methods using an object with the
+same name as your class::
 
 	$this->load->model('model_name');
 
-	$this->model_name->function();
+	$this->model_name->method();
 
 If you would like your model assigned to a different object name you can
-specify it via the second parameter of the loading function::
+specify it via the second parameter of the loading method::
 
-	$this->load->model('model_name', 'fubar');
+	$this->load->model('model_name', 'foobar');
 
-	$this->fubar->function();
+	$this->foobar->method();
 
 Here is an example of a controller, that loads a model, then serves a
 view::
 
 	class Blog_controller extends CI_Controller {
 
-	    function blog()
-	    {
-	        $this->load->model('blog');
+		public function blog()
+		{
+			$this->load->model('blog');
 
-	        $data['query'] = $this->Blog->get_last_ten_entries();
+			$data['query'] = $this->Blog->get_last_ten_entries();
 
-	        $this->load->view('blog', $data);
-	    }
+			$this->load->view('blog', $data);
+		}
+
 	}
 	
 
@@ -170,15 +173,13 @@ database. The following options for connecting are available to you:
 -  You can manually pass database connectivity settings via the third
    parameter::
 
-	$config['hostname'] = "localhost";
-	$config['username'] = "myusername";
-	$config['password'] = "mypassword";
-	$config['database'] = "mydatabase";
-	$config['dbdriver'] = "mysql";
-	$config['dbprefix'] = "";
+	$config['hostname'] = 'localhost';
+	$config['username'] = 'myusername';
+	$config['password'] = 'mypassword';
+	$config['database'] = 'mydatabase';
+	$config['dbdriver'] = 'mysqli';
+	$config['dbprefix'] = '';
 	$config['pconnect'] = FALSE;
 	$config['db_debug'] = TRUE;
 
 	$this->load->model('Model_name', '', $config);
-
-

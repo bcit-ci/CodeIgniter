@@ -706,9 +706,9 @@ class CI_Email {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function valid_email($address)
+	public function valid_email($email)
 	{
-		return (bool) preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', $address);
+		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
 	// --------------------------------------------------------------------
