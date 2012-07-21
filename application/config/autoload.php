@@ -50,6 +50,7 @@
 | 4. Custom config files
 | 5. Language files
 | 6. Models
+| 7. Directories
 |
 */
 
@@ -136,6 +137,18 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array();
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Directories
+| -------------------------------------------------------------------
+| Prototype:
+|
+|  $autoload['directories'] = array(APPPATH.'presenters/*', '/some/php/directory/*_test.php');
+|
+*/
+
+$autoload['directories'] = array();
 
 
 /* End of file autoload.php */

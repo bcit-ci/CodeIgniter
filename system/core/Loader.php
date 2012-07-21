@@ -612,6 +612,39 @@ class CI_Loader {
 		$CI =& get_instance();
 		$CI->config->load($file, $use_sections, $fail_gracefully);
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Loads an arbitrary directory
+	 *
+	 * @param	string
+	 * @return	void
+	 */
+	public function directory($directory, $recursive = FALSE)
+	{
+		$files = glob($directory);
+		
+		if (is_array($files) && count($files) > 0)
+		{
+		    foreach ($files as $file)
+		    {
+		        if ($recursive)
+		        {
+		            if (is_dir($file))
+		            {
+                        $file = (substr($file, -1, 1) == '/') ? $file : $file . '/';
+		                $this->directory($file . '*', TRUE);
+		            }
+		        }
+		        
+		        if (is_file($file))
+		        {
+		            include $file;
+		        }
+		    }
+		}
+	}
 
 	// --------------------------------------------------------------------
 
@@ -1146,6 +1179,15 @@ class CI_Loader {
 		if ( ! isset($autoload))
 		{
 			return FALSE;
+		}
+
+        // Autoload directories
+		if (isset($autoload['directories']))
+		{
+			foreach ($autoload['directories'] as $directory)
+			{
+				$this->directory($directory);
+			}
 		}
 
 		// Autoload packages
