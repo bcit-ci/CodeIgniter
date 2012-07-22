@@ -242,9 +242,9 @@ if ( ! function_exists('doctype'))
 	 *
 	 * Generates a page document type declaration
 	 *
-	 * Valid options are xhtml-11, xhtml-strict, xhtml-trans, xhtml-frame,
-	 * html4-strict, html4-trans, and html4-frame. Values are saved in the
-	 * doctypes config file.
+	 * Examples of valid options: html5, xhtml-11, xhtml-strict, xhtml-trans,
+	 * xhtml-frame, html4-strict, html4-trans, and html4-frame.
+	 * All values are saved in the doctypes config file.
 	 *
 	 * @param	string	type	The doctype to be generated
 	 * @return	string
