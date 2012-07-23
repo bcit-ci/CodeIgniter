@@ -330,24 +330,30 @@ class CI_Input {
 
 		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
-			$hasRanges = strpos($proxies, '/') !== false;
+			$has_ranges = strpos($proxies, '/') !== false;
 			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
 			$proxies = is_array($proxies) ? $proxies : array($proxies);
 		
-			if ($hasRanges) {
-				$longIP = ip2long($_SERVER['REMOTE_ADDR']);
-				$bit32 = 1 << 32;
-		
-				foreach($proxies as $ip) {
-					list($address, $maskLength) = explode('/', $ip);
-		
-					$bitmask = $bit32 - (1 << (32 - (int)$maskLength));
-		
-					if (($longIP & $bitmask) == $address) {
+			if ($has_ranges)
+			{
+				$long_ip = ip2long($_SERVER['REMOTE_ADDR']);
+				$bit_32 = 1 << 32;
+
+				// Go through each of the IP Addresses to check for and
+				// test against range notation
+				foreach($proxies as $ip)
+				{
+					list($address, $mask_length) = explode('/', $ip);
+
+					// Generate the bitmask for a 32 bit IP Address
+					$bitmask = $bit_32 - (1 << (32 - (int)$mask_length));
+					if (($long_ip & $bitmask) == $address)
+					{
 						$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
 						break;
 					}
 				}
+
 			} else {
 				$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 			}
