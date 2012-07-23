@@ -575,7 +575,7 @@ class CI_Output {
 		}
 
 		// Display the cache
-		$this->_display(str_replace($match[0], '', $cache));
+		$this->_display(substr($cache, strlen($match[0])));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
