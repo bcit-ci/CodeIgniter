@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Inflector Helpers
@@ -21,27 +31,30 @@
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/directory_helper.html
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/helpers/inflector_helper.html
  */
-
 
 // --------------------------------------------------------------------
 
-/**
- * Singular
- *
- * Takes a plural word and makes it singular
- *
- * @access	public
- * @param	string
- * @return	str
- */
 if ( ! function_exists('singular'))
 {
+	/**
+	 * Singular
+	 *
+	 * Takes a plural word and makes it singular
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function singular($str)
 	{
 		$result = strval($str);
+
+		if ( ! is_countable($result))
+		{
+			return $result;
+		}
 
 		$singular_rules = array(
 			'/(matr)ices$/'         => '\1ix',
@@ -70,9 +83,9 @@ if ( ! function_exists('singular'))
 			'/(s)tatuses$/'         => '\1\2tatus',
 			'/(c)hildren$/'         => '\1\2hild',
 			'/(n)ews$/'             => '\1\2ews',
-			'/([^u])s$/'            => '\1',
+			'/([^us])s$/'           => '\1',
 		);
-		
+
 		foreach ($singular_rules as $rule => $replacement)
 		{
 			if (preg_match($rule, $result))
@@ -88,22 +101,26 @@ if ( ! function_exists('singular'))
 
 // --------------------------------------------------------------------
 
-/**
- * Plural
- *
- * Takes a singular word and makes it plural
- *
- * @access	public
- * @param	string
- * @param	bool
- * @return	str
- */
 if ( ! function_exists('plural'))
 {
+	/**
+	 * Plural
+	 *
+	 * Takes a singular word and makes it plural
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
 	function plural($str, $force = FALSE)
 	{
 		$result = strval($str);
-	
+
+		if ( ! is_countable($result))
+		{
+			return $result;
+		}
+
 		$plural_rules = array(
 			'/^(ox)$/'                 => '\1\2en',     // ox
 			'/([m|l])ouse$/'           => '\1ice',      // mouse, louse
@@ -119,7 +136,7 @@ if ( ! function_exists('plural'))
 			'/(c)hild$/'               => '\1hildren',  // child
 			'/(buffal|tomat)o$/'       => '\1\2oes',    // buffalo, tomato
 			'/(bu|campu)s$/'           => '\1\2ses',    // bus, campus
-			'/(alias|status|virus)/'   => '\1es',       // alias
+			'/(alias|status|virus)$/'  => '\1es',       // alias
 			'/(octop)us$/'             => '\1i',        // octopus
 			'/(ax|cris|test)is$/'      => '\1es',       // axis, crisis
 			'/s$/'                     => 's',          // no change (compatibility)
@@ -141,38 +158,34 @@ if ( ! function_exists('plural'))
 
 // --------------------------------------------------------------------
 
-/**
- * Camelize
- *
- * Takes multiple words separated by spaces or underscores and camelizes them
- *
- * @access	public
- * @param	string
- * @return	str
- */
 if ( ! function_exists('camelize'))
 {
+	/**
+	 * Camelize
+	 *
+	 * Takes multiple words separated by spaces or underscores and camelizes them
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function camelize($str)
 	{
-		$str = 'x'.strtolower(trim($str));
-		$str = ucwords(preg_replace('/[\s_]+/', ' ', $str));
-		return substr(str_replace(' ', '', $str), 1);
+		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
 	}
 }
 
 // --------------------------------------------------------------------
 
-/**
- * Underscore
- *
- * Takes multiple words separated by spaces and underscores them
- *
- * @access	public
- * @param	string
- * @return	str
- */
 if ( ! function_exists('underscore'))
 {
+	/**
+	 * Underscore
+	 *
+	 * Takes multiple words separated by spaces and underscores them
+	 *
+	 * @param	string
+	 * @return	string
+	 */
 	function underscore($str)
 	{
 		return preg_replace('/[\s]+/', '_', strtolower(trim($str)));
@@ -181,23 +194,43 @@ if ( ! function_exists('underscore'))
 
 // --------------------------------------------------------------------
 
-/**
- * Humanize
- *
- * Takes multiple words separated by underscores and changes them to spaces
- *
- * @access	public
- * @param	string
- * @return	str
- */
 if ( ! function_exists('humanize'))
 {
-	function humanize($str)
+	/**
+	 * Humanize
+	 *
+	 * Takes multiple words separated by the separator and changes them to spaces
+	 *
+	 * @param	string	$str
+	 * @param 	string	$separator
+	 * @return	string
+	 */
+	function humanize($str, $separator = '_')
 	{
-		return ucwords(preg_replace('/[_]+/', ' ', strtolower(trim($str))));
+		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
 	}
 }
 
+// --------------------------------------------------------------------
+
+if ( ! function_exists('is_countable'))
+{
+	/**
+	 * Checks if the given word has a plural version.
+	 *
+	 * @param	string	the word to check
+	 * @return	bool	if the word is countable
+	 */
+	function is_countable($word)
+	{
+		return ! in_array(strtolower(strval($word)),
+					array(
+						'equipment', 'information', 'rice', 'money',
+						'species', 'series', 'fish', 'meta'
+					)
+			);
+	}
+}
 
 /* End of file inflector_helper.php */
 /* Location: ./system/helpers/inflector_helper.php */

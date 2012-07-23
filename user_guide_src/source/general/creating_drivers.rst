@@ -1,0 +1,20 @@
+################
+Creating Drivers
+################
+
+Driver Directory and File Structure
+===================================
+
+Sample driver directory and file structure layout:
+
+-  /application/libraries/Driver_name
+
+   -  Driver_name.php
+   -  drivers
+
+      -  Driver_name_subclass_1.php
+      -  Driver_name_subclass_2.php
+      -  Driver_name_subclass_3.php
+
+**NOTE:** In order to maintain compatibility on case-sensitive file
+systems, the Driver_name directory must be ucfirst()
