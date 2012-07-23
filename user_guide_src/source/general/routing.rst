@@ -1,0 +1,133 @@
+###########
+URI Routing
+###########
+
+Typically there is a one-to-one relationship between a URL string and
+its corresponding controller class/method. The segments in a URI
+normally follow this pattern::
+
+	example.com/class/function/id/
+
+In some instances, however, you may want to remap this relationship so
+that a different class/function can be called instead of the one
+corresponding to the URL.
+
+For example, lets say you want your URLs to have this prototype:
+
+example.com/product/1/
+example.com/product/2/
+example.com/product/3/
+example.com/product/4/
+
+Normally the second segment of the URL is reserved for the function
+name, but in the example above it instead has a product ID. To overcome
+this, CodeIgniter allows you to remap the URI handler.
+
+Setting your own routing rules
+==============================
+
+Routing rules are defined in your application/config/routes.php file. In
+it you'll see an array called $route that permits you to specify your
+own routing criteria. Routes can either be specified using wildcards or
+Regular Expressions
+
+Wildcards
+=========
+
+A typical wildcard route might look something like this::
+
+	$route['product/:num'] = "catalog/product_lookup";
+
+In a route, the array key contains the URI to be matched, while the
+array value contains the destination it should be re-routed to. In the
+above example, if the literal word "product" is found in the first
+segment of the URL, and a number is found in the second segment, the
+"catalog" class and the "product_lookup" method are instead used.
+
+You can match literal values or you can use two wildcard types:
+
+**(:num)** will match a segment containing only numbers.
+ **(:any)** will match a segment containing any character.
+
+.. note:: Routes will run in the order they are defined. Higher routes
+	will always take precedence over lower ones.
+
+Examples
+========
+
+Here are a few routing examples::
+
+	$route['journals'] = "blogs";
+
+A URL containing the word "journals" in the first segment will be
+remapped to the "blogs" class.
+
+::
+
+	$route['blog/joe'] = "blogs/users/34";
+
+A URL containing the segments blog/joe will be remapped to the "blogs"
+class and the "users" method. The ID will be set to "34".
+
+::
+
+	$route['product/(:any)'] = "catalog/product_lookup";
+
+A URL with "product" as the first segment, and anything in the second
+will be remapped to the "catalog" class and the "product_lookup"
+method.
+
+::
+
+	$route['product/(:num)'] = "catalog/product_lookup_by_id/$1";
+
+A URL with "product" as the first segment, and a number in the second
+will be remapped to the "catalog" class and the
+"product_lookup_by_id" method passing in the match as a variable to
+the function.
+
+.. important:: Do not use leading/trailing slashes.
+
+Regular Expressions
+===================
+
+If you prefer you can use regular expressions to define your routing
+rules. Any valid regular expression is allowed, as are back-references.
+
+.. note:: If you use back-references you must use the dollar syntax
+	rather than the double backslash syntax.
+
+A typical RegEx route might look something like this::
+
+	$route['products/([a-z]+)/(\d+)'] = "$1/id_$2";
+
+In the above example, a URI similar to products/shirts/123 would instead
+call the shirts controller class and the id_123 function.
+
+You can also mix and match wildcards with regular expressions.
+
+Reserved Routes
+===============
+
+There are two reserved routes::
+
+	$route['default_controller'] = 'welcome';
+
+This route indicates which controller class should be loaded if the URI
+contains no data, which will be the case when people load your root URL.
+In the above example, the "welcome" class would be loaded. You are
+encouraged to always have a default route otherwise a 404 page will
+appear by default.
+
+::
+
+	$route['404_override'] = '';
+
+This route indicates which controller class should be loaded if the
+requested controller is not found. It will override the default 404
+error page. It won't affect to the show_404() function, which will
+continue loading the default error_404.php file at
+application/errors/error_404.php.
+
+.. important:: The reserved routes must come before any wildcard or
+	regular expression routes.

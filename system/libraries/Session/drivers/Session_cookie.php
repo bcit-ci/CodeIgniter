@@ -1,18 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst. It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.0
+ * @since		Version 1.0
  * @filesource
  */
-
 
 /**
  * Cookie-based session management driver
@@ -24,29 +35,144 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session_cookie extends CI_Session_driver {
-	protected $sess_encrypt_cookie	= FALSE;
-	protected $sess_use_database	= FALSE;
-	protected $sess_table_name		= '';
-	protected $sess_expiration		= 7200;
-	protected $sess_expire_on_close	= FALSE;
-	protected $sess_match_ip		= FALSE;
-	protected $sess_match_useragent	= TRUE;
-	protected $sess_cookie_name		= 'ci_session';
-	protected $cookie_prefix		= '';
-	protected $cookie_path			= '';
-	protected $cookie_domain		= '';
-	protected $cookie_secure		= FALSE;
-	protected $sess_time_to_update	= 300;
-	protected $encryption_key	 	= '';
-	protected $time_reference	 	= 'time';
-	protected $userdata				= array();
-	protected $CI				 	= null;
-	protected $now					= 0;
 
-	const gc_probability			= 5;
+	/**
+	 * Whether to encrypt the session cookie
+	 *
+	 * @var bool
+	 */
+	public $sess_encrypt_cookie		= FALSE;
+
+	/**
+	 * Whether to use to the database for session storage
+	 *
+	 * @var bool
+	 */
+	public $sess_use_database		= FALSE;
+
+	/**
+	 * Name of the database table in which to store sessions
+	 *
+	 * @var string
+	 */
+	public $sess_table_name			= '';
+
+	/**
+	 * Length of time (in seconds) for sessions to expire
+	 *
+	 * @var int
+	 */
+	public $sess_expiration			= 7200;
+
+	/**
+	 * Whether to kill session on close of browser window
+	 *
+	 * @var bool
+	 */
+	public $sess_expire_on_close		= FALSE;
+
+	/**
+	 * Whether to match session on ip address
+	 *
+	 * @var bool
+	 */
+	public $sess_match_ip			= FALSE;
+
+	/**
+	 * Whether to match session on user-agent
+	 *
+	 * @var bool
+	 */
+	public $sess_match_useragent		= TRUE;
+
+	/**
+	 * Name of session cookie
+	 *
+	 * @var string
+	 */
+	public $sess_cookie_name		= 'ci_session';
+
+	/**
+	 * Session cookie prefix
+	 *
+	 * @var string
+	 */
+	public $cookie_prefix			= '';
+
+	/**
+	 * Session cookie path
+	 *
+	 * @var string
+	 */
+	public $cookie_path			= '';
+
+	/**
+	 * Session cookie domain
+	 *
+	 * @var string
+	 */
+	public $cookie_domain			= '';
+
+	/**
+	 * Whether to set the cookie only on HTTPS connections
+	 *
+	 * @var bool
+	 */
+	public $cookie_secure			= FALSE;
+
+	/**
+	 * Whether cookie should be allowed only to be sent by the server
+	 *
+	 * @var bool
+	 */
+	public $cookie_httponly 		= FALSE;
+
+	/**
+	 * Interval at which to update session
+	 *
+	 * @var int
+	 */
+	public $sess_time_to_update		= 300;
+
+	/**
+	 * Key with which to encrypt the session cookie
+	 *
+	 * @var string
+	 */
+	public $encryption_key			= '';
+
+	/**
+	 * Timezone to use for the current time
+	 *
+	 * @var string
+	 */
+	public $time_reference			= 'local';
+
+
+	/**
+	 * Session data
+	 *
+	 * @var array
+	 */
+	public $userdata			= array();
+
+	/**
+	 * Reference to CodeIgniter instance
+	 *
+	 * @var object
+	 */
+	public $CI;
+
+	/**
+	 * Current time
+	 *
+	 * @var int
+	 */
+	public $now;
 
 	/**
 	 * Initialize session driver object
@@ -63,15 +189,16 @@ class CI_Session_cookie extends CI_Session_driver {
 		// manually via the $params array above or via the config file
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration',
 		'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path',
-		'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key')
-		as $key)
+		'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix',
+		'encryption_key') as $key)
 		{
-			$this->$key = (isset($this->parent->params[$key])) ? $this->parent->params[$key] : $this->CI->config->item($key);
+			$this->$key = isset($this->parent->params[$key]) ? $this->parent->params[$key] :
+				$this->CI->config->item($key);
 		}
 
-		if ($this->encryption_key == '')
+		if ($this->encryption_key === '')
 		{
-			show_error('In order to use the Cookie Session driver you are required to set an encryption key '.
+			show_error('In order to use the Session Cookie driver you are required to set an encryption key '.
 				'in your config file.');
 		}
 
@@ -79,13 +206,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		$this->CI->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$this->CI->load->library('encrypt');
 		}
 
 		// Are we using a database? If so, load it
-		if ($this->sess_use_database === TRUE && $this->sess_table_name != '')
+		if ($this->sess_use_database === TRUE && $this->sess_table_name !== '')
 		{
 			$this->CI->load->database();
 		}
@@ -96,7 +223,7 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		// Set the session length. If the session expiration is
 		// set to zero we'll set the expiration two years from now.
-		if ($this->sess_expiration == 0)
+		if ($this->sess_expiration === 0)
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
@@ -143,7 +270,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
 		{
 			unset($custom_userdata[$val]);
-			$cookie_userdata[$val] = $this->userdata($val);
+			$cookie_userdata[$val] = $this->userdata[$val];
 		}
 
 		// Did we find any custom data? If not, we turn the empty array into a string
@@ -159,9 +286,9 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata('session_id'));
+		$this->CI->db->where('session_id', $this->userdata['session_id']);
 		$this->CI->db->update($this->sess_table_name,
-			array('last_activity' => $this->userdata('last_activity'), 'user_data' => $custom_userdata));
+			array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
 
 		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
@@ -186,6 +313,9 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Kill the cookie
 		setcookie($this->sess_cookie_name, addslashes(serialize(array())), ($this->now - 31500000),
 			$this->cookie_path, $this->cookie_domain, 0);
+
+		// Kill session data
+		$this->userdata = array();
 	}
 
 	/**
@@ -235,21 +365,21 @@ class CI_Session_cookie extends CI_Session_driver {
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
 
 		// No cookie? Goodbye cruel world!...
-		if ($session === FALSE)
+		if ($session === NULL)
 		{
 			log_message('debug', 'A session cookie was not found.');
 			return FALSE;
 		}
 
 		// Decrypt the cookie data
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$session = $this->CI->encrypt->decode($session);
 		}
 		else
 		{
 			// encryption was not used, so we need to check the md5 hash
-			$hash	= substr($session, strlen($session)-32); // get last 32 chars
+			$hash	 = substr($session, strlen($session)-32); // get last 32 chars
 			$session = substr($session, 0, strlen($session)-32);
 
 			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
@@ -266,30 +396,30 @@ class CI_Session_cookie extends CI_Session_driver {
 		$session = $this->_unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
-		if ( ! is_array($session) || ! isset($session['session_id']) || ! isset($session['ip_address']) ||
-		! isset($session['user_agent']) || ! isset($session['last_activity']))
+		if ( ! is_array($session) || ! isset($session['session_id'], $session['ip_address'], $session['user_agent'],
+		$session['last_activity']))
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Is the session current?
-		if (($session['last_activity'] + $this->sess_expiration) < $this->now())
+		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
-		// Does the IP Match?
-		if ($this->sess_match_ip == TRUE && $session['ip_address'] != $this->CI->input->ip_address())
+		// Does the IP match?
+		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE &&
-		trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 50)))
+		if ($this->sess_match_useragent === TRUE &&
+		trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -300,20 +430,20 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			$this->CI->db->where('session_id', $session['session_id']);
 
-			if ($this->sess_match_ip == TRUE)
+			if ($this->sess_match_ip === TRUE)
 			{
 				$this->CI->db->where('ip_address', $session['ip_address']);
 			}
 
-			if ($this->sess_match_useragent == TRUE)
+			if ($this->sess_match_useragent === TRUE)
 			{
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 
-			$query = $this->CI->db->get($this->sess_table_name);
+			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
 
 			// No result? Kill it!
-			if ($query->num_rows() == 0)
+			if ($query->num_rows() === 0)
 			{
 				$this->sess_destroy();
 				return FALSE;
@@ -321,7 +451,7 @@ class CI_Session_cookie extends CI_Session_driver {
 
 			// Is there custom data? If so, add it to the main session array
 			$row = $query->row();
-			if (isset($row->user_data) && $row->user_data != '')
+			if ( ! empty($row->user_data))
 			{
 				$custom_data = $this->_unserialize($row->user_data);
 
@@ -351,24 +481,27 @@ class CI_Session_cookie extends CI_Session_driver {
 	protected function _sess_create()
 	{
 		$sessid = '';
-		while (strlen($sessid) < 32)
+		do
 		{
 			$sessid .= mt_rand(0, mt_getrandmax());
 		}
+		while (strlen($sessid) < 32);
 
 		// To make the session ID even more secure we'll combine it with the user's IP
 		$sessid .= $this->CI->input->ip_address();
 
-		$this->set_userdata('session_id', md5(uniqid($sessid, TRUE)));
-		$this->set_userdata('ip_address', $this->CI->input->ip_address());
-		$this->set_userdata('user_agent', substr($this->CI->input->user_agent(), 0, 50));
-		$this->set_userdata('last_activity',$this->now());
-
+		$this->userdata = array(
+			'session_id'	=> md5(uniqid($sessid, TRUE)),
+			'ip_address'	=> $this->CI->input->ip_address(),
+			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
+			'last_activity'	=> $this->now,
+			'user_data'	=> ''
+		);
 
 		// Save the data to the DB if needed
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->all_userdata()));
+			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
 		}
 
 		// Write the cookie
@@ -382,36 +515,59 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @param	boolean	Force update flag (default: false)
 	 * @return	void
 	 */
-	protected function _sess_update($force = false)
+	protected function _sess_update($force = FALSE)
 	{
 		// We only update the session every five minutes by default (unless forced)
-		if (!$force && ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now())
+		if (!$force && ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
 		{
 			return;
+		}
+
+		// _set_cookie() will handle this for us if we aren't using database sessions
+		// by pushing all userdata to the cookie.
+		$cookie_data = NULL;
+
+		/* Changing the session ID during an AJAX call causes problems,
+		 * so we'll only update our last_activity
+		 */
+		if ($this->CI->input->is_ajax_request())
+		{
+			$this->userdata['last_activity'] = $this->now;
+
+			// Update the session ID and last_activity field in the DB if needed
+			if ($this->sess_use_database === TRUE)
+			{
+				// set cookie explicitly to only have our session data
+				$cookie_data = array();
+				foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+				{
+					$cookie_data[$val] = $this->userdata[$val];
+				}
+
+				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name,
+											array('last_activity' => $this->userdata['last_activity']),
+											array('session_id' => $this->userdata['session_id'])));
+			}
+
+			return $this->_set_cookie($cookie_data);
 		}
 
 		// Save the old session id so we know which record to
 		// update in the database if we need it
 		$old_sessid = $this->userdata['session_id'];
 		$new_sessid = '';
-		while (strlen($new_sessid) < 32)
+		do
 		{
 			$new_sessid .= mt_rand(0, mt_getrandmax());
 		}
+		while (strlen($new_sessid) < 32);
 
 		// To make the session ID even more secure we'll combine it with the user's IP
 		$new_sessid .= $this->CI->input->ip_address();
 
-		// Turn it into a hash
-		$new_sessid = md5(uniqid($new_sessid, TRUE));
-
-		// Update the session data in the session data array
-		$this->set_userdata('session_id', $new_sessid);
-		$this->set_userdata('last_activity', $this->now());
-
-		// _set_cookie() will handle this for us if we aren't using database sessions
-		// by pushing all userdata to the cookie.
-		$cookie_data = NULL;
+		// Turn it into a hash and update the session data array
+		$this->userdata['session_id'] = $new_sessid = md5(uniqid($new_sessid, TRUE));
+		$this->userdata['last_activity'] = $this->now;
 
 		// Update the session ID and last_activity field in the DB if needed
 		if ($this->sess_use_database === TRUE)
@@ -424,8 +580,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			}
 
 			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name,
-				array('last_activity' => $this->now(), 'session_id' => $new_sessid),
-				array('session_id' => $old_sessid)));
+				array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
 		}
 
 		// Write the cookie
@@ -436,22 +591,19 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * Get the "now" time
 	 *
 	 * @access	protected
-	 * @return	int
+	 * @return	int	 Time
 	 */
 	protected function _get_time()
 	{
-		if (strtolower($this->time_reference) == 'gmt')
+		if ($this->time_reference === 'local' || $this->time_reference === date_default_timezone_get())
 		{
-			$now = time();
-			$time = mktime(gmdate('H', $now), gmdate('i', $now), gmdate('s', $now), gmdate('m', $now),
-				gmdate('d', $now), gmdate('Y', $now));
-		}
-		else
-		{
-			$time = time();
+			return time();
 		}
 
-		return $time;
+		$datetime = new DateTime('now', new DateTimeZone($this->time_reference));
+		sscanf($datetime->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 
 	/**
@@ -465,13 +617,13 @@ class CI_Session_cookie extends CI_Session_driver {
 	{
 		if (is_null($cookie_data))
 		{
-			$cookie_data = $this->all_userdata();
+			$cookie_data = $this->userdata;
 		}
 
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 
-		if ($this->sess_encrypt_cookie == TRUE)
+		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
@@ -485,7 +637,7 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		// Set the cookie
 		setcookie($this->sess_cookie_name, $cookie_data, $expire, $this->cookie_path, $this->cookie_domain,
-			$this->cookie_secure);
+			$this->cookie_secure, $this->cookie_httponly);
 	}
 
 	/**
@@ -496,29 +648,37 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @access	protected
 	 * @param	mixed	Data to serialize
-	 * @return	string
+	 * @return	string	Serialized data
 	 */
 	protected function _serialize($data)
 	{
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('\\', '{{slash}}', $val);
-				}
-			}
+			array_walk_recursive($data, array(&$this, '_escape_slashes'));
 		}
-		else
+		elseif (is_string($data))
 		{
-			if (is_string($data))
-			{
-				$data = str_replace('\\', '{{slash}}', $data);
-			}
+			$data = str_replace('\\', '{{slash}}', $data);
 		}
-
 		return serialize($data);
+	}
+
+	/**
+	 * Escape slashes
+	 *
+	 * This function converts any slashes found into a temporary marker
+	 *
+	 * @access	protected
+	 * @param	string	Value
+	 * @param	string	Key
+	 * @return	void
+	 */
+	protected function _escape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+			$val = str_replace('\\', '{{slash}}', $val);
+		}
 	}
 
 	/**
@@ -528,27 +688,38 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * temporary slash markers back to actual slashes
 	 *
 	 * @access	protected
-	 * @param	string	Data to unserialize
-	 * @return	mixed
+	 * @param	mixed	Data to unserialize
+	 * @return	mixed	Unserialized data
 	 */
 	protected function _unserialize($data)
 	{
-		$data = @unserialize(strip_slashes($data));
+		$data = @unserialize(strip_slashes(trim($data)));
 
 		if (is_array($data))
 		{
-			foreach ($data as $key => $val)
-			{
-				if (is_string($val))
-				{
-					$data[$key] = str_replace('{{slash}}', '\\', $val);
-				}
-			}
-
+			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
 			return $data;
 		}
 
-		return (is_string($data)) ? str_replace('{{slash}}', '\\', $data) : $data;
+		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
+	}
+
+	/**
+	 * Unescape slashes
+	 *
+	 * This function converts any slash markers back into actual slashes
+	 *
+	 * @access	protected
+	 * @param	string	Value
+	 * @param	string	Key
+	 * @return	void
+	 */
+	protected function _unescape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+	 		$val= str_replace('{{slash}}', '\\', $val);
+		}
 	}
 
 	/**
@@ -562,15 +733,18 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _sess_gc()
 	{
-		if ($this->sess_use_database != TRUE)
+		if ($this->sess_use_database !== TRUE)
 		{
 			return;
 		}
 
+		$probability = ini_get('session.gc_probability');
+		$divisor = ini_get('session.gc_divisor');
+
 		srand(time());
-		if ((rand() % 100) < self::gc_probability)
+		if ((mt_rand(0, $divisor) / $divisor) < $probability)
 		{
-			$expire = $this->now() - $this->sess_expiration;
+			$expire = $this->now - $this->sess_expiration;
 
 			$this->CI->db->where('last_activity < '.$expire);
 			$this->CI->db->delete($this->sess_table_name);
@@ -578,9 +752,8 @@ class CI_Session_cookie extends CI_Session_driver {
 			log_message('debug', 'Session garbage collection performed.');
 		}
 	}
+
 }
-// END CI_Session_cookie Class
 
 /* End of file Session_cookie.php */
 /* Location: ./system/libraries/Session/drivers/Session_cookie.php */
-?>

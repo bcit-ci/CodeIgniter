@@ -197,6 +197,27 @@ class CI_Session extends CI_Driver_Library {
 	}
 
 	/**
+	 * Fetch all flashdata
+	 *
+	 * @return	array   Flash data array
+	 */
+	public function all_flashdata()
+	{
+		$out = array();
+
+		// loop through all userdata
+		foreach ($this->all_userdata() as $key => $val)
+		{
+            // if it contains flashdata, add it
+			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_OLD) !== FALSE)
+			{
+				$out[$key] = $val;
+			}
+		}
+		return $out;
+	}
+
+	/**
 	 * Add or change data in the "userdata" array
 	 *
 	 * @param	mixed	Item name or array of items
@@ -297,8 +318,8 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	public function keep_flashdata($key)
 	{
-		// 'old' flashdata gets removed. Here we mark all
-		// flashdata as 'new' to preserve it from _flashdata_sweep()
+		// 'old' flashdata gets removed. Here we mark all flashdata as 'new' to preserve it from _flashdata_sweep()
+		// Note the function will return NULL if the $key provided cannot be found
 		$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
 		$value = $this->userdata($old_flashdata_key);
 
