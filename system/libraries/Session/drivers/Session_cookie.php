@@ -39,7 +39,6 @@
  * @link		http://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session_cookie extends CI_Session_driver {
-
 	/**
 	 * Whether to encrypt the session cookie
 	 *
@@ -152,7 +151,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	public $time_reference			= 'local';
 
-
 	/**
 	 * Session data
 	 *
@@ -186,7 +184,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$this->CI =& get_instance();
 
 		// Set all the session preferences, which can either be set
-		// manually via the $params array above or via the config file
+		// manually via the $params array or via the config file
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration',
 		'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path',
 		'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix',
@@ -527,9 +525,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// by pushing all userdata to the cookie.
 		$cookie_data = NULL;
 
-		/* Changing the session ID during an AJAX call causes problems,
-		 * so we'll only update our last_activity
-		 */
+		// Changing the session ID during an AJAX call causes problems, so we'll only update our last_activity
 		if ($this->CI->input->is_ajax_request())
 		{
 			$this->userdata['last_activity'] = $this->now;
@@ -752,7 +748,6 @@ class CI_Session_cookie extends CI_Session_driver {
 			log_message('debug', 'Session garbage collection performed.');
 		}
 	}
-
 }
 
 /* End of file Session_cookie.php */

@@ -182,9 +182,6 @@ class CI_Session_native extends CI_Session_driver {
 		return $_SESSION;
 	}
 }
-// END CI_Session_native Class
-
 
 /* End of file Session_native.php */
 /* Location: ./system/libraries/Session/drivers/Session_native.php */
-?>

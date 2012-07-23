@@ -84,7 +84,7 @@ class CI_Session extends CI_Driver_Library {
 		// Get driver to load
 		$key = 'sess_driver';
 		$driver = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
-		if (!$driver) $driver = 'native';
+		if (!$driver) $driver = 'cookie';
 		if (!in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 		{
 			$this->valid_drivers[] = 'Session_'.$driver;
