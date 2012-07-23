@@ -316,6 +316,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
 -  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
+-  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 
 Version 2.1.2
 =============
