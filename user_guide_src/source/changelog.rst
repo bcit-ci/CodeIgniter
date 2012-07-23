@@ -36,6 +36,7 @@ Release Date: Not Released
    -  Updated support for doc files in mimes.php.
    -  Updated support for php files in mimes.php.
    -  Updated support for zip files in mimes.php.
+   -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
    -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
