@@ -516,7 +516,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	protected function _sess_update($force = FALSE)
 	{
 		// We only update the session every five minutes by default (unless forced)
-		if (!$force && ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
+		if ( ! $force && ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
 		{
 			return;
 		}

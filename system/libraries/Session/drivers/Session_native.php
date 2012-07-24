@@ -161,10 +161,10 @@ class CI_Session_native extends CI_Session_driver {
 	 * Regenerate the session id
 	 *
 	 * @access	public
-	 * @param	boolean	Destroy session data flag (default: false)
+	 * @param	boolean	Destroy session data flag (default: FALSE)
 	 * @return	void
 	 */
-	public function sess_regenerate($destroy = false)
+	public function sess_regenerate($destroy = FALSE)
 	{
 		// Just regenerate id, passing destroy flag
 		session_regenerate_id($destroy);

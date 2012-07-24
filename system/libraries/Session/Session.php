@@ -69,12 +69,12 @@ class CI_Session extends CI_Driver_Library {
 		$drivers = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
 		{
-			if (!is_array($drivers)) $drivers = array($drivers);
+			if ( ! is_array($drivers)) $drivers = array($drivers);
 
 			// Add driver names to valid list
 			foreach ($drivers as $driver)
 			{
-				if (!in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+				if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 				{
 					$this->valid_drivers[] = $driver;
 				}
@@ -84,8 +84,8 @@ class CI_Session extends CI_Driver_Library {
 		// Get driver to load
 		$key = 'sess_driver';
 		$driver = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
-		if (!$driver) $driver = 'cookie';
-		if (!in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+		if ( ! $driver) $driver = 'cookie';
+		if ( ! in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 		{
 			$this->valid_drivers[] = 'Session_'.$driver;
 		}
@@ -182,7 +182,7 @@ class CI_Session extends CI_Driver_Library {
 	public function userdata($item)
 	{
 		// Return value or FALSE if not found
-		return (!isset($this->userdata[$item])) ? FALSE : $this->userdata[$item];
+		return ( ! isset($this->userdata[$item])) ? NULL : $this->userdata[$item];
 	}
 
 	/**
@@ -193,7 +193,7 @@ class CI_Session extends CI_Driver_Library {
 	public function all_userdata()
 	{
 		// Return entire array
-		return (!isset($this->userdata)) ? FALSE : $this->userdata;
+		return ( ! isset($this->userdata)) ? NULL : $this->userdata;
 	}
 
 	/**
@@ -362,7 +362,7 @@ class CI_Session extends CI_Driver_Library {
 
 		// Get or create expiration list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);
-		if (!$expirations)
+		if ( ! $expirations)
 		{
 			$expirations = array();
 		}
@@ -392,7 +392,7 @@ class CI_Session extends CI_Driver_Library {
 	{
 		// Get expirations list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);
-		if (!$expirations || !count($expirations))
+		if ( ! $expirations || ! count($expirations))
 		{
 			// Nothing to do
 			return;
@@ -482,7 +482,7 @@ class CI_Session extends CI_Driver_Library {
 	{
 		// Get expirations list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);
-		if (!$expirations || !count($expirations))
+		if ( ! $expirations ||  ! count($expirations))
 		{
 			// Nothing to do
 			return;
