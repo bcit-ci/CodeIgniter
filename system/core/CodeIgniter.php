@@ -269,7 +269,7 @@
 		{
 			$x = explode('/', $RTR->routes['404_override'], 2);
 			$class = $x[0];
-			$method = isset($x[1]) ? $x[1] : 'index';
+			$method = (isset($x[1])) ? $x[1] : 'index';
 			if ( ! class_exists($class))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
