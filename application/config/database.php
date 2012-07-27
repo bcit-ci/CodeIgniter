@@ -74,10 +74,31 @@
 | the query builder class
 */
 
-$active_group = 'default';
+$active_group = ENVIRONMENT;
 $query_builder = TRUE;
 
-$db['default'] = array(
+$db['development'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => '',
+	'password' => '',
+	'database' => '',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => TRUE,
+	'db_debug' => TRUE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'autoinit' => TRUE,
+	'stricton' => FALSE,
+	'failover' => array()
+);
+
+
+$db['production'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => '',
