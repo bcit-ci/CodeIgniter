@@ -51,6 +51,7 @@ if ( ! function_exists('heading'))
 	 */
 	function heading($data = '', $h = '1', $attributes = '')
 	{
+    $attributes = _stringify_attributes($attributes);
 		return '<h'.$h.($attributes !== '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
 	}
 }
@@ -120,19 +121,7 @@ if ( ! function_exists('_list'))
 		$out = str_repeat(' ', $depth);
 
 		// Were any attributes submitted?  If so generate a string
-		if (is_array($attributes))
-		{
-			$atts = '';
-			foreach ($attributes as $key => $val)
-			{
-				$atts .= ' '.$key.'="'.$val.'"';
-			}
-			$attributes = $atts;
-		}
-		elseif (is_string($attributes) && strlen($attributes) > 0)
-		{
-			$attributes = ' '.$attributes;
-		}
+    $attributes = _stringify_attributes($attributes);
 
 		// Write the opening list tag
 		$out .= '<'.$type.$attributes.">\n";
@@ -407,5 +396,32 @@ if ( ! function_exists('nbs'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_stringify_attributes'))
+{
+  /**
+   * Allows for array-style attribute specification on HTML elements
+   *
+   * @param string or array
+   * @return string
+   */
+  function _stringify_attributes($attributes)
+  {
+		if (is_array($attributes))
+		{
+			$atts = '';
+			foreach ($attributes as $key => $val)
+			{
+				$atts .= ' '.$key.'="'.$val.'"';
+			}
+			return $atts;
+		}
+		elseif (is_string($attributes) && strlen($attributes) > 0)
+		{
+			return ' '.$attributes;
+		}
+  }
+}
 /* End of file html_helper.php */
 /* Location: ./system/helpers/html_helper.php */
