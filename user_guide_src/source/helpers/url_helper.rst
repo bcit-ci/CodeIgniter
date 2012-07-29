@@ -207,7 +207,12 @@ Creates a standard HTML email link. Usage example
 	echo mailto('me@my-site.com', 'Click Here to Contact Me');
 
 As with the anchor() tab above, you can set attributes using the third
-parameter.
+parameter:
+
+::
+
+    $attributes = array('title' => 'Mail me');
+    echo mailto('me@my-site.com', 'Contact Me', $attributes);
 
 safe_mailto()
 =============
