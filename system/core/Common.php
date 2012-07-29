@@ -608,39 +608,31 @@ if ( ! function_exists('_stringify_attributes'))
 	 * Helper function used to convert a string, array, or object of
 	 * attributes to a string
 	 *
-	 * @param	mixed string, array, object
-	 * @param	bool
-	 * @return	string
+	 * @param   mixed string, array, object
+	 * @param   bool
+	 * @return  string
 	 */
 	function _stringify_attributes($attributes, $js = FALSE)
 	{
+		$atts = null;
+
+		if (empty($attributes))
+		{
+			return $atts;
+		}
+
 		if (is_string($attributes))
 		{
-			return strlen($attributes) > 0 ? ' '.$attributes : $attributes;
+			return ' '.$attributes;
 		}
 
-		if (is_object($attributes))
-		{
-			$attributes = (array) $attributes;
-		}
+		$attributes = (array) $attributes;
 
-		if (count($attributes) === 0)
-		{
-			return;
-		}
-
-		$atts = '';
 		foreach ($attributes as $key => $val)
 		{
-			if ($js)
-			{
-				$atts .= $key.'='.$val.',';
-			}
-			else
-			{
-				$atts .= ' '.$key.'="'.$val.'"';
-			}
+			$atts .= ($js) ? $key.'='.$val.',' : ' '.$key.'="'.$val.'"';
 		}
+		
 		return rtrim($atts, ',');
 	}
 }
