@@ -51,7 +51,7 @@ if ( ! function_exists('heading'))
 	 */
 	function heading($data = '', $h = '1', $attributes = '')
 	{
-		return '<h'.$h.($attributes !== '' ? ' ' : '').$attributes.'>'.$data.'</h'.$h.'>';
+		return '<h'.$h._stringify_attributes($attributes).'>'.$data.'</h'.$h.'>';
 	}
 }
 
@@ -119,23 +119,8 @@ if ( ! function_exists('_list'))
 		// Set the indentation based on the depth
 		$out = str_repeat(' ', $depth);
 
-		// Were any attributes submitted?  If so generate a string
-		if (is_array($attributes))
-		{
-			$atts = '';
-			foreach ($attributes as $key => $val)
-			{
-				$atts .= ' '.$key.'="'.$val.'"';
-			}
-			$attributes = $atts;
-		}
-		elseif (is_string($attributes) && strlen($attributes) > 0)
-		{
-			$attributes = ' '.$attributes;
-		}
-
 		// Write the opening list tag
-		$out .= '<'.$type.$attributes.">\n";
+		$out .= '<'.$type._stringify_attributes($attributes).">\n";
 
 		// Cycle through the list elements.  If an array is
 		// encountered we will recursively call _list()
@@ -191,9 +176,10 @@ if ( ! function_exists('img'))
 	 *
 	 * @param	mixed
 	 * @param	bool
+	 * @param	mixed
 	 * @return	string
 	 */
-	function img($src = '', $index_page = FALSE)
+	function img($src = '', $index_page = FALSE, $attributes = '')
 	{
 		if ( ! is_array($src) )
 		{
@@ -229,7 +215,7 @@ if ( ! function_exists('img'))
 			}
 		}
 
-		return $img.'/>';
+		return $img._stringify_attributes($attributes).'/>';
 	}
 }
 
