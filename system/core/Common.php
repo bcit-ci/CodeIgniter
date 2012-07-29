@@ -598,5 +598,54 @@ if ( ! function_exists('html_escape'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_stringify_attributes'))
+{
+	/**
+	 * Attributes To String
+	 *
+	 * Helper function used to convert an array or object of
+	 * attributes to a string
+	 *
+	 * @param	mixed
+	 * @return	string
+	 */
+	function _stringify_attributes($attributes, $js = FALSE)
+	{
+		if (is_object($attributes) && count($attributes) > 0)
+		{
+			$attributes = (array) $attributes;
+		}
+
+		if (is_array($attributes))
+		{
+			$atts = '';
+			if (count($attributes) === 0)
+			{
+				return $atts;
+			}
+			foreach ($attributes as $key => $val)
+			{
+				if ($js)
+				{
+					$atts .= $key.'='.$val.',';
+				}
+				else
+				{
+					$atts .= ' '.$key.'="'.$val.'"';
+				}
+			}
+			return rtrim($atts, ',');
+		}
+		elseif (is_string($attributes) && strlen($attributes) > 0)
+		{
+			return ' '.$attributes;
+		}
+
+		return $attributes;
+	}
+}
+
 /* End of file Common.php */
 /* Location: ./system/core/Common.php */
