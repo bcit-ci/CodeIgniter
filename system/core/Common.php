@@ -603,47 +603,45 @@ if ( ! function_exists('html_escape'))
 if ( ! function_exists('_stringify_attributes'))
 {
 	/**
-	 * Attributes To String
+	 * Stringify attributes for use in html tags.
 	 *
-	 * Helper function used to convert an array or object of
+	 * Helper function used to convert a string, array, or object of
 	 * attributes to a string
 	 *
-	 * @param	mixed
+	 * @param	mixed string, array, object
+	 * @param	bool
 	 * @return	string
 	 */
 	function _stringify_attributes($attributes, $js = FALSE)
 	{
-		if (is_object($attributes) && count($attributes) > 0)
+		if (is_string($attributes))
+		{
+			return strlen($attributes) > 0 ? ' '.$attributes : $attributes;
+		}
+
+		if (is_object($attributes))
 		{
 			$attributes = (array) $attributes;
 		}
 
-		if (is_array($attributes))
+		if (count($attributes) === 0)
 		{
-			$atts = '';
-			if (count($attributes) === 0)
-			{
-				return $atts;
-			}
-			foreach ($attributes as $key => $val)
-			{
-				if ($js)
-				{
-					$atts .= $key.'='.$val.',';
-				}
-				else
-				{
-					$atts .= ' '.$key.'="'.$val.'"';
-				}
-			}
-			return rtrim($atts, ',');
-		}
-		elseif (is_string($attributes) && strlen($attributes) > 0)
-		{
-			return ' '.$attributes;
+			return;
 		}
 
-		return $attributes;
+		$atts = '';
+		foreach ($attributes as $key => $val)
+		{
+			if ($js)
+			{
+				$atts .= $key.'='.$val.',';
+			}
+			else
+			{
+				$atts .= ' '.$key.'="'.$val.'"';
+			}
+		}
+		return rtrim($atts, ',');
 	}
 }
 
