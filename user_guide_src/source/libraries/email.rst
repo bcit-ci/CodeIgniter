@@ -226,6 +226,14 @@ success or failure, enabling it to be used conditionally::
 	    // Generate error
 	}
 
+This function will automatically clear all parameters if the request was
+ successful. To stop this behaviour pass FALSE::
+
+ 	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
+
 $this->email->attach()
 ----------------------
 
