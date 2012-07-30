@@ -1257,11 +1257,15 @@ class CI_Email {
 
 		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
-			return $this->batch_bcc_send();
+			$result = $this->batch_bcc_send();
+			$this->clear();
+			return $result;
 		}
 
 		$this->_build_message();
-		return $this->_spool_email();
+		$result = $this->_spool_email();
+		$this->clear();
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
