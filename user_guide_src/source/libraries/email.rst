@@ -227,7 +227,7 @@ success or failure, enabling it to be used conditionally::
 	}
 
 This function will automatically clear all parameters if the request was
- successful. To stop this behaviour pass FALSE::
+successful. To stop this behaviour pass FALSE::
 
  	if ($this->email->send(FALSE))
  	{
