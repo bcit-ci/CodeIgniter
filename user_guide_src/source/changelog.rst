@@ -176,7 +176,9 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
-   -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
+   -  :doc:`Email library <libraries/email>` changes include:
+    -  Added dsn (delivery status notification) option.
+    - Successfully sent emails will automatically clear the parameters.
    -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
