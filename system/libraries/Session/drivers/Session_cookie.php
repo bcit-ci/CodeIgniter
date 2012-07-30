@@ -190,13 +190,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix',
 		'encryption_key') as $key)
 		{
-			$this->$key = isset($this->parent->params[$key]) ? $this->parent->params[$key] :
+			$this->$key = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] :
 				$this->CI->config->item($key);
 		}
 
 		if ($this->encryption_key === '')
 		{
-			show_error('In order to use the Session Cookie driver you are required to set an encryption key '.
+			show_error('In order to use the Cookie Session driver you are required to set an encryption key '.
 				'in your config file.');
 		}
 
@@ -309,7 +309,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Kill the cookie
-		setcookie($this->sess_cookie_name, addslashes(serialize(array())), ($this->now - 31500000),
+		$this->_setcookie($this->sess_cookie_name, addslashes(serialize(array())), ($this->now - 31500000),
 			$this->cookie_path, $this->cookie_domain, 0);
 
 		// Kill session data
@@ -632,8 +632,30 @@ class CI_Session_cookie extends CI_Session_driver {
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
 		// Set the cookie
-		setcookie($this->sess_cookie_name, $cookie_data, $expire, $this->cookie_path, $this->cookie_domain,
+		$this->_setcookie($this->sess_cookie_name, $cookie_data, $expire, $this->cookie_path, $this->cookie_domain,
 			$this->cookie_secure, $this->cookie_httponly);
+	}
+
+	/**
+	 * Set a cookie with the system
+	 *
+	 * This abstraction of the setcookie call allows overriding for unit testing
+	 *
+	 * @access  protected
+	 * @param   string  Cookie name
+	 * @param   string  Cookie value
+	 * @param   int	 Expiration time
+	 * @param   string  Cookie path
+	 * @param   string  Cookie domain
+	 * @param   bool	Secure connection flag
+	 * @param   bool	HTTP protocol only flag
+	 * @return  void
+	 */
+	protected function _setcookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = false,
+	$httponly = false)
+	{
+		// Set the cookie
+		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 
 	/**
