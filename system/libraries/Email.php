@@ -1259,7 +1259,7 @@ class CI_Email {
 		{
 			$result = $this->batch_bcc_send();
 
-			if ($auto_clear)
+			if ($result && $auto_clear)
 			{
 				$this->clear();
 			}
@@ -1270,11 +1270,11 @@ class CI_Email {
 		$this->_build_message();
 		$result = $this->_spool_email();
 		
-		if ($auto_clear)
+		if ($result && $auto_clear)
 		{
 			$this->clear();
 		}
-		
+
 		return $result;
 	}
 
