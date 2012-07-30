@@ -1269,7 +1269,7 @@ class CI_Email {
 
 		$this->_build_message();
 		$result = $this->_spool_email();
-		
+
 		if ($result && $auto_clear)
 		{
 			$this->clear();

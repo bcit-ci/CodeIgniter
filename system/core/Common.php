@@ -603,18 +603,18 @@ if ( ! function_exists('html_escape'))
 if ( ! function_exists('_stringify_attributes'))
 {
 	/**
-	 * Stringify attributes for use in html tags.
+	 * Stringify attributes for use in HTML tags.
 	 *
-	 * Helper function used to convert a string, array, or object of
-	 * attributes to a string
+	 * Helper function used to convert a string, array, or object
+	 * of attributes to a string.
 	 *
-	 * @param   mixed string, array, object
-	 * @param   bool
-	 * @return  string
+	 * @param	mixed	string, array, object
+	 * @param	bool
+	 * @return	string
 	 */
 	function _stringify_attributes($attributes, $js = FALSE)
 	{
-		$atts = null;
+		$atts = NULL;
 
 		if (empty($attributes))
 		{
@@ -632,7 +632,7 @@ if ( ! function_exists('_stringify_attributes'))
 		{
 			$atts .= ($js) ? $key.'='.$val.',' : ' '.$key.'="'.$val.'"';
 		}
-		
+
 		return rtrim($atts, ',');
 	}
 }

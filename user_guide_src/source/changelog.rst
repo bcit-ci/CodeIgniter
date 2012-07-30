@@ -146,8 +146,6 @@ Release Date: Not Released
    -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
-   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
@@ -177,9 +175,11 @@ Release Date: Not Released
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  :doc:`Email library <libraries/email>` changes include:
-    -  Added dsn (delivery status notification) option.
-    - Successfully sent emails will automatically clear the parameters.
-   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
+	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+	 -  Added dsn (delivery status notification) option.
+	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+	 -  Successfully sent emails will automatically clear the parameters.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
