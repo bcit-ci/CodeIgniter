@@ -1238,7 +1238,7 @@ class CI_Email {
 	 *
 	 * @return	bool
 	 */
-	public function send()
+	public function send($auto_clear = TRUE)
 	{
 		if ($this->_replyto_flag === FALSE)
 		{
@@ -1258,13 +1258,23 @@ class CI_Email {
 		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
 			$result = $this->batch_bcc_send();
-			$this->clear();
+
+			if ($auto_clear)
+			{
+				$this->clear();
+			}
+
 			return $result;
 		}
 
 		$this->_build_message();
 		$result = $this->_spool_email();
-		$this->clear();
+		
+		if ($auto_clear)
+		{
+			$this->clear();
+		}
+		
 		return $result;
 	}
 
