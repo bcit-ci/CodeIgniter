@@ -64,7 +64,7 @@ class CI_Session extends CI_Driver_Library {
 
 		// Get valid drivers list
 		$CI =& get_instance();
-		$this->valid_drivers = array('CI_Session_native', 'CI_Session_cookie');
+		$this->valid_drivers = array('Session_native', 'Session_cookie');
 		$key = 'sess_valid_drivers';
 		$drivers = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
@@ -131,7 +131,7 @@ class CI_Session extends CI_Driver_Library {
 	public function select_driver($driver)
 	{
 		// Validate driver name
-		$lowername = strtolower($driver);
+		$lowername = strtolower(str_replace('CI_', '', $driver));
 		if (in_array($lowername, array_map('strtolower', $this->valid_drivers)))
 		{
 			// See if regular or lowercase variant is loaded
@@ -177,11 +177,11 @@ class CI_Session extends CI_Driver_Library {
 	 * Fetch a specific item from the session array
 	 *
 	 * @param	string	Item key
-	 * @return	string	Item value
+	 * @return	string	Item value or NULL if not found
 	 */
 	public function userdata($item)
 	{
-		// Return value or FALSE if not found
+		// Return value or NULL if not found
 		return ( ! isset($this->userdata[$item])) ? NULL : $this->userdata[$item];
 	}
 
@@ -208,7 +208,7 @@ class CI_Session extends CI_Driver_Library {
 		// loop through all userdata
 		foreach ($this->all_userdata() as $key => $val)
 		{
-            // if it contains flashdata, add it
+			// if it contains flashdata, add it
 			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_OLD) !== FALSE)
 			{
 				$out[$key] = $val;
@@ -543,7 +543,7 @@ abstract class CI_Session_driver extends CI_Driver {
 		// Call base class decorate first
 		parent::decorate($parent);
 
-		// Call initialize method now that driver has access to $this->parent
+		// Call initialize method now that driver has access to $this->_parent
 		$this->initialize();
 	}
 
@@ -559,7 +559,7 @@ abstract class CI_Session_driver extends CI_Driver {
 	public function __call($method, $args = array())
 	{
 		// Make sure the parent library uses this driver
-		$this->parent->select_driver(get_class($this));
+		$this->_parent->select_driver(get_class($this));
 		return parent::__call($method, $args);
 	}
 
