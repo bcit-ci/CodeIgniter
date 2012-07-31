@@ -83,6 +83,13 @@ Smiley helper js_insert_smiley()
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
 
+Text helper highlight_phrase()
+==============================
+
+:doc:`Text Helper <../helpers/text_helper>` function ``highlight_phrase()`` now uses the HTML5 ``<mark>`` tag as the
+default tag. ``<mark>`` semantically describes highlighted text better than the ``<strong>`` tag which was used in 
+older versions of CodeIgniter.
+
 Security helper do_hash()
 =========================
 
