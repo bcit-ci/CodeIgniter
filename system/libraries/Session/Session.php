@@ -95,7 +95,6 @@ class CI_Session extends CI_Driver_Library {
 
 		// Load driver and get array reference
 		$this->load_driver($driver);
-		$this->userdata =& $this->current->get_userdata();
 
 		// Delete 'old' flashdata (from last request)
 		$this->_flashdata_sweep();
@@ -119,6 +118,7 @@ class CI_Session extends CI_Driver_Library {
 	{
 		// Save reference to most recently loaded driver as library default
 		$this->current = parent::load_driver($driver);
+		$this->userdata =& $this->current->get_userdata();
 		return $this->current;
 	}
 
@@ -134,14 +134,12 @@ class CI_Session extends CI_Driver_Library {
 		$lowername = strtolower(str_replace('CI_', '', $driver));
 		if (in_array($lowername, array_map('strtolower', $this->valid_drivers)))
 		{
-			// See if regular or lowercase variant is loaded
-			if (class_exists($driver))
+			// See if driver is loaded
+			$child = str_replace($this->lib_name.'_', '', $driver);
+			if (isset($this->$child))
 			{
-				$this->current = $this->$driver;
-			}
-			else if (class_exists($lowername))
-			{
-				$this->current = $this->$lowername;
+				$this->current = $this->$child;
+		        $this->userdata =& $this->current->get_userdata();
 			}
 			else
 			{
@@ -211,6 +209,7 @@ class CI_Session extends CI_Driver_Library {
 			// if it contains flashdata, add it
 			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_OLD) !== FALSE)
 			{
+                $key = str_replace(self::FLASHDATA_KEY.self::FLASHDATA_OLD, '', $key);
 				$out[$key] = $val;
 			}
 		}
