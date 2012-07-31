@@ -4,7 +4,11 @@
  * Session driver library unit test
  */
 class Session_test extends CI_TestCase {
-	protected $settings = array('use_cookies' => 0, 'use_only_cookies' => 0, 'cache_limiter' => false);
+	protected $settings = array(
+		'use_cookies' => 0,
+	   	'use_only_cookies' => 0,
+	   	'cache_limiter' => false
+	);
 	protected $setting_vals = array();
 	protected $cookie_vals;
 	protected $session;
@@ -26,19 +30,40 @@ class Session_test extends CI_TestCase {
 
 		// Establish necessary support classes
 		$obj = new stdClass;
-		foreach (array('config' => 'cfg', 'load' => 'load', 'input' => 'in') as $name => $abbr) {
+		$classes = array(
+			'config' => 'cfg',
+			'load' => 'load',
+			'input' => 'in'
+		);
+		foreach ($classes as $name => $abbr) {
 			$class = $this->ci_core_class($abbr);
 			$obj->$name = new $class;
 		}
 		$this->ci_instance($obj);
 
 		// Attach session instance locally
-		$config = array('sess_encrypt_cookie' => FALSE, 'sess_use_database' => FALSE, 'sess_table_name' => '',
-			'sess_expiration' => 7200, 'sess_expire_on_close' => FALSE, 'sess_match_ip' => FALSE,
-			'sess_match_useragent' => TRUE, 'sess_cookie_name' => 'ci_session', 'cookie_path' => '',
-			'cookie_domain' => '', 'cookie_secure' => FALSE, 'cookie_httponly' => FALSE, 'sess_time_to_update' => 300,
-			'time_reference' => 'local', 'cookie_prefix' => '', 'encryption_key' => 'foobar',
-			'sess_valid_drivers' => array('Mock_Libraries_Session_native', 'Mock_Libraries_Session_cookie'));
+		$config = array(
+			'sess_encrypt_cookie' => FALSE,
+			'sess_use_database' => FALSE,
+			'sess_table_name' => '',
+			'sess_expiration' => 7200,
+			'sess_expire_on_close' => FALSE,
+			'sess_match_ip' => FALSE,
+			'sess_match_useragent' => TRUE,
+			'sess_cookie_name' => 'ci_session',
+			'cookie_path' => '',
+			'cookie_domain' => '',
+			'cookie_secure' => FALSE,
+			'cookie_httponly' => FALSE,
+			'sess_time_to_update' => 300,
+			'time_reference' => 'local',
+			'cookie_prefix' => '',
+			'encryption_key' => 'foobar',
+			'sess_valid_drivers' => array(
+				'Mock_Libraries_Session_native',
+			   	'Mock_Libraries_Session_cookie'
+			)
+		);
 		$this->session = new Mock_Libraries_Session($config);
 	}
 
@@ -96,9 +121,21 @@ class Session_test extends CI_TestCase {
 	public function test_all_userdata()
 	{
 		// Set a specific series of data for each driver
-		$cdata = array('one' => 'first', 'two' => 'second', 'three' => 'third', 'foo' => 'bar', 'bar' => 'baz');
+		$cdata = array(
+			'one' => 'first',
+			'two' => 'second',
+		   	'three' => 'third',
+		   	'foo' => 'bar',
+		   	'bar' => 'baz'
+		);
+		$ndata = array(
+			'one' => 'gold',
+		   	'two' => 'silver',
+		   	'three' => 'bronze',
+		   	'foo' => 'baz',
+		   	'bar' => 'foo'
+		);
 		$this->session->cookie->set_userdata($cdata);
-		$ndata = array('one' => 'gold', 'two' => 'silver', 'three' => 'bronze', 'foo' => 'baz', 'bar' => 'foo');
 		$this->session->native->set_userdata($ndata);
 
 		// Make sure all values are present
@@ -202,9 +239,21 @@ class Session_test extends CI_TestCase {
 	public function test_all_flashdata()
 	{
 		// Set a specific series of data for each driver
-		$cdata = array('one' => 'first', 'two' => 'second', 'three' => 'third', 'foo' => 'bar', 'bar' => 'baz');
+		$cdata = array(
+			'one' => 'first',
+		   	'two' => 'second',
+		   	'three' => 'third',
+		   	'foo' => 'bar',
+		   	'bar' => 'baz'
+		);
+		$ndata = array(
+			'one' => 'gold',
+		   	'two' => 'silver',
+		   	'three' => 'bronze',
+		   	'foo' => 'baz',
+		   	'bar' => 'foo'
+		);
 		$this->session->cookie->set_flashdata($cdata);
-		$ndata = array('one' => 'gold', 'two' => 'silver', 'three' => 'bronze', 'foo' => 'baz', 'bar' => 'foo');
 		$this->session->native->set_flashdata($ndata);
 
 		// Simulate page reload and make sure all values are present
