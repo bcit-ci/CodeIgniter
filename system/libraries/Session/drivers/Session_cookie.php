@@ -72,7 +72,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var bool
 	 */
-	public $sess_expire_on_close		= FALSE;
+	public $sess_expire_on_close	= FALSE;
 
 	/**
 	 * Whether to match session on ip address
@@ -86,7 +86,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var bool
 	 */
-	public $sess_match_useragent		= TRUE;
+	public $sess_match_useragent	= TRUE;
 
 	/**
 	 * Name of session cookie
@@ -107,7 +107,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var string
 	 */
-	public $cookie_path			= '';
+	public $cookie_path				= '';
 
 	/**
 	 * Session cookie domain
@@ -156,7 +156,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var array
 	 */
-	public $userdata			= array();
+	public $userdata				= array();
 
 	/**
 	 * Reference to CodeIgniter instance
@@ -185,10 +185,25 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration',
-		'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path',
-		'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix',
-		'encryption_key') as $key)
+		$prefs = array(
+			'sess_encrypt_cookie',
+			'sess_use_database',
+			'sess_table_name',
+			'sess_expiration',
+			'sess_expire_on_close',
+			'sess_match_ip',
+			'sess_match_useragent',
+			'sess_cookie_name',
+			'cookie_path',
+			'cookie_domain',
+			'cookie_secure',
+			'cookie_httponly',
+			'sess_time_to_update',
+			'time_reference',
+			'cookie_prefix',
+			'encryption_key'
+		);
+		foreach ($prefs as $key)
 		{
 			$this->$key = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] :
 				$this->CI->config->item($key);
@@ -265,7 +280,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Before continuing, we need to determine if there is any custom data to deal with.
 		// Let's determine this by removing the default indexes to see if there's anything left in the array
 		// and set the session data while we're at it
-		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		$defaults = array(
+			'session_id',
+			'ip_address',
+			'user_agent',
+			'last_activity'
+		);
+		foreach ($defaults as $val)
 		{
 			unset($custom_userdata[$val]);
 			$cookie_userdata[$val] = $this->userdata[$val];
@@ -285,8 +306,10 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		// Run the update query
 		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name,
-			array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		$this->CI->db->update($this->sess_table_name, array(
+			'last_activity' => $this->userdata['last_activity'],
+		   	'user_data' => $custom_userdata
+		));
 
 		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
@@ -535,7 +558,13 @@ class CI_Session_cookie extends CI_Session_driver {
 			{
 				// set cookie explicitly to only have our session data
 				$cookie_data = array();
-				foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+				$defaults = array(
+					'session_id',
+					'ip_address',
+					'user_agent',
+					'last_activity'
+				);
+				foreach ($defaults as $val)
 				{
 					$cookie_data[$val] = $this->userdata[$val];
 				}
@@ -570,7 +599,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			// set cookie explicitly to only have our session data
 			$cookie_data = array();
-			foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+			$defaults = array(
+				'session_id',
+				'ip_address',
+				'user_agent',
+				'last_activity'
+			);
+			foreach ($defaults as $val)
 			{
 				$cookie_data[$val] = $this->userdata[$val];
 			}

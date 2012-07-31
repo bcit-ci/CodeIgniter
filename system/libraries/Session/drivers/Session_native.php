@@ -36,10 +36,20 @@ class CI_Session_native extends CI_Session_driver {
 		// Get config parameters
 		$config = array();
 		$CI =& get_instance();
-		foreach (array('sess_cookie_name', 'sess_expire_on_close', 'sess_expiration', 'sess_match_ip',
-		'sess_match_useragent', 'cookie_prefix', 'cookie_path', 'cookie_domain') as $key)
+		$prefs = array(
+			'sess_cookie_name',
+			'sess_expire_on_close',
+			'sess_expiration',
+			'sess_match_ip',
+			'sess_match_useragent',
+			'cookie_prefix',
+			'cookie_path',
+			'cookie_domain'
+		);
+		foreach ($prefs as $key)
 		{
-			$config[$key] = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] : $CI->config->item($key);
+			$config[$key] = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] :
+				$CI->config->item($key);
 		}
 
 		// Set session name, if specified

@@ -64,7 +64,10 @@ class CI_Session extends CI_Driver_Library {
 
 		// Get valid drivers list
 		$CI =& get_instance();
-		$this->valid_drivers = array('Session_native', 'Session_cookie');
+		$this->valid_drivers = array(
+			'Session_native',
+		   	'Session_cookie'
+		);
 		$key = 'sess_valid_drivers';
 		$drivers = (isset($params[$key])) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
@@ -116,7 +119,7 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	public function load_driver($driver)
 	{
-		// Save reference to most recently loaded driver as library default
+		// Save reference to most recently loaded driver as library default and sync userdata
 		$this->current = parent::load_driver($driver);
 		$this->userdata =& $this->current->get_userdata();
 		return $this->current;
@@ -138,11 +141,13 @@ class CI_Session extends CI_Driver_Library {
 			$child = str_replace($this->lib_name.'_', '', $driver);
 			if (isset($this->$child))
 			{
+				// Make driver current and sync userdata
 				$this->current = $this->$child;
-		        $this->userdata =& $this->current->get_userdata();
+				$this->userdata =& $this->current->get_userdata();
 			}
 			else
 			{
+				// Load new driver
 				$this->load_driver($driver);
 			}
 		}
@@ -167,8 +172,9 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	public function sess_regenerate($destroy = false)
 	{
-		// Just call regenerate on driver
+		// Call regenerate on driver and resync userdata
 		$this->current->sess_regenerate($destroy);
+		$this->userdata =& $this->current->get_userdata();
 	}
 
 	/**
@@ -209,7 +215,7 @@ class CI_Session extends CI_Driver_Library {
 			// if it contains flashdata, add it
 			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_OLD) !== FALSE)
 			{
-                $key = str_replace(self::FLASHDATA_KEY.self::FLASHDATA_OLD, '', $key);
+				$key = str_replace(self::FLASHDATA_KEY.self::FLASHDATA_OLD, '', $key);
 				$out[$key] = $val;
 			}
 		}
