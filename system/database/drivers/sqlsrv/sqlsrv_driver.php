@@ -49,12 +49,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' NEWID()';
 
 	// SQLSRV-specific properties
@@ -86,15 +80,15 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		$conn_id = sqlsrv_connect($this->hostname, $connection);
+		$this->conn_id = sqlsrv_connect($this->hostname, $connection);
 
 		// Determine how identifiers are escaped
 		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
 		$query = $query->row_array();
-		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query->qi;
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
 		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
 
-		return $conn_id;
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -143,7 +137,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return (is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+		return ($this->is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
 			? sqlsrv_query($this->conn_id, $sql)
 			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
@@ -231,7 +225,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return sqlrv_rows_affected($this->result_id);
+		return sqlsrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -284,7 +278,17 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
+		$sql = 'SELECT '.$this->escape_identifiers('name')
+			.' FROM '.$this->escape_identifiers('sysobjects')
+			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
+
+		if ($prefix_limit === TRUE && $this->dbprefix !== '')
+		{
+			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_escape_like_str, $this->_escape_like_chr);
+		}
+
+		return $sql.' ORDER BY '.$this->escape_identifiers('name');
 	}
 
 	// --------------------------------------------------------------------
@@ -314,7 +318,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$table;
+		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------

@@ -36,6 +36,7 @@
 */
 
 $platforms = array(
+	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
 	'windows nt 6.0'	=> 'Windows Vista',
 	'windows nt 5.2'	=> 'Windows 2003',
@@ -146,6 +147,7 @@ $mobiles = array(
 	'ipaq'			=> 'HP iPaq',
 	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
+	'playstation 3'		=> 'PlayStation 3',
 	'hiptop'		=> 'Danger Hiptop',
 	'nec-'			=> 'NEC',
 	'panasonic'		=> 'Panasonic',

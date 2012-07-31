@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 3.0
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -33,30 +33,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	3.0
  */
-class CI_DB_interbase_result extends CI_DB_result {
-
-	public $num_rows;
-
-	/**
-	 * Number of rows in the result set
-	 *
-	 * @return	int
-	 */
-	public function num_rows()
-	{
-		if (is_int($this->num_rows))
-		{
-			return $this->num_rows;
-		}
-
-		// Get the results so that you can get an accurate rowcount
-		$this->result();
-
-		return $this->num_rows;
-	}
-
-	// --------------------------------------------------------------------
+class CI_DB_ibase_result extends CI_DB_result {
 
 	/**
 	 * Number of fields in the result set
@@ -139,13 +118,7 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		if (($row = @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
-		{
-			//Increment row count
-			$this->num_rows++;
-		}
-
-		return $row;
+		return @ibase_fetch_assoc($this->result_id, IBASE_FETCH_BLOBS);
 	}
 
 	// --------------------------------------------------------------------
@@ -155,106 +128,28 @@ class CI_DB_interbase_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		if (($row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS)) !== FALSE)
+		$row = @ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS);
+
+		if ($class_name === 'stdClass' OR ! $row)
 		{
-			//Increment row count
-			$this->num_rows++;
+			return $row;
 		}
 
-		return $row;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Query result.  "object" version.
-	 *
-	 * @return	object
-	 */
-	public function result_object()
-	{
-		if (count($this->result_object) === $this->num_rows)
+		$class_name = new $class_name();
+		foreach ($row as $key => $value)
 		{
-			return $this->result_object;
+			$class_name->$key = $value;
 		}
 
-		// Convert result array to object so that
-		// We don't have to get the result again
-		if (($c = count($this->result_array)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_object[$i] = (object) $this->result_array[$i];
-			}
-
-			return $this->result_object;
-		}
-
-		// In the event that query caching is on the result_id variable
-		// will return FALSE since there isn't a valid SQL resource so
-		// we'll simply return an empty array.
-		if ($this->result_id === FALSE)
-		{
-			return array();
-		}
-
-		$this->num_rows = 0;
-		while ($row = $this->_fetch_object())
-		{
-			$this->result_object[] = $row;
-		}
-
-		return $this->result_object;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Query result.  "array" version.
-	 *
-	 * @return	array
-	 */
-	public function result_array()
-	{
-		if (count($this->result_array) === $this->num_rows)
-		{
-			return $this->result_array;
-		}
-
-		// Since the object and array are really similar, just case
-		// the result object to an array  if need be
-		if (($c = count($this->result_object)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
-			}
-
-			return $this->result_array;
-		}
-
-		// In the event that query caching is on the result_id variable
-		// will return FALSE since there isn't a valid SQL resource so
-		// we'll simply return an empty array.
-		if ($this->result_id === FALSE)
-		{
-			return array();
-		}
-
-		$this->num_rows = 0;
-		while ($row = $this->_fetch_assoc())
-		{
-			$this->result_array[] = $row;
-		}
-
-		return $this->result_array;
+		return $class_name;
 	}
 
 }
 
-/* End of file interbase_result.php */
-/* Location: ./system/database/drivers/interbase/interbase_result.php */
+/* End of file ibase_result.php */
+/* Location: ./system/database/drivers/ibase/ibase_result.php */

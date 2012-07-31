@@ -172,7 +172,7 @@ if ( ! function_exists('load_class'))
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
-			// self-referencing loop with the Excptions class
+			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			exit('Unable to locate the specified class: '.$class.'.php');
 		}
@@ -526,7 +526,8 @@ if ( ! function_exists('_exception_handler'))
 
 		// Should we display the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) === $severity)
+		// And respect display_errors
+		if (($severity & error_reporting()) === $severity && (bool) ini_get('display_errors') === TRUE)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -594,6 +595,45 @@ if ( ! function_exists('html_escape'))
 		return is_array($var)
 			? array_map('html_escape', $var)
 			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_stringify_attributes'))
+{
+	/**
+	 * Stringify attributes for use in HTML tags.
+	 *
+	 * Helper function used to convert a string, array, or object
+	 * of attributes to a string.
+	 *
+	 * @param	mixed	string, array, object
+	 * @param	bool
+	 * @return	string
+	 */
+	function _stringify_attributes($attributes, $js = FALSE)
+	{
+		$atts = NULL;
+
+		if (empty($attributes))
+		{
+			return $atts;
+		}
+
+		if (is_string($attributes))
+		{
+			return ' '.$attributes;
+		}
+
+		$attributes = (array) $attributes;
+
+		foreach ($attributes as $key => $val)
+		{
+			$atts .= ($js) ? $key.'='.$val.',' : ' '.$key.'="'.$val.'"';
+		}
+
+		return rtrim($atts, ',');
 	}
 }
 

@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.0.3
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.0.3
  */
 class CI_DB_sqlsrv_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @sqlsrv_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @sqlsrv_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -142,11 +145,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return sqlsrv_fetch_object($this->result_id);
+		return sqlsrv_fetch_object($this->result_id, $class_name);
 	}
 
 }

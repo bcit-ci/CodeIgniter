@@ -49,12 +49,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	protected $_like_escape_str = " ESCAPE '%s' ";
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() methods.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' NEWID()';
 
 	// MSSQL-specific properties
@@ -83,11 +77,27 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return $this->_mssql_connect();
+		$this->conn_id = ($persistent)
+				? @mssql_pconnect($this->hostname, $this->username, $this->password)
+				: @mssql_connect($this->hostname, $this->username, $this->password);
+
+		if ( ! $this->conn_id)
+		{
+			return FALSE;
+		}
+
+		// Determine how identifiers are escaped
+		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+		$query = $query->row_array();
+		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -99,35 +109,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return $this->_mssql_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/*
-	 * MSSQL Connect
-	 *
-	 * @param	bool
-	 * @return	resource
-	 */
-	protected function _mssql_connect($persistent = FALSE)
-	{
-		$conn_id = ($persistent)
-				? @mssql_pconnect($this->hostname, $this->username, $this->password)
-				: @mssql_connect($this->hostname, $this->username, $this->password);
-
-		if ( ! $conn_id)
-		{
-			return FALSE;
-		}
-
-		// Determine how identifiers are escaped
-		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
-		$query = $query->row_array();
-		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query->qi;
-		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
-
-		return $conn_id;
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -288,30 +270,13 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		$query = (self::_parse_major_version($this->version()) > 7)
+		$query = version_compare($this->version(), '8', '>=')
 			? 'SELECT SCOPE_IDENTITY() AS last_id'
 			: 'SELECT @@IDENTITY AS last_id';
 
 		$query = $this->query($query);
 		$query = $query->row();
 		return $query->last_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Parse major version
-	 *
-	 * Grabs the major version number from the
-	 * database server version string passed in.
-	 *
-	 * @param	string	$version
-	 * @return	int	major version number
-	 */
-	protected function _parse_major_version($version)
-	{
-		preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $version, $ver_info);
-		return $ver_info[1]; // return the major version b/c that's all we're interested in.
 	}
 
 	// --------------------------------------------------------------------
@@ -338,16 +303,17 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
+		$sql = 'SELECT '.$this->escape_identifiers('name')
+			.' FROM '.$this->escape_identifiers('sysobjects')
+			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
 
-		// for future compatibility
 		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
 		{
-			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-			return FALSE; // not currently supported
+			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-		return $sql;
+		return $sql.' ORDER BY '.$this->escape_identifiers('name');
 	}
 
 	// --------------------------------------------------------------------
@@ -377,7 +343,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 * FROM '.$table;
+		return 'SELECT TOP 1 * FROM '.$this->protect_identifiers($table);
 	}
 
 	// --------------------------------------------------------------------

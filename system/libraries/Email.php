@@ -706,9 +706,9 @@ class CI_Email {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function valid_email($address)
+	public function valid_email($email)
 	{
-		return (bool) preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', $address);
+		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
 	// --------------------------------------------------------------------
@@ -1238,7 +1238,7 @@ class CI_Email {
 	 *
 	 * @return	bool
 	 */
-	public function send()
+	public function send($auto_clear = TRUE)
 	{
 		if ($this->_replyto_flag === FALSE)
 		{
@@ -1257,11 +1257,25 @@ class CI_Email {
 
 		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
-			return $this->batch_bcc_send();
+			$result = $this->batch_bcc_send();
+
+			if ($result && $auto_clear)
+			{
+				$this->clear();
+			}
+
+			return $result;
 		}
 
 		$this->_build_message();
-		return $this->_spool_email();
+		$result = $this->_spool_email();
+
+		if ($result && $auto_clear)
+		{
+			$this->clear();
+		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------

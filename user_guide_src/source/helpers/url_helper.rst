@@ -182,9 +182,9 @@ browser settings. Here is an example with attributes
 	echo anchor_popup('news/local/123', 'Click Me!', $atts);
 
 .. note:: The above attributes are the function defaults so you only need to
-set the ones that are different from what you need. If you want the
-function to use all of its defaults simply pass an empty array in the
-third parameter
+	set the ones that are different from what you need. If you want the
+	function to use all of its defaults simply pass an empty array in the
+	third parameter
 
 ::
 
@@ -207,7 +207,12 @@ Creates a standard HTML email link. Usage example
 	echo mailto('me@my-site.com', 'Click Here to Contact Me');
 
 As with the anchor() tab above, you can set attributes using the third
-parameter.
+parameter:
+
+::
+
+    $attributes = array('title' => 'Mail me');
+    echo mailto('me@my-site.com', 'Contact Me', $attributes);
 
 safe_mailto()
 =============

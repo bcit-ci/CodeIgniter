@@ -43,6 +43,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -51,21 +52,22 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-
-if (defined('ENVIRONMENT'))
+switch (ENVIRONMENT)
 {
-	switch (ENVIRONMENT)
-	{
-		case 'development':
-			error_reporting(-1);
-		break;
-		case 'testing':
-		case 'production':
-			error_reporting(0);
-		break;
-		default:
-			exit('The application environment is not set correctly.');
-	}
+	case 'development':
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	break;
+
+	case 'testing':
+	case 'production':
+		error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
+		ini_set('display_errors', 0);
+	break;
+
+	default:
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		exit('The application environment is not set correctly.');
 }
 
 /*
@@ -133,7 +135,7 @@ if (defined('ENVIRONMENT'))
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  Mycontroller
+	// The controller class file name.  Example:  mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.

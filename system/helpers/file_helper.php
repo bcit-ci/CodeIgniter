@@ -32,7 +32,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/file_helpers.html
+ * @link		http://codeigniter.com/user_guide/helpers/file_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -124,7 +124,7 @@ if ( ! function_exists('delete_files'))
 				{
 					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1, $htdocs);
 				}
-				elseif ($htdocs === TRUE && ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
+				elseif ($htdocs !== TRUE OR ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
 					@unlink($path.DIRECTORY_SEPARATOR.$filename);
 				}

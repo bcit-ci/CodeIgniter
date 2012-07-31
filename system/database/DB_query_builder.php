@@ -350,30 +350,38 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		// Split multiple conditions
-		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
+		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_OFFSET_CAPTURE))
 		{
 			$newcond = '';
 			$m[0][] = array('', strlen($cond));
 
 			for ($i = 0, $c = count($m[0]), $s = 0;
 				$i < $c;
-				$s += $m[0][$i][1] + strlen($m[0][$i][0]), $i++)
+				$s = $m[0][$i][1] + strlen($m[0][$i][0]), $i++)
 			{
-				$temp = substr($cond, $s, $m[0][$i][1]);
+				$temp = substr($cond, $s, ($m[0][$i][1] - $s));
 
-				$newcond .= preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $temp, $match)
+				$newcond .= preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $temp, $match)
 						? $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3])
 						: $temp;
 
 				$newcond .= $m[0][$i][0];
 			}
 
-			$cond = $newcond;
+			$cond = ' ON '.$newcond;
 		}
 		// Split apart the condition and protect the identifiers
-		elseif ($escape === TRUE && preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $cond, $match))
+		elseif ($escape === TRUE && preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $cond, $match))
 		{
-			$cond = $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
+			$cond = ' ON '.$this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
+		}
+		elseif ( ! $this->_has_operator($cond))
+		{
+			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
+		}
+		else
+		{
+			$cond = ' ON '.$cond;
 		}
 
 		// Do we want to escape the table name?
@@ -383,7 +391,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$table.' ON '.$cond;
+		$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -445,8 +453,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
@@ -457,11 +463,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+				? $this->_group_get_type('')
+				: $this->_group_get_type($type);
 
-			$k = $this->_has_operator($k)
-				? $this->protect_identifiers(substr($k, 0, strpos(rtrim($k), ' ')), FALSE, $escape).strchr(rtrim($k), ' ')
-				: $this->protect_identifiers($k, FALSE, $escape);
+			if ($escape === TRUE)
+			{
+				$k = (($op = $this->_get_operator($k)) !== FALSE)
+					? $this->escape_identifiers(trim(substr($k, 0, strpos($k, $op)))).' '.strstr($k, $op)
+					: $this->escape_identifiers(trim($k));
+			}
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -582,8 +593,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return $this;
 		}
 
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($values))
 		{
 			$values = array($values);
@@ -598,8 +607,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_wherein[] = $this->escape($value);
 		}
 
-		$prefix = (count($this->qb_where) === 0) ? '' : $type;
-		$this->qb_where[] = $where_in = $prefix.$this->protect_identifiers($key, FALSE, $escape).$not.' IN ('.implode(', ', $this->qb_wherein).') ';
+		if ($escape === TRUE)
+		{
+			$key = $this->escape_identifiers(trim($key));
+		}
+
+		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
+		$this->qb_where[] = $where_in = $prefix.$key.$not.' IN ('.implode(', ', $this->qb_wherein).') ';
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -694,8 +708,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '')
 	{
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($field))
 		{
 			$field = array($field => $match);
@@ -704,7 +716,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		foreach ($field as $k => $v)
 		{
 			$k = $this->protect_identifiers($k);
-			$prefix = (count($this->qb_like) === 0) ? '' : $type;
+			$prefix = (count($this->qb_like) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
 			$v = $this->escape_like_str($v);
 
 			if ($side === 'none')
@@ -1034,12 +1046,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function limit($value, $offset = NULL)
 	{
-		$this->qb_limit = (int) $value;
-
-		if ( ! empty($offset))
-		{
-			$this->qb_offset = (int) $offset;
-		}
+		is_null($value) OR $this->qb_limit = (int) $value;
+		empty($offset) OR $this->qb_offset = (int) $offset;
 
 		return $this;
 	}
@@ -1054,8 +1062,25 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function offset($offset)
 	{
-		$this->qb_offset = (int) $offset;
+		empty($offset) OR $this->qb_offset = (int) $offset;
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Limit string
+	 *
+	 * Generates a platform-specific LIMIT clause
+	 *
+	 * @param	string	the sql query string
+	 * @param	int	the number of rows to limit the query to
+	 * @param	int	the offset value
+	 * @return	string
+	 */
+	protected function _limit($sql, $limit, $offset)
+	{
+		return $sql.' LIMIT '.($offset ? $offset.', ' : '').$limit;
 	}
 
 	// --------------------------------------------------------------------
@@ -1193,7 +1218,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get_where($table = '', $where = null, $limit = null, $offset = null)
+	public function get_where($table = '', $where = NULL, $limit = NULL, $offset = NULL)
 	{
 		if ($table !== '')
 		{
@@ -1410,23 +1435,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Validate Insert
 	 *
 	 * This method is used by both insert() and get_compiled_insert() to
@@ -1601,41 +1609,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$this->_reset_write();
 		return $this->query($sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @param	array	the like clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.($limit ? ' LIMIT '.$limit : '');
 	}
 
 	// --------------------------------------------------------------------

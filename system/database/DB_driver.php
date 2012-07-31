@@ -45,7 +45,8 @@ abstract class CI_DB_driver {
 	public $password;
 	public $hostname;
 	public $database;
-	public $dbdriver		= 'mysql';
+	public $dbdriver		= 'mysqli';
+	public $subdriver;
 	public $dbprefix		= '';
 	public $char_set		= 'utf8';
 	public $dbcollat		= 'utf8_general_ci';
@@ -77,6 +78,19 @@ abstract class CI_DB_driver {
 	protected $_protect_identifiers		= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
+	/**
+	 * The syntax to count rows is slightly different across different
+	 * database engines, so this string appears in each driver and is
+	 * used for the count_all() and count_all_results() functions.
+	 */
+	protected $_count_string = 'SELECT COUNT(*) AS ';
+
+	/**
+	 * Constructor
+	 *
+	 * @param	array
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		if (is_array($params))
@@ -295,13 +309,17 @@ abstract class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	public function query($sql, $binds = FALSE, $return_object = TRUE)
+	public function query($sql, $binds = FALSE, $return_object = NULL)
 	{
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
 
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
+		}
+		elseif ( ! is_bool($return_object))
+		{
+			$return_object = ! $this->is_write_type($sql);
 		}
 
 		// Verify table prefix and replace if necessary
@@ -319,7 +337,7 @@ abstract class CI_DB_driver {
 		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on === TRUE && stripos($sql, 'SELECT') !== FALSE && $this->_cache_init())
+		if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
 		{
 			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
@@ -328,7 +346,7 @@ abstract class CI_DB_driver {
 			}
 		}
 
-		// Save the  query for debugging
+		// Save the query for debugging
 		if ($this->save_queries === TRUE)
 		{
 			$this->queries[] = $sql;
@@ -352,7 +370,7 @@ abstract class CI_DB_driver {
 			$error = $this->error();
 
 			// Log errors
-			log_message('error', 'Query error: '.$error['message'] . ' - Invalid query: ' . $sql);
+			log_message('error', 'Query error: '.$error['message'].' - Invalid query: '.$sql);
 
 			if ($this->db_debug)
 			{
@@ -381,12 +399,10 @@ abstract class CI_DB_driver {
 		// Increment the query counter
 		$this->query_count++;
 
-		// Was the query a "write" type?
-		// If so we'll simply return true
-		if ($this->is_write_type($sql) === TRUE)
+		// Will we have a result object instantiated? If not - we'll simply return TRUE
+		if ($return_object !== TRUE)
 		{
-			// If caching is enabled we'll auto-cleanup any
-			// existing files related to this particular URI
+			// If caching is enabled we'll auto-cleanup any existing files related to this particular URI
 			if ($this->cache_on === TRUE && $this->cache_autodel === TRUE && $this->_cache_init())
 			{
 				$this->CACHE->delete();
@@ -396,8 +412,6 @@ abstract class CI_DB_driver {
 		}
 
 		// Return TRUE if we don't need to create a result object
-		// Currently only the Oracle driver uses this when stored
-		// procedures are used
 		if ($return_object !== TRUE)
 		{
 			return TRUE;
@@ -855,7 +869,7 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch MySQL Field Names
+	 * Fetch Field Names
 	 *
 	 * @param	string	the table name
 	 * @return	array
@@ -957,7 +971,7 @@ abstract class CI_DB_driver {
 	 */
 	public function escape_identifiers($item)
 	{
-		if ($this->_escape_char === '')
+		if ($this->_escape_char === '' OR empty($item))
 		{
 			return $item;
 		}
@@ -970,6 +984,11 @@ abstract class CI_DB_driver {
 
 			return $item;
 		}
+		// Avoid breaking functions and literal values inside queries
+		elseif (ctype_digit($item) OR $item[0] === "'" OR ($this->_escape_char !== '"' && $item[0] === '"') OR strpos($item, '(') !== FALSE)
+		{
+			return $item;
+		}
 
 		static $preg_ec = array();
 
@@ -977,11 +996,15 @@ abstract class CI_DB_driver {
 		{
 			if (is_array($this->_escape_char))
 			{
-				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
+				$preg_ec = array(
+						preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]),
+						$this->_escape_char[0], $this->_escape_char[1]
+						);
 			}
 			else
 			{
 				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+				$preg_ec[2] = $preg_ec[3] = $this->_escape_char;
 			}
 		}
 
@@ -989,11 +1012,11 @@ abstract class CI_DB_driver {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[0].'$1'.$preg_ec[1].'.', $item);
+				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[2].'$1'.$preg_ec[3].'.', $item);
 			}
 		}
 
-		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[0].'$1'.$preg_ec[1].'$2', $item);
+		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[2].'$1'.$preg_ec[3].'$2', $item);
 	}
 
 	// --------------------------------------------------------------------
@@ -1016,6 +1039,23 @@ abstract class CI_DB_driver {
 		}
 
 		return $this->_insert($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -1073,6 +1113,41 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @param	array	the orderby clause
+	 * @param	array	the limit clause
+	 * @param	array	the like clause
+	 * @return	string
+	 */
+	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	{
+		foreach ($values as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+
+		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
+
+		if ( ! empty($like))
+		{
+			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+		}
+
+		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
+			.$where
+			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
+			.($limit ? ' LIMIT '.$limit : '');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Tests whether the string has an SQL operator
 	 *
 	 * @param	string
@@ -1081,6 +1156,20 @@ abstract class CI_DB_driver {
 	protected function _has_operator($str)
 	{
 		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL|BETWEEN)/i', trim($str));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns the SQL string operator
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _get_operator($str)
+	{
+		return preg_match('/(=|!|<|>| IS NULL| IS NOT NULL| BETWEEN)/i', $str, $match)
+			? $match[1] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1147,7 +1236,6 @@ abstract class CI_DB_driver {
 	{
 		return $this->cache_on = FALSE;
 	}
-
 
 	// --------------------------------------------------------------------
 
@@ -1267,7 +1355,7 @@ abstract class CI_DB_driver {
 			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
 			{
 				// Found it - use a relative path for safety
-				$message[] = 'Filename: '.str_replace(array(BASEPATH, APPPATH), '', $call['file']);
+				$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
 				$message[] = 'Line Number: '.$call['line'];
 				break;
 			}
@@ -1336,39 +1424,21 @@ abstract class CI_DB_driver {
 		// Convert tabs or multiple spaces into single spaces
 		$item = preg_replace('/\s+/', ' ', $item);
 
-		static $preg_ec = array();
-
-		if (empty($preg_ec))
-		{
-			if (is_array($this->_escape_char))
-			{
-				$preg_ec = array(preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]));
-			}
-			else
-			{
-				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
-			}
-		}
-
 		// If the item has an alias declaration we remove it and set it aside.
-		// Basically we remove everything to the right of the first space
-		preg_match('/^(('.$preg_ec[0].'[^'.$preg_ec[1].']+'.$preg_ec[1].')|([^'.$preg_ec[0].'][^\s]+))( AS)*(.+)*$/i', $item, $matches);
-
-		if (isset($matches[4]))
+		// Note: strripos() is used in order to support spaces in table names
+		if ($offset = strripos($item, ' AS '))
 		{
-			$item = $matches[1];
-
-			// Escape the alias, if needed
-			if ($protect_identifiers === TRUE)
-			{
-				$alias = empty($matches[5])
-					? ' '.$this->escape_identifiers(ltrim($matches[4]))
-					: $matches[4].' '.$this->escape_identifiers(ltrim($matches[5]));
-			}
-			else
-			{
-				$alias = $matches[4].$matches[5];
-			}
+			$alias = ($protect_identifiers)
+					? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
+		}
+		elseif ($offset = strrpos($item, ' '))
+		{
+			$alias = ($protect_identifiers)
+					? ' '.$this->escape_identifiers(substr($item, $offset + 1))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
 		}
 		else
 		{

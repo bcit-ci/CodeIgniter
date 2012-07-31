@@ -552,13 +552,13 @@ class CI_Output {
 		fclose($fp);
 
 		// Strip out the embedded timestamp
-		if ( ! preg_match('/(\d+TS--->)/', $cache, $match))
+		if ( ! preg_match('/\d+TS--->/', $cache, $match))
 		{
 			return FALSE;
 		}
 
 		$last_modified = filemtime($cache_path);
-		$expire = trim(str_replace('TS--->', '', $match[1]));
+		$expire = str_replace('TS--->', '', $match[0]);
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
@@ -575,7 +575,7 @@ class CI_Output {
 		}
 
 		// Display the cache
-		$this->_display(str_replace($match[0], '', $cache));
+		$this->_display(substr($cache, strlen($match[0])));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
@@ -625,6 +625,11 @@ class CI_Output {
 
 				$size_before = strlen($output);
 
+				if ($size_before === 0)
+				{
+					return '';
+				}
+
 				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
 				// We'll want to return them to this unprocessed state later.
 				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
@@ -652,7 +657,7 @@ class CI_Output {
 				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
-				$output = preg_replace('{\s*(</?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br).*>)\s+}msU', '$1', $output);
+				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
 

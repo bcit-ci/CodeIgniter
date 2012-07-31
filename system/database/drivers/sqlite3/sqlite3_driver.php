@@ -50,12 +50,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	protected $_like_escape_str = ' ESCAPE \'%s\' ';
 	protected $_like_escape_chr = '!';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RANDOM()';
 
 	/**
@@ -348,23 +342,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	protected function _truncate($table)
 	{
 		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		return $sql.' LIMIT '.($offset ? $offset.',' : '').$limit;
 	}
 
 	// --------------------------------------------------------------------

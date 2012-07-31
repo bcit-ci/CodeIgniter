@@ -460,6 +460,12 @@ class CI_Form_validation {
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
 
+			// Don't try to validate if we have no rules set
+			if (empty($row['rules']))
+			{
+				continue;
+			}
+
 			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
 		}
 
@@ -571,8 +577,7 @@ class CI_Form_validation {
 		{
 			foreach ($postdata as $key => $val)
 			{
-				$this->_execute($row, $rules, $val, $cycles);
-				$cycles++;
+				$this->_execute($row, $rules, $val, $key);
 			}
 
 			return;
@@ -649,7 +654,12 @@ class CI_Form_validation {
 			}
 			else
 			{
-				$postdata = $this->_field_data[$row['field']]['postdata'];
+				// If we get an array field, but it's not expected - then it is most likely
+				// somebody messing with the form on the client side, so we'll just consider
+				// it an empty field
+				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
+						? NULL
+						: $this->_field_data[$row['field']]['postdata'];
 			}
 
 			// Is the rule a callback?
@@ -1072,7 +1082,7 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		return (bool) preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', $str);
+		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	}
 
 	// --------------------------------------------------------------------
@@ -1125,7 +1135,7 @@ class CI_Form_validation {
 	 */
 	public function alpha($str)
 	{
-		return (bool) preg_match('/^[a-z]+$/i', $str);
+		return ctype_alpha($str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1138,7 +1148,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_numeric($str)
 	{
-		return (bool) preg_match('/^[a-z0-9]+$/i', $str);
+		return ctype_alnum((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1260,7 +1270,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural($str)
 	{
-		return (bool) preg_match('/^[0-9]+$/', $str);
+		return ctype_digit((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1273,7 +1283,7 @@ class CI_Form_validation {
 	 */
 	public function is_natural_no_zero($str)
 	{
-		return ($str !== 0 && preg_match('/^[0-9]+$/', $str));
+		return ($str != 0 && ctype_digit((string) $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1356,7 +1366,7 @@ class CI_Form_validation {
 	 */
 	public function strip_image_tags($str)
 	{
-		return $this->CI->input->strip_image_tags($str);
+		return $this->CI->security->strip_image_tags($str);
 	}
 
 	// --------------------------------------------------------------------

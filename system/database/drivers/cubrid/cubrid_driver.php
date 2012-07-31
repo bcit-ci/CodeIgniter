@@ -49,12 +49,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	protected $_like_escape_str = '';
 	protected $_like_escape_chr = '';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
 	// CUBRID-specific properties
@@ -432,23 +426,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN ('.implode(',', $ids).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		return $sql.'LIMIT '.($offset == 0 ? '' : $offset.', ').$limit;
 	}
 
 	// --------------------------------------------------------------------

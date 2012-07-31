@@ -174,7 +174,7 @@ class CI_Xmlrpc {
 	 * @param	int	port
 	 * @return	void
 	 */
-	public function server($url, $port = 80)
+	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
 		if (strpos($url, 'http') !== 0)
 		{
@@ -190,7 +190,7 @@ class CI_Xmlrpc {
 			$path .= '?'.$parts['query'];
 		}
 
-		$this->client = new XML_RPC_Client($path, $parts['host'], $port);
+		$this->client = new XML_RPC_Client($path, $parts['host'], $port, $proxy, $proxy_port);
 	}
 
 	// --------------------------------------------------------------------
@@ -385,6 +385,8 @@ class XML_RPC_Client extends CI_Xmlrpc
 	public $path			= '';
 	public $server			= '';
 	public $port			= 80;
+	public $proxy			= FALSE;
+	public $proxy_port		= 8080;
 	public $errno			= '';
 	public $errstring		= '';
 	public $timeout		= 5;
@@ -398,13 +400,15 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 * @param	int
 	 * @return	void
 	 */
-	public function __construct($path, $server, $port = 80)
+	public function __construct($path, $server, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
 		parent::__construct();
 
 		$this->port = $port;
 		$this->server = $server;
 		$this->path = $path;
+		$this->proxy = $proxy;
+		$this->proxy_port = $proxy_port;
 	}
 
 	// --------------------------------------------------------------------
@@ -436,7 +440,18 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstring, $this->timeout);
+		if ($this->proxy === FALSE)
+		{
+			$server = $this->server;
+			$port = $this->port;
+		}
+		else
+		{
+			$server = $this->proxy;
+			$port = $this->proxy_port;
+		}
+
+		$fp = @fsockopen($server, $port, $this->errno, $this->errstring, $this->timeout);
 
 		if ( ! is_resource($fp))
 		{

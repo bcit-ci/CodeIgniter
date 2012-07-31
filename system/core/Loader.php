@@ -237,9 +237,9 @@ class CI_Loader {
 	{
 		if (is_array($model))
 		{
-			foreach ($model as $babe)
+			foreach ($model as $class)
 			{
-				$this->model($babe);
+				$this->model($class);
 			}
 			return;
 		}
@@ -820,7 +820,7 @@ class CI_Loader {
 		/*
 		 * Extract and cache variables
 		 *
-		 * You can either set variables using the dedicated $this->load_vars()
+		 * You can either set variables using the dedicated $this->load->vars()
 		 * function or via the second parameter of this function. We'll merge
 		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
@@ -1091,7 +1091,7 @@ class CI_Loader {
 		if ( ! class_exists($name))
 		{
 			log_message('error', 'Non-existent class: '.$name);
-			show_error('Non-existent class: '.$class);
+			show_error('Non-existent class: '.$name);
 		}
 
 		// Set the variable name we will assign the class to
