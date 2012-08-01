@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Application Core Class
@@ -22,10 +32,10 @@
  * CodeIgniter will be assigned to.
  *
  * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Libraries
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/general/controllers.html
+ * @subpackage	CodeIgniter
+ * @category	Front-controller
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/
  */
 class CodeIgniter {
 	/**
@@ -48,12 +58,6 @@ class CodeIgniter {
 		if ( ! is_php('5.3'))
 		{
 			@set_magic_quotes_runtime(0);
-		}
-
-		// Set a liberal script execution time limit
-		if (function_exists('set_time_limit') == TRUE && @ini_get('safe_mode') == 0)
-		{
-			@set_time_limit(300);
 		}
 
 		log_message('debug', 'CodeIgniter Class Initialized');
@@ -208,7 +212,7 @@ class CodeIgniter {
  * @var string
  *
  */
-	define('CI_VERSION', '2.1.0-dev');
+	define('CI_VERSION', '3.0-dev');
 
 /*
  * ------------------------------------------------------
@@ -233,7 +237,7 @@ class CodeIgniter {
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
-	if (isset($assign_to_config['subclass_prefix']) && $assign_to_config['subclass_prefix'] != '')
+	if ( ! empty($assign_to_config['subclass_prefix']))
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
 	}
@@ -290,7 +294,7 @@ class CodeIgniter {
  *
  * Note: Order here is rather important as the UTF-8
  * class needs to be used very early on, but it cannot
- * properly determine if UTf-8 can be supported until
+ * properly determine if UTF-8 can be supported until
  * after the Config class is instantiated.
  *
  */
@@ -334,7 +338,7 @@ class CodeIgniter {
  *	Is there a valid cache file?  If so, we're done...
  * ------------------------------------------------------
  */
-	if ($CI->hooks->_call_hook('cache_override') === FALSE && $CI->output->_display_cache($CI->config, $CI->uri) == TRUE)
+	if ($CI->hooks->_call_hook('cache_override') === FALSE && $CI->output->_display_cache($CI->config, $CI->uri) === TRUE)
 	{
 		exit;
 	}
@@ -444,17 +448,6 @@ class CodeIgniter {
  * ------------------------------------------------------
  */
 	$CI->hooks->_call_hook('post_system');
-
-/*
- * ------------------------------------------------------
- *  Close the DB connection if one exists
- * ------------------------------------------------------
- */
-	if (class_exists('CI_DB') && isset($CI->db))
-	{
-		$CI->db->close();
-	}
-
 
 /* End of file CodeIgniter.php */
 /* Location: ./system/core/CodeIgniter.php */

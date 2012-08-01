@@ -168,26 +168,34 @@ browser settings. Here is an example with attributes
 
 ::
 
-	$atts = array(               
-		'width'      => '800',               
-		'height'     => '600',               
-		'scrollbars' => 'yes',               
-		'status'     => 'yes',               
-		'resizable'  => 'yes',               
-		'screenx'    => '0',               
-		'screeny'    => '0'             
+	$atts = array(
+		'width'       => '800',
+		'height'      => '600',
+		'scrollbars'  => 'yes',
+		'status'      => 'yes',
+		'resizable'   => 'yes',
+		'screenx'     => '0',
+		'screeny'     => '0',
+		'window_name' => '_blank'
 	);
 
 	echo anchor_popup('news/local/123', 'Click Me!', $atts);
 
-Note: The above attributes are the function defaults so you only need to
-set the ones that are different from what you need. If you want the
-function to use all of its defaults simply pass an empty array in the
-third parameter
+.. note:: The above attributes are the function defaults so you only need to
+	set the ones that are different from what you need. If you want the
+	function to use all of its defaults simply pass an empty array in the
+	third parameter
 
 ::
 
 	echo anchor_popup('news/local/123', 'Click Me!', array());
+
+.. note:: The 'window_name' is not really an attribute, but an argument to
+	the JavaScript `window.open() <http://www.w3schools.com/jsref/met_win_open.asp>`
+	method, which accepts either a window name or a window target.
+
+.. note:: Any other attribute than the listed above will be parsed as an
+	HTML attribute to the anchor tag.
 
 mailto()
 ========
@@ -199,7 +207,12 @@ Creates a standard HTML email link. Usage example
 	echo mailto('me@my-site.com', 'Click Here to Contact Me');
 
 As with the anchor() tab above, you can set attributes using the third
-parameter.
+parameter:
+
+::
+
+    $attributes = array('title' => 'Mail me');
+    echo mailto('me@my-site.com', 'Contact Me', $attributes);
 
 safe_mailto()
 =============
@@ -284,23 +297,24 @@ redirect()
 ==========
 
 Does a "header redirect" to the URI specified. If you specify the full
-site URL that link will be build, but for local links simply providing
+site URL that link will be built, but for local links simply providing
 the URI segments to the controller you want to direct to will create the
 link. The function will build the URL based on your config file values.
 
-The optional second parameter allows you to choose between the
-"location" method (default) or the "refresh" method. Location is faster,
-but on Windows servers it can sometimes be a problem. The optional third
-parameter allows you to send a specific HTTP Response Code - this could
-be used for example to create 301 redirects for search engine purposes.
-The default Response Code is 302. The third parameter is *only*
-available with 'location' redirects, and not 'refresh'. Examples
+The optional second parameter allows you to force a particular redirection
+method. The available methods are "location" or "refresh", with location
+being faster but less reliable on Windows servers. The default is "auto",
+which will attempt to intelligently choose the method based on the server
+environment.
 
-::
+The optional third parameter allows you to send a specific HTTP Response
+Code - this could be used for example to create 301 redirects for search
+engine purposes. The default Response Code is 302. The third parameter is
+*only* available with 'location' redirects, and not 'refresh'. Examples::
 
 	if ($logged_in == FALSE)
 	{      
-		redirect('/login/form/', 'refresh');
+		redirect('/login/form/');
 	}
 
 	// with 301 redirect

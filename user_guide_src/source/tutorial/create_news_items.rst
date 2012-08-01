@@ -2,7 +2,7 @@
 Create news items
 #################
 
-You now know how you can read data from a database using CodeIgnite, but
+You now know how you can read data from a database using CodeIgniter, but
 you haven't written any information to the database yet. In this section
 you'll expand your news controller and model created earlier to include
 this functionality.
@@ -94,7 +94,7 @@ Model
 -----
 
 The only thing that remains is writing a method that writes the data to
-the database. You'll use the Active Record class to insert the
+the database. You'll use the Query Builder class to insert the
 information and use the input library to get the posted data. Open up
 the model created earlier and add the following:
 

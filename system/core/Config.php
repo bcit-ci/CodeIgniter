@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * CodeIgniter Config Class
@@ -23,7 +33,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Config {
@@ -33,7 +43,7 @@ class CI_Config {
 	 * @var		array
 	 * @access	protected
 	 */
-	protected $config = array();
+	public $config = array();
 
 	/**
 	 * List of all loaded config files
@@ -41,7 +51,7 @@ class CI_Config {
 	 * @var		array
 	 * @access	protected
 	 */
-	protected $is_loaded = array();
+	public $is_loaded =	array();
 
 	/**
 	 * Callback to array merging function
@@ -52,7 +62,8 @@ class CI_Config {
 	protected $merge_arrays;
 
 	/**
-	 * List of paths to search when trying to load a config file
+	 * List of paths to search when trying to load a config file.
+	 * This must be public as it's used by the Loader class.
 	 *
 	 * @var		array
 	 */
@@ -72,13 +83,13 @@ class CI_Config {
 		$this->merge_arrays = is_php('5.3') ? 'array_replace_recursive' : array($this, '_merge_arrays');
 
 		// Set the base_url automatically if none was provided
-		if ($this->config['base_url'] == '')
+		if (empty($this->config['base_url']))
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-				$base_url .= '://'. $_SERVER['HTTP_HOST'];
-				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+				$base_url = ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+				$base_url .= '://'.$_SERVER['HTTP_HOST']
+					.str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
 			else
 			{
@@ -95,14 +106,14 @@ class CI_Config {
 	 * Load Config File
 	 *
 	 * @param	string	the config file name
-	 * @param	boolean	if configuration values should be loaded into their own section
-	 * @param	boolean	true if errors should just return false, false if an error message should be displayed
-	 * @return	boolean	if the file was loaded correctly
+	 * @param	bool	if configuration values should be loaded into their own section
+	 * @param	bool	true if errors should just return false, false if an error message should be displayed
+	 * @return	bool	if the file was loaded correctly
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		// Strip .php from file
-		$file = str_replace('.php', '', $file);
+		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 
 		// Make sure file isn't already loaded
 		if (in_array($file, $this->is_loaded))
@@ -263,7 +274,6 @@ class CI_Config {
 	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function item($item, $index = '')
@@ -301,7 +311,6 @@ class CI_Config {
 	 * Fetch a config file item - adds slash after item (if item is not empty)
 	 *
 	 * @param	string	the config item name
-	 * @param	bool
 	 * @return	string
 	 */
 	public function slash_item($item)
@@ -310,7 +319,7 @@ class CI_Config {
 		{
 			return FALSE;
 		}
-		if( trim($this->config[$item]) == '')
+		elseif (trim($this->config[$item]) === '')
 		{
 			return '';
 		}
@@ -324,25 +333,39 @@ class CI_Config {
 	 * Site URL
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	string	the URI string
+	 * @param	mixed	the URI string or an array of segments
 	 * @return	string
 	 */
 	public function site_url($uri = '')
 	{
-		if ($uri == '')
+		if (empty($uri))
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
-		if ($this->item('enable_query_strings') == FALSE)
+		$uri = $this->_uri_string($uri);
+
+		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
+
+			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			{
+				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+			}
+			else
+			{
+				$uri .= $suffix;
+			}
+
+			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
 		}
-		else
+		elseif (strpos($uri, '?') === FALSE)
 		{
-			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
+			$uri = '?'.$uri;
 		}
+
+		return $this->slash_item('base_url').$this->item('index_page').$uri;
 	}
 
 	// -------------------------------------------------------------
@@ -351,12 +374,12 @@ class CI_Config {
 	 * Base URL
 	 * Returns base_url [. uri_string]
 	 *
-	 * @param string $uri
-	 * @return string
+	 * @param	string	$uri
+	 * @return	string
 	 */
 	public function base_url($uri = '')
 	{
-		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
+		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
 	}
 
 	// -------------------------------------------------------------
@@ -364,36 +387,25 @@ class CI_Config {
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
-	 * @access protected
-	 * @param  $uri
-	 * @return string
+	 * @param	mixed	$uri
+	 * @return	string
 	 */
 	protected function _uri_string($uri)
 	{
-		if ($this->item('enable_query_strings') == FALSE)
+		if ($this->item('enable_query_strings') === FALSE)
 		{
 			if (is_array($uri))
 			{
 				$uri = implode('/', $uri);
 			}
-			$uri = trim($uri, '/');
+			return trim($uri, '/');
 		}
-		else
+		elseif (is_array($uri))
 		{
-			if (is_array($uri))
-			{
-				$i = 0;
-				$str = '';
-				foreach ($uri as $key => $val)
-				{
-					$prefix = ($i == 0) ? '' : '&';
-					$str .= $prefix.$key.'='.$val;
-					$i++;
-				}
-				$uri = $str;
-			}
+			return http_build_query($uri);
 		}
-	    return $uri;
+
+		return $uri;
 	}
 
 	// --------------------------------------------------------------------
@@ -405,7 +417,7 @@ class CI_Config {
 	 */
 	public function system_url()
 	{
-		$x = explode("/", preg_replace("|/*(.+?)/*$|", "\\1", BASEPATH));
+		$x = explode('/', preg_replace('|/*(.+?)/*$|', '\\1', BASEPATH));
 		return $this->slash_item('base_url').end($x).'/';
 	}
 
@@ -429,10 +441,9 @@ class CI_Config {
 	 * Assign to Config
 	 *
 	 * This function is called by the front controller (CodeIgniter.php)
-	 * after the Config class is instantiated.  It permits config items
+	 * after the Config class is instantiated. It permits config items
 	 * to be assigned or overriden by variables contained in the index.php file
 	 *
-	 * @access	private
 	 * @param	array
 	 * @return	void
 	 */
@@ -475,9 +486,8 @@ class CI_Config {
 		// Return merged array
 		return $main;
 	}
-}
 
-// END CI_Config class
+}
 
 /* End of file Config.php */
 /* Location: ./system/core/Config.php */

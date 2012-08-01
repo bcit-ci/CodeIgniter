@@ -5,6 +5,10 @@ Upgrading from 1.7.2 to 2.0.0
 Before performing an update you should take your site offline by
 replacing the index.php file with a static one.
 
+*******************
+Update Instructions
+*******************
+
 Step 1: Update your CodeIgniter files
 =====================================
 
@@ -83,8 +87,63 @@ All native CodeIgniter classes now use the PHP 5 \__construct()
 convention. Please update extended libraries to call
 parent::\__construct().
 
-Step 8: Update your user guide
+Step 8: Move any core extensions to application/core
+====================================================
+
+Any extensions to core classes (e.g. MY_Controller.php) in your
+application/libraries folder must be moved to the new 
+application/core folder.
+
+Step 9: Update your user guide
 ==============================
 
 Please replace your local copy of the user guide with the new version,
 including the image files.
+
+
+************
+Update Notes
+************
+
+Please refer to the :ref:`2.0.0 Change Log <2.0.0-changelog>` for full
+details, but here are some of the larger changes that are more likely to
+impact your code:
+
+- CodeIgniter now requires PHP 5.2.4.
+- Scaffolding has been removed.
+- The CAPTCHA plugin in now a :doc:`helper </helpers/captcha_helper>`.
+- The JavaScript calendar plugin was removed.
+- The *system/cache* and *system/logs* directories are now in the application
+  directory.
+- The Validation class has been removed.  Please see the
+  :doc:`Form Validation library </libraries/form_validation>`
+- "default" is now a reserved name.
+- The xss_clean() function has moved to the :doc:`Security Class
+  </libraries/security>`.
+- do_xss_clean() now returns FALSE if the uploaded file fails XSS checks.
+- The :doc:`Session Class </libraries/sessions>` requires now the use of an
+  encryption key set in the config file.
+- The following deprecated Active Record functions have been removed:
+  ``orwhere``, ``orlike``, ``groupby``, ``orhaving``, ``orderby``,
+  ``getwhere``.
+- ``_drop_database()`` and ``_create_database()`` functions have been removed
+  from the db utility drivers.
+- The ``dohash()`` function of the :doc:`Security helper
+  </helpers/security_helper>`
+  has been renamed to ``do_hash()`` for naming consistency.
+
+The config folder
+=================
+
+The following files have been changed:
+
+- config.php
+- database.php
+- mimes.php
+- routes.php
+- user_agents.php
+
+The following files have been added:
+
+- foreign_chars.php
+- profiler.php

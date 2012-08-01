@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Router Class
@@ -22,8 +32,8 @@
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @author		ExpressionEngine Dev Team
  * @category	Libraries
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/routing.html
  */
 class CI_Router {
@@ -31,7 +41,6 @@ class CI_Router {
 	 * CodeIgniter core
 	 *
 	 * @var		object
-	 * @access	protected
 	 */
 	protected $CI;
 
@@ -39,15 +48,13 @@ class CI_Router {
 	 * List of routes
 	 *
 	 * @var		array
-	 * @access	public
 	 */
-	protected $routes;
+	public $routes =	array();
 
 	/**
 	 * Stack of route data
 	 *
 	 * @var		array
-	 * @access	protected
 	 */
 	protected $route_stack;
 
@@ -55,7 +62,6 @@ class CI_Router {
 	 * Default controller (and method if specific)
 	 *
 	 * @var		string
-	 * @access	public
 	 */
 	protected $default_controller;
 
@@ -72,6 +78,8 @@ class CI_Router {
 	 * Constructor
 	 *
 	 * Runs the route mapping function.
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -88,7 +96,6 @@ class CI_Router {
 	 * This function determines what should be served based on the URI request,
 	 * as well as any "routes" that have been set in the routing config file.
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	public function _set_routing()
@@ -170,9 +177,7 @@ class CI_Router {
 	 * This function takes an array of URI segments as
 	 * input, and sets the current class/method
 	 *
-	 * @access	protected
 	 * @param	array
-	 * @param	bool
 	 * @return	void
 	 */
 	protected function _set_request($segments = array())
@@ -315,7 +320,6 @@ class CI_Router {
 	 * the config/routes.php file against the URI to
 	 * determine if the class/method need to be remapped.
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _parse_routes()
@@ -334,13 +338,13 @@ class CI_Router {
 		foreach ($this->routes as $key => $val)
 		{
 			// Convert wild-cards to RegEx
-			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
+			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
 
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri))
 			{
 				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
@@ -402,12 +406,7 @@ class CI_Router {
 	public function fetch_method()
 	{
 		$method = $this->route_stack[self::SEG_METHOD];
-		if ($method == $this->fetch_class())
-		{
-			return 'index';
-		}
-
-		return $method;
+		return ($method === $this->fetch_class()) ? 'index' : $method;
 	}
 
 	// --------------------------------------------------------------------
@@ -501,9 +500,8 @@ class CI_Router {
 	/**
 	 * Set the controller overrides
 	 *
-	 * @access	private
 	 * @param	array
-	 * @return	null
+	 * @return	void
 	 */
 	public function _set_overrides($routing)
 	{
@@ -517,7 +515,7 @@ class CI_Router {
 			$this->set_directory($routing['directory']);
 		}
 
-		if (isset($routing['controller']) AND $routing['controller'] != '')
+		if ( ! empty($routing['controller']))
 		{
 			$this->set_class($routing['controller']);
 		}
@@ -557,7 +555,6 @@ class CI_Router {
 		return $default;
 	}
 }
-// END Router Class
 
 /* End of file Router.php */
 /* Location: ./system/core/Router.php */

@@ -77,3 +77,9 @@ them. Each word is capitalized. Example
 	$word = "my_dog_spot";
 	echo humanize($word); // Returns "My Dog Spot"
 
+To use dashes instead of underscores
+
+::
+
+	$word = "my-dog-spot";
+	echo humanize($word, '-'); // Returns "My Dog Spot"

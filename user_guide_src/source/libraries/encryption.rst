@@ -26,7 +26,7 @@ key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
 To take maximum advantage of the encryption algorithm, your key should
-be 32 characters in length (128 bits). The key should be as random a
+be 32 characters in length (256 bits). The key should be as random a
 string as you can concoct, with numbers and uppercase and lowercase
 letters. Your key should **not** be a simple text string. In order to be
 cryptographically secure it needs to be as random as possible.
@@ -125,21 +125,6 @@ Example::
 
 Please visit php.net for a list of `available
 modes <http://php.net/mcrypt>`_.
-
-$this->encrypt->sha1();
-=======================
-
-SHA1 encoding function. Provide a string and it will return a 160 bit
-one way hash. Note: SHA1, just like MD5 is non-decodable. Example::
-
-	$hash = $this->encrypt->sha1('Some string');
-
-Many PHP installations have SHA1 support by default so if all you need
-is to encode a hash it's simpler to use the native function::
-
-	$hash = sha1('Some string');
-
-If your server does not support SHA1 you can use the provided function.
 
 $this->encrypt->encode_from_legacy($orig_data, $legacy_mode = MCRYPT_MODE_ECB, $key = '');
 ==========================================================================================
