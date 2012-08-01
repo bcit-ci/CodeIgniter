@@ -64,6 +64,7 @@ Change Log
 <ul>
 	<li>Fixed a bug (#1543) - <a href="libraries/caching.html#file">File-based Caching</a> method <samp>get_metadata()</samp> used a non-existent array key to look for the TTL value.</li>
 	<li>Fixed a bug (#1314) - <a href="libraries/session.html">Session Library</a> method <samp>sess_destroy()</samp> didn't destroy the userdata array.
+	<li>Fixed a bug where the <a href="libraries/profiler.html">Profiler Library</a> issued an E_WARNING error if <a href="libraries/session.html">Session</a> userdata contains objects.</li>
 </ul>
 
 <h2>Version 2.1.2</h2>
