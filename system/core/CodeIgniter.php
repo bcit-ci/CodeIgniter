@@ -55,9 +55,9 @@ class CodeIgniter {
 		set_error_handler('_exception_handler');
 
 		// Kill magic quotes for older versions
-		if ( ! is_php('5.3'))
+		if ( ! is_php('5.4'))
 		{
-			@set_magic_quotes_runtime(0);
+			@ini_set('magic_quotes_runtime', 0);
 		}
 
 		log_message('debug', 'CodeIgniter Class Initialized');
@@ -338,7 +338,7 @@ class CodeIgniter {
  *	Is there a valid cache file?  If so, we're done...
  * ------------------------------------------------------
  */
-	if ($CI->hooks->_call_hook('cache_override') === FALSE && $CI->output->_display_cache($CI->config, $CI->uri) === TRUE)
+	if ($CI->hooks->_call_hook('cache_override') === FALSE && $CI->output->_display_cache() === TRUE)
 	{
 		exit;
 	}

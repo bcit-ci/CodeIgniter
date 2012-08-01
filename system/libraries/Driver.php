@@ -143,7 +143,6 @@ class CI_Driver_Library {
  * @link
  */
 class CI_Driver {
-
 	/**
 	 * Instance of the parent class
 	 *

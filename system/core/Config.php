@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -41,7 +41,6 @@ class CI_Config {
 	 * List of all loaded config values
 	 *
 	 * @var		array
-	 * @access	protected
 	 */
 	public $config = array();
 
@@ -49,17 +48,8 @@ class CI_Config {
 	 * List of all loaded config files
 	 *
 	 * @var		array
-	 * @access	protected
 	 */
 	public $is_loaded =	array();
-
-	/**
-	 * Callback to array merging function
-	 *
-	 * @var		callback
-	 * @access	protected
-	 */
-	protected $merge_arrays;
 
 	/**
 	 * List of paths to search when trying to load a config file.
@@ -68,6 +58,13 @@ class CI_Config {
 	 * @var		array
 	 */
 	public $_config_paths = array(APPPATH);
+
+	/**
+	 * Callback to array merging function
+	 *
+	 * @var		callback
+	 */
+	protected $merge_arrays;
 
 	/**
 	 * Constructor
@@ -280,29 +277,10 @@ class CI_Config {
 	{
 		if ($index == '')
 		{
-			if ( ! isset($this->config[$item]))
-			{
-				return FALSE;
-			}
-
-			$pref = $this->config[$item];
-		}
-		else
-		{
-			if ( ! isset($this->config[$index]))
-			{
-				return FALSE;
-			}
-
-			if ( ! isset($this->config[$index][$item]))
-			{
-				return FALSE;
-			}
-
-			$pref = $this->config[$index][$item];
+			return isset($this->config[$item]) ? $this->config[$item] : FALSE;
 		}
 
-		return $pref;
+		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -468,7 +446,6 @@ class CI_Config {
 	 * The main (existing) array is copied as a parameter, modified with the contents of
 	 * the new array (which is referenced), and returned.
 	 *
-	 * @access	protected
 	 * @param	array	main array
 	 * @param	array	new array of values to merge in
 	 * @return	array	merged array
@@ -486,7 +463,6 @@ class CI_Config {
 		// Return merged array
 		return $main;
 	}
-
 }
 
 /* End of file Config.php */

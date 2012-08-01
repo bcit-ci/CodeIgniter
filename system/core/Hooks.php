@@ -125,7 +125,6 @@ class CI_Hooks {
 	 *
 	 * Runs a particular hook
 	 *
-	 * @access	protected
 	 * @param	array	the hook details
 	 * @return	bool
 	 */

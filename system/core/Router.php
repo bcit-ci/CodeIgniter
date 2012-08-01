@@ -109,8 +109,8 @@ class CI_Router {
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlate to a valid controller.
-		$this->default_controller = (isset($this->routes['default_controller']) &&
-			$this->routes['default_controller'] != '') ? strtolower($this->routes['default_controller']) : FALSE;
+		$this->default_controller = empty($this->routes['default_controller']) ? FALSE :
+		   	strtolower($this->routes['default_controller']);
 
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
@@ -481,7 +481,8 @@ class CI_Router {
 	 * @param	boolean	TRUE for 404 route
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
-	public function get_error_route($is404 = FALSE) {
+	public function get_error_route($is404 = FALSE)
+   	{
 		// Select route
 		$route = ($is404 ? '404' : 'error').'_override';
 

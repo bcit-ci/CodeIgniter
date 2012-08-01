@@ -261,7 +261,7 @@ class CI_Loader {
 		if (is_array($route))
 		{
 			// Assume segments have been pre-parsed by CI_Router::validate_route() - make sure there's 4
-			if (count($route) < 4)
+			if (count($route) <= CI_Router::SEG_METHOD)
 			{
 				return FALSE;
 			}
@@ -430,9 +430,9 @@ class CI_Loader {
 		if ( ! class_exists('CI_Model'))
 		{
 			// Locate base class
-			foreach ($this->_ci_library_paths as $path)
+			foreach ($this->_ci_library_paths as $lib)
 			{
-				$file = $path.'core/Model.php';
+				$file = $lib.'core/Model.php';
 				if (file_exists($file))
 				{
 					// Include class source
@@ -446,9 +446,9 @@ class CI_Loader {
 			if (!empty($pre))
 			{
 				// Locate subclass
-				foreach ($this->_ci_mvc_paths as $path => $cascade)
+				foreach ($this->_ci_mvc_paths as $lib => $cascade)
 				{
-					$file = $path.'core/'.$pre.'Model.php';
+					$file = $lib.'core/'.$pre.'Model.php';
 					if (file_exists($file))
 					{
 						// Include class source
@@ -496,7 +496,8 @@ class CI_Loader {
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($CI->db) && is_object($CI->db))
+		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($this->CI->db) &&
+		is_object($this->CI->db))
 		{
 			return FALSE;
 		}
@@ -574,8 +575,8 @@ class CI_Loader {
 	 * 1. The name of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
 	 * 3. TRUE/FALSE - whether to return the data or load it. In
-	 *    some cases it's advantageous to be able to return data so that
-	 *    a developer can process it in some way.
+	 *	some cases it's advantageous to be able to return data so that
+	 *	a developer can process it in some way.
 	 *
 	 * @param	string
 	 * @param	array
@@ -584,7 +585,11 @@ class CI_Loader {
 	 */
 	public function view($view, $vars = array(), $return = FALSE)
 	{
-		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
+		return $this->_ci_load(array(
+			'_ci_view' => $view,
+		   	'_ci_vars' => $this->_ci_object_to_array($vars),
+		   	'_ci_return' => $return
+		));
 	}
 
 	// --------------------------------------------------------------------
@@ -600,7 +605,10 @@ class CI_Loader {
 	 */
 	public function file($path, $return = FALSE)
 	{
-		return $this->_ci_load(array('_ci_path' => $path, '_ci_return' => $return));
+		return $this->_ci_load(array(
+			'_ci_path' => $path,
+		   	'_ci_return' => $return
+		));
 	}
 
 	// --------------------------------------------------------------------
@@ -990,43 +998,55 @@ class CI_Loader {
 			$$_ci_val = isset($_ci_data[$_ci_val]) ? $_ci_data[$_ci_val] : FALSE;
 		}
 
-		$file_exists = FALSE;
-
 		// Set the path to the requested file
+		$_ci_exists = FALSE;
 		if (is_string($_ci_path) && $_ci_path !== '')
 		{
-			$_ci_x = explode('/', $_ci_path);
-			$_ci_file = end($_ci_x);
+			// General file - extract name from path
+			$_ci_file = end(explode('/', $_ci_path));
+			$_ci_exists = file_exists($_ci_path);
 		}
 		else
 		{
-			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
-			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
+			// View file - add extension as necessary
+			$_ci_file = (pathinfo($_ci_view, PATHINFO_EXTENSION) === '') ? $_ci_view.'.php' : $_ci_view;
 
-			foreach ($this->_ci_mvc_paths as $view_file => $cascade)
+			// Check VIEWPATH first
+			if (file_exists(VIEWPATH.$_ci_file))
 			{
-				if (file_exists($view_file.'views/'.$_ci_file))
+				$_ci_path = VIEWPATH.$_ci_file;
+				$_ci_exists = TRUE;
+			}
+			else
+		   	{
+				// Search MVC package paths
+				foreach ($this->_ci_mvc_paths as $_ci_mvc => $_ci_cascade)
 				{
-					$_ci_path = $view_file.'views/'.$_ci_file;
-					$file_exists = TRUE;
-					break;
-				}
+					if (file_exists($_ci_mvc.'views/'.$_ci_file))
+					{
+						// Set path, mark existing, and quit
+						$_ci_path = $_ci_mvc.'views/'.$_ci_file;
+						$_ci_exists = TRUE;
+						break;
+					}
 
-				if ( ! $cascade)
-				{
-					break;
+					if ( ! $_ci_cascade)
+					{
+						// No cascade - stop looking
+						break;
+					}
 				}
 			}
 		}
 
-		if ( ! $file_exists && ! file_exists($_ci_path))
+		// Verify file existence
+		if ( ! $_ci_exists)
 		{
 			show_error('Unable to load the requested file: '.$_ci_file);
 		}
 
-		// This allows anything loaded using $this->load (views, files, etc.)
-		// to become accessible from within the Controller and Model functions.
-
+		// This allows anything loaded using $this->load (libraries, models, etc.)
+		// to become accessible from within the view or file
 		foreach (get_object_vars($this->CI) as $_ci_key => $_ci_var)
 		{
 			if ( ! isset($this->$_ci_key))
@@ -1038,7 +1058,7 @@ class CI_Loader {
 		/*
 		 * Extract and cache variables
 		 *
-		 * You can either set variables using the dedicated $this->load->vars()
+		 * You can either set variables using the dedicated $this->CI->load->vars()
 		 * function or via the second parameter of this function. We'll merge
 		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
@@ -1055,19 +1075,21 @@ class CI_Loader {
 		 * We buffer the output for two reasons:
 		 * 1. Speed. You get a significant speed boost.
 		 * 2. So that the final rendered template can be post-processed by
-		 *    the output class. Why do we need post processing? For one thing,
-		 *    in order to show the elapsed page load time. Unless we can
-		 *    intercept the content right before it's sent to the browser and
-		 *    then stop the timer it won't be accurate.
+		 *	the output class. Why do we need post processing? For one thing,
+		 *	in order to show the elapsed page load time. Unless we can
+		 *	intercept the content right before it's sent to the browser and
+		 *	then stop the timer it won't be accurate.
 		 */
 		ob_start();
 
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') === TRUE)
+		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE &&
+		config_item('rewrite_short_tags') === TRUE)
 		{
-			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
+			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>',
+				str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
 		else
 		{
@@ -1079,9 +1101,7 @@ class CI_Loader {
 		// Return the file data if requested
 		if ($_ci_return === TRUE)
 		{
-			$buffer = ob_get_contents();
-			@ob_end_clean();
-			return $buffer;
+			return @ob_get_clean();
 		}
 
 		/*
@@ -1099,8 +1119,7 @@ class CI_Loader {
 		}
 		else
 		{
-			$this->CI->output->append_output(ob_get_contents());
-			@ob_end_clean();
+			$this->CI->output->append_output(@ob_get_clean());
 		}
 	}
 
@@ -1213,12 +1232,12 @@ class CI_Loader {
 					return;
 				}
 
-                // If this looks like a driver, make sure the base class is loaded
-                if (strtolower($subdir) == strtolower($class).'/' && !class_exists('CI_Driver_Library'))
-                {
-                    // We aren't instantiating an object here, that'll be done by the Library itself
-                    require BASEPATH.'libraries/Driver.php';
-                }
+				// If this looks like a driver, make sure the base class is loaded
+				if (strtolower($subdir) == strtolower($class).'/' && !class_exists('CI_Driver_Library'))
+				{
+					// We aren't instantiating an object here, that'll be done by the Library itself
+					require BASEPATH.'libraries/Driver.php';
+				}
 
 				include_once($filepath);
 				$this->_ci_loaded_files[] = $filepath;
@@ -1337,7 +1356,7 @@ class CI_Loader {
 	 * libraries, and helpers to be loaded automatically.
 	 *
 	 * This function is public, as it's called from CodeIgniter.php.
-	 * However, there is no reason you should ever needs to use it.
+	 * However, there is no reason you should ever need to use it.
 	 *
 	 * @return	void
 	 */

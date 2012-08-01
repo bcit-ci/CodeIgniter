@@ -35,12 +35,6 @@
  * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
  */
 class CI_Exceptions {
-	var $action;
-	var $severity;
-	var $message;
-	var $filename;
-	var $line;
-
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
@@ -54,10 +48,10 @@ class CI_Exceptions {
 	 * @var	array
 	 */
 	public $levels = array(
-		E_ERROR			=>	'Error',
-		E_WARNING		=>	'Warning',
-		E_PARSE			=>	'Parsing Error',
-		E_NOTICE		=>	'Notice',
+		E_ERROR				=>	'Error',
+		E_WARNING			=>	'Warning',
+		E_PARSE				=>	'Parsing Error',
+		E_NOTICE			=>	'Notice',
 		E_CORE_ERROR		=>	'Core Error',
 		E_CORE_WARNING		=>	'Core Warning',
 		E_COMPILE_ERROR		=>	'Compile Error',
@@ -65,7 +59,7 @@ class CI_Exceptions {
 		E_USER_ERROR		=>	'User Error',
 		E_USER_WARNING		=>	'User Warning',
 		E_USER_NOTICE		=>	'User Notice',
-		E_STRICT		=>	'Runtime Notice'
+		E_STRICT			=>	'Runtime Notice'
 	);
 
 	/**

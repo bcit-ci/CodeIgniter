@@ -432,7 +432,6 @@ class CI_Output {
 			$output = $this->minify($output, $this->mime_type);
 		}
 
-
 		// --------------------------------------------------------------------
 
 		// Do we need to write a cache file? Only if the controller does not have its
@@ -584,16 +583,18 @@ class CI_Output {
 	/**
 	 * Update/serve a cached file
 	 *
-	 * @param	object	config class
-	 * @param	object	uri class
 	 * @return	bool
 	 */
-	public function _display_cache(&$CFG, &$URI)
+	public function _display_cache()
 	{
-		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		$cache_path = $this->CI->config->item('cache_path');
+		if ($this->CI->config->item('cache_path') === '')
+		{
+			$cache_path = APPPATH.'cache/';
+		}
 
-		// Build the file path. The file name is an MD5 hash of the full URI
-		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
+		// Build the file path. The file name is an MD5 hash of the full this->CI->uri
+		$uri =	$this->CI->config->item('base_url').$this->CI->config->item('index_page').$this->CI->uri->uri_string;
 		$filepath = $cache_path.md5($uri);
 
 		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))

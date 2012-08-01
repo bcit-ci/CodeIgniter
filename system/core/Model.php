@@ -58,7 +58,6 @@ class CI_Model {
 		$CI =& CodeIgniter::instance();
 		return $CI->$key;
 	}
-
 }
 
 /* End of file Model.php */
