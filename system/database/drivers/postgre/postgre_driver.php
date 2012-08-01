@@ -132,7 +132,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->dsn);
+		$conn = @pg_pconnect($this->dsn);
+		if ($conn && pg_connection_status($conn) === PGSQL_CONNECTION_BAD)
+		{
+			if (pg_ping($conn) === FALSE)
+			{
+				return FALSE;
+			}
+		}
+		return $conn;
 	}
 
 	// --------------------------------------------------------------------
