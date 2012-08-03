@@ -176,6 +176,38 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
+
+	/**
+	 * Fetch an item from the PUT array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	 */
+	public function put($index = NULL, $xss_clean = FALSE)
+	{
+
+		parse_str(file_get_contents("php://input"),$_PUT);
+
+		// Check if a field has been provided
+		if ($index === NULL && ! empty($_PUT))
+		{
+			$put = array();
+
+			// Loop through the full _POST array and return it
+			foreach (array_keys($_PUT) as $key)
+			{
+				$put[$key] = $this->_fetch_from_array($_PUT, $key, $xss_clean);
+			}
+			return $put;
+		}
+
+		return $this->_fetch_from_array($_PUT, $index, $xss_clean);
+	}
+
+
+	// --------------------------------------------------------------------
+
 	 * Fetch an item from the POST array
 	 *
 	 * @param	string
