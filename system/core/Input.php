@@ -204,7 +204,7 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch an item from the REQUEST array
+	 * Fetch an item from the PUT array
 	 *
 	 * @param	string
 	 * @param	bool
