@@ -366,7 +366,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids = array();
-		$where = ($where !== '' && count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$where = ($where !== '' && count($where) >=1) ? implode(' ', $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
 		{

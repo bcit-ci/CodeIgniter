@@ -22,7 +22,7 @@ Release Date: Not Released
    -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
-   -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Windows 7, Windows 8, Android, Blackberry, iOS and PlayStation 3 to the list of user platforms.
    -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
@@ -36,6 +36,7 @@ Release Date: Not Released
    -  Updated support for doc files in mimes.php.
    -  Updated support for php files in mimes.php.
    -  Updated support for zip files in mimes.php.
+   -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
    -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
@@ -145,8 +146,6 @@ Release Date: Not Released
    -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
-   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
@@ -175,8 +174,12 @@ Release Date: Not Released
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
-   -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+   -  :doc:`Email library <libraries/email>` changes include:
+	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
+	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+	 -  Added dsn (delivery status notification) option.
+	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+	 -  Successfully sent emails will automatically clear the parameters.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
@@ -204,7 +207,7 @@ Release Date: Not Released
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-
+   -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the proxy_ips setting.
 
 Bug fixes for 3.0
 ------------------
@@ -316,6 +319,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
 -  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
+-  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 
 Version 2.1.2
 =============
