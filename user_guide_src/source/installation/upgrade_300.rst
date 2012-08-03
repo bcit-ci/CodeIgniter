@@ -139,3 +139,15 @@ CodeIgniter 3.1+.
 
 .. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
 	rather than later.
+
+Email library
+=============
+
+The :doc:`Email library <../libraries/email>` will automatically clear the set parameters after successfully sending
+emails. To override this behaviour, pass FALSE as the first parameter in the ``send()`` function:
+
+::
+	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
