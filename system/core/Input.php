@@ -235,7 +235,6 @@ class CI_Input {
 
 	// --------------------------------------------------------------------
 
-	/**
 	 * Fetch an item from the POST array
 	 *
 	 * @param	string
