@@ -217,8 +217,12 @@ class CI_Input {
 			return $put;
 		}
 
+<<<<<<< HEAD
 		return $this->_fetch_from_array($this->http_put_data, $index, $xss_clean);
 
+=======
+		return $this->_fetch_from_array($_REQUEST, $index, $xss_clean);
+>>>>>>> Correct Arrays
 	}
 
 
@@ -244,13 +248,21 @@ class CI_Input {
 			// Loop through the full delete args array and return it
 			foreach (array_keys($this->http_delete_data) as $key)
 			{
+<<<<<<< HEAD
 				$put[$key] = $this->_fetch_from_array($this->http_delete_data, $key, $xss_clean);
+=======
+				$put[$key] = $this->_fetch_from_array($_PUT, $key, $xss_clean);
+>>>>>>> Correct Arrays
 			}
 			return $put;
 		}
 
+<<<<<<< HEAD
 		return $this->_fetch_from_array($this->http_delete_data, $index, $xss_clean);
 
+=======
+		return $this->_fetch_from_array($_PUT, $index, $xss_clean);
+>>>>>>> Correct Arrays
 	}
 
 
