@@ -909,15 +909,15 @@ class CI_Session {
 			$this->CI->db->where('last_activity < '.$expire);
 			$this->CI->db->delete($this->sess_table_name);
 
-            // Clean up old multi-sessions if they are enabled
-            if($this->sess_use_multisessions)
-            {
-                $expire = $this->now - $this->sess_multisession_expiration;
-                
-                $this->CI->db->where('last_activity < '.$expire);
-                $this->CI->db->where('prevent_update = 1');
-                $this->CI->db->delete($this->sess_table_name);
-            }
+			// Clean up old multi-sessions if they are enabled
+			if($this->sess_use_multisessions)
+			{
+				$expire = $this->now - $this->sess_multisession_expiration;
+				
+				$this->CI->db->where('last_activity < '.$expire);
+				$this->CI->db->where('prevent_update = 1');
+				$this->CI->db->delete($this->sess_table_name);
+			}
 
 			log_message('debug', 'Session garbage collection performed.');
 		}
