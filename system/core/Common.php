@@ -527,17 +527,17 @@ if ( ! function_exists('_exception_handler'))
 		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
 		if (($severity & error_reporting()) !== $severity)
-        {
-            return;
-        }
-        
-    	// Should we display the error?
-        if ((bool) ini_get('display_errors') === TRUE)
+		{
+			return;
+		}
+
+		// Should we display the error?
+		if ((bool) ini_get('display_errors') === TRUE)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
-	    $_error->log_exception($severity, $message, $filepath, $line);
+		$_error->log_exception($severity, $message, $filepath, $line);
 	}
 }
 
