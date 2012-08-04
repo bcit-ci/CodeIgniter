@@ -90,6 +90,15 @@ class CI_Input {
 	protected $headers =	array();
 
 	/**
+	 * List of all HTTP PUT data
+	 *
+	 * @var array
+	 */
+	protected $http_put_data =	array();
+
+
+
+	/**
 	 * Constructor
 	 *
 	 * Sets whether to globally enable the XSS processing
@@ -173,33 +182,6 @@ class CI_Input {
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch an item from the REQUEST array
-	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	string
-	 */
-	public function request($index = NULL, $xss_clean = FALSE)
-	{
-		// Check if a field has been provided
-		if ($index === NULL && ! empty($_REQUEST))
-		{
-			$request = array();
-
-			// Loop through the full _POST array and return it
-			foreach (array_keys($_REQUEST) as $key)
-			{
-				$request[$key] = $this->_fetch_from_array($_REQUEST, $key, $xss_clean);
-			}
-			return $request;
-		}
-
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
-	}
-
 
 	// --------------------------------------------------------------------
 
@@ -209,28 +191,52 @@ class CI_Input {
 	 * @param	string
 	 * @param	bool
 	 * @return	string
-	 */
-	public function put($index = NULL, $xss_clean = FALSE)
-	{
+*
+*	public function put($index = NULL, $xss_clean = FALSE)
+*	{
+*
+*		// Data read from the incoming stream
+*		parse_str( file_get_contents("php://input"), $put_args );
+*
+*		// Check if a field has been provided
+*		if ($index === NULL && ! empty($put_args))
+*		{
+*			$put = array();
+*
+*			// Loop through the full _POST array and return it
+*			foreach (array_keys($put_args) as $key)
+*			{
+*				$put[$key] = $this->_fetch_from_array($put_args, $key, $xss_clean);
+*			}
+*			return $put;
+*		}
+*
+*		return $this->_fetch_from_array($put, $index, $xss_clean);
+*
+*	}
+	*/
 
-		// Data read from the incoming stream
-		parse_str(file_get_contents("php://input"),$_PUT);
+	public function put($index = NULL, $xss_clean = FALSE) {
 
-		// Check if a field has been provided
-		if ($index === NULL && ! empty($_PUT))
+		if ( $this->server('REQUEST_METHOD') != 'PUT' ) return FALSE;
+
+		parse_str( file_get_contents("php://input"), $this->http_put_data );
+
+		if ($index === NULL && !empty($this->http_put_data))
 		{
 			$put = array();
-
-			// Loop through the full _POST array and return it
-			foreach (array_keys($_PUT) as $key)
+			// Loop through the full put_args array and return it
+			foreach (array_keys($this->http_put_data) as $key)
 			{
-				$put[$key] = $this->_fetch_from_array($_REQUEST, $key, $xss_clean);
+				$put[$key] = $this->_fetch_from_array($this->http_put_data, $key, $xss_clean);
 			}
 			return $put;
 		}
 
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
+		return $this->_fetch_from_array($this->http_put_data, $index, $xss_clean);
+
 	}
+
 
 
 	// --------------------------------------------------------------------
