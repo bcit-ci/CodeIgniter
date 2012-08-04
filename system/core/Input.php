@@ -96,6 +96,13 @@ class CI_Input {
 	 */
 	protected $http_put_data =	array();
 
+	/**
+	 * List of all HTTP DELETE data
+	 *
+	 * @var array
+	 */
+	protected $http_delete_data =	array();
+
 
 
 	/**
@@ -186,7 +193,7 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch an item from the PUT array
+	 * Fetch an item from the HTTP PUT array
 	 *
 	 * @param	string
 	 * @param	bool
@@ -202,7 +209,7 @@ class CI_Input {
 		if ($index === NULL && !empty($this->http_put_data))
 		{
 			$put = array();
-			// Loop through the full put_args array and return it
+			// Loop through the full put args array and return it
 			foreach (array_keys($this->http_put_data) as $key)
 			{
 				$put[$key] = $this->_fetch_from_array($this->http_put_data, $key, $xss_clean);
@@ -211,6 +218,38 @@ class CI_Input {
 		}
 
 		return $this->_fetch_from_array($this->http_put_data, $index, $xss_clean);
+
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from the HTTP DELETE array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	*/
+
+	public function delete($index = NULL, $xss_clean = FALSE) {
+
+		if ( $this->server('REQUEST_METHOD') != 'DELETE' ) return FALSE;
+
+		parse_str( file_get_contents("php://input"), $this->http_delete_data );
+
+		if ($index === NULL && !empty($this->http_delete_data))
+		{
+			$put = array();
+			// Loop through the full delete args array and return it
+			foreach (array_keys($this->http_delete_data) as $key)
+			{
+				$put[$key] = $this->_fetch_from_array($this->http_delete_data, $key, $xss_clean);
+			}
+			return $put;
+		}
+
+		return $this->_fetch_from_array($this->http_delete_data, $index, $xss_clean);
 
 	}
 
