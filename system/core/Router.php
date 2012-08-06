@@ -387,7 +387,7 @@ class CI_Router {
 
                     // Determine how many parameters the callback has.
                     $reflection = new ReflectionFunction($val);
-                    $param_count = count($reflection->getParameters());
+                    $param_count = $reflection->getNumberOfParameters();
 
                     // Are there more parameters than matches?
                     if($param_count > $match_count)
