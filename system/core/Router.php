@@ -374,7 +374,7 @@ class CI_Router {
             if (preg_match('#^'.$key.'$#', $uri, $matches))
             {
                 // Are we using a callback?
-                $callable = is_callable($val);
+                $callable = ! is_string($val) && is_callable($val);
 
                 // Are we using callbacks to process back-references?
                 if($callable){
