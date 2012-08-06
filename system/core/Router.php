@@ -377,24 +377,26 @@ class CI_Router {
                 $callable = ! is_string($val) && is_callable($val);
 
                 // Are we using callbacks to process back-references?
-                if($callable){
+                if($callable)
+                {
                     // Remove the original string from the matches array.
                     array_shift($matches);
 
                     // Get the match count.
-                    $matchCount = count($matches);
+                    $match_count = count($matches);
 
                     // Determine how many parameters the callback has.
                     $reflection = new ReflectionFunction($val);
-                    $paramCount = count($reflection->getParameters());
+                    $param_count = count($reflection->getParameters());
 
                     // Are there more parameters than matches?
-                    if($paramCount > $matchCount){
-                        // Set any extra params to empty string.
-                        $matches = array_merge($matches, array_fill($matchCount, $paramCount - $matchCount, ''));
+                    if($param_count > $match_count)
+                    {
+                        // Any params without matches will be set to an empty string.
+                        $matches = array_merge($matches, array_fill($match_count, $param_count - $match_count, ''));
                     }
 
-                    // execute callback using matches as its parameters.
+                    // Execute the callback using the values in matches as its parameters.
                     $val = call_user_func_array($val, $matches);
                 }
                 // Are we using the default routing method for back-references?
