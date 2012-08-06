@@ -22,7 +22,7 @@ Release Date: Not Released
    -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
    -  Added an optional backtrace to php-error template.
    -  Added Android to the list of user agents.
-   -  Added Windows 7, Android, Blackberry and iOS to the list of user platforms.
+   -  Added Windows 7, Windows 8, Android, Blackberry, iOS and PlayStation 3 to the list of user platforms.
    -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
@@ -36,6 +36,7 @@ Release Date: Not Released
    -  Updated support for doc files in mimes.php.
    -  Updated support for php files in mimes.php.
    -  Updated support for zip files in mimes.php.
+   -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
    -  Added Romanian and Greek characters in foreign_characters.php.
    -  Changed logger to only chmod when file is first created.
@@ -48,7 +49,8 @@ Release Date: Not Released
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
-   -  Updated email validation methods to use filter_var() instead of PCRE.
+   -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
+   -  Changed environment defaults to report all errors in 'development' and only fatal ones in 'testing' and 'production' but only display them in 'development'.
 
 -  Helpers
 
@@ -95,7 +97,7 @@ Release Date: Not Released
 	 - Added support for backup() in :doc:`Database Utilities <database/utilities>`.
    -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the "interbase" driver.
+   -  Added Interbase/Firebird database support via the 'ibase' driver.
    -  Added an optional database name parameter to db_select().
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
@@ -128,7 +130,6 @@ Release Date: Not Released
 	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
 	 - Added support for list_databases() in :doc:`Database Utilities <database/utilities>`.
 	 - Generally improved for speed and cleaned up all of its components.
-	 - *Row* result methods now really only fetch only the needed number of rows, instead of depending entirely on result().
 	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
    -  Improved support of the SQLite driver, including:
 	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
@@ -138,14 +139,13 @@ Release Date: Not Released
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
    -  Added capability for packages to hold database.php config files 
+   -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
 
    -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
    -  Added max_filename_increment config setting for Upload library.
    -  CI_Loader::_ci_autoloader() is now a protected method.
-   -  Added custom filename to Email::attach() as $this->email->attach($filename, $disposition, $newname).
-   -  Added possibility to send attachment as buffer string in Email::attach() as $this->email->attach($buffer, $disposition, $newname, $mime).
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
@@ -168,13 +168,18 @@ Release Date: Not Released
 	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
+	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
    -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
    -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
-   -  Added dsn (delivery status notification) option to the :doc:`Email Library <libraries/email>`.
-   -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+   -  :doc:`Email library <libraries/email>` changes include:
+	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
+	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+	 -  Added dsn (delivery status notification) option.
+	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+	 -  Successfully sent emails will automatically clear the parameters.
    -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
@@ -201,6 +206,8 @@ Release Date: Not Released
    -  Added support for HTTP code 303 ("See Other") in set_status_header().
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
+   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
+   -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the proxy_ips setting.
 
 Bug fixes for 3.0
 ------------------
@@ -308,6 +315,11 @@ Bug fixes for 3.0
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
 -  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` didn't properly format *W3C* and *ATOM* standard dates.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>` method join() where literal values were escaped as if they were fields.
+-  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
+-  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
+-  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
+-  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 
 Version 2.1.2
 =============

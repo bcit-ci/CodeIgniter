@@ -33,10 +33,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_odbc_result extends CI_DB_result {
-
-	public $num_rows;
 
 	/**
 	 * Number of rows in the result set
@@ -49,15 +48,25 @@ class CI_DB_odbc_result extends CI_DB_result {
 		{
 			return $this->num_rows;
 		}
-
-		// Work-around for ODBC subdrivers that don't support num_rows()
-		if (($this->num_rows = @odbc_num_rows($this->result_id)) === -1)
+		elseif (($this->num_rows = @odbc_num_rows($this->result_id)) !== -1)
 		{
-			$this->num_rows = count($this->result_array());
+			return $this->num_rows;
 		}
 
-		return $this->num_rows;
+		// Work-around for ODBC subdrivers that don't support num_rows()
+		if (count($this->result_array) > 0)
+		{
+			return $this->num_rows = count($this->result_array);
+		}
+		elseif (count($this->result_object) > 0)
+		{
+			return $this->num_rows = count($this->result_object);
+		}
+
+		return $this->num_rows = count($this->result_array());
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Number of fields in the result set
@@ -156,81 +165,25 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return odbc_fetch_object($this->result_id);
-	}
+		$row = odbc_fetch_object($this->result_id);
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Query result. Array version.
-	 *
-	 * @return	array
-	 */
-	public function result_array()
-	{
-		if (count($this->result_array) > 0)
+		if ($class_name === 'stdClass' OR ! $row)
 		{
-			return $this->result_array;
-		}
-		elseif (($c = count($this->result_object)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
-			}
-		}
-		elseif ($this->result_id === FALSE)
-		{
-			return array();
-		}
-		else
-		{
-			while ($row = $this->_fetch_assoc())
-			{
-				$this->result_array[] = $row;
-			}
+			return $row;
 		}
 
-		return $this->result_array;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Query result. Object version.
-	 *
-	 * @return	array
-	 */
-	public function result_object()
-	{
-		if (count($this->result_object) > 0)
+		$class_name = new $class_name();
+		foreach ($row as $key => $value)
 		{
-			return $this->result_object;
-		}
-		elseif (($c = count($this->result_array)) > 0)
-		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_object[$i] = (object) $this->result_array[$i];
-			}
-		}
-		elseif ($this->result_id === FALSE)
-		{
-			return array();
-		}
-		else
-		{
-			while ($row = $this->_fetch_object())
-			{
-				$this->result_object[] = $row;
-			}
+			$class_name->$key = $value;
 		}
 
-		return $this->result_object;
+		return $class_name;
 	}
 
 }
