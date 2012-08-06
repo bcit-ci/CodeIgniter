@@ -354,39 +354,63 @@ class CI_Router {
 	 * @return	void
 	 */
 	protected function _parse_routes()
-	{
-		// Turn the segment array into a URI string
-		$uri = implode('/', $this->uri->segments);
+    {
+        // Turn the segment array into a URI string
+        $uri = implode('/', $this->uri->segments);
 
-		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]))
-		{
-			return $this->_set_request(explode('/', $this->routes[$uri]));
-		}
+        // Is there a literal match?  If so we're done
+        if (isset($this->routes[$uri]))
+        {
+            return $this->_set_request(explode('/', $this->routes[$uri]));
+        }
 
-		// Loop through the route array looking for wild-cards
-		foreach ($this->routes as $key => $val)
-		{
-			// Convert wild-cards to RegEx
-			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
+        // Loop through the route array looking for wild-cards
+        foreach ($this->routes as $key => $val)
+        {
+            // Convert wild-cards to RegEx
+            $key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
-			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
-			{
-				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
-				{
-					$val = preg_replace('#^'.$key.'$#', $val, $uri);
-				}
+            // Does the RegEx match?
+            if (preg_match('#^'.$key.'$#', $uri, $matches))
+            {
+                // Are we using a callback?
+                $callable = is_callable($val);
 
-				return $this->_set_request(explode('/', $val));
-			}
-		}
+                // Are we using callbacks to process back-references?
+                if($callable){
+                    // Remove the original string from the matches array.
+                    array_shift($matches);
 
-		// If we got this far it means we didn't encounter a
-		// matching route so we'll set the site default route
-		$this->_set_request($this->uri->segments);
-	}
+                    // Get the match count.
+                    $matchCount = count($matches);
+
+                    // Determine how many parameters the callback has.
+                    $reflection = new ReflectionFunction($val);
+                    $paramCount = count($reflection->getParameters());
+
+                    // Are there more parameters than matches?
+                    if($paramCount > $matchCount){
+                        // Set any extra params to empty string.
+                        $matches = array_merge($matches, array_fill($matchCount, $paramCount - $matchCount, ''));
+                    }
+
+                    // execute callback using matches as its parameters.
+                    $val = call_user_func_array($val, $matches);
+                }
+                // Are we using the default routing method for back-references?
+                else if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+                {
+                    $val = preg_replace('#^'.$key.'$#', $val, $uri);
+                }
+
+                return $this->_set_request(explode('/', $val));
+            }
+        }
+
+        // If we got this far it means we didn't encounter a
+        // matching route so we'll set the site default route
+        $this->_set_request($this->uri->segments);
+    }
 
 	// --------------------------------------------------------------------
 
