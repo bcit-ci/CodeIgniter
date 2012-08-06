@@ -86,13 +86,6 @@ class CI_Router {
 	 * @var string
 	 */
 	public $default_controller;
-	
-	/**
-	 * Prepend used in php processed routes
-	 *
-	 * @var string
-	 */
-	public $route_prepend = 'php:';
 
 	/**
 	 * Constructor
@@ -380,35 +373,10 @@ class CI_Router {
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri))
 			{
-				// Are we using a callback?
-				$callable = is_callable($val);
-
-				// Determine the appropriate preg_replace to use.
-				$preg_replace_type = $callable? 'preg_replace_callback': 'preg_replace';
-
-				// Are we using the route_prepend to change how we process the matches?
-				$modifier = (is_string($val) AND strpos($val, $this->route_prepend) === 0)? 'e': '';
-				
-				// Are we using callbacks to process the matches?
-				if($callable){
-					$val = function($matches)use($val){
-						// Remove the string we are matching against from the matches array.
-						array_shift($matches);
-
-						// Distribute the matches to the arguments of the user's callback.
-						return call_user_func_array($val, $matches); 
-					};
-				}
-				else 
-				{
-					// Remove the "php:" portion of the string if it exists.
-					$val = $modifier === 'e'? substr($val, strlen($this->route_prepend)): $val;
-				}
-				
 				// Do we have a back-reference?
-				if ($callable OR (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE))
+				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
 				{
-					$val = call_user_func($preg_replace_type, '#^'.$key.'$#'.$modifier, $val, $uri);
+					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
 				return $this->_set_request(explode('/', $val));
