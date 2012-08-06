@@ -48,15 +48,15 @@ function &DB($params = '', $query_builder_override = NULL)
 
 		include ($file_path);
 		//make packages contain database config files
-		if(!defined('ENVIRONMENT') OR !file_exists($file_path= APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+		if( ! defined('ENVIRONMENT') OR ! file_exists($file_path= APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
-		    if(!file_exists($file_path=APPPATH.'config/autoload.php'))
-		    {
-			log_message("ERROR","no autoload file");
-		    }
+			if( ! file_exists($file_path=APPPATH.'config/autoload.php'))
+			{
+				log_message("ERROR","no autoload file");
+			}
 		}
-		include ($file_path);
-		foreach ($autoload['packages'] as $path)
+		include ( $file_path);
+		foreach ( $autoload['packages'] as $path)
 		{
 			if ($path !== APPPATH)
 			{
