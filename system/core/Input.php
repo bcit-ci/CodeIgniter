@@ -200,12 +200,16 @@ class CI_Input {
 	 * @return	string
 	*/
 
-	public function put($index = NULL, $xss_clean = FALSE) {
-
-		if ( $this->server('REQUEST_METHOD') != 'PUT' ) return FALSE;
-
+	public function put($index = NULL, $xss_clean = FALSE) 
+	{
+		// Check if HTTP METHOD is PUT
+		if ( $this->server('REQUEST_METHOD') != 'PUT' )
+		{
+			return FALSE;
+		} 
+		// Read PUT variables
 		parse_str( file_get_contents("php://input"), $this->http_put_data );
-
+		// Check if a field has been provided
 		if ($index === NULL && !empty($this->http_put_data))
 		{
 			$put = array();
@@ -217,12 +221,8 @@ class CI_Input {
 			return $put;
 		}
 
-<<<<<<< HEAD
 		return $this->_fetch_from_array($this->http_put_data, $index, $xss_clean);
 
-=======
-		return $this->_fetch_from_array($_REQUEST, $index, $xss_clean);
->>>>>>> Correct Arrays
 	}
 
 
@@ -236,33 +236,29 @@ class CI_Input {
 	 * @return	string
 	*/
 
-	public function delete($index = NULL, $xss_clean = FALSE) {
-
-		if ( $this->server('REQUEST_METHOD') != 'DELETE' ) return FALSE;
-
+	public function delete($index = NULL, $xss_clean = FALSE) 
+	{
+		// Check if HTTP METHOD is DELETE
+		if ($this->server('REQUEST_METHOD') != 'DELETE')
+		{
+			return FALSE;
+		}
+		// Read DELETE variables
 		parse_str( file_get_contents("php://input"), $this->http_delete_data );
-
+		// Check if a field has been provided
 		if ($index === NULL && !empty($this->http_delete_data))
 		{
 			$put = array();
 			// Loop through the full delete args array and return it
 			foreach (array_keys($this->http_delete_data) as $key)
 			{
-<<<<<<< HEAD
 				$put[$key] = $this->_fetch_from_array($this->http_delete_data, $key, $xss_clean);
-=======
-				$put[$key] = $this->_fetch_from_array($_PUT, $key, $xss_clean);
->>>>>>> Correct Arrays
 			}
 			return $put;
 		}
 
-<<<<<<< HEAD
 		return $this->_fetch_from_array($this->http_delete_data, $index, $xss_clean);
 
-=======
-		return $this->_fetch_from_array($_PUT, $index, $xss_clean);
->>>>>>> Correct Arrays
 	}
 
 
