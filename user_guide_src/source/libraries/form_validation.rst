@@ -258,23 +258,23 @@ you use this approach you must name your array keys as indicated::
 
 	$config = array(
 	               array(
-	                     'field'   => 'username', 
-	                     'label'   => 'Username', 
+	                     'field'   => 'username',
+	                     'label'   => 'Username',
 	                     'rules'   => 'required'
 	                  ),
 	               array(
-	                     'field'   => 'password', 
-	                     'label'   => 'Password', 
+	                     'field'   => 'password',
+	                     'label'   => 'Password',
 	                     'rules'   => 'required'
 	                  ),
 	               array(
-	                     'field'   => 'passconf', 
-	                     'label'   => 'Password Confirmation', 
+	                     'field'   => 'passconf',
+	                     'label'   => 'Password Confirmation',
 	                     'rules'   => 'required'
-	                  ),   
+	                  ),
 	               array(
-	                     'field'   => 'email', 
-	                     'label'   => 'Email', 
+	                     'field'   => 'email',
+	                     'label'   => 'Email',
 	                     'rules'   => 'required'
 	                  )
 	            );
@@ -291,7 +291,7 @@ your rules in the third parameter of rule setting function, like this::
 	$this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-	
+
 
 The above code sets the following rules:
 
@@ -549,7 +549,7 @@ globally, individually, or change the defaults in a config file.
 
 #. **Set delimiters in a config file**
    You can add your error delimiters in application/config/form_validation.php as follows::
-   
+
       $config['error_prefix'] = '<div class="error_prefix">';
       $config['error_suffix'] = '</div>';
 
@@ -595,7 +595,7 @@ Validating an Array (other than $_POST)
 Sometimes you may want to validate an array that does not originate from $_POST data.
 
 In this case, you can specify the array to be validated::
-	
+
 	$data = array(
 			'username' => 'johndoe',
 			'password' => 'mypassword',
@@ -607,7 +607,7 @@ In this case, you can specify the array to be validated::
 Creating validation rules, running the validation and retrieving error messages works the same whether you are
 validating $_POST data or an array.
 
-**Important Note:** If you want to validate more than one array during a single execution, then you should	
+**Important Note:** If you want to validate more than one array during a single execution, then you should
 call the reset_validation() function before setting up rules and validating the new array.
 
 For more info please see the :ref:`function-reference` section below.
@@ -634,23 +634,23 @@ the validation array will have this prototype::
 
 	$config = array(
 	               array(
-	                     'field'   => 'username', 
-	                     'label'   => 'Username', 
+	                     'field'   => 'username',
+	                     'label'   => 'Username',
 	                     'rules'   => 'required'
 	                  ),
 	               array(
-	                     'field'   => 'password', 
-	                     'label'   => 'Password', 
+	                     'field'   => 'password',
+	                     'label'   => 'Password',
 	                     'rules'   => 'required'
 	                  ),
 	               array(
-	                     'field'   => 'passconf', 
-	                     'label'   => 'Password Confirmation', 
+	                     'field'   => 'passconf',
+	                     'label'   => 'Password Confirmation',
 	                     'rules'   => 'required'
-	                  ),   
+	                  ),
 	               array(
-	                     'field'   => 'email', 
-	                     'label'   => 'Email', 
+	                     'field'   => 'email',
+	                     'label'   => 'Email',
 	                     'rules'   => 'required'
 	                  )
 	            );
@@ -712,7 +712,7 @@ You can name your rules anything you want::
 	                                            'label' => 'MessageBody',
 	                                            'rules' => 'required'
 	                                         )
-	                                    )                          
+	                                    )
 	               );
 
 Calling a Specific Rule Group
@@ -743,7 +743,7 @@ function named signup. Here's what your class might look like::
 	class Member extends CI_Controller {
 
 	   function signup()
-	   {      
+	   {
 	      $this->load->library('form_validation');
 
 	      if ($this->form_validation->run() == FALSE)
@@ -859,12 +859,12 @@ use:
 ========================= ========== ============================================================================================= =======================
 Rule                      Parameter  Description                                                                                   Example
 ========================= ========== ============================================================================================= =======================
-**required**              No         Returns FALSE if the form element is empty.                                                                          
-**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                     table and field name in the parameter. is_unique[table.field]                                                        
-**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
-**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
+**required**              No         Returns FALSE if the form element is empty.
+**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field]
+                                     table and field name in the parameter. is_unique[table.field]
+**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]
+**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
                                      numeric.
 **greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
@@ -873,18 +873,18 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
-**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
-**alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             
-**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
-                                     underscores or dashes.                                                                                               
-**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
-**integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
+**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
+**alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
+**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,
+                                     underscores or dashes.
+**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.
+**integer**               No         Returns FALSE if the form element contains anything other than an integer.
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
                                      number, but not zero: 1, 2, 3, etc.
-**is_unique**             Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
+**is_unique**             Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field]
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
@@ -900,6 +900,9 @@ Rule                      Parameter  Description                                
 .. note:: You can also use any native PHP functions that permit up
 	to two parameters, where at least one is required (to pass
 	the field data).
+
+.. note:: When using the **matches** rule, the form item given to
+	matches must have a validation rule defined prior to this field.
 
 ******************
 Prepping Reference
@@ -941,7 +944,7 @@ $this->form_validation->set_rules();
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
-	
+
 		Permits you to set validation rules, as described in the tutorial
 		sections above:
 
@@ -950,19 +953,19 @@ $this->form_validation->set_rules();
 
 $this->form_validation->run();
 ===============================
-	
+
 	.. php:method:: run ($group = '')
 
 		:param string $group: The name of the validation group to run
 		:rtype: Boolean
-	
+
 		Runs the validation routines. Returns boolean TRUE on success and FALSE
 		on failure. You can optionally pass the name of the validation group via
 		the function, as described in: :ref:`saving-groups`
 
 $this->form_validation->set_message();
 ========================================
-	
+
 	.. php:method:: set_message ($lang, $val = '')
 
 		:param string $lang: The rule the message is for
@@ -973,7 +976,7 @@ $this->form_validation->set_message();
 
 $this->form_validation->set_data();
 ========================================
-	
+
 	.. php:method:: set_data ($data = '')
 
 		:param array $data: The data to validate
@@ -991,7 +994,7 @@ $this->form_validation->reset_validation();
 
 $this->form_validation->error_array();
 ========================================
-	
+
 	.. php:method:: error_array ()
 
 		:rtype: Array
@@ -1026,7 +1029,7 @@ Shows all error messages as a string: Example::
 
 	<?php echo validation_errors(); ?>
 
-The error delimiters can be optionally specified. See the 
+The error delimiters can be optionally specified. See the
 :ref:`changing-delimiters` section above.
 
 set_value()
