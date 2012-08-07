@@ -483,8 +483,25 @@ abstract class CI_DB_driver {
 		{
 			$this->initialize();
 		}
-
-		return $this->_execute($sql);
+		$query = $this->_execute($sql);
+		
+		if ($this->db_debug) 
+		{
+			// Set log type
+			$log_type = 'DEBUG';
+			// Check if query failed
+			if ($this->_error_number()) 
+			{
+			// Change log type to error
+				$log_type = 'ERROR';
+				// Log query error message
+				log_message($log_type, 'Query error: (' . $this->_error_number() . ')' . $this->_error_message());
+			}
+			// Log the query
+			log_message($log_type, 'Query: ' . str_replace(array("\n", "\r"), " ", $sql));
+		}
+		
+		return $query;
 	}
 
 	// --------------------------------------------------------------------
