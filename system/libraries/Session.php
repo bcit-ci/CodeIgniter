@@ -76,7 +76,7 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key', 'sess_use_multisessions', 'sess_multiple_sesson_expiration') as $key)
+		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key', 'sess_use_multisessions', 'sess_multisession_expiration') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
@@ -213,10 +213,10 @@ class CI_Session {
 		{
 			// Are we using multi-sessions? If so, grab a lock on the session
 			if ($this->sess_use_multisessions)
-            		{
-                		// Load the php session based on the current session id.
-                		$this->_get_multi_session($session['session_id']);
-           		 }
+            {
+                // Load the php session based on the current session id.
+                $this->_get_multi_session($session['session_id']);
+            }
             
 			$this->CI->db->where('session_id', $session['session_id']);
 
@@ -237,11 +237,11 @@ class CI_Session {
 			{
 				$this->sess_destroy();
                 
-                		// Kill the multi-session we started
-                		if ($this->sess_use_multisessions)
-                		{
-                    			session_destroy();
-        			}
+                // Kill the multi-session we started
+                if ($this->sess_use_multisessions)
+                {
+                    session_destroy();
+                }
                 
 				return FALSE;
 			}
@@ -304,12 +304,12 @@ class CI_Session {
 			return;
 		}
 
-        	// If we have enabled multi-session and have one that
-	        // can no longer be updated, prevent the session write.
-	        if($this->sess_use_multisessions && $this->prevent_update)
-	        {
-	            return;
-	        }
+        // If we have enabled multi-session and have one that
+        // can no longer be updated, prevent the session write.
+        if($this->sess_use_multisessions && $this->prevent_update)
+        {
+            return;
+        }
 
 		// set the custom userdata, the session data we will set in a second
 		$custom_userdata = $this->userdata;
@@ -487,8 +487,8 @@ class CI_Session {
 				//Set the session as no longer allowing updates
 				$this->prevent_update = TRUE;
                 
-                		//Update the current session
-                		$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'prevent_update' => 1), array('session_id' => $old_sessid)));
+                //Update the current session
+                $this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'prevent_update' => 1), array('session_id' => $old_sessid)));
                 
 				//Release the session lock so other requests can process
 				session_write_close();
