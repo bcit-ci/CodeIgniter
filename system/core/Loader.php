@@ -409,8 +409,8 @@ class CI_Loader {
 	 * 1. The name of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
 	 * 3. TRUE/FALSE - whether to return the data or load it. In
-	 *    some cases it's advantageous to be able to return data so that
-	 *    a developer can process it in some way.
+	 *	some cases it's advantageous to be able to return data so that
+	 *	a developer can process it in some way.
 	 *
 	 * @param	string
 	 * @param	array
@@ -636,12 +636,6 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		if ( ! class_exists('CI_Driver_Library'))
-		{
-			// we aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
-		}
-
 		if ($library === '')
 		{
 			return FALSE;
@@ -837,10 +831,10 @@ class CI_Loader {
 		 * We buffer the output for two reasons:
 		 * 1. Speed. You get a significant speed boost.
 		 * 2. So that the final rendered template can be post-processed by
-		 *    the output class. Why do we need post processing? For one thing,
-		 *    in order to show the elapsed page load time. Unless we can
-		 *    intercept the content right before it's sent to the browser and
-		 *    then stop the timer it won't be accurate.
+		 *	the output class. Why do we need post processing? For one thing,
+		 *	in order to show the elapsed page load time. Unless we can
+		 *	intercept the content right before it's sent to the browser and
+		 *	then stop the timer it won't be accurate.
 		 */
 		ob_start();
 
@@ -915,6 +909,13 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
+
+			// Check for match and driver base class
+			if (strtolower($subdir) == strtolower($class) && ! class_exists('CI_Driver_Library'))
+			{
+				// We aren't instantiating an object here, just making the base class available
+				require BASEPATH.'libraries/Driver.php';
+			}
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
@@ -996,7 +997,6 @@ class CI_Loader {
 				$this->_ci_loaded_files[] = $filepath;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
-
 		} // END FOREACH
 
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
