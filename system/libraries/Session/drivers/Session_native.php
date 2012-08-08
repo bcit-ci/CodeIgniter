@@ -42,6 +42,7 @@ class CI_Session_native extends CI_Session_driver {
 			'sess_expiration',
 			'sess_match_ip',
 			'sess_match_useragent',
+			'sess_time_to_update',
 			'cookie_prefix',
 			'cookie_path',
 			'cookie_domain'
@@ -117,6 +118,14 @@ class CI_Session_native extends CI_Session_driver {
 			session_start();
 		}
 
+		// Check for update time
+		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity']) &&
+		($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
+		{
+			// Regenerate ID, but don't destroy session
+			$this->sess_regenerate(FALSE);
+		}
+
 		// Set activity time
 		$_SESSION['last_activity'] = $now;
 
@@ -131,6 +140,9 @@ class CI_Session_native extends CI_Session_driver {
 			// Store user agent string
 			$_SESSION['user_agent'] = trim(substr($CI->input->user_agent(), 0, 50));
 		}
+
+		// Make session ID available
+		$_SESSION['session_id'] = session_id();
 	}
 
 	/**
@@ -178,6 +190,7 @@ class CI_Session_native extends CI_Session_driver {
 	{
 		// Just regenerate id, passing destroy flag
 		session_regenerate_id($destroy);
+		$_SESSION['session_id'] = session_id();
 	}
 
 	/**
