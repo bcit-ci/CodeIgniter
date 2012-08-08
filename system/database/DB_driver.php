@@ -1352,7 +1352,7 @@ abstract class CI_DB_driver {
 		$trace = debug_backtrace();
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
+			if (isset($call['file']) && strpos($call['file'], FCPATH.SYSDIR.'\\'.'database') === FALSE)
 			{
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
