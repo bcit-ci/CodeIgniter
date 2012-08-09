@@ -1355,7 +1355,7 @@ abstract class CI_DB_driver {
 			if (isset($call['file']) && strpos($call['file'], FCPATH.SYSDIR.DIRECTORY_SEPARATOR.'database') === FALSE)
 			{
 				// Found it - use a relative path for safety
-				$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
+				$message[] = 'Filename: '.str_replace(array(FCPATH, SYSDIR . DIRECTORY_SEPARATOR, str_replace('/', DIRECTORY_SEPARATOR, APPPATH)), '', $call['file']);
 				$message[] = 'Line Number: '.$call['line'];
 				break;
 			}
