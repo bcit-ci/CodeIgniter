@@ -507,6 +507,9 @@ class CI_Session {
 				
 				//Release the session lock for the new session
 				session_write_close();
+                
+                //Return immediately, as sess_write wrote the cookie
+                return;
 			}
 			else 
 			{
