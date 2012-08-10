@@ -60,6 +60,7 @@ class CI_Session {
 	public $CI;
 	public $now;
 	private $prevent_update			= FALSE;
+    private $multisession_expired   = FALSE;
 
 	/**
 	 * Session Constructor
@@ -260,7 +261,7 @@ class CI_Session {
 					}
 				}
 			}
-			
+            
 			// Are we in a multi-session scenario? If so, set whether the current
 			// session id is allowed to be updated.
 			if ($this->sess_use_multisessions)
@@ -268,9 +269,8 @@ class CI_Session {
 			 	$this->prevent_update = isset($row->prevent_update)?$row->prevent_update:NULL;
                 
 				// Check to see if this session doesn't exist (previously destroyed) 
-				// or if this session is no longer allowed to update and has exired.
 				//  If so, kill it.
-				if (is_null($this->prevent_update) || ($this->prevent_update && ($row->last_activity + $this->sess_multisession_expiration) < $this->now))
+				if (is_null($this->prevent_update))
 				{
 					$this->sess_destroy();
 					
@@ -297,6 +297,12 @@ class CI_Session {
 	 */
 	public function sess_write()
 	{
+	    //Is this an expired multisession? If so, prevent updates
+	    if($this->multisession_expired())
+        {
+            return;
+        }
+        
 		// Are we saving custom data to the DB?  If not, all we do is update the cookie
 		if ($this->sess_use_database === FALSE)
 		{
@@ -339,7 +345,7 @@ class CI_Session {
 		// Run the update query
 		$this->CI->db->where('session_id', $this->userdata['session_id']);
 		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
-
+    
 		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
@@ -417,6 +423,16 @@ class CI_Session {
             
 			return;
 		}
+
+        // Check if this session is no longer allowed to update and has exired.
+        //  If so, flag it as expired so we can take action as appropriate.
+        if ($this->prevent_update && ($this->userdata['last_activity'] + $this->sess_multisession_expiration) < $this->now)
+        {
+            $this->multisession_expired = TRUE;            
+            
+            session_write_close();
+            return;
+        }
 
 		// We only allow sessions to update if they are allowed
 		if ($this->sess_use_database && $this->sess_use_multisessions && $this->prevent_update)
@@ -548,6 +564,18 @@ class CI_Session {
 			);
 	}
 
+    // --------------------------------------------------------------------
+
+    /**
+     * Indicates if the session is an expired multi-session
+     *
+     * @return  boolean
+     */
+    public function multisession_expired()
+    {
+        return ($this->sess_use_multisessions && $this->multisession_expired);
+    }
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -607,6 +635,12 @@ class CI_Session {
 	 */
 	public function set_userdata($newdata = array(), $newval = '')
 	{
+	    //Is this an expired multisession? If so, prevent updates
+        if($this->multisession_expired())
+        {
+            return;
+        }
+        
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => $newval);
@@ -632,6 +666,12 @@ class CI_Session {
 	 */
 	public function unset_userdata($newdata = array())
 	{
+	    //Is this an expired multisession? If so, prevent updates
+        if($this->multisession_expired())
+        {
+            return;
+        }
+        
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => '');
@@ -660,6 +700,12 @@ class CI_Session {
 	 */
 	public function set_flashdata($newdata = array(), $newval = '')
 	{
+	    //Is this an expired multisession? If so, prevent updates
+        if($this->multisession_expired())
+        {
+            return;
+        }
+        
 		if (is_string($newdata))
 		{
 			$newdata = array($newdata => $newval);
@@ -684,6 +730,12 @@ class CI_Session {
 	 */
 	public function keep_flashdata($key)
 	{
+	    //Is this an expired multisession? If so, prevent updates
+        if($this->multisession_expired())
+        {
+            return;
+        }
+        
 		// 'old' flashdata gets removed. Here we mark all
 		// flashdata as 'new' to preserve it from _flashdata_sweep()
 		// Note the function will return FALSE if the $key
@@ -911,16 +963,6 @@ class CI_Session {
 
 			$this->CI->db->where('last_activity < '.$expire);
 			$this->CI->db->delete($this->sess_table_name);
-
-			// Clean up old multi-sessions if they are enabled
-			if($this->sess_use_multisessions)
-			{
-				$expire = $this->now - $this->sess_multisession_expiration;
-				
-				$this->CI->db->where('last_activity < '.$expire);
-				$this->CI->db->where('prevent_update = 1');
-				$this->CI->db->delete($this->sess_table_name);
-			}
 
 			log_message('debug', 'Session garbage collection performed.');
 		}
