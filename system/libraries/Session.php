@@ -327,6 +327,9 @@ class CI_Session {
 			return FALSE;
 		}
 
+		// Store a copy of the received cookie so that we can compare against it later.
+		$this->current_cookies = $session;
+
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE)
 		{
@@ -804,6 +807,22 @@ class CI_Session {
 		if (is_null($cookie_data))
 		{
 			$cookie_data = $this->userdata;
+		}
+
+		// Store a copy of the received cookie so that we can compare against it later.
+		// Don't send the same cookie to the browser if the browser already has the same cookie data.
+		if (
+			( ! isset($this->first_cookie_sent) ) OR
+			(count($cookie_data) != count($this->current_cookies)) OR
+			(count($cookie_data) != count(array_intersect_assoc($cookie_data, $this->current_cookies)))
+		)
+		{
+			$this->first_cookie_sent = true;
+			$this->current_cookies = $cookie_data;
+		}
+		else
+		{
+			return;
 		}
 
 		// Serialize the userdata for the cookie
