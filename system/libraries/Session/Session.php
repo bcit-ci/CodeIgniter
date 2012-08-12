@@ -18,8 +18,8 @@
  * CI_Session Class
  *
  * The user interface defined by EllisLabs, now with puggable drivers to manage different storage mechanisms.
- * By default, the native PHP session driver will load, but the 'sess_driver' config/param item (see above) can be
- * used to specify the 'cookie' driver, or any other you might create.
+ * By default, the cookie session driver will load, but the 'sess_driver' config/param item (see above) can be
+ * used to specify the 'native' driver, or any other you might create.
  * Once loaded, this driver setup is a drop-in replacement for the former CI_Session library, taking its place as the
  * 'session' member of the global controller framework (e.g.: $CI->session or $this->session).
  * In keeping with the CI_Driver methodology, multiple drivers may be loaded, although this might be a bit confusing.
