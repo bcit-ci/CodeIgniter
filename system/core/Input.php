@@ -199,7 +199,66 @@ class CI_Input {
 
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
+	
+	// --------------------------------------------------------------------
 
+	/**
+	 * Checks and fetches an item from the POST or GET array and checks to see if it is numeric
+	 *
+	 * @param	string	The index key
+	 * @param	string	The POST or GET array
+	 * @param	bool	Required or not
+	 * @param	bool	XSS Cleaning
+	 * @return	mixed	Either the validated variable or False
+	 */	
+
+	function get_numeric_input($name, $source = "GET", $required = True, $xss_clean = True) {
+	    if ($source === "GET") {
+	        if ($this->get($name, $xss_clean)) {
+	            if (is_numeric($this->get($name, $xss_clean))) {
+	                return $this->get($name, $xss_clean);
+	            } else {
+	                if ($required) {
+	                    show_error("$source variable $name is not numeric!");
+	                    log_message('error', "$source variable $name is not numeric!");
+	                    return False;
+	                } else {
+	                    return False;
+	                }
+	            }
+	        } else {
+	            if ($required) {
+	                show_error("$source variable $name is not set!");
+	                log_message('error', "$source variable $name is not set!");
+	                return False;
+	            } else {
+	                return False;
+	            }
+	        }
+	    } elseif ($source === "POST") {
+	        if ($this->post($name, $xss_clean)) {
+	            if (is_numeric($this->post($name, $xss_clean))) {
+	                return $this->post($name, $xss_clean);
+	            } else {
+	                if ($required) {
+	                    show_error("$source variable $name is not numeric!");
+	                    log_message('error', "$source variable $name is not numeric!");
+	                    return False;
+	                } else {
+	                    return False;
+	                }
+	            }
+	        } else {
+	            if ($required) {
+	                show_error("$source variable $name is not set!");
+	                log_message('error', "$source variable $name is not set!");
+	                return False;
+	            } else {
+	                return False;
+	            }
+	        }
+	    }
+	}
 
 	// --------------------------------------------------------------------
 
