@@ -83,7 +83,7 @@ third parameter::
 
 	$this->load->library('calendar', '', 'my_calendar');
 
-	// Session class is now accessed using:
+	// Calendar class is now accessed using:
 
 	$this->my_calendar
 
