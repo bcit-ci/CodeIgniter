@@ -424,12 +424,12 @@ You may also :doc:`create your own <../general/creating_drivers>` custom
 session drivers. A session driver basically manages an array of name/value
 pairs with some sort of storage mechanism.
 
-To make a new driver, extend CI_Session_driver. Overload the initialize
+To make a new driver, extend CI_Session_driver. Overload the initialize()
 method and read or create session data. Then implement a save handler to
 write changed data to storage (sess_save), a destroy handler to remove
-deleted data (sess_destroy), a regenerate handler to make a new session ID,
-and an access handler to expose the data (get_userdata). Your initial class
-might look like::
+deleted data (sess_destroy), a regenerate handler to make a new session ID
+(sess_regenerate), and an access handler to expose the data (get_userdata).
+Your initial class might look like::
 
 	class CI_Session_custom extends CI_Session_driver {
 		protected function initialize()
