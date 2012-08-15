@@ -393,7 +393,7 @@ class CI_Session {
 		// If the sess_destroy had previously been called in the same
 		// connection, $this->userdata['session_id'] will not be available
 		// so we won't be able to complete the rest of this function.
-		if (!isset($this->userdata['session_id']))
+		if ( ! isset($this->userdata['session_id']))
 		{
 			return;
 		}
