@@ -215,7 +215,7 @@ if ( ! function_exists('img'))
 			}
 		}
 
-		return $img._stringify_attributes($attributes).'/>';
+		return $img._stringify_attributes($attributes).' />';
 	}
 }
 
