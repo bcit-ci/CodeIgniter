@@ -102,12 +102,13 @@ Release Date: Not Released
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
    -  Improved support of the PostgreSQL driver, including:
-	 - pg_version() is now used to get the database version number, when possible.
-	 - Added db_set_charset() support.
-	 - Added support for optimize_table() in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
-	 - Added boolean data type support in escape().
-	 - Added update_batch() support.
-	 - Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
+	 - ``pg_version()`` is now used to get the database version number, when possible.
+	 - Added ``db_set_charset()`` support.
+	 - Added support for ``optimize_table()`` in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
+	 - Added boolean data type support in ``escape()``.
+	 - Added ``update_batch()`` support.
+	 - Removed ``limit()`` and ``order_by()`` support for UPDATE and DELETE queries as PostgreSQL does not support those features.
+	 - Added a work-around for dead persistent connections to be re-created after a database restart.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
