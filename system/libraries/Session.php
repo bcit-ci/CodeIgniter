@@ -26,6 +26,17 @@
  */
 
 /**
+ * Handle race condition during session_id updates.
+ * - Keep the old session id around in case we have to handle race
+ *   conditions.
+ *
+ * session table changes (mysql):
+ * ALTER TABLE `sessions` ADD COLUMN `old_session_id` VARCHAR(40)  DEFAULT NULL COMMENT 'old session id' AFTER `user_data`,
+ *  ADD INDEX `old_session_id`(`old_session_id`);
+ * DELETE FROM `sessions`;
+ */
+
+/**
  * Session Class
  *
  * @package		CodeIgniter
@@ -330,7 +341,16 @@ class CI_Session {
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->where('session_id', $session['session_id']);
+			// Search both session_id and old_session_id fields for the
+			// incoming session id.
+			//
+			// Manually create the OR condition because it causes the least
+			// disturbance to existing code.
+			//
+			// Store the session id from the cookie so that we can see if we
+			// came in through the old session id later.
+			$this->CI->db->where( '(session_id = ' . $this->CI->db->escape($session['session_id']) . ' OR old_session_id = ' . $this->CI->db->escape($session['session_id']) . ')' );
+			$this->cookie_session_id = $session['session_id'];
 
 			if ($this->sess_match_ip === TRUE)
 			{
@@ -365,6 +385,14 @@ class CI_Session {
 					}
 				}
 			}
+
+			// Pull the session_id from the database to populate the curent
+			// session id because the old one is stale.
+			//
+			// Pull the old_session_id from the database so that we can
+			// compare the current (cookie) session id against it later.
+			$session['session_id'] = $row->session_id;
+			$session['old_session_id'] = $row->old_session_id;
 		}
 
 		// Session is valid!
@@ -402,6 +430,10 @@ class CI_Session {
 			unset($custom_userdata[$val]);
 			$cookie_userdata[$val] = $this->userdata[$val];
 		}
+
+		// old_session_id has its own field, but it doesn't need to go into
+		// a cookie because we'll always retrieve it from the database.
+		unset($custom_userdata['old_session_id']);
 
 		// Did we find any custom data? If not, we turn the empty array into a string
 		// since there's no reason to serialize and store an empty array in the DB
@@ -481,10 +513,30 @@ class CI_Session {
 		// by pushing all userdata to the cookie.
 		$cookie_data = NULL;
 
+		// Don't need to regenerate the session if we came in by indexing to
+		// the old_session_id, but send out the cookie anyway to make sure
+		// that the client has a copy of the new cookie.
+		//
+		// Do an isset check first in case we're not using the database to
+		// store extra data.  The old_session_id field only exists in the
+		// database.
+		if ((isset($this->userdata['old_session_id'])) &&
+			($this->cookie_session_id === $this->userdata['old_session_id']))
+		{
+			// set cookie explicitly to only have our session data
+			$cookie_data = array();
+			foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+			{
+				$cookie_data[$val] = $this->userdata[$val];
+			}
+
+			$this->_set_cookie($cookie_data);
+			return;
+		}
 		/* Changing the session ID during an AJAX call causes problems,
 		 * so we'll only update our last_activity
 		 */
-		if ($this->CI->input->is_ajax_request())
+		elseif ($this->CI->input->is_ajax_request())
 		{
 			$this->userdata['last_activity'] = $this->now;
 
@@ -533,7 +585,46 @@ class CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+			// Save the old session id into the old_session_id field so that
+			// we can reference it later.
+			//
+			// Rewrite the cookie's session id if there are zero affected rows
+			// because that means that another request changed the database
+			// under the current request.  In this case, we want to return a
+			// value consistent with the previous request.  Reread immediately
+			// after the update call here to minimize timing problems.  This
+			// should be in a transaction for databases that support them.
+			//
+			// Also rewrite the userdata so that future calls to sess_write
+			// will output the correct cookie data.
+			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid, 'old_session_id' => $old_sessid), array('session_id' => $old_sessid)));
+
+			if ($this->CI->db->affected_rows() === 0)
+			{
+				$this->CI->db->where('old_session_id', $this->cookie_session_id);
+				$query = $this->CI->db->get($this->sess_table_name);
+
+				// We've lost track of the session if there are no results, so
+				// don't set a cookie and just return.
+				if ($query->num_rows() == 0)
+				{
+					return;
+				}
+
+				$row = $query->row();
+				foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+				{
+					$this->userdata[$val] = $row->$val;
+					$cookie_data[$val] = $this->userdata[$val];
+				}
+
+				// Set the request session id to the old session id so that we
+				// won't try to regenerate the cookie again on this request --
+				// just in case sess_update is ever called again (which it
+				// shouldn't be).
+				$this->cookie_session_id = $this->userdata['old_session_id'];
+			}
+
 		}
 
 		// Write the cookie
