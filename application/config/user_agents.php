@@ -157,10 +157,10 @@ $mobiles = array(
 	'spv'			=> 'SPV',
 	'zte'			=> 'ZTE',
 	'sendo'			=> 'Sendo',
-	'dsi'			=> 'Nintendo DSi',
-	'ds'			=> 'Nintendo DS',
+	'nintendo dsi'	=> 'Nintendo DSi',
+	'nintendo ds'	=> 'Nintendo DS',
+	'nintendo 3ds'	=> 'Nintendo 3DS',
 	'wii'			=> 'Nintendo Wii',
-	'3ds'			=> 'Nintendo 3DS',
 	'open web'		=> 'Open Web',
 	'openweb'		=> 'OpenWeb',
 
