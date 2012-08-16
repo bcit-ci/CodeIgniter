@@ -141,6 +141,7 @@ Release Date: Not Released
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
    -  Added capability for packages to hold database.php config files 
    -  Added subdrivers support (currently only used by PDO).
+   -  Added query logging to DB_driver when the database config have $db['default']['db_debug']=TRUE;
 
 -  Libraries
 
