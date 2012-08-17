@@ -84,7 +84,7 @@ if ( ! function_exists('form_open'))
 		return $form;
 	}
 }
-
+ 
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('form_open_multipart'))
