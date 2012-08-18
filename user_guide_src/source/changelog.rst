@@ -321,6 +321,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
 -  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
+-  Fixed a bug (#1000) - Change syntax of $view_file to $_ci_view_file to prevent being overwritten by application.
 
 Version 2.1.2
 =============
