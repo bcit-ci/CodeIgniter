@@ -95,7 +95,10 @@ if ( ! function_exists('force_download'))
 		}
 
 		// Clean output buffer
-		ob_clean();
+		if (ob_get_level() !== 0)
+		{
+			ob_clean();
+		}
 
 		// Generate the server headers
 		header('Content-Type: '.$mime);
