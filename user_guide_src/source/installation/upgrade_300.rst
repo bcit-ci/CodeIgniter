@@ -147,6 +147,7 @@ The :doc:`Email library <../libraries/email>` will automatically clear the set p
 emails. To override this behaviour, pass FALSE as the first parameter in the ``send()`` function:
 
 ::
+
 	if ($this->email->send(FALSE))
  	{
  		// Parameters won't be cleared
