@@ -51,6 +51,7 @@ abstract class CI_DB_driver {
 	public $char_set		= 'utf8';
 	public $dbcollat		= 'utf8_general_ci';
 	public $autoinit		= TRUE; // Whether to automatically initialize the DB
+	public $compress		= TRUE;
 	public $swap_pre		= '';
 	public $port			= '';
 	public $pconnect		= FALSE;
