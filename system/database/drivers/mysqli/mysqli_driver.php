@@ -67,10 +67,12 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		if ($this->compress === TRUE)
 		{
-			$port = NULL;
+			$port = empty($this->port) ? NULL : $this->port;
 
-			$mysqli = mysqli_init();
-			return $mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+			$link = mysqli_init();
+			$link->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+
+			return $link;
 		}
 
 		return empty($this->port)
