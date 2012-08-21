@@ -185,6 +185,8 @@ fieldset{ border: 0; }
 }
 
 .admonition-title:after{ content: ':  '; }
+
+.highlighted{ background-color: #FFF09B; }
 	
 #table-contents{
 	bottom: 0;
