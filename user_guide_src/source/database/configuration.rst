@@ -28,6 +28,7 @@ prototype::
 		'dbcollat' => 'utf8_general_ci',
 		'swap_pre' => '',
 		'autoinit' => TRUE,
+		'compress' => TRUE,
 		'stricton' => FALSE,
 		'failover' => array()
 	);
@@ -69,6 +70,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'dbcollat' => 'utf8_general_ci',
 				'swap_pre' => '',
 				'autoinit' => TRUE,
+				'compress' => TRUE,
 				'stricton' => FALSE
 			),
 			array(
@@ -86,6 +88,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'dbcollat' => 'utf8_general_ci',
 				'swap_pre' => '',
 				'autoinit' => TRUE,
+				'compress' => TRUE,
 				'stricton' => FALSE
 			)
 		);
@@ -115,6 +118,7 @@ example, to set up a "test" environment you would do this::
 		'dbcollat' => 'utf8_general_ci',
 		'swap_pre' => '',
 		'autoinit' => TRUE,
+		'compress' => TRUE,
 		'stricton' => FALSE,
 		'failover' => array()
 	);
@@ -174,11 +178,12 @@ Explanation of Values:
 			customizable by the end user.
 **autoinit**		Whether or not to automatically connect to the database when the library loads. If set to false,
 			the connection will take place prior to executing the first query.
+**compress**		Whether or not to use client compression for MySQL or MySQLi.
 **stricton**		TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL
 			while developing an application.
 **port**		The database port number. To use this value you have to add a line to the database config array.
 			::
-			
+
 				$db['default']['port'] = 5432;
 ======================  ==================================================================================================
 
