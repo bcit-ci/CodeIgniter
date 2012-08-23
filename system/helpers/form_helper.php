@@ -173,7 +173,7 @@ if ( ! function_exists('form_input'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_input($data = '', $value = '', $extra = '')
@@ -195,7 +195,7 @@ if ( ! function_exists('form_password'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_password($data = '', $value = '', $extra = '')
@@ -221,7 +221,7 @@ if ( ! function_exists('form_upload'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_upload($data = '', $value = '', $extra = '')
@@ -247,7 +247,7 @@ if ( ! function_exists('form_textarea'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
@@ -279,7 +279,7 @@ if ( ! function_exists('form_multiselect'))
 	 * @param	string
 	 * @param	array
 	 * @param	mixed
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
@@ -304,7 +304,7 @@ if ( ! function_exists('form_dropdown'))
 	 * @param	string
 	 * @param	array
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
@@ -382,7 +382,7 @@ if ( ! function_exists('form_checkbox'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
@@ -426,7 +426,7 @@ if ( ! function_exists('form_radio'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
@@ -450,7 +450,7 @@ if ( ! function_exists('form_submit'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_submit($data = '', $value = '', $extra = '')
@@ -469,7 +469,7 @@ if ( ! function_exists('form_reset'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_reset($data = '', $value = '', $extra = '')
@@ -488,7 +488,7 @@ if ( ! function_exists('form_button'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string/array/object
+	 * @param	string|array|object
 	 * @return	string
 	 */
 	function form_button($data = '', $content = '', $extra = '')
@@ -513,7 +513,7 @@ if ( ! function_exists('form_label'))
 	 *
 	 * @param	string	The text to appear onscreen
 	 * @param	string	The id the label applies to
-	 * @param	string/array/object	Additional attributes
+	 * @param	string|array|object	Additional attributes
 	 * @return	string
 	 */
 	function form_label($label_text = '', $id = '', $attributes = array())
