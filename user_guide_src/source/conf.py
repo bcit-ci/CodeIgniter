@@ -167,6 +167,7 @@ html_last_updated_fmt = '%b %d, %Y'
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'CodeIgniterdoc'
 
+html_copy_source = False
 
 # -- Options for LaTeX output --------------------------------------------------
 

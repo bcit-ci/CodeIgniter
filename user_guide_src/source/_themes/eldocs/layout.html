@@ -91,13 +91,7 @@
 		</div><!-- /#brand -->
 
 		<div id="header">
-			<form method="get" action="http://www.google.com/search">
-				<fieldset>
-					<input type="text" name="q" id="q" value="">
-					<input type="hidden" name="as_sitesearch" id="as_sitesearch" value="{{ project_domain }}/user_guide/" />
-					<input class="grades" type="submit" value="search">
-				</fieldset>
-			</form>
+            {%- include "searchbox.html" %}
 			<ul>
 				{%- block rootrellink %}
 				<li><a href="{{ pathto(master_doc) }}">User Guide Home</a>{%- if pagename != 'index' %}&nbsp;&nbsp;{{ reldelim1 }}{%- endif %}</li>
@@ -113,8 +107,10 @@
 			</ul>
 		</div><!-- /#header -->
 
-		<div class="section" id="content">
+		<div class="section body" id="content">
+			{%- block body %}
 			{{ body }}
+			{%- endblock %}
 		</div>
 	{%- endblock %}
 
