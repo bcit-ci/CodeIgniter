@@ -488,6 +488,15 @@ the name of the function::
 
 	$this->form_validation->set_message('username_check')
 
+If you are using an error message that can accept two $s in your error string,
+such as ..
+
+	$this->form_validation->set_message('min_length', 'The $s field must contain at least $s characters.');
+
+Then you can also use %1$s and %2$s:
+
+	$this->form_validation->set_message('min_length', 'This field must contain at least %2$s characters.');
+
 You can also override any error message found in the language file. For
 example, to change the message for the "required" rule you will do this::
 
