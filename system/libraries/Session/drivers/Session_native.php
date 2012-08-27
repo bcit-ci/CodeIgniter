@@ -56,7 +56,8 @@ class CI_Session_native extends CI_Session_driver {
 		// Set session name, if specified
 		if ($config['sess_cookie_name'])
 		{
-			$name = $config['sess_cookie_name'];
+			// Differentiate name from cookie driver with '_id' suffix
+			$name = $config['sess_cookie_name'].'_id';
 			if ($config['cookie_prefix'])
 			{
 				// Prepend cookie prefix

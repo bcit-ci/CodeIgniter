@@ -325,7 +325,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	public function sess_destroy()
 	{
 		// Kill the session DB row
-		if ($this->sess_use_database === TRUE && $this->has_userdata('session_id'))
+		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
 			$this->CI->db->where('session_id', $this->userdata['session_id']);
 			$this->CI->db->delete($this->sess_table_name);
