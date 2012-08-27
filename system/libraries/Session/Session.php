@@ -141,14 +141,17 @@ class CI_Session extends CI_Driver_Library {
 			$child = str_replace($this->lib_name.'_', '', $driver);
 			if (isset($this->$child))
 			{
-				// Make driver current and sync userdata
-				$this->current = $this->$child;
-				$this->userdata =& $this->current->get_userdata();
+				// See if driver is already current
+				if ($this->$child !== $this->current) {
+					// Make driver current and sync userdata
+					$this->current = $this->$child;
+					$this->userdata =& $this->current->get_userdata();
+				}
 			}
 			else
 			{
 				// Load new driver
-				$this->load_driver($driver);
+				$this->load_driver($child);
 			}
 		}
 	}

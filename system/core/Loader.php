@@ -911,7 +911,7 @@ class CI_Loader {
 			$class = substr($class, $last_slash);
 
 			// Check for match and driver base class
-			if (strtolower($subdir) == strtolower($class) && ! class_exists('CI_Driver_Library'))
+			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
 			{
 				// We aren't instantiating an object here, just making the base class available
 				require BASEPATH.'libraries/Driver.php';
@@ -1003,6 +1003,12 @@ class CI_Loader {
 		if ($subdir === '')
 		{
 			$path = strtolower($class).'/'.$class;
+			return $this->_ci_load_class($path, $params);
+		}
+		else if (ucfirst($subdir) != $subdir)
+		{
+			// Lowercase subdir failed - retry capitalized
+			$path = ucfirst($subdir).$class;
 			return $this->_ci_load_class($path, $params);
 		}
 
