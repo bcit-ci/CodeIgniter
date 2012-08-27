@@ -34,6 +34,7 @@ Release Date: Not Released
    -  Added support for rar archives to mimes.php.
    -  Updated support for xml ('application/xml') and xsl ('application/xml', 'text/xsl') files in mimes.php.
    -  Updated support for doc files in mimes.php.
+   -  Updated support for docx files in mimes.php.
    -  Updated support for php files in mimes.php.
    -  Updated support for zip files in mimes.php.
    -  Updated support for csv files in mimes.php.
@@ -102,12 +103,13 @@ Release Date: Not Released
    -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
    -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
    -  Improved support of the PostgreSQL driver, including:
-	 - pg_version() is now used to get the database version number, when possible.
-	 - Added db_set_charset() support.
-	 - Added support for optimize_table() in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
-	 - Added boolean data type support in escape().
-	 - Added update_batch() support.
-	 - Removed limit() and order_by() support for UPDATE and DELETE queries in as PostgreSQL does not support those features.
+	 - ``pg_version()`` is now used to get the database version number, when possible.
+	 - Added ``db_set_charset()`` support.
+	 - Added support for ``optimize_table()`` in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
+	 - Added boolean data type support in ``escape()``.
+	 - Added ``update_batch()`` support.
+	 - Removed ``limit()`` and ``order_by()`` support for UPDATE and DELETE queries as PostgreSQL does not support those features.
+	 - Added a work-around for dead persistent connections to be re-created after a database restart.
    -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
    -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
    -  Renamed internal method _escape_identifiers() to escape_identifiers().
@@ -138,7 +140,7 @@ Release Date: Not Released
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
-   -  Added capability for packages to hold database.php config files 
+   -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
