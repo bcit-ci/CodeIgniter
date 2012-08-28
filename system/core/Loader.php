@@ -633,7 +633,7 @@ class CI_Loader {
 			{
 				$this->driver($driver);
 			}
-			return FALSE;
+			return;
 		}
 
 		if ($library === '')
@@ -1003,13 +1003,13 @@ class CI_Loader {
 		if ($subdir === '')
 		{
 			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params);
+			return $this->_ci_load_class($path, $params, $object_name);
 		}
 		else if (ucfirst($subdir) != $subdir)
 		{
 			// Lowercase subdir failed - retry capitalized
 			$path = ucfirst($subdir).$class;
-			return $this->_ci_load_class($path, $params);
+			return $this->_ci_load_class($path, $params, $object_name);
 		}
 
 		// If we got this far we were unable to find the requested class.
