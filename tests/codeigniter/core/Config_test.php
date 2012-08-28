@@ -90,4 +90,54 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals('http://example.com/system/', $this->config->system_url());
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_load()
+	{
+		// Create VFS tree of application config files
+		$file1 = 'test.php';
+		$file2 = 'secttest';
+		$key1 = 'testconfig';
+		$val1 = 'my_value';
+		$cfg1 = array(
+			$key1 => $val1
+		);
+		$cfg2 = array(
+			'one' => 'prime',
+			'two' => 2,
+			'three' => true
+		);
+		$tree = array(
+			'application' => array(
+				'config' => array(
+					$file1 => '<?php $config = '.var_export($cfg1, TRUE).';',
+					$file2.'.php' => '<?php $config = '.var_export($cfg2, TRUE).';'
+				)
+			)
+		);
+		$root = vfsStream::setup('root', NULL, $tree);
+
+		// Set config path with VFS URL
+		$this->config->_config_paths = array(vfsStream::url('application').'/');
+
+		// Test regular load
+		$this->assertTrue($this->config->load($file1));
+		$this->assertEquals($val1, $this->config->item($key1));
+
+		// Test section load
+		$this->assertTrue($this->config->load($file2, TRUE));
+		$this->assertEquals($cfg2, $this->config->item($file2));
+
+		// Test graceful fail
+		$this->assertFalse($this->config->load('not_config_file', FALSE, TRUE));
+
+		// Test regular fail
+		$file3 = 'absentia';
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: The configuration file '.$file3.'.php does not exist.'
+		);
+		$this->assertNull($this->config->load($file3));
+	}
+
 }
