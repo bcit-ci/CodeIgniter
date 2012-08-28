@@ -259,6 +259,13 @@ class CI_Session {
 
 	// --------------------------------------------------------------------
 
+	public function __destruct()
+	{
+		$this->_sess_write_db();
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Fetch the current session data if it exists
 	 *
@@ -390,39 +397,10 @@ class CI_Session {
 			return;
 		}
 
-		// set the custom userdata, the session data we will set in a second
-		$custom_userdata = $this->userdata;
-		$cookie_userdata = array();
-
-		// Before continuing, we need to determine if there is any custom data to deal with.
-		// Let's determine this by removing the default indexes to see if there's anything left in the array
-		// and set the session data while we're at it
-		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
-		{
-			unset($custom_userdata[$val]);
-			$cookie_userdata[$val] = $this->userdata[$val];
-		}
-
-		// Did we find any custom data? If not, we turn the empty array into a string
-		// since there's no reason to serialize and store an empty array in the DB
-		if (count($custom_userdata) === 0)
-		{
-			$custom_userdata = '';
-		}
-		else
-		{
-			// Serialize the custom data array so we can store it
-			$custom_userdata = $this->_serialize($custom_userdata);
-		}
-
-		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
-
 		// Write the cookie. Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
-		$this->_set_cookie($cookie_userdata);
+		$this->_set_cookie($this->_cookie_data());
 	}
 
 	// --------------------------------------------------------------------
@@ -641,7 +619,6 @@ class CI_Session {
 				$this->userdata[$key] = $val;
 			}
 		}
-
 		$this->sess_write();
 	}
 
@@ -727,6 +704,64 @@ class CI_Session {
 	public function flashdata($key)
 	{
 		return $this->userdata($this->flashdata_key.':old:'.$key);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * @return void
+	 */
+	protected function _sess_write_db()
+	{
+        // Generate a query string to execute, instead of using active record
+		// reference: https://github.com/EllisLab/CodeIgniter/pull/1163#issuecomment-4884026
+		// Run the update query
+		$this->CI->db->query(
+			$this->CI->db->update_string(
+				$this->sess_table_name,
+				array('last_activity' => $this->userdata['last_activity'], 'user_data' => $this->_custom_userdata()),
+				array('session_id', $this->userdata['session_id'])
+			)
+		);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * @return string
+	 */
+	protected function _custom_userdata()
+	{
+		$custom_userdata = $this->userdata;
+		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		{
+			unset($custom_userdata[$val]);
+		}
+		// Did we find any custom data? If not, we turn the empty array into a string
+		// since there's no reason to serialize and store an empty array in the DB
+		if (count($custom_userdata) === 0)
+		{
+			$custom_userdata = '';
+		}
+		else
+		{
+			// Serialize the custom data array so we can store it
+			$custom_userdata = $this->_serialize($custom_userdata);
+		}
+
+		return $custom_userdata;
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected function _cookie_data()
+	{
+		$cookie_userdata = array();
+		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		{
+			$cookie_userdata[$val] = $this->userdata[$val];
+		}
+		return $cookie_userdata;
 	}
 
 	// ------------------------------------------------------------------------
@@ -913,7 +948,7 @@ class CI_Session {
 	{
 		if (is_string($val))
 		{
-	 		$val= str_replace('{{slash}}', '\\', $val);
+			$val= str_replace('{{slash}}', '\\', $val);
 		}
 	}
 
