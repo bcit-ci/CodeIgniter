@@ -75,6 +75,14 @@ class CI_Loader {
 	protected $_ci_helper_paths =	array();
 
 	/**
+	 * Path to autoloader config file
+	 * This lets us override it in unit testing
+	 *
+	 * @var	string
+	 */
+	protected $_ci_autoloader_path = APPPATH;
+
+	/**
 	 * List of loaded base classes
 	 *
 	 * @var array
@@ -1140,13 +1148,13 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+		if (defined('ENVIRONMENT') && file_exists($this->_ci_autoloader_path.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+			include($this->_ci_autoloader_path.'config/'.ENVIRONMENT.'/autoload.php');
 		}
 		else
 		{
-			include(APPPATH.'config/autoload.php');
+			include($this->_ci_autoloader_path.'config/autoload.php');
 		}
 
 		if ( ! isset($autoload))
