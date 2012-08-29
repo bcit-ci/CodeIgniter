@@ -368,6 +368,76 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * @covers CI_Loader::_ci_autoloader
+	 */
+	public function test_autoloader()
+	{
+		$this->_setup_config_mock();
+
+		// Create helper directory in app path with test helper
+		$helper = 'autohelp';
+		$hlp_func = '_autohelp_test_func';
+		$this->_create_content('helpers', $helper.'_helper', '<?php function '.$hlp_func.'() { return true; } ');
+
+		// Create libraries directory in base path with test library
+		$lib = 'autolib';
+		$lib_class = 'CI_'.ucfirst($lib);
+		$this->_create_content('libraries', $lib, '<?php class '.$lib_class.' { } ', NULL, TRUE);
+
+		// Create libraries subdirectory with test driver
+		// Since libraries/ now exists, we have to look it up and
+	   	// add the subdir directly instead of using _create_content
+		$drv = 'autodrv';
+		$subdir = ucfirst($drv);
+		$drv_class = 'CI_'.$subdir;
+		$tree = array(
+			$subdir => array($drv.'.php' => '<?php class '.$drv_class.' { } ')
+		);
+		vfsStream::create($tree, $this->load->base_root->getChild('libraries'));
+
+		// Create package directory in app path with model
+		$dir = 'testdir';
+		$path = $this->load->app_path.$dir.'/';
+		$model = 'automod';
+		$mod_class = ucfirst($model);
+		$this->_create_content($dir, $model, '<?php class '.$mod_class.' { } ', 'models');
+
+		// Create autoloader config
+		$cfg = array(
+			'packages' => array($path),
+			'helper' => array($helper),
+			'libraries' => array($lib),
+			'drivers' => array($drv),
+			'model' => array($model),
+			'config' => array()
+		);
+		$this->_create_content('config', 'autoload', '<?php $autoload = '.var_export($cfg, TRUE).';');
+
+		// Run autoloader
+		$this->load->autoload();
+
+		// Verify path
+		$this->assertContains($path, $this->load->get_package_paths());
+
+		// Verify helper
+		$this->assertTrue(function_exists($hlp_func), $hlp_func.' does not exist');
+
+		// Verify library
+		$this->assertTrue(class_exists($lib_class), $lib_class.' does not exist');
+		$this->assertAttributeInstanceOf($lib_class, $lib, $this->ci_obj);
+
+		// Verify driver
+		$this->assertTrue(class_exists($drv_class), $drv_class.' does not exist');
+		$this->assertAttributeInstanceOf($drv_class, $drv, $this->ci_obj);
+
+		// Verify model
+		$this->assertTrue(class_exists($mod_class), $mod_class.' does not exist');
+		$this->assertAttributeInstanceOf($mod_class, $model, $this->ci_obj);
+	}
+
+	// --------------------------------------------------------------------
+
 	private function _setup_config_mock()
 	{
 		// Mock up a config object so config() has something to call
