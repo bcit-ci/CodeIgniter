@@ -176,10 +176,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @var	array
 	 */
 	protected $defaults = array(
-		'session_id',
-		'ip_address',
-		'user_agent',
-		'last_activity'
+		'session_id' => NULL,
+		'ip_address' => NULL,
+		'user_agent' => NULL,
+		'last_activity' => NULL
 	);
 
 	/**
@@ -281,17 +281,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	}
 
 	/**
-	 * Shutdown session driver object
-	 *
-	 * @return	void
-	 */
-	public function shutdown()
-	{
-		// Just update the DB
-		$this->_update_db();
-	}
-
-	/**
 	 * Write the session data
 	 *
 	 * @return	void
@@ -299,7 +288,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	public function sess_save()
 	{
 		// Check for database
-		if ($this->sess_use_database === FALSE)
+		if ($this->sess_use_database === TRUE)
 		{
 			// Mark custom data as dirty so we know to update the DB
 			$this->data_dirty = TRUE;
