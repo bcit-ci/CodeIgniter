@@ -821,13 +821,7 @@ class CI_Loader {
 			{
 				$this->driver($driver);
 			}
-			return FALSE;
-		}
-
-		if ( ! class_exists('CI_Driver_Library'))
-		{
-			// We aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
+			return;
 		}
 
 		if ($library === '')
@@ -1152,6 +1146,13 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
+
+			// Check for match and driver base class
+			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
+			{
+				// We aren't instantiating an object here, just making the base class available
+				require BASEPATH.'libraries/Driver.php';
+			}
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
@@ -1249,7 +1250,13 @@ class CI_Loader {
 		if ($subdir === '')
 		{
 			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params);
+			return $this->_ci_load_class($path, $params, $object_name);
+		}
+		else if (ucfirst($subdir) != $subdir)
+		{
+			// Lowercase subdir failed - retry capitalized
+			$path = ucfirst($subdir).$class;
+			return $this->_ci_load_class($path, $params, $object_name);
 		}
 
 		// If we got this far we were unable to find the requested class.
@@ -1411,6 +1418,15 @@ class CI_Loader {
 			foreach ($controller as $uri)
 			{
 				$this->controller($uri);
+			}
+		}
+
+		// Autoload drivers
+		if (isset($autoload['drivers']))
+		{
+			foreach ($autoload['drivers'] as $item)
+			{
+				$this->driver($item);
 			}
 		}
 
