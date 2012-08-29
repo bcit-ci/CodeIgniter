@@ -18,9 +18,9 @@ class Upload_test extends CI_TestCase {
 		$this->_test_dir = vfsStreamWrapper::getRoot();
 	}
 
-	function test_do_upload()
+	function test_do_upload() 
 	{
-		$this->markTestIncomplete('TODO');
+		$this->markTestIncomplete('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
 	}
 
 	function test_data()
@@ -64,7 +64,11 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_filename()
 	{
-		$this->markTestIncomplete('TODO');
+		$file1 = vfsStream::newFile('hello-world.txt')->withContent('Hello world.')->at($this->_test_dir);
+		$this->upload->file_ext = '.txt';
+
+		$this->assertEquals('helloworld.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'helloworld.txt'));
+		$this->assertEquals('hello-world1.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'hello-world.txt'));
 	}
 
 	function test_set_max_filesize()
@@ -102,7 +106,22 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_image_properties()
 	{
-		$this->markTestIncomplete('TODO');
+		$this->upload->file_type = 'image/gif';
+		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+
+		$props = array(
+			'image_width'	=>	170,
+			'image_height'	=>	73,
+			'image_type'	=>	'gif',
+			'image_size_str'	=>	'width="170" height="73"'
+		);
+
+		$this->upload->set_image_properties($this->upload->file_temp);
+
+		$this->assertEquals($props['image_width'], $this->upload->image_width);
+		$this->assertEquals($props['image_height'], $this->upload->image_height);
+		$this->assertEquals($props['image_type'], $this->upload->image_type);
+		$this->assertEquals($props['image_size_str'], $this->upload->image_size_str);
 	}
 
 	function test_set_xss_clean()
@@ -125,7 +144,7 @@ class Upload_test extends CI_TestCase {
 
 	function test_is_allowed_filetype()
 	{
-		$this->upload->allowed_types = array('html');
+		$this->upload->allowed_types = array('html', 'gif');
 
 		$this->upload->file_ext = '.txt';
 		$this->upload->file_type = 'text/plain';
@@ -137,7 +156,10 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_filetype(FALSE));
 		$this->assertTrue($this->upload->is_allowed_filetype(TRUE));
 
-		$this->markTestIncomplete('Image tests');
+		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_ext = '.gif';
+		$this->upload->file_type = 'image/gif';
+		$this->assertTrue($this->upload->is_allowed_filetype());
 	}
 
 	function test_is_allowed_filesize()
@@ -153,7 +175,21 @@ class Upload_test extends CI_TestCase {
 
 	function test_is_allowed_dimensions()
 	{
-		$this->markTestIncomplete('TODO');
+		$this->upload->file_type = 'text/plain';
+		$this->assertTrue($this->upload->is_allowed_dimensions());
+
+		$this->upload->file_type = 'image/gif';
+		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+
+		$this->upload->max_width = 10;		
+		$this->assertFalse($this->upload->is_allowed_dimensions());
+
+		$this->upload->max_width = 170;
+		$this->upload->max_height = 10;
+		$this->assertFalse($this->upload->is_allowed_dimensions());
+
+		$this->upload->max_height = 73;
+		$this->assertTrue($this->upload->is_allowed_dimensions());
 	}
 
 	function test_validate_upload_path()
@@ -198,6 +234,9 @@ class Upload_test extends CI_TestCase {
 
 		$this->upload->file_temp = vfsStream::url('file3.txt');
 		$this->assertFalse($this->upload->do_xss_clean());
+
+		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->assertTrue($this->upload->do_xss_clean());
 	}
 
 	function test_set_error()
