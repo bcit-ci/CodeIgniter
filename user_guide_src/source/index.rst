@@ -80,6 +80,7 @@ Driver Reference
 - :doc:`libraries/caching`
 - :doc:`database/index`
 - :doc:`libraries/javascript`
+- :doc:`libraries/sessions`
 
 ****************
 Helper Reference
