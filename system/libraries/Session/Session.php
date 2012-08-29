@@ -42,6 +42,7 @@ class CI_Session extends CI_Driver_Library {
 	public $params = array();
 	protected $current = null;
 	protected $userdata = array();
+	protected $loaded = array();
 
 	const FLASHDATA_KEY = 'flash';
 	const FLASHDATA_NEW = ':new:';
@@ -112,6 +113,22 @@ class CI_Session extends CI_Driver_Library {
 	}
 
 	/**
+	 * CI_Session destructor
+	 *
+	 * The destructor calls shutdown() on each loaded driver
+	 */
+	public function __destruct()
+	{
+		// Call shutdown for each loaded driver
+		foreach ($this->loaded as $driver)
+		{
+			$this->$driver->shutdown();
+		}
+
+		log_message('debug', 'CI_Session Class Shutdown');
+	}
+
+	/**
 	 * Loads session storage driver
 	 *
 	 * @param	string	Driver classname
@@ -122,6 +139,14 @@ class CI_Session extends CI_Driver_Library {
 		// Save reference to most recently loaded driver as library default and sync userdata
 		$this->current = parent::load_driver($driver);
 		$this->userdata =& $this->current->get_userdata();
+
+		// Mark driver as loaded
+		if (!in_array($driver, $this->loaded))
+		{
+			$this->loaded[] = $driver;
+		}
+
+		// Return driver object
 		return $this->current;
 	}
 
@@ -579,6 +604,16 @@ abstract class CI_Session_driver extends CI_Driver {
 	protected function initialize()
 	{
 		// Overload this method to implement initialization
+	}
+
+	/**
+	 * Shut down driver
+	 *
+	 * @return	void
+	 */
+	public function shutdown()
+	{
+		// Overload this method to implement shutdown
 	}
 
 	/**

@@ -28,9 +28,7 @@
 /**
  * Cookie-based session management driver
  *
- * This is the CI_Session functionality, as written by EllisLab, abstracted out to a driver.
- * I have done a little updating for PHP5, and made minor changes to extract this functionality from
- * the public interface (now in the Session Library), but effectively this code is unchanged.
+ * This is the classic CI_Session functionality, as written by EllisLab, abstracted out to a driver.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -173,6 +171,25 @@ class CI_Session_cookie extends CI_Session_driver {
 	public $now;
 
 	/**
+	 * Default userdata keys
+	 *
+	 * @var	array
+	 */
+	protected $defaults = array(
+		'session_id',
+		'ip_address',
+		'user_agent',
+		'last_activity'
+	);
+
+	/**
+	 * Data needs DB update flag
+	 *
+	 * @var	bool
+	 */
+	protected $data_dirty = FALSE;
+
+	/**
 	 * Initialize session driver object
 	 *
 	 * @access	protected
@@ -224,10 +241,14 @@ class CI_Session_cookie extends CI_Session_driver {
 			$this->CI->load->library('encrypt');
 		}
 
-		// Are we using a database? If so, load it
+		// Check for database
 		if ($this->sess_use_database === TRUE && $this->sess_table_name !== '')
 		{
+			// Load database driver
 			$this->CI->load->database();
+
+			// Register shutdown function
+			register_shutdown_function(array($this, '_update_db'));
 		}
 
 		// Set the "now" time. Can either be GMT or server time, based on the config prefs.
@@ -260,61 +281,32 @@ class CI_Session_cookie extends CI_Session_driver {
 	}
 
 	/**
+	 * Shutdown session driver object
+	 *
+	 * @return	void
+	 */
+	public function shutdown()
+	{
+		// Just update the DB
+		$this->_update_db();
+	}
+
+	/**
 	 * Write the session data
 	 *
 	 * @return	void
 	 */
 	public function sess_save()
 	{
-		// Are we saving custom data to the DB? If not, all we do is update the cookie
+		// Check for database
 		if ($this->sess_use_database === FALSE)
 		{
-			$this->_set_cookie();
-			return;
+			// Mark custom data as dirty so we know to update the DB
+			$this->data_dirty = TRUE;
 		}
 
-		// set the custom userdata, the session data we will set in a second
-		$custom_userdata = $this->all_userdata();
-		$cookie_userdata = array();
-
-		// Before continuing, we need to determine if there is any custom data to deal with.
-		// Let's determine this by removing the default indexes to see if there's anything left in the array
-		// and set the session data while we're at it
-		$defaults = array(
-			'session_id',
-			'ip_address',
-			'user_agent',
-			'last_activity'
-		);
-		foreach ($defaults as $val)
-		{
-			unset($custom_userdata[$val]);
-			$cookie_userdata[$val] = $this->userdata[$val];
-		}
-
-		// Did we find any custom data? If not, we turn the empty array into a string
-		// since there's no reason to serialize and store an empty array in the DB
-		if (count($custom_userdata) === 0)
-		{
-			$custom_userdata = '';
-		}
-		else
-		{
-			// Serialize the custom data array so we can store it
-			$custom_userdata = $this->_serialize($custom_userdata);
-		}
-
-		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array(
-			'last_activity' => $this->userdata['last_activity'],
-		   	'user_data' => $custom_userdata
-		));
-
-		// Write the cookie. Notice that we manually pass the cookie data array to the
-		// _set_cookie() function. Normally that function will store $this->userdata, but
-		// in this case that array contains custom data, which we do not want in the cookie.
-		$this->_set_cookie($cookie_userdata);
+		// Write the cookie
+		$this->_set_cookie();
 	}
 
 	/**
@@ -327,8 +319,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
-			$this->CI->db->where('session_id', $this->userdata['session_id']);
-			$this->CI->db->delete($this->sess_table_name);
+			$this->CI->db->delete($this->sess_table_name, array('session_id' => $this->userdata['session_id']));
 		}
 
 		// Kill the cookie
@@ -392,16 +383,18 @@ class CI_Session_cookie extends CI_Session_driver {
 			return FALSE;
 		}
 
-		// Decrypt the cookie data
+		// Check for encryption
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
+			// Decrypt the cookie data
 			$session = $this->CI->encrypt->decode($session);
 		}
 		else
 		{
-			// encryption was not used, so we need to check the md5 hash
-			$hash	 = substr($session, strlen($session)-32); // get last 32 chars
-			$session = substr($session, 0, strlen($session)-32);
+			// Encryption was not used, so we need to check the md5 hash in the last 32 chars
+			$len	 = strlen($session)-32;
+			$hash	 = substr($session, $len);
+			$session = substr($session, 0, $len);
 
 			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
 			if ($hash !== md5($session.$this->encryption_key))
@@ -478,18 +471,13 @@ class CI_Session_cookie extends CI_Session_driver {
 
 				if (is_array($custom_data))
 				{
-					foreach ($custom_data as $key => $val)
-					{
-						$session[$key] = $val;
-					}
+					$session = $session + $custom_data;
 				}
 			}
 		}
 
 		// Session is valid!
 		$this->userdata = $session;
-		unset($session);
-
 		return TRUE;
 	}
 
@@ -501,28 +489,19 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _sess_create()
 	{
-		$sessid = '';
-		do
-		{
-			$sessid .= mt_rand(0, mt_getrandmax());
-		}
-		while (strlen($sessid) < 32);
-
-		// To make the session ID even more secure we'll combine it with the user's IP
-		$sessid .= $this->CI->input->ip_address();
-
+		// Initialize userdata
 		$this->userdata = array(
-			'session_id'	=> md5(uniqid($sessid, TRUE)),
+			'session_id'	=> $this->_make_sess_id(),
 			'ip_address'	=> $this->CI->input->ip_address(),
 			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 			'last_activity'	=> $this->now,
-			'user_data'	=> ''
 		);
 
-		// Save the data to the DB if needed
+		// Check for database
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			// Add empty user_data field and save the data to the DB
+			$this->CI->db->set('user_data', '')->insert($this->sess_table_name, $this->userdata);
 		}
 
 		// Write the cookie
@@ -544,42 +523,84 @@ class CI_Session_cookie extends CI_Session_driver {
 			return;
 		}
 
-		// _set_cookie() will handle this for us if we aren't using database sessions
-		// by pushing all userdata to the cookie.
-		$cookie_data = NULL;
+		// Update last activity to now
+		$this->userdata['last_activity'] = $this->now;
 
-		// Changing the session ID during an AJAX call causes problems, so we'll only update our last_activity
-		if ($this->CI->input->is_ajax_request())
+		// Save the old session id so we know which DB record to update
+		$old_sessid = $this->userdata['session_id'];
+
+		// Changing the session ID during an AJAX call causes problems
+		if ( ! $this->CI->input->is_ajax_request())
 		{
-			$this->userdata['last_activity'] = $this->now;
-
-			// Update the session ID and last_activity field in the DB if needed
-			if ($this->sess_use_database === TRUE)
-			{
-				// set cookie explicitly to only have our session data
-				$cookie_data = array();
-				$defaults = array(
-					'session_id',
-					'ip_address',
-					'user_agent',
-					'last_activity'
-				);
-				foreach ($defaults as $val)
-				{
-					$cookie_data[$val] = $this->userdata[$val];
-				}
-
-				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name,
-											array('last_activity' => $this->userdata['last_activity']),
-											array('session_id' => $this->userdata['session_id'])));
-			}
-
-			return $this->_set_cookie($cookie_data);
+			// Get new id
+			$this->userdata['session_id'] = $this->_make_sess_id();
 		}
 
-		// Save the old session id so we know which record to
-		// update in the database if we need it
-		$old_sessid = $this->userdata['session_id'];
+		// Check for database
+		if ($this->sess_use_database === TRUE)
+		{
+			// Update the session ID and last_activity field in the DB
+			$this->CI->db->update($this->sess_table_name, array(
+					 'last_activity' => $this->now,
+					 'session_id' => $this->userdata['session_id']
+			), array('session_id' => $old_sessid));
+		}
+
+		// Write the cookie
+		$this->_set_cookie();
+	}
+
+	/**
+	 * Update database with current data
+	 *
+	 * This gets called from the shutdown function and also
+	 * registered with PHP to run at the end of the request
+	 * so it's guaranteed to update even when a fatal error
+	 * occurs. The first call makes the update and clears the
+	 * dirty flag so it won't happen twice.
+	 */
+	public function _update_db()
+	{
+		// Check for database and dirty flag and unsaved
+		if ($this->sess_use_database === TRUE && $this->data_dirty === TRUE)
+		{
+			// Set up activity and data fields to be set
+			// If we don't find custom data, user_data will remain an empty string
+			$set = array(
+				'last_activity' => $this->userdata['last_activity'],
+				'user_data' => ''
+			);
+
+			// Get the custom userdata, leaving out the defaults
+			// (which get stored in the cookie)
+			$userdata = array_diff_key($this->userdata, $this->defaults);
+
+			// Did we find any custom data?
+			if ( ! empty($userdata))
+			{
+				// Serialize the custom data array so we can store it
+				$set['user_data'] = $this->_serialize($userdata);
+			}
+
+			// Run the update query
+			// Any time we change the session id, it gets updated immediately,
+			// so our where clause below is always safe
+			$this->CI->db->update($this->sess_table_name, $set, array('session_id' => $this->userdata['session_id']));
+
+			// Clear dirty flag to prevent double updates
+			$this->data_dirty = FALSE;
+
+			log_message('debug', 'CI_Session Data Saved To DB');
+		}
+	}
+
+	/**
+	 * Generate a new session id
+	 *
+	 * @return	string	Hashed session id
+	 */
+	protected function _make_sess_id()
+	{
 		$new_sessid = '';
 		do
 		{
@@ -590,32 +611,8 @@ class CI_Session_cookie extends CI_Session_driver {
 		// To make the session ID even more secure we'll combine it with the user's IP
 		$new_sessid .= $this->CI->input->ip_address();
 
-		// Turn it into a hash and update the session data array
-		$this->userdata['session_id'] = $new_sessid = md5(uniqid($new_sessid, TRUE));
-		$this->userdata['last_activity'] = $this->now;
-
-		// Update the session ID and last_activity field in the DB if needed
-		if ($this->sess_use_database === TRUE)
-		{
-			// set cookie explicitly to only have our session data
-			$cookie_data = array();
-			$defaults = array(
-				'session_id',
-				'ip_address',
-				'user_agent',
-				'last_activity'
-			);
-			foreach ($defaults as $val)
-			{
-				$cookie_data[$val] = $this->userdata[$val];
-			}
-
-			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name,
-				array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
-		}
-
-		// Write the cookie
-		$this->_set_cookie($cookie_data);
+		// Turn it into a hash and return
+		return md5(uniqid($new_sessid, TRUE));
 	}
 
 	/**
@@ -641,12 +638,16 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * Write the session cookie
 	 *
 	 * @access	protected
-	 * @param	array	Cookie name/value pairs
 	 * @return	void
 	 */
-	protected function _set_cookie(array $cookie_data = NULL)
+	protected function _set_cookie()
 	{
-		if (is_null($cookie_data))
+		// Get userdata (only defaults if database)
+		if ($this->sess_use_database === TRUE)
+		{
+			$cookie_data = array_intersect_key($this->userdata, $this->defaults);
+		}
+		else
 		{
 			$cookie_data = $this->userdata;
 		}
@@ -798,9 +799,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ((mt_rand(0, $divisor) / $divisor) < $probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
-
-			$this->CI->db->where('last_activity < '.$expire);
-			$this->CI->db->delete($this->sess_table_name);
+			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire);
 
 			log_message('debug', 'Session garbage collection performed.');
 		}
