@@ -35,18 +35,17 @@
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
 class CI_Lang {
-
 	/**
 	 * List of translations
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $language =	array();
 
 	/**
 	 * List of loaded language files
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $is_loaded =	array();
 
@@ -103,7 +102,7 @@ class CI_Lang {
 		{
 			$found = FALSE;
 
-			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
+			foreach (CodeIgniter::instance()->load->get_package_paths(TRUE) as $package_path)
 			{
 				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
 				{
@@ -148,7 +147,7 @@ class CI_Lang {
 	/**
 	 * Fetch a single line of text from the language array
 	 *
-	 * @param	string	$line	the language line
+	 * @param	string	the language line
 	 * @return	string
 	 */
 	public function line($line = '')
@@ -163,7 +162,6 @@ class CI_Lang {
 
 		return $value;
 	}
-
 }
 
 /* End of file Lang.php */

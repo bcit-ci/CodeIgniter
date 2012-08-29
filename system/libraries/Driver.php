@@ -38,7 +38,6 @@
  * @link
  */
 class CI_Driver_Library {
-
 	/**
 	 * Array of drivers that are available to use with the driver class
 	 *
@@ -78,6 +77,17 @@ class CI_Driver_Library {
 	 */
 	public function load_driver($child)
 	{
+		return $this->load_driver($child);
+	}
+	
+	/**
+	 * Allow library to explicitly load a driver
+	 *
+	 * @param	mixed	Driver name
+	 * @return	mixed
+	 */
+	public function load_driver($child)
+	{
 		if ( ! isset($this->lib_name))
 		{
 			$this->lib_name = get_class($this);
@@ -96,7 +106,8 @@ class CI_Driver_Library {
 			if ( ! class_exists($child_class))
 			{
 				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+				$CI =& CodeIgniter::instance();
+				foreach ($CI->load->get_package_paths(TRUE) as $path)
 				{
 					// loves me some nesting!
 					foreach (array(ucfirst($driver_name), $driver_name) as $class)
@@ -114,8 +125,9 @@ class CI_Driver_Library {
 				// it's a valid driver, but the file simply can't be found
 				if ( ! class_exists($child_class))
 				{
-					log_message('error', 'Unable to load the requested driver: '.$child_class);
-					show_error('Unable to load the requested driver: '.$child_class);
+					$msg = 'Unable to load the requested driver: '.$child_class;
+					log_message('error', $msg);
+					show_error($msg);
 				}
 			}
 
@@ -126,10 +138,10 @@ class CI_Driver_Library {
 		}
 
 		// The requested driver isn't valid!
-		log_message('error', 'Invalid driver requested: '.$child_class);
-		show_error('Invalid driver requested: '.$child_class);
+		$msg = 'Invalid driver requested: '.$child_class;
+		log_message('error', $msg);
+		show_error($msg);
 	}
-
 }
 
 // --------------------------------------------------------------------------
@@ -147,7 +159,6 @@ class CI_Driver_Library {
  * @link
  */
 class CI_Driver {
-
 	/**
 	 * Instance of the parent class
 	 *
@@ -221,8 +232,6 @@ class CI_Driver {
 		}
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * __call magic method
 	 *
@@ -244,8 +253,6 @@ class CI_Driver {
 		exit;
 	}
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * __get magic method
 	 *
@@ -261,8 +268,6 @@ class CI_Driver {
 			return $this->_parent->$var;
 		}
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * __set magic method
@@ -280,7 +285,6 @@ class CI_Driver {
 			$this->_parent->$var = $val;
 		}
 	}
-
 }
 
 /* End of file Driver.php */

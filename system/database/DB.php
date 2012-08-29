@@ -31,7 +31,7 @@
  * @category	Database
  * @author	EllisLab Dev Team
  * @link	http://codeigniter.com/user_guide/database/
- * @param 	string
+ * @param 		string
  * @param 	bool	Determines if query builder should be used or not
  */
 function &DB($params = '', $query_builder_override = NULL)
@@ -39,41 +39,21 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
-		// Is the config file in the environment folder?
-		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			&& ! file_exists($file_path = APPPATH.'config/database.php'))
+		// Get database config
+		$CI =& CodeIgniter::instance();
+		$db = $CI->config->get_ext('database.php', 'db', $args);
+		if ($db === FALSE)
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
-
-		include($file_path);
-		//make packages contain database config files
-		foreach(get_instance()->load->get_package_paths() as $path)
-		{
-			if ($path !== APPPATH)
-			{
-				if (file_exists ($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
-				{
-					include ($file_path);
-				}
-				elseif ( file_exists ($file_path = $path.'config/database.php'))
-				{
-					include ($file_path);
-				}
-			}
-		}
-
-		if ( ! isset($db) OR count($db) === 0)
+		else if ( ! is_array($db) || count($db) == 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
 
-		if ($params !== '')
-		{
-			$active_group = $params;
-		}
+		$active_group = ($params === '') ? $args['active_group'] : $params;
 
-		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		if ( ! isset($active_group) || ! isset($db[$active_group]))
 		{
 			show_error('You have specified an invalid database connection group.');
 		}
@@ -82,7 +62,6 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 	elseif (is_string($params))
 	{
-
 		/* parse the URL from the DSN string
 		 *  Database settings can be passed as discreet
 		 *  parameters or as a data source name in the first
@@ -95,13 +74,13 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 
 		$params = array(
-				'dbdriver'	=> $dsn['scheme'],
-				'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
-				'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
-				'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
-				'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
-				'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
-			);
+			'dbdriver'	=> $dsn['scheme'],
+			'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
+			'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
+			'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
+			'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
+			'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
+		);
 
 		// were additional config items set?
 		if (isset($dsn['query']))

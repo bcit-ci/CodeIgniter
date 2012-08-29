@@ -37,7 +37,6 @@
  * @link		http://codeigniter.com/user_guide/libraries/utf8.html
  */
 class CI_Utf8 {
-
 	/**
 	 * Constructor
 	 *
@@ -49,13 +48,13 @@ class CI_Utf8 {
 	{
 		log_message('debug', 'Utf8 Class Initialized');
 
-		global $CFG;
+		$CI =& CodeIgniter::instance();
 
 		if (
 			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
 			&& function_exists('iconv')			// iconv must be installed
 			&& (bool) @ini_get('mbstring.func_overload') !== TRUE	// Multibyte string function overloading cannot be enabled
-			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
+			&& $CI->config->item('charset') == 'UTF-8'		// Application charset must be UTF-8
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
@@ -157,7 +156,6 @@ class CI_Utf8 {
 	{
 		return (preg_match('/[^\x00-\x7F]/S', $str) === 0);
 	}
-
 }
 
 /* End of file Utf8.php */

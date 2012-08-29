@@ -28,8 +28,7 @@
 /**
  * CodeIgniter Application Controller Class
  *
- * This class object is the super class that every library in
- * CodeIgniter will be assigned to.
+ * This class object is the base class that connects each controller to the root object
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -38,13 +37,12 @@
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class CI_Controller {
-
 	/**
 	 * Reference to the global CI instance
 	 *
 	 * @var	object
 	 */
-	private static $instance;
+	protected $CI = NULL;
 
 	/**
 	 * Set up controller properties and methods
@@ -53,31 +51,49 @@ class CI_Controller {
 	 */
 	public function __construct()
 	{
-		self::$instance =& $this;
-
-		// Assign all the class objects that were instantiated by the
-		// bootstrap file (CodeIgniter.php) to local class variables
-		// so that CI can run as one big super object.
-		foreach (is_loaded() as $var => $class)
-		{
-			$this->$var =& load_class($class);
-		}
-
-		$this->load =& load_class('Loader', 'core');
-		$this->load->initialize();
+		$this->CI = CodeIgniter::instance();
 		log_message('debug', 'Controller Class Initialized');
+	}
+		
+	/**
+	 * Get magic method
+	 *
+	 * Exposes root object members
+	 * @param	string	member name
+	 * @return	mixed
+	 */
+	public function __get($key)
+	{
+		if (isset($this->CI->$key))
+		{
+			return $this->CI->$key;
+		}
 	}
 
 	/**
-	 * Return the CI object
+	 * Isset magic method
 	 *
-	 * @return	object
+	 * Tests root object member existence
+	 * @param	string	member name
+	 * @return	boolean
 	 */
-	public static function &get_instance()
+	public function __isset($key)
 	{
-		return self::$instance;
+		return isset($this->CI->$key);
 	}
 
+	/**
+	 * Get instance
+	 *
+	 * Returns reference to root object
+	 *
+	 * @return object	Root instance
+	 */
+	public static function &instance()
+	{
+		// Return root instance
+		return CodeIgniter::instance();
+	}
 }
 
 /* End of file Controller.php */

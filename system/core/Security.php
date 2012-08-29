@@ -501,18 +501,8 @@ class CI_Security {
 	 * @param	string
 	 * @return	string
 	 */
-	public function entity_decode($str, $charset = NULL)
+	public function entity_decode($str, $charset='UTF-8')
 	{
-		if (strpos($str, '&') === FALSE)
-		{
-			return $str;
-		}
-
-		if (empty($charset))
-		{
-			$charset = config_item('charset');
-		}
-
 		$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
 		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
@@ -850,14 +840,14 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
-			$this->csrf_set_cookie();
+			return $this->_csrf_hash = md5(uniqid(rand(), TRUE));
 		}
 
 		return $this->_csrf_hash;
 	}
 
 }
+// END Security Class
 
 /* End of file Security.php */
 /* Location: ./system/core/Security.php */

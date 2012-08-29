@@ -35,7 +35,6 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Model {
-
 	/**
 	 * Initialize CI_Model Class
 	 *
@@ -56,10 +55,9 @@ class CI_Model {
 	 */
 	public function __get($key)
 	{
-		$CI =& get_instance();
+		$CI =& CodeIgniter::instance();
 		return $CI->$key;
 	}
-
 }
 
 /* End of file Model.php */

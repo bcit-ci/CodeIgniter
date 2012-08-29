@@ -50,7 +50,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	protected $_like_escape_chr = '!';
 
 	protected $_random_keyword;
-
 	public $trans_enabled = FALSE;
 
 	// need to track the PDO options

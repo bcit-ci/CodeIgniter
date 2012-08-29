@@ -149,7 +149,6 @@ class CI_Pagination {
 		}
 
 		// Set the base page index for starting page number
-		$base_page = ($this->use_page_numbers) ? 1 : 0;
 
 		// Determine the current page number.
 		$CI =& get_instance();
@@ -259,7 +258,6 @@ class CI_Pagination {
 		// Render the "previous" link
 		if ($this->prev_link !== FALSE && $this->cur_page !== 1)
 		{
-			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
@@ -284,7 +282,6 @@ class CI_Pagination {
 			// Write the digit links
 			for ($loop = $start -1; $loop <= $end; $loop++)
 			{
-				$i = ($this->use_page_numbers) ? $loop : ($loop * $this->per_page) - $this->per_page;
 
 				// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
@@ -317,7 +314,6 @@ class CI_Pagination {
 		// Render the "next" link
 		if ($this->next_link !== FALSE && $this->cur_page < $num_pages)
 		{
-			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
 
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
@@ -329,7 +325,6 @@ class CI_Pagination {
 		// Render the "Last" link
 		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links) < $num_pages)
 		{
-			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);

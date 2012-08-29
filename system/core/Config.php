@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -37,18 +37,17 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Config {
-
 	/**
 	 * List of all loaded config values
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $config = array();
 
 	/**
 	 * List of all loaded config files
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $is_loaded =	array();
 
@@ -56,9 +55,16 @@ class CI_Config {
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.
 	 *
-	 * @var array
+	 * @var		array
 	 */
-	public $_config_paths =	array(APPPATH);
+	public $_config_paths = array(APPPATH);
+
+	/**
+	 * Callback to array merging function
+	 *
+	 * @var		callback
+	 */
+	protected $merge_arrays;
 
 	/**
 	 * Constructor
@@ -69,6 +75,9 @@ class CI_Config {
 	{
 		$this->config =& get_config();
 		log_message('debug', 'Config Class Initialized');
+
+		// Determine array merge function
+		$this->merge_arrays = is_php('5.3') ? 'array_replace_recursive' : array($this, '_merge_arrays');
 
 		// Set the base_url automatically if none was provided
 		if (empty($this->config['base_url']))
@@ -100,88 +109,165 @@ class CI_Config {
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
+		// Strip .php from file
 		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
-		$found = $loaded = FALSE;
-		
-		$check_locations = defined('ENVIRONMENT')
-			? array(ENVIRONMENT.'/'.$file, $file)
-			: array($file);
 
-		foreach ($this->_config_paths as $path)
+		// Make sure file isn't already loaded
+		if (in_array($file, $this->is_loaded))
 		{
-			foreach ($check_locations as $location)
-			{
-				$file_path = $path.'config/'.$location.'.php';
-
-				if (in_array($file_path, $this->is_loaded, TRUE))
-				{
-					$loaded = TRUE;
-					continue 2;
-				}
-
-				if (file_exists($file_path))
-				{
-					$found = TRUE;
-					break;
-				}
-			}
-
-			if ($found === FALSE)
-			{
-				continue;
-			}
-
-			include($file_path);
-
-			if ( ! isset($config) OR ! is_array($config))
-			{
-				if ($fail_gracefully === TRUE)
-				{
-					return FALSE;
-				}
-				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
-			}
-
-			if ($use_sections === TRUE)
-			{
-				if (isset($this->config[$file]))
-				{
-					$this->config[$file] = array_merge($this->config[$file], $config);
-				}
-				else
-				{
-					$this->config[$file] = $config;
-				}
-			}
-			else
-			{
-				$this->config = array_merge($this->config, $config);
-			}
-
-			$this->is_loaded[] = $file_path;
-			unset($config);
-
-			$loaded = TRUE;
-			log_message('debug', 'Config file loaded: '.$file_path);
-			break;
+			return TRUE;
 		}
 
-		if ($loaded === FALSE)
+		// Get config array and check result
+		$config = $this->get($file.'.php', 'config');
+		if ($config === FALSE)
 		{
-			if ($fail_gracefully === TRUE)
+			if ($fail_gracefully)
 			{
 				return FALSE;
 			}
 			show_error('The configuration file '.$file.'.php does not exist.');
 		}
+		else if (is_string($config))
+		{
+			if ($fail_gracefully)
+			{
+				return FALSE;
+			}
+			show_error('Your '.$config.' file does not appear to contain a valid configuration array.');
+		}
 
+		// Check for sections
+		if ($use_sections === TRUE)
+		{
+			// Merge or set section
+			if (isset($this->config[$file]))
+			{
+				$this->config[$file] = array_merge($this->config[$file], $config);
+			}
+			else
+			{
+				$this->config[$file] = $config;
+			}
+		}
+		else
+		{
+			// Merge config
+			$this->config = array_merge($this->config, $config);
+		}
+
+		// Mark file as loaded
+		$this->is_loaded[] = $file;
+		log_message('debug', 'Config file loaded: '.$file.'.php');
 		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get config file contents
+	 *
+	 * Reads and merges config arrays from named config files
+	 *
+	 * @param	string	the config file name
+	 * @param	string	the array name to look for
+	 * @return	mixed	merged config if found, otherwise FALSE
+	 */
+	public function get($file, $name)
+	{
+		$extras = FALSE;
+		return $this->get_ext($file, $name, $extras);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get config file contents with extra vars
+	 *
+	 * Reads and merges config arrays from named config files.
+	 * Any standalone variables not starting with an underscore are gathered
+	 * and returned via $_extras. For this reason, all local variables start
+	 * with an underscore.
+	 *
+	 * @param	string	the config file name
+	 * @param	string	the array name to look for
+	 * @param	array	reference to extras array
+	 * @return	mixed	merged config if found, otherwise FALSE
+	 */
+	public function get_ext($_file, $_name, &$_extras)
+	{
+		// Ensure file ends with .php
+		if (!preg_match('/\.php$/', $_file))
+		{
+			$_file .= '.php';
+		}
+
+		// Merge arrays from all viable config paths
+		$_merged = array();
+		$_check_locations = defined('ENVIRONMENT') ? array(ENVIRONMENT.'/'.$_file, $_file) : array($_file);
+		foreach ($this->_config_paths as $_path)
+		{
+			// Check with/without ENVIRONMENT
+			foreach ($_check_locations as $_location)
+			{
+				// Determine if file exists here
+				$_file_path = $_path.'config/'.$_location;
+				if (file_exists($_file_path))
+				{
+					// Include file
+					include($_file_path);
+
+					// See if we're gathering extra variables
+					if ($_extras !== FALSE)
+					{
+						// Get associative array of public vars
+						foreach (get_defined_vars() as $_key => $_var)
+						{
+							if (substr($_key, 0, 1) != '_' && $_key != $_name)
+							{
+								$_extras[$_key] = $_var;
+							}
+						}
+					}
+
+					// See if we have an array name to check for
+					if (empty($_name))
+					{
+						// Nope - just note we found something
+						$_merged = TRUE;
+						continue;
+					}
+
+					// Check for config array
+					if ( ! isset($$_name) || ! is_array($$_name))
+					{
+						// Invalid - return bad filename
+						return $_file_path;
+					}
+
+					// Merge config and unset local
+					$_merged = call_user_func_array($this->merge_arrays, array($_merged, &$$_name));
+					unset($$_name);
+				}
+			}
+		}
+
+		// Test for merged config
+		if (empty($_merged))
+		{
+			// None - quit
+			return FALSE;
+		}
+
+		// Return merged config
+		return $_merged;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Fetch a config file item
+	 *
 	 *
 	 * @param	string	the config item name
 	 * @param	string	the index name
@@ -350,6 +436,33 @@ class CI_Config {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Merge config arrays recursively
+	 *
+	 * This function recursively merges the values from a new array into an existing array.
+	 * It is a substitute for array_replace_recursive() in PHP < 5.3; accepting only two arrays.
+	 * The main (existing) array is copied as a parameter, modified with the contents of
+	 * the new array (which is referenced), and returned.
+	 *
+	 * @param	array	main array
+	 * @param	array	new array of values to merge in
+	 * @return	array	merged array
+	 */
+	protected function _merge_arrays(array $main, array &$new)
+	{
+		// Iterate values of new array
+		foreach ($new as $key => &$value)
+		{
+			// Merge sub-arrays recursively, add/replace all others
+			$main[$key] = (is_array($value) && isset($main[$key]) && is_array($main[$key])) ?
+				$this->_merge_arrays($main[$key], $value) : $value;
+		}
+
+		// Return merged array
+		return $main;
+	}
 }
 
 /* End of file Config.php */
