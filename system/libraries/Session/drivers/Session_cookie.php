@@ -194,7 +194,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var	bool
 	 */
-	protected $data_dirty = FALSE;
+	protected $data_dirty			= FALSE;
 
 	/**
 	 * Initialize session driver object
@@ -238,6 +238,33 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			show_error('In order to use the Cookie Session driver you are required to set an encryption key '.
 				'in your config file.');
+		}
+
+		// Lock if enabled
+		if ($this->sess_lock_cookie === TRUE)
+		{
+			// Create tempfile name with session id
+			$file = rtrim(str_replace('\\', '/', sys_get_temp_dir()), '/').
+				'/sess_cookie_lock_'.$this->userdata['session_id'];
+
+			// Try up to 3 times to lock the file
+			$handle = FALSE;
+			for ($i = 0; $i < 3; ++$i)
+			{
+				// Open (create) file for write, which will incur flock() until
+				// the end of the request
+				$handle = fopen($file, 'c');
+				if ($handle !== FALSE)
+				{
+					break;
+				}
+			}
+
+			// Make sure we got it
+			if ($handle === FALSE)
+			{
+				show_error('Unable to lock session cookie');
+			}
 		}
 
 		// Load the string helper so we can use the strip_slashes() function
@@ -302,40 +329,8 @@ class CI_Session_cookie extends CI_Session_driver {
 			$this->data_dirty = TRUE;
 		}
 
-		// Lock if enabled
-		$handle = FALSE;
-		if ($this->sess_lock_cookie === TRUE)
-		{
-			// Create tempfile name with session id
-			$file = rtrim(str_replace('\\', '/', sys_get_temp_dir()), '/').
-				'/sess_cookie_lock_'.$this->userdata['session_id'];
-
-			// Try up to 3 times to lock the file
-			for ($i = 0; $i < 3; ++$i)
-			{
-				// Open (create) file for write, which will incur flock() until we close it
-				$handle = fopen($file, 'c');
-				if ($handle !== FALSE)
-				{
-					break;
-				}
-			}
-
-			// Make sure we got it
-			if ($handle === FALSE)
-			{
-				show_error('Unable to lock session cookie for update');
-			}
-		}
-
 		// Write the cookie
 		$this->_set_cookie();
-
-		// Unlock if locked
-		if ($handle !== FALSE)
-		{
-			fclose($handle);
-		}
 	}
 
 	/**
