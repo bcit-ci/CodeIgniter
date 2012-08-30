@@ -75,14 +75,6 @@ class CI_Loader {
 	protected $_ci_helper_paths =	array();
 
 	/**
-	 * Path to autoloader config file
-	 * This lets us override it in unit testing
-	 *
-	 * @var	string
-	 */
-	protected $_ci_autoloader_path = APPPATH;
-
-	/**
 	 * List of loaded base classes
 	 *
 	 * @var array
@@ -1148,13 +1140,16 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (defined('ENVIRONMENT') && file_exists($this->_ci_autoloader_path.'config/'.ENVIRONMENT.'/autoload.php'))
+		// Get autoloader file from config path
+		$CI =& get_instance();
+		$path = reset($CI->config->_config_paths).'config/';
+		if (defined('ENVIRONMENT') && file_exists($path.ENVIRONMENT.'/autoload.php'))
 		{
-			include($this->_ci_autoloader_path.'config/'.ENVIRONMENT.'/autoload.php');
+			include($path.ENVIRONMENT.'/autoload.php');
 		}
 		else
 		{
-			include($this->_ci_autoloader_path.'config/autoload.php');
+			include($path.'autoload.php');
 		}
 
 		if ( ! isset($autoload))
@@ -1174,7 +1169,6 @@ class CI_Loader {
 		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{
-			$CI =& get_instance();
 			foreach ($autoload['config'] as $key => $val)
 			{
 				$CI->config->load($val);

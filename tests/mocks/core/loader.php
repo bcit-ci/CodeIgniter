@@ -30,7 +30,6 @@ class Mock_Core_Loader extends CI_Loader {
 		$this->_ci_helper_paths 	= array($this->app_path, $this->base_path);
 		$this->_ci_model_paths 		= array($this->app_path);
 		$this->_ci_view_paths 		= array($this->app_path.'views/' => TRUE);
-		$this->_ci_autoloader_path	= $this->app_path;
 	}
 
 	/**
