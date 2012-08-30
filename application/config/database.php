@@ -63,6 +63,7 @@
 | 				 Sites using Latin-1 or UTF-8 database character set and collation are unaffected.
 |	['swap_pre'] A default table prefix that should be swapped with the dbprefix
 |	['autoinit'] Whether or not to automatically initialize the database.
+|	['compress'] Whether or not to use client compression (only MySQL and MySQLi)
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
 |							- good for ensuring strict SQL while developing
 |	['failover'] array - A array with 0 or more data for connections if the main should fail.
@@ -93,6 +94,7 @@ $db['default'] = array(
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
 	'autoinit' => TRUE,
+	'compress' => TRUE,
 	'stricton' => FALSE,
 	'failover' => array()
 );
