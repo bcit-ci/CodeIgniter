@@ -142,6 +142,7 @@ Release Date: Not Released
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
    -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
+   -  Added client compression support for MySQL and MySQLi.
 
 -  Libraries
 
