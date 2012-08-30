@@ -112,7 +112,8 @@ Callbacks
 If you are using PHP >= 5.3 you can use callbacks in place of the normal routing
 rules to process the back-references. Example::
 
-	$route['products/([a-z]+)/edit/(\d+)'] = function($product_type, $id){
+	$route['products/([a-z]+)/edit/(\d+)'] = function ($product_type, $id)
+        {
 		return "catalog/product_edit/" . strtolower($product_type) . "/" . $id;
 	};
 
