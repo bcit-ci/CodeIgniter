@@ -1,0 +1,133 @@
+index.php:
+    define paths
+    include CodeIgniter.php
+
+CodeIgniter.php:
+    declare app core
+    define version
+    include Common.php
+
+    assign subclass_prefix (load config)
+    declare instance function
+    create instance
+        load subclass
+        set exception handler
+        kill magic quotes
+        load Config
+        get constants
+        load Loader
+    load Benchmark
+        mark starts
+    assign config
+    load Hooks
+        pre_system hook
+    load UTF-8
+    load Output
+    load URI
+    load Router
+        set routing
+        set overrides
+    cache_override hook
+        display cache
+    load Security
+    load Input
+    load Lang
+    Autoloader
+    mark base_classes_end
+
+    pre_controller hook
+    route request
+    mark controller_start
+    load Controller
+    post_controll_ctor hook
+    call Controller
+    mark controller_end
+    post_controller hook
+    display_override hook
+        display output
+    post_system hook
+
+
+REFACTOR
+--------
+index.php:
+    define paths
+    include CodeIgniter.php
+    create instance
+    run instance
+
+CodeIgniter.php:
+    define version
+    declare app core
+    declare instance function
+    include Common.php(?)
+
+    CodeIgniter::instance():
+        load config.php
+        assign config
+        load subclass
+        instantiate class
+
+    CodeIgniter::__construct()
+        set exception handler
+        kill magic quotes
+        set path arrays
+
+    CodeIgniter::run()
+        Flag running
+        _load_core()
+        _load_controller()
+        Clear flag
+
+    CodeIgniter::_load_core_class()
+        Check if name exists
+        Load class from library path
+        Load extension from mvc paths
+        exit if not found
+        Add new object under name
+
+    CodeIgniter::_load_core()
+        load Config
+        get constants
+        load Loader
+        load Benchmark
+        mark starts
+        load Hooks
+            pre_system hook
+        load UTF-8
+        load Output
+        load URI
+        load Router
+            set routing
+            set overrides
+        cache_override hook
+            display cache
+        load Security
+        load Input
+        load Lang
+        Autoloader
+        mark base_classes_end
+
+    CodeIgniter::_load_controller()
+        pre_controller hook
+        route request
+        mark controller_start
+        load Controller
+        post_controll_ctor hook
+        call Controller
+
+    CodeIgniter::_destruct()
+        mark controller_end
+        post_controller hook
+        display_override hook
+            display output
+        post_system hook
+
+    CodeIgniter::show_error()
+    CodeIgniter::log_message()
+    CodeIgniter::_exception_handler()
+
+DEPRECATE:
+    html_escape
+    _stringify_attributes
+
