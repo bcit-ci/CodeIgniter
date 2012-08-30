@@ -46,10 +46,11 @@
 |
 | 1. Packages
 | 2. Libraries
-| 3. Helper files
-| 4. Custom config files
-| 5. Language files
-| 6. Models
+| 3. Drivers
+| 4. Helper files
+| 5. Custom config files
+| 6. Language files
+| 7. Models
 |
 */
 
@@ -75,10 +76,26 @@ $autoload['packages'] = array();
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
+|	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
 */
 
 $autoload['libraries'] = array();
+
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Drivers
+| -------------------------------------------------------------------
+| These classes are located in the system/libraries folder or in your
+| application/libraries folder within their own subdirectory. They
+| offer multiple interchangeable driver options.
+|
+| Prototype:
+|
+|	$autoload['drivers'] = array('session', 'cache');
+*/
+
+$autoload['drivers'] = array();
 
 
 /*
