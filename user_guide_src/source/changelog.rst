@@ -145,9 +145,21 @@ Release Date: Not Released
 
 -  Libraries
 
-   -  CI_Session now respects php.ini's session.gc_probability and session.gc_divisor
+   -  :doc:`Session Library <libraries/sessions>` changes include:
+	 -  Library changed to :doc:`Driver <general/drivers>` with classic Cookie driver as default.
+	 -  Added Native PHP Session driver to work with $_SESSION.
+	 -  Custom session drivers can be added anywhere in package paths and loaded with Session library.
+	 -  Session drivers interchangeable on the fly.
+	 -  New tempdata feature allows setting user data items with an expiration time.
+	 -  Added default $config['sess_driver'] and $config['sess_valid_drivers'] items to config.php file.
+	 -  Cookie driver now respects php.ini's session.gc_probability and session.gc_divisor
+	 -  Changed the Cookie driver to select only one row when using database sessions.
+	 -  Cookie driver now only writes to database at end of request when using database.
+	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
+	 -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
+	 -  Added has_userdata() method to verify existence of userdata item.
+	 -  Added tempdata(), set_tempdata(), and unset_tempdata() methods for manipulating tempdata.
    -  Added max_filename_increment config setting for Upload library.
-   -  CI_Loader::_ci_autoloader() is now a protected method.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
@@ -171,8 +183,6 @@ Release Date: Not Released
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
-   -  Changed the :doc:`Session Library <libraries/sessions>` to select only one row when using database sessions.
-   -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
    -  Allowed for setting table class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
@@ -194,7 +204,11 @@ Release Date: Not Released
 
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
    -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
-   -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
+   -  :doc:`Loader Library <libraries/loader>` changes include:
+	 -  Added method get_vars() to the Loader to retrieve all variables loaded with $this->load->vars().
+	 -  CI_Loader::_ci_autoloader() is now a protected method.
+	 -  Added autoloading of drivers with $autoload['drivers'].
+	 -  CI_Loader::library() will now load drivers as well, for backward compatibility of converted libraries (like Session).
    -  is_loaded() function from system/core/Commons.php now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added method() to the :doc:`Input Library <libraries/input>` to retrieve $_SERVER['REQUEST_METHOD'].
