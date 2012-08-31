@@ -89,7 +89,7 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$str = preg_replace('/\s+/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+		$str = preg_replace('/\s+/', ' ', $str);
 
 		if (strlen($str) <= $n)
 		{
