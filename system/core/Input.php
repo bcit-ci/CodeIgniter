@@ -100,12 +100,12 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
-
 		$CI =& CodeIgniter::instance();
 		$this->security =& $CI->security;
+
+		$this->_allow_get_array	= ($CI->config->item('allow_get_array') === TRUE);
+		$this->_enable_xss	= ($CI->config->item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf	= ($CI->config->item('csrf_protection') === TRUE);
 
 		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
@@ -249,6 +249,8 @@ class CI_Input {
 	 */
 	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
+		$CI =& CodeIgniter::instance();
+
 		if (is_array($name))
 		{
 			// always leave 'name' in last place, as the loop will break otherwise, due to $$item
@@ -261,29 +263,29 @@ class CI_Input {
 			}
 		}
 
-		if ($prefix === '' && config_item('cookie_prefix') !== '')
+		if ($prefix === '' && $CI->config->item('cookie_prefix') !== '')
 		{
-			$prefix = config_item('cookie_prefix');
+			$prefix = $CI->config->item('cookie_prefix');
 		}
 
-		if ($domain == '' && config_item('cookie_domain') != '')
+		if ($domain == '' && $CI->config->item('cookie_domain') != '')
 		{
-			$domain = config_item('cookie_domain');
+			$domain = $CI->config->item('cookie_domain');
 		}
 
-		if ($path === '/' && config_item('cookie_path') !== '/')
+		if ($path === '/' && $CI->config->item('cookie_path') !== '/')
 		{
-			$path = config_item('cookie_path');
+			$path = $CI->config->item('cookie_path');
 		}
 
-		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
+		if ($secure === FALSE && $CI->config->item('cookie_secure') !== FALSE)
 		{
-			$secure = config_item('cookie_secure');
+			$secure = $CI->config->item('cookie_secure');
 		}
 
-		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
+		if ($httponly === FALSE && $CI->config->item('cookie_httponly') !== FALSE)
 		{
-			$httponly = config_item('cookie_httponly');
+			$httponly = $CI->config->item('cookie_httponly');
 		}
 
 		if ( ! is_numeric($expire))
@@ -326,10 +328,11 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
-		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
+		$proxy_ips = CodeIgniter::instance()->config->item('proxy_ips');
+		if ($proxy_ips != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
 			$has_ranges = strpos($proxies, '/') !== false;
-			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
+			$proxies = preg_split('/[\s,]/', $proxy_ips, -1, PREG_SPLIT_NO_EMPTY);
 			$proxies = is_array($proxies) ? $proxies : array($proxies);
 		
 			if ($has_ranges)

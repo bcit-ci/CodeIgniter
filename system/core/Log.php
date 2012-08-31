@@ -86,34 +86,35 @@ class CI_Log {
 	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
 
 	/**
-	 * Initialize Logging class
+	 * Configure Logging class
+	 *
+	 * This function lets the core object configure logging so it is not
+	 * dependent on CI_Config being loaded before it can be used.
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function configure($path, $threshold, $date_format)
 	{
-		$config =& get_config();
-
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = ($path !== '') ? $path : APPPATH.'logs/';
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 
-		if (is_numeric($config['log_threshold']))
+		if (is_numeric($threshold))
 		{
-			$this->_threshold = (int) $config['log_threshold'];
+			$this->_threshold = (int) $threshold;
 		}
-		elseif (is_array($config['log_threshold']))
+		elseif (is_array($threshold))
 		{
 			$this->_threshold = $this->_threshold_max;
-			$this->_threshold_array = array_flip($config['log_threshold']);
+			$this->_threshold_array = array_flip($threshold);
 		}
 
-		if ($config['log_date_format'] !== '')
+		if ($date_format !== '')
 		{
-			$this->_date_fmt = $config['log_date_format'];
+			$this->_date_fmt = $date_format;
 		}
 	}
 

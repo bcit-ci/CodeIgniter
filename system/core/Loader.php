@@ -74,13 +74,6 @@ class CI_Loader {
 	protected $_ci_mvc_paths		= array();
 
 	/**
-	 * List of loaded base classes
-	 *
-	 * @var		array
-	 */
-	protected $_base_classes =	array(); // Set by the controller class
-
-	/**
 	 * List of cached variables
 	 *
 	 * @var		array
@@ -150,7 +143,8 @@ class CI_Loader {
 		$this->_ci_mvc_paths = array(APPPATH => TRUE);
 
 		// Fetch autoloader array
-		$autoload = $this->CI->config->get('autoload.php', 'autoload');
+		$autoload = $this->CI->_autoload;
+		unset($this->CI->_autoload);
 		if (is_array($autoload))
 		{
 			// Save config for ci_autoload
@@ -222,7 +216,7 @@ class CI_Loader {
 			return;
 		}
 
-		if ($library === '' || isset($this->_base_classes[$library]))
+		if ($library === '')
 		{
 			return FALSE;
 		}
@@ -702,7 +696,7 @@ class CI_Loader {
 		}
 
 		// Is this a helper extension request?
-		$file = 'helpers/'.config_item('subclass_prefix').$helper.'.php';
+		$file = 'helpers/'.$this->CI->config->item('subclass_prefix').$helper.'.php';
 		foreach ($this->_ci_library_paths as $path)
 		{
 			// Check each path for extension
@@ -1080,7 +1074,7 @@ class CI_Loader {
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
 		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE &&
-		config_item('rewrite_short_tags') === TRUE)
+		$this->CI->config->item('rewrite_short_tags') === TRUE)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>',
 				str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
@@ -1156,9 +1150,9 @@ class CI_Loader {
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
+		$pre = $this->CI->config->item('subclass_prefix');
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$pre = config_item('subclass_prefix');
 			$file = 'libraries/'.$subdir.$pre.$class.'.php';
 			foreach ($this->_ci_library_paths as $path)
 			{
@@ -1306,9 +1300,9 @@ class CI_Loader {
 			{
 				$name = 'CI_'.$class;
 			}
-			elseif (class_exists(config_item('subclass_prefix').$class))
+			elseif (class_exists($this->CI->config->item('subclass_prefix').$class))
 			{
-				$name = config_item('subclass_prefix').$class;
+				$name = $this->CI->config->item('subclass_prefix').$class;
 			}
 			else
 			{
@@ -1369,9 +1363,6 @@ class CI_Loader {
 	 */
 	public function ci_autoloader()
 	{
-		// Set base classes to prevent overwriting core modules
-		$this->_base_classes =& is_loaded();
-
 		// Check for autoload array
 		if ( ! isset($this->_ci_autoload))
 		{

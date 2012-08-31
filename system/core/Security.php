@@ -111,21 +111,22 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		if (config_item('csrf_protection') === TRUE)
+		$config = CodeIgniter::instance()->config;
+		if ($config->item('csrf_protection') === TRUE)
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 			{
-				if (FALSE !== ($val = config_item($key)))
+				if (FALSE !== ($val = $config->item($key)))
 				{
 					$this->{'_'.$key} = $val;
 				}
 			}
 
 			// Append application specific cookie prefix
-			if (config_item('cookie_prefix'))
+			if ($config->item('cookie_prefix'))
 			{
-				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+				$this->_csrf_cookie_name = $config->item('cookie_prefix').$this->_csrf_cookie_name;
 			}
 
 			// Set the CSRF hash
@@ -151,10 +152,10 @@ class CI_Security {
 		}
 
 		// Check if URI has been whitelisted from CSRF checks
-		if ($exclude_uris = config_item('csrf_exclude_uris'))
+		$CI = CodeIgniter::instance();
+		if ($exclude_uris = $CI->config->item('csrf_exclude_uris'))
 		{
-			$uri = load_class('URI', 'core');
-			if (in_array($uri->uri_string(), $exclude_uris))
+			if (in_array($CI->uri->uri_string(), $exclude_uris))
 			{
 				return $this;
 			}
@@ -171,7 +172,7 @@ class CI_Security {
 		unset($_POST[$this->_csrf_token_name]);
 
 		// Regenerate on every submission?
-		if (config_item('csrf_regenerate'))
+		if ($CI->config->item('csrf_regenerate'))
 		{
 			// Nothing should last forever
 			unset($_COOKIE[$this->_csrf_cookie_name]);
@@ -195,8 +196,9 @@ class CI_Security {
 	 */
 	public function csrf_set_cookie()
 	{
+		$config = CodeIgniter::instance()->config;
 		$expire = time() + $this->_csrf_expire;
-		$secure_cookie = (bool) config_item('cookie_secure');
+		$secure_cookie = (bool) $config->item('cookie_secure');
 
 		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
 		{
@@ -207,10 +209,10 @@ class CI_Security {
 			$this->_csrf_cookie_name,
 			$this->_csrf_hash,
 			$expire,
-			config_item('cookie_path'),
-			config_item('cookie_domain'),
+			$config->item('cookie_path'),
+			$config->item('cookie_domain'),
 			$secure_cookie,
-			config_item('cookie_httponly')
+			$config->item('cookie_httponly')
 		);
 		log_message('debug', 'CRSF cookie Set');
 
@@ -754,7 +756,8 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		return $this->entity_decode($match[0], strtoupper(config_item('charset')));
+		$charset = CodeIgniter::instance()->config->item('charset');
+		return $this->entity_decode($match[0], strtoupper($charset)));
 	}
 
 	// --------------------------------------------------------------------

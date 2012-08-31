@@ -69,11 +69,16 @@ class CI_Config {
 	/**
 	 * Constructor
 	 *
-	 * Sets the $config data from the primary config.php file as a class variable
+	 * Sets the $config data from CodeIgniter::_main_config as a class variable.
+     * This is the contents of the primary config.php file with $assign_to_config
+	 * overrides applied.
 	 */
 	public function __construct()
 	{
-		$this->config =& get_config();
+		// Take over main config
+		$CI = CodeIgniter::instance();
+		$this->config = $CI->_main_config;
+		unset($CI->_main_config);
 		log_message('debug', 'Config Class Initialized');
 
 		// Determine array merge function
@@ -411,29 +416,6 @@ class CI_Config {
 	public function set_item($item, $value)
 	{
 		$this->config[$item] = $value;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Assign to Config
-	 *
-	 * This function is called by the front controller (CodeIgniter.php)
-	 * after the Config class is instantiated. It permits config items
-	 * to be assigned or overriden by variables contained in the index.php file
-	 *
-	 * @param	array
-	 * @return	void
-	 */
-	public function _assign_to_config($items = array())
-	{
-		if (is_array($items))
-		{
-			foreach ($items as $key => $val)
-			{
-				$this->set_item($key, $val);
-			}
-		}
 	}
 
 	// --------------------------------------------------------------------

@@ -84,8 +84,9 @@ class CI_Lang {
 
 		if ($idiom === '')
 		{
-			$config =& get_config();
-			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+			$CI = CodeIgniter::instance();
+			$cfg_lang = $CI->config->item['language'];
+			$idiom = ( ! empty($cfg_lang)) ? $cfg_lang : 'english';
 		}
 
 		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)

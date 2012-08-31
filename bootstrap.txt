@@ -123,7 +123,6 @@ CodeIgniter.php:
             display output
         post_system hook
 
-    CodeIgniter::show_error()
     CodeIgniter::log_message()
     CodeIgniter::_exception_handler()
 

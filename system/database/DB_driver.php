@@ -1332,10 +1332,10 @@ abstract class CI_DB_driver {
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
-		$LANG =& load_class('Lang', 'core');
-		$LANG->load('db');
+		$CI = CodeIgniter::instance();
+		$CI->lang->load('db');
 
-		$heading = $LANG->line('db_error_heading');
+		$heading = $CI->lang->line('db_error_heading');
 
 		if ($native === TRUE)
 		{
@@ -1343,7 +1343,7 @@ abstract class CI_DB_driver {
 		}
 		else
 		{
-			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $CI->lang->line($error))) : $error;
 		}
 
 		// Find the most likely culprit of the error by going through
@@ -1361,9 +1361,9 @@ abstract class CI_DB_driver {
 			}
 		}
 
-		$error =& load_class('Exceptions', 'core');
-		echo $error->show_error($heading, $message, 'error_db');
-		exit;
+		// Call show_error directly (which exits)
+		$CI->load_core_class('Exceptions');
+		$CI->exceptions->show_error($heading, $message, 'error_db');
 	}
 
 	// --------------------------------------------------------------------

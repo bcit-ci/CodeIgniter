@@ -150,15 +150,25 @@ class CI_Output {
 	 *
 	 * Sets the output string
 	 *
-	 * @param	string
+	 * @param	string	Output
+	 * @param	bool	Overwrite all flag
 	 * @return	void
 	 */
-	public function set_output($output)
+	public function set_output($output, $all = FALSE)
 	{
-		// Set buffer contents for current buffer in stack
-		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
-		$level = count($this->final_output) - 1;
-		$this->final_output[$level] = $output;
+		// Check for all flag
+		if ($all)
+		{
+			// Reset stack to one level with output
+			$this->final_output = array($output);
+		}
+		else
+		{
+			// Set buffer contents for current buffer in stack
+			// Note: stack_pop() prevents emptying the array, so count will always be >= 1
+			$level = count($this->final_output) - 1;
+			$this->final_output[$level] = $output;
+		}
 
 		return $this;
 	}
@@ -299,7 +309,7 @@ class CI_Output {
 
 		if (empty($charset))
 		{
-			$charset = config_item('charset');
+			$charset = $this->CI->config->item('charset');
 		}
 
 		$header = 'Content-Type: '.$mime_type
@@ -588,7 +598,7 @@ class CI_Output {
 	public function _display_cache()
 	{
 		$cache_path = $this->CI->config->item('cache_path');
-		if ($this->CI->config->item('cache_path') === '')
+		if ($cache_path === '')
 		{
 			$cache_path = APPPATH.'cache/';
 		}
@@ -626,14 +636,12 @@ class CI_Output {
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
 		}
-		else
-		{
-			// Or else send the HTTP cache control headers.
-			$this->set_cache_header($last_modified, $expire);
-		}
 
-		// Display the cache
-		$this->_display(substr($cache, strlen($match[0])));
+		// Send the HTTP cache control headers.
+		$this->set_cache_header($last_modified, $expire);
+
+		// Output the cache (displayed during CodeIgniter::finalize)
+		$this->set_output(substr($cache, strlen($match[0])), TRUE);
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
