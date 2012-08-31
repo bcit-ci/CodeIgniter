@@ -83,7 +83,14 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
-		return @mysql_connect($this->hostname, $this->username, $this->password, TRUE);
+		if ($this->compress === TRUE)
+		{
+			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE, MYSQL_CLIENT_COMPRESS);
+		}
+		else
+		{
+			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -95,7 +102,14 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @mysql_pconnect($this->hostname, $this->username, $this->password);
+		if ($this->compress === TRUE)
+		{
+			return @mysql_pconnect($this->hostname, $this->username, $this->password, MYSQL_CLIENT_COMPRESS);
+		}
+		else
+		{
+			return @mysql_pconnect($this->hostname, $this->username, $this->password);
+		}
 	}
 
 	// --------------------------------------------------------------------

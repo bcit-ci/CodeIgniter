@@ -65,6 +65,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
+		// Use MySQL client compression?
+		if ($this->compress === TRUE)
+		{
+			$port = empty($this->port) ? NULL : $this->port;
+
+			$mysqli = mysqli_init();
+			$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+
+			return $mysqli;
+		}
+
 		return empty($this->port)
 			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
 			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
@@ -83,6 +94,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ( ! is_php('5.3'))
 		{
 			return $this->db_connect();
+		}
+
+		// Use MySQL client compression?
+		if ($this->compress === TRUE)
+		{
+			$port = empty($this->port) ? NULL : $this->port;
+
+			$mysqli = mysqli_init();
+			$mysqli->real_connect('p:'.$this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+
+			return $mysqli;
 		}
 
 		return empty($this->port)
