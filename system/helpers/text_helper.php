@@ -336,7 +336,7 @@ if ( ! function_exists('highlight_phrase'))
 	 * @param	string	the closing tag to end the phrase with
 	 * @return	string
 	 */
-	function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
+	function highlight_phrase($str, $phrase, $tag_open = '<mark>', $tag_close = '</mark>')
 	{
 		if ($str === '')
 		{

@@ -79,6 +79,8 @@ Release Date: Not Released
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
+   -  :doc:`Text Helper <helpers/text_helper>` changes include:
+    - ``highlight_phrase()`` now returns a ``<mark>`` tag by default (changed from ``<strong>``).
 
 -  Database
 
