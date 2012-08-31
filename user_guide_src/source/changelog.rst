@@ -51,6 +51,7 @@ Release Date: Not Released
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
    -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
    -  Changed environment defaults to report all errors in 'development' and only fatal ones in 'testing' and 'production' but only display them in 'development'.
+   -  Updated ip_address lengths from 16 to 45 for supporting ipv6 address on trackback library and captcha helper.
 
 -  Helpers
 
