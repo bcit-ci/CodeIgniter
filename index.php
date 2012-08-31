@@ -141,7 +141,6 @@ switch (ENVIRONMENT)
 	// The controller function you wish to be called.
 	// $routing['function']	= '';
 
-
 /*
  * -------------------------------------------------------------------
  *  CUSTOM CONFIG VALUES
@@ -276,12 +275,31 @@ switch (ENVIRONMENT)
 
 /*
  * --------------------------------------------------------------------
+ * Set empty override arguments if not defined above
+ * --------------------------------------------------------------------
+ */
+	// Check config overrides
+	if ( ! isset($assign_to_config))
+	{
+		$assign_to_config = array();
+	}
+
+	// Check routing overrides
+	if ( ! isset($routing))
+	{
+		$routing = array();
+	}
+
+/*
+ * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
  *
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+$CI =& CodeIgniter::instance($assign_to_config);
+$CI->run($routing);
 
 /* End of file index.php */
 /* Location: ./index.php */

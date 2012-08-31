@@ -26,9 +26,16 @@
  */
 
 /**
+ * CodeIgniter Version
+ *
+ * @var string
+ */
+define('CI_VERSION', '3.0-dev');
+
+/**
  * CodeIgniter Application Core Class
  *
- * This class object is the super class that every library in
+ * This class object is the super class that every object in
  * CodeIgniter will be assigned to.
  *
  * @package		CodeIgniter
@@ -41,18 +48,85 @@ class CodeIgniter {
 	/**
 	 * CodeIgniter singleton instance
 	 *
-	 * @var	 object
-	 * @access  private
+	 * @access	protected
+	 * @var		object
 	 */
-	private static $instance = NULL;
+	protected static $instance = NULL;
+
+	/**
+	 * Main config loaded during instantiation
+	 *
+	 * @var		array
+	 */
+	public $_main_config = array();
+
+	/**
+	 * Paths for loading core classes
+	 *
+	 * @access	protected
+	 * @var		array
+	 */
+	protected $_core_paths = array();
+
+	/**
+	 * Paths for loading core class extensions
+	 *
+	 * @access	protected
+	 * @var		array
+	 */
+	protected $_ext_paths = array();
+
+	/**
+	 * Log threshold
+	 *
+	 * @access	protected
+	 * @var		int
+	 */
+	protected $_log_threshold = 0;
+
+	/**
+	 * Subclass prefix for core class extensions
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
+	protected $_subclass_prefix = '';
+
+	/**
+	 * Is running flag to prevent run() reentry
+	 *
+	 * @access	protected
+	 * @var		bool
+	 */
+	protected $_is_running = FALSE;
 
 	/**
 	 * Constructor
+     *
+     * This constructor is protected in order to force instantiation
+     * through instance(), employing a singleton pattern.
+     *
+     * @access  protected
 	 */
-	private function __construct()
+	protected function __construct()
 	{
+		// Set log threshold
+		$this->_log_threshold = isset($this->_main_config['log_threshold']) ?
+			$this->_main_config['log_threshold'] : 0;
+
+		// Set subclass prefix
+		$this->_subclass_prefix = isset($this->_main_config['subclass_prefix']) ?
+			$this->_main_config['subclass_prefix'] : '';
+
+		// Set core class paths
+		$this->_core_paths = array(APPPATH, BASEPATH);
+		$this->_ext_paths = array(APPPATH);
+		// TODO: Consider checking autoload for package paths to add
+
 		// Define a custom error handler so we can log PHP errors
-		set_error_handler('_exception_handler');
+		// This must come after the config items and paths above,
+		// because the exception handler relies on those elements.
+		set_error_handler(array($this, '_exception_handler'));
 
 		// Kill magic quotes for older versions
 		if ( ! is_php('5.4'))
@@ -60,41 +134,204 @@ class CodeIgniter {
 			@ini_set('magic_quotes_runtime', 0);
 		}
 
-		log_message('debug', 'CodeIgniter Class Initialized');
+		$this->log_message('debug', 'CodeIgniter Class Initialized');
 	}
 
 	/**
-	 * Initialize
-	 *
-	 * This function handles loading Config and Loader, which are special.
-	 * Loading them requires $instance to be set, so we can't do it in the ctor above.
-	 *
-	 * @return	void
+	 * Destructor
 	 */
-	protected function _init()
+	public function __destruct()
 	{
-		// Get Config and load constants
-		$this->load_core_class('Config');
-		$this->config->get('constants.php', NULL);
-
-		// Load Loader
-		$this->load =& load_class('Loader', 'core');
+		// Finalize run and send output
+		$this->_finalize();
 	}
 
 	/**
-	 * Load core class
+	 * Get instance
 	 *
-	 * Loads a core class and registers it with core object
+	 * Returns singleton instance of core object
+     * Upon initial instantiation, this function bootstraps the system by
+     * loading the main config file and its own extension class (if available).
+     * All other config files are loaded via CI_Config.
+     * All other core classes are loaded via load_core_class().
+     * All other loadables are loaded via CI_Loader.
+     * The second parameter supports overriding the APPPATH constant in unit testing.
 	 *
-	 * @param	string	class name
+	 * @param	array	Config overrides
+	 * @param	string	Application path override
 	 * @return	object
 	 */
-	public function load_core_class($class)
+	public static function &instance($assign_to_config = NULL, $apppath = NULL)
 	{
-		// Load class, immediately assign, and return object
-		$name = strtolower($class);
-		$this->$name =& load_class($class, 'core');
-		return $this->$name;
+		// Check for existing instance
+		if (is_null(self::$instance))
+		{
+			// Determine application path
+			if ( ! $apppath)
+			{
+				$apppath = APPPATH;
+			}
+
+			// Load main config
+			$path = $apppath.'config/';
+			if (defined('ENVIRONMENT') && file_exists($path.ENVIRONMENT.'/config.php'))
+			{
+				// Use ENVIRONMENT config
+				include($path.ENVIRONMENT.'/config.php');
+			}
+			else if (file_exists($path.'config.php'))
+			{
+				// Use regular config
+				include($path.'config.php');
+			}
+			else
+			{
+				// Can't run without config - error out
+				set_status_header(503);
+				exit('The configuration file does not exist.');
+			}
+
+			// Does the $config array exist?
+			if ( ! isset($config) || ! is_array($config))
+			{
+				set_status_header(503);
+				exit('Your config file does not appear to be formatted correctly.');
+			}
+
+			// Are any values being dynamically replaced?
+			if (count($assign_to_config) > 0)
+			{
+				foreach ($assign_to_config as $key => $val)
+				{
+					if (isset($config[$key]))
+					{
+						$config[$key] = $val;
+					}
+				}
+			}
+
+			// Load the CodeIgniter subclass, if found
+			$class = 'CodeIgniter';
+			$pre = isset($config['subclass_prefix']) ? $config['subclass_prefix'] : '';
+			$file = $apppath.'core/'.$pre.$class.'.php';
+			if (file_exists($file))
+			{
+				include($file);
+				$class = $pre.$class;
+			}
+
+			// Instantiate object as subclass if defined, otherwise as base name
+			self::$instance = new $class();
+			self::$instance->_main_config = $config;
+			//self::$instance->_init();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Load a core class
+	 *
+	 * Loads and registers a core class
+	 * This function must not call log_message or show_error in order
+	 * to avoid infinite recursion.
+	 *
+	 * @param	string	Class name
+	 * @param	string	Object name
+	 * @return	void
+	 */
+	public function load_core_class($class, $obj_name = '')
+	{
+		// Determine name
+		if ($obj_name === '')
+		{
+			$obj_name = strtolower($class);
+		}
+
+		// Check if already loaded
+		if (isset($this->$obj_name))
+		{
+			return;
+		}
+
+		// Check if class exists
+		$name = 'CI_'.$class;
+		if ( ! class_exists($name))
+		{
+			// Look for file in core paths
+			foreach ($this->_core_paths as $path)
+			{
+				$file = $path.'core/'.$class.'.php';
+				if (file_exists($file))
+				{
+					include($file);
+					break;
+				}
+			}
+
+			// Make sure class is loaded
+			if ( ! class_exists($name))
+			{
+				set_status_header(503);
+				exit('Unable to locate the specified class: '.$class.'.php');
+			}
+		}
+
+		// Check for class extension
+		$ext = $this->_subclass_prefix.$class;
+		if (class_exists($ext))
+		{
+			// Instantiate extension class instead
+			$name = $ext;
+		}
+		else
+		{
+			// Look for file in extension paths
+			foreach ($this->_ext_paths as $path)
+			{
+				$file = $path.'core/'.$this->_subclass_prefix.$class.'.php';
+				if (file_exists($file))
+				{
+					include($file);
+
+					// See if extension class exists now
+					if (class_exists($ext))
+					{
+						// Instantiate extension class instead
+						$name = $ext;
+						break;
+					}
+				}
+			}
+		}
+
+		// Load class
+		$this->$obj_name = new $name();
+	}
+
+	/**
+	 * Log an error message
+	 *
+	 * @param	string	Error level
+	 * @param	string	Error message
+	 * @param	bool	PHP error flag
+	 * @return	void
+	 */
+	public function log_message($level = 'error', $message, $php_error = FALSE)
+	{
+		// Check threshold
+		if ($this->_log_threshold === 0)
+		{
+			return;
+		}
+
+		// Check for log class
+		if ( ! isset($this->log))
+		{
+			$this->load_core_class('log');
+		}
+
+		// Write message
+		$this->log->write_log($level, $message, $php_error);
 	}
 
 	/**
@@ -163,291 +400,267 @@ class CodeIgniter {
 	}
 
 	/**
-	 * Get instance
+	 * Run the CodeIgniter application
 	 *
-	 * Returns singleton instance of core object
-	 *
-	 * @return	object
+	 * @param	array	Routing overrides
+	 * @return	void
 	 */
-	public static function &instance()
+	public function run($routing = NULL)
 	{
-		// Check for existing instance
-		if (is_null(self::$instance))
+		// Check running flag
+		if ($this->_is_running)
 		{
-			// Load the CodeIgniter subclass, if found
-			$class = 'CodeIgniter';
-			$pre = config_item('subclass_prefix');
-			$file = APPPATH.'core/'.$pre.$class.'.php';
-			if (file_exists($file))
-			{
-				include($file);
-				$class = $pre.$class;
-			}
-
-			// Instantiate object as subclass if defined, otherwise as base name
-			self::$instance = new $class();
-			self::$instance->_init();
+			return;
 		}
-		return self::$instance;
+
+		// Set running flag
+		$this->_is_running = TRUE;
+
+		// Load the base classes
+		$this->_load_base();
+
+		// Load the routing and support classes
+		// We will exit from here if a cache is found
+		$this->_load_routing($routing);
+
+		// Load the support classes
+		$this->_load_support();
+
+		// Load and run the routed controller
+		$this->_run_controller();
+
+		// Clear running flag
+		$this->_is_running = FALSE;
+	}
+
+	/**
+	 * Load base classes
+	 *
+	 * This function loads the base-level core classes
+	 * that lay the foundation for the rest of the core
+	 * Config, Loader, Benchmark, and Hooks
+	 *
+	 * @access	protected
+	 * @return	void
+	 */
+	protected function _load_base()
+	{
+		// Get Config and load constants
+		$this->load_core_class('Config');
+		$this->config->get('constants.php', NULL);
+
+		// Load Loader as 'load'
+		$this->load_core_class('Loader', 'load');
+
+		// Load Benchmark and start timer
+		$this->load_core_class('Benchmark');
+		$this->_benchmark->mark('total_execution_time_start');
+		$this->_benchmark->mark('loading_time:_base_classes_start');
+
+		// Load the hooks class and call pre_system
+		$this->load_core_class('Hooks');
+		$this->hooks->_call_hook('pre_system');
+	}
+
+	/**
+	 * Load routing classes
+	 *
+	 * This function loads the second level of core classes
+	 * leading up to routing.
+	 * UTF-8, Output, URI, and Routing
+	 * If a cache is found, we output it and exit at the end of the call.
+	 *
+	 * @access	protected
+	 * @param	array	Routing overrides
+	 * @return	void
+	 */
+	protected function _load_routing($routing = NULL)
+	{
+		// Load the UTF-8 class
+		// Note: Order here is rather important as the UTF-8 class needs to be used
+		// very early on, but it relies on Config
+		$this->load_core_class('Utf8');
+
+		// Load the output class
+		// Note: By load Output before Router, we ensure it is available to support
+		// 404 overrides in case of a call to show_404().
+		$this->load_core_class('Output');
+
+		// Load the URI class
+		$this->load_core_class('URI');
+
+		// Load the Router class and set routing
+		$this->load_core_class('Router');
+		$this->router->_set_routing();
+
+		// Set any routing overrides that may exist in the main index file
+		if ( ! empty($routing))
+		{
+			$this->router->_set_overrides($routing);
+		}
+
+		// Is there a valid cache file?  If so, we're done...
+		if ($this->hooks->_call_hook('cache_override') === FALSE && $this->output->_display_cache() === TRUE)
+		{
+			exit;
+		}
+	}
+
+	/**
+	 * Load support classes
+	 *
+	 * This function loads the third level of core classes
+	 * that offer support for the Controller.
+	 * Security, Input, Language, and autoload resources
+	 *
+	 * @return	void
+	 */
+	protected function _load_support()
+	{
+		// Load the Security class
+		$this->load_core_class('Security');
+
+		// Load the Input class
+		$this->load_core_class('Input');
+
+		// Load the Language class
+		$this->load_core_class('Lang');
+
+		// Autoload libraries, etc.
+		$this->load->ci_autoloader();
+
+		// Mark end of core loading
+		$this->benchmark->mark('loading_time:_base_classes_end');
+	}
+
+	/**
+	 * Load and run routed Controller
+	 *
+	 * @access	protected
+	 * @return	void
+	 */
+	protected function _run_controller()
+	{
+		// Call pre_controller hook
+		$this->_hooks->_call_hook('pre_controller');
+
+		// Get the parsed route and identify class, method, and arguments
+		$route = $this->router->fetch_route();
+		$args = array_slice($route, this_Router::SEG_CLASS);
+		$class = strtolower(array_shift($args));
+		$method = array_shift($args);
+
+		// Mark a start point so we can benchmark the controller
+		$this->benchmark->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
+
+		// Load the controller, but don't call the method yet
+		if ($this->load->controller($route, '', FALSE) == FALSE)
+		{
+			show_404($class.'/'.$method);
+		}
+
+		// Set special "routed" reference to routed Controller
+		$this->routed = $this->$class;
+
+		// Call post_controller_constructor hook
+		$this->hooks->_call_hook('post_controller_constructor');
+
+		if ($this->call_controller($class, $method, $args) == FALSE)
+		{
+			// Both _remap and $method failed - go to 404
+			show_404($class.'/'.$method);
+		}
+	}
+
+	/**
+	 * Finalize bencharks and hooks and send output
+	 *
+	 * @access	protected
+	 * @return	void
+	 */
+	protected function _finalize()
+	{
+		// Check for Benchmark class
+		if (isset($this->benchmark))
+		{
+			// Mark a benchmark end point
+			$this->benchmark->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
+		}
+
+		// Check for Hooks class
+		if (isset($this->hooks))
+		{
+			// Call post_controller hook
+			$this->hooks->_call_hook('post_controller');
+
+			// Send the final rendered output to the browser
+			if ($this->hooks->_call_hook('display_override') === FALSE && isset($this->output))
+			{
+				$this->output->_display();
+			}
+				
+			// Call post_system hook
+			$this->hooks->_call_hook('post_system');
+		}
+	}
+
+	/**
+	 * Exception Handler
+	 *
+	 * This custom exception handler permits PHP errors to be logged in our own
+	 * log files since the user may not have access to server logs. Since this
+	 * function effectively intercepts PHP errors, however, we also need to
+	 * display errors based on the current error_reporting level.
+	 * We do that with the use of a PHP error template.
+	 *
+	 * @param	int		Severity
+	 * @param	string	Error message
+	 * @param	string	File path
+	 * @param	int		Line number
+	 * @return	void
+	 */
+	public function _exception_handler($severity, $message, $filepath, $line)
+	{
+		// Load Exception class
+		$this->load_core_class('Exceptions');
+
+		// Should we display the error? We'll get the current error_reporting
+		// level and add its bits with the severity bits to find out.
+		// And respect display_errors
+		if (($severity & error_reporting()) === $severity && (bool) ini_get('display_errors') === TRUE)
+		{
+			$this->exceptions->show_php_error($severity, $message, $filepath, $line);
+		}
+
+		// Should we log the error? No? We're done...
+		if ($this->_log_threshold === 0)
+		{
+			return;
+		}
+
+		$this->exceptions->log_exception($severity, $message, $filepath, $line);
 	}
 }
 
-// ------------------------------------------------------------------------
-
 /**
- * System Initialization File
+ * Global function to get CodeIgniter instance
  *
- * Loads the base classes and executes the request.
+ * DEPRECATED - call CodeIgniter::instance() directly
  *
- * @package		CodeIgniter
- * @subpackage	codeigniter
- * @category	Front-controller
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/
+ * @return	object	CodeIgniter instance
  */
-
-/**
- * CodeIgniter Version
- *
- * @var string
- *
- */
-	define('CI_VERSION', '3.0-dev');
+function &get_instance()
+{
+	return CodeIgniter::instance();
+}
 
 /*
  * ------------------------------------------------------
  *  Load the global functions
  * ------------------------------------------------------
  */
-	require(BASEPATH.'core/Common.php');
+require(BASEPATH.'core/Common.php');
 
-/*
- * ------------------------------------------------------
- *  Set the subclass_prefix
- * ------------------------------------------------------
- *
- * Normally the "subclass_prefix" is set in the config file.
- * The subclass prefix allows CI to know if a core class is
- * being extended via a library in the local application
- * "libraries" folder. Since CI allows config items to be
- * overriden via data set in the main index. php file,
- * before proceeding we need to know if a subclass_prefix
- * override exists. If so, we will set this value now,
- * before any classes are loaded
- * Note: Since the config file data is cached it doesn't
- * hurt to load it here.
- */
-	if ( ! empty($assign_to_config['subclass_prefix']))
-	{
-		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
-	}
-
-/*
- * ------------------------------------------------------
- *  Load the application core
- * ------------------------------------------------------
- */
-	// Instantiate CodeIgniter [DEPRECATED - call CodeIgniter::instance() directly]
-	function &get_instance()
-	{
-		return CodeIgniter::instance();
-	}
-	$CI =& CodeIgniter::instance();
-
-/*
- * ------------------------------------------------------
- *  Start the timer... tick tock tick tock...
- * ------------------------------------------------------
- */
-	$CI->load_core_class('Benchmark');
-	$CI->benchmark->mark('total_execution_time_start');
-	$CI->benchmark->mark('loading_time:_base_classes_start');
-
-/*
- * ------------------------------------------------------
- *	Do we have any manually set config items in the index.php file?
- * ------------------------------------------------------
- */
-	if (isset($assign_to_config))
-	{
-		$CI->config->_assign_to_config($assign_to_config);
-	}
-
-/*
- * ------------------------------------------------------
- *  Instantiate the hooks class
- * ------------------------------------------------------
- */
-	$CI->load_core_class('Hooks');
-
-/*
- * ------------------------------------------------------
- *  Is there a "pre_system" hook?
- * ------------------------------------------------------
- */
-	$CI->hooks->_call_hook('pre_system');
-
-/*
- * ------------------------------------------------------
- *  Instantiate the UTF-8 class
- * ------------------------------------------------------
- *
- * Note: Order here is rather important as the UTF-8
- * class needs to be used very early on, but it cannot
- * properly determine if UTF-8 can be supported until
- * after the Config class is instantiated.
- *
- */
-	$CI->load_core_class('Utf8');
-
-/*
- * ------------------------------------------------------
- *  Instantiate the output class
- * ------------------------------------------------------
- *
- * Note: By instantiating Output before Router, we ensure
- * it is available to support 404 overrides in case of a
- * call to show_404().
- *
- */
-	$CI->load_core_class('Output');
-
-/*
- * ------------------------------------------------------
- *  Instantiate the URI class
- * ------------------------------------------------------
- */
-	$CI->load_core_class('URI');
-
-/*
- * ------------------------------------------------------
- *  Instantiate the routing class and set the routing
- * ------------------------------------------------------
- */
-	$CI->load_core_class('Router');
-	$CI->router->_set_routing();
-
-	// Set any routing overrides that may exist in the main index file
-	if (isset($routing))
-	{
-		$CI->router->_set_overrides($routing);
-	}
-
-/*
- * ------------------------------------------------------
- *	Is there a valid cache file?  If so, we're done...
- * ------------------------------------------------------
- */
-	if ($CI->hooks->_call_hook('cache_override') === FALSE && $CI->output->_display_cache() === TRUE)
-	{
-		exit;
-	}
-
-/*
- * -----------------------------------------------------
- * Load the security class for xss and csrf support
- * -----------------------------------------------------
- */
-	$CI->load_core_class('Security');
-
-/*
- * ------------------------------------------------------
- *  Load the Input class and sanitize globals
- * ------------------------------------------------------
- */
-	$CI->load_core_class('Input');
-
-/*
- * ------------------------------------------------------
- *  Load the Language class
- * ------------------------------------------------------
- */
-	$CI->load_core_class('Lang');
-
-/*
- * ------------------------------------------------------
- *  Autoload libraries, etc.
- * ------------------------------------------------------
- */
-	$CI->load->ci_autoloader();
-
-	// Set a mark point for benchmarking
-	$CI->benchmark->mark('loading_time:_base_classes_end');
-
-/*
- * ------------------------------------------------------
- *  Is there a "pre_controller" hook?
- * ------------------------------------------------------
- */
-	$CI->hooks->_call_hook('pre_controller');
-
-/*
- * ------------------------------------------------------
- *  Load the local controller
- * ------------------------------------------------------
- */
-	// Get the parsed route and identify class, method, and arguments
-	$route = $CI->router->fetch_route();
-	$args = array_slice($route, CI_Router::SEG_CLASS);
-	$class = strtolower(array_shift($args));
-	$method = array_shift($args);
-
-	// Mark a start point so we can benchmark the controller
-	$CI->benchmark->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
-
-	// Load the controller, but don't call the method yet
-	if ($CI->load->controller($route, '', FALSE) == FALSE)
-	{
-		show_404($class.'/'.$method);
-	}
-
-	// Set special "routed" reference to routed Controller
-	$CI->routed = $CI->$class;
-
-/*
- * ------------------------------------------------------
- *  Is there a "post_controller_constructor" hook?
- * ------------------------------------------------------
- */
-	$CI->hooks->_call_hook('post_controller_constructor');
-
-/*
- * ------------------------------------------------------
- *  Call the requested method
- * ------------------------------------------------------
- */
-	if ($CI->call_controller($class, $method, $args) == FALSE)
-	{
-		// Both _remap and $method failed - go to 404
-		show_404($class.'/'.$method);
-	}
-
-	// Mark a benchmark end point
-	$CI->benchmark->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
-
-/*
- * ------------------------------------------------------
- *  Is there a "post_controller" hook?
- * ------------------------------------------------------
- */
-	$CI->hooks->_call_hook('post_controller');
-
-/*
- * ------------------------------------------------------
- *  Send the final rendered output to the browser
- * ------------------------------------------------------
- */
-	if ($CI->hooks->_call_hook('display_override') === FALSE)
-	{
-		$CI->output->_display();
-	}
-
-/*
- * ------------------------------------------------------
- *  Is there a "post_system" hook?
- * ------------------------------------------------------
- */
-	$CI->hooks->_call_hook('post_system');
 
 /* End of file CodeIgniter.php */
 /* Location: ./system/core/CodeIgniter.php */

@@ -53,25 +53,25 @@ REFACTOR
 index.php:
     define paths
     include CodeIgniter.php
-    create instance
+    create instance (pass APPPATH)
     run instance
 
 CodeIgniter.php:
     define version
     declare app core
     declare instance function
-    include Common.php(?)
+    include Common.php
 
     CodeIgniter::instance():
-        load config.php
-        assign config
+        load config.php (from path param if given)
+        assign config (from assign param if given)
         load subclass
         instantiate class
 
     CodeIgniter::__construct()
         set exception handler
         kill magic quotes
-        set path arrays
+        set path arrays (from constants)
 
     CodeIgniter::run()
         Flag running
