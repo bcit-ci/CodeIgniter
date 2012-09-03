@@ -145,7 +145,7 @@ class CI_Exceptions {
 		}
 
 		// Check Router for an error (or 404) override
-		$CI =& CodeIgniter::instance();
+		$CI =& get_instance();
 		$route = $CI->router->get_error_route($status_code == 404);
 		if ($route !== FALSE) {
 			// Insert or append arguments

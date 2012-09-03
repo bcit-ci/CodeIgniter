@@ -2,7 +2,6 @@
 
 class CI_TestCase extends PHPUnit_Framework_TestCase {
 
-	protected $ci_config;
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
@@ -25,7 +24,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->ci_config = array();
+        $this->ci_instance = new stdClass();
 	}
 
 	// --------------------------------------------------------------------
@@ -57,15 +56,27 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function ci_set_config($key, $val = '')
+	public function ci_set_config($key = '', $val = '')
 	{
+		// Add test config
+        if ( ! isset($this->ci_instance->config))
+        {
+            $this->ci_instance->config = new CI_TestConfig();
+        }
+
+		// Empty key means just do setup above
+		if ($key === '')
+		{
+			return;
+		}
+
 		if (is_array($key))
 		{
-			$this->ci_config = $key;
+			$this->ci_instance->config->config = $key;
 		}
 		else
 		{
-			$this->ci_config[$key] = $val;
+			$this->ci_instance->config->config[$key] = $val;
 		}
 	}
 
@@ -73,7 +84,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function ci_get_config()
 	{
-		return $this->ci_config;
+		return isset($this->ci_instance->config) ? $this->ci_instance->config->config : array();
 	}
 
 	// --------------------------------------------------------------------

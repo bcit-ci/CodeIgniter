@@ -4,12 +4,13 @@ class Upload_test extends CI_TestCase {
 
 	function set_up()
 	{
-		$obj = new stdClass;
+		$this->ci_set_config('csrf_protection', FALSE);
+
+		$obj = $this->ci_instance();
 		$obj->upload = new Mock_Libraries_Upload();
 		$obj->security = new Mock_Core_Security();
 		$obj->lang = new Mock_Core_Lang();
 
-		$this->ci_instance($obj);
 		$this->upload = $obj->upload;
 
 		vfsStreamWrapper::register();
@@ -107,7 +108,7 @@ class Upload_test extends CI_TestCase {
 	function test_set_image_properties()
 	{
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = './mocks/uploads/ci_logo.gif';
 
 		$props = array(
 			'image_width'	=>	170,
@@ -156,7 +157,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_filetype(FALSE));
 		$this->assertTrue($this->upload->is_allowed_filetype(TRUE));
 
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = './mocks/uploads/ci_logo.gif';
 		$this->upload->file_ext = '.gif';
 		$this->upload->file_type = 'image/gif';
 		$this->assertTrue($this->upload->is_allowed_filetype());
@@ -179,7 +180,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_dimensions());
 
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = './mocks/uploads/ci_logo.gif';
 
 		$this->upload->max_width = 10;		
 		$this->assertFalse($this->upload->is_allowed_dimensions());
@@ -235,7 +236,7 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_temp = vfsStream::url('file3.txt');
 		$this->assertFalse($this->upload->do_xss_clean());
 
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = './mocks/uploads/ci_logo.gif';
 		$this->assertTrue($this->upload->do_xss_clean());
 	}
 

@@ -83,7 +83,7 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
-		$this->CI =& CodeIgniter::instance();
+		$this->CI =& get_instance();
 		$this->route_stack = array('', '', '', '');
 		log_message('debug', 'Router Class Initialized');
 	}

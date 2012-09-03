@@ -53,74 +53,88 @@ class CI_Loader {
 	protected $_ci_ob_level;
 
 	/**
-	 * Autoload config array
+	 * Configured base path (supports unit test override)
 	 *
-	 * @var		array
+	 * @var	 string
 	 */
-	protected $_ci_autoload;
+	protected $_ci_base_path = BASEPATH;
+
+	/**
+	 * Configured app path (supports unit test override)
+	 *
+	 * @var	 string
+	 */
+	protected $_ci_app_path = APPPATH;
+
+	/**
+	 * Configured view path (supports unit test override)
+	 *
+	 * @var	 string
+	 */
+	protected $_ci_view_path = VIEWPATH;
 
 	/**
 	 * List of paths to load libraries/helpers from
 	 *
 	 * @var		array
 	 */
-	protected $_ci_library_paths	= array();
+	protected $_ci_library_paths = array();
 
 	/**
 	 * List of paths to load models/viewers/controllers from
 	 *
 	 * @var		array
 	 */
-	protected $_ci_mvc_paths		= array();
+	protected $_ci_mvc_paths = array();
 
 	/**
 	 * List of cached variables
 	 *
 	 * @var		array
 	 */
-	protected $_ci_cached_vars =	array();
+	protected $_ci_cached_vars = array();
 
 	/**
 	 * List of loaded classes
 	 *
 	 * @var		array
 	 */
-	protected $_ci_classes =	array();
+	protected $_ci_classes = array();
 
 	/**
 	 * List of loaded files
 	 *
 	 * @var		array
 	 */
-	protected $_ci_loaded_files =	array();
+	protected $_ci_loaded_files = array();
 
 	/*
 	 * List of loaded controllers
 	 *
 	 * @var		array
 	 */
-	protected $_ci_controllers		= array();
+	protected $_ci_controllers = array();
 
 	/*
 	 * List of loaded models
 	 *
 	 * @var		array
 	 */
-	protected $_ci_models =	array();
+	protected $_ci_models = array();
 
 	/**
 	 * List of loaded helpers
 	 *
 	 * @var		array
 	 */
-	protected $_ci_helpers =	array();
+	protected $_ci_helpers = array();
 
 	/**
 	 * List of class name mappings
 	 *
 	 * @var		array
 	 */
-	protected $_ci_varmap =	array(
+	protected $_ci_varmap = array(
 		'unit_test' => 'unit',
 		'user_agent' => 'agent'
 	);
@@ -136,37 +150,28 @@ class CI_Loader {
 	public function __construct()
 	{
 		// Attach parent reference
-		$this->CI =& CodeIgniter::instance();
+		$this->CI =& get_instance();
 
+		// Get initial buffering level
 		$this->_ci_ob_level = ob_get_level();
-		$this->_ci_library_paths = array(APPPATH, BASEPATH);
-		$this->_ci_mvc_paths = array(APPPATH => TRUE);
 
-		// Fetch autoloader array
-		$autoload = $this->CI->_autoload;
-		unset($this->CI->_autoload);
-		if (is_array($autoload))
+		// Get library paths with autoloaded package paths
+		$this->_ci_library_paths = (isset($this->CI->base_paths) && is_array($this->CI->base_paths)) ?
+			$this->CI->base_paths : array(APPPATH, BASEPATH);
+
+		// Get MVC paths with autoloaded package paths
+		// Apply cascade default to each one
+		if (isset($this->CI->app_paths) && is_array($this->CI->app_paths))
 		{
-			// Save config for ci_autoload
-			$this->_ci_autoload = $autoload;
-
-			// Autoload packages
-			if (isset($autoload['packages']))
+			foreach ($this->CI->app_paths as $path)
 			{
-				foreach ($autoload['packages'] as $package_path)
-				{
-					$this->add_package_path($package_path);
-				}
+				$this->_ci_mvc_paths[$path] = TRUE;
 			}
-
-			// Load any custom config files
-			if (count($autoload['config']) > 0)
-			{
-				foreach ($autoload['config'] as $key => $val)
-				{
-					$this->CI->config->load($val);
-				}
-			}
+		}
+		else
+		{
+			// Use default from constants
+			$this->_ci_mvc_paths = array(APPPATH => TRUE);
 		}
 
 		log_message('debug', 'Loader Class Initialized');
@@ -496,7 +501,7 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		require_once(BASEPATH.'database/DB.php');
+		require_once($this->_ci_base_path.'database/DB.php');
 
 		if ($return === TRUE)
 		{
@@ -530,8 +535,8 @@ class CI_Loader {
 		$this->dbforge();
 
 		$driver = $this->CI->db->dbdriver;
-		require_once(BASEPATH.'database/DB_utility.php');
-		require_once(BASEPATH.'database/drivers/'.$driver.'/'.$driver.'_utility.php');
+		require_once($this->_ci_base_path.'database/DB_utility.php');
+		require_once($this->_ci_base_path.'database/drivers/'.$driver.'/'.$driver.'_utility.php');
 		$class = 'CI_DB_'.$driver.'_utility';
 
 		$this->CI->dbutil = new $class();
@@ -552,8 +557,8 @@ class CI_Loader {
 		}
 
 		$driver = $this->CI->db->dbdriver;
-		require_once(BASEPATH.'database/DB_forge.php');
-		require_once(BASEPATH.'database/drivers/'.$driver.'/'.$driver.'_forge.php');
+		require_once($this->_ci_base_path.'database/DB_forge.php');
+		require_once($this->_ci_base_path.'database/drivers/'.$driver.'/'.$driver.'_forge.php');
 		$class = 'CI_DB_'.$driver.'_forge';
 
 		$this->CI->dbforge = new $class();
@@ -704,7 +709,7 @@ class CI_Loader {
 			if (file_exists($ext_helper))
 			{
 				// Extension found - require base class
-				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
+				$base_helper = $this->_ci_base_path.'helpers/'.$helper.'.php';
 				if ( ! file_exists($base_helper))
 				{
 					show_error('Unable to load the requested file: helpers/'.$helper.'.php');
@@ -809,6 +814,7 @@ class CI_Loader {
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
 	{
+		// Delegate multiples
 		if (is_array($library))
 		{
 			foreach ($library as $driver)
@@ -847,13 +853,13 @@ class CI_Loader {
 	public function add_package_path($path, $view_cascade = TRUE)
 	{
 		// Resolve path
-		$path = $this->_ci_resolve_path($path);
+		$path = CodeIgniter::resolve_path($path);
 
 		// Prepend path to library/helper paths
 		array_unshift($this->_ci_library_paths, $path);
 
 		// Add MVC path with view cascade param
-		$this->_ci_mvc_paths = array($path => $view_cascade) + $this->_ci_mvc_paths;
+		$this->_ci_mvc_paths = array_merge(array($path => $view_cascade), $this->_ci_mvc_paths);
 
 		// Prepend config file path
 		array_push($this->CI->config->_config_paths, $path);
@@ -864,7 +870,7 @@ class CI_Loader {
 	/**
 	 * Get Package Paths
 	 *
-	 * Return a list of all package paths, by default it will ignore BASEPATH.
+	 * Return a list of all package paths, by default it will ignore $this->_ci_base_path.
 	 *
 	 * @param	boolean include base path flag
 	 * @return	void
@@ -901,16 +907,16 @@ class CI_Loader {
 		}
 
 		// Resolve path
-		$path = $this->_ci_resolve_path($path);
+		$path = CodeIgniter::resolve_path($path);
 
 		// Prevent app path removal - it is a default for all lists
-		if ($path == APPPATH)
+		if ($path == $this->_ci_app_path)
 		{
 			return;
 		}
 
 		// Unset from library/helper list unless base path
-		if ($path != BASEPATH && ($key = array_search($path, $this->_ci_library_paths)) !== FALSE)
+		if ($path != $this->_ci_base_path && ($key = array_search($path, $this->_ci_library_paths)) !== FALSE)
 		{
 			unset($this->_ci_library_paths[$key]);
 		}
@@ -926,44 +932,6 @@ class CI_Loader {
 		{
 			unset($this->CI->config->_config_paths[$key]);
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Resolves package path
-	 *
-	 * This function is used to identify absolute paths in the filesystem and include path
-	 *
-	 * @access	protected
-	 * @param	string	initial path
-	 * @return	string	resolved path
-	 */
-	protected function _ci_resolve_path($path)
-	{
-		// Assert trailing slash
-		$path = rtrim($path, '/\\').'/';
-
-		// See if path exists as-is
-		if (file_exists($path))
-		{
-			return $path;
-		}
-
-		// Strip any leading slash and pair with include directories
-		$dir = ltrim($path, "/\\");
-		foreach (explode(PATH_SEPARATOR, get_include_path()) as $include)
-		{
-			$include = rtrim($include, "/\\");
-			if (file_exists($include.'/'.$dir))
-			{
-				// Found include path - clean up and return
-				return $include.'/'.$dir;
-			}
-		}
-
-		// If we got here, it's not a real path - just return as-is
-		return $path;
 	}
 
 	// --------------------------------------------------------------------
@@ -991,7 +959,9 @@ class CI_Loader {
 		if (is_string($_ci_path) && $_ci_path !== '')
 		{
 			// General file - extract name from path
-			$_ci_file = end(explode('/', $_ci_path));
+			$parts = explode('/', $_ci_path);
+			$_ci_file = end($parts);
+			unset($parts);
 			$_ci_exists = file_exists($_ci_path);
 		}
 		else
@@ -999,10 +969,10 @@ class CI_Loader {
 			// View file - add extension as necessary
 			$_ci_file = (pathinfo($_ci_view, PATHINFO_EXTENSION) === '') ? $_ci_view.'.php' : $_ci_view;
 
-			// Check VIEWPATH first
-			if (file_exists(VIEWPATH.$_ci_file))
+			// Check view path first
+			if (file_exists($this->_ci_view_path.$_ci_file))
 			{
-				$_ci_path = VIEWPATH.$_ci_file;
+				$_ci_path = $this->_ci_view_path.$_ci_file;
 				$_ci_exists = TRUE;
 			}
 			else
@@ -1145,7 +1115,7 @@ class CI_Loader {
 			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
 			{
 				// We aren't instantiating an object here, just making the base class available
-				require BASEPATH.'libraries/Driver.php';
+				require $this->_ci_base_path.'libraries/Driver.php';
 			}
 		}
 
@@ -1161,7 +1131,7 @@ class CI_Loader {
 				if (file_exists($subclass))
 				{
 					// Found extension - require base class
-					$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
+					$baseclass = $this->_ci_base_path.'libraries/'.ucfirst($class).'.php';
 					if ( ! file_exists($baseclass))
 					{
 						log_message('error', 'Unable to load the requested class: '.$class);
@@ -1231,7 +1201,7 @@ class CI_Loader {
 				if (strtolower($subdir) == strtolower($class).'/' && !class_exists('CI_Driver_Library'))
 				{
 					// We aren't instantiating an object here, that'll be done by the Library itself
-					require BASEPATH.'libraries/Driver.php';
+					require $this->_ci_base_path.'libraries/Driver.php';
 				}
 
 				include_once($filepath);
@@ -1267,13 +1237,13 @@ class CI_Loader {
 	/**
 	 * Instantiates a class
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	bool
-	 * @param	string	an optional object name
+	 * @param	string  Class name
+	 * @param	string  Class prefix
+	 * @param	array   Optional configuration
+	 * @param	string	Optional object name
 	 * @return	void
 	 */
-	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
+	protected function _ci_init_class($class, $prefix = '', $config = NULL, $object_name = NULL)
 	{
 		// Do we need to check for configs?
 		if ($config === NULL)
@@ -1363,68 +1333,61 @@ class CI_Loader {
 	 */
 	public function ci_autoloader()
 	{
+		$autoload = $this->CI->_autoload;
+		unset($this->CI->_autoload);
+
 		// Check for autoload array
-		if ( ! isset($this->_ci_autoload))
+		if ( ! is_array($autoload) || empty($autoload))
 		{
 			return FALSE;
 		}
 
-		// Autoload helpers and languages
+		// Load helpers and languages
 		foreach (array('helper', 'language') as $type)
 		{
-			if (isset($this->_ci_autoload[$type]) && count($this->_ci_autoload[$type]) > 0)
+			if (isset($autoload[$type]) && count($autoload[$type]) > 0)
 			{
-				$this->$type($this->_ci_autoload[$type]);
+				$this->$type($autoload[$type]);
 			}
 		}
 
 		// Load libraries
-		if (isset($this->_ci_autoload['libraries']) && count($this->_ci_autoload['libraries']) > 0)
+		if (isset($autoload['libraries']))
 		{
 			// Load the database driver.
-			if (in_array('database', $this->_ci_autoload['libraries']))
+			$libs = (array)$autoload['libraries'];
+			$key = array_search('database', $libs);
+			if ($key !== FALSE)
 			{
 				$this->database();
-				$this->_ci_autoload['libraries'] = array_diff($this->_ci_autoload['libraries'], array('database'));
+				unset($libs[$key]);
 			}
 
 			// Load all other libraries
-			foreach ($this->_ci_autoload['libraries'] as $item)
-			{
-				$this->library($item);
-			}
+			$this->library($libs);
 		}
 
-		// Autoload controllers
-		if (isset($this->_ci_autoload['controller']))
+		// Load drivers
+		if (isset($autoload['drivers']))
 		{
-			$controller = $this->_ci_autoload['controller'];
-			if ( ! is_array($controller))
-			{
-				$controller = array($controller);
-			}
+			$this->driver($autoload['drivers']);
+		}
 
+		// Load controllers
+		if (isset($autoload['controller']))
+		{
 			// We have to "manually" feed multiples to controller(), since an array
 			// is treated as a router stack instead of more than one controller
-			foreach ($controller as $uri)
+			foreach ((array)$autoload['controller'] as $uri)
 			{
 				$this->controller($uri);
 			}
 		}
 
-		// Autoload drivers
-		if (isset($autoload['drivers']))
+		// Load models
+		if (isset($autoload['model']))
 		{
-			foreach ($autoload['drivers'] as $item)
-			{
-				$this->driver($item);
-			}
-		}
-
-		// Autoload models
-		if (isset($this->_ci_autoload['model']))
-		{
-			$this->model($this->_ci_autoload['model']);
+			$this->model($autoload['model']);
 		}
 	}
 

@@ -100,7 +100,7 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$CI =& CodeIgniter::instance();
+		$CI =& get_instance();
 		$this->security =& $CI->security;
 
 		$this->_allow_get_array	= ($CI->config->item('allow_get_array') === TRUE);
@@ -249,7 +249,7 @@ class CI_Input {
 	 */
 	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
-		$CI =& CodeIgniter::instance();
+		$CI =& get_instance();
 
 		if (is_array($name))
 		{
@@ -328,7 +328,7 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
-		$proxy_ips = CodeIgniter::instance()->config->item('proxy_ips');
+		$proxy_ips = get_instance()->config->item('proxy_ips');
 		if ($proxy_ips != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
 			$has_ranges = strpos($proxies, '/') !== false;

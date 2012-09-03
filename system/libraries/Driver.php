@@ -77,17 +77,6 @@ class CI_Driver_Library {
 	 */
 	public function load_driver($child)
 	{
-		return $this->load_driver($child);
-	}
-	
-	/**
-	 * Allow library to explicitly load a driver
-	 *
-	 * @param	mixed	Driver name
-	 * @return	mixed
-	 */
-	public function load_driver($child)
-	{
 		if ( ! isset($this->lib_name))
 		{
 			$this->lib_name = get_class($this);

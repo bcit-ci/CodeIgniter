@@ -4,15 +4,28 @@ class Config_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$cls =& $this->ci_core_class('cfg');
-
-		// set predictable config values
-		$this->ci_set_config(array(
+		// Set predictable config values
+        $ci = $this->ci_instance();
+		$ci->_core_config = array(
 			'index_page'		=> 'index.php',
 			'base_url'			=> 'http://example.com/',
 			'subclass_prefix'	=> 'MY_'
-		));
+		);
 
+		// Set empty autoload.php contents
+		$ci->_autoload = array();
+
+		// Set source for config paths
+		if ($this->getName() == 'test_get')
+		{
+			// Create VFS config tree
+			$this->root = vfsStream::setup();
+			$this->app_root = vfsStream::newDirectory('application')->at($this->root);
+			$this->app_path = vfsStream::url('application').'/';
+			$ci->app_paths = array($this->app_path);
+		}
+
+		$cls =& $this->ci_core_class('cfg');
 		$this->config = new $cls;
 	}
 

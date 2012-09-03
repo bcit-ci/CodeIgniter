@@ -78,7 +78,7 @@ class CI_URI {
 	 */
 	public function __construct()
 	{
-		$this->config = CodeIgniter::instance()->config;
+		$this->config = get_instance()->config;
 		log_message('debug', 'URI Class Initialized');
 	}
 

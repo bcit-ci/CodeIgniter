@@ -93,26 +93,30 @@ class CI_Log {
 	 *
 	 * @return	void
 	 */
-	public function configure($path, $threshold, $date_format)
+	public function configure($config)
 	{
-		$this->_log_path = ($path !== '') ? $path : APPPATH.'logs/';
+		$this->_log_path = (isset($config['log_path']) && ! empty($config['log_path'])) ?
+            $config['log_path'] : APPPATH.'logs/';
 
-		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
+		if ( ! is_dir($this->_log_path) || ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 
-		if (is_numeric($threshold))
-		{
-			$this->_threshold = (int) $threshold;
-		}
-		elseif (is_array($threshold))
-		{
-			$this->_threshold = $this->_threshold_max;
-			$this->_threshold_array = array_flip($threshold);
-		}
+        if (isset($config['log_threshold']))
+        {
+            if (is_numeric($config['log_threshold']))
+            {
+                $this->_threshold = (int) $config['log_threshold'];
+            }
+            elseif (is_array($config['log_threshold']))
+            {
+                $this->_threshold = $this->_threshold_max;
+                $this->_threshold_array = array_flip($config['log_threshold']);
+            }
+        }
 
-		if ($date_format !== '')
+		if (isset($config['log_date_format']) && ! empty($config['log_date_format']))
 		{
 			$this->_date_fmt = $date_format;
 		}

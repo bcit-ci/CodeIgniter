@@ -57,7 +57,7 @@ class CI_Config {
 	 *
 	 * @var		array
 	 */
-	public $_config_paths = array(APPPATH);
+	public $_config_paths = array();
 
 	/**
 	 * Callback to array merging function
@@ -69,20 +69,32 @@ class CI_Config {
 	/**
 	 * Constructor
 	 *
-	 * Sets the $config data from CodeIgniter::_main_config as a class variable.
-     * This is the contents of the primary config.php file with $assign_to_config
+	 * Sets the $config data from CodeIgniter::_core_config as a class variable.
+	 * This is the contents of the primary config.php file with $assign_to_config
 	 * overrides applied.
 	 */
 	public function __construct()
 	{
-		// Take over main config
-		$CI = CodeIgniter::instance();
-		$this->config = $CI->_main_config;
-		unset($CI->_main_config);
-		log_message('debug', 'Config Class Initialized');
+		// Take over core config
+		$CI = get_instance();
+		$this->config = $CI->_core_config;
+		unset($CI->_core_config);
+
+		// Get config paths with autoloaded package paths
+		$this->_config_paths = (isset($CI->app_paths) && is_array($CI->app_paths)) ? $CI->app_paths : array(APPPATH);
 
 		// Determine array merge function
 		$this->merge_arrays = is_php('5.3') ? 'array_replace_recursive' : array($this, '_merge_arrays');
+
+		// Autoload any other config files
+		$autoload = $CI->_autoload;
+		if (is_array($autoload) && isset($autoload['config']))
+		{
+			foreach ((array)$autoload['config'] as $file)
+			{
+				$this->load($file);
+			}
+		}
 
 		// Set the base_url automatically if none was provided
 		if (empty($this->config['base_url']))
@@ -100,6 +112,8 @@ class CI_Config {
 
 			$this->set_item('base_url', $base_url);
 		}
+
+		log_message('debug', 'Config Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

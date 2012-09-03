@@ -28,20 +28,7 @@ class Session_test extends CI_TestCase {
 		$this->cookie_vals = $_COOKIE;
 		$_COOKIE = array();
 
-		// Establish necessary support classes
-		$obj = new stdClass;
-		$classes = array(
-			'config' => 'cfg',
-			'load' => 'load',
-			'input' => 'in'
-		);
-		foreach ($classes as $name => $abbr) {
-			$class = $this->ci_core_class($abbr);
-			$obj->$name = new $class;
-		}
-		$this->ci_instance($obj);
-
-		// Attach session instance locally
+		// Set up test config
 		$config = array(
 			'sess_encrypt_cookie' => FALSE,
 			'sess_use_database' => FALSE,
@@ -64,7 +51,16 @@ class Session_test extends CI_TestCase {
 			   	'Mock_Libraries_Session_cookie'
 			)
 		);
-		$this->session = new Mock_Libraries_Session($config);
+		$this->ci_set_config($config);
+
+		// Establish necessary support classes
+		foreach (array('load', 'input') as $name) {
+			$class = $this->ci_core_class($name);
+			$this->ci_instance_var($name, new $class());
+		}
+
+		// Attach session instance locally
+		$this->session = new Mock_Libraries_Session();
 	}
 
 	/**

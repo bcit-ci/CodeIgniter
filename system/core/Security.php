@@ -111,7 +111,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		$config = CodeIgniter::instance()->config;
+		$config = get_instance()->config;
 		if ($config->item('csrf_protection') === TRUE)
 		{
 			// CSRF config
@@ -152,7 +152,7 @@ class CI_Security {
 		}
 
 		// Check if URI has been whitelisted from CSRF checks
-		$CI = CodeIgniter::instance();
+		$CI = get_instance();
 		if ($exclude_uris = $CI->config->item('csrf_exclude_uris'))
 		{
 			if (in_array($CI->uri->uri_string(), $exclude_uris))
@@ -196,7 +196,7 @@ class CI_Security {
 	 */
 	public function csrf_set_cookie()
 	{
-		$config = CodeIgniter::instance()->config;
+		$config = get_instance()->config;
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) $config->item('cookie_secure');
 
@@ -756,8 +756,8 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		$charset = CodeIgniter::instance()->config->item('charset');
-		return $this->entity_decode($match[0], strtoupper($charset)));
+		$charset = get_instance()->config->item('charset');
+		return $this->entity_decode($match[0], strtoupper($charset));
 	}
 
 	// --------------------------------------------------------------------

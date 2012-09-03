@@ -116,14 +116,6 @@ if ( ! function_exists('show_404'))
 	}
 }
 
-if ( ! function_exists('_exception_handler'))
-{
-	function _exception_handler($severity, $message, $filepath, $line)
-	{
-		throw new RuntimeException('CI Exception: '.$message.' | '.$filepath.' | '.$line);
-	}
-}
-
 
 // We assume a few things about our environment ...
 // --------------------------------------------------------------------

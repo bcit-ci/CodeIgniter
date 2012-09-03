@@ -55,7 +55,7 @@ class CI_Model {
 	 */
 	public function __get($key)
 	{
-		$CI =& CodeIgniter::instance();
+		$CI =& get_instance();
 		return $CI->$key;
 	}
 }

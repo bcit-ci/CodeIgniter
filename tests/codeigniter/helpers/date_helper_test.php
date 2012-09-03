@@ -4,6 +4,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function set_up()
 	{
+		$this->ci_set_config('language', 'english');
+
 		$this->helper('date');
 
 		$this->time = time();

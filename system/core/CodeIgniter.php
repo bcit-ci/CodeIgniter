@@ -46,57 +46,33 @@ define('CI_VERSION', '3.0-dev');
  */
 class CodeIgniter {
 	/**
-	 * CodeIgniter singleton instance
+	 * Base paths for loading core classes
 	 *
 	 * @access	protected
-	 * @var		object
+	 * @var		array
 	 */
-	protected static $instance = NULL;
+	public $base_paths = array();
 
 	/**
-	 * Log path
+	 * App paths for loading core class extensions
 	 *
-	 * @var		string
+	 * @var		array
 	 */
-	public $log_path = APPPATH.'logs/';
+	public $app_paths = array();
 
 	/**
 	 * Log threshold
 	 *
 	 * @var		int
 	 */
-	public $log_threshold = 0;
-
-	/**
-	 * Log date format
-	 *
-	 * @var		string
-	 */
-	public $log_date_format = 'Y-m-d H:i:s';
+	public $log_threshold = 1;
 
 	/**
 	 * Subclass prefix for core class extensions
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
-	protected $subclass_prefix = '';
-
-	/**
-	 * Paths for loading core classes
-	 *
-	 * @access	protected
-	 * @var		array
-	 */
-	protected $_core_paths = array();
-
-	/**
-	 * Paths for loading core class extensions
-	 *
-	 * @access	protected
-	 * @var		array
-	 */
-	protected $_ext_paths = array();
+	public $subclass_prefix = '';
 
 	/**
 	 * Is running flag to prevent run() reentry
@@ -107,6 +83,14 @@ class CodeIgniter {
 	protected $_is_running = FALSE;
 
 	/**
+	 * CodeIgniter singleton instance
+	 *
+	 * @access	protected
+	 * @var		object
+	 */
+	protected static $instance = NULL;
+
+	/**
 	 * Constructor
 	 *
 	 * This constructor is protected in order to force instantiation
@@ -114,41 +98,58 @@ class CodeIgniter {
 	 *
 	 * @param   array   Main config
 	 * @param	array	Autoload config
+	 * @param	string	Base path
+	 * @param	string	Application path
 	 * @access  protected
 	 */
-	protected function __construct($config, $autoload)
+	protected function __construct($config, $autoload, $basepath, $apppath)
 	{
-		// Set special members from config items
-		foreach (array('log_path', 'log_threshold', 'log_date_format', 'subclass_prefix') as $key)
+		// Get subclass prefix for core loading
+		if (isset($config['subclass_prefix']))
 		{
-			if (isset($config[$key]))
+			$this->subclass_prefix = $config['subclass_prefix'];
+		}
+
+		// Get log config items to pass to Log class
+		$this->_log_config = array();
+		foreach ($config as $key => $val)
+		{
+			if (substr($key, 0, 4) == 'log_')
 			{
-				$this->$key = $config[$key];
+				$this->_log_config[$key] = $val;
 			}
 		}
 
+		// Get log threshold
+		if (isset($this->_log_config['log_threshold']))
+		{
+			$this->log_threshold = $this->_log_config['log_threshold'];
+		}
+
 		// Save configs until we can pass them off to CI_Config and CI_Loader
-		$this->_main_config = $config;
+		$this->_core_config = $config;
 		$this->_autoload = $autoload;
 
 		// Set core class paths
-		$this->_core_paths = array(APPPATH, BASEPATH);
-		$this->_ext_paths = array(APPPATH);
+		$this->base_paths = array($apppath, $basepath);
+		$this->app_paths = array($apppath);
 
 		// Check autoload for package paths to add
 		if (isset($autoload['packages']))
 		{
 			foreach ((array)$autoload['packages'] as $path)
 			{
-				$this->_core_paths[] = $path;
-				$this->_ext_paths[] = $path;
+				// Resolve path and add to paths
+				$path = self::resolve_path($path);
+				array_unshift($this->base_paths, $path);
+				array_unshift($this->app_paths, $path);
 			}
 		}
 
 		// Define a custom error handler so we can log PHP errors
 		// This must come after the config items and paths above,
-		// because the exception handler relies on those elements.
-		set_error_handler(array($this, '_exception_handler'));
+		// because the exception handler relies on some of those elements.
+		$this->_catch_exceptions();
 
 		// Kill magic quotes for older versions
 		if ( ! is_php('5.4'))
@@ -173,36 +174,49 @@ class CodeIgniter {
 	 *
 	 * Returns singleton instance of core object
 	 * Upon initial instantiation, this function bootstraps the system by
-	 * loading the main config file and its own extension class (if available).
+	 * loading the main config and autoload files and its own extension class (if available).
 	 * All other config files are loaded via CI_Config.
 	 * All other core classes are loaded via load_core_class().
 	 * All other loadables are loaded via CI_Loader.
 	 * The second parameter supports overriding the APPPATH constant in unit testing.
 	 *
-	 * @param	array	Config overrides
-	 * @param	string	Application path override
+	 * @param	string	Optional base path override (for unit tests)
+	 * @param	string	Optional app path override (for unit tests)
+	 * @param   string  Optional environment override (for unit tests)
 	 * @return	object
 	 */
-	public static function &instance(array $assign_to_config = NULL, $apppath = NULL)
+	public static function &instance($basepath = NULL, $apppath = NULL, $env = NULL)
 	{
 		// Check for existing instance
 		if (is_null(self::$instance))
 		{
-			// Determine application path
+			global $assign_to_config;
+
+			// Determine base and application paths
+			if ( ! $basepath)
+			{
+				$basepath = BASEPATH;
+			}
 			if ( ! $apppath)
 			{
 				$apppath = APPPATH;
 			}
 			$packages = array($apppath);
 
+			// Check for environment
+			if ( ! $env && defined('ENVIRONMENT'))
+			{
+				$env = ENVIRONMENT;
+			}
+
 			// Load main config and autoload files
 			$path = $apppath.'config/';
 			foreach (array('config', 'autoload') as $name)
 			{
-				if (defined('ENVIRONMENT') && file_exists($path.ENVIRONMENT.'/'.$name.'.php'))
+				if ($env && file_exists($path.$env.'/'.$name.'.php'))
 				{
 					// Use ENVIRONMENT config
-					include($path.ENVIRONMENT.'/'.$name.'.php');
+					include($path.$env.'/'.$name.'.php');
 				}
 				else if (file_exists($path.$name.'.php'))
 				{
@@ -212,16 +226,14 @@ class CodeIgniter {
 				else if ($name == 'config')
 				{
 					// Can't run without main config - error out
-					set_status_header(503);
-					exit('The configuration file does not exist.');
+					static::_status_exit(503, 'The configuration file does not exist.');
 				}
 			}
 
 			// Does the $config array exist?
 			if ( ! isset($config) || ! is_array($config))
 			{
-				set_status_header(503);
-				exit('Your config file does not appear to be formatted correctly.');
+				static::_status_exit(503, 'Your config file does not appear to be formatted correctly.');
 			}
 
 			// Does the $autoload array exist?
@@ -231,7 +243,10 @@ class CodeIgniter {
 			}
 			else if (isset($autoload['packages']))
 			{
-				$packages = $packages + (array)$autoload['packages'];
+				foreach ((array)$autoload['packages'] as $path)
+				{
+					array_unshift($packages, self::resolve_path($path));
+				}
 			}
 
 			// Are any values being dynamically replaced?
@@ -241,24 +256,94 @@ class CodeIgniter {
 			}
 
 			// Load the CodeIgniter subclass, if found
-			$class = 'CodeIgniter';
-			$pre = isset($config['subclass_prefix']) ? $config['subclass_prefix'] : '';
-			foreach ($packages as $path)
+			$class = static::_get_class();
+			if (isset($config['subclass_prefix']))
 			{
-				$file = $path.'core/'.$pre.$class.'.php';
-				if (file_exists($file))
+				$pre = $config['subclass_prefix'];
+				$filenm = 'core/'.$pre.$class.'.php';
+				foreach ($packages as $path)
 				{
-					include($file);
-					$class = $pre.$class;
-					break;
+					$file = $path.$filenm;
+					if (file_exists($file))
+					{
+						include($file);
+						$class = $pre.$class;
+						break;
+					}
 				}
 			}
 
 			// Instantiate object as subclass if defined, otherwise as base name
-			self::$instance = new $class($config, $autoload);
+			self::$instance = new $class($config, $autoload, $basepath, $apppath);
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Resolve package path
+	 *
+	 * This function is used to identify absolute paths in the filesystem
+	 * as well as relative paths in the include directories.
+	 *
+	 * @param	string	Initial path
+	 * @return	string	Resolved path
+	 */
+	public static function resolve_path($path)
+	{
+		// Assert trailing slash
+		$path = rtrim($path, '\/').'/';
+
+		// See if path exists as-is
+		if ( ! file_exists($path))
+		{
+			// Strip any leading slash and pair with include directories
+			$dir = ltrim($path, '\/');
+			foreach (explode(PATH_SEPARATOR, get_include_path()) as $include)
+			{
+				$include = rtrim($include, '\/');
+				if (file_exists($include.'/'.$dir))
+				{
+					// Found include path - assemble and return
+					return $include.'/'.$dir;
+				}
+			}
+		}
+
+		// Return path as-is
+		return $path;
+	}
+
+	/**
+	 * Get called class
+	 *
+	 * We need a way to get the called class in instance(), and when running
+	 * PHP < 5.3 get_called_class() is not available. For unit testing, this
+	 * function can be overloaded in the mock class to return that class
+	 * name for instantiation instead of CodeIgniter.
+	 */
+	protected static function _get_class()
+	{
+		// Return name of current class
+		return __CLASS__;
+	}
+
+	/**
+	 * Set status and exit
+	 *
+	 * This function is for internal use while bootloading,
+	 * before show_error can be called. It provides a mechanism
+	 * for unit tests to override the exit calls.
+	 *
+	 * @param	int		Status code
+	 * @param	string	Exit message
+	 * @return	void
+	 */
+	protected static function _status_exit($status, $msg)
+	{
+		// Set status header and exit with message
+		set_status_header($status);
+		exit($msg);
 	}
 
 	/**
@@ -291,7 +376,7 @@ class CodeIgniter {
 		if ( ! class_exists($name))
 		{
 			// Look for file in core paths
-			foreach ($this->_core_paths as $path)
+			foreach ($this->base_paths as $path)
 			{
 				$file = $path.'core/'.$class.'.php';
 				if (file_exists($file))
@@ -304,8 +389,7 @@ class CodeIgniter {
 			// Make sure class is loaded
 			if ( ! class_exists($name))
 			{
-				set_status_header(503);
-				exit('Unable to locate the specified class: '.$class.'.php');
+				static::_status_exit(503, 'Unable to locate the specified class: '.$class.'.php');
 			}
 		}
 
@@ -319,7 +403,7 @@ class CodeIgniter {
 		else
 		{
 			// Look for file in extension paths
-			foreach ($this->_ext_paths as $path)
+			foreach ($this->app_paths as $path)
 			{
 				$file = $path.'core/'.$this->subclass_prefix.$class.'.php';
 				if (file_exists($file))
@@ -360,8 +444,10 @@ class CodeIgniter {
 		// Check for log class
 		if ( ! isset($this->log))
 		{
+			// Load logger and pass config collected during bootstrapping
 			$this->load_core_class('Log');
-			$this->log->configure($this->log_path, $this->log_threshold, $this->log_date_format);
+			$this->log->configure($this->_log_config);
+			unset($this->_log_config);
 		}
 
 		// Write message
@@ -403,8 +489,7 @@ class CodeIgniter {
 		}
 
 		// Class must be loaded, and method cannot start with underscore, nor be a member of the base class
-		if (isset($this->$name) && strncmp($method, '_', 1) != 0 &&
-		in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller'))) == FALSE)
+		if (isset($this->$name) && strncmp($method, '_', 1) != 0 && ! $this->is_callable('CI_Controller', $method))
 		{
 			// Check for _remap
 			if ($this->is_callable($class, '_remap'))
@@ -436,10 +521,9 @@ class CodeIgniter {
 	/**
 	 * Run the CodeIgniter application
 	 *
-	 * @param	array	Routing overrides
 	 * @return	void
 	 */
-	public function run($routing = NULL)
+	public function run()
 	{
 		// Check running flag
 		if ($this->_is_running)
@@ -455,7 +539,7 @@ class CodeIgniter {
 
 		// Load the routing and support classes
 		// We will exit from here if a cache is found
-		$this->_load_routing($routing);
+		$this->_load_routing();
 
 		// Load the support classes
 		$this->_load_support();
@@ -505,11 +589,12 @@ class CodeIgniter {
 	 * If a cache is found, we output it and exit at the end of the call.
 	 *
 	 * @access	protected
-	 * @param	array	Routing overrides
 	 * @return	void
 	 */
-	protected function _load_routing($routing = NULL)
+	protected function _load_routing()
 	{
+		global $routing;
+
 		// Load the UTF-8 class (depends on Config)
 		$this->load_core_class('Utf8');
 
@@ -526,7 +611,7 @@ class CodeIgniter {
 		$this->router->_set_routing();
 
 		// Set any routing overrides that may exist in the main index file
-		if ( ! empty($routing))
+		if ( isset($routing) && ! empty($routing))
 		{
 			$this->router->_set_overrides($routing);
 		}
@@ -574,7 +659,7 @@ class CodeIgniter {
 	protected function _run_controller()
 	{
 		// Call pre_controller hook
-		$this->_hooks->_call_hook('pre_controller');
+		$this->hooks->_call_hook('pre_controller');
 
 		// Get the parsed route and identify class, method, and arguments
 		$route = $this->router->fetch_route();
@@ -637,6 +722,22 @@ class CodeIgniter {
 	}
 
 	/**
+	 * Register our exception handler
+	 *
+	 * Breaking out this one-liner allows us to prevent registration
+	 * during unit testing, when we have other error handling mechanisms
+	 * in place, and may not want this registered for all the other unit
+	 * tests.
+	 *
+	 * @return  void
+	 */
+	protected function _catch_exceptions()
+	{
+		// Add our exception handler as a PHP error handler
+		set_error_handler(array($this, '_exception_handler'));
+	}
+
+	/**
 	 * Exception Handler
 	 *
 	 * This custom exception handler permits PHP errors to be logged in our own
@@ -681,9 +782,12 @@ class CodeIgniter {
  *
  * @return	object	CodeIgniter instance
  */
-function &get_instance()
+if ( ! function_exists('get_instance'))
 {
-	return CodeIgniter::instance();
+	function &get_instance()
+	{
+		return CodeIgniter::instance();
+	}
 }
 
 /*

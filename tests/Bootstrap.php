@@ -10,7 +10,7 @@ $dir = realpath(dirname(__FILE__));
 defined('PROJECT_BASE') OR define('PROJECT_BASE', realpath($dir.'/../').'/');
 defined('BASEPATH') OR define('BASEPATH', PROJECT_BASE.'system/');
 defined('APPPATH') OR define('APPPATH', PROJECT_BASE.'application/');
-defined('VIEWPATH') OR define('VIEWPATH', PROJECT_BASE.'');
+defined('VIEWPATH') OR define('VIEWPATH', PROJECT_BASE.'application/views/');
 
 // Get vfsStream either via PEAR or composer
 foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)

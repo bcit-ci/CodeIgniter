@@ -36,7 +36,11 @@ function autoload($class)
 		'Session',
 	);
 
-	if (strpos($class, 'Mock_') === 0)
+	if ($class == 'CodeIgniter')
+	{
+		$dir = BASEPATH.'core'.DIRECTORY_SEPARATOR;
+	}
+	else if (strpos($class, 'Mock_') === 0)
 	{
 		$class = str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class);
 		$class = strtolower($class);

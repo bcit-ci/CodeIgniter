@@ -84,8 +84,8 @@ class CI_Lang {
 
 		if ($idiom === '')
 		{
-			$CI = CodeIgniter::instance();
-			$cfg_lang = $CI->config->item['language'];
+			$CI = get_instance();
+			$cfg_lang = $CI->config->item('language');
 			$idiom = ( ! empty($cfg_lang)) ? $cfg_lang : 'english';
 		}
 
@@ -103,7 +103,7 @@ class CI_Lang {
 		{
 			$found = FALSE;
 
-			foreach (CodeIgniter::instance()->load->get_package_paths(TRUE) as $package_path)
+			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
 			{
 				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
 				{

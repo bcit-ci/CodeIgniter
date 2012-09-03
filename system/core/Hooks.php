@@ -65,7 +65,7 @@ class CI_Hooks {
 	 */
 	public function __construct()
 	{
-		$CI =& CodeIgniter::instance();
+		$CI =& get_instance();
 
 		log_message('debug', 'Hooks Class Initialized');
 

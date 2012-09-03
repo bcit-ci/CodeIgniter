@@ -115,7 +115,7 @@ class CI_Output {
 	public function __construct()
 	{
 		// Get parent reference
-		$this->CI =& CodeIgniter::instance();
+		$this->CI =& get_instance();
 
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 

@@ -51,7 +51,7 @@ class CI_Controller {
 	 */
 	public function __construct()
 	{
-		$this->CI = CodeIgniter::instance();
+		$this->CI = get_instance();
 		log_message('debug', 'Controller Class Initialized');
 	}
 		
@@ -92,7 +92,7 @@ class CI_Controller {
 	public static function &instance()
 	{
 		// Return root instance
-		return CodeIgniter::instance();
+		return get_instance();
 	}
 }
 
