@@ -560,5 +560,58 @@ if ( ! function_exists('redirect'))
 	}
 }
 
+// ------------------------------------------------------------------------
+ 
+if ( ! function_exists('redirect_get'))
+{
+	/**
+	 * Header Redirect with GET variables
+	 *
+	 * Header redirect that automatically appends GET variables from an array
+	 *
+	 * @access	public
+	 * @param	string	the URL
+	 * @param	array	associative array to be passed as GET variables
+	 * @param	string	the method: location or redirect
+	 * @param   int     HTTP Response Code
+	 * @return	string
+	 */
+	function redirect_get($uri = '', $array = array(), $method = "location", $code = NULL)
+	{
+		if ( ! preg_match('#^https?://#i', $uri))
+		{
+			$uri = site_url($uri);
+		}
+        $string = "?";
+        
+        foreach ($array as $k => $v) {
+            $string .= $k . "=" . urlencode($v) . "&";
+        }
+        $string = rtrim($string, "&");
+        
+	// IIS environment likely? Use 'refresh' for better compatibility
+	if (DIRECTORY_SEPARATOR !== '/' && $method === 'auto')
+	{
+		$method = 'refresh';
+	}
+	elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
+	{
+		// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+		$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
+				&& $_SERVER['REQUEST_METHOD'] === 'POST'
+				&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+			? 303 : 302;
+	}        
+        switch($method)
+		{
+			case 'refresh'	: header("Refresh:0;url=" . $uri . $string);
+				break;
+			default			: header("Location: " . $uri . $string, TRUE, $code);
+				break;
+		}
+		exit;
+	}
+}
+
 /* End of file url_helper.php */
 /* Location: ./system/helpers/url_helper.php */
