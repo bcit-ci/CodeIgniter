@@ -444,7 +444,18 @@ class CI_Session_cookie extends CI_Session_driver {
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 
+			// Is caching in effect? Turn it off
+			$db_cache = $this->CI->db->cache_on;
+			$this->CI->db->cache_off();
+
 			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
+
+			// Was caching in effect?
+			if ($db_cache)
+			{
+				// Turn it back on
+				$this->CI->db->cache_on();
+			}
 
 			// No result? Kill it!
 			if ($query->num_rows() === 0)
@@ -572,21 +583,10 @@ class CI_Session_cookie extends CI_Session_driver {
 				$set['user_data'] = $this->_serialize($userdata);
 			}
 
-			// Is caching in effect? Turn it off
-			$db_cache = $this->CI->db->cache_on;
-			$this->CI->db->cache_off();
-
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
 			$this->CI->db->update($this->sess_table_name, $set, array('session_id' => $this->userdata['session_id']));
-
-			// Was caching in effect?
-			if ($db_cache)
-			{
-				// Turn it back on
-				$this->CI->db->cache_on();
-			}
 
 			// Clear dirty flag to prevent double updates
 			$this->data_dirty = FALSE;
