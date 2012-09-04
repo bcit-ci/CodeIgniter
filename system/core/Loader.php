@@ -913,13 +913,26 @@ class CI_Loader {
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
+			foreach (array_unique(array(ucfirst($subdir), strtolower($subdir), '', "$class/")) as $subdir_opt)
+			{
+				$subclass = APPPATH.'libraries/'.$subdir_opt.config_item('subclass_prefix').$class.'.php';
+				if (file_exists($subclass))
+				{
+					break;
+				}
+			}
 
 			// Is this a class extension request?
 			if (file_exists($subclass))
 			{
-				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
-
+				foreach (array_unique(array(ucfirst($subdir), strtolower($subdir), '', "$class/")) as $subdir_opt)
+				{
+					$baseclass = BASEPATH.'libraries/'.$subdir_opt.ucfirst($class).'.php';
+					if (file_exists($baseclass))
+					{
+						break;
+					}
+				}
 				if ( ! file_exists($baseclass))
 				{
 					log_message('error', 'Unable to load the requested class: '.$class);
