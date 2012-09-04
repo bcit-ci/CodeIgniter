@@ -95,51 +95,52 @@ detail-minded, here is the sequence of events:
 
 * Assess environment, paths, and overrides (routing and assign_to_config)
 	in index.php and set constants (just as always)
+* Define CI version
 * Read config.php and autoload.php files from the application path
 * Apply assign_to_config overrides if present
-* Apply autoload package paths
+* Autoload package paths
 * Load CodeIgniter extension class (from application or autoloaded package
 	paths) if present
 * Instantiate the CodeIgniter object
 * Register the exception handler
 * Disable magic quotes for PHP < 5.4
-* Load Benchmark class
-* Mark total execution start time
-* Mark base class loading start time
-* Load Config class and pass the core config items established during
+* Load _Benchmark_ class
+* *Mark total execution start time*
+* *Mark base class loading start time*
+* Load _Config_ class and pass the core config items established during
 	bootloading (including assign_to_config overrides)
 * Read constants.php file(s) from all the application/package paths
-* Load autoload config files
-* Load Hooks class
-* Call pre-system hook
-* Load Loader class and pass the base and application path lists with
+* Autoload config files
+* Load _Hooks_ class
+* *Call pre-system hook*
+* Load _Loader_ class and pass the base and application path lists with
 	autoloaded package paths applied
-* Load Utf8 class
-* Load URI class
-* Load Output class (to be prepared for 404 output)
-* Load Router class, set routing, and apply routing overrides
-* Call cache-override hook, and if not overridden, check for cache
+* Load _Utf8_ class
+* Load _URI_ class
+* Load _Output_ class (to be prepared for 404 output)
+* Load _Router_ class, set routing, and apply routing overrides
+* *Call cache-override hook*, and if not overridden, check for cache
 * If a valid cache is found, send it to Output and jump to the
 	display-override hook below
-* Load Security class
-* Load Input class
-* Load Lang class
+* Load _Security_ class
+* Load _Input_ class
+* Load _Lang_ class
 * Load autoload helpers, languages, libraries, drivers, controllers, and models
 	(in that order, and don't run controllers)
-* Mark base class loading end time
-* Call pre-controller hook
-* Mark controller execution start time
+* *Mark base class loading end time*
+* *Call pre-controller hook*
+* *Mark controller execution start time*
 * Load the routed controller (or 404 if not found)
-* Call post-controller-constructor hook
+* *Call post-controller-constructor hook*
 * Call routed controller method (or remap) (or 404 if not found)
-* THE CONTROLLER RUNS
-* Mark controller execution end time
-* Call post-controller hook
-* Call display-override hook, and if not overridden, display output
-* Call post-system hook
+* _THE CONTROLLER RUNS_
+* *Mark controller execution end time*
+* *Call post-controller hook*
+* *Call display-override hook*, and if not overridden, display output
+* *Call post-system hook*
 
 All core classes (now including Log) may be extended by classes with the
-configured subclass prefix existing anywhere in the package paths.
+configured subclass prefix existing anywhere in the autoloaded package paths.
 
 The Log class no longer reads its own config items directly, but rather is
 passed all core config items starting with "log" found in config.php during

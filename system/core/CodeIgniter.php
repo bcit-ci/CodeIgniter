@@ -99,6 +99,13 @@ class CodeIgniter {
 	protected static $instance = NULL;
 
 	/**
+	 * call_controller return scheme constants
+	 */
+	const RET_SUCCESS = 0;
+	const RET_RESULT = 1;
+	const RET_OUTPUT = 2;
+
+	/**
 	 * Constructor
 	 *
 	 * This constructor is protected in order to force instantiation
@@ -486,19 +493,29 @@ class CodeIgniter {
 	 * Requires that controller already be loaded, validates method name, and calls
 	 * _remap if available.
 	 *
-	 * @param	string	class name
-	 * @param	string	method
-	 * @param	array	arguments
-	 * @param	string	optional object name
-	 * @param	bool	TRUE to return output
-	 * @return	mixed	Output if $return, TRUE on success, otherwise FALSE
+	 * @param	string	Class name
+	 * @param	string	Method
+	 * @param	array	Arguments
+	 * @param	string	Optional object name
+	 * @param	int	 	Return scheme (RET_SUCCESS|RET_RESULT|RET_OUTPUT)
+	 * @return	mixed	Success (TRUE|FALSE), call result, or output
 	 */
-	public function call_controller($class, $method, array $args = array(), $name = '', $return = FALSE)
+	public function call_controller($class, $method, array $args = array(), $name = '', $return = self::RET_SUCCESS)
 	{
 		// Default name if not provided
 		if (empty($name))
 		{
 			$name = strtolower($class);
+		}
+
+		// Track whether it ran and what it returned
+		$ran = FALSE;
+		$result = NULL;
+
+		// Capture output if requested
+		if ($return === self::RET_OUTPUT)
+		{
+			$this->output->stack_push();
 		}
 
 		// Class must be loaded, and method cannot start with underscore, nor be a member of the base class
@@ -507,28 +524,25 @@ class CodeIgniter {
 			// Check for _remap
 			if ($this->is_callable($class, '_remap'))
 			{
-				// Call _remap, capturing output if requested
-				if ($return)
-				{
-					$this->output->fork_output();
-				}
-				$this->$name->_remap($method, $args);
-				return $return ? $this->output->get_forked() : TRUE;
+				// Call _remap
+				$result = $this->$name->_remap($method, $args);
+				$ran = TRUE;
 			}
 			else if ($this->is_callable($class, $method))
 			{
-				// Call method, capturing output if requested
-				if ($return)
-				{
-					$this->output->fork_output();
-				}
-				call_user_func_array(array(&$this->$name, $method), $args);
-				return $return ? $this->output->get_forked() : TRUE;
+				// Call method
+				$result = call_user_func_array(array(&$this->$name, $method), $args);
+				$ran = TRUE;
 			}
 		}
 
-		// Neither _remap nor method could be called
-		return FALSE;
+		// Return according to scheme
+		switch ($return)
+		{
+			case self::RET_RESULT: return $result;
+			case self::RET_OUTPUT: return $this->output->stack_pop();
+			default: return $ran;
+		}
 	}
 
 	/**

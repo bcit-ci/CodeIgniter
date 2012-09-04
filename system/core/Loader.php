@@ -245,10 +245,10 @@ class CI_Loader {
 	 * @param	string	the name of the class
 	 * @param	string	name for the controller
 	 * @param	bool	FALSE to skip calling controller method
-	 * @param	bool	TRUE to return output (depends on $call == TRUE)
+	 * @param	int	 	Return scheme (RET_SUCCESS|RET_RESULT|RET_OUTPUT)
 	 * @return	mixed	Output if $return, TRUE on success, otherwise FALSE
 	 */
-	public function controller($route, $name = NULL, $call = TRUE, $return = FALSE)
+	public function controller($route, $name = NULL, $call = TRUE, $return = CodeIgniter::RET_SUCCESS)
 	{
 		// Check for missing class
 		if (empty($route))
