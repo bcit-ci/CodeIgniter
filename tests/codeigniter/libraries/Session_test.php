@@ -1,4 +1,7 @@
 <?php
+if (!class_exists('CI_TestCase') && print_r(get_included_files()))
+	require_once __DIR__.'/../../Bootstrap.php';
+defined('UTF8_ENABLED') OR define('UTF8_ENABLED', true);
 
 /**
  * Session driver library unit test
@@ -32,39 +35,50 @@ class Session_test extends CI_TestCase {
 		$obj = new stdClass;
 		$classes = array(
 			'config' => 'cfg',
-			'load' => 'load',
-			'input' => 'in'
+			'load'   => 'load',
+			'input'  => 'in'
 		);
 		foreach ($classes as $name => $abbr) {
 			$class = $this->ci_core_class($abbr);
 			$obj->$name = new $class;
 		}
 		$this->ci_instance($obj);
+		$config = $this->setUpConfig();
 
+		$name = $this->getName();
+		if (empty($name))
+			$this->setName('test_session_library');
+		else
+			$this->session = new Mock_Libraries_Session($config);
+	}
+
+	public function setUpConfig()
+	{
 		// Attach session instance locally
 		$config = array(
-			'sess_encrypt_cookie' => FALSE,
-			'sess_use_database' => FALSE,
-			'sess_table_name' => '',
-			'sess_expiration' => 7200,
+			'sess_encrypt_cookie'  => FALSE,
+			'sess_use_database'    => FALSE,
+			'sess_table_name'      => '',
+			'sess_expiration'      => 7200,
 			'sess_expire_on_close' => FALSE,
-			'sess_match_ip' => FALSE,
+			'sess_match_ip'        => FALSE,
 			'sess_match_useragent' => TRUE,
-			'sess_cookie_name' => 'ci_session',
-			'cookie_path' => '',
-			'cookie_domain' => '',
-			'cookie_secure' => FALSE,
-			'cookie_httponly' => FALSE,
-			'sess_time_to_update' => 300,
-			'time_reference' => 'local',
-			'cookie_prefix' => '',
-			'encryption_key' => 'foobar',
-			'sess_valid_drivers' => array(
+			'sess_cookie_name'     => 'ci_session',
+			'cookie_path'          => '',
+			'cookie_domain'        => '',
+			'cookie_secure'        => FALSE,
+			'cookie_httponly'      => FALSE,
+			'sess_time_to_update'  => 300,
+			'time_reference'       => 'local',
+			'cookie_prefix'        => '',
+			'encryption_key'       => 'foobar',
+			'sess_valid_drivers'   => array(
 				'Mock_Libraries_Session_native',
-			   	'Mock_Libraries_Session_cookie'
+				'Mock_Libraries_Session_cookie'
 			)
 		);
-		$this->session = new Mock_Libraries_Session($config);
+		$this->ci_set_config($config);
+		return $config;
 	}
 
 	/**
@@ -400,6 +414,52 @@ class Session_test extends CI_TestCase {
 		$this->assertEquals($msg, $this->session->native->userdata($key));
 		$this->session->native->sess_destroy();
 		$this->assertNull($this->session->native->userdata($key));
+	}
+
+	/**
+	 * Test the session loaded as a library and
+	 * overwritten with a prefixed subclass.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_session_library()
+	{
+		$this->ci_instance->session = null;
+
+		$config = $this->setUpConfig();
+		$obj = new stdClass;
+		$class = $this->ci_core_class('cfg');
+		$obj->config = new $class;
+		$class = $this->ci_core_class('loader');
+		$obj->load = new $class;
+		$class = $this->ci_core_class('in');
+		$obj->input = new $class;
+		$this->ci_instance($obj);
+
+		$this->ci_set_config('subclass_prefix', 'Prefix_');
+
+		$this->ci_instance->load->library('session');
+
+		$this->assertInstanceOf('Prefix_Session', $this->ci_instance->session);
+	}
+
+	/**
+	 * Test the session loaded as a driver and
+	 * overwritten with a prefixed subclass.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_session_driver()
+	{
+		$this->ci_instance->session = null;
+
+		$this->ci_set_config('subclass_prefix', 'Prefix_');
+
+		$this->ci_instance->load->driver('session');
+
+		$this->assertInstanceOf('Prefix_Session', $this->ci_instance->session);
 	}
 }
 
