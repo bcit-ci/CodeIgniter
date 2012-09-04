@@ -120,6 +120,10 @@ class CI_Session extends CI_Driver_Library {
 	public function load_driver($driver)
 	{
 		// Save reference to most recently loaded driver as library default and sync userdata
+		if (__CLASS__ !== ($class = get_class($this)) && !in_array($class.'_'.$driver, $this->valid_drivers))
+		{
+			$this->lib_name = __CLASS__;
+		}
 		$this->current = parent::load_driver($driver);
 		$this->userdata =& $this->current->get_userdata();
 		return $this->current;

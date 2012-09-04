@@ -96,13 +96,6 @@ class CI_Loader {
 	protected $_ci_classes =	array();
 
 	/**
-	 * List of loaded files
-	 *
-	 * @var array
-	 */
-	protected $_ci_loaded_files =	array();
-
-	/**
 	 * List of loaded models
 	 *
 	 * @var array
@@ -156,7 +149,6 @@ class CI_Loader {
 	public function initialize()
 	{
 		$this->_ci_classes = array();
-		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
 		$this->_base_classes =& is_loaded();
 
@@ -921,13 +913,26 @@ class CI_Loader {
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
+			foreach (array_unique(array(ucfirst($subdir), strtolower($subdir), '', "$class/")) as $subdir_opt)
+			{
+				$subclass = APPPATH.'libraries/'.$subdir_opt.config_item('subclass_prefix').$class.'.php';
+				if (file_exists($subclass))
+				{
+					break;
+				}
+			}
 
 			// Is this a class extension request?
 			if (file_exists($subclass))
 			{
-				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
-
+				foreach (array_unique(array(ucfirst($subdir), strtolower($subdir), '', "$class/")) as $subdir_opt)
+				{
+					$baseclass = BASEPATH.'libraries/'.$subdir_opt.ucfirst($class).'.php';
+					if (file_exists($baseclass))
+					{
+						break;
+					}
+				}
 				if ( ! file_exists($baseclass))
 				{
 					log_message('error', 'Unable to load the requested class: '.$class);
@@ -935,7 +940,7 @@ class CI_Loader {
 				}
 
 				// Safety: Was the class already loaded by a previous call?
-				if (in_array($subclass, $this->_ci_loaded_files))
+				if (in_array($subclass, get_included_files()))
 				{
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied. If so, we'll
@@ -956,7 +961,6 @@ class CI_Loader {
 
 				include_once($baseclass);
 				include_once($subclass);
-				$this->_ci_loaded_files[] = $subclass;
 
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
@@ -974,7 +978,7 @@ class CI_Loader {
 				}
 
 				// Safety: Was the class already loaded by a previous call?
-				if (in_array($filepath, $this->_ci_loaded_files))
+				if (in_array($filepath, get_included_files()))
 				{
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied. If so, we'll
@@ -994,7 +998,6 @@ class CI_Loader {
 				}
 
 				include_once($filepath);
-				$this->_ci_loaded_files[] = $filepath;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
 		} // END FOREACH

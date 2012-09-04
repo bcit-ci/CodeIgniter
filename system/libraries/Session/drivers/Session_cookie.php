@@ -680,7 +680,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	$httponly = false)
 	{
 		// Set the cookie
-		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+		@setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 
 	/**
