@@ -15,16 +15,17 @@ class Config_test extends CI_TestCase {
 		// Set empty autoload.php contents
 		$ci->_autoload = array();
 
-		// Set source for config paths
-		if ($this->getName() == 'test_get')
-		{
-			// Create VFS config tree
-			$this->root = vfsStream::setup();
-			$this->app_root = vfsStream::newDirectory('application')->at($this->root);
-			$this->app_path = vfsStream::url('application').'/';
-			$ci->app_paths = array($this->app_path);
-		}
+		// Create VFS config tree
+		$this->root = vfsStream::setup();
+		$this->app_root = vfsStream::newDirectory('application')->at($this->root);
+		$this->app_path = vfsStream::url('application').'/';
+		$ci->app_paths = array($this->app_path);
 
+		// Create empty constants file
+		$tree = array('config' => array('constants.php' => ''));
+		vfsStream::create($tree, $this->app_root);
+
+		// Load config class
 		$cls =& $this->ci_core_class('cfg');
 		$this->config = new $cls;
 	}

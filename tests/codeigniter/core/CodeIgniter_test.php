@@ -94,8 +94,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$auto = array(
 			'packages' => array($path)
 		);
-		$tree = array($env => array('autoload.php' => '<?php $autoload = '.var_export($auto, TRUE).';'));
-		vfsStream::create($tree, $this->app_root->getChild('config'));
+		$this->_create_config($auto, 'autoload');
 
 		// Create instance with environment
 		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path, $env);
@@ -175,15 +174,13 @@ class CodeIgniter_test extends CI_TestCase {
 		// Create autoload config in VFS
 		$path = 'custom';
 		$auto = array('packages' => array(vfsStream::url($path)));
-		$content = '<?php $autoload = '.var_export($auto, TRUE).';';
-		vfsStream::newFile('autoload.php')->withContent($content)->at($this->app_root->getChild('config'));
+		$this->_create_config($auto, 'autoload');
 
 		// Create package path with subclass in VFS
 		$class = 'Mock_Core_CodeIgniter';
 		$subclass = $pre.$class;
 		$content = '<?php class '.$subclass.' extends '.$class.' { }';
-		$tree = array($path => array('core' => array($subclass.'.php' => $content)));
-		vfsStream::create($tree, $this->root);
+		$this->_create_content($subclass, $content, $this->root, $path, 'core');
 
 		// Create instance
 		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
@@ -191,6 +188,44 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->assertInstanceOf('CodeIgniter', $CI);
 		$this->assertInstanceOf($class, $CI);
 		$this->assertInstanceOf($subclass, $CI);
+	}
+
+	/**
+	 * Test loading core class
+	 *
+	 * @covers	CodeIgniter::load_core_class
+	 */
+	public function test_load_core()
+	{
+		// Create main config file in VFS
+		$pre = 'EXT_';
+		$cfg = array(
+			'subclass_prefix' => $pre,
+			'log_threshold' => 0
+		);
+		$this->_create_config($cfg);
+
+		// Create "core" class in VFS
+		$name = 'Test';
+		$class = 'CI_'.$name;
+		$this->_create_content($name, '<?php class '.$class.' { }', $this->base_root, 'core');
+
+		// Create extension in VFS
+		$ext = $pre.$name;
+		$this->_create_content($ext, '<?php class '.$ext.' extends '.$class.' { }', $this->app_root, 'core');
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Load class with object name
+		$obj = 'mytest';
+		$CI->load_core_class($name, $obj);
+
+		// Was it loaded?
+		$this->assertObjectHasAttribute($obj, $CI);
+		$this->assertInstanceOf($class, $CI->$obj);
+		$this->assertInstanceOf($ext, $CI->$obj);
 	}
 
 	/**
@@ -227,17 +262,610 @@ class CodeIgniter_test extends CI_TestCase {
 	}
 
 	/**
-	 * Create main config.php file
+	 * Test loading core base
 	 *
-	 * @param	array	$config array
+	 * @covers	CodeIgniter::_load_base
 	 */
-	private function _create_config(array $config, $name = 'config')
+	public function test_load_base()
 	{
-		// Build tree of config file in config directory
-		$tree = array('config' => array($name.'.php' => '<?php $'.$name.' = '.var_export($config, TRUE).';'));
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
 
-		// Create tree under application/
-		vfsStream::create($tree, $this->app_root);
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will alter names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Base__';
+
+		// Set property names to be checked
+		$marks = '_marked';
+		$hooks = '_called';
+
+		// Create core classes in VFS
+		// The order here establishes the sequence that will be checked below
+		$classes = array(
+			'Benchmark' => array('methods' => array('mark($a)' => '$this->'.$marks.'[] = $a;')),
+			'Config' => array('methods' => array('get($a, $b)' => 'return TRUE;')),
+			'Hooks' => array('methods' => array('_call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
+			'Loader' => array('obj' => 'load')
+		);
+		$names = $this->_create_core($pre, $prop, $classes);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Load base
+		$CI->load_base($pre);
+
+		// Was everything loaded in order?
+		$this->_check_core_sequence($CI, $names, $prop);
+
+		// Were the right benchmarks set in the right order?
+		$this->assertObjectHasAttribute($marks, $CI->benchmark);
+		$expect = array('total_execution_time_start', 'loading_time:_base_classes_start');
+		$this->assertEquals($expect, $CI->benchmark->$marks);
+
+		// Were the right hooks called?
+		$this->assertObjectHasAttribute($hooks, $CI->hooks);
+		$this->assertEquals(array('pre_system'), $CI->hooks->$hooks);
+	}
+
+	/**
+	 * Test loading core routing
+	 *
+	 * @covers	CodeIgniter::_load_routing
+	 */
+	public function test_load_routing()
+	{
+		global $routing;
+
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Route__';
+
+		// Set property names to check
+		$hooks = '_called';
+		$rtng = '_routing';
+		$over = '_overrides';
+
+		// Create core classes in VFS
+		// The order here establishes the sequence that will be checked below
+		// We include Hooks first, as it was already loaded and is called in routing
+		$classes = array(
+			'Hooks' => array('methods' => array('_call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
+			'Utf8' => array(),
+			'URI' => array(),
+			'Output' => array('methods' => array('_display_cache()' => 'return FALSE;')),
+			'Router' => array('methods' => array('_set_routing()' => '$this->'.$rtng.' = TRUE; return TRUE;',
+				'_set_overrides($a)' => '$this->'.$over.' = $a;'))
+		);
+		$names = $this->_create_core($pre, $prop, $classes);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Define routing overrides
+		$routing = array(
+			'directory' => 'test_dir',
+			'controller' => 'test_ctlr',
+			'function' => 'test_func'
+		);
+
+		// Load routing
+		$CI->load_routing($pre);
+
+		// Was everything loaded in order?
+		$this->_check_core_sequence($CI, $names, $prop);
+
+		// Were the right hooks called?
+		$this->assertObjectHasAttribute($hooks, $CI->hooks);
+		$this->assertEquals(array('cache_override'), $CI->hooks->$hooks);
+
+		// Did routing get set?
+		$this->assertObjectHasAttribute($rtng, $CI->router);
+		$this->assertTrue($CI->router->$rtng);
+
+		// Did overrides get set?
+		$this->assertObjectHasAttribute($over, $CI->router);
+		$this->assertEquals($routing, $CI->router->$over);
+	}
+
+	/**
+	 * Test caching
+	 *
+	 * @covers	CodeIgniter::_load_routing
+	 */
+	public function test_load_cache()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Cache__';
+
+		// Create core classes in VFS
+		// This time, _display_cache will return TRUE as if it displayed the cache
+		$classes = array(
+			'Hooks' => array('methods' => array('_call_hook($a)' => 'return FALSE;')),
+			'Utf8' => array(),
+			'URI' => array(),
+			'Output' => array('methods' => array('_display_cache()' => 'return TRUE;')),
+			'Router' => array('methods' => array('_set_routing()' => 'return TRUE;', '_set_overrides($a)' => ''))
+		);
+		$this->_create_core($pre, $prop, $classes);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Load routing and catch exit with no code or message
+		$this->setExpectedException('RuntimeException', 'CI 0 Exit: ');
+		$CI->load_routing($pre);
+	}
+
+	/**
+	 * Test loading core support
+	 *
+	 * @covers	CodeIgniter::_load_support
+	 */
+	public function test_load_support()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Support__';
+
+		// Set property names to check
+		$marks = '_marked';
+		$auto = '_last';
+
+		// Create core classes in VFS
+		// The order here establishes the sequence that will be checked below
+		// We include Benchmark and Loader first, as they were already loaded
+		// and are called in routing
+		$classes = array(
+			'Benchmark' => array('methods' => array('mark($a)' => '$this->'.$marks.'[] = $a;')),
+			'Loader' => array('obj' => 'load', 'methods' => array('ci_autoloader()' =>
+				'$this->'.$auto.' = (isset(CodeIgniter::instance()->lang));')),
+			'Security' => array(),
+			'Input' => array(),
+			'Lang' => array()
+		);
+		$names = $this->_create_core($pre, $prop, $classes);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Load support
+		$CI->load_support($pre);
+
+		// Was everything loaded in order?
+		$this->_check_core_sequence($CI, $names, $prop);
+
+		// Were the right benchmarks set?
+		$this->assertObjectHasAttribute($marks, $CI->benchmark);
+		$this->assertEquals(array('loading_time:_base_classes_end'), $CI->benchmark->$marks);
+
+		// Was ci_autoload called last?
+		$this->assertObjectHasAttribute($auto, $CI->load);
+		$this->assertTrue($CI->load->$auto);
+	}
+
+	/**
+	 * Test running a controller
+	 *
+	 * @covers	CodeIgniter::_run_controller
+	 */
+	public function test_run_controller()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Ctlr__';
+
+		// Set property names to be checked
+		$marks = '_marked';
+		$hooks = '_called';
+		$ran = '_ran';
+
+		// Create controller in VFS
+		$ctlr = 'TestRunCtlr';
+		$class = strtolower($ctlr);
+		$method = 'test';
+		$content = '<?php class '.$ctlr.' { public function '.$method.'() { $this->'.$ran.' = TRUE; } }';
+		$this->_create_content($class, $content, $this->app_root, 'controllers');
+
+		// Create route
+		$route = array(
+			$this->app_path,
+			'',
+			$ctlr,
+			$method
+		);
+
+		// Create core classes in VFS
+		$this->_create_run_core($pre, $prop, $route, $marks, $hooks);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Run controller
+		$CI->run_controller($pre);
+
+		// Was the controller loaded and run?
+		$this->assertObjectHasAttribute($class, $CI);
+		$this->assertObjectHasAttribute($ran, $CI->$class);
+		$this->assertTrue($CI->$class->$ran);
+
+		// Was the routed object set correctly?
+		$this->assertObjectHasAttribute('routed', $CI);
+		$this->assertEquals($CI->routed, $CI->$class);
+
+		// Were the right benchmarks set?
+		$this->assertObjectHasAttribute($marks, $CI->benchmark);
+		$expect = array('controller_execution_time_( '.$class.' / '.$method.' )_start');
+		$this->assertEquals($expect, $CI->benchmark->$marks);
+
+		// Were the right hooks called in the right order?
+		$this->assertObjectHasAttribute($hooks, $CI->hooks);
+		$this->assertEquals(array('pre_controller', 'post_controller_constructor'), $CI->hooks->$hooks);
+	}
+
+	/**
+	 * Test a controller 404
+	 *
+	 * @covers	CodeIgniter::_run_controller
+	 */
+	public function test_controller_404()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'C404__';
+
+		// Create route for nonexistent controller
+		$route = array(
+			$this->app_path,
+			'',
+			'NoController',
+			'test'
+		);
+
+		// Create core classes in VFS
+		$this->_create_run_core($pre, $prop, $route);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Run controller and catch 404
+		$this->setExpectedException('RuntimeException', 'CI Error: 404');
+		$CI->run_controller($pre);
+	}
+
+	/**
+	 * Test a method 404
+	 *
+	 * @covers	CodeIgniter::_run_controller
+	 */
+	public function test_method_404()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'M404__';
+
+		// Create controller without method in VFS
+		$ctlr = 'Test404Ctlr';
+		$this->_create_content(strtolower($ctlr), '<?php class '.$ctlr.' { }', $this->app_root, 'controllers');
+
+		// Create route for nonexistent controller
+		$route = array(
+			$this->app_path,
+			'',
+			$ctlr,
+			'no_method'
+		);
+
+		// Create core classes in VFS
+		$this->_create_run_core($pre, $prop, $route);
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Run controller and catch 404
+		$this->setExpectedException('RuntimeException', 'CI Error: 404');
+		$CI->run_controller($pre);
+	}
+
+	/**
+	 * Test finalization and output
+	 *
+	 * @covers	CodeIgniter::_finalize
+	 */
+	public function test_finalize()
+	{
+		// Create main config file in VFS
+		$this->_create_config(array('log_threshold' => 0));
+
+		// Set sequence property name and class prefix
+		// Given a prefix, the mock will prefix names for us to avoid collisions
+		// with actual core classes, since classes can't be unregistered.
+		$prop = 'sequence';
+		$pre = 'Final__';
+
+		// Set property names to be checked
+		$marks = '_marked';
+		$hooks = '_called';
+		$ran = '_ran';
+
+		// Create route
+		$class = 'final_ctlr';
+		$method = 'final_method';
+		$route = array(
+			$this->app_path,
+			'',
+			$class,
+			$method
+		);
+
+		// Create core classes in VFS
+		$this->_create_run_core($pre, $prop, $route, $marks, $hooks);
+
+		// Create Output with display
+		$this->_create_core($pre, $prop, 'Output', '', array('_display()' => '$this->'.$ran.' = TRUE;'));
+
+		// Create instance
+		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$this->assertNotNull($CI);
+
+		// Finalize
+		$CI->finalize($pre);
+
+		// Was display run?
+		$this->assertObjectHasAttribute($ran, $CI->output);
+		$this->assertTrue($CI->output->$ran);
+
+		// Were the right benchmarks set?
+		$this->assertObjectHasAttribute($marks, $CI->benchmark);
+		$expect = array('controller_execution_time_( '.$class.' / '.$method.' )_end');
+		$this->assertEquals($expect, $CI->benchmark->$marks);
+
+		// Were the right hooks called in the right order?
+		$this->assertObjectHasAttribute($hooks, $CI->hooks);
+		$this->assertEquals(array('post_controller', 'display_override', 'post_system'), $CI->hooks->$hooks);
+	}
+
+	/**
+	 * Check if the classes were loaded correctly and in order
+	 *
+	 * @param	object	CI object
+	 * @param	array	Classes array from _create_core
+	 * @param	string	Sequence property name
+	 * @return	void
+	 */
+	private function _check_core_sequence($CI, $classes, $prop)
+	{
+		// Check each class
+		foreach ($classes as $obj => $class)
+		{
+			// Was it loaded under its name?
+			$this->assertObjectHasAttribute($obj, $CI, $obj.' load failed');
+
+			// Is it the right class?
+			$this->assertInstanceOf($class, $CI->$obj, $obj.' is not a '.$class);
+
+			// Did its sequence test pass?
+			$this->assertTrue($CI->$obj->$prop, $obj.' sequence failed');
+		}
+	}
+
+	/**
+	 * Create core necessary to run a controller
+	 *
+	 * @param   string  Class prefix
+	 * @param   string  Class sequence property name
+	 * @param	array	Route stack
+	 * @param	array	Optional benchmark tracking property name
+	 * @param	array	Optional hook tracking property name
+	 */
+	private function _create_run_core($pre, $prop, $route, $marks = FALSE, $hooks = FALSE)
+	{
+		// Create Benchmark with optional mark tracking
+		$code = $marks ? '$this->'.$marks.'[] = $a;' : '';
+		$this->_create_core($pre, $prop, 'Benchmark', '', array('mark($a)' => $code));
+
+		// Create Hooks with optional hook tracking
+		$code = $hooks ? '$this->'.$hooks.'[] = $a; ' : '';
+		$this->_create_core($pre, $prop, 'Hooks', '', array('_call_hook($a)' => $code.'return FALSE;'));
+
+		// Create Loader with a simple controller loader to instantiate our class
+		// at the right time
+		$this->_create_core($pre, $prop, 'Loader', '', array(
+			'controller($a, $b, $c)' =>
+				'$name = strtolower($a[2]); '.
+				'$class = ucfirst($a[2]); '.
+				'$file = $a[0].\'controllers/\'.$a[1].$name.\'.php\'; '.
+				'if ( ! file_exists($file)) return FALSE; '.
+				'include($file); '.
+				'if ( ! class_exists($class)) return FALSE; '.
+				'CodeIgniter::instance()->$name = new $class(); '.
+				'return TRUE;'
+		));
+
+		// Create Router which will return our route stack
+		// and the constants used in _run_controller and _finalize
+		$this->_create_core($pre, $prop, 'Router', '',
+			array('fetch_route()' => 'return '.var_export($route, TRUE).';'),
+			array('SEG_CLASS' => 2, 'SEG_METHOD' => 3));
+	}
+
+	/**
+	 * Create config file
+	 *
+	 * @param	array	Config array
+	 * @param   string  File/array name
+	 * @param   string  Optional subdirectory (for env)
+	 * @return  void
+	 */
+	private function _create_config(array $config, $name = 'config', $sub = NULL)
+	{
+		// Generate config file content
+		$content = '<?php $'.$name.' = '.var_export($config, TRUE).';';
+
+		// Create file under subdirectory of app config dir
+		$this->_create_content($name, $content, $this->app_root, 'config', $sub);
+	}
+
+	/**
+	 * Create core class(es) in VFS
+	 *
+	 * @param   string  Class prefix
+	 * @param   string  Class sequence property name
+	 * @param   string  Class name or array of classes
+	 * @param   string  Optional previous class in sequence
+	 * @param   array   Optional class methods
+	 * @param	array	Optional class constants
+	 * @return  mixed   Class name or array of object/class pairs
+	 */
+	private function _create_core($pre, $prop, $name, $prev = FALSE, $methods = array(), $constants = array())
+	{
+		// Check for multiples
+		if (is_array($name))
+		{
+			// Dispatch
+			$cores = $name;
+			$prev = FALSE;
+			$classes = array();
+
+			foreach ($cores as $name => $props)
+			{
+				// Get object name and methods and constants lists
+				$obj = isset($props['obj']) ? $props['obj'] : strtolower($name);
+				$methods = isset($props['methods']) ? $props['methods'] : array();
+				$constants = isset($props['constants']) ? $props['constants'] : array();
+
+				// Create core class and save object name for next in sequence
+				$classes[$obj] = $this->_create_core($pre, $prop, $name, $prev, $methods, $constants);
+				$prev = $obj;
+			}
+
+			// Return list of object and class names
+			return $classes;
+		}
+
+		// Assemble mock class name and sequence test
+		$mock = $pre.$name;
+		$class = 'CI_'.$mock;
+		$test = $prev ? 'isset(CodeIgniter::instance()->'.$prev.')' : 'TRUE';
+
+		// Build class content
+		$content = '<?php class '.$class.' { ';
+		foreach ($constants as $const => $val)
+		{
+			$content .= 'const '.$const.' = '.$val.'; ';
+		}
+		$content .= 'public function __construct() { $this->'.$prop.' = '.$test.'; } ';
+		foreach ($methods as $method => $body)
+		{
+			$content .= 'public function '.$method.' { '.$body.' } ';
+		}
+		$content .= '}';
+
+		// Create content in core directory and return class name
+		$this->_create_content($mock, $content, $this->base_root, 'core');
+		return $class;
+	}
+
+	/**
+	 * Create VFS content
+	 *
+	 * @param	string  File name
+	 * @param   string  File content
+	 * @param   object  VFS directory object
+	 * @param   string  Optional directory name
+	 * @param   string  Optional subdirectory name
+	 * @return  void
+	 */
+	private function _create_content($file, $content, $root, $dir = NULL, $sub = NULL)
+	{
+		// Build content
+		$tree = array($file.'.php' => $content);
+
+		// Check for directory
+		if ($dir)
+		{
+			$dir_root = $root->getChild($dir);
+			if ($dir_root)
+			{
+				// Directory exists - have sub?
+				if ($sub)
+				{
+					// Check for sub
+					$sub_root = $dir_root->getChild($sub);
+					if ($sub_root)
+					{
+						// Exists - build under sub
+						$root = $sub_root;
+					}
+					else
+					{
+						// None - build sub under dir
+						$root = $dir_root;
+						$tree = array($sub => $tree);
+					}
+				}
+				else
+				{
+					// Build under dir
+					$root = $dir_root;
+				}
+			}
+			else
+			{
+				// Directory doesn't exist - have sub?
+				if ($sub)
+				{
+					// Build content in sub
+					$tree = array($sub => $tree);
+				}
+
+				// Build dir with content
+				$tree = array($dir => $tree);
+			}
+		}
+
+		// Create tree
+		vfsStream::create($tree, $root);
 	}
 }
 

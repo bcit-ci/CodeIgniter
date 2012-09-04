@@ -83,6 +83,14 @@ class CodeIgniter {
 	protected $_is_running = FALSE;
 
 	/**
+	 * Display cache flag
+	 *
+	 * @access  protected
+	 * @var	 bool
+	 */
+	protected $_display_cache = FALSE;
+
+	/**
 	 * CodeIgniter singleton instance
 	 *
 	 * @access	protected
@@ -339,10 +347,13 @@ class CodeIgniter {
 	 * @param	string	Exit message
 	 * @return	void
 	 */
-	protected static function _status_exit($status, $msg)
+	protected static function _status_exit($status = 0, $msg = '')
 	{
 		// Set status header and exit with message
-		set_status_header($status);
+		if ($status)
+		{
+			set_status_header($status);
+		}
 		exit($msg);
 	}
 
@@ -376,9 +387,10 @@ class CodeIgniter {
 		if ( ! class_exists($name))
 		{
 			// Look for file in core paths
+			$filenm = 'core/'.$class.'.php';
 			foreach ($this->base_paths as $path)
 			{
-				$file = $path.'core/'.$class.'.php';
+				$file = $path.$filenm;
 				if (file_exists($file))
 				{
 					include($file);
@@ -403,9 +415,10 @@ class CodeIgniter {
 		else
 		{
 			// Look for file in extension paths
+			$filenm = 'core/'.$ext.'.php';
 			foreach ($this->app_paths as $path)
 			{
-				$file = $path.'core/'.$this->subclass_prefix.$class.'.php';
+				$file = $path.$filenm;
 				if (file_exists($file))
 				{
 					include($file);
@@ -521,6 +534,11 @@ class CodeIgniter {
 	/**
 	 * Run the CodeIgniter application
 	 *
+	 * This function employs a simple mutex pattern to prevent recursive calls.
+	 * By breaking down the run sequence, it makes it easier to override parts
+	 * of the sequence in an extension class, and to unit test the operations
+	 * in smaller chunks.
+	 *
 	 * @return	void
 	 */
 	public function run()
@@ -568,9 +586,8 @@ class CodeIgniter {
 		$this->benchmark->mark('total_execution_time_start');
 		$this->benchmark->mark('loading_time:_base_classes_start');
 
-		// Get Config and load constants
+		// Get Config
 		$this->load_core_class('Config');
-		$this->config->get('constants.php', NULL);
 
 		// Load the hooks class and call pre_system (depends on Config)
 		$this->load_core_class('Hooks');
@@ -602,7 +619,7 @@ class CodeIgniter {
 		$this->load_core_class('URI');
 
 		// Load the output class (depends on Config)
-		// Note: By load Output before Router, we ensure it is available to support
+		// Note: By loading Output before Router, we ensure it is available to support
 		// 404 overrides in case of a call to show_404().
 		$this->load_core_class('Output');
 
@@ -619,7 +636,8 @@ class CodeIgniter {
 		// Is there a valid cache file?  If so, we're done...
 		if ($this->hooks->_call_hook('cache_override') === FALSE && $this->output->_display_cache() === TRUE)
 		{
-			exit;
+			$this->_display_cache = TRUE;
+			static::_status_exit();
 		}
 	}
 
@@ -662,8 +680,9 @@ class CodeIgniter {
 		$this->hooks->_call_hook('pre_controller');
 
 		// Get the parsed route and identify class, method, and arguments
+		$rtr_class = get_class($this->router);
 		$route = $this->router->fetch_route();
-		$args = array_slice($route, this_Router::SEG_CLASS);
+		$args = array_slice($route, $rtr_class::SEG_CLASS);
 		$class = strtolower(array_shift($args));
 		$method = array_shift($args);
 
@@ -692,14 +711,23 @@ class CodeIgniter {
 	/**
 	 * Finalize bencharks and hooks and send output
 	 *
+	 * This gets run from the destructor, so we check the existence of everything
+	 * we need as opposed to assuming it's loaded.
+	 *
 	 * @access	protected
 	 * @return	void
 	 */
 	protected function _finalize()
 	{
 		// Check for Benchmark class
-		if (isset($this->benchmark))
+		if (! $this->_display_cache && isset($this->benchmark) && isset($this->router))
 		{
+			// Get the parsed route and identify class and method
+			$rtr_class = get_class($this->router);
+			$route = $this->router->fetch_route();
+			$class = strtolower($route[$rtr_class::SEG_CLASS]);
+			$method = $route[$rtr_class::SEG_METHOD];
+
 			// Mark a benchmark end point
 			$this->benchmark->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
 		}
@@ -707,8 +735,11 @@ class CodeIgniter {
 		// Check for Hooks class
 		if (isset($this->hooks))
 		{
-			// Call post_controller hook
-			$this->hooks->_call_hook('post_controller');
+			// Call post_controller hook unless we're displaying a cache
+			if ( ! $this->_display_cache)
+			{
+				$this->hooks->_call_hook('post_controller');
+			}
 
 			// Send the final rendered output to the browser
 			if ($this->hooks->_call_hook('display_override') === FALSE && isset($this->output))
@@ -777,8 +808,6 @@ class CodeIgniter {
 
 /**
  * Global function to get CodeIgniter instance
- *
- * DEPRECATED - call CodeIgniter::instance() directly
  *
  * @return	object	CodeIgniter instance
  */

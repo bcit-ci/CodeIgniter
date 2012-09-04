@@ -86,6 +86,9 @@ class CI_Config {
 		// Determine array merge function
 		$this->merge_arrays = is_php('5.3') ? 'array_replace_recursive' : array($this, '_merge_arrays');
 
+		// Establish any configured constants
+		$this->get('constants.php', NULL);
+
 		// Autoload any other config files
 		$autoload = $CI->_autoload;
 		if (is_array($autoload) && isset($autoload['config']))
