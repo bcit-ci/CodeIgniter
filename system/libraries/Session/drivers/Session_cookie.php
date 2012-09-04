@@ -309,6 +309,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
 			$this->CI->db->delete($this->sess_table_name, array('session_id' => $this->userdata['session_id']));
+			$this->data_dirty = FALSE;
 		}
 
 		// Kill the cookie
@@ -571,10 +572,21 @@ class CI_Session_cookie extends CI_Session_driver {
 				$set['user_data'] = $this->_serialize($userdata);
 			}
 
+			// Is caching in effect? Turn it off
+			$db_cache = $this->CI->db->cache_on;
+			$this->CI->db->cache_off();
+
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
 			$this->CI->db->update($this->sess_table_name, $set, array('session_id' => $this->userdata['session_id']));
+
+			// Was caching in effect?
+			if ($db_cache)
+			{
+				// Turn it back on
+				$this->CI->db->cache_on();
+			}
 
 			// Clear dirty flag to prevent double updates
 			$this->data_dirty = FALSE;
