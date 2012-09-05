@@ -26,9 +26,9 @@
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
-	var $stmt_id;
-	var $curs_id;
-	var $limit_used;
+	public $stmt_id;
+	public $curs_id;
+	public $limit_used;
 
 	/**
 	 * Number of rows in the result set.
@@ -36,8 +36,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * Oracle doesn't have a graceful way to retun the number of rows
 	 * so we have to use what amounts to a hack.
 	 *
-	 *
-	 * @access  public
 	 * @return  integer
 	 */
 	public function num_rows()
@@ -53,7 +51,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 			}
 		}
 
-		return $rowcount;
+		return $this->num_rows;
 	}
 
 	// --------------------------------------------------------------------
