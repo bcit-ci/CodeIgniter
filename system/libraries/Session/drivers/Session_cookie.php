@@ -347,7 +347,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		else
 		{
 			// Just force an update to recreate the id
-			$this->_sess_update(true);
+			$this->_sess_update(TRUE);
 		}
 	}
 
