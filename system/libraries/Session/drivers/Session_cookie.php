@@ -309,6 +309,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
 			$this->CI->db->delete($this->sess_table_name, array('session_id' => $this->userdata['session_id']));
+			$this->data_dirty = FALSE;
 		}
 
 		// Kill the cookie
@@ -443,7 +444,18 @@ class CI_Session_cookie extends CI_Session_driver {
 				$this->CI->db->where('user_agent', $session['user_agent']);
 			}
 
+			// Is caching in effect? Turn it off
+			$db_cache = $this->CI->db->cache_on;
+			$this->CI->db->cache_off();
+
 			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
+
+			// Was caching in effect?
+			if ($db_cache)
+			{
+				// Turn it back on
+				$this->CI->db->cache_on();
+			}
 
 			// No result? Kill it!
 			if ($query->num_rows() === 0)
