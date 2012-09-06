@@ -2,6 +2,12 @@
 
 class CI_TestCase extends PHPUnit_Framework_TestCase {
 
+	public $ci_vfs_root = NULL;
+	public $ci_app_root = NULL;
+	public $ci_base_root = NULL;
+	public $ci_app_path = '';
+	public $ci_base_path = '';
+
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
@@ -24,7 +30,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function __construct()
 	{
 		parent::__construct();
-        $this->ci_instance = new stdClass();
+		$this->ci_instance = new stdClass();
 	}
 
 	// --------------------------------------------------------------------
@@ -59,10 +65,10 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function ci_set_config($key = '', $val = '')
 	{
 		// Add test config
-        if ( ! isset($this->ci_instance->config))
-        {
-            $this->ci_instance->config = new CI_TestConfig();
-        }
+		if ( ! isset($this->ci_instance->config))
+		{
+			$this->ci_instance->config = new CI_TestConfig();
+		}
 
 		// Empty key means just do setup above
 		if ($key === '')
@@ -157,6 +163,108 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		$orig =& $this->ci_core_class($name);
 		$orig = $obj;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create VFS root with system and application directories
+	 *
+	 * @return	void
+	 */
+	public function ci_vfs_setup()
+	{
+		// Create VFS tree
+		$this->ci_vfs_root = vfsStream::setup();
+		$this->ci_app_root = vfsStream::newDirectory('application')->at($this->ci_vfs_root);
+		$this->ci_base_root = vfsStream::newDirectory('system')->at($this->ci_vfs_root);
+
+		// Get VFS app and base path URLs
+		$this->ci_app_path = vfsStream::url('application/');
+		$this->ci_base_path = vfsStream::url('system/');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create VFS content
+	 *
+	 * @param	string  File name
+	 * @param   string  File content
+	 * @param   object  VFS directory object
+	 * @param   string  Optional directory name
+	 * @param   string  Optional subdirectory name
+	 * @return  void
+	 */
+	public function ci_vfs_create($file, $content, $root = NULL, $dir = NULL, $sub = NULL)
+	{
+		// Assert .php extension
+		if (strrpos($file, '.php') !== strlen($file) - 4)
+		{
+			$file .= '.php';
+		}
+
+		// Build content
+		$tree = array($file => $content);
+
+		// Check for directory
+		if ($dir)
+		{
+			$dir_root = $root->getChild($dir);
+			if ($dir_root)
+			{
+				// Directory exists - have sub?
+				if ($sub)
+				{
+					// Check for sub
+					$sub_root = $dir_root->getChild($sub);
+					if ($sub_root)
+					{
+						// Exists - build under sub
+						$root = $sub_root;
+					}
+					else
+					{
+						// None - build sub under dir
+						$root = $dir_root;
+						$tree = array($sub => $tree);
+					}
+				}
+				else
+				{
+					// Build under dir
+					$root = $dir_root;
+				}
+			}
+			else
+			{
+				// Directory doesn't exist - have sub?
+				if ($sub)
+				{
+					// Build content in sub
+					$tree = array($sub => $tree);
+				}
+
+				// Build dir with content
+				$tree = array($dir => $tree);
+			}
+		}
+
+		// Create tree
+		vfsStream::create($tree, $root);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Helper to get a VFS URL path
+	 *
+	 * @return	string	Path URL
+	 */
+	public function ci_vfs_path($path)
+	{
+		// Remove leading slashes and return URL
+		return vfsStream::url(ltrim($path, '/'));
 	}
 
 	// --------------------------------------------------------------------

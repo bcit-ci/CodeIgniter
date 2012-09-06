@@ -7,13 +7,7 @@ class CodeIgniter_test extends CI_TestCase {
 	public function set_up()
 	{
 		// Create VFS tree
-		$this->root = vfsStream::setup();
-		$this->app_root = vfsStream::newDirectory('application')->at($this->root);
-		$this->base_root = vfsStream::newDirectory('system')->at($this->root);
-
-		// Get VFS app and base path URLs
-		$this->app_path = vfsStream::url('application').'/';
-		$this->base_path = vfsStream::url('system').'/';
+        $this->ci_vfs_setup();
 	}
 
 	/**
@@ -43,7 +37,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_config($cfg);
 
 		// Instantiate CodeIgniter
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 		$this->assertInstanceOf('CodeIgniter', $CI);
 
@@ -58,8 +52,8 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->assertEquals($cfg, $CI->_core_config);
 
 		// Were base and app paths set correctly?
-		$this->assertEquals(array($this->app_path, $this->base_path), $CI->base_paths);
-		$this->assertEquals(array($this->app_path), $CI->app_paths);
+		$this->assertEquals(array($this->ci_app_path, $this->ci_base_path), $CI->base_paths);
+		$this->assertEquals(array($this->ci_app_path), $CI->app_paths);
 	}
 
 	/**
@@ -71,7 +65,7 @@ class CodeIgniter_test extends CI_TestCase {
 	{
 		// Do we get a 503 if there is no config.php?
 		$this->setExpectedException('RuntimeException', 'CI 503 Exit: The configuration file does not exist.');
-		$this->assertNull(Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path));
+		$this->assertNull(Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path));
 	}
 
 	/**
@@ -97,7 +91,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_config($auto, 'autoload');
 
 		// Create instance with environment
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path, $env);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path, $env);
 		$this->assertNotNull($CI);
 
 		// Was autoload found?
@@ -136,7 +130,7 @@ class CodeIgniter_test extends CI_TestCase {
 		);
 
 		// Instantiate CodeIgniter
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Did the overrides apply?
@@ -180,10 +174,10 @@ class CodeIgniter_test extends CI_TestCase {
 		$class = 'Mock_Core_CodeIgniter';
 		$subclass = $pre.$class;
 		$content = '<?php class '.$subclass.' extends '.$class.' { }';
-		$this->_create_content($subclass, $content, $this->root, $path, 'core');
+		$this->ci_vfs_create($subclass, $content, $this->ci_vfs_root, $path, 'core');
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 		$this->assertInstanceOf('CodeIgniter', $CI);
 		$this->assertInstanceOf($class, $CI);
@@ -208,14 +202,14 @@ class CodeIgniter_test extends CI_TestCase {
 		// Create "core" class in VFS
 		$name = 'Test';
 		$class = 'CI_'.$name;
-		$this->_create_content($name, '<?php class '.$class.' { }', $this->base_root, 'core');
+		$this->ci_vfs_create($name, '<?php class '.$class.' { }', $this->ci_base_root, 'core');
 
 		// Create extension in VFS
 		$ext = $pre.$name;
-		$this->_create_content($ext, '<?php class '.$ext.' extends '.$class.' { }', $this->app_root, 'core');
+		$this->ci_vfs_create($ext, '<?php class '.$ext.' extends '.$class.' { }', $this->ci_app_root, 'core');
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Load class with object name
@@ -243,7 +237,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_config($cfg);
 
 		// Instantiate CodeIgniter
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Create controller
@@ -292,7 +286,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$names = $this->_create_core($pre, $prop, $classes);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Load base
@@ -348,7 +342,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$names = $this->_create_core($pre, $prop, $classes);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Define routing overrides
@@ -405,7 +399,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_core($pre, $prop, $classes);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Load routing and catch exit with no code or message
@@ -448,7 +442,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$names = $this->_create_core($pre, $prop, $classes);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Load support
@@ -492,11 +486,11 @@ class CodeIgniter_test extends CI_TestCase {
 		$class = strtolower($ctlr);
 		$method = 'test';
 		$content = '<?php class '.$ctlr.' { public function '.$method.'() { $this->'.$ran.' = TRUE; } }';
-		$this->_create_content($class, $content, $this->app_root, 'controllers');
+		$this->ci_vfs_create($class, $content, $this->ci_app_root, 'controllers');
 
 		// Create route
 		$route = array(
-			$this->app_path,
+			$this->ci_app_path,
 			'',
 			$ctlr,
 			$method
@@ -506,7 +500,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_run_core($pre, $prop, $route, $marks, $hooks);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Run controller
@@ -549,7 +543,7 @@ class CodeIgniter_test extends CI_TestCase {
 
 		// Create route for nonexistent controller
 		$route = array(
-			$this->app_path,
+			$this->ci_app_path,
 			'',
 			'NoController',
 			'test'
@@ -559,7 +553,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_run_core($pre, $prop, $route);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Run controller and catch 404
@@ -585,11 +579,11 @@ class CodeIgniter_test extends CI_TestCase {
 
 		// Create controller without method in VFS
 		$ctlr = 'Test404Ctlr';
-		$this->_create_content(strtolower($ctlr), '<?php class '.$ctlr.' { }', $this->app_root, 'controllers');
+		$this->ci_vfs_create(strtolower($ctlr), '<?php class '.$ctlr.' { }', $this->ci_app_root, 'controllers');
 
 		// Create route for nonexistent controller
 		$route = array(
-			$this->app_path,
+			$this->ci_app_path,
 			'',
 			$ctlr,
 			'no_method'
@@ -599,7 +593,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_run_core($pre, $prop, $route);
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Run controller and catch 404
@@ -632,7 +626,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$class = 'final_ctlr';
 		$method = 'final_method';
 		$route = array(
-			$this->app_path,
+			$this->ci_app_path,
 			'',
 			$class,
 			$method
@@ -645,7 +639,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->_create_core($pre, $prop, 'Output', '', array('_display()' => '$this->'.$ran.' = TRUE;'));
 
 		// Create instance
-		$CI = Mock_Core_CodeIgniter::instance($this->base_path, $this->app_path);
+		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
 		$this->assertNotNull($CI);
 
 		// Finalize
@@ -743,7 +737,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$content = '<?php $'.$name.' = '.var_export($config, TRUE).';';
 
 		// Create file under subdirectory of app config dir
-		$this->_create_content($name, $content, $this->app_root, 'config', $sub);
+		$this->ci_vfs_create($name, $content, $this->ci_app_root, 'config', $sub);
 	}
 
 	/**
@@ -802,70 +796,8 @@ class CodeIgniter_test extends CI_TestCase {
 		$content .= '}';
 
 		// Create content in core directory and return class name
-		$this->_create_content($mock, $content, $this->base_root, 'core');
+		$this->ci_vfs_create($mock, $content, $this->ci_base_root, 'core');
 		return $class;
-	}
-
-	/**
-	 * Create VFS content
-	 *
-	 * @param	string  File name
-	 * @param   string  File content
-	 * @param   object  VFS directory object
-	 * @param   string  Optional directory name
-	 * @param   string  Optional subdirectory name
-	 * @return  void
-	 */
-	private function _create_content($file, $content, $root, $dir = NULL, $sub = NULL)
-	{
-		// Build content
-		$tree = array($file.'.php' => $content);
-
-		// Check for directory
-		if ($dir)
-		{
-			$dir_root = $root->getChild($dir);
-			if ($dir_root)
-			{
-				// Directory exists - have sub?
-				if ($sub)
-				{
-					// Check for sub
-					$sub_root = $dir_root->getChild($sub);
-					if ($sub_root)
-					{
-						// Exists - build under sub
-						$root = $sub_root;
-					}
-					else
-					{
-						// None - build sub under dir
-						$root = $dir_root;
-						$tree = array($sub => $tree);
-					}
-				}
-				else
-				{
-					// Build under dir
-					$root = $dir_root;
-				}
-			}
-			else
-			{
-				// Directory doesn't exist - have sub?
-				if ($sub)
-				{
-					// Build content in sub
-					$tree = array($sub => $tree);
-				}
-
-				// Build dir with content
-				$tree = array($dir => $tree);
-			}
-		}
-
-		// Create tree
-		vfsStream::create($tree, $root);
 	}
 }
 
