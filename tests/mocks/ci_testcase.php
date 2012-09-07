@@ -198,6 +198,16 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function ci_vfs_create($file, $content, $root = NULL, $dir = NULL, $sub = NULL)
 	{
+		// Check for array
+		if (is_array($file))
+		{
+			foreach ($file as $name => $content)
+			{
+				$this->ci_vfs_create($name, $content, $root, $dir, $sub);
+			}
+			return;
+		}
+
 		// Assert .php extension
 		if (strrpos($file, '.php') !== strlen($file) - 4)
 		{

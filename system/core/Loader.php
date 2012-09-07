@@ -1119,23 +1119,24 @@ class CI_Loader {
 			}
 		}
 
-		// We'll test for both lowercase and capitalized versions of the file name
+		// Is this a class extension request?
 		$pre = $this->CI->config->item('subclass_prefix');
-		foreach (array(ucfirst($class), strtolower($class)) as $class)
+		foreach ($this->_ci_library_paths as $path)
 		{
-			$file = 'libraries/'.$subdir.$pre.$class.'.php';
-			foreach ($this->_ci_library_paths as $path)
+			// Try both upper- and lower-class in path subdirectory
+			$path .= 'libraries/'.$subdir;
+			foreach (array(ucfirst($class), strtolower($class)) as $class)
 			{
-				// Is this a class extension request?
-				$subclass = $path.$file;
+				$subclass = $path.$pre.$class.'.php';
 				if (file_exists($subclass))
 				{
-					// Found extension - require base class
+					// Found extension - require base class (in base path, no subdir, always capital)
 					$baseclass = $this->_ci_base_path.'libraries/'.ucfirst($class).'.php';
 					if ( ! file_exists($baseclass))
 					{
-						log_message('error', 'Unable to load the requested class: '.$class);
-						show_error('Unable to load the requested class: '.$class);
+						$msg = 'Unable to load the requested class: '.$class;
+						log_message('error', $msg);
+						show_error($msg);
 					}
 
 					// Safety: Was the class already loaded by a previous call?
@@ -1144,15 +1145,11 @@ class CI_Loader {
 						// Before we deem this to be a duplicate request, let's see
 						// if a custom object name is being supplied. If so, we'll
 						// return a new instance of the object
-						if ( ! is_null($object_name))
+						if ( ! is_null($object_name) && ! isset($this->CI->$object_name))
 						{
-							if ( ! isset($this->CI->$object_name))
-							{
-								return $this->_ci_init_class($class, $pre, $params, $object_name);
-							}
+							return $this->_ci_init_class($class, $pre, $params, $object_name);
 						}
 
-						$is_duplicate = TRUE;
 						log_message('debug', $class.' class already loaded. Second attempt ignored.');
 						return;
 					}
@@ -1164,35 +1161,34 @@ class CI_Loader {
 
 					return $this->_ci_init_class($class, $pre, $params, $object_name);
 				}
-			}
+		   	}
+		}
 
-			// Lets search for the requested library file and load it.
-			$is_duplicate = FALSE;
-			foreach ($this->_ci_library_paths as $path)
+		// Let's search for the requested library file and load it.
+		foreach ($this->_ci_library_paths as $path)
+		{
+			// Try both upper- and lower-class in path subdirectory
+            $path .= 'libraries/'.$subdir;
+			foreach (array(ucfirst($class), strtolower($class)) as $class)
 			{
-				$filepath = $path.'libraries/'.$subdir.$class.'.php';
-
 				// Does the file exist? No? Bummer...
-				if ( ! file_exists($filepath))
+				$file = $path.$class.'.php';
+				if ( ! file_exists($file))
 				{
 					continue;
 				}
 
 				// Safety: Was the class already loaded by a previous call?
-				if (in_array($filepath, $this->_ci_loaded_files))
+				if (in_array($file, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied. If so, we'll
 					// return a new instance of the object
-					if ( ! is_null($object_name))
+					if ( ! is_null($object_name) && ! isset($this->CI->$object_name))
 					{
-						if ( ! isset($this->CI->$object_name))
-						{
-							return $this->_ci_init_class($class, '', $params, $object_name);
-						}
+						return $this->_ci_init_class($class, '', $params, $object_name);
 					}
 
-					$is_duplicate = TRUE;
 					log_message('debug', $class.' class already loaded. Second attempt ignored.');
 					return;
 				}
@@ -1204,11 +1200,11 @@ class CI_Loader {
 					require $this->_ci_base_path.'libraries/Driver.php';
 				}
 
-				include_once($filepath);
-				$this->_ci_loaded_files[] = $filepath;
+				include_once($file);
+				$this->_ci_loaded_files[] = $file;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
-		} // END FOREACH
+		}
 
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
 		if ($subdir === '')
@@ -1224,12 +1220,9 @@ class CI_Loader {
 		}
 
 		// If we got this far we were unable to find the requested class.
-		// We do not issue errors if the load call failed due to a duplicate request
-		if ($is_duplicate === FALSE)
-		{
-			log_message('error', 'Unable to load the requested class: '.$class);
-			show_error('Unable to load the requested class: '.$class);
-		}
+		$msg = 'Unable to load the requested class: '.$class;
+		log_message('error', $msg);
+		show_error($msg);
 	}
 
 	// --------------------------------------------------------------------

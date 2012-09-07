@@ -19,5 +19,10 @@ class CI_TestConfig {
 	{
 		return $this->to_get;
 	}
+
+	public function to_get($config)
+	{
+		$this->to_get = $config;
+	}
 }
 

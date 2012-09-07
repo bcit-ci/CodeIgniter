@@ -17,9 +17,9 @@ class Mock_Core_Loader extends CI_Loader {
 	{
 		// Get VFS paths from test case
 		$test = CI_TestCase::instance();
-		$this->_ci_base_path = $test->base_path;
-		$this->_ci_app_path = $test->app_path;
-		$this->_ci_view_path = $test->view_path;
+		$this->_ci_base_path = $test->ci_base_path;
+		$this->_ci_app_path = $test->ci_app_path;
+		$this->_ci_view_path = $test->ci_view_path;
 
 		// Run parent constructor
 		parent::__construct();
