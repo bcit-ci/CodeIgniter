@@ -201,6 +201,7 @@ Release Date: Not Released
 	 -  Added support for setting custom attributes.
 	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
+    -  Removed the default ``&nbsp;`` from a number of the configuration variables.
    -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
 
 -  Core
