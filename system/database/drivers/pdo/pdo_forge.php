@@ -122,7 +122,7 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 					? $this->db->escape_identifiers($key)
 					: array($this->db->escape_identifiers($key));
 
-				$sql .= ",\n\tFOREIGN KEY (".implode(', ', $key).')';
+				$sql .= ",\n\tKEY (".implode(', ', $key).')';
 			}
 		}
 
