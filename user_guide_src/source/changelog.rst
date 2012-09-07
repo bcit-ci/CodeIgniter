@@ -143,6 +143,7 @@ Release Date: Not Released
    -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
    -  Added client compression support for MySQL and MySQLi.
+   -  Removed Loader class from Database error to better find the likely culprit.
 
 -  Libraries
 
