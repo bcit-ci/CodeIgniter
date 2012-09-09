@@ -22,7 +22,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'input'		=> 'in',
 		'lang'		=> 'lang',
 		'loader'	=> 'load',
-		'model'		=> 'model'
+		'model'		=> 'model',
+		'controller'=> 'ctlr'
 	);
 
 	// --------------------------------------------------------------------

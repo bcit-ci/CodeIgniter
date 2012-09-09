@@ -13,15 +13,54 @@ class Loader_test extends CI_TestCase {
 		$this->ci_view_root = vfsStream::newDirectory('views')->at($this->ci_vfs_root);
 		$this->ci_view_path = vfsStream::url('views/');
 
-		// Set up config
-		$this->subclass = 'MY_';
-		$this->ci_set_config('subclass_prefix', $this->subclass);
+		// Determine if we need core support methods
+		if (strpos($this->getName(), 'controller') !== FALSE) {
+			// Create CI mockup
+			$class = 'Mock_Loader_CI';
+			if ( ! class_exists($class))
+			{
+				$code = 'class '.$class.' { '.
+					'public function call_controller($class, $method, $args, $name, $return) '.
+						'{ $this->_ctlr_ran = $method; return $return ? $this->_ctlr_result : TRUE; } '.
+					'public function get_controller_output(&$out, $class, $method, $args, $name) '.
+						'{ $this->_ctlr_ran = $method; $out = $this->_ctlr_output; return TRUE; } '.
+				'}';
+				eval($code);
+			}
+			$this->ci_obj = new $class();
 
-		// Get CI instance and set empty autoload.php contents and path sources
-		$this->ci_obj = $this->ci_instance();
+			// Initialize support flags
+			$this->_ctlr_ran = FALSE; 
+			$this->_ctlr_result = TRUE;
+			$this->_ctlr_output = '';
+
+			// Create router mockup
+			$class = 'Mock_Loader_Router';
+			if ( ! class_exists($class))
+			{
+				$code = 'class '.$class.' { const SEG_METHOD = 4; '.
+					'public function validate_route($route) { return $this->_valid_route; } }';
+				eval($code);
+			}
+			$this->ci_obj->router = new $class();
+
+			// Initialize route to return
+			$this->ci_obj->router->_valid_route = array();
+		}
+		else {
+			// Just get the default instance
+			$this->ci_obj = $this->ci_instance();
+		}
+
+		// Set up CI instance with empty autoload.php contents and path sources
 		$this->ci_obj->_autoload = array();
 		$this->ci_obj->base_paths = array($this->ci_app_path, $this->ci_base_path);
 		$this->ci_obj->app_paths = array($this->ci_app_path);
+		$this->ci_instance($this->ci_obj);
+
+		// Set up config
+		$this->subclass = 'MY_';
+		$this->ci_set_config('subclass_prefix', $this->subclass);
 
 		// Instantiate a new loader
 		$this->load = new Mock_Core_Loader();
@@ -30,7 +69,20 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::library
+	 * @covers	CI_Loader::__construct
+	 * @covers	CI_Loader::get_package_paths
+	 */
+	public function test_ctor()
+	{
+		// Did we get paths from the core?
+		$this->assertEquals($this->ci_obj->base_paths, $this->load->get_package_paths(TRUE));
+		$this->assertEquals($this->ci_obj->app_paths, $this->load->get_package_paths());
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * @covers	CI_Loader::library
 	 */
 	public function test_library()
 	{
@@ -54,7 +106,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::library
+	 * @covers	CI_Loader::library
 	 */
 	public function test_library_config()
 	{
@@ -92,7 +144,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::library
+	 * @covers	CI_Loader::library
 	 */
 	public function test_load_library_in_application_dir()
 	{
@@ -123,7 +175,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create($class, $this->_empty($class), $this->ci_base_root, 'libraries');
 
 		// Create library subclass in app path libraries directory
-		$content = '<?php class '.$this->subclass.$class.' extends '.$class.' {  } ';
+		$content = $this->_empty($this->subclass.$class, $class);
 		$this->ci_vfs_create($this->subclass.$lib, $content, $this->ci_app_root, 'libraries');
 
 		// Load library
@@ -140,7 +192,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::driver
+	 * @covers	CI_Loader::driver
 	 */
 	public function test_driver()
 	{
@@ -172,34 +224,21 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::model
+	 * @covers	CI_Loader::model
 	 */
-	public function test_non_existent_model()
+	public function test_model()
 	{
-		$model = 'ci_test_nonexistent_model.php';
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('model');
 
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to locate the model you have specified: '.$model
-		);
-		$this->load->model($model);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * @covers CI_Loader::model
-	 */
-	public function test_models()
-	{
 		// Create models directory with test model
 		$model = 'unit_test_model';
 		$base = 'CI_Model';
 		$class = ucfirst($model);
-		$this->ci_vfs_create($model, '<?php class '.$class.' extends '.$base.' {} ', $this->ci_app_root, 'models');
+		$this->ci_vfs_create($model, $this->_empty($class, $base), $this->ci_app_root, 'models');
 
-		// Load model
-		$this->assertNull($this->load->model($model));
+		// Load model as array
+		$this->assertNull($this->load->model(array($model)));
 
 		// Was the model class instantiated?
 		$this->assertTrue(class_exists($class));
@@ -213,6 +252,61 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * @covers	CI_Loader::model
+	 */
+	public function test_model_subdir()
+	{
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('model');
+
+		// Create models subdirectory with test model
+		$model = 'test_sub_model';
+		$base = 'CI_Model';
+		$class = ucfirst($model);
+		$subdir = 'cars';
+		$this->ci_vfs_create($model, $this->_empty($class, $base), $this->ci_app_root, 'models', $subdir);
+
+		// Load model
+		$name = 'testors';
+		$this->assertNull($this->load->model($subdir.'/'.$model, $name));
+
+		// Was the model class instantiated?
+		$this->assertTrue(class_exists($class));
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
+		$this->assertAttributeInstanceOf($base, $name, $this->ci_obj);
+		$this->assertAttributeInstanceOf($class, $name, $this->ci_obj);
+
+		// Test name conflict
+		$obj = 'conflict';
+		$this->ci_obj->$obj = new StdClass();
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: The model name you are loading is the name of a resource that is already being used: '.$obj
+		);
+		$this->load->model('not_real', $obj);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * @covers	CI_Loader::model
+	 */
+	public function test_non_existent_model()
+	{
+		// Set expected exception
+		$model = 'ci_test_nonexistent_model.php';
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Unable to locate the model you have specified: '.$model
+		);
+
+		// Try to load model
+		$this->load->model($model);
+	}
+
+	// --------------------------------------------------------------------
+
 	// public function testDatabase()
 	// {
 	// 	$this->assertEquals(NULL, $this->load->database());
@@ -222,7 +316,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::view
+	 * @covers	CI_Loader::view
 	 */
 	public function test_load_view()
 	{
@@ -239,28 +333,160 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::view
+	 * @covers	CI_Loader::view
 	 */
 	public function test_non_existent_view()
 	{
+		// Set expected exception
 		$view = 'ci_test_nonexistent_view';
-
 		$this->setExpectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested file: '.$view.'.php'
 		);
 
+		// Try to load the view
 		$this->load->view($view, array('foo' => 'bar'));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::file
+	 * @covers	CI_Loader::controller
+	 */
+	public function test_controller()
+	{
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('ctlr');
+
+		// Create controller in VFS
+		$class = 'TestCtlr';
+		$method = 'test_handler';
+		$name = strtolower($class);
+		$this->ci_vfs_create($name, $this->_empty($class), $this->ci_app_root, 'controllers');
+
+		// Create route stack to return
+		$this->ci_obj->router->_valid_route = array(
+			$this->ci_app_path,
+			'',
+			$class,
+			$method
+		);
+
+		// Did the controller get loaded?
+		$this->assertTrue($this->load->controller($class.'/'.$method));
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
+		$this->assertAttributeInstanceOf($class, $name, $this->ci_obj);
+
+		// Did the correct method get called?
+		$this->assertEquals($method, $this->ci_obj->_ctlr_ran);
+
+		// Do we get FALSE for an empty route?
+		$this->assertFalse($this->load->controller(''));
+
+		// Do we get FALSE for an invalid stack?
+		$this->assertFalse($this->load->controller(array('foo', 'bar', 'baz')));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * @covers	CI_Loader::controller
+	 */
+	public function test_controller_result()
+	{
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('ctlr');
+
+		// Create controller in subdirectory of VFS
+		$subdir = 'special';
+		$class = 'TestResultCtlr';
+		$method = 'result_handler';
+		$this->ci_vfs_create(strtolower($class), $this->_empty($class), $this->ci_app_root, 'controllers', $subdir);
+
+		// Create route stack to pass
+		$route = array(
+			$this->ci_app_path,
+			$subdir.'/',
+			$class,
+			$method
+		);
+
+		// Set object name and method result
+		$name = 'flock';
+		$result = 'I ran (so far away)';
+		$this->ci_obj->_ctlr_result = $result;
+
+		// Was the result returned?
+		$this->assertEquals($result, $this->load->controller($route, $name, TRUE));
+
+		// Did the controller get loaded?
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
+		$this->assertAttributeInstanceOf($class, $name, $this->ci_obj);
+
+		// Did the correct method get called?
+		$this->assertEquals($method, $this->ci_obj->_ctlr_ran);
+
+		// Does it skip the call if we tell it to?
+		$route[3] = 'not_a_handler';
+		$this->ci_obj->_ctlr_ran = FALSE;
+		$this->assertTrue($this->load->controller($route, $name, FALSE));
+		$this->assertFalse($this->ci_obj->_ctlr_ran);
+
+		// Do we get NULL as a result for an empty route?
+		$this->assertNull($this->load->controller('', NULL, TRUE));
+
+		// Do we get NULL as a result for an invalid stack?
+		$this->assertNull($this->load->controller(array('foo', 'bar', 'baz'), NULL, TRUE));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * @covers	CI_Loader::controller
+	 */
+	public function test_controller_output()
+	{
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('ctlr');
+
+		// Create controller in VFS
+		$class = 'TestOutCtlr';
+		$method = 'output_handler';
+		$name = strtolower($class);
+		$this->ci_vfs_create($name, $this->_empty($class), $this->ci_app_root, 'controllers');
+
+		// Create route stack to pass
+		$route = array(
+			$this->ci_app_path,
+			'',
+			$class,
+			$method
+		);
+
+		// Create output to generate
+		$expected = 'Don\'t panic.';
+		$this->ci_obj->_ctlr_output = $expected;
+
+		// Did the controller get loaded?
+		$this->assertTrue($this->load->controller_output($out, $route));
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
+		$this->assertAttributeInstanceOf($class, $name, $this->ci_obj);
+
+		// Did the correct method get called?
+		$this->assertEquals($method, $this->ci_obj->_ctlr_ran);
+
+		// Was the output returned?
+		$this->assertEquals($expected, $out);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * @covers	CI_Loader::file
 	 */
 	public function test_file()
 	{
-		// Create views directory with test file
+		// Create subdirectory with test file
 		$dir = 'views';
 		$file = 'ci_test_mock_file';
 		$content = 'Here is a test file, which we will load now.';
@@ -282,7 +508,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::vars
+	 * @covers	CI_Loader::vars
 	 */
 	public function test_vars()
 	{
@@ -293,7 +519,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::helper
+	 * @covers	CI_Loader::helper
 	 */
 	public function test_helper()
 	{
@@ -319,7 +545,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::helper
+	 * @covers	CI_Loader::helper
 	 */
 	public function test_loading_multiple_helpers()
 	{
@@ -347,17 +573,30 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	// public function testLanguage()
-	// {
-	// 	$this->assertEquals(NULL, $this->load->language('test'));
-	// }
+	/**
+	 * @covers	CI_Loader::language
+	 */
+	public function test_language()
+	{
+		// Create mock Lang class with load stub
+		$class = 'Mock_Load_Lang';
+		$prop = '_file';
+		eval('class '.$class.' { public function load($file, $lang) { $this->'.$prop.' = $file; } }');
+		$this->ci_instance_var('lang', new $class());
+
+		// Does the right file get loaded?
+		$file = 'test';
+		$this->assertNull($this->load->language($file));
+		$this->assertObjectHasAttribute($prop, $this->ci_obj->lang);
+		$this->assertEquals($file, $this->ci_obj->lang->$prop);
+	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::add_package_path
-	 * @covers CI_Loader::get_package_paths
-	 * @covers CI_Loader::remove_package_path
+	 * @covers	CI_Loader::add_package_path
+	 * @covers	CI_Loader::get_package_paths
+	 * @covers	CI_Loader::remove_package_path
 	 */
 	public function test_packages()
 	{
@@ -392,7 +631,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::config
+	 * @covers	CI_Loader::config
 	 */
 	public function test_load_config()
 	{
@@ -402,7 +641,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers CI_Loader::_ci_autoloader
+	 * @covers	CI_Loader::_ci_autoloader
 	 */
 	public function test_autoloader()
 	{
@@ -429,7 +668,6 @@ class Loader_test extends CI_TestCase {
 		$model = 'automod';
 		$mod_class = ucfirst($model);
 		$this->ci_vfs_create($model, $this->_empty($mod_class), $this->ci_app_root, $dir, 'models');
-		$this->ci_vfs_create($model, $this->_empty($mod_class), $this->ci_app_root, $dir, 'models');
 
 		// Autoload path since autoloaded packages are handled during bootstrapping
 		$this->load->add_package_path($path);
@@ -454,21 +692,28 @@ class Loader_test extends CI_TestCase {
 
 		// Verify library
 		$this->assertTrue(class_exists($lib_class), $lib_class.' does not exist');
+		$this->assertObjectHasAttribute($lib, $this->ci_obj);
 		$this->assertAttributeInstanceOf($lib_class, $lib, $this->ci_obj);
 
 		// Verify driver
 		$this->assertTrue(class_exists($drv_class), $drv_class.' does not exist');
+		$this->assertObjectHasAttribute($drv, $this->ci_obj);
 		$this->assertAttributeInstanceOf($drv_class, $drv, $this->ci_obj);
 
 		// Verify model
 		$this->assertTrue(class_exists($mod_class), $mod_class.' does not exist');
+		$this->assertObjectHasAttribute($model, $this->ci_obj);
 		$this->assertAttributeInstanceOf($mod_class, $model, $this->ci_obj);
 	}
 
 	// --------------------------------------------------------------------
 
-	private function _empty($class)
+	private function _empty($class, $base = '')
 	{
+		if ( ! empty($base))
+		{
+			$class .= ' extends '.$base;
+		}
 		return '<?php class '.$class.' { } ';
 	}
 

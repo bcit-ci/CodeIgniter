@@ -99,13 +99,6 @@ class CodeIgniter {
 	protected static $instance = NULL;
 
 	/**
-	 * call_controller return scheme constants
-	 */
-	const RET_SUCCESS = 0;
-	const RET_RESULT = 1;
-	const RET_OUTPUT = 2;
-
-	/**
 	 * Constructor
 	 *
 	 * This constructor is protected in order to force instantiation
@@ -495,12 +488,12 @@ class CodeIgniter {
 	 *
 	 * @param	string	Class name
 	 * @param	string	Method
-	 * @param	array	Arguments
+	 * @param	array	Optional arguments
 	 * @param	string	Optional object name
-	 * @param	int	 	Return scheme (RET_SUCCESS|RET_RESULT|RET_OUTPUT)
-	 * @return	mixed	Success (TRUE|FALSE), call result, or output
+	 * @param	bool	TRUE to return call result (or NULL if failed)
+	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $return == TRUE)
 	 */
-	public function call_controller($class, $method, array $args = array(), $name = '', $return = self::RET_SUCCESS)
+	public function call_controller($class, $method, array $args = array(), $name = '', $return = FALSE)
 	{
 		// Default name if not provided
 		if (empty($name))
@@ -511,12 +504,6 @@ class CodeIgniter {
 		// Track whether it ran and what it returned
 		$ran = FALSE;
 		$result = NULL;
-
-		// Capture output if requested
-		if ($return === self::RET_OUTPUT)
-		{
-			$this->output->stack_push();
-		}
 
 		// Class must be loaded, and method cannot start with underscore, nor be a member of the base class
 		if (isset($this->$name) && strncmp($method, '_', 1) != 0 && ! $this->is_callable('CI_Controller', $method))
@@ -536,13 +523,32 @@ class CodeIgniter {
 			}
 		}
 
-		// Return according to scheme
-		switch ($return)
-		{
-			case self::RET_RESULT: return $result;
-			case self::RET_OUTPUT: return $this->output->stack_pop();
-			default: return $ran;
-		}
+		// Return result or success status
+		return $return ? $result : $ran;
+	}
+
+	/**
+	 * Call a controller method and get its output
+	 *
+	 * Requires that controller already be loaded, validates method name, and calls
+	 * _remap if available.
+	 *
+	 * @param	string	Reference to output string
+	 * @param	string	Class name
+	 * @param	string	Method
+	 * @param	array	Optional arguments
+	 * @param	string	Optional object name
+	 * @return	bool	TRUE on success, otherwise FALSE
+	 */
+	public function get_controller_output(&$out, $class, $method, array $args = array(), $name = '')
+	{
+		// Capture output and call controller
+		$this->output->stack_push();
+		$result = $this->call_controller($class, $method, $args, $name);
+		$out = $this->output->stack_pop();
+
+		// Return success or failure
+		return $result;
 	}
 
 	/**

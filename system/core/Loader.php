@@ -241,19 +241,36 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate (sub)controllers.
 	 *
-	 * @access	public
-	 * @param	string	the name of the class
-	 * @param	string	name for the controller
-	 * @param	bool	FALSE to skip calling controller method
-	 * @param	int	 	Return scheme (RET_SUCCESS|RET_RESULT|RET_OUTPUT)
-	 * @return	mixed	Output if $return, TRUE on success, otherwise FALSE
+	 * @param	mixed	Route to controller/method
+	 * @param	string	Optional controller object name
+	 * @param	bool	TRUE to return method result, FALSE to skip calling method
+	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $call == TRUE)
 	 */
-	public function controller($route, $name = NULL, $call = TRUE, $return = CodeIgniter::RET_SUCCESS)
+	public function controller($route, $name = NULL, $call = NULL)
+	{
+		// Set output flag to be passed
+		$out = FALSE;
+		return $this->controller_output($out, $route, $name, $call);
+	}
+
+	/**
+	 * Controller Loader with output capture
+	 *
+	 * This function lets users load and instantiate (sub)controllers and
+	 * return their output as a string.
+	 *
+	 * @param	string	Reference to output string
+	 * @param	mixed	Route to controller/method
+	 * @param	string	Optional controller object name
+	 * @param	bool	TRUE to return method result, FALSE to skip calling method
+	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $call == TRUE)
+	 */
+	public function controller_output(&$out, $route, $name = NULL, $call = NULL)
 	{
 		// Check for missing class
 		if (empty($route))
 		{
-			return FALSE;
+			return $call === TRUE ? NULL : FALSE;
 		}
 
 		// Get instance and establish segment stack
@@ -262,7 +279,7 @@ class CI_Loader {
 			// Assume segments have been pre-parsed by CI_Router::validate_route() - make sure there's 4
 			if (count($route) <= CI_Router::SEG_METHOD)
 			{
-				return FALSE;
+				return $call === TRUE ? NULL : FALSE;
 			}
 		}
 		else
@@ -271,7 +288,7 @@ class CI_Loader {
 			$route = $this->CI->router->validate_route(explode('/', $route));
 			if ($route === FALSE)
 			{
-				return FALSE;
+				return $call === TRUE ? NULL : FALSE;
 			}
 		}
 
@@ -306,37 +323,11 @@ class CI_Loader {
 			// Load base class(es) if not already done
 			if ( ! class_exists('CI_Controller'))
 			{
-				// Locate base class
-				foreach ($this->_ci_library_paths as $lib_path)
-				{
-					$file = $lib_path.'core/Controller.php';
-					if (file_exists($file))
-					{
-						// Include class source
-						include $file;
-						break;
-					}
-				}
-
-				// Check for subclass
-				$pre = $this->CI->config->item('subclass_prefix');
-				if ( ! empty($pre))
-				{
-					// Locate subclass
-					foreach ($this->_ci_mvc_paths as $mvc_path => $cascade)
-					{
-						$file = $mvc_path.'core/'.$pre.'Controller.php';
-						if (file_exists($file))
-						{
-							// Include class source
-							include($file);
-							break;
-						}
-					}
-				}
+				$this->_ci_include('Controller', 'core');
 			}
 
 			// Include source and instantiate object
+			// The Router is responsible for providing a valid path in the route stack
 			include($path.'controllers/'.$subdir.strtolower($class).'.php');
 			$classnm = ucfirst($class);
 			$this->CI->$name = new $classnm();
@@ -345,13 +336,22 @@ class CI_Loader {
 			$this->_ci_controllers[] = $name;
 		}
 
-		// Call method unless disabled
-		if ($call)
+		// Check call and output flags
+		if ($call === FALSE)
 		{
-			return $this->CI->call_controller($class, $method, $route, $name, $return);
+			// Call disabled - return success
+			return TRUE;
 		}
-
-		return TRUE;
+		else if ($out === FALSE)
+		{
+			// No output - just return result or success status
+			return $this->CI->call_controller($class, $method, $route, $name, (bool)$call);
+		}
+		else
+		{
+			// Get output and return success status
+			return $this->CI->get_controller_output($out, $class, $method, $route, $name);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -428,34 +428,7 @@ class CI_Loader {
 		// Load base class(es) if not already done
 		if ( ! class_exists('CI_Model'))
 		{
-			// Locate base class
-			foreach ($this->_ci_library_paths as $lib)
-			{
-				$file = $lib.'core/Model.php';
-				if (file_exists($file))
-				{
-					// Include class source
-					include($file);
-					break;
-				}
-			}
-
-			// Check for subclass
-			$pre = $this->CI->config->item('subclass_prefix');
-			if (!empty($pre))
-			{
-				// Locate subclass
-				foreach ($this->_ci_mvc_paths as $lib => $cascade)
-				{
-					$file = $lib.'core/'.$pre.'Model.php';
-					if (file_exists($file))
-					{
-						// Include class source
-						include($file);
-						break;
-					}
-				}
-			}
+			$this->_ci_include('Model', 'core');
 		}
 
 		// Search MVC paths for model
@@ -700,47 +673,13 @@ class CI_Loader {
 			return;
 		}
 
-		// Is this a helper extension request?
-		$file = 'helpers/'.$this->CI->config->item('subclass_prefix').$helper.'.php';
-		foreach ($this->_ci_library_paths as $path)
+		// Include helper with any subclass extension
+		if ($this->_ci_include($helper, 'helpers'))
 		{
-			// Check each path for extension
-			$ext_helper = $path.$file;
-			if (file_exists($ext_helper))
-			{
-				// Extension found - require base class
-				$base_helper = $this->_ci_base_path.'helpers/'.$helper.'.php';
-				if ( ! file_exists($base_helper))
-				{
-					show_error('Unable to load the requested file: helpers/'.$helper.'.php');
-				}
-
-				// Include extension followed by base, so extension overrides base functions
-				include_once($ext_helper);
-				include_once($base_helper);
-
-				// Mark as loaded and return
-				$this->_ci_helpers[$helper] = TRUE;
-				log_message('debug', 'Helper loaded: '.$helper);
-				return;
-			}
-		}
-
-		// Try to load the helper
-		$file = 'helpers/'.$helper.'.php';
-		foreach ($this->_ci_library_paths as $path)
-		{
-			// Check each path for helper
-			if (file_exists($path.$file))
-			{
-				// Include helper
-				include_once($path.$file);
-
-				// Mark as loaded and return
-				$this->_ci_helpers[$helper] = TRUE;
-				log_message('debug', 'Helper loaded: '.$helper);
-				return;
-			}
+			// Mark as loaded and return
+			$this->_ci_helpers[$helper] = TRUE;
+			log_message('debug', 'Helper loaded: '.$helper);
+			return;
 		}
 
 		// Unable to load the helper
@@ -937,7 +876,65 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Loader
+	 * Include a file from package paths
+	 *
+	 * This function includes a prefixed subclass file if found, and its base file
+	 *
+	 * @param	string	File name
+	 * @param	string	Search directory
+	 * @return	void
+	 */
+	protected function _ci_include($name, $dir)
+	{
+		// Get subclass prefix and build relative file name
+		$pre = $this->CI->config->item('subclass_prefix');
+		$file = $dir.'/'.$pre.$name.'.php';
+
+		// Search all paths for subclass extension
+		foreach ($this->_ci_library_paths as $path)
+		{
+			// Check each path for extension
+			$path .= $file;
+			if (file_exists($path))
+			{
+				// Extension found - require base file
+				$base = $this->_ci_base_path.$dir.'/'.$name.'.php';
+				if ( ! file_exists($base))
+				{
+					// No base for extension found
+					return FALSE;
+				}
+
+				// Include extension followed by base, so extension overrides base functions
+				// If this is for a base class, the order won't matter
+				include_once($path);
+				include_once($base);
+				return TRUE;
+			}
+		}
+
+		// Search all paths for the regular file
+		$file = $dir.'/'.$name.'.php';
+		foreach ($this->_ci_library_paths as $path)
+		{
+			// Check each path for base
+			$path .= $file;
+			if (file_exists($path))
+			{
+				// Include file
+				include_once($path);
+				return TRUE;
+			}
+		}
+
+		// File not found
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * File/View Loader
 	 *
 	 * This function is used to load views and files.
 	 * Variables are prefixed with _ci_ to avoid symbol collision with
@@ -1168,7 +1165,7 @@ class CI_Loader {
 		foreach ($this->_ci_library_paths as $path)
 		{
 			// Try both upper- and lower-class in path subdirectory
-            $path .= 'libraries/'.$subdir;
+			$path .= 'libraries/'.$subdir;
 			foreach (array(ucfirst($class), strtolower($class)) as $class)
 			{
 				// Does the file exist? No? Bummer...
