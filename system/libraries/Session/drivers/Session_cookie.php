@@ -512,9 +512,6 @@ class CI_Session_cookie extends CI_Session_driver {
 			// Add empty user_data field and save the data to the DB
 			$this->CI->db->set('user_data', '')->insert($this->sess_table_name, $this->userdata);
 		}
-
-		// Write the cookie
-		$this->_set_cookie();
 	}
 
 	// ------------------------------------------------------------------------
@@ -555,9 +552,6 @@ class CI_Session_cookie extends CI_Session_driver {
 					 'session_id' => $this->userdata['session_id']
 			), array('session_id' => $old_sessid));
 		}
-
-		// Write the cookie
-		$this->_set_cookie();
 	}
 
 	// ------------------------------------------------------------------------

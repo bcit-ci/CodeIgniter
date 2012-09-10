@@ -420,6 +420,11 @@ class CI_Output {
 			}
 		}
 
+		if($CI->session) {
+			// Save the session. If using session cookies, this ensures only one "Set-Cookie" header is sent
+			$CI->session->get_driver()->sess_save();
+		}
+
 		// --------------------------------------------------------------------
 
 		// Does the $CI object exist?
