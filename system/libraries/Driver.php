@@ -37,7 +37,7 @@
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Driver_Library {
+abstract class CI_Driver_Library {
 
 	/**
 	 * Array of drivers that are available to use with the driver class
@@ -52,6 +52,13 @@ class CI_Driver_Library {
 	 * @var string
 	 */
 	protected $lib_name;
+
+	/**
+	 * Name of the base class
+	 *
+	 * @var string
+	 */
+	protected $base_name;
 
 	/**
 	 * Get magic method
@@ -80,43 +87,54 @@ class CI_Driver_Library {
 	{
 		if ( ! isset($this->lib_name))
 		{
+			// Get both the current class (extension) and the base driver library class
 			$this->lib_name = get_class($this);
+			$this->base_name = $this->_get_base();
 		}
 
-		// The class will be prefixed with the parent lib
-		$child_class = $this->lib_name.'_'.$child;
-
-		// Remove the CI_ prefix and lowercase
-		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-
-		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
+		if (in_array($child, array_map('strtolower', $this->valid_drivers)))
 		{
-			// check and see if the driver is in a separate file
-			if ( ! class_exists($child_class))
+			$found = FALSE;
+			foreach (array($this->lib_name, $this->base_name) as $lib_name)
 			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
-				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+				// The class will be prefixed with the parent lib
+				$child_class = $lib_name.'_'.$child;
 
-						if (file_exists($filepath))
+				// Remove the CI_ prefix and lowercase
+				$base_name = ucfirst(strtolower(str_replace('CI_', '', $this->base_name)));
+				$driver_name = strtolower(str_replace('CI_', '', $child_class));
+
+				// Check and see if the driver is in a separate file
+				error_log('Checking for '.$child_class.' in '.$base_name);
+				if ( ! class_exists($child_class))
+				{
+					// Check application path first
+					foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+					{
+						// Check upper- and lower-case names
+						foreach (array(ucfirst($driver_name), $driver_name) as $class)
 						{
-							include_once $filepath;
-							break 2;
+							$filepath = $path.'libraries/'.$base_name.'/drivers/'.$class.'.php';
+
+							if (file_exists($filepath))
+							{
+								include_once $filepath;
+								if (class_exists($child_class))
+								{
+									$found = TRUE;
+									break 3;
+								}
+							}
 						}
 					}
 				}
+			}
 
-				// it's a valid driver, but the file simply can't be found
-				if ( ! class_exists($child_class))
-				{
-					log_message('error', 'Unable to load the requested driver: '.$child_class);
-					show_error('Unable to load the requested driver: '.$child_class);
-				}
+			// It's a valid driver, but the file simply can't be found
+			if ( ! $found)
+			{
+				log_message('error', 'Unable to load the requested driver: '.$child_class);
+				show_error('Unable to load the requested driver: '.$child_class);
 			}
 
 			$obj = new $child_class;
@@ -129,6 +147,15 @@ class CI_Driver_Library {
 		log_message('error', 'Invalid driver requested: '.$child_class);
 		show_error('Invalid driver requested: '.$child_class);
 	}
+
+	/**
+	 * Get base driver library class
+	 *
+	 * Each driver library MUST implement this abstract method!
+	 * The implementation should look like:
+	 *	protected function _get_base() { return __CLASS__; }
+	 */
+	abstract protected function _get_base();
 
 }
 

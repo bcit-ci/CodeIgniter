@@ -60,8 +60,8 @@ class Session_test extends CI_TestCase {
 			'cookie_prefix' => '',
 			'encryption_key' => 'foobar',
 			'sess_valid_drivers' => array(
-				'Mock_Libraries_Session_native',
-			   	'Mock_Libraries_Session_cookie'
+				'native',
+			   	'cookie'
 			)
 		);
 		$this->session = new Mock_Libraries_Session($config);
