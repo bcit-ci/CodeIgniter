@@ -127,13 +127,6 @@ class CI_Session extends CI_Driver_Library {
 
 	// ------------------------------------------------------------------------
 
-	protected function _get_base()
-	{
-		return __CLASS__;
-	}
-
-	// ------------------------------------------------------------------------
-
 	/**
 	 * Loads session storage driver
 	 *
@@ -153,13 +146,13 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Select default session storage driver
 	 *
-	 * @param	string	Driver classname
+	 * @param	string	Driver name
 	 * @return	void
 	 */
 	public function select_driver($driver)
 	{
 		// Validate driver name
-		$child = strtolower(str_replace(array('CI_', $this->lib_name, $this->base_name), '', $driver));
+		$child = strtolower(str_replace(array('CI_', $this->subclass_prefix, $this->lib_name.'_'), '', $driver));
 		if (in_array($child, array_map('strtolower', $this->valid_drivers)))
 		{
 			// See if driver is loaded

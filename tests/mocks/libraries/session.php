@@ -36,8 +36,3 @@ class Mock_Libraries_Session_cookie extends CI_Session_cookie {
 	}
 }
 
-/**
- * Mock native driver (just for consistency in loading)
- */
-//class Mock_Libraries_Session_native extends CI_Session_native { }
-

@@ -918,99 +918,117 @@ class CI_Loader {
 			}
 		}
 
+		// Establish subdirectories to try - if one was specified, just use that
+		$trysubs = array($subdir);
+		if ($subdir == '')
+		{
+			// Also check subdirectories matching class name
+			$dir = strtolower($class).'/';
+			$trysubs[] = ucfirst($dir);
+		   	$trysubs[] = $dir;
+		}
+
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
-
 			// Is this a class extension request?
-			if (file_exists($subclass))
+			foreach($trysubs as $dir)
 			{
-				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
-
-				if ( ! file_exists($baseclass))
+				// Check each path for an extension file
+				$subclass = APPPATH.'libraries/'.$dir.config_item('subclass_prefix').$class.'.php';
+				if (file_exists($subclass))
 				{
-					log_message('error', 'Unable to load the requested class: '.$class);
-					show_error('Unable to load the requested class: '.$class);
-				}
-
-				// Safety: Was the class already loaded by a previous call?
-				if (in_array($subclass, $this->_ci_loaded_files))
-				{
-					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied. If so, we'll
-					// return a new instance of the object
-					if ( ! is_null($object_name))
+					// Found it - check paths for the base
+					// The second loop here allows us to match an extension in
+					// the libraries root with a base in a subdirectory (like a driver!)
+					$found = FALSE;
+					foreach ($trysubs as $dir)
 					{
-						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
+						$baseclass = BASEPATH.'libraries/'.$dir.ucfirst($class).'.php';
+						if (file_exists($baseclass))
 						{
-							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
+							$found = TRUE;
+							break;
 						}
 					}
 
-					$is_duplicate = TRUE;
-					log_message('debug', $class.' class already loaded. Second attempt ignored.');
-					return;
+					if ( ! $found)
+					{
+						// No base matches extension - bail
+						$msg = 'Unable to load the requested class: '.$class;
+						log_message('error', $msg);
+						show_error($msg);
+					}
+
+					// Safety: Was the class already loaded by a previous call?
+					if (in_array($subclass, $this->_ci_loaded_files))
+					{
+						// Before we deem this to be a duplicate request, let's see
+						// if a custom object name is being supplied. If so, we'll
+						// return a new instance of the object
+						if ( ! is_null($object_name))
+						{
+							$CI =& get_instance();
+							if ( ! isset($CI->$object_name))
+							{
+							   	return $this->_ci_init_class($class, config_item('subclass_prefix'), $params,
+									$object_name);
+							}
+						}
+
+						$is_duplicate = TRUE;
+						log_message('debug', $class.' class already loaded. Second attempt ignored.');
+						return;
+					}
+
+					include_once($baseclass);
+					include_once($subclass);
+					$this->_ci_loaded_files[] = $subclass;
+
+					return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 				}
-
-				include_once($baseclass);
-				include_once($subclass);
-				$this->_ci_loaded_files[] = $subclass;
-
-				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
 
 			// Lets search for the requested library file and load it.
 			$is_duplicate = FALSE;
 			foreach ($this->_ci_library_paths as $path)
 			{
-				$filepath = $path.'libraries/'.$subdir.$class.'.php';
-
-				// Does the file exist? No? Bummer...
-				if ( ! file_exists($filepath))
+				foreach ($trysubs as $dir)
 				{
-					continue;
-				}
+					$filepath = $path.'libraries/'.$dir.$class.'.php';
 
-				// Safety: Was the class already loaded by a previous call?
-				if (in_array($filepath, $this->_ci_loaded_files))
-				{
-					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied. If so, we'll
-					// return a new instance of the object
-					if ( ! is_null($object_name))
+					// Does the file exist? No? Bummer...
+					if ( ! file_exists($filepath))
 					{
-						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
-						{
-							return $this->_ci_init_class($class, '', $params, $object_name);
-						}
+						continue;
 					}
 
-					$is_duplicate = TRUE;
-					log_message('debug', $class.' class already loaded. Second attempt ignored.');
-					return;
-				}
+					// Safety: Was the class already loaded by a previous call?
+					if (in_array($filepath, $this->_ci_loaded_files))
+					{
+						// Before we deem this to be a duplicate request, let's see
+						// if a custom object name is being supplied. If so, we'll
+						// return a new instance of the object
+						if ( ! is_null($object_name))
+						{
+							$CI =& get_instance();
+							if ( ! isset($CI->$object_name))
+							{
+								return $this->_ci_init_class($class, '', $params, $object_name);
+							}
+						}
 
-				include_once($filepath);
-				$this->_ci_loaded_files[] = $filepath;
-				return $this->_ci_init_class($class, '', $params, $object_name);
+						$is_duplicate = TRUE;
+						log_message('debug', $class.' class already loaded. Second attempt ignored.');
+						return;
+					}
+
+					include_once($filepath);
+					$this->_ci_loaded_files[] = $filepath;
+					return $this->_ci_init_class($class, '', $params, $object_name);
+				}
 			}
 		} // END FOREACH
-
-		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
-		if ($subdir === '')
-		{
-			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params, $object_name);
-		}
-		else if (ucfirst($subdir) != $subdir)
-		{
-			// Lowercase subdir failed - retry capitalized
-			$path = ucfirst($subdir).$class;
-			return $this->_ci_load_class($path, $params, $object_name);
-		}
 
 		// If we got this far we were unable to find the requested class.
 		// We do not issue errors if the load call failed due to a duplicate request
