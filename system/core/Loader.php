@@ -909,13 +909,6 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
-
-			// Check for match and driver base class
-			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
-			{
-				// We aren't instantiating an object here, just making the base class available
-				require BASEPATH.'libraries/Driver.php';
-			}
 		}
 
 		// Establish subdirectories to try - if one was specified, just use that
@@ -942,9 +935,9 @@ class CI_Loader {
 					// The second loop here allows us to match an extension in
 					// the libraries root with a base in a subdirectory (like a driver!)
 					$found = FALSE;
-					foreach ($trysubs as $dir)
+					foreach ($trysubs as $basesub)
 					{
-						$baseclass = BASEPATH.'libraries/'.$dir.ucfirst($class).'.php';
+						$baseclass = BASEPATH.'libraries/'.$basesub.ucfirst($class).'.php';
 						if (file_exists($baseclass))
 						{
 							$found = TRUE;
@@ -958,6 +951,15 @@ class CI_Loader {
 						$msg = 'Unable to load the requested class: '.$class;
 						log_message('error', $msg);
 						show_error($msg);
+					}
+
+					// Does this look like a driver?
+					$driversub = strtolower($class).'/';
+					if ((strtolower($dir) == $driversub || strtolower($basesub) == $driversub)
+					&& ! class_exists('CI_Driver_Library'))
+					{
+						// We aren't instantiating an object here, just making the base class available
+						require BASEPATH.'libraries/Driver.php';
 					}
 
 					// Safety: Was the class already loaded by a previous call?
@@ -981,8 +983,8 @@ class CI_Loader {
 						return;
 					}
 
-					include_once($baseclass);
-					include_once($subclass);
+					include($baseclass);
+					include($subclass);
 					$this->_ci_loaded_files[] = $subclass;
 
 					return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
@@ -1001,6 +1003,13 @@ class CI_Loader {
 					if ( ! file_exists($filepath))
 					{
 						continue;
+					}
+
+					// Does this look like a driver?
+					if (strtolower($dir) == strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
+					{
+						// We aren't instantiating an object here, just making the base class available
+						require BASEPATH.'libraries/Driver.php';
 					}
 
 					// Safety: Was the class already loaded by a previous call?
@@ -1023,7 +1032,7 @@ class CI_Loader {
 						return;
 					}
 
-					include_once($filepath);
+					include($filepath);
 					$this->_ci_loaded_files[] = $filepath;
 					return $this->_ci_init_class($class, '', $params, $object_name);
 				}
