@@ -382,46 +382,63 @@ if ( ! function_exists('auto_link'))
 	 */
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
-		if ($type !== 'email' && preg_match_all('#(^|\s|\(|\b)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i', $str, $matches))
+		if ($type != 'email')
 		{
-			$pop = ($popup) ? ' target="_blank" ' : '';
-
-			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+			if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
 			{
-				if (preg_match('|\.$|', $matches[6][$i]))
-				{
-					$period = '.';
-					$matches[6][$i] = substr($matches[6][$i], 0, -1);
-				}
-				else
+				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
+
+				for ($i = 0; $i < count($matches['0']); $i++)
 				{
 					$period = '';
-				}
+					if (preg_match("|\.$|", $matches['6'][$i]))
+					{
+						$period = '.';
+						$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
+					}
 
-				$str = str_replace($matches[0][$i],
-							$matches[1][$i].'<a href="http'.$matches[4][$i].'://'
-								.$matches[5][$i].$matches[6][$i].'"'.$pop.'>http'
-								.$matches[4][$i].'://'.$matches[5][$i]
-								.$matches[6][$i].'</a>'.$period,
-							$str);
+					$comma = '';
+					if (preg_match("|\,$|", $matches['6'][$i]))
+					{
+						$comma = ',';
+						$matches['6'][$i] = substr($matches['6'][$i], 0, -1);
+					}
+
+					$str = str_replace($matches['0'][$i],
+										$matches['1'][$i].'<a href="http'.
+										$matches['4'][$i].'://'.
+										$matches['5'][$i].
+										$matches['6'][$i].'"'.$pop.'>http'.
+										$matches['4'][$i].'://'.
+										$matches['5'][$i].
+										$matches['6'][$i].'</a>'.
+										$period . $comma, $str);
+				}
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i', $str, $matches))
+		if ($type != 'url')
 		{
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			if (preg_match_all("/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
 			{
-				if (preg_match('|\.$|', $matches[3][$i]))
-				{
-					$period = '.';
-					$matches[3][$i] = substr($matches[3][$i], 0, -1);
-				}
-				else
+				for ($i = 0; $i < count($matches['0']); $i++)
 				{
 					$period = '';
-				}
+					if (preg_match("|\.$|", $matches['3'][$i]))
+					{
+						$period = '.';
+						$matches['3'][$i] = substr($matches['3'][$i], 0, -1);
+					}
 
-				$str = str_replace($matches[0][$i], safe_mailto($matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]).$period, $str);
+					$comma = '';
+					if (preg_match("|\,$|", $matches['3'][$i]))
+					{
+						$comma = ',';
+						$matches['3'][$i] = substr($matches['3'][$i], 0, -1);
+					}
+
+					$str = str_replace($matches['0'][$i], safe_mailto($matches['1'][$i].'@'.$matches['2'][$i].'.'.$matches['3'][$i]).$period.$comma, $str);
+				}
 			}
 		}
 
