@@ -426,7 +426,7 @@ class CI_Session {
 		}
 
 		// Check if this session is no longer allowed to update and has exired.
-		//  If so, flag it as expired so we can take action as appropriate.
+		// If so, flag it as expired so we can take action as appropriate.
 		if ($this->prevent_update && ($this->userdata['last_activity'] + $this->sess_multisession_expiration) < $this->now)
 		{
 			$this->multisession_expired = TRUE;            
