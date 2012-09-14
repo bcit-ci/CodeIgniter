@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -66,8 +66,8 @@ class CI_Driver_Library {
 	 * The first time a child is used it won't exist, so we instantiate it
 	 * subsequents calls will go straight to the proper child.
 	 *
-	 * @param   string  Child class name
-	 * @return  object  Child class
+	 * @param	string	Child class name
+	 * @return	object	Child class
 	 */
 	public function __get($child)
 	{
@@ -80,8 +80,8 @@ class CI_Driver_Library {
 	 *
 	 * Separate load_driver call to support explicit driver load by library or user
 	 *
-	 * @param   string  Driver name (w/o parent prefix)
-	 * @return  object  Child class
+	 * @param	string	Driver name (w/o parent prefix)
+	 * @return	object	Child class
 	 */
 	public function load_driver($child)
 	{
@@ -91,7 +91,7 @@ class CI_Driver_Library {
 		if ( ! isset($this->lib_name))
 		{
 			// Get library name without any prefix
-			$this->subclass_prefix = (string)$CI->config->item('subclass_prefix');
+			$this->subclass_prefix = (string) $CI->config->item('subclass_prefix');
 			$this->lib_name = str_replace(array('CI_', $this->subclass_prefix), '', get_class($this));
 		}
 
