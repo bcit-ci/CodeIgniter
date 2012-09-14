@@ -341,6 +341,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
 -  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 -  Fixed a bug (#1000) - Change syntax of ``$view_file`` to ``$_ci_view_file`` to prevent being overwritten by application.
+-  Fixed a bug (#1757) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()`` was skipping files and directories named *0*.
 
 Version 2.1.2
 =============
