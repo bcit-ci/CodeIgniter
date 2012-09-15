@@ -61,9 +61,13 @@
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
-	else
+	elseif ( file_exists(APPPATH.'config/constants.php') )
 	{
 		require(APPPATH.'config/constants.php');
+	}
+	else
+	{
+		require(BASEPATH.'config/constants.php');
 	}
 
 /*
