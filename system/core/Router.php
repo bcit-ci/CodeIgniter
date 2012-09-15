@@ -147,6 +147,10 @@ class CI_Router {
 		{
 			include(APPPATH.'config/routes.php');
 		}
+		else
+		{
+			include(BASEPATH.'config/routes.php');
+		}
 
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);

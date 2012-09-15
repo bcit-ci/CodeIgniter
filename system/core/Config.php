@@ -58,7 +58,7 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	public $_config_paths =	array(APPPATH);
+	public $_config_paths =	array(BASEPATH, APPPATH);
 
 	/**
 	 * Constructor
