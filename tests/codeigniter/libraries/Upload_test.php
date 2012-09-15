@@ -263,7 +263,7 @@ class Upload_test extends CI_TestCase {
 
 	function test_mimes_types()
 	{
-		$this->assertEquals('text/plain', $this->upload->mimes_types('txt'));
+		$this->assertEquals(array('text/plain', 'application/octet-stream'), $this->upload->mimes_types('txt'));
 		$this->assertFalse($this->upload->mimes_types('foobar'));
 	}
 
