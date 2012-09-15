@@ -139,6 +139,8 @@ class CI_Router {
 		}
 
 		// Load the routes.php file.
+		include(BASEPATH.'config/routes.php');
+		
 		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
@@ -146,10 +148,6 @@ class CI_Router {
 		elseif (is_file(APPPATH.'config/routes.php'))
 		{
 			include(APPPATH.'config/routes.php');
-		}
-		else
-		{
-			include(BASEPATH.'config/routes.php');
 		}
 
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;

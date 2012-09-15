@@ -39,4 +39,4 @@
 
 
 /* End of file profiler.php */
-/* Location: ./application/config/profiler.php */
+/* Location: ./system/config/profiler.php */

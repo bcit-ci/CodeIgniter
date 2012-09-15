@@ -75,4 +75,4 @@ define('SHOW_DEBUG_BACKTRACE', TRUE);
 
 
 /* End of file constants.php */
-/* Location: ./application/config/constants.php */
+/* Location: ./system/config/constants.php */

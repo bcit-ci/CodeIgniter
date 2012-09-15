@@ -38,4 +38,4 @@
 
 
 /* End of file hooks.php */
-/* Location: ./application/config/hooks.php */
+/* Location: ./system/config/hooks.php */
