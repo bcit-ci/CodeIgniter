@@ -552,7 +552,7 @@ class CI_Output {
 		fclose($fp);
 
 		// Strip out the embedded timestamp
-		if ( ! preg_match('/\d+TS--->/', $cache, $match))
+		if ( ! preg_match('/^\d+TS--->/', $cache, $match))
 		{
 			return FALSE;
 		}
