@@ -150,6 +150,7 @@ class CI_Email {
 	/**
 	 * Initialize the Email Data
 	 *
+	 * @param	bool
 	 * @return	object
 	 */
 	public function clear($clear_attachments = FALSE)
@@ -458,7 +459,7 @@ class CI_Email {
 	 */
 	public function set_alt_message($str = '')
 	{
-		$this->alt_message = $str;
+		$this->alt_message = (string) $str;
 		return $this;
 	}
 
@@ -481,12 +482,12 @@ class CI_Email {
 	/**
 	 * Set Wordwrap
 	 *
-	 * @param	string
+	 * @param	bool
 	 * @return	object
 	 */
 	public function set_wordwrap($wordwrap = TRUE)
 	{
-		$this->wordwrap = ($wordwrap === FALSE) ? FALSE : TRUE;
+		$this->wordwrap = (bool) $wordwrap;
 		return $this;
 	}
 
@@ -1515,6 +1516,7 @@ class CI_Email {
 	protected function _smtp_connect()
 	{
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
+
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 							$this->smtp_port,
 							$errno,

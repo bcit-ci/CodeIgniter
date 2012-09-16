@@ -40,6 +40,7 @@ class CI_Upload {
 	public $max_width		= 0;
 	public $max_height		= 0;
 	public $max_filename		= 0;
+	public $max_filename_increment 	= 100;
 	public $allowed_types		= '';
 	public $file_temp		= '';
 	public $file_name		= '';
@@ -427,7 +428,7 @@ class CI_Upload {
 		$filename = str_replace($this->file_ext, '', $filename);
 
 		$new_filename = '';
-		for ($i = 1; $i < 100; $i++)
+		for ($i = 1; $i < $this->max_filename_increment; $i++)
 		{
 			if ( ! file_exists($path.$filename.$i.$this->file_ext))
 			{

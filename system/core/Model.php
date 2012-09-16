@@ -35,6 +35,7 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Model {
+
 	/**
 	 * Initialize CI_Model Class
 	 *
@@ -58,6 +59,7 @@ class CI_Model {
 		$CI =& get_instance();
 		return $CI->$key;
 	}
+
 }
 
 /* End of file Model.php */

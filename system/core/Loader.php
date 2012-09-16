@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -559,8 +559,8 @@ class CI_Loader {
 	{
 		return $this->_ci_load(array(
 			'_ci_view' => $view,
-		   	'_ci_vars' => $this->_ci_object_to_array($vars),
-		   	'_ci_return' => $return
+			'_ci_vars' => $this->_ci_object_to_array($vars),
+			'_ci_return' => $return
 		));
 	}
 
@@ -579,7 +579,7 @@ class CI_Loader {
 	{
 		return $this->_ci_load(array(
 			'_ci_path' => $path,
-		   	'_ci_return' => $return
+			'_ci_return' => $return
 		));
 	}
 
@@ -973,7 +973,7 @@ class CI_Loader {
 				$_ci_exists = TRUE;
 			}
 			else
-		   	{
+			{
 				// Search MVC package paths
 				foreach ($this->_ci_mvc_paths as $_ci_mvc => $_ci_cascade)
 				{
@@ -1158,7 +1158,7 @@ class CI_Loader {
 
 					return $this->_ci_init_class($class, $pre, $params, $object_name);
 				}
-		   	}
+			}
 		}
 
 		// Let's search for the requested library file and load it.
@@ -1227,9 +1227,9 @@ class CI_Loader {
 	/**
 	 * Instantiates a class
 	 *
-	 * @param	string  Class name
-	 * @param	string  Class prefix
-	 * @param	array   Optional configuration
+	 * @param	string	Class name
+	 * @param	string	Class prefix
+	 * @param	array	Optional configuration
 	 * @param	string	Optional object name
 	 * @return	void
 	 */
