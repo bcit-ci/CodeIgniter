@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -103,70 +103,52 @@ class CI_Router {
 		// Load the routes.php file.
 		$route = $this->CI->config->get('routes.php', 'route');
 
-		// Set routes
+		// Set route remapping
 		$this->routes = is_array($route) ? $route : array();
 		unset($route);
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlate to a valid controller.
 		$this->default_controller = empty($this->routes['default_controller']) ? FALSE :
-		   	strtolower($this->routes['default_controller']);
+			strtolower($this->routes['default_controller']);
 
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
 		// If this feature is enabled, we will gather the directory/class/method a little differently
-		$uri =& $this->CI->uri;
-		$config =& $this->CI->config;
-		$ctl_trigger = $config->item('controller_trigger');
-		if ($config->item('enable_query_strings') === TRUE && isset($_GET[$ctl_trigger]))
+		$ctl_trigger = $this->CI->config->item('controller_trigger');
+		if ($this->CI->config->item('enable_query_strings') === TRUE && isset($_GET[$ctl_trigger]))
 		{
 			$segments = array();
 
 			// Add directory segment if provided
-			$dir_trigger = $config->item('directory_trigger');
+			$dir_trigger = $this->CI->config->item('directory_trigger');
 			if (isset($_GET[$dir_trigger]))
 			{
-				$segments[] = trim($uri->_filter_uri($_GET[$dir_trigger]));
+				$segments[] = trim($this->CI->uri->_filter_uri($_GET[$dir_trigger]));
 			}
 
 			// Add controller segment - this was qualified above
-			$class = trim($uri->_filter_uri($_GET[$ctl_trigger]));
+			$class = trim($this->CI->uri->_filter_uri($_GET[$ctl_trigger]));
 			$segments[] = $class;
 
 			// Add function segment if provided
-			$fun_trigger = $config->item('function_trigger');
+			$fun_trigger = $this->CI->config->item('function_trigger');
 			if (isset($_GET[$fun_trigger]))
 			{
-				$segments[] = trim($uri->_filter_uri($_GET[$fun_trigger]));
+				$segments[] = trim($this->CI->uri->_filter_uri($_GET[$fun_trigger]));
 			}
-
-			// Determine if segments point to a valid route
-			$route = $this->validate_route($segments);
-			if ($route === FALSE)
-			{
-				// Invalid request - show a 404
-				show_404($class);
-			}
-
-			// Set route stack and clean directory and class
-			$this->route_stack = $route;
-			$this->set_directory($route[self::SEG_SUBDIR]);
-			$this->set_class($route[self::SEG_CLASS]);
-			return;
+		}
+		else
+		{
+			// Fetch the complete URI string, remove the suffix, and explode
+			$this->CI->uri->_fetch_uri_string();
+			$this->CI->uri->_remove_url_suffix();
+			$this->CI->uri->_explode_segments();
+			$segments = $this->CI->uri->segments;
 		}
 
-		// Fetch the complete URI string
-		$uri->_fetch_uri_string();
-
-		// Do we need to remove the URL suffix?
-		$uri->_remove_url_suffix();
-
-		// Compile the segments into an array
-		$uri->_explode_segments();
-
-		// Parse any custom routing that may exist
-		// The default route will be applied if valid and necessary
-		$this->_parse_routes();
+		// Set the route stack
+		$this->_set_request($segments);
 	}
 
 	// --------------------------------------------------------------------
@@ -177,10 +159,10 @@ class CI_Router {
 	 * This function takes an array of URI segments as
 	 * input, and sets the current class/method
 	 *
-	 * @param	array
+	 * @param	array	Route segments
 	 * @return	void
 	 */
-	protected function _set_request($segments = array())
+	protected function _set_request(array $segments)
 	{
 		// Determine if segments point to a valid route
 		$route = $this->validate_route($segments);
@@ -227,19 +209,24 @@ class CI_Router {
 	public function validate_route($route)
 	{
 		// If we don't have any segments, the default will have to do
-		if (count($route) == 0)
+		if (empty($route))
 		{
 			$route = $this->_default_segments();
-			if (empty($route)) {
+			if (empty($route))
+			{
 				// No default - fail
 				return FALSE;
 			}
 		}
 
 		// Explode route if not already segmented
-		if (!is_array($route)) {
+		if ( ! is_array($route))
+		{
 			$route = explode('/', $route);
 		}
+
+		// Parse any custom routing that may exist
+		$route = $this->_parse_routes($route);
 
 		// Search paths for controller
 		foreach ($this->CI->load->get_package_paths() as $path)
@@ -279,12 +266,12 @@ class CI_Router {
 					}
 
 					// Get class and method
-					$class = array_unshift($default);
-					$method = array_unshift($default);
+					$class = array_shift($default);
+					$method = array_shift($default);
 				}
 
 				// Does the requested controller exist in the sub-folder?
-				if (file_exists($path.'controllers/'.$route[0].$class.'.php'))
+				if (file_exists($path.'controllers/'.$route[0].'/'.$class.'.php'))
 				{
 					// Found it - assemble segments
 					if ( ! isset($route[1]))
@@ -320,18 +307,18 @@ class CI_Router {
 	 * the config/routes.php file against the URI to
 	 * determine if the class/method need to be remapped.
 	 *
-	 * @return	void
+	 * @param	array	Route segments
+	 * @return	array	Remapped segments
 	 */
-	protected function _parse_routes()
+	protected function _parse_routes(array $segments)
 	{
 		// Turn the segment array into a URI string
-		$segments = $this->CI->uri->segments;
 		$uri = implode('/', $segments);
 
 		// Is there a literal match? If so we're done
 		if (isset($this->routes[$uri]))
 		{
-			return $this->_set_request(explode('/', $this->routes[$uri]));
+			return explode('/', $this->routes[$uri]);
 		}
 
 		// Loop through the route array looking for wild-cards
@@ -349,13 +336,13 @@ class CI_Router {
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
-				return $this->_set_request(explode('/', $val));
+				return explode('/', $val);
 			}
 		}
 
 		// If we got this far it means we didn't encounter a
-		// matching route so we'll set the site default route
-		$this->_set_request($segments);
+		// matching route so we'll return the segments unchanged
+		return $segments;
 	}
 
 	// --------------------------------------------------------------------
@@ -482,11 +469,11 @@ class CI_Router {
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
 	public function get_error_route($is404 = FALSE)
-   	{
+	{
 		// Select route
 		$route = ($is404 ? '404' : 'error').'_override';
 
-		// See if 404_override is defined
+		// See if error or 404 override is defined
 		if (empty($this->routes[$route])) {
 			// No override to apply
 			return FALSE;
@@ -509,6 +496,11 @@ class CI_Router {
 		if ( ! is_array($routing))
 		{
 			return;
+		}
+
+		if (isset($routing['path']))
+		{
+			$this->set_path($routing['path']);
 		}
 
 		if (isset($routing['directory']))
@@ -539,7 +531,7 @@ class CI_Router {
 	protected function _default_segments()
 	{
 		// Check for default controller
-		if ($this->default_controller === FALSE)
+		if (empty($this->default_controller))
 		{
 			// Return empty array
 			return array();

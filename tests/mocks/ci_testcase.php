@@ -188,23 +188,43 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Create VFS directory
+	 *
+	 * @param	string	Directory name
+	 * @param	object	Optional root to create in
+	 * @param	object	New directory object
+	 */
+	public function ci_vfs_mkdir($name, $root = NULL)
+	{
+		// Check for root
+		if ( ! $root)
+		{
+			$root = $this->ci_vfs_root;
+		}
+
+		// Return new directory object
+		return vfsStream::newDirectory($name)->at($root);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Create VFS content
 	 *
-	 * @param	string  File name
-	 * @param   string  File content
-	 * @param   object  VFS directory object
-	 * @param   string  Optional directory name
-	 * @param   string  Optional subdirectory name
-	 * @return  void
+	 * @param	string	File name
+	 * @param	string	File content
+	 * @param	object	VFS directory object
+	 * @param	mixed	Optional subdirectory path or array of subs
+	 * @return	void
 	 */
-	public function ci_vfs_create($file, $content, $root = NULL, $dir = NULL, $sub = NULL)
+	public function ci_vfs_create($file, $content, $root = NULL, $path = NULL)
 	{
 		// Check for array
 		if (is_array($file))
 		{
 			foreach ($file as $name => $content)
 			{
-				$this->ci_vfs_create($name, $content, $root, $dir, $sub);
+				$this->ci_vfs_create($name, $content, $root, $path);
 			}
 			return;
 		}
@@ -218,45 +238,38 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		// Build content
 		$tree = array($file => $content);
 
-		// Check for directory
-		if ($dir)
+		// Check for path
+		$subs = array();
+		if ($path)
 		{
+			// Explode if not array
+			$subs = is_array($path) ? $path : explode('/', trim($path, '/'));
+		}
+
+		// Handle subdirectories
+		while (($dir = array_shift($subs)))
+		{
+			// See if subdir exists under current root
 			$dir_root = $root->getChild($dir);
 			if ($dir_root)
 			{
-				// Directory exists - have sub?
-				if ($sub)
-				{
-					// Check for sub
-					$sub_root = $dir_root->getChild($sub);
-					if ($sub_root)
-					{
-						// Exists - build under sub
-						$root = $sub_root;
-					}
-					else
-					{
-						// None - build sub under dir
-						$root = $dir_root;
-						$tree = array($sub => $tree);
-					}
-				}
-				else
-				{
-					// Build under dir
-					$root = $dir_root;
-				}
+				// Yes - recurse into subdir
+				$root = $dir_root;
 			}
 			else
 			{
-				// Directory doesn't exist - have sub?
-				if ($sub)
-				{
-					// Build content in sub
-					$tree = array($sub => $tree);
-				}
+				// No - put subdirectory back and quit
+				array_unshift($subs, $dir);
+				break;
+			}
+		}
 
-				// Build dir with content
+		// Create any remaining subdirectories
+		if ($subs)
+		{
+			foreach (array_reverse($subs) as $dir)
+			{
+				// Wrap content in subdirectory for creation
 				$tree = array($dir => $tree);
 			}
 		}
@@ -274,8 +287,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function ci_vfs_path($path)
 	{
-		// Remove leading slashes and return URL
-		return vfsStream::url(ltrim($path, '/'));
+		// Trim slashes, add trailing slash, and return URL
+		return vfsStream::url(trim($path, '/').'/');
 	}
 
 	// --------------------------------------------------------------------

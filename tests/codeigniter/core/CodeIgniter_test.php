@@ -174,7 +174,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$class = 'Mock_Core_CodeIgniter';
 		$subclass = $pre.$class;
 		$content = '<?php class '.$subclass.' extends '.$class.' { }';
-		$this->ci_vfs_create($subclass, $content, $this->ci_vfs_root, $path, 'core');
+		$this->ci_vfs_create($subclass, $content, $this->ci_vfs_root, array($path, 'core'));
 
 		// Create instance
 		$CI = Mock_Core_CodeIgniter::instance($this->ci_base_path, $this->ci_app_path);
@@ -737,7 +737,12 @@ class CodeIgniter_test extends CI_TestCase {
 		$content = '<?php $'.$name.' = '.var_export($config, TRUE).';';
 
 		// Create file under subdirectory of app config dir
-		$this->ci_vfs_create($name, $content, $this->ci_app_root, 'config', $sub);
+		$path = array('config');
+		if ($sub)
+		{
+			$path[] = $sub;
+		}
+		$this->ci_vfs_create($name, $content, $this->ci_app_root, $path);
 	}
 
 	/**

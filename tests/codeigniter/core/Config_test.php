@@ -245,7 +245,7 @@ class Config_test extends CI_TestCase {
 		);
 		$dir = 'package';
 		$content = '<?php $'.$name.' = '.var_export($cfg2, TRUE).';';
-		$this->ci_vfs_create($file, $content, $this->ci_vfs_root, $dir, 'config');
+		$this->ci_vfs_create($file, $content, $this->ci_vfs_root, array($dir, 'config'));
 
 		// Add config path
 		array_push($this->config->_config_paths, $this->ci_vfs_path($dir.'/'));

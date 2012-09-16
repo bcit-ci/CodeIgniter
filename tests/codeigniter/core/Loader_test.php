@@ -116,7 +116,7 @@ class Loader_test extends CI_TestCase {
 		$class = 'CI_'.$lib;
 		$content = '<?php class '.$class.
 			' { public function __construct($params = NULL) { $this->config = $params; } } ';
-		$this->ci_vfs_create($lib, $content, $this->ci_base_root, 'libraries', $sub);
+		$this->ci_vfs_create($lib, $content, $this->ci_base_root, array('libraries', $sub));
 
 		// Create config to be loaded
 		// For isolation, we just set the contents in CI_TestConfig to be retrieved
@@ -200,7 +200,7 @@ class Loader_test extends CI_TestCase {
 		$driver = 'unit_test_driver';
 		$dir = ucfirst($driver);
 		$class = 'CI_'.$dir;
-		$this->ci_vfs_create($driver, $this->_empty($class), $this->ci_base_root, 'libraries', $dir);
+		$this->ci_vfs_create($driver, $this->_empty($class), $this->ci_base_root, array('libraries', $dir));
 
 		// Test loading as an array.
 		$this->assertNull($this->load->driver(array($driver)));
@@ -265,7 +265,7 @@ class Loader_test extends CI_TestCase {
 		$base = 'CI_Model';
 		$class = ucfirst($model);
 		$subdir = 'cars';
-		$this->ci_vfs_create($model, $this->_empty($class, $base), $this->ci_app_root, 'models', $subdir);
+		$this->ci_vfs_create($model, $this->_empty($class, $base), $this->ci_app_root, array('models', $subdir));
 
 		// Load model
 		$name = 'testors';
@@ -401,7 +401,8 @@ class Loader_test extends CI_TestCase {
 		$subdir = 'special';
 		$class = 'TestResultCtlr';
 		$method = 'result_handler';
-		$this->ci_vfs_create(strtolower($class), $this->_empty($class), $this->ci_app_root, 'controllers', $subdir);
+		$this->ci_vfs_create(strtolower($class), $this->_empty($class), $this->ci_app_root,
+			array('controllers', $subdir));
 
 		// Create route stack to pass
 		$route = array(
@@ -660,14 +661,14 @@ class Loader_test extends CI_TestCase {
 		$drv = 'autodrv';
 		$subdir = ucfirst($drv);
 		$drv_class = 'CI_'.$subdir;
-		$this->ci_vfs_create($drv, $this->_empty($drv_class), $this->ci_base_root, 'libraries', $subdir);
+		$this->ci_vfs_create($drv, $this->_empty($drv_class), $this->ci_base_root, array('libraries', $subdir));
 
 		// Create package directory in app path with model
 		$dir = 'testdir';
 		$path = $this->ci_app_path.$dir.'/';
 		$model = 'automod';
 		$mod_class = ucfirst($model);
-		$this->ci_vfs_create($model, $this->_empty($mod_class), $this->ci_app_root, $dir, 'models');
+		$this->ci_vfs_create($model, $this->_empty($mod_class), $this->ci_app_root, array($dir, 'models'));
 
 		// Autoload path since autoloaded packages are handled during bootstrapping
 		$this->load->add_package_path($path);
