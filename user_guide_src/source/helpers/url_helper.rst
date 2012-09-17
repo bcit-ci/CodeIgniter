@@ -325,3 +325,7 @@ engine purposes. The default Response Code is 302. The third parameter is
 
 .. note:: For very fine grained control over headers, you should use the
 	`Output Library </libraries/output>` set_header() function.
+
+.. note:: To IIS users: if you hide the `Server` HTTP header, the "auto"
+	method won't detect IIS, in that case it is advised you explicitly
+	use the "refresh" method.
