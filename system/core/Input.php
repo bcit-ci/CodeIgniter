@@ -333,7 +333,11 @@ class CI_Input {
 			$has_ranges = strpos($proxies, '/') !== false;
 			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
 			$proxies = is_array($proxies) ? $proxies : array($proxies);
-		
+			
+			// Split HTTP_X_FORWARDED_FOR incse more than one was sent
+			$x_fwd_ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			$x_fwd_ip = trim($x_fwd_ips[0]);
+			
 			if ($has_ranges)
 			{
 				$long_ip = ip2long($_SERVER['REMOTE_ADDR']);
@@ -349,7 +353,7 @@ class CI_Input {
 					$bitmask = $bit_32 - (1 << (32 - (int)$mask_length));
 					if (($long_ip & $bitmask) == $address)
 					{
-						$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+						$this->ip_address = $x_fwd_ip;
 						break;
 					}
 				}
@@ -372,7 +376,11 @@ class CI_Input {
 		}
 		elseif ($this->server('HTTP_X_FORWARDED_FOR'))
 		{
-			$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			// Split HTTP_X_FORWARDED_FOR incse more than one was sent
+			$x_fwd_ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			$x_fwd_ip = trim($x_fwd_ips[0]);
+			
+			$this->ip_address = $x_fwd_ip;
 		}
 
 		if ($this->ip_address === FALSE)
