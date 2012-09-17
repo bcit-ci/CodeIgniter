@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -83,7 +83,7 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
 	 * Configure Logging class
@@ -96,29 +96,29 @@ class CI_Log {
 	public function configure($config)
 	{
 		$this->_log_path = (isset($config['log_path']) && ! empty($config['log_path'])) ?
-            $config['log_path'] : APPPATH.'logs/';
+			$config['log_path'] : APPPATH.'logs/';
 
-		if ( ! is_dir($this->_log_path) || ! is_really_writable($this->_log_path))
+		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 
-        if (isset($config['log_threshold']))
-        {
-            if (is_numeric($config['log_threshold']))
-            {
-                $this->_threshold = (int) $config['log_threshold'];
-            }
-            elseif (is_array($config['log_threshold']))
-            {
-                $this->_threshold = $this->_threshold_max;
-                $this->_threshold_array = array_flip($config['log_threshold']);
-            }
-        }
+		if (isset($config['log_threshold']))
+		{
+			if (is_numeric($config['log_threshold']))
+			{
+				$this->_threshold = (int) $config['log_threshold'];
+			}
+			elseif (is_array($config['log_threshold']))
+			{
+				$this->_threshold = $this->_threshold_max;
+				$this->_threshold_array = array_flip($config['log_threshold']);
+			}
+		}
 
 		if (isset($config['log_date_format']) && ! empty($config['log_date_format']))
 		{
-			$this->_date_fmt = $date_format;
+			$this->_date_fmt = $config['log_date_format'];
 		}
 	}
 
@@ -149,9 +149,8 @@ class CI_Log {
 			return FALSE;
 		}
 
-
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
-		$message  = '';
+		$message = '';
 
 		if ( ! file_exists($filepath))
 		{
@@ -159,7 +158,7 @@ class CI_Log {
 			$message .= '<'."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, 'a+'))
 		{
 			return FALSE;
 		}

@@ -1327,7 +1327,7 @@ class CI_Loader {
 		unset($this->CI->_autoload);
 
 		// Check for autoload array
-		if ( ! is_array($autoload) || empty($autoload))
+		if ( ! is_array($autoload) OR empty($autoload))
 		{
 			return FALSE;
 		}

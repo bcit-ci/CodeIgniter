@@ -146,40 +146,47 @@ class CI_Exceptions {
 
 		// Check Router for an error (or 404) override
 		$CI =& get_instance();
-		$route = $CI->router->get_error_route($status_code == 404);
-		if ($route !== FALSE) {
-			// Insert or append arguments
-			if (count($route) > CI_Router::SEG_ARGS) {
-				// Insert heading and message after path, subdir, class, and method and before other args
-				$route = array_merge(
-					array_slice($route, 0, CI_Router::SEG_ARGS),
-					array($heading, $message),
-					array_slice($route, CI_Router::SEG_ARGS)
-				);
-			}
-			else {
-				// Just append heading and message to the end
-				$route[] = $heading;
-				$route[] = $message;
-			}
+		if (isset($CI->router))
+		{
+			$route = $CI->router->get_error_route($status_code == 404);
+			if ($route !== FALSE)
+		   	{
+				// Insert or append arguments
+				if (count($route) > CI_Router::SEG_ARGS)
+			   	{
+					// Insert heading and message after path, subdir, class, and method and before other args
+					$route = array_merge(
+						array_slice($route, 0, CI_Router::SEG_ARGS),
+						array($heading, $message),
+						array_slice($route, CI_Router::SEG_ARGS)
+					);
+				}
+				else
+			   	{
+					// Just append heading and message to the end
+					$route[] = $heading;
+					$route[] = $message;
+				}
 
-			// Ensure "routed" is not set
-			if (isset($CI->routed))
-			{
-				unset($CI->routed);
-			}
+				// Ensure "routed" is not set
+				if (isset($CI->routed))
+				{
+					unset($CI->routed);
+				}
 
-			// Load the error Controller as "routed" and call the method
-			if ($CI->load->controller($route, 'routed')) {
-				// Display the output and exit
-				$CI->output->_display();
-				exit;
+				// Load the error Controller as "routed" and call the method
+				if ($CI->load->controller($route, 'routed'))
+			   	{
+					// Display the output and exit
+					$CI->output->_display();
+					exit;
+				}
 			}
 		}
 
 		// If the override didn't exit above, just display the generic error template
 		ob_start();
-		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+		$message = '<p>'.implode('</p><p>', ((array) $message).'</p>';
 		include(VIEWPATH.'errors/'.$template.'.php');
 		echo ob_get_clean();
 		exit;
@@ -214,9 +221,7 @@ class CI_Exceptions {
 		}
 		ob_start();
 		include(VIEWPATH.'errors/error_php.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		echo $buffer;
+		echo ob_get_clean();
 	}
 }
 

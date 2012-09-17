@@ -239,13 +239,13 @@ class CodeIgniter {
 			}
 
 			// Does the $config array exist?
-			if ( ! isset($config) || ! is_array($config))
+			if ( ! isset($config) OR ! is_array($config))
 			{
 				static::_status_exit(503, 'Your config file does not appear to be formatted correctly.');
 			}
 
 			// Does the $autoload array exist?
-			if ( ! isset($autoload) || ! is_array($autoload))
+			if ( ! isset($autoload) OR ! is_array($autoload))
 			{
 				$autoload = array();
 			}

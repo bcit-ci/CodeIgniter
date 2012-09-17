@@ -261,7 +261,7 @@ class CI_Config {
 					}
 
 					// Check for config array
-					if ( ! isset($$_name) || ! is_array($$_name))
+					if ( ! isset($$_name) OR ! is_array($$_name))
 					{
 						// Invalid - return bad filename
 						return $_file_path;
