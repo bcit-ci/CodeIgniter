@@ -303,7 +303,7 @@ link. The function will build the URL based on your config file values.
 
 The optional second parameter allows you to force a particular redirection
 method. The available methods are "location" or "refresh", with location
-being faster but less reliable on Windows servers. The default is "auto",
+being faster but less reliable on IIS servers. The default is "auto",
 which will attempt to intelligently choose the method based on the server
 environment.
 
@@ -325,3 +325,7 @@ engine purposes. The default Response Code is 302. The third parameter is
 
 .. note:: For very fine grained control over headers, you should use the
 	`Output Library </libraries/output>` set_header() function.
+
+.. note:: To IIS users: if you hide the `Server` HTTP header, the "auto"
+	method won't detect IIS, in that case it is advised you explicitly
+	use the "refresh" method.
