@@ -1033,7 +1033,7 @@ class CI_Upload {
 				? 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1'
 				: 'file --brief --mime '.$file['tmp_name'].' 2>&1';
 
-			if (function_exists('exec') && !$this->_is_suhosin_blacklisted('exec'))
+			if (function_exists('exec') && ! is_suhosin_blacklisted('exec'))
 			{
 				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
 				 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
@@ -1048,7 +1048,7 @@ class CI_Upload {
 				}
 			}
 
-			if ( (bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec') && !$this->_is_suhosin_blacklisted('shell_exec'))
+			if ( (bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec') && ! is_suhosin_blacklisted('shell_exec'))
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)
@@ -1062,7 +1062,7 @@ class CI_Upload {
 				}
 			}
 
-			if (function_exists('popen') && !$this->_is_suhosin_blacklisted('popen'))
+			if (function_exists('popen') && ! is_suhosin_blacklisted('popen'))
 			{
 				$proc = @popen($cmd, 'r');
 				if (is_resource($proc))
@@ -1094,42 +1094,6 @@ class CI_Upload {
 
 		$this->file_type = $file['type'];
 	}
-	
-	// --------------------------------------------------------------------
-  
-	/**
-	 * Check Suhosin Blacklist
-	 *
-	 *
-	 * @param	string
-	 * @return  bool
-	 */
-	 
-	function _is_suhosin_blacklisted($func) 
-	{
-	  if(extension_loaded('suhosin'))
-	  {
-	    $blacklist = @ini_get("suhosin.executor.func.blacklist");
-  		if(!empty($blacklist)) 
-  		{
-  			if(strpos($blacklist,',') !== false)
-  			{
-  				$blackarray = explode(',',$blacklist);
-  			}
-  			else {
-  				$blackarray[] = $blacklist;
-  			}
-				
-  			if(in_array($func,$blackarray))
-  			{
-  			 	return true;
-  			}
-  		}
-  	}  
-	  return false;
-	}
-	
-	// --------------------------------------------------------------------
 
 }
 

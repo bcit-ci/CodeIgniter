@@ -637,5 +637,41 @@ if ( ! function_exists('_stringify_attributes'))
 	}
 }
 
+// ------------------------------------------------------------------------ 
+      
+if( ! function_exists('is_suhosin_blacklist')) 
+{
+   /**
+	 * Check Suhosin Blacklist
+	 *
+	 *
+	 * @param	string
+	 * @return  bool
+	 */ 
+	function is_suhosin_blacklisted($func) 
+	{
+	  if (extension_loaded('suhosin'))
+	  {
+	    $blacklist = @ini_get('suhosin.executor.func.blacklist');
+  		if ( ! empty($blacklist)) 
+  		{
+  			if (strpos($blacklist,',') !== FALSE)
+  			{
+  				$blackarray = explode(',',trim($blacklist));
+  			}
+  			else {
+  				$blackarray[] = $blacklist;
+  			}
+				
+  			if (in_array($func,$blackarray))
+  			{
+  			 	return TRUE;
+  			}
+  		}
+  	}  
+	  return FALSE;
+	}
+}
+
 /* End of file Common.php */
 /* Location: ./system/core/Common.php */
