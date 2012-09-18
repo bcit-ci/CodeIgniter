@@ -639,7 +639,7 @@ if ( ! function_exists('_stringify_attributes'))
 
 // ------------------------------------------------------------------------ 
       
-if( ! function_exists('is_suhosin_blacklist')) 
+if( ! function_exists('is_suhosin_blacklisted')) 
 {
    /**
 	 * Check Suhosin Blacklist
