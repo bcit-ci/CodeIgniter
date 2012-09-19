@@ -51,8 +51,8 @@ Release Date: Not Released
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
    -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
-   -  Changed environment defaults to report all errors in 'development' and only fatal ones in 'testing' and 'production' but only display them in 'development'.
-   -  Updated ip_address lengths from 16 to 45 for supporting ipv6 address on trackback library and captcha helper.
+   -  Changed environment defaults to report all errors in *development* and only fatal ones in *testing*, *production* but only display them in *development*.
+   -  Updated *ip_address* database field lengths from 16 to 45 for supporting IPv6 address on :doc:`Trackback Library <libraries/trackback>` and :doc:`Captcha Helper <helpers/captcha_helper>`.
 
 -  Helpers
 
@@ -67,6 +67,7 @@ Release Date: Not Released
 	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
 	 - Added JS window name support to ``anchor_popup()`` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
+	 - "auto" method in ``redirect()`` now chooses the "refresh" method only on IIS servers, instead of all servers on Windows.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  Changed ``humanize()`` to include a second param for the separator.
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
@@ -144,7 +145,7 @@ Release Date: Not Released
    -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
    -  Added client compression support for MySQL and MySQLi.
-   -  Removed Loader class from Database error to better find the likely culprit.
+   -  Removed :doc:`Loader Class <libraries/loader>` from Database error to better find the likely culprit.
 
 -  Libraries
 
@@ -201,7 +202,7 @@ Release Date: Not Released
 	 -  Added support for setting custom attributes.
 	 -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
-    -  Removed the default ``&nbsp;`` from a number of the configuration variables.
+   -  Removed the default ``&nbsp;`` from a number of the configuration variables.
    -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
 
 -  Core
@@ -340,7 +341,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions ``form_multiselect()``, ``form_dropdown()`` didn't properly handle empty array option groups.
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
 -  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
--  Fixed a bug (#1000) - Change syntax of $view_file to $_ci_view_file to prevent being overwritten by application.
+-  Fixed a bug (#1000) - Change syntax of ``$view_file`` to ``$_ci_view_file`` to prevent being overwritten by application.
+-  Fixed a bug (#1757) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()`` was skipping files and directories named *0*.
 
 Version 2.1.2
 =============
