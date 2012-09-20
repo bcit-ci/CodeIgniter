@@ -383,7 +383,7 @@ class CI_Input {
 		if (strpos($this->ip_address, ',') !== FALSE)
 		{
 			$x = explode(',', $this->ip_address);
-			$this->ip_address = trim(end($x));
+			$this->ip_address = trim($x[0]);
 		}
 
 		if ( ! $this->valid_ip($this->ip_address))
