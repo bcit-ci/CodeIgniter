@@ -1321,7 +1321,7 @@ class CI_Loader {
 	 *
 	 * @return	void
 	 */
-	public function ci_autoloader()
+	public function _ci_autoloader()
 	{
 		$autoload = $this->CI->_autoload;
 		unset($this->CI->_autoload);

@@ -30,7 +30,7 @@ class Mock_Core_Loader extends CI_Loader {
 	 */
 	public function autoload()
 	{
-		$this->ci_autoloader();
+		$this->_ci_autoloader();
 	}
 
 }

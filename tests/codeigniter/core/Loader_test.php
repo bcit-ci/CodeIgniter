@@ -83,6 +83,8 @@ class Loader_test extends CI_TestCase {
 
 	/**
 	 * @covers	CI_Loader::library
+	 * @covers	CI_Loader::_ci_load_class
+	 * @covers	CI_Loader::_ci_init_class
 	 */
 	public function test_library()
 	{
@@ -317,6 +319,8 @@ class Loader_test extends CI_TestCase {
 
 	/**
 	 * @covers	CI_Loader::view
+	 * @covers	CI_Loader::_ci_load
+	 * @covers	CI_Loader::_ci_object_to_array
 	 */
 	public function test_load_view()
 	{
@@ -443,7 +447,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::controller
+	 * @covers	CI_Loader::controller_output
 	 */
 	public function test_controller_output()
 	{
@@ -484,6 +488,7 @@ class Loader_test extends CI_TestCase {
 
 	/**
 	 * @covers	CI_Loader::file
+	 * @covers	CI_Loader::_ci_load
 	 */
 	public function test_file()
 	{
@@ -521,6 +526,7 @@ class Loader_test extends CI_TestCase {
 
 	/**
 	 * @covers	CI_Loader::helper
+	 * @covers	CI_Loader::helpers
 	 */
 	public function test_helper()
 	{

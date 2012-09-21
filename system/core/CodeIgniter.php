@@ -682,7 +682,7 @@ class CodeIgniter {
 		$this->load_core_class('Lang');
 
 		// Autoload libraries, etc.
-		$this->load->ci_autoloader();
+		$this->load->_ci_autoloader();
 
 		// Mark end of core loading
 		$this->benchmark->mark('loading_time:_base_classes_end');

@@ -23,6 +23,10 @@ class CodeIgniter_test extends CI_TestCase {
 	 * Test CodeIgniter instance singleton
 	 *
 	 * @covers	CodeIgniter::instance
+	 * @covers	CodeIgniter::__construct
+	 * @covers	CodeIgniter::resolve_path
+	 * @covers	CodeIgniter::_get_class
+	 * @covers	CodeIgniter::_status_exit
 	 */
 	public function test_instance()
 	{
@@ -106,6 +110,7 @@ class CodeIgniter_test extends CI_TestCase {
 	 * Test $assign_to_config
 	 *
 	 * @covers	CodeIgniter::instance
+	 * @covers	CodeIgniter::log_message
 	 */
 	public function test_assign_config()
 	{
@@ -226,6 +231,7 @@ class CodeIgniter_test extends CI_TestCase {
 	 * Test calling a controller
 	 *
 	 * @covers	CodeIgniter::call_controller
+	 * @covers	CodeIgniter::is_callable
 	 */
 	public function test_call_controller()
 	{

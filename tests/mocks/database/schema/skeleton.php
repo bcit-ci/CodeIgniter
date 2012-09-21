@@ -30,9 +30,11 @@ class Mock_Database_Schema_Skeleton {
 
 			CI_TestCase::instance()->ci_instance_var('db', $db);
 
-			$loader = new Mock_Core_Loader();
-			$loader->dbforge();
-			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
+			require_once(BASEPATH.'database/DB_forge.php');
+			require_once(BASEPATH.'database/drivers/'.$driver.'/'.$driver.'_forge.php');
+			$class = 'CI_DB_'.$driver.'_forge';
+			$forge = new $class();
+			CI_TestCase::instance()->ci_instance_var('dbforge', $forge);
 
 			static::$db = $db;
 			static::$forge = $forge;
@@ -124,7 +126,7 @@ class Mock_Database_Schema_Skeleton {
 			'job' => array(
 				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored'),
 				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
-    				array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
+				array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
 				array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician')
 			),
 			'misc' => array(
