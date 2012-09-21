@@ -439,7 +439,7 @@ class CodeIgniter_test extends CI_TestCase {
 		// and are called in routing
 		$classes = array(
 			'Benchmark' => array('methods' => array('mark($a)' => '$this->'.$marks.'[] = $a;')),
-			'Loader' => array('obj' => 'load', 'methods' => array('ci_autoloader()' =>
+			'Loader' => array('obj' => 'load', 'methods' => array('_ci_autoloader()' =>
 				'$this->'.$auto.' = (isset(CodeIgniter::instance()->lang));')),
 			'Security' => array(),
 			'Input' => array(),
