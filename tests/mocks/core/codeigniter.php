@@ -4,13 +4,13 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 	public $_log = '';
 	private $core_pre = FALSE;
 
-    /**
-     * Don't finalize on destruct
-     */
-    public function __destruct()
-    {
-        // Do nothing
-    }
+	/**
+	 * Don't finalize on destruct
+	 */
+	public function __destruct()
+	{
+		// Do nothing
+	}
 
 	/**
 	 * Override logging to write to a string instead of incurring the Log class
@@ -75,11 +75,11 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 		$this->_load_support();
 	}
 
-    /**
-     * Run routed controller
-     */
-    public function run_controller($pre = FALSE)
-    {
+	/**
+	 * Run routed controller
+	 */
+	public function run_controller($pre = FALSE)
+	{
 		$this->core_pre = $pre;
 
 		// Pre-load Benchmark, Hooks, Loader and Router, which were previously loaded
@@ -88,14 +88,14 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 		$this->load_core_class('Loader', 'load');
 		$this->load_core_class('Router');
 
-        $this->_run_controller();
-    }
+		$this->_run_controller();
+	}
 
-    /**
-     * Run finalize
-     */
-    public function finalize($pre = FALSE)
-    {
+	/**
+	 * Run finalize
+	 */
+	public function finalize($pre = FALSE)
+	{
 		$this->core_pre = $pre;
 
 		// Pre-load Benchmark, Hooks, Router and Output, which were previously loaded
@@ -104,8 +104,8 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 		$this->load_core_class('Router');
 		$this->load_core_class('Output');
 
-        $this->_finalize();
-    }
+		$this->_finalize();
+	}
 
 	/**
 	 * Reset the instance variable so another test instance can be loaded
@@ -132,12 +132,12 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 		throw new RuntimeException('CI '.$status.' Exit: '.$msg);
 	}
 
-    /**
-     * Prevent error handler registration
-     */
-    protected function _catch_exceptions()
-    {
-        // Do nothing
-    }
+	/**
+	 * Prevent error handler registration
+	 */
+	protected function _catch_exceptions()
+	{
+		// Do nothing
+	}
 }
 

@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -85,7 +85,7 @@ class CodeIgniter {
 	/**
 	 * Display cache flag
 	 *
-	 * @access  protected
+	 * @access	protected
 	 * @var	 bool
 	 */
 	protected $_display_cache = FALSE;
@@ -104,11 +104,11 @@ class CodeIgniter {
 	 * This constructor is protected in order to force instantiation
 	 * through instance(), employing a singleton pattern.
 	 *
-	 * @param   array   Main config
+	 * @param	array	Main config
 	 * @param	array	Autoload config
 	 * @param	string	Base path
 	 * @param	string	Application path
-	 * @access  protected
+	 * @access	protected
 	 */
 	protected function __construct($config, $autoload, $basepath, $apppath)
 	{
@@ -190,7 +190,7 @@ class CodeIgniter {
 	 *
 	 * @param	string	Optional base path override (for unit tests)
 	 * @param	string	Optional app path override (for unit tests)
-	 * @param   string  Optional environment override (for unit tests)
+	 * @param	string	Optional environment override (for unit tests)
 	 * @return	object
 	 */
 	public static function &instance($basepath = NULL, $apppath = NULL, $env = NULL)
@@ -653,7 +653,7 @@ class CodeIgniter {
 			$this->router->_set_overrides($routing);
 		}
 
-		// Is there a valid cache file?  If so, we're done...
+		// Is there a valid cache file? If so, we're done...
 		if ($this->hooks->_call_hook('cache_override') === FALSE && $this->output->_display_cache() === TRUE)
 		{
 			$this->_display_cache = TRUE;
@@ -780,7 +780,7 @@ class CodeIgniter {
 	 * in place, and may not want this registered for all the other unit
 	 * tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function _catch_exceptions()
 	{
@@ -841,7 +841,7 @@ if ( ! function_exists('get_instance'))
 
 /*
  * ------------------------------------------------------
- *  Load the global functions
+ * Load the global functions
  * ------------------------------------------------------
  */
 require(BASEPATH.'core/Common.php');

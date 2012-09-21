@@ -46,14 +46,14 @@ function &DB($params = '', $query_builder_override = NULL)
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
-		else if ( ! is_array($db) || count($db) == 0)
+		else if ( ! is_array($db) OR count($db) == 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
 
 		$active_group = ($params === '') ? $args['active_group'] : $params;
 
-		if ( ! isset($active_group) || ! isset($db[$active_group]))
+		if ( ! isset($active_group) OR ! isset($db[$active_group]))
 		{
 			show_error('You have specified an invalid database connection group.');
 		}

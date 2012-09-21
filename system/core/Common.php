@@ -173,10 +173,13 @@ if ( ! function_exists('get_config'))
 	/**
 	 * Gets the main config.php file
 	 *
+	 * DEPRECATED - check with CodeIgniter::instance()->config directly, as
+	 * Config is loaded before every class except Benchmark
+	 *
 	 * @param	array
 	 * @return	array
 	 */
-	function get_config($replace = array())
+	function &get_config($replace = array())
 	{
 		// Get instance and check for config
 		$CI = CodeIgniter::instance();

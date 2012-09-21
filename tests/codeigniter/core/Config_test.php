@@ -272,7 +272,7 @@ class Config_test extends CI_TestCase {
 		$this->ci_vfs_create($file, '<?php return '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 
 		// Do we get the return value?
-		$this->assertEquals($cfg, $this->config->get($file, NULL));
+		$this->assertEquals($cfg, $this->config->get($file));
 	}
 
 	/**

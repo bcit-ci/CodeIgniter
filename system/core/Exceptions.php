@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -150,19 +150,19 @@ class CI_Exceptions {
 		{
 			$route = $CI->router->get_error_route($status_code == 404);
 			if ($route !== FALSE)
-		   	{
+			{
 				// Insert or append arguments
 				if (count($route) > CI_Router::SEG_ARGS)
-			   	{
+				{
 					// Insert heading and message after path, subdir, class, and method and before other args
 					$route = array_merge(
-						array_slice($route, 0, CI_Router::SEG_ARGS),
-						array($heading, $message),
-						array_slice($route, CI_Router::SEG_ARGS)
-					);
+							array_slice($route, 0, CI_Router::SEG_ARGS),
+							array($heading, $message),
+							array_slice($route, CI_Router::SEG_ARGS)
+							);
 				}
 				else
-			   	{
+				{
 					// Just append heading and message to the end
 					$route[] = $heading;
 					$route[] = $message;
@@ -176,7 +176,7 @@ class CI_Exceptions {
 
 				// Load the error Controller as "routed" and call the method
 				if ($CI->load->controller($route, 'routed'))
-			   	{
+				{
 					// Display the output and exit
 					$CI->output->_display();
 					exit;
