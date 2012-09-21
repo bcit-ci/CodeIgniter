@@ -1,7 +1,6 @@
 <?php
 
 class Router_test extends CI_TestCase {
-
 	private $ci;
 
 	/**
@@ -27,7 +26,7 @@ class Router_test extends CI_TestCase {
 		$this->_mock_loader();
 		$alt_dir = 'alternative';
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
-		$alt_path = $this->ci_vfs_path($alt_dir);
+		$alt_path = $this->ci_vfs_path($alt_dir.'/');
 		$this->ci->load->paths = array($alt_path, $this->ci_app_path);
 
 		// Create controller in app path
@@ -330,7 +329,7 @@ class Router_test extends CI_TestCase {
 		$this->_mock_loader();
 		$alt_dir = 'alternative';
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
-		$alt_path = $this->ci_vfs_path($alt_dir);
+		$alt_path = $this->ci_vfs_path($alt_dir.'/');
 		$this->ci->load->paths = array($alt_path, $this->ci_app_path);
 
 		// Set up routes config

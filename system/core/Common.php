@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -168,6 +168,44 @@ if ( ! function_exists('is_loaded'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('get_config'))
+{
+	/**
+	 * Gets the main config.php file
+	 *
+	 * @param	array
+	 * @return	array
+	 */
+	function get_config($replace = array())
+	{
+		// Get instance and check for config
+		$CI = CodeIgniter::instance();
+		if ( ! isset($CI->config->config))
+		{
+			exit('The configuration file has not been loaded.');
+		}
+
+		// Get config array
+		$config = $CI->config->config;
+
+		// Are any values being dynamically replaced?
+		if (count($replace) > 0)
+		{
+			foreach ($replace as $key => $val)
+			{
+				if (isset($config[$key]))
+				{
+					$config[$key] = $val;
+				}
+			}
+		}
+
+		return $config;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('config_item'))
 {
 	/**
@@ -201,18 +239,8 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
-
-		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/mimes.php');
-		}
-
-		return $_mimes;
+		$CI = CodeIgniter::instance();
+		return $CI->config->get('mimes.php');
 	}
 }
 

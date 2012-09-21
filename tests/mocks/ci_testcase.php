@@ -283,12 +283,28 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Helper to get a VFS URL path
 	 *
+	 * @param	string	Path
+	 * @param	string	Optional base path
 	 * @return	string	Path URL
 	 */
-	public function ci_vfs_path($path)
+	public function ci_vfs_path($path, $base = '')
 	{
-		// Trim slashes, add trailing slash, and return URL
-		return vfsStream::url(trim($path, '/').'/');
+		// Check for base path
+		if ($base)
+		{
+			// Prepend to path
+			$path = rtrim($base, '/').'/'.ltrim($path, '/');
+
+			// Is it already in URL form?
+			if (strpos($path, '://') !== FALSE)
+			{
+				// Done - return path
+				return $path;
+			}
+		}
+
+		// Trim leading slash and return URL
+		return vfsStream::url(ltrim($path, '/'));
 	}
 
 	// --------------------------------------------------------------------

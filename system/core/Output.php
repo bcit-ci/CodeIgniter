@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -47,65 +47,68 @@ class CI_Output {
 	/**
 	 * Current output string
 	 *
+	 * Protected to prevent corruption
+	 * Accessible as string via __get for backward compatibility
+	 *
 	 * @var		array
 	 */
-	public $final_output;
+	protected $final_output			= array('');
 
 	/**
 	 * Cache expiration time
 	 *
 	 * @var		int
 	 */
-	public $cache_expiration =	0;
+	public $cache_expiration		= 0;
 
 	/**
 	 * List of server headers
 	 *
 	 * @var		array
 	 */
-	public $headers =	array();
+	public $headers					= array();
 
 	/**
 	 * List of mime types
 	 *
 	 * @var		array
 	 */
-	public $mimes =		array();
+	public $mimes					= NULL;
 
 	/**
 	 * Mime-type for the current page
 	 *
 	 * @var string
 	 */
-	protected $mime_type		= 'text/html';
+	protected $mime_type			= 'text/html';
 
 	/**
 	 * Determines whether profiler is enabled
 	 *
 	 * @var		bool
 	 */
-	public $enable_profiler =	FALSE;
+	public $enable_profiler			= FALSE;
 
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var		bool
 	 */
-	protected $_zlib_oc =		FALSE;
+	protected $_zlib_oc				= FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
 	 * @var		array
 	 */
-	protected $_profiler_sections =	array();
+	protected $_profiler_sections	= array();
 
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
 	 * @var		bool
 	 */
-	public $parse_exec_vars =	TRUE;
+	public $parse_exec_vars			= TRUE;
 
 	/**
 	 * Set up Output class
@@ -119,13 +122,6 @@ class CI_Output {
 
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
-		// Get mime types for later
-		$mimes = $this->CI->config->get('mimes.php', 'mimes');
-		if (is_array($mimes))
-		{
-			$this->mimes = $mimes;
-		}
-
 		log_message('debug', 'Output Class Initialized');
 	}
 
@@ -136,11 +132,12 @@ class CI_Output {
 	 *
 	 * Returns the current output string
 	 *
+	 * @param	bool	Get all flag
 	 * @return	string
 	 */
-	public function get_output()
+	public function get_output($all = FALSE)
 	{
-		return end($this->final_output);
+		return ($all ? implode($this->final_output) : end($this->final_output));
 	}
 
 	// --------------------------------------------------------------------
@@ -292,6 +289,13 @@ class CI_Output {
 		if (strpos($mime_type, '/') === FALSE)
 		{
 			$extension = ltrim($mime_type, '.');
+
+			// Do we need to get mime types?
+			if ($this->mimes === NULL)
+			{
+				$mimes = $this->CI->config->get('mimes.php');
+				$this->mimes = is_array($mimes) ? $mimes : array();
+			}
 
 			// Is this extension supported?
 			if (isset($this->mimes[$extension]))
@@ -447,7 +451,8 @@ class CI_Output {
 		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $this->CI->routed object
-		if ($this->cache_expiration > 0 && isset($this->CI->routed) && ! method_exists($this->CI->routed, '_output'))
+		$cached = ( ! isset($this->CI->routed));
+		if ($this->cache_expiration > 0 && ! $cached && ! method_exists($this->CI->routed, '_output'))
 		{
 			$this->_write_cache($output);
 		}
@@ -492,7 +497,7 @@ class CI_Output {
 		// Does the routed controller object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if ( ! isset($this->CI->routed))
+		if ($cached)
 		{
 			echo $output;
 			log_message('debug', 'Final output sent to browser');
@@ -561,7 +566,7 @@ class CI_Output {
 
 		$cache_path .= md5($uri);
 
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+		if ( ! $fp = @fopen($cache_path, 'w'))
 		{
 			log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
@@ -607,7 +612,7 @@ class CI_Output {
 		$uri =	$this->CI->config->item('base_url').$this->CI->config->item('index_page').$this->CI->uri->uri_string;
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
+		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, 'r'))
 		{
 			return FALSE;
 		}
@@ -739,7 +744,7 @@ class CI_Output {
 					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
 				}
 
-				if ( ! empty($codes_clean))
+				if ( ! empty($textareas_clean))
 				{
 					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
 					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
@@ -778,6 +783,24 @@ class CI_Output {
 		}
 
 		return $output;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get inaccessible property (final_output)
+	 *
+	 * @param	string	Property name
+	 * @return	mixed	Collapsed output stack if final_output, otherwise void
+	 */
+	public function __get($name)
+	{
+		// Check for now-protected 'final_output'
+		if ($name === 'final_output')
+		{
+			// Collapse the stack and return it
+			return $this->get_output(TRUE);
+		}
 	}
 }
 

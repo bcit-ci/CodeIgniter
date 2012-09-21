@@ -15,7 +15,7 @@ class CI_TestConfig {
 		return TRUE;
 	}
 
-	public function get($arg1, $arg2)
+	public function get($arg1, $arg2 = NULL)
 	{
 		return $this->to_get;
 	}

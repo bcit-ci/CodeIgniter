@@ -39,6 +39,15 @@ if ( ! function_exists('config_item'))
 	}
 }
 
+if ( ! function_exists('get_mimes'))
+{
+	function &get_mimes()
+	{
+		$mimes = include(APPPATH.'config/mimes.php');
+		return $mimes;
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('load_class'))

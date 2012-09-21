@@ -186,7 +186,7 @@ class CI_Exceptions {
 
 		// If the override didn't exit above, just display the generic error template
 		ob_start();
-		$message = '<p>'.implode('</p><p>', ((array) $message).'</p>';
+		$message = '<p>'.implode('</p><p>', (array) $message).'</p>';
 		include(VIEWPATH.'errors/'.$template.'.php');
 		echo ob_get_clean();
 		exit;

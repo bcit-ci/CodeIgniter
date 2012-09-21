@@ -259,6 +259,20 @@ class Config_test extends CI_TestCase {
 			'say' => $cfg2['say']
 		);
 		$this->assertEquals($expect, $this->config->get($file, $name));
+
+		// Create a config with a return value
+		$file = 'oh_me_oh_my';
+		$cfg = array(
+			'there' => 'here',
+			'here' => 'there',
+			'funny things' => 'everywhere',
+			'some' => 'like to run',
+			'fun' => 'hot, hot sun'
+		);
+		$this->ci_vfs_create($file, '<?php return '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
+
+		// Do we get the return value?
+		$this->assertEquals($cfg, $this->config->get($file, NULL));
 	}
 
 	/**
@@ -289,11 +303,7 @@ class Config_test extends CI_TestCase {
 		// Do we get the contents?
 		$extras = NULL;
 		$this->assertEquals($cfg, $this->config->get_ext($file, $name, $extras));
-		$this->assertTrue(is_array($extras));
-		$this->assertArrayHasKey($var1, $extras);
-		$this->assertEquals($val1, $extras[$var1]);
-		$this->assertArrayHasKey($var2, $extras);
-		$this->assertEquals($val2, $extras[$var2]);
+		$this->assertEquals(array($var1 => $val1, $var2 => $val2), $extras);
 	}
 }
 

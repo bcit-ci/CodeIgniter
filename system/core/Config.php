@@ -124,10 +124,10 @@ class CI_Config {
 	/**
 	 * Load Config File
 	 *
-	 * @param	string	the config file name
-	 * @param	bool	if configuration values should be loaded into their own section
-	 * @param	bool	true if errors should just return false, false if an error message should be displayed
-	 * @return	bool	if the file was loaded correctly
+	 * @param	string	Config file name
+	 * @param	bool	If configuration values should be loaded into their own section
+	 * @param	bool	TRUE if errors should just return FALSE, FALSE if an error message should be displayed
+	 * @return	bool	If the file was loaded correctly
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
@@ -191,11 +191,11 @@ class CI_Config {
 	 *
 	 * Reads and merges config arrays from named config files
 	 *
-	 * @param	string	the config file name
-	 * @param	string	the array name to look for
-	 * @return	mixed	merged config if found, otherwise FALSE
+	 * @param	string	Config file name
+	 * @param	mixed	Array name to look for, NULL for return value, FALSE for no output
+	 * @return	mixed	Merged config if found, otherwise FALSE
 	 */
-	public function get($file, $name)
+	public function get($file, $name = NULL)
 	{
 		$extras = FALSE;
 		return $this->get_ext($file, $name, $extras);
@@ -211,10 +211,10 @@ class CI_Config {
 	 * and returned via $_extras. For this reason, all local variables start
 	 * with an underscore.
 	 *
-	 * @param	string	the config file name
-	 * @param	string	the array name to look for
-	 * @param	array	reference to extras array
-	 * @return	mixed	merged config if found, otherwise FALSE
+	 * @param	string	Config file name
+	 * @param	mixed	Array name to look for, NULL for return value, FALSE for no output
+	 * @param	array	Reference to extras array
+	 * @return	mixed	Merged config if found, otherwise FALSE
 	 */
 	public function get_ext($_file, $_name, &$_extras)
 	{
@@ -237,7 +237,7 @@ class CI_Config {
 				if (file_exists($_file_path))
 				{
 					// Include file
-					include($_file_path);
+					$_return = include($_file_path);
 
 					// See if we're gathering extra variables
 					if ($_extras !== FALSE)
@@ -245,7 +245,7 @@ class CI_Config {
 						// Get associative array of public vars
 						foreach (get_defined_vars() as $_key => $_var)
 						{
-							if (substr($_key, 0, 1) != '_' && $_key != $_name)
+							if (substr($_key, 0, 1) != '_' && $_key != $_name && $_key != 'this')
 							{
 								$_extras[$_key] = $_var;
 							}
@@ -253,7 +253,12 @@ class CI_Config {
 					}
 
 					// See if we have an array name to check for
-					if (empty($_name))
+					if ($_name === NULL)
+					{
+						// Use the return value of the file we captured above
+						$_name = '_return';
+					}
+					else if (empty($_name))
 					{
 						// Nope - just note we found something
 						$_merged = TRUE;
@@ -291,9 +296,9 @@ class CI_Config {
 	 * Fetch a config file item
 	 *
 	 *
-	 * @param	string	the config item name
-	 * @param	string	the index name
-	 * @return	string
+	 * @param	string	Config item name
+	 * @param	string	Index name
+	 * @return	mixed	Config item value or FALSE on failure
 	 */
 	public function item($item, $index = '')
 	{
@@ -310,8 +315,8 @@ class CI_Config {
 	/**
 	 * Fetch a config file item - adds slash after item (if item is not empty)
 	 *
-	 * @param	string	the config item name
-	 * @return	string
+	 * @param	string	Config item name
+	 * @return	mixed	Config item value or FALSE on failure
 	 */
 	public function slash_item($item)
 	{
@@ -333,8 +338,8 @@ class CI_Config {
 	 * Site URL
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	mixed	the URI string or an array of segments
-	 * @return	string
+	 * @param	mixed	URI string or an array of segments
+	 * @return	string	URL string
 	 */
 	public function site_url($uri = '')
 	{
@@ -374,8 +379,8 @@ class CI_Config {
 	 * Base URL
 	 * Returns base_url [. uri_string]
 	 *
-	 * @param	string	$uri
-	 * @return	string
+	 * @param	string	URI
+	 * @return	string	URL string
 	 */
 	public function base_url($uri = '')
 	{
@@ -387,8 +392,8 @@ class CI_Config {
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
-	 * @param	mixed	$uri
-	 * @return	string
+	 * @param	mixed	URI
+	 * @return	string	URI string
 	 */
 	protected function _uri_string($uri)
 	{
@@ -413,7 +418,7 @@ class CI_Config {
 	/**
 	 * System URL
 	 *
-	 * @return	string
+	 * @return	string	URL string
 	 */
 	public function system_url()
 	{
@@ -426,8 +431,8 @@ class CI_Config {
 	/**
 	 * Set a config file item
 	 *
-	 * @param	string	the config item key
-	 * @param	string	the config item value
+	 * @param	string	Config item key
+	 * @param	string	Config item value
 	 * @return	void
 	 */
 	public function set_item($item, $value)
@@ -445,9 +450,9 @@ class CI_Config {
 	 * The main (existing) array is copied as a parameter, modified with the contents of
 	 * the new array (which is referenced), and returned.
 	 *
-	 * @param	array	main array
-	 * @param	array	new array of values to merge in
-	 * @return	array	merged array
+	 * @param	array	Main array
+	 * @param	array	New array of values to merge in
+	 * @return	array	Merged array
 	 */
 	protected function _merge_arrays(array $main, array &$new)
 	{
