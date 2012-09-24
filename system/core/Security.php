@@ -111,22 +111,22 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		$config = get_instance()->config;
-		if ($config->item('csrf_protection') === TRUE)
+		$CI = get_instance();
+		if ($CI->config->item('csrf_protection') === TRUE)
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 			{
-				if (FALSE !== ($val = $config->item($key)))
+				if (FALSE !== ($val = $CI->config->item($key)))
 				{
 					$this->{'_'.$key} = $val;
 				}
 			}
 
 			// Append application specific cookie prefix
-			if ($config->item('cookie_prefix'))
+			if (($pre = $CI->config->item('cookie_prefix')))
 			{
-				$this->_csrf_cookie_name = $config->item('cookie_prefix').$this->_csrf_cookie_name;
+				$this->_csrf_cookie_name = $pre.$this->_csrf_cookie_name;
 			}
 
 			// Set the CSRF hash
@@ -196,9 +196,9 @@ class CI_Security {
 	 */
 	public function csrf_set_cookie()
 	{
-		$config = get_instance()->config;
+		$CI = get_instance();
 		$expire = time() + $this->_csrf_expire;
-		$secure_cookie = (bool) $config->item('cookie_secure');
+		$secure_cookie = (bool) $CI->config->item('cookie_secure');
 
 		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
 		{
@@ -209,10 +209,10 @@ class CI_Security {
 			$this->_csrf_cookie_name,
 			$this->_csrf_hash,
 			$expire,
-			$config->item('cookie_path'),
-			$config->item('cookie_domain'),
+			$CI->config->item('cookie_path'),
+			$CI->config->item('cookie_domain'),
 			$secure_cookie,
-			$config->item('cookie_httponly')
+			$CI->config->item('cookie_httponly')
 		);
 		log_message('debug', 'CRSF cookie Set');
 
@@ -503,8 +503,18 @@ class CI_Security {
 	 * @param	string
 	 * @return	string
 	 */
-	public function entity_decode($str, $charset='UTF-8')
+	public function entity_decode($str, $charset = NULL)
 	{
+		if (strpos($str, '&') === FALSE)
+		{
+			return $str;
+		}
+
+		if (empty($charset))
+		{
+			$charset = config_item('charset');
+		}
+
 		$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
 		return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
@@ -756,8 +766,7 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		$charset = get_instance()->config->item('charset');
-		return $this->entity_decode($match[0], strtoupper($charset));
+		return $this->entity_decode($match[0], strtoupper(config_item('charset')));
 	}
 
 	// --------------------------------------------------------------------
@@ -843,14 +852,14 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			return $this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->csrf_set_cookie();
 		}
 
 		return $this->_csrf_hash;
 	}
 
 }
-// END Security Class
 
 /* End of file Security.php */
 /* Location: ./system/core/Security.php */
