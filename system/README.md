@@ -3,8 +3,8 @@
 ### Introduction:
 
 As of CodeIgniter 3.0, the core has been adapted to include HMVC support
-and a number of related features. HMVC stands for *Heirarchical Model
-View Controller*, and in the simplest terms, this means you can call other
+and a number of related features. HMVC stands for _Heirarchical Model
+View Controller_, and in the simplest terms, this means you can call other
 controllers from the controller routed by the request.
 
 ### Subcontrollers:
@@ -104,40 +104,40 @@ detail-minded, here is the sequence of events:
 * Instantiate the CodeIgniter object
 * Register the exception handler
 * Disable magic quotes for PHP < 5.4
-* Load _Benchmark_ class
-* *Mark total execution start time*
-* *Mark base class loading start time*
-* Load _Config_ class and pass the core config items established during
+* Load **Benchmark** class
+* _Mark total execution start time_
+* _Mark base class loading start time_
+* Load **Config** class and pass the core config items established during
 	bootloading (including assign_to_config overrides)
 * Read constants.php file(s) from all the application/package paths
 * Autoload config files
-* Load _Hooks_ class
-* *Call pre-system hook*
-* Load _Loader_ class and pass the base and application path lists with
+* Load **Hooks** class
+* _Call pre-system hook_
+* Load **Loader** class and pass the base and application path lists with
 	autoloaded package paths applied
-* Load _Utf8_ class
-* Load _URI_ class
-* Load _Output_ class (to be prepared for 404 output)
-* Load _Router_ class, set routing, and apply routing overrides
-* *Call cache-override hook*, and if not overridden, check for cache
+* Load **Utf8** class
+* Load **URI** class
+* Load **Output** class (to be prepared for 404 output)
+* Load **Router** class, set routing, and apply routing overrides
+* _Call cache-override hook_, and if not overridden, check for cache
 * If a valid cache is found, send it to Output and jump to the
 	display-override hook below
-* Load _Security_ class
-* Load _Input_ class
-* Load _Lang_ class
+* Load **Security** class
+* Load **Input** class
+* Load **Lang** class
 * Load autoload helpers, languages, libraries, drivers, controllers, and models
 	(in that order, and don't run controllers)
-* *Mark base class loading end time*
-* *Call pre-controller hook*
-* *Mark controller execution start time*
+* _Mark base class loading end time_
+* _Call pre-controller hook_
+* _Mark controller execution start time_
 * Load the routed controller (or 404 if not found)
-* *Call post-controller-constructor hook*
+* _Call post-controller-constructor hook_
 * Call routed controller method (or remap) (or 404 if not found)
-* _THE CONTROLLER RUNS_
-* *Mark controller execution end time*
-* *Call post-controller hook*
-* *Call display-override hook*, and if not overridden, display output
-* *Call post-system hook*
+* **THE CONTROLLER RUNS**
+* _Mark controller execution end time_
+* _Call post-controller hook_
+* _Call display-override hook_, and if not overridden, display output
+* _Call post-system hook_
 
 All core classes (now including Log) may be extended by classes with the
 configured subclass prefix existing anywhere in the autoloaded package paths.
