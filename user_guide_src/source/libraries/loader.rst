@@ -344,6 +344,6 @@ calling add_package_path().
 	$this->load->remove_package_path(APPPATH.'my_app');
 
 	// Again without the second parameter:
-	$this->load->add_package_path(APPPATH.'my_app', TRUE);
+	$this->load->add_package_path(APPPATH.'my_app');
 	$this->load->view('my_app_index'); // Loads
 	$this->load->view('welcome_message'); // Loads
